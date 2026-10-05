@@ -46,7 +46,11 @@ import sqlite3
 with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',uri=True) as db:
     required={ord(c) for (text,) in db.execute('SELECT text FROM verse') for c in text if not c.isspace()}
     count=db.execute('SELECT count(*) FROM verse').fetchone()[0]
-    if count < 100000:raise SystemExit('The complete corpus is missing')
+    expected={'sv1917':(35350,78),'grc-lxx':(28597,52),'grc-patriarchal':(7958,27),'en-kjv':(31102,66),'en-web':(38029,81)}
+    editions={code:(verses,books) for code,verses,books in db.execute('SELECT code,count(*),count(DISTINCT book_id) FROM verse JOIN source ON source.id=source_id GROUP BY source_id')}
+    if editions!=expected:raise SystemExit(f'Incomplete pinned edition: {editions}')
+    if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchall():raise SystemExit('Corpus integrity failed')
+    if db.execute("SELECT count(*) FROM verse WHERE verse_suffix<>''").fetchone()[0]!=317:raise SystemExit('Lettered Greek verse portions are missing')
     bad=db.execute("SELECT count(*) FROM verse WHERE text LIKE '%strong=%' OR text LIKE '%<%' OR text LIKE '%\\%'").fetchone()[0]
     if bad:raise SystemExit(f'{bad} verses still contain import markup')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:

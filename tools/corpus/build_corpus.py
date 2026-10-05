@@ -8,7 +8,7 @@ inputs=root/'resources/corpus/input'
 entries=[
 ('Gen','GEN','Genesis','Första Moseboken'),('Exod','EXO','Exodus','Andra Moseboken'),('Lev','LEV','Leviticus','Tredje Moseboken'),('Num','NUM','Numbers','Fjärde Moseboken'),('Deut','DEU','Deuteronomy','Femte Moseboken'),('Josh','JOS','Joshua','Josua'),('Judg','JDG','Judges','Domarboken'),('Ruth','RUT','Ruth','Rut'),('1Sam','1SA','I Samuel','Första Samuelsboken'),('2Sam','2SA','II Samuel','Andra Samuelsboken'),('1Kgs','1KI','I Kings','Första Kungaboken'),('2Kgs','2KI','II Kings','Andra Kungaboken'),('1Chr','1CH','I Chronicles','Första Krönikeboken'),('2Chr','2CH','II Chronicles','Andra Krönikeboken'),('Ezra','EZR','Ezra','Esra'),('Neh','NEH','Nehemiah','Nehemja'),('Esth','EST','Esther','Ester'),('Job','JOB','Job','Job'),('Ps','PSA','Psalms','Psaltaren'),('Prov','PRO','Proverbs','Ordspråksboken'),('Eccl','ECC','Ecclesiastes','Predikaren'),('Song','SNG','Song of Solomon','Höga Visan'),('Isa','ISA','Isaiah','Jesaja'),('Jer','JER','Jeremiah','Jeremia'),('Lam','LAM','Lamentations','Klagovisorna'),('Ezek','EZK','Ezekiel','Hesekiel'),('Dan','DAN','Daniel','Daniel'),('Hos','HOS','Hosea','Hosea'),('Joel','JOL','Joel','Joel'),('Amos','AMO','Amos','Amos'),('Obad','OBA','Obadiah','Obadja'),('Jonah','JON','Jonah','Jona'),('Micah','MIC','Micah','Mika'),('Nah','NAM','Nahum','Nahum'),('Hab','HAB','Habakkuk','Habackuk'),('Zeph','ZEP','Zephaniah','Sefanja'),('Hag','HAG','Haggai','Haggai'),('Zech','ZEC','Zechariah','Sakarja'),('Mal','MAL','Malachi','Malaki'),
 ('Tob','TOB','Tobit','Tobit'),('Jdt','JDT','Judith','Judit'),('EsthGr','ESG','Esther (Greek)','Tillägg till Ester'),('Wis','WIS','Wisdom','Salomos vishet'),('Sir','SIR','Sirach','Jesus Syraks vishet'),('Baruch','BAR','Baruch','Baruk'),('PrAzar','S3Y','Prayer of Azariah','Asarjas bön'),('Sus','SUS','Susanna','Susanna'),('Bel','BEL','Bel and the Dragon','Bel och draken'),('1Macc','1MA','I Maccabees','Första Mackabeerboken'),('2Macc','2MA','II Maccabees','Andra Mackabeerboken'),('1Esd','1ES','I Esdras','Första Esdrasboken'),('PrMan','MAN','Prayer of Manasses','Manasses bön'),('Ps151','PS2','Additional Psalm','Psalm 151'),('3Macc','3MA','III Maccabees','Tredje Mackabeerboken'),('2Esd','2ES','II Esdras','Andra Esdrasboken'),('4Macc','4MA','IV Maccabees','Fjärde Mackabeerboken'),
-('Matt','MAT','Matthew','Matteusevangeliet'),('Mark','MRK','Mark','Markusevangeliet'),('Luke','LUK','Luke','Lukasevangeliet'),('John','JHN','John','Johannesevangeliet'),('Acts','ACT','Acts','Apostlagärningarna'),('Rom','ROM','Romans','Romarbrevet'),('1Cor','1CO','I Corinthians','Första Korintierbrevet'),('2Cor','2CO','II Corinthians','Andra Korintierbrevet'),('Gal','GAL','Galatians','Galaterbrevet'),('Eph','EPH','Ephesians','Efesierbrevet'),('Phil','PHP','Philippians','Filipperbrevet'),('Col','COL','Colossians','Kolosserbrevet'),('1Thess','1TH','I Thessalonians','Första Thessalonikerbrevet'),('2Thess','2TH','II Thessalonians','Andra Thessalonikerbrevet'),('1Tim','1TI','I Timothy','Första Timotheosbrevet'),('2Tim','2TI','II Timothy','Andra Timotheosbrevet'),('Titus','TIT','Titus','Titusbrevet'),('Philemon','PHM','Philemon','Filemonbrevet'),('Heb','HEB','Hebrews','Hebreerbrevet'),('James','JAS','James','Jakobsbrevet'),('1Peter','1PE','I Peter','Första Petrusbrevet'),('2Peter','2PE','II Peter','Andra Petrusbrevet'),('1John','1JN','I John','Första Johannesbrevet'),('2John','2JN','II John','Andra Johannesbrevet'),('3John','3JN','III John','Tredje Johannesbrevet'),('Jude','JUD','Jude','Judasbrevet'),('Rev','REV','Revelation of John','Uppenbarelseboken'),('EpJer','LJE','Epistle of Jeremiah','Jeremias brev')]
+('Matt','MAT','Matthew','Matteusevangeliet'),('Mark','MRK','Mark','Markusevangeliet'),('Luke','LUK','Luke','Lukasevangeliet'),('John','JHN','John','Johannesevangeliet'),('Acts','ACT','Acts','Apostlagärningarna'),('Rom','ROM','Romans','Romarbrevet'),('1Cor','1CO','I Corinthians','Första Korintierbrevet'),('2Cor','2CO','II Corinthians','Andra Korintierbrevet'),('Gal','GAL','Galatians','Galaterbrevet'),('Eph','EPH','Ephesians','Efesierbrevet'),('Phil','PHP','Philippians','Filipperbrevet'),('Col','COL','Colossians','Kolosserbrevet'),('1Thess','1TH','I Thessalonians','Första Thessalonikerbrevet'),('2Thess','2TH','II Thessalonians','Andra Thessalonikerbrevet'),('1Tim','1TI','I Timothy','Första Timotheosbrevet'),('2Tim','2TI','II Timothy','Andra Timotheosbrevet'),('Titus','TIT','Titus','Titusbrevet'),('Philemon','PHM','Philemon','Filemonbrevet'),('Heb','HEB','Hebrews','Hebreerbrevet'),('James','JAS','James','Jakobsbrevet'),('1Peter','1PE','I Peter','Första Petrusbrevet'),('2Peter','2PE','II Peter','Andra Petrusbrevet'),('1John','1JN','I John','Första Johannesbrevet'),('2John','2JN','II John','Andra Johannesbrevet'),('3John','3JN','III John','Tredje Johannesbrevet'),('Jude','JUD','Jude','Judasbrevet'),('Rev','REV','Revelation of John','Uppenbarelseboken'),('EpJer','LJE','Epistle of Jeremiah','Jeremias brev'),('DanGr','DAG','Daniel (Greek)','Daniel (grekisk text)')]
 # Keep original IDs used by the curated Psalm alignment records.
 ids={'Ps':1,'Luke':2,'Phil':3}
 for code,_,_,_ in entries:
@@ -23,23 +23,28 @@ for source,filename in [(1,'Swe1917.json'),(4,'KJV.json')]:
   if not code:raise ValueError('Unknown book '+name)
   for ch in book['chapters']:
    for v in ch['verses']:
-    if v['text'].strip():verses.append((source,ids[code],ch['chapter'],v['verse'],v['text']))
-for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip')]:
+    if v['text'].strip():verses.append((source,ids[code],ch['chapter'],v['verse'],v['verse'],'',v['text']))
+for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip'),(5,'eng-web_usfm.zip')]:
  with zipfile.ZipFile(inputs/filename) as z:
   for filename in z.namelist():
    if not filename.endswith('.usfm'):continue
    text=z.read(filename).decode('utf-8-sig');m=re.search(r'\\id (\w+)',text)
-   if not m or m[1] not in byusfm:continue
-   code=byusfm[m[1]];h=re.search(r'\\h ([^\n]+)',text)
-   if h:greek_names[code]=h[1].strip()
+   if not m:raise ValueError('USFM book identifier missing: '+filename)
+   if m[1] not in byusfm:
+    if m[1] in ('FRT','INT','GLO','BAK','OTH','XXA','XXB','XXC'):continue
+    raise ValueError('Unmapped Scripture book: '+m[1])
+   code='Dan' if source==2 and m[1]=='DAG' else byusfm[m[1]];h=re.search(r'\\h ([^\n]+)',text)
+   if h and source in (2,3):greek_names[code]=h[1].strip()
    # Notes, cross references and Strong's attributes are outside display text.
    text=re.sub(r'\\(?:f|x|fe)\s.*?\\(?:f|x|fe)\*','',text,flags=re.S)
    text=re.sub(r'\\\+?w\s+([^|\\]+)(?:\|[^\\]*)?\\\+?w\*',r'\1',text)
+   for label in re.findall(r'\\v\s+(\S+)',text):
+    if not re.fullmatch(r'\d+[a-z]?(?:-\d+)?',label):raise ValueError('Unsupported verse label: '+filename+' '+label)
    chapter=0
    chunks=re.split(r'\\c\s+(\d+)',text)
    for i in range(1,len(chunks),2):
     chapter=int(chunks[i]);body=chunks[i+1]
-    vs=list(re.finditer(r'\\v\s+(\d+(?:-\d+)?)\s+',body))
+    vs=list(re.finditer(r'\\v\s+(\d+[a-z]?(?:-\d+)?)\s+',body))
     for k,v in enumerate(vs):
      chunk=body[v.end():vs[k+1].start() if k+1<len(vs) else len(body)]
      # Non-Scripture section headings belong outside the preceding verse.
@@ -47,16 +52,18 @@ for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip')]:
      chunk=re.sub(r'\\[+a-zA-Z0-9]+\*?\s*',' ',chunk)
      plain=' '.join(chunk.split())
      if not plain:continue
-     nums=v[1].split('-');first=int(nums[0]);last=int(nums[-1])
-     if last!=first:raise ValueError('Joined USFM verse requires explicit range: '+filename+v[1])
-     verses.append((source,ids[code],chapter,first,plain))
+     label=re.fullmatch(r'(\d+)([a-z]?)(?:-(\d+))?',v[1]);first=int(label[1]);last=int(label[3] or label[1])
+     verses.append((source,ids[code],chapter,first,last,label[2],plain))
 output=root/'resources/corpus/corpus.db';temp=output.with_suffix('.tmp');temp.unlink(missing_ok=True)
 with sqlite3.connect(temp) as db:
+ db.execute('PRAGMA page_size=4096')
+ db.execute('PRAGMA journal_mode=DELETE')
+ db.execute('PRAGMA synchronous=FULL')
  db.executescript((root/'resources/corpus/schema.sql').read_text())
- sources=[(1,'sv1917','sv','Svenska 1917 med apokryfer','MT','Public-Domain','Swedish 1917/1921 edition; Scrollmapper transcription'),(2,'grc-lxx','el','Brenton Septuaginta 1851','LXX','Public-Domain','eBible.org Greek Brenton text'),(3,'grc-patriarchal','el','Patriarkal grekiska 1904','NT','Public-Domain','eBible.org 1904 Patriarchal text with corrections'),(4,'en-kjv','en','King James Version','MT','Public-Domain','Scrollmapper; UK Crown rights may apply')]
+ sources=[(1,'sv1917','sv','Svenska 1917 med apokryfer','MT','Public-Domain','Swedish 1917/1921 edition; Scrollmapper transcription'),(2,'grc-lxx','el','Brenton Septuaginta 1851','LXX','Public-Domain','eBible.org Greek Brenton text'),(3,'grc-patriarchal','el','Patriarkal grekiska 1904','NT','Public-Domain','eBible.org 1904 Patriarchal text with corrections'),(4,'en-kjv','en','King James Version','MT','Public-Domain','Scrollmapper; UK Crown rights may apply'),(5,'en-web','en','World English Bible Classic med deuterokanon','MT','Public-Domain','eBible.org; stable 2020 text, includes deuterocanonical books')]
  db.executemany('INSERT INTO source VALUES(?,?,?,?,?,?,?)',sources)
  db.executemany('INSERT INTO book VALUES(?,?,?,?,?,?)',[(ids[c],c,i+1,sv,greek_names.get(c,''),name) for i,(c,_,name,sv) in enumerate(entries)])
- db.executemany('INSERT INTO verse(source_id,book_id,chapter,verse,text) VALUES(?,?,?,?,?)',verses)
+ db.executemany('INSERT INTO verse(source_id,book_id,chapter,verse,last_verse,verse_suffix,text) VALUES(?,?,?,?,?,?,?)',verses)
  def mapping(src,dst,fc,fv,flv,tc,tv,tlv,kind=1):
   db.execute('INSERT INTO alignment VALUES(?,?,1,?,?,?,?,?,?,?,?,?)',(src,dst,fc,fv,fc,flv,tc,tv,tc,tlv,kind))
  for mt,lxx,length in [(23,22,6),(24,23,10),(25,24,22)]:
@@ -98,7 +105,10 @@ with sqlite3.connect(temp) as db:
  db.execute("INSERT INTO reading_rule VALUES(20001,63,0,0,'Epistle','All Saints of Antioch',800,'greek','Acts 11:19-30')")
  replace_segments(20001,[('Acts',11,19,11,30)])
  db.execute("INSERT INTO feast_rule VALUES(20001,63,0,0,4,'','All Saints of Antioch','greek')")
- db.execute('PRAGMA user_version=1')
+ db.execute('PRAGMA user_version=2')
+ db.execute('PRAGMA application_id=1330795587')
+ db.execute('ANALYZE')
+ assert not db.execute('PRAGMA foreign_key_check').fetchall()
  assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
  print('Text:',db.execute('SELECT code,count(*),count(distinct book_id) FROM verse JOIN source ON source.id=source_id GROUP BY source_id').fetchall())
  print('Calendar:',db.execute('SELECT count(*) FROM reading_rule').fetchone()[0],'recurring pericopes')

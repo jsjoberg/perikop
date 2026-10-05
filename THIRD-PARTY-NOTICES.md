@@ -36,17 +36,25 @@ Empty book and verse placeholders are excluded.
 - English KJV: 31,102 verses in 66 books, from Scrollmapper.
   The text is public domain in many jurisdictions. UK Crown printing rights can apply.
   https://github.com/scrollmapper/bible_databases/tree/master/sources/en/KJV
-- Greek OT: 27,860 verses in 51 books, from eBible's Brenton Septuagint.
+- Greek OT: 28,597 verse records in 52 books, from eBible's Brenton Septuagint.
   The publisher identifies the text as public domain.
   https://ebible.org/grcbrent/copyright.htm
 - Greek NT: 7,958 verses in 27 books, from eBible's corrected 1904 Patriarchal text.
   The publisher identifies the text as public domain.
   https://ebible.org/grcbyz/copyright.htm
 
+- World English Bible Classic: 38,029 records in 81 books, including deuterocanonical books.
+  The publisher dedicates the text to the public domain. Its name remains a trademark.
+  https://ebible.org/bible/details.php?id=eng-web
+
 The manifest records input URLs, revisions, and SHA-256 hashes.
 Complete JSON and USFM inputs remain bundled for offline reproduction.
 USFM notes, headings, and Strong's attributes remain outside displayed Scripture.
-The importer preserves verse wording and source numbering.
+The importer preserves verse wording, joined verse ranges, and lettered verse labels.
+Greek Daniel uses the publisher's DAG file. Greek Ezra includes Nehemiah within its source numbering.
+The Swedish source has five empty book placeholders: 1 and 2 Esdras, Psalm 151, and 3 and 4 Maccabees.
+These placeholders are not translations. The Greek and English editions supply available texts.
+WEB publishes Greek Daniel separately and includes the Letter of Jeremiah within Baruch 6.
 No modern Antiochian website Scripture translation is copied into the corpus.
 
 ## Calendar rules

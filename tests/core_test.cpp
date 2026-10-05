@@ -8,6 +8,7 @@
 #include <tuple>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 namespace {
 int checks=0;
 void check(bool value,const char* message) { ++checks;if(!value)throw std::runtime_error(message); }
@@ -44,12 +45,52 @@ int main(int argc,char** argv) {
         check(!lectionary.readings_for(date("2030-01-01"),CalendarStyle::New).readings.empty(),"future recurring readings");
         check(orthodox_pascha(2026)==date("2026-04-12")&&orthodox_pascha(2027)==date("2027-05-02"),"official Pascha dates");
         check(fixed_calendar_date(date("2100-03-14"),CalendarStyle::Old)==std::chrono::year{2100}/2/29,"Julian century leap label");
+        // Independent Serbian Church witnesses: published facts, not runtime lookups.
+        check(fixed_calendar_date(date("2026-01-07"),CalendarStyle::Old)==date("2025-12-25"),"Serbian Nativity fixed date");
+        check(fixed_calendar_date(date("2026-01-19"),CalendarStyle::Old)==date("2026-01-06"),"Serbian Theophany fixed date");
+        check(fixed_calendar_date(date("2026-09-27"),CalendarStyle::Old)==date("2026-09-14"),"Serbian Elevation fixed date");
+        const auto serbian_sunday=lectionary.readings_for(date("2026-01-11"),CalendarStyle::Old);
+        check(serbian_sunday.readings[1].passage.book=="Matt"&&serbian_sunday.readings[1].passage.first==VerseRef{2,13}&&serbian_sunday.readings[1].passage.last==VerseRef{2,23},"Serbian Sunday after Nativity Gospel");
+        const auto serbian_pascha=lectionary.readings_for(date("2026-04-12"),CalendarStyle::Old);
+        check(serbian_pascha.readings[1].passage.book=="John"&&serbian_pascha.readings[1].passage.first==VerseRef{1,1}&&serbian_pascha.readings[1].passage.last==VerseRef{1,17},"Serbian published Pascha Gospel");
+        check(fixed_calendar_date(date("2101-01-08"),CalendarStyle::Old)==date("2100-12-25"),"Julian conversion must not assume thirteen days forever");
+        check(fixed_calendar_date(date("2800-02-29"),CalendarStyle::New)==date("2800-03-01"),"New calendar must use Revised Julian leap rules");
+        check(fixed_calendar_date(date("2900-02-28"),CalendarStyle::New)==std::chrono::year{2900}/2/29,"Revised Julian century leap label");
+        check(fixed_calendar_date(date("2900-03-01"),CalendarStyle::New)==date("2900-03-01"),"Revised Julian leap difference returns to zero");
+        for(int year:{1,2036,2100,2400,2800,5000,9999}) {
+            const auto start=std::chrono::year{year}/1/1;
+            const int length=std::chrono::year{year}.is_leap()?366:365;
+            for(int i=0;i<length;++i)for(auto style:{CalendarStyle::New,CalendarStyle::Old}) {
+                const auto civil=shift_date(start,i);const auto computed=lectionary.readings_for(civil,style);
+                check(computed.day.civil_date==civil&&!computed.readings.empty(),"calculated calendar horizon contains a gap");
+            }
+        }
+        // The Julian computus repeats over 532 years; civil dates do not.
+        for(int year=2000;year<2532;++year) {
+            const auto a=fixed_calendar_date(orthodox_pascha(year),CalendarStyle::Old);
+            const auto b=fixed_calendar_date(orthodox_pascha(year+532),CalendarStyle::Old);
+            check(a.month()==b.month()&&a.day()==b.day(),"Julian 532-year Paschal cycle");
+            check(std::chrono::weekday{std::chrono::sys_days{orthodox_pascha(year)}}==std::chrono::Sunday,"computed Pascha is not Sunday");
+        }
         // Independently transcribed citations from the Archdiocese's official chart.
+        const auto calculated_path=std::filesystem::path(argv[2]).parent_path()/"test-calculated-calendar.db";
+        std::filesystem::copy_file(argv[1],calculated_path,std::filesystem::copy_options::overwrite_existing);
+        sqlite3* calculated_db=nullptr;check(sqlite3_open(calculated_path.string().c_str(),&calculated_db)==SQLITE_OK,"calculated-only calendar fixture");
+        check(sqlite3_exec(calculated_db,"DELETE FROM ordo_rule",nullptr,nullptr,nullptr)==SQLITE_OK,"remove every annual assignment");sqlite3_close(calculated_db);
+        auto calculated_corpus=std::make_unique<CorpusDb>(calculated_path);
+        AntiochianLectionary calculated_calendar(*calculated_corpus);
         std::ifstream chart(argv[3]);check(bool(chart),"official chart fixture missing");
         std::string line;int sundays=0;
         while(std::getline(chart,line)) {
             std::istringstream row(line);std::string iso,expected;std::getline(row,iso,'\t');
             const auto result=lectionary.readings_for(parse_date(iso).value(),CalendarStyle::New);
+            const auto calculated=calculated_calendar.readings_for(parse_date(iso).value(),CalendarStyle::New);
+            check(calculated.readings.size()==result.readings.size(),"annual table masks a recurring calculation error");
+            for(std::size_t i=0;i<result.readings.size();++i) {
+                const auto expected_parts=result.readings[i].segments(),parts=calculated.readings[i].segments();
+                check(parts.size()==expected_parts.size(),"calculated-only reading segment count");
+                for(std::size_t j=0;j<parts.size();++j)check(parts[j].book==expected_parts[j].book&&parts[j].first==expected_parts[j].first&&parts[j].last==expected_parts[j].last,"calculated-only reading differs from the official chart");
+            }
             for(const auto& reading:result.readings) {
                 check(bool(std::getline(row,expected,'\t')),"extra computed Sunday reading");
                 std::string actual=std::to_string(int(reading.kind))+"=";bool first=true;
@@ -63,6 +104,7 @@ int main(int argc,char** argv) {
             check(!std::getline(row,expected,'\t'),"missing Sunday reading");++sundays;
         }
         check(sundays==52,"incomplete Sunday audit");
+        calculated_corpus.reset();std::filesystem::remove(calculated_path);
         const auto thomas=lectionary.readings_for(date("2026-10-06"),CalendarStyle::New);
         check(thomas.readings.size()==2&&thomas.readings[0].passage.book=="1Cor"&&thomas.readings[1].passage.book=="John","Antiochian Apostle Thomas propers");
         check(orthodox_pascha(2028)==date("2028-04-16")&&orthodox_pascha(2029)==date("2029-04-08")&&orthodox_pascha(2030)==date("2030-04-28"),"official future Pascha dates");
@@ -80,7 +122,7 @@ int main(int argc,char** argv) {
         check(source_for_language("el","Luke")=="grc-patriarchal","NT source selection");
         check(source_for_language("xx","Luke").empty(),"unknown source selection");
         check(corpus.read_only(),"corpus not read-only");
-        check(corpus.sources().size()==4,"source catalog");
+        check(corpus.sources().size()==5,"source catalog");
         for(const auto& [book,ch,first,last]:std::vector<std::tuple<std::string,int,int,int>>{{"Ps",23,1,6},{"Ps",24,1,10},{"Luke",6,1,49},{"Phil",2,1,30}}) {
             for(int v=first;v<=last;++v)for(const std::string language:{"sv","el","en"}) {
                 auto text=corpus.parallel_verse("sv1917",source_for_language(language,book),book,{ch,v});
@@ -106,6 +148,17 @@ int main(int argc,char** argv) {
         check(corpus.verse("sv1917","Wis",{1,1})&&corpus.verse("sv1917","Tob",{14,15}),"Swedish apocrypha");
         check(corpus.verse("grc-lxx","4Macc",{18,24})&&corpus.verse("grc-patriarchal","Rev",{22,21}),"Greek full corpus endpoints");
         check(corpus.verse("en-kjv","Gen",{1,1})&&corpus.verse("en-kjv","Rev",{22,21}),"English full corpus endpoints");
+        check(corpus.verse("grc-lxx","Dan",{1,1})&&corpus.verse("grc-lxx","Dan",{12,13}),"Greek Daniel retained from DAG source");
+        check(corpus.verse("grc-lxx","Gen",{31,50,"a"})&&corpus.verse("grc-lxx","EsthGr",{4,17,"z"}),"lettered LXX coordinates retained");
+        const auto esther=corpus.coordinates("grc-lxx","EsthGr");
+        const auto letter=std::find(esther.begin(),esther.end(),VerseRef{4,17,"a"});
+        check(letter!=esther.end()&&letter!=esther.begin()&&*(letter-1)==VerseRef{4,17},"lettered portions retain their position in continuous Scripture");
+        check(corpus.verse("en-web","Gen",{1,1})&&corpus.verse("en-web","Rev",{22,21}),"WEB complete Bible endpoints");
+        for(const std::string book:{"Wis","Tob","3Macc","4Macc","1Esd","2Esd","Ps151","DanGr"})
+            check(corpus.verse("en-web",book,{1,1}).has_value(),"English deuterocanonical content");
+        auto joined=corpus.verse("en-web","4Macc",{8,29});
+        check(joined&&joined->ref==VerseRef{8,28}&&joined->last==VerseRef{8,29},"joined publisher verse retains its complete range");
+        check(source_for_language("en","Wis")=="en-web","English deuterocanonical selection");
         check(corpus.verse("grc-patriarchal","Luke",{2,23})->text.find("strong=")==std::string::npos,"nested USFM attributes leaked into display");
         sqlite3* readonly=nullptr;
         check(sqlite3_open_v2(argv[1],&readonly,SQLITE_OPEN_READONLY,nullptr)==SQLITE_OK,"read-only test connection");
@@ -129,6 +182,19 @@ int main(int argc,char** argv) {
         {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::System,"default theme");s.theme=Theme::Dark;s.calendar=CalendarStyle::Old;s.parallel="en";s.font_size=24;user.save(s);}
         {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::Dark&&s.calendar==CalendarStyle::Old&&s.parallel=="en"&&s.font_size==24,"persisted settings");}
         std::filesystem::remove(user_path);
+        sqlite3* legacy=nullptr;check(sqlite3_open(user_path.string().c_str(),&legacy)==SQLITE_OK,"legacy preference fixture");
+        check(sqlite3_exec(legacy,"CREATE TABLE settings(key TEXT PRIMARY KEY,value TEXT NOT NULL); INSERT INTO settings VALUES('theme','dark'),('font_size','25');",nullptr,nullptr,nullptr)==SQLITE_OK,"legacy preference values");sqlite3_close(legacy);
+        {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::Dark&&s.font_size==25,"migration lost existing preferences");
+         sqlite3* inspect=nullptr;sqlite3_open(user_path.string().c_str(),&inspect);
+         sqlite3_stmt* query=nullptr;sqlite3_prepare_v2(inspect,"SELECT (SELECT user_version FROM pragma_user_version),(SELECT application_id FROM pragma_application_id),(SELECT strict FROM pragma_table_list WHERE name='settings'),(SELECT journal_mode FROM pragma_journal_mode)",-1,&query,nullptr);
+         check(sqlite3_step(query)==SQLITE_ROW&&sqlite3_column_int(query,0)==1&&sqlite3_column_int(query,1)==0x4f525455&&sqlite3_column_int(query,2)==1&&std::string(reinterpret_cast<const char*>(sqlite3_column_text(query,3)))=="wal","settings storage policy");sqlite3_finalize(query);
+         check(sqlite3_exec(inspect,"CREATE TRIGGER reject_setting BEFORE INSERT ON settings WHEN NEW.key='calendar' BEGIN SELECT RAISE(ABORT,'test interruption'); END",nullptr,nullptr,nullptr)==SQLITE_OK,"atomicity fixture");sqlite3_close(inspect);
+         s.theme=Theme::Light;s.font_size=28;bool rejected=false;try{user.save(s);}catch(const std::exception&){rejected=true;}
+         check(rejected&&user.load().theme==Theme::Dark&&user.load().font_size==25,"failed save must roll back every preference");}
+        std::filesystem::remove(user_path);
+        sqlite3_open(user_path.string().c_str(),&legacy);sqlite3_exec(legacy,"PRAGMA user_version=99",nullptr,nullptr,nullptr);sqlite3_close(legacy);
+        bool future_rejected=false;try{UserDb future(user_path);}catch(const std::exception&){future_rejected=true;}
+        check(future_rejected,"unknown future settings schema must not be overwritten");std::filesystem::remove(user_path);
         std::cout<<checks<<" checks passed.\n";return 0;
     } catch(const std::exception& e){std::cerr<<"FAIL after "<<checks<<" checks: "<<e.what()<<'\n';return 1;}
 }

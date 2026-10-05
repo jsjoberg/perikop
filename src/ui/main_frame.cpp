@@ -51,7 +51,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
     date_=button(root_,u(date_swedish(selected_.date())),[this]{pick_date();});date_->SetFont(ui_font(13));
     date_->SetToolTip("Välj ett civilt datum");top->Add(date_,1,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
     top->Add(button(root_,"›",[this]{navigate(1);}),0,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
-    calendar_=new wxChoice(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Ny kalender","Gammal kalender"});
+    calendar_=new wxChoice(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Nya kalendern","Gamla kalendern"});
     calendar_->SetSelection(settings_.calendar==CalendarStyle::Old?1:0);
     calendar_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){settings_.calendar=calendar_->GetSelection()?CalendarStyle::Old:CalendarStyle::New;show_readings();refresh_day();apply_settings();});
     top->Add(calendar_,0,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));outer->Add(top,0,wxEXPAND|wxLEFT|wxRIGHT|wxTOP,FromDIP(24));
@@ -145,10 +145,23 @@ void MainFrame::open_reading(const Reading& reading) {
 }
 void MainFrame::browse_bible() {
     wxDialog dialog(this,wxID_ANY,"Öppna Bibeln",wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
-    const auto books=corpus_.books();wxArrayString names;
+    auto books=corpus_.books();wxArrayString names;
     for(const auto& book:books)names.Add(u(book.name));
     auto* book=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,FromDIP(wxSize(320,-1)),names);book->SetSelection(0);
-    auto* edition=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Svenska 1917 med apokryfer","Grekiska · LXX / Patriarkal 1904","English · King James"});edition->SetSelection(0);
+    auto* edition=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Svenska 1917 med apokryfer","Grekiska · LXX / Patriarkal 1904","English · King James","English · World English Bible med deuterokanon"});edition->SetSelection(0);
+    const auto update_books=[&] {
+        const auto previous=book->GetSelection()>=0?books[book->GetSelection()].code:std::string{};
+        books.clear();book->Clear();
+        const auto language=edition->GetSelection()==0?"sv":edition->GetSelection()==1?"el":"en";
+        for(const auto& candidate:corpus_.books()) {
+            const auto source=edition->GetSelection()==3?"en-web":edition->GetSelection()==2?"en-kjv":source_for_language(language,candidate.code);
+            if(corpus_.coordinates(source,candidate.code).empty())continue;
+            books.push_back(candidate);book->Append(u(candidate.name));
+        }
+        auto found=std::find_if(books.begin(),books.end(),[&](const auto& candidate){return candidate.code==previous;});
+        book->SetSelection(found==books.end()?0:int(found-books.begin()));
+    };
+    edition->Bind(wxEVT_CHOICE,[&](wxCommandEvent&){update_books();});update_books();
     auto* chapter=new wxTextCtrl(&dialog,wxID_ANY,"1");
     auto* verse=new wxTextCtrl(&dialog,wxID_ANY,"1");
     auto* sizer=new wxBoxSizer(wxVERTICAL);
@@ -160,16 +173,22 @@ void MainFrame::browse_bible() {
     recolor(&dialog,palette(settings_.theme));
     while(dialog.ShowModal()==wxID_OK) {
         long ch=0,v=0;const auto& selected=books[book->GetSelection()];
-        if(!chapter->GetValue().ToLong(&ch)||!verse->GetValue().ToLong(&v)||ch<1||v<1||ch>999||v>999) {
-            wxMessageBox("Ange ett kapitel och en vers med positiva heltal.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
+        const auto coordinate=verse->GetValue().ToStdString();
+        const auto suffix_start=coordinate.find_first_not_of("0123456789");
+        const auto suffix=suffix_start==std::string::npos?std::string{}:coordinate.substr(suffix_start);
+        const bool valid_suffix=suffix.size()<=2&&std::all_of(suffix.begin(),suffix.end(),[](char c){return c>='a'&&c<='z';});
+        if(!chapter->GetValue().ToLong(&ch)||!u(coordinate.substr(0,suffix_start)).ToLong(&v)||!valid_suffix||ch<1||v<1||ch>999||v>999) {
+            wxMessageBox("Ange kapitel och vers, till exempel 1 eller 50a.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
         }
-        const VerseRef ref{int(ch),int(v)};
+        const VerseRef ref{int(ch),int(v),suffix};
         const std::string language=edition->GetSelection()==0?"sv":edition->GetSelection()==1?"el":"en";
-        if(!corpus_.verse(source_for_language(language,selected.code),selected.code,ref)) {
+        const auto source=edition->GetSelection()==3?"en-web":edition->GetSelection()==2?"en-kjv":source_for_language(language,selected.code);
+        if(!corpus_.verse(source,selected.code,ref)) {
             wxMessageBox("Bibelstället saknas i de bundna utgåvorna.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
         }
-        open_reading({new_testament_book(selected.code)?ReadingKind::Gospel:ReadingKind::OldTestament,
-            {selected.code,ref,ref},selected.name+" "+std::to_string(ch)+":"+std::to_string(v),{},language});break;
+        Reading reading{new_testament_book(selected.code)?ReadingKind::Gospel:ReadingKind::OldTestament,
+            {selected.code,ref,ref},selected.name+" "+std::to_string(ch)+":"+std::to_string(v)+suffix,{},language};
+        reading.source_override=source;open_reading(reading);break;
     }
 }
 void MainFrame::pick_date() {
@@ -300,6 +319,18 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if(!screenshot_path.empty())ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-narrow.png",wxBITMAP_TYPE_PNG)&&ok;
     }
     SetSize(original_size);Layout();
+    if(calendar_->GetString(0)!="Nya kalendern"||calendar_->GetString(1)!="Gamla kalendern")ok=false;
+    settings_.parallel="";apply_settings(false);
+    for(auto reading:std::vector<Reading>{
+        {ReadingKind::OldTestament,{"Gen",{31,50,"a"},{31,50,"a"}},"Första Moseboken 31:50a",{},"el"},
+        {ReadingKind::OldTestament,{"4Macc",{8,29},{8,29}},"Fjärde Mackabeerboken 8:29",{},"en"},
+        {ReadingKind::OldTestament,{"2Esd",{1,1},{1,1}},"Andra Esdrasboken 1:1"}}) {
+        open_reading(reading);scripture_->center_passage();
+        if(scripture_->cached_rows()==0)ok=false;
+        const auto size=scripture_->GetClientSize();wxBitmap bitmap(size.x,size.y);wxMemoryDC dc(bitmap);scripture_->render_to(dc,size);dc.SelectObject(wxNullBitmap);
+        if(!screenshot_path.empty())ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-"+u(reading.passage.book)+".png",wxBITMAP_TYPE_PNG)&&ok;
+    }
+    open_psalm();
     settings_=original;apply_settings(false);ok=ok && selected_.date()==date;
     return ok;
 }

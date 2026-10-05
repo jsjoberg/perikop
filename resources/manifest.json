@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "ee1d5bd0324b9ff7998cce6a5deeefd4462df0c585f89dfa264c669777b4b247",
+      "sha256": "1b588d4fa22887ab8d7b094117ab21da63d54b62e538764ccc6fa31c7badb348",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "7658203ba105b36b7dbc91d8d855fc6ff626fa6a79a53a8112e69df44d642994"
+      "sha256": "3e2c0082c8bd5c3d73512c0e01220fe6914c9f74436e4bf8c79a02d166c0aa1d"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -337,6 +337,15 @@
       "url": "https://www.latex-project.org/lppl/lppl-1-3c.txt",
       "sha256": "3d262cdf34dafa6955f703c634a8c238ec44109bc8dd6ef34fb7aa54809f7e66",
       "license": "LPPL-1.3c"
+    },
+    {
+      "path": "resources/corpus/input/eng-web_usfm.zip",
+      "url": "https://ebible.org/Scriptures/eng-web_usfm.zip",
+      "sha256": "b09f8b9f197d05d54c32eabaa90fed9b11279b03ecc26cb347da6e1dc943eb7d",
+      "license": "Public-Domain",
+      "retrieved": "2026-10-06",
+      "edition": "World English Bible Classic, complete with deuterocanon",
+      "rights_source": "https://ebible.org/bible/details.php?id=eng-web"
     }
   ],
   "build_dependencies": [
@@ -359,10 +368,12 @@
   "lectionary": {
     "jurisdiction": "Antiochian Orthodox Christian Archdiocese of North America",
     "tradition": "Greek",
-    "fixed_calendar": "Gregorian for New; Julian for Old (Old is a comparison mode, not the North American official calendar)",
+    "fixed_calendar": "Revised Julian for New; Julian for Old (Old uses Greek reading rules, not a Serbian jurisdiction)",
     "paschal_calendar": "Julian computus, converted to civil Gregorian dates",
     "table_revision": "5bdf0a5e1cad406388d7860ec74ed506a7a19197",
     "official_validation": "52 Sundays in the 2026 chart; 2026-10-05 and 2026-10-06 daily citations",
-    "source": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf"
+    "source": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
+    "supported_civil_years": "1–9999; proleptic dates, calculated locally without a year cache",
+    "old_calendar_validation": "Serbian primary sources: Nativity 2026-01-07, Theophany 2026-01-19, Pascha 2026-04-12, Elevation 2026-09-27; Sunday after Nativity Gospel 2026-01-11"
   }
 }

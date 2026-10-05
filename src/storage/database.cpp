@@ -13,17 +13,26 @@ DatabaseHandle open(const std::filesystem::path& path, int flags) {
     const int status = sqlite3_open_v2(utf8_path(path).c_str(), &raw, flags, nullptr);
     DatabaseHandle result{raw};
     if (status != SQLITE_OK) throw std::runtime_error("Cannot open database: " + std::string(raw ? sqlite3_errmsg(raw) : "out of memory"));
+    sqlite3_extended_result_codes(raw, 1);
+    if (sqlite3_busy_timeout(raw, 3000) != SQLITE_OK ||
+        sqlite3_db_config(raw, SQLITE_DBCONFIG_DEFENSIVE, 1, nullptr) != SQLITE_OK ||
+        sqlite3_db_config(raw, SQLITE_DBCONFIG_TRUSTED_SCHEMA, 0, nullptr) != SQLITE_OK)
+        throw std::runtime_error(sqlite3_errmsg(raw));
     return result;
 }
 class Statement {
 public:
     Statement(sqlite3* db, const char* sql) : db_(db) {
-        if (sqlite3_prepare_v2(db, sql, -1, &stmt_, nullptr) != SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db));
+        if (sqlite3_prepare_v2(db, sql, -1, &stmt_, nullptr) != SQLITE_OK) {
+            sqlite3_finalize(stmt_);
+            throw std::runtime_error(sqlite3_errmsg(db));
+        }
     }
     ~Statement() { sqlite3_finalize(stmt_); }
     Statement(const Statement&) = delete;
-    void text(int index, const std::string& value) { if (sqlite3_bind_text(stmt_, index, value.c_str(), -1, SQLITE_TRANSIENT) != SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db_)); }
-    void number(int index, int value) { sqlite3_bind_int(stmt_, index, value); }
+    void text(int index, const std::string& value) { if (sqlite3_bind_text64(stmt_, index, value.data(), value.size(), SQLITE_TRANSIENT, SQLITE_UTF8) != SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db_)); }
+    void number(int index, int value) { if (sqlite3_bind_int(stmt_, index, value) != SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db_)); }
+    void reset() { if (sqlite3_reset(stmt_) != SQLITE_OK || sqlite3_clear_bindings(stmt_) != SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db_)); }
     bool row() {
         const int status = sqlite3_step(stmt_);
         if (status == SQLITE_ROW) return true;
@@ -33,7 +42,7 @@ public:
     int number(int column) const { return sqlite3_column_int(stmt_, column); }
     std::string text(int column) const {
         const auto* value = sqlite3_column_text(stmt_, column);
-        return value ? reinterpret_cast<const char*>(value) : "";
+        return value ? std::string(reinterpret_cast<const char*>(value), sqlite3_column_bytes(stmt_, column)) : "";
     }
 private:
     sqlite3* db_;
@@ -42,12 +51,26 @@ private:
 void exec(sqlite3* db, const char* sql) {
     if (sqlite3_exec(db, sql, nullptr, nullptr, nullptr) != SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db));
 }
+int pragma_number(sqlite3* db, const char* sql) {
+    Statement query(db, sql);
+    if (!query.row()) throw std::runtime_error("Missing database metadata");
+    return query.number(0);
+}
+class Transaction {
+public:
+    explicit Transaction(sqlite3* db) : db_(db) { exec(db_, "BEGIN IMMEDIATE"); }
+    ~Transaction() { if (!committed_) sqlite3_exec(db_, "ROLLBACK", nullptr, nullptr, nullptr); }
+    void commit() { exec(db_, "COMMIT"); committed_=true; }
+private:
+    sqlite3* db_; bool committed_=false;
+};
 }
 void SqliteCloser::operator()(sqlite3* db) const { if (db) sqlite3_close(db); }
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
-    exec(db_.get(), "PRAGMA query_only=ON");
-    Statement version(db_.get(), "PRAGMA user_version");
-    if (!version.row() || version.number(0) != 1) throw std::runtime_error("Unsupported corpus schema");
+    exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 2 ||
+        pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
+        throw std::runtime_error("Unsupported corpus schema");
 }
 bool CorpusDb::read_only() const { return sqlite3_db_readonly(db_.get(), "main") == 1; }
 std::vector<Source> CorpusDb::sources() const {
@@ -57,16 +80,17 @@ std::vector<Source> CorpusDb::sources() const {
     return result;
 }
 std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, const std::string& book, VerseRef ref) const {
-    Statement query(db_.get(), "SELECT text FROM verse JOIN source ON source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? AND book.code=? AND chapter=? AND verse=?");
-    query.text(1, source); query.text(2, book); query.number(3,ref.chapter); query.number(4,ref.verse);
+    Statement query(db_.get(), "SELECT verse,last_verse,text,verse_suffix FROM verse JOIN source ON source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? AND book.code=? AND chapter=? AND verse<=? AND last_verse>=? AND verse_suffix=? ORDER BY verse DESC LIMIT 1");
+    query.text(1, source); query.text(2, book); query.number(3,ref.chapter); query.number(4,ref.verse); query.number(5,ref.verse);
+    query.text(6,ref.suffix);
     if (!query.row()) return std::unexpected("Text saknas i denna utgåva");
-    return Verse{ref, query.text(0), {}};
+    return Verse{{ref.chapter,query.number(0),query.text(3)}, query.text(2), query.number(0)==query.number(1)?std::nullopt:std::optional<VerseRef>{{ref.chapter,query.number(1)}}};
 }
 std::vector<VerseRef> CorpusDb::coordinates(const std::string& source, const std::string& book) const {
-    Statement query(db_.get(), "SELECT chapter,verse FROM verse JOIN source ON source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? AND book.code=? ORDER BY chapter,verse");
+    Statement query(db_.get(), "SELECT chapter,verse,verse_suffix FROM verse JOIN source ON source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? AND book.code=? ORDER BY chapter,verse,verse_suffix");
     query.text(1, source); query.text(2, book);
     std::vector<VerseRef> result;
-    while (query.row()) result.push_back({query.number(0), query.number(1)});
+    while (query.row()) result.push_back({query.number(0), query.number(1),query.text(2)});
     return result;
 }
 std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std::string& to, const Passage& passage) const {
@@ -157,7 +181,26 @@ std::vector<OrdoRule> CorpusDb::ordo_rules() const {
 UserDb::UserDb(const std::filesystem::path& path) {
     if (!path.parent_path().empty()) std::filesystem::create_directories(path.parent_path());
     db_=open(path,SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE);
-    exec(db_.get(), "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL)");
+    const int version=pragma_number(db_.get(), "PRAGMA user_version");
+    const int identity=pragma_number(db_.get(), "PRAGMA application_id");
+    if ((version!=0&&version!=1) || (identity!=0&&identity!=0x4f525455) || (version==1&&identity!=0x4f525455)) throw std::runtime_error("Unsupported settings database");
+    exec(db_.get(), "PRAGMA foreign_keys=ON; PRAGMA cache_size=-256");
+    { Statement journal(db_.get(), "PRAGMA journal_mode=WAL");
+      if (!journal.row() || journal.text(0)!="wal") throw std::runtime_error("Cannot enable settings write-ahead log"); }
+    exec(db_.get(), "PRAGMA synchronous=FULL; PRAGMA wal_autocheckpoint=64; PRAGMA journal_size_limit=262144");
+#ifdef __APPLE__
+    exec(db_.get(), "PRAGMA fullfsync=ON; PRAGMA checkpoint_fullfsync=ON");
+#endif
+    // Version zero is the original settings table. Preserve every stored value.
+    Transaction migration(db_.get());
+    if (pragma_number(db_.get(), "PRAGMA user_version")==0) {
+        exec(db_.get(), "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);"
+             "ALTER TABLE settings RENAME TO settings_legacy;"
+             "CREATE TABLE settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
+             "INSERT INTO settings SELECT key,value FROM settings_legacy; DROP TABLE settings_legacy;"
+             "PRAGMA application_id=1330795605; PRAGMA user_version=1");
+    }
+    migration.commit();
 }
 Settings UserDb::load() const {
     Settings result;
@@ -172,17 +215,16 @@ Settings UserDb::load() const {
     return result;
 }
 void UserDb::save(const Settings& settings) {
-    exec(db_.get(), "BEGIN IMMEDIATE");
-    try {
+    Transaction transaction(db_.get());
         const std::vector<std::pair<std::string,std::string>> values={
             {"theme",settings.theme==Theme::Dark?"dark":settings.theme==Theme::Light?"light":"system"},
             {"calendar",settings.calendar==CalendarStyle::Old?"old":"new"},
             {"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)}};
+        Statement query(db_.get(), "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
         for (const auto& [key,value]:values) {
-            Statement query(db_.get(), "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
             query.text(1,key); query.text(2,value); query.row();
+            query.reset();
         }
-        exec(db_.get(), "COMMIT");
-    } catch (...) { exec(db_.get(),"ROLLBACK"); throw; }
+    transaction.commit();
 }
 }

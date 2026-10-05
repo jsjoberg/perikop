@@ -18,6 +18,22 @@ int julian_jdn(int y,int m,int d) {
 }
 CivilDate from_jdn(int jdn){return CivilDate{sys_days{days{jdn-2440588}}};}
 int jdn(CivilDate d){return int(sys_days{d}.time_since_epoch().count())+2440588;}
+int floor_div(int n,int d){return (n-mod(n,d))/d;}
+bool revised_leap(int y){return mod(y,4)==0&&(mod(y,100)!=0||mod(y,900)==200||mod(y,900)==600);}
+int revised_jdn(int y,int m,int d) {
+    // Proleptic Revised Julian calendar; same epoch as Gregorian, distinct leap rule.
+    const int n=y-1;
+    const int leaps=floor_div(n,4)-floor_div(n,100)+floor_div(n+700,900)+floor_div(n+300,900);
+    constexpr std::array<int,12> preceding={0,31,59,90,120,151,181,212,243,273,304,334};
+    return 1721426+365*n+leaps+preceding.at(m-1)+(m>2&&revised_leap(y))+d-1;
+}
+CivilDate revised_label(int value) {
+    int y=int(from_jdn(value).year());
+    while(value<revised_jdn(y,1,1))--y;
+    while(value>=revised_jdn(y+1,1,1))++y;
+    int m=1;while(m<12&&value>=revised_jdn(y,m+1,1))++m;
+    return year{y}/month{unsigned(m)}/day{unsigned(value-revised_jdn(y,m,1)+1)};
+}
 CivilDate julian_label(int value) {
     const int c=value+32082,d=(4*c+3)/1461,e=c-1461*d/4,m=(5*e+2)/153;
     return year{d-4800+m/10}/month{unsigned(m+3-12*(m/10))}/day{unsigned(e-(153*m+2)/5+1)};
@@ -31,7 +47,7 @@ struct Year {
     std::map<int,int> floats,luke,interpolation;
     int date(int m,int d,int y=0) const {
         if(!y)y=number;
-        return (style==CalendarStyle::Old?julian_jdn(y,m,d):jdn(year{y}/month{unsigned(m)}/day{unsigned(d)}))-pascha;
+        return (style==CalendarStyle::Old?julian_jdn(y,m,d):revised_jdn(y,m,d))-pascha;
     }
     static std::array<int,4> weekends(int p) {
         const int w=mod(p,7);
@@ -127,7 +143,7 @@ CivilDate orthodox_pascha(int y) {
     const int m=(d+e+114)/31,day=(d+e+114)%31+1;
     return from_jdn(julian_jdn(y,m,day));
 }
-CivilDate fixed_calendar_date(CivilDate civil,CalendarStyle style){return style==CalendarStyle::Old?julian_label(jdn(civil)):civil;}
+CivilDate fixed_calendar_date(CivilDate civil,CalendarStyle style){return style==CalendarStyle::Old?julian_label(jdn(civil)):revised_label(jdn(civil));}
 AntiochianLectionary::AntiochianLectionary(const CorpusDb& corpus)
     :rules_(corpus.reading_rules()),feasts_(corpus.feast_rules()),ordos_(corpus.ordo_rules()) {
     for(auto& rule:rules_) {
@@ -141,7 +157,7 @@ AntiochianLectionary::AntiochianLectionary(const CorpusDb& corpus)
     }
 }
 DayReadings AntiochianLectionary::readings_for(CivilDate civil,CalendarStyle style) const {
-    if(!civil.ok())throw std::invalid_argument("Invalid lectionary civil date");
+    if(!civil.ok() || int(civil.year())<1 || int(civil.year())>9999)throw std::invalid_argument("Invalid lectionary civil date");
     const auto fixed=fixed_calendar_date(civil,style);
     int py=int(fixed.year());int p=jdn(civil)-jdn(orthodox_pascha(py));
     if(p < -77){--py;p=jdn(civil)-jdn(orthodox_pascha(py));}
@@ -161,7 +177,7 @@ DayReadings AntiochianLectionary::readings_for(CivilDate civil,CalendarStyle sty
     }
     // Published annual assignments override a computed pointer only for their year.
     bool annual=false;
-    if(style==CalendarStyle::New)for(const auto& o:ordos_)if(o.year==int(civil.year())&&o.month==month&&o.day==day) {
+    if(style==CalendarStyle::New)for(const auto& o:ordos_)if(o.year==int(civil.year())&&o.month==int(unsigned(civil.month()))&&o.day==int(unsigned(civil.day()))) {
         if(o.service=="Gospel")gospel=o.pdist;
         if(o.service=="Epistle")ep=o.pdist;
         annual=true;

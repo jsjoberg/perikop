@@ -19,6 +19,7 @@ enum class ReadingKind { MorningPsalm, Epistle, Gospel, OldTestament, Vespers, E
 struct VerseRef {
     int chapter = 1;
     int verse = 1;
+    std::string suffix="";
     auto operator<=>(const VerseRef&) const = default;
 };
 struct Passage {
@@ -31,6 +32,7 @@ struct Reading {
     ReadingKind kind; Passage passage; std::string label;
     std::vector<Passage> additional;
     std::string base_language="sv";
+    std::string source_override;
     Reading(ReadingKind k,Passage p,std::string name,std::vector<Passage> rest={},std::string language="sv")
         :kind(k),passage(std::move(p)),label(std::move(name)),additional(std::move(rest)),base_language(std::move(language)) {}
     bool contains(VerseRef ref,const std::string& book="") const {
@@ -49,6 +51,7 @@ struct LiturgicalDay {
     CivilDate civil_date;
     CalendarStyle calendar;
     // Independent fixed-calendar label and distance from Orthodox Pascha.
+    // Fixed labels can include leap days that are invalid in the Gregorian calendar.
     std::optional<std::string> fixed_cycle;
     std::optional<std::string> paschal_cycle;
     std::string annotation;

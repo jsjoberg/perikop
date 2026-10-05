@@ -89,7 +89,7 @@ void ScriptureView::set_position(double value) {
 }
 void ScriptureView::scroll_by(double pixels){set_position(offset_+pixels);target_=offset_;}
 std::vector<std::string> ScriptureView::languages() const {
-    std::vector<std::string> result{base_source_=="sv1917"?"sv":base_source_=="en-kjv"?"en":"el"};
+    std::vector<std::string> result{base_source_=="sv1917"?"sv":base_source_.starts_with("en-")?"en":"el"};
     const auto add=[&](const std::string& language){if(std::find(result.begin(),result.end(),language)==result.end())result.push_back(language);};
     if(settings_.parallel=="el,en"){add("sv");add("el");add("en");}
     else if(!settings_.parallel.empty())add(settings_.parallel);
@@ -111,7 +111,11 @@ void ScriptureView::open_section(std::size_t index) {
     const auto segments=reading_.segments();if(index>=segments.size())return;
     displayed_=segments[index];rows_.clear();
     base_source_=source_for_language(reading_.base_language,displayed_.book);
-    if(corpus_.coordinates(base_source_,displayed_.book).empty())base_source_=source_for_language("el",displayed_.book);
+    if(!reading_.source_override.empty())base_source_=reading_.source_override;
+    if(corpus_.coordinates(base_source_,displayed_.book).empty())for(const std::string language:{"el","en"}) {
+        const auto source=source_for_language(language,displayed_.book);
+        if(!corpus_.coordinates(source,displayed_.book).empty()){base_source_=source;break;}
+    }
     int chapter=0;
     for(auto ref:corpus_.coordinates(base_source_,displayed_.book)) {
         if(ref.chapter!=chapter){chapter=ref.chapter;rows_.push_back({ref,true});}
@@ -124,7 +128,11 @@ void ScriptureView::open_section(std::size_t index) {
 }
 void ScriptureView::center_passage() {
     prepare_visible();
-    auto it=std::find_if(rows_.begin(),rows_.end(),[this](auto& r){return !r.heading && r.ref==displayed_.first;});
+    auto it=std::find_if(rows_.begin(),rows_.end(),[this](auto& r){
+        if(r.heading || r.ref.chapter!=displayed_.first.chapter || r.ref>displayed_.first)return false;
+        const auto text=corpus_.verse(base_source_,displayed_.book,r.ref);
+        return text && displayed_.first<=text->last.value_or(text->ref);
+    });
     if(it==rows_.end())return;
     wheel_timer_.Stop();const auto index=std::size_t(it-rows_.begin());
     const auto begin=index>2?index-2:0;
@@ -157,7 +165,8 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
         const bool stacked=(GetClientSize().x-2*outside_margin())/columns_count()<270;
         int height=0;
         for(const auto& language:selected_languages) {
-            auto verse=corpus_.parallel_verse(base_source_,source_for_language(language,displayed_.book),displayed_.book,rows_[index].ref);
+            const auto source=language==selected_languages.front()?base_source_:source_for_language(language,displayed_.book);
+            auto verse=corpus_.parallel_verse(base_source_,source,displayed_.book,rows_[index].ref);
             Column column{language,verse?verse->ref:rows_[index].ref,verse?verse->last:std::nullopt,layout_paragraph(dc,u(verse?verse->text:verse.error()),std::max(80,column_width()),language),!verse};
             const int h=column.text.height()+(stacked&&selected_languages.size()>1?FromDIP(24):0);
             height=stacked?height+h:std::max(height,h);
@@ -189,7 +198,8 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
             wxString labels;
             for(const auto& language:languages()) {
                 if(!labels.empty())labels+="     ·     ";
-                labels+=language=="sv"?"SVENSKA 1917":language=="en"?"KING JAMES":"ΕΛΛΗΝΙΚΑ";
+                const auto source=language==languages().front()?base_source_:source_for_language(language,displayed_.book);
+                labels+=language=="sv"?"SVENSKA 1917":language=="en"?(source=="en-web"?"WORLD ENGLISH BIBLE":"KING JAMES"):"ΕΛΛΗΝΙΚΑ";
             }
             if(displayed_.book=="Ps" && !settings_.parallel.empty() && settings_.parallel!="en") {
                 const auto map=corpus_.alignment(base_source_,"grc-lxx",{displayed_.book,row.ref,row.ref});
@@ -201,7 +211,10 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                 dc.SetPen(wxPen(colors.rule,1));
                 for(int c=1;c<columns_count();++c){const int gutter=margin+c*stride-FromDIP(24);dc.DrawLine(gutter,y,gutter,y+layout.height);}
             }
-            if(reading_.contains(row.ref,displayed_.book)) {
+            const auto last=layout.columns.empty()?row.ref:layout.columns.front().last.value_or(row.ref);
+            const auto segments=reading_.segments();
+            const bool prescribed=std::any_of(segments.begin(),segments.end(),[&](const auto& p){return p.book==displayed_.book&&p.first<=last&&row.ref<=p.last;});
+            if(prescribed) {
                 dc.SetPen(wxPen(colors.accent,FromDIP(3)));dc.DrawLine(margin-FromDIP(17),y,margin-FromDIP(17),y+layout.height-FromDIP(5));
             }
             int stacked_y=y;
@@ -215,7 +228,9 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                     text_y+=FromDIP(24);
                 }
                 dc.SetFont(ui_font(9));dc.SetTextForeground(colors.muted);
-                dc.DrawText(column.last?wxString::Format("%d–%d",column.ref.verse,column.last->verse):wxString::Format("%d",column.ref.verse),x,text_y+FromDIP(6));
+                wxString number=wxString::Format("%d",column.ref.verse)+u(column.ref.suffix);
+                if(column.last)number+="–"+wxString::Format("%d",column.last->verse)+u(column.last->suffix);
+                dc.DrawText(number,x,text_y+FromDIP(6));
                 dc.SetFont(body_font(settings_.font_size));dc.SetTextForeground(column.missing?colors.muted:colors.ink);
                 draw_paragraph(dc,column.text,x+FromDIP(30),text_y);text_y+=column.text.height();
                 if(stacked)stacked_y=text_y;
