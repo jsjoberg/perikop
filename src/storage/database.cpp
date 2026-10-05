@@ -59,7 +59,7 @@ std::vector<Source> CorpusDb::sources() const {
 std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, const std::string& book, VerseRef ref) const {
     Statement query(db_.get(), "SELECT text FROM verse JOIN source ON source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? AND book.code=? AND chapter=? AND verse=?");
     query.text(1, source); query.text(2, book); query.number(3,ref.chapter); query.number(4,ref.verse);
-    if (!query.row()) return std::unexpected("Text saknas i provkorpusen");
+    if (!query.row()) return std::unexpected("Text saknas i denna utgåva");
     return Verse{ref, query.text(0), {}};
 }
 std::vector<VerseRef> CorpusDb::coordinates(const std::string& source, const std::string& book) const {
@@ -90,7 +90,7 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
                 if (!result.text.empty()) result.text += " ";
                 result.text += part->text;
             }
-            if (result.text.empty()) return std::unexpected("Text saknas i provkorpusen");
+            if (result.text.empty()) return std::unexpected("Text saknas i denna utgåva");
             return result;
         }
         if (map->kind != AlignmentKind::Same && map->kind != AlignmentKind::Renumbered)
@@ -103,7 +103,8 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
         const auto f = std::find_if(list.begin(),list.end(),[&](auto& s){return s.code==from;});
         const auto t = std::find_if(list.begin(),list.end(),[&](auto& s){return s.code==to;});
         if (f==list.end() || t==list.end()) return std::unexpected("Okänd textkälla");
-        const bool nt = book == "Luke" || book == "Phil";
+        if(book=="Ps"&&from!=to)return std::unexpected("Versmappning saknas · öppna utgåvan via Bibel");
+        const bool nt = new_testament_book(book);
         if (f->versification != t->versification && !nt) return std::unexpected("Ingen belagd textmappning");
     }
     return verse(to,book,ref);
@@ -118,6 +119,40 @@ std::string CorpusDb::book_name(const std::string& book, const std::string& lang
     const char* sql = language=="el" ? "SELECT name_el FROM book WHERE code=?" : language=="en" ? "SELECT name_en FROM book WHERE code=?" : "SELECT name_sv FROM book WHERE code=?";
     Statement query(db_.get(), sql); query.text(1,book);
     return query.row() ? query.text(0) : book;
+}
+std::vector<Book> CorpusDb::books(const std::string& language) const {
+    Statement q(db_.get(),"SELECT code,CASE WHEN ?='en' THEN name_en WHEN ?='el' AND name_el<>'' THEN name_el ELSE name_sv END,canonical_order FROM book WHERE EXISTS(SELECT 1 FROM verse WHERE book_id=book.id) ORDER BY canonical_order");
+    q.text(1,language);q.text(2,language);std::vector<Book> result;
+    while(q.row())result.push_back({q.text(0),q.text(1),q.number(2)});
+    return result;
+}
+std::vector<ReadingRule> CorpusDb::reading_rules() const {
+    Statement q(db_.get(),"SELECT id,pdist,month,day,ordering,service,description,tradition,label FROM reading_rule ORDER BY ordering,id");
+    std::vector<ReadingRule> result;
+    while(q.row()) {
+        const auto service=q.text(5);
+        const auto kind=service=="Epistle"?ReadingKind::Epistle:service=="Gospel"?ReadingKind::Gospel:service=="Vespers"?ReadingKind::Vespers:ReadingKind::OldTestament;
+        ReadingRule rule{q.number(0),q.number(1),q.number(2),q.number(3),q.number(4),service,q.text(6),q.text(7),{kind,{},q.text(8),{}}};
+        Statement parts(db_.get(),"SELECT book,first_chapter,first_verse,last_chapter,last_verse FROM reading_segment WHERE rule_id=? ORDER BY ordering");
+        parts.number(1,rule.id);bool first=true;
+        while(parts.row()) {
+            Passage p{parts.text(0),{parts.number(1),parts.number(2)},{parts.number(3),parts.number(4)}};
+            if(first){rule.reading.passage=p;first=false;}else rule.reading.additional.push_back(p);
+        }
+        result.push_back(std::move(rule));
+    }
+    return result;
+}
+std::vector<FeastRule> CorpusDb::feast_rules() const {
+    Statement q(db_.get(),"SELECT pdist,month,day,coalesce(rank,-100),title,feast,tradition FROM feast_rule ORDER BY id");
+    std::vector<FeastRule> result;
+    while(q.row())result.push_back({q.number(0),q.number(1),q.number(2),q.number(3),q.text(4),q.text(5),q.text(6)});
+    return result;
+}
+std::vector<OrdoRule> CorpusDb::ordo_rules() const {
+    Statement q(db_.get(),"SELECT year,month,day,pdist,service FROM ordo_rule");std::vector<OrdoRule> result;
+    while(q.row())result.push_back({q.number(0),q.number(1),q.number(2),q.number(3),q.text(4)});
+    return result;
 }
 UserDb::UserDb(const std::filesystem::path& path) {
     if (!path.parent_path().empty()) std::filesystem::create_directories(path.parent_path());

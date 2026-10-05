@@ -17,6 +17,10 @@ public:
     std::vector<Pronunciation> pronunciations(const std::string& language) const;
     std::string book_name(const std::string& book, const std::string& language = "sv") const;
     bool read_only() const;
+    std::vector<Book> books(const std::string& language="sv") const;
+    std::vector<ReadingRule> reading_rules() const;
+    std::vector<FeastRule> feast_rules() const;
+    std::vector<OrdoRule> ordo_rules() const;
 private:
     DatabaseHandle db_;
 };

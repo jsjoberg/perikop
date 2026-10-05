@@ -1,9 +1,19 @@
 #pragma once
 #include <wx/dc.h>
+#include <filesystem>
+#include <string>
 #include <vector>
 namespace ortho {
-// wxDC uses the platform's Unicode shaping and measures/draws the same font.
-// Paragraph-wide justification and language hyphenation remain future work.
-struct TextLayout { std::vector<wxString> lines; int line_height=0; int height() const { return int(lines.size())*line_height; } };
-TextLayout layout_paragraph(wxDC&,const wxString&,int width);
+struct TextRun { wxString text; double x=0, width=0; };
+struct TextLine { std::vector<TextRun> runs; double width=0, space=0, left_protrusion=0, right_protrusion=0; bool justified=false, hyphenated=false; };
+struct TextLayout {
+    std::vector<TextLine> lines;
+    int line_height=0;
+    int height() const { return int(lines.size())*line_height; }
+};
+// TeX's total-paragraph fit and Liang patterns; wxDC retains native word shaping.
+void load_hyphenation(const std::filesystem::path& directory);
+std::vector<int> hyphenation_points(const wxString&,const std::string& language);
+TextLayout layout_paragraph(wxDC&,const wxString&,int width,const std::string& language="sv");
+void draw_paragraph(wxDC&,const TextLayout&,int x,int y);
 }

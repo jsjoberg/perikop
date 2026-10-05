@@ -52,29 +52,15 @@ void SelectedDay::select(CivilDate date) {
     if (!date.ok() || int(date.year()) < 1 || int(date.year()) > 9999) throw std::invalid_argument("Invalid selected date");
     date_ = date;
 }
-DayReadings FixtureLectionary::readings_for(CivilDate date, CalendarStyle style) const {
-    DayReadings result{{date, style, {}, {}, "Provdata · ingen fastställd kyrkokalender"}, {}};
-    const auto iso = date_iso(date);
-    if (iso == "2026-10-05") {
-        result.readings = {{ReadingKind::MorningPsalm, {"Ps", {23,1}, {23,6}}, "Psalm 23"},
-            {ReadingKind::Epistle, {"Phil", {2,1}, {2,11}}, "Filipperbrevet 2:1–11"},
-            {ReadingKind::Gospel, {"Luke", {6,27}, {6,36}}, "Lukasevangeliet 6:27–36"}};
-    } else if (iso == "2026-10-06") {
-        // A distinct old-calendar fixture, not a calendar calculation.
-        result.readings = {{ReadingKind::MorningPsalm, {"Ps", {24,1}, {24,10}}, "Psalm 24"},
-            {ReadingKind::Gospel, {"Luke", {6,37}, {6,42}}, "Lukasevangeliet 6:37–42"}};
-        if (style == CalendarStyle::Old) result.readings[0] =
-            {ReadingKind::MorningPsalm, {"Ps", {23,1}, {23,6}}, "Psalm 23 · gammal kalender, provdata"};
-    } else if (iso == "2026-10-07") {
-        result.readings = {{ReadingKind::Epistle, {"Phil", {2,12}, {2,18}}, "Filipperbrevet 2:12–18"},
-            {ReadingKind::Gospel, {"Luke", {6,43}, {6,49}}, "Lukasevangeliet 6:43–49"}};
-    }
-    return result;
+bool new_testament_book(const std::string& book) {
+    static const std::vector<std::string> books={"Matt","Mark","Luke","John","Acts","Rom","1Cor","2Cor","Gal","Eph","Phil","Col","1Thess","2Thess","1Tim","2Tim","Titus","Philemon","Heb","James","1Peter","2Peter","1John","2John","3John","Jude","Rev"};
+    for(const auto& code:books)if(code==book)return true;
+    return false;
 }
 std::string source_for_language(const std::string& language, const std::string& book) {
     if (language == "sv") return "sv1917";
     if (language == "en") return "en-kjv";
-    if (language == "el") return book == "Ps" ? "grc-ot-fixture" : "grc-nt-fixture";
+    if (language == "el") return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
     return {};
 }
 }

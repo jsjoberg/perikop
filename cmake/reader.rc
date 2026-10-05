@@ -1,2 +1,4 @@
 #include <windows.h>
 1 RT_MANIFEST "reader.manifest"
+
+1 ICON "../resources/icons/OrthodoxReader.ico"

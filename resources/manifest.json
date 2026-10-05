@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "fixture_only": true,
+  "schema_version": 2,
+  "fixture_only": false,
   "assets": [
     {
       "path": "resources/fonts/Literata-Regular.ttf",
@@ -43,22 +43,6 @@
       "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/LICENSE",
       "sha256": "42a0cf00ecd4e8ab92ccdf222a745c213d4e847d05b37ee177a4cb769649592a",
       "license": "MIT"
-    },
-    {
-      "path": null,
-      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/formats/json/Swe1917.json",
-      "sha256": "beb36627021eaa6a05fdcbdecd37e880eab534305f780a8a88417dff0248f035",
-      "license": "Public-Domain text; MIT transcription",
-      "role": "input; only selected chapters retained",
-      "revision": "e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c"
-    },
-    {
-      "path": null,
-      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/formats/json/KJV.json",
-      "sha256": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c",
-      "license": "Public-Domain text; MIT transcription",
-      "role": "input; only selected chapters retained",
-      "revision": "e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c"
     },
     {
       "path": "resources/corpus/provenance/grcbrent-copyright.html",
@@ -133,16 +117,10 @@
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/fixture.json",
-      "sha256": "93a129f5da16a93fd5af159652ea1d7488c6b75298a6b1cb055709c8e49be24c",
-      "license": "Public-Domain Scripture; MIT compilation",
-      "role": "fixture excerpts; not an authoritative edition choice"
-    },
-    {
       "path": "resources/corpus/corpus.db",
-      "sha256": "8553f0ecbc2adb296ccacfad790a91065505202bc46a26e8935dcfed45f96a99",
+      "sha256": "ee1d5bd0324b9ff7998cce6a5deeefd4462df0c585f89dfa264c669777b4b247",
       "license": "Public-Domain Scripture; MIT compilation",
-      "role": "generated offline by tools/corpus/build_fixture.py"
+      "role": "Generated offline by tools/corpus/build_corpus.py"
     },
     {
       "path": "resources/licenses/libpng-LICENSE.txt",
@@ -192,6 +170,173 @@
       "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
       "license": "See bundled notice",
       "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/Orthocal-MIT.txt",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/5bdf0a5e1cad406388d7860ec74ed506a7a19197/LICENSE",
+      "sha256": "dfc54369f62d4e68481afdd22403891eab8354f0a591d0538822329d38ecaf31"
+    },
+    {
+      "path": "resources/corpus/schema.sql",
+      "license": "MIT",
+      "sha256": "7658203ba105b36b7dbc91d8d855fc6ff626fa6a79a53a8112e69df44d642994"
+    },
+    {
+      "path": "resources/corpus/input/grcbyz_usfm.zip",
+      "license": "Public-Domain Scripture",
+      "url": "https://ebible.org/Scriptures/grcbyz_usfm.zip",
+      "role": "Complete publisher input; fetched 2026-10-06",
+      "sha256": "a39e54cf1cd228c4279c7b441f6b81441e0c1059bb2e11df1328a9a930ccdb8b"
+    },
+    {
+      "path": "resources/corpus/input/KJV.json",
+      "license": "Public-Domain Scripture; MIT transcription",
+      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/formats/json/KJV.json",
+      "role": "Complete unmodified pinned publisher input",
+      "sha256": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c"
+    },
+    {
+      "path": "resources/corpus/input/grcbrent_usfm.zip",
+      "license": "Public-Domain Scripture",
+      "url": "https://ebible.org/Scriptures/grcbrent_usfm.zip",
+      "role": "Complete publisher input; fetched 2026-10-06",
+      "sha256": "cc6591b067fa69e0a922c82fc67a458462af6106af4bc4fea53307a5be2288e5"
+    },
+    {
+      "path": "resources/corpus/input/Swe1917.json",
+      "license": "Public-Domain Scripture; MIT transcription",
+      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/formats/json/Swe1917.json",
+      "role": "Complete unmodified pinned publisher input",
+      "sha256": "beb36627021eaa6a05fdcbdecd37e880eab534305f780a8a88417dff0248f035"
+    },
+    {
+      "path": "resources/hyphenation/hyph-en-us.tex",
+      "license": "Permissive redistribution; see file header",
+      "url": "https://raw.githubusercontent.com/hyphenation/tex-hyphen/5684c0f51c0b81133db2efbe60a408b4155a3ff5/hyph-utf8/tex/generic/hyph-utf8/patterns/tex/hyph-en-us.tex",
+      "sha256": "f4ffcd96c5cbc886bdad23f95dcae8edc3cd3620eae62f7946eceda97c4e68f8"
+    },
+    {
+      "path": "resources/hyphenation/hyph-grc.tex",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/hyphenation/tex-hyphen/5684c0f51c0b81133db2efbe60a408b4155a3ff5/hyph-utf8/tex/generic/hyph-utf8/patterns/tex/hyph-grc.tex",
+      "sha256": "38870c0292b1937517dd1709c5af5b1200f7a15a25469f5389a1783579abaf6a"
+    },
+    {
+      "path": "resources/hyphenation/hyph-sv.tex",
+      "license": "LPPL-1.2-or-later",
+      "url": "https://raw.githubusercontent.com/hyphenation/tex-hyphen/5684c0f51c0b81133db2efbe60a408b4155a3ff5/hyph-utf8/tex/generic/hyph-utf8/patterns/tex/hyph-sv.tex",
+      "sha256": "102253382bd91cdb7535de5c20744254c9ac9aaa4ca12ed420eb835e5004c0b3"
+    },
+    {
+      "path": "resources/icons/orthodox-cross.svg",
+      "license": "MIT",
+      "sha256": "eb76ac81cde43bb016e724fe0db23e79aa238d349435c660dbabec5a0a5aee95"
+    },
+    {
+      "path": "resources/icons/orthodox-cross.png",
+      "license": "MIT",
+      "sha256": "5a9f95ccb6bd654f0579c732e870459e958303a98fcc4335bad755ad612a3aff"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.icns",
+      "license": "MIT",
+      "sha256": "a3d189c75b57691fff87d87ddc3f11f2b480dccc0a9b6218befff7d9842fddd7"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.ico",
+      "license": "MIT",
+      "sha256": "ad8c4cd72b9283acfb5a99bf467984b36fa42827dc9627a35719b3fd2688c2f7"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_32x32@2x.png",
+      "license": "MIT",
+      "sha256": "bd8b62c1a39e47f9994da10790ee7ae5d72657654ff8364f932900d5a3ec4e0f"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_128x128.png",
+      "license": "MIT",
+      "sha256": "5cf85d106af9076e3cb433a7ce0ce19e080e356325bf2409e80d9135d07ea97a"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_256x256@2x.png",
+      "license": "MIT",
+      "sha256": "e1fe9598f0b2a004b5f7ae42c2560825e6a094312173b10655142a0bab14646f"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_32x32.png",
+      "license": "MIT",
+      "sha256": "5022b216d3d4546eefeb4c5057d189de91ad666e272d5172e17126b5304cec2a"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_512x512.png",
+      "license": "MIT",
+      "sha256": "e1fe9598f0b2a004b5f7ae42c2560825e6a094312173b10655142a0bab14646f"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_16x16.png",
+      "license": "MIT",
+      "sha256": "85579645efaa27e9ae086d91c3cc79c827251544384e9f0efd0b6d7363892af1"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_16x16@2x.png",
+      "license": "MIT",
+      "sha256": "5022b216d3d4546eefeb4c5057d189de91ad666e272d5172e17126b5304cec2a"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_128x128@2x.png",
+      "license": "MIT",
+      "sha256": "f2381036d4b9a24892161ca943eb2a64662a323eb7e37ff6320744643e803f7d"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_512x512@2x.png",
+      "license": "MIT",
+      "sha256": "5a9f95ccb6bd654f0579c732e870459e958303a98fcc4335bad755ad612a3aff"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_256x256.png",
+      "license": "MIT",
+      "sha256": "f2381036d4b9a24892161ca943eb2a64662a323eb7e37ff6320744643e803f7d"
+    },
+    {
+      "path": "resources/lectionary/antiochian-chart-2026.json",
+      "license": "Factual Scripture citations",
+      "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
+      "role": "Official Sunday chart transcription; checked against original PDF",
+      "sha256": "9577ce57dac168ecd9a88154f4903e2885231b1b7c40a5757774252d4d29e98d"
+    },
+    {
+      "path": "resources/lectionary/orthocal-tables.json",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/5bdf0a5e1cad406388d7860ec74ed506a7a19197/fixtures/calendarium.json",
+      "role": "Greek and shared factual references only; no imported Scripture wording",
+      "sha256": "d8d68af2334bc356761f9ce99d5ce927f2ae4ed7277b1f72805effb5edd59f4e"
+    },
+    {
+      "path": "resources/fonts/NotoSerifHebrew-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/hinted/ttf/NotoSerifHebrew/NotoSerifHebrew-Regular.ttf",
+      "sha256": "972cfce9bad925c350e0e1a0e79457543fcdc44adab1aa8adeae7b55985cf74b",
+      "license": "OFL-1.1",
+      "role": "Explicit Hebrew / editorial-symbol fallback"
+    },
+    {
+      "path": "resources/licenses/Noto-OFL.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/LICENSE",
+      "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/fonts/NotoSansMath-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/hinted/ttf/NotoSansMath/NotoSansMath-Regular.ttf",
+      "sha256": "80b61fd613d3519197e64fff6f7e71fdc7f3e6526440ea4115b554ef7fd59af7",
+      "license": "OFL-1.1",
+      "role": "Explicit editorial-symbol fallback"
+    },
+    {
+      "path": "resources/licenses/Hyphenation-LPPL-1.3c.txt",
+      "url": "https://www.latex-project.org/lppl/lppl-1-3c.txt",
+      "sha256": "3d262cdf34dafa6955f703c634a8c238ec44109bc8dd6ef34fb7aa54809f7e66",
+      "license": "LPPL-1.3c"
     }
   ],
   "build_dependencies": [
@@ -209,5 +354,15 @@
       "sha256": "1e71ddf93849c6a6ecf58b827c0692073d2dd7ee40196158068f7b29f422e87d",
       "license": "Public-Domain"
     }
-  ]
+  ],
+  "edition_scope": "Complete nonempty publisher texts; source coordinates preserved",
+  "lectionary": {
+    "jurisdiction": "Antiochian Orthodox Christian Archdiocese of North America",
+    "tradition": "Greek",
+    "fixed_calendar": "Gregorian for New; Julian for Old (Old is a comparison mode, not the North American official calendar)",
+    "paschal_calendar": "Julian computus, converted to civil Gregorian dates",
+    "table_revision": "5bdf0a5e1cad406388d7860ec74ed506a7a19197",
+    "official_validation": "52 Sundays in the 2026 chart; 2026-10-05 and 2026-10-06 daily citations",
+    "source": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf"
+  }
 }

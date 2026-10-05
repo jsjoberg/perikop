@@ -22,9 +22,10 @@ private:
     void apply_settings(bool persist=true);
     void preview_speech(const std::vector<Reading>&);
     void navigate(int days);
+    void browse_bible();
     const CorpusDb& corpus_;
     UserDb& user_;
-    FixtureLectionary lectionary_;
+    AntiochianLectionary lectionary_;
     SelectedDay selected_;
     Settings settings_;
     DayReadings day_;
@@ -33,7 +34,7 @@ private:
     ScriptureView* scripture_;
     wxButton *date_,*listen_all_;
     wxStaticText *annotation_,*reader_label_,*speech_status_;
-    wxChoice *calendar_,*theme_,*parallel_;
+    wxChoice *calendar_,*theme_,*parallel_,*part_;
     wxBoxSizer* entries_;
 };
 }

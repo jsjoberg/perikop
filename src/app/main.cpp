@@ -46,7 +46,7 @@ public:
             std::filesystem::path resources;
             for(const auto& candidate:candidates)if(std::filesystem::exists(candidate/"corpus/corpus.db")){resources=candidate;break;}
             if(resources.empty())throw std::runtime_error("Bundled resources missing. Rebuild or use --resources PATH.");
-            for(const auto* file:{"Literata-Regular.ttf","Literata-Italic.ttf","IBMPlexSans-Regular.ttf","IBMPlexSans-Medium.ttf"}) {
+            for(const auto* file:{"Literata-Regular.ttf","Literata-Italic.ttf","IBMPlexSans-Regular.ttf","IBMPlexSans-Medium.ttf","NotoSerifHebrew-Regular.ttf","NotoSansMath-Regular.ttf"}) {
                 const auto file_path=(resources/"fonts"/file).u8string();
                 #ifdef __APPLE__
                 const auto* bytes=reinterpret_cast<const UInt8*>(file_path.c_str());
@@ -60,6 +60,7 @@ public:
 #endif
                 if(!loaded)throw std::runtime_error(std::string("Cannot load bundled font: ")+file);
             }
+            ortho::load_hyphenation(resources/"hyphenation");
             corpus_=std::make_unique<ortho::CorpusDb>(resources/"corpus/corpus.db");
             if(smoke) {
                 test_path_=std::filesystem::temp_directory_path()/std::filesystem::path("orthodox-reader-smoke-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
@@ -68,7 +69,11 @@ public:
             #if wxCHECK_VERSION(3,3,0)
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
-            auto* frame=new ortho::MainFrame(*corpus_,*user_,date);SetTopWindow(frame);frame->Show();
+            auto* frame=new ortho::MainFrame(*corpus_,*user_,date);
+            const auto icon_path=(resources/"icons/orthodox-cross.png").u8string();
+            wxIcon icon;icon.LoadFile(wxString::FromUTF8(reinterpret_cast<const char*>(icon_path.c_str())),wxBITMAP_TYPE_PNG);
+            if(icon.IsOk())frame->SetIcon(icon);
+            SetTopWindow(frame);frame->Show();
             if(reader)frame->open_psalm();
             if(smoke) {
                 timer_=std::make_unique<wxTimer>(this);

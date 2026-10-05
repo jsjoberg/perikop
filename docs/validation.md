@@ -1,74 +1,50 @@
 # Validation record
 
-Local validation date: October 5, 2026.
-
-## Completed on macOS
-
+Local check date: October 6, 2026.
 The release build used Apple Clang 17 on macOS 26.6.2, on Apple Silicon.
-The build targets macOS 11.0. wxWidgets 3.3.3 and SQLite 3.53.4 link statically.
-The executable links only Apple system frameworks and libraries at runtime.
+The application targets macOS 11.0. wxWidgets 3.3.3 and SQLite 3.53.4 link statically.
 
-The core suite passed 331 checks. The GUI smoke test passed.
-The GUI test draws all three themes and all four parallel modes.
-It also draws a narrow three-language view. It loads the bundled fonts and uses a temporary user database.
+The core suite passed 615 checks.
+The suite compared all 52 Sunday reading pairs with the Antiochian 2026 chart.
+It also checked the October 5–6 daily references and official Pascha dates for 2026–2030.
+Computed Pascha readings passed for 2027–2035.
+Other checks cover date stability, Julian century leap labels, discontinuous passages, complete corpus endpoints, alignment, pronunciation, and local settings.
 
-The resource check passed all 28 file hashes.
-Both Literata fonts cover all 215 distinct fixture characters, including Swedish and polytonic Greek.
-The reader images received visual inspection in light and dark themes. The installed macOS bundle also passed the GUI smoke test.
+The GUI smoke test passed in all three themes and four parallel modes.
+It also passed in a narrow window.
+The test checks native paragraph justification, optical punctuation, final-line treatment, source-text recovery, and hyphenation in all three languages.
+It checks fractional scrolling and compares images before and after a 17-pixel scroll.
+At least 99.5% of the compared viewport pixels must equal the corresponding shifted pixels.
+The layout cache remains bounded at 192 rows.
+The test uses a temporary user database.
 
-The tests cover:
+The resource check covers every bundled file listed in the manifest.
+Literata and the explicit Noto fallbacks cover all 314 distinct corpus characters.
+The check also rejects leftover import markup.
+The full corpus contains 102,270 nonempty verses.
+The database opens read-only. A separate database stores personal settings.
 
-- Leap days, year changes, invalid date parts, and explicit date navigation.
-- A stable selected date after a simulated clock change.
-- Distinct Old and New calendar fixtures without a civil-date offset.
-- Known reading lookup and empty results for other dates.
-- Passage normalization and curated language/source selection.
-- Read-only corpus access and failed write attempts.
-- Required passages in all three languages and missing-text errors.
-- Psalm numbering, source title differences, and a split verse range.
-- Whole-token and multi-word pronunciation overrides.
-- Separate display and speech text, generated introductions, and speech stub states.
-- Persistent local theme, calendar, language, and font-size settings.
-
-The renderer uses one native scrolling view.
-Its layout cache retains at most 192 rows. Book coordinates contain no verse text.
-The renderer retrieves text when it measures or draws a row.
-A narrow viewport uses stacked language blocks.
-A short viewport opens at the chapter heading to keep the prescribed text visible.
-Earlier context remains accessible by scrolling upward.
-
-## Outstanding platform checks
+## Platform checks
 
 Windows and Linux builds did not run in this local macOS session.
-The project includes `.github/workflows/build.yml` for those builds after repository publication.
-The workflow also repeats the macOS build. The workflow itself has not run yet.
+The repository includes a CI workflow for both platforms and macOS.
+The workflow requires repository publication before it can run.
 
-Windows uses pinned w64devkit 2.10.0, MinGW-w64 GCC, and Ninja.
-Linux uses GCC 13, GTK3, Fontconfig, and Xvfb for the GUI smoke test.
+Manual checks remain for Windows and Linux native scrolling and font registration.
+Checks also remain for Intel Macs, macOS 11, assistive technology, multiple displays, and real overnight wake behavior.
+The date model test simulates a clock change. It does not replace an overnight session.
 
-Manual checks still include:
+## Remaining scope
 
-- Windows 11 x86-64 and Linux x86-64 startup, scrolling, and native font registration.
-- Theme behavior and text shaping on each native backend.
-- Multiple monitors, display scaling, sleep, and a real midnight transition.
-- Startup on macOS 11 and an Intel Mac.
-- A full keyboard and assistive-technology review of the custom reader.
+Calendar rules and references are computed offline. Later annual Antiochian instructions can change particular assignments.
+The 2026 Sunday chart is the completed independent comparison. Other complete years have not received this comparison.
+Old calendar mode applies Greek rules to Julian fixed dates. It does not represent a separate approved Antiochian jurisdiction.
 
-The simulated date test checks the state model.
-It does not replace a real overnight application session.
-No clock timer or wake handler changes the selected date.
+Each publisher's complete available edition is bundled.
+Some books exist in only one language. Empty publisher placeholders are excluded.
+MT/LXX verse alignment remains curated rather than complete.
+The reader shows unavailable alignments and can open each edition directly through the Bible browser.
 
-## Product limits
-
-The fixture lectionary is not an authoritative Orthodox lectionary.
-Fixed and Paschal cycles remain separate, unresolved fields.
-The Greek excerpts are prototype editions. Final edition choices remain open.
-
-Speech accepts utterances and shows pronunciation changes. It does not synthesize audio.
-The renderer uses native Unicode shaping and greedy line breaks.
-Hyphenation, paragraph-wide justification, and optical margins remain future work.
-The fixture cannot substitute for a complete Scripture corpus.
-
-Psalm 22 has source-specific title and split-verse differences.
-The fixture maps those differences explicitly. Unsupported merged alignments show a quiet missing-alignment message.
-The application does not infer a general MT-to-LXX numbering rule.
+The renderer fits whole paragraphs with native shaping, Knuth–Plass demerits, and Liang hyphenation.
+Paragraphs currently follow verse boundaries. Semantic paragraph grouping remains future work.
+The speech interface still shows a pronunciation preview. It does not synthesize audio.

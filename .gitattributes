@@ -2,3 +2,7 @@
 *.ttf binary
 *.db binary
 *.png binary
+
+*.zip binary
+*.icns binary
+*.ico binary

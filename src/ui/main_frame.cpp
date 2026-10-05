@@ -13,6 +13,7 @@
 #include <wx/fontenum.h>
 #include <algorithm>
 #include <functional>
+#include <cmath>
 namespace ortho {
 namespace {
 wxString u(const std::string& s){return wxString::FromUTF8(s);}
@@ -42,7 +43,7 @@ wxString kind_label(ReadingKind kind) {
 }
 MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
     :wxFrame(nullptr,wxID_ANY,"Ortodox läsare",wxDefaultPosition,wxSize(1120,900)),
-    corpus_(corpus),user_(user),selected_(date),settings_(user.load()) {
+    corpus_(corpus),user_(user),lectionary_(corpus),selected_(date),settings_(user.load()) {
     SetMinSize(FromDIP(wxSize(520,480)));root_=new wxPanel(this);root_->SetFont(ui_font());
     auto* outer=new wxBoxSizer(wxVERTICAL);
     auto* top=new wxBoxSizer(wxHORIZONTAL);
@@ -65,12 +66,16 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
     reader_tools->Add(button(reader_header_,"Till läsningen",[this]{scripture_->center_passage();scripture_->SetFocus();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));
     reader_tools->Add(button(reader_header_,"Uttalsprov",[this]{preview_speech({scripture_->reading()});}),0,wxALIGN_CENTER_VERTICAL);
     reader_header_->SetSizer(reader_tools);outer->Add(reader_header_,0,wxEXPAND|wxALL,FromDIP(20));
+    part_=new wxChoice(reader_header_,wxID_ANY);part_->SetName("Läsningens del");
+    part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){scripture_->open_section(part_->GetSelection());});
+    reader_tools->Insert(2,part_,0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));part_->Hide();
     scripture_=new ScriptureView(root_,corpus);outer->Add(scripture_,1,wxEXPAND);
     readings_=new wxScrolledWindow(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL|wxBORDER_NONE);
     readings_->SetScrollRate(0,FromDIP(12));entries_=new wxBoxSizer(wxVERTICAL);readings_->SetSizer(entries_);
     outer->Add(readings_,1,wxEXPAND|wxLEFT|wxRIGHT,FromDIP(68));
     footer_=new wxPanel(root_);auto* footer=new wxWrapSizer(wxHORIZONTAL,wxREMOVE_LEADING_SPACES);
     footer->Add(button(footer_,"Läsningar",[this]{show_readings();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
+    footer->Add(button(footer_,"Bibel",[this]{browse_bible();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
     footer->Add(button(footer_,"Kalender",[this]{pick_date();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
 
     theme_=new wxChoice(footer_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"System","Ljust","Mörkt"});
@@ -78,7 +83,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
     theme_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){settings_.theme=static_cast<Theme>(theme_->GetSelection());apply_settings();});
     footer->Add(theme_,0,wxALIGN_CENTER_VERTICAL);footer_->SetSizer(footer);outer->Add(footer_,0,wxEXPAND|wxALL,FromDIP(20));
     // Reading preferences share one compact, wrapping footer with navigation.
-    parallel_=new wxChoice(footer_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Svenska","Svenska + grekiska","Svenska + engelska","Svenska + grekiska + engelska"});
+    parallel_=new wxChoice(footer_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Huvudtext","+ Grekiska","+ Engelska","Alla tre språk"});
     parallel_->SetSelection(settings_.parallel.empty()?0:settings_.parallel=="el"?1:settings_.parallel=="en"?2:3);
     parallel_->SetName("Parallell text");
     parallel_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){static const char* modes[]={"","el","en","el,en"};settings_.parallel=modes[parallel_->GetSelection()];apply_settings();});
@@ -97,15 +102,20 @@ void MainFrame::navigate(int days) {
 }
 void MainFrame::refresh_day() {
     day_=lectionary_.readings_for(selected_.date(),settings_.calendar);
-    date_->SetLabel(u(date_swedish(selected_.date())));annotation_->SetLabel(u(day_.day.annotation));
+    date_->SetLabel(u(date_swedish(selected_.date())));
+    const auto separator=day_.day.annotation.find(" · ",day_.day.annotation.find(" · ")+3);
+    annotation_->SetLabel(u(separator==std::string::npos?day_.day.annotation:day_.day.annotation.substr(0,separator)));
+    annotation_->SetToolTip(u(day_.day.annotation+"\nFast kalender: "+day_.day.fixed_cycle.value_or("")+"\n"+day_.day.paschal_cycle.value_or("")));
     entries_->Clear(true);entries_->AddSpacer(FromDIP(38));
     if(day_.readings.empty()) {
-        auto* title=label(readings_,"Inga provläsningar för detta datum",18);entries_->Add(title,0,wxBOTTOM,FromDIP(20));
-        auto* help=label(readings_,"Prototypen har läsningar för 5–7 oktober 2026.\nKyrkoårets regler är ännu inte fastställda.",12);
-        entries_->Add(help,0,wxBOTTOM,FromDIP(30));
-        entries_->Add(button(readings_,"Öppna provdatum · 5 oktober 2026",[this]{selected_.select(std::chrono::year{2026}/10/5);refresh_day();}),0,wxBOTTOM,FromDIP(20));
-        entries_->Add(button(readings_,"Läs Psalm 23",[this]{open_psalm();}),0);
+        entries_->Add(label(readings_,"Ingen daglig bibelläsning är föreskriven",18),0,wxBOTTOM,FromDIP(20));
+        entries_->Add(button(readings_,"Öppna Bibeln",[this]{browse_bible();}),0);
     } else {
+        const auto info=day_.day.annotation.find(" · ",day_.day.annotation.find(" · ")+3);
+        if(info!=std::string::npos) {
+            auto* feast=label(readings_,u(day_.day.annotation.substr(info+3)),14);
+            feast->Wrap(std::max(200,GetClientSize().x-FromDIP(150)));entries_->Add(feast,0,wxBOTTOM,FromDIP(28));
+        }
         for(const auto& reading:day_.readings) {
             auto* section=label(readings_,kind_label(reading.kind),10);entries_->Add(section,0,wxBOTTOM,FromDIP(10));
             auto* line=new wxWrapSizer(wxHORIZONTAL,wxREMOVE_LEADING_SPACES);
@@ -128,7 +138,39 @@ void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23
 void MainFrame::open_reading(const Reading& reading) {
     readings_->Hide();reader_header_->Show();scripture_->Show();
     reader_label_->SetLabel(u(reading.label));
+    part_->Clear();const auto segments=reading.segments();
+    for(std::size_t i=0;i<segments.size();++i)part_->Append(wxString::Format("Del %d · ",int(i+1))+u(corpus_.book_name(segments[i].book)));
+    part_->SetSelection(0);part_->Show(segments.size()>1);
     root_->Layout();scripture_->open(reading);scripture_->SetFocus();
+}
+void MainFrame::browse_bible() {
+    wxDialog dialog(this,wxID_ANY,"Öppna Bibeln",wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
+    const auto books=corpus_.books();wxArrayString names;
+    for(const auto& book:books)names.Add(u(book.name));
+    auto* book=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,FromDIP(wxSize(320,-1)),names);book->SetSelection(0);
+    auto* edition=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Svenska 1917 med apokryfer","Grekiska · LXX / Patriarkal 1904","English · King James"});edition->SetSelection(0);
+    auto* chapter=new wxTextCtrl(&dialog,wxID_ANY,"1");
+    auto* verse=new wxTextCtrl(&dialog,wxID_ANY,"1");
+    auto* sizer=new wxBoxSizer(wxVERTICAL);
+    sizer->Add(label(&dialog,"Bok",11),0,wxLEFT|wxTOP,FromDIP(18));sizer->Add(book,0,wxALL,FromDIP(18));
+    sizer->Add(label(&dialog,"Utgåva",11),0,wxLEFT,FromDIP(18));sizer->Add(edition,0,wxEXPAND|wxALL,FromDIP(18));
+    sizer->Add(label(&dialog,"Kapitel",11),0,wxLEFT,FromDIP(18));sizer->Add(chapter,0,wxEXPAND|wxALL,FromDIP(18));
+    sizer->Add(label(&dialog,"Vers",11),0,wxLEFT,FromDIP(18));sizer->Add(verse,0,wxEXPAND|wxALL,FromDIP(18));
+    sizer->Add(dialog.CreateButtonSizer(wxOK|wxCANCEL),0,wxALIGN_RIGHT|wxALL,FromDIP(18));dialog.SetSizerAndFit(sizer);
+    recolor(&dialog,palette(settings_.theme));
+    while(dialog.ShowModal()==wxID_OK) {
+        long ch=0,v=0;const auto& selected=books[book->GetSelection()];
+        if(!chapter->GetValue().ToLong(&ch)||!verse->GetValue().ToLong(&v)||ch<1||v<1||ch>999||v>999) {
+            wxMessageBox("Ange ett kapitel och en vers med positiva heltal.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
+        }
+        const VerseRef ref{int(ch),int(v)};
+        const std::string language=edition->GetSelection()==0?"sv":edition->GetSelection()==1?"el":"en";
+        if(!corpus_.verse(source_for_language(language,selected.code),selected.code,ref)) {
+            wxMessageBox("Bibelstället saknas i de bundna utgåvorna.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
+        }
+        open_reading({new_testament_book(selected.code)?ReadingKind::Gospel:ReadingKind::OldTestament,
+            {selected.code,ref,ref},selected.name+" "+std::to_string(ch)+":"+std::to_string(v),{},language});break;
+    }
 }
 void MainFrame::pick_date() {
     const auto current=selected_.date();
@@ -138,7 +180,7 @@ void MainFrame::pick_date() {
         wxDateTime(unsigned(current.day()),static_cast<wxDateTime::Month>(unsigned(current.month())-1),int(current.year())),
         wxDefaultPosition,wxDefaultSize,wxCAL_MONDAY_FIRST|wxCAL_SHOW_HOLIDAYS);
     sizer->Add(calendar,0,wxALL,FromDIP(20));
-    sizer->Add(label(&dialog,"Provdatum: 5–7 oktober 2026",10),0,wxALIGN_CENTER|wxBOTTOM,FromDIP(12));
+
     sizer->Add(button(&dialog,"Aktuellt datum",[calendar]{calendar->SetDate(wxDateTime::Today());}),0,wxALIGN_CENTER|wxBOTTOM,FromDIP(12));
     sizer->Add(dialog.CreateButtonSizer(wxOK|wxCANCEL),0,wxALIGN_RIGHT|wxALL,FromDIP(12));
     dialog.SetSizerAndFit(sizer);recolor(&dialog,palette(settings_.theme));
@@ -163,10 +205,12 @@ void MainFrame::preview_speech(const std::vector<Reading>& readings) {
     StubSpeechEngine engine;const auto lexicon=corpus_.pronunciations("sv");wxString preview;
     for(const auto& reading:readings) {
         std::string text=reading_introduction(reading)+"\n";
-        const auto refs=corpus_.coordinates("sv1917",reading.passage.book);
-        for(auto ref:refs)if(reading.passage.contains(ref)) {
-            auto verse=corpus_.verse("sv1917",reading.passage.book,ref);
-            if(verse)text+=verse->text+"\n";
+        for(const auto& passage:reading.segments()) {
+            const auto refs=corpus_.coordinates("sv1917",passage.book);
+            for(auto ref:refs)if(passage.contains(ref)) {
+                auto verse=corpus_.verse("sv1917",passage.book,ref);
+                if(verse)text+=verse->text+"\n";
+            }
         }
         engine.speak(make_utterance(text,"sv",lexicon));
         preview+=u(reading.label)+"\n\n"+u(engine.accepted.back().speech_text)+"\n\n";
@@ -184,7 +228,51 @@ void MainFrame::preview_speech(const std::vector<Reading>& readings) {
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto original=settings_;const auto date=selected_.date();
     open_psalm();Layout();
-    bool ok=corpus_.read_only() && wxFontEnumerator::IsValidFacename("Literata") && wxFontEnumerator::IsValidFacename("IBM Plex Sans");
+    bool ok=corpus_.read_only() && wxFontEnumerator::IsValidFacename("Literata") && wxFontEnumerator::IsValidFacename("IBM Plex Sans") && wxFontEnumerator::IsValidFacename("Noto Serif Hebrew") && wxFontEnumerator::IsValidFacename("Noto Sans Math");
+    // Native drawing must use the same shaped widths as paragraph fitting.
+    wxClientDC metrics(scripture_);metrics.SetFont(body_font(19));
+    for(const auto& [language,text]:std::vector<std::pair<std::string,wxString>>{
+        {"sv","I begynnelsen skapade Gud himmel och jord. Och Gud såg att det var gott. Detta är en längre text för att kontrollera styckets jämna radbrytning och mellanrum."},
+        {"el",wxString::FromUTF8("Ἐν ἀρχῇ ἦν ὁ Λόγος, καὶ ὁ Λόγος ἦν πρὸς τὸν Θεόν, καὶ Θεὸς ἦν ὁ Λόγος. Οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν Θεόν.")},
+        {"en","In the beginning was the Word, and the Word was with God, and the Word was God. The same was in the beginning with God."}}) {
+        const auto layout=layout_paragraph(metrics,text,280,language);
+        wxString recovered;bool justified=false;
+        for(std::size_t i=0;i<layout.lines.size();++i) {
+            const auto& line=layout.lines[i];
+            if(line.width>281)ok=false;
+            if(line.justified){justified=true;if(std::abs(line.width-280)>0.01)ok=false;}
+            if(i+1==layout.lines.size()&&line.justified)ok=false;
+            for(std::size_t w=0;w<line.runs.size();++w) {
+                auto run=line.runs[w].text;
+                if(line.hyphenated&&w+1==line.runs.size())run.RemoveLast();
+                recovered+=run;
+            }
+        }
+        auto original=text;original.Replace(" ","");
+        if(recovered!=original||!justified)ok=false;
+    }
+    if(hyphenation_points("begynnelsen","sv").empty()||hyphenation_points("beginning","en").empty()||
+        hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"),"el").empty())ok=false;
+    if(!hyphenation_points("project","en").empty())ok=false;
+    const auto optical=layout_paragraph(metrics,wxString::FromUTF8("“Guds ord.”"),280,"sv");
+    if(optical.lines.front().left_protrusion<=0||optical.lines.back().right_protrusion<=0)ok=false;
+    settings_.theme=Theme::Light;settings_.parallel="el";apply_settings(false);scripture_->center_passage();
+    const double start=scripture_->scroll_position();scripture_->scroll_by(0.375);
+    if(std::abs(scripture_->scroll_position()-start-0.375)>0.001)ok=false;
+    scripture_->scroll_by(-0.375);
+    const auto viewport=scripture_->GetClientSize();
+    wxBitmap before(viewport.x,viewport.y),after(viewport.x,viewport.y);
+    {wxMemoryDC dc(before);scripture_->render_to(dc,viewport);}
+    scripture_->scroll_by(17);
+    if(std::abs(scripture_->scroll_position()-start-17)>0.001)ok=false;
+    {wxMemoryDC dc(after);scripture_->render_to(dc,viewport);}
+    const auto first=before.ConvertToImage(),second=after.ConvertToImage();
+    std::size_t equal=0,total=0;
+    for(int y=30;y<viewport.y-60;++y)for(int x=0;x<viewport.x;++x) {
+        ++total;
+        if(first.GetRed(x,y+17)==second.GetRed(x,y)&&first.GetGreen(x,y+17)==second.GetGreen(x,y)&&first.GetBlue(x,y+17)==second.GetBlue(x,y))++equal;
+    }
+    if(total==0||double(equal)/total<0.995)ok=false;
     for(auto theme:{Theme::Light,Theme::Dark,Theme::System})for(auto mode:{"","el","en","el,en"}) {
         settings_.theme=theme;settings_.parallel=mode;apply_settings(false);scripture_->center_passage();
         const auto size=scripture_->GetClientSize();

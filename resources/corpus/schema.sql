@@ -29,3 +29,7 @@ CREATE TABLE pronunciation (
  language TEXT NOT NULL, source TEXT NOT NULL, spoken TEXT, phonemes TEXT,
  priority INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(language,source)
 );
+CREATE TABLE reading_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,service TEXT,description TEXT,ordering INTEGER,tradition TEXT,label TEXT);
+CREATE TABLE reading_segment(rule_id INTEGER REFERENCES reading_rule(id),ordering INTEGER,book TEXT,first_chapter INTEGER,first_verse INTEGER,last_chapter INTEGER,last_verse INTEGER,PRIMARY KEY(rule_id,ordering));
+CREATE TABLE feast_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,rank INTEGER,title TEXT,feast TEXT,tradition TEXT);
+CREATE TABLE ordo_rule(year INTEGER,month INTEGER,day INTEGER,service TEXT,pdist INTEGER,PRIMARY KEY(year,month,day,service));

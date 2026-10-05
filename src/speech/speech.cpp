@@ -69,7 +69,8 @@ SpeechUtterance make_utterance(const std::string& text,const std::string& langua
 }
 std::string reading_introduction(const Reading& reading) {
     const auto& p=reading.passage;
-    const std::string book=p.book=="Ps"?"Psaltaren":p.book=="Luke"?"Lukasevangeliet":"Filipperbrevet";
+    const auto reference=reading.label.find(" "+std::to_string(p.first.chapter)+":");
+    const std::string book=p.book=="Ps"?"Psaltaren":reference==std::string::npos?reading.label:reading.label.substr(0,reference);
     return "Läsning ur "+book+", kapitel "+std::to_string(p.first.chapter)+", vers "+std::to_string(p.first.verse)+
         (p.last==p.first?".":" till "+(p.last.chapter!=p.first.chapter?"kapitel "+std::to_string(p.last.chapter)+", vers ":"")+std::to_string(p.last.verse)+".");
 }

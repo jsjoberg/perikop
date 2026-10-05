@@ -27,11 +27,28 @@ struct Passage {
     bool contains(VerseRef ref) const { return first <= ref && ref <= last; }
 };
 std::expected<Passage, std::string> normalize_passage(Passage passage);
-struct Reading { ReadingKind kind; Passage passage; std::string label; };
+struct Reading {
+    ReadingKind kind; Passage passage; std::string label;
+    std::vector<Passage> additional;
+    std::string base_language="sv";
+    Reading(ReadingKind k,Passage p,std::string name,std::vector<Passage> rest={},std::string language="sv")
+        :kind(k),passage(std::move(p)),label(std::move(name)),additional(std::move(rest)),base_language(std::move(language)) {}
+    bool contains(VerseRef ref,const std::string& book="") const {
+        const auto& selected=book.empty()?passage.book:book;
+        if(passage.book==selected&&passage.contains(ref))return true;
+        for(const auto& p:additional)if(p.book==selected&&p.contains(ref))return true;
+        return false;
+    }
+    std::vector<Passage> segments() const { auto parts=additional;parts.insert(parts.begin(),passage);return parts; }
+};
+struct ReadingRule { int id,pdist,month,day,ordering; std::string service,description,tradition; Reading reading; };
+struct FeastRule { int pdist,month,day,rank; std::string title,feast,tradition; };
+struct OrdoRule { int year,month,day,pdist; std::string service; };
+struct Book { std::string code,name; int order; };
 struct LiturgicalDay {
     CivilDate civil_date;
     CalendarStyle calendar;
-    // Fixed and movable cycles deliberately unresolved; no fabricated offset/rules.
+    // Independent fixed-calendar label and distance from Orthodox Pascha.
     std::optional<std::string> fixed_cycle;
     std::optional<std::string> paschal_cycle;
     std::string annotation;
@@ -42,10 +59,19 @@ public:
     virtual ~Lectionary() = default;
     virtual DayReadings readings_for(CivilDate, CalendarStyle) const = 0;
 };
-class FixtureLectionary final : public Lectionary {
+class CorpusDb;
+CivilDate orthodox_pascha(int year);
+CivilDate fixed_calendar_date(CivilDate,CalendarStyle);
+class AntiochianLectionary final : public Lectionary {
 public:
-    DayReadings readings_for(CivilDate, CalendarStyle) const override;
+    explicit AntiochianLectionary(const CorpusDb&);
+    DayReadings readings_for(CivilDate,CalendarStyle) const override;
+private:
+    std::vector<ReadingRule> rules_;
+    std::vector<FeastRule> feasts_;
+    std::vector<OrdoRule> ordos_;
 };
+bool new_testament_book(const std::string&);
 class SelectedDay {
 public:
     explicit SelectedDay(CivilDate initial) { select(initial); }

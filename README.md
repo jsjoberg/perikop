@@ -3,12 +3,15 @@
 A native Orthodox lectionary reader prototype for Windows, macOS, and Linux.
 The interface uses Swedish labels. Scripture appears in a custom native view with continuous chapter context.
 
-This v0.1 prototype includes 865 fixture verses in Swedish, Greek, and English.
-It bundles Literata and IBM Plex Sans. It needs no network connection after installation.
+Version 0.2 bundles 102,270 verses in complete Swedish, Greek, and English source editions.
+It includes Swedish apocrypha and the Greek Septuagint.
+It calculates daily readings offline for the North American Antiochian Greek tradition.
+All 52 Sundays match the Archdiocese's official 2026 chart.
 
-The lectionary contains **example readings for October 5–7, 2026**.
-These readings do not represent an approved church calendar.
-Other dates show an empty state with access to the example date and Psalm 23.
+The reader scrolls in pixels and preserves macOS trackpad precision and momentum.
+Native paragraph fitting uses Knuth–Plass demerits and Liang hyphenation.
+It bundles Literata, IBM Plex Sans, and fallback fonts for Hebrew headings and editorial brackets.
+The application needs no network connection after installation.
 
 ## Build
 
@@ -54,7 +57,7 @@ On macOS, open `build/cmake/bin/Orthodox Reader.app`.
 On Windows or Linux, run `build/cmake/bin/orthodox-reader`.
 The executable uses resources beside the executable or inside the macOS application bundle.
 
-For the Psalm 23 prototype, run:
+For Psalm 23, run:
 
 ```sh
 "build/cmake/bin/Orthodox Reader.app/Contents/MacOS/Orthodox Reader" --reader --date 2026-10-05
@@ -68,7 +71,8 @@ Only explicit actions change this date. Midnight, sleep, and theme changes do no
 Select a reading to open its chapter context.
 Use the mouse wheel, arrow keys, Page Up, Page Down, Home, or End to move through the text.
 The brass margin line marks the selected passage.
-The text control selects Swedish, Swedish with Greek, Swedish with English, or all three languages.
+The text control adds Greek, English, or all three languages to the selected main edition.
+The Bible action opens a native book, chapter, verse, and edition selector.
 Narrow windows use aligned blocks.
 
 Theme choices are System, Light, and Dark.
@@ -76,7 +80,9 @@ The user database stores the theme, calendar choice, parallel language, and font
 The selected date does not persist between launches.
 
 The Calendar action opens a native date picker. Its Current date button selects the current date before confirmation.
-Old and New calendar choices use explicit examples. Neither choice applies a general 13-day offset.
+New calendar mode uses the North American Antiochian reading rules.
+Old calendar mode applies those Greek rules to Julian fixed dates. It is a comparison mode.
+Julian conversion calculates the date difference for each century.
 
 The speech preview accepts generated utterances through `SpeechEngine`.
 It shows a separate speech representation. **It produces no audio.**
@@ -104,29 +110,31 @@ It uses a temporary user database. It does not change personal settings.
 
 To save a reader image during the smoke test, add `--screenshot /absolute/path/reader.png`.
 
-## Fixture corpus
+## Offline corpus
 
 `resources/corpus/corpus.db` opens in read-only mode.
 `user.db` resides in the platform user-data directory.
 All SQL stays in the storage layer.
 
-The fixtures include Psalms 22–25, Luke 5–7, and Philippians 1–3.
-The Greek Psalms retain LXX chapter coordinates.
-Explicit mappings align MT Psalm 23 with LXX Psalm 22 and MT Psalm 24 with LXX Psalm 23.
-The renderer retains coordinates for the book and at most 192 text layouts.
+The corpus contains 35,350 Swedish verses, 27,860 Greek OT verses, 7,958 Greek NT verses, and 31,102 English verses.
+Each source retains its wording and chapter and verse coordinates.
+The Greek Psalms retain LXX numbering.
+Only curated Psalm mappings receive aligned verse treatment.
+Other unverified alignments show a message. Each edition remains available through the Bible browser.
+The renderer retains book coordinates and at most 192 text layouts.
 It creates no native control for individual verses.
 
 Rebuild the corpus from bundled source data:
 
 ```sh
-python3 tools/corpus/build_fixture.py
+python3 tools/corpus/build_corpus.py
 ```
 
 Python is a corpus development tool. Normal builds and application startup do not need Python.
 `resources/manifest.json` records resource hashes and provenance.
 `THIRD-PARTY-NOTICES.md` records licenses and edition limits.
 
-Check the resource hashes and fixture glyph coverage:
+Check the resource hashes and complete corpus glyph coverage:
 
 ```sh
 python3 tools/check_resources.py
@@ -134,13 +142,11 @@ python3 tools/check_resources.py
 
 ## Current limits
 
-The prototype uses native Unicode text measurement and drawing.
-It does not yet implement hyphenation, paragraph-wide justification, or optical margin alignment.
-The reader handles verse blocks rather than semantic paragraphs.
-
-The project owner must choose the authoritative lectionary, Psalm cycles, and final Scripture editions.
-The voice design, full alignment coverage, and full corpus import remain open.
+Paragraphs follow verse boundaries. Punctuation protrudes into the optical margins.
+Full MT/LXX alignment, morning and evening Psalm cycles, and audio synthesis remain open.
+Published annual Antiochian instructions can require additional calendar exceptions.
 No restricted modern Swedish translation is bundled.
 
-See `docs/engineering-spec.md` for the complete handoff specification.
+See `docs/lectionary.md` for the calculation rules and reference sources.
+See `docs/engineering-spec.md` for the original handoff specification.
 See `docs/validation.md` for local results and outstanding platform checks.

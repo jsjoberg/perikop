@@ -1,3 +1,5 @@
+> Implementation update, October 6, 2026: see [lectionary.md](lectionary.md) and [validation.md](validation.md). The text below preserves the original v0.1 specification.
+
 # Orthodox Lectionary Reader — v0.1 Engineering Specification
 
 Status: **implementation handoff / initial vertical slice**

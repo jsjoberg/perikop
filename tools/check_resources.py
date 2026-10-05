@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check resource hashes and the bundled fonts' fixture glyph coverage offline."""
+"""Check resource hashes and the bundled fonts' corpus glyph coverage offline."""
 import hashlib
 import json
 from pathlib import Path
@@ -42,10 +42,16 @@ def cmap(path):
                     if glyph: glyph=(glyph+u16(deltas+2*j))&65535
                     if glyph:points.add(c)
     return points
-fixture=json.loads((root/'resources/corpus/fixture.json').read_text())
-required={ord(c) for verse in fixture['verses'] for c in verse[4] if not c.isspace()}
+import sqlite3
+with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',uri=True) as db:
+    required={ord(c) for (text,) in db.execute('SELECT text FROM verse') for c in text if not c.isspace()}
+    count=db.execute('SELECT count(*) FROM verse').fetchone()[0]
+    if count < 100000:raise SystemExit('The complete corpus is missing')
+    bad=db.execute("SELECT count(*) FROM verse WHERE text LIKE '%strong=%' OR text LIKE '%<%' OR text LIKE '%\\%'").fetchone()[0]
+    if bad:raise SystemExit(f'{bad} verses still contain import markup')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:
-    missing=required-cmap(root/'resources/fonts'/name)
+    fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')|cmap(root/'resources/fonts/NotoSansMath-Regular.ttf')
+    missing=required-(cmap(root/'resources/fonts'/name)|fallback)
     if missing:raise SystemExit(f'{name}: missing glyphs '+', '.join(f'U+{c:04X}' for c in sorted(missing)))
-    print(f'{name}: all {len(required)} fixture characters covered')
+    print(f'{name}: all {len(required)} corpus characters covered, including bundled fallback')
 print(f'{checks} resource hashes passed')
