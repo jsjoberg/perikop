@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "fixture_only": true,
+  "assets": [
+    {
+      "path": "resources/fonts/Literata-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/googlefonts/literata/0c2761b727a1b3a7cffd313c37f0f5163dfc7a63/fonts/ttf/Literata-Regular.ttf",
+      "sha256": "0390890de9bb9d5862a6ba4125b82c61792ccc3d66b63e73eee75c1a16fcd208",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/fonts/Literata-Italic.ttf",
+      "url": "https://raw.githubusercontent.com/googlefonts/literata/0c2761b727a1b3a7cffd313c37f0f5163dfc7a63/fonts/ttf/Literata-Italic.ttf",
+      "sha256": "198f70cc9a17bab578553fa274b81984d58c440efe26bc06f1d841c194b6691a",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/licenses/Literata-OFL.txt",
+      "url": "https://raw.githubusercontent.com/googlefonts/literata/0c2761b727a1b3a7cffd313c37f0f5163dfc7a63/OFL.txt",
+      "sha256": "8742963604cd89dc81437811a850018fc03b2bfad686d7422c8235967c87614e",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/fonts/IBMPlexSans-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/IBM/plex/763c36ef9117782905ae010056dfbe8fd2653a25/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Regular.ttf",
+      "sha256": "975dcda37d80f038dcd143c22e33ca2d97a0cc5a929aace1c749153b0fe1afa5",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/fonts/IBMPlexSans-Medium.ttf",
+      "url": "https://raw.githubusercontent.com/IBM/plex/763c36ef9117782905ae010056dfbe8fd2653a25/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Medium.ttf",
+      "sha256": "331c8639d7598b2cde62a911a71db195e30cb655cd6bdf2e324a7e984955f907",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/licenses/IBMPlexSans-OFL.txt",
+      "url": "https://raw.githubusercontent.com/IBM/plex/763c36ef9117782905ae010056dfbe8fd2653a25/packages/plex-sans/LICENSE.txt",
+      "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "resources/licenses/Scrollmapper-MIT.txt",
+      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/LICENSE",
+      "sha256": "42a0cf00ecd4e8ab92ccdf222a745c213d4e847d05b37ee177a4cb769649592a",
+      "license": "MIT"
+    },
+    {
+      "path": null,
+      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/formats/json/Swe1917.json",
+      "sha256": "beb36627021eaa6a05fdcbdecd37e880eab534305f780a8a88417dff0248f035",
+      "license": "Public-Domain text; MIT transcription",
+      "role": "input; only selected chapters retained",
+      "revision": "e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c"
+    },
+    {
+      "path": null,
+      "url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c/formats/json/KJV.json",
+      "sha256": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c",
+      "license": "Public-Domain text; MIT transcription",
+      "role": "input; only selected chapters retained",
+      "revision": "e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbrent-copyright.html",
+      "url": "https://ebible.org/grcbrent/copyright.htm",
+      "sha256": "0d3b36faa218aa8ada2c9060d91bce405a1a3f54bd1c3de4c51bc377219093e1",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-copyright.html",
+      "url": "https://ebible.org/grcbyz/copyright.htm",
+      "sha256": "8296eccf16f4d72eec6d154f4da9a1bc8f56e1b46aa6773d2e9b889447ae7dba",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbrent-PSA021.htm",
+      "url": "https://ebible.org/grcbrent/PSA021.htm",
+      "sha256": "a129c337fac63aaea56990a5dc080aead98fc1a1d07a68da6ccc59e6978f1bed",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbrent-PSA022.htm",
+      "url": "https://ebible.org/grcbrent/PSA022.htm",
+      "sha256": "1b3aa4e2b8e83a63916d8b4f0cafd4887092aedbd778af97708a3b1bb03aab1d",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbrent-PSA023.htm",
+      "url": "https://ebible.org/grcbrent/PSA023.htm",
+      "sha256": "07805a3333e4584a7e489355f097f3baf634e7fbb72ef7a50ce9094e5b5ce6a8",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbrent-PSA024.htm",
+      "url": "https://ebible.org/grcbrent/PSA024.htm",
+      "sha256": "2c18e2ba8ca57ca30764ee90e5f78044fcb547a3592ecdfbdbe3bf55323508a8",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-LUK05.htm",
+      "url": "https://ebible.org/grcbyz/LUK05.htm",
+      "sha256": "cef1672abfc6882050644b541d451f4c1b0379bcc8da36daafda7324a057e455",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-LUK06.htm",
+      "url": "https://ebible.org/grcbyz/LUK06.htm",
+      "sha256": "985790811409e4bf5531e8d1d17c1330cb04593cf88e4f9cff378b50216ab5ce",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-LUK07.htm",
+      "url": "https://ebible.org/grcbyz/LUK07.htm",
+      "sha256": "7185ae3861c7fcbf515afb00fef12d1d832a5c7f1d920d94d5bb465c931095f9",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-PHP01.htm",
+      "url": "https://ebible.org/grcbyz/PHP01.htm",
+      "sha256": "00b8a6dd0facf98c7bab241bcd59168b308dcd238248af33b1db5499541c7274",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-PHP02.htm",
+      "url": "https://ebible.org/grcbyz/PHP02.htm",
+      "sha256": "92bc49d1dd5a744b4d4e7488d1abd235b6046edb5816c42fad81ab828c9ccbcf",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/provenance/grcbyz-PHP03.htm",
+      "url": "https://ebible.org/grcbyz/PHP03.htm",
+      "sha256": "3cc75c3a2b119b0bc39b5c50e737fdd202fc620259d7937fdc5dae0bd5c5169c",
+      "license": "Public-Domain"
+    },
+    {
+      "path": "resources/corpus/fixture.json",
+      "sha256": "93a129f5da16a93fd5af159652ea1d7488c6b75298a6b1cb055709c8e49be24c",
+      "license": "Public-Domain Scripture; MIT compilation",
+      "role": "fixture excerpts; not an authoritative edition choice"
+    },
+    {
+      "path": "resources/corpus/corpus.db",
+      "sha256": "8553f0ecbc2adb296ccacfad790a91065505202bc46a26e8935dcfed45f96a99",
+      "license": "Public-Domain Scripture; MIT compilation",
+      "role": "generated offline by tools/corpus/build_fixture.py"
+    },
+    {
+      "path": "resources/licenses/libpng-LICENSE.txt",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/wxWidgets-LGPL.txt",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/PCRE2-LICENSE.md",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "197d8a73ffee0d6b09adba2f9c677b5f5aede24edf89258a68e48248d010d811",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/wxWidgets-LICENSE.txt",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "e8453be21aea2b7cc9a39d5b0475190bbfa0a60605b4178377590b94d9c43eae",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/libjpeg-README.txt",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "913af09f785683accdf660b85dcf27fdd567d4ad649daa95cb8771b040db79d1",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/NanoSVG-LICENSE.txt",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "e82bc3dd03400aecabe12201219ba14750dbc4b36faab58663a7a6068548d372",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    },
+    {
+      "path": "resources/licenses/zlib-LICENSE.txt",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.3",
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+      "license": "See bundled notice",
+      "role": "notice from pinned wxWidgets release"
+    }
+  ],
+  "build_dependencies": [
+    {
+      "name": "wxWidgets",
+      "version": "3.3.3",
+      "url": "https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.3/wxWidgets-3.3.3.tar.bz2",
+      "sha256": "81b09d6dd9f1ed9301f8c55a968a488d0491f264dc2bab19a7e407ac67009482",
+      "license": "wxWindows Library Licence 3.1"
+    },
+    {
+      "name": "SQLite",
+      "version": "3.53.4",
+      "url": "https://sqlite.org/2026/sqlite-amalgamation-3530400.zip",
+      "sha256": "1e71ddf93849c6a6ecf58b827c0692073d2dd7ee40196158068f7b29f422e87d",
+      "license": "Public-Domain"
+    }
+  ]
+}
