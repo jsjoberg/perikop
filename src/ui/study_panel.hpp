@@ -4,8 +4,9 @@
 #include "ui/scripture_view.hpp"
 #include <wx/scrolwin.h>
 #include <functional>
+#include <set>
 namespace ortho {
-// The right pane in Ordstudium mode: pronunciation, Dalin's definition and
+// The right pane in Ordstudium mode: pronunciation, Swedish dictionary entries and
 // the Strong's entries of the verse for the word clicked in the left pane.
 class StudyPanel final : public wxScrolledWindow {
 public:
@@ -25,6 +26,7 @@ private:
     Lexicon lexicon_;
     std::optional<ScriptureView::Word> word_;
     std::string base_source_,frame_;
+    std::set<std::string> expanded_articles_;
     // The chosen tagged Greek word of the verse, and whether the lookup has
     // already applied the aligner's choice (later the user's choice stands).
     std::optional<std::size_t> selected_;

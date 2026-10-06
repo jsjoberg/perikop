@@ -775,6 +775,32 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto has=[&](const wxString& part){return std::any_of(lines.begin(),lines.end(),[&](const wxString& line){return line.Contains(part);});};
         if(!has("DALIN")||!has("begynnelse")||!has("G746"))ok=false;
     }
+    study_->show({"John","Jesu",{1,17},0},scripture_->base_source(),scripture_->frame());
+    {
+        const auto lines=study_->text();
+        const auto has=[&](const wxString& part){return std::any_of(lines.begin(),lines.end(),[&](const wxString& line){return line.Contains(part);});};
+        if(!has(wxString::FromUTF8("NYSTRÖM 1896"))||!has("Jesus Kristus")||!has("Jesus Justus")||
+           has(wxString::FromUTF8("Ordet finns inte")))ok=false;
+        // Long articles begin with a bounded preview; the complete text stays in the database.
+        if(std::any_of(lines.begin(),lines.end(),[](const wxString& line){return line.length()>520;}))ok=false;
+    }
+    bool expanded=false;
+    for(auto* child:study_->GetChildren()) {
+        auto* more=wxDynamicCast(child,wxButton);
+        if(!more||more->GetLabel()!=wxString::FromUTF8("Visa hela artikeln"))continue;
+        wxCommandEvent click(wxEVT_BUTTON,more->GetId());click.SetEventObject(more);
+        more->GetEventHandler()->ProcessEvent(click);expanded=true;break;
+    }
+    wxTheApp->ProcessPendingEvents();
+    {
+        const auto lines=study_->text();
+        if(!expanded||std::none_of(lines.begin(),lines.end(),[](const wxString& line){return line.length()>520;}))ok=false;
+    }
+    study_->show({"John","Kristi",{1,17},0},scripture_->base_source(),scripture_->frame());
+    {
+        const auto lines=study_->text();
+        if(std::none_of(lines.begin(),lines.end(),[](const wxString& line){return line.Contains("Messias");}))ok=false;
+    }
     settings_.word_study=false;apply_settings(false);
     if(study_->IsShown())ok=false;
     // Exercise playback presentation without model loading or audible output.

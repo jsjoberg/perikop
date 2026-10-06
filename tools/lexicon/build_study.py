@@ -9,6 +9,7 @@ import hashlib, html, itertools, json, math, re, sqlite3, unicodedata, zipfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from fetch import fetch
+from biblobok import articles, resolve_forms
 root=Path(__file__).resolve().parents[2]
 output=root/'resources/lexicon/study.db'
 
@@ -85,6 +86,9 @@ counts={}
 for (text,) in corpus.execute("SELECT text FROM verse JOIN source ON source.id=source_id WHERE source.code='sv1917'"):
     for word in re.findall(r"[^\W\d_]+",text):counts[word.lower()]=counts.get(word.lower(),0)+1
 resolved={word:resolve(word) for word in counts}
+biblical_entries=articles()
+biblical_forms=resolve_forms(biblical_entries,counts,spellings)
+biblical_used={article for matches in biblical_forms.values() for article in matches}
 
 # --- Strong's entries and Greek New Testament words ----------------------------
 def plain(text):
@@ -192,9 +196,11 @@ output.parent.mkdir(parents=True,exist_ok=True)
 temp=output.with_suffix('.tmp');temp.unlink(missing_ok=True)
 db=sqlite3.connect(temp)
 db.executescript('''
-PRAGMA user_version=2; PRAGMA application_id=1330795348;
+PRAGMA user_version=3; PRAGMA application_id=1330795348;
 CREATE TABLE dalin(id INTEGER PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, definition TEXT NOT NULL) STRICT;
 CREATE TABLE sv_word(form TEXT NOT NULL, dalin INTEGER NOT NULL REFERENCES dalin(id), PRIMARY KEY(form,dalin)) STRICT, WITHOUT ROWID;
+CREATE TABLE biblical(id TEXT PRIMARY KEY, headword TEXT NOT NULL, definition TEXT NOT NULL, url TEXT NOT NULL) STRICT, WITHOUT ROWID;
+CREATE TABLE sv_biblical(form TEXT NOT NULL, article TEXT NOT NULL REFERENCES biblical(id), rank INTEGER NOT NULL, PRIMARY KEY(form,article)) STRICT, WITHOUT ROWID;
 CREATE TABLE strongs(strong TEXT PRIMARY KEY, lemma TEXT NOT NULL, transliteration TEXT NOT NULL, gloss TEXT NOT NULL, definition TEXT NOT NULL) STRICT, WITHOUT ROWID;
 -- A Swedish word's occurrence in a sv1917 verse, linked to a greek_word in a counterpart verse.
 CREATE TABLE sv_greek(book TEXT NOT NULL, chapter INTEGER NOT NULL, verse INTEGER NOT NULL, form TEXT NOT NULL, occurrence INTEGER NOT NULL,
@@ -206,6 +212,9 @@ CREATE TABLE greek_word(book TEXT NOT NULL, chapter INTEGER NOT NULL, verse INTE
 ids={lemgram:i for i,lemgram in enumerate(sorted({l for ls in resolved.values() for l in ls}),1)}
 db.executemany('INSERT INTO dalin VALUES(?,?,?,?)',[(i,*entries[l]) for l,i in ids.items()])
 db.executemany('INSERT INTO sv_word VALUES(?,?)',sorted((word,ids[l]) for word,ls in resolved.items() for l in ls))
+db.executemany('INSERT INTO biblical VALUES(?,?,?,?)',sorted((key,headword,definition,url)
+    for key,headword,_,definition,url,_ in biblical_entries if key in biblical_used))
+db.executemany('INSERT INTO sv_biblical VALUES(?,?,?)',sorted((word,article,rank) for word,matches in biblical_forms.items() for rank,article in enumerate(matches)))
 db.executemany('INSERT INTO strongs VALUES(?,?,?,?,?)',sorted((k,*strongs[k]) for k in used))
 db.executemany('INSERT INTO greek_word VALUES(?,?,?,?,?,?,?)',[(*w[:6],strong_key(w[6]) or w[6]) for w in words])
 db.executemany('INSERT INTO sv_greek VALUES(?,?,?,?,?,?,?,?,?)',sorted(links))
@@ -213,10 +222,12 @@ db.commit();db.execute('VACUUM');db.close();temp.replace(output)
 
 total=sum(counts.values());covered=sum(n for w,n in counts.items() if resolved[w])
 print(f'Swedish forms: {sum(1 for w in counts if resolved[w])}/{len(counts)} resolved, {100*covered/total:.1f}% of word occurrences')
+combined=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word])
+print(f'Biblical articles: {len(biblical_used)} of {len(biblical_entries)}; combined Swedish lookup coverage: {100*combined/total:.1f}% of word occurrences')
 print(f'Swedish–Greek links: {len(links)} of {sum(len(sv) for _,sv,_ in verse_pairs)} New Testament words')
 print(f'Dalin entries: {len(ids)}; Strong\'s entries: {len(used)}; Greek words: {len(words)}, untagged in lexicon: {sum(1 for w in words if not strong_key(w[6]))}')
-manifest=root/'resources/manifest.json';metadata=json.loads(manifest.read_text())
+manifest=root/'resources/manifest.json';metadata=json.loads(manifest.read_text(encoding='utf-8'))
 for asset in metadata['assets']:
-    if asset.get('path') in ('resources/lexicon/study.db','resources/lexicon/sv1917-forms.tsv'):
+    if asset.get('path') in ('resources/lexicon/study.db','resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-biblical-forms.tsv'):
         asset['sha256']=hashlib.sha256((root/asset['path']).read_bytes()).hexdigest()
-manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
+manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

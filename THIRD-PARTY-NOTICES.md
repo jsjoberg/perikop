@@ -115,6 +115,14 @@ Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, Uni
 `resources/lexicon/study.db` keeps the entries that the Swedish 1917 forms use, mapped to those forms.
 https://spraakbanken.gu.se/resurser/dalin
 
+Biblical people, places, and terms use Erik Nyström's *Biblisk ordbok för hemmet och skolan*, fourth edition (1896), digitized by Project Runeberg.
+Nyström died in 1907; the original text is in the public domain.
+Changes: prose extracted from the 21 letter pages, tables and illustrations omitted, unused entries omitted, Swedish 1917 forms linked to headwords.
+Each bundled article retains its Runeberg source URL. Historical spelling, claims, and interpretations remain those of the source.
+https://runeberg.org/biblobok/
+https://runeberg.org/authors/nystreri.html
+The curated lookup aliases in `resources/lexicon/sv1917-biblical-forms.tsv` use MIT.
+
 Strong's definitions come from TBESG by STEP Bible (www.STEPBible.org), Tyndale House Cambridge, under CC BY 4.0.
 The pinned source is STEPBible-Data commit `1f3423d42400f59f1f30fe08f74e38fcd3bbf7bc`.
 Changes: only entries used by the Greek New Testament, definitions converted to plain text, Greek normalized to NFC.

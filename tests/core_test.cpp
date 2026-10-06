@@ -228,6 +228,26 @@ int main(int argc,char** argv) {
             check(entries.size()==1&&entries.front().headword=="svara","regular verb form resolves to its Dalin entry");
             check(!study.swedish("fingo").empty()&&study.swedish("fingo").front().headword=="få","irregular form resolves through the table");
             check(study.swedish("hjärta").front().headword=="hjerta","reformed spelling resolves to Dalin's spelling");
+            const auto jesu=study.biblical("jesu");
+            check(jesu.size()==2&&jesu.front().headword=="Jesus Kristus"&&jesu.back().headword=="Jesus Justus",
+                "Jesu resolves to the biblical entries without hiding the namesake");
+            const auto kristi=study.biblical("kristi");
+            check(kristi.size()==1&&kristi.front().headword=="Kristus"&&kristi.front().definition.find("Messias")!=std::string::npos,
+                "Kristi resolves to the historical explanation of the title Kristus");
+            const auto jerusalems=study.biblical("jerusalems");
+            check(jerusalems.size()==1&&jerusalems.front().headword=="Jerusalem"&&jerusalems.front().definition.size()>500&&
+                jerusalems.front().url=="https://runeberg.org/biblobok/ordbok_j.html#Jerusalem","place genitive retains the full article and its source");
+            const auto biblical_headword=[&](const std::string& form){const auto found=study.biblical(form);return found.empty()?std::string{}:found.front().headword;};
+            check(biblical_headword("pauli")=="Paulus","Latin genitive of Paulus resolves");
+            check(biblical_headword("galileen")=="Galileen","biblical region has its own article");
+            check(biblical_headword("nasaret")=="Nazaret","1917 place spelling resolves to the old spelling");
+            const auto rebecka=study.biblical("rebecka");
+            check(!rebecka.empty()&&rebecka.front().definition.starts_with("Betuels dotter"),"an article without an HTML anchor remains available");
+            check(biblical_headword("nebukadnessars")=="Nebukadnezar","genitive also resolves through a name spelling alias");
+            const auto mordokai=study.biblical("mordokai");
+            check(mordokai.size()==2&&mordokai.back().headword=="Mordekai"&&mordokai.back().definition.find("Ester")!=std::string::npos,
+                "a cross-reference opens its referenced biography offline");
+            check(study.biblical("xjesu").empty(),"name matching does not use substrings");
             const auto words=study.greek_words("John",{1,1});
             check(words.size()>=17&&words.front().surface=="Ἐν"&&words.front().strong=="G1722","Greek verse words and Strong's tags");
             const auto loved=study.greek_link("John",{3,16},"älskade",0);

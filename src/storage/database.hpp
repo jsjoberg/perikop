@@ -36,15 +36,18 @@ private:
     DatabaseHandle db_;
 };
 struct DalinEntry { std::string headword, gram, definition; };
+struct BiblicalEntry { std::string id, headword, definition, url; };
 struct StrongsEntry { std::string strong, lemma, transliteration, gloss, definition; };
 struct GreekWord { std::string surface, strong; };
-// Word-study data from tools/lexicon/build_study.py: Dalin entries for
-// Swedish 1917 forms, and Strong's tags for the Greek New Testament.
+// Word-study data from tools/lexicon/build_study.py: Dalin and biblical articles
+// for Swedish 1917 forms, and Strong's tags for the Greek New Testament.
 class StudyDb {
 public:
     explicit StudyDb(const std::filesystem::path& path);
     // Dalin entries for a lowercase Swedish 1917 word form.
     std::vector<DalinEntry> swedish(const std::string& form) const;
+    // Nyström's historical biblical articles for a lowercase Swedish 1917 form.
+    std::vector<BiblicalEntry> biblical(const std::string& form) const;
     std::optional<StrongsEntry> strongs(const std::string& strong) const;
     // The tagged words of a grc-patriarchal verse, in text order.
     std::vector<GreekWord> greek_words(const std::string& book, VerseRef) const;

@@ -5,7 +5,7 @@ from pathlib import Path
 root=Path(__file__).resolve().parents[2]
 target=root/'build/inputs'
 def fetch(name):
-    entry=json.loads((Path(__file__).parent/'inputs.json').read_text())[name]
+    entry=json.loads((Path(__file__).parent/'inputs.json').read_text(encoding='utf-8'))[name]
     path=target/entry.get('file',entry['url'].rsplit('/',1)[1])
     if not path.exists():
         target.mkdir(parents=True,exist_ok=True)
@@ -14,4 +14,4 @@ def fetch(name):
     if digest!=entry['sha256']:raise SystemExit(f'Hash mismatch for {path.name}: {digest}')
     return path
 if __name__=='__main__':
-    for name in sys.argv[1:] or json.loads((Path(__file__).parent/'inputs.json').read_text()):print(fetch(name))
+    for name in sys.argv[1:] or json.loads((Path(__file__).parent/'inputs.json').read_text(encoding='utf-8')):print(fetch(name))

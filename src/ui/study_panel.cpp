@@ -1,6 +1,7 @@
 #include "ui/study_panel.hpp"
 #include "ui/theme.hpp"
 #include <wx/button.h>
+#include <wx/hyperlink.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 namespace ortho {
@@ -26,9 +27,9 @@ StudyPanel::StudyPanel(wxWindow* parent,const CorpusDb& corpus,const StudyDb* st
     rebuild();
 }
 void StudyPanel::apply(Theme theme){theme_=theme;rebuild();}
-void StudyPanel::clear(){if(word_){word_.reset();selected_.reset();rebuild();}}
+void StudyPanel::clear(){if(word_){word_.reset();selected_.reset();expanded_articles_.clear();rebuild();}}
 void StudyPanel::show(const ScriptureView::Word& word,const std::string& base_source,const std::string& frame) {
-    word_=word;base_source_=base_source;frame_=frame;selected_.reset();chosen_=false;
+    word_=word;base_source_=base_source;frame_=frame;selected_.reset();chosen_=false;expanded_articles_.clear();
     // A Greek word is its own tagged word: the same occurrence of the same form.
     if(base_source==greek_source&&study_&&new_testament_book(word.book)) {
         const auto target=u(word.text).Lower();int seen=0;
@@ -72,13 +73,49 @@ void StudyPanel::rebuild() {
             sizer->Add(listen,0,wxLEFT|wxBOTTOM,pad);
         }
         if(swedish) {
-            section(u("ORDBOK · DALIN 1850–53"));
-            const auto entries=study_->swedish(utf8(u(word.text).Lower()));
-            if(entries.empty())text(u(word.text).Left(1).IsSameAs(u(word.text).Left(1).Lower())
-                ?u("Ordet finns inte i Dalins ordbok."):u("Troligen ett egennamn. Det finns inte i Dalins ordbok."),ui_font(11),colors.muted);
+            const auto form=utf8(u(word.text).Lower());
+            const auto entries=study_->swedish(form);
+            const auto articles=study_->biblical(form);
+            if(!entries.empty())section(u("ORDBOK · DALIN 1850–53"));
             for(const auto& entry:entries) {
                 text(u(entry.headword)+(entry.gram.empty()?wxString{}:u("   ")+u(entry.gram)),body_font(15),colors.ink,2);
                 text(u(entry.definition),ui_font(11),colors.ink,10);
+            }
+            if(!articles.empty()) {
+                section(u("BIBLISK ORDBOK · NYSTRÖM 1896"));
+                text(u("Historisk källa: språk, uppgifter och tolkningar från 1896."),ui_font(9),colors.muted,8);
+                for(const auto& entry:articles) {
+                    text(u(entry.headword),body_font(15),colors.ink,2);
+                    const auto definition=u(entry.definition);
+                    const bool expanded=expanded_articles_.contains(entry.id);
+                    constexpr std::size_t preview_length=500;
+                    wxString preview=definition;
+                    if(!expanded&&definition.length()>preview_length) {
+                        // Trim at a word boundary, never in the middle of a UTF-8 sequence.
+                        preview=definition.Left(preview_length);
+                        const auto boundary=preview.find_last_of(" \n");
+                        if(boundary!=wxString::npos)preview=preview.Left(boundary);
+                        preview+=u("…");
+                    }
+                    text(preview,ui_font(11),colors.ink,6);
+                    if(definition.length()>preview_length) {
+                        auto* more=new wxButton(this,wxID_ANY,u(expanded?"Visa mindre":"Visa hela artikeln"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT);
+                        more->SetFont(ui_font(10));
+                        more->Bind(wxEVT_BUTTON,[this,id=entry.id](wxCommandEvent&){CallAfter([this,id]{
+                            if(!expanded_articles_.erase(id))expanded_articles_.insert(id);
+                            rebuild();
+                        });});
+                        sizer->Add(more,0,wxLEFT,pad);sizer->AddSpacer(FromDIP(5));
+                    }
+                    auto* source=new wxHyperlinkCtrl(this,wxID_ANY,u("Källa · Projekt Runeberg"),u(entry.url));
+                    source->SetFont(ui_font(9));source->SetNormalColour(colors.accent);
+                    source->SetVisitedColour(colors.accent);source->SetHoverColour(colors.ink);
+                    sizer->Add(source,0,wxLEFT,pad);sizer->AddSpacer(FromDIP(12));
+                }
+            }
+            if(entries.empty()&&articles.empty()) {
+                section(u("SVENSKA UPPSLAGSKÄLLOR"));
+                text(u("Ordet finns inte i de svenska uppslagskällorna."),ui_font(11),colors.muted);
             }
         }
         section(u("GREKISKA · STRONG'S"));
