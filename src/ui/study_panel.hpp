@@ -12,6 +12,8 @@ public:
     using Lexicon=std::function<std::vector<Pronunciation>(const std::string& language)>;
     StudyPanel(wxWindow*,const CorpusDb&,const StudyDb*,SpeechEngine&,Lexicon);
     void show(const ScriptureView::Word&,const std::string& base_source,const std::string& frame);
+    // Back to the hint, when the looked-up word is no longer on screen.
+    void clear();
     void apply(Theme);
     // Lines of the current lookup, for the smoke test.
     std::vector<wxString> text() const;
@@ -23,8 +25,10 @@ private:
     Lexicon lexicon_;
     std::optional<ScriptureView::Word> word_;
     std::string base_source_,frame_;
-    // The chosen tagged Greek word of the verse.
+    // The chosen tagged Greek word of the verse, and whether the lookup has
+    // already applied the aligner's choice (later the user's choice stands).
     std::optional<std::size_t> selected_;
+    bool chosen_=false;
     Theme theme_=Theme::System;
     int wrapped_=0;
 };

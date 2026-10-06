@@ -66,7 +66,30 @@ Verses without a counterpart show "Saknas i Septuaginta".
 
 The table aligns Swedish with the Septuagint, the KJV, and WEB.
 The KJV and WEB reach the Septuagint through the Swedish alignment. WEB numbers the Old Testament like the KJV.
-New Testament books keep common coordinates.
+
+## New Testament
+
+The 1917 New Testament follows a critical text. It omits verses such as Acts 8:37 without renumbering the rest.
+The table also aligns Swedish with the Patriarchal Greek text, and with the KJV and WEB in the New Testament.
+A few passages are renumbered or divided differently. Each is a reviewed override:
+
+| Swedish | Patriarchal Greek | KJV | WEB |
+| --- | --- | --- | --- |
+| John 11:34 (“Och Jesus grät”) | 11:34–35 | 11:34–35 | 11:34–35 |
+| John 11:35–37 | 11:36–37 | 11:36–37 | 11:36–37 |
+| Luke 17:36 | 17:37 | 17:37 | 17:37 |
+| Phil 1:16, 1:17 | 1:17, 1:16 | 1:17, 1:16 | 1:17, 1:16 |
+| Rev 2:28 | 2:27–28 | 2:27–28 | 2:27–28 |
+| Matt 23:13 | 23:14 | 23:13 | 23:14 |
+| Rom 16:25–27 | 14:24–26 | 16:25–27 | 14:24–26 |
+| Rev 12:18 | 13:1 | 13:1 | 13:1 |
+| John 1:38, 1:39–51 | 1:38–39, 1:40–52 | same | same |
+| Acts 9:19 | 9:18–19 | same | same |
+| 2 Cor 5:14 | 5:14–15 | same | same |
+| 1 Pet 2:8 | 2:7–8 | same | same |
+
+A word dictionary from the word-study alignment flagged the candidates, which were then reviewed against all four texts.
+English and Greek New Testament books still share coordinates with each other.
 
 ## Presentation in Septuagint numbering
 

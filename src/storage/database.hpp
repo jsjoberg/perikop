@@ -48,6 +48,9 @@ public:
     std::optional<StrongsEntry> strongs(const std::string& strong) const;
     // The tagged words of a grc-patriarchal verse, in text order.
     std::vector<GreekWord> greek_words(const std::string& book, VerseRef) const;
+    // The Greek word that the word aligner links to an occurrence of a lowercase
+    // form in a sv1917 New Testament verse: its Greek verse and position there.
+    std::optional<std::pair<VerseRef,int>> greek_link(const std::string& book, VerseRef, const std::string& form, int occurrence) const;
 private:
     DatabaseHandle db_;
 };

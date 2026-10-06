@@ -176,7 +176,7 @@ void MainFrame::open_reading(const Reading& selected) {
     visible_reading_=selected;following_audio_=false;speech_view_.reset();scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
     const auto reading=corpus_.localize(in_primary(selected));
-    readings_->Hide();scripture_->Show();update_study();
+    readings_->Hide();scripture_->Show();study_->clear();update_study();
     reading_title_=u(label_of(reading.segments()));
     part_->Clear();const auto segments=reading.segments();
     for(std::size_t i=0;i<segments.size();++i)part_->Append(wxString::Format("Del %d · ",int(i+1))+u(label_of({segments[i]})));
@@ -211,6 +211,7 @@ bool MainFrame::active_playback() const {
 }
 void MainFrame::play_or_pause() {
     if(active_playback())toggle_pause();
+    else if(settings_.primary!="sv")return;
     else if(const auto marked=scripture_->IsShown()?scripture_->selection():std::nullopt) {
         Reading reading{new_testament_book(marked->book)?ReadingKind::Gospel:ReadingKind::OldTestament,*marked,label_of({*marked}),{},settings_.primary};
         reading.reference=scripture_->frame();
@@ -223,9 +224,15 @@ void MainFrame::update_bar() {
     const wxString follow_label=active?"Följ uppläsningen":"Till läsningen";
     const bool marked=reader&&scripture_->selection();
     const wxString play_label=!active?(marked?"Läs markering":"Lyssna"):paused_?"Fortsätt":"Pausa";
+    // Only the Swedish text can be read aloud; Greek and English have no voice.
+    const bool speakable=active||settings_.primary=="sv";
     if(auto* bar=GetMenuBar()) {
-        bar->SetLabel(play_item_,play_label+"\tCtrl+P");bar->Enable(play_item_,reader||active);
+        bar->SetLabel(play_item_,play_label+"\tCtrl+P");bar->Enable(play_item_,(reader||active)&&speakable);
         bar->Enable(stop_item_,active);
+    }
+    if(play_->IsEnabled()!=speakable) {
+        play_->Enable(speakable);
+        play_->SetToolTip(speakable?u("Lyssna, pausa eller fortsätt · mellanslag"):u("Uppläsning finns bara på svenska"));
     }
     bool changed=follow_->GetLabel()!=follow_label||play_->GetLabel()!=play_label;
     follow_->SetLabel(follow_label);play_->SetLabel(play_label);
@@ -299,7 +306,7 @@ void MainFrame::make_menus() {
         if(settings_.speech_rate==rates[i])reading->Check(Rate+i,true);
     }
     reading->AppendSeparator();
-    // Swedish voice. Greek and English are read by Chatterbox.
+    // Swedish voice. Read-aloud is Swedish only.
     reading->AppendRadioItem(Alice,"Alice");reading->AppendRadioItem(Bjorn,u("Björn"));
     reading->Check(settings_.speech_voice=="bjorn"?Bjorn:Alice,true);
     reading->AppendSeparator();reading->Append(Review,u("Granska svenskt uttal…"));

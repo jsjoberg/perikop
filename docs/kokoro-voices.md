@@ -1,7 +1,7 @@
 # Alice and Björn voice pack
 
 The pack contains Alice and Björn from the Swedish Kokoro model.
-The reader uses them for all Swedish playback. Chatterbox reads Greek and English.
+The reader uses them for all playback. Read-aloud is Swedish only.
 Select the voice in **Uppläsning → Alice** or **Björn**. The settings database stores the choice.
 A voice change applies from the next reading.
 
@@ -19,11 +19,11 @@ The preparation script pins the source weights and their revisions. It checks th
 
 ```sh
 uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
-uv run --locked tools/speech/install_voice.py --pack kokoro --source build/kokoro-pack
-uv run --locked tools/speech/install_voice.py --pack kokoro --verify
+uv run --locked tools/speech/install_voice.py --source build/kokoro-pack
+uv run --locked tools/speech/install_voice.py --verify
 ```
 
-The installer checks every file before it exposes the new directory. It preserves the existing Chatterbox pack.
+The installer checks every file before it exposes the new directory.
 The prepared pack occupies approximately 387 MB. It contains one acoustic model, two pronunciation models, a lexicon, and two voice tensors.
 Each voice tensor contains 510 styles. Select the style with the phoneme count, as the upstream model requires.
 

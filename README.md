@@ -95,8 +95,8 @@ Julian conversion calculates the date difference for each century.
 
 Lyssna reads Swedish with the Alice or Björn voice from the local Swedish Kokoro model.
 Select the voice in **Uppläsning → Alice** or **Björn**. The choice applies from the next reading and survives restarts.
-Greek and English use a local Chatterbox Multilingual model.
-Both engines run through common C++ code on all target platforms. No system voice is used.
+Read-aloud is Swedish only. With Greek or English in the left pane, Lyssna is disabled.
+The voice runs through common C++ code on all target platforms. No system voice is used.
 The voices remain a preview pending listening review and remaining platform checks.
 
 Pausa, Fortsätt, and Stoppa control playback. The playback bar shows loading, buffering, and the current verse.
@@ -109,19 +109,17 @@ Pause freezes the marker and scrolling. Stop clears the marker and keeps the pag
 
 Verse boundaries follow audio playback. Movement between lines within a verse is an estimate, because the model supplies no word timestamps.
 
-A separate SQLite cache accelerates repeat readings. The voice pack needs about 1.55 GB.
+A separate SQLite cache accelerates repeat readings. The voice pack needs about 387 MB.
 See [the speech selection record](docs/speech-selection.md) for licensing, alternatives, measurements, and limits.
 
-Install the pinned Chatterbox voice package once for Greek and English:
+Prepare and install the Alice and Björn pack as [the Kokoro voice guide](docs/kokoro-voices.md) describes:
 
 ```sh
-uv run --locked tools/speech/install_voice.py
+uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
+uv run --locked tools/speech/install_voice.py --source build/kokoro-pack
 uv run --locked tools/speech/install_voice.py --verify
 ```
 
-Prepare and install the Alice and Björn pack for Swedish as [the Kokoro voice guide](docs/kokoro-voices.md) describes.
-
-For an unpacked offline voice package, use `--source /absolute/path/voice-pack`.
 Use `uv` for all Python preparation and installation commands. It manages Python and the preparation environment.
 The distributed application needs neither Python nor `uv`. Playback uses native C++ and local models.
 The pack remains outside application upgrades in the platform user-data directory.

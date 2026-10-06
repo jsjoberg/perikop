@@ -220,6 +220,21 @@ std::vector<Passage> CorpusDb::map_passage(const std::string& from, const std::s
     for (auto ref : coordinates(from,passage.book)) if (passage.contains(ref))
         for (const auto& target : counterparts(from,to,passage.book,ref))
             if (std::find(found.begin(),found.end(),target)==found.end()) found.push_back(target);
+    // Verses that the target only reorders within one run, as Philippians 1:16-17 in
+    // the 1917 Bible, read as one range in the target's own order.
+    if (!found.empty() && std::all_of(found.begin(),found.end(),[&](const auto& t){return t.first==found.front().first;})) {
+        const auto refs = coordinates(to,found.front().first);
+        const auto index = [&](VerseRef ref){return std::find(refs.begin(),refs.end(),ref)-refs.begin();};
+        std::vector<std::ptrdiff_t> at;
+        for (const auto& target : found) at.push_back(index(target.second));
+        if (!std::is_sorted(at.begin(),at.end()) && std::ranges::none_of(at,[&](auto i){return i==std::ptrdiff_t(refs.size());})) {
+            const auto [low,high] = std::minmax_element(at.begin(),at.end());
+            bool run = true;
+            for (auto i=*low; i<=*high && run; ++i)
+                run = std::find(at.begin(),at.end(),i)!=at.end() || counterparts(to,from,found.front().first,refs[std::size_t(i)]).empty();
+            if (run) std::ranges::sort(found,{},[&](const auto& target){return index(target.second);});
+        }
+    }
     // Join targets that are adjacent in the target edition, including verses between
     // them that only the target tradition has, such as lettered Septuagint additions.
     std::vector<Passage> result;
@@ -254,7 +269,7 @@ Reading CorpusDb::localize(Reading reading) const {
 }
 StudyDb::StudyDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 1 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 2 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525354)
         throw std::runtime_error("Unsupported word-study schema");
 }
@@ -263,6 +278,12 @@ std::vector<DalinEntry> StudyDb::swedish(const std::string& form) const {
     query.text(1,form); std::vector<DalinEntry> result;
     while (query.row()) result.push_back({query.text(0),query.text(1),query.text(2)});
     return result;
+}
+std::optional<std::pair<VerseRef,int>> StudyDb::greek_link(const std::string& book, VerseRef ref, const std::string& form, int occurrence) const {
+    Statement query(db_.get(), "SELECT greek_chapter,greek_verse,greek_suffix,position FROM sv_greek WHERE book=? AND chapter=? AND verse=? AND form=? AND occurrence=?");
+    query.text(1,book); query.number(2,ref.chapter); query.number(3,ref.verse); query.text(4,form); query.number(5,occurrence);
+    if (!query.row()) return std::nullopt;
+    return std::pair{VerseRef{query.number(0),query.number(1),query.text(2)},query.number(3)};
 }
 std::optional<StrongsEntry> StudyDb::strongs(const std::string& strong) const {
     Statement query(db_.get(), "SELECT strong,lemma,transliteration,gloss,definition FROM strongs WHERE strong=?");

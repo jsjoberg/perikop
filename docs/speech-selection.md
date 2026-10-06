@@ -6,7 +6,11 @@ Use native C++ inference, pinned local weights, one reference voice, and common 
 Use miniaudio for PCM output on every platform.
 Do not use system speech voices or a cloud service.
 
-Chatterbox Multilingual v2 is the current voice candidate.
+Update, October 7, 2026: the reader now reads aloud with the Swedish Kokoro voices Alice and Björn only.
+Chatterbox and Greek and English read-aloud were removed, because the synthesis delay made them a poor experience.
+See [the Kokoro voice guide](kokoro-voices.md). The rest of this record documents the original selection.
+
+Chatterbox Multilingual v2 was the original voice candidate.
 Its MIT license permits use, modification, and redistribution of both code and weights.
 It supports Swedish, English, and modern Greek.
 The application exposes it as a preview. Swedish pronunciation and reading quality still need listening review.

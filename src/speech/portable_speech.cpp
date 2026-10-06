@@ -5,11 +5,6 @@
 #include "speech/pcm_stream.hpp"
 #include "speech/playback_timeline.hpp"
 #include "storage/database.hpp"
-#include "speech_voice_manifest.hpp"
-#include <chatterbox/audio.hpp>
-#include <chatterbox/backend.hpp>
-#include <chatterbox/text.hpp>
-#include <chatterbox/tokenizer.hpp>
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -17,16 +12,25 @@
 #include <cctype>
 #include <condition_variable>
 #include <deque>
+#include <fstream>
 #include <iostream>
 #include <mutex>
 #include <thread>
 namespace ortho {
 namespace {
 using namespace std::chrono_literals;
-std::string utf8(const std::filesystem::path& path) { const auto bytes=path.u8string();return {reinterpret_cast<const char*>(bytes.data()),bytes.size()}; }
-const std::string cache_revision=std::string(voice_pack_id)+"/ort1.23.2/utf8proc2.10/seed42/cfg0.5/t0.8/v1";
 std::string voice_name(const std::string& voice) {return voice=="bjorn"?"Björn":"Alice";}
-// Swedish reads with Alice or Björn; Chatterbox reads Greek and English.
+// 16-bit mono PCM WAV at 24 kHz, for the speech probe.
+void write_wav(const std::filesystem::path& path,const std::vector<float>& samples) {
+    std::ofstream output(path,std::ios::binary);
+    const auto put=[&](uint32_t value,int bytes){for(int i=0;i<bytes;++i)output.put(char((value>>(8*i))&0xff));};
+    const auto data=uint32_t(samples.size()*2);
+    output.write("RIFF",4);put(36+data,4);output.write("WAVEfmt ",8);put(16,4);put(1,2);put(1,2);put(24000,4);put(48000,4);put(2,2);put(16,2);
+    output.write("data",4);put(data,4);
+    for(float sample:samples)put(uint32_t(uint16_t(int16_t(std::lround(std::clamp(sample,-1.0f,1.0f)*32767)))),2);
+    if(!output)throw std::runtime_error("Cannot write the speech probe audio.");
+}
+// Read-aloud is Swedish only, with Alice or Björn.
 class Kokoro {
     KokoroText text_;
     KokoroAudio audio_;
@@ -58,37 +62,6 @@ public:
         return result;
     }
 };
-class Model {
-    chatterbox::BpeTokenizer tokenizer_;
-    std::unique_ptr<chatterbox::Backend> backend_;
-    chatterbox::SpeakerEmbedding speaker_;
-public:
-    explicit Model(const std::filesystem::path& path) {
-        for(const auto& [file,size]:voice_pack_files)
-            if(!std::filesystem::is_regular_file(path/file)||std::filesystem::file_size(path/file)!=size)
-                throw std::runtime_error("Röstpaketet saknas eller är ofullständigt. Installera Chatterbox-röstpaketet för att lyssna offline.");
-        chatterbox::BundleManifest manifest;
-        manifest.root=path;manifest.variant="multilingual";
-        tokenizer_=chatterbox::BpeTokenizer::from_file(utf8(path/"tokenizer.json"));
-        backend_=chatterbox::create_backend(manifest);
-        auto reference=chatterbox::read_wav_mono(utf8(path/"default_voice.wav"));
-        if(reference.sample_rate!=24000)reference=chatterbox::resample_linear(reference,24000);
-        speaker_=backend_->encode_speaker(reference);
-    }
-    std::vector<float> generate(const std::string& text,const std::string& language,const std::function<bool()>& cancelled) {
-        chatterbox::GenerationOptions options;
-        options.seed=42;options.max_new_tokens=750;options.cancelled=cancelled;options.language_id=language;
-        const auto normalized=chatterbox::normalize_punctuation(text,chatterbox::PunctuationMode::Multilingual);
-        const auto prepared=chatterbox::prepare_multilingual_text(normalized,language,chatterbox::TextPreprocessingAssets{});
-        auto result=backend_->generate(tokenizer_.encode(prepared),speaker_,options);
-        if(cancelled())throw std::runtime_error("Speech cancelled");
-        if(result.sample_rate!=24000||result.samples.size()<1000||
-           std::ranges::any_of(result.samples,[](float x){return !std::isfinite(x);})||
-           !std::ranges::any_of(result.samples,[](float x){return std::abs(x)>0.0001f;}))
-            throw std::runtime_error("Röstmodellen gav inget giltigt ljud.");
-        return std::move(result.samples);
-    }
-};
 class PortableSpeech final:public SpeechEngine {
     std::filesystem::path data_;
     SpeechStatus callback_;
@@ -117,7 +90,6 @@ class PortableSpeech final:public SpeechEngine {
         if(callback_)callback_({++status_sequence_,paused_?"Pausad":status});
     }
     void run() {
-        std::unique_ptr<Model> model;
         std::unique_ptr<Kokoro> kokoro;
         std::unique_ptr<SpeechCache> cache;
         // Measured synthesis speed for this session. Until the model has run,
@@ -181,21 +153,19 @@ class PortableSpeech final:public SpeechEngine {
                     }
                     const auto& part=parts[i];const auto& language=part.language;const auto& text=part.text;
                     const auto progress=std::to_string(i+1)+"/"+std::to_string(parts.size());
-                    const bool swedish=language=="sv";
-                    const auto name=swedish?voice_name(voice):std::string("Chatterbox");
-                    const auto revision=swedish?std::string(kokoro_pack_id)+"/ort1.23.2/"+voice+"/v1":cache_revision;
-                    playing="Läser med "+name+(swedish?"":" · förhandsversion");
+                    const auto name=voice_name(voice);
+                    const auto revision=std::string(kokoro_pack_id)+"/ort1.23.2/"+voice+"/v1";
+                    playing="Läser med "+name;
                     report(generation,i?"Läser med "+name+" · förbereder del "+progress:"Förbereder läsningen · "+progress);
                     auto samples=cache->load(revision,language,text);
                     if(!samples){
-                        if(swedish?!kokoro:!model) {
+                        if(!kokoro) {
                             report(generation,"Förbereder röstmodellen · "+name,SpeechState::Loading);
-                            if(swedish)kokoro=std::make_unique<Kokoro>(data_/"voices"/kokoro_pack_id);
-                            else model=std::make_unique<Model>(data_/"voices"/voice_pack_id);
+                            kokoro=std::make_unique<Kokoro>(data_/"voices"/kokoro_pack_id);
                         }
                         report(generation,i?"Läser med "+name+" · förbereder del "+progress:"Förbereder läsningen · "+progress);
                         const auto begin=std::chrono::steady_clock::now();
-                        samples=swedish?kokoro->generate(text,voice,cancelled):model->generate(text,language,cancelled);
+                        samples=kokoro->generate(text,voice,cancelled);
                         if(cancelled())break;
                         model_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count();
                         model_audio+=samples->size()/24000.0;
@@ -252,11 +222,8 @@ public:
     }
     void speak_batch(const std::vector<SpeechUtterance>& utterances) override {
         if(utterances.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
-        for(const auto& utterance:utterances) {
-            if(utterance.language!="sv"&&utterance.language!="el"&&utterance.language!="en")throw std::runtime_error("Röstpaketet stöder svenska, grekiska och engelska.");
-            if(utterance.language=="sv"&&!std::filesystem::exists(data_/"voices"/kokoro_pack_id/"kokoro.onnx"))throw std::runtime_error("Röstpaketet för Alice och Björn saknas. Installera det för att lyssna offline.");
-            if(utterance.language!="sv"&&!std::filesystem::exists(data_/"voices"/voice_pack_id/"tokenizer.json"))throw std::runtime_error("Röstpaketet saknas. Installera Chatterbox-röstpaketet för att lyssna offline.");
-        }
+        for(const auto& utterance:utterances)if(utterance.language!="sv")throw std::runtime_error("Uppläsning finns bara på svenska.");
+        if(!std::filesystem::exists(data_/"voices"/kokoro_pack_id/"kokoro.onnx"))throw std::runtime_error("Röstpaketet för Alice och Björn saknas. Installera det för att lyssna offline.");
         {std::lock_guard lock(mutex_);queue_.insert(queue_.end(),utterances.begin(),utterances.end());if(!active_){state_=SpeechState::Buffering;output_started_=false;}active_=true;}
         condition_.notify_all();
     }
@@ -291,7 +258,7 @@ bool render_speech_probe(const std::filesystem::path& data,const std::filesystem
     Kokoro model(data/"voices"/kokoro_pack_id);
     const auto loaded=std::chrono::steady_clock::now();
     auto samples=model.generate("Herren är min herde, mig skall intet fattas. Han låter mig vila på gröna ängar.","alice",[]{return false;});
-    chatterbox::write_wav_mono16(utf8(output),chatterbox::Audio{24000,samples});
+    write_wav(output,samples);
     std::cout<<"Portable Swedish PCM: "<<samples.size()<<" frames, audio_seconds="<<samples.size()/24000.0
              <<", load_seconds="<<std::chrono::duration<double>(loaded-begin).count()
              <<", generation_seconds="<<std::chrono::duration<double>(std::chrono::steady_clock::now()-loaded).count()<<'\n';

@@ -207,6 +207,21 @@ int main(int argc,char** argv) {
         const int write_result=sqlite3_exec(readonly,"DELETE FROM verse",nullptr,nullptr,nullptr);sqlite3_close(readonly);
         check(write_result==SQLITE_READONLY,"read-only database accepted writes");
         {
+            // The 1917 New Testament renumbers a few passages against the Greek and English texts.
+            const auto greek=[&](const std::string& book,VerseRef ref){return corpus.counterparts("sv1917","grc-patriarchal",book,ref);};
+            using Refs=std::vector<std::pair<std::string,VerseRef>>;
+            check(greek("John",{11,34})==Refs{{"John",{11,34}},{"John",{11,35}}},"'Och Jesus grät' ends Swedish John 11:34");
+            check(greek("John",{11,35})==Refs{{"John",{11,36}}},"Swedish John 11:35 is Greek 11:36");
+            check(greek("John",{1,39})==Refs{{"John",{1,40}}},"the Patriarchal text divides John 1:38-39");
+            check(greek("Rom",{16,25})==Refs{{"Rom",{14,24}}},"the Byzantine doxology follows Romans 14:23");
+            check(greek("Matt",{23,13})==Refs{{"Matt",{23,14}}},"the Byzantine text swaps Matthew 23:13-14");
+            check(greek("Luke",{10,6})==Refs{{"Luke",{10,6}}},"unchanged verses keep their numbers");
+            check(corpus.counterparts("sv1917","en-kjv","John",{11,35})==Refs{{"John",{11,36}}},"the KJV shares the John 11 division with the Greek");
+            check(corpus.counterparts("sv1917","en-kjv","Matt",{23,13})==Refs{{"Matt",{23,13}}},"the KJV keeps Matthew 23:13 in the 1917 order");
+            const auto philippians=corpus.map_passage("en-kjv","sv1917",{"Phil",{1,12},{1,20}});
+            check(philippians.size()==1&&philippians.front().first==VerseRef{1,12}&&philippians.front().last==VerseRef{1,20},"a reordered verse pair stays one reading");
+        }
+        {
             // Word study: 1917 forms resolve to Dalin entries, and Greek verses carry Strong's tags.
             const StudyDb study(std::filesystem::path(argv[1]).parent_path().parent_path()/"lexicon/study.db");
             const auto entries=study.swedish("svarade");
@@ -215,6 +230,10 @@ int main(int argc,char** argv) {
             check(study.swedish("hjärta").front().headword=="hjerta","reformed spelling resolves to Dalin's spelling");
             const auto words=study.greek_words("John",{1,1});
             check(words.size()>=17&&words.front().surface=="Ἐν"&&words.front().strong=="G1722","Greek verse words and Strong's tags");
+            const auto loved=study.greek_link("John",{3,16},"älskade",0);
+            check(loved&&loved->first==VerseRef{3,16}&&study.greek_words("John",loved->first).at(std::size_t(loved->second)).strong=="G0025","aligned Greek word for a Swedish word");
+            const auto wept=study.greek_link("John",{11,34},"grät",0);
+            check(wept&&wept->first==VerseRef{11,35},"alignment follows the 1917 verse division");
             const auto love=study.strongs("G0026");
             check(love&&love->lemma=="ἀγάπη"&&love->gloss=="love","Strong's lexicon entry");
         }

@@ -26,8 +26,9 @@ StudyPanel::StudyPanel(wxWindow* parent,const CorpusDb& corpus,const StudyDb* st
     rebuild();
 }
 void StudyPanel::apply(Theme theme){theme_=theme;rebuild();}
+void StudyPanel::clear(){if(word_){word_.reset();selected_.reset();rebuild();}}
 void StudyPanel::show(const ScriptureView::Word& word,const std::string& base_source,const std::string& frame) {
-    word_=word;base_source_=base_source;frame_=frame;selected_.reset();
+    word_=word;base_source_=base_source;frame_=frame;selected_.reset();chosen_=false;
     // A Greek word is its own tagged word: the same occurrence of the same form.
     if(base_source==greek_source&&study_&&new_testament_book(word.book)) {
         const auto target=u(word.text).Lower();int seen=0;
@@ -64,9 +65,12 @@ void StudyPanel::rebuild() {
         // What the voice says: bundled phonemes and review corrections apply.
         const auto utterance=make_utterance(word.text,language,lexicon_(language));
         if(swedish)if(const auto ipa=speech_.pronunciation(utterance.speech_text);!ipa.empty())text(u("/"+ipa+"/"),ui_font(13),colors.muted,4);
-        auto* listen=new wxButton(this,wxID_ANY,u("Lyssna"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT);listen->SetFont(ui_font());
-        listen->Bind(wxEVT_BUTTON,[this,utterance](wxCommandEvent&){speech_.stop();speech_.speak(utterance);});
-        sizer->Add(listen,0,wxLEFT|wxBOTTOM,pad);
+        // Read-aloud is Swedish only.
+        if(swedish) {
+            auto* listen=new wxButton(this,wxID_ANY,u("Lyssna"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT);listen->SetFont(ui_font());
+            listen->Bind(wxEVT_BUTTON,[this,utterance](wxCommandEvent&){speech_.stop();speech_.speak(utterance);});
+            sizer->Add(listen,0,wxLEFT|wxBOTTOM,pad);
+        }
         if(swedish) {
             section(u("ORDBOK · DALIN 1850–53"));
             const auto entries=study_->swedish(utf8(u(word.text).Lower()));
@@ -85,10 +89,17 @@ void StudyPanel::rebuild() {
             if(frame_==greek_source)verses.emplace_back(word.book,word.verse);
             else verses=corpus_.counterparts(frame_,greek_source,word.book,word.verse);
             std::vector<GreekWord> words;
-            for(const auto& [book,ref]:verses){auto part=study_->greek_words(book,ref);words.insert(words.end(),part.begin(),part.end());}
+            // A Swedish word preselects the Greek word the aligner linked it to, once per lookup.
+            const auto link=swedish?study_->greek_link(word.book,word.verse,utf8(u(word.text).Lower()),word.occurrence):std::nullopt;
+            for(const auto& [book,ref]:verses) {
+                if(link&&!chosen_&&ref==link->first)selected_=words.size()+std::size_t(link->second);
+                auto part=study_->greek_words(book,ref);words.insert(words.end(),part.begin(),part.end());
+            }
+            chosen_=true;
             if(words.empty())text(u("Versen saknar Strong's-taggning i den grekiska källan."),ui_font(11),colors.muted);
             else {
-                if(!greek)text(u("Välj det grekiska ord som motsvarar ordet."),ui_font(10),colors.muted,4);
+                if(!greek)text(link?u("Förvalt av en automatisk ordlänkning. Välj ett annat ord om det inte stämmer.")
+                                   :u("Välj det grekiska ord som motsvarar ordet."),ui_font(10),colors.muted,4);
                 for(std::size_t i=0;i<words.size();++i) {
                     const auto entry=study_->strongs(words[i].strong);
                     const bool chosen=selected_==i;
@@ -96,7 +107,7 @@ void StudyPanel::rebuild() {
                         chosen?body_font(14).Bold():body_font(14),chosen?colors.accent:colors.ink,1);
                     row->SetCursor(wxCursor(wxCURSOR_HAND));
                     // Rebuilding destroys the clicked label, so do it after the click.
-                    row->Bind(wxEVT_LEFT_UP,[this,i](wxMouseEvent&){CallAfter([this,i]{selected_=selected_==i?std::nullopt:std::optional<std::size_t>{i};rebuild();});});
+                    row->Bind(wxEVT_LEFT_UP,[this,i](wxMouseEvent&){CallAfter([this,i]{selected_=selected_==i?std::nullopt:std::optional<std::size_t>{i};chosen_=true;rebuild();});});
                     // The chosen word's lexicon entry opens below its row.
                     if(!chosen)continue;
                     if(entry) {

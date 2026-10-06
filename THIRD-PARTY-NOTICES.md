@@ -103,16 +103,6 @@ wxWidgets also links its bundled libpng, IJG libjpeg, zlib, PCRE2, and NanoSVG l
 Their complete notices are in `resources/licenses/`.
 This software is based in part on the work of the Independent JPEG Group.
 
-Portable speech uses Chatterbox Multilingual v2 weights and tokenizer from Resemble AI, under MIT.
-The pinned ONNX conversion comes from `onnx-community/chatterbox-multilingual-ONNX`, also labelled MIT.
-The installer includes the retained Chatterbox MIT notice in the voice pack.
-The fixed reference recording comes from the same pinned pack. No user voice is cloned or uploaded.
-
-The native tokenizer, sampler, audio, and ONNX adapter derive from chatterboxcpp, commit `1a9a4fc00a6caa8c8bb9bee533225f40661e4220`, under MIT.
-Copyright (c) 2025 Resemble AI; Copyright (c) 2026 chatterboxcpp contributors.
-Local changes add cancellation, token-limit rejection, portable paths, and fixed Unicode normalization.
-https://github.com/birdup000/chatterboxcpp
-
 Swedish speech uses the Alice and Björn voices and the Swedish Kokoro weights from `Joakim/kokoro-sv-voices`, under Apache-2.0.
 The pronunciation model and NST-derived lexicon come from `Joakim/kokoro-sv-g2p`, under Apache-2.0.
 The prepared pack includes `LICENSE-Kokoro-Swedish.txt`.
@@ -138,9 +128,6 @@ https://github.com/mackron/miniaudio/tree/0.11.22
 
 Sonic, commit `b93885dcb70aae50c6f76b0fe4e0868f029a077e`, changes playback speed without changing pitch, under Apache-2.0.
 https://github.com/waywardgeek/sonic
-
-utf8proc 2.10.0 uses MIT and retains the Unicode data notices.
-https://github.com/JuliaStrings/utf8proc/tree/v2.10.0
 
 The build copies these complete speech dependency notices into the application resources.
 The application does not include macOS, Windows, or Linux system speech voices.

@@ -123,4 +123,32 @@ OVERRIDES[(SV,WEB)]={'EsthGr':['EsthGr 1:1-17 > EsthGr 1:1','EsthGr 2:1-7 > Esth
  'EsthGr 5:1-11 > EsthGr 5:1','EsthGr 5:12-16 > EsthGr 5:2','EsthGr 6:1-24 > EsthGr 8:13','EsthGr 7:1-11 >> EsthGr 10:4-14']}
 UNITS[(WEB,GR)]={'Ps151':{'tgt':[('Ps','151')]}}
 RULES[(WEB,GR)]={'Ps151':['Ps151 1-1=Ps 151']}
-PAIRS={(SV,GR):OT+APOCRYPHA,(SV,KJV):CANON,(SV,WEB):['Tob','Jdt','Wis','Sir','Baruch','1Macc','2Macc','PrMan','EsthGr','DanGr'],(WEB,GR):['1Esd','3Macc','4Macc','Ps151']}
+# New Testament: the 1917 Bible follows a critical text. It omits some verses
+# without renumbering, but renumbers or redivides these, reviewed against the
+# Patriarchal Greek text, the KJV and the WEB (which numbers like the Greek).
+GRP='grc-patriarchal'
+NT=CANON[39:]
+NT_SHARED={'John':['John 11:34 > John 11:34 John 11:35','John 11:35 > John 11:36','John 11:36 John 11:37 > John 11:37'],
+ 'Luke':['Luke 17:36 > Luke 17:37','- > Luke 17:36'],
+ 'Phil':['Phil 1:16 > Phil 1:17','Phil 1:17 > Phil 1:16'],
+ 'Rev':['Rev 2:27 > Rev 2:27','Rev 2:28 > Rev 2:27 Rev 2:28']}
+# The Byzantine text, followed by the WEB, swaps Matthew 23:13-14 and places the doxology at Romans 14:24-26.
+NT_BYZANTINE={'Matt':['Matt 23:13 > Matt 23:14','- > Matt 23:13'],'Rom':['Rom 16:25-27 >> Rom 14:24-26','- > Rom 16:24'],
+ 'Rev':['Rev 12:18 > Rev 13:1','Rev 13:1 > Rev 13:1']}
+# Only the Patriarchal text divides these verses differently.
+NT_PATRIARCHAL={'John':['John 1:38 > John 1:38 John 1:39','John 1:39-51 >> John 1:40-52'],
+ 'Acts':['Acts 9:18 > Acts 9:18','Acts 9:19 > Acts 9:18 Acts 9:19'],
+ '2Cor':['2Cor 5:14 > 2Cor 5:14 2Cor 5:15','2Cor 5:15 > 2Cor 5:15'],
+ '1Peter':['1Peter 2:7 > 1Peter 2:7','1Peter 2:8 > 1Peter 2:7 1Peter 2:8'],
+ # The Patriarchal text keeps the bracketed Comma Johanneum in 1 John 5:7.
+ '1John':['1John 5:7 > 1John 5:7']}
+def merged(*tables):
+    out={}
+    for table in tables:
+        for book,lines in table.items():out[book]=out.get(book,[])+lines
+    return out
+OVERRIDES[(SV,GRP)]=merged(NT_SHARED,NT_BYZANTINE,NT_PATRIARCHAL)
+OVERRIDES[(SV,WEB)]=merged(OVERRIDES[(SV,WEB)],NT_SHARED,NT_BYZANTINE)
+OVERRIDES[(SV,KJV)]=merged(SV_KJV_OVERRIDES,NT_SHARED)
+PAIRS={(SV,GR):OT+APOCRYPHA,(SV,KJV):CANON,(SV,WEB):['Tob','Jdt','Wis','Sir','Baruch','1Macc','2Macc','PrMan','EsthGr','DanGr']+NT,(WEB,GR):['1Esd','3Macc','4Macc','Ps151'],
+ (SV,GRP):NT}

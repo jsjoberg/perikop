@@ -12,7 +12,7 @@ transpositions, which a monotonic alignment cannot express. Review the rules wit
 import collections, math, re, sqlite3, sys, unicodedata
 from pathlib import Path
 root=Path(__file__).resolve().parents[2]
-from align_rules import UNITS, RULES, OVERRIDES, PAIRS, OLD_TESTAMENT
+from align_rules import UNITS, RULES, OVERRIDES, PAIRS, OLD_TESTAMENT, NT
 
 def load(db,source,book):
     query='SELECT chapter,verse,verse_suffix,text FROM verse JOIN source ON source.id=source_id JOIN book ON book.id=book_id WHERE source.code=? AND book.code=? ORDER BY chapter,verse,verse_suffix'
@@ -218,7 +218,8 @@ def generate(report=False):
     # English editions reach the Septuagint through the reviewed Swedish links.
     for english in ('en-kjv','en-web'):
         for a,b in ((english,'grc-lxx'),('grc-lxx',english)):
-            links[(a,b)]={**compose(links[(a,'sv1917')],links[('sv1917',b)]),**links[(a,b)]}
+            composed=compose({r:t for r,t in links[(a,'sv1917')].items() if r[0] not in NT},links[('sv1917',b)])
+            links[(a,b)]={**composed,**links[(a,b)]}
     out=[]
     for (a,b),table in sorted(links.items()):
         table={r:t for r,t in table.items() if r in order(a)}
