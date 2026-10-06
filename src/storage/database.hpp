@@ -7,6 +7,7 @@ struct sqlite3;
 namespace ortho {
 struct SqliteCloser { void operator()(sqlite3*) const; };
 using DatabaseHandle = std::unique_ptr<sqlite3, SqliteCloser>;
+struct WordExample { std::string book; Verse verse; };
 class CorpusDb {
 public:
     explicit CorpusDb(const std::filesystem::path& path);
@@ -23,6 +24,7 @@ public:
     // The reading in its framing numbering: the Septuagint's for the Old Testament.
     Reading localize(Reading) const;
     std::vector<Pronunciation> pronunciations(const std::string& language) const;
+    std::vector<WordExample> word_examples(const std::string& word,int limit=3) const;
     std::string book_name(const std::string& book, const std::string& language = "sv") const;
     bool read_only() const;
     std::vector<Book> books(const std::string& language="sv") const;
@@ -47,6 +49,19 @@ public:
     explicit SpeechCache(const std::filesystem::path&);
     std::optional<std::vector<float>> load(const std::string& model, const std::string& language, const std::string& text);
     void save(const std::string& model, const std::string& language, const std::string& text, const std::vector<float>&);
+private:
+    DatabaseHandle db_;
+};
+struct PronunciationDecision {
+    std::string form,status,spoken,note;
+};
+class PronunciationReviewDb {
+public:
+    explicit PronunciationReviewDb(const std::filesystem::path&);
+    std::vector<PronunciationDecision> decisions() const;
+    void save(const PronunciationDecision&);
+    std::vector<Pronunciation> overrides() const;
+    void export_tsv(const std::filesystem::path&) const;
 private:
     DatabaseHandle db_;
 };

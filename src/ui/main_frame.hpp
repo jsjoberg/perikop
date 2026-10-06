@@ -17,6 +17,7 @@ public:
     ~MainFrame() override;
     void open_reading(const Reading&);
     void open_psalm();
+    void review_pronunciation();
     bool smoke_test(const wxString& screenshot_path);
 private:
     void refresh_day();
@@ -57,6 +58,9 @@ private:
     void browse_bible();
     const CorpusDb& corpus_;
     UserDb& user_;
+    std::filesystem::path resources_;
+    std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
+    std::vector<Pronunciation> speech_lexicon(const std::string&) const;
     AntiochianLectionary lectionary_;
     SelectedDay selected_;
     Settings settings_;

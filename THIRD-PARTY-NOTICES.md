@@ -94,6 +94,11 @@ The vector uses Swedish flag blue and yellow. Native Cocoa produced the PNG and 
 No Reformationsbibeln, Folkbibeln, or Kärnbibeln text is bundled.
 Pronunciation spellings remain engineering examples.
 
+The Swedish pronunciation review list combines word counts from the Swedish 1917 corpus with NST reference pronunciations.
+NST Pronunciation Lexicon for Swedish is supplied by Nasjonalbiblioteket Språkbanken under CC0-1.0.
+The pinned input URL and hash are in `tools/lexicon/inputs.json`.
+The application shows NST SAMPA as reference data and keeps personal pronunciation decisions separate.
+
 wxWidgets also links its bundled libpng, IJG libjpeg, zlib, PCRE2, and NanoSVG libraries.
 Their complete notices are in `resources/licenses/`.
 This software is based in part on the work of the Independent JPEG Group.

@@ -21,6 +21,8 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
 std::string reading_introduction(const Reading&);
 std::vector<std::string> speech_chunks(const std::string&);
 double speech_text_weight(const std::string&);
+std::string pronunciation_key(const std::string&);
+bool contains_speech_word(const std::string& text,const std::string& word);
 class SpeechEngine {
 public:
     virtual ~SpeechEngine() = default;

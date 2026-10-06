@@ -118,6 +118,11 @@ Missing or incomplete packs produce a visible message.
 Display text and speech text remain separate.
 The pronunciation example changes `Melkisedek` to `Melki-sedek` for speech only.
 
+Use **Uppläsning → Granska svenskt uttal…** to review the prepared Swedish word list.
+The tool offers word and verse previews, local corrections, review decisions, and TSV export.
+Saved corrections apply to subsequent Swedish playback.
+See [the pronunciation review guide](docs/pronunciation-review.md) for the workflow and data limits.
+
 ## Tests
 
 Run the core, storage, speech, and GUI smoke tests:

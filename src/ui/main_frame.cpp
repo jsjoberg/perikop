@@ -1,4 +1,5 @@
 #include "ui/main_frame.hpp"
+#include "ui/pronunciation_review.hpp"
 #include <wx/sizer.h>
 #include <wx/dcbuffer.h>
 #include <wx/dcmemory.h>
@@ -73,7 +74,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     :wxFrame(nullptr,wxID_ANY,"Ortodox läsare",wxDefaultPosition,wxSize(1120,900)),
     playback_timer_(this),corpus_(corpus),user_(user),lectionary_(corpus),selected_(date),settings_(user.load()) {
     SetMinSize(FromDIP(wxSize(520,480)));root_=new wxPanel(this);root_->SetFont(ui_font());
-    (void)resources;
+    resources_=resources;
     auto* outer=new wxBoxSizer(wxVERTICAL);
     scripture_=new ScriptureView(root_,corpus);outer->Add(scripture_,1,wxEXPAND);
     readings_=new wxScrolledWindow(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL|wxBORDER_NONE);
@@ -120,6 +121,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     const auto data_dir=wxStandardPaths::Get().GetUserLocalDataDir();
     const auto data_utf8=data_dir.ToUTF8();
     const auto data_path=std::filesystem::path(std::u8string(reinterpret_cast<const char8_t*>(data_utf8.data()),data_utf8.length()));
+    pronunciation_review_=std::make_unique<PronunciationReviewDb>(data_path/"pronunciation-review.db");
     speech_=create_portable_speech(data_path,[weak,latest_speech](const SpeechUpdate& update){
         auto known=latest_speech->load();
         while(known<update.sequence&&!latest_speech->compare_exchange_weak(known,update.sequence)){}
@@ -250,7 +252,7 @@ void MainFrame::update_bar() {
     speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
 }
 void MainFrame::make_menus() {
-    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate};
+    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate,Review=Rate+8};
     static const char* languages[]={"sv","el","en"};
     static const char* names[]={"Svenska","Grekiska","Engelska"};
     static const int rates[]={25,50,75,100,125,150,175,200};
@@ -290,8 +292,9 @@ void MainFrame::make_menus() {
         reading->AppendRadioItem(Rate+i,rate_label(rates[i]));
         if(settings_.speech_rate==rates[i])reading->Check(Rate+i,true);
     }
+    reading->AppendSeparator();reading->Append(Review,u("Granska svenskt uttal…"));
     auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(bible,"Bibel");bar->Append(view,"Visa");bar->Append(reading,u("Uppläsning"));SetMenuBar(bar);
-    Bind(wxEVT_MENU,[this,left,right](wxCommandEvent& event) {
+    Bind(wxEVT_MENU,[this,right](wxCommandEvent& event) {
         const int id=event.GetId();
         if(id==Today){selected_.select(local_civil_date());show_readings();refresh_day();return;}
         if(id==Previous||id==Next){navigate(id==Next?1:-1);return;}
@@ -300,6 +303,7 @@ void MainFrame::make_menus() {
         if(id==Bible){browse_bible();return;}
         if(id==Play){play_or_pause();return;}
         if(id==Stop){stop_speech();return;}
+        if(id==Review){review_pronunciation();return;}
         if(id==New||id==Old) {
             settings_.calendar=id==Old?CalendarStyle::Old:CalendarStyle::New;
             if(!scripture_->IsShown())refresh_day();
@@ -321,7 +325,20 @@ void MainFrame::make_menus() {
         else if(id>=Rate&&id<Rate+8){settings_.speech_rate=rates[id-Rate];speech_->set_speed(settings_.speech_rate/100.0);}
         else{event.Skip();return;}
         apply_settings();
-    },Today,Rate+7);
+    },Today,Review);
+}
+std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
+    auto result=corpus_.pronunciations(language);
+    if(language=="sv"&&pronunciation_review_) {
+        const auto overrides=pronunciation_review_->overrides();result.insert(result.begin(),overrides.begin(),overrides.end());
+    }
+    return result;
+}
+void MainFrame::review_pronunciation() {
+    stop_speech();
+    try {show_pronunciation_review(this,corpus_,*pronunciation_review_,*speech_,resources_);}
+    catch(const std::exception& e){wxMessageBox(u(e.what()),u("Uttalsgranskning"),wxOK|wxICON_ERROR,this);}
+    speech_->set_speed(settings_.speech_rate/100.0);refresh_speech();
 }
 void MainFrame::browse_bible() {
     // Three grids, as in most Bible apps: book, then chapter, then verse.
@@ -529,7 +546,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
             if(reading.base_language=="sv") {
                 // Announced in the numbers shown on screen.
                 const Reading announced{reading.kind,shown(passages.front()),label_of({passages.front()})};
-                auto intro=make_utterance(reading_introduction(announced),"sv",corpus_.pronunciations("sv"));
+                auto intro=make_utterance(reading_introduction(announced),"sv",speech_lexicon("sv"));
                 intro.cue=SpeechCue{r,0,passages.front().book,"",passages.front().first,passages.front().last,true};queue.push_back(std::move(intro));
             }
             for(size_t s=0;s<passages.size();++s) {
@@ -541,7 +558,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
                 auto source=reading.source_override.empty()?source_for_language(reading.base_language,canon?canon->code:passage.book):reading.source_override;
                 if(corpus_.coordinates(frame,passage.book).empty())frame=source;
                 const auto language=source.starts_with("en-")?"en":source.starts_with("grc-")?"el":"sv";
-                const auto lexicon=corpus_.pronunciations(language);
+                const auto lexicon=speech_lexicon(language);
                 bool found=false;std::optional<VerseRef> previous;
                 for(auto ref:corpus_.coordinates(frame,passage.book)) {
                     if(ref>passage.last)break;

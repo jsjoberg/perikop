@@ -1,6 +1,7 @@
 #include "speech/speech.hpp"
 #include <algorithm>
 #include <cctype>
+#include <unordered_map>
 namespace ortho {
 namespace {
 struct Token { std::size_t begin,end; std::string folded; };
@@ -43,22 +44,35 @@ bool only_space(const std::string& text,std::size_t first,std::size_t last) {
     return std::all_of(text.begin()+first,text.begin()+last,[](unsigned char c){return std::isspace(c);});
 }
 }
+std::string pronunciation_key(const std::string& text) { return folded(text); }
+bool contains_speech_word(const std::string& text,const std::string& word) {
+    const auto key=folded(word);
+    for(const auto& token:tokens(text))if(token.folded==key)return true;
+    return false;
+}
 SpeechUtterance make_utterance(const std::string& text,const std::string& language,const std::vector<Pronunciation>& lexicon) {
     auto ordered=lexicon;
     std::stable_sort(ordered.begin(),ordered.end(),[](auto& a,auto& b){return a.priority!=b.priority?a.priority>b.priority:a.source.size()>b.source.size();});
     const auto words=tokens(text);
+    struct Candidate { const Pronunciation* entry; std::vector<Token> phrase; };
+    std::unordered_map<std::string,std::vector<Candidate>> candidates;
+    for(const auto& entry:ordered) {
+        if(entry.language!=language||entry.spoken.empty())continue;
+        auto phrase=tokens(entry.source);
+        if(!phrase.empty()){const auto first=phrase.front().folded;candidates[first].push_back({&entry,std::move(phrase)});}
+    }
     std::string result; std::size_t copied=0;
     for(std::size_t i=0;i<words.size();) {
         std::size_t count=0; std::string replacement;
-        for(const auto& entry:ordered) {
-            if(entry.language!=language||entry.spoken.empty())continue;
-            const auto phrase=tokens(entry.source);
-            if(phrase.empty()||i+phrase.size()>words.size())continue;
+        const auto bucket=candidates.find(words[i].folded);
+        if(bucket!=candidates.end())for(const auto& candidate:bucket->second) {
+            const auto& phrase=candidate.phrase;
+            if(i+phrase.size()>words.size())continue;
             bool match=true;
             for(std::size_t j=0;j<phrase.size();++j) {
                 if(phrase[j].folded!=words[i+j].folded || (j && !only_space(text,words[i+j-1].end,words[i+j].begin))) {match=false;break;}
             }
-            if(match){count=phrase.size();replacement=entry.spoken;break;}
+            if(match){count=phrase.size();replacement=candidate.entry->spoken;break;}
         }
         if(!count){++i;continue;}
         result+=text.substr(copied,words[i].begin-copied);result+=replacement;

@@ -23,12 +23,13 @@ public:
         wxUILocale::UseLocaleName("sv_SE");
         SetAppName("orthodox-reader");SetVendorName("orthodox-reader");
         wxInitAllImageHandlers();
-        bool smoke=false,reader=false;wxString resource_override,screenshot,speech_probe;
+        bool smoke=false,reader=false,pronunciation_review=false;wxString resource_override,screenshot,speech_probe;
         auto date=ortho::local_civil_date();
         for(int i=1;i<argc;++i) {
             const wxString arg=argv[i];
             if(arg=="--smoke-test")smoke=true;
             else if(arg=="--reader")reader=true;
+            else if(arg=="--pronunciation-review")pronunciation_review=true;
             else if((arg=="--resources"||arg=="--date"||arg=="--screenshot"||arg=="--speech-probe")&&i+1<argc) {
                 const wxString value=argv[++i];
                 if(arg=="--resources")resource_override=value;
@@ -83,6 +84,7 @@ public:
             ortho::set_native_app_icon(resources/"icons/orthodox-cross.png");
             SetTopWindow(frame);frame->Show();
             if(reader)frame->open_psalm();
+            if(pronunciation_review)frame->CallAfter([frame]{frame->review_pronunciation();});
             if(smoke) {
                 timer_=std::make_unique<wxTimer>(this);
                 Bind(wxEVT_TIMER,[this,frame,screenshot](wxTimerEvent&){
