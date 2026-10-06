@@ -121,6 +121,15 @@ https://huggingface.co/Joakim/kokoro-sv-voices
 The native Swedish front end in `src/speech/kokoro_text.cpp` reproduces the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0.
 https://github.com/joakimeriksson/kokoro-sv
 
+Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, University of Gothenburg, under CC BY 4.0.
+`resources/lexicon/study.db` keeps the entries that the Swedish 1917 forms use, mapped to those forms.
+https://spraakbanken.gu.se/resurser/dalin
+
+Strong's definitions come from TBESG by STEP Bible (www.STEPBible.org), Tyndale House Cambridge, under CC BY 4.0.
+The pinned source is STEPBible-Data commit `1f3423d42400f59f1f30fe08f74e38fcd3bbf7bc`.
+Changes: only entries used by the Greek New Testament, definitions converted to plain text, Greek normalized to NFC.
+https://github.com/STEPBible/STEPBible-Data
+
 ONNX Runtime 1.23.2 uses MIT and includes its dependency notices.
 https://github.com/microsoft/onnxruntime/releases/tag/v1.23.2
 

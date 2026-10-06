@@ -18,6 +18,8 @@ class KokoroText {
 public:
     explicit KokoroText(const std::filesystem::path& pack);
     ~KokoroText();
+    // IPA in the NST symbols of the lexicon, before the Kokoro remap.
+    std::string ipa(const std::string& text);
     // IPA string in Kokoro's symbol inventory.
     std::string phonemes(const std::string& text);
     // Kokoro token IDs for the phoneme string; unknown symbols are dropped.

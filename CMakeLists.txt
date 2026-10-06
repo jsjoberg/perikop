@@ -86,7 +86,7 @@ if(ORTHO_BUILD_GUI)
         set(ortho_wx wx::adv)
     endif()
     add_executable(orthodox-reader WIN32 MACOSX_BUNDLE
-        src/app/main.cpp src/ui/main_frame.cpp src/ui/scripture_view.cpp src/ui/pronunciation_review.cpp src/typesetting/paragraph_layout.cpp)
+        src/app/main.cpp src/ui/main_frame.cpp src/ui/scripture_view.cpp src/ui/pronunciation_review.cpp src/ui/study_panel.cpp src/typesetting/paragraph_layout.cpp)
     target_link_libraries(orthodox-reader PRIVATE ortho-core ortho-speech ${ortho_wx})
     if(WIN32)
         enable_language(RC)

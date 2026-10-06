@@ -65,9 +65,12 @@ ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
         if(!verse||(!dragged_&&*verse==*drag_anchor_&&!selection_))return;
         dragged_=true;select_verses(*drag_anchor_,*verse);
     });
-    Bind(wxEVT_LEFT_UP,[this](wxMouseEvent&){
+    Bind(wxEVT_LEFT_UP,[this](wxMouseEvent& e){
         if(HasCapture())ReleaseMouse();
-        if(drag_anchor_&&!dragged_&&selection_)clear_selection();
+        if(drag_anchor_&&!dragged_) {
+            if(selection_)clear_selection();
+            else if(word_clicked_)if(auto word=word_at(e.GetPosition()))word_clicked_(*word);
+        }
         drag_anchor_.reset();
     });
     Bind(wxEVT_MOUSE_CAPTURE_LOST,[this](wxMouseCaptureLostEvent&){drag_anchor_.reset();});
@@ -92,6 +95,63 @@ void ScriptureView::clear_selection() {
     if(selection_changed_)selection_changed_();
 }
 std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
+    const auto found=hit(point);
+    if(!found||found->run<0)return std::nullopt;
+    const auto& column=*found->column;
+    return column.verses[column.text.lines[found->line].runs[found->run].tag].first;
+}
+namespace {
+// Letters of a run, without punctuation, quotes, digits or a hyphenation mark.
+wxString word_letters(const wxString& text) {
+    wxString result;
+    for(const auto c:text) {
+        const auto code=c.GetValue();
+        const bool ascii_letter=(code>='a'&&code<='z')||(code>='A'&&code<='Z');
+        const bool other=code>=0xc0&&code!=0xd7&&code!=0xf7&&code!=0x2013&&code!=0x2014&&code!=0x2018&&code!=0x2019&&
+            code!=0x201c&&code!=0x201d&&code!=0x2026&&code!=0x0387&&code!=0x037e&&code!=0x00ab&&code!=0x00bb;
+        if(ascii_letter||other)result+=c;
+    }
+    return result;
+}
+}
+std::vector<ScriptureView::WordRuns> ScriptureView::words(const Column& column) {
+    std::vector<WordRuns> result;bool joining=false;
+    for(std::size_t line=0;line<column.text.lines.size();++line) {
+        const auto& runs=column.text.lines[line].runs;
+        for(std::size_t run=0;run<runs.size();++run) {
+            if(runs[run].marker||runs[run].tag<0)continue;
+            const auto letters=word_letters(runs[run].text);
+            if(joining&&!result.empty()){result.back().text+=letters;result.back().runs.emplace_back(line,run);joining=false;continue;}
+            joining=false;
+            if(letters.empty())continue;
+            result.push_back({runs[run].tag,letters,{{line,run}}});
+        }
+        joining=column.text.lines[line].hyphenated&&!result.empty();
+    }
+    return result;
+}
+std::optional<std::pair<ScriptureView::WordRuns,int>> ScriptureView::word_of(const Column& column,int tag,std::size_t line,int run) const {
+    std::map<wxString,int> seen;
+    for(auto& word:words(column)) {
+        if(word.tag!=tag)continue;
+        const int occurrence=seen[word.text.Lower()]++;
+        for(const auto& [l,r]:word.runs)if(l==line&&int(r)==run)return std::pair{std::move(word),occurrence};
+    }
+    return std::nullopt;
+}
+std::optional<ScriptureView::Word> ScriptureView::word_at(wxPoint point) const {
+    const auto found=hit(point);
+    if(!found||found->run<0||found->distance>FromDIP(4))return std::nullopt;
+    const auto& column=*found->column;const int tag=column.text.lines[found->line].runs[found->run].tag;
+    const auto word=word_of(column,tag,found->line,found->run);
+    if(!word)return std::nullopt;
+    const auto utf8=word->first.text.ToUTF8();
+    return Word{displayed_.book,std::string(utf8.data(),utf8.length()),column.verses[tag].first,word->second};
+}
+void ScriptureView::highlight_word(std::optional<Word> word) {
+    highlighted_=std::move(word);Refresh(false);
+}
+std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
     if(rows_.empty()||positions_.empty())return std::nullopt;
     // Rows are drawn from positions_ shifted by the scroll offset and a top inset.
     const double y=point.y+offset_-FromDIP(12);
@@ -112,14 +172,15 @@ std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
     const auto line=std::min(column.text.lines.size()-1,std::size_t((y-top)/column.text.line_height));
     const double x=point.x-margin-FromDIP(30);
     // The run under the pointer, or the nearest one on that line.
-    int tag=-1;double best=std::numeric_limits<double>::max();
-    for(const auto& run:column.text.lines[line].runs) {
+    int nearest=-1;double best=std::numeric_limits<double>::max();
+    const auto& runs=column.text.lines[line].runs;
+    for(std::size_t i=0;i<runs.size();++i) {
+        const auto& run=runs[i];
         if(run.tag<0||size_t(run.tag)>=column.verses.size()||column.hebrew[run.tag])continue;
         const double distance=x<run.x?run.x-x:x>run.x+run.width?x-run.x-run.width:0;
-        if(distance<best){best=distance;tag=run.tag;}
+        if(distance<best){best=distance;nearest=int(i);}
     }
-    if(tag<0)return std::nullopt;
-    return column.verses[tag].first;
+    return Hit{index,&column,line,nearest,best};
 }
 ScriptureView::~ScriptureView(){wheel_timer_.Stop();follow_timer_.Stop();
 #ifdef __APPLE__
@@ -277,7 +338,7 @@ int ScriptureView::column_width() const {
 void ScriptureView::open(const Reading& reading) { reading_=reading;open_section(0); }
 void ScriptureView::open_section(std::size_t index) {
     const auto segments=reading_.segments();if(index>=segments.size())return;
-    displayed_=segments[index];rows_.clear();located_cue_.reset();speech_row_.reset();guide_.reset();guide_alpha_=0;orphans_.clear();
+    displayed_=segments[index];rows_.clear();located_cue_.reset();highlighted_.reset();speech_row_.reset();guide_.reset();guide_alpha_=0;orphans_.clear();
     if(selection_){selection_.reset();if(selection_changed_)selection_changed_();}
     // The Septuagint frames the Old Testament: its books, order and numbers.
     frame_=reading_.source_override.empty()?frame_source(reading_.base_language,displayed_.book):reading_.source_override;
@@ -499,6 +560,22 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                             first=std::min(first,run.x);last=std::max(last,run.x+run.width);
                         }
                         if(last>first)gc->DrawRectangle(x+FromDIP(30)+first-FromDIP(3),text_y+line*column.text.line_height,last-first+FromDIP(6),column.text.line_height);
+                    }
+                }
+                // The word shown in the Ordstudium panel.
+                if(gc&&c==0&&highlighted_&&highlighted_->book==displayed_.book) {
+                    const auto target=wxString::FromUTF8(highlighted_->text).Lower();
+                    std::map<wxString,int> seen;
+                    for(const auto& word:words(column)) {
+                        if(size_t(word.tag)>=column.verses.size()||column.verses[word.tag].first!=highlighted_->verse)continue;
+                        const auto lower=word.text.Lower();const int occurrence=seen[lower]++;
+                        if(lower!=target||occurrence!=highlighted_->occurrence)continue;
+                        gc->SetPen(*wxTRANSPARENT_PEN);
+                        gc->SetBrush(wxBrush(wxColour(colors.accent.Red(),colors.accent.Green(),colors.accent.Blue(),72)));
+                        for(const auto& [line,index]:word.runs) {
+                            const auto& run=column.text.lines[line].runs[index];
+                            gc->DrawRoundedRectangle(x+FromDIP(30)+run.x-FromDIP(3),text_y+line*column.text.line_height+FromDIP(2),run.width+FromDIP(6),column.text.line_height-FromDIP(4),FromDIP(4));
+                        }
                     }
                 }
                 draw_paragraph(dc,column.text,x+FromDIP(30),text_y,[&](const TextRun& run)->std::optional<wxColour>{

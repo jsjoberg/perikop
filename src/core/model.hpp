@@ -101,6 +101,8 @@ struct Settings {
     std::string primary = "sv";
     // Right pane language, or empty for one pane. Never the same as primary.
     std::string parallel;
+    // The right pane is the Ordstudium lookup panel. Excludes a parallel language.
+    bool word_study = false;
     // Playback speed of read-aloud audio, in percent of the voice's own pace.
     int speech_rate = 100;
     // Swedish voice identity. The selected voice survives application restarts.

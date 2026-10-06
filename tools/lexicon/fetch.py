@@ -6,7 +6,7 @@ root=Path(__file__).resolve().parents[2]
 target=root/'build/inputs'
 def fetch(name):
     entry=json.loads((Path(__file__).parent/'inputs.json').read_text())[name]
-    path=target/entry['url'].rsplit('/',1)[1]
+    path=target/entry.get('file',entry['url'].rsplit('/',1)[1])
     if not path.exists():
         target.mkdir(parents=True,exist_ok=True)
         urllib.request.urlretrieve(entry['url'],path)

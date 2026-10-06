@@ -105,6 +105,9 @@ class PortableSpeech final:public SpeechEngine {
     PlaybackTimeline timeline_;
     std::string stage_="Förbereder läsningen";
     std::unique_ptr<PcmOutput> output_;
+    // Word lookups use their own front end, so they never wait for synthesis.
+    std::mutex lookup_mutex_;
+    std::unique_ptr<KokoroText> lookup_;
     std::thread worker_;
     void report(uint64_t generation,const std::string& status,SpeechState state=SpeechState::Buffering) {
         std::lock_guard lock(mutex_);
@@ -262,6 +265,13 @@ public:
     void stop() override {std::lock_guard lock(mutex_);++generation_;queue_.clear();active_=false;paused_=false;output_started_=false;state_=SpeechState::Stopped;if(output_)output_->stop();if(callback_)callback_({++status_sequence_,"Stoppad"});condition_.notify_all();}
     void set_speed(double speed) override {std::lock_guard lock(mutex_);speed_=speed;if(output_)output_->set_speed(speed);}
     void set_voice(const std::string& voice) override {std::lock_guard lock(mutex_);voice_=voice;}
+    std::string pronunciation(const std::string& text) override {
+        std::lock_guard lock(lookup_mutex_);
+        try {
+            if(!lookup_)lookup_=std::make_unique<KokoroText>(data_/"voices"/kokoro_pack_id);
+            return lookup_->ipa(text);
+        } catch(const std::exception&) {return {};}
+    }
     SpeechPlayback playback() const override {
         std::lock_guard lock(mutex_);
         if(!output_started_)return {paused_?SpeechState::Paused:state_,{},0,0};

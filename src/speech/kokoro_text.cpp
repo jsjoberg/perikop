@@ -249,7 +249,15 @@ struct KokoroText::Impl {
 KokoroText::KokoroText(const std::filesystem::path& pack):impl_(std::make_unique<Impl>(pack)){}
 KokoroText::~KokoroText()=default;
 
-std::string KokoroText::phonemes(const std::string& input) {
+namespace {
+std::string single_spaces(const std::string& text) {
+    std::string result;
+    for(char c:text)if(c!=' '||(!result.empty()&&result.back()!=' '))result+=c;
+    if(!result.empty()&&result.back()==' ')result.pop_back();
+    return result;
+}
+}
+std::string KokoroText::ipa(const std::string& input) {
     // g2p_infer.SwedishG2P.phonemize: sentences match [^.!?]+[.!?]?; tokens
     // are runs of the letters below or one of ,.!?;:- and all else is dropped.
     static const std::u32string word_letters=U"abcdefghijklmnopqrstuvwxyzåäöéèüáàâëïABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
@@ -293,16 +301,17 @@ std::string KokoroText::phonemes(const std::string& input) {
         if(!sentence.empty())result+=(result.empty()?"":" ")+sentence;
         i=end;
     }
-    // g2p_sv: NEURAL_FIXES, then KOKORO_REMAP in its order, then single spaces.
+    // g2p_sv: NEURAL_FIXES, then (in phonemes) KOKORO_REMAP, then single spaces.
     replace_all(result,"ˈuːɕˌɛj","ˈuːkɛj");
     replace_all(result,"uːəsˈɛs","ˈɔs");
+    return single_spaces(result);
+}
+std::string KokoroText::phonemes(const std::string& input) {
+    auto result=ipa(input);
     for(const auto& [from,to]:std::initializer_list<std::pair<const char*,const char*>>{
             {"ʏ","y"},{"ʉ","ɨ"},{"ɵ","ɜ"},{"ɧ","ʂ"},{"ɭ","l"},{"-",""},{"\xcc\x83",""}})
         replace_all(result,from,to);
-    std::string collapsed;
-    for(char c:result)if(c!=' '||(!collapsed.empty()&&collapsed.back()!=' '))collapsed+=c;
-    if(!collapsed.empty()&&collapsed.back()==' ')collapsed.pop_back();
-    return collapsed;
+    return single_spaces(result);
 }
 
 std::vector<int64_t> KokoroText::tokens(const std::string& text) {

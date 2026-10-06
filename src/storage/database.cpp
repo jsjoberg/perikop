@@ -252,6 +252,31 @@ Reading CorpusDb::localize(Reading reading) const {
     reading.additional.assign(parts.begin()+1,parts.end());
     return reading;
 }
+StudyDb::StudyDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
+    exec(db_.get(), "PRAGMA query_only=ON");
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 1 ||
+        pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525354)
+        throw std::runtime_error("Unsupported word-study schema");
+}
+std::vector<DalinEntry> StudyDb::swedish(const std::string& form) const {
+    Statement query(db_.get(), "SELECT headword,gram,definition FROM sv_word JOIN dalin ON dalin.id=sv_word.dalin WHERE form=? ORDER BY dalin.id");
+    query.text(1,form); std::vector<DalinEntry> result;
+    while (query.row()) result.push_back({query.text(0),query.text(1),query.text(2)});
+    return result;
+}
+std::optional<StrongsEntry> StudyDb::strongs(const std::string& strong) const {
+    Statement query(db_.get(), "SELECT strong,lemma,transliteration,gloss,definition FROM strongs WHERE strong=?");
+    query.text(1,strong);
+    if (!query.row()) return std::nullopt;
+    return StrongsEntry{query.text(0),query.text(1),query.text(2),query.text(3),query.text(4)};
+}
+std::vector<GreekWord> StudyDb::greek_words(const std::string& book, VerseRef ref) const {
+    Statement query(db_.get(), "SELECT surface,strong FROM greek_word WHERE book=? AND chapter=? AND verse=? AND suffix=? ORDER BY position");
+    query.text(1,book); query.number(2,ref.chapter); query.number(3,ref.verse); query.text(4,ref.suffix);
+    std::vector<GreekWord> result;
+    while (query.row()) result.push_back({query.text(0),query.text(1)});
+    return result;
+}
 std::vector<Pronunciation> CorpusDb::pronunciations(const std::string& language) const {
     Statement query(db_.get(), "SELECT language,source,spoken,phonemes,priority FROM pronunciation WHERE language=? ORDER BY priority DESC,length(source) DESC");
     query.text(1,language); std::vector<Pronunciation> result;
@@ -335,8 +360,10 @@ Settings UserDb::load() const {
         if (key=="font_size") { try { result.font_size=std::clamp(std::stoi(value),14,28); } catch (...) {} }
         if (key=="speech_rate") { try { result.speech_rate=std::clamp(std::stoi(value),25,200); } catch (...) {} }
         if (key=="speech_voice" && (value=="alice" || value=="bjorn")) result.speech_voice=value;
+        if (key=="word_study") result.word_study=value=="1";
     }
     if (result.parallel==result.primary) result.parallel.clear();
+    if (result.word_study) result.parallel.clear();
     return result;
 }
 void UserDb::save(const Settings& settings) {
@@ -345,7 +372,8 @@ void UserDb::save(const Settings& settings) {
             {"theme",settings.theme==Theme::Dark?"dark":settings.theme==Theme::Light?"light":"system"},
             {"calendar",settings.calendar==CalendarStyle::Old?"old":"new"},
             {"primary",settings.primary},{"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)},
-            {"speech_rate",std::to_string(settings.speech_rate)},{"speech_voice",settings.speech_voice}};
+            {"speech_rate",std::to_string(settings.speech_rate)},{"speech_voice",settings.speech_voice},
+            {"word_study",settings.word_study?"1":"0"}};
         Statement query(db_.get(), "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
         for (const auto& [key,value]:values) {
             query.text(1,key); query.text(2,value); query.row();

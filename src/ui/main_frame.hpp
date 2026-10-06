@@ -1,5 +1,6 @@
 #pragma once
 #include "ui/scripture_view.hpp"
+#include "ui/study_panel.hpp"
 #include "speech/speech.hpp"
 #include "speech/portable_speech.hpp"
 #include <wx/frame.h>
@@ -68,6 +69,10 @@ private:
     wxPanel* root_;
     wxScrolledWindow* readings_;
     ScriptureView* scripture_;
+    // Ordstudium: the lookup panel beside a one-language reader.
+    std::unique_ptr<StudyDb> study_db_;
+    StudyPanel* study_=nullptr;
+    void update_study();
     wxString reading_title_;
     wxStaticText* speech_status_;
     wxChoice* part_;

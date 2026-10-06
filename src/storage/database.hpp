@@ -35,6 +35,22 @@ private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;
     DatabaseHandle db_;
 };
+struct DalinEntry { std::string headword, gram, definition; };
+struct StrongsEntry { std::string strong, lemma, transliteration, gloss, definition; };
+struct GreekWord { std::string surface, strong; };
+// Word-study data from tools/lexicon/build_study.py: Dalin entries for
+// Swedish 1917 forms, and Strong's tags for the Greek New Testament.
+class StudyDb {
+public:
+    explicit StudyDb(const std::filesystem::path& path);
+    // Dalin entries for a lowercase Swedish 1917 word form.
+    std::vector<DalinEntry> swedish(const std::string& form) const;
+    std::optional<StrongsEntry> strongs(const std::string& strong) const;
+    // The tagged words of a grc-patriarchal verse, in text order.
+    std::vector<GreekWord> greek_words(const std::string& book, VerseRef) const;
+private:
+    DatabaseHandle db_;
+};
 class UserDb {
 public:
     explicit UserDb(const std::filesystem::path& path);

@@ -1,0 +1,161 @@
+# Irregular Swedish 1917 word forms and their Dalin (1850) headwords.
+# Columns: form<TAB>headword[<TAB>vb]. Strong verbs, modal verbs, pronouns and
+# irregular plurals that the spelling and ending rules in tools/lexicon/build_study.py
+# miss. "vb" keeps only the verb entries of the headword. These rows come first.
+hade	hafva	vb
+haft	hafva	vb
+sade	säga	vb
+sagt	säga	vb
+äro	vara	vb
+voro	vara	vb
+var	vara	vb
+vore	vara	vb
+vare	vara	vb
+varit	vara	vb
+ären	vara	vb
+kom	komma	vb
+kommo	komma	vb
+kommit	komma	vb
+kommen	komma	vb
+blev	blifva	vb
+blevo	blifva	vb
+blivit	blifva	vb
+bliver	blifva	vb
+gick	gå	vb
+gingo	gå	vb
+gått	gå	vb
+gjorde	göra	vb
+gjort	göra	vb
+gör	göra	vb
+gören	göra	vb
+lät	låta	vb
+läto	låta	vb
+låtit	låta	vb
+låter	låta	vb
+gav	gifva	vb
+gåvo	gifva	vb
+givit	gifva	vb
+giver	gifva	vb
+giv	gifva	vb
+fick	få	vb
+fingo	få	vb
+fått	få	vb
+föll	falla	vb
+föllo	falla	vb
+slog	slå	vb
+slogo	slå	vb
+slår	slå	vb
+tog	taga	vb
+togo	taga	vb
+tagit	taga	vb
+tager	taga	vb
+stod	stå	vb
+stodo	stå	vb
+står	stå	vb
+drog	draga	vb
+drogo	draga	vb
+dragit	draga	vb
+drager	draga	vb
+såg	se	vb
+sågo	se	vb
+ser	se	vb
+sett	se	vb
+höll	hålla	vb
+höllo	hålla	vb
+hållen	hålla	vb
+bjöd	bjuda	vb
+bjudit	bjuda	vb
+bröt	bryta	vb
+bröto	bryta	vb
+bar	bära	vb
+buro	bära	vb
+åt	äta	vb
+åto	äta	vb
+äter	äta	vb
+låg	ligga	vb
+lågo	ligga	vb
+fann	finna	vb
+funno	finna	vb
+funnit	finna	vb
+funnos	finna	vb
+finner	finna	vb
+fanns	finna	vb
+visste	veta	vb
+veten	veta	vb
+begynte	begynna	vb
+flydde	fly	vb
+skedde	ske	vb
+skett	ske	vb
+hände	hända	vb
+satte	sätta	vb
+satt	sitta	vb
+sutto	sitta	vb
+lade	lägga	vb
+lagt	lägga	vb
+vände	vända	vb
+dog	dö	vb
+dogo	dö	vb
+drack	dricka	vb
+drucko	dricka	vb
+sjöng	sjunga	vb
+sjöngo	sjunga	vb
+skrev	skrifva	vb
+skrevo	skrifva	vb
+skrivit	skrifva	vb
+skrivet	skrifva	vb
+säger	säga	vb
+säg	säga	vb
+sägen	säga	vb
+skall	skola	vb
+skulle	skola	vb
+skolen	skola	vb
+skolom	skola	vb
+kan	kunna	vb
+kunde	kunna	vb
+kunnat	kunna	vb
+kunnen	kunna	vb
+vill	vilja	vb
+ville	vilja	vb
+velat	vilja	vb
+viljen	vilja	vb
+dig	du
+dina	din
+ditt	din
+edra	eder
+edert	eder
+er	eder
+era	eder
+mig	jag
+mina	min
+mitt	min
+sig	sig
+sina	sin
+sitt	sin
+oss	vi
+våra	vår
+vårt	vår
+dessa	denne
+denna	denne
+detta	denne
+dennes	denne
+vilka	hvilken
+vilket	hvilken
+vilkens	hvilken
+mer	mera
+själv	sjelf
+själva	sjelf
+söner	son
+män	man
+männen	man
+bröder	broder
+städer	stad
+städerna	stad
+händer	hand
+händerna	hand
+ögon	öga
+döttrar	dotter
+fötter	fot
+öron	öra
+fäder	fader
+fäders	fader
+hustrur	hustru

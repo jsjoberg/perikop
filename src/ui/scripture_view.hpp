@@ -37,6 +37,13 @@ public:
     void on_selection(std::function<void()> callback){selection_changed_=std::move(callback);}
     // The left-pane verse under a point in client coordinates.
     std::optional<VerseRef> verse_at(wxPoint) const;
+    // A left-pane word: its framing book and verse, and which occurrence of
+    // the same word in that verse it is, counting from 0.
+    struct Word { std::string book,text; VerseRef verse; int occurrence=0; };
+    std::optional<Word> word_at(wxPoint) const;
+    // A plain click on a word, when no verses are marked.
+    void on_word(std::function<void(const Word&)> callback){word_clicked_=std::move(callback);}
+    void highlight_word(std::optional<Word>);
     ~ScriptureView() override;
 private:
     struct Row { VerseRef ref; bool heading; std::vector<VerseRef> verses; VerseRef last; };
@@ -44,6 +51,12 @@ private:
     // either missing from this edition or only in the Hebrew text.
     struct Column { std::string language,source; TextLayout text; std::vector<bool> prescribed,faint,hebrew; std::vector<std::pair<VerseRef,VerseRef>> verses; };
     struct Layout { std::vector<Column> columns; int height=0; };
+    // The runs of one word, which a hyphenated line break can split in two.
+    struct WordRuns { int tag; wxString text; std::vector<std::pair<std::size_t,std::size_t>> runs; };
+    static std::vector<WordRuns> words(const Column&);
+    struct Hit { std::size_t row; const Column* column; std::size_t line; int run; double distance; };
+    std::optional<Hit> hit(wxPoint) const;
+    std::optional<std::pair<WordRuns,int>> word_of(const Column&,int tag,std::size_t line,int run) const;
     void set_position(double);
     void rebuild_positions();
     void prepare_visible();
@@ -65,6 +78,8 @@ private:
     double guide_y_=0,guide_alpha_=0,follow_target_=0;
     bool following_=false;
     std::function<void()> release_follow_,selection_changed_;
+    std::function<void(const Word&)> word_clicked_;
+    std::optional<Word> highlighted_;
     std::optional<VerseRef> drag_anchor_;
     std::optional<std::pair<VerseRef,VerseRef>> selection_;
     bool dragged_=false;

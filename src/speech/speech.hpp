@@ -36,6 +36,8 @@ public:
     virtual void set_speed(double) {}
     // Swedish voice: "alice" or "bjorn". Applies from the next reading.
     virtual void set_voice(const std::string&) {}
+    // IPA the Swedish voice uses for speech text; empty when it is unavailable.
+    virtual std::string pronunciation(const std::string&) { return {}; }
 };
 // This diagnostic engine accepts utterances; it produces no audio.
 class StubSpeechEngine final : public SpeechEngine {

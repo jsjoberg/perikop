@@ -77,6 +77,9 @@ The brass margin line marks the selected passage.
 The text control adds Greek, English, or all three languages to the selected main edition.
 The Bible action opens a native book, chapter, verse, and edition selector.
 **Hela boken** and **Hela kapitlet**, before the numbers, open a whole book or chapter. Lyssna then reads all of it.
+
+**Visa → Höger spalt → Ordstudium** makes the right pane a lookup panel. Click a word to see its pronunciation, Dalin's 1850 definition and, in the New Testament, the Strong's entries of the verse.
+See [the word-study guide](docs/word-study.md) for the data and its limits.
 Narrow windows use aligned blocks.
 
 Theme choices are System, Light, and Dark.

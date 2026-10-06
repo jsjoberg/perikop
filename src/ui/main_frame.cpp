@@ -76,7 +76,8 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     SetMinSize(FromDIP(wxSize(520,480)));root_=new wxPanel(this);root_->SetFont(ui_font());
     resources_=resources;
     auto* outer=new wxBoxSizer(wxVERTICAL);
-    scripture_=new ScriptureView(root_,corpus);outer->Add(scripture_,1,wxEXPAND);
+    auto* reader=new wxBoxSizer(wxHORIZONTAL);outer->Add(reader,1,wxEXPAND);
+    scripture_=new ScriptureView(root_,corpus);reader->Add(scripture_,3,wxEXPAND);
     readings_=new wxScrolledWindow(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL|wxBORDER_NONE);
     readings_->SetScrollRate(0,FromDIP(12));entries_=new wxBoxSizer(wxVERTICAL);readings_->SetSizer(entries_);
     outer->Add(readings_,1,wxEXPAND|wxLEFT|wxRIGHT,FromDIP(68));
@@ -129,6 +130,13 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
         wxTheApp->CallAfter(deliver);
     });
     speech_->set_speed(settings_.speech_rate/100.0);speech_->set_voice(settings_.speech_voice);
+    try{study_db_=std::make_unique<StudyDb>(resources_/"lexicon/study.db");}catch(const std::exception&){}
+    study_=new StudyPanel(root_,corpus_,study_db_.get(),*speech_,[this](const std::string& language){return speech_lexicon(language);});
+    reader->Add(study_,2,wxEXPAND);
+    scripture_->on_word([this](const ScriptureView::Word& word){
+        if(!settings_.word_study)return;
+        scripture_->highlight_word(word);study_->show(word,scripture_->base_source(),scripture_->frame());
+    });
     root_->SetSizer(outer);auto* frame_sizer=new wxBoxSizer(wxVERTICAL);frame_sizer->Add(root_,1,wxEXPAND);SetSizer(frame_sizer);
     refresh_day();show_readings();apply_settings(false);
     const auto work=wxGetClientDisplayRect();
@@ -161,14 +169,14 @@ void MainFrame::refresh_day() {
 }
 void MainFrame::show_readings() {
     following_audio_=false;if(scripture_)scripture_->follow_playback(false);
-    scripture_->Hide();readings_->Show();update_bar();
+    scripture_->Hide();readings_->Show();update_study();update_bar();
 }
 void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"}); }
 void MainFrame::open_reading(const Reading& selected) {
     visible_reading_=selected;following_audio_=false;speech_view_.reset();scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
     const auto reading=corpus_.localize(in_primary(selected));
-    readings_->Hide();scripture_->Show();
+    readings_->Hide();scripture_->Show();update_study();
     reading_title_=u(label_of(reading.segments()));
     part_->Clear();const auto segments=reading.segments();
     for(std::size_t i=0;i<segments.size();++i)part_->Append(wxString::Format("Del %d · ",int(i+1))+u(label_of({segments[i]})));
@@ -249,7 +257,7 @@ void MainFrame::update_bar() {
     speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
 }
 void MainFrame::make_menus() {
-    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate,Review=Rate+8,Alice,Bjorn};
+    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate,Review=Rate+8,Alice,Bjorn,Study};
     static const char* languages[]={"sv","el","en"};
     static const char* names[]={"Svenska","Grekiska","Engelska"};
     static const int rates[]={25,50,75,100,125,150,175,200};
@@ -271,13 +279,14 @@ void MainFrame::make_menus() {
     bible->Append(Readings,"Dagens läsningar\tCtrl+L");bible->Append(Bible,u("Gå till bibelställe…\tCtrl+G"));
     // Two panes: the left one is the text that is read aloud; the right one is optional.
     auto* view=new wxMenu;auto* left=new wxMenu;auto* right=new wxMenu;
-    right->AppendRadioItem(Right,"Ingen");
+    right->AppendRadioItem(Right,"Ingen");right->AppendRadioItem(Study,"Ordstudium");
     for(int i=0;i<3;++i) {
         left->AppendRadioItem(Left+i,names[i]);if(settings_.primary==languages[i])left->Check(Left+i,true);
         right->AppendRadioItem(Right+1+i,names[i]);if(settings_.parallel==languages[i])right->Check(Right+1+i,true);
         right->Enable(Right+1+i,settings_.primary!=languages[i]);
     }
-    if(settings_.parallel.empty())right->Check(Right,true);
+    if(settings_.word_study)right->Check(Study,true);
+    else if(settings_.parallel.empty())right->Check(Right,true);
     view->AppendSubMenu(left,u("Vänster spalt"));view->AppendSubMenu(right,u("Höger spalt"));view->AppendSeparator();
     view->AppendRadioItem(System,"Systemets tema");view->AppendRadioItem(Light,"Ljust tema");view->AppendRadioItem(Dark,u("Mörkt tema"));
     view->Check(System+int(settings_.theme),true);view->AppendSeparator();
@@ -319,15 +328,16 @@ void MainFrame::make_menus() {
             if(scripture_->IsShown()&&visible_reading_)open_reading(*visible_reading_);
             return;
         }
-        else if(id==Right)settings_.parallel.clear();
-        else if(id>Right&&id<=Right+3)settings_.parallel=languages[id-Right-1];
+        else if(id==Right){settings_.parallel.clear();settings_.word_study=false;}
+        else if(id==Study){settings_.parallel.clear();settings_.word_study=true;}
+        else if(id>Right&&id<=Right+3){settings_.parallel=languages[id-Right-1];settings_.word_study=false;}
         else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
         else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
         else if(id>=Rate&&id<Rate+8){settings_.speech_rate=rates[id-Rate];speech_->set_speed(settings_.speech_rate/100.0);}
         else if(id==Alice||id==Bjorn){settings_.speech_voice=id==Bjorn?"bjorn":"alice";speech_->set_voice(settings_.speech_voice);}
         else{event.Skip();return;}
         apply_settings();
-    },Today,Bjorn);
+    },Today,Study);
 }
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
     auto result=corpus_.pronunciations(language);
@@ -483,7 +493,12 @@ void MainFrame::apply_settings(bool persist) {
 #endif
     if(persist) { try{user_.save(settings_);}catch(const std::exception& e){wxMessageBox(u(e.what()),"Inställningar kunde inte sparas",wxOK|wxICON_ERROR,this);} }
     recolor(root_,palette(settings_.theme));
-    scripture_->apply(settings_);root_->Layout();
+    scripture_->apply(settings_);study_->apply(settings_.theme);update_study();
+}
+void MainFrame::update_study() {
+    const bool shown=settings_.word_study&&scripture_->IsShown();
+    if(!shown)scripture_->highlight_word(std::nullopt);
+    study_->Show(shown);root_->Layout();
 }
 MainFrame::~MainFrame(){playback_timer_.Stop();speech_.reset();}
 void MainFrame::speech_status(const std::string& status) {
@@ -743,6 +758,18 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.primary="el";apply_settings(false);open_psalm();
     if(scripture_->base_source()!="grc-lxx"||scripture_->reading().passage.first.chapter!=22)ok=false;
     settings_.primary="sv";apply_settings(false);
+    // Ordstudium replaces the right pane; a word shows Dalin and the verse's Strong's entries.
+    settings_.word_study=true;apply_settings(false);
+    open_reading({ReadingKind::Gospel,{"John",{1,1},{1,5}},"Johannesevangeliet 1:1–5"});
+    if(!study_->IsShown()||scripture_->base_source()!="sv1917")ok=false;
+    study_->show({"John","begynnelsen",{1,1},0},scripture_->base_source(),scripture_->frame());
+    {
+        const auto lines=study_->text();
+        const auto has=[&](const wxString& part){return std::any_of(lines.begin(),lines.end(),[&](const wxString& line){return line.Contains(part);});};
+        if(!has("DALIN")||!has("begynnelse")||!has("G746"))ok=false;
+    }
+    settings_.word_study=false;apply_settings(false);
+    if(study_->IsShown())ok=false;
     // Exercise playback presentation without model loading or audible output.
     open_psalm();settings_.theme=Theme::Light;settings_.parallel="el";apply_settings(false);
     display_playback({SpeechState::Loading,{},0,0});

@@ -206,6 +206,18 @@ int main(int argc,char** argv) {
         check(sqlite3_open_v2(argv[1],&readonly,SQLITE_OPEN_READONLY,nullptr)==SQLITE_OK,"read-only test connection");
         const int write_result=sqlite3_exec(readonly,"DELETE FROM verse",nullptr,nullptr,nullptr);sqlite3_close(readonly);
         check(write_result==SQLITE_READONLY,"read-only database accepted writes");
+        {
+            // Word study: 1917 forms resolve to Dalin entries, and Greek verses carry Strong's tags.
+            const StudyDb study(std::filesystem::path(argv[1]).parent_path().parent_path()/"lexicon/study.db");
+            const auto entries=study.swedish("svarade");
+            check(entries.size()==1&&entries.front().headword=="svara","regular verb form resolves to its Dalin entry");
+            check(!study.swedish("fingo").empty()&&study.swedish("fingo").front().headword=="få","irregular form resolves through the table");
+            check(study.swedish("hjärta").front().headword=="hjerta","reformed spelling resolves to Dalin's spelling");
+            const auto words=study.greek_words("John",{1,1});
+            check(words.size()>=17&&words.front().surface=="Ἐν"&&words.front().strong=="G1722","Greek verse words and Strong's tags");
+            const auto love=study.strongs("G0026");
+            check(love&&love->lemma=="ἀγάπη"&&love->gloss=="love","Strong's lexicon entry");
+        }
         auto lexicon=corpus.pronunciations("sv");
         auto utterance=make_utterance("Melkisedek, inte XMelkisedek eller Melkisedeks.","sv",lexicon);
         check(utterance.display_text=="Melkisedek, inte XMelkisedek eller Melkisedeks.","display text was mutated");

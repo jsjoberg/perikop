@@ -4,5 +4,24 @@
     "sha256": "4cfd9d86891a9f057f28ead716a1e0c08faefc754aaaae23db615360a561848b",
     "license": "CC0-1.0",
     "credit": "NST Pronunciation Lexicon for Swedish, Nasjonalbiblioteket Språkbanken"
+  },
+  "dalin": {
+    "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/dalin/dalin.xml",
+    "sha256": "358d9a4af498b5dbd3ee98199bc89d8f0309c4f136a98cc27b3820a4eed4a176",
+    "license": "CC-BY-4.0",
+    "credit": "Dalins ordbok, Ordbok öfver svenska språket (1850–1853), digitized by Språkbanken Text, University of Gothenburg"
+  },
+  "dalinm": {
+    "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/dalinm/dalinm.xml",
+    "sha256": "83ca2d26b2f5fb8b0c68f25e79d9854528d32202fa7d8c44ad361cc3e2315354",
+    "license": "CC-BY-4.0",
+    "credit": "Dalin's morphology, Språkbanken Text, University of Gothenburg"
+  },
+  "tbesg": {
+    "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/1f3423d42400f59f1f30fe08f74e38fcd3bbf7bc/Lexicons/TBESG%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Greek%20-%20STEPBible.org%20CC%20BY.txt",
+    "file": "TBESG.txt",
+    "sha256": "312f723d7b8ef263bbdfb0451c9b8057125804dfff390b6f8544cff2a84b57f4",
+    "license": "CC-BY-4.0",
+    "credit": "TBESG, Translators Brief lexicon of Extended Strongs for Greek, STEP Bible (www.STEPBible.org), Tyndale House Cambridge"
   }
 }
