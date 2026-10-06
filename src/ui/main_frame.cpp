@@ -80,16 +80,13 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     readings_=new wxScrolledWindow(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL|wxBORDER_NONE);
     readings_->SetScrollRate(0,FromDIP(12));entries_=new wxBoxSizer(wxVERTICAL);readings_->SetSizer(entries_);
     outer->Add(readings_,1,wxEXPAND|wxLEFT|wxRIGHT,FromDIP(68));
-    // Every control lives in one bottom bar. Its contents follow the page:
-    // day navigation on the readings page, playback in the reader.
+    // Every control lives in one bottom bar, shown in the reader and during
+    // playback. Day navigation is in the Kalender menu.
     bar_=new wxPanel(root_);bar_->SetBackgroundStyle(wxBG_STYLE_PAINT);
     bar_->Bind(wxEVT_PAINT,&MainFrame::paint_playback,this);
     auto* bar=new wxBoxSizer(wxHORIZONTAL);
     const auto add=[&](wxWindow* control,int proportion=0){bar->Add(control,proportion,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(8));};
     back_=button(bar_,"‹ Läsningar",[this]{show_readings();});add(back_);
-    previous_=button(bar_,"‹",[this]{navigate(-1);});previous_->SetToolTip("Föregående dag");add(previous_);
-    calendar_button_=button(bar_,"Kalender",[this]{pick_date();});calendar_button_->SetToolTip("Välj datum");add(calendar_button_);
-    next_=button(bar_,"›",[this]{navigate(1);});next_->SetToolTip("Nästa dag");add(next_);
     part_=new wxChoice(bar_,wxID_ANY);part_->SetName("Läsningens del");
     part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){following_audio_=false;scripture_->follow_playback(false);scripture_->open_section(part_->GetSelection());refresh_speech();});
     add(part_);
@@ -225,7 +222,7 @@ void MainFrame::update_bar() {
     bool changed=follow_->GetLabel()!=follow_label||play_->GetLabel()!=play_label;
     follow_->SetLabel(follow_label);play_->SetLabel(play_label);
     const std::pair<wxWindow*,bool> visibility[]={
-        {back_,reader},{previous_,!reader},{calendar_button_,!reader},{next_,!reader},
+        {bar_,reader||active},{back_,reader},
         {part_,reader&&part_->GetCount()>1},{follow_,active?!following_audio_:reader},{play_,reader||active},{stop_,active}};
     for(const auto& [control,shown]:visibility)if(control->IsShown()!=shown){control->Show(shown);changed=true;}
     if(changed){bar_->Layout();root_->Layout();}
@@ -377,8 +374,18 @@ void MainFrame::browse_bible() {
         return std::any_of(verses.begin(),verses.begin()+std::min<size_t>(verses.size(),50),[&](VerseRef ref){
             return bool(corpus_.parallel_verse(frame(book),source,book.frame_book,ref));});
     };
-    const auto cells=[&](const std::vector<std::pair<wxString,std::function<void()>>>& items,int columns,const std::vector<std::pair<size_t,wxString>>& groups) {
+    // Opens the chosen verses; Lyssna then reads all of them.
+    const auto choose=[&](const CanonBook& book,VerseRef first,VerseRef last) {
+        Reading reading{book.new_testament?ReadingKind::Gospel:ReadingKind::OldTestament,{book.frame_book,first,last},
+            label_of({{book.frame_book,first,last}}),{},settings_.primary};
+        reading.reference=frame(book);
+        chosen=reading;dialog.EndModal(wxID_OK);
+    };
+    // `whole` is an optional button before the numbers, for the whole book or chapter.
+    const auto cells=[&](const std::vector<std::pair<wxString,std::function<void()>>>& items,int columns,const std::vector<std::pair<size_t,wxString>>& groups,
+                         const std::pair<wxString,std::function<void()>>& whole={}) {
         grid->DestroyChildren();auto* rows=new wxBoxSizer(wxVERTICAL);
+        if(whole.second)rows->Add(button(grid,whole.first,[&dialog,action=whole.second]{dialog.CallAfter(action);}),0,wxBOTTOM,FromDIP(10));
         size_t group=0;wxGridSizer* table=nullptr;
         for(size_t i=0;i<items.size();++i) {
             if(!table||(group<groups.size()&&groups[group].first==i)) {
@@ -423,15 +430,14 @@ void MainFrame::browse_bible() {
             title->SetLabel(u(corpus_.book_name(book.code))+wxString::Format(" %d",chapter-book.offset()));
             go_back=[&,book]{show_chapters(book);};
             std::vector<std::pair<wxString,std::function<void()>>> numbers;
-            for(const auto& ref:verses)if(ref.chapter==chapter)numbers.emplace_back(wxString::Format("%d",ref.verse)+u(ref.suffix),[&,book,ref] {
-                Reading reading{book.new_testament?ReadingKind::Gospel:ReadingKind::OldTestament,{book.frame_book,ref,ref},
-                    label_of({{book.frame_book,ref,ref}}),{},settings_.primary};
-                reading.reference=frame(book);
-                chosen=reading;dialog.EndModal(wxID_OK);
-            });
-            cells(numbers,10,{});
+            std::vector<VerseRef> in_chapter;
+            for(const auto& ref:verses)if(ref.chapter==chapter) {
+                in_chapter.push_back(ref);
+                numbers.emplace_back(wxString::Format("%d",ref.verse)+u(ref.suffix),[&,book,ref]{choose(book,ref,ref);});
+            }
+            cells(numbers,10,{},{u("Hela kapitlet"),[&,book,in_chapter]{choose(book,in_chapter.front(),in_chapter.back());}});
         });
-        cells(items,10,{});
+        cells(items,10,{},{u("Hela boken"),[&,book,verses]{choose(book,verses.front(),verses.back());}});
     };
     show_books();
     dialog.Centre();
@@ -709,10 +715,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if(!screenshot_path.empty())ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-narrow.png",wxBITMAP_TYPE_PNG)&&ok;
     }
     SetSize(original_size);Layout();
-    // The day page is navigation only; every control sits in the bottom bar.
+    // The day page is navigation only; it shows no bottom bar.
     show_readings();
     for(auto* child:readings_->GetChildren())if(auto* control=dynamic_cast<wxButton*>(child);control&&control->GetLabel().Contains("Lyssna"))ok=false;
-    if(!previous_->IsShown()||!next_->IsShown()||play_->IsShown()||back_->IsShown())ok=false;
+    if(bar_->IsShown()||play_->IsShown()||back_->IsShown())ok=false;
     settings_.parallel="";apply_settings(false);
     for(auto reading:std::vector<Reading>{
         {ReadingKind::OldTestament,{"Gen",{31,50,"a"},{31,50,"a"}},"Första Moseboken 31:50a",{},"el"},

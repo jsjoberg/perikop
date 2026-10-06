@@ -80,6 +80,7 @@ if(ORTHO_BUILD_GUI)
         FetchContent_Declare(wxWidgets
             URL https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.3/wxWidgets-3.3.3.tar.bz2
             URL_HASH SHA256=81b09d6dd9f1ed9301f8c55a968a488d0491f264dc2bab19a7e407ac67009482
+            PATCH_COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/cmake/patch-wxwidgets.cmake" <SOURCE_DIR>
             DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
         FetchContent_MakeAvailable(wxWidgets)
         set(ortho_wx wx::adv)

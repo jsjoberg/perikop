@@ -76,13 +76,16 @@ Use the mouse wheel, arrow keys, Page Up, Page Down, Home, or End to move throug
 The brass margin line marks the selected passage.
 The text control adds Greek, English, or all three languages to the selected main edition.
 The Bible action opens a native book, chapter, verse, and edition selector.
+**Hela boken** and **Hela kapitlet**, before the numbers, open a whole book or chapter. Lyssna then reads all of it.
 Narrow windows use aligned blocks.
 
 Theme choices are System, Light, and Dark.
 The user database stores the theme, calendar choice, parallel language, and font size.
 The selected date does not persist between launches.
 
-The Calendar action opens a native date picker. Its Current date button selects the current date before confirmation.
+The day page shows only the date and its readings. The **Kalender** menu moves between days and opens a native date picker.
+The picker's Current date button selects the current date before confirmation.
+The build patches a wxWidgets 3.3.3 macOS bug that over-released Swedish month and weekday names and crashed the date picker.
 New calendar mode uses the North American Antiochian reading rules.
 Old calendar mode applies those Greek rules to Julian fixed dates. It is a comparison mode.
 Julian conversion calculates the date difference for each century.

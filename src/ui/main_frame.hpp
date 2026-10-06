@@ -51,7 +51,7 @@ private:
     std::optional<std::pair<size_t,size_t>> speech_view_;
     bool following_audio_=false;
     wxPanel* bar_;
-    wxButton *back_,*previous_,*calendar_button_,*next_,*follow_,*play_,*stop_;
+    wxButton *back_,*follow_,*play_,*stop_;
     int play_item_=0,stop_item_=0;
     bool paused_=false;
     void navigate(int days);
