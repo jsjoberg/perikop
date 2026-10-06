@@ -113,6 +113,18 @@ Copyright (c) 2025 Resemble AI; Copyright (c) 2026 chatterboxcpp contributors.
 Local changes add cancellation, token-limit rejection, portable paths, and fixed Unicode normalization.
 https://github.com/birdup000/chatterboxcpp
 
+Swedish speech uses the Alice and Björn voices and the Swedish Kokoro weights from `Joakim/kokoro-sv-voices`, under Apache-2.0.
+The pronunciation model and NST-derived lexicon come from `Joakim/kokoro-sv-g2p`, under Apache-2.0.
+The prepared pack includes `LICENSE-Kokoro-Swedish.txt`.
+https://huggingface.co/Joakim/kokoro-sv-voices
+
+The native Swedish front end in `src/speech/kokoro_text.cpp` reproduces the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0.
+https://github.com/joakimeriksson/kokoro-sv
+
+Its Swedish number spelling reproduces the Swedish card table and merge rule of num2words 0.5.14, under LGPL-2.1.
+Copyright (c) 2003, Taro Ogawa; Copyright (c) 2013, Savoir-faire Linux inc.
+https://github.com/savoirfairelinux/num2words
+
 ONNX Runtime 1.23.2 uses MIT and includes its dependency notices.
 https://github.com/microsoft/onnxruntime/releases/tag/v1.23.2
 

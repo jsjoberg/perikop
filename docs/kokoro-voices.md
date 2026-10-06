@@ -1,20 +1,17 @@
 # Alice and Björn voice pack
 
-The optional pack contains Alice and Björn from the Swedish Kokoro model.
-Chatterbox remains the reader's active engine. The reader does not yet offer these voices in its menu.
-An automatic content filter blocked the native pronunciation-engine code write during this task.
-The completed work covers pack preparation, export checks, offline installation, audio samples, and the native acoustic stage.
-The settings database stores the Swedish voice choice. The menu and playback connection remain incomplete.
+The pack contains Alice and Björn from the Swedish Kokoro model.
+The reader uses them for all Swedish playback. Chatterbox reads Greek and English.
+Select the voice in **Uppläsning → Alice** or **Björn**. The settings database stores the choice.
+A voice change applies from the next reading.
 
 ## Prepare the pack
 
 Python and PyTorch are preparation tools managed by `uv`. The distributed application must remain independent of Python and `uv`.
-The native acoustic stage consumes token IDs from the upstream pronunciation engine.
-The unchanged upstream pronunciation code requires Python. The exported pronunciation models do not require a Python runtime.
-ONNX Runtime can run the encoder and decoder through its C++ API.
-Native integration also needs the upstream lexicon lookup, text normalization, and decoding behavior.
-Lua or MicroPython can coordinate native calls, but neither removes that integration work.
-The native-only requirement remains the intended architecture. The application keeps its current playback engine while integration remains incomplete.
+`src/speech/kokoro_text.cpp` is the native pronunciation stage. It reproduces the pinned upstream text path:
+number spelling, NST lexicon lookup with custom overrides, the neural model for unknown words, word fixes, and the Kokoro symbol remap.
+ONNX Runtime runs the exported pronunciation encoder and decoder.
+`src/speech/kokoro_audio.cpp` turns the token IDs into audio.
 The preparation script pins the source weights and their revisions. It checks the large source files with SHA-256.
 
 ```sh
@@ -70,8 +67,22 @@ Build the native acoustic probe with this command:
 cmake --build build/cmake --target ortho-kokoro-audio-probe --parallel 4
 ```
 
-The probe consumes a file of integer phoneme token IDs. It does not process words or normalize numbers.
-The `speech_voice` preference accepts `alice` and `bjorn`. Alice is the default for a future Kokoro playback engine.
+The probe consumes a file of integer phoneme token IDs.
+The `speech_voice` preference accepts `alice` and `bjorn`. Alice is the default.
+
+## Native pronunciation check
+
+The text probe prints the token IDs for each input line:
+
+```sh
+cmake --build build/cmake --target ortho-kokoro-text-probe --parallel 4
+build/cmake/bin/ortho-kokoro-text-probe build/kokoro-pack < lines.txt
+```
+
+On October 6, 2026 the probe and the pinned upstream Python front end received all 35,515 Swedish 1917 verses.
+The token IDs matched for every verse.
+The native stage processed all verses in 59 seconds, including the lexicon load.
+The reader's Psalm sample with Alice has the same length as the upstream sample. The sample correlation is 0.997.
 
 ## Sources and limits
 
@@ -80,4 +91,4 @@ Its training data comes from NST and Swedish LibriVox under CC0.
 The [upstream code](https://github.com/joakimeriksson/kokoro-sv) and [pronunciation model](https://huggingface.co/Joakim/kokoro-sv-g2p) document the required front end.
 
 The author reports residual decoder artifacts and soft male voices. Biblical names and older Swedish still require listening review.
-The native pronunciation stage, voice menu, playback connection, and revised startup buffer remain incomplete.
+The revised startup buffer remains incomplete. The engine measures synthesis speed and adapts its buffer after the first chunk.

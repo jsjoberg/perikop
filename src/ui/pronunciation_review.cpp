@@ -147,7 +147,7 @@ void show_pronunciation_review(wxWindow* parent,const CorpusDb& corpus,Pronuncia
     contexts->Bind(wxEVT_CHOICE,[&](wxCommandEvent&){speech.stop();const auto index=contexts->GetSelection();if(index>=0&&size_t(index)<examples.size())verse->ChangeValue(u(examples[size_t(index)].verse.text));});
     wxTimer timer(&dialog);dialog.Bind(wxEVT_TIMER,[&](wxTimerEvent&){
         const auto playback=speech.playback();
-        const auto text=playback.state==SpeechState::Loading?u("Förbereder röstmodellen…"):playback.state==SpeechState::Buffering?u("Förbereder ljud…"):playback.state==SpeechState::Playing?u("Spelar upp"):playback.state==SpeechState::Error?u("Ljudet kunde inte skapas. Kontrollera röstpaketet."):playback.state==SpeechState::Completed?u("Uppläsningen är klar"):u("Normal hastighet · Chatterbox");
+        const auto text=playback.state==SpeechState::Loading?u("Förbereder röstmodellen…"):playback.state==SpeechState::Buffering?u("Förbereder ljud…"):playback.state==SpeechState::Playing?u("Spelar upp"):playback.state==SpeechState::Error?u("Ljudet kunde inte skapas. Kontrollera röstpaketet."):playback.state==SpeechState::Completed?u("Uppläsningen är klar"):u("Normal hastighet");
         if(feedback->GetLabel()!=text)feedback->SetLabel(text);
     },timer.GetId());
     dialog.SetSizer(outer);rebuild("");timer.Start(100);dialog.CentreOnParent();dialog.ShowModal();timer.Stop();speech.stop();

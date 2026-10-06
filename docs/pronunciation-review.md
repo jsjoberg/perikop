@@ -20,7 +20,7 @@ The examples use complete words and ignore capitalization.
 5. Use **Ord · förslag** or **Vers · förslag** to hear the proposed spelling.
 6. Use **Godkänn nuvarande**, **Spara korrigering**, or **Granska senare** to record your decision.
 
-The preview uses the same local Chatterbox voice as the reader, at its normal speed.
+The preview uses the Swedish voice selected in the reader, at its normal speed.
 The model can take time to load and generate new audio.
 The status shows model preparation, audio preparation, playback, completion, or an error.
 The installed voice pack is necessary for audio previews.

@@ -1,8 +1,8 @@
 #include "speech/portable_speech.hpp"
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
+#include "speech/kokoro_audio.hpp"
 #include "storage/database.hpp"
-#include "speech_voice_manifest.hpp"
 #include <chrono>
 #include <condition_variable>
 #include <fstream>
@@ -62,12 +62,12 @@ int main(int argc,char** argv) {
         check(argc==2,"Usage: ortho-portable-speech-tests TEST-DIRECTORY");
         const std::filesystem::path data(argv[1]);
         std::filesystem::remove_all(data);
-        const auto voice=data/"voices"/voice_pack_id;
+        const auto voice=data/"voices"/kokoro_pack_id;
         std::filesystem::create_directories(voice);
-        std::ofstream(voice/"tokenizer.json")<<"{}";
+        std::ofstream(voice/"kokoro.onnx")<<"";
         // Cache-only tests: any accidental upfront inference fails because
         // the remaining model files deliberately do not exist.
-        const std::string revision=std::string(voice_pack_id)+"/ort1.23.2/utf8proc2.10/seed42/cfg0.5/t0.8/v1";
+        const std::string revision=std::string(kokoro_pack_id)+"/ort1.23.2/alice/v1";
         {
             SpeechCache cache(data/"speech-cache.db");
             cache.save(revision,"sv","Första.",{1,2,3});

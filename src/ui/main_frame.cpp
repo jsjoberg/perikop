@@ -131,7 +131,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
         // Pause and Stop callbacks made on the main thread.
         wxTheApp->CallAfter(deliver);
     });
-    speech_->set_speed(settings_.speech_rate/100.0);
+    speech_->set_speed(settings_.speech_rate/100.0);speech_->set_voice(settings_.speech_voice);
     root_->SetSizer(outer);auto* frame_sizer=new wxBoxSizer(wxVERTICAL);frame_sizer->Add(root_,1,wxEXPAND);SetSizer(frame_sizer);
     refresh_day();show_readings();apply_settings(false);
     const auto work=wxGetClientDisplayRect();
@@ -252,7 +252,7 @@ void MainFrame::update_bar() {
     speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
 }
 void MainFrame::make_menus() {
-    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate,Review=Rate+8};
+    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate,Review=Rate+8,Alice,Bjorn};
     static const char* languages[]={"sv","el","en"};
     static const char* names[]={"Svenska","Grekiska","Engelska"};
     static const int rates[]={25,50,75,100,125,150,175,200};
@@ -292,6 +292,10 @@ void MainFrame::make_menus() {
         reading->AppendRadioItem(Rate+i,rate_label(rates[i]));
         if(settings_.speech_rate==rates[i])reading->Check(Rate+i,true);
     }
+    reading->AppendSeparator();
+    // Swedish voice. Greek and English are read by Chatterbox.
+    reading->AppendRadioItem(Alice,"Alice");reading->AppendRadioItem(Bjorn,u("Björn"));
+    reading->Check(settings_.speech_voice=="bjorn"?Bjorn:Alice,true);
     reading->AppendSeparator();reading->Append(Review,u("Granska svenskt uttal…"));
     auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(bible,"Bibel");bar->Append(view,"Visa");bar->Append(reading,u("Uppläsning"));SetMenuBar(bar);
     Bind(wxEVT_MENU,[this,right](wxCommandEvent& event) {
@@ -323,9 +327,10 @@ void MainFrame::make_menus() {
         else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
         else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
         else if(id>=Rate&&id<Rate+8){settings_.speech_rate=rates[id-Rate];speech_->set_speed(settings_.speech_rate/100.0);}
+        else if(id==Alice||id==Bjorn){settings_.speech_voice=id==Bjorn?"bjorn":"alice";speech_->set_voice(settings_.speech_voice);}
         else{event.Skip();return;}
         apply_settings();
-    },Today,Review);
+    },Today,Bjorn);
 }
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
     auto result=corpus_.pronunciations(language);

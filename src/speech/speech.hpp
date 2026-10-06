@@ -34,6 +34,8 @@ public:
     virtual SpeechPlayback playback() const { return {}; }
     // Playback speed; 1 is the voice's own pace. Applies to audio already generated.
     virtual void set_speed(double) {}
+    // Swedish voice: "alice" or "bjorn". Applies from the next reading.
+    virtual void set_voice(const std::string&) {}
 };
 // This diagnostic engine accepts utterances; it produces no audio.
 class StubSpeechEngine final : public SpeechEngine {

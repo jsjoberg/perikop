@@ -87,9 +87,11 @@ New calendar mode uses the North American Antiochian reading rules.
 Old calendar mode applies those Greek rules to Julian fixed dates. It is a comparison mode.
 Julian conversion calculates the date difference for each century.
 
-Lyssna uses a local Chatterbox Multilingual model through common C++ code on all target platforms.
-The same model, reference voice, and settings apply everywhere. No system voice is used.
-The voice remains a preview pending Swedish listening review and remaining platform checks.
+Lyssna reads Swedish with the Alice or Björn voice from the local Swedish Kokoro model.
+Select the voice in **Uppläsning → Alice** or **Björn**. The choice applies from the next reading and survives restarts.
+Greek and English use a local Chatterbox Multilingual model.
+Both engines run through common C++ code on all target platforms. No system voice is used.
+The voices remain a preview pending listening review and remaining platform checks.
 
 Pausa, Fortsätt, and Stoppa control playback. The playback bar shows loading, buffering, and the current verse.
 Playback starts after the first audio chunk. The engine generates later chunks during playback, with a buffer of at most two chunks.
@@ -104,12 +106,14 @@ Verse boundaries follow audio playback. Movement between lines within a verse is
 A separate SQLite cache accelerates repeat readings. The voice pack needs about 1.55 GB.
 See [the speech selection record](docs/speech-selection.md) for licensing, alternatives, measurements, and limits.
 
-Install the pinned voice package once:
+Install the pinned Chatterbox voice package once for Greek and English:
 
 ```sh
 uv run --locked tools/speech/install_voice.py
 uv run --locked tools/speech/install_voice.py --verify
 ```
+
+Prepare and install the Alice and Björn pack for Swedish as [the Kokoro voice guide](docs/kokoro-voices.md) describes.
 
 For an unpacked offline voice package, use `--source /absolute/path/voice-pack`.
 Use `uv` for all Python preparation and installation commands. It manages Python and the preparation environment.
@@ -147,7 +151,7 @@ It uses a temporary user database. It does not change personal settings.
 To save reader images during the smoke test, add `--screenshot /absolute/path/reader.png`.
 The paragraph test compares 39 native layouts with an exhaustive word-boundary oracle and checks a layout that differs from greedy wrapping.
 
-Verify real offline Swedish audio generation without playing it:
+Verify real offline Swedish audio generation with Alice without playing it:
 
 ```sh
 "build/cmake/bin/Orthodox Reader.app/Contents/MacOS/Orthodox Reader" --speech-probe /absolute/path/voice.wav
