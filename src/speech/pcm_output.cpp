@@ -7,6 +7,7 @@
 #include <miniaudio.h>
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
+#include "speech/tempo.hpp"
 #include <atomic>
 #include <cstring>
 #include <stdexcept>
@@ -15,13 +16,15 @@ struct PcmOutput::Impl {
     ma_device device{};
     std::shared_ptr<PcmStream> playing;
     std::atomic<bool> paused{false};
+    std::atomic<float> speed{1};
+    TempoStretch stretch; // Audio callback only.
     static void render(ma_device* device,void* output,const void*,ma_uint32 frames) {
         auto* self=static_cast<Impl*>(device->pUserData);
         auto* samples=static_cast<float*>(output);
         std::memset(samples,0,frames*sizeof(float));
         const auto playing=std::atomic_load(&self->playing);
         if(!playing||self->paused.load())return;
-        playing->render(samples,frames);
+        self->stretch.render(*playing,samples,frames,self->speed.load());
     }
     Impl() {
         auto config=ma_device_config_init(ma_device_type_playback);
@@ -44,6 +47,7 @@ size_t PcmOutput::buffered() const{const auto playback=std::atomic_load(&impl_->
 uint64_t PcmOutput::buffered_frames() const{const auto playback=std::atomic_load(&impl_->playing);return playback?playback->buffered_frames():0;}
 void PcmOutput::release(){if(const auto playback=std::atomic_load(&impl_->playing))playback->release();}
 void PcmOutput::pause(bool paused){impl_->paused.store(paused);}
+void PcmOutput::set_speed(double speed){impl_->speed.store(float(speed));}
 void PcmOutput::stop(){std::atomic_store(&impl_->playing,std::shared_ptr<PcmStream>{});impl_->paused.store(false);}
 bool PcmOutput::finished() const{const auto playback=std::atomic_load(&impl_->playing);return !playback||playback->finished();}
 PcmProgress PcmOutput::progress() const {

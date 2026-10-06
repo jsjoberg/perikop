@@ -110,6 +110,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
         // Pause and Stop callbacks made on the main thread.
         wxTheApp->CallAfter(deliver);
     });
+    speech_->set_speed(settings_.speech_rate/100.0);
     root_->SetSizer(outer);auto* frame_sizer=new wxBoxSizer(wxVERTICAL);frame_sizer->Add(root_,1,wxEXPAND);SetSizer(frame_sizer);
     refresh_day();show_readings();apply_settings(false);
     const auto work=wxGetClientDisplayRect();
@@ -198,7 +199,8 @@ void MainFrame::update_bar() {
     speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
 }
 void MainFrame::make_menus() {
-    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,Bible,New,Old,System,Light,Dark,Main,Greek,English,Both,Larger,Smaller};
+    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,Bible,New,Old,System,Light,Dark,Main,Greek,English,Both,Larger,Smaller,Rate};
+    static const int rates[]={70,80,90,100};
     static const char* modes[]={"","el","en","el,en"};
     auto* calendar=new wxMenu;
     calendar->Append(Today,"Idag\tCtrl+T");
@@ -214,7 +216,12 @@ void MainFrame::make_menus() {
     view->AppendRadioItem(English,"Parallellt med engelska");view->AppendRadioItem(Both,"Parallellt med grekiska och engelska");
     for(int i=0;i<4;++i)if(settings_.parallel==modes[i])view->Check(Main+i,true);
     view->AppendSeparator();view->Append(Larger,u("Större text\tCtrl++"));view->Append(Smaller,"Mindre text\tCtrl+-");
-    auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(view,"Visa");SetMenuBar(bar);
+    auto* reading=new wxMenu;
+    for(int i=0;i<4;++i) {
+        reading->AppendRadioItem(Rate+i,rates[i]==100?wxString("Normal hastighet"):wxString::Format("%d %% hastighet",rates[i]));
+        if(settings_.speech_rate==rates[i])reading->Check(Rate+i,true);
+    }
+    auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(view,"Visa");bar->Append(reading,u("Uppläsning"));SetMenuBar(bar);
     Bind(wxEVT_MENU,[this](wxCommandEvent& event) {
         const int id=event.GetId();
         if(id==Today){selected_.select(local_civil_date());show_readings();refresh_day();return;}
@@ -229,9 +236,10 @@ void MainFrame::make_menus() {
         else if(id>=Main&&id<=Both)settings_.parallel=modes[id-Main];
         else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
         else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
+        else if(id>=Rate&&id<Rate+4){settings_.speech_rate=rates[id-Rate];speech_->set_speed(settings_.speech_rate/100.0);}
         else{event.Skip();return;}
         apply_settings();
-    },Today,Smaller);
+    },Today,Rate+3);
 }
 void MainFrame::browse_bible() {
     wxDialog dialog(this,wxID_ANY,"Öppna Bibeln",wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
@@ -287,11 +295,24 @@ void MainFrame::pick_date() {
     auto* sizer=new wxBoxSizer(wxVERTICAL);
     auto* calendar=new wxCalendarCtrl(&dialog,wxID_ANY,
         wxDateTime(unsigned(current.day()),static_cast<wxDateTime::Month>(unsigned(current.month())-1),int(current.year())),
-        wxDefaultPosition,wxDefaultSize,wxCAL_MONDAY_FIRST|wxCAL_SHOW_HOLIDAYS);
+        wxDefaultPosition,wxDefaultSize,wxCAL_SUNDAY_FIRST);
+    // Weeks start on Sunday, as in the parish calendar; Sundays are red.
+    const auto mark_sundays=[calendar] {
+        const auto shown=calendar->GetDate();
+        for(unsigned day=1;day<=wxDateTime::GetNumberOfDays(shown.GetMonth(),shown.GetYear());++day) {
+            if(wxDateTime(day,shown.GetMonth(),shown.GetYear()).GetWeekDay()==wxDateTime::Sun)calendar->SetAttr(day,new wxCalendarDateAttr(*wxRED));
+            else calendar->ResetAttr(day);
+        }
+        calendar->Refresh();
+    };
+    calendar->Bind(wxEVT_CALENDAR_PAGE_CHANGED,[mark_sundays](wxCalendarEvent& event){mark_sundays();event.Skip();});
+    mark_sundays();
     sizer->Add(calendar,0,wxALL,FromDIP(20));
 
     sizer->Add(button(&dialog,"Aktuellt datum",[calendar]{calendar->SetDate(wxDateTime::Today());}),0,wxALIGN_CENTER|wxBOTTOM,FromDIP(12));
-    sizer->Add(dialog.CreateButtonSizer(wxOK|wxCANCEL),0,wxALIGN_RIGHT|wxALL,FromDIP(12));
+    auto* buttons=dialog.CreateButtonSizer(wxOK|wxCANCEL);
+    if(auto* cancel=wxDynamicCast(dialog.FindWindow(wxID_CANCEL),wxButton))cancel->SetLabel("Avbryt");
+    sizer->Add(buttons,0,wxALIGN_RIGHT|wxALL,FromDIP(12));
     dialog.SetSizerAndFit(sizer);recolor(&dialog,palette(settings_.theme));
     if(dialog.ShowModal()!=wxID_OK)return;
     const auto value=calendar->GetDate();

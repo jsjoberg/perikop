@@ -16,6 +16,7 @@ public:
     uint64_t buffered_frames() const;
     void release();
     void pause(bool);
+    void set_speed(double);
     void stop();
     bool finished() const;
     PcmProgress progress() const;

@@ -114,6 +114,9 @@ https://github.com/microsoft/onnxruntime/releases/tag/v1.23.2
 miniaudio 0.11.22 uses its public-domain option for PCM output.
 https://github.com/mackron/miniaudio/tree/0.11.22
 
+Sonic, commit `b93885dcb70aae50c6f76b0fe4e0868f029a077e`, changes playback speed without changing pitch, under Apache-2.0.
+https://github.com/waywardgeek/sonic
+
 utf8proc 2.10.0 uses MIT and retains the Unicode data notices.
 https://github.com/JuliaStrings/utf8proc/tree/v2.10.0
 

@@ -281,6 +281,7 @@ Settings UserDb::load() const {
         if (key=="calendar") result.calendar=value=="old"?CalendarStyle::Old:CalendarStyle::New;
         if (key=="parallel" && (value.empty() || value=="el" || value=="en" || value=="el,en")) result.parallel=value;
         if (key=="font_size") { try { result.font_size=std::clamp(std::stoi(value),14,28); } catch (...) {} }
+        if (key=="speech_rate") { try { result.speech_rate=std::clamp(std::stoi(value),50,150); } catch (...) {} }
     }
     return result;
 }
@@ -289,7 +290,8 @@ void UserDb::save(const Settings& settings) {
         const std::vector<std::pair<std::string,std::string>> values={
             {"theme",settings.theme==Theme::Dark?"dark":settings.theme==Theme::Light?"light":"system"},
             {"calendar",settings.calendar==CalendarStyle::Old?"old":"new"},
-            {"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)}};
+            {"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)},
+            {"speech_rate",std::to_string(settings.speech_rate)}};
         Statement query(db_.get(), "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
         for (const auto& [key,value]:values) {
             query.text(1,key); query.text(2,value); query.row();

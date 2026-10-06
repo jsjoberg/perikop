@@ -97,7 +97,10 @@ struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
     Theme theme = Theme::System;
     int font_size = 19;
-    std::string parallel = "el";
+    // Swedish alone by default; the side column is for study, not a default.
+    std::string parallel;
+    // Playback speed of read-aloud audio, in percent of the voice's own pace.
+    int speech_rate = 100;
 };
 std::string source_for_language(const std::string& language, const std::string& book);
 }

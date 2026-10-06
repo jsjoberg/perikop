@@ -41,9 +41,10 @@ public:
     bool finished() const{return complete_.load(std::memory_order_acquire)&&buffered()==0;}
     uint64_t played() const{return played_.load(std::memory_order_acquire);}
     bool waiting() const{return !complete_.load(std::memory_order_acquire)&&(held()||buffered()==0);}
-    void render(float* output,size_t frames) {
+    // Returns the number of frames copied; the rest is silence.
+    size_t render(float* output,size_t frames) {
         std::fill_n(output,frames,0.0f);
-        if(held())return;
+        if(held())return 0;
         size_t copied=0;
         auto read=read_.load(std::memory_order_relaxed);
         while(copied<frames&&read<written_.load(std::memory_order_acquire)) {
@@ -58,6 +59,7 @@ public:
         }
         played_.fetch_add(copied,std::memory_order_release);
         if(copied<frames&&!complete_.load(std::memory_order_acquire))held_.store(true,std::memory_order_release);
+        return copied;
     }
 };
 // Generating the rest must finish before playback reaches it. With a

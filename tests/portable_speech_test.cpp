@@ -50,6 +50,7 @@ void PcmOutput::complete(){std::lock_guard lock(audio_mutex);stream->complete();
 size_t PcmOutput::buffered() const{std::lock_guard lock(audio_mutex);return stream?stream->buffered():0;}
 uint64_t PcmOutput::buffered_frames() const{std::lock_guard lock(audio_mutex);return stream?stream->buffered_frames():0;}
 void PcmOutput::release(){std::lock_guard lock(audio_mutex);released=true;if(stream)stream->release();changed.notify_all();}
+void PcmOutput::set_speed(double){}
 void PcmOutput::pause(bool pause){std::lock_guard lock(audio_mutex);paused=pause;changed.notify_all();}
 void PcmOutput::stop(){std::lock_guard lock(audio_mutex);stream.reset();paused=false;changed.notify_all();}
 bool PcmOutput::finished() const{std::lock_guard lock(audio_mutex);return !stream||stream->finished();}

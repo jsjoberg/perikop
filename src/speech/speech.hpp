@@ -30,6 +30,8 @@ public:
     virtual void resume() = 0;
     virtual void stop() = 0;
     virtual SpeechPlayback playback() const { return {}; }
+    // Playback speed; 1 is the voice's own pace. Applies to audio already generated.
+    virtual void set_speed(double) {}
 };
 // This diagnostic engine accepts utterances; it produces no audio.
 class StubSpeechEngine final : public SpeechEngine {

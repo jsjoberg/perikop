@@ -65,7 +65,7 @@ class PortableSpeech final:public SpeechEngine {
     bool shutdown_=false,paused_=false,active_=false;
     bool output_started_=false;
     SpeechState state_=SpeechState::Idle;
-    double ready_=0;
+    double ready_=0,speed_=1;
     PlaybackTimeline timeline_;
     std::string stage_="Förbereder läsningen";
     std::unique_ptr<PcmOutput> output_;
@@ -155,7 +155,7 @@ class PortableSpeech final:public SpeechEngine {
                     {
                         std::lock_guard lock(mutex_);
                         if(cancelled())break;
-                        if(!output_)output_=std::make_unique<PcmOutput>();
+                        if(!output_){output_=std::make_unique<PcmOutput>();output_->set_speed(speed_);}
                         if(!i)output_->start(paused_);
                         timeline_.append(part.cue,samples->size(),i?4800:0,part.from,part.to);
                         produced_seconds+=samples->size()/24000.0;produced_weight+=part.weight;remaining_weight-=part.weight;
@@ -210,6 +210,7 @@ public:
     void pause() override {std::lock_guard lock(mutex_);if(!active_)return;paused_=true;if(output_)output_->pause(true);if(callback_)callback_({++status_sequence_,"Pausad"});}
     void resume() override {std::lock_guard lock(mutex_);if(!active_)return;paused_=false;if(output_)output_->pause(false);if(callback_)callback_({++status_sequence_,stage_});condition_.notify_all();}
     void stop() override {std::lock_guard lock(mutex_);++generation_;queue_.clear();active_=false;paused_=false;output_started_=false;state_=SpeechState::Stopped;if(output_)output_->stop();if(callback_)callback_({++status_sequence_,"Stoppad"});condition_.notify_all();}
+    void set_speed(double speed) override {std::lock_guard lock(mutex_);speed_=speed;if(output_)output_->set_speed(speed);}
     SpeechPlayback playback() const override {
         std::lock_guard lock(mutex_);
         if(!output_started_)return {paused_?SpeechState::Paused:state_,{},0,0};

@@ -1,6 +1,7 @@
 #include "ui/main_frame.hpp"
 #include "ui/native_icon.hpp"
 #include <wx/app.h>
+#include <wx/uilocale.h>
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
 #include <wx/fontenum.h>
@@ -17,6 +18,9 @@ std::filesystem::path path(const wxString& value) { auto bytes=value.ToUTF8(); r
 class ReaderApp final:public wxApp {
 public:
     bool OnInit() override {
+        // Swedish month and weekday names in date controls. This sets only
+        // wxWidgets' UI locale; the C locale used for numbers is unchanged.
+        wxUILocale::UseLocaleName("sv_SE");
         SetAppName("orthodox-reader");SetVendorName("orthodox-reader");
         wxInitAllImageHandlers();
         bool smoke=false,reader=false;wxString resource_override,screenshot,speech_probe;

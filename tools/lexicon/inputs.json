@@ -1,0 +1,8 @@
+{
+  "nst": {
+    "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
+    "sha256": "4cfd9d86891a9f057f28ead716a1e0c08faefc754aaaae23db615360a561848b",
+    "license": "CC0-1.0",
+    "credit": "NST Pronunciation Lexicon for Swedish, Nasjonalbiblioteket Språkbanken"
+  }
+}
