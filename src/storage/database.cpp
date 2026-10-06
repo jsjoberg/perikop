@@ -2,6 +2,7 @@
 #include <sqlite3.h>
 #include <stdexcept>
 #include <algorithm>
+#include <map>
 #include <bit>
 #include <cmath>
 #include <cstring>
@@ -110,44 +111,96 @@ std::vector<VerseRef> CorpusDb::paragraph_starts(const std::string& source, cons
     return result;
 }
 std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std::string& to, const Passage& passage) const {
-    Statement query(db_.get(), "SELECT kind,from_first_chapter,from_first_verse,from_last_chapter,from_last_verse,to_first_chapter,to_first_verse,to_last_chapter,to_last_verse FROM alignment JOIN source f ON f.id=from_source JOIN source t ON t.id=to_source JOIN book ON book.id=book_id WHERE f.code=? AND t.code=? AND book.code=? AND (from_first_chapter,from_first_verse)<=(?,?) AND (from_last_chapter,from_last_verse)>=(?,?) ORDER BY from_first_chapter DESC,from_first_verse DESC LIMIT 1");
+    Statement query(db_.get(), "SELECT kind,from_first_chapter,from_first_verse,from_first_suffix,from_last_chapter,from_last_verse,from_last_suffix,"
+        "coalesce(target.code,''),coalesce(to_first_chapter,0),coalesce(to_first_verse,0),coalesce(to_first_suffix,''),coalesce(to_last_chapter,0),coalesce(to_last_verse,0),coalesce(to_last_suffix,'') "
+        "FROM alignment JOIN source f ON f.id=from_source JOIN source t ON t.id=to_source JOIN book ON book.id=book_id LEFT JOIN book target ON target.id=to_book_id "
+        "WHERE f.code=? AND t.code=? AND book.code=? AND (from_first_chapter,from_first_verse,from_first_suffix)<=(?,?,?) AND (from_last_chapter,from_last_verse,from_last_suffix)>=(?,?,?) "
+        "ORDER BY from_first_chapter DESC,from_first_verse DESC,from_first_suffix DESC LIMIT 1");
     query.text(1,from); query.text(2,to); query.text(3,passage.book);
-    query.number(4,passage.first.chapter); query.number(5,passage.first.verse);
-    query.number(6,passage.last.chapter); query.number(7,passage.last.verse);
+    query.number(4,passage.first.chapter); query.number(5,passage.first.verse); query.text(6,passage.first.suffix);
+    query.number(7,passage.last.chapter); query.number(8,passage.last.verse); query.text(9,passage.last.suffix);
     if (!query.row()) return {};
     return Alignment{static_cast<AlignmentKind>(query.number(0)),
-        {passage.book,{query.number(1),query.number(2)},{query.number(3),query.number(4)}},
-        {passage.book,{query.number(5),query.number(6)},{query.number(7),query.number(8)}}};
+        {passage.book,{query.number(1),query.number(2),query.text(3)},{query.number(4),query.number(5),query.text(6)}},
+        {query.text(7),{query.number(8),query.number(9),query.text(10)},{query.number(11),query.number(12),query.text(13)}}};
+}
+bool CorpusDb::same_numbering(const std::string& from, const std::string& to, const std::string& book) const {
+    auto list = sources();
+    const auto f = std::find_if(list.begin(),list.end(),[&](auto& s){return s.code==from;});
+    const auto t = std::find_if(list.begin(),list.end(),[&](auto& s){return s.code==to;});
+    return f!=list.end() && t!=list.end() && (f->versification==t->versification || new_testament_book(book));
+}
+std::vector<std::pair<std::string,VerseRef>> CorpusDb::counterparts(const std::string& from, const std::string& to, const std::string& book, VerseRef ref) const {
+    const auto map = alignment(from, to, {book,ref,ref});
+    if (!map) {
+        // Same-coordinate lookup is only safe inside matching versification systems.
+        if (!same_numbering(from,to,book)) return {};
+        return {{book,ref}};
+    }
+    if (map->to.book.empty()) return {};
+    std::vector<std::pair<std::string,VerseRef>> result;
+    if (map->from.first==map->from.last || map->kind==AlignmentKind::Merged) {
+        for (auto target : coordinates(to,map->to.book)) if (map->to.contains(target)) result.emplace_back(map->to.book,target);
+        return result;
+    }
+    // A range with one numbering offset.
+    return {{map->to.book,{ref.chapter+map->to.first.chapter-map->from.first.chapter,ref.verse+map->to.first.verse-map->from.first.verse}}};
 }
 std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& from, const std::string& to, const std::string& book, VerseRef ref) const {
+    if (from == to) return verse(to,book,ref);
     const auto map = alignment(from, to, {book,ref,ref});
-    if (map) {
-        if (map->kind == AlignmentKind::Split && map->from.first == map->from.last) {
-            Verse result{map->to.first, "", map->to.last};
-            for (auto target : coordinates(to,book)) if (map->to.contains(target)) {
-                auto part=verse(to,book,target);
-                if (!part) return std::unexpected(part.error());
-                if (!result.text.empty()) result.text += " ";
-                result.text += part->text;
-            }
-            if (result.text.empty()) return std::unexpected("Text saknas i denna utgåva");
-            return result;
-        }
-        if (map->kind != AlignmentKind::Same && map->kind != AlignmentKind::Renumbered)
-            return std::unexpected("Versindelningen skiljer sig");
-        ref.chapter += map->to.first.chapter - map->from.first.chapter;
-        ref.verse += map->to.first.verse - map->from.first.verse;
-    } else {
-        // Same-coordinate lookup is only safe inside matching versification systems.
-        auto list = sources();
-        const auto f = std::find_if(list.begin(),list.end(),[&](auto& s){return s.code==from;});
-        const auto t = std::find_if(list.begin(),list.end(),[&](auto& s){return s.code==to;});
-        if (f==list.end() || t==list.end()) return std::unexpected("Okänd textkälla");
-        if(book=="Ps"&&from!=to)return std::unexpected("Versmappning saknas · öppna utgåvan via Bibel");
-        const bool nt = new_testament_book(book);
-        if (f->versification != t->versification && !nt) return std::unexpected("Ingen belagd textmappning");
+    if (map && map->to.book.empty()) return std::unexpected(to=="grc-lxx" ? "Saknas i Septuaginta" : "Saknas i denna utgåva");
+    if (map && map->kind==AlignmentKind::Merged && ref!=map->from.first) return std::unexpected("Ingår i föregående vers");
+    if (!map && !same_numbering(from,to,book)) return std::unexpected("Ingen belagd textmappning");
+    const auto targets = counterparts(from,to,book,ref);
+    if (targets.empty()) return std::unexpected("Text saknas i denna utgåva");
+    Verse result{targets.front().second, "", targets.size()>1 ? std::optional<VerseRef>{targets.back().second} : std::nullopt};
+    for (const auto& [target_book,target] : targets) {
+        auto part = verse(to,target_book,target);
+        if (!part) return std::unexpected(part.error());
+        if (!result.text.empty()) result.text += " ";
+        result.text += part->text;
+        if (targets.size()==1) result.last = part->last;
     }
-    return verse(to,book,ref);
+    return result;
+}
+std::vector<Passage> CorpusDb::map_passage(const std::string& from, const std::string& to, const Passage& passage) const {
+    if (from == to) return {passage};
+    std::vector<std::pair<std::string,VerseRef>> found;
+    for (auto ref : coordinates(from,passage.book)) if (passage.contains(ref))
+        for (const auto& target : counterparts(from,to,passage.book,ref))
+            if (std::find(found.begin(),found.end(),target)==found.end()) found.push_back(target);
+    // Join targets that are adjacent in the target edition, including verses between
+    // them that only the target tradition has, such as lettered Septuagint additions.
+    std::vector<Passage> result;
+    std::map<std::string,std::vector<VerseRef>> editions;
+    for (const auto& [book,ref] : found) {
+        const auto& refs = editions.try_emplace(book,coordinates(to,book)).first->second;
+        const auto at = std::find(refs.begin(),refs.end(),ref);
+        if (at==refs.end()) continue;
+        if (!result.empty() && result.back().book==book) {
+            const auto previous = std::find(refs.begin(),at,result.back().last);
+            if (previous!=at && std::all_of(previous+1,at,[&](VerseRef between){return counterparts(to,from,book,between).empty();})) {
+                result.back().last=ref;
+                continue;
+            }
+        }
+        result.push_back({book,ref,ref});
+    }
+    return result;
+}
+Reading CorpusDb::localize(Reading reading) const {
+    if (!reading.source_override.empty()) return reading;
+    std::vector<Passage> parts;
+    for (const auto& segment : reading.segments()) {
+        const auto mapped = map_passage(reading.reference,source_for_language(reading.base_language,segment.book),segment);
+        // An edition without the book keeps the reference coordinates; the reader falls back to another edition.
+        const auto chosen = mapped.empty() ? std::vector<Passage>{segment} : mapped;
+        parts.insert(parts.end(), chosen.begin(), chosen.end());
+    }
+    reading.passage = parts.front();
+    reading.additional.assign(parts.begin()+1,parts.end());
+    return reading;
 }
 std::vector<Pronunciation> CorpusDb::pronunciations(const std::string& language) const {
     Statement query(db_.get(), "SELECT language,source,spoken,phonemes,priority FROM pronunciation WHERE language=? ORDER BY priority DESC,length(source) DESC");
@@ -167,12 +220,13 @@ std::vector<Book> CorpusDb::books(const std::string& language) const {
     return result;
 }
 std::vector<ReadingRule> CorpusDb::reading_rules() const {
-    Statement q(db_.get(),"SELECT id,pdist,month,day,ordering,service,description,tradition,label FROM reading_rule ORDER BY ordering,id");
+    Statement q(db_.get(),"SELECT reading_rule.id,pdist,month,day,ordering,service,description,tradition,label,source.code FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
     std::vector<ReadingRule> result;
     while(q.row()) {
         const auto service=q.text(5);
         const auto kind=service=="Epistle"?ReadingKind::Epistle:service=="Gospel"?ReadingKind::Gospel:service=="Vespers"?ReadingKind::Vespers:ReadingKind::OldTestament;
         ReadingRule rule{q.number(0),q.number(1),q.number(2),q.number(3),q.number(4),service,q.text(6),q.text(7),{kind,{},q.text(8),{}}};
+        rule.reading.reference=q.text(9);
         Statement parts(db_.get(),"SELECT book,first_chapter,first_verse,last_chapter,last_verse FROM reading_segment WHERE rule_id=? ORDER BY ordering");
         parts.number(1,rule.id);bool first=true;
         while(parts.row()) {

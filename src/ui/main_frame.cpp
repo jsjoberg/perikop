@@ -172,7 +172,9 @@ void MainFrame::show_readings() {
     scripture_->Hide();reader_header_->Hide();readings_->Show();root_->Layout();
 }
 void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"}); }
-void MainFrame::open_reading(const Reading& reading) {
+void MainFrame::open_reading(const Reading& selected) {
+    // Lectionary references use their reference edition's numbering; open them in the reader's.
+    const auto reading=corpus_.localize(selected);
     readings_->Hide();reader_header_->Show();scripture_->Show();
     reader_label_->SetLabel(u(reading.label));
     part_->Clear();const auto segments=reading.segments();
@@ -271,7 +273,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         std::vector<SpeechUtterance> queue;
         for(const auto& reading:readings) {
             if(reading.base_language=="sv")queue.push_back(make_utterance(reading_introduction(reading),"sv",corpus_.pronunciations("sv")));
-            for(const auto& passage:reading.segments()) {
+            for(const auto& passage:corpus_.localize(reading).segments()) {
                 auto language=reading.base_language;
                 auto source=reading.source_override.empty()?source_for_language(language,passage.book):reading.source_override;
                 if(corpus_.coordinates(source,passage.book).empty()) {

@@ -30,8 +30,11 @@ Source: https://sqlite.org/copyright.html
 The package retains complete nonempty publisher texts and their source coordinates.
 Empty book and verse placeholders are excluded.
 
-- Swedish Bible 1917 with historical apocrypha: 35,350 verses in 78 books, from Scrollmapper.
-  The historical text is public domain. The transcription repository uses MIT.
+- Swedish Bible 1917 with the 1921 apocrypha: 35,515 verses in 78 books.
+  The canonical books come from Project Runeberg's 1917 e-text. The historical text is public domain.
+  https://runeberg.org/bibeln/
+  The apocrypha are curated from Runeberg's 1921 facsimile and the Scrollmapper transcription (MIT).
+  https://runeberg.org/apokryf/
   https://github.com/scrollmapper/bible_databases/tree/master/sources/sv/Swe1917
 - English KJV: 31,102 verses in 66 books, from Scrollmapper.
   The text is public domain in many jurisdictions. UK Crown printing rights can apply.

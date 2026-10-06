@@ -26,7 +26,7 @@ The test uses a temporary user database.
 The resource check covers every bundled file listed in the manifest.
 Literata and the explicit Noto fallbacks cover all 315 distinct corpus characters.
 The check also rejects leftover import markup.
-The corpus contains 141,036 nonempty Scripture records across five editions.
+The corpus contains 141,201 nonempty Scripture records across five editions.
 Greek Daniel, 317 lettered LXX portions, and English deuterocanonical books are included.
 One English publisher record contains two joined verse coordinates.
 The resource check asserts each edition's exact record and book counts.
@@ -54,8 +54,8 @@ Each publisher's complete available edition is bundled.
 Some books exist in only one language. Empty publisher placeholders are excluded.
 The Bible browser filters its book list by the chosen edition.
 This release does not claim full Matins, Vespers, or composite liturgical service coverage.
-MT/LXX verse alignment remains curated rather than complete.
-The reader shows unavailable alignments and can open each edition directly through the Bible browser.
+MT/LXX alignment covers every verse of the bundled Old Testament editions at verse level. See `docs/versification.md`.
+The reader shows verses without a counterpart and can open each edition directly through the Bible browser.
 
 The renderer fits whole paragraphs with native shaping, Knuth–Plass demerits, and Liang hyphenation.
 Prose flows across verses, using USFM boundaries or labelled WEB editorial boundaries for Swedish and KJV.

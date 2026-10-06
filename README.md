@@ -3,7 +3,7 @@
 A native Orthodox lectionary reader prototype for Windows, macOS, and Linux.
 The interface uses Swedish labels. Scripture appears in a custom native view with continuous chapter context.
 
-Version 0.5 bundles 141,036 Scripture records from complete available Swedish, Greek, and English editions.
+Version 0.5 bundles 141,201 Scripture records from complete available Swedish, Greek, and English editions.
 It includes Swedish apocrypha and the Greek Septuagint.
 It calculates daily readings offline for the North American Antiochian Greek tradition.
 All 52 Sundays match the Archdiocese's official 2026 chart.
@@ -147,14 +147,14 @@ This test requires the pinned local voice pack. It rejects token-limit truncatio
 `user.db` resides in the platform user-data directory.
 All SQL stays in the storage layer. See `docs/storage.md` for the explicit SQLite policy and migration.
 
-The corpus contains 35,350 Swedish records, 28,597 Greek OT records, 7,958 Greek NT records, 31,102 KJV records, and 38,029 WEB records.
+The corpus contains 35,515 Swedish records, 28,597 Greek OT records, 7,958 Greek NT records, 31,102 KJV records, and 38,029 WEB records.
 The World English Bible includes deuterocanonical books. The Bible browser offers it as a separate edition.
 Lettered Greek coordinates, such as Genesis 31:50a, remain separate records. Joined publisher verses retain their complete ranges.
 The browser lists only books available in the selected edition.
 Each source retains its wording and chapter and verse coordinates.
 The Greek Psalms retain LXX numbering.
-Only curated Psalm mappings receive aligned verse treatment.
-Other unverified alignments show a message. Each edition remains available through the Bible browser.
+An explicit alignment links Swedish, Greek, and English verses across their numbering systems.
+Verses without a counterpart show a message. See `docs/versification.md`.
 The renderer retains book coordinates and at most 192 text layouts.
 It creates no native control for individual verses.
 
@@ -179,7 +179,7 @@ python3 tools/check_resources.py
 Prose uses bundled USFM paragraph boundaries. Swedish and KJV use WEB boundaries as editorial display metadata where coordinates agree.
 Poetry retains verse stanzas. Paragraph breaks inside a single verse are not yet retained.
 Punctuation protrudes into optical margins.
-Full MT/LXX alignment and morning and evening Psalm cycles remain open.
+Word-level MT/LXX alignment and morning and evening Psalm cycles remain open.
 Swedish voice quality and Windows/Linux/Intel Mac speech execution still need independent validation.
 Published annual Antiochian instructions can require additional calendar exceptions.
 No restricted modern Swedish translation is bundled.

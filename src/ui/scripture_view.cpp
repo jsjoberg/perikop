@@ -236,7 +236,7 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
             }
             if(displayed_.book=="Ps" && !settings_.parallel.empty() && settings_.parallel!="en") {
                 const auto map=corpus_.alignment(base_source_,"grc-lxx",{displayed_.book,row.ref,row.ref});
-                if(map)labels+=wxString::Format("     ·     MT %d / LXX %d",row.ref.chapter,map->to.first.chapter);
+                if(map&&!map->to.book.empty())labels+=wxString::Format("     ·     MT %d / LXX %d",row.ref.chapter,map->to.first.chapter);
             }
             dc.DrawText(labels,(size.x-dc.GetTextExtent(labels).x)/2,y+FromDIP(93));
         } else {
