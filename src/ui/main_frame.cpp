@@ -14,6 +14,7 @@
 #include <wx/statbmp.h>
 #include <wx/weakref.h>
 #include <wx/graphics.h>
+#include <wx/menu.h>
 #include <wx/stdpaths.h>
 #include <limits>
 #include <iostream>
@@ -53,107 +54,44 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     :wxFrame(nullptr,wxID_ANY,"Ortodox läsare",wxDefaultPosition,wxSize(1120,900)),
     playback_timer_(this),corpus_(corpus),user_(user),lectionary_(corpus),selected_(date),settings_(user.load()) {
     SetMinSize(FromDIP(wxSize(520,480)));root_=new wxPanel(this);root_->SetFont(ui_font());
+    (void)resources;
     auto* outer=new wxBoxSizer(wxVERTICAL);
-    auto* top=new wxBoxSizer(wxHORIZONTAL);
-    const auto icon_path=(resources/"icons/orthodox-cross.png").string();
-    wxImage image(u(icon_path),wxBITMAP_TYPE_PNG);
-    if(image.IsOk()) {
-        const auto small=wxBitmap(image.Copy().Rescale(36,36,wxIMAGE_QUALITY_HIGH));
-        const auto large=wxBitmap(image.Copy().Rescale(72,72,wxIMAGE_QUALITY_HIGH));
-        auto* cross=new wxStaticBitmap(root_,wxID_ANY,wxBitmapBundle::FromBitmaps(small,large));
-        cross->SetToolTip("Ortodox läsare · kors i svenska färger");
-        top->Add(cross,0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
-    }
-    top->Add(button(root_,"‹",[this]{navigate(-1);}),0,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
-    date_=button(root_,u(date_swedish(selected_.date())),[this]{pick_date();});date_->SetFont(ui_font(13));
-    date_->SetToolTip("Välj ett civilt datum");top->Add(date_,1,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
-    top->Add(button(root_,"›",[this]{navigate(1);}),0,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
-    calendar_=new wxChoice(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Nya kalendern","Gamla kalendern"});
-    calendar_->SetSelection(settings_.calendar==CalendarStyle::Old?1:0);
-    calendar_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){settings_.calendar=calendar_->GetSelection()?CalendarStyle::Old:CalendarStyle::New;show_readings();refresh_day();apply_settings();});
-    top->Add(calendar_,0,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));outer->Add(top,0,wxEXPAND|wxLEFT|wxRIGHT|wxTOP,FromDIP(24));
-    annotation_=label(root_,"",9);outer->Add(annotation_,0,wxALIGN_CENTER|wxTOP|wxBOTTOM,FromDIP(8));
-    outer->Add(new wxStaticLine(root_),0,wxEXPAND);
-    reader_header_=new wxPanel(root_);auto* reader_tools=new wxBoxSizer(wxHORIZONTAL);
-    reader_tools->Add(button(reader_header_,"‹ Läsningar",[this]{show_readings();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(20));
-    reader_label_=new wxStaticText(reader_header_,wxID_ANY,"",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END);
-    reader_label_->SetFont(ui_font(10));reader_label_->SetMinSize(FromDIP(wxSize(60,-1)));
-    reader_label_->SetToolTip("Mässingsstrecket i marginalen markerar den föreskrivna läsningen.");
-    reader_tools->Add(reader_label_,1,wxALIGN_CENTER_VERTICAL);
-    reader_tools->Add(button(reader_header_,"Till läsningen",[this]{following_audio_=false;scripture_->follow_playback(false);scripture_->center_passage();scripture_->SetFocus();refresh_speech();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));
-    reader_tools->Add(button(reader_header_,"Lyssna",[this]{play_speech({visible_reading_.value_or(scripture_->reading())});}),0,wxALIGN_CENTER_VERTICAL);
-    reader_header_->SetSizer(reader_tools);outer->Add(reader_header_,0,wxEXPAND|wxALL,FromDIP(20));
-    part_=new wxChoice(reader_header_,wxID_ANY);part_->SetName("Läsningens del");
-    part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){following_audio_=false;scripture_->follow_playback(false);scripture_->open_section(part_->GetSelection());refresh_speech();});
-    reader_tools->Insert(2,part_,0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));part_->Hide();
     scripture_=new ScriptureView(root_,corpus);outer->Add(scripture_,1,wxEXPAND);
     readings_=new wxScrolledWindow(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL|wxBORDER_NONE);
     readings_->SetScrollRate(0,FromDIP(12));entries_=new wxBoxSizer(wxVERTICAL);readings_->SetSizer(entries_);
     outer->Add(readings_,1,wxEXPAND|wxLEFT|wxRIGHT,FromDIP(68));
-    footer_=new wxPanel(root_);auto* footer=new wxWrapSizer(wxHORIZONTAL,wxREMOVE_LEADING_SPACES);
-    footer->Add(button(footer_,"Läsningar",[this]{show_readings();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
-    footer->Add(button(footer_,"Bibel",[this]{browse_bible();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
-    footer->Add(button(footer_,"Kalender",[this]{pick_date();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
-
-    theme_=new wxChoice(footer_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"System","Ljust","Mörkt"});
-    theme_->SetSelection(int(settings_.theme));theme_->SetName("Tema");theme_->SetToolTip("Tema");
-    theme_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){settings_.theme=static_cast<Theme>(theme_->GetSelection());apply_settings();});
-    footer->Add(theme_,0,wxALIGN_CENTER_VERTICAL);footer_->SetSizer(footer);outer->Add(footer_,0,wxEXPAND|wxALL,FromDIP(20));
-    // Reading preferences share one compact, wrapping footer with navigation.
-    parallel_=new wxChoice(footer_,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Huvudtext","+ Grekiska","+ Engelska","Alla tre språk"});
-    parallel_->SetSelection(settings_.parallel.empty()?0:settings_.parallel=="el"?1:settings_.parallel=="en"?2:3);
-    parallel_->SetName("Parallell text");
-    parallel_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){static const char* modes[]={"","el","en","el,en"};settings_.parallel=modes[parallel_->GetSelection()];apply_settings();});
-    footer->Add(parallel_,0,wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT,FromDIP(12));
-    footer->Add(button(footer_,"A−",[this]{settings_.font_size=std::max(14,settings_.font_size-1);apply_settings();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(6));
-    footer->Add(button(footer_,"A+",[this]{settings_.font_size=std::min(28,settings_.font_size+1);apply_settings();}),0,wxALIGN_CENTER_VERTICAL);
-    speech_panel_=new wxPanel(root_);speech_panel_->SetBackgroundStyle(wxBG_STYLE_PAINT);
-    speech_panel_->Bind(wxEVT_PAINT,&MainFrame::paint_playback,this);
-    auto* speech_bar=new wxBoxSizer(wxVERTICAL);
-    speech_status_=new wxStaticText(speech_panel_,wxID_ANY,"Välj Lyssna för att höra texten",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END|wxST_NO_AUTORESIZE);
-    speech_status_->SetFont(ui_font(11));speech_status_->SetMinSize(FromDIP(wxSize(100,-1)));
-    speech_detail_=new wxStaticText(speech_panel_,wxID_ANY,"Texten följer med när du lyssnar",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END|wxST_NO_AUTORESIZE);
-    speech_detail_->SetFont(ui_font(9));
-    // Keep both status lines and controls stable when buffering or following changes.
-    auto* status_row=new wxBoxSizer(wxVERTICAL);
-    status_row->Add(speech_status_,0,wxEXPAND);
-    status_row->Add(speech_detail_,0,wxEXPAND|wxTOP,FromDIP(3));
-    auto* inset=new wxBoxSizer(wxHORIZONTAL);
-    inset->AddSpacer(FromDIP(28));inset->Add(status_row,1);
-    auto* controls=new wxBoxSizer(wxHORIZONTAL);
-    pause_=button(speech_panel_,"Pausa",[this]{toggle_pause();});
-    stop_=button(speech_panel_,"Stoppa",[this]{stop_speech();});
-    follow_=button(speech_panel_,"Följ uppläsningen",[this]{follow_speech();});
-    pause_->SetToolTip("Pausa eller fortsätt · mellanslag");stop_->SetToolTip("Avsluta uppläsningen · Escape");
-    follow_->SetToolTip("Återgå till texten som läses och följ den automatiskt");
-    controls->Add(pause_,0,wxRIGHT,FromDIP(8));controls->Add(stop_,0,wxRIGHT,FromDIP(12));controls->AddStretchSpacer();controls->Add(follow_);
-    // Reserve the follow button's space so browsing never changes the text viewport.
-    controls->GetItem(follow_)->SetFlag(wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-    follow_->Hide();speech_body_=new wxBoxSizer(wxHORIZONTAL);
-    speech_body_->Add(inset,1,wxEXPAND|wxRIGHT,FromDIP(16));
-    speech_body_->Add(controls,0,wxALIGN_CENTER_VERTICAL);
-    speech_bar->Add(speech_body_,0,wxEXPAND|wxALL,FromDIP(14));
-    speech_panel_->Bind(wxEVT_SIZE,[this,inset,controls](wxSizeEvent& event){
-        const bool narrow=event.GetSize().x<FromDIP(700);
-        const int orientation=narrow?wxVERTICAL:wxHORIZONTAL;
-        if(speech_body_->GetOrientation()!=orientation) {
-            speech_body_->SetOrientation(orientation);
-            auto* labels=speech_body_->GetItem(inset);auto* buttons=speech_body_->GetItem(controls);
-            labels->SetProportion(narrow?0:1);labels->SetFlag(wxEXPAND|(narrow?wxBOTTOM:wxRIGHT));labels->SetBorder(FromDIP(narrow?10:16));
-            buttons->SetFlag(narrow?int(wxEXPAND):int(wxALIGN_CENTER_VERTICAL));
-            root_->Layout();
-        }
-        event.Skip();
-    });
-    pause_->Disable();stop_->Disable();
-    speech_panel_->SetSizer(speech_bar);
-    outer->Insert(outer->GetItemCount()-1,speech_panel_,0,wxEXPAND|wxLEFT|wxRIGHT|wxTOP,FromDIP(20));
+    // Every control lives in one bottom bar. Its contents follow the page:
+    // day navigation on the readings page, playback in the reader.
+    bar_=new wxPanel(root_);bar_->SetBackgroundStyle(wxBG_STYLE_PAINT);
+    bar_->Bind(wxEVT_PAINT,&MainFrame::paint_playback,this);
+    auto* bar=new wxBoxSizer(wxHORIZONTAL);
+    const auto add=[&](wxWindow* control,int proportion=0){bar->Add(control,proportion,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(8));};
+    back_=button(bar_,"‹ Läsningar",[this]{show_readings();});add(back_);
+    previous_=button(bar_,"‹",[this]{navigate(-1);});previous_->SetToolTip("Föregående dag");add(previous_);
+    calendar_button_=button(bar_,"Kalender",[this]{pick_date();});calendar_button_->SetToolTip("Välj datum");add(calendar_button_);
+    next_=button(bar_,"›",[this]{navigate(1);});next_->SetToolTip("Nästa dag");add(next_);
+    part_=new wxChoice(bar_,wxID_ANY);part_->SetName("Läsningens del");
+    part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){following_audio_=false;scripture_->follow_playback(false);scripture_->open_section(part_->GetSelection());refresh_speech();});
+    add(part_);
+    speech_status_=new wxStaticText(bar_,wxID_ANY,"",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END|wxST_NO_AUTORESIZE);
+    speech_status_->SetFont(ui_font(11));speech_status_->SetMinSize(FromDIP(wxSize(40,-1)));
+    bar->Add(speech_status_,1,wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT,FromDIP(8));
+    follow_=button(bar_,"Följ uppläsningen",[this]{
+        if(active_playback())follow_speech();
+        else{scripture_->center_passage();scripture_->SetFocus();}
+    });add(follow_);
+    play_=button(bar_,"Lyssna",[this]{play_or_pause();});play_->SetToolTip("Lyssna, pausa eller fortsätt · mellanslag");add(play_);
+    stop_=button(bar_,"Stoppa",[this]{stop_speech();});stop_->SetToolTip("Avsluta uppläsningen · Escape");add(stop_);
+    bible_=button(bar_,"Bibel",[this]{browse_bible();});bible_->SetToolTip("Öppna ett bibelställe");add(bible_);
+    settings_button_=button(bar_,u("⚙"),[this]{show_settings();});settings_button_->SetToolTip("Kalender, tema, parallelltext och textstorlek");
+    bar->Add(settings_button_,0,wxALIGN_CENTER_VERTICAL);
+    auto* bar_inset=new wxBoxSizer(wxVERTICAL);bar_inset->Add(bar,0,wxEXPAND|wxALL,FromDIP(10));
+    bar_->SetSizer(bar_inset);outer->Add(bar_,0,wxEXPAND);
     scripture_->on_release_follow([this]{following_audio_=false;refresh_speech();});
     Bind(wxEVT_TIMER,[this](wxTimerEvent&){refresh_speech();},playback_timer_.GetId());
     Bind(wxEVT_CHAR_HOOK,[this](wxKeyEvent& event){
-        const bool active=playback_ui_.state==SpeechState::Playing||playback_ui_.state==SpeechState::Paused||playback_ui_.state==SpeechState::Buffering||playback_ui_.state==SpeechState::Loading;
-        if(active&&event.GetKeyCode()==WXK_ESCAPE){stop_speech();return;}
-        if(active&&event.GetKeyCode()==WXK_SPACE&&wxWindow::FindFocus()==scripture_){toggle_pause();return;}
+        if(active_playback()&&event.GetKeyCode()==WXK_ESCAPE){stop_speech();return;}
+        if(event.GetKeyCode()==WXK_SPACE&&wxWindow::FindFocus()==scripture_){play_or_pause();return;}
         event.Skip();
     });
     // The worker copies the shared owner, not wxWeakRef's main-thread tracking data.
@@ -184,48 +122,104 @@ void MainFrame::navigate(int days) {
 }
 void MainFrame::refresh_day() {
     day_=lectionary_.readings_for(selected_.date(),settings_.calendar);
-    date_->SetLabel(u(date_swedish(selected_.date())));
-    annotation_->SetLabel(settings_.calendar==CalendarStyle::New?"Antiochia":"Antiochia · gamla kalendern");
-    annotation_->SetToolTip(u("Kalenderkälla: Antiochian Orthodox Christian Archdiocese of North America\n"+day_.day.annotation+"\nFast kalender: "+day_.day.fixed_cycle.value_or("")+"\n"+day_.day.paschal_cycle.value_or("")));
-    entries_->Clear(true);entries_->AddSpacer(FromDIP(38));
-    if(day_.readings.empty()) {
-        entries_->Add(label(readings_,"Ingen daglig bibelläsning är föreskriven",18),0,wxBOTTOM,FromDIP(20));
-        entries_->Add(button(readings_,"Öppna Bibeln",[this]{browse_bible();}),0);
-    } else {
-        const auto info=day_.day.annotation.find(" · ",day_.day.annotation.find(" · ")+3);
-        if(info!=std::string::npos) {
-            auto* feast=label(readings_,u(day_.day.annotation.substr(info+3)),14);
-            feast->Wrap(std::max(200,GetClientSize().x-FromDIP(150)));entries_->Add(feast,0,wxBOTTOM,FromDIP(28));
-        }
-        for(const auto& reading:day_.readings) {
-            auto* section=label(readings_,kind_label(reading.kind),10);entries_->Add(section,0,wxBOTTOM,FromDIP(10));
-            auto* line=new wxWrapSizer(wxHORIZONTAL,wxREMOVE_LEADING_SPACES);
-            auto* open=button(readings_,u(reading.label),[this,reading]{open_reading(reading);});open->SetFont(body_font(20));
-            line->Add(open,0,wxALIGN_CENTER_VERTICAL);line->Add(button(readings_,"Lyssna",[this,reading]{play_speech({reading});}),0,wxALIGN_CENTER_VERTICAL|wxLEFT,FromDIP(16));
-            entries_->Add(line,0,wxEXPAND|wxBOTTOM,FromDIP(36));
-        }
-        entries_->AddSpacer(FromDIP(10));
-        listen_all_=button(readings_,"Lyssna på läsningarna",[this]{play_speech(day_.readings);});
-        entries_->Add(listen_all_,0,wxALIGN_CENTER|wxBOTTOM,FromDIP(16));
-
+    entries_->Clear(true);entries_->AddSpacer(FromDIP(48));
+    entries_->Add(label(readings_,u(date_swedish(selected_.date())),13),0,wxBOTTOM,FromDIP(8));
+    const auto info=day_.day.annotation.find(" · ",day_.day.annotation.find(" · ")+3);
+    if(info!=std::string::npos) {
+        auto* feast=new wxStaticText(readings_,wxID_ANY,u(day_.day.annotation.substr(info+3)));feast->SetFont(body_font(18));
+        feast->Wrap(std::max(200,GetClientSize().x-FromDIP(150)));entries_->Add(feast,0,wxBOTTOM,FromDIP(8));
+    }
+    entries_->AddSpacer(FromDIP(28));
+    if(day_.readings.empty())entries_->Add(label(readings_,"Ingen daglig bibelläsning är föreskriven",18),0,wxBOTTOM,FromDIP(20));
+    for(const auto& reading:day_.readings) {
+        auto* section=label(readings_,kind_label(reading.kind),10);entries_->Add(section,0,wxBOTTOM,FromDIP(6));
+        auto* open=button(readings_,u(reading.label),[this,reading]{open_reading(reading);});open->SetFont(body_font(20));
+        entries_->Add(open,0,wxBOTTOM,FromDIP(32));
     }
     readings_->FitInside();readings_->Scroll(0,0);apply_settings(false);Layout();
 }
 void MainFrame::show_readings() {
     following_audio_=false;if(scripture_)scripture_->follow_playback(false);
-    scripture_->Hide();reader_header_->Hide();readings_->Show();root_->Layout();
+    scripture_->Hide();readings_->Show();update_bar();
 }
 void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"}); }
 void MainFrame::open_reading(const Reading& selected) {
     visible_reading_=selected;following_audio_=false;speech_view_.reset();scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the reader's.
     const auto reading=corpus_.localize(selected);
-    readings_->Hide();reader_header_->Show();scripture_->Show();
-    reader_label_->SetLabel(u(reading.label));
+    readings_->Hide();scripture_->Show();
+    reading_title_=u(reading.label);
     part_->Clear();const auto segments=reading.segments();
     for(std::size_t i=0;i<segments.size();++i)part_->Append(wxString::Format("Del %d · ",int(i+1))+u(corpus_.book_name(segments[i].book)));
-    part_->SetSelection(0);part_->Show(segments.size()>1);
-    root_->Layout();scripture_->open(reading);scripture_->SetFocus();
+    part_->SetSelection(0);
+    update_bar();scripture_->open(reading);scripture_->SetFocus();
+}
+bool MainFrame::active_playback() const {
+    const auto state=playback_ui_.state;
+    return state==SpeechState::Playing||state==SpeechState::Paused||state==SpeechState::Buffering||state==SpeechState::Loading;
+}
+void MainFrame::play_or_pause() {
+    if(active_playback())toggle_pause();
+    else if(scripture_->IsShown())play_speech({visible_reading_.value_or(scripture_->reading())});
+}
+void MainFrame::update_bar() {
+    const bool reader=scripture_->IsShown(),active=active_playback();
+    const wxString follow_label=active?"Följ uppläsningen":"Till läsningen";
+    const wxString play_label=!active?"Lyssna":paused_?"Fortsätt":"Pausa";
+    bool changed=follow_->GetLabel()!=follow_label||play_->GetLabel()!=play_label;
+    follow_->SetLabel(follow_label);play_->SetLabel(play_label);
+    const std::pair<wxWindow*,bool> visibility[]={
+        {back_,reader},{previous_,!reader},{calendar_button_,!reader},{next_,!reader},{bible_,!reader},
+        {part_,reader&&part_->GetCount()>1},{follow_,active?!following_audio_:reader},{play_,reader||active},{stop_,active}};
+    for(const auto& [control,shown]:visibility)if(control->IsShown()!=shown){control->Show(shown);changed=true;}
+    if(changed){bar_->Layout();root_->Layout();}
+    wxString location;
+    if(playback_ui_.cue) {
+        const auto& cue=*playback_ui_.cue;
+        if(cue.introduction)location="Introduktion";
+        else location=u(corpus_.book_name(cue.book))+wxString::Format(" %d:%d",cue.verse.chapter,cue.verse.verse)+u(cue.verse.suffix);
+    }
+    // One short line: where the reading is, or what it is waiting for.
+    const wxString ready=playback_ui_.ready>0?wxString::Format(" %d %%",int(playback_ui_.ready*100)):wxString{};
+    const wxString idle=scripture_->IsShown()?reading_title_:wxString{};
+    wxString title,tooltip;
+    switch(feedback_state_) {
+    case SpeechState::Loading:title="Laddar rösten…";break;
+    case SpeechState::Buffering:title=(playback_ui_.cue?"Förbereder fortsättningen…":"Förbereder uppläsningen…")+ready;
+        tooltip="Uppläsningen startar när tillräckligt mycket ljud är klart för att den inte ska stanna.";break;
+    case SpeechState::Playing:title=location;break;
+    case SpeechState::Paused:title=location.empty()?"Pausad":"Pausad · "+location;break;
+    case SpeechState::Error:title="Uppläsningen kunde inte fortsätta";tooltip=u(speech_message_);break;
+    case SpeechState::Stopped:case SpeechState::Completed:case SpeechState::Idle:title=idle;break;
+    }
+    if(speech_status_->GetLabel()!=title)speech_status_->SetLabel(title);
+    speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
+}
+void MainFrame::show_settings() {
+    enum {New=1,Old,System,Light,Dark,Main,Greek,English,Both,Larger,Smaller};
+    wxMenu menu;
+    menu.AppendRadioItem(New,"Nya kalendern");menu.AppendRadioItem(Old,"Gamla kalendern");
+    menu.Check(settings_.calendar==CalendarStyle::Old?Old:New,true);menu.AppendSeparator();
+    menu.AppendRadioItem(System,"Systemets tema");menu.AppendRadioItem(Light,"Ljust tema");menu.AppendRadioItem(Dark,"Mörkt tema");
+    menu.Check(System+int(settings_.theme),true);menu.AppendSeparator();
+    static const char* modes[]={"","el","en","el,en"};
+    menu.AppendRadioItem(Main,"Bara huvudtexten");menu.AppendRadioItem(Greek,"Parallellt med grekiska");
+    menu.AppendRadioItem(English,"Parallellt med engelska");menu.AppendRadioItem(Both,u("Parallellt med grekiska och engelska"));
+    for(int i=0;i<4;++i)if(settings_.parallel==modes[i])menu.Check(Main+i,true);
+    menu.AppendSeparator();
+    menu.Append(Larger,u("Större text"));menu.Append(Smaller,"Mindre text");
+    menu.Enable(Larger,settings_.font_size<28);menu.Enable(Smaller,settings_.font_size>14);
+    const int id=GetPopupMenuSelectionFromUser(menu,ScreenToClient(settings_button_->GetScreenPosition()));
+    if(id==New||id==Old) {
+        settings_.calendar=id==Old?CalendarStyle::Old:CalendarStyle::New;
+        if(!scripture_->IsShown())refresh_day();
+    }
+    else if(id>=System&&id<=Dark)settings_.theme=static_cast<Theme>(id-System);
+    else if(id>=Main&&id<=Both)settings_.parallel=modes[id-Main];
+    else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
+    else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
+    else return;
+    apply_settings();
 }
 void MainFrame::browse_bible() {
     wxDialog dialog(this,wxID_ANY,"Öppna Bibeln",wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
@@ -301,8 +295,7 @@ void MainFrame::apply_settings(bool persist) {
     }
 #endif
     if(persist) { try{user_.save(settings_);}catch(const std::exception& e){wxMessageBox(u(e.what()),"Inställningar kunde inte sparas",wxOK|wxICON_ERROR,this);} }
-    recolor(root_,palette(settings_.theme));annotation_->SetForegroundColour(palette(settings_.theme).muted);
-    speech_detail_->SetForegroundColour(palette(settings_.theme).muted);
+    recolor(root_,palette(settings_.theme));
     scripture_->apply(settings_);root_->Layout();
 }
 MainFrame::~MainFrame(){playback_timer_.Stop();speech_.reset();}
@@ -340,8 +333,8 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     } else if(playback.state!=SpeechState::Buffering)debounce_buffering_=false;
     playback_ui_=playback;
     const auto state=playback.state;
-    // Freeze tracking immediately, but do not flash a spinner for a brief
-    // gap between audio callbacks. Startup feedback remains immediate.
+    // Freeze tracking immediately, but do not flash buffering text for a
+    // brief gap between audio callbacks. Startup feedback remains immediate.
     feedback_state_=state==SpeechState::Buffering&&debounce_buffering_&&now-buffering_since_<std::chrono::milliseconds(180)?SpeechState::Playing:state;
     const bool active=state==SpeechState::Playing||state==SpeechState::Paused||state==SpeechState::Buffering||state==SpeechState::Loading;
     if(active&&following_audio_&&playback.cue&&playback.cue->reading<speech_readings_.size()) {
@@ -354,59 +347,18 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     }
     if(!active){following_audio_=false;scripture_->follow_playback(false);playback_timer_.Stop();}
     scripture_->playback(playback);
-    wxString location;
-    if(playback.cue) {
-        const auto& cue=*playback.cue;
-        if(cue.introduction)location="Introduktion";
-        else location=u(corpus_.book_name(cue.book))+wxString::Format(" %d:%d",cue.verse.chapter,cue.verse.verse)+u(cue.verse.suffix);
-    }
-    wxString title,detail;
-    switch(feedback_state_) {
-    case SpeechState::Loading:title="Laddar rösten…";detail="Första starten kan ta en stund";break;
-    case SpeechState::Buffering:
-        title=playback.cue?"Väntar på ljud…":"Förbereder uppläsningen…";
-        detail=playback.cue?"Markören fortsätter när ljudet är klart":"Ljudet startar när den första delen är klar";break;
-    case SpeechState::Playing:title=location.empty()?"Läser":("Läser · "+location);detail=following_audio_?"Texten följer uppläsningen":"Du bläddrar själv · ljudet fortsätter";break;
-    case SpeechState::Paused:title=location.empty()?"Pausad":("Pausad · "+location);detail="Fortsätt där du pausade";break;
-    case SpeechState::Stopped:title="Uppläsningen är stoppad";detail="Välj Lyssna för att börja om";break;
-    case SpeechState::Completed:title="Läsningen är klar";detail="Du har nått slutet av läsningen";break;
-    case SpeechState::Error:title="Uppläsningen kunde inte fortsätta";detail=u(speech_message_);break;
-    case SpeechState::Idle:title="Välj Lyssna för att höra texten";detail="Texten följer med när du lyssnar";break;
-    }
-    if(feedback_state_==SpeechState::Buffering&&!location.empty())detail=location+" · "+detail;
-    if(speech_status_->GetLabel()!=title)speech_status_->SetLabel(title);
-    if(speech_detail_->GetLabel()!=detail)speech_detail_->SetLabel(detail);
-    speech_status_->SetToolTip(title);speech_detail_->SetToolTip(detail);
     paused_=state==SpeechState::Paused;
-    const wxString pause_label=paused_?"Fortsätt":"Pausa";
-    bool layout=pause_->GetLabel()!=pause_label;
-    pause_->SetLabel(pause_label);pause_->Enable(active);stop_->Enable(active);
-    const bool follow=active&&!following_audio_;
-    layout|=follow_->IsShown()!=follow;follow_->Show(follow);
-    if(layout){speech_panel_->Layout();root_->Layout();}
-    speech_detail_->SetForegroundColour(palette(settings_.theme).muted);
-    speech_panel_->Refresh(false);
+    update_bar();bar_->Refresh(false);
 }
 void MainFrame::paint_playback(wxPaintEvent&) {
-    wxAutoBufferedPaintDC dc(speech_panel_);const auto colors=palette(settings_.theme);
+    wxAutoBufferedPaintDC dc(bar_);const auto colors=palette(settings_.theme);
     dc.SetBackground(wxBrush(colors.paper));dc.Clear();
-    const auto size=speech_panel_->GetClientSize();
+    const auto size=bar_->GetClientSize();
     dc.SetPen(wxPen(colors.rule,1));dc.DrawLine(0,0,size.x,0);
-    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
-    if(!gc)return;
-    gc->SetPen(*wxTRANSPARENT_PEN);gc->SetBrush(wxBrush(colors.accent));
-    if(playback_ui_.progress>0)gc->DrawRoundedRectangle(0,0,size.x*playback_ui_.progress,FromDIP(2),FromDIP(1));
-    const double x=FromDIP(21),y=FromDIP(27),r=FromDIP(5);
-    if(feedback_state_==SpeechState::Loading||feedback_state_==SpeechState::Buffering) {
-        const double time=std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count();
-        auto path=gc->CreatePath();path.AddArc(x,y,r,time*4,time*4+4.5,true);
-        gc->SetPen(wxPen(colors.accent,FromDIP(2)));gc->StrokePath(path);
-    } else if(feedback_state_==SpeechState::Paused) {
-        gc->DrawRoundedRectangle(x-r,y-r,FromDIP(3),r*2,FromDIP(1));
-        gc->DrawRoundedRectangle(x+FromDIP(2),y-r,FromDIP(3),r*2,FromDIP(1));
-    } else {
-        gc->SetBrush(wxBrush(feedback_state_==SpeechState::Playing?colors.accent:colors.muted));
-        gc->DrawEllipse(x-r,y-r,r*2,r*2);
+    // The rule doubles as the progress line while a reading plays.
+    if(active_playback()&&playback_ui_.progress>0) {
+        dc.SetPen(*wxTRANSPARENT_PEN);dc.SetBrush(wxBrush(colors.accent));
+        dc.DrawRectangle(0,0,int(size.x*playback_ui_.progress),FromDIP(2));
     }
 }
 void MainFrame::play_speech(const std::vector<Reading>& readings) {
@@ -575,7 +527,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if(!screenshot_path.empty())ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-narrow.png",wxBITMAP_TYPE_PNG)&&ok;
     }
     SetSize(original_size);Layout();
-    if(calendar_->GetString(0)!="Nya kalendern"||calendar_->GetString(1)!="Gamla kalendern")ok=false;
+    // The day page is navigation only; every control sits in the bottom bar.
+    show_readings();
+    for(auto* child:readings_->GetChildren())if(auto* control=dynamic_cast<wxButton*>(child);control&&control->GetLabel().Contains("Lyssna"))ok=false;
+    if(!previous_->IsShown()||!next_->IsShown()||!bible_->IsShown()||play_->IsShown()||back_->IsShown())ok=false;
     settings_.parallel="";apply_settings(false);
     for(auto reading:std::vector<Reading>{
         {ReadingKind::OldTestament,{"Gen",{31,50,"a"},{31,50,"a"}},"Första Moseboken 31:50a",{},"el"},
@@ -594,9 +549,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // Exercise playback presentation without model loading or audible output.
     open_psalm();settings_.theme=Theme::Light;settings_.parallel="el";apply_settings(false);
     display_playback({SpeechState::Loading,{},0,0});
-    if(speech_status_->GetLabel()!="Laddar rösten…"||!pause_->IsEnabled()||!stop_->IsEnabled())ok=false;
-    display_playback({SpeechState::Buffering,{},0,0});
-    if(speech_status_->GetLabel()!="Förbereder uppläsningen…"||scripture_->marker_position())ok=false;
+    if(speech_status_->GetLabel()!="Laddar rösten…"||play_->GetLabel()!="Pausa"||!stop_->IsShown())ok=false;
+    display_playback({SpeechState::Buffering,{},0,0,0.4});
+    if(speech_status_->GetLabel()!="Förbereder uppläsningen… 40 %"||scripture_->marker_position())ok=false;
     SpeechPlayback playing{SpeechState::Playing,SpeechCue{0,0,"Ps","sv1917",{23,3},{23,3},false},0.35,0.4};
     following_audio_=true;scripture_->playback(playing);scripture_->follow_playback();
     for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
@@ -604,10 +559,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto held_marker=scripture_->marker_position();const auto held_scroll=scripture_->scroll_position();
     auto paused=playing;paused.state=SpeechState::Paused;display_playback(paused);
     for(int i=0;i<30;++i)scripture_->advance_playback(0.016);
-    if(scripture_->marker_position()!=held_marker||scripture_->scroll_position()!=held_scroll||pause_->GetLabel()!="Fortsätt"||!stop_->IsEnabled())ok=false;
+    if(scripture_->marker_position()!=held_marker||scripture_->scroll_position()!=held_scroll||play_->GetLabel()!="Fortsätt"||!stop_->IsShown())ok=false;
     auto buffering=playing;buffering.state=SpeechState::Buffering;display_playback(buffering);
     for(int i=0;i<30;++i)scripture_->advance_playback(0.016);
-    if(scripture_->marker_position()!=held_marker||scripture_->scroll_position()!=held_scroll||speech_status_->GetLabel()!="Väntar på ljud…")ok=false;
+    if(scripture_->marker_position()!=held_marker||scripture_->scroll_position()!=held_scroll||speech_status_->GetLabel()!="Förbereder fortsättningen…")ok=false;
     display_playback(playing);display_playback(buffering);
     if(feedback_state_!=SpeechState::Playing)ok=false;
     buffering_since_=std::chrono::steady_clock::now()-std::chrono::seconds(1);display_playback(buffering);
@@ -634,7 +589,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if(!scripture_->marker_position())ok=false;
     save_playback("-playing-greek");
     SetSize(FromDIP(wxSize(520,650)));Layout();root_->Layout();display_playback(paused);
-    for(auto* control:{pause_,stop_,follow_})if(control->GetRect().GetRight()>speech_panel_->GetClientSize().x)ok=false;
+    for(wxWindow* control:{back_,follow_,play_,stop_,settings_button_})if(control->IsShown()&&control->GetRect().GetRight()>bar_->GetClientSize().x)ok=false;
     save_playback("-playing-narrow");
     SetSize(original_size);Layout();root_->Layout();settings_.font_size=original.font_size;apply_settings(false);
     scripture_->playback(playing);scripture_->follow_playback();
@@ -643,7 +598,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if(!scripture_->marker_position()||scripture_->scroll_position()<=held_scroll+100)ok=false;
     display_playback({SpeechState::Stopped,{},0,0});
     for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
-    if(scripture_->marker_position()||pause_->IsEnabled()||stop_->IsEnabled())ok=false;
+    if(scripture_->marker_position()||play_->GetLabel()!="Lyssna"||stop_->IsShown())ok=false;
     std::cout<<"Playback presentation: marker, pause, buffering, manual scroll, follow, stop.\n";
     open_psalm();
     settings_=original;apply_settings(false);ok=ok && selected_.date()==date;

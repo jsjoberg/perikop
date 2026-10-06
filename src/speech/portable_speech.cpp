@@ -1,5 +1,6 @@
 #include "speech/portable_speech.hpp"
 #include "speech/pcm_output.hpp"
+#include "speech/pcm_stream.hpp"
 #include "speech/playback_timeline.hpp"
 #include "storage/database.hpp"
 #include "speech_voice_manifest.hpp"
@@ -64,6 +65,7 @@ class PortableSpeech final:public SpeechEngine {
     bool shutdown_=false,paused_=false,active_=false;
     bool output_started_=false;
     SpeechState state_=SpeechState::Idle;
+    double ready_=0;
     PlaybackTimeline timeline_;
     std::string stage_="Förbereder läsningen";
     std::unique_ptr<PcmOutput> output_;
@@ -78,6 +80,9 @@ class PortableSpeech final:public SpeechEngine {
     void run() {
         std::unique_ptr<Model> model;
         std::unique_ptr<SpeechCache> cache;
+        // Measured synthesis speed for this session. Until the model has run,
+        // assume it is slower than real time, as on the reference hardware.
+        double model_seconds=0,model_audio=0;
         while(true) {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
@@ -85,7 +90,7 @@ class PortableSpeech final:public SpeechEngine {
                 std::unique_lock lock(mutex_);
                 condition_.wait(lock,[this]{return shutdown_||!queue_.empty();});
                 if(shutdown_)return;
-                generation=generation_.load();batch.swap(queue_);active_=true;output_started_=false;state_=SpeechState::Buffering;
+                generation=generation_.load();batch.swap(queue_);active_=true;output_started_=false;state_=SpeechState::Buffering;ready_=0;
             }
             const auto cancelled=[this,generation]{return generation_.load()!=generation;};
             try {
@@ -96,7 +101,7 @@ class PortableSpeech final:public SpeechEngine {
                     // Retain any additional utterances enqueued for this reading.
                     batch.insert(batch.end(),queue_.begin(),queue_.end());queue_.clear();
                 }
-                struct Part {std::string language,text;std::optional<SpeechCue> cue;double from,to;};
+                struct Part {std::string language,text;std::optional<SpeechCue> cue;double from,to,weight;};
                 std::vector<Part> parts;
                 for(const auto& utterance:batch) {
                     auto chunks=speech_chunks(utterance.speech_text);
@@ -104,17 +109,32 @@ class PortableSpeech final:public SpeechEngine {
                     for(const auto& text:chunks)total+=speech_text_weight(text);
                     for(auto& text:chunks) {
                         const auto weight=speech_text_weight(text);
-                        parts.push_back({utterance.language,std::move(text),utterance.cue,used/std::max(1.0,total),(used+weight)/std::max(1.0,total)});
+                        parts.push_back({utterance.language,std::move(text),utterance.cue,used/std::max(1.0,total),(used+weight)/std::max(1.0,total),weight});
                         used+=weight;
                     }
                 }
                 {std::lock_guard lock(mutex_);if(cancelled())continue;timeline_.reset(parts.size());}
+                double remaining_weight=0,produced_weight=0,produced_seconds=0;
+                for(const auto& part:parts)remaining_weight+=part.weight;
+                // Generate ahead as fast as possible, also while paused, up to
+                // ten minutes of audio or the buffer's slot count.
+                const auto full=[&]{return output_->buffered()>=PcmStream::capacity||output_->buffered_frames()>=600*24000;};
+                // Called with the mutex held after audio is queued or played.
+                // A full buffer cannot grow, so it plays whatever the estimate says.
+                const auto update_gate=[&] {
+                    const double seconds_per_weight=produced_seconds/std::max(1e-9,produced_weight);
+                    const double factor=model_audio>0?model_seconds/model_audio:2.5;
+                    const double target=buffer_target(remaining_weight*seconds_per_weight,factor);
+                    const double buffered=output_->buffered_frames()/24000.0;
+                    ready_=std::min(1.0,buffered/target);
+                    if(output_->buffered()&&(buffered>=target||full()))output_->release();
+                };
                 for(size_t i=0;i<parts.size();++i) {
                     {
                         std::unique_lock lock(mutex_);
-                        // Bound lookahead, including while paused. Generate the next
-                        // chunk as soon as playback makes room, rather than the whole reading.
-                        while(!cancelled()&&i&&output_->buffered()>=2)condition_.wait_for(lock,25ms);
+                        while(!cancelled()&&i&&full()) {
+                            update_gate();condition_.wait_for(lock,100ms);
+                        }
                         if(cancelled())break;
                     }
                     const auto& part=parts[i];const auto& language=part.language;const auto& text=part.text;
@@ -124,8 +144,11 @@ class PortableSpeech final:public SpeechEngine {
                     if(!samples){
                         if(!model){report(generation,"Förbereder röstmodellen · Chatterbox",SpeechState::Loading);model=std::make_unique<Model>(data_/"voices"/voice_pack_id);}
                         report(generation,i?"Läser med Chatterbox · förbereder del "+progress:"Förbereder läsningen · "+progress);
+                        const auto begin=std::chrono::steady_clock::now();
                         samples=model->generate(text,language,cancelled);
                         if(cancelled())break;
+                        model_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count();
+                        model_audio+=samples->size()/24000.0;
                         cache->save(cache_revision,language,text,*samples);
                     }
                     if(i)samples->insert(samples->begin(),4800,0.0f);
@@ -135,8 +158,10 @@ class PortableSpeech final:public SpeechEngine {
                         if(!output_)output_=std::make_unique<PcmOutput>();
                         if(!i)output_->start(paused_);
                         timeline_.append(part.cue,samples->size(),i?4800:0,part.from,part.to);
+                        produced_seconds+=samples->size()/24000.0;produced_weight+=part.weight;remaining_weight-=part.weight;
                         output_->append(std::move(*samples));
                         output_started_=true;
+                        update_gate();
                     }
                     report(generation,"Läser med Chatterbox · förhandsversion",SpeechState::Playing);
                 }
@@ -144,7 +169,7 @@ class PortableSpeech final:public SpeechEngine {
                     std::lock_guard lock(mutex_);
                     if(cancelled())continue;
                     if(parts.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
-                    output_->complete();
+                    output_->complete();ready_=1;
                 }
                 report(generation,"Läser med Chatterbox · förhandsversion",SpeechState::Playing);
                 {
@@ -192,7 +217,9 @@ public:
         auto state=state_;
         if(paused_)state=SpeechState::Paused;
         else if(active_)state=position.finished?SpeechState::Completed:position.waiting?SpeechState::Buffering:SpeechState::Playing;
-        return timeline_.at(position.played,state);
+        auto result=timeline_.at(position.played,state);
+        result.ready=ready_;
+        return result;
     }
 };
 }

@@ -29,6 +29,10 @@ private:
     void display_playback(const SpeechPlayback&);
     void follow_speech();
     void toggle_pause();
+    void play_or_pause();
+    bool active_playback() const;
+    void update_bar();
+    void show_settings();
     void stop_speech();
     void paint_playback(wxPaintEvent&);
     std::unique_ptr<SpeechEngine> speech_;
@@ -42,9 +46,8 @@ private:
     std::optional<Reading> visible_reading_;
     std::optional<std::pair<size_t,size_t>> speech_view_;
     bool following_audio_=false;
-    wxPanel* speech_panel_;
-    wxBoxSizer* speech_body_;
-    wxButton *pause_,*stop_,*follow_;
+    wxPanel* bar_;
+    wxButton *back_,*previous_,*calendar_button_,*next_,*follow_,*play_,*stop_,*bible_,*settings_button_;
     bool paused_=false;
     void navigate(int days);
     void browse_bible();
@@ -54,12 +57,12 @@ private:
     SelectedDay selected_;
     Settings settings_;
     DayReadings day_;
-    wxPanel *root_,*reader_header_,*footer_;
+    wxPanel* root_;
     wxScrolledWindow* readings_;
     ScriptureView* scripture_;
-    wxButton *date_,*listen_all_;
-    wxStaticText *annotation_,*reader_label_,*speech_status_,*speech_detail_;
-    wxChoice *calendar_,*theme_,*parallel_,*part_;
+    wxString reading_title_;
+    wxStaticText* speech_status_;
+    wxChoice* part_;
     wxBoxSizer* entries_;
 };
 }

@@ -8,32 +8,42 @@
 namespace ortho {
 // One synthesis producer and one audio consumer. Slots remain allocated until
 // the producer reuses them; the audio callback neither locks nor frees buffers.
+// Output starts held. The producer releases it once enough audio is buffered;
+// an underrun holds it again so playback rebuffers instead of stuttering.
 class PcmStream {
-    static constexpr size_t capacity=2;
+public:
+    static constexpr size_t capacity=1024;
+private:
     std::array<std::vector<float>,capacity> chunks_;
     std::atomic<size_t> read_{0},written_{0};
-    std::atomic<bool> complete_{false};
-    std::atomic<uint64_t> played_{0};
+    std::atomic<bool> complete_{false},held_{true};
+    std::atomic<uint64_t> played_{0},appended_{0};
     size_t position_=0; // Audio consumer only.
 public:
     size_t buffered() const {
         const auto read=read_.load(std::memory_order_acquire);
         return written_.load(std::memory_order_acquire)-read;
     }
+    uint64_t buffered_frames() const {return appended_.load(std::memory_order_acquire)-played_.load(std::memory_order_acquire);}
     bool append(std::vector<float>&& samples) {
         const auto written=written_.load(std::memory_order_relaxed);
         if(complete_.load(std::memory_order_acquire)||samples.empty()||
            written-read_.load(std::memory_order_acquire)==capacity)return false;
+        const auto frames=samples.size();
         chunks_[written%capacity]=std::move(samples);
+        appended_.fetch_add(frames,std::memory_order_release);
         written_.store(written+1,std::memory_order_release);
         return true;
     }
-    void complete(){complete_.store(true,std::memory_order_release);}
+    void release(){held_.store(false,std::memory_order_release);}
+    bool held() const{return held_.load(std::memory_order_acquire);}
+    void complete(){complete_.store(true,std::memory_order_release);held_.store(false,std::memory_order_release);}
     bool finished() const{return complete_.load(std::memory_order_acquire)&&buffered()==0;}
     uint64_t played() const{return played_.load(std::memory_order_acquire);}
-    bool waiting() const{return !complete_.load(std::memory_order_acquire)&&buffered()==0;}
+    bool waiting() const{return !complete_.load(std::memory_order_acquire)&&(held()||buffered()==0);}
     void render(float* output,size_t frames) {
         std::fill_n(output,frames,0.0f);
+        if(held())return;
         size_t copied=0;
         auto read=read_.load(std::memory_order_relaxed);
         while(copied<frames&&read<written_.load(std::memory_order_acquire)) {
@@ -47,6 +57,15 @@ public:
             }
         }
         played_.fetch_add(copied,std::memory_order_release);
+        if(copied<frames&&!complete_.load(std::memory_order_acquire))held_.store(true,std::memory_order_release);
     }
 };
+// Generating the rest must finish before playback reaches it. With a
+// real-time factor r (seconds of work per second of audio) and R seconds
+// still to generate, playback may run once B >= (r - 1) * R is buffered.
+// The margin covers estimation error; the cushion covers chunk granularity.
+inline double buffer_target(double remaining_seconds,double realtime_factor) {
+    constexpr double margin=1.25,cushion=6;
+    return std::max(0.0,(realtime_factor*margin-1)*remaining_seconds)+cushion;
+}
 }

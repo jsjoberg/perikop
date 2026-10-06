@@ -13,6 +13,8 @@ struct SpeechPlayback {
     SpeechState state=SpeechState::Idle;
     std::optional<SpeechCue> cue;
     double verse_progress=0,progress=0;
+    // While buffering: share of the audio needed before playback can run.
+    double ready=0;
 };
 struct SpeechUtterance { std::string display_text, speech_text, language; std::optional<SpeechCue> cue={}; };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language, const std::vector<Pronunciation>& lexicon);

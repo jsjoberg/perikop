@@ -13,6 +13,8 @@ public:
     void append(std::vector<float> samples);
     void complete();
     size_t buffered() const;
+    uint64_t buffered_frames() const;
+    void release();
     void pause(bool);
     void stop();
     bool finished() const;

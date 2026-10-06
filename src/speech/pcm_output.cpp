@@ -41,6 +41,8 @@ void PcmOutput::append(std::vector<float> samples) {
 }
 void PcmOutput::complete(){if(const auto playback=std::atomic_load(&impl_->playing))playback->complete();}
 size_t PcmOutput::buffered() const{const auto playback=std::atomic_load(&impl_->playing);return playback?playback->buffered():0;}
+uint64_t PcmOutput::buffered_frames() const{const auto playback=std::atomic_load(&impl_->playing);return playback?playback->buffered_frames():0;}
+void PcmOutput::release(){if(const auto playback=std::atomic_load(&impl_->playing))playback->release();}
 void PcmOutput::pause(bool paused){impl_->paused.store(paused);}
 void PcmOutput::stop(){std::atomic_store(&impl_->playing,std::shared_ptr<PcmStream>{});impl_->paused.store(false);}
 bool PcmOutput::finished() const{const auto playback=std::atomic_load(&impl_->playing);return !playback||playback->finished();}
