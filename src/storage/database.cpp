@@ -279,10 +279,13 @@ Settings UserDb::load() const {
         const auto key=query.text(0), value=query.text(1);
         if (key=="theme") result.theme=value=="dark"?Theme::Dark:value=="light"?Theme::Light:Theme::System;
         if (key=="calendar") result.calendar=value=="old"?CalendarStyle::Old:CalendarStyle::New;
-        if (key=="parallel" && (value.empty() || value=="el" || value=="en" || value=="el,en")) result.parallel=value;
+        if (key=="primary" && (value=="sv" || value=="el" || value=="en")) result.primary=value;
+        // The three-pane mode "el,en" is retired; it keeps its Greek pane.
+        if (key=="parallel" && (value.empty() || value=="sv" || value=="el" || value=="en" || value=="el,en")) result.parallel=value=="el,en"?"el":value;
         if (key=="font_size") { try { result.font_size=std::clamp(std::stoi(value),14,28); } catch (...) {} }
-        if (key=="speech_rate") { try { result.speech_rate=std::clamp(std::stoi(value),50,150); } catch (...) {} }
+        if (key=="speech_rate") { try { result.speech_rate=std::clamp(std::stoi(value),25,200); } catch (...) {} }
     }
+    if (result.parallel==result.primary) result.parallel.clear();
     return result;
 }
 void UserDb::save(const Settings& settings) {
@@ -290,7 +293,7 @@ void UserDb::save(const Settings& settings) {
         const std::vector<std::pair<std::string,std::string>> values={
             {"theme",settings.theme==Theme::Dark?"dark":settings.theme==Theme::Light?"light":"system"},
             {"calendar",settings.calendar==CalendarStyle::Old?"old":"new"},
-            {"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)},
+            {"primary",settings.primary},{"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)},
             {"speech_rate",std::to_string(settings.speech_rate)}};
         Statement query(db_.get(), "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
         for (const auto& [key,value]:values) {

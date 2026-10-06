@@ -17,6 +17,7 @@
 #include <wx/menu.h>
 #include <wx/stdpaths.h>
 #include <limits>
+#include <map>
 #include <iostream>
 #include <algorithm>
 #include <functional>
@@ -37,6 +38,24 @@ void recolor(wxWindow* window,const Palette& colors) {
     window->SetBackgroundColour(colors.paper);window->SetForegroundColour(colors.ink);
     for(auto* child:window->GetChildren())recolor(child,colors);
     window->Refresh();
+}
+// Short Swedish book names for the Bible picker grid.
+std::string book_abbreviation(const std::string& book) {
+    static const std::map<std::string,std::string> names={
+        {"Gen","1 Mos"},{"Exod","2 Mos"},{"Lev","3 Mos"},{"Num","4 Mos"},{"Deut","5 Mos"},{"Josh","Jos"},{"Judg","Dom"},{"Ruth","Rut"},
+        {"1Sam","1 Sam"},{"2Sam","2 Sam"},{"1Kgs","1 Kung"},{"2Kgs","2 Kung"},{"1Chr","1 Krön"},{"2Chr","2 Krön"},{"Ezra","Esra"},{"Neh","Neh"},
+        {"Esth","Est"},{"Job","Job"},{"Ps","Ps"},{"Prov","Ords"},{"Eccl","Pred"},{"Song","Höga v"},{"Isa","Jes"},{"Jer","Jer"},{"Lam","Klag"},
+        {"Ezek","Hes"},{"Dan","Dan"},{"Hos","Hos"},{"Joel","Joel"},{"Amos","Am"},{"Obad","Ob"},{"Jonah","Jona"},{"Micah","Mika"},{"Nah","Nah"},
+        {"Hab","Hab"},{"Zeph","Sef"},{"Hag","Hagg"},{"Zech","Sak"},{"Mal","Mal"},
+        {"Tob","Tob"},{"Jdt","Judit"},{"EsthGr","T Est"},{"Wis","Vish"},{"Sir","Syr"},{"Baruch","Bar"},{"EpJer","Jer br"},{"PrAzar","Asarj"},
+        {"Sus","Sus"},{"Bel","Bel"},{"DanGr","Dan gr"},{"1Macc","1 Mack"},{"2Macc","2 Mack"},{"3Macc","3 Mack"},{"4Macc","4 Mack"},
+        {"1Esd","1 Esd"},{"2Esd","2 Esd"},{"PrMan","Man"},{"Ps151","Ps 151"},
+        {"Matt","Matt"},{"Mark","Mark"},{"Luke","Luk"},{"John","Joh"},{"Acts","Apg"},{"Rom","Rom"},{"1Cor","1 Kor"},{"2Cor","2 Kor"},
+        {"Gal","Gal"},{"Eph","Ef"},{"Phil","Fil"},{"Col","Kol"},{"1Thess","1 Tess"},{"2Thess","2 Tess"},{"1Tim","1 Tim"},{"2Tim","2 Tim"},
+        {"Titus","Tit"},{"Philemon","Filem"},{"Heb","Hebr"},{"James","Jak"},{"1Peter","1 Petr"},{"2Peter","2 Petr"},{"1John","1 Joh"},
+        {"2John","2 Joh"},{"3John","3 Joh"},{"Jude","Jud"},{"Rev","Upp"}};
+    const auto it=names.find(book);
+    return it==names.end()?book:it->second;
 }
 wxString kind_label(ReadingKind kind) {
     switch(kind){
@@ -81,13 +100,13 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
         else{scripture_->center_passage();scripture_->SetFocus();}
     });add(follow_);
     play_=button(bar_,"Lyssna",[this]{play_or_pause();});play_->SetToolTip("Lyssna, pausa eller fortsätt · mellanslag");add(play_);
-    stop_=button(bar_,"Stoppa",[this]{stop_speech();});stop_->SetToolTip("Avsluta uppläsningen · Escape");add(stop_);
-    bible_=button(bar_,"Bibel",[this]{browse_bible();});bible_->SetToolTip("Öppna ett bibelställe");
-    bar->Add(bible_,0,wxALIGN_CENTER_VERTICAL);
+    stop_=button(bar_,"Stoppa",[this]{stop_speech();});stop_->SetToolTip("Avsluta uppläsningen · Escape");
+    bar->Add(stop_,0,wxALIGN_CENTER_VERTICAL);
     auto* bar_inset=new wxBoxSizer(wxVERTICAL);bar_inset->Add(bar,0,wxEXPAND|wxALL,FromDIP(10));
     bar_->SetSizer(bar_inset);outer->Add(bar_,0,wxEXPAND);
     make_menus();
     scripture_->on_release_follow([this]{following_audio_=false;refresh_speech();});
+    scripture_->on_selection([this]{update_bar();});
     Bind(wxEVT_TIMER,[this](wxTimerEvent&){refresh_speech();},playback_timer_.GetId());
     Bind(wxEVT_CHAR_HOOK,[this](wxKeyEvent& event){
         if(active_playback()&&event.GetKeyCode()==WXK_ESCAPE){stop_speech();return;}
@@ -148,8 +167,8 @@ void MainFrame::show_readings() {
 void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"}); }
 void MainFrame::open_reading(const Reading& selected) {
     visible_reading_=selected;following_audio_=false;speech_view_.reset();scripture_->follow_playback(false);
-    // Lectionary references use their reference edition's numbering; open them in the reader's.
-    const auto reading=corpus_.localize(selected);
+    // Lectionary references use their reference edition's numbering; open them in the left pane's.
+    const auto reading=corpus_.localize(in_primary(selected));
     readings_->Hide();scripture_->Show();
     reading_title_=u(reading.label);
     part_->Clear();const auto segments=reading.segments();
@@ -157,22 +176,39 @@ void MainFrame::open_reading(const Reading& selected) {
     part_->SetSelection(0);
     update_bar();scripture_->open(reading);scripture_->SetFocus();
 }
+Reading MainFrame::in_primary(Reading reading) const {
+    if(reading.source_override.empty())reading.base_language=settings_.primary;
+    return reading;
+}
 bool MainFrame::active_playback() const {
     const auto state=playback_ui_.state;
     return state==SpeechState::Playing||state==SpeechState::Paused||state==SpeechState::Buffering||state==SpeechState::Loading;
 }
 void MainFrame::play_or_pause() {
     if(active_playback())toggle_pause();
+    else if(const auto marked=scripture_->IsShown()?scripture_->selection():std::nullopt) {
+        const auto& first=marked->first;const auto& last=marked->last;
+        Reading reading{new_testament_book(marked->book)?ReadingKind::Gospel:ReadingKind::OldTestament,*marked,
+            corpus_.book_name(marked->book)+" "+std::to_string(first.chapter)+":"+std::to_string(first.verse)+
+            (last==first?"":"–"+(last.chapter!=first.chapter?std::to_string(last.chapter)+":":"")+std::to_string(last.verse)),{},settings_.primary};
+        reading.source_override=scripture_->base_source();
+        play_speech({reading});
+    }
     else if(scripture_->IsShown())play_speech({visible_reading_.value_or(scripture_->reading())});
 }
 void MainFrame::update_bar() {
     const bool reader=scripture_->IsShown(),active=active_playback();
     const wxString follow_label=active?"Följ uppläsningen":"Till läsningen";
-    const wxString play_label=!active?"Lyssna":paused_?"Fortsätt":"Pausa";
+    const bool marked=reader&&scripture_->selection();
+    const wxString play_label=!active?(marked?"Läs markering":"Lyssna"):paused_?"Fortsätt":"Pausa";
+    if(auto* bar=GetMenuBar()) {
+        bar->SetLabel(play_item_,play_label+"\tCtrl+P");bar->Enable(play_item_,reader||active);
+        bar->Enable(stop_item_,active);
+    }
     bool changed=follow_->GetLabel()!=follow_label||play_->GetLabel()!=play_label;
     follow_->SetLabel(follow_label);play_->SetLabel(play_label);
     const std::pair<wxWindow*,bool> visibility[]={
-        {back_,reader},{previous_,!reader},{calendar_button_,!reader},{next_,!reader},{bible_,!reader},
+        {back_,reader},{previous_,!reader},{calendar_button_,!reader},{next_,!reader},
         {part_,reader&&part_->GetCount()>1},{follow_,active?!following_audio_:reader},{play_,reader||active},{stop_,active}};
     for(const auto& [control,shown]:visibility)if(control->IsShown()!=shown){control->Show(shown);changed=true;}
     if(changed){bar_->Layout();root_->Layout();}
@@ -199,95 +235,153 @@ void MainFrame::update_bar() {
     speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
 }
 void MainFrame::make_menus() {
-    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,Bible,New,Old,System,Light,Dark,Main,Greek,English,Both,Larger,Smaller,Rate};
-    static const int rates[]={70,80,90,100};
-    static const char* modes[]={"","el","en","el,en"};
+    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,New,Old,Readings,Bible,System,Light,Dark,Left,Right=Left+3,Larger=Right+4,Smaller,Play,Stop,Rate};
+    static const char* languages[]={"sv","el","en"};
+    static const char* names[]={"Svenska","Grekiska","Engelska"};
+    static const int rates[]={25,50,75,100,125,150,175,200};
+    // Podcast style: 0,25×, 0,5× … 2×, with a Swedish decimal comma.
+    const auto rate_label=[](int rate) {
+        if(rate==100)return wxString("Normal hastighet");
+        wxString text=wxString::Format("%d,%02d",rate/100,rate%100);
+        while(text.EndsWith("0"))text.RemoveLast();
+        if(text.EndsWith(","))text.RemoveLast();
+        return text+u("×");
+    };
     auto* calendar=new wxMenu;
     calendar->Append(Today,"Idag\tCtrl+T");
     calendar->Append(Previous,u("Föregående dag\tCtrl+["));calendar->Append(Next,u("Nästa dag\tCtrl+]"));
     calendar->Append(Pick,u("Välj datum…\tCtrl+D"));calendar->AppendSeparator();
-    calendar->Append(Bible,u("Öppna Bibeln…\tCtrl+O"));calendar->AppendSeparator();
     calendar->AppendRadioItem(New,"Nya kalendern");calendar->AppendRadioItem(Old,"Gamla kalendern");
     calendar->Check(settings_.calendar==CalendarStyle::Old?Old:New,true);
-    auto* view=new wxMenu;
+    auto* bible=new wxMenu;
+    bible->Append(Readings,"Dagens läsningar\tCtrl+L");bible->Append(Bible,u("Gå till bibelställe…\tCtrl+G"));
+    // Two panes: the left one is the text that is read aloud; the right one is optional.
+    auto* view=new wxMenu;auto* left=new wxMenu;auto* right=new wxMenu;
+    right->AppendRadioItem(Right,"Ingen");
+    for(int i=0;i<3;++i) {
+        left->AppendRadioItem(Left+i,names[i]);if(settings_.primary==languages[i])left->Check(Left+i,true);
+        right->AppendRadioItem(Right+1+i,names[i]);if(settings_.parallel==languages[i])right->Check(Right+1+i,true);
+        right->Enable(Right+1+i,settings_.primary!=languages[i]);
+    }
+    if(settings_.parallel.empty())right->Check(Right,true);
+    view->AppendSubMenu(left,u("Vänster spalt"));view->AppendSubMenu(right,u("Höger spalt"));view->AppendSeparator();
     view->AppendRadioItem(System,"Systemets tema");view->AppendRadioItem(Light,"Ljust tema");view->AppendRadioItem(Dark,u("Mörkt tema"));
     view->Check(System+int(settings_.theme),true);view->AppendSeparator();
-    view->AppendRadioItem(Main,"Bara huvudtexten");view->AppendRadioItem(Greek,"Parallellt med grekiska");
-    view->AppendRadioItem(English,"Parallellt med engelska");view->AppendRadioItem(Both,"Parallellt med grekiska och engelska");
-    for(int i=0;i<4;++i)if(settings_.parallel==modes[i])view->Check(Main+i,true);
-    view->AppendSeparator();view->Append(Larger,u("Större text\tCtrl++"));view->Append(Smaller,"Mindre text\tCtrl+-");
+    view->Append(Larger,u("Större text\tCtrl++"));view->Append(Smaller,"Mindre text\tCtrl+-");
     auto* reading=new wxMenu;
-    for(int i=0;i<4;++i) {
-        reading->AppendRadioItem(Rate+i,rates[i]==100?wxString("Normal hastighet"):wxString::Format("%d %% hastighet",rates[i]));
+    reading->Append(Play,"Lyssna\tCtrl+P");reading->Append(Stop,"Stoppa\tCtrl+.");reading->AppendSeparator();
+    play_item_=Play;stop_item_=Stop;
+    for(int i=0;i<8;++i) {
+        reading->AppendRadioItem(Rate+i,rate_label(rates[i]));
         if(settings_.speech_rate==rates[i])reading->Check(Rate+i,true);
     }
-    auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(view,"Visa");bar->Append(reading,u("Uppläsning"));SetMenuBar(bar);
-    Bind(wxEVT_MENU,[this](wxCommandEvent& event) {
+    auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(bible,"Bibel");bar->Append(view,"Visa");bar->Append(reading,u("Uppläsning"));SetMenuBar(bar);
+    Bind(wxEVT_MENU,[this,left,right](wxCommandEvent& event) {
         const int id=event.GetId();
         if(id==Today){selected_.select(local_civil_date());show_readings();refresh_day();return;}
         if(id==Previous||id==Next){navigate(id==Next?1:-1);return;}
         if(id==Pick){pick_date();return;}
+        if(id==Readings){show_readings();return;}
         if(id==Bible){browse_bible();return;}
+        if(id==Play){play_or_pause();return;}
+        if(id==Stop){stop_speech();return;}
         if(id==New||id==Old) {
             settings_.calendar=id==Old?CalendarStyle::Old:CalendarStyle::New;
             if(!scripture_->IsShown())refresh_day();
         }
         else if(id>=System&&id<=Dark)settings_.theme=static_cast<Theme>(id-System);
-        else if(id>=Main&&id<=Both)settings_.parallel=modes[id-Main];
+        else if(id>=Left&&id<Left+3) {
+            settings_.primary=languages[id-Left];
+            if(settings_.parallel==settings_.primary){settings_.parallel.clear();right->Check(Right,true);}
+            for(int i=0;i<3;++i)right->Enable(Right+1+i,settings_.primary!=languages[i]);
+            apply_settings();
+            // The left pane decides the edition and its numbering, so reopen the text.
+            if(scripture_->IsShown()&&visible_reading_)open_reading(*visible_reading_);
+            return;
+        }
+        else if(id==Right)settings_.parallel.clear();
+        else if(id>Right&&id<=Right+3)settings_.parallel=languages[id-Right-1];
         else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
         else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
-        else if(id>=Rate&&id<Rate+4){settings_.speech_rate=rates[id-Rate];speech_->set_speed(settings_.speech_rate/100.0);}
+        else if(id>=Rate&&id<Rate+8){settings_.speech_rate=rates[id-Rate];speech_->set_speed(settings_.speech_rate/100.0);}
         else{event.Skip();return;}
         apply_settings();
-    },Today,Rate+3);
+    },Today,Rate+7);
 }
 void MainFrame::browse_bible() {
-    wxDialog dialog(this,wxID_ANY,"Öppna Bibeln",wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
-    auto books=corpus_.books();wxArrayString names;
-    for(const auto& book:books)names.Add(u(book.name));
-    auto* book=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,FromDIP(wxSize(320,-1)),names);book->SetSelection(0);
-    auto* edition=new wxChoice(&dialog,wxID_ANY,wxDefaultPosition,wxDefaultSize,{"Svenska 1917 med apokryfer","Grekiska · LXX / Patriarkal 1904","English · King James","English · World English Bible med deuterokanon"});edition->SetSelection(0);
-    const auto update_books=[&] {
-        const auto previous=book->GetSelection()>=0?books[book->GetSelection()].code:std::string{};
-        books.clear();book->Clear();
-        const auto language=edition->GetSelection()==0?"sv":edition->GetSelection()==1?"el":"en";
-        for(const auto& candidate:corpus_.books()) {
-            const auto source=edition->GetSelection()==3?"en-web":edition->GetSelection()==2?"en-kjv":source_for_language(language,candidate.code);
-            if(corpus_.coordinates(source,candidate.code).empty())continue;
-            books.push_back(candidate);book->Append(u(candidate.name));
-        }
-        auto found=std::find_if(books.begin(),books.end(),[&](const auto& candidate){return candidate.code==previous;});
-        book->SetSelection(found==books.end()?0:int(found-books.begin()));
-    };
-    edition->Bind(wxEVT_CHOICE,[&](wxCommandEvent&){update_books();});update_books();
-    auto* chapter=new wxTextCtrl(&dialog,wxID_ANY,"1");
-    auto* verse=new wxTextCtrl(&dialog,wxID_ANY,"1");
+    // Three grids, as in most Bible apps: book, then chapter, then verse.
+    // Books and numbering follow the left pane's edition.
+    wxDialog dialog(this,wxID_ANY,u("Gå till bibelställe"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
     auto* sizer=new wxBoxSizer(wxVERTICAL);
-    sizer->Add(label(&dialog,"Bok",11),0,wxLEFT|wxTOP,FromDIP(18));sizer->Add(book,0,wxALL,FromDIP(18));
-    sizer->Add(label(&dialog,"Utgåva",11),0,wxLEFT,FromDIP(18));sizer->Add(edition,0,wxEXPAND|wxALL,FromDIP(18));
-    sizer->Add(label(&dialog,"Kapitel",11),0,wxLEFT,FromDIP(18));sizer->Add(chapter,0,wxEXPAND|wxALL,FromDIP(18));
-    sizer->Add(label(&dialog,"Vers",11),0,wxLEFT,FromDIP(18));sizer->Add(verse,0,wxEXPAND|wxALL,FromDIP(18));
-    sizer->Add(dialog.CreateButtonSizer(wxOK|wxCANCEL),0,wxALIGN_RIGHT|wxALL,FromDIP(18));dialog.SetSizerAndFit(sizer);
-    recolor(&dialog,palette(settings_.theme));
-    while(dialog.ShowModal()==wxID_OK) {
-        long ch=0,v=0;const auto& selected=books[book->GetSelection()];
-        const auto coordinate=verse->GetValue().ToStdString();
-        const auto suffix_start=coordinate.find_first_not_of("0123456789");
-        const auto suffix=suffix_start==std::string::npos?std::string{}:coordinate.substr(suffix_start);
-        const bool valid_suffix=suffix.size()<=2&&std::all_of(suffix.begin(),suffix.end(),[](char c){return c>='a'&&c<='z';});
-        if(!chapter->GetValue().ToLong(&ch)||!u(coordinate.substr(0,suffix_start)).ToLong(&v)||!valid_suffix||ch<1||v<1||ch>999||v>999) {
-            wxMessageBox("Ange kapitel och vers, till exempel 1 eller 50a.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
+    auto* header=new wxBoxSizer(wxHORIZONTAL);
+    std::function<void()> go_back;
+    // Each step replaces go_back, so call a copy.
+    auto* back=button(&dialog,u("‹ Tillbaka"),[&]{if(auto action=go_back)action();});
+    auto* title=label(&dialog,"",13);
+    header->Add(back,0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));header->Add(title,1,wxALIGN_CENTER_VERTICAL);
+    sizer->Add(header,0,wxEXPAND|wxALL,FromDIP(16));
+    auto* grid=new wxPanel(&dialog);sizer->Add(grid,1,wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM,FromDIP(16));
+    dialog.SetSizer(sizer);
+    std::optional<Reading> chosen;
+    std::function<void()> show_books;std::function<void(Book)> show_chapters;
+    const auto source=[this](const std::string& book){return source_for_language(settings_.primary,book);};
+    const auto cells=[&](const std::vector<std::pair<wxString,std::function<void()>>>& items,int columns,const std::vector<std::pair<size_t,wxString>>& groups) {
+        grid->DestroyChildren();auto* rows=new wxBoxSizer(wxVERTICAL);
+        size_t group=0;wxGridSizer* table=nullptr;
+        for(size_t i=0;i<items.size();++i) {
+            if(!table||(group<groups.size()&&groups[group].first==i)) {
+                if(group<groups.size()&&groups[group].first==i){rows->Add(label(grid,groups[group].second,9),0,wxTOP|wxBOTTOM,FromDIP(8));++group;}
+                table=new wxGridSizer(columns,FromDIP(4),FromDIP(4));rows->Add(table,0,wxEXPAND);
+            }
+            // The grid is rebuilt by a click, so the clicked button must outlive its handler.
+            auto* cell=button(grid,items[i].first,[&dialog,action=items[i].second]{dialog.CallAfter(action);});
+            cell->SetMinSize(FromDIP(wxSize(58,30)));
+            table->Add(cell,0,wxEXPAND);
         }
-        const VerseRef ref{int(ch),int(v),suffix};
-        const std::string language=edition->GetSelection()==0?"sv":edition->GetSelection()==1?"el":"en";
-        const auto source=edition->GetSelection()==3?"en-web":edition->GetSelection()==2?"en-kjv":source_for_language(language,selected.code);
-        if(!corpus_.verse(source,selected.code,ref)) {
-            wxMessageBox("Bibelstället saknas i de bundna utgåvorna.","Bibelställe",wxOK|wxICON_INFORMATION,&dialog);continue;
+        grid->SetSizer(rows);recolor(&dialog,palette(settings_.theme));
+        dialog.Layout();dialog.Fit();
+        // Keep the width of the book grid, so the dialog does not jump between steps.
+        if(dialog.GetMinSize().x<0)dialog.SetMinSize(wxSize(dialog.GetSize().x,-1));
+    };
+    show_books=[&] {
+        back->Hide();go_back={};title->SetLabel("Välj bok");
+        std::vector<std::pair<wxString,std::function<void()>>> items;std::vector<std::pair<size_t,wxString>> groups;
+        std::vector<Book> books;
+        for(const auto& book:corpus_.books())if(!corpus_.coordinates(source(book.code),book.code).empty())books.push_back(book);
+        // Old Testament, its additional books, then the New Testament.
+        for(int part=0;part<3;++part) {
+            groups.emplace_back(items.size(),part==0?"GAMLA TESTAMENTET":part==1?"APOKRYFERNA":"NYA TESTAMENTET");
+            for(const auto& book:books) {
+                const int kind=new_testament_book(book.code)?2:deuterocanonical_book(book.code)?1:0;
+                if(kind==part)items.emplace_back(u(book_abbreviation(book.code)),[&,book]{show_chapters(book);});
+            }
         }
-        Reading reading{new_testament_book(selected.code)?ReadingKind::Gospel:ReadingKind::OldTestament,
-            {selected.code,ref,ref},selected.name+" "+std::to_string(ch)+":"+std::to_string(v)+suffix,{},language};
-        reading.source_override=source;open_reading(reading);break;
-    }
+        cells(items,8,groups);
+        for(auto* child:grid->GetChildren())if(auto* cell=wxDynamicCast(child,wxButton))
+            for(const auto& book:books)if(cell->GetLabel()==u(book_abbreviation(book.code)))cell->SetToolTip(u(book.name));
+    };
+    show_chapters=[&](Book book) {
+        back->Show();go_back=show_books;title->SetLabel(u(book.name));
+        const auto verses=corpus_.coordinates(source(book.code),book.code);
+        std::vector<int> chapters;for(const auto& ref:verses)if(chapters.empty()||chapters.back()!=ref.chapter)chapters.push_back(ref.chapter);
+        std::vector<std::pair<wxString,std::function<void()>>> items;
+        for(int chapter:chapters)items.emplace_back(wxString::Format("%d",chapter),[&,book,chapter,verses] {
+            title->SetLabel(u(book.name)+wxString::Format(" %d",chapter));
+            go_back=[&,book]{show_chapters(book);};
+            std::vector<std::pair<wxString,std::function<void()>>> numbers;
+            for(const auto& ref:verses)if(ref.chapter==chapter)numbers.emplace_back(wxString::Format("%d",ref.verse)+u(ref.suffix),[&,book,ref] {
+                Reading reading{new_testament_book(book.code)?ReadingKind::Gospel:ReadingKind::OldTestament,{book.code,ref,ref},
+                    book.name+" "+std::to_string(ref.chapter)+":"+std::to_string(ref.verse)+ref.suffix,{},settings_.primary};
+                reading.reference=source(book.code);
+                chosen=reading;dialog.EndModal(wxID_OK);
+            });
+            cells(numbers,10,{});
+        });
+        cells(items,10,{});
+    };
+    show_books();
+    dialog.Centre();
+    if(dialog.ShowModal()==wxID_OK&&chosen)open_reading(*chosen);
 }
 void MainFrame::pick_date() {
     const auto current=selected_.date();
@@ -399,7 +493,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
     try {
         std::vector<SpeechUtterance> queue;
         for(size_t r=0;r<readings.size();++r) {
-            const auto& reading=readings[r];const auto localized=corpus_.localize(reading);const auto passages=localized.segments();
+            const auto reading=in_primary(readings[r]);const auto localized=corpus_.localize(reading);const auto passages=localized.segments();
             if(reading.base_language=="sv") {
                 auto intro=make_utterance(reading_introduction(reading),"sv",corpus_.pronunciations("sv"));
                 intro.cue=SpeechCue{r,0,passages.front().book,"",passages.front().first,passages.front().last,true};queue.push_back(std::move(intro));
@@ -533,7 +627,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if(first.GetRed(x,y+17)==second.GetRed(x,y)&&first.GetGreen(x,y+17)==second.GetGreen(x,y)&&first.GetBlue(x,y+17)==second.GetBlue(x,y))++equal;
     }
     if(total==0||double(equal)/total<0.995)ok=false;
-    for(auto theme:{Theme::Light,Theme::Dark,Theme::System})for(auto mode:{"","el","en","el,en"}) {
+    for(auto theme:{Theme::Light,Theme::Dark,Theme::System})for(auto mode:{"","el","en"}) {
         settings_.theme=theme;settings_.parallel=mode;apply_settings(false);scripture_->center_passage();
         const auto size=scripture_->GetClientSize();
         if(size.x<1||size.y<1){ok=false;continue;}
@@ -552,7 +646,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     const auto original_size=GetSize();
     SetSize(FromDIP(wxSize(520,650)));Layout();root_->Layout();
-    settings_.parallel="el,en";settings_.theme=Theme::Dark;apply_settings(false);scripture_->center_passage();
+    settings_.parallel="en";settings_.theme=Theme::Dark;apply_settings(false);scripture_->center_passage();
     const auto narrow_size=scripture_->GetClientSize();
     if(narrow_size.x<100||narrow_size.y<100)ok=false;
     else {
@@ -563,7 +657,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // The day page is navigation only; every control sits in the bottom bar.
     show_readings();
     for(auto* child:readings_->GetChildren())if(auto* control=dynamic_cast<wxButton*>(child);control&&control->GetLabel().Contains("Lyssna"))ok=false;
-    if(!previous_->IsShown()||!next_->IsShown()||!bible_->IsShown()||play_->IsShown()||back_->IsShown())ok=false;
+    if(!previous_->IsShown()||!next_->IsShown()||play_->IsShown()||back_->IsShown())ok=false;
     settings_.parallel="";apply_settings(false);
     for(auto reading:std::vector<Reading>{
         {ReadingKind::OldTestament,{"Gen",{31,50,"a"},{31,50,"a"}},"Första Moseboken 31:50a",{},"el"},
@@ -579,6 +673,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto size=scripture_->GetClientSize();wxBitmap bitmap(size.x,size.y);wxMemoryDC dc(bitmap);scripture_->render_to(dc,size);dc.SelectObject(wxNullBitmap);
         ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-prose.png",wxBITMAP_TYPE_PNG)&&ok;
     }
+    // Marked verses replace the reading as what Lyssna reads.
+    open_psalm();scripture_->select_verses({23,4},{23,2});
+    const auto marked=scripture_->selection();
+    if(!marked||marked->first!=VerseRef{23,2}||marked->last!=VerseRef{23,4}||play_->GetLabel()!="Läs markering")ok=false;
+    scripture_->clear_selection();if(play_->GetLabel()!="Lyssna")ok=false;
+    // The left pane's language chooses the edition and its numbering: LXX Psalm 22 is Psalm 23.
+    settings_.primary="el";apply_settings(false);open_psalm();
+    if(scripture_->base_source()!="grc-lxx"||scripture_->reading().passage.first.chapter!=22)ok=false;
+    settings_.primary="sv";apply_settings(false);
     // Exercise playback presentation without model loading or audible output.
     open_psalm();settings_.theme=Theme::Light;settings_.parallel="el";apply_settings(false);
     display_playback({SpeechState::Loading,{},0,0});

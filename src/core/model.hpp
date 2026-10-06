@@ -97,10 +97,13 @@ struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
     Theme theme = Theme::System;
     int font_size = 19;
-    // Swedish alone by default; the side column is for study, not a default.
+    // Left pane language: "sv", "el" or "en". It is also the language read aloud.
+    std::string primary = "sv";
+    // Right pane language, or empty for one pane. Never the same as primary.
     std::string parallel;
     // Playback speed of read-aloud audio, in percent of the voice's own pace.
     int speech_rate = 100;
 };
 std::string source_for_language(const std::string& language, const std::string& book);
+bool deuterocanonical_book(const std::string& book);
 }

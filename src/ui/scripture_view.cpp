@@ -53,9 +53,72 @@ ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
         if(key==WXK_PAGEUP){scroll_by(-GetClientSize().y*0.85);return;}
         e.Skip();
     });
+    // Dragging across verses marks them; a plain click clears the mark.
+    Bind(wxEVT_LEFT_DOWN,[this](wxMouseEvent& e){
+        SetFocus();drag_anchor_=verse_at(e.GetPosition());dragged_=false;
+        if(drag_anchor_&&!HasCapture())CaptureMouse();
+    });
+    Bind(wxEVT_MOTION,[this](wxMouseEvent& e){
+        if(!drag_anchor_||!e.LeftIsDown())return;
+        const auto verse=verse_at(e.GetPosition());
+        if(!verse||(!dragged_&&*verse==*drag_anchor_&&!selection_))return;
+        dragged_=true;select_verses(*drag_anchor_,*verse);
+    });
+    Bind(wxEVT_LEFT_UP,[this](wxMouseEvent&){
+        if(HasCapture())ReleaseMouse();
+        if(drag_anchor_&&!dragged_&&selection_)clear_selection();
+        drag_anchor_.reset();
+    });
+    Bind(wxEVT_MOUSE_CAPTURE_LOST,[this](wxMouseCaptureLostEvent&){drag_anchor_.reset();});
 #ifdef __APPLE__
     native_scroll_=install_native_scroll(this,[this](double pixels){scroll_by(pixels);});
 #endif
+}
+std::optional<Passage> ScriptureView::selection() const {
+    if(!selection_)return std::nullopt;
+    const auto last=corpus_.verse(base_source_,displayed_.book,selection_->second);
+    return Passage{displayed_.book,selection_->first,last?last->last.value_or(selection_->second):selection_->second};
+}
+void ScriptureView::select_verses(VerseRef first,VerseRef last) {
+    if(last<first)std::swap(first,last);
+    if(selection_==std::pair{first,last})return;
+    selection_=std::pair{first,last};Refresh(false);
+    if(selection_changed_)selection_changed_();
+}
+void ScriptureView::clear_selection() {
+    if(!selection_)return;
+    selection_.reset();Refresh(false);
+    if(selection_changed_)selection_changed_();
+}
+std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
+    if(rows_.empty()||positions_.empty())return std::nullopt;
+    // Rows are drawn from positions_ shifted by the scroll offset and a top inset.
+    const double y=point.y+offset_-FromDIP(12);
+    auto it=std::upper_bound(positions_.begin(),positions_.end(),y);
+    if(it==positions_.begin())return std::nullopt;
+    const auto index=std::size_t(it-positions_.begin()-1);
+    if(index>=rows_.size()||rows_[index].heading)return std::nullopt;
+    const auto& layout=row_layout(index);
+    if(layout.columns.empty())return std::nullopt;
+    const int margin=outside_margin(),usable=GetClientSize().x-2*margin;
+    const bool stacked=usable/columns_count()<270;
+    const int stride=(usable-44*(columns_count()-1))/columns_count()+44;
+    if(!stacked&&columns_count()>1&&point.x>=margin+stride-FromDIP(24))return std::nullopt;
+    const auto& column=layout.columns.front();
+    double top=positions_[index];
+    if(stacked&&layout.columns.size()>1)top+=FromDIP(24);
+    if(y<top||y>=top+column.text.height())return std::nullopt;
+    const auto line=std::min(column.text.lines.size()-1,std::size_t((y-top)/column.text.line_height));
+    const double x=point.x-margin-FromDIP(30);
+    // The run under the pointer, or the nearest one on that line.
+    int tag=-1;double best=std::numeric_limits<double>::max();
+    for(const auto& run:column.text.lines[line].runs) {
+        if(run.tag<0||size_t(run.tag)>=column.verses.size())continue;
+        const double distance=x<run.x?run.x-x:x>run.x+run.width?x-run.x-run.width:0;
+        if(distance<best){best=distance;tag=run.tag;}
+    }
+    if(tag<0)return std::nullopt;
+    return column.verses[tag].first;
 }
 ScriptureView::~ScriptureView(){wheel_timer_.Stop();follow_timer_.Stop();
 #ifdef __APPLE__
@@ -195,8 +258,7 @@ void ScriptureView::advance_playback(double seconds) {
 std::vector<std::string> ScriptureView::languages() const {
     std::vector<std::string> result{base_source_=="sv1917"?"sv":base_source_.starts_with("en-")?"en":"el"};
     const auto add=[&](const std::string& language){if(std::find(result.begin(),result.end(),language)==result.end())result.push_back(language);};
-    if(settings_.parallel=="el,en"){add("sv");add("el");add("en");}
-    else if(!settings_.parallel.empty())add(settings_.parallel);
+    if(!settings_.parallel.empty())add(settings_.parallel);
     return result;
 }
 int ScriptureView::columns_count() const { return int(languages().size()); }
@@ -214,6 +276,7 @@ void ScriptureView::open(const Reading& reading) { reading_=reading;open_section
 void ScriptureView::open_section(std::size_t index) {
     const auto segments=reading_.segments();if(index>=segments.size())return;
     displayed_=segments[index];rows_.clear();located_cue_.reset();speech_row_.reset();guide_.reset();guide_alpha_=0;
+    if(selection_){selection_.reset();if(selection_changed_)selection_changed_();}
     base_source_=source_for_language(reading_.base_language,displayed_.book);
     if(!reading_.source_override.empty())base_source_=reading_.source_override;
     if(corpus_.coordinates(base_source_,displayed_.book).empty())for(const std::string language:{"el","en"}) {
@@ -375,6 +438,20 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                     const double marker_y=guide_y_-offset_-guide_->height*0.34;
                     gc->SetBrush(wxBrush(wxColour(colors.accent.Red(),colors.accent.Green(),colors.accent.Blue(),int(230*guide_alpha_))));
                     gc->DrawRoundedRectangle(x+FromDIP(16),marker_y,FromDIP(4),guide_->height*0.68,FromDIP(2));
+                }
+                if(gc&&c==0&&selection_) {
+                    gc->SetPen(*wxTRANSPARENT_PEN);
+                    gc->SetBrush(wxBrush(wxColour(colors.accent.Red(),colors.accent.Green(),colors.accent.Blue(),56)));
+                    for(std::size_t line=0;line<column.text.lines.size();++line) {
+                        double first=std::numeric_limits<double>::max(),last=0;
+                        for(const auto& run:column.text.lines[line].runs) {
+                            if(run.tag<0||size_t(run.tag)>=column.verses.size())continue;
+                            const auto& verse=column.verses[run.tag].first;
+                            if(verse<selection_->first||selection_->second<verse)continue;
+                            first=std::min(first,run.x);last=std::max(last,run.x+run.width);
+                        }
+                        if(last>first)gc->DrawRectangle(x+FromDIP(30)+first-FromDIP(3),text_y+line*column.text.line_height,last-first+FromDIP(6),column.text.line_height);
+                    }
                 }
                 draw_paragraph(dc,column.text,x+FromDIP(30),text_y);
                 // Mark only the lines containing the prescribed verse range.

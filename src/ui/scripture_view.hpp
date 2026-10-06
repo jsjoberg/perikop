@@ -27,6 +27,14 @@ public:
     void on_release_follow(std::function<void()> callback){release_follow_=std::move(callback);}
     void advance_playback(double seconds);
     std::optional<double> marker_position() const {return guide_?std::optional<double>{guide_y_}:std::nullopt;}
+    // Verses marked by dragging in the left pane, as a passage in its edition.
+    std::optional<Passage> selection() const;
+    const std::string& base_source() const {return base_source_;}
+    void clear_selection();
+    void select_verses(VerseRef first,VerseRef last);
+    void on_selection(std::function<void()> callback){selection_changed_=std::move(callback);}
+    // The left-pane verse under a point in client coordinates.
+    std::optional<VerseRef> verse_at(wxPoint) const;
     ~ScriptureView() override;
 private:
     struct Row { VerseRef ref; bool heading; std::vector<VerseRef> verses; VerseRef last; };
@@ -51,7 +59,10 @@ private:
     std::optional<size_t> speech_row_;
     double guide_y_=0,guide_alpha_=0,follow_target_=0;
     bool following_=false;
-    std::function<void()> release_follow_;
+    std::function<void()> release_follow_,selection_changed_;
+    std::optional<VerseRef> drag_anchor_;
+    std::optional<std::pair<VerseRef,VerseRef>> selection_;
+    bool dragged_=false;
     wxTimer follow_timer_;
     std::vector<std::string> languages() const;
     int columns_count() const;
