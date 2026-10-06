@@ -82,11 +82,11 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     });add(follow_);
     play_=button(bar_,"Lyssna",[this]{play_or_pause();});play_->SetToolTip("Lyssna, pausa eller fortsätt · mellanslag");add(play_);
     stop_=button(bar_,"Stoppa",[this]{stop_speech();});stop_->SetToolTip("Avsluta uppläsningen · Escape");add(stop_);
-    bible_=button(bar_,"Bibel",[this]{browse_bible();});bible_->SetToolTip("Öppna ett bibelställe");add(bible_);
-    settings_button_=button(bar_,u("⚙"),[this]{show_settings();});settings_button_->SetToolTip("Kalender, tema, parallelltext och textstorlek");
-    bar->Add(settings_button_,0,wxALIGN_CENTER_VERTICAL);
+    bible_=button(bar_,"Bibel",[this]{browse_bible();});bible_->SetToolTip("Öppna ett bibelställe");
+    bar->Add(bible_,0,wxALIGN_CENTER_VERTICAL);
     auto* bar_inset=new wxBoxSizer(wxVERTICAL);bar_inset->Add(bar,0,wxEXPAND|wxALL,FromDIP(10));
     bar_->SetSizer(bar_inset);outer->Add(bar_,0,wxEXPAND);
+    make_menus();
     scripture_->on_release_follow([this]{following_audio_=false;refresh_speech();});
     Bind(wxEVT_TIMER,[this](wxTimerEvent&){refresh_speech();},playback_timer_.GetId());
     Bind(wxEVT_CHAR_HOOK,[this](wxKeyEvent& event){
@@ -124,9 +124,11 @@ void MainFrame::refresh_day() {
     day_=lectionary_.readings_for(selected_.date(),settings_.calendar);
     entries_->Clear(true);entries_->AddSpacer(FromDIP(48));
     entries_->Add(label(readings_,u(date_swedish(selected_.date())),13),0,wxBOTTOM,FromDIP(8));
-    const auto info=day_.day.annotation.find(" · ",day_.day.annotation.find(" · ")+3);
+    // The annotation reads "Pascha … · dag N · title"; the separator is four UTF-8 bytes.
+    const std::string separator=" · ";
+    const auto info=day_.day.annotation.find(separator,day_.day.annotation.find(separator)+separator.size());
     if(info!=std::string::npos) {
-        auto* feast=new wxStaticText(readings_,wxID_ANY,u(day_.day.annotation.substr(info+3)));feast->SetFont(body_font(18));
+        auto* feast=new wxStaticText(readings_,wxID_ANY,u(day_.day.annotation.substr(info+separator.size())));feast->SetFont(body_font(18));
         feast->Wrap(std::max(200,GetClientSize().x-FromDIP(150)));entries_->Add(feast,0,wxBOTTOM,FromDIP(8));
     }
     entries_->AddSpacer(FromDIP(28));
@@ -195,31 +197,41 @@ void MainFrame::update_bar() {
     if(speech_status_->GetLabel()!=title)speech_status_->SetLabel(title);
     speech_status_->SetToolTip(tooltip.empty()?title:tooltip);
 }
-void MainFrame::show_settings() {
-    enum {New=1,Old,System,Light,Dark,Main,Greek,English,Both,Larger,Smaller};
-    wxMenu menu;
-    menu.AppendRadioItem(New,"Nya kalendern");menu.AppendRadioItem(Old,"Gamla kalendern");
-    menu.Check(settings_.calendar==CalendarStyle::Old?Old:New,true);menu.AppendSeparator();
-    menu.AppendRadioItem(System,"Systemets tema");menu.AppendRadioItem(Light,"Ljust tema");menu.AppendRadioItem(Dark,"Mörkt tema");
-    menu.Check(System+int(settings_.theme),true);menu.AppendSeparator();
+void MainFrame::make_menus() {
+    enum {Today=wxID_HIGHEST+1,Previous,Next,Pick,Bible,New,Old,System,Light,Dark,Main,Greek,English,Both,Larger,Smaller};
     static const char* modes[]={"","el","en","el,en"};
-    menu.AppendRadioItem(Main,"Bara huvudtexten");menu.AppendRadioItem(Greek,"Parallellt med grekiska");
-    menu.AppendRadioItem(English,"Parallellt med engelska");menu.AppendRadioItem(Both,u("Parallellt med grekiska och engelska"));
-    for(int i=0;i<4;++i)if(settings_.parallel==modes[i])menu.Check(Main+i,true);
-    menu.AppendSeparator();
-    menu.Append(Larger,u("Större text"));menu.Append(Smaller,"Mindre text");
-    menu.Enable(Larger,settings_.font_size<28);menu.Enable(Smaller,settings_.font_size>14);
-    const int id=GetPopupMenuSelectionFromUser(menu,ScreenToClient(settings_button_->GetScreenPosition()));
-    if(id==New||id==Old) {
-        settings_.calendar=id==Old?CalendarStyle::Old:CalendarStyle::New;
-        if(!scripture_->IsShown())refresh_day();
-    }
-    else if(id>=System&&id<=Dark)settings_.theme=static_cast<Theme>(id-System);
-    else if(id>=Main&&id<=Both)settings_.parallel=modes[id-Main];
-    else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
-    else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
-    else return;
-    apply_settings();
+    auto* calendar=new wxMenu;
+    calendar->Append(Today,"Idag\tCtrl+T");
+    calendar->Append(Previous,u("Föregående dag\tCtrl+["));calendar->Append(Next,u("Nästa dag\tCtrl+]"));
+    calendar->Append(Pick,u("Välj datum…\tCtrl+D"));calendar->AppendSeparator();
+    calendar->Append(Bible,u("Öppna Bibeln…\tCtrl+O"));calendar->AppendSeparator();
+    calendar->AppendRadioItem(New,"Nya kalendern");calendar->AppendRadioItem(Old,"Gamla kalendern");
+    calendar->Check(settings_.calendar==CalendarStyle::Old?Old:New,true);
+    auto* view=new wxMenu;
+    view->AppendRadioItem(System,"Systemets tema");view->AppendRadioItem(Light,"Ljust tema");view->AppendRadioItem(Dark,u("Mörkt tema"));
+    view->Check(System+int(settings_.theme),true);view->AppendSeparator();
+    view->AppendRadioItem(Main,"Bara huvudtexten");view->AppendRadioItem(Greek,"Parallellt med grekiska");
+    view->AppendRadioItem(English,"Parallellt med engelska");view->AppendRadioItem(Both,"Parallellt med grekiska och engelska");
+    for(int i=0;i<4;++i)if(settings_.parallel==modes[i])view->Check(Main+i,true);
+    view->AppendSeparator();view->Append(Larger,u("Större text\tCtrl++"));view->Append(Smaller,"Mindre text\tCtrl+-");
+    auto* bar=new wxMenuBar;bar->Append(calendar,"Kalender");bar->Append(view,"Visa");SetMenuBar(bar);
+    Bind(wxEVT_MENU,[this](wxCommandEvent& event) {
+        const int id=event.GetId();
+        if(id==Today){selected_.select(local_civil_date());show_readings();refresh_day();return;}
+        if(id==Previous||id==Next){navigate(id==Next?1:-1);return;}
+        if(id==Pick){pick_date();return;}
+        if(id==Bible){browse_bible();return;}
+        if(id==New||id==Old) {
+            settings_.calendar=id==Old?CalendarStyle::Old:CalendarStyle::New;
+            if(!scripture_->IsShown())refresh_day();
+        }
+        else if(id>=System&&id<=Dark)settings_.theme=static_cast<Theme>(id-System);
+        else if(id>=Main&&id<=Both)settings_.parallel=modes[id-Main];
+        else if(id==Larger)settings_.font_size=std::min(28,settings_.font_size+1);
+        else if(id==Smaller)settings_.font_size=std::max(14,settings_.font_size-1);
+        else{event.Skip();return;}
+        apply_settings();
+    },Today,Smaller);
 }
 void MainFrame::browse_bible() {
     wxDialog dialog(this,wxID_ANY,"Öppna Bibeln",wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
@@ -589,7 +601,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if(!scripture_->marker_position())ok=false;
     save_playback("-playing-greek");
     SetSize(FromDIP(wxSize(520,650)));Layout();root_->Layout();display_playback(paused);
-    for(wxWindow* control:{back_,follow_,play_,stop_,settings_button_})if(control->IsShown()&&control->GetRect().GetRight()>bar_->GetClientSize().x)ok=false;
+    for(wxWindow* control:{back_,follow_,play_,stop_})if(control->IsShown()&&control->GetRect().GetRight()>bar_->GetClientSize().x)ok=false;
     save_playback("-playing-narrow");
     SetSize(original_size);Layout();root_->Layout();settings_.font_size=original.font_size;apply_settings(false);
     scripture_->playback(playing);scripture_->follow_playback();

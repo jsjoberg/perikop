@@ -40,6 +40,11 @@ int main(int argc,char** argv) {
         const auto greek_paragraphs=corpus.paragraph_starts("grc-lxx","Gen");
         check(std::binary_search(greek_paragraphs.begin(),greek_paragraphs.end(),VerseRef{1,6}),"original USFM Greek paragraph boundary");
         AntiochianLectionary lectionary(corpus);
+        for(const auto& feast:corpus.feast_rules())for(const auto& name:{feast.title,feast.feast})
+            if(!name.empty()&&!swedish_title(name))throw std::runtime_error("Missing Swedish title: "+name);
+        check(swedish_title("Tuesday of the 19th week after Pentecost")=="Tisdag i 19:e veckan efter pingst","Swedish weekday title");
+        check(swedish_title("21st Sunday after Pentecost")=="21:a söndagen efter pingst"&&swedish_title("11th Sunday after Pentecost")=="11:e söndagen efter pingst","Swedish ordinals");
+        check(swedish_title("Sunday before Nativity – Eve of Nativity")=="Söndagen före Kristi födelse · Julafton","Coinciding Swedish titles");
         const auto today=lectionary.readings_for(date("2026-10-05"),CalendarStyle::New);
         check(today.readings.size()==2,"Antiochian daily pair");
         check(today.readings[0].passage.book=="Phil"&&today.readings[0].passage.first==VerseRef{1,1}&&today.readings[0].passage.last==VerseRef{1,7},"official Oct 5 epistle");

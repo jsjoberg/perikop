@@ -196,8 +196,8 @@ DayReadings AntiochianLectionary::readings_for(CivilDate civil,CalendarStyle sty
     int fixed_rank=0;std::string title;
     for(const auto& [key,f]:merged) {
         (void)key;if(f.month)fixed_rank=std::max(fixed_rank,f.rank);
-        if(!f.feast.empty()){if(!title.empty())title+=" · ";title+=f.feast;}
-        else if(!f.title.empty()){if(!title.empty())title+=" · ";title+=f.title;}
+        const auto& name=f.feast.empty()?f.title:f.feast;
+        if(!name.empty()){if(!title.empty())title+=" · ";title+=swedish_title(name).value_or(name);}
     }
     std::vector<const ReadingRule*> selected;
     // Resolve tradition overrides at identical recurring slots.

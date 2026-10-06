@@ -32,7 +32,7 @@ private:
     void play_or_pause();
     bool active_playback() const;
     void update_bar();
-    void show_settings();
+    void make_menus();
     void stop_speech();
     void paint_playback(wxPaintEvent&);
     std::unique_ptr<SpeechEngine> speech_;
@@ -47,7 +47,7 @@ private:
     std::optional<std::pair<size_t,size_t>> speech_view_;
     bool following_audio_=false;
     wxPanel* bar_;
-    wxButton *back_,*previous_,*calendar_button_,*next_,*follow_,*play_,*stop_,*bible_,*settings_button_;
+    wxButton *back_,*previous_,*calendar_button_,*next_,*follow_,*play_,*stop_,*bible_;
     bool paused_=false;
     void navigate(int days);
     void browse_bible();

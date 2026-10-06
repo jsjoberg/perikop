@@ -67,6 +67,8 @@ public:
 class CorpusDb;
 CivilDate orthodox_pascha(int year);
 CivilDate fixed_calendar_date(CivilDate,CalendarStyle);
+// Swedish form of an English day or feast title from the calendar tables.
+std::optional<std::string> swedish_title(const std::string&);
 class AntiochianLectionary final : public Lectionary {
 public:
     explicit AntiochianLectionary(const CorpusDb&);
