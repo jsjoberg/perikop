@@ -93,25 +93,40 @@ class PortableSpeech final:public SpeechEngine {
                 }
                 std::vector<std::pair<std::string,std::string>> parts;
                 for(const auto& utterance:batch)for(auto& text:speech_chunks(utterance.speech_text))parts.emplace_back(utterance.language,std::move(text));
-                std::vector<float> complete;
                 for(size_t i=0;i<parts.size();++i) {
-                    if(cancelled())break;
+                    {
+                        std::unique_lock lock(mutex_);
+                        // Bound lookahead, including while paused. Generate the next
+                        // chunk as soon as playback makes room, rather than the whole reading.
+                        while(!cancelled()&&i&&output_->buffered()>=2)condition_.wait_for(lock,25ms);
+                        if(cancelled())break;
+                    }
                     const auto& [language,text]=parts[i];
-                    report(generation,"Förbereder läsningen · "+std::to_string(i+1)+"/"+std::to_string(parts.size()));
+                    const auto progress=std::to_string(i+1)+"/"+std::to_string(parts.size());
+                    report(generation,i?"Läser med Chatterbox · förbereder del "+progress:"Förbereder läsningen · "+progress);
                     auto samples=cache->load(cache_revision,language,text);
                     if(!samples){
                         if(!model){report(generation,"Förbereder röstmodellen · Chatterbox");model=std::make_unique<Model>(data_/"voices"/voice_pack_id);}
-                        report(generation,"Förbereder läsningen · "+std::to_string(i+1)+"/"+std::to_string(parts.size()));
-                        samples=model->generate(text,language,cancelled);cache->save(cache_revision,language,text,*samples);
+                        report(generation,i?"Läser med Chatterbox · förbereder del "+progress:"Förbereder läsningen · "+progress);
+                        samples=model->generate(text,language,cancelled);
+                        if(cancelled())break;
+                        cache->save(cache_revision,language,text,*samples);
                     }
-                    if(i)complete.insert(complete.end(),4800,0.0f);
-                    complete.insert(complete.end(),samples->begin(),samples->end());
+                    if(i)samples->insert(samples->begin(),4800,0.0f);
+                    {
+                        std::lock_guard lock(mutex_);
+                        if(cancelled())break;
+                        if(!output_)output_=std::make_unique<PcmOutput>();
+                        if(!i)output_->start(paused_);
+                        output_->append(std::move(*samples));
+                    }
+                    report(generation,"Läser med Chatterbox · förhandsversion");
                 }
                 {
                     std::lock_guard lock(mutex_);
                     if(cancelled())continue;
-                    if(!output_)output_=std::make_unique<PcmOutput>();
-                    output_->play(std::move(complete));output_->pause(paused_);
+                    if(parts.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
+                    output_->complete();
                 }
                 report(generation,"Läser med Chatterbox · förhandsversion");
                 {

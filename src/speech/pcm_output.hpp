@@ -7,7 +7,10 @@ class PcmOutput {
 public:
     PcmOutput();
     ~PcmOutput();
-    void play(std::vector<float> samples);
+    void start(bool paused);
+    void append(std::vector<float> samples);
+    void complete();
+    size_t buffered() const;
     void pause(bool);
     void stop();
     bool finished() const;

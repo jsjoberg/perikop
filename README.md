@@ -90,8 +90,11 @@ Julian conversion calculates the date difference for each century.
 Lyssna uses a local Chatterbox Multilingual model through common C++ code on all target platforms.
 The same model, reference voice, and settings apply everywhere. No system voice is used.
 The voice remains a preview pending Swedish listening review and remaining platform checks.
+
 Pausa, Fortsätt, and Stoppa control playback. A status line shows preparation progress and identifies the voice.
-The engine prepares the entire requested reading before playback. First-time synthesis can take longer than the resulting audio.
+Playback starts after the first audio chunk. The engine generates later chunks during playback, with a buffer of at most two chunks.
+Initial model loading and first-chunk synthesis still take time. If synthesis cannot keep pace, playback waits for the next chunk.
+
 A separate SQLite cache accelerates repeat readings. The voice pack needs about 1.55 GB.
 See [the speech selection record](docs/speech-selection.md) for licensing, alternatives, measurements, and limits.
 

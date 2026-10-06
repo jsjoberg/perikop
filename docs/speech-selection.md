@@ -65,11 +65,16 @@ Every non-whitespace byte stays in order. Displayed Scripture remains unchanged.
 The engine rejects token-limit truncation, invalid samples, and silent output.
 Generative speech can still omit or repeat words; listening review must check this explicitly.
 
-The engine prepares the requested reading before PCM playback starts.
-This avoids inference gaps within the reading. Initial preparation can take longer than the resulting audio.
+PCM playback starts as soon as the first chunk is ready.
+The worker generates subsequent chunks during playback and keeps at most two chunks in the playback buffer.
+Pause holds the playback position and limits generation to the available buffer space.
+Initial model loading and first-chunk synthesis still delay uncached playback.
+If synthesis runs slower than playback, the output supplies silence until the next chunk is ready.
+
 A separate SQLite database caches completed chunks by engine revision, voice, language, and exact speech text.
 The audio cache permits at most 256 MiB of PCM data. Evicted pages remain available for reuse.
-Pause holds the audio position. Stop clears playback and cancels generation at the next token boundary.
+
+Stop clears playback and cancels generation at the next token boundary.
 An inference call already inside the decoder can finish before cancellation returns.
 Closing during initial model loading can wait for loading to finish.
 
