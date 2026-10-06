@@ -3,13 +3,15 @@
 A native Orthodox lectionary reader prototype for Windows, macOS, and Linux.
 The interface uses Swedish labels. Scripture appears in a custom native view with continuous chapter context.
 
-Version 0.3 bundles 141,036 Scripture records from complete available Swedish, Greek, and English editions.
+Version 0.5 bundles 141,036 Scripture records from complete available Swedish, Greek, and English editions.
 It includes Swedish apocrypha and the Greek Septuagint.
 It calculates daily readings offline for the North American Antiochian Greek tradition.
 All 52 Sundays match the Archdiocese's official 2026 chart.
 
 The reader scrolls in pixels and preserves macOS trackpad precision and momentum.
-Native paragraph fitting uses Knuth–Plass demerits and Liang hyphenation.
+Native paragraph fitting uses Knuth–Plass demerits, Liang hyphenation, and fractional native glyph measurements.
+Prose flows across verses. Small inline numbers preserve verse navigation.
+The blue and yellow Orthodox cross appears in the window and the macOS Dock.
 It bundles Literata, IBM Plex Sans, and fallback fonts for Hebrew headings and editorial brackets.
 The application needs no network connection after installation.
 
@@ -24,7 +26,7 @@ Requirements:
 
 On Linux, install the GTK3 and Fontconfig development packages for your distribution.
 On Debian or Ubuntu, the package names are `libgtk-3-dev` and `libfontconfig1-dev`.
-The compiler must support C++23. The project targets macOS 11 or later.
+The compiler must support C++23. Portable speech requires macOS 13.4 or later.
 
 Run these commands from the repository directory:
 
@@ -33,8 +35,9 @@ cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build build/cmake --parallel
 ```
 
-The first build downloads pinned wxWidgets and SQLite archives.
-CMake checks their SHA-256 hashes. It builds both libraries statically.
+The first build downloads pinned wxWidgets, SQLite, and portable speech dependencies.
+CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside the application.
+The remaining libraries build statically.
 The application has no runtime scripting dependency.
 
 If you use w64devkit, run `build.cmd` in its shell.
@@ -84,8 +87,26 @@ New calendar mode uses the North American Antiochian reading rules.
 Old calendar mode applies those Greek rules to Julian fixed dates. It is a comparison mode.
 Julian conversion calculates the date difference for each century.
 
-The speech preview accepts generated utterances through `SpeechEngine`.
-It shows a separate speech representation. **It produces no audio.**
+Lyssna uses a local Chatterbox Multilingual model through common C++ code on all target platforms.
+The same model, reference voice, and settings apply everywhere. No system voice is used.
+The voice remains a preview pending Swedish listening review and remaining platform checks.
+Pausa, Fortsätt, and Stoppa control playback. A status line shows preparation progress and identifies the voice.
+The engine prepares the entire requested reading before playback. First-time synthesis can take longer than the resulting audio.
+A separate SQLite cache accelerates repeat readings. The voice pack needs about 1.55 GB.
+See [the speech selection record](docs/speech-selection.md) for licensing, alternatives, measurements, and limits.
+
+Install the pinned voice package once:
+
+```sh
+python3 tools/speech/install_voice.py
+python3 tools/speech/install_voice.py --verify
+```
+
+For an unpacked offline voice package, use `--source /absolute/path/voice-pack`.
+Python performs installation only. The application needs no interpreter or network connection for playback.
+The pack remains outside application upgrades in the platform user-data directory.
+Missing or incomplete packs produce a visible message.
+Display text and speech text remain separate.
 The pronunciation example changes `Melkisedek` to `Melki-sedek` for speech only.
 
 ## Tests
@@ -108,7 +129,17 @@ For core tests without a GUI, use `-DORTHO_BUILD_GUI=OFF` in a separate build di
 The GUI smoke test loads the fonts and draws each theme and parallel mode.
 It uses a temporary user database. It does not change personal settings.
 
-To save a reader image during the smoke test, add `--screenshot /absolute/path/reader.png`.
+To save reader images during the smoke test, add `--screenshot /absolute/path/reader.png`.
+The paragraph test compares 39 native layouts with an exhaustive word-boundary oracle and checks a layout that differs from greedy wrapping.
+
+Verify real offline Swedish audio generation without playing it:
+
+```sh
+"build/cmake/bin/Orthodox Reader.app/Contents/MacOS/Orthodox Reader" --speech-probe /absolute/path/voice.wav
+```
+
+Use the corresponding executable on Windows or Linux.
+This test requires the pinned local voice pack. It rejects token-limit truncation, invalid samples, and silent audio.
 
 ## Offline corpus
 
@@ -145,8 +176,11 @@ python3 tools/check_resources.py
 
 ## Current limits
 
-Paragraphs follow verse boundaries. Punctuation protrudes into the optical margins.
-Full MT/LXX alignment, morning and evening Psalm cycles, and audio synthesis remain open.
+Prose uses bundled USFM paragraph boundaries. Swedish and KJV use WEB boundaries as editorial display metadata where coordinates agree.
+Poetry retains verse stanzas. Paragraph breaks inside a single verse are not yet retained.
+Punctuation protrudes into optical margins.
+Full MT/LXX alignment and morning and evening Psalm cycles remain open.
+Swedish voice quality and Windows/Linux/Intel Mac speech execution still need independent validation.
 Published annual Antiochian instructions can require additional calendar exceptions.
 No restricted modern Swedish translation is bundled.
 

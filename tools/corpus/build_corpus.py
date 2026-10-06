@@ -15,7 +15,7 @@ for code,_,_,_ in entries:
  if code not in ids:ids[code]=len(ids)+1
 byname={name:code for code,_,name,_ in entries}
 byusfm={usfm:code for code,usfm,_,_ in entries}
-verses=[];greek_names={}
+verses=[];greek_names={};paragraphs=[]
 for source,filename in [(1,'Swe1917.json'),(4,'KJV.json')]:
  data=json.loads((inputs/filename).read_text())
  for book in data['books']:
@@ -45,7 +45,13 @@ for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip'),(5,'eng-we
    for i in range(1,len(chunks),2):
     chapter=int(chunks[i]);body=chunks[i+1]
     vs=list(re.finditer(r'\\v\s+(\d+[a-z]?(?:-\d+)?)\s+',body))
+    poetry=False
     for k,v in enumerate(vs):
+     prefix=body[:v.start()] if k==0 else body[vs[k-1].end():v.start()]
+     markers=list(re.finditer(r'\\(p|m|pi\d*|q\d*|b)\b',prefix))
+     if markers:poetry=markers[-1][1].startswith('q')
+     # A prose break inside a verse must not migrate to the next verse.
+     boundary=poetry or bool(markers and not prefix[markers[-1].end():].strip())
      chunk=body[v.end():vs[k+1].start() if k+1<len(vs) else len(body)]
      # Non-Scripture section headings belong outside the preceding verse.
      chunk=re.sub(r'\\(?:s\d*|ms\d*|r|d|sp|cl|cp)\s+[^\n]*','',chunk)
@@ -54,6 +60,7 @@ for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip'),(5,'eng-we
      if not plain:continue
      label=re.fullmatch(r'(\d+)([a-z]?)(?:-(\d+))?',v[1]);first=int(label[1]);last=int(label[3] or label[1])
      verses.append((source,ids[code],chapter,first,last,label[2],plain))
+     if k==0 or boundary:paragraphs.append((source,ids[code],chapter,first,label[2],'USFM'))
 output=root/'resources/corpus/corpus.db';temp=output.with_suffix('.tmp');temp.unlink(missing_ok=True)
 with sqlite3.connect(temp) as db:
  db.execute('PRAGMA page_size=4096')
@@ -64,6 +71,11 @@ with sqlite3.connect(temp) as db:
  db.executemany('INSERT INTO source VALUES(?,?,?,?,?,?,?)',sources)
  db.executemany('INSERT INTO book VALUES(?,?,?,?,?,?)',[(ids[c],c,i+1,sv,greek_names.get(c,''),name) for i,(c,_,name,sv) in enumerate(entries)])
  db.executemany('INSERT INTO verse(source_id,book_id,chapter,verse,last_verse,verse_suffix,text) VALUES(?,?,?,?,?,?,?)',verses)
+ db.executemany('INSERT OR IGNORE INTO paragraph VALUES(?,?,?,?,?,?)',paragraphs)
+ # These are display boundaries, not claimed original Swedish/KJV punctuation.
+ # Psalms have title/number differences, so retain their separate verse stanzas.
+ for source in (1,4):
+  db.execute('INSERT OR IGNORE INTO paragraph SELECT ?,p.book_id,p.chapter,p.verse,p.verse_suffix,? FROM paragraph p JOIN verse v ON v.source_id=? AND v.book_id=p.book_id AND v.chapter=p.chapter AND v.verse=p.verse AND v.verse_suffix=p.verse_suffix WHERE p.source_id=5 AND p.book_id!=?',(source,'WEB editorial',source,ids['Ps']))
  def mapping(src,dst,fc,fv,flv,tc,tv,tlv,kind=1):
   db.execute('INSERT INTO alignment VALUES(?,?,1,?,?,?,?,?,?,?,?,?)',(src,dst,fc,fv,fc,flv,tc,tv,tc,tlv,kind))
  for mt,lxx,length in [(23,22,6),(24,23,10),(25,24,22)]:
@@ -105,7 +117,7 @@ with sqlite3.connect(temp) as db:
  db.execute("INSERT INTO reading_rule VALUES(20001,63,0,0,'Epistle','All Saints of Antioch',800,'greek','Acts 11:19-30')")
  replace_segments(20001,[('Acts',11,19,11,30)])
  db.execute("INSERT INTO feast_rule VALUES(20001,63,0,0,4,'','All Saints of Antioch','greek')")
- db.execute('PRAGMA user_version=2')
+ db.execute('PRAGMA user_version=3')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()
@@ -117,6 +129,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 metadata=json.loads(manifest.read_text())
+metadata['schema_version']=3
 for asset in metadata['assets']:
- if asset.get('path')=='resources/corpus/corpus.db':asset['sha256']=hashlib.sha256(output.read_bytes()).hexdigest()
+ if asset.get('path') in ('resources/corpus/corpus.db','resources/corpus/schema.sql'):asset['sha256']=hashlib.sha256((root/asset['path']).read_bytes()).hexdigest()
 manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')

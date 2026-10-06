@@ -15,6 +15,14 @@ CREATE TABLE verse (
  text TEXT NOT NULL CHECK(length(text)>0), UNIQUE(source_id,book_id,chapter,verse,verse_suffix)
 ) STRICT;
 -- The UNIQUE constraint already provides the verse lookup index.
+-- Display boundaries from USFM. JSON editions use explicitly labelled WEB
+-- editorial boundaries where chapter/verse coordinates agree.
+CREATE TABLE paragraph (
+ source_id INTEGER NOT NULL REFERENCES source(id), book_id INTEGER NOT NULL REFERENCES book(id),
+ chapter INTEGER NOT NULL, verse INTEGER NOT NULL, verse_suffix TEXT NOT NULL DEFAULT '',
+ provenance TEXT NOT NULL,
+ PRIMARY KEY(source_id,book_id,chapter,verse,verse_suffix)
+) STRICT;
 -- Explicit source ranges preserve chapter and verse coordinates.
 CREATE TABLE alignment (
  from_source INTEGER NOT NULL REFERENCES source(id),

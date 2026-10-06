@@ -1,6 +1,7 @@
 #pragma once
 #include "ui/scripture_view.hpp"
 #include "speech/speech.hpp"
+#include "speech/portable_speech.hpp"
 #include <wx/frame.h>
 #include <wx/choice.h>
 #include <wx/stattext.h>
@@ -11,7 +12,8 @@
 namespace ortho {
 class MainFrame final : public wxFrame {
 public:
-    MainFrame(const CorpusDb&,UserDb&,CivilDate date);
+    MainFrame(const CorpusDb&,UserDb&,CivilDate date,const std::filesystem::path& resources);
+    ~MainFrame() override;
     void open_reading(const Reading&);
     void open_psalm();
     bool smoke_test(const wxString& screenshot_path);
@@ -20,7 +22,11 @@ private:
     void show_readings();
     void pick_date();
     void apply_settings(bool persist=true);
-    void preview_speech(const std::vector<Reading>&);
+    void play_speech(const std::vector<Reading>&);
+    void speech_status(const std::string&);
+    std::unique_ptr<SpeechEngine> speech_;
+    wxButton *pause_,*stop_;
+    bool paused_=false;
     void navigate(int days);
     void browse_bible();
     const CorpusDb& corpus_;

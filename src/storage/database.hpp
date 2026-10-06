@@ -12,6 +12,7 @@ public:
     std::vector<Source> sources() const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book, VerseRef ref) const;
     std::vector<VerseRef> coordinates(const std::string& source, const std::string& book) const;
+    std::vector<VerseRef> paragraph_starts(const std::string& source, const std::string& book) const;
     std::optional<Alignment> alignment(const std::string& from, const std::string& to, const Passage&) const;
     std::expected<Verse, std::string> parallel_verse(const std::string& from, const std::string& to, const std::string& book, VerseRef) const;
     std::vector<Pronunciation> pronunciations(const std::string& language) const;
@@ -29,6 +30,15 @@ public:
     explicit UserDb(const std::filesystem::path& path);
     Settings load() const;
     void save(const Settings&);
+private:
+    DatabaseHandle db_;
+};
+// Speech audio has its own bounded database. It never changes Scripture or preferences.
+class SpeechCache {
+public:
+    explicit SpeechCache(const std::filesystem::path&);
+    std::optional<std::vector<float>> load(const std::string& model, const std::string& language, const std::string& text);
+    void save(const std::string& model, const std::string& language, const std::string& text, const std::vector<float>&);
 private:
     DatabaseHandle db_;
 };

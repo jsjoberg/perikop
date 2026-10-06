@@ -46,7 +46,7 @@ October 6 uses 1 Corinthians 4:9–16 and John 20:19–31 for Apostle Thomas.
 Both dates match the engine.
 
 Discontinuous readings retain their segment order.
-The reader marks only those segments. The speech preview also excludes omitted verses.
+The reader marks only those segments. Speech playback also excludes omitted verses.
 The segment selector opens each part, including parts in another book.
 
 The daily list contains the prescribed Epistle and Gospel, or weekday Lenten prophecy readings.

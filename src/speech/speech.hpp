@@ -4,10 +4,12 @@ namespace ortho {
 struct SpeechUtterance { std::string display_text, speech_text, language; };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language, const std::vector<Pronunciation>& lexicon);
 std::string reading_introduction(const Reading&);
+std::vector<std::string> speech_chunks(const std::string&);
 class SpeechEngine {
 public:
     virtual ~SpeechEngine() = default;
     virtual void speak(const SpeechUtterance&) = 0;
+    virtual void speak_batch(const std::vector<SpeechUtterance>& utterances) {for(const auto& utterance:utterances)speak(utterance);}
     virtual void pause() = 0;
     virtual void resume() = 0;
     virtual void stop() = 0;

@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "fixture_only": false,
   "assets": [
     {
@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "1b588d4fa22887ab8d7b094117ab21da63d54b62e538764ccc6fa31c7badb348",
+      "sha256": "83ae95c4ee55f58c8ffad706c501870a1a08da90617a8c3c111ff7b09ecd090a",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "3e2c0082c8bd5c3d73512c0e01220fe6914c9f74436e4bf8c79a02d166c0aa1d"
+      "sha256": "45aafd3b59ce0d5dd11a4e7c104d7def62115aa3a5e5293d331dcd9af801a9d2"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
