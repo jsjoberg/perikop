@@ -255,13 +255,16 @@ TextLayout layout_paragraph(wxDC& dc,const std::vector<TextFragment>& fragments,
     }
     return result;
 }
-void draw_paragraph(wxDC& dc,const TextLayout& layout,int x,int y) {
-    const auto base=dc.GetFont();
+void draw_paragraph(wxDC& dc,const TextLayout& layout,int x,int y,const std::function<std::optional<wxColour>(const TextRun&)>& colour) {
+    const auto base=dc.GetFont();const auto ink=dc.GetTextForeground();
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::CreateFromUnknownDC(dc));
     for(const auto& line:layout.lines) {
-        for(const auto& run:line.runs)draw_shaped(dc,gc.get(),run.marker?marker_font(base):base,run.text,x+run.x,y);
+        for(const auto& run:line.runs) {
+            if(colour){const auto chosen=colour(run);dc.SetTextForeground(chosen?*chosen:ink);}
+            draw_shaped(dc,gc.get(),run.marker?marker_font(base):base,run.text,x+run.x,y);
+        }
         y+=layout.line_height;
     }
-    dc.SetFont(base);
+    dc.SetFont(base);dc.SetTextForeground(ink);
 }
 }

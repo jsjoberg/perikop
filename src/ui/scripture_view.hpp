@@ -29,7 +29,9 @@ public:
     std::optional<double> marker_position() const {return guide_?std::optional<double>{guide_y_}:std::nullopt;}
     // Verses marked by dragging in the left pane, as a passage in its edition.
     std::optional<Passage> selection() const;
+    // The left pane's edition, and the edition whose numbering frames the text.
     const std::string& base_source() const {return base_source_;}
+    const std::string& frame() const {return frame_;}
     void clear_selection();
     void select_verses(VerseRef first,VerseRef last);
     void on_selection(std::function<void()> callback){selection_changed_=std::move(callback);}
@@ -38,7 +40,9 @@ public:
     ~ScriptureView() override;
 private:
     struct Row { VerseRef ref; bool heading; std::vector<VerseRef> verses; VerseRef last; };
-    struct Column { std::string language,source; TextLayout text; bool missing=false; std::vector<bool> prescribed; std::vector<std::pair<VerseRef,VerseRef>> verses; };
+    // Per tag: the framing verses it shows, and whether it is muted text,
+    // either missing from this edition or only in the Hebrew text.
+    struct Column { std::string language,source; TextLayout text; std::vector<bool> prescribed,faint,hebrew; std::vector<std::pair<VerseRef,VerseRef>> verses; };
     struct Layout { std::vector<Column> columns; int height=0; };
     void set_position(double);
     void rebuild_positions();
@@ -57,6 +61,7 @@ private:
     SpeechPlayback playback_;
     std::optional<SpeechCue> located_cue_;
     std::optional<size_t> speech_row_;
+    std::pair<VerseRef,VerseRef> speech_range_; // the spoken verses in framing numbers
     double guide_y_=0,guide_alpha_=0,follow_target_=0;
     bool following_=false;
     std::function<void()> release_follow_,selection_changed_;
@@ -78,7 +83,14 @@ private:
     Reading reading_{ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"};
     Settings settings_;
     Passage displayed_{"Ps",{23,1},{23,6}};
-    std::string base_source_="sv1917";
+    std::string base_source_="sv1917",frame_="grc-lxx";
+    const CanonBook* canon_=nullptr;
+    std::string canon_code() const {return canon_?canon_->code:displayed_.book;}
+    std::string source_of(const std::string& language) const;
+    // Verses of an edition without a Septuagint counterpart, after the framing verse they follow.
+    using Orphans=std::map<VerseRef,std::vector<std::pair<std::string,VerseRef>>>;
+    const Orphans& orphans(const std::string& source) const;
+    mutable std::map<std::string,Orphans> orphans_;
     std::vector<Row> rows_;
     mutable std::map<std::size_t,Layout> cache_;
     mutable std::list<std::size_t> order_;

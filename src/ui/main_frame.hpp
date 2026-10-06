@@ -32,6 +32,8 @@ private:
     void play_or_pause();
     bool active_playback() const;
     Reading in_primary(Reading) const;
+    Passage shown(Passage) const;
+    std::string label_of(const std::vector<Passage>&) const;
     void update_bar();
     void make_menus();
     void stop_speech();

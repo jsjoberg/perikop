@@ -155,7 +155,7 @@ void MainFrame::refresh_day() {
     if(day_.readings.empty())entries_->Add(label(readings_,"Ingen daglig bibelläsning är föreskriven",18),0,wxBOTTOM,FromDIP(20));
     for(const auto& reading:day_.readings) {
         auto* section=label(readings_,kind_label(reading.kind),10);entries_->Add(section,0,wxBOTTOM,FromDIP(6));
-        auto* open=button(readings_,u(reading.label),[this,reading]{open_reading(reading);});open->SetFont(body_font(20));
+        auto* open=button(readings_,u(label_of(corpus_.localize(in_primary(reading)).segments())),[this,reading]{open_reading(reading);});open->SetFont(body_font(20));
         entries_->Add(open,0,wxBOTTOM,FromDIP(32));
     }
     readings_->FitInside();readings_->Scroll(0,0);apply_settings(false);Layout();
@@ -170,11 +170,29 @@ void MainFrame::open_reading(const Reading& selected) {
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
     const auto reading=corpus_.localize(in_primary(selected));
     readings_->Hide();scripture_->Show();
-    reading_title_=u(reading.label);
+    reading_title_=u(label_of(reading.segments()));
     part_->Clear();const auto segments=reading.segments();
-    for(std::size_t i=0;i<segments.size();++i)part_->Append(wxString::Format("Del %d · ",int(i+1))+u(corpus_.book_name(segments[i].book)));
+    for(std::size_t i=0;i<segments.size();++i)part_->Append(wxString::Format("Del %d · ",int(i+1))+u(label_of({segments[i]})));
     part_->SetSelection(0);
     update_bar();scripture_->open(reading);scripture_->SetFocus();
+}
+Passage MainFrame::shown(Passage passage) const {
+    // A framing passage in the book and chapter numbers the reader shows.
+    if(const auto* canon=canon_book(passage.book,passage.first.chapter)) {
+        passage.book=canon->code;passage.first.chapter-=canon->offset();passage.last.chapter-=canon->offset();
+    }
+    return passage;
+}
+std::string MainFrame::label_of(const std::vector<Passage>& passages) const {
+    std::string label,book;
+    for(const auto& framing:passages) {
+        const auto p=shown(framing);
+        if(!label.empty())label+="; ";
+        if(p.book!=book){label+=corpus_.book_name(p.book)+" ";book=p.book;}
+        label+=std::to_string(p.first.chapter)+":"+std::to_string(p.first.verse)+p.first.suffix;
+        if(p.last!=p.first)label+="–"+(p.last.chapter!=p.first.chapter?std::to_string(p.last.chapter)+":":"")+std::to_string(p.last.verse)+p.last.suffix;
+    }
+    return label;
 }
 Reading MainFrame::in_primary(Reading reading) const {
     if(reading.source_override.empty())reading.base_language=settings_.primary;
@@ -187,11 +205,8 @@ bool MainFrame::active_playback() const {
 void MainFrame::play_or_pause() {
     if(active_playback())toggle_pause();
     else if(const auto marked=scripture_->IsShown()?scripture_->selection():std::nullopt) {
-        const auto& first=marked->first;const auto& last=marked->last;
-        Reading reading{new_testament_book(marked->book)?ReadingKind::Gospel:ReadingKind::OldTestament,*marked,
-            corpus_.book_name(marked->book)+" "+std::to_string(first.chapter)+":"+std::to_string(first.verse)+
-            (last==first?"":"–"+(last.chapter!=first.chapter?std::to_string(last.chapter)+":":"")+std::to_string(last.verse)),{},settings_.primary};
-        reading.source_override=scripture_->base_source();
+        Reading reading{new_testament_book(marked->book)?ReadingKind::Gospel:ReadingKind::OldTestament,*marked,label_of({*marked}),{},settings_.primary};
+        reading.reference=scripture_->frame();
         play_speech({reading});
     }
     else if(scripture_->IsShown())play_speech({visible_reading_.value_or(scripture_->reading())});
@@ -216,7 +231,7 @@ void MainFrame::update_bar() {
     if(playback_ui_.cue) {
         const auto& cue=*playback_ui_.cue;
         if(cue.introduction)location="Introduktion";
-        else location=u(corpus_.book_name(cue.book))+wxString::Format(" %d:%d",cue.verse.chapter,cue.verse.verse)+u(cue.verse.suffix);
+        else location=u(label_of({{cue.book,cue.verse,cue.verse}}));
     }
     // One short line: where the reading is, or what it is waiting for.
     const wxString ready=playback_ui_.ready>0?wxString::Format(" %d %%",int(playback_ui_.ready*100)):wxString{};
@@ -310,7 +325,7 @@ void MainFrame::make_menus() {
 }
 void MainFrame::browse_bible() {
     // Three grids, as in most Bible apps: book, then chapter, then verse.
-    // Books and numbering follow the left pane's edition.
+    // Books follow the OSB order; the Old Testament uses Septuagint numbers.
     wxDialog dialog(this,wxID_ANY,u("Gå till bibelställe"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
     auto* sizer=new wxBoxSizer(wxVERTICAL);
     auto* header=new wxBoxSizer(wxHORIZONTAL);
@@ -323,8 +338,23 @@ void MainFrame::browse_bible() {
     auto* grid=new wxPanel(&dialog);sizer->Add(grid,1,wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM,FromDIP(16));
     dialog.SetSizer(sizer);
     std::optional<Reading> chosen;
-    std::function<void()> show_books;std::function<void(Book)> show_chapters;
-    const auto source=[this](const std::string& book){return source_for_language(settings_.primary,book);};
+    std::function<void()> show_books;std::function<void(CanonBook)> show_chapters;
+    const auto frame=[this](const CanonBook& book){return frame_source(settings_.primary,book.frame_book);};
+    // Framing verses of a book, within its chapters of the framing book.
+    const auto verses_of=[&](const CanonBook& book) {
+        std::vector<VerseRef> result;
+        for(const auto& ref:corpus_.coordinates(frame(book),book.frame_book))
+            if(book.first_chapter<=ref.chapter&&ref.chapter<=book.last_chapter)result.push_back(ref);
+        return result;
+    };
+    // A book is available when the left pane's edition has text for its opening verses;
+    // the first verses alone can be missing, as Sirach's prologue is in Swedish.
+    const auto available=[&](const CanonBook& book) {
+        const auto verses=verses_of(book);
+        const auto source=source_for_language(settings_.primary,book.code);
+        return std::any_of(verses.begin(),verses.begin()+std::min<size_t>(verses.size(),50),[&](VerseRef ref){
+            return bool(corpus_.parallel_verse(frame(book),source,book.frame_book,ref));});
+    };
     const auto cells=[&](const std::vector<std::pair<wxString,std::function<void()>>>& items,int columns,const std::vector<std::pair<size_t,wxString>>& groups) {
         grid->DestroyChildren();auto* rows=new wxBoxSizer(wxVERTICAL);
         size_t group=0;wxGridSizer* table=nullptr;
@@ -346,33 +376,35 @@ void MainFrame::browse_bible() {
     show_books=[&] {
         back->Hide();go_back={};title->SetLabel("Välj bok");
         std::vector<std::pair<wxString,std::function<void()>>> items;std::vector<std::pair<size_t,wxString>> groups;
-        std::vector<Book> books;
-        for(const auto& book:corpus_.books())if(!corpus_.coordinates(source(book.code),book.code).empty())books.push_back(book);
-        // Old Testament, its additional books, then the New Testament.
-        for(int part=0;part<3;++part) {
-            groups.emplace_back(items.size(),part==0?"GAMLA TESTAMENTET":part==1?"APOKRYFERNA":"NYA TESTAMENTET");
-            for(const auto& book:books) {
-                const int kind=new_testament_book(book.code)?2:deuterocanonical_book(book.code)?1:0;
-                if(kind==part)items.emplace_back(u(book_abbreviation(book.code)),[&,book]{show_chapters(book);});
+        std::vector<std::pair<wxString,const CanonBook*>> cells_books;
+        for(int part=0;part<2;++part) {
+            groups.emplace_back(items.size(),part==0?"GAMLA TESTAMENTET":"NYA TESTAMENTET");
+            for(const auto& book:osb_canon())if(book.new_testament==bool(part)) {
+                items.emplace_back(u(book_abbreviation(book.code)),[&,book]{show_chapters(book);});
+                cells_books.emplace_back(items.back().first,&book);
             }
         }
         cells(items,8,groups);
+        // Not yet available in the left pane's language: shown, but greyed out.
         for(auto* child:grid->GetChildren())if(auto* cell=wxDynamicCast(child,wxButton))
-            for(const auto& book:books)if(cell->GetLabel()==u(book_abbreviation(book.code)))cell->SetToolTip(u(book.name));
+            for(const auto& [name,book]:cells_books)if(cell->GetLabel()==name) {
+                cell->SetToolTip(u(corpus_.book_name(book->code)));
+                if(!available(*book)){cell->Disable();cell->SetToolTip(u(corpus_.book_name(book->code)+" · saknas ännu på detta språk"));}
+            }
     };
-    show_chapters=[&](Book book) {
-        back->Show();go_back=show_books;title->SetLabel(u(book.name));
-        const auto verses=corpus_.coordinates(source(book.code),book.code);
+    show_chapters=[&](CanonBook book) {
+        back->Show();go_back=show_books;title->SetLabel(u(corpus_.book_name(book.code)));
+        const auto verses=verses_of(book);
         std::vector<int> chapters;for(const auto& ref:verses)if(chapters.empty()||chapters.back()!=ref.chapter)chapters.push_back(ref.chapter);
         std::vector<std::pair<wxString,std::function<void()>>> items;
-        for(int chapter:chapters)items.emplace_back(wxString::Format("%d",chapter),[&,book,chapter,verses] {
-            title->SetLabel(u(book.name)+wxString::Format(" %d",chapter));
+        for(int chapter:chapters)items.emplace_back(wxString::Format("%d",chapter-book.offset()),[&,book,chapter,verses] {
+            title->SetLabel(u(corpus_.book_name(book.code))+wxString::Format(" %d",chapter-book.offset()));
             go_back=[&,book]{show_chapters(book);};
             std::vector<std::pair<wxString,std::function<void()>>> numbers;
             for(const auto& ref:verses)if(ref.chapter==chapter)numbers.emplace_back(wxString::Format("%d",ref.verse)+u(ref.suffix),[&,book,ref] {
-                Reading reading{new_testament_book(book.code)?ReadingKind::Gospel:ReadingKind::OldTestament,{book.code,ref,ref},
-                    book.name+" "+std::to_string(ref.chapter)+":"+std::to_string(ref.verse)+ref.suffix,{},settings_.primary};
-                reading.reference=source(book.code);
+                Reading reading{book.new_testament?ReadingKind::Gospel:ReadingKind::OldTestament,{book.frame_book,ref,ref},
+                    label_of({{book.frame_book,ref,ref}}),{},settings_.primary};
+                reading.reference=frame(book);
                 chosen=reading;dialog.EndModal(wxID_OK);
             });
             cells(numbers,10,{});
@@ -495,32 +527,33 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         for(size_t r=0;r<readings.size();++r) {
             const auto reading=in_primary(readings[r]);const auto localized=corpus_.localize(reading);const auto passages=localized.segments();
             if(reading.base_language=="sv") {
-                auto intro=make_utterance(reading_introduction(reading),"sv",corpus_.pronunciations("sv"));
+                // Announced in the numbers shown on screen.
+                const Reading announced{reading.kind,shown(passages.front()),label_of({passages.front()})};
+                auto intro=make_utterance(reading_introduction(announced),"sv",corpus_.pronunciations("sv"));
                 intro.cue=SpeechCue{r,0,passages.front().book,"",passages.front().first,passages.front().last,true};queue.push_back(std::move(intro));
             }
             for(size_t s=0;s<passages.size();++s) {
                 const auto& passage=passages[s];
-                auto language=reading.base_language;
-                auto source=reading.source_override.empty()?source_for_language(language,passage.book):reading.source_override;
-                if(corpus_.coordinates(source,passage.book).empty()) {
-                    for(const auto fallback:{"el","en"}) {
-                        auto candidate=source_for_language(fallback,passage.book);
-                        if(!corpus_.coordinates(candidate,passage.book).empty()){source=candidate;break;}
-                    }
-                }
-                if(source.starts_with("en-"))language="en";
-                else if(source.starts_with("grc-"))language="el";
-                else language="sv";
+                // Walk the framing verses and read the left pane's text for each,
+                // so Hebrew-only verses are not read and merged verses are read once.
+                auto frame=reading.source_override.empty()?frame_source(reading.base_language,passage.book):reading.source_override;
+                const auto* canon=canon_book(passage.book,passage.first.chapter);
+                auto source=reading.source_override.empty()?source_for_language(reading.base_language,canon?canon->code:passage.book):reading.source_override;
+                if(corpus_.coordinates(frame,passage.book).empty())frame=source;
+                const auto language=source.starts_with("en-")?"en":source.starts_with("grc-")?"el":"sv";
                 const auto lexicon=corpus_.pronunciations(language);
-                bool found=false;
-                for(auto ref:corpus_.coordinates(source,passage.book)) {
+                bool found=false;std::optional<VerseRef> previous;
+                for(auto ref:corpus_.coordinates(frame,passage.book)) {
                     if(ref>passage.last)break;
-                    auto verse=corpus_.verse(source,passage.book,ref);
-                    if(verse && ref<=passage.last && passage.first<=verse->last.value_or(ref)) {
-                        auto utterance=make_utterance(verse->text,language,lexicon);
-                        utterance.cue=SpeechCue{r,s,passage.book,source,verse->ref,verse->last.value_or(ref),false};
-                        queue.push_back(std::move(utterance));found=true;
-                    }
+                    if(ref<passage.first)continue;
+                    auto verse=corpus_.parallel_verse(frame,source,passage.book,ref);
+                    const bool continues=(verse&&previous&&verse->ref==*previous)||(!verse&&verse.error()=="Ingår i föregående vers");
+                    if(continues&&found){queue.back().cue->last=ref;continue;}
+                    if(!verse)continue;
+                    previous=verse->ref;
+                    auto utterance=make_utterance(verse->text,language,lexicon);
+                    utterance.cue=SpeechCue{r,s,passage.book,frame,ref,ref,false};
+                    queue.push_back(std::move(utterance));found=true;
                 }
                 if(!found)throw std::runtime_error("Ingen text finns att läsa upp.");
             }

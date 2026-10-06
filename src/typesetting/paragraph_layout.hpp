@@ -1,6 +1,8 @@
 #pragma once
 #include <wx/dc.h>
 #include <filesystem>
+#include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 namespace ortho {
@@ -18,5 +20,6 @@ void load_hyphenation(const std::filesystem::path& directory);
 std::vector<int> hyphenation_points(const wxString&,const std::string& language);
 TextLayout layout_paragraph(wxDC&,const wxString&,int width,const std::string& language="sv");
 TextLayout layout_paragraph(wxDC&,const std::vector<TextFragment>&,int width,const std::string& language="sv");
-void draw_paragraph(wxDC&,const TextLayout&,int x,int y);
+// colour may return another colour for a run, such as muted text.
+void draw_paragraph(wxDC&,const TextLayout&,int x,int y,const std::function<std::optional<wxColour>(const TextRun&)>& colour={});
 }

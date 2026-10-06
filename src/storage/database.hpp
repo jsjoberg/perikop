@@ -16,9 +16,11 @@ public:
     std::vector<VerseRef> paragraph_starts(const std::string& source, const std::string& book) const;
     std::optional<Alignment> alignment(const std::string& from, const std::string& to, const Passage&) const;
     std::expected<Verse, std::string> parallel_verse(const std::string& from, const std::string& to, const std::string& book, VerseRef) const;
+    // The verses of another edition that translate one verse; empty when it has none.
+    std::vector<std::pair<std::string,VerseRef>> counterparts(const std::string& from, const std::string& to, const std::string& book, VerseRef) const;
     // Passages in another edition's numbering, joined where the target verses are adjacent.
     std::vector<Passage> map_passage(const std::string& from, const std::string& to, const Passage&) const;
-    // The reading in the numbering of the edition that opens it.
+    // The reading in its framing numbering: the Septuagint's for the Old Testament.
     Reading localize(Reading) const;
     std::vector<Pronunciation> pronunciations(const std::string& language) const;
     std::string book_name(const std::string& book, const std::string& language = "sv") const;
@@ -29,7 +31,6 @@ public:
     std::vector<OrdoRule> ordo_rules() const;
 private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;
-    std::vector<std::pair<std::string,VerseRef>> counterparts(const std::string& from, const std::string& to, const std::string& book, VerseRef) const;
     DatabaseHandle db_;
 };
 class UserDb {

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <set>
 #ifdef __APPLE__
 #include "ui/native_scroll.hpp"
 #endif
@@ -76,7 +77,7 @@ ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
 }
 std::optional<Passage> ScriptureView::selection() const {
     if(!selection_)return std::nullopt;
-    const auto last=corpus_.verse(base_source_,displayed_.book,selection_->second);
+    const auto last=corpus_.verse(frame_,displayed_.book,selection_->second);
     return Passage{displayed_.book,selection_->first,last?last->last.value_or(selection_->second):selection_->second};
 }
 void ScriptureView::select_verses(VerseRef first,VerseRef last) {
@@ -113,7 +114,7 @@ std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
     // The run under the pointer, or the nearest one on that line.
     int tag=-1;double best=std::numeric_limits<double>::max();
     for(const auto& run:column.text.lines[line].runs) {
-        if(run.tag<0||size_t(run.tag)>=column.verses.size())continue;
+        if(run.tag<0||size_t(run.tag)>=column.verses.size()||column.hebrew[run.tag])continue;
         const double distance=x<run.x?run.x-x:x>run.x+run.width?x-run.x-run.width:0;
         if(distance<best){best=distance;tag=run.tag;}
     }
@@ -190,11 +191,12 @@ void ScriptureView::locate_playback() {
     if(located_cue_!=playback_.cue) {
         located_cue_=playback_.cue;speech_row_.reset();
         VerseRef first=cue.verse,last=cue.last;
-        if(cue.source!=base_source_) {
-            const auto mapped=corpus_.map_passage(cue.source,base_source_,{cue.book,first,last});
+        if(cue.source!=frame_) {
+            const auto mapped=corpus_.map_passage(cue.source,frame_,{cue.book,first,last});
             if(mapped.empty()){guide_.reset();return;}
             first=mapped.front().first;last=mapped.front().last;
         }
+        speech_range_={first,last};
         for(size_t i=0;i<rows_.size();++i)if(!rows_[i].heading&&rows_[i].ref<=last&&first<=rows_[i].last){speech_row_=i;break;}
     }
     if(!speech_row_){guide_.reset();return;}
@@ -211,15 +213,15 @@ void ScriptureView::locate_playback() {
     for(size_t c=0;c<layout.columns.size();++c) {
         const auto& column=layout.columns[c];
         if(stacked&&layout.columns.size()>1)y+=FromDIP(24);
-        if(column.source==cue.source&&!column.missing) {
+        if(c==0) {
             Guide guide{index,c,0,y,column.text.line_height,{}};
             double weight=0;
             for(size_t line=0;line<column.text.lines.size();++line) {
                 GuideSpan span{line,std::numeric_limits<double>::max(),0,0};
                 for(const auto& run:column.text.lines[line].runs) {
-                    if(run.tag<0||size_t(run.tag)>=column.verses.size())continue;
+                    if(run.tag<0||size_t(run.tag)>=column.verses.size()||column.hebrew[run.tag])continue;
                     const auto& [first,last]=column.verses[run.tag];
-                    if(cue.verse>last||cue.last<first)continue;
+                    if(speech_range_.first>last||speech_range_.second<first)continue;
                     span.first=std::min(span.first,run.x);span.last=std::max(span.last,run.x+run.width);
                     if(!run.marker)span.weight+=speech_text_weight(run.text.ToStdString(wxConvUTF8));
                 }
@@ -256,7 +258,7 @@ void ScriptureView::advance_playback(double seconds) {
     Refresh(false);
 }
 std::vector<std::string> ScriptureView::languages() const {
-    std::vector<std::string> result{base_source_=="sv1917"?"sv":base_source_.starts_with("en-")?"en":"el"};
+    std::vector<std::string> result{base_source_.starts_with("sv")?"sv":base_source_.starts_with("en-")?"en":"el"};
     const auto add=[&](const std::string& language){if(std::find(result.begin(),result.end(),language)==result.end())result.push_back(language);};
     if(!settings_.parallel.empty())add(settings_.parallel);
     return result;
@@ -275,29 +277,65 @@ int ScriptureView::column_width() const {
 void ScriptureView::open(const Reading& reading) { reading_=reading;open_section(0); }
 void ScriptureView::open_section(std::size_t index) {
     const auto segments=reading_.segments();if(index>=segments.size())return;
-    displayed_=segments[index];rows_.clear();located_cue_.reset();speech_row_.reset();guide_.reset();guide_alpha_=0;
+    displayed_=segments[index];rows_.clear();located_cue_.reset();speech_row_.reset();guide_.reset();guide_alpha_=0;orphans_.clear();
     if(selection_){selection_.reset();if(selection_changed_)selection_changed_();}
-    base_source_=source_for_language(reading_.base_language,displayed_.book);
-    if(!reading_.source_override.empty())base_source_=reading_.source_override;
-    if(corpus_.coordinates(base_source_,displayed_.book).empty())for(const std::string language:{"el","en"}) {
+    // The Septuagint frames the Old Testament: its books, order and numbers.
+    frame_=reading_.source_override.empty()?frame_source(reading_.base_language,displayed_.book):reading_.source_override;
+    if(corpus_.coordinates(frame_,displayed_.book).empty())for(const std::string language:{"sv","el","en"}) {
         const auto source=source_for_language(language,displayed_.book);
-        if(!corpus_.coordinates(source,displayed_.book).empty()){base_source_=source;break;}
+        if(!corpus_.coordinates(source,displayed_.book).empty()){frame_=source;break;}
     }
+    canon_=canon_book(displayed_.book,displayed_.first.chapter);
+    base_source_=reading_.source_override.empty()?source_for_language(reading_.base_language,canon_code()):reading_.source_override;
+    // Paragraphs follow the left pane's edition, placed at its framing verses.
+    std::set<VerseRef> boundaries;
+    if(base_source_==frame_){for(auto ref:corpus_.paragraph_starts(frame_,displayed_.book))boundaries.insert(ref);}
+    else for(auto ref:corpus_.paragraph_starts(base_source_,canon_code()))
+        for(const auto& [book,target]:corpus_.counterparts(base_source_,frame_,canon_code(),ref))if(book==displayed_.book){boundaries.insert(target);break;}
     int chapter=0;
-    const auto boundaries=corpus_.paragraph_starts(base_source_,displayed_.book);
     const bool stanza=displayed_.book=="Ps"||displayed_.book=="Ps151"||displayed_.book=="Prov"||displayed_.book=="Song"||displayed_.book=="Lam";
-    for(auto ref:corpus_.coordinates(base_source_,displayed_.book)) {
+    for(auto ref:corpus_.coordinates(frame_,displayed_.book)) {
+        if(canon_&&(ref.chapter<canon_->first_chapter||ref.chapter>canon_->last_chapter))continue;
         const bool new_chapter=ref.chapter!=chapter;
         if(new_chapter){chapter=ref.chapter;rows_.push_back({ref,true,{},ref});}
-        if(new_chapter||stanza||std::binary_search(boundaries.begin(),boundaries.end(),ref))rows_.push_back({ref,false,{},ref});
+        if(new_chapter||stanza||boundaries.contains(ref))rows_.push_back({ref,false,{},ref});
         rows_.back().verses.push_back(ref);
-        const auto verse=corpus_.verse(base_source_,displayed_.book,ref);
+        const auto verse=corpus_.verse(frame_,displayed_.book,ref);
         rows_.back().last=verse?verse->last.value_or(ref):ref;
     }
     cache_.clear();order_.clear();offset_=target_=0;wheel_timer_.Stop();
     heights_.clear();
     for(const auto& row:rows_)heights_.push_back(row.heading?FromDIP(124):FromDIP(150));
     rebuild_positions();center_passage();Refresh(false);
+}
+std::string ScriptureView::source_of(const std::string& language) const {
+    return language==languages().front()?base_source_:source_for_language(language,canon_code());
+}
+const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
+    if(auto it=orphans_.find(source);it!=orphans_.end())return it->second;
+    auto& result=orphans_[source];
+    if(source==frame_||frame_!="grc-lxx")return result;
+    // The edition's books that this framing book draws on, such as Swedish Nehemiah.
+    std::set<std::string> books;
+    for(const auto& row:rows_)if(!row.heading)for(const auto& ref:row.verses)
+        for(const auto& [book,target]:corpus_.counterparts(frame_,source,displayed_.book,ref)){(void)target;books.insert(book);}
+    for(const auto& book:books) {
+        std::optional<VerseRef> anchor;std::vector<VerseRef> pending;
+        for(const auto& ref:corpus_.coordinates(source,book)) {
+            const auto targets=corpus_.counterparts(source,frame_,book,ref);
+            if(targets.empty()) {
+                if(anchor)result[*anchor].emplace_back(book,ref);else pending.push_back(ref);
+                continue;
+            }
+            const auto here=std::find_if(targets.begin(),targets.end(),[&](const auto& target){
+                return target.first==displayed_.book&&(!canon_||(canon_->first_chapter<=target.second.chapter&&target.second.chapter<=canon_->last_chapter));});
+            if(here==targets.end())continue;
+            anchor=here->second;
+            for(const auto& waiting:pending)result[*anchor].emplace_back(book,waiting);
+            pending.clear();
+        }
+    }
+    return result;
 }
 void ScriptureView::center_passage() {
     prepare_visible();
@@ -313,7 +351,7 @@ void ScriptureView::center_passage() {
     const auto start=fits?begin:(index&&rows_[index-1].heading?index-1:index);
     double position=positions_[start];
     const auto& paragraph=row_layout(index);
-    const auto verse_it=std::find_if(rows_[index].verses.begin(),rows_[index].verses.end(),[&](auto ref){auto v=corpus_.verse(base_source_,displayed_.book,ref);return ref<=displayed_.first && v && displayed_.first<=v->last.value_or(ref);});
+    const auto verse_it=std::find_if(rows_[index].verses.begin(),rows_[index].verses.end(),[&](auto ref){auto v=corpus_.verse(frame_,displayed_.book,ref);return ref<=displayed_.first && v && displayed_.first<=v->last.value_or(ref);});
     const int tag=int(verse_it-rows_[index].verses.begin());
     if(!paragraph.columns.empty()) {
         const auto& text=paragraph.columns.front().text;
@@ -348,28 +386,42 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     else {
         const auto selected_languages=languages();
         const bool stacked=(GetClientSize().x-2*outside_margin())/columns_count()<270;
+        const int offset=canon_?canon_->offset():0;
+        const auto segments=reading_.segments();
         int height=0;
         for(const auto& language:selected_languages) {
-            const auto source=language==selected_languages.front()?base_source_:source_for_language(language,displayed_.book);
+            const auto source=source_of(language);
             Column column;column.language=language;column.source=source;
             std::vector<TextFragment> fragments;
             std::optional<VerseRef> previous;
-            const auto segments=reading_.segments();
+            const auto add=[&](const wxString& text,const wxString& label,VerseRef first,VerseRef last,bool faint,bool hebrew) {
+                column.verses.emplace_back(first,last);column.faint.push_back(faint);column.hebrew.push_back(hebrew);
+                column.prescribed.push_back(!hebrew&&std::any_of(segments.begin(),segments.end(),[&](const auto& p){return p.book==displayed_.book&&p.first<=last&&first<=p.last;}));
+                fragments.push_back({text,label,int(column.verses.size()-1)});
+            };
             for(const auto& ref:rows_[index].verses) {
-                auto verse=corpus_.parallel_verse(base_source_,source,displayed_.book,ref);
-                if(verse && previous && verse->ref==*previous)continue;
+                const auto framing=corpus_.verse(frame_,displayed_.book,ref);
+                const auto last=framing?framing->last.value_or(ref):ref;
+                auto verse=corpus_.parallel_verse(frame_,source,displayed_.book,ref);
+                // One verse of this edition can span several framing verses.
+                if((verse&&previous&&verse->ref==*previous)||(!verse&&verse.error()=="Ingår i föregående vers"&&!column.verses.empty())) {
+                    column.verses.back().second=last;continue;
+                }
                 if(verse)previous=verse->ref;
-                const auto actual=verse?verse->ref:ref;
-                wxString number=wxString::Format("%d",actual.verse)+u(actual.suffix);
-                if(verse&&verse->last)number+="–"+wxString::Format("%d",verse->last->verse)+u(verse->last->suffix);
-                const auto base=corpus_.verse(base_source_,displayed_.book,ref);
-                const auto last=base?base->last.value_or(ref):ref;
-                column.prescribed.push_back(std::any_of(segments.begin(),segments.end(),[&](const auto& p){return p.book==displayed_.book&&p.first<=last&&ref<=p.last;}));
-                column.verses.emplace_back(actual,verse?verse->last.value_or(actual):actual);
-                fragments.push_back({u(verse?verse->text:verse.error()),number,int(column.prescribed.size()-1)});
-                column.missing|=!verse;
-                // One warning is enough for an unverified parallel paragraph.
-                if(!verse)break;
+                // The Septuagint's number, and this edition's own where it differs.
+                wxString number=wxString::Format("%d",ref.verse)+u(ref.suffix);
+                if(verse&&source!=frame_) {
+                    const auto& own=verse->ref;
+                    if(own.chapter!=ref.chapter-offset||own.verse!=ref.verse||own.suffix!=ref.suffix) {
+                        wxString mark=(own.chapter!=ref.chapter-offset?wxString::Format("%d:",own.chapter):wxString())+wxString::Format("%d",own.verse)+u(own.suffix);
+                        if(verse->last)mark+="–"+wxString::Format("%d",verse->last->verse)+u(verse->last->suffix);
+                        number+=" ("+mark+")";
+                    }
+                }
+                add(u(verse?verse->text:verse.error()),number,ref,last,!verse,false);
+                if(source!=frame_)if(auto extra=orphans(source).find(ref);extra!=orphans(source).end())
+                    for(const auto& [book,own]:extra->second)if(const auto text=corpus_.verse(source,book,own))
+                        add(u(text->text),wxString::Format("hebr. %d:%d",own.chapter,own.verse)+u(own.suffix),ref,ref,true,true);
             }
             column.text=layout_paragraph(dc,fragments,std::max(80,column_width()),language);
             const int h=column.text.height()+(stacked&&selected_languages.size()>1?FromDIP(24):0);
@@ -394,21 +446,17 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
         const auto& row=rows_[index];const auto& layout=row_layout(index);
         if(row.heading) {
             dc.SetTextForeground(colors.muted);dc.SetFont(ui_font(11));
-            auto name=u(corpus_.book_name(displayed_.book)).Upper();
+            auto name=u(corpus_.book_name(canon_code())).Upper();
             const auto extent=dc.GetTextExtent(name);dc.DrawText(name,(size.x-extent.x)/2,y+FromDIP(15));
             dc.SetFont(body_font(28));dc.SetTextForeground(colors.ink);
-            const wxString title=wxString::Format("%d",row.ref.chapter);
+            const wxString title=wxString::Format("%d",row.ref.chapter-(canon_?canon_->offset():0));
             dc.DrawText(title,(size.x-dc.GetTextExtent(title).x)/2,y+FromDIP(42));
             dc.SetFont(ui_font(9));dc.SetTextForeground(colors.muted);
             wxString labels;
             for(const auto& language:languages()) {
                 if(!labels.empty())labels+="     ·     ";
-                const auto source=language==languages().front()?base_source_:source_for_language(language,displayed_.book);
+                const auto source=source_of(language);
                 labels+=language=="sv"?"SVENSKA 1917":language=="en"?(source=="en-web"?"WORLD ENGLISH BIBLE":"KING JAMES"):"ΕΛΛΗΝΙΚΑ";
-            }
-            if(displayed_.book=="Ps" && !settings_.parallel.empty() && settings_.parallel!="en") {
-                const auto map=corpus_.alignment(base_source_,"grc-lxx",{displayed_.book,row.ref,row.ref});
-                if(map&&!map->to.book.empty())labels+=wxString::Format("     ·     MT %d / LXX %d",row.ref.chapter,map->to.first.chapter);
             }
             dc.DrawText(labels,(size.x-dc.GetTextExtent(labels).x)/2,y+FromDIP(93));
         } else {
@@ -426,7 +474,7 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                     dc.DrawText(column.language=="sv"?"SVENSKA":column.language=="el"?"ΕΛΛΗΝΙΚΑ":"ENGLISH",x+FromDIP(30),text_y);
                     text_y+=FromDIP(24);
                 }
-                dc.SetFont(body_font(settings_.font_size));dc.SetTextForeground(column.missing?colors.muted:colors.ink);
+                dc.SetFont(body_font(settings_.font_size));dc.SetTextForeground(colors.ink);
                 if(gc&&guide_&&guide_->row==index&&guide_->column==c&&guide_alpha_>0.01) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
                     for(const auto& span:guide_->spans) {
@@ -445,7 +493,7 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                     for(std::size_t line=0;line<column.text.lines.size();++line) {
                         double first=std::numeric_limits<double>::max(),last=0;
                         for(const auto& run:column.text.lines[line].runs) {
-                            if(run.tag<0||size_t(run.tag)>=column.verses.size())continue;
+                            if(run.tag<0||size_t(run.tag)>=column.verses.size()||column.hebrew[run.tag])continue;
                             const auto& verse=column.verses[run.tag].first;
                             if(verse<selection_->first||selection_->second<verse)continue;
                             first=std::min(first,run.x);last=std::max(last,run.x+run.width);
@@ -453,7 +501,10 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                         if(last>first)gc->DrawRectangle(x+FromDIP(30)+first-FromDIP(3),text_y+line*column.text.line_height,last-first+FromDIP(6),column.text.line_height);
                     }
                 }
-                draw_paragraph(dc,column.text,x+FromDIP(30),text_y);
+                draw_paragraph(dc,column.text,x+FromDIP(30),text_y,[&](const TextRun& run)->std::optional<wxColour>{
+                    if(run.tag>=0&&size_t(run.tag)<column.faint.size()&&column.faint[run.tag])return colors.muted;
+                    return std::nullopt;
+                });
                 // Mark only the lines containing the prescribed verse range.
                 if(c==0) {
                     dc.SetPen(wxPen(colors.accent,FromDIP(3)));

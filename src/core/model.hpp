@@ -106,4 +106,19 @@ struct Settings {
 };
 std::string source_for_language(const std::string& language, const std::string& book);
 bool deuterocanonical_book(const std::string& book);
+// A book as the reader presents it. Old Testament books are numbered by the
+// Septuagint (grc-lxx); some occupy only a chapter range of a Greek book.
+struct CanonBook {
+    std::string code;        // name and picker identity, e.g. "Neh"
+    std::string frame_book;  // the book in the framing edition, e.g. "Ezra"
+    int first_chapter=1,last_chapter=999;
+    bool new_testament=false;
+    int offset() const {return first_chapter-1;}
+};
+// Books in the order of the Orthodox Study Bible.
+const std::vector<CanonBook>& osb_canon();
+const CanonBook* canon_book(const std::string& frame_book,int chapter);
+// The edition whose numbering frames a book: the Septuagint for the Old
+// Testament, so every pane shows Old Testament text in LXX order and numbers.
+std::string frame_source(const std::string& language,const std::string& book);
 }

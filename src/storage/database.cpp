@@ -193,7 +193,7 @@ Reading CorpusDb::localize(Reading reading) const {
     if (!reading.source_override.empty()) return reading;
     std::vector<Passage> parts;
     for (const auto& segment : reading.segments()) {
-        const auto mapped = map_passage(reading.reference,source_for_language(reading.base_language,segment.book),segment);
+        const auto mapped = map_passage(reading.reference,frame_source(reading.base_language,segment.book),segment);
         // An edition without the book keeps the reference coordinates; the reader falls back to another edition.
         const auto chosen = mapped.empty() ? std::vector<Passage>{segment} : mapped;
         parts.insert(parts.end(), chosen.begin(), chosen.end());

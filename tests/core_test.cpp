@@ -171,10 +171,18 @@ int main(int argc,char** argv) {
         const auto rules=corpus.reading_rules();
         const auto song=std::find_if(rules.begin(),rules.end(),[](const auto& r){return r.reading.label.find("Song of the Three")!=std::string::npos;});
         check(song!=rules.end()&&song->reading.reference=="grc-lxx","Song of the Three uses Septuagint numbering");
+        // Readings open in Septuagint numbering; the Swedish pane finds its own verses.
         const auto daniel=corpus.localize(song->reading).segments();
-        check(daniel.size()==2&&daniel[0].book=="Dan"&&daniel[0].last==VerseRef{3,23}&&daniel[1].book=="PrAzar","Holy Saturday Daniel reading in Swedish");
+        check(daniel.size()==1&&daniel[0].book=="Dan"&&daniel[0].first==VerseRef{3,1},"Holy Saturday Daniel reading in LXX numbering");
+        const auto swedish=corpus.map_passage("grc-lxx","sv1917",daniel[0]);
+        check(swedish.size()==2&&swedish[0].book=="Dan"&&swedish[0].last==VerseRef{3,23}&&swedish[1].book=="PrAzar","Holy Saturday Daniel reading in Swedish");
         const auto baruch=std::find_if(rules.begin(),rules.end(),[](const auto& r){return r.reading.passage.book=="Baruch";});
-        check(baruch!=rules.end()&&corpus.localize(baruch->reading).passage.first==VerseRef{3,36},"Baruch 3:35 is Swedish 3:36");
+        check(baruch!=rules.end()&&corpus.localize(baruch->reading).passage.first==VerseRef{3,35},"Baruch reading in LXX numbering");
+        check(corpus.map_passage("grc-lxx","sv1917",corpus.localize(baruch->reading).passage).front().first==VerseRef{3,36},"Baruch 3:35 is Swedish 3:36");
+        // The OSB order frames the Old Testament by the Septuagint; Brenton's 2 Esdras 11 is Nehemiah 1.
+        check(canon_book("Ezra",11)&&canon_book("Ezra",11)->code=="Neh"&&canon_book("Ezra",11)->offset()==10,"Nehemiah within Greek 2 Esdras");
+        check(canon_book("EsthGr",1)&&canon_book("EsthGr",1)->code=="Esth","Greek Esther is the OSB's Esther");
+        check(frame_source("sv","Ps")=="grc-lxx"&&frame_source("sv","John")=="sv1917","Septuagint frames only the Old Testament");
         auto refs=corpus.coordinates("sv1917","Luke");
         check(refs.front().chapter==1&&refs.back().chapter==24,"adjacent chapter context");
         check(corpus.books().size()>=80,"full book catalog");

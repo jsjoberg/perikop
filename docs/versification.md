@@ -68,12 +68,23 @@ The table aligns Swedish with the Septuagint, the KJV, and WEB.
 The KJV and WEB reach the Septuagint through the Swedish alignment. WEB numbers the Old Testament like the KJV.
 New Testament books keep common coordinates.
 
+## Presentation in Septuagint numbering
+
+The reader presents the Old Testament in the Septuagint's order and numbering, as the Orthodox Study Bible does.
+`src/core/canon.cpp` lists the books in OSB order. The Greek edition frames each book: its chapters and verses make the rows, in every pane.
+Each pane shows its own edition's text for those verses through the alignment.
+Where an edition numbers a verse differently, the pane shows the LXX number with the edition's own number in small print, such as `13 (33:13)`.
+Verses that only the Hebrew text has follow the LXX verse they come after. They are muted, marked `hebr.`, and not read aloud.
+Brenton joins Ezra and Nehemiah as 2 Esdras 1–23. The reader shows 2 Esdras 11–23 as Nehemiah 1–13, and Greek Esther as Esther.
+Books that the left pane's edition lacks, such as 1 Esdras in Swedish, are greyed out in the book picker.
+The New Testament keeps common coordinates.
+
 ## Lectionary references
 
 Orthocal references use KJV numbering. References that the KJV cannot address use Septuagint numbering.
 These include the deuterocanonical books, Daniel 3:24–90, and readings marked LXX.
 The importer records the reference edition for each reading rule.
-The reader maps each reading into the edition that opens it.
+The reader maps each reading into Septuagint numbering.
 For example, Jeremiah 31:31–34 is Septuagint 38:31–34, and Baruch 3:35 is Swedish 3:36.
-The Holy Saturday reading Daniel 3:1–88 opens as Daniel 3:1–23 and Asarjas bön in Swedish.
+The Holy Saturday reading Daniel 3:1–88 shows Swedish Daniel 3:1–23 and Asarjas bön in the Swedish pane.
 A mapped passage includes verses that only the target edition has, such as lettered Septuagint additions.
