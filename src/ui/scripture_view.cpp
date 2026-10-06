@@ -1,20 +1,23 @@
 #include "ui/scripture_view.hpp"
 #include <wx/dcbuffer.h>
 #include <wx/dcclient.h>
+#include <wx/graphics.h>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #ifdef __APPLE__
 #include "ui/native_scroll.hpp"
 #endif
 namespace ortho {
 namespace { wxString u(const std::string& s){return wxString::FromUTF8(s);} }
 ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
-    :wxPanel(parent,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxBORDER_NONE|wxWANTS_CHARS|wxVSCROLL),wheel_timer_(this),corpus_(corpus) {
+    :wxPanel(parent,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxBORDER_NONE|wxWANTS_CHARS|wxVSCROLL),follow_timer_(this),wheel_timer_(this),corpus_(corpus) {
     SetBackgroundStyle(wxBG_STYLE_PAINT);SetName("Kontinuerlig skriftläsare");
     Bind(wxEVT_PAINT,&ScriptureView::paint,this);
     Bind(wxEVT_SIZE,[this](wxSizeEvent& e){if(layout_width_!=GetClientSize().x)invalidate();scrollbar();e.Skip();});
     Bind(wxEVT_MOUSEWHEEL,[this](wxMouseEvent& e){
         if(e.GetWheelAxis()!=wxMOUSE_WHEEL_VERTICAL){e.Skip();return;}
+        release_follow();
 #ifdef __APPLE__
         scroll_by(-e.GetWheelRotation()); // fallback; Cocoa monitor preserves fractional deltas
 #else
@@ -28,8 +31,10 @@ ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
         const double distance=target_-offset_;
         if(std::abs(distance)<0.5){set_position(target_);wheel_timer_.Stop();}
         else set_position(offset_+distance*0.3);
-    });
+    },wheel_timer_.GetId());
+    Bind(wxEVT_TIMER,[this](wxTimerEvent&){advance_playback(0.016);},follow_timer_.GetId());
     const auto scroll_event=[this](wxScrollWinEvent& e){
+        release_follow();
         wheel_timer_.Stop();
         if(e.GetEventType()==wxEVT_SCROLLWIN_LINEUP)scroll_by(-FromDIP(30));
         else if(e.GetEventType()==wxEVT_SCROLLWIN_LINEDOWN)scroll_by(FromDIP(30));
@@ -40,8 +45,8 @@ ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
     for(const auto type:{wxEVT_SCROLLWIN_LINEUP,wxEVT_SCROLLWIN_LINEDOWN,wxEVT_SCROLLWIN_PAGEUP,wxEVT_SCROLLWIN_PAGEDOWN,wxEVT_SCROLLWIN_THUMBTRACK,wxEVT_SCROLLWIN_THUMBRELEASE,wxEVT_SCROLLWIN_TOP,wxEVT_SCROLLWIN_BOTTOM})Bind(type,scroll_event);
     Bind(wxEVT_CHAR_HOOK,[this](wxKeyEvent& e){
         const int key=e.GetKeyCode();
-        if(key==WXK_HOME){set_position(0);return;}
-        if(key==WXK_END){set_position(positions_.empty()?0:positions_.back());return;}
+        if(key==WXK_HOME){release_follow();set_position(0);return;}
+        if(key==WXK_END){release_follow();set_position(positions_.empty()?0:positions_.back());return;}
         if(key==WXK_DOWN){scroll_by(FromDIP(30));return;}
         if(key==WXK_UP){scroll_by(-FromDIP(30));return;}
         if(key==WXK_PAGEDOWN){scroll_by(GetClientSize().y*0.85);return;}
@@ -52,7 +57,7 @@ ScriptureView::ScriptureView(wxWindow* parent,const CorpusDb& corpus)
     native_scroll_=install_native_scroll(this,[this](double pixels){scroll_by(pixels);});
 #endif
 }
-ScriptureView::~ScriptureView(){wheel_timer_.Stop();
+ScriptureView::~ScriptureView(){wheel_timer_.Stop();follow_timer_.Stop();
 #ifdef __APPLE__
     remove_native_scroll(native_scroll_);
 #endif
@@ -87,7 +92,106 @@ void ScriptureView::set_position(double value) {
     offset_=std::clamp(value,0.0,std::max(0.0,positions_.empty()?0.0:positions_.back()-GetClientSize().y));
     prepare_visible();offset_=std::clamp(offset_,0.0,std::max(0.0,positions_.empty()?0.0:positions_.back()-GetClientSize().y));scrollbar();Refresh(false);
 }
-void ScriptureView::scroll_by(double pixels){set_position(offset_+pixels);target_=offset_;}
+void ScriptureView::scroll_by(double pixels){release_follow();set_position(offset_+pixels);target_=offset_;}
+void ScriptureView::release_follow() {
+    if(!following_)return;
+    following_=false;follow_target_=offset_;
+    if(release_follow_)release_follow_();
+}
+void ScriptureView::follow_playback(bool follow) {
+    following_=follow;follow_target_=offset_;
+    if(follow){
+        wheel_timer_.Stop();locate_playback();
+        if(guide_) {
+            follow_target_=guide_->y-GetClientSize().y*0.38;
+            if(playback_.state==SpeechState::Paused)set_position(follow_target_);
+        }
+        if(!follow_timer_.IsRunning())follow_timer_.Start(16);
+    }
+}
+void ScriptureView::playback(const SpeechPlayback& playback) {
+    const bool was_visible=bool(guide_);
+    const bool cue_changed=playback_.cue!=playback.cue;
+    playback_=playback;
+    const bool active=playback.state==SpeechState::Playing||playback.state==SpeechState::Paused||playback.state==SpeechState::Buffering||playback.state==SpeechState::Loading;
+    if(active) {
+        locate_playback();
+        if(guide_&&(!was_visible||(cue_changed&&playback.state==SpeechState::Paused)))guide_y_=guide_->y;
+    }
+    if((guide_||guide_alpha_>0)&&!follow_timer_.IsRunning())follow_timer_.Start(16);
+    if(guide_||was_visible)Refresh(false);
+}
+void ScriptureView::locate_playback() {
+    if(!playback_.cue||playback_.cue->introduction||playback_.cue->book!=displayed_.book){guide_.reset();return;}
+    const auto& cue=*playback_.cue;
+    if(located_cue_!=playback_.cue) {
+        located_cue_=playback_.cue;speech_row_.reset();
+        VerseRef first=cue.verse,last=cue.last;
+        if(cue.source!=base_source_) {
+            const auto mapped=corpus_.map_passage(cue.source,base_source_,{cue.book,first,last});
+            if(mapped.empty()){guide_.reset();return;}
+            first=mapped.front().first;last=mapped.front().last;
+        }
+        for(size_t i=0;i<rows_.size();++i)if(!rows_[i].heading&&rows_[i].ref<=last&&first<=rows_[i].last){speech_row_=i;break;}
+    }
+    if(!speech_row_){guide_.reset();return;}
+    const auto index=*speech_row_;
+    const auto anchor=first_visible();const double old=positions_[anchor];
+    bool changed=false;
+    for(size_t i=index>2?index-2:0;i<=std::min(index+2,rows_.size()-1);++i) {
+        const auto height=row_layout(i).height;changed|=heights_[i]!=height;heights_[i]=height;
+    }
+    if(changed){rebuild_positions();const auto adjustment=positions_[anchor]-old;offset_+=adjustment;target_+=adjustment;follow_target_+=adjustment;guide_y_+=adjustment;}
+    const auto& layout=row_layout(index);
+    const bool stacked=(GetClientSize().x-2*outside_margin())/columns_count()<270;
+    double y=positions_[index]+FromDIP(12);
+    for(size_t c=0;c<layout.columns.size();++c) {
+        const auto& column=layout.columns[c];
+        if(stacked&&layout.columns.size()>1)y+=FromDIP(24);
+        if(column.source==cue.source&&!column.missing) {
+            Guide guide{index,c,0,y,column.text.line_height,{}};
+            double weight=0;
+            for(size_t line=0;line<column.text.lines.size();++line) {
+                GuideSpan span{line,std::numeric_limits<double>::max(),0,0};
+                for(const auto& run:column.text.lines[line].runs) {
+                    if(run.tag<0||size_t(run.tag)>=column.verses.size())continue;
+                    const auto& [first,last]=column.verses[run.tag];
+                    if(cue.verse>last||cue.last<first)continue;
+                    span.first=std::min(span.first,run.x);span.last=std::max(span.last,run.x+run.width);
+                    if(!run.marker)span.weight+=speech_text_weight(run.text.ToStdString(wxConvUTF8));
+                }
+                if(span.last>span.first){weight+=span.weight;guide.spans.push_back(span);}
+            }
+            if(guide.spans.empty()){guide_.reset();return;}
+            double remaining=std::clamp(playback_.verse_progress,0.0,1.0)*weight;
+            guide.line=guide.spans.back().line;
+            for(const auto& span:guide.spans){if(remaining<span.weight){guide.line=span.line;break;}remaining-=span.weight;}
+            guide.y=y+(guide.line+0.5)*guide.height;
+            guide_=std::move(guide);return;
+        }
+        if(stacked)y+=column.text.height();
+    }
+    guide_.reset();
+}
+void ScriptureView::advance_playback(double seconds) {
+    const bool active=playback_.state==SpeechState::Playing||playback_.state==SpeechState::Paused||playback_.state==SpeechState::Buffering||playback_.state==SpeechState::Loading;
+    const auto ease=[seconds](double rate){return 1-std::exp(-std::clamp(seconds,0.0,0.1)*rate);};
+    if(active)locate_playback();
+    guide_alpha_+=((active&&guide_?1.0:0.0)-guide_alpha_)*ease(14);
+    // The marker and page hold still during pause and a genuine audio underrun.
+    if(guide_&&playback_.state==SpeechState::Playing) {
+        guide_y_+=(guide_->y-guide_y_)*ease(16);
+        if(following_) {
+            const double height=GetClientSize().y,screen=guide_->y-offset_;
+            if(screen>height*0.56||screen<height*0.22)follow_target_=guide_->y-height*0.38;
+            const double limit=std::max(0.0,positions_.back()-height);
+            follow_target_=std::clamp(follow_target_,0.0,limit);
+            if(std::abs(follow_target_-offset_)>0.1){set_position(offset_+(follow_target_-offset_)*ease(8));target_=offset_;}
+        }
+    }
+    if(guide_alpha_<0.01&&(!active||!guide_)){guide_.reset();guide_alpha_=0;follow_timer_.Stop();}
+    Refresh(false);
+}
 std::vector<std::string> ScriptureView::languages() const {
     std::vector<std::string> result{base_source_=="sv1917"?"sv":base_source_.starts_with("en-")?"en":"el"};
     const auto add=[&](const std::string& language){if(std::find(result.begin(),result.end(),language)==result.end())result.push_back(language);};
@@ -109,7 +213,7 @@ int ScriptureView::column_width() const {
 void ScriptureView::open(const Reading& reading) { reading_=reading;open_section(0); }
 void ScriptureView::open_section(std::size_t index) {
     const auto segments=reading_.segments();if(index>=segments.size())return;
-    displayed_=segments[index];rows_.clear();
+    displayed_=segments[index];rows_.clear();located_cue_.reset();speech_row_.reset();guide_.reset();guide_alpha_=0;
     base_source_=source_for_language(reading_.base_language,displayed_.book);
     if(!reading_.source_override.empty())base_source_=reading_.source_override;
     if(corpus_.coordinates(base_source_,displayed_.book).empty())for(const std::string language:{"el","en"}) {
@@ -162,6 +266,7 @@ void ScriptureView::apply(const Settings& settings) {
     SetBackgroundColour(colors.paper);SetForegroundColour(colors.ink);invalidate();
 }
 void ScriptureView::invalidate() {
+    const double marker_screen=guide_y_-offset_;
     const auto anchor=first_visible();
     const double fraction=rows_.empty()?0:(offset_-positions_[anchor])/std::max(1,heights_[anchor]);
     cache_.clear();order_.clear();layout_width_=GetClientSize().x;
@@ -169,6 +274,8 @@ void ScriptureView::invalidate() {
     rebuild_positions();
     if(!rows_.empty()){heights_[anchor]=row_layout(anchor).height;rebuild_positions();offset_=positions_[anchor]+fraction*heights_[anchor];target_=offset_;}
     prepare_visible();scrollbar();Refresh(false);
+    guide_y_=offset_+marker_screen;follow_target_=offset_;
+    if(playback_.state==SpeechState::Paused||playback_.state==SpeechState::Buffering){locate_playback();if(guide_)guide_y_=guide_->y;}
 }
 const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const {
     if(auto it=cache_.find(index);it!=cache_.end())return it->second;
@@ -181,7 +288,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
         int height=0;
         for(const auto& language:selected_languages) {
             const auto source=language==selected_languages.front()?base_source_:source_for_language(language,displayed_.book);
-            Column column;column.language=language;
+            Column column;column.language=language;column.source=source;
             std::vector<TextFragment> fragments;
             std::optional<VerseRef> previous;
             const auto segments=reading_.segments();
@@ -195,6 +302,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                 const auto base=corpus_.verse(base_source_,displayed_.book,ref);
                 const auto last=base?base->last.value_or(ref):ref;
                 column.prescribed.push_back(std::any_of(segments.begin(),segments.end(),[&](const auto& p){return p.book==displayed_.book&&p.first<=last&&ref<=p.last;}));
+                column.verses.emplace_back(actual,verse?verse->last.value_or(actual):actual);
                 fragments.push_back({u(verse?verse->text:verse.error()),number,int(column.prescribed.size()-1)});
                 column.missing|=!verse;
                 // One warning is enough for an unverified parallel paragraph.
@@ -217,6 +325,7 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
     const int margin=outside_margin(), usable=size.x-2*margin;
     const bool stacked=usable/columns_count()<270;
     const int stride=(usable-44*(columns_count()-1))/columns_count()+44;
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsRenderer::GetDefaultRenderer()->CreateContextFromUnknownDC(dc));
     int y=int(std::lround(top))+FromDIP(12);
     for(std::size_t index=begin;index<end && y<size.y;++index) {
         const auto& row=rows_[index];const auto& layout=row_layout(index);
@@ -255,6 +364,18 @@ void ScriptureView::draw(wxDC& dc,wxSize size,std::size_t begin,std::size_t end,
                     text_y+=FromDIP(24);
                 }
                 dc.SetFont(body_font(settings_.font_size));dc.SetTextForeground(column.missing?colors.muted:colors.ink);
+                if(gc&&guide_&&guide_->row==index&&guide_->column==c&&guide_alpha_>0.01) {
+                    gc->SetPen(*wxTRANSPARENT_PEN);
+                    for(const auto& span:guide_->spans) {
+                        const double center=positions_[index]+text_y-y+FromDIP(12)+(span.line+0.5)*column.text.line_height;
+                        const double emphasis=std::clamp(1-std::abs(center-guide_y_)/column.text.line_height,0.0,1.0);
+                        gc->SetBrush(wxBrush(wxColour(colors.accent.Red(),colors.accent.Green(),colors.accent.Blue(),int((16+20*emphasis)*guide_alpha_))));
+                        gc->DrawRoundedRectangle(x+FromDIP(30)+span.first-FromDIP(5),text_y+span.line*column.text.line_height+FromDIP(1),span.last-span.first+FromDIP(10),column.text.line_height-FromDIP(2),FromDIP(4));
+                    }
+                    const double marker_y=guide_y_-offset_-guide_->height*0.34;
+                    gc->SetBrush(wxBrush(wxColour(colors.accent.Red(),colors.accent.Green(),colors.accent.Blue(),int(230*guide_alpha_))));
+                    gc->DrawRoundedRectangle(x+FromDIP(16),marker_y,FromDIP(4),guide_->height*0.68,FromDIP(2));
+                }
                 draw_paragraph(dc,column.text,x+FromDIP(30),text_y);
                 // Mark only the lines containing the prescribed verse range.
                 if(c==0) {

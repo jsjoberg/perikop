@@ -1,4 +1,5 @@
 #include "speech/pcm_stream.hpp"
+#include "speech/playback_timeline.hpp"
 #include <chrono>
 #include <iostream>
 #include <stdexcept>
@@ -14,9 +15,11 @@ int main() {
         check(stream.append({1,2,3}),"First chunk accepted");
         stream.render(output,2);
         check(output[0]==1&&output[1]==2,"Playback starts before later chunks or completion");
+        check(stream.played()==2&&!stream.waiting(),"Progress follows consumed PCM, not queued audio");
         stream.render(output,4);
         check(output[0]==3&&output[1]==0&&output[2]==0&&output[3]==0,"Underrun supplies silence after the available samples");
         check(!stream.finished(),"Underrun must not end an unfinished reading");
+        check(stream.played()==3&&stream.waiting(),"Underrun silence must not advance the text position");
         check(stream.append({4,5})&&stream.append({6,7}),"Two chunks of lookahead accepted");
         std::vector<float> pending{8,9};
         check(!stream.append(std::move(pending))&&pending==std::vector<float>{8,9},"Full buffer preserves the pending chunk");
@@ -27,6 +30,24 @@ int main() {
         check(!stream.finished()&&!stream.append({10}),"Completion drains queued audio and rejects new chunks");
         stream.render(output,4);
         check(output[0]==8&&output[1]==9&&output[2]==0&&stream.finished(),"Finish only after the final samples play");
+        check(stream.played()==9&&!stream.waiting(),"Final padding silence must not advance playback");
+
+        ortho::PlaybackTimeline timeline;
+        const ortho::SpeechCue first{0,0,"Ps","sv1917",{23,1},{23,1},false};
+        const ortho::SpeechCue second{0,1,"Ps","sv1917",{23,2},{23,2},false};
+        timeline.reset(3);timeline.append(first,10,0,0,1);timeline.append(second,14,4,0,0.5);timeline.append(second,14,4,0.5,1);
+        check(!timeline.at(0,ortho::SpeechState::Buffering).cue,"No marker before the first audio sample");
+        auto position=timeline.at(5,ortho::SpeechState::Playing);
+        check(position.cue==first&&position.verse_progress==0.5,"Marker maps actual playback to its spoken verse");
+        position=timeline.at(12,ortho::SpeechState::Buffering);
+        check(position.cue==first&&position.verse_progress==1,"An inter-chunk gap holds the preceding verse");
+        position=timeline.at(15,ortho::SpeechState::Playing);
+        check(position.cue==second&&position.verse_progress==0.05,"The next verse starts only when its audio plays");
+        position=timeline.at(26,ortho::SpeechState::Paused);
+        check(position.cue==second&&position.verse_progress==0.5&&position.state==ortho::SpeechState::Paused,"Pause retains the current cue and split-verse position");
+        position=timeline.at(38,ortho::SpeechState::Completed);
+        check(position.cue==second&&position.verse_progress==1&&position.progress==1,"The final sample completes the reading progress");
+        timeline.reset(1);check(!timeline.at(5,ortho::SpeechState::Buffering).cue,"Restart discards old verse cues");
 
         // Exercise publication and slot reuse with actual concurrent producer
         // and consumer threads, including partial and multi-chunk callbacks.

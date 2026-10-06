@@ -2,6 +2,7 @@
 #include "storage/database.hpp"
 #include "typesetting/paragraph_layout.hpp"
 #include "ui/theme.hpp"
+#include "speech/speech.hpp"
 #include <wx/panel.h>
 #include <wx/timer.h>
 #include <memory>
@@ -20,10 +21,16 @@ public:
     void render_to(wxDC&,wxSize size);
     void scroll_by(double pixels);
     double scroll_position() const { return offset_; }
+    void playback(const SpeechPlayback&);
+    void follow_playback(bool follow=true);
+    bool follows_playback() const {return following_;}
+    void on_release_follow(std::function<void()> callback){release_follow_=std::move(callback);}
+    void advance_playback(double seconds);
+    std::optional<double> marker_position() const {return guide_?std::optional<double>{guide_y_}:std::nullopt;}
     ~ScriptureView() override;
 private:
     struct Row { VerseRef ref; bool heading; std::vector<VerseRef> verses; VerseRef last; };
-    struct Column { std::string language; TextLayout text; bool missing=false; std::vector<bool> prescribed; };
+    struct Column { std::string language,source; TextLayout text; bool missing=false; std::vector<bool> prescribed; std::vector<std::pair<VerseRef,VerseRef>> verses; };
     struct Layout { std::vector<Column> columns; int height=0; };
     void set_position(double);
     void rebuild_positions();
@@ -34,6 +41,18 @@ private:
     void paint(wxPaintEvent&);
     void draw(wxDC&,wxSize,std::size_t begin,std::size_t end,double top) const;
     void invalidate();
+    void release_follow();
+    void locate_playback();
+    struct GuideSpan {size_t line;double first,last,weight;};
+    struct Guide {size_t row,column,line;double y;int height;std::vector<GuideSpan> spans;};
+    std::optional<Guide> guide_;
+    SpeechPlayback playback_;
+    std::optional<SpeechCue> located_cue_;
+    std::optional<size_t> speech_row_;
+    double guide_y_=0,guide_alpha_=0,follow_target_=0;
+    bool following_=false;
+    std::function<void()> release_follow_;
+    wxTimer follow_timer_;
     std::vector<std::string> languages() const;
     int columns_count() const;
     int outside_margin() const;

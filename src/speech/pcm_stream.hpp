@@ -3,6 +3,7 @@
 #include <array>
 #include <atomic>
 #include <cstring>
+#include <cstdint>
 #include <vector>
 namespace ortho {
 // One synthesis producer and one audio consumer. Slots remain allocated until
@@ -12,6 +13,7 @@ class PcmStream {
     std::array<std::vector<float>,capacity> chunks_;
     std::atomic<size_t> read_{0},written_{0};
     std::atomic<bool> complete_{false};
+    std::atomic<uint64_t> played_{0};
     size_t position_=0; // Audio consumer only.
 public:
     size_t buffered() const {
@@ -28,6 +30,8 @@ public:
     }
     void complete(){complete_.store(true,std::memory_order_release);}
     bool finished() const{return complete_.load(std::memory_order_acquire)&&buffered()==0;}
+    uint64_t played() const{return played_.load(std::memory_order_acquire);}
+    bool waiting() const{return !complete_.load(std::memory_order_acquire)&&buffered()==0;}
     void render(float* output,size_t frames) {
         std::fill_n(output,frames,0.0f);
         size_t copied=0;
@@ -42,6 +46,7 @@ public:
                 read_.store(++read,std::memory_order_release);
             }
         }
+        played_.fetch_add(copied,std::memory_order_release);
     }
 };
 }

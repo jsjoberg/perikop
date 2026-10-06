@@ -8,13 +8,13 @@ func render(_ size:Int)->Data {
  NSGraphicsContext.saveGraphicsState();NSGraphicsContext.current=NSGraphicsContext(bitmapImageRep:rep)
  let ctx=NSGraphicsContext.current!.cgContext;ctx.scaleBy(x:CGFloat(size)/1024,y:CGFloat(size)/1024)
  ctx.translateBy(x:0,y:1024);ctx.scaleBy(x:1,y:-1)
- NSColor(red:0,green:106/255,blue:167/255,alpha:1).setFill()
+ NSColor(red:0,green:82/255,blue:147/255,alpha:1).setFill()
  NSBezierPath(roundedRect:NSRect(x:72,y:72,width:880,height:880),xRadius:200,yRadius:200).fill()
- NSColor(red:254/255,green:204/255,blue:0,alpha:1).setFill()
- for r in [NSRect(x:472,y:205,width:80,height:625),NSRect(x:362,y:273,width:300,height:62),NSRect(x:258,y:410,width:508,height:76)] {
+ NSColor(red:254/255,green:203/255,blue:0,alpha:1).setFill()
+ for r in [NSRect(x:476,y:160,width:72,height:704),NSRect(x:397,y:236,width:230,height:56),NSRect(x:302,y:348,width:420,height:72)] {
   NSBezierPath(roundedRect:r,xRadius:12,yRadius:12).fill()
  }
- let bar=NSBezierPath();bar.move(to:NSPoint(x:365,y:630));bar.line(to:NSPoint(x:337,y:680));bar.line(to:NSPoint(x:659,y:824));bar.line(to:NSPoint(x:688,y:774));bar.close();bar.fill()
+ let bar=NSBezierPath();bar.move(to:NSPoint(x:392,y:625));bar.line(to:NSPoint(x:376,y:679));bar.line(to:NSPoint(x:632,y:759));bar.line(to:NSPoint(x:648,y:705));bar.close();bar.fill()
  NSGraphicsContext.restoreGraphicsState()
  return rep.representation(using:.png,properties:[:])!
 }

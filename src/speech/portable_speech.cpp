@@ -1,5 +1,6 @@
 #include "speech/portable_speech.hpp"
 #include "speech/pcm_output.hpp"
+#include "speech/playback_timeline.hpp"
 #include "storage/database.hpp"
 #include "speech_voice_manifest.hpp"
 #include <chatterbox/audio.hpp>
@@ -55,19 +56,23 @@ public:
 class PortableSpeech final:public SpeechEngine {
     std::filesystem::path data_;
     SpeechStatus callback_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     std::condition_variable condition_;
     std::deque<SpeechUtterance> queue_;
     std::atomic<uint64_t> generation_{0};
     uint64_t status_sequence_=0;
     bool shutdown_=false,paused_=false,active_=false;
+    bool output_started_=false;
+    SpeechState state_=SpeechState::Idle;
+    PlaybackTimeline timeline_;
     std::string stage_="Förbereder läsningen";
     std::unique_ptr<PcmOutput> output_;
     std::thread worker_;
-    void report(uint64_t generation,const std::string& status) {
+    void report(uint64_t generation,const std::string& status,SpeechState state=SpeechState::Buffering) {
         std::lock_guard lock(mutex_);
         if(shutdown_||generation!=generation_.load())return;
         stage_=status;
+        state_=state;
         if(callback_)callback_({++status_sequence_,paused_?"Pausad":status});
     }
     void run() {
@@ -80,7 +85,7 @@ class PortableSpeech final:public SpeechEngine {
                 std::unique_lock lock(mutex_);
                 condition_.wait(lock,[this]{return shutdown_||!queue_.empty();});
                 if(shutdown_)return;
-                generation=generation_.load();batch.swap(queue_);active_=true;
+                generation=generation_.load();batch.swap(queue_);active_=true;output_started_=false;state_=SpeechState::Buffering;
             }
             const auto cancelled=[this,generation]{return generation_.load()!=generation;};
             try {
@@ -91,8 +96,19 @@ class PortableSpeech final:public SpeechEngine {
                     // Retain any additional utterances enqueued for this reading.
                     batch.insert(batch.end(),queue_.begin(),queue_.end());queue_.clear();
                 }
-                std::vector<std::pair<std::string,std::string>> parts;
-                for(const auto& utterance:batch)for(auto& text:speech_chunks(utterance.speech_text))parts.emplace_back(utterance.language,std::move(text));
+                struct Part {std::string language,text;std::optional<SpeechCue> cue;double from,to;};
+                std::vector<Part> parts;
+                for(const auto& utterance:batch) {
+                    auto chunks=speech_chunks(utterance.speech_text);
+                    double total=0,used=0;
+                    for(const auto& text:chunks)total+=speech_text_weight(text);
+                    for(auto& text:chunks) {
+                        const auto weight=speech_text_weight(text);
+                        parts.push_back({utterance.language,std::move(text),utterance.cue,used/std::max(1.0,total),(used+weight)/std::max(1.0,total)});
+                        used+=weight;
+                    }
+                }
+                {std::lock_guard lock(mutex_);if(cancelled())continue;timeline_.reset(parts.size());}
                 for(size_t i=0;i<parts.size();++i) {
                     {
                         std::unique_lock lock(mutex_);
@@ -101,12 +117,12 @@ class PortableSpeech final:public SpeechEngine {
                         while(!cancelled()&&i&&output_->buffered()>=2)condition_.wait_for(lock,25ms);
                         if(cancelled())break;
                     }
-                    const auto& [language,text]=parts[i];
+                    const auto& part=parts[i];const auto& language=part.language;const auto& text=part.text;
                     const auto progress=std::to_string(i+1)+"/"+std::to_string(parts.size());
                     report(generation,i?"Läser med Chatterbox · förbereder del "+progress:"Förbereder läsningen · "+progress);
                     auto samples=cache->load(cache_revision,language,text);
                     if(!samples){
-                        if(!model){report(generation,"Förbereder röstmodellen · Chatterbox");model=std::make_unique<Model>(data_/"voices"/voice_pack_id);}
+                        if(!model){report(generation,"Förbereder röstmodellen · Chatterbox",SpeechState::Loading);model=std::make_unique<Model>(data_/"voices"/voice_pack_id);}
                         report(generation,i?"Läser med Chatterbox · förbereder del "+progress:"Förbereder läsningen · "+progress);
                         samples=model->generate(text,language,cancelled);
                         if(cancelled())break;
@@ -118,9 +134,11 @@ class PortableSpeech final:public SpeechEngine {
                         if(cancelled())break;
                         if(!output_)output_=std::make_unique<PcmOutput>();
                         if(!i)output_->start(paused_);
+                        timeline_.append(part.cue,samples->size(),i?4800:0,part.from,part.to);
                         output_->append(std::move(*samples));
+                        output_started_=true;
                     }
-                    report(generation,"Läser med Chatterbox · förhandsversion");
+                    report(generation,"Läser med Chatterbox · förhandsversion",SpeechState::Playing);
                 }
                 {
                     std::lock_guard lock(mutex_);
@@ -128,7 +146,7 @@ class PortableSpeech final:public SpeechEngine {
                     if(parts.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
                     output_->complete();
                 }
-                report(generation,"Läser med Chatterbox · förhandsversion");
+                report(generation,"Läser med Chatterbox · förhandsversion",SpeechState::Playing);
                 {
                     std::unique_lock lock(mutex_);
                     while(!shutdown_&&!cancelled()&&!output_->finished())condition_.wait_for(lock,100ms);
@@ -136,15 +154,15 @@ class PortableSpeech final:public SpeechEngine {
                     if(cancelled())continue;
                     active_=false;paused_=false;
                 }
-                report(generation,"Läsningen är klar");
+                report(generation,"Läsningen är klar",SpeechState::Completed);
             } catch(const std::exception& error) {
                 {
                     std::lock_guard lock(mutex_);
                     if(cancelled())continue;
-                    queue_.clear();active_=false;paused_=false;
+                    queue_.clear();active_=false;paused_=false;output_started_=false;
                     if(output_)output_->stop();
                 }
-                report(generation,std::string("Uppläsning: ")+error.what());
+                report(generation,std::string("Uppläsning: ")+error.what(),SpeechState::Error);
             }
         }
     }
@@ -161,12 +179,21 @@ public:
         if(utterances.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
         for(const auto& utterance:utterances)if(utterance.language!="sv"&&utterance.language!="el"&&utterance.language!="en")throw std::runtime_error("Röstpaketet stöder svenska, grekiska och engelska.");
         if(!std::filesystem::exists(data_/"voices"/voice_pack_id/"tokenizer.json"))throw std::runtime_error("Röstpaketet saknas. Installera Chatterbox-röstpaketet för att lyssna offline.");
-        {std::lock_guard lock(mutex_);queue_.insert(queue_.end(),utterances.begin(),utterances.end());active_=true;}
+        {std::lock_guard lock(mutex_);queue_.insert(queue_.end(),utterances.begin(),utterances.end());if(!active_){state_=SpeechState::Buffering;output_started_=false;}active_=true;}
         condition_.notify_all();
     }
     void pause() override {std::lock_guard lock(mutex_);if(!active_)return;paused_=true;if(output_)output_->pause(true);if(callback_)callback_({++status_sequence_,"Pausad"});}
     void resume() override {std::lock_guard lock(mutex_);if(!active_)return;paused_=false;if(output_)output_->pause(false);if(callback_)callback_({++status_sequence_,stage_});condition_.notify_all();}
-    void stop() override {std::lock_guard lock(mutex_);++generation_;queue_.clear();active_=false;paused_=false;if(output_)output_->stop();if(callback_)callback_({++status_sequence_,"Stoppad"});condition_.notify_all();}
+    void stop() override {std::lock_guard lock(mutex_);++generation_;queue_.clear();active_=false;paused_=false;output_started_=false;state_=SpeechState::Stopped;if(output_)output_->stop();if(callback_)callback_({++status_sequence_,"Stoppad"});condition_.notify_all();}
+    SpeechPlayback playback() const override {
+        std::lock_guard lock(mutex_);
+        if(!output_started_)return {paused_?SpeechState::Paused:state_,{},0,0};
+        const auto position=output_->progress();
+        auto state=state_;
+        if(paused_)state=SpeechState::Paused;
+        else if(active_)state=position.finished?SpeechState::Completed:position.waiting?SpeechState::Buffering:SpeechState::Playing;
+        return timeline_.at(position.played,state);
+    }
 };
 }
 std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& data,SpeechStatus status) {return std::make_unique<PortableSpeech>(data,std::move(status));}

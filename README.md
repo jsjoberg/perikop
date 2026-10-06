@@ -91,9 +91,15 @@ Lyssna uses a local Chatterbox Multilingual model through common C++ code on all
 The same model, reference voice, and settings apply everywhere. No system voice is used.
 The voice remains a preview pending Swedish listening review and remaining platform checks.
 
-Pausa, Fortsätt, and Stoppa control playback. A status line shows preparation progress and identifies the voice.
+Pausa, Fortsätt, and Stoppa control playback. The playback bar shows loading, buffering, and the current verse.
 Playback starts after the first audio chunk. The engine generates later chunks during playback, with a buffer of at most two chunks.
 Initial model loading and first-chunk synthesis still take time. If synthesis cannot keep pace, playback waits for the next chunk.
+
+Lyssna opens the passage and follows the spoken text with a soft highlight and a moving margin marker.
+Manual scrolling releases automatic following. Följ uppläsningen returns to the current text.
+Pause freezes the marker and scrolling. Stop clears the marker and keeps the page position.
+
+Verse boundaries follow audio playback. Movement between lines within a verse is an estimate, because the model supplies no word timestamps.
 
 A separate SQLite cache accelerates repeat readings. The voice pack needs about 1.55 GB.
 See [the speech selection record](docs/speech-selection.md) for licensing, alternatives, measurements, and limits.

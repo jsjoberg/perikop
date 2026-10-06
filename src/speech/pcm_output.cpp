@@ -44,4 +44,8 @@ size_t PcmOutput::buffered() const{const auto playback=std::atomic_load(&impl_->
 void PcmOutput::pause(bool paused){impl_->paused.store(paused);}
 void PcmOutput::stop(){std::atomic_store(&impl_->playing,std::shared_ptr<PcmStream>{});impl_->paused.store(false);}
 bool PcmOutput::finished() const{const auto playback=std::atomic_load(&impl_->playing);return !playback||playback->finished();}
+PcmProgress PcmOutput::progress() const {
+    const auto playback=std::atomic_load(&impl_->playing);
+    return playback?PcmProgress{playback->played(),playback->waiting(),playback->finished()}:PcmProgress{};
+}
 }

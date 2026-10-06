@@ -23,8 +23,8 @@ template<class Predicate> void wait_for(Predicate predicate,const char* message)
     std::unique_lock lock(audio_mutex);
     check(changed.wait_for(lock,std::chrono::seconds(3),predicate),message);
 }
-std::vector<float> drain() {
-    std::vector<float> samples(6000);
+std::vector<float> drain(size_t frames=6000) {
+    std::vector<float> samples(frames);
     {
         std::lock_guard lock(audio_mutex);
         if(stream&&!paused)stream->render(samples.data(),samples.size());
@@ -51,6 +51,7 @@ size_t PcmOutput::buffered() const{std::lock_guard lock(audio_mutex);return stre
 void PcmOutput::pause(bool pause){std::lock_guard lock(audio_mutex);paused=pause;changed.notify_all();}
 void PcmOutput::stop(){std::lock_guard lock(audio_mutex);stream.reset();paused=false;changed.notify_all();}
 bool PcmOutput::finished() const{std::lock_guard lock(audio_mutex);return !stream||stream->finished();}
+PcmProgress PcmOutput::progress() const{std::lock_guard lock(audio_mutex);return stream?PcmProgress{stream->played(),stream->waiting(),stream->finished()}:PcmProgress{};}
 }
 int main(int argc,char** argv) {
     try {
@@ -74,21 +75,28 @@ int main(int argc,char** argv) {
         auto engine=create_portable_speech(data,[](const SpeechUpdate& update){
             std::lock_guard lock(audio_mutex);status=update.text;changed.notify_all();
         });
-        const std::vector<SpeechUtterance> reading={{"","Första.","sv"},{"","Andra.","sv"},{"","Tredje.","sv"}};
+        const SpeechCue first{0,0,"Ps","sv1917",{23,1},{23,1},false};
+        const std::vector<SpeechUtterance> reading={{"","Första.","sv",first},{"","Andra.","sv",SpeechCue{0,0,"Ps","sv1917",{23,2},{23,2},false}},{"","Tredje.","sv",SpeechCue{1,1,"John","sv1917",{1,1},{1,1},false}}};
         engine->speak_batch(reading);
         wait_for([]{return appended==2&&status.starts_with("Läser");},"Playback must start before the whole reading is ready");
         {
             std::lock_guard lock(audio_mutex);
             check(stream&&stream->buffered()==2&&!stream->finished(),"Lookahead must stop at two unplayed chunks");
         }
+        check(!engine->playback().cue,"Queued audio must not move the marker before playback");
+        auto heard=drain(1);
+        auto position=engine->playback();
+        check(position.cue==first&&position.verse_progress==1.0/3&&position.state==SpeechState::Playing,"The worker must expose actual playback progress");
         engine->pause();
         check(drain().empty(),"Pause must preserve the playback position");
+        auto held=engine->playback();
+        check(held.cue==position.cue&&held.verse_progress==position.verse_progress&&held.state==SpeechState::Paused,"Pause freezes the marker on the audible verse");
         {
             std::lock_guard lock(audio_mutex);
             check(appended==2&&stream->buffered()==2&&status=="Pausad","Pause must bound synthesis and report the paused state");
         }
         engine->resume();
-        auto heard=drain();
+        auto next=drain();heard.insert(heard.end(),next.begin(),next.end());
         wait_for([]{return appended==3;},"Synthesis must resume when playback makes room");
         auto last=drain();heard.insert(heard.end(),last.begin(),last.end());
         wait_for([]{return status=="Läsningen är klar";},"Completion must wait for final audio consumption");
@@ -101,6 +109,7 @@ int main(int argc,char** argv) {
             std::lock_guard lock(audio_mutex);
             check(!stream&&status=="Stoppad","Stop must discard all queued audio");
         }
+        check(!engine->playback().cue&&engine->playback().state==SpeechState::Stopped,"Stop clears the marker and playback state");
         engine->speak({"","Ny läsning.","sv"});
         wait_for([]{return stream&&appended==1&&status.starts_with("Läser");},"A new reading must start after cancellation");
         check(drain()==std::vector<float>{10,11,12},"Cancelled audio and paused state must not leak into a new reading");

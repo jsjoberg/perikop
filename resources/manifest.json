@@ -231,72 +231,72 @@
     {
       "path": "resources/icons/orthodox-cross.svg",
       "license": "MIT",
-      "sha256": "eb76ac81cde43bb016e724fe0db23e79aa238d349435c660dbabec5a0a5aee95"
+      "sha256": "5e2572088a2149f8f4f021424147ee710379d686cfd61da447b31e3b8ba62a65"
     },
     {
       "path": "resources/icons/orthodox-cross.png",
       "license": "MIT",
-      "sha256": "5a9f95ccb6bd654f0579c732e870459e958303a98fcc4335bad755ad612a3aff"
+      "sha256": "50dfb846b067970c1364ef22552281e26a75ceafba5cbab70c3aa5211b3f36f4"
     },
     {
       "path": "resources/icons/OrthodoxReader.icns",
       "license": "MIT",
-      "sha256": "a3d189c75b57691fff87d87ddc3f11f2b480dccc0a9b6218befff7d9842fddd7"
+      "sha256": "f347f63c3724b6bcbd05be06cf1e5873aeefcfde20a6d5ca1da5042d9d1340e5"
     },
     {
       "path": "resources/icons/OrthodoxReader.ico",
       "license": "MIT",
-      "sha256": "ad8c4cd72b9283acfb5a99bf467984b36fa42827dc9627a35719b3fd2688c2f7"
+      "sha256": "821ff4441b5dfcf28642ce8645a62e1dd2e8d73d2df70c2120e654ba67ad2276"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_32x32@2x.png",
       "license": "MIT",
-      "sha256": "bd8b62c1a39e47f9994da10790ee7ae5d72657654ff8364f932900d5a3ec4e0f"
+      "sha256": "0da77a81835774078b956fe0d4e5c1af3a24b8c305fb18bd7bb68d7318f6740b"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_128x128.png",
       "license": "MIT",
-      "sha256": "5cf85d106af9076e3cb433a7ce0ce19e080e356325bf2409e80d9135d07ea97a"
+      "sha256": "d1917b63af1ccb70b6ec901c3fa0a2524f18e58e4ec4303d4369790a05a01c23"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_256x256@2x.png",
       "license": "MIT",
-      "sha256": "e1fe9598f0b2a004b5f7ae42c2560825e6a094312173b10655142a0bab14646f"
+      "sha256": "ebf802340422ef929128d325c6df673f9a0510f16b62201d3fc90a3bb9fefa93"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_32x32.png",
       "license": "MIT",
-      "sha256": "5022b216d3d4546eefeb4c5057d189de91ad666e272d5172e17126b5304cec2a"
+      "sha256": "9ee6693287bd7b25d7d43ac5638c8159b583d8483ea284f930462298bd73b739"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_512x512.png",
       "license": "MIT",
-      "sha256": "e1fe9598f0b2a004b5f7ae42c2560825e6a094312173b10655142a0bab14646f"
+      "sha256": "ebf802340422ef929128d325c6df673f9a0510f16b62201d3fc90a3bb9fefa93"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_16x16.png",
       "license": "MIT",
-      "sha256": "85579645efaa27e9ae086d91c3cc79c827251544384e9f0efd0b6d7363892af1"
+      "sha256": "904bbf51159a80644bfa99e218e90e194287efa293cb3c2e833d8419cac0583f"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_16x16@2x.png",
       "license": "MIT",
-      "sha256": "5022b216d3d4546eefeb4c5057d189de91ad666e272d5172e17126b5304cec2a"
+      "sha256": "9ee6693287bd7b25d7d43ac5638c8159b583d8483ea284f930462298bd73b739"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_128x128@2x.png",
       "license": "MIT",
-      "sha256": "f2381036d4b9a24892161ca943eb2a64662a323eb7e37ff6320744643e803f7d"
+      "sha256": "93a09e6ef8fea7bf5743dd577269fa97a57d5ab29515ddef7b979065c1554a6c"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_512x512@2x.png",
       "license": "MIT",
-      "sha256": "5a9f95ccb6bd654f0579c732e870459e958303a98fcc4335bad755ad612a3aff"
+      "sha256": "50dfb846b067970c1364ef22552281e26a75ceafba5cbab70c3aa5211b3f36f4"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_256x256.png",
       "license": "MIT",
-      "sha256": "f2381036d4b9a24892161ca943eb2a64662a323eb7e37ff6320744643e803f7d"
+      "sha256": "93a09e6ef8fea7bf5743dd577269fa97a57d5ab29515ddef7b979065c1554a6c"
     },
     {
       "path": "resources/lectionary/antiochian-chart-2026.json",

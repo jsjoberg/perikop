@@ -21,6 +21,7 @@
 #include <functional>
 #include <atomic>
 #include <cmath>
+#include <chrono>
 namespace ortho {
 namespace {
 wxString u(const std::string& s){return wxString::FromUTF8(s);}
@@ -50,7 +51,7 @@ wxString kind_label(ReadingKind kind) {
 }
 MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const std::filesystem::path& resources)
     :wxFrame(nullptr,wxID_ANY,"Ortodox läsare",wxDefaultPosition,wxSize(1120,900)),
-    corpus_(corpus),user_(user),lectionary_(corpus),selected_(date),settings_(user.load()) {
+    playback_timer_(this),corpus_(corpus),user_(user),lectionary_(corpus),selected_(date),settings_(user.load()) {
     SetMinSize(FromDIP(wxSize(520,480)));root_=new wxPanel(this);root_->SetFont(ui_font());
     auto* outer=new wxBoxSizer(wxVERTICAL);
     auto* top=new wxBoxSizer(wxHORIZONTAL);
@@ -79,11 +80,11 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     reader_label_->SetFont(ui_font(10));reader_label_->SetMinSize(FromDIP(wxSize(60,-1)));
     reader_label_->SetToolTip("Mässingsstrecket i marginalen markerar den föreskrivna läsningen.");
     reader_tools->Add(reader_label_,1,wxALIGN_CENTER_VERTICAL);
-    reader_tools->Add(button(reader_header_,"Till läsningen",[this]{scripture_->center_passage();scripture_->SetFocus();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));
-    reader_tools->Add(button(reader_header_,"Lyssna",[this]{play_speech({scripture_->reading()});}),0,wxALIGN_CENTER_VERTICAL);
+    reader_tools->Add(button(reader_header_,"Till läsningen",[this]{following_audio_=false;scripture_->follow_playback(false);scripture_->center_passage();scripture_->SetFocus();refresh_speech();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));
+    reader_tools->Add(button(reader_header_,"Lyssna",[this]{play_speech({visible_reading_.value_or(scripture_->reading())});}),0,wxALIGN_CENTER_VERTICAL);
     reader_header_->SetSizer(reader_tools);outer->Add(reader_header_,0,wxEXPAND|wxALL,FromDIP(20));
     part_=new wxChoice(reader_header_,wxID_ANY);part_->SetName("Läsningens del");
-    part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){scripture_->open_section(part_->GetSelection());});
+    part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){following_audio_=false;scripture_->follow_playback(false);scripture_->open_section(part_->GetSelection());refresh_speech();});
     reader_tools->Insert(2,part_,0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));part_->Hide();
     scripture_=new ScriptureView(root_,corpus);outer->Add(scripture_,1,wxEXPAND);
     readings_=new wxScrolledWindow(root_,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL|wxBORDER_NONE);
@@ -106,15 +107,55 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
     footer->Add(parallel_,0,wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT,FromDIP(12));
     footer->Add(button(footer_,"A−",[this]{settings_.font_size=std::max(14,settings_.font_size-1);apply_settings();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(6));
     footer->Add(button(footer_,"A+",[this]{settings_.font_size=std::min(28,settings_.font_size+1);apply_settings();}),0,wxALIGN_CENTER_VERTICAL);
-    auto* speech_bar=new wxBoxSizer(wxHORIZONTAL);
-    speech_status_=new wxStaticText(root_,wxID_ANY,"Välj Lyssna för att höra texten",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END);
-    speech_status_->SetFont(ui_font(10));speech_status_->SetMinSize(FromDIP(wxSize(100,-1)));
-    speech_bar->Add(speech_status_,1,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
-    pause_=button(root_,"Pausa",[this]{if(paused_)speech_->resume();else speech_->pause();});
-    stop_=button(root_,"Stoppa",[this]{speech_->stop();});
+    speech_panel_=new wxPanel(root_);speech_panel_->SetBackgroundStyle(wxBG_STYLE_PAINT);
+    speech_panel_->Bind(wxEVT_PAINT,&MainFrame::paint_playback,this);
+    auto* speech_bar=new wxBoxSizer(wxVERTICAL);
+    speech_status_=new wxStaticText(speech_panel_,wxID_ANY,"Välj Lyssna för att höra texten",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END|wxST_NO_AUTORESIZE);
+    speech_status_->SetFont(ui_font(11));speech_status_->SetMinSize(FromDIP(wxSize(100,-1)));
+    speech_detail_=new wxStaticText(speech_panel_,wxID_ANY,"Texten följer med när du lyssnar",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END|wxST_NO_AUTORESIZE);
+    speech_detail_->SetFont(ui_font(9));
+    // Keep both status lines and controls stable when buffering or following changes.
+    auto* status_row=new wxBoxSizer(wxVERTICAL);
+    status_row->Add(speech_status_,0,wxEXPAND);
+    status_row->Add(speech_detail_,0,wxEXPAND|wxTOP,FromDIP(3));
+    auto* inset=new wxBoxSizer(wxHORIZONTAL);
+    inset->AddSpacer(FromDIP(28));inset->Add(status_row,1);
+    auto* controls=new wxBoxSizer(wxHORIZONTAL);
+    pause_=button(speech_panel_,"Pausa",[this]{toggle_pause();});
+    stop_=button(speech_panel_,"Stoppa",[this]{stop_speech();});
+    follow_=button(speech_panel_,"Följ uppläsningen",[this]{follow_speech();});
+    pause_->SetToolTip("Pausa eller fortsätt · mellanslag");stop_->SetToolTip("Avsluta uppläsningen · Escape");
+    follow_->SetToolTip("Återgå till texten som läses och följ den automatiskt");
+    controls->Add(pause_,0,wxRIGHT,FromDIP(8));controls->Add(stop_,0,wxRIGHT,FromDIP(12));controls->AddStretchSpacer();controls->Add(follow_);
+    // Reserve the follow button's space so browsing never changes the text viewport.
+    controls->GetItem(follow_)->SetFlag(wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+    follow_->Hide();speech_body_=new wxBoxSizer(wxHORIZONTAL);
+    speech_body_->Add(inset,1,wxEXPAND|wxRIGHT,FromDIP(16));
+    speech_body_->Add(controls,0,wxALIGN_CENTER_VERTICAL);
+    speech_bar->Add(speech_body_,0,wxEXPAND|wxALL,FromDIP(14));
+    speech_panel_->Bind(wxEVT_SIZE,[this,inset,controls](wxSizeEvent& event){
+        const bool narrow=event.GetSize().x<FromDIP(700);
+        const int orientation=narrow?wxVERTICAL:wxHORIZONTAL;
+        if(speech_body_->GetOrientation()!=orientation) {
+            speech_body_->SetOrientation(orientation);
+            auto* labels=speech_body_->GetItem(inset);auto* buttons=speech_body_->GetItem(controls);
+            labels->SetProportion(narrow?0:1);labels->SetFlag(wxEXPAND|(narrow?wxBOTTOM:wxRIGHT));labels->SetBorder(FromDIP(narrow?10:16));
+            buttons->SetFlag(narrow?int(wxEXPAND):int(wxALIGN_CENTER_VERTICAL));
+            root_->Layout();
+        }
+        event.Skip();
+    });
     pause_->Disable();stop_->Disable();
-    speech_bar->Add(pause_,0,wxRIGHT,FromDIP(8));speech_bar->Add(stop_);
-    outer->Insert(outer->GetItemCount()-1,speech_bar,0,wxEXPAND|wxLEFT|wxRIGHT|wxTOP,FromDIP(20));
+    speech_panel_->SetSizer(speech_bar);
+    outer->Insert(outer->GetItemCount()-1,speech_panel_,0,wxEXPAND|wxLEFT|wxRIGHT|wxTOP,FromDIP(20));
+    scripture_->on_release_follow([this]{following_audio_=false;refresh_speech();});
+    Bind(wxEVT_TIMER,[this](wxTimerEvent&){refresh_speech();},playback_timer_.GetId());
+    Bind(wxEVT_CHAR_HOOK,[this](wxKeyEvent& event){
+        const bool active=playback_ui_.state==SpeechState::Playing||playback_ui_.state==SpeechState::Paused||playback_ui_.state==SpeechState::Buffering||playback_ui_.state==SpeechState::Loading;
+        if(active&&event.GetKeyCode()==WXK_ESCAPE){stop_speech();return;}
+        if(active&&event.GetKeyCode()==WXK_SPACE&&wxWindow::FindFocus()==scripture_){toggle_pause();return;}
+        event.Skip();
+    });
     // The worker copies the shared owner, not wxWeakRef's main-thread tracking data.
     auto weak=std::make_shared<wxWeakRef<MainFrame>>(this);
     auto latest_speech=std::make_shared<std::atomic<uint64_t>>(0);
@@ -127,7 +168,9 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const st
         while(known<update.sequence&&!latest_speech->compare_exchange_weak(known,update.sequence)){}
         if(update.sequence<known)return;
         auto deliver=[weak,latest_speech,update]{if(*weak&&latest_speech->load()==update.sequence)(*weak)->speech_status(update.text);};
-        if(wxIsMainThread())deliver();else wxTheApp->CallAfter(deliver);
+        // Delivery must run after the engine releases its mutex, including
+        // Pause and Stop callbacks made on the main thread.
+        wxTheApp->CallAfter(deliver);
     });
     root_->SetSizer(outer);auto* frame_sizer=new wxBoxSizer(wxVERTICAL);frame_sizer->Add(root_,1,wxEXPAND);SetSizer(frame_sizer);
     refresh_day();show_readings();apply_settings(false);
@@ -169,10 +212,12 @@ void MainFrame::refresh_day() {
     readings_->FitInside();readings_->Scroll(0,0);apply_settings(false);Layout();
 }
 void MainFrame::show_readings() {
+    following_audio_=false;if(scripture_)scripture_->follow_playback(false);
     scripture_->Hide();reader_header_->Hide();readings_->Show();root_->Layout();
 }
 void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"}); }
 void MainFrame::open_reading(const Reading& selected) {
+    visible_reading_=selected;following_audio_=false;speech_view_.reset();scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the reader's.
     const auto reading=corpus_.localize(selected);
     readings_->Hide();reader_header_->Show();scripture_->Show();
@@ -257,23 +302,125 @@ void MainFrame::apply_settings(bool persist) {
 #endif
     if(persist) { try{user_.save(settings_);}catch(const std::exception& e){wxMessageBox(u(e.what()),"Inställningar kunde inte sparas",wxOK|wxICON_ERROR,this);} }
     recolor(root_,palette(settings_.theme));annotation_->SetForegroundColour(palette(settings_.theme).muted);
+    speech_detail_->SetForegroundColour(palette(settings_.theme).muted);
     scripture_->apply(settings_);root_->Layout();
 }
-MainFrame::~MainFrame(){speech_.reset();}
+MainFrame::~MainFrame(){playback_timer_.Stop();speech_.reset();}
 void MainFrame::speech_status(const std::string& status) {
-    speech_status_->SetLabel(u(status));speech_status_->SetToolTip(u(status));
-    paused_=status=="Pausad";
-    pause_->SetLabel(paused_?"Fortsätt":"Pausa");
-    const bool active=paused_||status.starts_with("Läser")||status.starts_with("Förbereder");
-    pause_->Enable(active);stop_->Enable(active);root_->Layout();
+    if(playback_ui_.state==SpeechState::Error&&speech_->playback().state==SpeechState::Stopped)return;
+    speech_message_=status;refresh_speech();
+}
+void MainFrame::toggle_pause() {
+    if(speech_->playback().state==SpeechState::Paused)speech_->resume();else speech_->pause();
+    refresh_speech();
+}
+void MainFrame::stop_speech() {
+    speech_->stop();following_audio_=false;scripture_->follow_playback(false);refresh_speech();
+}
+void MainFrame::follow_speech() {
+    if(speech_readings_.empty())return;
+    const auto playback=speech_->playback();
+    const size_t reading=playback.cue?playback.cue->reading:0,section=playback.cue?playback.cue->section:0;
+    if(reading>=speech_readings_.size())return;
+    if(!speech_view_||*speech_view_!=std::pair{reading,section}||!scripture_->IsShown()) {
+        open_reading(speech_readings_[reading]);
+        if(section){scripture_->open_section(section);part_->SetSelection(int(section));}
+        speech_view_=std::pair{reading,section};
+    }
+    following_audio_=true;scripture_->playback(playback);scripture_->follow_playback();scripture_->SetFocus();
+    refresh_speech();
+}
+void MainFrame::refresh_speech() {
+    if(speech_)display_playback(speech_->playback());
+}
+void MainFrame::display_playback(const SpeechPlayback& playback) {
+    const auto now=std::chrono::steady_clock::now();
+    if(playback.state==SpeechState::Buffering&&playback_ui_.state!=SpeechState::Buffering) {
+        buffering_since_=now;debounce_buffering_=playback_ui_.state==SpeechState::Playing&&playback.cue.has_value();
+    } else if(playback.state!=SpeechState::Buffering)debounce_buffering_=false;
+    playback_ui_=playback;
+    const auto state=playback.state;
+    // Freeze tracking immediately, but do not flash a spinner for a brief
+    // gap between audio callbacks. Startup feedback remains immediate.
+    feedback_state_=state==SpeechState::Buffering&&debounce_buffering_&&now-buffering_since_<std::chrono::milliseconds(180)?SpeechState::Playing:state;
+    const bool active=state==SpeechState::Playing||state==SpeechState::Paused||state==SpeechState::Buffering||state==SpeechState::Loading;
+    if(active&&following_audio_&&playback.cue&&playback.cue->reading<speech_readings_.size()) {
+        const auto view=std::pair{playback.cue->reading,playback.cue->section};
+        if(!speech_view_||*speech_view_!=view) {
+            open_reading(speech_readings_[view.first]);
+            if(view.second){scripture_->open_section(view.second);part_->SetSelection(int(view.second));}
+            speech_view_=view;following_audio_=true;scripture_->follow_playback();
+        }
+    }
+    if(!active){following_audio_=false;scripture_->follow_playback(false);playback_timer_.Stop();}
+    scripture_->playback(playback);
+    wxString location;
+    if(playback.cue) {
+        const auto& cue=*playback.cue;
+        if(cue.introduction)location="Introduktion";
+        else location=u(corpus_.book_name(cue.book))+wxString::Format(" %d:%d",cue.verse.chapter,cue.verse.verse)+u(cue.verse.suffix);
+    }
+    wxString title,detail;
+    switch(feedback_state_) {
+    case SpeechState::Loading:title="Laddar rösten…";detail="Första starten kan ta en stund";break;
+    case SpeechState::Buffering:
+        title=playback.cue?"Väntar på ljud…":"Förbereder uppläsningen…";
+        detail=playback.cue?"Markören fortsätter när ljudet är klart":"Ljudet startar när den första delen är klar";break;
+    case SpeechState::Playing:title=location.empty()?"Läser":("Läser · "+location);detail=following_audio_?"Texten följer uppläsningen":"Du bläddrar själv · ljudet fortsätter";break;
+    case SpeechState::Paused:title=location.empty()?"Pausad":("Pausad · "+location);detail="Fortsätt där du pausade";break;
+    case SpeechState::Stopped:title="Uppläsningen är stoppad";detail="Välj Lyssna för att börja om";break;
+    case SpeechState::Completed:title="Läsningen är klar";detail="Du har nått slutet av läsningen";break;
+    case SpeechState::Error:title="Uppläsningen kunde inte fortsätta";detail=u(speech_message_);break;
+    case SpeechState::Idle:title="Välj Lyssna för att höra texten";detail="Texten följer med när du lyssnar";break;
+    }
+    if(feedback_state_==SpeechState::Buffering&&!location.empty())detail=location+" · "+detail;
+    if(speech_status_->GetLabel()!=title)speech_status_->SetLabel(title);
+    if(speech_detail_->GetLabel()!=detail)speech_detail_->SetLabel(detail);
+    speech_status_->SetToolTip(title);speech_detail_->SetToolTip(detail);
+    paused_=state==SpeechState::Paused;
+    const wxString pause_label=paused_?"Fortsätt":"Pausa";
+    bool layout=pause_->GetLabel()!=pause_label;
+    pause_->SetLabel(pause_label);pause_->Enable(active);stop_->Enable(active);
+    const bool follow=active&&!following_audio_;
+    layout|=follow_->IsShown()!=follow;follow_->Show(follow);
+    if(layout){speech_panel_->Layout();root_->Layout();}
+    speech_detail_->SetForegroundColour(palette(settings_.theme).muted);
+    speech_panel_->Refresh(false);
+}
+void MainFrame::paint_playback(wxPaintEvent&) {
+    wxAutoBufferedPaintDC dc(speech_panel_);const auto colors=palette(settings_.theme);
+    dc.SetBackground(wxBrush(colors.paper));dc.Clear();
+    const auto size=speech_panel_->GetClientSize();
+    dc.SetPen(wxPen(colors.rule,1));dc.DrawLine(0,0,size.x,0);
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
+    if(!gc)return;
+    gc->SetPen(*wxTRANSPARENT_PEN);gc->SetBrush(wxBrush(colors.accent));
+    if(playback_ui_.progress>0)gc->DrawRoundedRectangle(0,0,size.x*playback_ui_.progress,FromDIP(2),FromDIP(1));
+    const double x=FromDIP(21),y=FromDIP(27),r=FromDIP(5);
+    if(feedback_state_==SpeechState::Loading||feedback_state_==SpeechState::Buffering) {
+        const double time=std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count();
+        auto path=gc->CreatePath();path.AddArc(x,y,r,time*4,time*4+4.5,true);
+        gc->SetPen(wxPen(colors.accent,FromDIP(2)));gc->StrokePath(path);
+    } else if(feedback_state_==SpeechState::Paused) {
+        gc->DrawRoundedRectangle(x-r,y-r,FromDIP(3),r*2,FromDIP(1));
+        gc->DrawRoundedRectangle(x+FromDIP(2),y-r,FromDIP(3),r*2,FromDIP(1));
+    } else {
+        gc->SetBrush(wxBrush(feedback_state_==SpeechState::Playing?colors.accent:colors.muted));
+        gc->DrawEllipse(x-r,y-r,r*2,r*2);
+    }
 }
 void MainFrame::play_speech(const std::vector<Reading>& readings) {
-    speech_->stop();speech_status("Förbereder läsningen");
+    stop_speech();speech_readings_=readings;speech_view_.reset();
     try {
         std::vector<SpeechUtterance> queue;
-        for(const auto& reading:readings) {
-            if(reading.base_language=="sv")queue.push_back(make_utterance(reading_introduction(reading),"sv",corpus_.pronunciations("sv")));
-            for(const auto& passage:corpus_.localize(reading).segments()) {
+        for(size_t r=0;r<readings.size();++r) {
+            const auto& reading=readings[r];const auto localized=corpus_.localize(reading);const auto passages=localized.segments();
+            if(reading.base_language=="sv") {
+                auto intro=make_utterance(reading_introduction(reading),"sv",corpus_.pronunciations("sv"));
+                intro.cue=SpeechCue{r,0,passages.front().book,"",passages.front().first,passages.front().last,true};queue.push_back(std::move(intro));
+            }
+            for(size_t s=0;s<passages.size();++s) {
+                const auto& passage=passages[s];
                 auto language=reading.base_language;
                 auto source=reading.source_override.empty()?source_for_language(language,passage.book):reading.source_override;
                 if(corpus_.coordinates(source,passage.book).empty()) {
@@ -285,20 +432,26 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
                 if(source.starts_with("en-"))language="en";
                 else if(source.starts_with("grc-"))language="el";
                 else language="sv";
-                std::string text;
+                const auto lexicon=corpus_.pronunciations(language);
+                bool found=false;
                 for(auto ref:corpus_.coordinates(source,passage.book)) {
+                    if(ref>passage.last)break;
                     auto verse=corpus_.verse(source,passage.book,ref);
-                    if(verse && ref<=passage.last && passage.first<=verse->last.value_or(ref))text+=verse->text+" ";
+                    if(verse && ref<=passage.last && passage.first<=verse->last.value_or(ref)) {
+                        auto utterance=make_utterance(verse->text,language,lexicon);
+                        utterance.cue=SpeechCue{r,s,passage.book,source,verse->ref,verse->last.value_or(ref),false};
+                        queue.push_back(std::move(utterance));found=true;
+                    }
                 }
-                if(text.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
-                queue.push_back(make_utterance(text,language,corpus_.pronunciations(language)));
+                if(!found)throw std::runtime_error("Ingen text finns att läsa upp.");
             }
         }
+        if(!readings.empty()){open_reading(readings.front());speech_view_=std::pair<size_t,size_t>{0,0};}
         speech_->speak_batch(queue);
+        following_audio_=true;scripture_->follow_playback();playback_timer_.Start(30);refresh_speech();
     } catch(const std::exception& error) {
-        speech_->stop();speech_status(error.what());
+        stop_speech();speech_message_=error.what();display_playback({SpeechState::Error,{},0,0});
         wxMessageBox(u(error.what()),"Uppläsning",wxOK|wxICON_INFORMATION,this);
-        speech_status(error.what());
     }
 }
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
@@ -438,6 +591,60 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto size=scripture_->GetClientSize();wxBitmap bitmap(size.x,size.y);wxMemoryDC dc(bitmap);scripture_->render_to(dc,size);dc.SelectObject(wxNullBitmap);
         ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-prose.png",wxBITMAP_TYPE_PNG)&&ok;
     }
+    // Exercise playback presentation without model loading or audible output.
+    open_psalm();settings_.theme=Theme::Light;settings_.parallel="el";apply_settings(false);
+    display_playback({SpeechState::Loading,{},0,0});
+    if(speech_status_->GetLabel()!="Laddar rösten…"||!pause_->IsEnabled()||!stop_->IsEnabled())ok=false;
+    display_playback({SpeechState::Buffering,{},0,0});
+    if(speech_status_->GetLabel()!="Förbereder uppläsningen…"||scripture_->marker_position())ok=false;
+    SpeechPlayback playing{SpeechState::Playing,SpeechCue{0,0,"Ps","sv1917",{23,3},{23,3},false},0.35,0.4};
+    following_audio_=true;scripture_->playback(playing);scripture_->follow_playback();
+    for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
+    if(!scripture_->marker_position()||!scripture_->follows_playback())ok=false;
+    const auto held_marker=scripture_->marker_position();const auto held_scroll=scripture_->scroll_position();
+    auto paused=playing;paused.state=SpeechState::Paused;display_playback(paused);
+    for(int i=0;i<30;++i)scripture_->advance_playback(0.016);
+    if(scripture_->marker_position()!=held_marker||scripture_->scroll_position()!=held_scroll||pause_->GetLabel()!="Fortsätt"||!stop_->IsEnabled())ok=false;
+    auto buffering=playing;buffering.state=SpeechState::Buffering;display_playback(buffering);
+    for(int i=0;i<30;++i)scripture_->advance_playback(0.016);
+    if(scripture_->marker_position()!=held_marker||scripture_->scroll_position()!=held_scroll||speech_status_->GetLabel()!="Väntar på ljud…")ok=false;
+    display_playback(playing);display_playback(buffering);
+    if(feedback_state_!=SpeechState::Playing)ok=false;
+    buffering_since_=std::chrono::steady_clock::now()-std::chrono::seconds(1);display_playback(buffering);
+    if(feedback_state_!=SpeechState::Buffering)ok=false;
+    scripture_->scroll_by(20);
+    if(scripture_->follows_playback()||following_audio_)ok=false;
+    following_audio_=true;display_playback(playing);scripture_->follow_playback();
+    for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
+    const auto save_playback=[&](const wxString& suffix) {
+        if(screenshot_path.empty())return;
+        const auto size=scripture_->GetClientSize();wxBitmap bitmap(size.x,size.y);wxMemoryDC dc(bitmap);scripture_->render_to(dc,size);dc.SelectObject(wxNullBitmap);
+        ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+suffix+".png",wxBITMAP_TYPE_PNG)&&ok;
+    };
+    save_playback("-playing");
+    settings_.theme=Theme::Dark;apply_settings(false);scripture_->playback(playing);
+    for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
+    save_playback("-playing-dark");
+    // Reflow keeps the spoken verse, including the other language column.
+    settings_.font_size=24;apply_settings(false);scripture_->playback(playing);
+    for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
+    if(!scripture_->marker_position())ok=false;
+    auto greek=playing;greek.cue->source="grc-lxx";greek.cue->verse=greek.cue->last={22,3};scripture_->playback(greek);
+    for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
+    if(!scripture_->marker_position())ok=false;
+    save_playback("-playing-greek");
+    SetSize(FromDIP(wxSize(520,650)));Layout();root_->Layout();display_playback(paused);
+    for(auto* control:{pause_,stop_,follow_})if(control->GetRect().GetRight()>speech_panel_->GetClientSize().x)ok=false;
+    save_playback("-playing-narrow");
+    SetSize(original_size);Layout();root_->Layout();settings_.font_size=original.font_size;apply_settings(false);
+    scripture_->playback(playing);scripture_->follow_playback();
+    auto distant=playing;distant.cue->verse=distant.cue->last={24,10};scripture_->playback(distant);
+    for(int i=0;i<160;++i)scripture_->advance_playback(0.016);
+    if(!scripture_->marker_position()||scripture_->scroll_position()<=held_scroll+100)ok=false;
+    display_playback({SpeechState::Stopped,{},0,0});
+    for(int i=0;i<90;++i)scripture_->advance_playback(0.016);
+    if(scripture_->marker_position()||pause_->IsEnabled()||stop_->IsEnabled())ok=false;
+    std::cout<<"Playback presentation: marker, pause, buffering, manual scroll, follow, stop.\n";
     open_psalm();
     settings_=original;apply_settings(false);ok=ok && selected_.date()==date;
     return ok;

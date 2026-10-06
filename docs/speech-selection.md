@@ -60,7 +60,7 @@ Windows, Linux, Intel Mac, and minimum-version execution still need their own va
 ## Playback behavior
 
 Synthesis runs on a worker thread. The interface remains responsive during preparation.
-The speech representation splits at sentence or word boundaries before inference.
+The engine synthesizes each verse separately. Long verses split at sentence or word boundaries before inference.
 Every non-whitespace byte stays in order. Displayed Scripture remains unchanged.
 The engine rejects token-limit truncation, invalid samples, and silent output.
 Generative speech can still omit or repeat words; listening review must check this explicitly.
@@ -70,6 +70,24 @@ The worker generates subsequent chunks during playback and keeps at most two chu
 Pause holds the playback position and limits generation to the available buffer space.
 Initial model loading and first-chunk synthesis still delay uncached playback.
 If synthesis runs slower than playback, the output supplies silence until the next chunk is ready.
+
+The audio callback counts consumed PCM frames. Pause and underrun silence do not advance this count.
+Playback cues associate these frames with a reading, passage section, source edition, and verse range.
+The interface follows these cues, including transitions between readings and omitted verse ranges.
+Generated introductions have their own playback cues and do not highlight Scripture.
+
+The active verse has a soft highlight. A margin marker moves between its lines with an eased transition.
+Verse boundaries use actual audio offsets. Movement within a verse estimates text position from text weight and audio duration.
+The current backend supplies no word timestamps. The interface does not claim exact word alignment.
+
+Pause and buffering hold the marker and page position. Stop removes the marker without returning to the beginning.
+
+Automatic scrolling keeps the marker within a comfortable reading band.
+Manual wheel, trackpad, keyboard, and scrollbar input release automatic following.
+Följ uppläsningen returns to the current passage and restores automatic following.
+The playback bar distinguishes initial loading, initial preparation, later buffering, playback, pause, completion, and errors.
+Brief audio underruns freeze tracking immediately. Buffering feedback appears after 180 milliseconds to prevent flicker.
+The controls use one row in wide windows and two rows in narrow windows.
 
 A separate SQLite database caches completed chunks by engine revision, voice, language, and exact speech text.
 The audio cache permits at most 256 MiB of PCM data. Evicted pages remain available for reuse.

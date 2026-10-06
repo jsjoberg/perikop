@@ -1,10 +1,24 @@
 #pragma once
 #include "core/model.hpp"
 namespace ortho {
-struct SpeechUtterance { std::string display_text, speech_text, language; };
+enum class SpeechState { Idle, Loading, Buffering, Playing, Paused, Stopped, Completed, Error };
+struct SpeechCue {
+    size_t reading=0,section=0;
+    std::string book,source;
+    VerseRef verse,last;
+    bool introduction=false;
+    bool operator==(const SpeechCue&) const = default;
+};
+struct SpeechPlayback {
+    SpeechState state=SpeechState::Idle;
+    std::optional<SpeechCue> cue;
+    double verse_progress=0,progress=0;
+};
+struct SpeechUtterance { std::string display_text, speech_text, language; std::optional<SpeechCue> cue={}; };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language, const std::vector<Pronunciation>& lexicon);
 std::string reading_introduction(const Reading&);
 std::vector<std::string> speech_chunks(const std::string&);
+double speech_text_weight(const std::string&);
 class SpeechEngine {
 public:
     virtual ~SpeechEngine() = default;
@@ -13,6 +27,7 @@ public:
     virtual void pause() = 0;
     virtual void resume() = 0;
     virtual void stop() = 0;
+    virtual SpeechPlayback playback() const { return {}; }
 };
 // This diagnostic engine accepts utterances; it produces no audio.
 class StubSpeechEngine final : public SpeechEngine {

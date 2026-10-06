@@ -65,7 +65,7 @@ SpeechUtterance make_utterance(const std::string& text,const std::string& langua
         copied=words[i+count-1].end;i+=count;
     }
     result+=text.substr(copied);
-    return {text,result,language};
+    return {text,result,language,{}};
 }
 std::string reading_introduction(const Reading& reading) {
     const auto& p=reading.passage;
@@ -92,5 +92,14 @@ std::vector<std::string> speech_chunks(const std::string& text) {
         result.push_back(text.substr(begin,end-begin));begin=end;
     }
     return result;
+}
+double speech_text_weight(const std::string& text) {
+    double weight=0;
+    for(size_t i=0;i<text.size();) {
+        const auto c=decode(text,i);
+        if(c<=127&&std::isspace(static_cast<unsigned char>(c)))continue;
+        weight+=c=='.'||c=='!'||c=='?'?4:c==','||c==';'||c==':'?2:1;
+    }
+    return weight;
 }
 }
