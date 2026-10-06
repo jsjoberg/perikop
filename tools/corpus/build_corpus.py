@@ -90,7 +90,7 @@ with sqlite3.connect(temp) as db:
  # Swedish keeps its own numbering, so it takes only boundaries the alignment marks as the same verse.
  for source in (1,4):
   db.execute('INSERT OR IGNORE INTO paragraph SELECT ?,p.book_id,p.chapter,p.verse,p.verse_suffix,? FROM paragraph p JOIN verse v ON v.source_id=? AND v.book_id=p.book_id AND v.chapter=p.chapter AND v.verse=p.verse AND v.verse_suffix=p.verse_suffix WHERE p.source_id=5 AND p.book_id!=? AND (NOT EXISTS(SELECT 1 FROM alignment a WHERE a.from_source=5 AND a.to_source=? AND a.book_id=p.book_id) OR EXISTS(SELECT 1 FROM alignment a WHERE a.from_source=5 AND a.to_source=? AND a.book_id=p.book_id AND a.kind=0 AND p.chapter*1000+p.verse BETWEEN a.from_first_chapter*1000+a.from_first_verse AND a.from_last_chapter*1000+a.from_last_verse))',(source,'WEB editorial',source,ids['Ps'],source,source))
- db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100),('sv','Lukasevangeliet','Lukas evangelium','',100),('sv','Filipperbrevet','Filipper brevet','',100)])
+ db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100)])
  # Swedish name phonemes for the Kokoro voices, plus each name's genitive -s.
  phones=set('abdefhijklmnoprstuvyøŋœɑɔɕɖəɛɡɧɪɭɳɵʂʈʉʊʏˈˌː')
  for line in (root/'resources/corpus/pronunciation-sv.tsv').read_text().splitlines():

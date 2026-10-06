@@ -31,8 +31,8 @@ Speech spellings guide the voice model through text replacements.
 Text in `⟦…⟧` gives the exact phonemes of one word, for example `⟦manˈasə⟧`.
 Phonemes use the voice pack's NST symbols, with the stress mark directly before the stressed vowel.
 
-`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 115 frequent names.
-They mainly correct the stress that the neural fallback guesses for unknown names.
+`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 122 frequent names and book titles.
+They mainly correct the stress that the neural fallback guesses for unknown names, such as `Johannesevangeliet`.
 They are drafts and nobody has reviewed them by ear yet.
 The field shows a draft as the current `⟦…⟧` spelling. **Godkänn nuvarande** keeps it, and a saved correction replaces it.
 A name's genitive -s uses the pronunciation of the name.

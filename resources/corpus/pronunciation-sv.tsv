@@ -1,8 +1,9 @@
 # Swedish name pronunciations for the Alice and Björn voices.
 # Columns: word<TAB>phonemes. Phonemes use the NST/Kokoro symbols of the voice
 # pack lexicon, with the stress mark directly before the stressed vowel.
-# First-pass drafts for frequent names that the neural fallback misreads,
-# mostly in stress. Not yet reviewed by ear. The corpus build adds the
+# First-pass drafts for frequent names and book titles that the neural
+# fallback misreads, mostly in stress. Compound titles follow the lexicon:
+# main stress on the first part, secondary stress on the second. Not yet reviewed by ear. The corpus build adds the
 # genitive -s form of each entry. Corrections in the review tool take priority.
 abia	abˈiːa
 abigail	ˈɑːbɪɡajl
@@ -42,21 +43,23 @@ barsillai	baʂɪlˈɑːɪ
 beltesassar	bɛltɛsˈasar
 beria	bɛrˈiːa
 debir	dˈeːbɪr
+efesus	ˈeːfɛsɵs
 ekbatana	ɛkbˈɑːtana
 ekron	ˈeːkrɔn
-efesus	ˈeːfɛsɵs
 eleasar	ɛlɛˈɑːsar
 eliab	ɛlˈiːab
 elifas	ˈeːlɪfas
 elihu	ɛlˈiːhʉ
 eljakim	ɛljˈɑːkɪm
 elkana	ɛlkˈɑːna
+filipperbrevet	fɪlˈɪpərbrˌeːvət
 gomorra	ɡʊmˈɔra
 hadadeser	hadadˈeːsɛr
 hanok	hˈɑːnɔk
 hasael	hˈɑːsaɛl
 heman	hˈeːman
 hesbon	hˈɛsbɔn
+hesekiel	hɛsˈeːkɪɛl
 hilkia	hɪlkˈiːa
 hiram	hˈiːram
 hiskia	hɪskˈiːa
@@ -71,6 +74,7 @@ jerobeam	jɛrʊbˈeːam
 jerubbaal	jɛrˈɵbaal
 jesua	jɛsˈʉːa
 jisreel	jˈɪsrɛɛl
+johannesevangeliet	jʊhˈanəsəvanjˌeːlɪət
 jojada	jʊjˈɑːda
 jojakim	jʊjˈɑːkɪm
 jojakin	jʊjˈɑːkɪn
@@ -79,12 +83,15 @@ judeen	jʉdˈeːən
 kapernaum	kapˈɛɳaɵm
 lemek	lˈeːmɛk
 lot	lˈɔt
+lukasevangeliet	lˈʉːkasəvanjˌeːlɪət
+mackabeerboken	makabˈeːərbˌuːkən
 magdala	mˈaɡdala
 mahanaim	mahanˈɑːɪm
 malkia	malkˈiːa
 manasse	manˈasə
 mattanja	matˈanja
 mattatias	matatˈiːas
+matteusevangeliet	matˈɛɵsəvanjˌeːlɪət
 mefiboset	mɛfˈiːbʊsɛt
 menelaus	mɛnɛlˈɑːɵs
 mesullam	mɛsˈɵlam
@@ -106,14 +113,15 @@ sanherib	sˈanhɛrɪb
 sebaot	sˈeːbaɔt
 sebulon	sˈeːbɵlɔn
 seir	sˈeːɪr
-seruja	sɛrˈʉːja
 serubbabel	sɛrˈɵbabɛl
+seruja	sɛrˈʉːja
 sidkia	sɪdkˈiːa
 siklag	sˈɪklaɡ
 sisera	sˈiːsɛra
-söderlandet	sˈøːdəɭandət
 sydlandet	sˈyːdlandət
+söderlandet	sˈøːdəɭandət
 timoteus	tɪmˈuːtɛɵs
+timotheosbrevet	tɪmˈuːtɛɔsbrˌeːvət
 tobia	tʊbˈiːa
 tryfon	trˈyːfɔn
 tubal	tˈʉːbal
