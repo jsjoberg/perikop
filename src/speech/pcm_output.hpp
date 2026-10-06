@@ -1,9 +1,12 @@
 #pragma once
-#include <memory>
 #include <cstdint>
+#include <memory>
 #include <vector>
 namespace ortho {
-struct PcmProgress {uint64_t played=0;bool waiting=true,finished=false;};
+struct PcmProgress {
+    uint64_t played = 0;
+    bool waiting = true, finished = false;
+};
 // The platform supplies an audio device only. Voice inference stays in common C++.
 class PcmOutput {
 public:
@@ -20,8 +23,9 @@ public:
     void stop();
     bool finished() const;
     PcmProgress progress() const;
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };
-}
+} // namespace ortho

@@ -8,6 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 include(FetchContent)
 include(CTest)
 include(CheckCXXSourceCompiles)
+include(cmake/format.cmake)
 check_cxx_source_compiles("#include <expected>
 int main() { std::expected<int,int> value{1}; return *value - 1; }" ORTHO_HAS_EXPECTED)
 if(NOT ORTHO_HAS_EXPECTED)
@@ -26,7 +27,21 @@ target_include_directories(ortho-sqlite PUBLIC "${sqlite_SOURCE_DIR}")
 target_compile_definitions(ortho-sqlite PRIVATE SQLITE_THREADSAFE=1 SQLITE_OMIT_LOAD_EXTENSION)
 find_package(Threads REQUIRED)
 target_link_libraries(ortho-sqlite PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
-add_library(ortho-core src/core/model.cpp src/core/lectionary.cpp src/core/swedish_titles.cpp src/core/canon.cpp src/storage/database.cpp src/speech/speech.cpp src/speech/pronunciation_review.cpp)
+add_library(ortho-core
+    src/core/model.cpp
+    src/core/lectionary.cpp
+    src/core/swedish_titles.cpp
+    src/core/canon.cpp
+    src/core/reading_display.cpp
+    src/storage/sqlite.cpp
+    src/storage/corpus_db.cpp
+    src/storage/study_db.cpp
+    src/storage/user_db.cpp
+    src/storage/speech_cache.cpp
+    src/storage/pronunciation_review_db.cpp
+    src/speech/speech.cpp
+    src/speech/reading_speech.cpp
+    src/speech/pronunciation_review.cpp)
 target_include_directories(ortho-core PUBLIC src)
 target_link_libraries(ortho-core PUBLIC ortho-sqlite)
 if(MSVC)
@@ -42,6 +57,9 @@ if(ORTHO_SANITIZERS AND NOT MSVC)
     target_link_options(ortho-core PUBLIC -fsanitize=address,undefined)
 endif()
 if(BUILD_TESTING)
+    add_executable(ortho-reading-speech-tests tests/reading_speech_test.cpp)
+    target_link_libraries(ortho-reading-speech-tests PRIVATE ortho-core)
+    add_test(NAME reading-speech COMMAND ortho-reading-speech-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")
     add_executable(ortho-pronunciation-review-tests tests/pronunciation_review_test.cpp)
     target_link_libraries(ortho-pronunciation-review-tests PRIVATE ortho-core)
     add_test(NAME pronunciation-review COMMAND ortho-pronunciation-review-tests "${CMAKE_SOURCE_DIR}/resources" "${CMAKE_BINARY_DIR}/test-pronunciation")
@@ -86,7 +104,22 @@ if(ORTHO_BUILD_GUI)
         set(ortho_wx wx::adv)
     endif()
     add_executable(orthodox-reader WIN32 MACOSX_BUNDLE
-        src/app/main.cpp src/ui/main_frame.cpp src/ui/scripture_view.cpp src/ui/pronunciation_review.cpp src/ui/study_panel.cpp src/typesetting/paragraph_layout.cpp)
+        src/app/main.cpp
+        src/ui/main_frame.cpp
+        src/ui/main_frame_menus.cpp
+        src/ui/main_frame_playback.cpp
+        src/ui/main_frame_smoke.cpp
+        src/ui/controls.cpp
+        src/ui/bible_picker.cpp
+        src/ui/date_picker.cpp
+        src/ui/scripture_view.cpp
+        src/ui/scripture_layout.cpp
+        src/ui/scripture_selection.cpp
+        src/ui/scripture_playback.cpp
+        src/ui/scripture_render.cpp
+        src/ui/pronunciation_review.cpp
+        src/ui/study_panel.cpp
+        src/typesetting/paragraph_layout.cpp)
     target_link_libraries(orthodox-reader PRIVATE ortho-core ortho-speech ${ortho_wx})
     if(WIN32)
         enable_language(RC)

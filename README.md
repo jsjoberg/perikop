@@ -40,6 +40,8 @@ CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside
 The remaining libraries build statically.
 The application has no runtime scripting dependency.
 
+See [the architecture guide](docs/architecture.md) for code boundaries and formatting commands.
+
 If you use w64devkit, run `build.cmd` in its shell.
 The script selects the MinGW Makefiles generator.
 

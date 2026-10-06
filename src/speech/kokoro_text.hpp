@@ -15,6 +15,7 @@ std::string swedish_numbers(const std::string& text);
 class KokoroText {
     struct Impl;
     std::unique_ptr<Impl> impl_;
+
 public:
     explicit KokoroText(const std::filesystem::path& pack);
     ~KokoroText();
@@ -25,4 +26,4 @@ public:
     // Kokoro token IDs for the phoneme string; unknown symbols are dropped.
     std::vector<int64_t> tokens(const std::string& text);
 };
-}
+} // namespace ortho
