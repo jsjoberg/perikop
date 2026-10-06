@@ -33,6 +33,8 @@ struct Reading {
     std::vector<Passage> additional;
     std::string base_language="sv";
     std::string source_override;
+    // The edition whose numbering the passages use; lectionary rules state theirs.
+    std::string reference="en-kjv";
     Reading(ReadingKind k,Passage p,std::string name,std::vector<Passage> rest={},std::string language="sv")
         :kind(k),passage(std::move(p)),label(std::move(name)),additional(std::move(rest)),base_language(std::move(language)) {}
     bool contains(VerseRef ref,const std::string& book="") const {

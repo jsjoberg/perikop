@@ -62,7 +62,7 @@ std::string source_for_language(const std::string& language, const std::string& 
     if (language == "sv") return "sv1917";
     if (language == "en") {
         // KJV remains the familiar main edition; WEB supplies deuterocanonical books.
-        const std::vector<std::string> deuterocanon={"Tob","Jdt","EsthGr","Wis","Sir","Baruch","PrMan","Ps151","1Macc","2Macc","3Macc","4Macc","1Esd","2Esd","DanGr"};
+        const std::vector<std::string> deuterocanon={"Tob","Jdt","EsthGr","Wis","Sir","Baruch","EpJer","PrAzar","Sus","Bel","PrMan","Ps151","1Macc","2Macc","3Macc","4Macc","1Esd","2Esd","DanGr"};
         return std::find(deuterocanon.begin(),deuterocanon.end(),book)!=deuterocanon.end()?"en-web":"en-kjv";
     }
     if (language == "el") return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";

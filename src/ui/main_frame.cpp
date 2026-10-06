@@ -135,7 +135,9 @@ void MainFrame::show_readings() {
     scripture_->Hide();reader_header_->Hide();readings_->Show();root_->Layout();
 }
 void MainFrame::open_psalm() { open_reading({ReadingKind::MorningPsalm,{"Ps",{23,1},{23,6}},"Psalm 23"}); }
-void MainFrame::open_reading(const Reading& reading) {
+void MainFrame::open_reading(const Reading& selected) {
+    // Lectionary references use their reference edition's numbering; open them in the reader's.
+    const auto reading=corpus_.localize(selected);
     readings_->Hide();reader_header_->Show();scripture_->Show();
     reader_label_->SetLabel(u(reading.label));
     part_->Clear();const auto segments=reading.segments();
@@ -224,7 +226,7 @@ void MainFrame::preview_speech(const std::vector<Reading>& readings) {
     StubSpeechEngine engine;const auto lexicon=corpus_.pronunciations("sv");wxString preview;
     for(const auto& reading:readings) {
         std::string text=reading_introduction(reading)+"\n";
-        for(const auto& passage:reading.segments()) {
+        for(const auto& passage:corpus_.localize(reading).segments()) {
             const auto refs=corpus_.coordinates("sv1917",passage.book);
             for(auto ref:refs)if(passage.contains(ref)) {
                 auto verse=corpus_.verse("sv1917",passage.book,ref);

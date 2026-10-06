@@ -15,22 +15,26 @@ CREATE TABLE verse (
  text TEXT NOT NULL CHECK(length(text)>0), UNIQUE(source_id,book_id,chapter,verse,verse_suffix)
 ) STRICT;
 -- The UNIQUE constraint already provides the verse lookup index.
--- Explicit source ranges preserve chapter and verse coordinates.
+-- Explicit source ranges preserve chapter, verse and letter coordinates.
+-- A target book may differ, as for Nehemiah in Greek 2 Esdras. A verse without
+-- counterpart has no target.
 CREATE TABLE alignment (
  from_source INTEGER NOT NULL REFERENCES source(id),
  to_source INTEGER NOT NULL REFERENCES source(id), book_id INTEGER NOT NULL REFERENCES book(id),
- from_first_chapter INTEGER NOT NULL, from_first_verse INTEGER NOT NULL,
- from_last_chapter INTEGER NOT NULL, from_last_verse INTEGER NOT NULL,
- to_first_chapter INTEGER NOT NULL, to_first_verse INTEGER NOT NULL,
- to_last_chapter INTEGER NOT NULL, to_last_verse INTEGER NOT NULL,
- kind INTEGER NOT NULL,
- PRIMARY KEY(from_source,to_source,book_id,from_first_chapter,from_first_verse)
+ from_first_chapter INTEGER NOT NULL, from_first_verse INTEGER NOT NULL, from_first_suffix TEXT NOT NULL,
+ from_last_chapter INTEGER NOT NULL, from_last_verse INTEGER NOT NULL, from_last_suffix TEXT NOT NULL,
+ to_book_id INTEGER REFERENCES book(id),
+ to_first_chapter INTEGER, to_first_verse INTEGER, to_first_suffix TEXT,
+ to_last_chapter INTEGER, to_last_verse INTEGER, to_last_suffix TEXT,
+ kind INTEGER NOT NULL CHECK(kind BETWEEN 0 AND 6), CHECK((to_book_id IS NULL)=(kind IN (5,6))),
+ PRIMARY KEY(from_source,to_source,book_id,from_first_chapter,from_first_verse,from_first_suffix)
 ) STRICT;
 CREATE TABLE pronunciation (
  language TEXT NOT NULL, source TEXT NOT NULL, spoken TEXT, phonemes TEXT,
  priority INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(language,source)
 ) STRICT;
-CREATE TABLE reading_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,service TEXT,description TEXT,ordering INTEGER,tradition TEXT,label TEXT) STRICT;
+-- Segment coordinates follow the reference edition's numbering.
+CREATE TABLE reading_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,service TEXT,description TEXT,ordering INTEGER,tradition TEXT,label TEXT,reference INTEGER NOT NULL REFERENCES source(id)) STRICT;
 CREATE TABLE reading_segment(
  rule_id INTEGER NOT NULL REFERENCES reading_rule(id),ordering INTEGER NOT NULL CHECK(ordering>=0),
  book TEXT NOT NULL REFERENCES book(code),

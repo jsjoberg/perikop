@@ -4,7 +4,7 @@ The native application uses two SQLite databases. It does not use platform prefe
 
 `corpus.db` contains Scripture, source metadata, alignment, pronunciation, and recurring reading rules.
 The connection opens with `SQLITE_OPEN_READONLY` and enables `query_only`.
-Its schema version is 2, and its application identifier is `ORTC`.
+Its schema version is 3, and its application identifier is `ORTC`.
 Application tables use `STRICT` typing. Foreign keys connect reading segments to their rules and books.
 The verse uniqueness index also serves coordinate lookups. The importer runs `ANALYZE` before packaging.
 The read cache allows 8 MiB. The shipped file needs no writable journal or companion files.
