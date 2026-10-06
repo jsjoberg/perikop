@@ -334,6 +334,7 @@ Settings UserDb::load() const {
         if (key=="parallel" && (value.empty() || value=="sv" || value=="el" || value=="en" || value=="el,en")) result.parallel=value=="el,en"?"el":value;
         if (key=="font_size") { try { result.font_size=std::clamp(std::stoi(value),14,28); } catch (...) {} }
         if (key=="speech_rate") { try { result.speech_rate=std::clamp(std::stoi(value),25,200); } catch (...) {} }
+        if (key=="speech_voice" && (value=="alice" || value=="bjorn")) result.speech_voice=value;
     }
     if (result.parallel==result.primary) result.parallel.clear();
     return result;
@@ -344,7 +345,7 @@ void UserDb::save(const Settings& settings) {
             {"theme",settings.theme==Theme::Dark?"dark":settings.theme==Theme::Light?"light":"system"},
             {"calendar",settings.calendar==CalendarStyle::Old?"old":"new"},
             {"primary",settings.primary},{"parallel",settings.parallel},{"font_size",std::to_string(settings.font_size)},
-            {"speech_rate",std::to_string(settings.speech_rate)}};
+            {"speech_rate",std::to_string(settings.speech_rate)},{"speech_voice",settings.speech_voice}};
         Statement query(db_.get(), "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
         for (const auto& [key,value]:values) {
             query.text(1,key); query.text(2,value); query.row();

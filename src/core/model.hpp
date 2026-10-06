@@ -103,6 +103,8 @@ struct Settings {
     std::string parallel;
     // Playback speed of read-aloud audio, in percent of the voice's own pace.
     int speech_rate = 100;
+    // Swedish voice identity. The selected voice survives application restarts.
+    std::string speech_voice = "alice";
 };
 std::string source_for_language(const std::string& language, const std::string& book);
 bool deuterocanonical_book(const std::string& book);

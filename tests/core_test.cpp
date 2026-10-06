@@ -228,8 +228,8 @@ int main(int argc,char** argv) {
         engine.stop();check(engine.accepted.empty()&&engine.state==StubSpeechEngine::State::Idle,"speech stop");
         check(reading_introduction(today.readings[0]).find("kapitel 1, vers 1 till 7")!=std::string::npos,"spoken reference");
         const std::filesystem::path user_path(argv[2]);std::filesystem::remove(user_path);
-        {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::System,"default theme");s.theme=Theme::Dark;s.calendar=CalendarStyle::Old;s.primary="el";s.parallel="en";s.font_size=24;s.speech_rate=175;user.save(s);}
-        {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::Dark&&s.calendar==CalendarStyle::Old&&s.primary=="el"&&s.parallel=="en"&&s.font_size==24&&s.speech_rate==175,"persisted settings");}
+        {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::System&&s.speech_voice=="alice","default theme and voice");s.theme=Theme::Dark;s.calendar=CalendarStyle::Old;s.primary="el";s.parallel="en";s.font_size=24;s.speech_rate=175;s.speech_voice="bjorn";user.save(s);}
+        {UserDb user(user_path);auto s=user.load();check(s.theme==Theme::Dark&&s.calendar==CalendarStyle::Old&&s.primary=="el"&&s.parallel=="en"&&s.font_size==24&&s.speech_rate==175&&s.speech_voice=="bjorn","persisted settings");}
         std::filesystem::remove(user_path);
         sqlite3* legacy=nullptr;check(sqlite3_open(user_path.string().c_str(),&legacy)==SQLITE_OK,"legacy preference fixture");
         check(sqlite3_exec(legacy,"CREATE TABLE settings(key TEXT PRIMARY KEY,value TEXT NOT NULL); INSERT INTO settings VALUES('theme','dark'),('font_size','25');",nullptr,nullptr,nullptr)==SQLITE_OK,"legacy preference values");sqlite3_close(legacy);

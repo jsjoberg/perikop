@@ -12,6 +12,10 @@ import time
 import urllib.request
 
 MANIFEST = Path(__file__).with_name('voice-pack.json')
+KOKORO_ID = 'kokoro-sv-alice-bjorn-2c7968d-v1'
+KOKORO_FILES = {'kokoro.onnx', 'g2p-encoder.onnx', 'g2p-decoder.onnx',
+                'g2p-config.json', 'config.json', 'alice.bin', 'bjorn.bin',
+                'lexicon.tsv', 'custom_lexicon.tsv', 'LICENSE-Kokoro-Swedish.txt'}
 
 def default_data_directory():
     if sys.platform == 'darwin':
@@ -44,11 +48,19 @@ def download(url, destination, spec):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', type=Path, default=default_data_directory())
+    parser.add_argument('--pack', choices=['chatterbox', 'kokoro'], default='chatterbox')
     parser.add_argument('--source', type=Path, help='Use an unpacked offline voice pack instead of the network.')
     parser.add_argument('--verify', action='store_true', help='Verify the installed pack without downloading anything.')
     args = parser.parse_args()
-    manifest = json.loads(MANIFEST.read_text())
     voices = args.data_dir / 'voices'
+    manifest_path = MANIFEST
+    if args.pack == 'kokoro':
+        manifest_path = (args.source if args.source else voices / KOKORO_ID) / 'voice-pack.json'
+        if not manifest_path.is_file():
+            raise RuntimeError('Prepare the Kokoro pack first, then install with --pack kokoro --source PATH.')
+    manifest = json.loads(manifest_path.read_text())
+    if args.pack == 'kokoro' and (manifest['id'] != KOKORO_ID or set(manifest['files']) != KOKORO_FILES):
+        raise RuntimeError('Unexpected Kokoro pack identity or files.')
     destination = voices / manifest['id']
     if args.verify or destination.exists():
         for name, spec in manifest['files'].items():
@@ -71,8 +83,9 @@ def main():
                 url = f'https://huggingface.co/{manifest["repository"]}/resolve/{manifest["revision"]}/{name}?download=true'
                 print(f'Downloading {name} ({spec["size"]:,} bytes)', flush=True)
                 download(url, target, spec)
-        shutil.copyfile(MANIFEST, staged / 'voice-pack.json')
-        shutil.copyfile(Path(__file__).with_name('LICENSE-Chatterbox.txt'), staged / 'LICENSE-Chatterbox.txt')
+        shutil.copyfile(manifest_path, staged / 'voice-pack.json')
+        if args.pack == 'chatterbox':
+            shutil.copyfile(Path(__file__).with_name('LICENSE-Chatterbox.txt'), staged / 'LICENSE-Chatterbox.txt')
         # Every file passes before the application can see the new directory.
         staged.rename(destination)
     print(f'Installed voice pack: {destination}')
