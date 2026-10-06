@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """Generate verse alignments between Scripture editions with different versifications.
 
 Reads verse texts from resources/corpus/corpus.db, so run build_corpus.py first, and

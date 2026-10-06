@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """Derive resources/corpus/input/sv1921-apokryfer.tsv, the Swedish 1921 apocrypha.
 
 Runeberg's 1921 facsimile OCR (runeberg-apokryf-1921-txt.zip) is the textual witness.

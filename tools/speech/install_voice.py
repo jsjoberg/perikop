@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """Install or verify a pinned, offline voice pack. Python is an installation tool only."""
 import argparse
 import hashlib

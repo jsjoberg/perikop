@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked --group voice-prep
 """Prepare Alice/Björn as an offline ONNX pack; never used by the reader at runtime."""
 import argparse
 import hashlib

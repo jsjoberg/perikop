@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """List every word form in the Swedish 1917 text with its NST pronunciation.
 
 Writes resources/lexicon/sv1917-words.tsv: form, occurrences, kind, NST SAMPA.

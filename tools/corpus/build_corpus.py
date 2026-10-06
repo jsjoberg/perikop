@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """Build the full offline corpus and recurring lectionary tables from pinned inputs."""
 import json, re, sqlite3, zipfile, hashlib
 from pathlib import Path

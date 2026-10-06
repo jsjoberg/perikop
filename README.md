@@ -107,12 +107,13 @@ See [the speech selection record](docs/speech-selection.md) for licensing, alter
 Install the pinned voice package once:
 
 ```sh
-python3 tools/speech/install_voice.py
-python3 tools/speech/install_voice.py --verify
+uv run --locked tools/speech/install_voice.py
+uv run --locked tools/speech/install_voice.py --verify
 ```
 
 For an unpacked offline voice package, use `--source /absolute/path/voice-pack`.
-Python performs installation only. The application needs no interpreter or network connection for playback.
+Use `uv` for all Python preparation and installation commands. It manages Python and the preparation environment.
+The distributed application needs neither Python nor `uv`. Playback uses native C++ and local models.
 The pack remains outside application upgrades in the platform user-data directory.
 Missing or incomplete packs produce a visible message.
 Display text and speech text remain separate.
@@ -175,17 +176,19 @@ It creates no native control for individual verses.
 Rebuild the corpus from bundled source data:
 
 ```sh
-python3 tools/corpus/build_corpus.py
+uv run --locked tools/corpus/build_corpus.py
 ```
 
-Python is a corpus development tool. Normal builds and application startup do not need Python.
+Python is a corpus development tool. The native build, packaged application, and application startup do not need Python or `uv`.
+`pyproject.toml` and `uv.lock` define the preparation environment.
+Voice export uses the separate `voice-prep` dependency group. Normal resource tools use only the Python standard library.
 `resources/manifest.json` records resource hashes and provenance.
 `THIRD-PARTY-NOTICES.md` records licenses and edition limits.
 
 Check the resource hashes and complete corpus glyph coverage:
 
 ```sh
-python3 tools/check_resources.py
+uv run --locked tools/check_resources.py
 ```
 
 ## Current limits

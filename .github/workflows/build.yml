@@ -34,7 +34,12 @@ jobs:
           else
             ctest --test-dir build/cmake --output-on-failure
           fi
-      - run: python3 tools/check_resources.py
+      - name: Install preparation tools
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.8.16"
+      - run: uv run --locked tools/check_resources.py
+      - run: uv run --locked tests/voice_install_test.py
   windows:
     runs-on: windows-2025
     steps:
@@ -56,4 +61,9 @@ jobs:
         run: cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe"
       - run: cmake --build build/cmake --parallel 3
       - run: ctest --test-dir build/cmake --output-on-failure
-      - run: python tools/check_resources.py
+      - name: Install preparation tools
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.8.16"
+      - run: uv run --locked tools/check_resources.py
+      - run: uv run --locked tests/voice_install_test.py

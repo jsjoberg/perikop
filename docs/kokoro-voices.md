@@ -8,17 +8,19 @@ The settings database stores the Swedish voice choice. The menu and playback con
 
 ## Prepare the pack
 
-Python and PyTorch are preparation tools. The native acoustic stage consumes token IDs from the upstream pronunciation engine.
-The upstream pronunciation engine still requires Python. A bundled runtime changes the project's native-only requirement.
-The application keeps its current playback engine until the user chooses an acceptable integration path.
+Python and PyTorch are preparation tools managed by `uv`. The distributed application must remain independent of Python and `uv`.
+The native acoustic stage consumes token IDs from the upstream pronunciation engine.
+The unchanged upstream pronunciation code requires Python. The exported pronunciation models do not require a Python runtime.
+ONNX Runtime can run the encoder and decoder through its C++ API.
+Native integration also needs the upstream lexicon lookup, text normalization, and decoding behavior.
+Lua or MicroPython can coordinate native calls, but neither removes that integration work.
+The native-only requirement remains the intended architecture. The application keeps its current playback engine while integration remains incomplete.
 The preparation script pins the source weights and their revisions. It checks the large source files with SHA-256.
 
 ```sh
-uv venv --python 3.12 build/kokoro-export-env
-uv pip install --python build/kokoro-export-env/bin/python -r tools/speech/kokoro-export-requirements.txt
-HF_HUB_DISABLE_XET=1 build/kokoro-export-env/bin/python tools/speech/prepare_kokoro.py --output build/kokoro-pack
-python3 tools/speech/install_voice.py --pack kokoro --source build/kokoro-pack
-python3 tools/speech/install_voice.py --pack kokoro --verify
+uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
+uv run --locked tools/speech/install_voice.py --pack kokoro --source build/kokoro-pack
+uv run --locked tools/speech/install_voice.py --pack kokoro --verify
 ```
 
 The installer checks every file before it exposes the new directory. It preserves the existing Chatterbox pack.
@@ -36,7 +38,7 @@ For a comparison with the upstream pronunciation engine, use its pinned checkout
 ```sh
 git clone https://github.com/joakimeriksson/kokoro-sv.git build/kokoro-sv-source
 git -C build/kokoro-sv-source checkout 42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f
-HF_HUB_DISABLE_XET=1 build/kokoro-export-env/bin/python tools/speech/prepare_kokoro.py --output build/kokoro-pack --reference-source build/kokoro-sv-source
+uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack --reference-source build/kokoro-sv-source
 ```
 
 This command writes samples and timing results into `build/kokoro-audition`.

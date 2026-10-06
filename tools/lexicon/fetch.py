@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """Download pinned lexical inputs into build/inputs; they are not committed."""
 import hashlib, json, sys, urllib.request
 from pathlib import Path

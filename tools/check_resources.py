@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked
 """Check resource hashes and the bundled fonts' corpus glyph coverage offline."""
 import hashlib
 import json
