@@ -1,4 +1,5 @@
 #include "ui/main_frame.hpp"
+#include "ui/native_icon.hpp"
 #include <wx/app.h>
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
@@ -18,16 +19,17 @@ public:
     bool OnInit() override {
         SetAppName("orthodox-reader");SetVendorName("orthodox-reader");
         wxInitAllImageHandlers();
-        bool smoke=false,reader=false;wxString resource_override,screenshot;
+        bool smoke=false,reader=false;wxString resource_override,screenshot,speech_probe;
         auto date=ortho::local_civil_date();
         for(int i=1;i<argc;++i) {
             const wxString arg=argv[i];
             if(arg=="--smoke-test")smoke=true;
             else if(arg=="--reader")reader=true;
-            else if((arg=="--resources"||arg=="--date"||arg=="--screenshot")&&i+1<argc) {
+            else if((arg=="--resources"||arg=="--date"||arg=="--screenshot"||arg=="--speech-probe")&&i+1<argc) {
                 const wxString value=argv[++i];
                 if(arg=="--resources")resource_override=value;
                 if(arg=="--screenshot")screenshot=value;
+                if(arg=="--speech-probe")speech_probe=value;
                 if(arg=="--date") { auto parsed=ortho::parse_date(value.ToStdString());if(!parsed){std::cerr<<parsed.error()<<'\n';return false;}date=*parsed; }
             } else {std::cerr<<"Unknown or incomplete argument: "<<arg.ToStdString()<<'\n';return false;}
         }
@@ -46,6 +48,7 @@ public:
             std::filesystem::path resources;
             for(const auto& candidate:candidates)if(std::filesystem::exists(candidate/"corpus/corpus.db")){resources=candidate;break;}
             if(resources.empty())throw std::runtime_error("Bundled resources missing. Rebuild or use --resources PATH.");
+            if(!speech_probe.empty()) {smoke_exit_=ortho::render_speech_probe(path(wxStandardPaths::Get().GetUserLocalDataDir()),path(speech_probe))?0:1;return true;}
             for(const auto* file:{"Literata-Regular.ttf","Literata-Italic.ttf","IBMPlexSans-Regular.ttf","IBMPlexSans-Medium.ttf","NotoSerifHebrew-Regular.ttf","NotoSansMath-Regular.ttf"}) {
                 const auto file_path=(resources/"fonts"/file).u8string();
                 #ifdef __APPLE__
@@ -69,10 +72,11 @@ public:
             #if wxCHECK_VERSION(3,3,0)
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
-            auto* frame=new ortho::MainFrame(*corpus_,*user_,date);
+            auto* frame=new ortho::MainFrame(*corpus_,*user_,date,resources);
             const auto icon_path=(resources/"icons/orthodox-cross.png").u8string();
             wxIcon icon;icon.LoadFile(wxString::FromUTF8(reinterpret_cast<const char*>(icon_path.c_str())),wxBITMAP_TYPE_PNG);
             if(icon.IsOk())frame->SetIcon(icon);
+            ortho::set_native_app_icon(resources/"icons/orthodox-cross.png");
             SetTopWindow(frame);frame->Show();
             if(reader)frame->open_psalm();
             if(smoke) {
@@ -89,7 +93,7 @@ public:
             return false;
         }
     }
-    int OnRun() override { const int status=wxApp::OnRun();return smoke_exit_>=0?smoke_exit_:status; }
+    int OnRun() override { if(smoke_exit_>=0&&!GetTopWindow())return smoke_exit_;const int status=wxApp::OnRun();return smoke_exit_>=0?smoke_exit_:status; }
     int OnExit() override {
         timer_.reset();user_.reset();corpus_.reset();
         if(!test_path_.empty()){std::error_code error;std::filesystem::remove_all(test_path_,error);}

@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "b2c5576fed46927e3459f1b6b072e6048a9b76e94f457ef78545270e98e4375e",
+      "sha256": "89f66eeb0ed2872194b845a00bd9b4c80d6fe4c35cec36f499401c2637583455",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "fd0f79ae32e4a432a20c68f5ee70085ca3b33f59a54643af6e5b05685346df09"
+      "sha256": "e78f68120bab5a5ecc2b8c41e02252a2eb682f26ca9d3ecd9cecc3a8a429b548"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",

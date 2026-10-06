@@ -11,8 +11,15 @@
 #include <wx/utils.h>
 #include <wx/wrapsizer.h>
 #include <wx/fontenum.h>
+#include <wx/statbmp.h>
+#include <wx/weakref.h>
+#include <wx/graphics.h>
+#include <wx/stdpaths.h>
+#include <limits>
+#include <iostream>
 #include <algorithm>
 #include <functional>
+#include <atomic>
 #include <cmath>
 namespace ortho {
 namespace {
@@ -32,7 +39,7 @@ void recolor(wxWindow* window,const Palette& colors) {
 wxString kind_label(ReadingKind kind) {
     switch(kind){
     case ReadingKind::MorningPsalm:return "MORGON";
-    case ReadingKind::Epistle:return "APOSTEL";
+    case ReadingKind::Epistle:return "EPISTEL";
     case ReadingKind::Gospel:return "EVANGELIUM";
     case ReadingKind::OldTestament:return "GAMLA TESTAMENTET";
     case ReadingKind::Vespers:return "VESPER";
@@ -41,12 +48,21 @@ wxString kind_label(ReadingKind kind) {
     return {};
 }
 }
-MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
+MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date,const std::filesystem::path& resources)
     :wxFrame(nullptr,wxID_ANY,"Ortodox läsare",wxDefaultPosition,wxSize(1120,900)),
     corpus_(corpus),user_(user),lectionary_(corpus),selected_(date),settings_(user.load()) {
     SetMinSize(FromDIP(wxSize(520,480)));root_=new wxPanel(this);root_->SetFont(ui_font());
     auto* outer=new wxBoxSizer(wxVERTICAL);
     auto* top=new wxBoxSizer(wxHORIZONTAL);
+    const auto icon_path=(resources/"icons/orthodox-cross.png").string();
+    wxImage image(u(icon_path),wxBITMAP_TYPE_PNG);
+    if(image.IsOk()) {
+        const auto small=wxBitmap(image.Copy().Rescale(36,36,wxIMAGE_QUALITY_HIGH));
+        const auto large=wxBitmap(image.Copy().Rescale(72,72,wxIMAGE_QUALITY_HIGH));
+        auto* cross=new wxStaticBitmap(root_,wxID_ANY,wxBitmapBundle::FromBitmaps(small,large));
+        cross->SetToolTip("Ortodox läsare · kors i svenska färger");
+        top->Add(cross,0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
+    }
     top->Add(button(root_,"‹",[this]{navigate(-1);}),0,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
     date_=button(root_,u(date_swedish(selected_.date())),[this]{pick_date();});date_->SetFont(ui_font(13));
     date_->SetToolTip("Välj ett civilt datum");top->Add(date_,1,wxALIGN_CENTER_VERTICAL|wxALL,FromDIP(6));
@@ -64,7 +80,7 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
     reader_label_->SetToolTip("Mässingsstrecket i marginalen markerar den föreskrivna läsningen.");
     reader_tools->Add(reader_label_,1,wxALIGN_CENTER_VERTICAL);
     reader_tools->Add(button(reader_header_,"Till läsningen",[this]{scripture_->center_passage();scripture_->SetFocus();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(10));
-    reader_tools->Add(button(reader_header_,"Uttalsprov",[this]{preview_speech({scripture_->reading()});}),0,wxALIGN_CENTER_VERTICAL);
+    reader_tools->Add(button(reader_header_,"Lyssna",[this]{play_speech({scripture_->reading()});}),0,wxALIGN_CENTER_VERTICAL);
     reader_header_->SetSizer(reader_tools);outer->Add(reader_header_,0,wxEXPAND|wxALL,FromDIP(20));
     part_=new wxChoice(reader_header_,wxID_ANY);part_->SetName("Läsningens del");
     part_->Bind(wxEVT_CHOICE,[this](wxCommandEvent&){scripture_->open_section(part_->GetSelection());});
@@ -90,6 +106,29 @@ MainFrame::MainFrame(const CorpusDb& corpus,UserDb& user,CivilDate date)
     footer->Add(parallel_,0,wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT,FromDIP(12));
     footer->Add(button(footer_,"A−",[this]{settings_.font_size=std::max(14,settings_.font_size-1);apply_settings();}),0,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(6));
     footer->Add(button(footer_,"A+",[this]{settings_.font_size=std::min(28,settings_.font_size+1);apply_settings();}),0,wxALIGN_CENTER_VERTICAL);
+    auto* speech_bar=new wxBoxSizer(wxHORIZONTAL);
+    speech_status_=new wxStaticText(root_,wxID_ANY,"Välj Lyssna för att höra texten",wxDefaultPosition,wxDefaultSize,wxST_ELLIPSIZE_END);
+    speech_status_->SetFont(ui_font(10));speech_status_->SetMinSize(FromDIP(wxSize(100,-1)));
+    speech_bar->Add(speech_status_,1,wxALIGN_CENTER_VERTICAL|wxRIGHT,FromDIP(12));
+    pause_=button(root_,"Pausa",[this]{if(paused_)speech_->resume();else speech_->pause();});
+    stop_=button(root_,"Stoppa",[this]{speech_->stop();});
+    pause_->Disable();stop_->Disable();
+    speech_bar->Add(pause_,0,wxRIGHT,FromDIP(8));speech_bar->Add(stop_);
+    outer->Insert(outer->GetItemCount()-1,speech_bar,0,wxEXPAND|wxLEFT|wxRIGHT|wxTOP,FromDIP(20));
+    // The worker copies the shared owner, not wxWeakRef's main-thread tracking data.
+    auto weak=std::make_shared<wxWeakRef<MainFrame>>(this);
+    auto latest_speech=std::make_shared<std::atomic<uint64_t>>(0);
+    // ToUTF8 returns a scoped view. Keep its wxString owner alive until the path is copied.
+    const auto data_dir=wxStandardPaths::Get().GetUserLocalDataDir();
+    const auto data_utf8=data_dir.ToUTF8();
+    const auto data_path=std::filesystem::path(std::u8string(reinterpret_cast<const char8_t*>(data_utf8.data()),data_utf8.length()));
+    speech_=create_portable_speech(data_path,[weak,latest_speech](const SpeechUpdate& update){
+        auto known=latest_speech->load();
+        while(known<update.sequence&&!latest_speech->compare_exchange_weak(known,update.sequence)){}
+        if(update.sequence<known)return;
+        auto deliver=[weak,latest_speech,update]{if(*weak&&latest_speech->load()==update.sequence)(*weak)->speech_status(update.text);};
+        if(wxIsMainThread())deliver();else wxTheApp->CallAfter(deliver);
+    });
     root_->SetSizer(outer);auto* frame_sizer=new wxBoxSizer(wxVERTICAL);frame_sizer->Add(root_,1,wxEXPAND);SetSizer(frame_sizer);
     refresh_day();show_readings();apply_settings(false);
     const auto work=wxGetClientDisplayRect();
@@ -103,9 +142,8 @@ void MainFrame::navigate(int days) {
 void MainFrame::refresh_day() {
     day_=lectionary_.readings_for(selected_.date(),settings_.calendar);
     date_->SetLabel(u(date_swedish(selected_.date())));
-    const auto separator=day_.day.annotation.find(" · ",day_.day.annotation.find(" · ")+3);
-    annotation_->SetLabel(u(separator==std::string::npos?day_.day.annotation:day_.day.annotation.substr(0,separator)));
-    annotation_->SetToolTip(u(day_.day.annotation+"\nFast kalender: "+day_.day.fixed_cycle.value_or("")+"\n"+day_.day.paschal_cycle.value_or("")));
+    annotation_->SetLabel(settings_.calendar==CalendarStyle::New?"Antiochia":"Antiochia · gamla kalendern");
+    annotation_->SetToolTip(u("Kalenderkälla: Antiochian Orthodox Christian Archdiocese of North America\n"+day_.day.annotation+"\nFast kalender: "+day_.day.fixed_cycle.value_or("")+"\n"+day_.day.paschal_cycle.value_or("")));
     entries_->Clear(true);entries_->AddSpacer(FromDIP(38));
     if(day_.readings.empty()) {
         entries_->Add(label(readings_,"Ingen daglig bibelläsning är föreskriven",18),0,wxBOTTOM,FromDIP(20));
@@ -120,14 +158,13 @@ void MainFrame::refresh_day() {
             auto* section=label(readings_,kind_label(reading.kind),10);entries_->Add(section,0,wxBOTTOM,FromDIP(10));
             auto* line=new wxWrapSizer(wxHORIZONTAL,wxREMOVE_LEADING_SPACES);
             auto* open=button(readings_,u(reading.label),[this,reading]{open_reading(reading);});open->SetFont(body_font(20));
-            line->Add(open,0,wxALIGN_CENTER_VERTICAL);line->Add(button(readings_,"Uttalsprov",[this,reading]{preview_speech({reading});}),0,wxALIGN_CENTER_VERTICAL|wxLEFT,FromDIP(16));
+            line->Add(open,0,wxALIGN_CENTER_VERTICAL);line->Add(button(readings_,"Lyssna",[this,reading]{play_speech({reading});}),0,wxALIGN_CENTER_VERTICAL|wxLEFT,FromDIP(16));
             entries_->Add(line,0,wxEXPAND|wxBOTTOM,FromDIP(36));
         }
         entries_->AddSpacer(FromDIP(10));
-        listen_all_=button(readings_,"Lyssna på läsningarna · förhandsprov",[this]{preview_speech(day_.readings);});
+        listen_all_=button(readings_,"Lyssna på läsningarna",[this]{play_speech(day_.readings);});
         entries_->Add(listen_all_,0,wxALIGN_CENTER|wxBOTTOM,FromDIP(16));
-        speech_status_=label(readings_,"Talgränssnittet är ett prov. Ingen ljudsyntes är inkopplad.",10);
-        entries_->Add(speech_status_,0,wxALIGN_CENTER);
+
     }
     readings_->FitInside();readings_->Scroll(0,0);apply_settings(false);Layout();
 }
@@ -222,29 +259,47 @@ void MainFrame::apply_settings(bool persist) {
     recolor(root_,palette(settings_.theme));annotation_->SetForegroundColour(palette(settings_.theme).muted);
     scripture_->apply(settings_);root_->Layout();
 }
-void MainFrame::preview_speech(const std::vector<Reading>& readings) {
-    StubSpeechEngine engine;const auto lexicon=corpus_.pronunciations("sv");wxString preview;
-    for(const auto& reading:readings) {
-        std::string text=reading_introduction(reading)+"\n";
-        for(const auto& passage:corpus_.localize(reading).segments()) {
-            const auto refs=corpus_.coordinates("sv1917",passage.book);
-            for(auto ref:refs)if(passage.contains(ref)) {
-                auto verse=corpus_.verse("sv1917",passage.book,ref);
-                if(verse)text+=verse->text+"\n";
+MainFrame::~MainFrame(){speech_.reset();}
+void MainFrame::speech_status(const std::string& status) {
+    speech_status_->SetLabel(u(status));speech_status_->SetToolTip(u(status));
+    paused_=status=="Pausad";
+    pause_->SetLabel(paused_?"Fortsätt":"Pausa");
+    const bool active=paused_||status.starts_with("Läser")||status.starts_with("Förbereder");
+    pause_->Enable(active);stop_->Enable(active);root_->Layout();
+}
+void MainFrame::play_speech(const std::vector<Reading>& readings) {
+    speech_->stop();speech_status("Förbereder läsningen");
+    try {
+        std::vector<SpeechUtterance> queue;
+        for(const auto& reading:readings) {
+            if(reading.base_language=="sv")queue.push_back(make_utterance(reading_introduction(reading),"sv",corpus_.pronunciations("sv")));
+            for(const auto& passage:corpus_.localize(reading).segments()) {
+                auto language=reading.base_language;
+                auto source=reading.source_override.empty()?source_for_language(language,passage.book):reading.source_override;
+                if(corpus_.coordinates(source,passage.book).empty()) {
+                    for(const auto fallback:{"el","en"}) {
+                        auto candidate=source_for_language(fallback,passage.book);
+                        if(!corpus_.coordinates(candidate,passage.book).empty()){source=candidate;break;}
+                    }
+                }
+                if(source.starts_with("en-"))language="en";
+                else if(source.starts_with("grc-"))language="el";
+                else language="sv";
+                std::string text;
+                for(auto ref:corpus_.coordinates(source,passage.book)) {
+                    auto verse=corpus_.verse(source,passage.book,ref);
+                    if(verse && ref<=passage.last && passage.first<=verse->last.value_or(ref))text+=verse->text+" ";
+                }
+                if(text.empty())throw std::runtime_error("Ingen text finns att läsa upp.");
+                queue.push_back(make_utterance(text,language,corpus_.pronunciations(language)));
             }
         }
-        engine.speak(make_utterance(text,"sv",lexicon));
-        preview+=u(reading.label)+"\n\n"+u(engine.accepted.back().speech_text)+"\n\n";
+        speech_->speak_batch(queue);
+    } catch(const std::exception& error) {
+        speech_->stop();speech_status(error.what());
+        wxMessageBox(u(error.what()),"Uppläsning",wxOK|wxICON_INFORMATION,this);
+        speech_status(error.what());
     }
-    auto proof=make_utterance("Melkisedek","sv",lexicon);
-    preview+="Uttalsexempel: "+u(proof.display_text)+" → "+u(proof.speech_text)+"\nBibeltexten i databasen ändras inte.";
-    wxDialog dialog(this,wxID_ANY,"Talprov · ingen ljudsyntes",wxDefaultPosition,FromDIP(wxSize(700,560)),wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
-    auto* sizer=new wxBoxSizer(wxVERTICAL);
-    sizer->Add(label(&dialog,"Detta är talrepresentationen som en framtida röst får.",11),0,wxALL,FromDIP(18));
-    auto* text=new wxTextCtrl(&dialog,wxID_ANY,preview,wxDefaultPosition,wxDefaultSize,wxTE_MULTILINE|wxTE_READONLY);
-    text->SetFont(ui_font(12));sizer->Add(text,1,wxEXPAND|wxLEFT|wxRIGHT,FromDIP(18));
-    sizer->Add(dialog.CreateButtonSizer(wxOK),0,wxALIGN_RIGHT|wxALL,FromDIP(18));dialog.SetSizer(sizer);
-    recolor(&dialog,palette(settings_.theme));dialog.ShowModal();
 }
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto original=settings_;const auto date=selected_.date();
@@ -271,6 +326,52 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         auto original=text;original.Replace(" ","");
         if(recovered!=original||!justified)ok=false;
+    }
+    {
+        const std::vector<wxString> words={"one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"};
+        std::unique_ptr<wxGraphicsContext> gc(wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext());
+        gc->SetFont(metrics.GetFont(),*wxBLACK);
+        std::vector<double> widths;double space=0;gc->GetTextExtent(" ",&space,nullptr);
+        wxString text;
+        for(const auto& word:words){double w=0;gc->GetTextExtent(word,&w,nullptr);widths.push_back(w);if(!text.empty())text+=" ";text+=word;}
+        bool beats_greedy=false;int verified=0;
+        for(int width=160;width<=400;width+=2) {
+            double best=std::numeric_limits<double>::infinity();
+            std::function<void(int,int,double)> enumerate=[&](int start,int previous,double cost) {
+                if(start==int(words.size())){best=std::min(best,cost);return;}
+                double natural=0;
+                for(int end=start;end<int(words.size());++end) {
+                    natural+=widths[end]+(end>start?space:0);
+                    const int gaps=end-start;const double difference=width-natural;
+                    double ratio=difference/std::max(1.0,gaps*space*(difference<0?1.0/3.0:0.5));
+                    if(end+1==int(words.size())&&difference>=0)ratio=0;
+                    const double badness=100*std::pow(std::abs(ratio),3);
+                    if(ratio < -1||badness>100)continue;
+                    const int fitness=ratio<-0.5?0:ratio<=0.5?1:ratio<=1?2:3;
+                    enumerate(end+1,fitness,cost+std::pow(10+badness,2)+(std::abs(previous-fitness)>1?10000:0));
+                }
+            };
+            enumerate(0,1,0);
+            if(!std::isfinite(best))continue;
+            const auto fit=layout_paragraph(metrics,text,width,"no-patterns");
+            if(std::abs(fit.demerits-best)>0.001)ok=false;
+            ++verified;
+            int greedy=0;double length=0;
+            while(greedy<int(words.size())&&length+widths[greedy]+(greedy?space:0)<=width){length+=widths[greedy]+(greedy?space:0);++greedy;}
+            beats_greedy|=int(fit.lines.front().runs.size())!=greedy;
+        }
+        if(!verified||!beats_greedy)ok=false;
+        std::cout<<"Paragraph oracle: "<<verified<<" globally optimal fits; differs from greedy="<<beats_greedy<<"\n";
+        const std::vector<TextFragment> spans={{"I begynnelsen skapade Gud himmel och jord.","1",0},{"Och Gud såg att det var gott.","2",1}};
+        const auto paragraph=layout_paragraph(metrics,spans,280,"sv");
+        int markers=0;wxString recovered;
+        for(const auto& line:paragraph.lines)for(std::size_t i=0;i<line.runs.size();++i) {
+            const auto& run=line.runs[i];
+            if(run.marker){++markers;continue;}
+            auto token=run.text;if(line.hyphenated&&i+1==line.runs.size())token.RemoveLast();recovered+=token;
+        }
+        wxString expected;for(const auto& span:spans){auto source=span.text;source.Replace(" ","");expected+=source;}
+        if(markers!=2||recovered!=expected)ok=false;
     }
     if(hyphenation_points("begynnelsen","sv").empty()||hyphenation_points("beginning","en").empty()||
         hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"),"el").empty())ok=false;
@@ -331,6 +432,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if(scripture_->cached_rows()==0)ok=false;
         const auto size=scripture_->GetClientSize();wxBitmap bitmap(size.x,size.y);wxMemoryDC dc(bitmap);scripture_->render_to(dc,size);dc.SelectObject(wxNullBitmap);
         if(!screenshot_path.empty())ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-"+u(reading.passage.book)+".png",wxBITMAP_TYPE_PNG)&&ok;
+    }
+    open_reading({ReadingKind::Epistle,{"1Cor",{4,9},{4,16}},"Första Korintierbrevet 4:9–16"});
+    if(!screenshot_path.empty()) {
+        const auto size=scripture_->GetClientSize();wxBitmap bitmap(size.x,size.y);wxMemoryDC dc(bitmap);scripture_->render_to(dc,size);dc.SelectObject(wxNullBitmap);
+        ok=bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.')+"-prose.png",wxBITMAP_TYPE_PNG)&&ok;
     }
     open_psalm();
     settings_=original;apply_settings(false);ok=ok && selected_.date()==date;

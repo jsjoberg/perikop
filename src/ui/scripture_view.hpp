@@ -22,8 +22,8 @@ public:
     double scroll_position() const { return offset_; }
     ~ScriptureView() override;
 private:
-    struct Row { VerseRef ref; bool heading; };
-    struct Column { std::string language; VerseRef ref; std::optional<VerseRef> last; TextLayout text; bool missing=false; };
+    struct Row { VerseRef ref; bool heading; std::vector<VerseRef> verses; VerseRef last; };
+    struct Column { std::string language; TextLayout text; bool missing=false; std::vector<bool> prescribed; };
     struct Layout { std::vector<Column> columns; int height=0; };
     void set_position(double);
     void rebuild_positions();

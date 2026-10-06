@@ -4,7 +4,7 @@ Local check date: October 6, 2026.
 The release build used Apple Clang 17 on macOS 26.6.2, on Apple Silicon.
 The application targets macOS 11.0. wxWidgets 3.3.3 and SQLite 3.53.4 link statically.
 
-The core suite passed 7,095 checks for storage, date calculations, reading ranges, and pronunciation.
+The core suite passed 7,099 checks for storage, date calculations, reading ranges, and pronunciation.
 The suite compared all 52 Sunday reading pairs with the Antiochian 2026 chart.
 It also checked the October 5–6 daily references and official Pascha dates for 2026–2030.
 Computed Pascha readings passed for 2027–2035.
@@ -58,5 +58,11 @@ MT/LXX alignment covers every verse of the bundled Old Testament editions at ver
 The reader shows verses without a counterpart and can open each edition directly through the Bible browser.
 
 The renderer fits whole paragraphs with native shaping, Knuth–Plass demerits, and Liang hyphenation.
-Paragraphs currently follow verse boundaries. Semantic paragraph grouping remains future work.
-The speech interface still shows a pronunciation preview. It does not synthesize audio.
+Prose flows across verses, using USFM boundaries or labelled WEB editorial boundaries for Swedish and KJV.
+Poetry retains verse stanzas. Breaks inside a verse remain a display limitation.
+An exhaustive word-boundary oracle confirms 39 globally optimal paragraph fits, including choices that differ from greedy wrapping.
+The macOS speech backend generated 59,668 non-silent PCM frames from the installed Alva voice.
+The installed application showed the cross and continuous justified prose.
+Native playback controls passed Listen, Pause, Resume, and Stop checks using Alva.
+Cancelled utterance callbacks cannot overwrite the stopped status.
+Windows and Linux speech playback remain unavailable.

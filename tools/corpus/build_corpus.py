@@ -16,7 +16,7 @@ for code,_,_,_ in entries:
  if code not in ids:ids[code]=len(ids)+1
 byname={name:code for code,_,name,_ in entries}
 byusfm={usfm:code for code,usfm,_,_ in entries}
-verses=[];greek_names={}
+verses=[];greek_names={};paragraphs=[]
 # Swedish keeps its printed 1917/1921 verse numbers; see runeberg1917.py and apocrypha1921.py.
 for (code,chapter,verse),text in runeberg1917.read(inputs/'runeberg-bibeln-1917.html').items():
  verses.append((1,ids[code],chapter,verse,verse,'',text))
@@ -51,7 +51,13 @@ for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip'),(5,'eng-we
    for i in range(1,len(chunks),2):
     chapter=int(chunks[i]);body=chunks[i+1]
     vs=list(re.finditer(r'\\v\s+(\d+[a-z]?(?:-\d+)?)\s+',body))
+    poetry=False
     for k,v in enumerate(vs):
+     prefix=body[:v.start()] if k==0 else body[vs[k-1].end():v.start()]
+     markers=list(re.finditer(r'\\(p|m|pi\d*|q\d*|b)\b',prefix))
+     if markers:poetry=markers[-1][1].startswith('q')
+     # A prose break inside a verse must not migrate to the next verse.
+     boundary=poetry or bool(markers and not prefix[markers[-1].end():].strip())
      chunk=body[v.end():vs[k+1].start() if k+1<len(vs) else len(body)]
      # Non-Scripture section headings belong outside the preceding verse.
      chunk=re.sub(r'\\(?:s\d*|ms\d*|r|d|sp|cl|cp)\s+[^\n]*','',chunk)
@@ -60,6 +66,7 @@ for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip'),(5,'eng-we
      if not plain:continue
      label=re.fullmatch(r'(\d+)([a-z]?)(?:-(\d+))?',v[1]);first=int(label[1]);last=int(label[3] or label[1])
      verses.append((source,ids[code],chapter,first,last,label[2],plain))
+     if k==0 or boundary:paragraphs.append((source,ids[code],chapter,first,label[2],'USFM'))
 output=root/'resources/corpus/corpus.db';temp=output.with_suffix('.tmp');temp.unlink(missing_ok=True)
 with sqlite3.connect(temp) as db:
  db.execute('PRAGMA page_size=4096')
@@ -77,6 +84,12 @@ with sqlite3.connect(temp) as db:
  for line in (root/'resources/corpus/alignment.tsv').read_text().splitlines():
   a,b,book,f0,f1,tbook,t0,t1,kind=line.split('\t')
   db.execute('INSERT INTO alignment VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(code_id[a],code_id[b],ids[book],*coordinate(f0),*coordinate(f1),ids.get(tbook),*coordinate(t0),*coordinate(t1),int(kind)))
+ db.executemany('INSERT OR IGNORE INTO paragraph VALUES(?,?,?,?,?,?)',paragraphs)
+ # These are display boundaries, not claimed original Swedish/KJV punctuation.
+ # Psalms have title/number differences, so retain their separate verse stanzas.
+ # Swedish keeps its own numbering, so it takes only boundaries the alignment marks as the same verse.
+ for source in (1,4):
+  db.execute('INSERT OR IGNORE INTO paragraph SELECT ?,p.book_id,p.chapter,p.verse,p.verse_suffix,? FROM paragraph p JOIN verse v ON v.source_id=? AND v.book_id=p.book_id AND v.chapter=p.chapter AND v.verse=p.verse AND v.verse_suffix=p.verse_suffix WHERE p.source_id=5 AND p.book_id!=? AND (NOT EXISTS(SELECT 1 FROM alignment a WHERE a.from_source=5 AND a.to_source=? AND a.book_id=p.book_id) OR EXISTS(SELECT 1 FROM alignment a WHERE a.from_source=5 AND a.to_source=? AND a.book_id=p.book_id AND a.kind=0 AND p.chapter*1000+p.verse BETWEEN a.from_first_chapter*1000+a.from_first_verse AND a.from_last_chapter*1000+a.from_last_verse))',(source,'WEB editorial',source,ids['Ps'],source,source))
  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100),('sv','Lukasevangeliet','Lukas evangelium','',100),('sv','Filipperbrevet','Filipper brevet','',100)])
  # Import recurring references, never the project's third-party Scripture wording.
  tables=json.loads((root/'resources/lectionary/orthocal-tables.json').read_text())
@@ -129,6 +142,7 @@ manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
 GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv'}
 metadata=json.loads(manifest.read_text())
+metadata['schema_version']=3
 for asset in metadata['assets']:
  if asset.get('path') in GENERATED:asset['sha256']=hashlib.sha256((root/asset['path']).read_bytes()).hexdigest()
 manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')

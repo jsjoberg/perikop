@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <limits>
 namespace {
 int checks=0;
 void check(bool value,const char* message) { ++checks;if(!value)throw std::runtime_error(message); }
@@ -32,6 +33,12 @@ int main(int argc,char** argv) {
         selected.move(1);check(selected.date()==simulated_now,"explicit date move");
         selected.select(date("2026-10-07"));check(selected.date()==date("2026-10-07"),"explicit selection");
         CorpusDb corpus(argv[1]);
+        const auto paragraphs=corpus.paragraph_starts("sv1917","John");
+        check(std::binary_search(paragraphs.begin(),paragraphs.end(),VerseRef{20,20}),"WEB editorial resurrection paragraph");
+        check(!std::binary_search(paragraphs.begin(),paragraphs.end(),VerseRef{20,21}),"verse must not imply paragraph break");
+        check(!std::binary_search(paragraphs.begin(),paragraphs.end(),VerseRef{20,14}),"internal prose break must not migrate to next verse");
+        const auto greek_paragraphs=corpus.paragraph_starts("grc-lxx","Gen");
+        check(std::binary_search(greek_paragraphs.begin(),greek_paragraphs.end(),VerseRef{1,6}),"original USFM Greek paragraph boundary");
         AntiochianLectionary lectionary(corpus);
         const auto today=lectionary.readings_for(date("2026-10-05"),CalendarStyle::New);
         check(today.readings.size()==2,"Antiochian daily pair");
@@ -195,6 +202,13 @@ int main(int argc,char** argv) {
         lexicon.push_back({"sv","Åke","Oke","",100});
         check(make_utterance("helige Ande; helige, Ande; ÅKE.","sv",lexicon).speech_text=="heliga ande; helige, Ande; Oke.","phrase and Swedish token matching");
         check(make_utterance("Melkisedek","en",lexicon).speech_text=="Melkisedek","language isolation");
+        std::string long_speech;
+        for(int i=0;i<24;++i)long_speech+="Herren är min herde.  Ἐν ἀρχῇ ἦν ὁ λόγος.\n";
+        std::string recovered;
+        const auto compact=[](std::string s){std::erase_if(s,[](unsigned char c){return c==' '||c=='\n'||c=='\t'||c=='\r'||c=='\v'||c=='\f';});return s;};
+        for(const auto& chunk:speech_chunks(long_speech)){check(!chunk.empty()&&chunk.size()<=240,"bounded speech chunks");recovered+=chunk;}
+        check(compact(recovered)==compact(long_speech),"chunking must retain every Swedish and polytonic Greek byte in order");
+        check(speech_chunks(std::string(300,'x'))==std::vector<std::string>{std::string(300,'x')},"a long word must never be cut into invalid pieces");
         StubSpeechEngine engine;engine.speak(utterance);check(engine.accepted.size()==1,"speech engine accepts utterance");
         engine.pause();check(engine.state==StubSpeechEngine::State::Paused,"speech pause");
         engine.resume();check(engine.state==StubSpeechEngine::State::Accepted,"speech resume");
@@ -217,6 +231,18 @@ int main(int argc,char** argv) {
         sqlite3_open(user_path.string().c_str(),&legacy);sqlite3_exec(legacy,"PRAGMA user_version=99",nullptr,nullptr,nullptr);sqlite3_close(legacy);
         bool future_rejected=false;try{UserDb future(user_path);}catch(const std::exception&){future_rejected=true;}
         check(future_rejected,"unknown future settings schema must not be overwritten");std::filesystem::remove(user_path);
+        const auto cache_path=user_path.parent_path()/std::filesystem::path(u8"test-speech-Å.db");std::filesystem::remove(cache_path);
+        const std::vector<float> pcm={0.0f,0.125f,-0.75f,1.0f,-1.0f};
+        {SpeechCache cache(cache_path);check(!cache.load("voice-a","sv","Herren"),"empty speech cache");
+         cache.save("voice-a","sv","Herren",pcm);
+         check(cache.load("voice-a","sv","Herren")==pcm,"speech PCM round trip");
+         check(!cache.load("voice-b","sv","Herren")&&!cache.load("voice-a","el","Herren")&&!cache.load("voice-a","sv","Ordet"),"speech cache must isolate model, language, and text");
+         bool invalid=false;try{cache.save("voice-a","sv","Herren",{std::numeric_limits<float>::quiet_NaN()});}catch(const std::exception&){invalid=true;}
+         check(invalid&&cache.load("voice-a","sv","Herren")==pcm,"invalid audio must not replace a valid cache entry");}
+        {SpeechCache cache(cache_path);check(cache.load("voice-a","sv","Herren")==pcm,"speech cache persists across process restarts");}
+        const auto cache_utf8=cache_path.u8string();sqlite3_open(reinterpret_cast<const char*>(cache_utf8.c_str()),&legacy);sqlite3_exec(legacy,"PRAGMA user_version=99",nullptr,nullptr,nullptr);sqlite3_close(legacy);
+        future_rejected=false;try{SpeechCache cache(cache_path);}catch(const std::exception&){future_rejected=true;}
+        check(future_rejected,"unknown future speech cache schema must not be overwritten");std::filesystem::remove(cache_path);
         std::cout<<checks<<" checks passed.\n";return 0;
     } catch(const std::exception& e){std::cerr<<"FAIL after "<<checks<<" checks: "<<e.what()<<'\n';return 1;}
 }

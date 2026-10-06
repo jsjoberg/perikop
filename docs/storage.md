@@ -1,11 +1,12 @@
 # SQLite storage policy
 
-The native application uses two SQLite databases. It does not use platform preference defaults as its storage system.
+The native application uses three SQLite databases. It does not use platform preference defaults as its storage system.
 
 `corpus.db` contains Scripture, source metadata, alignment, pronunciation, and recurring reading rules.
 The connection opens with `SQLITE_OPEN_READONLY` and enables `query_only`.
 Its schema version is 3, and its application identifier is `ORTC`.
 Application tables use `STRICT` typing. Foreign keys connect reading segments to their rules and books.
+The paragraph table records USFM boundaries and labelled WEB editorial boundaries for JSON editions.
 The verse uniqueness index also serves coordinate lookups. The importer runs `ANALYZE` before packaging.
 The read cache allows 8 MiB. The shipped file needs no writable journal or companion files.
 
@@ -20,7 +21,17 @@ On macOS, commits and checkpoints also enable full filesystem synchronization.
 The settings read cache allows 256 KiB. Each save updates all preferences in one immediate transaction.
 If a save fails, rollback preserves the previous values and the original error.
 
-Both connections enable foreign keys, defensive mode, and extended result codes.
+`speech-cache.db` stores completed 24 kHz mono chunks as little-endian float PCM.
+Its schema version is 1, and its application identifier is `ORTS`.
+The key includes the pinned model, reference voice, normalization version, synthesis settings, language, and exact speech text.
+WAL journaling and `synchronous=NORMAL` permit regeneration after an interrupted write.
+The read cache allows 2 MiB. It checkpoints after 256 pages.
+At most 256 MiB of audio remains in the table. SQLite reuses evicted pages.
+Transactions update each chunk and evict the oldest entries when needed.
+Invalid samples and unknown future schemas are rejected.
+One speech worker owns the cache connection.
+
+All connections enable foreign keys, defensive mode, and extended result codes.
 They disable trusted schemas and wait up to three seconds for temporary database locks.
 SQL statements bind values and check binding errors. No text input becomes SQL syntax.
 Loadable SQLite extensions remain disabled in the build.

@@ -74,4 +74,23 @@ std::string reading_introduction(const Reading& reading) {
     return "Läsning ur "+book+", kapitel "+std::to_string(p.first.chapter)+", vers "+std::to_string(p.first.verse)+
         (p.last==p.first?".":" till "+(p.last.chapter!=p.first.chapter?"kapitel "+std::to_string(p.last.chapter)+", vers ":"")+std::to_string(p.last.verse)+".");
 }
+std::vector<std::string> speech_chunks(const std::string& text) {
+    const auto space=[](unsigned char c){return c==' '||c=='\t'||c=='\n'||c=='\r'||c=='\v'||c=='\f';};
+    std::vector<std::string> result;
+    size_t begin=0;
+    while(begin<text.size()) {
+        while(begin<text.size()&&space(text[begin]))++begin;
+        if(begin==text.size())break;
+        auto end=std::min(begin+240,text.size());
+        if(end<text.size()) {
+            auto split=text.find_last_of(" \t\n\r\v\f",end);
+            if(split!=std::string::npos&&split>begin)end=split;
+            else {end=text.find_first_of(" \t\n\r\v\f",end);if(end==std::string::npos)end=text.size();}
+            const auto sentence=text.find_last_of(".!?;",end-1);
+            if(sentence!=std::string::npos&&sentence>=begin+40)end=sentence+1;
+        }
+        result.push_back(text.substr(begin,end-begin));begin=end;
+    }
+    return result;
+}
 }

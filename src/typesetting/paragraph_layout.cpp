@@ -1,5 +1,7 @@
 #include "typesetting/paragraph_layout.hpp"
 #include <wx/tokenzr.h>
+#include <wx/graphics.h>
+#include <memory>
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -45,14 +47,21 @@ std::vector<ShapedPart> shaped_parts(const wxFont& base,const wxString& text) {
     }
     return parts;
 }
-double shaped_width(wxDC& dc,const wxFont& base,const wxString& text) {
+wxFont marker_font(const wxFont& base) {
+    auto font=base;font.SetFractionalPointSize(base.GetFractionalPointSize()*0.57);return font;
+}
+double shaped_width(wxDC& dc,wxGraphicsContext* gc,const wxFont& base,const wxString& text) {
     double width=0;
-    for(const auto& part:shaped_parts(base,text)){dc.SetFont(part.font);width+=dc.GetTextExtent(part.text).x;}
+    for(const auto& part:shaped_parts(base,text)) {
+        if(gc){gc->SetFont(part.font,dc.GetTextForeground());double w=0;gc->GetTextExtent(part.text,&w,nullptr);width+=w;}
+        else {dc.SetFont(part.font);width+=dc.GetTextExtent(part.text).x;}
+    }
     dc.SetFont(base);return width;
 }
-void draw_shaped(wxDC& dc,const wxFont& base,const wxString& text,double x,int y) {
+void draw_shaped(wxDC& dc,wxGraphicsContext* gc,const wxFont& base,const wxString& text,double x,int y) {
     for(const auto& part:shaped_parts(base,text)) {
-        dc.SetFont(part.font);dc.DrawText(part.text,int(std::lround(x)),y);x+=dc.GetTextExtent(part.text).x;
+        if(gc) { gc->SetFont(part.font,dc.GetTextForeground());gc->DrawText(part.text,x,y);double w=0;gc->GetTextExtent(part.text,&w,nullptr);x+=w; }
+        else {dc.SetFont(part.font);dc.DrawText(part.text,int(std::lround(x)),y);x+=dc.GetTextExtent(part.text).x;}
     }
     dc.SetFont(base);
 }
@@ -115,20 +124,30 @@ std::vector<int> hyphenation_points(const wxString& word,const std::string& lang
     return result;
 }
 TextLayout layout_paragraph(wxDC& dc,const wxString& text,int width,const std::string& language) {
-    TextLayout result;result.line_height=std::max(1,int(dc.GetTextExtent("Ågjἄ").GetHeight()*1.48));
+    return layout_paragraph(dc,std::vector<TextFragment>{{text,{}}},width,language);
+}
+TextLayout layout_paragraph(wxDC& dc,const std::vector<TextFragment>& fragments,int width,const std::string& language) {
+    TextLayout result;result.line_height=std::max(1,int(dc.GetTextExtent("Ågjἄ").GetHeight()*1.05));
     width=std::max(1,width);
-    std::vector<wxString> words;wxStringTokenizer tokens(text," \t\r\n");
-    while(tokens.HasMoreTokens())words.push_back(tokens.GetNextToken());
+    std::vector<wxString> words,labels;std::vector<int> tags;
+    for(const auto& fragment:fragments) {
+        wxStringTokenizer tokens(fragment.text," \t\r\n");bool first=true;
+        while(tokens.HasMoreTokens()) {
+            words.push_back(tokens.GetNextToken());labels.push_back(first?fragment.label:wxString{});tags.push_back(fragment.tag);first=false;
+        }
+    }
     if(words.empty()){result.lines.emplace_back();return result;}
     const int n=int(words.size());
-    const double natural_space=std::max(1,dc.GetTextExtent(" ").x);
     const auto base_font=dc.GetFont();
+    std::unique_ptr<wxGraphicsContext> measuring(wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext());
+    const double natural_space=std::max(1.0,shaped_width(dc,measuring.get(),base_font," "));
+    std::vector<double> prefixes;for(const auto& label:labels)prefixes.push_back(label.empty()?0:shaped_width(dc,measuring.get(),marker_font(base_font),label)+natural_space*0.5);
     std::map<std::tuple<int,int,int,bool>,double> measures;
     auto measure=[&](int w,int first,int last,bool hyphen) {
         const auto key=std::tuple{w,first,last,hyphen};
         if(auto it=measures.find(key);it!=measures.end())return it->second;
         const auto run=words[w].Mid(first,last-first)+(hyphen?"-":"");
-        const double value=shaped_width(dc,base_font,run);measures.emplace(key,value);return value;
+        const double value=shaped_width(dc,measuring.get(),base_font,run)+(first==0?prefixes[w]:0);measures.emplace(key,value);return value;
     };
     std::vector<double> sums(n+1,0);
     std::vector<Break> breaks{{0,0,false}};
@@ -153,7 +172,7 @@ TextLayout layout_paragraph(wxDC& dc,const wxString& text,int width,const std::s
             else if(c=='"'||c=='\''||c==0x2019||c==0x201d||c==0xbb)fraction=0.5;
             else if(c=='-')fraction=0.2;
         }
-        return fraction?shaped_width(dc,base_font,wxString(character))*fraction:0;
+        return fraction?shaped_width(dc,measuring.get(),base_font,wxString(character))*fraction:0;
     };
     auto line_measure=[&](const Break& a,const Break& b) {
         const int last=b.word-(b.cut==0?1:0);
@@ -165,7 +184,7 @@ TextLayout layout_paragraph(wxDC& dc,const wxString& text,int width,const std::s
             value+=sums[last]-sums[a.word+1];
             value+=measure(last,0,b.cut?b.cut:int(words[last].length()),b.hyphen);
         }
-        const double left=protrusion(words[a.word].Mid(a.cut),true);
+        const double left=(a.cut==0&&!labels[a.word].empty())?0:protrusion(words[a.word].Mid(a.cut),true);
         const auto tail=words[last].Mid(last==a.word?a.cut:0,(b.cut?b.cut:int(words[last].length()))-(last==a.word?a.cut:0))+(b.hyphen?"-":"");
         const double right=protrusion(tail,false);
         return std::tuple{value+gaps*natural_space-left-right,gaps,left,right};
@@ -213,12 +232,13 @@ TextLayout layout_paragraph(wxDC& dc,const wxString& text,int width,const std::s
         path.emplace_back(state.previous,j);j=state.previous;f=state.fitness;
     }
     std::reverse(path.begin(),path.end());
+    result.demerits=states.back()[final_fitness].cost;
     for(const auto& [i,j]:path) {
         const auto& a=breaks[i];const auto& b=breaks[j];
         const auto [natural,gaps,left,right]=line_measure(a,b);
         TextLine line;line.hyphenated=b.hyphen;line.left_protrusion=left;line.right_protrusion=right;
         const bool last=j==int(breaks.size())-1;
-        line.justified=!last&&gaps>0&&(width-natural)/gaps<=natural_space;
+        line.justified=!last&&gaps>0;
         line.space=line.justified?natural_space+(width-natural)/gaps:natural_space;
         double x=-left;const int final_word=b.word-(b.cut==0?1:0);
         for(int w=a.word;w<=final_word;++w) {
@@ -227,7 +247,9 @@ TextLayout layout_paragraph(wxDC& dc,const wxString& text,int width,const std::s
             const bool hyphen=w==final_word&&b.hyphen;
             auto run=words[w].Mid(start,end-start)+(hyphen?"-":"");
             const auto extent=measure(w,start,end,hyphen);
-            line.runs.push_back({run,x,extent});x+=extent+(w<final_word?line.space:0);
+            const double prefix=start==0?prefixes[w]:0;
+            if(prefix>0)line.runs.push_back({labels[w],x,prefix,tags[w],true});
+            line.runs.push_back({run,x+prefix,extent-prefix,tags[w],false});x+=extent+(w<final_word?line.space:0);
         }
         line.width=x-right;result.lines.push_back(std::move(line));
     }
@@ -235,8 +257,9 @@ TextLayout layout_paragraph(wxDC& dc,const wxString& text,int width,const std::s
 }
 void draw_paragraph(wxDC& dc,const TextLayout& layout,int x,int y) {
     const auto base=dc.GetFont();
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::CreateFromUnknownDC(dc));
     for(const auto& line:layout.lines) {
-        for(const auto& run:line.runs)draw_shaped(dc,base,run.text,x+run.x,y);
+        for(const auto& run:line.runs)draw_shaped(dc,gc.get(),run.marker?marker_font(base):base,run.text,x+run.x,y);
         y+=layout.line_height;
     }
     dc.SetFont(base);
