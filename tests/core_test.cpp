@@ -215,6 +215,9 @@ int main(int argc,char** argv) {
         lexicon.push_back({"sv","Åke","Oke","",100});
         check(make_utterance("helige Ande; helige, Ande; ÅKE.","sv",lexicon).speech_text=="heliga ande; helige, Ande; Oke.","phrase and Swedish token matching");
         check(make_utterance("Melkisedek","en",lexicon).speech_text=="Melkisedek","language isolation");
+        check(make_utterance("Manasse och Manasses söner","sv",lexicon).speech_text=="⟦manˈasə⟧ och ⟦manˈasəs⟧ söner","bundled name phonemes and genitive");
+        lexicon.push_back({"sv","Manasse","Manasse-respelt","",1000});
+        check(make_utterance("Manasse","sv",lexicon).speech_text=="Manasse-respelt","review corrections outrank bundled phonemes");
         std::string long_speech;
         for(int i=0;i<24;++i)long_speech+="Herren är min herde.  Ἐν ἀρχῇ ἦν ὁ λόγος.\n";
         std::string recovered;

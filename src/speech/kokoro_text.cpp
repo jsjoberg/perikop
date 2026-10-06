@@ -44,52 +44,38 @@ void replace_all(std::string& text,const std::string& from,const std::string& to
     for(size_t at=text.find(from);at!=std::string::npos;at=text.find(from,at+to.size()))text.replace(at,from.size(),to);
 }
 
-// --- Numbers: num2words 0.5.14, lang="sv" ----------------------------------
-// The upstream spells digits with num2words before phonemization. This is its
-// Swedish card table and merge rule, including its spellings ("etttusen").
-using Words=std::pair<std::string,uint64_t>;
-const std::vector<Words>& cards() {
-    static const std::vector<Words> table=[] {
-        std::vector<Words> result={{"triljoner",1000000000000000000ull},{"biljarder",1000000000000000ull},{"biljoner",1000000000000ull},
-            {"miljarder",1000000000},{"miljoner",1000000},{"tusen",1000},{"hundra",100},{"nittio",90},{"åttio",80},{"sjuttio",70},
-            {"sextio",60},{"femtio",50},{"förtio",40},{"trettio",30}};
-        const char* low[]={"tjugo","nitton","arton","sjutton","sexton","femton","fjorton","tretton","tolv","elva","tio","nio","åtta",
-            "sju","sex","fem","fyra","tre","två","ett","noll"};
-        for(uint64_t i=0;i<21;++i)result.push_back({low[i],20-i});
-        return result;
-    }();
-    return table;
-}
-Words merge(const Words& left,const Words& right) {
-    const auto& [ltext,lnum]=left;const auto& [rtext,rnum]=right;
-    if(lnum==1&&rnum<100)return right;
-    if(100>lnum&&lnum>rnum)return {ltext+rtext,lnum+rnum};
-    if(lnum>=100&&100>rnum)return {ltext+rtext,lnum+rnum};
-    if(rnum>=1000000&&lnum==1)return {"en "+rtext.substr(0,rtext.size()-2),lnum+rnum};
-    if(rnum>=1000000&&lnum>1)return {ltext+" "+rtext,lnum+rnum};
-    if(rnum>lnum)return {ltext+rtext,lnum*rnum};
-    return {ltext+" "+rtext,lnum+rnum};
-}
-// Num2Word_Base.splitnum followed by clean(), which merges left to right.
-Words cardinal(uint64_t value) {
-    for(const auto& [word,card]:cards()) {
-        if(card>value)continue;
-        const uint64_t div=value==0?1:value/card,mod=value==0?0:value%card;
-        auto result=merge(div==1?Words{"ett",1}:cardinal(div),{word,card});
-        return mod?merge(result,cardinal(mod)):result;
+// --- Numbers -----------------------------------------------------------------
+// The upstream spells digits as Swedish words before phonemization.
+std::string cardinal(uint64_t value) {
+    static const char* ones[]={"noll","ett","två","tre","fyra","fem","sex","sju","åtta","nio","tio","elva","tolv",
+        "tretton","fjorton","femton","sexton","sjutton","arton","nitton"};
+    static const char* tens[]={"","","tjugo","trettio","fyrtio","femtio","sextio","sjuttio","åttio","nittio"};
+    const auto rest=[](uint64_t part){return part?cardinal(part):std::string();};
+    if(value<20)return ones[value];
+    if(value<100)return tens[value/10]+rest(value%10);
+    if(value<1000)return cardinal(value/100)+"hundra"+rest(value%100);
+    if(value<1000000) {
+        auto result=cardinal(value/1000)+"tusen";
+        replace_all(result,"etttusen","ettusen");
+        return result+rest(value%1000);
     }
-    throw std::logic_error("Number card table is incomplete.");
+    const auto large=[&](uint64_t unit,const char* one,const char* many) {
+        const auto count=value/unit;
+        return (count==1?std::string(one):cardinal(count)+" "+many)+(value%unit?" "+cardinal(value%unit):"");
+    };
+    if(value<1000000000)return large(1000000,"en miljon","miljoner");
+    return large(1000000000,"en miljard","miljarder");
 }
 std::string cardinal(std::string_view digits) {
     while(digits.size()>1&&digits.front()=='0')digits.remove_prefix(1);
-    // Beyond 10^19 the reader spells single digits instead of num2words' long scale.
-    if(digits.size()>19) {
+    // Longer digit strings, such as identifiers, read digit by digit.
+    if(digits.size()>12) {
         std::string result;
-        for(char digit:digits)result+=(result.empty()?"":" ")+cardinal(uint64_t(digit-'0')).first;
+        for(char digit:digits)result+=(result.empty()?"":" ")+cardinal(uint64_t(digit-'0'));
         return result;
     }
     uint64_t value=0;for(char digit:digits)value=value*10+uint64_t(digit-'0');
-    return cardinal(value).first;
+    return cardinal(value);
 }
 bool sv_letter(char32_t c) {
     return (c>='A'&&c<='Z')||(c>='a'&&c<='z')||c==U'Å'||c==U'Ä'||c==U'Ö'||c==U'å'||c==U'ä'||c==U'ö';
@@ -196,7 +182,7 @@ std::string swedish_numbers(const std::string& text) {
         if(end+1<spaced.size()&&(spaced[end]==','||spaced[end]=='.')&&digit(spaced[end+1])) {
             auto last=end+1;while(last<spaced.size()&&digit(spaced[last]))++last;
             result+=cardinal(whole)+" komma";
-            for(auto at=end+1;at<last;++at)result+=" "+cardinal(uint64_t(spaced[at]-'0')).first;
+            for(auto at=end+1;at<last;++at)result+=" "+cardinal(uint64_t(spaced[at]-'0'));
             i=last;
         } else {result+=cardinal(whole);i=end;}
     }
@@ -278,12 +264,24 @@ std::string KokoroText::phonemes(const std::string& input) {
         if(end<text.size())++end;
         std::string sentence;bool previous_word=false;
         for(size_t at=i;at<end;) {
-            if(is_letter(text[at])) {
+            // ⟦…⟧ holds one word's exact phonemes, from a pronunciation entry.
+            if(text[at]==U'⟦') {
+                const auto close=text.find(U'⟧',at);
+                if(close==std::u32string::npos||close>=end){++at;continue;}
+                std::u32string ipa;
+                for(auto c:text.substr(at+1,close-at-1))if(c!=U' ')ipa+=c;
+                if(previous_word)sentence+=' ';
+                sentence+=encode(ipa);previous_word=true;at=close+1;
+            } else if(is_letter(text[at])) {
                 auto last=at;while(last<end&&is_letter(text[last]))++last;
                 auto word=text.substr(at,last-at);
+                const bool name=(word[0]>='A'&&word[0]<='Z')||word[0]==U'Å'||word[0]==U'Ä'||word[0]==U'Ö';
                 for(auto& c:word)if((c>='A'&&c<='Z')||c==U'Å'||c==U'Ä'||c==U'Ö')c+=32;
                 const auto key=encode(word);
                 auto ipa=impl_->lexicon.find(key);
+                // A name's genitive -s keeps the stem's pronunciation.
+                if(ipa.empty()&&name&&key.size()>2&&key.back()=='s')
+                    if(auto stem=impl_->lexicon.find(key.substr(0,key.size()-1));!stem.empty())ipa=stem+"s";
                 if(ipa.empty())ipa=impl_->neural(key);
                 if(previous_word)sentence+=' ';
                 sentence+=ipa;previous_word=true;at=last;

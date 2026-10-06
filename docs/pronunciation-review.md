@@ -16,7 +16,7 @@ The examples use complete words and ignore capitalization.
 1. Select a word.
 2. Use **Ord · nu** to hear its current pronunciation.
 3. Use **Vers · nu** to hear the pronunciation in context.
-4. If the pronunciation needs a correction, enter a speech spelling in **Uttalsstavning**.
+4. If the pronunciation needs a correction, enter a speech spelling or phonemes in **Uttalsstavning**.
 5. Use **Ord · förslag** or **Vers · förslag** to hear the proposed spelling.
 6. Use **Godkänn nuvarande**, **Spara korrigering**, or **Granska senare** to record your decision.
 
@@ -28,6 +28,14 @@ The installed voice pack is necessary for audio previews.
 NST SAMPA is reference data.
 The review tool does not convert SAMPA to model input.
 Speech spellings guide the voice model through text replacements.
+Text in `⟦…⟧` gives the exact phonemes of one word, for example `⟦manˈasə⟧`.
+Phonemes use the voice pack's NST symbols, with the stress mark directly before the stressed vowel.
+
+`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 115 frequent names.
+They mainly correct the stress that the neural fallback guesses for unknown names.
+They are drafts and nobody has reviewed them by ear yet.
+The field shows a draft as the current `⟦…⟧` spelling. **Godkänn nuvarande** keeps it, and a saved correction replaces it.
+A name's genitive -s uses the pronunciation of the name.
 Listen to both the word and its verse before you approve a correction.
 
 The application stores decisions in `pronunciation-review.db`, beside `user.db` in the application data directory.

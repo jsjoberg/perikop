@@ -91,6 +91,13 @@ with sqlite3.connect(temp) as db:
  for source in (1,4):
   db.execute('INSERT OR IGNORE INTO paragraph SELECT ?,p.book_id,p.chapter,p.verse,p.verse_suffix,? FROM paragraph p JOIN verse v ON v.source_id=? AND v.book_id=p.book_id AND v.chapter=p.chapter AND v.verse=p.verse AND v.verse_suffix=p.verse_suffix WHERE p.source_id=5 AND p.book_id!=? AND (NOT EXISTS(SELECT 1 FROM alignment a WHERE a.from_source=5 AND a.to_source=? AND a.book_id=p.book_id) OR EXISTS(SELECT 1 FROM alignment a WHERE a.from_source=5 AND a.to_source=? AND a.book_id=p.book_id AND a.kind=0 AND p.chapter*1000+p.verse BETWEEN a.from_first_chapter*1000+a.from_first_verse AND a.from_last_chapter*1000+a.from_last_verse))',(source,'WEB editorial',source,ids['Ps'],source,source))
  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100),('sv','Lukasevangeliet','Lukas evangelium','',100),('sv','Filipperbrevet','Filipper brevet','',100)])
+ # Swedish name phonemes for the Kokoro voices, plus each name's genitive -s.
+ phones=set('abdefhijklmnoprstuvyøŋœɑɔɕɖəɛɡɧɪɭɳɵʂʈʉʊʏˈˌː')
+ for line in (root/'resources/corpus/pronunciation-sv.tsv').read_text().splitlines():
+  if not line or line.startswith('#'):continue
+  word,ipa=line.split('\t')
+  if not set(ipa)<=phones or ipa.count('ˈ')!=1:raise SystemExit('Invalid phonemes for '+word+': '+ipa)
+  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv',word,'',ipa,50),('sv',word+'s','',ipa+'s',50)])
  # Import recurring references, never the project's third-party Scripture wording.
  tables=json.loads((root/'resources/lectionary/orthocal-tables.json').read_text())
  # Orthocal follows KJV numbering, except where a reference only exists in the Septuagint.
@@ -140,7 +147,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
-GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv'}
+GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
 metadata=json.loads(manifest.read_text())
 metadata['schema_version']=3
 for asset in metadata['assets']:

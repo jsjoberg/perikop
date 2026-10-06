@@ -6,9 +6,11 @@
 #include <vector>
 namespace ortho {
 // Swedish front end for the Kokoro voices. Reproduces the pinned upstream
-// kokoro-sv text path (g2p_sv.SwedishG2P with the nst_g2p backend):
-// number spelling, NST lexicon with custom overrides, neural fallback for
-// unknown words, word fixes and the Kokoro symbol remap.
+// kokoro-sv text path (g2p_sv.SwedishG2P with the nst_g2p backend): digits
+// spelled as Swedish words, NST lexicon with custom overrides, neural fallback
+// for unknown words, word fixes and the Kokoro symbol remap. Two additions:
+// "⟦phonemes⟧" in the text gives one word's exact phonemes, and a capitalized
+// name's genitive -s reuses the lexicon stem.
 std::string swedish_numbers(const std::string& text);
 class KokoroText {
     struct Impl;

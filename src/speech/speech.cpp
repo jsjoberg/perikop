@@ -57,7 +57,7 @@ SpeechUtterance make_utterance(const std::string& text,const std::string& langua
     struct Candidate { const Pronunciation* entry; std::vector<Token> phrase; };
     std::unordered_map<std::string,std::vector<Candidate>> candidates;
     for(const auto& entry:ordered) {
-        if(entry.language!=language||entry.spoken.empty())continue;
+        if(entry.language!=language||(entry.spoken.empty()&&entry.phonemes.empty()))continue;
         auto phrase=tokens(entry.source);
         if(!phrase.empty()){const auto first=phrase.front().folded;candidates[first].push_back({&entry,std::move(phrase)});}
     }
@@ -72,7 +72,8 @@ SpeechUtterance make_utterance(const std::string& text,const std::string& langua
             for(std::size_t j=0;j<phrase.size();++j) {
                 if(phrase[j].folded!=words[i+j].folded || (j && !only_space(text,words[i+j-1].end,words[i+j].begin))) {match=false;break;}
             }
-            if(match){count=phrase.size();replacement=candidate.entry->spoken;break;}
+            // Phonemes go to the Swedish Kokoro front end as one ⟦…⟧ word.
+            if(match){count=phrase.size();replacement=candidate.entry->phonemes.empty()?candidate.entry->spoken:"⟦"+candidate.entry->phonemes+"⟧";break;}
         }
         if(!count){++i;continue;}
         result+=text.substr(copied,words[i].begin-copied);result+=replacement;

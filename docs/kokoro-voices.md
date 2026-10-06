@@ -11,6 +11,9 @@ Python and PyTorch are preparation tools managed by `uv`. The distributed applic
 `src/speech/kokoro_text.cpp` is the native pronunciation stage. It reproduces the pinned upstream text path:
 number spelling, NST lexicon lookup with custom overrides, the neural model for unknown words, word fixes, and the Kokoro symbol remap.
 ONNX Runtime runs the exported pronunciation encoder and decoder.
+The reader adds three changes. Its own number spelling uses standard words, such as `fyrtio` and `ettusen`.
+A capitalized word with a genitive -s uses the lexicon pronunciation of its stem, such as `Sauls`.
+Text in `⟦…⟧` gives exact phonemes from a pronunciation entry. See [the pronunciation review guide](pronunciation-review.md).
 `src/speech/kokoro_audio.cpp` turns the token IDs into audio.
 The preparation script pins the source weights and their revisions. It checks the large source files with SHA-256.
 
@@ -80,7 +83,9 @@ build/cmake/bin/ortho-kokoro-text-probe build/kokoro-pack < lines.txt
 ```
 
 On October 6, 2026 the probe and the pinned upstream Python front end received all 35,515 Swedish 1917 verses.
-The token IDs matched for every verse.
+The token IDs matched for every verse before the reader's three changes.
+After the changes, 207 verses differ, all because of the genitive rule. The verses with digits still match.
+These counts exclude the corpus pronunciation entries, which apply before the front end.
 The native stage processed all verses in 59 seconds, including the lexicon load.
 The reader's Psalm sample with Alice has the same length as the upstream sample. The sample correlation is 0.997.
 
