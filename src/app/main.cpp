@@ -21,8 +21,10 @@ public:
         // Swedish month and weekday names in date controls. This sets only
         // wxWidgets' UI locale; the C locale used for numbers is unchanged.
         wxUILocale::UseLocaleName("sv_SE");
+        // The data directory keeps its pre-Perikop name so settings, voices and caches remain.
         SetAppName("orthodox-reader");
         SetVendorName("orthodox-reader");
+        SetAppDisplayName("Perikop");
         wxInitAllImageHandlers();
         bool smoke = false, reader = false, pronunciation_review = false;
         wxString resource_override, screenshot, speech_probe;
@@ -69,7 +71,7 @@ public:
                 candidates.push_back(executable.parent_path() / "Resources");
 #endif
                 candidates.push_back(executable / "resources");
-                candidates.push_back(executable.parent_path() / "share/orthodox-reader/resources");
+                candidates.push_back(executable.parent_path() / "share/perikop/resources");
                 candidates.emplace_back(ORTHO_RESOURCE_INSTALL_PATH);
             }
             std::filesystem::path resources;
@@ -115,7 +117,7 @@ public:
             if (smoke) {
                 test_path_ = std::filesystem::temp_directory_path() /
                              std::filesystem::path(
-                                 "orthodox-reader-smoke-" +
+                                 "perikop-smoke-" +
                                  std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
                 user_ = std::make_unique<ortho::UserDb>(test_path_ / "user.db");
             } else
@@ -162,7 +164,7 @@ public:
             if (smoke)
                 std::cerr << e.what() << '\n';
             else
-                wxMessageBox(wxString::FromUTF8(e.what()), "Ortodox läsare", wxOK | wxICON_ERROR);
+                wxMessageBox(wxString::FromUTF8(e.what()), "Perikop", wxOK | wxICON_ERROR);
             return false;
         }
     }

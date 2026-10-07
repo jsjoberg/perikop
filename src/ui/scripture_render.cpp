@@ -167,6 +167,55 @@ void ScriptureView::paint(wxPaintEvent&) {
     wxAutoBufferedPaintDC dc(this);
     const auto begin = first_visible();
     draw(dc, GetClientSize(), begin, rows_.size(), positions_.empty() ? 0 : positions_[begin] - offset_);
+    draw_return(dc);
+}
+void ScriptureView::return_button(const wxString& label, bool always) {
+    if (return_label_ == label && return_always_ == always)
+        return;
+    return_label_ = label;
+    return_always_ = always;
+    Refresh(false);
+}
+void ScriptureView::hover_return(bool hover) {
+    if (return_hover_ == hover)
+        return;
+    return_hover_ = hover;
+    SetCursor(hover ? wxCursor(wxCURSOR_HAND) : wxNullCursor);
+    Refresh(false);
+}
+void ScriptureView::draw_return(wxDC& dc) {
+    return_rect_ = {};
+    if (return_label_.empty() || rows_.empty() || (!return_always_ && passage_in_view())) {
+        if (return_hover_)
+            hover_return(false);
+        return;
+    }
+    std::unique_ptr<wxGraphicsContext> gc(
+        wxGraphicsRenderer::GetDefaultRenderer()->CreateContextFromUnknownDC(dc));
+    if (!gc)
+        return;
+    const auto colors = palette(settings_.theme);
+    const auto with_alpha = [](const wxColour& colour, int alpha) {
+        return wxColour(colour.Red(), colour.Green(), colour.Blue(), static_cast<unsigned char>(alpha));
+    };
+    const auto font = ui_font(13);
+    gc->SetFont(font, colors.ink);
+    double width = 0, height = 0;
+    gc->GetTextExtent(return_label_, &width, &height);
+    const int pad_x = FromDIP(26), pad_y = FromDIP(12);
+    const auto size = GetClientSize();
+    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, size.y - FromDIP(30) - int(height) - 2 * pad_y,
+                          int(width) + 2 * pad_x, int(height) + 2 * pad_y);
+    // Mostly see-through until the pointer reaches it.
+    const bool hover = return_hover_;
+    gc->SetBrush(wxBrush(with_alpha(colors.paper, hover ? 245 : 185)));
+    gc->SetPen(
+        gc->CreatePen(wxGraphicsPenInfo(with_alpha(hover ? colors.accent : colors.muted, hover ? 200 : 70))
+                          .Width(FromDIP(100) / 100.0)));
+    gc->DrawRoundedRectangle(return_rect_.x, return_rect_.y, return_rect_.width, return_rect_.height,
+                             return_rect_.height / 2.0);
+    gc->SetFont(font, with_alpha(colors.ink, hover ? 255 : 165));
+    gc->DrawText(return_label_, return_rect_.x + pad_x, return_rect_.y + (return_rect_.height - height) / 2);
 }
 void ScriptureView::render_to(wxDC& dc, wxSize size) {
     prepare_visible();

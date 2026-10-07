@@ -102,12 +102,16 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     // Dragging across verses marks them; a plain click clears the mark.
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& e) {
         SetFocus();
+        return_pressed_ = return_rect_.Contains(e.GetPosition());
+        if (return_pressed_)
+            return;
         drag_anchor_ = verse_at(e.GetPosition());
         dragged_ = false;
         if (drag_anchor_ && !HasCapture())
             CaptureMouse();
     });
     Bind(wxEVT_MOTION, [this](wxMouseEvent& e) {
+        hover_return(!drag_anchor_ && return_rect_.Contains(e.GetPosition()));
         if (!drag_anchor_ || !e.LeftIsDown())
             return;
         const auto verse = verse_at(e.GetPosition());
@@ -119,6 +123,12 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& e) {
         if (HasCapture())
             ReleaseMouse();
+        if (return_pressed_) {
+            return_pressed_ = false;
+            if (return_rect_.Contains(e.GetPosition()) && returned_)
+                returned_();
+            return;
+        }
         if (drag_anchor_ && !dragged_) {
             if (selection_)
                 clear_selection();
@@ -127,6 +137,10 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
                     word_clicked_(*word);
         }
         drag_anchor_.reset();
+    });
+    Bind(wxEVT_LEAVE_WINDOW, [this](wxMouseEvent& e) {
+        hover_return(false);
+        e.Skip();
     });
     Bind(wxEVT_MOUSE_CAPTURE_LOST, [this](wxMouseCaptureLostEvent&) {
         drag_anchor_.reset();

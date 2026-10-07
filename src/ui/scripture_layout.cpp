@@ -188,6 +188,15 @@ void ScriptureView::center_passage() {
     set_position(position);
     target_ = offset_;
 }
+bool ScriptureView::passage_in_view() const {
+    // Rows at the very edges, or under the button, do not count as seen.
+    const double top = offset_ + FromDIP(40), bottom = offset_ + GetClientSize().y - FromDIP(90);
+    for (auto i = first_visible(); i < rows_.size() && positions_[i] < bottom; ++i)
+        if (positions_[i + 1] > top && !rows_[i].heading && rows_[i].ref <= displayed_.last &&
+            displayed_.first <= rows_[i].last)
+            return true;
+    return false;
+}
 void ScriptureView::apply(const Settings& settings) {
     settings_ = settings;
     const auto colors = palette(settings.theme);

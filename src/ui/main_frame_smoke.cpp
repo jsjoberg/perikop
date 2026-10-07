@@ -9,6 +9,7 @@
 #include <wx/dcmemory.h>
 #include <wx/fontenum.h>
 #include <wx/graphics.h>
+#include <wx/menu.h>
 namespace ortho {
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto original = settings_;
@@ -248,12 +249,23 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     SetSize(original_size);
     Layout();
-    // The day page is navigation only; it shows no bottom bar.
+    // The day page keeps the toolbar, with the reader's controls dimmed.
     show_readings();
     for (auto* child : readings_->GetChildren())
         if (auto* control = dynamic_cast<wxButton*>(child); control && control->GetLabel().Contains("Lyssna"))
             ok = false;
-    if (bar_->IsShown() || play_->IsShown() || back_->IsShown())
+    if (!bar_->IsShown() || play_->IsEnabled() || back_->IsEnabled() || panes_.front().second->IsEnabled() ||
+        address_->GetLabel() != ui::utf8(date_swedish(selected_.date())))
+        ok = false;
+    // Right-column symbols toggle, and the Visa menu follows them.
+    toggle_pane("el");
+    if (settings_.parallel != "el" || settings_.word_study)
+        ok = false;
+    toggle_pane("study");
+    if (!settings_.parallel.empty() || !settings_.word_study || !GetMenuBar()->IsChecked(study_item_))
+        ok = false;
+    toggle_pane("study");
+    if (settings_.word_study || !GetMenuBar()->IsChecked(right_item_))
         ok = false;
     settings_.parallel = "";
     apply_settings(false);
@@ -380,10 +392,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.parallel = "el";
     apply_settings(false);
     display_playback({SpeechState::Loading, {}, 0, 0});
-    if (speech_status_->GetLabel() != "Laddar rösten…" || play_->GetLabel() != "Pausa" || !stop_->IsShown())
+    if (address_->GetLabel() != "Laddar rösten…" || play_->GetLabel() != "Pausa" || !stop_->IsShown())
+        ok = false;
+    // During the introduction the address field shows what the voice says.
+    speech_introductions_ = {ui::utf8("Läsning ur Psaltaren, kapitel 23, vers 1 till 6.")};
+    display_playback({SpeechState::Playing, SpeechCue{0, 0, "Ps", "", {23, 1}, {23, 6}, true}, 0, 0.01});
+    if (address_->GetLabel() != speech_introductions_.front())
         ok = false;
     display_playback({SpeechState::Buffering, {}, 0, 0, 0.4});
-    if (speech_status_->GetLabel() != "Förbereder uppläsningen… 40 %" || scripture_->marker_position())
+    if (address_->GetLabel() != "Förbereder uppläsningen… 40 %" || scripture_->marker_position())
         ok = false;
     SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}, false},
                            0.35, 0.4};
@@ -410,7 +427,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 30; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
-        speech_status_->GetLabel() != "Förbereder fortsättningen…")
+        address_->GetLabel() != "Förbereder fortsättningen…")
         ok = false;
     display_playback(playing);
     display_playback(buffering);
@@ -468,7 +485,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     root_->Layout();
     display_playback(paused);
-    for (wxWindow* control : {back_, follow_, play_, stop_})
+    for (wxWindow* control :
+         {static_cast<wxWindow*>(back_), static_cast<wxWindow*>(play_), static_cast<wxWindow*>(stop_),
+          static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
         if (control->IsShown() && control->GetRect().GetRight() > bar_->GetClientSize().x)
             ok = false;
     save_playback("-playing-narrow");

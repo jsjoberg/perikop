@@ -28,7 +28,7 @@ void MainFrame::make_menus() {
         Bjorn,
         Study
     };
-    static const char* languages[] = {"sv", "el", "en"};
+    const auto& languages = column_languages;
     static const char* names[] = {"Svenska", "Grekiska", "Engelska"};
     static const int rates[] = {25, 50, 75, 100, 125, 150, 175, 200};
     // Podcast style: 0,25×, 0,5× … 2×, with a Swedish decimal comma.
@@ -89,6 +89,8 @@ void MainFrame::make_menus() {
     reading->AppendSeparator();
     play_item_ = Play;
     stop_item_ = Stop;
+    right_item_ = Right;
+    study_item_ = Study;
     for (int i = 0; i < 8; ++i) {
         reading->AppendRadioItem(Rate + i, rate_label(rates[i]));
         if (settings_.speech_rate == rates[i])
@@ -109,7 +111,7 @@ void MainFrame::make_menus() {
     SetMenuBar(bar);
     Bind(
         wxEVT_MENU,
-        [this, right](wxCommandEvent& event) {
+        [this](wxCommandEvent& event) {
             const int id = event.GetId();
             if (id == Today) {
                 selected_.select(local_civil_date());
@@ -153,12 +155,9 @@ void MainFrame::make_menus() {
                 settings_.theme = static_cast<Theme>(id - System);
             else if (id >= Left && id < Left + 3) {
                 settings_.primary = languages[id - Left];
-                if (settings_.parallel == settings_.primary) {
+                if (settings_.parallel == settings_.primary)
                     settings_.parallel.clear();
-                    right->Check(Right, true);
-                }
-                for (int i = 0; i < 3; ++i)
-                    right->Enable(Right + 1 + i, settings_.primary != languages[i]);
+                // apply_settings updates the right-column items to match.
                 apply_settings();
                 // The left pane decides the edition and its numbering, so reopen the text.
                 if (scripture_->IsShown() && visible_reading_)

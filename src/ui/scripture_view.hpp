@@ -68,6 +68,13 @@ public:
         word_clicked_ = std::move(callback);
     }
     void highlight_word(std::optional<Word>);
+    // A translucent button floating over the text's lower edge; an empty
+    // label removes it. Unless always shown, it appears only while the
+    // passage is scrolled out of view.
+    void return_button(const wxString& label, bool always);
+    void on_return(std::function<void()> callback) {
+        returned_ = std::move(callback);
+    }
     ~ScriptureView() override;
 
 private:
@@ -112,6 +119,9 @@ private:
     void scrollbar();
     const Layout& row_layout(std::size_t row) const;
     void paint(wxPaintEvent&);
+    bool passage_in_view() const;
+    void draw_return(wxDC&);
+    void hover_return(bool);
     void draw(wxDC&, wxSize, std::size_t begin, std::size_t end, double top) const;
     void invalidate();
     void release_follow();
@@ -135,6 +145,10 @@ private:
     bool following_ = false;
     std::function<void()> release_follow_, selection_changed_;
     std::function<void(const Word&)> word_clicked_;
+    std::function<void()> returned_;
+    wxString return_label_;
+    wxRect return_rect_; // empty while the button is hidden
+    bool return_always_ = false, return_hover_ = false, return_pressed_ = false;
     std::optional<Word> highlighted_;
     std::optional<VerseRef> drag_anchor_;
     std::optional<std::pair<VerseRef, VerseRef>> selection_;

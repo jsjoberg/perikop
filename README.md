@@ -1,4 +1,4 @@
-# Orthodox Reader
+# Perikop
 
 A native Orthodox lectionary reader prototype for Windows, macOS, and Linux.
 The interface uses Swedish labels. Scripture appears in a custom native view with continuous chapter context.
@@ -58,14 +58,14 @@ The default build uses the pinned static library.
 
 ## Run
 
-On macOS, open `build/cmake/bin/Orthodox Reader.app`.
-On Windows or Linux, run `build/cmake/bin/orthodox-reader`.
+On macOS, open `build/cmake/bin/Perikop.app`.
+On Windows or Linux, run `build/cmake/bin/perikop`.
 The executable uses resources beside the executable or inside the macOS application bundle.
 
 For Psalm 23, run:
 
 ```sh
-"build/cmake/bin/Orthodox Reader.app/Contents/MacOS/Orthodox Reader" --reader --date 2026-10-05
+"build/cmake/bin/Perikop.app/Contents/MacOS/Perikop" --reader --date 2026-10-05
 ```
 
 On Windows or Linux, use the platform executable with the same arguments.
@@ -88,6 +88,11 @@ Theme choices are System, Light, and Dark.
 The user database stores the theme, calendar choice, parallel language, and font size.
 The selected date does not persist between launches.
 
+A browser-like toolbar sits at the top of every page. From the left: Back returns to the day page, Lyssna reads aloud, and the address field shows the passage.
+Click the address field to go to another passage. For a reading in several parts, the field is a menu of the parts.
+The symbols on the right choose the right column: word study, Swedish, Greek, or English. Click the chosen symbol again to close the column.
+On the day page, the reader's controls are dimmed.
+
 The day page shows only the date and its readings. The **Kalender** menu moves between days and opens a native date picker.
 The picker's Current date button selects the current date before confirmation.
 The build patches a wxWidgets 3.3.3 macOS bug that over-released Swedish month and weekday names and crashed the date picker.
@@ -101,12 +106,14 @@ Read-aloud is Swedish only. With Greek or English in the left pane, Lyssna is di
 The voice runs through common C++ code on all target platforms. No system voice is used.
 The voices remain a preview pending listening review and remaining platform checks.
 
-Pausa, Fortsätt, and Stoppa control playback. The playback bar shows loading, buffering, and the current verse.
+Pausa, Fortsätt, and Stoppa control playback. The address field shows loading, buffering, the introduction as it is spoken, and the current verse.
+A line along its lower edge shows progress.
 Playback starts after the first audio chunk. The engine generates later chunks during playback, with a buffer of at most two chunks.
 Initial model loading and first-chunk synthesis still take time. If synthesis cannot keep pace, playback waits for the next chunk.
 
 Lyssna opens the passage and follows the spoken text with a soft highlight and a moving margin marker.
-Manual scrolling releases automatic following. Följ uppläsningen returns to the current text.
+Manual scrolling releases automatic following. A translucent Följ uppläsningen button then floats above the text and returns to the current text.
+Without playback, Till läsningen appears in the same place when the passage is scrolled out of view.
 Pause freezes the marker and scrolling. Stop clears the marker and keeps the page position.
 
 Verse boundaries follow audio playback. Movement between lines within a verse is an estimate, because the model supplies no word timestamps.
@@ -160,7 +167,7 @@ The paragraph test compares 39 native layouts with an exhaustive word-boundary o
 Verify real offline Swedish audio generation with Alice without playing it:
 
 ```sh
-"build/cmake/bin/Orthodox Reader.app/Contents/MacOS/Orthodox Reader" --speech-probe /absolute/path/voice.wav
+"build/cmake/bin/Perikop.app/Contents/MacOS/Perikop" --speech-probe /absolute/path/voice.wav
 ```
 
 Use the corresponding executable on Windows or Linux.

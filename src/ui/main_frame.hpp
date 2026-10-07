@@ -3,16 +3,16 @@
 #include "speech/speech.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
+#include "ui/toolbar.hpp"
 #include <chrono>
-#include <wx/button.h>
-#include <wx/choice.h>
 #include <wx/frame.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
-#include <wx/stattext.h>
 #include <wx/timer.h>
 
 namespace ortho {
+// Languages of the two text columns, in menu and toolbar order.
+inline constexpr const char* column_languages[] = {"sv", "el", "en"};
 class MainFrame final : public wxFrame {
 public:
     MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources);
@@ -35,7 +35,11 @@ private:
     std::vector<Pronunciation> speech_lexicon(const std::string&) const;
 
     void initialize_speech();
-    void create_playback_bar();
+    void create_toolbar();
+    void paint_toolbar(wxPaintEvent&);
+    void address_clicked();
+    void select_part(size_t);
+    void toggle_pane(const std::string&);
     void play_speech(const std::vector<Reading>&);
     void play_or_pause();
     void toggle_pause();
@@ -46,7 +50,6 @@ private:
     void display_playback(const SpeechPlayback&);
     void follow_speech();
     void update_bar();
-    void paint_playback(wxPaintEvent&);
 
     const CorpusDb& corpus_;
     UserDb& user_;
@@ -68,6 +71,8 @@ private:
     bool debounce_buffering_ = false;
     std::string speech_message_;
     std::vector<Reading> speech_readings_;
+    // What the voice says before each reading, shown while it is said.
+    std::vector<wxString> speech_introductions_;
     std::optional<std::pair<size_t, size_t>> speech_view_;
     bool following_audio_ = false;
 
@@ -78,13 +83,17 @@ private:
     StudyPanel* study_ = nullptr;
     wxBoxSizer* entries_ = nullptr;
     wxPanel* bar_ = nullptr;
-    wxButton* back_ = nullptr;
-    wxButton* follow_ = nullptr;
-    wxButton* play_ = nullptr;
-    wxButton* stop_ = nullptr;
-    wxStaticText* speech_status_ = nullptr;
-    wxChoice* part_ = nullptr;
+    SymbolButton* back_ = nullptr;
+    SymbolButton* play_ = nullptr;
+    SymbolButton* stop_ = nullptr;
+    AddressBar* address_ = nullptr;
+    // Right-column choices: "study" or a language code.
+    std::vector<std::pair<std::string, SymbolButton*>> panes_;
+    std::vector<wxString> parts_;
+    size_t part_ = 0;
     int play_item_ = 0;
     int stop_item_ = 0;
+    int right_item_ = 0;
+    int study_item_ = 0;
 };
 } // namespace ortho

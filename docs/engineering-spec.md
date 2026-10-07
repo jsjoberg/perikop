@@ -142,7 +142,7 @@ Do not spend time golfing the executable size. “Small” means a normal native
 ## 6. Proposed repository layout
 
 ```text
-orthodox-reader/
+perikop/
 ├── CMakeLists.txt
 ├── README.md
 ├── LICENSE

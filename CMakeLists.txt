@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 13.4 CACHE STRING "Oldest supported macOS with portable speech")
-project(orthodox-reader VERSION 0.5.0 LANGUAGES C CXX)
+project(perikop VERSION 0.5.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -103,13 +103,15 @@ if(ORTHO_BUILD_GUI)
         FetchContent_MakeAvailable(wxWidgets)
         set(ortho_wx wx::adv)
     endif()
-    add_executable(orthodox-reader WIN32 MACOSX_BUNDLE
+    add_executable(perikop WIN32 MACOSX_BUNDLE
         src/app/main.cpp
         src/ui/main_frame.cpp
         src/ui/main_frame_menus.cpp
         src/ui/main_frame_playback.cpp
+        src/ui/main_frame_toolbar.cpp
         src/ui/main_frame_smoke.cpp
         src/ui/controls.cpp
+        src/ui/toolbar.cpp
         src/ui/bible_picker.cpp
         src/ui/date_picker.cpp
         src/ui/scripture_view.cpp
@@ -120,31 +122,31 @@ if(ORTHO_BUILD_GUI)
         src/ui/pronunciation_review.cpp
         src/ui/study_panel.cpp
         src/typesetting/paragraph_layout.cpp)
-    target_link_libraries(orthodox-reader PRIVATE ortho-core ortho-speech ${ortho_wx})
+    target_link_libraries(perikop PRIVATE ortho-core ortho-speech ${ortho_wx})
     if(WIN32)
         enable_language(RC)
-        target_sources(orthodox-reader PRIVATE cmake/reader.rc)
-        target_include_directories(orthodox-reader PRIVATE cmake)
+        target_sources(perikop PRIVATE cmake/reader.rc)
+        target_include_directories(perikop PRIVATE cmake)
     endif()
-    target_compile_definitions(orthodox-reader PRIVATE ORTHO_RESOURCE_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/orthodox-reader/resources")
+    target_compile_definitions(perikop PRIVATE ORTHO_RESOURCE_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/perikop/resources")
     if(APPLE)
         enable_language(OBJCXX)
-        target_sources(orthodox-reader PRIVATE src/ui/native_scroll.mm src/ui/native_icon.mm)
+        target_sources(perikop PRIVATE src/ui/native_scroll.mm src/ui/native_icon.mm)
         set_source_files_properties(src/ui/native_icon.mm PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
-        target_link_libraries(orthodox-reader PRIVATE "-framework CoreText" "-framework CoreFoundation")
-        set_target_properties(orthodox-reader PROPERTIES OUTPUT_NAME "Orthodox Reader"
-            MACOSX_BUNDLE_GUI_IDENTIFIER "org.orthodox-reader.prototype"
+        target_link_libraries(perikop PRIVATE "-framework CoreText" "-framework CoreFoundation")
+        set_target_properties(perikop PROPERTIES OUTPUT_NAME "Perikop"
+            MACOSX_BUNDLE_GUI_IDENTIFIER "org.perikop.prototype"
             MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/cmake/Info.plist.in"
             MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
-        set(resource_destination "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Orthodox Reader.app/Contents/Resources")
+        set(resource_destination "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Perikop.app/Contents/Resources")
         set(ortho_icon_copy COMMAND "${CMAKE_COMMAND}" -E copy_if_different
             "${CMAKE_SOURCE_DIR}/resources/icons/OrthodoxReader.icns" "${resource_destination}/OrthodoxReader.icns")
-        install(TARGETS orthodox-reader BUNDLE DESTINATION .)
+        install(TARGETS perikop BUNDLE DESTINATION .)
     else()
         set(resource_destination "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources")
-        install(TARGETS orthodox-reader RUNTIME DESTINATION bin)
-        install(DIRECTORY resources/ DESTINATION share/orthodox-reader/resources)
+        install(TARGETS perikop RUNTIME DESTINATION bin)
+        install(DIRECTORY resources/ DESTINATION share/perikop/resources)
         # A relocatable Windows archive keeps resources beside its executable.
         if(WIN32)
             install(DIRECTORY resources/ DESTINATION bin/resources)
@@ -157,29 +159,29 @@ if(ORTHO_BUILD_GUI)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"
         ${ortho_icon_copy})
-    add_dependencies(orthodox-reader ortho-resources)
+    add_dependencies(perikop ortho-resources)
     if(APPLE)
-        set_target_properties(orthodox-reader PROPERTIES BUILD_RPATH "@executable_path/../Frameworks" INSTALL_RPATH "@executable_path/../Frameworks")
-        add_custom_command(TARGET orthodox-reader POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:orthodox-reader>/Contents/Frameworks"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ortho_ort_library}" "$<TARGET_BUNDLE_DIR:orthodox-reader>/Contents/Frameworks/libonnxruntime.${ortho_ort_version}.dylib")
+        set_target_properties(perikop PROPERTIES BUILD_RPATH "@executable_path/../Frameworks" INSTALL_RPATH "@executable_path/../Frameworks")
+        add_custom_command(TARGET perikop POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:perikop>/Contents/Frameworks"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ortho_ort_library}" "$<TARGET_BUNDLE_DIR:perikop>/Contents/Frameworks/libonnxruntime.${ortho_ort_version}.dylib")
     elseif(WIN32)
-        add_custom_command(TARGET orthodox-reader POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" "$<TARGET_FILE_DIR:orthodox-reader>/onnxruntime.dll")
+        add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" "$<TARGET_FILE_DIR:perikop>/onnxruntime.dll")
         install(FILES "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" DESTINATION bin)
     else()
-        set_target_properties(orthodox-reader PROPERTIES BUILD_RPATH "$ORIGIN" INSTALL_RPATH "$ORIGIN")
-        add_custom_command(TARGET orthodox-reader POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${ortho_ort_library}" "$<TARGET_FILE_DIR:orthodox-reader>/libonnxruntime.so.1")
+        set_target_properties(perikop PROPERTIES BUILD_RPATH "$ORIGIN" INSTALL_RPATH "$ORIGIN")
+        add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${ortho_ort_library}" "$<TARGET_FILE_DIR:perikop>/libonnxruntime.so.1")
         install(FILES "${ortho_ort_library}" DESTINATION bin RENAME libonnxruntime.so.1)
     endif()
     if(APPLE)
-        install(DIRECTORY "${resource_destination}/" DESTINATION "Orthodox Reader.app/Contents/Resources")
+        install(DIRECTORY "${resource_destination}/" DESTINATION "Perikop.app/Contents/Resources")
     else()
-        install(FILES LICENSE THIRD-PARTY-NOTICES.md DESTINATION share/orthodox-reader/resources)
+        install(FILES LICENSE THIRD-PARTY-NOTICES.md DESTINATION share/perikop/resources)
     endif()
     if(BUILD_TESTING)
-        add_test(NAME ui-smoke COMMAND "$<TARGET_FILE:orthodox-reader>" --smoke-test --resources "${resource_destination}")
+        add_test(NAME ui-smoke COMMAND "$<TARGET_FILE:perikop>" --smoke-test --resources "${resource_destination}")
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT 30)
     endif()
 endif()

@@ -31,7 +31,7 @@ wxString kind_label(ReadingKind kind) {
 } // namespace
 MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
                      const std::filesystem::path& resources)
-    : wxFrame(nullptr, wxID_ANY, "Ortodox läsare", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
+    : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
       user_(user), resources_(resources), lectionary_(corpus), selected_(date), settings_(user.load()),
       playback_timer_(this) {
     SetMinSize(FromDIP(wxSize(520, 480)));
@@ -39,8 +39,10 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     root_->SetFont(ui_font());
     auto* outer = new wxBoxSizer(wxVERTICAL);
     auto* reader = new wxBoxSizer(wxHORIZONTAL);
-    outer->Add(reader, 1, wxEXPAND);
     scripture_ = new ScriptureView(root_, corpus);
+    create_toolbar();
+    outer->Add(bar_, 0, wxEXPAND);
+    outer->Add(reader, 1, wxEXPAND);
     reader->Add(scripture_, 3, wxEXPAND);
     readings_ =
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
@@ -48,8 +50,6 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     entries_ = new wxBoxSizer(wxVERTICAL);
     readings_->SetSizer(entries_);
     outer->Add(readings_, 1, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(68));
-    create_playback_bar();
-    outer->Add(bar_, 0, wxEXPAND);
     make_menus();
     scripture_->on_release_follow([this] {
         following_audio_ = false;
@@ -57,6 +57,14 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     });
     scripture_->on_selection([this] {
         update_bar();
+    });
+    scripture_->on_return([this] {
+        if (active_playback())
+            follow_speech();
+        else {
+            scripture_->center_passage();
+            scripture_->SetFocus();
+        }
     });
     Bind(
         wxEVT_TIMER,
@@ -176,12 +184,12 @@ void MainFrame::open_reading(const Reading& selected) {
     study_->clear();
     update_study();
     reading_title_ = ui::utf8(passage_label(corpus_, reading.segments()));
-    part_->Clear();
+    parts_.clear();
     const auto segments = reading.segments();
     for (std::size_t i = 0; i < segments.size(); ++i)
-        part_->Append(wxString::Format("Del %d · ", int(i + 1)) +
-                      ui::utf8(passage_label(corpus_, {segments[i]})));
-    part_->SetSelection(0);
+        parts_.push_back(wxString::Format("Del %d · ", int(i + 1)) +
+                         ui::utf8(passage_label(corpus_, {segments[i]})));
+    part_ = 0;
     update_bar();
     scripture_->open(reading);
     scripture_->SetFocus();
@@ -235,10 +243,17 @@ void MainFrame::apply_settings(bool persist) {
             wxMessageBox(ui::utf8(e.what()), "Inställningar kunde inte sparas", wxOK | wxICON_ERROR, this);
         }
     }
-    ui::recolor(root_, palette(settings_.theme));
+    const auto colors = palette(settings_.theme);
+    ui::recolor(root_, colors);
+    for (auto* button : {back_, play_, stop_})
+        button->apply(colors);
+    for (auto& [pane, button] : panes_)
+        button->apply(colors);
+    address_->apply(colors);
     scripture_->apply(settings_);
     study_->apply(settings_.theme);
     update_study();
+    update_bar();
 }
 void MainFrame::update_study() {
     const bool shown = settings_.word_study && scripture_->IsShown();

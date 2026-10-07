@@ -6,8 +6,6 @@
 #include <atomic>
 #include <stdexcept>
 #include <wx/app.h>
-#include <wx/dcbuffer.h>
-#include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/weakref.h>
@@ -30,84 +28,6 @@ void MainFrame::play_or_pause() {
         play_speech({reading});
     } else if (scripture_->IsShown())
         play_speech({visible_reading_.value_or(scripture_->reading())});
-}
-void MainFrame::update_bar() {
-    const bool reader = scripture_->IsShown(), active = active_playback();
-    const wxString follow_label = active ? "Följ uppläsningen" : "Till läsningen";
-    const bool marked = reader && scripture_->selection();
-    const wxString play_label = !active ? (marked ? "Läs markering" : "Lyssna")
-                                : (playback_ui_.state == SpeechState::Paused) ? "Fortsätt"
-                                                                              : "Pausa";
-    // Only the Swedish text can be read aloud; Greek and English have no voice.
-    const bool speakable = active || settings_.primary == "sv";
-    if (auto* bar = GetMenuBar()) {
-        bar->SetLabel(play_item_, play_label + "\tCtrl+P");
-        bar->Enable(play_item_, (reader || active) && speakable);
-        bar->Enable(stop_item_, active);
-    }
-    if (play_->IsEnabled() != speakable) {
-        play_->Enable(speakable);
-        play_->SetToolTip(speakable ? ui::utf8("Lyssna, pausa eller fortsätt · mellanslag")
-                                    : ui::utf8("Uppläsning finns bara på svenska"));
-    }
-    bool changed = follow_->GetLabel() != follow_label || play_->GetLabel() != play_label;
-    follow_->SetLabel(follow_label);
-    play_->SetLabel(play_label);
-    const std::pair<wxWindow*, bool> visibility[] = {{bar_, reader || active},
-                                                     {back_, reader},
-                                                     {part_, reader && part_->GetCount() > 1},
-                                                     {follow_, active ? !following_audio_ : reader},
-                                                     {play_, reader || active},
-                                                     {stop_, active}};
-    for (const auto& [control, shown] : visibility)
-        if (control->IsShown() != shown) {
-            control->Show(shown);
-            changed = true;
-        }
-    if (changed) {
-        bar_->Layout();
-        root_->Layout();
-    }
-    wxString location;
-    if (playback_ui_.cue) {
-        const auto& cue = *playback_ui_.cue;
-        if (cue.introduction)
-            location = "Introduktion";
-        else
-            location = ui::utf8(passage_label(corpus_, {{cue.book, cue.verse, cue.verse}}));
-    }
-    // One short line: where the reading is, or what it is waiting for.
-    const wxString ready =
-        playback_ui_.ready > 0 ? wxString::Format(" %d %%", int(playback_ui_.ready * 100)) : wxString{};
-    const wxString idle = scripture_->IsShown() ? reading_title_ : wxString{};
-    wxString title, tooltip;
-    switch (feedback_state_) {
-    case SpeechState::Loading:
-        title = "Laddar rösten…";
-        break;
-    case SpeechState::Buffering:
-        title = (playback_ui_.cue ? "Förbereder fortsättningen…" : "Förbereder uppläsningen…") + ready;
-        tooltip = "Uppläsningen startar när tillräckligt mycket ljud är klart för att den inte ska stanna.";
-        break;
-    case SpeechState::Playing:
-        title = location;
-        break;
-    case SpeechState::Paused:
-        title = location.empty() ? "Pausad" : "Pausad · " + location;
-        break;
-    case SpeechState::Error:
-        title = "Uppläsningen kunde inte fortsätta";
-        tooltip = ui::utf8(speech_message_);
-        break;
-    case SpeechState::Stopped:
-    case SpeechState::Completed:
-    case SpeechState::Idle:
-        title = idle;
-        break;
-    }
-    if (speech_status_->GetLabel() != title)
-        speech_status_->SetLabel(title);
-    speech_status_->SetToolTip(tooltip.empty() ? title : tooltip);
 }
 void MainFrame::speech_status(const std::string& status) {
     if (playback_ui_.state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
@@ -140,7 +60,7 @@ void MainFrame::follow_speech() {
         open_reading(speech_readings_[reading]);
         if (section) {
             scripture_->open_section(section);
-            part_->SetSelection(int(section));
+            part_ = section;
         }
         speech_view_ = std::pair{reading, section};
     }
@@ -176,7 +96,7 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
             open_reading(speech_readings_[view.first]);
             if (view.second) {
                 scripture_->open_section(view.second);
-                part_->SetSelection(int(view.second));
+                part_ = view.second;
             }
             speech_view_ = view;
             following_audio_ = true;
@@ -190,22 +110,6 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     }
     scripture_->playback(playback);
     update_bar();
-    bar_->Refresh(false);
-}
-void MainFrame::paint_playback(wxPaintEvent&) {
-    wxAutoBufferedPaintDC dc(bar_);
-    const auto colors = palette(settings_.theme);
-    dc.SetBackground(wxBrush(colors.paper));
-    dc.Clear();
-    const auto size = bar_->GetClientSize();
-    dc.SetPen(wxPen(colors.rule, 1));
-    dc.DrawLine(0, 0, size.x, 0);
-    // The rule doubles as the progress line while a reading plays.
-    if (active_playback() && playback_ui_.progress > 0) {
-        dc.SetPen(*wxTRANSPARENT_PEN);
-        dc.SetBrush(wxBrush(colors.accent));
-        dc.DrawRectangle(0, 0, int(size.x * playback_ui_.progress), FromDIP(2));
-    }
 }
 void MainFrame::play_speech(const std::vector<Reading>& readings) {
     stop_speech();
@@ -219,6 +123,10 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         const auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
+        speech_introductions_.assign(readings.size(), {});
+        for (const auto& utterance : queue)
+            if (utterance.cue && utterance.cue->introduction)
+                speech_introductions_[utterance.cue->reading] = ui::utf8(utterance.display_text);
         if (!readings.empty()) {
             open_reading(readings.front());
             speech_view_ = std::pair<size_t, size_t>{0, 0};
@@ -236,57 +144,6 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
     }
 }
 
-void MainFrame::create_playback_bar() {
-    // Every control lives in one bottom bar, shown in the reader and during
-    // playback. Day navigation is in the Kalender menu.
-    bar_ = new wxPanel(root_);
-    bar_->SetBackgroundStyle(wxBG_STYLE_PAINT);
-    bar_->Bind(wxEVT_PAINT, &MainFrame::paint_playback, this);
-    auto* bar = new wxBoxSizer(wxHORIZONTAL);
-    const auto add = [&](wxWindow* control, int proportion = 0) {
-        bar->Add(control, proportion, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(8));
-    };
-    back_ = ui::button(bar_, "‹ Läsningar", [this] {
-        show_readings();
-    });
-    add(back_);
-    part_ = new wxChoice(bar_, wxID_ANY);
-    part_->SetName("Läsningens del");
-    part_->Bind(wxEVT_CHOICE, [this](wxCommandEvent&) {
-        following_audio_ = false;
-        scripture_->follow_playback(false);
-        scripture_->open_section(part_->GetSelection());
-        refresh_speech();
-    });
-    add(part_);
-    speech_status_ = new wxStaticText(bar_, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-                                      wxST_ELLIPSIZE_END | wxST_NO_AUTORESIZE);
-    speech_status_->SetFont(ui_font(11));
-    speech_status_->SetMinSize(FromDIP(wxSize(40, -1)));
-    bar->Add(speech_status_, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(8));
-    follow_ = ui::button(bar_, "Följ uppläsningen", [this] {
-        if (active_playback())
-            follow_speech();
-        else {
-            scripture_->center_passage();
-            scripture_->SetFocus();
-        }
-    });
-    add(follow_);
-    play_ = ui::button(bar_, "Lyssna", [this] {
-        play_or_pause();
-    });
-    play_->SetToolTip("Lyssna, pausa eller fortsätt · mellanslag");
-    add(play_);
-    stop_ = ui::button(bar_, "Stoppa", [this] {
-        stop_speech();
-    });
-    stop_->SetToolTip("Avsluta uppläsningen · Escape");
-    bar->Add(stop_, 0, wxALIGN_CENTER_VERTICAL);
-    auto* bar_inset = new wxBoxSizer(wxVERTICAL);
-    bar_inset->Add(bar, 0, wxEXPAND | wxALL, FromDIP(10));
-    bar_->SetSizer(bar_inset);
-}
 void MainFrame::initialize_speech() {
     // The worker copies the shared owner, not wxWeakRef's main-thread tracking data.
     auto weak = std::make_shared<wxWeakRef<MainFrame>>(this);

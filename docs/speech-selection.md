@@ -89,7 +89,7 @@ Pause and buffering hold the marker and page position. Stop removes the marker w
 Automatic scrolling keeps the marker within a comfortable reading band.
 Manual wheel, trackpad, keyboard, and scrollbar input release automatic following.
 Följ uppläsningen returns to the current passage and restores automatic following.
-The playback bar distinguishes initial loading, initial preparation, later buffering, playback, pause, completion, and errors.
+The toolbar address field distinguishes initial loading, initial preparation, later buffering, playback, pause, completion, and errors.
 Brief audio underruns freeze tracking immediately. Buffering feedback appears after 180 milliseconds to prevent flicker.
 The controls use one row in wide windows and two rows in narrow windows.
 
