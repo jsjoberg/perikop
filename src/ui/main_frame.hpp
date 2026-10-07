@@ -78,6 +78,7 @@ private:
     wxPanel* bar_ = nullptr;
     SymbolButton* back_ = nullptr;
     SymbolButton* play_ = nullptr;
+    SymbolButton* pause_ = nullptr;
     SymbolButton* stop_ = nullptr;
     AddressBar* address_ = nullptr;
     // Right-column choices: "study" or a language code.

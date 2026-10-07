@@ -112,6 +112,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_toolbar.cpp
         src/ui/main_frame_smoke.cpp
         src/ui/controls.cpp
+        src/ui/about.cpp
         src/ui/toolbar.cpp
         src/ui/bible_picker.cpp
         src/ui/date_picker.cpp
@@ -129,6 +130,7 @@ if(ORTHO_BUILD_GUI)
         target_sources(perikop PRIVATE cmake/reader.rc)
         target_include_directories(perikop PRIVATE cmake)
     endif()
+    target_compile_definitions(perikop PRIVATE PERIKOP_VERSION="${PROJECT_VERSION}")
     target_compile_definitions(perikop PRIVATE ORTHO_RESOURCE_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/perikop/resources")
     if(APPLE)
         enable_language(OBJCXX)

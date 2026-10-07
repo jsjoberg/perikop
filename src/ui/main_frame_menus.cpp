@@ -1,3 +1,4 @@
+#include "ui/about.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
@@ -108,7 +109,21 @@ void MainFrame::make_menus() {
     bar->Append(bible, "Bibel");
     bar->Append(view, "Visa");
     bar->Append(reading, ui::utf8("Uppläsning"));
+#ifdef __WXOSX__
+    // macOS moves this item to the application menu, where About belongs.
+    calendar->Append(wxID_ABOUT, "Om Perikop");
+#else
+    auto* help = new wxMenu;
+    help->Append(wxID_ABOUT, "Om Perikop");
+    bar->Append(help, ui::utf8("Hjälp"));
+#endif
     SetMenuBar(bar);
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            show_about(this, settings_.theme, resources_);
+        },
+        wxID_ABOUT);
     Bind(
         wxEVT_MENU,
         [this](wxCommandEvent& event) {

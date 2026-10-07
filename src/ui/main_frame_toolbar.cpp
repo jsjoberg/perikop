@@ -5,8 +5,8 @@
 #include <wx/menu.h>
 namespace ortho {
 void MainFrame::create_toolbar() {
-    // One browser-like bar for the whole program. Controls that do not apply
-    // to the day page are dimmed there, not hidden.
+    // One browser-like bar for the whole program: four symbols on each side
+    // of the address field. Controls that do not apply are dimmed, not hidden.
     bar_ = new wxPanel(root_);
     bar_->SetBackgroundStyle(wxBG_STYLE_PAINT);
     bar_->Bind(wxEVT_PAINT, &MainFrame::paint_toolbar, this);
@@ -16,15 +16,20 @@ void MainFrame::create_toolbar() {
     });
     back_->SetToolTip(ui::utf8("Tillbaka till dagens läsningar · Ctrl+L"));
     bar->Add(back_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
+    // Lyssna starts a reading or resumes a paused one; Pausa only pauses.
     play_ = new SymbolButton(bar_, Symbol::Listen, "Lyssna", [this] {
         play_or_pause();
     });
     bar->Add(play_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
+    pause_ = new SymbolButton(bar_, Symbol::Pause, "Pausa", [this] {
+        play_or_pause();
+    });
+    pause_->SetToolTip(ui::utf8("Pausa · mellanslag"));
+    bar->Add(pause_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
     stop_ = new SymbolButton(bar_, Symbol::Stop, "Stoppa", [this] {
         stop_speech();
     });
     stop_->SetToolTip(ui::utf8("Avsluta uppläsningen · Escape"));
-    stop_->Hide();
     bar->Add(stop_, 0, wxALIGN_CENTER_VERTICAL);
     address_ = new AddressBar(bar_, [this] {
         address_clicked();
@@ -95,6 +100,8 @@ void MainFrame::update_bar() {
     const wxString play_label = !active  ? (marked ? "Läs markering" : "Lyssna")
                                 : paused ? "Fortsätt"
                                          : "Pausa";
+    // The toolbar has its own pause button, so its Lyssna never reads "Pausa".
+    const wxString listen_label = active ? wxString("Fortsätt") : play_label;
     // Only the Swedish text can be read aloud; Greek and English have no voice.
     const bool speakable = active || settings_.primary == "sv";
     if (auto* bar = GetMenuBar()) {
@@ -116,20 +123,17 @@ void MainFrame::update_bar() {
         if (control->GetToolTipText() != text)
             control->SetToolTip(text);
     };
-    play_->face(!active ? Symbol::Listen : paused ? Symbol::Resume : Symbol::Pause);
-    if (play_->GetLabel() != play_label)
-        play_->SetLabel(play_label);
-    tooltip_of(play_, speakable ? play_label + ui::utf8(" · mellanslag")
+    if (play_->GetLabel() != listen_label)
+        play_->SetLabel(listen_label);
+    tooltip_of(play_, speakable ? listen_label + ui::utf8(" · mellanslag")
                                 : ui::utf8("Uppläsning finns bara på svenska"));
-    play_->Enable((reader || active) && speakable);
+    play_->Enable(active ? paused : reader && speakable);
+    pause_->Enable(active && !paused);
+    stop_->Enable(active);
     back_->Enable(reader);
     for (auto& [pane, button] : panes_) {
         button->checked(pane == "study" ? settings_.word_study : settings_.parallel == pane);
         button->Enable(reader && pane != settings_.primary);
-    }
-    if (stop_->IsShown() != active) {
-        stop_->Show(active);
-        bar_->Layout();
     }
     scripture_->return_button(active   ? (following_audio_ ? wxString{} : ui::utf8("Följ uppläsningen"))
                               : reader ? ui::utf8("Till läsningen")

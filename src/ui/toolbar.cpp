@@ -56,16 +56,6 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.DrawRoundedRectangle(5, 4, 3.4, 12, 1);
         gc.DrawRoundedRectangle(11.6, 4, 3.4, 12, 1);
         break;
-    case Symbol::Resume: {
-        pen(1.6);
-        auto path = gc.CreatePath();
-        path.MoveToPoint(6.5, 4.2);
-        path.AddLineToPoint(15.8, 10);
-        path.AddLineToPoint(6.5, 15.8);
-        path.CloseSubpath();
-        gc.DrawPath(path);
-        break;
-    }
     case Symbol::Search:
         pen(1.8);
         gc.SetBrush(*wxTRANSPARENT_BRUSH);

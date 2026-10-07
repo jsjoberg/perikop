@@ -246,7 +246,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (auto* child : readings_->GetChildren())
         if (auto* control = dynamic_cast<wxButton*>(child); control && control->GetLabel().Contains("Lyssna"))
             ok = false;
-    if (!bar_->IsShown() || play_->IsEnabled() || back_->IsEnabled() || panes_.front().second->IsEnabled() ||
+    if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
+        back_->IsEnabled() || panes_.front().second->IsEnabled() ||
         address_->GetLabel() != ui::utf8("Gå till bibelställe…"))
         ok = false;
     // Right-column symbols toggle, and the Visa menu follows them.
@@ -378,7 +379,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.parallel = "el";
     apply_settings(false);
     display_playback({SpeechState::Loading, {}, 0, 0});
-    if (address_->GetLabel() != "Laddar rösten…" || play_->GetLabel() != "Pausa" || !stop_->IsShown())
+    // Play, pause and stop stay in place; only what applies is enabled.
+    if (address_->GetLabel() != "Laddar rösten…" || play_->IsEnabled() || !pause_->IsEnabled() ||
+        !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown())
         ok = false;
     // During the introduction the address field shows what the voice says.
     const std::string introduction = "Läsning ur Psaltaren, kapitel 23, vers 1 till 6.";
@@ -407,7 +410,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 30; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
-        play_->GetLabel() != "Fortsätt" || !stop_->IsShown())
+        play_->GetLabel() != "Fortsätt" || !play_->IsEnabled() || pause_->IsEnabled() || !stop_->IsEnabled())
         ok = false;
     auto buffering = playing;
     buffering.state = SpeechState::Buffering;
@@ -460,9 +463,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     root_->Layout();
     display_playback(paused);
-    for (wxWindow* control :
-         {static_cast<wxWindow*>(back_), static_cast<wxWindow*>(play_), static_cast<wxWindow*>(stop_),
-          static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
+    for (wxWindow* control : {static_cast<wxWindow*>(back_), static_cast<wxWindow*>(play_),
+                              static_cast<wxWindow*>(pause_), static_cast<wxWindow*>(stop_),
+                              static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
         if (control->IsShown() && control->GetRect().GetRight() > bar_->GetClientSize().x)
             ok = false;
     save(render(), "-playing-narrow");
@@ -483,7 +486,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     display_playback({SpeechState::Stopped, {}, 0, 0});
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
-    if (scripture_->marker_position() || play_->GetLabel() != "Lyssna" || stop_->IsShown())
+    if (scripture_->marker_position() || play_->GetLabel() != "Lyssna" || !play_->IsEnabled() ||
+        pause_->IsEnabled() || stop_->IsEnabled())
         ok = false;
     std::cout << "Playback presentation: marker, pause, buffering, manual scroll, follow, stop.\n";
     open_psalm();

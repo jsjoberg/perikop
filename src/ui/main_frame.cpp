@@ -245,7 +245,7 @@ void MainFrame::apply_settings(bool persist) {
     }
     const auto colors = palette(settings_.theme);
     ui::recolor(root_, colors);
-    for (auto* button : {back_, play_, stop_})
+    for (auto* button : {back_, play_, pause_, stop_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)
         button->apply(colors);

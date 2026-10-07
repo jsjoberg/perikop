@@ -88,10 +88,12 @@ Theme choices are System, Light, and Dark.
 The user database stores the theme, calendar choice, parallel language, and font size.
 The selected date does not persist between launches.
 
-A browser-like toolbar sits at the top of every page. From the left: Back returns to the day page, Lyssna reads aloud, and the address field shows the passage.
+A browser-like toolbar sits at the top of every page, with four symbols on each side of the address field.
+From the left: Back returns to the day page, then Lyssna, Pausa, and Stoppa control read-aloud. Symbols that do not apply are dimmed.
 Click the address field to go to another passage. For a reading in several parts, the field is a menu of the parts.
 The symbols on the right choose the right column: word study, Swedish, Greek, or English. Click the chosen symbol again to close the column.
 On the day page, the reader's controls are dimmed.
+**Om Perikop** shows the version and every source the program uses, with links. On macOS it is in the application menu; elsewhere it is in **Hjälp**.
 
 The day page shows only the date and its readings. The **Kalender** menu moves between days and opens a native date picker.
 The picker's Current date button selects the current date before confirmation.
