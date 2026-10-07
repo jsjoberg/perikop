@@ -8,7 +8,7 @@ permissions:
 env:
   # Release packages are built for version tags and manual runs.
   PACKAGE: ${{ startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
-  # The prepared voice pack is a release asset of this repository; see "Release packages" in README.md.
+  # The prepared voice pack is a release asset of this repository; see docs/releasing.md.
   VOICE_PACK: kokoro-sv-alice-bjorn-2c7968d-v1
   VOICE_PACK_SHA256: a8a7aefb95bb01f8090b3aa2ea0fbdf8264e16d68518bdf090f4bdf72807a472
 jobs:

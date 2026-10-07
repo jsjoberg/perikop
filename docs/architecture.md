@@ -45,6 +45,20 @@ The Bible and date pickers return selections to the window.
 `controls` contains common native control helpers and UTF-8 conversions.
 wxWidgets owns child windows. The C++ smart pointers own databases and the speech engine.
 
+## Reader layout
+
+Scripture appears in a custom native view with continuous chapter context.
+The reader scrolls in pixels and preserves macOS trackpad precision and momentum.
+Native paragraph fitting uses Knuth–Plass demerits, Liang hyphenation, and fractional native glyph measurements.
+Prose flows across verses. Small inline numbers preserve verse navigation.
+Punctuation protrudes into optical margins.
+The renderer retains book coordinates and at most 192 text layouts.
+It creates no native control for individual verses.
+The [corpus guide](corpus.md#display-metadata-and-limits) describes paragraph metadata and display limits.
+
+The build patches a wxWidgets 3.3.3 macOS bug in the date picker.
+The bug over-released Swedish month and weekday names and caused a crash.
+
 ## Development checks
 
 If `clang-format` is on the executable search path during CMake setup, CMake provides these targets.
