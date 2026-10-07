@@ -89,6 +89,8 @@ if(ORTHO_BUILD_GUI)
         set(wxBUILD_TESTS OFF CACHE STRING "" FORCE)
         set(wxBUILD_DEMOS OFF CACHE BOOL "" FORCE)
         set(wxBUILD_INSTALL OFF CACHE BOOL "" FORCE)
+        # GTK builds leave private fonts off by default; the reader loads its bundled fonts with them.
+        set(wxUSE_PRIVATE_FONTS ON CACHE BOOL "" FORCE)
         foreach(library ZLIB LIBPNG LIBJPEG REGEX NANOSVG)
             set(wxUSE_${library} builtin CACHE STRING "" FORCE)
         endforeach()
