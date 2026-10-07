@@ -145,20 +145,21 @@ void MainFrame::initialize_speech() {
     auto latest_speech = std::make_shared<std::atomic<uint64_t>>(0);
     const auto data_path = ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir());
     pronunciation_review_ = std::make_unique<PronunciationReviewDb>(data_path / "pronunciation-review.db");
-    speech_ = create_portable_speech(data_path, [weak, latest_speech](const SpeechUpdate& update) {
-        auto known = latest_speech->load();
-        while (known < update.sequence && !latest_speech->compare_exchange_weak(known, update.sequence)) {
-        }
-        if (update.sequence < known)
-            return;
-        auto deliver = [weak, latest_speech, update] {
-            if (*weak && latest_speech->load() == update.sequence)
-                (*weak)->speech_status(update.text);
-        };
-        // Delivery must run after the engine releases its mutex, including
-        // Pause and Stop callbacks made on the main thread.
-        wxTheApp->CallAfter(deliver);
-    });
+    speech_ = create_portable_speech(
+        resources_ / "voices", data_path, [weak, latest_speech](const SpeechUpdate& update) {
+            auto known = latest_speech->load();
+            while (known < update.sequence && !latest_speech->compare_exchange_weak(known, update.sequence)) {
+            }
+            if (update.sequence < known)
+                return;
+            auto deliver = [weak, latest_speech, update] {
+                if (*weak && latest_speech->load() == update.sequence)
+                    (*weak)->speech_status(update.text);
+            };
+            // Delivery must run after the engine releases its mutex, including
+            // Pause and Stop callbacks made on the main thread.
+            wxTheApp->CallAfter(deliver);
+        });
     speech_->set_speed(settings_.speech_rate / 100.0);
     speech_->set_voice(settings_.speech_voice);
 }

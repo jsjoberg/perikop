@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
             cache.save(revision, "sv", "Tredje.", {7, 8, 9});
             cache.save(revision, "sv", "Ny läsning.", {10, 11, 12});
         }
-        auto engine = create_portable_speech(data, [](const SpeechUpdate& update) {
+        auto engine = create_portable_speech(data / "voices", data, [](const SpeechUpdate& update) {
             std::lock_guard lock(audio_mutex);
             status = update.text;
             changed.notify_all();

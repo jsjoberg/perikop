@@ -92,7 +92,8 @@ public:
     }
 };
 class PortableSpeech final : public SpeechEngine {
-    std::filesystem::path data_;
+    // The bundled voice pack, and the user data folder that holds the speech cache.
+    std::filesystem::path pack_, data_;
     SpeechStatus callback_;
     mutable std::mutex mutex_;
     std::condition_variable condition_;
@@ -228,7 +229,7 @@ class PortableSpeech final : public SpeechEngine {
                     if (!samples) {
                         if (!kokoro) {
                             report(generation, "Förbereder röstmodellen · " + name, SpeechState::Loading);
-                            kokoro = std::make_unique<Kokoro>(data_ / "voices" / kokoro_pack_id);
+                            kokoro = std::make_unique<Kokoro>(pack_);
                         }
                         report(generation, i ? "Läser med " + name + " · förbereder del " + progress
                                              : "Förbereder läsningen · " + progress);
@@ -303,8 +304,9 @@ class PortableSpeech final : public SpeechEngine {
     }
 
 public:
-    PortableSpeech(std::filesystem::path data, SpeechStatus status)
-        : data_(std::move(data)), callback_(std::move(status)), worker_([this] {
+    PortableSpeech(std::filesystem::path voices, std::filesystem::path data, SpeechStatus status)
+        : pack_(std::move(voices) / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)),
+          worker_([this] {
               run();
           }) {}
     ~PortableSpeech() override {
@@ -329,9 +331,8 @@ public:
         for (const auto& utterance : utterances)
             if (utterance.language != "sv")
                 throw std::runtime_error("Uppläsning finns bara på svenska.");
-        if (!std::filesystem::exists(data_ / "voices" / kokoro_pack_id / "kokoro.onnx"))
-            throw std::runtime_error(
-                "Röstpaketet för Alice och Björn saknas. Installera det för att lyssna offline.");
+        if (!std::filesystem::exists(pack_ / "kokoro.onnx"))
+            throw std::runtime_error("Den här versionen av Perikop byggdes utan rösterna Alice och Björn.");
         {
             std::lock_guard lock(mutex_);
             queue_.insert(queue_.end(), utterances.begin(), utterances.end());
@@ -392,7 +393,7 @@ public:
         std::lock_guard lock(lookup_mutex_);
         try {
             if (!lookup_)
-                lookup_ = std::make_unique<KokoroText>(data_ / "voices" / kokoro_pack_id);
+                lookup_ = std::make_unique<KokoroText>(pack_);
             return lookup_->ipa(text);
         } catch (const std::exception&) {
             return {};
@@ -416,12 +417,13 @@ public:
     }
 };
 } // namespace
-std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& data, SpeechStatus status) {
-    return std::make_unique<PortableSpeech>(data, std::move(status));
+std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& voices,
+                                                     const std::filesystem::path& data, SpeechStatus status) {
+    return std::make_unique<PortableSpeech>(voices, data, std::move(status));
 }
-bool render_speech_probe(const std::filesystem::path& data, const std::filesystem::path& output) {
+bool render_speech_probe(const std::filesystem::path& voices, const std::filesystem::path& output) {
     const auto begin = std::chrono::steady_clock::now();
-    Kokoro model(data / "voices" / kokoro_pack_id);
+    Kokoro model(voices / kokoro_pack_id);
     const auto loaded = std::chrono::steady_clock::now();
     auto samples = model.generate(
         "Herren är min herde, mig skall intet fattas. Han låter mig vila på gröna ängar.", "alice", [] {

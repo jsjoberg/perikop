@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  # Release packages are built for version tags and manual runs.
+  PACKAGE: ${{ startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
 jobs:
   unix:
     strategy:
@@ -17,6 +20,14 @@ jobs:
       - name: Install Linux toolkit headers
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y g++-13 libgtk-3-dev libfontconfig1-dev xvfb
+      - name: Voice pack
+        if: env.PACKAGE == 'true'
+        shell: bash
+        run: |
+          # The prepared pack (about 370 MB) must be at build/kokoro-pack before Configure.
+          # Its CI source is not decided yet; see "Release packages" in README.md.
+          echo "::error::No CI source for the prepared voice pack yet."
+          exit 1
       - name: Configure
         shell: bash
         run: |
@@ -39,7 +50,22 @@ jobs:
         with:
           version: "0.8.16"
       - run: uv run --locked tools/check_resources.py
-      - run: uv run --locked tests/voice_install_test.py
+      - name: Package
+        if: env.PACKAGE == 'true'
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = Linux ]; then
+            tools/package_appimage.sh build/cmake
+          else
+            cpack --config build/cmake/CPackConfig.cmake -B build/package
+          fi
+      - name: Upload package
+        if: env.PACKAGE == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: perikop-${{ runner.os }}
+          path: build/package/Perikop-*
+          if-no-files-found: error
   windows:
     runs-on: windows-2025
     steps:
@@ -56,9 +82,22 @@ jobs:
           $bin = Join-Path $toolchain 'w64devkit/bin'
           $bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Voice pack
+        if: env.PACKAGE == 'true'
+        shell: bash
+        run: |
+          # The prepared pack (about 370 MB) must be at build/kokoro-pack before Configure.
+          # Its CI source is not decided yet; see "Release packages" in README.md.
+          echo "::error::No CI source for the prepared voice pack yet."
+          exit 1
       - name: Configure
         shell: pwsh
-        run: cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe"
+        run: |
+          # onnxruntime.dll needs the Visual C++ runtime; the installer carries it beside the DLL.
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
+          if (-not $runtime) { throw 'Visual C++ runtime not found' }
+          cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)"
       - run: cmake --build build/cmake --parallel 3
       - run: ctest --test-dir build/cmake --output-on-failure
       - name: Install preparation tools
@@ -66,4 +105,18 @@ jobs:
         with:
           version: "0.8.16"
       - run: uv run --locked tools/check_resources.py
-      - run: uv run --locked tests/voice_install_test.py
+      - name: Package
+        if: env.PACKAGE == 'true'
+        shell: pwsh
+        run: |
+          choco install nsis --version=3.11.0 --no-progress -y
+          if ($LASTEXITCODE -ne 0) { throw 'NSIS installation failed' }
+          $env:PATH = "${env:ProgramFiles(x86)}\NSIS;$env:PATH"
+          cpack --config build/cmake/CPackConfig.cmake -B build/package
+      - name: Upload package
+        if: env.PACKAGE == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: perikop-Windows
+          path: build/package/Perikop-*.exe
+          if-no-files-found: error

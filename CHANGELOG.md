@@ -27,9 +27,11 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
 - An option in Visa to turn off the highlight of the text being read aloud.
 - In the book picker, an asterisk on the books outside the Hebrew Bible and a note that names the books without text in the chosen language.
+- Release packages: a DMG for macOS, an installer for Windows, and an AppImage for Linux. Each contains the voices and works offline.
 
 ### Changed
 
 - The program is now called Perikop.
 - The version is 0.1.0 plus the commit until the first release.
+- The Alice and Björn voices are bundled in the application. There is no separate voice installation, and Perikop never uses the network.
 - The play button shows a play symbol, and play, pause, and stop always stay in the toolbar.

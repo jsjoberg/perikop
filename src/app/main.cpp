@@ -83,11 +83,10 @@ public:
             if (resources.empty())
                 throw std::runtime_error("Bundled resources missing. Rebuild or use --resources PATH.");
             if (!speech_probe.empty()) {
-                smoke_exit_ = ortho::render_speech_probe(
-                                  ortho::ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir()),
-                                  ortho::ui::filesystem_path(speech_probe))
-                                  ? 0
-                                  : 1;
+                smoke_exit_ =
+                    ortho::render_speech_probe(resources / "voices", ortho::ui::filesystem_path(speech_probe))
+                        ? 0
+                        : 1;
                 return true;
             }
             for (const auto* file :

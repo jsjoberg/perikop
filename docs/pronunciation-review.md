@@ -23,7 +23,7 @@ The examples use complete words and ignore capitalization.
 The preview uses the Swedish voice selected in the reader, at its normal speed.
 The model can take time to load and generate new audio.
 The status shows model preparation, audio preparation, playback, completion, or an error.
-The installed voice pack is necessary for audio previews.
+The bundled voice pack is necessary for audio previews.
 
 NST SAMPA is reference data.
 The review tool does not convert SAMPA to model input.

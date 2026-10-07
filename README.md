@@ -56,6 +56,38 @@ cmake -S . -B build/cmake \
 For a development build with installed wxWidgets, add `-DORTHO_SYSTEM_WX=ON`.
 The default build uses the pinned static library.
 
+## Release packages
+
+Each package contains the application, its resources, and the Alice and Björn voices. It works offline.
+
+- macOS: `Perikop-0.1.0-macOS-arm64.dmg`. Drag Perikop to Applications.
+- Windows: `Perikop-0.1.0-windows-x64.exe`. The installer puts Perikop in Program Files and adds a Start menu shortcut.
+- Linux: `Perikop-0.1.0-x86_64.AppImage`. Make the file executable, then run it.
+
+Prepare the voice pack and build Perikop first. Then, on macOS or Windows, make the package:
+
+```sh
+cpack --config build/cmake/CPackConfig.cmake -B build/package
+```
+
+On Windows, the installer needs NSIS on the `PATH`.
+ONNX Runtime needs the Visual C++ runtime, so the installer carries it.
+Configure with `-DPERIKOP_MSVC_RUNTIME` set to the `Microsoft.VC143.CRT` folder of a Visual Studio redistributable, for example `VC\Redist\MSVC\<version>\x64\Microsoft.VC143.CRT`.
+
+On Linux, make the AppImage:
+
+```sh
+tools/package_appimage.sh build/cmake
+```
+
+The script downloads pinned linuxdeploy tools and checks their SHA-256 hashes. They copy GTK and the other shared libraries into the image.
+The AppImage runs on distributions with the glibc of its build system or later. Ubuntu 24.04 needs glibc 2.39.
+
+The packages go to `build/package`.
+The macOS application has an ad-hoc signature only. On first launch, open **System Settings → Privacy & Security** and select **Open Anyway**.
+The Windows installer has no signature, so SmartScreen shows a warning.
+CI makes the packages for version tags `v*` and for manual runs.
+
 ## Run
 
 On macOS, open `build/cmake/bin/Perikop.app`.
@@ -130,20 +162,19 @@ Pause freezes the marker and scrolling. Stop clears the marker and keeps the pag
 
 Verse boundaries follow audio playback. Movement between lines within a verse is an estimate, because the model supplies no word timestamps.
 
-A separate SQLite cache accelerates repeat readings. The voice pack needs about 387 MB.
+A separate SQLite cache accelerates repeat readings.
 See [the speech selection record](docs/speech-selection.md) for licensing, alternatives, measurements, and limits.
 
-Prepare and install the Alice and Björn pack as [the Kokoro voice guide](docs/kokoro-voices.md) describes:
+The Alice and Björn voice pack, about 387 MB, is bundled in the application. Perikop never uses the network.
+Prepare the pack before you build, as [the Kokoro voice guide](docs/kokoro-voices.md) describes:
 
 ```sh
 uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
-uv run --locked tools/speech/install_voice.py --source build/kokoro-pack
-uv run --locked tools/speech/install_voice.py --verify
 ```
 
-Use `uv` for all Python preparation and installation commands. It manages Python and the preparation environment.
-The distributed application needs neither Python nor `uv`. Playback uses native C++ and local models.
-The pack remains outside application upgrades in the platform user-data directory.
+The build copies `build/kokoro-pack` into the application. Use `-DPERIKOP_VOICE_PACK=/path/to/pack` for another location.
+Without a pack, CMake warns and builds Perikop without read-aloud.
+Use `uv` for all Python preparation commands. The distributed application needs neither Python nor `uv`.
 Missing or incomplete packs produce a visible message.
 Display text and speech text remain separate.
 The pronunciation example changes `Melkisedek` to `Melki-sedek` for speech only.

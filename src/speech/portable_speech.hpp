@@ -9,6 +9,8 @@ struct SpeechUpdate {
     std::string text;
 };
 using SpeechStatus = std::function<void(const SpeechUpdate&)>;
-std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& user_data, SpeechStatus);
-bool render_speech_probe(const std::filesystem::path& user_data, const std::filesystem::path& output);
+// `voices` is the bundled folder of voice packs; `user_data` holds the speech cache.
+std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& voices,
+                                                     const std::filesystem::path& user_data, SpeechStatus);
+bool render_speech_probe(const std::filesystem::path& voices, const std::filesystem::path& output);
 } // namespace ortho

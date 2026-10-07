@@ -19,11 +19,10 @@ The preparation script pins the source weights and their revisions. It checks th
 
 ```sh
 uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
-uv run --locked tools/speech/install_voice.py --source build/kokoro-pack
-uv run --locked tools/speech/install_voice.py --verify
 ```
 
-The installer checks every file before it exposes the new directory.
+The build bundles the prepared pack in the application's resources, under `voices/` and the pack identifier.
+`-DPERIKOP_VOICE_PACK=/path/to/pack` selects another pack directory. The installed program never downloads anything.
 The prepared pack occupies approximately 387 MB. It contains one acoustic model, two pronunciation models, a lexicon, and two voice tensors.
 Each voice tensor contains 510 styles. Select the style with the phoneme count, as the upstream model requires.
 

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Perikop
+Comment=Orthodox lectionary reader
+Exec=perikop
+Icon=perikop
+Categories=Education;
+Terminal=false
