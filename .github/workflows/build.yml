@@ -50,6 +50,11 @@ jobs:
           else
             ctest --test-dir build/cmake --output-on-failure
           fi
+      - name: Smoke test backtrace
+        if: failure() && runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y gdb
+          xvfb-run -a gdb -batch -ex run -ex bt --args build/cmake/bin/perikop --smoke-test --resources build/cmake/bin/resources
       - name: Install preparation tools
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:

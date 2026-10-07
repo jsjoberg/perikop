@@ -6,3 +6,7 @@
 *.zip binary
 *.icns binary
 *.ico binary
+
+# Pinned upstream files keep their exact bytes; resources/manifest.json records their hashes.
+resources/corpus/provenance/** -text
+resources/licenses/** -text

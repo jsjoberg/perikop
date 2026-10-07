@@ -17,10 +17,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto date = selected_.date();
     open_psalm();
     Layout();
-    bool ok = corpus_.read_only() && wxFontEnumerator::IsValidFacename("Literata") &&
-              wxFontEnumerator::IsValidFacename("IBM Plex Sans") &&
-              wxFontEnumerator::IsValidFacename("Noto Serif Hebrew") &&
-              wxFontEnumerator::IsValidFacename("Noto Sans Math");
+    bool ok = true;
+    // Names the failed check, since the checks otherwise fail silently.
+    const auto fail = [&ok](int line) {
+        std::cerr << "Smoke check failed: main_frame_smoke.cpp:" << line << '\n';
+        ok = false;
+    };
+    if (!corpus_.read_only() || !wxFontEnumerator::IsValidFacename("Literata") ||
+        !wxFontEnumerator::IsValidFacename("IBM Plex Sans") ||
+        !wxFontEnumerator::IsValidFacename("Noto Serif Hebrew") ||
+        !wxFontEnumerator::IsValidFacename("Noto Sans Math"))
+        fail(__LINE__);
     // The reader as drawn in a size, and a copy saved beside the screenshot.
     const auto render = [this](wxSize size = {}) {
         if (size == wxSize{})
@@ -52,14 +59,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         for (std::size_t i = 0; i < layout.lines.size(); ++i) {
             const auto& line = layout.lines[i];
             if (line.width > 281)
-                ok = false;
+                fail(__LINE__);
             if (line.justified) {
                 justified = true;
                 if (std::abs(line.width - 280) > 0.01)
-                    ok = false;
+                    fail(__LINE__);
             }
             if (i + 1 == layout.lines.size() && line.justified)
-                ok = false;
+                fail(__LINE__);
             for (std::size_t w = 0; w < line.runs.size(); ++w) {
                 auto run = line.runs[w].text;
                 if (line.hyphenated && w + 1 == line.runs.size())
@@ -70,7 +77,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         auto original = text;
         original.Replace(" ", "");
         if (recovered != original || !justified)
-            ok = false;
+            fail(__LINE__);
     }
     {
         const std::vector<wxString> words = {"one",   "two",   "three", "four", "five",   "six",
@@ -122,7 +129,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 continue;
             const auto fit = layout_paragraph(metrics, text, width, "no-patterns");
             if (std::abs(fit.demerits - best) > 0.001)
-                ok = false;
+                fail(__LINE__);
             ++verified;
             int greedy = 0;
             double length = 0;
@@ -133,7 +140,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             beats_greedy |= int(fit.lines.front().runs.size()) != greedy;
         }
         if (!verified || !beats_greedy)
-            ok = false;
+            fail(__LINE__);
         std::cout << "Paragraph oracle: " << verified
                   << " globally optimal fits; differs from greedy=" << beats_greedy << "\n";
         const std::vector<TextFragment> spans = {{"I begynnelsen skapade Gud himmel och jord.", "1", 0},
@@ -160,16 +167,16 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             expected += source;
         }
         if (markers != 2 || recovered != expected)
-            ok = false;
+            fail(__LINE__);
     }
     if (hyphenation_points("begynnelsen", "sv").empty() || hyphenation_points("beginning", "en").empty() ||
         hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"), "el").empty())
-        ok = false;
+        fail(__LINE__);
     if (!hyphenation_points("project", "en").empty())
-        ok = false;
+        fail(__LINE__);
     const auto optical = layout_paragraph(metrics, wxString::FromUTF8("“Guds ord.”"), 280, "sv");
     if (optical.lines.front().left_protrusion <= 0 || optical.lines.back().right_protrusion <= 0)
-        ok = false;
+        fail(__LINE__);
     settings_.theme = Theme::Light;
     settings_.parallel = "el";
     apply_settings(false);
@@ -177,13 +184,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const double start = scripture_->scroll_position();
     scripture_->scroll_by(0.375);
     if (std::abs(scripture_->scroll_position() - start - 0.375) > 0.001)
-        ok = false;
+        fail(__LINE__);
     scripture_->scroll_by(-0.375);
     const auto viewport = scripture_->GetClientSize();
     const auto first = render();
     scripture_->scroll_by(17);
     if (std::abs(scripture_->scroll_position() - start - 17) > 0.001)
-        ok = false;
+        fail(__LINE__);
     const auto second = render();
     std::size_t equal = 0, total = 0;
     for (int y = 30; y < viewport.y - 60; ++y)
@@ -195,7 +202,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 ++equal;
         }
     if (total == 0 || double(equal) / total < 0.995)
-        ok = false;
+        fail(__LINE__);
     for (auto theme : {Theme::Light, Theme::Dark, Theme::System})
         for (auto mode : {"", "el", "en"}) {
             settings_.theme = theme;
@@ -204,7 +211,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             scripture_->center_passage();
             const auto size = scripture_->GetClientSize();
             if (size.x < 1 || size.y < 1) {
-                ok = false;
+                fail(__LINE__);
                 continue;
             }
             const auto image = render();
@@ -217,7 +224,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                         image.GetBlue(x, y) != colors.paper.Blue())
                         ++changed;
             if (changed < 200 || scripture_->cached_rows() > 192)
-                ok = false;
+                fail(__LINE__);
             if (!screenshot_path.empty() && std::string(mode) == "el" &&
                 (theme == Theme::Light || theme == Theme::Dark)) {
                 const auto page = render({size.x, 1100});
@@ -237,7 +244,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->center_passage();
     const auto narrow_size = scripture_->GetClientSize();
     if (narrow_size.x < 100 || narrow_size.y < 100)
-        ok = false;
+        fail(__LINE__);
     else
         save(render(), "-narrow");
     SetSize(original_size);
@@ -246,33 +253,33 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     show_readings();
     for (auto* child : readings_->GetChildren())
         if (auto* control = dynamic_cast<wxButton*>(child); control && control->GetLabel().Contains("Lyssna"))
-            ok = false;
+            fail(__LINE__);
     if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
         back_->IsEnabled() || panes_.front().second->IsEnabled() ||
         address_->GetLabel() != ui::utf8("Gå till bibelställe…"))
-        ok = false;
+        fail(__LINE__);
     // The start page offers the three reading plans; a marked part shows as read.
     if (plan_tiles_.size() != 74)
-        ok = false;
+        fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
     refresh_day();
     if (!plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")) ||
         plan_tiles_[1]->GetToolTipText().EndsWith(ui::utf8("läst")))
-        ok = false;
+        fail(__LINE__);
     user_.forget("plan:");
     refresh_day();
     if (plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")))
-        ok = false;
+        fail(__LINE__);
     // Right-column symbols toggle, and the Visa menu follows them.
     toggle_pane("el");
     if (settings_.parallel != "el" || settings_.word_study)
-        ok = false;
+        fail(__LINE__);
     toggle_pane("study");
     if (!settings_.parallel.empty() || !settings_.word_study || !GetMenuBar()->IsChecked(study_item_))
-        ok = false;
+        fail(__LINE__);
     toggle_pane("study");
     if (settings_.word_study || !GetMenuBar()->IsChecked(right_item_))
-        ok = false;
+        fail(__LINE__);
     settings_.parallel = "";
     apply_settings(false);
     for (auto reading : std::vector<Reading>{
@@ -286,7 +293,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         open_reading(reading);
         scripture_->center_passage();
         if (scripture_->cached_rows() == 0)
-            ok = false;
+            fail(__LINE__);
         save(render(), "-" + ui::utf8(reading.passage.book));
     }
     open_reading({ReadingKind::Epistle, {"1Cor", {4, 9}, {4, 16}}, "Första Korintierbrevet 4:9–16"});
@@ -300,7 +307,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             for (int x = 0; x < image.GetWidth(); ++x)
                 if (image.GetRed(x, y) != paper.Red() || image.GetGreen(x, y) != paper.Green() ||
                     image.GetBlue(x, y) != paper.Blue())
-                    ok = false;
+                    fail(__LINE__);
         save(image, "-end");
     }
     // Marked verses replace the reading as what Lyssna reads.
@@ -309,16 +316,16 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto marked = scripture_->selection();
     if (!marked || marked->first != VerseRef{23, 2} || marked->last != VerseRef{23, 4} ||
         play_->GetLabel() != "Läs markering")
-        ok = false;
+        fail(__LINE__);
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
-        ok = false;
+        fail(__LINE__);
     // The left pane's language chooses the edition and its numbering: LXX Psalm 22 is Psalm 23.
     settings_.primary = "el";
     apply_settings(false);
     open_psalm();
     if (scripture_->base_source() != "grc-lxx" || scripture_->reading().passage.first.chapter != 22)
-        ok = false;
+        fail(__LINE__);
     settings_.primary = "sv";
     apply_settings(false);
     // Ordstudium replaces the right pane; a word shows Dalin and the verse's Strong's entries.
@@ -326,7 +333,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     apply_settings(false);
     open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}, "Johannesevangeliet 1:1–5"});
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
-        ok = false;
+        fail(__LINE__);
     study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source(), scripture_->frame());
     {
         const auto lines = study_->text();
@@ -336,7 +343,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             });
         };
         if (!has("DALIN") || !has("begynnelse") || !has("G746"))
-            ok = false;
+            fail(__LINE__);
     }
     study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source(), scripture_->frame());
     {
@@ -348,12 +355,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         };
         if (!has(wxString::FromUTF8("NYSTRÖM 1896")) || !has("Jesus Kristus") || !has("Jesus Justus") ||
             has(wxString::FromUTF8("Ordet finns inte")))
-            ok = false;
+            fail(__LINE__);
         // Long articles begin with a bounded preview; the complete text stays in the database.
         if (std::any_of(lines.begin(), lines.end(), [](const wxString& line) {
                 return line.length() > 520;
             }))
-            ok = false;
+            fail(__LINE__);
     }
     bool expanded = false;
     for (auto* child : study_->GetChildren()) {
@@ -372,7 +379,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (!expanded || std::none_of(lines.begin(), lines.end(), [](const wxString& line) {
                 return line.length() > 520;
             }))
-            ok = false;
+            fail(__LINE__);
     }
     study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source(), scripture_->frame());
     {
@@ -380,12 +387,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (std::none_of(lines.begin(), lines.end(), [](const wxString& line) {
                 return line.Contains("Messias");
             }))
-            ok = false;
+            fail(__LINE__);
     }
     settings_.word_study = false;
     apply_settings(false);
     if (study_->IsShown())
-        ok = false;
+        fail(__LINE__);
     // Exercise playback presentation without model loading or audible output.
     open_psalm();
     settings_.theme = Theme::Light;
@@ -395,17 +402,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // Play, pause and stop stay in place; only what applies is enabled.
     if (address_->GetLabel() != "Laddar rösten…" || play_->IsEnabled() || !pause_->IsEnabled() ||
         !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown())
-        ok = false;
+        fail(__LINE__);
     // During the introduction the address field shows what the voice says.
     const std::string introduction = "Läsning ur Psaltaren, kapitel 23, vers 1 till 6.";
     const SpeechCue introduction_cue{0, 0, "Ps", "", {23, 1}, {23, 6}, true};
     read_aloud_.start({}, {{introduction, introduction, "sv", introduction_cue}});
     display_playback({SpeechState::Playing, introduction_cue, 0, 0.01});
     if (address_->GetLabel() != ui::utf8(introduction))
-        ok = false;
+        fail(__LINE__);
     display_playback({SpeechState::Buffering, {}, 0, 0, 0.4});
     if (address_->GetLabel() != "Förbereder uppläsningen… 40 %" || scripture_->marker_position())
-        ok = false;
+        fail(__LINE__);
     SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}, false},
                            0.35, 0.4};
     following_audio_ = true;
@@ -414,7 +421,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
     if (!scripture_->marker_position() || !scripture_->follows_playback())
-        ok = false;
+        fail(__LINE__);
     const auto held_marker = scripture_->marker_position();
     const auto held_scroll = scripture_->scroll_position();
     auto paused = playing;
@@ -424,7 +431,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
         play_->GetLabel() != "Fortsätt" || !play_->IsEnabled() || pause_->IsEnabled() || !stop_->IsEnabled())
-        ok = false;
+        fail(__LINE__);
     auto buffering = playing;
     buffering.state = SpeechState::Buffering;
     display_playback(buffering);
@@ -432,17 +439,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
         address_->GetLabel() != "Förbereder fortsättningen…")
-        ok = false;
+        fail(__LINE__);
     display_playback(playing);
     display_playback(buffering);
     if (read_aloud_.feedback() != SpeechState::Playing)
-        ok = false;
+        fail(__LINE__);
     read_aloud_.update(buffering, ReadAloud::Clock::now() + std::chrono::seconds(1));
     if (read_aloud_.feedback() != SpeechState::Buffering)
-        ok = false;
+        fail(__LINE__);
     scripture_->scroll_by(20);
     if (scripture_->follows_playback() || following_audio_)
-        ok = false;
+        fail(__LINE__);
     following_audio_ = true;
     display_playback(playing);
     scripture_->follow_playback();
@@ -461,7 +468,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (!scripture_->marker_position() ||
         std::equal(plain.GetData(), plain.GetData() + plain.GetWidth() * plain.GetHeight() * 3,
                    highlighted.GetData()))
-        ok = false;
+        fail(__LINE__);
     save(plain, "-playing-plain");
     settings_.speech_highlight = true;
     settings_.theme = Theme::Dark;
@@ -477,7 +484,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
     if (!scripture_->marker_position())
-        ok = false;
+        fail(__LINE__);
     auto greek = playing;
     greek.cue->source = "grc-lxx";
     greek.cue->verse = greek.cue->last = {22, 3};
@@ -485,7 +492,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
     if (!scripture_->marker_position())
-        ok = false;
+        fail(__LINE__);
     save(render(), "-playing-greek");
     SetSize(FromDIP(wxSize(520, 650)));
     Layout();
@@ -495,7 +502,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                               static_cast<wxWindow*>(pause_), static_cast<wxWindow*>(stop_),
                               static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
         if (control->IsShown() && control->GetRect().GetRight() > bar_->GetClientSize().x)
-            ok = false;
+            fail(__LINE__);
     save(render(), "-playing-narrow");
     SetSize(original_size);
     Layout();
@@ -510,18 +517,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 160; ++i)
         scripture_->advance_playback(0.016);
     if (!scripture_->marker_position() || scripture_->scroll_position() <= held_scroll + 100)
-        ok = false;
+        fail(__LINE__);
     display_playback({SpeechState::Stopped, {}, 0, 0});
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() || play_->GetLabel() != "Lyssna" || !play_->IsEnabled() ||
         pause_->IsEnabled() || stop_->IsEnabled())
-        ok = false;
+        fail(__LINE__);
     std::cout << "Playback presentation: marker, pause, buffering, manual scroll, follow, stop.\n";
     open_psalm();
     settings_ = original;
     apply_settings(false);
-    ok = ok && selected_.date() == date;
+    if (selected_.date() != date)
+        fail(__LINE__);
     return ok;
 }
 } // namespace ortho
