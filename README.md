@@ -87,6 +87,17 @@ The packages go to `build/package`.
 The macOS application has an ad-hoc signature only. On first launch, open **System Settings → Privacy & Security** and select **Open Anyway**.
 The Windows installer has no signature, so SmartScreen shows a warning.
 CI makes the packages for version tags `v*` and for manual runs.
+It downloads the prepared voice pack from a release of this repository and checks its SHA-256 hash.
+To publish a new pack, set `id` to the `id` in its `voice-pack.json`, then archive and upload it on macOS:
+
+```sh
+id=kokoro-sv-alice-bjorn-2c7968d-v1
+COPYFILE_DISABLE=1 tar --no-mac-metadata -czf "build/$id.tar.gz" -C build/kokoro-pack .
+gh release create "$id" "build/$id.tar.gz" --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
+cmake -E sha256sum "build/$id.tar.gz"
+```
+
+Then set `VOICE_PACK` and `VOICE_PACK_SHA256` in `.github/workflows/build.yml`.
 
 ## Run
 
