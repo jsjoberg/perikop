@@ -296,7 +296,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                                                                  : wxString()) +
                             wxString::Format("%d", own.verse) + ui::utf8(own.suffix);
                         if (verse->last)
-                            mark += "–" + wxString::Format("%d", verse->last->verse) +
+                            mark += ui::utf8("–") + wxString::Format("%d", verse->last->verse) +
                                     ui::utf8(verse->last->suffix);
                         number += " (" + mark + ")";
                     }

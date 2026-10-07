@@ -47,8 +47,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     wxClientDC metrics(scripture_);
     metrics.SetFont(body_font(19));
     for (const auto& [language, text] : std::vector<std::pair<std::string, wxString>>{
-             {"sv", "I begynnelsen skapade Gud himmel och jord. Och Gud såg att det var gott. Detta är en "
-                    "längre text för att kontrollera styckets jämna radbrytning och mellanrum."},
+             {"sv",
+              ui::utf8("I begynnelsen skapade Gud himmel och jord. Och Gud såg att det var gott. Detta är en "
+                       "längre text för att kontrollera styckets jämna radbrytning och mellanrum.")},
              {"el", wxString::FromUTF8("Ἐν ἀρχῇ ἦν ὁ Λόγος, καὶ ὁ Λόγος ἦν πρὸς τὸν Θεόν, καὶ Θεὸς ἦν ὁ "
                                        "Λόγος. Οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν Θεόν.")},
              {"en", "In the beginning was the Word, and the Word was with God, and the Word was God. The "
@@ -144,7 +145,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::cout << "Paragraph oracle: " << verified
                   << " globally optimal fits; differs from greedy=" << beats_greedy << "\n";
         const std::vector<TextFragment> spans = {{"I begynnelsen skapade Gud himmel och jord.", "1", 0},
-                                                 {"Och Gud såg att det var gott.", "2", 1}};
+                                                 {ui::utf8("Och Gud såg att det var gott."), "2", 1}};
         const auto paragraph = layout_paragraph(metrics, spans, 280, "sv");
         int markers = 0;
         wxString recovered;
@@ -315,7 +316,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->select_verses({23, 4}, {23, 2});
     const auto marked = scripture_->selection();
     if (!marked || marked->first != VerseRef{23, 2} || marked->last != VerseRef{23, 4} ||
-        play_->GetLabel() != "Läs markering")
+        play_->GetLabel() != ui::utf8("Läs markering"))
         fail(__LINE__);
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
@@ -400,7 +401,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     apply_settings(false);
     display_playback({SpeechState::Loading, {}, 0, 0});
     // Play, pause and stop stay in place; only what applies is enabled.
-    if (address_->GetLabel() != "Laddar rösten…" || play_->IsEnabled() || !pause_->IsEnabled() ||
+    if (address_->GetLabel() != ui::utf8("Laddar rösten…") || play_->IsEnabled() || !pause_->IsEnabled() ||
         !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown())
         fail(__LINE__);
     // During the introduction the address field shows what the voice says.
@@ -411,7 +412,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (address_->GetLabel() != ui::utf8(introduction))
         fail(__LINE__);
     display_playback({SpeechState::Buffering, {}, 0, 0, 0.4});
-    if (address_->GetLabel() != "Förbereder uppläsningen… 40 %" || scripture_->marker_position())
+    if (address_->GetLabel() != ui::utf8("Förbereder uppläsningen… 40 %") || scripture_->marker_position())
         fail(__LINE__);
     SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}, false},
                            0.35, 0.4};
@@ -430,7 +431,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 30; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
-        play_->GetLabel() != "Fortsätt" || !play_->IsEnabled() || pause_->IsEnabled() || !stop_->IsEnabled())
+        play_->GetLabel() != ui::utf8("Fortsätt") || !play_->IsEnabled() || pause_->IsEnabled() ||
+        !stop_->IsEnabled())
         fail(__LINE__);
     auto buffering = playing;
     buffering.state = SpeechState::Buffering;
@@ -438,7 +440,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 30; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
-        address_->GetLabel() != "Förbereder fortsättningen…")
+        address_->GetLabel() != ui::utf8("Förbereder fortsättningen…"))
         fail(__LINE__);
     display_playback(playing);
     display_playback(buffering);

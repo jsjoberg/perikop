@@ -54,7 +54,7 @@ void MainFrame::make_menus() {
     calendar->AppendRadioItem(Old, "Gamla kalendern");
     calendar->Check(settings_.calendar == CalendarStyle::Old ? Old : New, true);
     auto* bible = new wxMenu;
-    bible->Append(Readings, "Dagens läsningar\tCtrl+L");
+    bible->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
     bible->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
     // Two panes: the left one is the text that is read aloud; the right one is optional.
     auto* view = new wxMenu;

@@ -97,11 +97,11 @@ void MainFrame::update_bar() {
     const bool reader = scripture_->IsShown(), active = active_playback();
     const bool marked = reader && scripture_->selection();
     const bool paused = read_aloud_.playback().state == SpeechState::Paused;
-    const wxString play_label = !active  ? (marked ? "Läs markering" : "Lyssna")
-                                : paused ? "Fortsätt"
+    const wxString play_label = !active  ? (marked ? ui::utf8("Läs markering") : "Lyssna")
+                                : paused ? ui::utf8("Fortsätt")
                                          : "Pausa";
     // The toolbar has its own pause button, so its Lyssna never reads "Pausa".
-    const wxString listen_label = active ? wxString("Fortsätt") : play_label;
+    const wxString listen_label = active ? ui::utf8("Fortsätt") : play_label;
     // Only the Swedish text can be read aloud; Greek and English have no voice.
     const bool speakable = active || settings_.primary == "sv";
     if (auto* bar = GetMenuBar()) {

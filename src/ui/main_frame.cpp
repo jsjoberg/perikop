@@ -24,7 +24,7 @@ wxString kind_label(ReadingKind kind) {
     case ReadingKind::Vespers:
         return "VESPER";
     case ReadingKind::EveningPsalm:
-        return "KVÄLL";
+        return ui::utf8("KVÄLL");
     }
     return {};
 }
@@ -149,8 +149,8 @@ void MainFrame::refresh_day() {
     }
     entries_->AddSpacer(FromDIP(28));
     if (day_.readings.empty())
-        entries_->Add(ui::label(readings_, "Ingen daglig bibelläsning är föreskriven", 18), 0, wxBOTTOM,
-                      FromDIP(20));
+        entries_->Add(ui::label(readings_, ui::utf8("Ingen daglig bibelläsning är föreskriven"), 18), 0,
+                      wxBOTTOM, FromDIP(20));
     const auto completed = user_.completed();
     for (const auto& reading : day_.readings) {
         auto* section = ui::label(readings_, kind_label(reading.kind), 10);
@@ -207,7 +207,7 @@ void MainFrame::open_reading(const Reading& selected) {
     parts_.clear();
     const auto segments = reading.segments();
     for (std::size_t i = 0; i < segments.size(); ++i)
-        parts_.push_back(wxString::Format("Del %d · ", int(i + 1)) +
+        parts_.push_back(wxString::Format(ui::utf8("Del %d · "), int(i + 1)) +
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();
@@ -259,7 +259,8 @@ void MainFrame::apply_settings(bool persist) {
         try {
             user_.save(settings_);
         } catch (const std::exception& e) {
-            wxMessageBox(ui::utf8(e.what()), "Inställningar kunde inte sparas", wxOK | wxICON_ERROR, this);
+            wxMessageBox(ui::utf8(e.what()), ui::utf8("Inställningar kunde inte sparas"), wxOK | wxICON_ERROR,
+                         this);
         }
     }
     const auto colors = palette(settings_.theme);

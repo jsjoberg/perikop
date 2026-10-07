@@ -207,7 +207,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
     split->Add(detail, 1, wxEXPAND);
     outer->Add(split, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 16);
     auto* bottom = new wxBoxSizer(wxHORIZONTAL);
-    add_button(bottom, "Exportera TSV…", [&] {
+    add_button(bottom, ui::utf8("Exportera TSV…"), [&] {
         wxFileDialog file(&dialog, ui::utf8("Exportera granskning"), "", "sv1917-uttalsgranskning.tsv",
                           "TSV (*.tsv)|*.tsv", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
         if (file.ShowModal() != wxID_OK)
@@ -231,7 +231,8 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         const auto& word = words[*selected];
         list->SetItemState(long(row), wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
         list->EnsureVisible(long(row));
-        title->SetLabel(ui::utf8(word.form) + wxString::Format(" · %d förekomster", word.occurrences));
+        title->SetLabel(ui::utf8(word.form) +
+                        wxString::Format(ui::utf8(" · %d förekomster"), word.occurrences));
         nst->ChangeValue(word.sampa.empty() ? ui::utf8("NST: uttal saknas")
                                             : ui::utf8("NST SAMPA: " + word.sampa));
         examples = corpus.word_examples(word.form);
@@ -293,7 +294,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         list->Thaw();
         rebuilding = false;
         progress->SetLabel(
-            wxString::Format("%zu ordformer i urvalet · %zu granskade ord · %zu sparade beslut",
+            wxString::Format(ui::utf8("%zu ordformer i urvalet · %zu granskade ord · %zu sparade beslut"),
                              visible.size(), completed.size(), decisions.size()));
         if (!visible.empty()) {
             size_t row = 0;

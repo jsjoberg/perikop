@@ -32,11 +32,12 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
             wxString labels;
             for (const auto& language : languages()) {
                 if (!labels.empty())
-                    labels += "     ·     ";
+                    labels += ui::utf8("     ·     ");
                 const auto source = source_of(language);
-                labels += language == "sv"   ? "SVENSKA 1917"
-                          : language == "en" ? (source == "en-web" ? "WORLD ENGLISH BIBLE" : "KING JAMES")
-                                             : "ΕΛΛΗΝΙΚΑ";
+                labels += language == "sv" ? "SVENSKA 1917"
+                          : language == "en"
+                              ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "KING JAMES")
+                              : ui::utf8("ΕΛΛΗΝΙΚΑ");
             }
             dc.DrawText(labels, (size.x - dc.GetTextExtent(labels).x) / 2, y + FromDIP(93));
         } else {
@@ -56,7 +57,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                     dc.SetFont(ui_font(8));
                     dc.SetTextForeground(colors.muted);
                     dc.DrawText(column.language == "sv"   ? "SVENSKA"
-                                : column.language == "el" ? "ΕΛΛΗΝΙΚΑ"
+                                : column.language == "el" ? ui::utf8("ΕΛΛΗΝΙΚΑ")
                                                           : "ENGLISH",
                                 x + FromDIP(30), text_y);
                     text_y += FromDIP(24);

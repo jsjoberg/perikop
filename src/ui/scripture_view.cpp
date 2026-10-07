@@ -9,7 +9,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS | wxVSCROLL),
       follow_timer_(this), wheel_timer_(this), corpus_(corpus) {
     SetBackgroundStyle(wxBG_STYLE_PAINT);
-    SetName("Kontinuerlig skriftläsare");
+    SetName(wxString::FromUTF8("Kontinuerlig skriftläsare"));
     Bind(wxEVT_PAINT, &ScriptureView::paint, this);
     Bind(wxEVT_SIZE, [this](wxSizeEvent& e) {
         if (layout_width_ != GetClientSize().x)

@@ -5,7 +5,7 @@
 #include <wx/sizer.h>
 namespace ortho {
 std::optional<CivilDate> pick_civil_date(wxWindow* parent, CivilDate current, Theme theme) {
-    wxDialog dialog(parent, wxID_ANY, "Välj civilt datum", wxDefaultPosition, wxDefaultSize,
+    wxDialog dialog(parent, wxID_ANY, ui::utf8("Välj civilt datum"), wxDefaultPosition, wxDefaultSize,
                     wxDEFAULT_DIALOG_STYLE);
     auto* sizer = new wxBoxSizer(wxVERTICAL);
     auto* calendar = new wxCalendarCtrl(

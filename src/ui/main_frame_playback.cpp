@@ -135,7 +135,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         stop_speech();
         read_aloud_.report(error.what());
         display_playback({SpeechState::Error, {}, 0, 0});
-        wxMessageBox(ui::utf8(error.what()), "Uppläsning", wxOK | wxICON_INFORMATION, this);
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Uppläsning"), wxOK | wxICON_INFORMATION, this);
     }
 }
 

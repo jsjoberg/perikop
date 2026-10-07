@@ -193,7 +193,7 @@ void SymbolButton::paint(wxPaintEvent&) {
 AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)
     : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE),
       action_(std::move(action)), colors_(palette(Theme::System)) {
-    SetName("Adressfält");
+    SetName(wxString::FromUTF8("Adressfält"));
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetCursor(wxCursor(wxCURSOR_HAND));
     SetInitialSize();
