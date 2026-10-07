@@ -209,7 +209,7 @@ TextLayout layout_paragraph(wxDC& dc, const wxString& text, int width, const std
 TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments, int width,
                             const std::string& language) {
     TextLayout result;
-    result.line_height = std::max(1, int(dc.GetTextExtent("Ågjἄ").GetHeight() * 1.05));
+    result.line_height = std::max(1, int(dc.GetTextExtent(wxString::FromUTF8("Ågjἄ")).GetHeight() * 1.05));
     width = std::max(1, width);
     std::vector<wxString> words, labels;
     std::vector<int> tags;

@@ -76,7 +76,12 @@ jobs:
           if [ "$RUNNER_OS" = Linux ]; then
             tools/package_appimage.sh build/cmake
           else
-            cpack --config build/cmake/CPackConfig.cmake -B build/package
+            # hdiutil on hosted runners sometimes fails with "Resource busy"; try again.
+            for attempt in 1 2 3; do
+              cpack --config build/cmake/CPackConfig.cmake -B build/package && break
+              [ "$attempt" = 3 ] && exit 1
+              sleep 15
+            done
           fi
       - name: Upload package
         if: env.PACKAGE == 'true'

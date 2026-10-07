@@ -23,11 +23,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::cerr << "Smoke check failed: main_frame_smoke.cpp:" << line << '\n';
         ok = false;
     };
-    if (!corpus_.read_only() || !wxFontEnumerator::IsValidFacename("Literata") ||
-        !wxFontEnumerator::IsValidFacename("IBM Plex Sans") ||
-        !wxFontEnumerator::IsValidFacename("Noto Serif Hebrew") ||
-        !wxFontEnumerator::IsValidFacename("Noto Sans Math"))
+    if (!corpus_.read_only())
         fail(__LINE__);
+    for (const auto* face : {"Literata", "IBM Plex Sans", "Noto Serif Hebrew", "Noto Sans Math"})
+        if (!wxFontEnumerator::IsValidFacename(face)) {
+            std::cerr << "Missing font: " << face << '\n';
+            fail(__LINE__);
+        }
     // The reader as drawn in a size, and a copy saved beside the screenshot.
     const auto render = [this](wxSize size = {}) {
         if (size == wxSize{})

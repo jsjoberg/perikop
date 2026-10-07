@@ -207,9 +207,11 @@ void ScriptureView::scrollbar() {
 }
 void ScriptureView::set_position(double value) {
     prepare_visible();
+    const bool to_end = value >= max_offset();
     offset_ = std::clamp(value, 0.0, max_offset());
     prepare_visible();
-    offset_ = std::clamp(offset_, 0.0, max_offset());
+    // Measured rows can be taller than their estimates; a position past the end stays at the end.
+    offset_ = to_end ? max_offset() : std::clamp(offset_, 0.0, max_offset());
     scrollbar();
     Refresh(false);
 }
