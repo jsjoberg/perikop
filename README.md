@@ -78,6 +78,8 @@ Use the mouse wheel, arrow keys, Page Up, Page Down, Home, or End to move throug
 The brass margin line marks the selected passage.
 The text control adds Greek, English, or all three languages to the selected main edition.
 The Bible action opens a native book, chapter, verse, and edition selector.
+Books outside the Hebrew Bible are marked with an asterisk.
+Books without text in the left pane's language are greyed out, and a note under the grid names them.
 **Hela boken** and **Hela kapitlet**, before the numbers, open a whole book or chapter. Lyssna then reads all of it.
 
 **Visa → Höger spalt → Ordstudium** makes the right pane a lookup panel. Click a word to see its pronunciation, Dalin's 1850 definition and, in the New Testament, the Strong's entries of the verse.
@@ -97,12 +99,12 @@ On the day page, the reader's controls are dimmed.
 
 The day page shows the date, its readings, and three reading plans. The **Kalender** menu moves between days and opens a native date picker.
 
-The reading plans are the New Testament in 30 parts; the Masoretic canon and the New Testament in 30 parts; and more books from the Septuagint in 14 parts.
-The last plan contains the books outside the Hebrew Bible that have Swedish text. First Esdras, Third Maccabees, and Psalm 151 are not in it yet.
+The reading plans are the New Testament in 30 parts, the Masoretic canon in 30 parts, and more books from the Septuagint in 14 parts.
+The last plan contains the books outside the Hebrew Bible that Perikop has in Swedish. First Esdras, Third Maccabees, and Psalm 151 are not in it, because Perikop has no Swedish text for them.
 Plans count parts, not days. Select a numbered part to open it; a part with several books has a section menu in the address field.
 When the voice finishes a part, or you leave a part after you scroll to its end, Perikop asks whether to mark it as read.
 The day's readings are marked in the same way. **Börja om** clears one plan after confirmation.
-The Masoretic-canon plan follows a plan made for the Hebrew text, moved to the same places in the Septuagint's numbering.
+The Masoretic-canon plan keeps the Hebrew Bible's book order. Its parts have about the same length and use the Septuagint's chapter numbers.
 The picker's Current date button selects the current date before confirmation.
 The build patches a wxWidgets 3.3.3 macOS bug that over-released Swedish month and weekday names and crashed the date picker.
 New calendar mode uses the North American Antiochian reading rules.
@@ -121,6 +123,7 @@ Playback starts after the first audio chunk. The engine generates later chunks d
 Initial model loading and first-chunk synthesis still take time. If synthesis cannot keep pace, playback waits for the next chunk.
 
 Lyssna opens the passage and follows the spoken text with a soft highlight and a moving margin marker.
+**Visa → Markera texten som läses upp** turns the highlight off; the margin marker stays, and the text still follows the voice.
 Manual scrolling releases automatic following. A translucent Följ uppläsningen button then floats above the text and returns to the current text.
 Without playback, Till läsningen appears in the same place when the passage is scrolled out of view.
 Pause freezes the marker and scrolling. Stop clears the marker and keeps the page position.
@@ -186,7 +189,7 @@ This test requires the pinned local voice pack. It rejects token-limit truncatio
 
 `resources/corpus/corpus.db` opens in read-only mode.
 `user.db` resides in the platform user-data directory.
-All SQL stays in the storage layer. See `docs/storage.md` for the explicit SQLite policy and migration.
+All SQL stays in the storage layer. See `docs/storage.md` for the explicit SQLite policy.
 
 The corpus contains 35,515 Swedish records, 28,597 Greek OT records, 7,958 Greek NT records, 31,102 KJV records, and 38,029 WEB records.
 The World English Bible includes deuterocanonical books. The Bible browser offers it as a separate edition.

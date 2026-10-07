@@ -23,12 +23,13 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - A translucent button that returns to the passage or to the text being read.
 - Blank space after the end of a book.
 - An About page with the version and links to every source the program uses.
-- Reading plans on the start page: the New Testament in 30 parts; the Masoretic canon and the New Testament in 30 parts, with Septuagint numbering; and the books outside the Hebrew Bible that have Swedish text, in 14 parts.
+- Reading plans on the start page: the New Testament in 30 parts; the Masoretic canon in 30 parts, with Septuagint numbering; and the books outside the Hebrew Bible that have Swedish text, in 14 parts.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
+- An option in Visa to turn off the highlight of the text being read aloud.
+- In the book picker, an asterisk on the books outside the Hebrew Bible and a note that names the books without text in the chosen language.
 
 ### Changed
 
 - The program is now called Perikop.
 - The version is 0.1.0 plus the commit until the first release.
 - The play button shows a play symbol, and play, pause, and stop always stay in the toolbar.
-- The settings database is now version 2. Earlier builds cannot open it.

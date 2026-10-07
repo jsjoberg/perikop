@@ -31,7 +31,7 @@ Greek Daniel, 317 lettered LXX portions, and English deuterocanonical books are 
 One English publisher record contains two joined verse coordinates.
 The resource check asserts each edition's exact record and book counts.
 The database opens read-only. A separate database stores personal settings.
-Migration, explicit SQLite policy, failed-save rollback, and future-version rejection tests pass.
+Explicit SQLite policy, failed-save rollback, and speech-cache future-version rejection tests pass.
 The GUI smoke test also opens lettered Greek text, joined WEB text, and an English-only book.
 
 ## Platform checks

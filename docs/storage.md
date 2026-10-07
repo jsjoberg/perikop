@@ -11,10 +11,8 @@ The verse uniqueness index also serves coordinate lookups. The importer runs `AN
 The read cache allows 8 MiB. The shipped file needs no writable journal or companion files.
 
 `user.db` contains preferences and reading progress in the platform user-data directory.
-Its schema version is 2, and its application identifier is `ORTU`.
-A transaction migrates the original unversioned settings table without discarding values.
-Version 2 adds the `progress` table. Each row is a key, such as `plan:nt:7`, and the local date it was marked as read.
-Unknown future versions and foreign application identifiers cause an error.
+It has no schema versions or migrations until Perikop has users. Opening it creates any missing table as the current code defines it.
+The `progress` table stores a key, such as `plan:nt:7`, and the local date it was marked as read.
 
 The settings connection explicitly enables WAL journaling and `synchronous=FULL`.
 It checkpoints after 64 pages and limits retained journal size to 256 KiB.
@@ -42,7 +40,7 @@ It explicitly uses 4096-byte pages, DELETE journaling, and full synchronization 
 The manifest records the resulting file hash and each input hash.
 The importer rejects unknown Scripture books and unsupported verse labels.
 
-Tests cover preference migration, persistence, reading progress, future-version rejection, and rollback after an interrupted save.
+Tests cover preference persistence, reading progress, and rollback after an interrupted save.
 They also check read-only corpus writes, complete edition endpoints, lettered verses, and joined verse ranges.
 
 These policies follow the [SQLite PRAGMA documentation](https://sqlite.org/pragma.html) and the connection configuration API.

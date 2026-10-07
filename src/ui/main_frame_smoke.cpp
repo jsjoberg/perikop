@@ -448,7 +448,22 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->follow_playback();
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
-    save(render(), "-playing");
+    const auto highlighted = render();
+    save(highlighted, "-playing");
+    // Without the highlight, the reader still follows the voice and keeps the margin marker, but draws no
+    // tint.
+    settings_.speech_highlight = false;
+    apply_settings(false);
+    scripture_->playback(playing);
+    for (int i = 0; i < 90; ++i)
+        scripture_->advance_playback(0.016);
+    const auto plain = render();
+    if (!scripture_->marker_position() ||
+        std::equal(plain.GetData(), plain.GetData() + plain.GetWidth() * plain.GetHeight() * 3,
+                   highlighted.GetData()))
+        ok = false;
+    save(plain, "-playing-plain");
+    settings_.speech_highlight = true;
     settings_.theme = Theme::Dark;
     apply_settings(false);
     scripture_->playback(playing);

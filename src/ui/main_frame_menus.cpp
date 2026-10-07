@@ -27,7 +27,8 @@ void MainFrame::make_menus() {
         Review = Rate + 8,
         Alice,
         Bjorn,
-        Study
+        Study,
+        Highlight
     };
     const auto& languages = column_languages;
     static const char* names[] = {"Svenska", "Grekiska", "Engelska"};
@@ -84,6 +85,9 @@ void MainFrame::make_menus() {
     view->AppendSeparator();
     view->Append(Larger, ui::utf8("Större text\tCtrl++"));
     view->Append(Smaller, "Mindre text\tCtrl+-");
+    view->AppendSeparator();
+    view->AppendCheckItem(Highlight, ui::utf8("Markera texten som läses upp"));
+    view->Check(Highlight, settings_.speech_highlight);
     auto* reading = new wxMenu;
     reading->Append(Play, "Lyssna\tCtrl+P");
     reading->Append(Stop, "Stoppa\tCtrl+.");
@@ -189,6 +193,8 @@ void MainFrame::make_menus() {
                 settings_.font_size = std::min(28, settings_.font_size + 1);
             else if (id == Smaller)
                 settings_.font_size = std::max(14, settings_.font_size - 1);
+            else if (id == Highlight)
+                settings_.speech_highlight = event.IsChecked();
             else if (id >= Rate && id < Rate + 8) {
                 settings_.speech_rate = rates[id - Rate];
                 speech_->set_speed(settings_.speech_rate / 100.0);
@@ -201,6 +207,6 @@ void MainFrame::make_menus() {
             }
             apply_settings();
         },
-        Today, Study);
+        Today, Highlight);
 }
 } // namespace ortho

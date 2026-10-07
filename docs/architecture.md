@@ -6,7 +6,7 @@ The application uses C++23 and wxWidgets. Python tools prepare resources and che
 | --- | --- |
 | `src/app` | Application startup, resources, fonts, and command-line arguments. |
 | `src/core` | Dates, calendar rules, canon coordinates, and passage labels. |
-| `src/storage` | SQLite access, database policies, migrations, and queries. |
+| `src/storage` | SQLite access, database policies, and queries. |
 | `src/speech` | Pronunciation, speech preparation, synthesis, and audio playback. |
 | `src/typesetting` | Paragraph fitting, hyphenation, and text measurements. |
 | `src/ui` | Native controls, dialogs, menus, and reader interaction. |

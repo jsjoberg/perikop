@@ -63,9 +63,12 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 }
                 dc.SetFont(body_font(settings_.font_size));
                 dc.SetTextForeground(colors.ink);
+                // The margin marker, and the tinted spoken line unless the reader turned it off.
                 if (gc && guide_ && guide_->row == index && guide_->column == c && guide_alpha_ > 0.01) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
                     for (const auto& span : guide_->spans) {
+                        if (!settings_.speech_highlight)
+                            break;
                         const double center = positions_[index] + text_y - y + FromDIP(12) +
                                               (span.line + 0.5) * column.text.line_height;
                         const double emphasis =

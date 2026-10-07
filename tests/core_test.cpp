@@ -304,7 +304,7 @@ int main(int argc, char** argv) {
         check(refs.front().chapter == 1 && refs.back().chapter == 24, "adjacent chapter context");
         check(corpus.books().size() >= 80, "full book catalog");
         {
-            // Every part opens and can be read aloud in Swedish, and no chapter is read twice.
+            // Every part opens and can be read aloud in Swedish, and no chapter is in two parts.
             const auto& plans = reading_plans();
             check(plans.size() == 3 && plans[0].parts.size() == 30 && plans[1].parts.size() == 30 &&
                       plans[2].parts.size() == 14,
@@ -312,9 +312,8 @@ int main(int argc, char** argv) {
             const auto no_lexicon = [](const std::string&) {
                 return std::vector<Pronunciation>{};
             };
-            std::map<std::string, std::set<int>> whole_bible;
-            for (const auto& plan : plans) {
-                std::map<std::string, std::set<int>> chapters;
+            std::map<std::string, std::set<int>> covered;
+            for (const auto& plan : plans)
                 for (const auto& part : plan.parts) {
                     const auto reading = plan_reading(corpus, part, "sv");
                     check(reading.segments().size() == part.size(),
@@ -323,16 +322,14 @@ int main(int argc, char** argv) {
                           "plan part cannot be read aloud: " + plan_label(part));
                     for (const auto& range : part)
                         for (int chapter = range.first; chapter <= range.last; ++chapter)
-                            check(chapters[range.book].insert(chapter).second &&
-                                      (plan.id == "nt" || whole_bible[range.book].insert(chapter).second),
-                                  "chapter read twice in a plan: " + range.book);
+                            check(covered[range.book].insert(chapter).second,
+                                  "chapter in two plan parts: " + range.book);
                 }
-            }
             check(plan_label(plans[0].parts[22]) == "2 Tim 4 + Tit 1–3 + Filem + Hebr 1–4",
                   "plan part label");
-            check(plan_key(plans[1], 6) == "plan:full:7", "plan part key");
-            // The Masoretic-canon plan and the further books together cover the Septuagint canon, except
-            // the books that have no Swedish text yet.
+            check(plan_key(plans[1], 6) == "plan:ot:7", "plan part key");
+            // Together the plans cover the Septuagint canon and the New Testament, except the books
+            // that have no Swedish text yet.
             std::vector<std::string> missing;
             for (const auto& book : osb_canon()) {
                 const auto frame = frame_source("sv", book.frame_book);
@@ -341,7 +338,7 @@ int main(int argc, char** argv) {
                     if (book.first_chapter <= ref.chapter && ref.chapter <= book.last_chapter)
                         chapters.insert(ref.chapter - book.offset());
                 for (int chapter : chapters)
-                    if (!whole_bible[book.code].contains(chapter))
+                    if (!covered[book.code].contains(chapter))
                         missing.push_back(book.code + " " + std::to_string(chapter));
             }
             std::string listed;
@@ -528,6 +525,7 @@ int main(int argc, char** argv) {
             s.font_size = 24;
             s.speech_rate = 175;
             s.speech_voice = "bjorn";
+            s.speech_highlight = false;
             user.save(s);
         }
         {
@@ -535,7 +533,7 @@ int main(int argc, char** argv) {
             auto s = user.load();
             check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old && s.primary == "el" &&
                       s.parallel == "en" && s.font_size == 24 && s.speech_rate == 175 &&
-                      s.speech_voice == "bjorn",
+                      s.speech_voice == "bjorn" && !s.speech_highlight,
                   "persisted settings");
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");
@@ -554,29 +552,21 @@ int main(int argc, char** argv) {
                   "forgetting one plan keeps the others");
         }
         std::filesystem::remove(user_path);
-        sqlite3* legacy = nullptr;
-        check(sqlite3_open(user_path.string().c_str(), &legacy) == SQLITE_OK, "legacy preference fixture");
-        check(sqlite3_exec(legacy,
-                           "CREATE TABLE settings(key TEXT PRIMARY KEY,value TEXT NOT NULL); INSERT INTO "
-                           "settings VALUES('theme','dark'),('font_size','25');",
-                           nullptr, nullptr, nullptr) == SQLITE_OK,
-              "legacy preference values");
-        sqlite3_close(legacy);
         {
             UserDb user(user_path);
             auto s = user.load();
-            check(s.theme == Theme::Dark && s.font_size == 25, "migration lost existing preferences");
+            s.theme = Theme::Dark;
+            s.font_size = 25;
+            user.save(s);
             sqlite3* inspect = nullptr;
             sqlite3_open(user_path.string().c_str(), &inspect);
             sqlite3_stmt* query = nullptr;
             sqlite3_prepare_v2(inspect,
-                               "SELECT (SELECT user_version FROM pragma_user_version),(SELECT application_id "
-                               "FROM pragma_application_id),(SELECT strict FROM pragma_table_list WHERE "
-                               "name='settings'),(SELECT journal_mode FROM pragma_journal_mode)",
+                               "SELECT (SELECT strict FROM pragma_table_list WHERE name='settings'),(SELECT "
+                               "journal_mode FROM pragma_journal_mode)",
                                -1, &query, nullptr);
-            check(sqlite3_step(query) == SQLITE_ROW && sqlite3_column_int(query, 0) == 2 &&
-                      sqlite3_column_int(query, 1) == 0x4f525455 && sqlite3_column_int(query, 2) == 1 &&
-                      std::string(reinterpret_cast<const char*>(sqlite3_column_text(query, 3))) == "wal",
+            check(sqlite3_step(query) == SQLITE_ROW && sqlite3_column_int(query, 0) == 1 &&
+                      std::string(reinterpret_cast<const char*>(sqlite3_column_text(query, 1))) == "wal",
                   "settings storage policy");
             sqlite3_finalize(query);
             check(sqlite3_exec(inspect,
@@ -596,17 +586,6 @@ int main(int argc, char** argv) {
             check(rejected && user.load().theme == Theme::Dark && user.load().font_size == 25,
                   "failed save must roll back every preference");
         }
-        std::filesystem::remove(user_path);
-        sqlite3_open(user_path.string().c_str(), &legacy);
-        sqlite3_exec(legacy, "PRAGMA user_version=99", nullptr, nullptr, nullptr);
-        sqlite3_close(legacy);
-        bool future_rejected = false;
-        try {
-            UserDb future(user_path);
-        } catch (const std::exception&) {
-            future_rejected = true;
-        }
-        check(future_rejected, "unknown future settings schema must not be overwritten");
         std::filesystem::remove(user_path);
         const auto cache_path = user_path.parent_path() / std::filesystem::path(u8"test-speech-Å.db");
         std::filesystem::remove(cache_path);
@@ -634,10 +613,11 @@ int main(int argc, char** argv) {
                   "speech cache persists across process restarts");
         }
         const auto cache_utf8 = cache_path.u8string();
-        sqlite3_open(reinterpret_cast<const char*>(cache_utf8.c_str()), &legacy);
-        sqlite3_exec(legacy, "PRAGMA user_version=99", nullptr, nullptr, nullptr);
-        sqlite3_close(legacy);
-        future_rejected = false;
+        sqlite3* future_cache = nullptr;
+        sqlite3_open(reinterpret_cast<const char*>(cache_utf8.c_str()), &future_cache);
+        sqlite3_exec(future_cache, "PRAGMA user_version=99", nullptr, nullptr, nullptr);
+        sqlite3_close(future_cache);
+        bool future_rejected = false;
         try {
             SpeechCache cache(cache_path);
         } catch (const std::exception&) {

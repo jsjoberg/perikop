@@ -118,18 +118,44 @@ std::optional<Reading> pick_bible_reading(wxWindow* parent, const CorpusDb& corp
                 }
         }
         cells(items, 8, groups);
-        // Not yet available in the left pane's language: shown, but greyed out.
+        const auto colors = palette(settings.theme);
+        std::vector<std::string> missing;
+        std::vector<wxButton*> outside;
         for (auto* child : grid->GetChildren())
             if (auto* cell = wxDynamicCast(child, wxButton))
                 for (const auto& [name, book] : cells_books)
                     if (cell->GetLabel() == name) {
                         cell->SetToolTip(ui::utf8(corpus.book_name(book->code)));
+                        if (deuterocanonical_book(book->code))
+                            outside.push_back(cell);
+                        // Without text in the left pane's language: shown, but greyed out.
                         if (!available(*book)) {
                             cell->Disable();
-                            cell->SetToolTip(
-                                ui::utf8(corpus.book_name(book->code) + " · saknas ännu på detta språk"));
+                            missing.push_back(corpus.book_name(book->code));
                         }
                     }
+        const auto note = [&](const wxString& text) {
+            auto* label = ui::label(grid, text, 10);
+            label->SetForegroundColour(colors.muted);
+            label->Wrap(grid->GetSize().x);
+            grid->GetSizer()->Add(label, 0, wxTOP, dialog.FromDIP(10));
+        };
+        // Native buttons ignore text colours, so books outside the Hebrew Bible carry an asterisk.
+        for (auto* cell : outside)
+            cell->SetLabel(cell->GetLabel() + "*");
+        note(ui::utf8("Böcker med * finns i Septuaginta men inte i den hebreiska bibeln."));
+        if (!missing.empty()) {
+            std::string names;
+            for (std::size_t i = 0; i < missing.size(); ++i)
+                names += (i == 0 ? "" : i + 1 == missing.size() ? " och " : ", ") + missing[i];
+            const auto language = settings.primary == "el"   ? "grekisk"
+                                  : settings.primary == "en" ? "engelsk"
+                                                             : "svensk";
+            note(ui::utf8("Gråa böcker har ingen " + std::string(language) + " text i Perikop: " + names +
+                          "."));
+        }
+        dialog.Layout();
+        dialog.Fit();
     };
     show_chapters = [&](CanonBook book) {
         back->Show();

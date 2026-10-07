@@ -5,18 +5,12 @@
 namespace ortho {
 using storage::exec;
 using storage::open;
-using storage::pragma_number;
 using storage::Statement;
 using storage::Transaction;
 UserDb::UserDb(const std::filesystem::path& path) {
     if (!path.parent_path().empty())
         std::filesystem::create_directories(path.parent_path());
     db_ = open(path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
-    const int version = pragma_number(db_.get(), "PRAGMA user_version");
-    const int identity = pragma_number(db_.get(), "PRAGMA application_id");
-    if (version < 0 || version > 2 || (identity != 0 && identity != 0x4f525455) ||
-        (version >= 1 && identity != 0x4f525455))
-        throw std::runtime_error("Unsupported settings database");
     exec(db_.get(), "PRAGMA foreign_keys=ON; PRAGMA cache_size=-256");
     {
         Statement journal(db_.get(), "PRAGMA journal_mode=WAL");
@@ -28,21 +22,10 @@ UserDb::UserDb(const std::filesystem::path& path) {
 #ifdef __APPLE__
     exec(db_.get(), "PRAGMA fullfsync=ON; PRAGMA checkpoint_fullfsync=ON");
 #endif
-    // Version zero is the original settings table. Preserve every stored value.
-    Transaction migration(db_.get());
-    if (pragma_number(db_.get(), "PRAGMA user_version") == 0) {
-        exec(db_.get(),
-             "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);"
-             "ALTER TABLE settings RENAME TO settings_legacy;"
-             "CREATE TABLE settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
-             "INSERT INTO settings SELECT key,value FROM settings_legacy; DROP TABLE settings_legacy;"
-             "PRAGMA application_id=1330795605; PRAGMA user_version=1");
-    }
-    // Version two adds what the reader has marked as read.
-    if (pragma_number(db_.get(), "PRAGMA user_version") == 1)
-        exec(db_.get(), "CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
-                        "PRAGMA user_version=2");
-    migration.commit();
+    // No schema versions or migrations until Perikop has users: the tables are created as they are now.
+    exec(db_.get(),
+         "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
+         "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT");
 }
 std::set<std::string> UserDb::completed() const {
     std::set<std::string> result;
@@ -99,6 +82,8 @@ Settings UserDb::load() const {
             result.speech_voice = value;
         if (key == "word_study")
             result.word_study = value == "1";
+        if (key == "speech_highlight")
+            result.speech_highlight = value != "0";
     }
     if (result.parallel == result.primary)
         result.parallel.clear();
@@ -118,7 +103,8 @@ void UserDb::save(const Settings& settings) {
         {"font_size", std::to_string(settings.font_size)},
         {"speech_rate", std::to_string(settings.speech_rate)},
         {"speech_voice", settings.speech_voice},
-        {"word_study", settings.word_study ? "1" : "0"}};
+        {"word_study", settings.word_study ? "1" : "0"},
+        {"speech_highlight", settings.speech_highlight ? "1" : "0"}};
     Statement query(db_.get(),
                     "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
     for (const auto& [key, value] : values) {

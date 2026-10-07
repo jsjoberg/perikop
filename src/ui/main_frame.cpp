@@ -47,9 +47,12 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     readings_ =
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
     readings_->SetScrollRate(0, FromDIP(12));
+    // The margin is inside the page, so its scrollbar stays at the window edge.
     entries_ = new wxBoxSizer(wxVERTICAL);
-    readings_->SetSizer(entries_);
-    outer->Add(readings_, 1, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(68));
+    auto* page = new wxBoxSizer(wxVERTICAL);
+    page->Add(entries_, 1, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(68));
+    readings_->SetSizer(page);
+    outer->Add(readings_, 1, wxEXPAND);
     make_menus();
     scripture_->on_release_follow([this] {
         following_audio_ = false;
