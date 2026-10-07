@@ -28,7 +28,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
 #else
         const double amount=-double(e.GetWheelRotation())/std::max(1,e.GetWheelDelta())*
             (e.IsPageScroll()?GetClientSize().y*0.85:std::max(1,e.GetLinesPerAction())*FromDIP(30));
-        target_=std::clamp(target_+amount,0.0,std::max(0.0,positions_.empty()?0.0:positions_.back()-GetClientSize().y));
+        target_=std::clamp(target_+amount,0.0,max_offset());
         wheel_timer_.Start(16);
 #endif
     });
@@ -78,7 +78,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         }
         if (key == WXK_END) {
             release_follow();
-            set_position(positions_.empty() ? 0 : positions_.back());
+            set_position(max_offset());
             return;
         }
         if (key == WXK_DOWN) {
@@ -193,18 +193,23 @@ void ScriptureView::prepare_visible() {
         target_ += adjustment;
     }
 }
+double ScriptureView::content_height() const {
+    // The end of a book keeps blank space below it, like the heading space above its first chapter.
+    return positions_.empty() ? 0 : positions_.back() + FromDIP(140);
+}
+double ScriptureView::max_offset() const {
+    return std::max(0.0, content_height() - GetClientSize().y);
+}
 void ScriptureView::scrollbar() {
     const int page = std::max(1, GetClientSize().y);
-    const int total = positions_.empty() ? page : std::max(page, int(std::ceil(positions_.back())));
+    const int total = std::max(page, int(std::ceil(content_height())));
     SetScrollbar(wxVERTICAL, int(std::lround(offset_)), page, total, true);
 }
 void ScriptureView::set_position(double value) {
     prepare_visible();
-    offset_ = std::clamp(value, 0.0,
-                         std::max(0.0, positions_.empty() ? 0.0 : positions_.back() - GetClientSize().y));
+    offset_ = std::clamp(value, 0.0, max_offset());
     prepare_visible();
-    offset_ = std::clamp(offset_, 0.0,
-                         std::max(0.0, positions_.empty() ? 0.0 : positions_.back() - GetClientSize().y));
+    offset_ = std::clamp(offset_, 0.0, max_offset());
     scrollbar();
     Refresh(false);
 }

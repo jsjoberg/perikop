@@ -89,7 +89,7 @@ void ScriptureView::locate_playback() {
         guide_y_ += adjustment;
     }
     const auto& layout = row_layout(index);
-    const bool stacked = (GetClientSize().x - 2 * outside_margin()) / columns_count() < 270;
+    const bool stacked = stacked_columns();
     double y = positions_[index] + FromDIP(12);
     for (size_t c = 0; c < layout.columns.size(); ++c) {
         const auto& column = layout.columns[c];
@@ -101,7 +101,7 @@ void ScriptureView::locate_playback() {
             for (size_t line = 0; line < column.text.lines.size(); ++line) {
                 GuideSpan span{line, std::numeric_limits<double>::max(), 0, 0};
                 for (const auto& run : column.text.lines[line].runs) {
-                    if (run.tag < 0 || size_t(run.tag) >= column.verses.size() || column.hebrew[run.tag])
+                    if (!column.main_text(run.tag))
                         continue;
                     const auto& [first, last] = column.verses[run.tag];
                     if (speech_range_.first > last || speech_range_.second < first)
@@ -139,8 +139,7 @@ void ScriptureView::locate_playback() {
     guide_.reset();
 }
 void ScriptureView::advance_playback(double seconds) {
-    const bool active = playback_.state == SpeechState::Playing || playback_.state == SpeechState::Paused ||
-                        playback_.state == SpeechState::Buffering || playback_.state == SpeechState::Loading;
+    const bool active = speech_active(playback_.state);
     const auto ease = [seconds](double rate) {
         return 1 - std::exp(-std::clamp(seconds, 0.0, 0.1) * rate);
     };
@@ -154,8 +153,7 @@ void ScriptureView::advance_playback(double seconds) {
             const double height = GetClientSize().y, screen = guide_->y - offset_;
             if (screen > height * 0.56 || screen < height * 0.22)
                 follow_target_ = guide_->y - height * 0.38;
-            const double limit = std::max(0.0, positions_.back() - height);
-            follow_target_ = std::clamp(follow_target_, 0.0, limit);
+            follow_target_ = std::clamp(follow_target_, 0.0, max_offset());
             if (std::abs(follow_target_ - offset_) > 0.1) {
                 set_position(offset_ + (follow_target_ - offset_) * ease(8));
                 target_ = offset_;

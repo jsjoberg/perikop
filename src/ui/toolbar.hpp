@@ -6,7 +6,7 @@
 #include <wx/control.h>
 
 namespace ortho {
-enum class Symbol { Back, Listen, Pause, Resume, Stop, Study };
+enum class Symbol { Back, Listen, Pause, Resume, Stop, Study, Search };
 
 // A borderless, browser-style toolbar button. It draws a symbol, or short
 // text such as a language code, in the theme's colours. The label is its
@@ -34,13 +34,13 @@ private:
     bool checked_ = false, hover_ = false, pressed_ = false;
 };
 
-// The address field: what is shown or read, or a list of a reading's parts.
-// The label is the displayed text.
+// The address field: what is shown or read, and the way to another passage.
+// As a dropdown it lists a reading's parts; otherwise a magnifier marks it
+// as the passage search. The label is the displayed text.
 class AddressBar final : public wxControl {
 public:
     AddressBar(wxWindow* parent, std::function<void()> action);
-    // Clickable fields show a hand cursor; muted ones are informational.
-    void show(const wxString& text, bool dropdown, bool clickable, bool muted);
+    void show(const wxString& text, bool dropdown);
     // Spoken share of the current reading; 0 hides the line.
     void progress(double);
     void apply(const Palette&);
@@ -56,6 +56,6 @@ private:
     std::function<void()> action_;
     Palette colors_;
     double progress_ = 0;
-    bool dropdown_ = false, clickable_ = false, muted_ = false, hover_ = false;
+    bool dropdown_ = false, hover_ = false;
 };
 } // namespace ortho

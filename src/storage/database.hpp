@@ -9,6 +9,8 @@ struct SqliteCloser {
     void operator()(sqlite3*) const;
 };
 using DatabaseHandle = std::unique_ptr<sqlite3, SqliteCloser>;
+// parallel_verse's error for a verse that the edition's previous verse already includes.
+inline constexpr const char* merged_verse = "Ingår i föregående vers";
 struct WordExample {
     std::string book;
     Verse verse;

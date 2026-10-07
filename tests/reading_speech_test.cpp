@@ -1,4 +1,5 @@
 #include "core/reading_display.hpp"
+#include "speech/read_aloud.hpp"
 #include "speech/reading_speech.hpp"
 #include "storage/database.hpp"
 #include <iostream>
@@ -88,6 +89,44 @@ int main(int argc, char** argv) {
         }
         check(rejected, "A passage without Swedish text must report that no speech is available");
         check(reading_speech(corpus, {}, lexicon).empty(), "An empty batch must contain no utterances");
+
+        ReadAloud read_aloud;
+        check(!read_aloud.status(corpus), "Nothing being read must leave the address field to the window");
+        read_aloud.start({sections, psalm}, batch);
+        read_aloud.update({SpeechState::Loading, {}, 0, 0});
+        check(read_aloud.status(corpus)->title == "Laddar rösten…", "Loading must be shown");
+        read_aloud.update({SpeechState::Buffering, {}, 0, 0, 0.4});
+        check(read_aloud.status(corpus)->title == "Förbereder uppläsningen… 40 %" &&
+                  !read_aloud.status(corpus)->tooltip.empty(),
+              "Startup buffering must be shown at once with its share of ready audio");
+        read_aloud.update({SpeechState::Playing, batch[4].cue, 0, 0.5});
+        check(read_aloud.status(corpus)->title == batch[4].display_text,
+              "An introduction must show what the voice says");
+        read_aloud.update({SpeechState::Paused, batch[1].cue, 0, 0.1});
+        check(read_aloud.status(corpus)->title ==
+                  "Pausad · " + passage_label(corpus, {{"John", {1, 1}, {1, 1}}}),
+              "A paused verse must show where the reading is");
+        const auto start = ReadAloud::Clock::now();
+        read_aloud.update({SpeechState::Playing, batch[2].cue, 0, 0.2}, start);
+        read_aloud.update({SpeechState::Buffering, batch[2].cue, 0, 0.2}, start);
+        read_aloud.update({SpeechState::Buffering, batch[2].cue, 0, 0.2},
+                          start + std::chrono::milliseconds(179));
+        check(read_aloud.feedback() == SpeechState::Playing,
+              "A brief gap during playback must read as playing");
+        read_aloud.update({SpeechState::Buffering, batch[2].cue, 0, 0.2},
+                          start + std::chrono::milliseconds(180));
+        check(read_aloud.feedback() == SpeechState::Buffering &&
+                  read_aloud.status(corpus)->title == "Förbereder fortsättningen…",
+              "A lasting gap must be shown as buffering");
+        read_aloud.report("Ljudet försvann");
+        read_aloud.update({SpeechState::Error, {}, 0, 0});
+        check(read_aloud.status(corpus)->tooltip == "Ljudet försvann", "An error must keep its message");
+        read_aloud.update({SpeechState::Stopped, {}, 0, 0});
+        check(!read_aloud.status(corpus) && read_aloud.readings().size() == 2,
+              "A stopped queue must leave the address field to the window");
+        read_aloud.start({}, {{"", "", "sv", SpeechCue{0, 0, "Ps", "", {22, 1}, {22, 6}, true}}});
+        read_aloud.update({SpeechState::Playing, SpeechCue{0, 0, "Ps", "", {22, 1}, {22, 6}, true}, 0, 0});
+        check(read_aloud.status(corpus)->title == "Introduktion", "An unspoken introduction must be named");
         std::cout << "Reading speech checks passed\n";
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

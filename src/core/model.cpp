@@ -88,4 +88,7 @@ std::string source_for_language(const std::string& language, const std::string& 
         return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
     return {};
 }
+std::string source_language(const std::string& source) {
+    return source.starts_with("grc") ? "el" : source.starts_with("en") ? "en" : "sv";
+}
 } // namespace ortho

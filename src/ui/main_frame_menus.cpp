@@ -114,9 +114,7 @@ void MainFrame::make_menus() {
         [this](wxCommandEvent& event) {
             const int id = event.GetId();
             if (id == Today) {
-                selected_.select(local_civil_date());
-                show_readings();
-                refresh_day();
+                select_day(local_civil_date());
                 return;
             }
             if (id == Previous || id == Next) {

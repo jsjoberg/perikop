@@ -162,7 +162,7 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
     if (map && map->to.book.empty())
         return std::unexpected(to == "grc-lxx" ? "Saknas i Septuaginta" : "Saknas i denna utgåva");
     if (map && map->kind == AlignmentKind::Merged && ref != map->from.first)
-        return std::unexpected("Ingår i föregående vers");
+        return std::unexpected(merged_verse);
     if (!map && !same_numbering(from, to, book))
         return std::unexpected("Ingen belagd textmappning");
     const auto targets = counterparts(from, to, book, ref);

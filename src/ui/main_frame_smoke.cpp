@@ -20,6 +20,21 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
               wxFontEnumerator::IsValidFacename("IBM Plex Sans") &&
               wxFontEnumerator::IsValidFacename("Noto Serif Hebrew") &&
               wxFontEnumerator::IsValidFacename("Noto Sans Math");
+    // The reader as drawn in a size, and a copy saved beside the screenshot.
+    const auto render = [this](wxSize size = {}) {
+        if (size == wxSize{})
+            size = scripture_->GetClientSize();
+        wxBitmap bitmap(size.x, size.y);
+        {
+            wxMemoryDC dc(bitmap);
+            scripture_->render_to(dc, size);
+        }
+        return bitmap.ConvertToImage();
+    };
+    const auto save = [&](const wxImage& image, const wxString& suffix) {
+        if (!screenshot_path.empty())
+            ok = image.SaveFile(screenshot_path.BeforeLast('.') + suffix + ".png", wxBITMAP_TYPE_PNG) && ok;
+    };
     // Native drawing must use the same shaped widths as paragraph fitting.
     wxClientDC metrics(scripture_);
     metrics.SetFont(body_font(19));
@@ -164,19 +179,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         ok = false;
     scripture_->scroll_by(-0.375);
     const auto viewport = scripture_->GetClientSize();
-    wxBitmap before(viewport.x, viewport.y), after(viewport.x, viewport.y);
-    {
-        wxMemoryDC dc(before);
-        scripture_->render_to(dc, viewport);
-    }
+    const auto first = render();
     scripture_->scroll_by(17);
     if (std::abs(scripture_->scroll_position() - start - 17) > 0.001)
         ok = false;
-    {
-        wxMemoryDC dc(after);
-        scripture_->render_to(dc, viewport);
-    }
-    const auto first = before.ConvertToImage(), second = after.ConvertToImage();
+    const auto second = render();
     std::size_t equal = 0, total = 0;
     for (int y = 30; y < viewport.y - 60; ++y)
         for (int x = 0; x < viewport.x; ++x) {
@@ -199,11 +206,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 ok = false;
                 continue;
             }
-            wxBitmap bitmap(size.x, size.y);
-            wxMemoryDC dc(bitmap);
-            scripture_->render_to(dc, size);
-            dc.SelectObject(wxNullBitmap);
-            auto image = bitmap.ConvertToImage();
+            const auto image = render();
             const auto colors = palette(settings_.theme);
             std::size_t changed = 0;
             for (int y = 0; y < image.GetHeight(); ++y)
@@ -216,14 +219,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 ok = false;
             if (!screenshot_path.empty() && std::string(mode) == "el" &&
                 (theme == Theme::Light || theme == Theme::Dark)) {
-                const wxSize page_size(size.x, 1100);
-                wxBitmap page(page_size.x, page_size.y);
-                wxMemoryDC page_dc(page);
-                scripture_->render_to(page_dc, page_size);
-                page_dc.SelectObject(wxNullBitmap);
-                const wxString output =
-                    theme == Theme::Light ? screenshot_path : screenshot_path.BeforeLast('.') + "-dark.png";
-                ok = page.ConvertToImage().SaveFile(output, wxBITMAP_TYPE_PNG) && ok;
+                const auto page = render({size.x, 1100});
+                if (theme == Theme::Light)
+                    ok = page.SaveFile(screenshot_path, wxBITMAP_TYPE_PNG) && ok;
+                else
+                    save(page, "-dark");
             }
         }
     const auto original_size = GetSize();
@@ -237,16 +237,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto narrow_size = scripture_->GetClientSize();
     if (narrow_size.x < 100 || narrow_size.y < 100)
         ok = false;
-    else {
-        wxBitmap bitmap(narrow_size.x, narrow_size.y);
-        wxMemoryDC dc(bitmap);
-        scripture_->render_to(dc, narrow_size);
-        dc.SelectObject(wxNullBitmap);
-        if (!screenshot_path.empty())
-            ok = bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.') + "-narrow.png",
-                                                  wxBITMAP_TYPE_PNG) &&
-                 ok;
-    }
+    else
+        save(render(), "-narrow");
     SetSize(original_size);
     Layout();
     // The day page keeps the toolbar, with the reader's controls dimmed.
@@ -255,7 +247,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (auto* control = dynamic_cast<wxButton*>(child); control && control->GetLabel().Contains("Lyssna"))
             ok = false;
     if (!bar_->IsShown() || play_->IsEnabled() || back_->IsEnabled() || panes_.front().second->IsEnabled() ||
-        address_->GetLabel() != ui::utf8(date_swedish(selected_.date())))
+        address_->GetLabel() != ui::utf8("Gå till bibelställe…"))
         ok = false;
     // Right-column symbols toggle, and the Visa menu follows them.
     toggle_pane("el");
@@ -281,27 +273,21 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->center_passage();
         if (scripture_->cached_rows() == 0)
             ok = false;
-        const auto size = scripture_->GetClientSize();
-        wxBitmap bitmap(size.x, size.y);
-        wxMemoryDC dc(bitmap);
-        scripture_->render_to(dc, size);
-        dc.SelectObject(wxNullBitmap);
-        if (!screenshot_path.empty())
-            ok = bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.') + "-" +
-                                                      ui::utf8(reading.passage.book) + ".png",
-                                                  wxBITMAP_TYPE_PNG) &&
-                 ok;
+        save(render(), "-" + ui::utf8(reading.passage.book));
     }
     open_reading({ReadingKind::Epistle, {"1Cor", {4, 9}, {4, 16}}, "Första Korintierbrevet 4:9–16"});
-    if (!screenshot_path.empty()) {
-        const auto size = scripture_->GetClientSize();
-        wxBitmap bitmap(size.x, size.y);
-        wxMemoryDC dc(bitmap);
-        scripture_->render_to(dc, size);
-        dc.SelectObject(wxNullBitmap);
-        ok = bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.') + "-prose.png",
-                                              wxBITMAP_TYPE_PNG) &&
-             ok;
+    save(render(), "-prose");
+    // The end of a book keeps blank space below its last line.
+    scripture_->scroll_by(1e9);
+    {
+        const auto image = render();
+        const auto paper = palette(settings_.theme).paper;
+        for (int y = image.GetHeight() - FromDIP(100); y < image.GetHeight(); ++y)
+            for (int x = 0; x < image.GetWidth(); ++x)
+                if (image.GetRed(x, y) != paper.Red() || image.GetGreen(x, y) != paper.Green() ||
+                    image.GetBlue(x, y) != paper.Blue())
+                    ok = false;
+        save(image, "-end");
     }
     // Marked verses replace the reading as what Lyssna reads.
     open_psalm();
@@ -395,9 +381,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (address_->GetLabel() != "Laddar rösten…" || play_->GetLabel() != "Pausa" || !stop_->IsShown())
         ok = false;
     // During the introduction the address field shows what the voice says.
-    speech_introductions_ = {ui::utf8("Läsning ur Psaltaren, kapitel 23, vers 1 till 6.")};
-    display_playback({SpeechState::Playing, SpeechCue{0, 0, "Ps", "", {23, 1}, {23, 6}, true}, 0, 0.01});
-    if (address_->GetLabel() != speech_introductions_.front())
+    const std::string introduction = "Läsning ur Psaltaren, kapitel 23, vers 1 till 6.";
+    const SpeechCue introduction_cue{0, 0, "Ps", "", {23, 1}, {23, 6}, true};
+    read_aloud_.start({}, {{introduction, introduction, "sv", introduction_cue}});
+    display_playback({SpeechState::Playing, introduction_cue, 0, 0.01});
+    if (address_->GetLabel() != ui::utf8(introduction))
         ok = false;
     display_playback({SpeechState::Buffering, {}, 0, 0, 0.4});
     if (address_->GetLabel() != "Förbereder uppläsningen… 40 %" || scripture_->marker_position())
@@ -431,11 +419,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         ok = false;
     display_playback(playing);
     display_playback(buffering);
-    if (feedback_state_ != SpeechState::Playing)
+    if (read_aloud_.feedback() != SpeechState::Playing)
         ok = false;
-    buffering_since_ = std::chrono::steady_clock::now() - std::chrono::seconds(1);
-    display_playback(buffering);
-    if (feedback_state_ != SpeechState::Buffering)
+    read_aloud_.update(buffering, ReadAloud::Clock::now() + std::chrono::seconds(1));
+    if (read_aloud_.feedback() != SpeechState::Buffering)
         ok = false;
     scripture_->scroll_by(20);
     if (scripture_->follows_playback() || following_audio_)
@@ -445,25 +432,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->follow_playback();
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
-    const auto save_playback = [&](const wxString& suffix) {
-        if (screenshot_path.empty())
-            return;
-        const auto size = scripture_->GetClientSize();
-        wxBitmap bitmap(size.x, size.y);
-        wxMemoryDC dc(bitmap);
-        scripture_->render_to(dc, size);
-        dc.SelectObject(wxNullBitmap);
-        ok = bitmap.ConvertToImage().SaveFile(screenshot_path.BeforeLast('.') + suffix + ".png",
-                                              wxBITMAP_TYPE_PNG) &&
-             ok;
-    };
-    save_playback("-playing");
+    save(render(), "-playing");
     settings_.theme = Theme::Dark;
     apply_settings(false);
     scripture_->playback(playing);
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
-    save_playback("-playing-dark");
+    save(render(), "-playing-dark");
     // Reflow keeps the spoken verse, including the other language column.
     settings_.font_size = 24;
     apply_settings(false);
@@ -480,7 +455,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     if (!scripture_->marker_position())
         ok = false;
-    save_playback("-playing-greek");
+    save(render(), "-playing-greek");
     SetSize(FromDIP(wxSize(520, 650)));
     Layout();
     root_->Layout();
@@ -490,7 +465,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
           static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
         if (control->IsShown() && control->GetRect().GetRight() > bar_->GetClientSize().x)
             ok = false;
-    save_playback("-playing-narrow");
+    save(render(), "-playing-narrow");
     SetSize(original_size);
     Layout();
     root_->Layout();

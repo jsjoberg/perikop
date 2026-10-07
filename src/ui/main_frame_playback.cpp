@@ -11,7 +11,7 @@
 #include <wx/weakref.h>
 namespace ortho {
 bool MainFrame::active_playback() const {
-    return speech_active(playback_ui_.state);
+    return speech_active(read_aloud_.playback().state);
 }
 void MainFrame::play_or_pause() {
     if (active_playback())
@@ -30,9 +30,10 @@ void MainFrame::play_or_pause() {
         play_speech({visible_reading_.value_or(scripture_->reading())});
 }
 void MainFrame::speech_status(const std::string& status) {
-    if (playback_ui_.state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
+    if (read_aloud_.playback().state == SpeechState::Error &&
+        speech_->playback().state == SpeechState::Stopped)
         return;
-    speech_message_ = status;
+    read_aloud_.report(status);
     refresh_speech();
 }
 void MainFrame::toggle_pause() {
@@ -49,15 +50,16 @@ void MainFrame::stop_speech() {
     refresh_speech();
 }
 void MainFrame::follow_speech() {
-    if (speech_readings_.empty())
+    const auto& readings = read_aloud_.readings();
+    if (readings.empty())
         return;
     const auto playback = speech_->playback();
     const size_t reading = playback.cue ? playback.cue->reading : 0,
                  section = playback.cue ? playback.cue->section : 0;
-    if (reading >= speech_readings_.size())
+    if (reading >= readings.size())
         return;
     if (!speech_view_ || *speech_view_ != std::pair{reading, section} || !scripture_->IsShown()) {
-        open_reading(speech_readings_[reading]);
+        open_reading(readings[reading]);
         if (section) {
             scripture_->open_section(section);
             part_ = section;
@@ -75,25 +77,12 @@ void MainFrame::refresh_speech() {
         display_playback(speech_->playback());
 }
 void MainFrame::display_playback(const SpeechPlayback& playback) {
-    const auto now = std::chrono::steady_clock::now();
-    if (playback.state == SpeechState::Buffering && playback_ui_.state != SpeechState::Buffering) {
-        buffering_since_ = now;
-        debounce_buffering_ = playback_ui_.state == SpeechState::Playing && playback.cue.has_value();
-    } else if (playback.state != SpeechState::Buffering)
-        debounce_buffering_ = false;
-    playback_ui_ = playback;
-    const auto state = playback.state;
-    // Freeze tracking immediately, but do not flash buffering text for a
-    // brief gap between audio callbacks. Startup feedback remains immediate.
-    feedback_state_ = state == SpeechState::Buffering && debounce_buffering_ &&
-                              now - buffering_since_ < std::chrono::milliseconds(180)
-                          ? SpeechState::Playing
-                          : state;
-    const bool active = speech_active(state);
-    if (active && following_audio_ && playback.cue && playback.cue->reading < speech_readings_.size()) {
+    read_aloud_.update(playback);
+    const bool active = speech_active(playback.state);
+    if (active && following_audio_ && playback.cue && playback.cue->reading < read_aloud_.readings().size()) {
         const auto view = std::pair{playback.cue->reading, playback.cue->section};
         if (!speech_view_ || *speech_view_ != view) {
-            open_reading(speech_readings_[view.first]);
+            open_reading(read_aloud_.readings()[view.first]);
             if (view.second) {
                 scripture_->open_section(view.second);
                 part_ = view.second;
@@ -113,7 +102,6 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
 }
 void MainFrame::play_speech(const std::vector<Reading>& readings) {
     stop_speech();
-    speech_readings_ = readings;
     speech_view_.reset();
     try {
         std::vector<Reading> primary_readings;
@@ -123,10 +111,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         const auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        speech_introductions_.assign(readings.size(), {});
-        for (const auto& utterance : queue)
-            if (utterance.cue && utterance.cue->introduction)
-                speech_introductions_[utterance.cue->reading] = ui::utf8(utterance.display_text);
+        read_aloud_.start(readings, queue);
         if (!readings.empty()) {
             open_reading(readings.front());
             speech_view_ = std::pair<size_t, size_t>{0, 0};
@@ -138,7 +123,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         refresh_speech();
     } catch (const std::exception& error) {
         stop_speech();
-        speech_message_ = error.what();
+        read_aloud_.report(error.what());
         display_playback({SpeechState::Error, {}, 0, 0});
         wxMessageBox(ui::utf8(error.what()), "Uppläsning", wxOK | wxICON_INFORMATION, this);
     }

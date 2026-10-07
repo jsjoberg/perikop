@@ -6,9 +6,6 @@
 
 namespace ortho {
 namespace {
-wxColour alpha(const wxColour& colour, int value) {
-    return {colour.Red(), colour.Green(), colour.Blue(), static_cast<unsigned char>(value)};
-}
 wxColour mix(const wxColour& from, const wxColour& to, double share) {
     const auto channel = [share](int a, int b) {
         return static_cast<unsigned char>(a + (b - a) * share + 0.5);
@@ -69,6 +66,12 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.DrawPath(path);
         break;
     }
+    case Symbol::Search:
+        pen(1.8);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        gc.DrawEllipse(3, 3, 11, 11);
+        gc.StrokeLine(12.6, 12.6, 16.8, 16.8);
+        break;
     case Symbol::Stop:
         gc.SetPen(*wxTRANSPARENT_PEN);
         gc.DrawRoundedRectangle(5, 5, 10, 10, 2);
@@ -168,13 +171,13 @@ void SymbolButton::paint(wxPaintEvent&) {
     const bool enabled = IsEnabled();
     if (enabled && (checked_ || hover_)) {
         gc->SetPen(*wxTRANSPARENT_PEN);
-        gc->SetBrush(wxBrush(checked_ ? alpha(colors_.accent, pressed_ ? 80
-                                                              : hover_ ? 64
-                                                                       : 44)
-                                      : alpha(colors_.ink, pressed_ ? 36 : 20)));
+        gc->SetBrush(wxBrush(checked_ ? with_alpha(colors_.accent, pressed_ ? 80
+                                                                   : hover_ ? 64
+                                                                            : 44)
+                                      : with_alpha(colors_.ink, pressed_ ? 36 : 20)));
         gc->DrawRoundedRectangle(0, 0, size.x, size.y, 6 * scale);
     }
-    const wxColour ink = !enabled ? alpha(colors_.muted, 110) : checked_ ? colors_.accent : colors_.ink;
+    const wxColour ink = !enabled ? with_alpha(colors_.muted, 110) : checked_ ? colors_.accent : colors_.ink;
     if (const auto* text = std::get_if<wxString>(&face_)) {
         auto font = ui_font(9);
         font.SetWeight(wxFONTWEIGHT_MEDIUM);
@@ -201,6 +204,7 @@ AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)
       action_(std::move(action)), colors_(palette(Theme::System)) {
     SetName("Adressfält");
     SetBackgroundStyle(wxBG_STYLE_PAINT);
+    SetCursor(wxCursor(wxCURSOR_HAND));
     SetInitialSize();
     Bind(wxEVT_PAINT, &AddressBar::paint, this);
     Bind(wxEVT_ENTER_WINDOW, [this](wxMouseEvent&) {
@@ -213,20 +217,16 @@ AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)
     });
     // Like a menu, the field acts on press.
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent&) {
-        if (clickable_ && action_)
+        if (action_)
             action_();
     });
 }
 
-void AddressBar::show(const wxString& text, bool dropdown, bool clickable, bool muted) {
-    if (GetLabel() == text && dropdown_ == dropdown && clickable_ == clickable && muted_ == muted)
+void AddressBar::show(const wxString& text, bool dropdown) {
+    if (GetLabel() == text && dropdown_ == dropdown)
         return;
-    if (clickable_ != clickable)
-        SetCursor(clickable ? wxCursor(wxCURSOR_HAND) : wxNullCursor);
     SetLabel(text);
     dropdown_ = dropdown;
-    clickable_ = clickable;
-    muted_ = muted;
     Refresh(false);
 }
 
@@ -255,27 +255,32 @@ void AddressBar::paint(wxPaintEvent&) {
         return;
     const auto size = GetClientSize();
     const double scale = FromDIP(100) / 100.0, radius = 8 * scale;
-    const bool hot = hover_ && clickable_;
     gc->SetPen(*wxTRANSPARENT_PEN);
-    gc->SetBrush(wxBrush(mix(colors_.paper, colors_.ink, hot ? 0.11 : 0.065)));
+    gc->SetBrush(wxBrush(mix(colors_.paper, colors_.ink, hover_ ? 0.11 : 0.065)));
     gc->DrawRoundedRectangle(0, 0, size.x, size.y, radius);
-    const wxColour ink = muted_ ? colors_.muted : colors_.ink;
     const auto font = ui_font(11);
     dc.SetFont(font);
-    const double chevron = dropdown_ ? 14 * scale : 0;
-    const auto text = wxControl::Ellipsize(GetLabel(), dc, wxELLIPSIZE_END,
-                                           std::max(0, size.x - int(2 * radius + 2 * chevron)));
-    gc->SetFont(font, ink);
+    // The text is centred together with the magnifier before it or the chevron after it.
+    const double icon = 14 * scale, before = dropdown_ ? 0 : icon + 6 * scale, after = dropdown_ ? icon : 0;
+    const auto text = wxControl::Ellipsize(
+        GetLabel(), dc, wxELLIPSIZE_END, std::max(0, size.x - int(2 * radius + 2 * std::max(before, after))));
+    gc->SetFont(font, colors_.ink);
     double width = 0, height = 0;
     gc->GetTextExtent(text, &width, &height);
-    const double x = (size.x - width - chevron) / 2, middle = size.y / 2.0;
+    const double x = (size.x - width - before - after) / 2 + before, middle = size.y / 2.0;
     gc->DrawText(text, x, middle - height / 2);
     if (dropdown_) {
-        gc->SetPen(
-            gc->CreatePen(wxGraphicsPenInfo(ink).Width(1.5 * scale).Cap(wxCAP_ROUND).Join(wxJOIN_ROUND)));
+        gc->SetPen(gc->CreatePen(
+            wxGraphicsPenInfo(colors_.ink).Width(1.5 * scale).Cap(wxCAP_ROUND).Join(wxJOIN_ROUND)));
         const double left = x + width + 7 * scale;
         gc->StrokeLine(left, middle - 1.5 * scale, left + 3.5 * scale, middle + 2 * scale);
         gc->StrokeLine(left + 3.5 * scale, middle + 2 * scale, left + 7 * scale, middle - 1.5 * scale);
+    } else {
+        gc->PushState();
+        gc->Translate(x - before, middle - icon / 2);
+        gc->Scale(icon / 20, icon / 20);
+        draw_symbol(*gc, Symbol::Search, colors_.muted);
+        gc->PopState();
     }
     // Like a browser's loading line, the spoken share runs along the field's lower edge.
     if (progress_ > 0) {

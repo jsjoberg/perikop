@@ -120,9 +120,8 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
     const auto& layout = row_layout(index);
     if (layout.columns.empty())
         return std::nullopt;
-    const int margin = outside_margin(), usable = GetClientSize().x - 2 * margin;
-    const bool stacked = usable / columns_count() < 270;
-    const int stride = (usable - 44 * (columns_count() - 1)) / columns_count() + 44;
+    const int margin = outside_margin(), stride = column_stride();
+    const bool stacked = stacked_columns();
     if (!stacked && columns_count() > 1 && point.x >= margin + stride - FromDIP(24))
         return std::nullopt;
     const auto& column = layout.columns.front();
@@ -140,7 +139,7 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
     const auto& runs = column.text.lines[line].runs;
     for (std::size_t i = 0; i < runs.size(); ++i) {
         const auto& run = runs[i];
-        if (run.tag < 0 || size_t(run.tag) >= column.verses.size() || column.hebrew[run.tag])
+        if (!column.main_text(run.tag))
             continue;
         const double distance = x < run.x ? run.x - x : x > run.x + run.width ? x - run.x - run.width : 0;
         if (distance < best) {

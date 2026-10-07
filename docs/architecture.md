@@ -35,7 +35,10 @@ The engine sends numbered status updates. The window delivers these updates on t
 ## UI
 
 `MainFrame` coordinates the selected day, settings, reader, and speech engine.
-Its menu, playback, and smoke-test implementations have separate files.
+Its menu, playback, toolbar, and smoke-test implementations have separate files.
+`ReadAloud` keeps the queue being read aloud and the text that describes its progress, without wxWidgets.
+The window keeps the speech engine, the playback timer, and which reading the view follows.
+`toolbar` contains the drawn toolbar controls: symbol buttons and the address field.
 The Bible and date pickers return selections to the window.
 
 `ScriptureView` owns the reader state. Its implementation has separate files for layout, selection, playback tracking, and drawing.
@@ -72,5 +75,5 @@ Run the regression tests:
 ctest --test-dir build/cmake --output-on-failure
 ```
 
-The `reading-speech` test checks framing numbers, merged verses, pronunciation corrections, sections, and explicit editions without audio playback.
+The `reading-speech` test checks framing numbers, merged verses, pronunciation corrections, sections, explicit editions, and read-aloud status text without audio playback.
 The `ui-smoke` test checks native rendering and playback presentation.

@@ -88,20 +88,15 @@ struct DayReadings {
     LiturgicalDay day;
     std::vector<Reading> readings;
 };
-class Lectionary {
-public:
-    virtual ~Lectionary() = default;
-    virtual DayReadings readings_for(CivilDate, CalendarStyle) const = 0;
-};
 class CorpusDb;
 CivilDate orthodox_pascha(int year);
 CivilDate fixed_calendar_date(CivilDate, CalendarStyle);
 // Swedish form of an English day or feast title from the calendar tables.
 std::optional<std::string> swedish_title(const std::string&);
-class AntiochianLectionary final : public Lectionary {
+class AntiochianLectionary {
 public:
     explicit AntiochianLectionary(const CorpusDb&);
-    DayReadings readings_for(CivilDate, CalendarStyle) const override;
+    DayReadings readings_for(CivilDate, CalendarStyle) const;
 
 private:
     std::vector<ReadingRule> rules_;
@@ -159,6 +154,8 @@ struct Settings {
     std::string speech_voice = "alice";
 };
 std::string source_for_language(const std::string& language, const std::string& book);
+// The language of an edition, such as "el" for grc-lxx: "sv", "el" or "en".
+std::string source_language(const std::string& source);
 bool deuterocanonical_book(const std::string& book);
 // A book as the reader presents it. Old Testament books are numbered by the
 // Septuagint (grc-lxx); some occupy only a chapter range of a Greek book.

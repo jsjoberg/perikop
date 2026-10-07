@@ -91,6 +91,10 @@ private:
         TextLayout text;
         std::vector<bool> prescribed, faint, hebrew;
         std::vector<std::pair<VerseRef, VerseRef>> verses;
+        // Whether a run's tag is a verse of the main text, not Hebrew-only text.
+        bool main_text(int tag) const {
+            return tag >= 0 && std::size_t(tag) < verses.size() && !hebrew[tag];
+        }
     };
     struct Layout {
         std::vector<Column> columns;
@@ -113,6 +117,8 @@ private:
     std::optional<Hit> hit(wxPoint) const;
     std::optional<std::pair<WordRuns, int>> word_of(const Column&, int tag, std::size_t line, int run) const;
     void set_position(double);
+    double content_height() const;
+    double max_offset() const;
     void rebuild_positions();
     void prepare_visible();
     std::size_t first_visible() const;
@@ -158,6 +164,12 @@ private:
     int columns_count() const;
     int outside_margin() const;
     int column_width() const;
+    // Columns one above another, when side by side they would be too narrow.
+    bool stacked_columns() const;
+    // The distance from one side-by-side column to the next.
+    int column_stride() const;
+    // A row's height before its paragraphs are laid out.
+    int estimated_height(const Row&) const;
     std::vector<int> heights_;
     std::vector<double> positions_;
     double offset_ = 0, target_ = 0;

@@ -31,7 +31,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                               : reading.source_override;
             if (corpus.coordinates(frame, passage.book).empty())
                 frame = source;
-            const auto language = source.starts_with("en-") ? "en" : source.starts_with("grc-") ? "el" : "sv";
+            const auto language = source_language(source);
             const auto lexicon = lookup(language);
             bool found = false;
             std::optional<VerseRef> previous;
@@ -42,7 +42,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                     continue;
                 auto verse = corpus.parallel_verse(frame, source, passage.book, ref);
                 const bool continues = (verse && previous && verse->ref == *previous) ||
-                                       (!verse && verse.error() == "Ingår i föregående vers");
+                                       (!verse && verse.error() == merged_verse);
                 if (continues && found) {
                     queue.back().cue->last = ref;
                     continue;

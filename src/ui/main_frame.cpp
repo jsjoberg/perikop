@@ -114,11 +114,14 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         e.Skip();
     });
 }
+void MainFrame::select_day(CivilDate date) {
+    selected_.select(date);
+    show_readings();
+    refresh_day();
+}
 void MainFrame::navigate(int days) {
     try {
-        selected_.move(days);
-        show_readings();
-        refresh_day();
+        select_day(shift_date(selected_.date(), days));
     } catch (const std::exception& e) {
         wxMessageBox(ui::utf8(e.what()), "Datum", wxOK | wxICON_INFORMATION, this);
     }
@@ -222,11 +225,8 @@ void MainFrame::browse_bible() {
         open_reading(*reading);
 }
 void MainFrame::pick_date() {
-    if (const auto date = pick_civil_date(this, selected_.date(), settings_.theme)) {
-        selected_.select(*date);
-        show_readings();
-        refresh_day();
-    }
+    if (const auto date = pick_civil_date(this, selected_.date(), settings_.theme))
+        select_day(*date);
 }
 void MainFrame::apply_settings(bool persist) {
 #if wxCHECK_VERSION(3, 3, 0)

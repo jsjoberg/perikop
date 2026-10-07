@@ -41,6 +41,7 @@ add_library(ortho-core
     src/storage/pronunciation_review_db.cpp
     src/speech/speech.cpp
     src/speech/reading_speech.cpp
+    src/speech/read_aloud.cpp
     src/speech/pronunciation_review.cpp)
 target_include_directories(ortho-core PUBLIC src)
 target_link_libraries(ortho-core PUBLIC ortho-sqlite)

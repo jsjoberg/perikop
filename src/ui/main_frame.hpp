@@ -1,10 +1,9 @@
 #pragma once
 
-#include "speech/speech.hpp"
+#include "speech/read_aloud.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
-#include <chrono>
 #include <wx/frame.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
@@ -26,6 +25,7 @@ private:
     void make_menus();
     void refresh_day();
     void show_readings();
+    void select_day(CivilDate);
     void navigate(int days);
     void pick_date();
     void browse_bible();
@@ -65,14 +65,7 @@ private:
     std::unique_ptr<StudyDb> study_db_;
     std::unique_ptr<SpeechEngine> speech_;
     wxTimer playback_timer_;
-    SpeechPlayback playback_ui_;
-    SpeechState feedback_state_ = SpeechState::Idle;
-    std::chrono::steady_clock::time_point buffering_since_;
-    bool debounce_buffering_ = false;
-    std::string speech_message_;
-    std::vector<Reading> speech_readings_;
-    // What the voice says before each reading, shown while it is said.
-    std::vector<wxString> speech_introductions_;
+    ReadAloud read_aloud_;
     std::optional<std::pair<size_t, size_t>> speech_view_;
     bool following_audio_ = false;
 

@@ -1,7 +1,6 @@
 #include "ui/study_panel.hpp"
 #include "ui/controls.hpp"
 #include "ui/theme.hpp"
-#include <wx/button.h>
 #include <wx/hyperlink.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
@@ -103,8 +102,8 @@ void StudyPanel::rebuild() {
         text(ui::utf8("Klicka på ett ord i texten för att slå upp det."), ui_font(12), colors.muted);
     else {
         const auto& word = *word_;
-        const bool swedish = base_source_.starts_with("sv"), greek = base_source_ == greek_source;
-        const std::string language = swedish ? "sv" : base_source_.starts_with("grc") ? "el" : "en";
+        const auto language = source_language(base_source_);
+        const bool swedish = language == "sv", greek = base_source_ == greek_source;
         text(ui::utf8(word.text), body_font(26), colors.ink, 4);
         // What the voice says: bundled phonemes and review corrections apply.
         const auto utterance = make_utterance(word.text, language, lexicon_(language));
@@ -113,10 +112,7 @@ void StudyPanel::rebuild() {
                 text(ui::utf8("/" + ipa + "/"), ui_font(13), colors.muted, 4);
         // Read-aloud is Swedish only.
         if (swedish) {
-            auto* listen = new wxButton(this, wxID_ANY, ui::utf8("Lyssna"), wxDefaultPosition, wxDefaultSize,
-                                        wxBU_EXACTFIT);
-            listen->SetFont(ui_font());
-            listen->Bind(wxEVT_BUTTON, [this, utterance](wxCommandEvent&) {
+            auto* listen = ui::button(this, "Lyssna", [this, utterance] {
                 speech_.stop();
                 speech_.speak(utterance);
             });
@@ -154,17 +150,16 @@ void StudyPanel::rebuild() {
                     }
                     text(preview, ui_font(11), colors.ink, 6);
                     if (definition.length() > preview_length) {
-                        auto* more = new wxButton(this, wxID_ANY,
-                                                  ui::utf8(expanded ? "Visa mindre" : "Visa hela artikeln"),
-                                                  wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+                        auto* more =
+                            ui::button(this, ui::utf8(expanded ? "Visa mindre" : "Visa hela artikeln"),
+                                       [this, id = entry.id] {
+                                           CallAfter([this, id] {
+                                               if (!expanded_articles_.erase(id))
+                                                   expanded_articles_.insert(id);
+                                               rebuild();
+                                           });
+                                       });
                         more->SetFont(ui_font(10));
-                        more->Bind(wxEVT_BUTTON, [this, id = entry.id](wxCommandEvent&) {
-                            CallAfter([this, id] {
-                                if (!expanded_articles_.erase(id))
-                                    expanded_articles_.insert(id);
-                                rebuild();
-                            });
-                        });
                         sizer->Add(more, 0, wxLEFT, pad);
                         sizer->AddSpacer(FromDIP(5));
                     }

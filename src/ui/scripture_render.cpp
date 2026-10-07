@@ -9,9 +9,8 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
     const auto colors = palette(settings_.theme);
     dc.SetBackground(wxBrush(colors.paper));
     dc.Clear();
-    const int margin = outside_margin(), usable = size.x - 2 * margin;
-    const bool stacked = usable / columns_count() < 270;
-    const int stride = (usable - 44 * (columns_count() - 1)) / columns_count() + 44;
+    const int margin = outside_margin(), stride = column_stride();
+    const bool stacked = stacked_columns();
     std::unique_ptr<wxGraphicsContext> gc(
         wxGraphicsRenderer::GetDefaultRenderer()->CreateContextFromUnknownDC(dc));
     int y = int(std::lround(top)) + FromDIP(12);
@@ -72,28 +71,24 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         const double emphasis =
                             std::clamp(1 - std::abs(center - guide_y_) / column.text.line_height, 0.0, 1.0);
                         gc->SetBrush(
-                            wxBrush(wxColour(colors.accent.Red(), colors.accent.Green(), colors.accent.Blue(),
-                                             int((16 + 20 * emphasis) * guide_alpha_))));
+                            wxBrush(with_alpha(colors.accent, int((16 + 20 * emphasis) * guide_alpha_))));
                         gc->DrawRoundedRectangle(x + FromDIP(30) + span.first - FromDIP(5),
                                                  text_y + span.line * column.text.line_height + FromDIP(1),
                                                  span.last - span.first + FromDIP(10),
                                                  column.text.line_height - FromDIP(2), FromDIP(4));
                     }
                     const double marker_y = guide_y_ - offset_ - guide_->height * 0.34;
-                    gc->SetBrush(wxBrush(wxColour(colors.accent.Red(), colors.accent.Green(),
-                                                  colors.accent.Blue(), int(230 * guide_alpha_))));
+                    gc->SetBrush(wxBrush(with_alpha(colors.accent, int(230 * guide_alpha_))));
                     gc->DrawRoundedRectangle(x + FromDIP(16), marker_y, FromDIP(4), guide_->height * 0.68,
                                              FromDIP(2));
                 }
                 if (gc && c == 0 && selection_) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
-                    gc->SetBrush(wxBrush(
-                        wxColour(colors.accent.Red(), colors.accent.Green(), colors.accent.Blue(), 56)));
+                    gc->SetBrush(wxBrush(with_alpha(colors.accent, 56)));
                     for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
                         double first = std::numeric_limits<double>::max(), last = 0;
                         for (const auto& run : column.text.lines[line].runs) {
-                            if (run.tag < 0 || size_t(run.tag) >= column.verses.size() ||
-                                column.hebrew[run.tag])
+                            if (!column.main_text(run.tag))
                                 continue;
                             const auto& verse = column.verses[run.tag].first;
                             if (verse < selection_->first || selection_->second < verse)
@@ -120,8 +115,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         if (lower != target || occurrence != highlighted_->occurrence)
                             continue;
                         gc->SetPen(*wxTRANSPARENT_PEN);
-                        gc->SetBrush(wxBrush(
-                            wxColour(colors.accent.Red(), colors.accent.Green(), colors.accent.Blue(), 72)));
+                        gc->SetBrush(wxBrush(with_alpha(colors.accent, 72)));
                         for (const auto& [line, index] : word.runs) {
                             const auto& run = column.text.lines[line].runs[index];
                             gc->DrawRoundedRectangle(x + FromDIP(30) + run.x - FromDIP(3),
@@ -195,9 +189,6 @@ void ScriptureView::draw_return(wxDC& dc) {
     if (!gc)
         return;
     const auto colors = palette(settings_.theme);
-    const auto with_alpha = [](const wxColour& colour, int alpha) {
-        return wxColour(colour.Red(), colour.Green(), colour.Blue(), static_cast<unsigned char>(alpha));
-    };
     const auto font = ui_font(13);
     gc->SetFont(font, colors.ink);
     double width = 0, height = 0;

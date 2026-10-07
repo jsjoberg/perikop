@@ -1,4 +1,3 @@
-#include "core/reading_display.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <iterator>
@@ -71,10 +70,8 @@ void MainFrame::address_clicked() {
         const int chosen = address_->GetPopupMenuSelectionFromUser(menu, 0, address_->GetSize().y);
         if (chosen != wxID_NONE)
             select_part(std::size_t(chosen - First));
-    } else if (scripture_->IsShown())
+    } else
         browse_bible();
-    else if (active_playback())
-        follow_speech();
 }
 void MainFrame::select_part(size_t part) {
     part_ = part;
@@ -94,7 +91,7 @@ void MainFrame::toggle_pane(const std::string& pane) {
 void MainFrame::update_bar() {
     const bool reader = scripture_->IsShown(), active = active_playback();
     const bool marked = reader && scripture_->selection();
-    const bool paused = playback_ui_.state == SpeechState::Paused;
+    const bool paused = read_aloud_.playback().state == SpeechState::Paused;
     const wxString play_label = !active  ? (marked ? "Läs markering" : "Lyssna")
                                 : paused ? "Fortsätt"
                                          : "Pausa";
@@ -138,58 +135,20 @@ void MainFrame::update_bar() {
                               : reader ? ui::utf8("Till läsningen")
                                        : wxString{},
                               active);
-    wxString location;
-    if (playback_ui_.cue) {
-        const auto& cue = *playback_ui_.cue;
-        if (cue.introduction)
-            location =
-                cue.reading < speech_introductions_.size() && !speech_introductions_[cue.reading].empty()
-                    ? speech_introductions_[cue.reading]
-                    : wxString("Introduktion");
-        else
-            location = ui::utf8(passage_label(corpus_, {{cue.book, cue.verse, cue.verse}}));
-    }
     // One short line: what is shown, where the reading is, or what it is waiting for.
-    const wxString ready =
-        playback_ui_.ready > 0 ? wxString::Format(" %d %%", int(playback_ui_.ready * 100)) : wxString{};
     const bool dropdown = reader && parts_.size() > 1;
-    const wxString idle = !reader    ? ui::utf8(date_swedish(selected_.date()))
-                          : dropdown ? parts_[std::min(part_, parts_.size() - 1)]
-                                     : reading_title_;
     wxString title, tooltip;
-    switch (feedback_state_) {
-    case SpeechState::Loading:
-        title = ui::utf8("Laddar rösten…");
-        break;
-    case SpeechState::Buffering:
-        title =
-            ui::utf8(playback_ui_.cue ? "Förbereder fortsättningen…" : "Förbereder uppläsningen…") + ready;
-        tooltip = ui::utf8(
-            "Uppläsningen startar när tillräckligt mycket ljud är klart för att den inte ska stanna.");
-        break;
-    case SpeechState::Playing:
-        title = location;
-        break;
-    case SpeechState::Paused:
-        title = location.empty() ? wxString("Pausad") : "Pausad · " + location;
-        break;
-    case SpeechState::Error:
-        title = "Uppläsningen kunde inte fortsätta";
-        tooltip = ui::utf8(speech_message_);
-        break;
-    case SpeechState::Stopped:
-    case SpeechState::Completed:
-    case SpeechState::Idle:
-        title = idle;
-        break;
-    }
-    address_->show(title, dropdown, reader || active, !reader && !active);
+    if (const auto status = read_aloud_.status(corpus_)) {
+        title = ui::utf8(status->title);
+        tooltip = ui::utf8(status->tooltip);
+    } else
+        title = !reader    ? ui::utf8("Gå till bibelställe…")
+                : dropdown ? parts_[std::min(part_, parts_.size() - 1)]
+                           : reading_title_;
+    address_->show(title, dropdown);
     if (tooltip.empty())
-        tooltip = dropdown ? ui::utf8("Välj del av läsningen")
-                  : reader ? ui::utf8("Gå till bibelställe… · Ctrl+G")
-                  : active ? ui::utf8("Följ uppläsningen")
-                           : title;
+        tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe… · Ctrl+G");
     tooltip_of(address_, tooltip);
-    address_->progress(active ? playback_ui_.progress : 0);
+    address_->progress(active ? read_aloud_.playback().progress : 0);
 }
 } // namespace ortho

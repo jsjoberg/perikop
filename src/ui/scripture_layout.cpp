@@ -5,9 +5,7 @@
 #include <wx/dcclient.h>
 namespace ortho {
 std::vector<std::string> ScriptureView::languages() const {
-    std::vector<std::string> result{base_source_.starts_with("sv")    ? "sv"
-                                    : base_source_.starts_with("en-") ? "en"
-                                                                      : "el"};
+    std::vector<std::string> result{source_language(base_source_)};
     const auto add = [&](const std::string& language) {
         if (std::find(result.begin(), result.end(), language) == result.end())
             result.push_back(language);
@@ -24,6 +22,16 @@ int ScriptureView::outside_margin() const {
     if (columns_count() == 1)
         return std::max(32, (width - std::min(FromDIP(680), width - 64)) / 2);
     return std::clamp(width / 14, 32, 105);
+}
+bool ScriptureView::stacked_columns() const {
+    return (GetClientSize().x - 2 * outside_margin()) / columns_count() < 270;
+}
+int ScriptureView::column_stride() const {
+    const int usable = GetClientSize().x - 2 * outside_margin();
+    return (usable - 44 * (columns_count() - 1)) / columns_count() + 44;
+}
+int ScriptureView::estimated_height(const Row& row) const {
+    return row.heading ? FromDIP(124) : FromDIP(150);
 }
 int ScriptureView::column_width() const {
     const int usable = std::max(120, GetClientSize().x - 2 * outside_margin());
@@ -101,7 +109,7 @@ void ScriptureView::open_section(std::size_t index) {
     wheel_timer_.Stop();
     heights_.clear();
     for (const auto& row : rows_)
-        heights_.push_back(row.heading ? FromDIP(124) : FromDIP(150));
+        heights_.push_back(estimated_height(row));
     rebuild_positions();
     center_passage();
     Refresh(false);
@@ -213,7 +221,7 @@ void ScriptureView::invalidate() {
     order_.clear();
     layout_width_ = GetClientSize().x;
     for (std::size_t i = 0; i < rows_.size(); ++i)
-        heights_[i] = rows_[i].heading ? FromDIP(124) : FromDIP(150);
+        heights_[i] = estimated_height(rows_[i]);
     rebuild_positions();
     if (!rows_.empty()) {
         heights_[anchor] = row_layout(anchor).height;
@@ -239,10 +247,10 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     dc.SetFont(body_font(settings_.font_size));
     Layout layout;
     if (rows_[index].heading)
-        layout.height = FromDIP(124);
+        layout.height = estimated_height(rows_[index]);
     else {
         const auto selected_languages = languages();
-        const bool stacked = (GetClientSize().x - 2 * outside_margin()) / columns_count() < 270;
+        const bool stacked = stacked_columns();
         const int offset = canon_ ? canon_->offset() : 0;
         const auto segments = reading_.segments();
         int height = 0;
@@ -270,7 +278,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                 auto verse = corpus_.parallel_verse(frame_, source, displayed_.book, ref);
                 // One verse of this edition can span several framing verses.
                 if ((verse && previous && verse->ref == *previous) ||
-                    (!verse && verse.error() == "Ingår i föregående vers" && !column.verses.empty())) {
+                    (!verse && verse.error() == merged_verse && !column.verses.empty())) {
                     column.verses.back().second = last;
                     continue;
                 }
