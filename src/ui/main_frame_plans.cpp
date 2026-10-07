@@ -77,6 +77,7 @@ void MainFrame::add_plans() {
         header->Add(reset, 0, wxALIGN_CENTER_VERTICAL);
         entries_->Add(header, 0, wxBOTTOM, FromDIP(4));
         auto* about = ui::label(readings_, ui::utf8(plan.description), 11);
+        about->Wrap(std::max(200, GetClientSize().x - FromDIP(150)));
         entries_->Add(about, 0, wxBOTTOM, FromDIP(10));
         if (done == plan.parts.size())
             entries_->Add(ui::label(readings_, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0, wxBOTTOM,
@@ -87,7 +88,8 @@ void MainFrame::add_plans() {
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(plan.parts[i]));
             auto* tile = new SymbolButton(
-                readings_, read ? ui::utf8("✓") : number, "Del " + number, [this, plan, i, number, label] {
+                readings_, read ? std::variant<Symbol, wxString>{Symbol::Check} : number, "Del " + number,
+                [this, plan, i, number, label] {
                     try {
                         open_tracked(plan_reading(corpus_, plan.parts[i], settings_.primary),
                                      {plan_key(plan, i), "del " + number + ui::utf8(" i ") +

@@ -97,11 +97,12 @@ On the day page, the reader's controls are dimmed.
 
 The day page shows the date, its readings, and three reading plans. The **Kalender** menu moves between days and opens a native date picker.
 
-The reading plans are the New Testament in 30 parts, the whole Bible in 30 parts, and the Septuagint's other books in 14 parts.
+The reading plans are the New Testament in 30 parts; the Masoretic canon and the New Testament in 30 parts; and more books from the Septuagint in 14 parts.
+The last plan contains the books outside the Hebrew Bible that have Swedish text. First Esdras, Third Maccabees, and Psalm 151 are not in it yet.
 Plans count parts, not days. Select a numbered part to open it; a part with several books has a section menu in the address field.
 When the voice finishes a part, or you leave a part after you scroll to its end, Perikop asks whether to mark it as read.
 The day's readings are marked in the same way. **Börja om** clears one plan after confirmation.
-The whole-Bible plan follows a plan made for the Hebrew text, moved to the same places in the Septuagint's numbering.
+The Masoretic-canon plan follows a plan made for the Hebrew text, moved to the same places in the Septuagint's numbering.
 The picker's Current date button selects the current date before confirmation.
 The build patches a wxWidgets 3.3.3 macOS bug that over-released Swedish month and weekday names and crashed the date picker.
 New calendar mode uses the North American Antiochian reading rules.

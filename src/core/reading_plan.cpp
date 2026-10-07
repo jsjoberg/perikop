@@ -5,7 +5,8 @@
 #include <stdexcept>
 namespace ortho {
 const std::vector<ReadingPlan>& reading_plans() {
-    // The whole-Bible plan follows a plan made for the Hebrew text. Its Old
+    // Descriptions state what a plan contains and nothing about pace.
+    // The second plan follows a plan made for the Hebrew text. Its Old
     // Testament boundaries are moved to the same places in the Septuagint:
     // Psalms are numbered one lower, Jeremiah 33 (Hebrew) is Jeremiah 40, Joel
     // has four chapters and Malachi three. Esther and Daniel 3 include their
@@ -14,7 +15,7 @@ const std::vector<ReadingPlan>& reading_plans() {
     static const std::vector<ReadingPlan> plans = {
         {"nt",
          "Nya testamentet",
-         "Nya testamentet i 30 delar, i lugn takt.",
+         "Nya testamentet i 30 delar.",
          {{{"Matt", 1, 9}},
           {{"Matt", 10, 18}},
           {{"Matt", 19, 28}},
@@ -46,8 +47,9 @@ const std::vector<ReadingPlan>& reading_plans() {
           {{"Rev", 13, 17}},
           {{"Rev", 18, 22}}}},
         {"full",
-         "Hela Bibeln",
-         "Hela Bibeln i 30 delar, Gamla testamentet med Septuagintas numrering.",
+         "Masoretisk kanon och Nya testamentet",
+         "Gamla testamentets böcker i den hebreiska bibeln och Nya testamentet, i 30 delar. Kapitlen "
+         "följer Septuagintas numrering, och Ester och Daniel har sina grekiska tillägg.",
          {{{"Gen", 1, 33}},
           {{"Gen", 34, 50}, {"Exod", 1, 22}},
           {{"Exod", 23, 40}, {"Lev", 1, 23}},
@@ -99,8 +101,9 @@ const std::vector<ReadingPlan>& reading_plans() {
            {"Jude", 1, 1},
            {"Rev", 1, 22}}}},
         {"lxx",
-         "Septuagintas övriga böcker",
-         "Böckerna som inte finns i den hebreiska bibeln, i 14 delar.",
+         "Fler böcker ur Septuaginta",
+         "De böcker utanför den hebreiska bibeln som finns på svenska i Perikop, i 14 delar. Alla "
+         "finns inte med: Första Esdrasboken, Tredje Mackabeerboken och Psalm 151 saknas ännu på svenska.",
          {{{"PrMan", 1, 1}, {"Tob", 1, 7}},
           {{"Tob", 8, 14}, {"Jdt", 1, 3}},
           {{"Jdt", 4, 12}},

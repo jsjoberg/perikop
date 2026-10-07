@@ -53,6 +53,16 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.DrawEllipse(3, 3, 11, 11);
         gc.StrokeLine(12.6, 12.6, 16.8, 16.8);
         break;
+    case Symbol::Check: {
+        pen(2);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        auto path = gc.CreatePath();
+        path.MoveToPoint(4.5, 10.5);
+        path.AddLineToPoint(8.3, 14.3);
+        path.AddLineToPoint(15.5, 6);
+        gc.StrokePath(path);
+        break;
+    }
     case Symbol::Stop:
         gc.SetPen(*wxTRANSPARENT_PEN);
         gc.DrawRoundedRectangle(5, 5, 10, 10, 2);

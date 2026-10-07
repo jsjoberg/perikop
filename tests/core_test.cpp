@@ -331,7 +331,7 @@ int main(int argc, char** argv) {
             check(plan_label(plans[0].parts[22]) == "2 Tim 4 + Tit 1–3 + Filem + Hebr 1–4",
                   "plan part label");
             check(plan_key(plans[1], 6) == "plan:full:7", "plan part key");
-            // The whole Bible and the other books together cover the Septuagint canon, except
+            // The Masoretic-canon plan and the further books together cover the Septuagint canon, except
             // the books that have no Swedish text yet.
             std::vector<std::string> missing;
             for (const auto& book : osb_canon()) {

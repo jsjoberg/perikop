@@ -23,7 +23,7 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - A translucent button that returns to the passage or to the text being read.
 - Blank space after the end of a book.
 - An About page with the version and links to every source the program uses.
-- Reading plans on the start page: the New Testament in 30 parts, the whole Bible in 30 parts with Septuagint numbering, and the Septuagint's other books in 14 parts.
+- Reading plans on the start page: the New Testament in 30 parts; the Masoretic canon and the New Testament in 30 parts, with Septuagint numbering; and the books outside the Hebrew Bible that have Swedish text, in 14 parts.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
 
 ### Changed

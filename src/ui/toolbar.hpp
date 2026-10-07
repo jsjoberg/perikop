@@ -6,7 +6,7 @@
 #include <wx/control.h>
 
 namespace ortho {
-enum class Symbol { Back, Play, Pause, Stop, Study, Search };
+enum class Symbol { Back, Play, Pause, Stop, Study, Search, Check };
 
 // A borderless, browser-style toolbar button. It draws a symbol, or short
 // text such as a language code, in the theme's colours. The label is its
