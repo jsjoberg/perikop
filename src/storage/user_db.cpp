@@ -14,8 +14,8 @@ UserDb::UserDb(const std::filesystem::path& path) {
     db_ = open(path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
     const int version = pragma_number(db_.get(), "PRAGMA user_version");
     const int identity = pragma_number(db_.get(), "PRAGMA application_id");
-    if ((version != 0 && version != 1) || (identity != 0 && identity != 0x4f525455) ||
-        (version == 1 && identity != 0x4f525455))
+    if (version < 0 || version > 2 || (identity != 0 && identity != 0x4f525455) ||
+        (version >= 1 && identity != 0x4f525455))
         throw std::runtime_error("Unsupported settings database");
     exec(db_.get(), "PRAGMA foreign_keys=ON; PRAGMA cache_size=-256");
     {
@@ -38,7 +38,35 @@ UserDb::UserDb(const std::filesystem::path& path) {
              "INSERT INTO settings SELECT key,value FROM settings_legacy; DROP TABLE settings_legacy;"
              "PRAGMA application_id=1330795605; PRAGMA user_version=1");
     }
+    // Version two adds what the reader has marked as read.
+    if (pragma_number(db_.get(), "PRAGMA user_version") == 1)
+        exec(db_.get(), "CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
+                        "PRAGMA user_version=2");
     migration.commit();
+}
+std::set<std::string> UserDb::completed() const {
+    std::set<std::string> result;
+    Statement query(db_.get(), "SELECT key FROM progress");
+    while (query.row())
+        result.insert(query.text(0));
+    return result;
+}
+void UserDb::complete(const std::string& key, bool done) {
+    Transaction transaction(db_.get());
+    Statement query(db_.get(),
+                    done ? "INSERT INTO progress VALUES(?,date('now','localtime')) ON CONFLICT(key) "
+                           "DO NOTHING"
+                         : "DELETE FROM progress WHERE key=?");
+    query.text(1, key);
+    query.row();
+    transaction.commit();
+}
+void UserDb::forget(const std::string& prefix) {
+    Transaction transaction(db_.get());
+    Statement query(db_.get(), "DELETE FROM progress WHERE substr(key,1,length(?1))=?1");
+    query.text(1, prefix);
+    query.row();
+    transaction.commit();
 }
 Settings UserDb::load() const {
     Settings result;

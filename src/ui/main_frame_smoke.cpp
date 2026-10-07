@@ -1,3 +1,4 @@
+#include "core/reading_plan.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
@@ -249,6 +250,18 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
         back_->IsEnabled() || panes_.front().second->IsEnabled() ||
         address_->GetLabel() != ui::utf8("Gå till bibelställe…"))
+        ok = false;
+    // The start page offers the three reading plans; a marked part shows as read.
+    if (plan_tiles_.size() != 74)
+        ok = false;
+    user_.complete(plan_key(reading_plans().front(), 0));
+    refresh_day();
+    if (!plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")) ||
+        plan_tiles_[1]->GetToolTipText().EndsWith(ui::utf8("läst")))
+        ok = false;
+    user_.forget("plan:");
+    refresh_day();
+    if (plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")))
         ok = false;
     // Right-column symbols toggle, and the Visa menu follows them.
     toggle_pane("el");

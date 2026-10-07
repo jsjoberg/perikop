@@ -32,6 +32,16 @@ private:
     void apply_settings(bool persist = true);
     void update_study();
     Reading in_primary(Reading) const;
+
+    // Something the start page opens, which the reader can mark as read.
+    struct Tracked {
+        std::string key;
+        wxString title;
+    };
+    void add_plans();
+    void open_tracked(const Reading&, Tracked);
+    void offer_completion(const Tracked&, bool listened);
+    std::string day_key(const Reading&) const;
     std::vector<Pronunciation> speech_lexicon(const std::string&) const;
 
     void initialize_speech();
@@ -59,6 +69,8 @@ private:
     Settings settings_;
     DayReadings day_;
     std::optional<Reading> visible_reading_;
+    // The open start-page item, and the one being read aloud from start to end.
+    std::optional<Tracked> tracked_, speech_tracked_;
     wxString reading_title_;
 
     std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
@@ -83,6 +95,7 @@ private:
     AddressBar* address_ = nullptr;
     // Right-column choices: "study" or a language code.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
+    std::vector<SymbolButton*> plan_tiles_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
     int play_item_ = 0;

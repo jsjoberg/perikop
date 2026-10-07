@@ -17,7 +17,7 @@ void MainFrame::create_toolbar() {
     back_->SetToolTip(ui::utf8("Tillbaka till dagens läsningar · Ctrl+L"));
     bar->Add(back_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
     // Lyssna starts a reading or resumes a paused one; Pausa only pauses.
-    play_ = new SymbolButton(bar_, Symbol::Listen, "Lyssna", [this] {
+    play_ = new SymbolButton(bar_, Symbol::Play, "Lyssna", [this] {
         play_or_pause();
     });
     bar->Add(play_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));

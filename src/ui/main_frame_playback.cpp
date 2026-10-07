@@ -26,8 +26,11 @@ void MainFrame::play_or_pause() {
                         settings_.primary};
         reading.reference = scripture_->frame();
         play_speech({reading});
-    } else if (scripture_->IsShown())
+    } else if (scripture_->IsShown()) {
         play_speech({visible_reading_.value_or(scripture_->reading())});
+        // Listening to the whole of a start-page item offers to mark it as read.
+        speech_tracked_ = tracked_;
+    }
 }
 void MainFrame::speech_status(const std::string& status) {
     if (read_aloud_.playback().state == SpeechState::Error &&
@@ -77,6 +80,13 @@ void MainFrame::refresh_speech() {
         display_playback(speech_->playback());
 }
 void MainFrame::display_playback(const SpeechPlayback& playback) {
+    if (playback.state == SpeechState::Completed && read_aloud_.playback().state != SpeechState::Completed &&
+        speech_tracked_)
+        CallAfter([this, item = *speech_tracked_] {
+            offer_completion(item, true);
+        });
+    if (playback.state != SpeechState::Completed && !speech_active(playback.state))
+        speech_tracked_.reset();
     read_aloud_.update(playback);
     const bool active = speech_active(playback.state);
     if (active && following_audio_ && playback.cue && playback.cue->reading < read_aloud_.readings().size()) {

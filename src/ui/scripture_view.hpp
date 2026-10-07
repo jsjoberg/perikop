@@ -75,6 +75,10 @@ public:
     void on_return(std::function<void()> callback) {
         returned_ = std::move(callback);
     }
+    // Whether the end of the open section's passage has been on screen.
+    bool end_seen() const {
+        return end_seen_;
+    }
     ~ScriptureView() override;
 
 private:
@@ -155,6 +159,7 @@ private:
     wxString return_label_;
     wxRect return_rect_; // empty while the button is hidden
     bool return_always_ = false, return_hover_ = false, return_pressed_ = false;
+    bool end_seen_ = false;
     std::optional<Word> highlighted_;
     std::optional<VerseRef> drag_anchor_;
     std::optional<std::pair<VerseRef, VerseRef>> selection_;

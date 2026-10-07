@@ -1,4 +1,6 @@
 #include "core/model.hpp"
+#include "core/reading_plan.hpp"
+#include "speech/reading_speech.hpp"
 #include "speech/speech.hpp"
 #include "storage/database.hpp"
 #include <algorithm>
@@ -6,13 +8,15 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <map>
+#include <set>
 #include <sqlite3.h>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
 namespace {
 int checks = 0;
-void check(bool value, const char* message) {
+void check(bool value, const std::string& message) {
     ++checks;
     if (!value)
         throw std::runtime_error(message);
@@ -299,6 +303,56 @@ int main(int argc, char** argv) {
         auto refs = corpus.coordinates("sv1917", "Luke");
         check(refs.front().chapter == 1 && refs.back().chapter == 24, "adjacent chapter context");
         check(corpus.books().size() >= 80, "full book catalog");
+        {
+            // Every part opens and can be read aloud in Swedish, and no chapter is read twice.
+            const auto& plans = reading_plans();
+            check(plans.size() == 3 && plans[0].parts.size() == 30 && plans[1].parts.size() == 30 &&
+                      plans[2].parts.size() == 14,
+                  "three reading plans");
+            const auto no_lexicon = [](const std::string&) {
+                return std::vector<Pronunciation>{};
+            };
+            std::map<std::string, std::set<int>> whole_bible;
+            for (const auto& plan : plans) {
+                std::map<std::string, std::set<int>> chapters;
+                for (const auto& part : plan.parts) {
+                    const auto reading = plan_reading(corpus, part, "sv");
+                    check(reading.segments().size() == part.size(),
+                          "plan range without text: " + plan_label(part));
+                    check(!reading_speech(corpus, {reading}, no_lexicon).empty(),
+                          "plan part cannot be read aloud: " + plan_label(part));
+                    for (const auto& range : part)
+                        for (int chapter = range.first; chapter <= range.last; ++chapter)
+                            check(chapters[range.book].insert(chapter).second &&
+                                      (plan.id == "nt" || whole_bible[range.book].insert(chapter).second),
+                                  "chapter read twice in a plan: " + range.book);
+                }
+            }
+            check(plan_label(plans[0].parts[22]) == "2 Tim 4 + Tit 1–3 + Filem + Hebr 1–4",
+                  "plan part label");
+            check(plan_key(plans[1], 6) == "plan:full:7", "plan part key");
+            // The whole Bible and the other books together cover the Septuagint canon, except
+            // the books that have no Swedish text yet.
+            std::vector<std::string> missing;
+            for (const auto& book : osb_canon()) {
+                const auto frame = frame_source("sv", book.frame_book);
+                std::set<int> chapters;
+                for (const auto& ref : corpus.coordinates(frame, book.frame_book))
+                    if (book.first_chapter <= ref.chapter && ref.chapter <= book.last_chapter)
+                        chapters.insert(ref.chapter - book.offset());
+                for (int chapter : chapters)
+                    if (!whole_bible[book.code].contains(chapter))
+                        missing.push_back(book.code + " " + std::to_string(chapter));
+            }
+            std::string listed;
+            for (const auto& item : missing)
+                listed += item + ", ";
+            check(missing == std::vector<std::string>{"1Esd 1", "1Esd 2", "1Esd 3", "1Esd 4", "1Esd 5",
+                                                      "1Esd 6", "1Esd 7", "1Esd 8", "1Esd 9", "3Macc 1",
+                                                      "3Macc 2", "3Macc 3", "3Macc 4", "3Macc 5", "3Macc 6",
+                                                      "3Macc 7", "Ps 151"},
+                  "plans leave out only books without Swedish text: " + listed);
+        }
         check(corpus.verse("sv1917", "Gen", {1, 1}) && corpus.verse("sv1917", "Rev", {22, 21}),
               "Swedish full corpus endpoints");
         check(corpus.verse("sv1917", "Wis", {1, 1}) && corpus.verse("sv1917", "Tob", {14, 15}),
@@ -483,6 +537,21 @@ int main(int argc, char** argv) {
                       s.parallel == "en" && s.font_size == 24 && s.speech_rate == 175 &&
                       s.speech_voice == "bjorn",
                   "persisted settings");
+            user.complete("plan:nt:1");
+            user.complete("plan:nt:2");
+            user.complete("plan:nt:2");
+            user.complete("plan:full:1");
+            user.complete("day:2026-10-04:2Cor 9:6-9:11");
+        }
+        {
+            UserDb user(user_path);
+            check(user.completed().size() == 4 && user.completed().contains("plan:nt:2"),
+                  "persisted progress");
+            user.complete("plan:nt:1", false);
+            user.forget("plan:full:");
+            const auto left = user.completed();
+            check(left == std::set<std::string>{"plan:nt:2", "day:2026-10-04:2Cor 9:6-9:11"},
+                  "forgetting one plan keeps the others");
         }
         std::filesystem::remove(user_path);
         sqlite3* legacy = nullptr;
@@ -505,7 +574,7 @@ int main(int argc, char** argv) {
                                "FROM pragma_application_id),(SELECT strict FROM pragma_table_list WHERE "
                                "name='settings'),(SELECT journal_mode FROM pragma_journal_mode)",
                                -1, &query, nullptr);
-            check(sqlite3_step(query) == SQLITE_ROW && sqlite3_column_int(query, 0) == 1 &&
+            check(sqlite3_step(query) == SQLITE_ROW && sqlite3_column_int(query, 0) == 2 &&
                       sqlite3_column_int(query, 1) == 0x4f525455 && sqlite3_column_int(query, 2) == 1 &&
                       std::string(reinterpret_cast<const char*>(sqlite3_column_text(query, 3))) == "wal",
                   "settings storage policy");

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 13.4 CACHE STRING "Oldest supported macOS with portable speech")
-project(perikop VERSION 0.5.0 LANGUAGES C CXX)
+project(perikop VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -33,6 +33,7 @@ add_library(ortho-core
     src/core/swedish_titles.cpp
     src/core/canon.cpp
     src/core/reading_display.cpp
+    src/core/reading_plan.cpp
     src/storage/sqlite.cpp
     src/storage/corpus_db.cpp
     src/storage/study_db.cpp
@@ -110,6 +111,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_menus.cpp
         src/ui/main_frame_playback.cpp
         src/ui/main_frame_toolbar.cpp
+        src/ui/main_frame_plans.cpp
         src/ui/main_frame_smoke.cpp
         src/ui/controls.cpp
         src/ui/about.cpp
@@ -130,7 +132,14 @@ if(ORTHO_BUILD_GUI)
         target_sources(perikop PRIVATE cmake/reader.rc)
         target_include_directories(perikop PRIVATE cmake)
     endif()
-    target_compile_definitions(perikop PRIVATE PERIKOP_VERSION="${PROJECT_VERSION}")
+    set(perikop_version_header "${CMAKE_BINARY_DIR}/generated/perikop_version.hpp")
+    add_custom_target(perikop-version
+        COMMAND "${CMAKE_COMMAND}" -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DVERSION=${PROJECT_VERSION}
+            -DOUTPUT=${perikop_version_header} -P "${CMAKE_SOURCE_DIR}/cmake/version.cmake"
+        BYPRODUCTS "${perikop_version_header}"
+        VERBATIM)
+    add_dependencies(perikop perikop-version)
+    target_include_directories(perikop PRIVATE "${CMAKE_BINARY_DIR}/generated")
     target_compile_definitions(perikop PRIVATE ORTHO_RESOURCE_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/perikop/resources")
     if(APPLE)
         enable_language(OBJCXX)

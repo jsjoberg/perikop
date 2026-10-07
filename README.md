@@ -3,7 +3,7 @@
 A native Orthodox lectionary reader prototype for Windows, macOS, and Linux.
 The interface uses Swedish labels. Scripture appears in a custom native view with continuous chapter context.
 
-Version 0.5 bundles 141,201 Scripture records from complete available Swedish, Greek, and English editions.
+Perikop bundles 141,201 Scripture records from complete available Swedish, Greek, and English editions.
 It includes Swedish apocrypha and the Greek Septuagint.
 It calculates daily readings offline for the North American Antiochian Greek tradition.
 All 52 Sundays match the Archdiocese's official 2026 chart.
@@ -95,7 +95,13 @@ The symbols on the right choose the right column: word study, Swedish, Greek, or
 On the day page, the reader's controls are dimmed.
 **Om Perikop** shows the version and every source the program uses, with links. On macOS it is in the application menu; elsewhere it is in **Hjälp**.
 
-The day page shows only the date and its readings. The **Kalender** menu moves between days and opens a native date picker.
+The day page shows the date, its readings, and three reading plans. The **Kalender** menu moves between days and opens a native date picker.
+
+The reading plans are the New Testament in 30 parts, the whole Bible in 30 parts, and the Septuagint's other books in 14 parts.
+Plans count parts, not days. Select a numbered part to open it; a part with several books has a section menu in the address field.
+When the voice finishes a part, or you leave a part after you scroll to its end, Perikop asks whether to mark it as read.
+The day's readings are marked in the same way. **Börja om** clears one plan after confirmation.
+The whole-Bible plan follows a plan made for the Hebrew text, moved to the same places in the Septuagint's numbering.
 The picker's Current date button selects the current date before confirmation.
 The build patches a wxWidgets 3.3.3 macOS bug that over-released Swedish month and weekday names and crashed the date picker.
 New calendar mode uses the North American Antiochian reading rules.

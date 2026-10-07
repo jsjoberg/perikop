@@ -162,6 +162,11 @@ void ScriptureView::paint(wxPaintEvent&) {
     const auto begin = first_visible();
     draw(dc, GetClientSize(), begin, rows_.size(), positions_.empty() ? 0 : positions_[begin] - offset_);
     draw_return(dc);
+    // The passage's last paragraph has been seen once its end is on screen.
+    const double bottom = offset_ + GetClientSize().y;
+    for (auto i = begin; !end_seen_ && i < rows_.size() && positions_[i] < bottom; ++i)
+        if (!rows_[i].heading && rows_[i].ref <= displayed_.last && displayed_.last <= rows_[i].last)
+            end_seen_ = positions_[i + 1] <= bottom;
 }
 void ScriptureView::return_button(const wxString& label, bool always) {
     if (return_label_ == label && return_always_ == always)

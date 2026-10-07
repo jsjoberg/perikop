@@ -1,4 +1,5 @@
 #include "ui/about.hpp"
+#include "perikop_version.hpp"
 #include "ui/controls.hpp"
 #include <wx/dialog.h>
 #include <wx/hyperlink.h>

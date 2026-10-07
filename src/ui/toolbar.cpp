@@ -32,23 +32,14 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.StrokePath(path);
         break;
     }
-    case Symbol::Listen: {
-        pen(1.4);
-        auto speaker = gc.CreatePath();
-        speaker.MoveToPoint(3, 7.6);
-        speaker.AddLineToPoint(6.4, 7.6);
-        speaker.AddLineToPoint(10.4, 4.3);
-        speaker.AddLineToPoint(10.4, 15.7);
-        speaker.AddLineToPoint(6.4, 12.4);
-        speaker.AddLineToPoint(3, 12.4);
-        speaker.CloseSubpath();
-        gc.DrawPath(speaker);
+    case Symbol::Play: {
         pen(1.6);
-        for (const auto& [radius, angle] : {std::pair{3.3, 0.85}, std::pair{6.3, 0.9}}) {
-            auto wave = gc.CreatePath();
-            wave.AddArc(10.6, 10, radius, -angle, angle, true);
-            gc.StrokePath(wave);
-        }
+        auto path = gc.CreatePath();
+        path.MoveToPoint(6.5, 4.2);
+        path.AddLineToPoint(15.8, 10);
+        path.AddLineToPoint(6.5, 15.8);
+        path.CloseSubpath();
+        gc.DrawPath(path);
         break;
     }
     case Symbol::Pause:

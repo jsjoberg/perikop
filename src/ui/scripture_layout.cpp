@@ -47,6 +47,7 @@ void ScriptureView::open_section(std::size_t index) {
     if (index >= segments.size())
         return;
     displayed_ = segments[index];
+    end_seen_ = false;
     rows_.clear();
     located_cue_.reset();
     highlighted_.reset();

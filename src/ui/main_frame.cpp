@@ -128,6 +128,7 @@ void MainFrame::navigate(int days) {
 }
 void MainFrame::refresh_day() {
     day_ = lectionary_.readings_for(selected_.date(), settings_.calendar);
+    plan_tiles_.clear();
     entries_->Clear(true);
     entries_->AddSpacer(FromDIP(48));
     entries_->Add(ui::label(readings_, ui::utf8(date_swedish(selected_.date())), 13), 0, wxBOTTOM,
@@ -147,23 +148,36 @@ void MainFrame::refresh_day() {
     if (day_.readings.empty())
         entries_->Add(ui::label(readings_, "Ingen daglig bibelläsning är föreskriven", 18), 0, wxBOTTOM,
                       FromDIP(20));
+    const auto completed = user_.completed();
     for (const auto& reading : day_.readings) {
         auto* section = ui::label(readings_, kind_label(reading.kind), 10);
         entries_->Add(section, 0, wxBOTTOM, FromDIP(6));
-        auto* open = ui::button(
-            readings_, ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments())),
-            [this, reading] {
-                open_reading(reading);
+        const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments()));
+        const auto key = day_key(reading);
+        const bool done = completed.contains(key);
+        auto* open =
+            ui::button(readings_, done ? title + ui::utf8("  ✓") : title, [this, reading, key, title] {
+                open_tracked(reading, {key, title});
             });
         open->SetFont(body_font(20));
+        if (done)
+            open->SetToolTip(ui::utf8("Läst"));
         entries_->Add(open, 0, wxBOTTOM, FromDIP(32));
     }
+    add_plans();
     readings_->FitInside();
     readings_->Scroll(0, 0);
     apply_settings(false);
     Layout();
 }
 void MainFrame::show_readings() {
+    // Leaving a start-page item whose end has been read offers to mark it.
+    if (tracked_ && scripture_->IsShown() && part_ + 1 >= parts_.size() && scripture_->end_seen()) {
+        const auto item = *tracked_;
+        tracked_.reset();
+        offer_completion(item, false);
+    }
+    tracked_.reset();
     following_audio_ = false;
     if (scripture_)
         scripture_->follow_playback(false);
@@ -221,8 +235,10 @@ void MainFrame::review_pronunciation() {
     refresh_speech();
 }
 void MainFrame::browse_bible() {
-    if (const auto reading = pick_bible_reading(this, corpus_, settings_))
+    if (const auto reading = pick_bible_reading(this, corpus_, settings_)) {
+        tracked_.reset();
         open_reading(*reading);
+    }
 }
 void MainFrame::pick_date() {
     if (const auto date = pick_civil_date(this, selected_.date(), settings_.theme))
@@ -245,6 +261,8 @@ void MainFrame::apply_settings(bool persist) {
     }
     const auto colors = palette(settings_.theme);
     ui::recolor(root_, colors);
+    for (auto* tile : plan_tiles_)
+        tile->apply(colors);
     for (auto* button : {back_, play_, pause_, stop_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)

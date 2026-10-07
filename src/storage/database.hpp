@@ -2,6 +2,7 @@
 #include "core/model.hpp"
 #include <filesystem>
 #include <memory>
+#include <set>
 #include <utility>
 struct sqlite3;
 namespace ortho {
@@ -83,6 +84,11 @@ public:
     explicit UserDb(const std::filesystem::path& path);
     Settings load() const;
     void save(const Settings&);
+    // Keys of what the reader has marked as read, such as "plan:nt:7".
+    std::set<std::string> completed() const;
+    void complete(const std::string& key, bool done = true);
+    // Forgets every mark whose key starts with the prefix, such as a whole plan.
+    void forget(const std::string& prefix);
 
 private:
     DatabaseHandle db_;
