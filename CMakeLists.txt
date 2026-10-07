@@ -201,6 +201,10 @@ if(ORTHO_BUILD_GUI)
         endif()
     else()
         set_target_properties(perikop PROPERTIES BUILD_RPATH "$ORIGIN" INSTALL_RPATH "$ORIGIN")
+        # The reader refreshes Pango's font list after it registers the bundled fonts.
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(perikop_pango REQUIRED IMPORTED_TARGET pangoft2 pangocairo)
+        target_link_libraries(perikop PRIVATE PkgConfig::perikop_pango)
         add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${ortho_ort_library}" "$<TARGET_FILE_DIR:perikop>/libonnxruntime.so.1")
         install(FILES "${ortho_ort_library}" DESTINATION bin RENAME libonnxruntime.so.1)

@@ -2,6 +2,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/native_icon.hpp"
+#include <clocale>
 #include <filesystem>
 #include <iostream>
 #include <wx/app.h>
@@ -15,12 +16,21 @@
 #ifdef __APPLE__
 #include <CoreText/CoreText.h>
 #endif
+#ifdef __WXGTK__
+#include <pango/pangocairo.h>
+#include <pango/pangofc-fontmap.h>
+#endif
 class ReaderApp final : public wxApp {
 public:
     bool OnInit() override {
         // Swedish month and weekday names in date controls. This sets only
         // wxWidgets' UI locale; the C locale used for numbers is unchanged.
         wxUILocale::UseLocaleName("sv_SE");
+#ifdef __WXGTK__
+        // wxGTK leaves the C locale, in which character classes such as wxIsalpha know only ASCII.
+        // Hyphenation needs Swedish and Greek letters; numbers keep the C format.
+        std::setlocale(LC_CTYPE, "C.UTF-8");
+#endif
         // The data directory keeps its pre-Perikop name so settings, voices and caches remain.
         SetAppName("orthodox-reader");
         SetVendorName("orthodox-reader");
@@ -111,6 +121,12 @@ public:
                 if (!loaded)
                     throw std::runtime_error(std::string("Cannot load bundled font: ") + file);
             }
+#ifdef __WXGTK__
+            // wxGTK gives Pango the same font configuration for every private font, so Pango keeps
+            // the families it listed after the first one. Make it list them again.
+            pango_fc_font_map_config_changed(PANGO_FC_FONT_MAP(pango_cairo_font_map_get_default()));
+            wxFontEnumerator::InvalidateCache();
+#endif
             ortho::load_hyphenation(resources / "hyphenation");
             corpus_ = std::make_unique<ortho::CorpusDb>(resources / "corpus/corpus.db");
             if (smoke) {
