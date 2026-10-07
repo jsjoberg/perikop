@@ -3,6 +3,7 @@
 #include "ui/controls.hpp"
 #include <algorithm>
 #include <wx/dialog.h>
+#include <wx/panel.h>
 #include <wx/sizer.h>
 namespace ortho {
 std::optional<Reading> pick_bible_reading(wxWindow* parent, const CorpusDb& corpus,

@@ -1,6 +1,7 @@
 #include "speech/tempo.hpp"
 #include <cmath>
 #include <iostream>
+#include <numbers>
 #include <stdexcept>
 #include <vector>
 namespace {
@@ -36,7 +37,7 @@ int main() {
     try {
         std::vector<float> tone(48000);
         for (size_t i = 0; i < tone.size(); ++i)
-            tone[i] = 0.5f * std::sin(2 * M_PI * 220 * i / 24000.0);
+            tone[i] = 0.5f * std::sin(2 * std::numbers::pi * 220 * i / 24000.0);
         const auto normal = play(1.0f, tone), slow = play(0.8f, tone);
         check(normal.size() == tone.size(), "Normal speed plays every sample unchanged");
         check(std::abs(double(slow.size()) / tone.size() - 1.25) < 0.03, "80 % speed lasts 25 % longer");

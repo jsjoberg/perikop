@@ -96,7 +96,7 @@ int main() {
         ortho::PcmStream concurrent;
         constexpr size_t chunks = 20000;
         std::atomic<bool> abort{false};
-        std::jthread producer([&] {
+        std::thread producer([&] {
             size_t sample = 1;
             for (size_t i = 0; i < chunks && !abort.load(); ++i) {
                 std::vector<float> samples(1 + i % 17);
