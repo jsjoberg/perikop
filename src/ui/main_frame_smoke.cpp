@@ -26,7 +26,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     };
     if (!corpus_.read_only())
         fail(__LINE__);
-    if (!GetIcon().IsOk() || !app_icon_image().IsOk() || std::filesystem::exists(resources_ / "icons"))
+    // GetIcon() needs an exact system-size match on some ports. Check the stored artwork.
+    if (GetIcons().IsEmpty() || !GetIcons().GetIconByIndex(0).IsOk())
+        fail(__LINE__);
+    if (!app_icon_image().IsOk() || std::filesystem::exists(resources_ / "icons"))
         fail(__LINE__);
     for (const auto* face : {"Literata", "IBM Plex Sans", "Noto Serif Hebrew"})
         if (!wxFontEnumerator::IsValidFacename(face)) {
