@@ -175,7 +175,7 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
         if (!part)
             return std::unexpected(part.error());
         if (!result.text.empty())
-            result.text += " ";
+            result.text += ' ';
         result.text += part->text;
         if (targets.size() == 1)
             result.last = part->last;
