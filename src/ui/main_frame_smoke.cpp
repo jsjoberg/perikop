@@ -1,4 +1,5 @@
 #include "core/reading_plan.hpp"
+#include "ui/app_icon.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
@@ -24,6 +25,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         ok = false;
     };
     if (!corpus_.read_only())
+        fail(__LINE__);
+    if (!GetIcon().IsOk() || !app_icon_image().IsOk() || std::filesystem::exists(resources_ / "icons"))
         fail(__LINE__);
     for (const auto* face : {"Literata", "IBM Plex Sans", "Noto Serif Hebrew"})
         if (!wxFontEnumerator::IsValidFacename(face)) {

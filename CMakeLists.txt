@@ -132,6 +132,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_smoke.cpp
         src/ui/controls.cpp
         src/ui/about.cpp
+        src/ui/app_icon.cpp
         src/ui/toolbar.cpp
         src/ui/bible_picker.cpp
         src/ui/date_picker.cpp
@@ -150,6 +151,12 @@ if(ORTHO_BUILD_GUI)
         target_include_directories(perikop PRIVATE cmake)
     endif()
     set(perikop_version_header "${CMAKE_BINARY_DIR}/generated/perikop_version.hpp")
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+        "${CMAKE_SOURCE_DIR}/resources/icons/orthodox-cross.png")
+    file(READ "${CMAKE_SOURCE_DIR}/resources/icons/orthodox-cross.png" perikop_icon_bytes HEX)
+    string(REGEX REPLACE "(..)" "0x\\1," perikop_icon_bytes "${perikop_icon_bytes}")
+    file(CONFIGURE OUTPUT "${CMAKE_BINARY_DIR}/generated/perikop_icon.hpp"
+        CONTENT "constexpr unsigned char perikop_icon_png[] = {@perikop_icon_bytes@};\n" @ONLY)
     add_custom_target(perikop-version
         COMMAND "${CMAKE_COMMAND}" -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DVERSION=${PROJECT_VERSION}
             -DOUTPUT=${perikop_version_header} -P "${CMAKE_SOURCE_DIR}/cmake/version.cmake"
@@ -190,11 +197,8 @@ if(ORTHO_BUILD_GUI)
     add_custom_target(ortho-resources ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/resources" "${resource_destination}"
-        # The executable embeds the Windows ICO. Only the PNG is read by the application.
+        # Icons are embedded; macOS gets its OS bundle icon separately.
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/icons"
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${resource_destination}/icons"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/resources/icons/orthodox-cross.png"
-            "${resource_destination}/icons/orthodox-cross.png"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"

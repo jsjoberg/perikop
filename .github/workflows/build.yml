@@ -172,8 +172,7 @@ jobs:
           if ($version.ProductVersion -ne $expected -or $version.FileVersion -ne $expected) {
             throw "Executable version does not match $expected"
           }
-          $icons = @(Get-ChildItem build/cmake/bin/resources/icons -Name)
-          if ($icons.Count -ne 1 -or $icons[0] -ne 'orthodox-cross.png') { throw 'Unexpected installed icon resources' }
+          if (Test-Path build/cmake/bin/resources/icons) { throw 'Icon resources should be embedded' }
       - run: ctest --test-dir build/cmake --output-on-failure
       - name: Smoke test screenshots
         timeout-minutes: 10
