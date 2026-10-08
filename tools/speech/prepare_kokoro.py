@@ -11,7 +11,7 @@ import time
 
 VOICES = '2c7968d59c2fda1667e9e3ff0dd9967150a53f74'
 G2P = 'a5aac876ccb2bf7480a129774c7e89cf3bbeac01'
-PACK = 'kokoro-sv-alice-bjorn-2c7968d-v1'
+PACK = 'kokoro-sv-alice-bjorn-2c7968d-v2'
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -53,8 +53,41 @@ def main():
         torch.onnx.export(model, inputs, str(out/filename), input_names=names, output_names=outputs,
                           dynamic_axes=axes, opset_version=17, dynamo=False)
     print('Exporting Swedish acoustic model', flush=True)
-    export(Acoustic().eval(), (ids,ref), 'kokoro.onnx', ['input_ids','ref_s'], ['audio','pred_dur'],
+    export(Acoustic().eval(), (ids,ref), 'kokoro-fp32.onnx', ['input_ids','ref_s'], ['audio','pred_dur'],
            {'input_ids':{1:'tokens'},'audio':{0:'samples'},'pred_dur':{0:'tokens'}})
+    # The vocoder holds two thirds of the weights and tolerates per-channel
+    # 8-bit storage; ONNX Runtime restores FP32 weights at load. The other
+    # modules stay FP32 because rounding them changes durations and prosody.
+    import onnx
+    from onnx import helper, numpy_helper
+    acoustic_model = onnx.load(str(out/'kokoro-fp32.onnx')); graph = acoustic_model.graph
+    users = {}
+    for node in graph.node:
+        for name in node.input: users.setdefault(name,[]).append(node)
+    def user(name):
+        node = users[name][0]
+        while node.op_type=='Identity' and node.output[0] in users: node = users[node.output[0]][0]
+        return node
+    weights, dequantize = [], []
+    for init in graph.initializer:
+        w = numpy_helper.to_array(init)
+        node = user(init.name) if init.name in users else None
+        if node is None or not node.name.strip('/').startswith('decoder/') or w.dtype!=np.float32 or w.size<4096:
+            weights.append(init); continue
+        axis = {'ConvTranspose':1,'LSTM':1,'MatMul':w.ndim-1}.get(node.op_type,0)
+        if node.op_type=='Gemm' and not any(a.name=='transB' and a.i for a in node.attribute): axis = 1
+        rows = np.moveaxis(w,axis,0)
+        scale = np.abs(rows).reshape(len(rows),-1).max(1).clip(1e-12)/127
+        q = np.round(rows/scale.reshape(-1,*[1]*(rows.ndim-1))).clip(-127,127).astype(np.int8)
+        weights += [numpy_helper.from_array(np.moveaxis(q,0,axis),init.name+'_int8'),
+                    numpy_helper.from_array(scale.astype(np.float32),init.name+'_scale')]
+        dequantize.append(helper.make_node('DequantizeLinear',[init.name+'_int8',init.name+'_scale'],[init.name],axis=axis))
+    nodes = dequantize+list(graph.node)
+    del graph.initializer[:], graph.node[:]
+    graph.initializer.extend(weights); graph.node.extend(nodes)
+    onnx.checker.check_model(acoustic_model)
+    onnx.save(acoustic_model, str(out/'kokoro.onnx'))
+    del acoustic_model, graph, users, weights
     checkpoint = torch.load(fetch('Joakim/kokoro-sv-g2p', G2P, 'g2p/g2p_model.pt', 'a676975c4b8a618815b10db6557d13bbab692b5bb246c899d1cbe592e5737731'), map_location='cpu', weights_only=True)
     cfg = checkpoint['cfg']; size = cfg['d_model']; heads = cfg['nhead']
     # Explicit attention avoids the exporter's fixed-length MultiheadAttention
@@ -140,11 +173,15 @@ def main():
     loaded_at = time.perf_counter()
     acoustic = ort.InferenceSession(str(out/'kokoro.onnx'), options,providers=['CPUExecutionProvider'])
     acoustic_load = time.perf_counter()-loaded_at
-    for n in [4,9,35]:
+    full = ort.InferenceSession(str(out/'kokoro-fp32.onnx'), options,providers=['CPUExecutionProvider'])
+    for n in [4,9,35,120]:
         inputs = np.array([[0]+[50,43,67,16,44,55,16,50,43]*(n//9)+[50]*(n%9)+[0]],dtype=np.int64)
         audio,durations = acoustic.run(None,{'input_ids':inputs,'ref_s':ref.numpy()})
         assert audio.size>1000 and np.isfinite(audio).all() and np.max(np.abs(audio))>0.0001
         assert durations.size == inputs.size
+        np.testing.assert_array_equal(durations, full.run(None,{'input_ids':inputs,'ref_s':ref.numpy()})[1])
+    del full
+    (out/'kokoro-fp32.onnx').unlink()
     if args.reference_source:
         import subprocess
         revision = subprocess.check_output(['git','-C',str(args.reference_source),'rev-parse','HEAD'],text=True).strip()

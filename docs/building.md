@@ -30,7 +30,7 @@ sudo apt-get install -y g++-15
 
 ## Prepare read-aloud
 
-The Alice and Björn voice pack occupies about 387 MB.
+The Alice and Björn voice pack occupies about 228 MB.
 Prepare it before the build:
 
 ```sh
