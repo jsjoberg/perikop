@@ -99,9 +99,8 @@ public:
                         : 1;
                 return true;
             }
-            for (const auto* file :
-                 {"Literata-Regular.ttf", "Literata-Italic.ttf", "IBMPlexSans-Regular.ttf",
-                  "IBMPlexSans-Medium.ttf", "NotoSerifHebrew-Regular.ttf", "NotoSansMath-Regular.ttf"}) {
+            for (const auto* file : {"Literata-Regular.ttf", "Literata-Italic.ttf", "IBMPlexSans-Regular.ttf",
+                                     "IBMPlexSans-Medium.ttf", "NotoSerifHebrew-Regular.ttf"}) {
                 const auto file_path = (resources / "fonts" / file).u8string();
 #ifdef __APPLE__
                 const auto* bytes = reinterpret_cast<const UInt8*>(file_path.c_str());

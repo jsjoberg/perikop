@@ -35,3 +35,4 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - The About page shows the release version, such as 0.1.0-alpha.2, in a release build. Other builds show the version and the commit.
 - The Alice and Björn voices are bundled in the application. There is no separate voice installation, and Perikop never uses the network.
 - The play button shows a play symbol, and play, pause, and stop always stay in the toolbar.
+- The Greek text of 1 John 5:7 marks its bracketed passage with [[ ]] instead of ⟦ ⟧, in the reader's own font. Perikop no longer includes the Noto Sans Math font.

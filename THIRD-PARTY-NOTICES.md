@@ -83,8 +83,8 @@ https://github.com/lyallcooper/justif
 - American English patterns: Copyright (C) 1990, 2004, 2005 Gerard D.C. Kuiken.
   Their file header permits redistribution with the copyright and permission notices.
 
-Noto Serif Hebrew and Noto Sans Math use SIL OFL 1.1.
-Their unmodified font files provide explicit fallback for corpus characters outside Literata.
+Noto Serif Hebrew uses SIL OFL 1.1.
+Its unmodified font file provides explicit fallback for the Hebrew characters outside Literata.
 The license is in `resources/licenses/Noto-OFL.txt`.
 https://github.com/notofonts/noto-fonts
 

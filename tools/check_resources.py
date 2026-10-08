@@ -54,7 +54,7 @@ with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',u
     bad=db.execute("SELECT count(*) FROM verse WHERE text LIKE '%strong=%' OR text LIKE '%<%' OR text LIKE '%\\%'").fetchone()[0]
     if bad:raise SystemExit(f'{bad} verses still contain import markup')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:
-    fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')|cmap(root/'resources/fonts/NotoSansMath-Regular.ttf')
+    fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')
     missing=required-(cmap(root/'resources/fonts'/name)|fallback)
     if missing:raise SystemExit(f'{name}: missing glyphs '+', '.join(f'U+{c:04X}' for c in sorted(missing)))
     print(f'{name}: all {len(required)} corpus characters covered, including bundled fallback')

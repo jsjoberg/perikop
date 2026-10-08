@@ -25,7 +25,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     };
     if (!corpus_.read_only())
         fail(__LINE__);
-    for (const auto* face : {"Literata", "IBM Plex Sans", "Noto Serif Hebrew", "Noto Sans Math"})
+    for (const auto* face : {"Literata", "IBM Plex Sans", "Noto Serif Hebrew"})
         if (!wxFontEnumerator::IsValidFacename(face)) {
             std::cerr << "Missing font: " << face << '\n';
             fail(__LINE__);

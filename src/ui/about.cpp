@@ -78,9 +78,7 @@ const std::vector<Section>& sections() {
         {"Typografi",
          {{"Literata", "TypeTogether för Google. SIL OFL 1.1.", {"https://github.com/googlefonts/literata"}},
           {"IBM Plex Sans", "IBM och Bold Monday. SIL OFL 1.1.", {"https://github.com/IBM/plex"}},
-          {"Noto Serif Hebrew och Noto Sans Math",
-           "Google. SIL OFL 1.1.",
-           {"https://github.com/notofonts/noto-fonts"}},
+          {"Noto Serif Hebrew", "Google. SIL OFL 1.1.", {"https://github.com/notofonts/noto-fonts"}},
           {"Avstavningsmönster",
            "Jan Michael Rynning (svenska, LPPL), Dimitrios Filippou (grekiska, MIT) och "
            "Gerard D.C. Kuiken (engelska).",

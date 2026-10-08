@@ -48,7 +48,7 @@ void add_pattern(Patterns& patterns, const wxString& pattern) {
     patterns.trie[node].weights = std::move(weights);
 }
 int font_category(unsigned c) {
-    return c >= 0x590 && c <= 0x5ff ? 1 : (c == 0x27e6 || c == 0x27e7) ? 2 : 0;
+    return c >= 0x590 && c <= 0x5ff ? 1 : 0;
 }
 struct ShapedPart {
     wxString text;
@@ -63,8 +63,6 @@ std::vector<ShapedPart> shaped_parts(const wxFont& base, const wxString& text) {
             auto font = base;
             if (category == 1)
                 font.SetFaceName("Noto Serif Hebrew");
-            if (category == 2)
-                font.SetFaceName("Noto Sans Math");
             parts.push_back({{}, font});
             previous = category;
         }

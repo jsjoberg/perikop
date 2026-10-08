@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "fe246f607d1407b691fa85609c1861efbc4c07e3a758ee1ab5c5f0a038906867",
+      "sha256": "c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -324,13 +324,6 @@
       "url": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/LICENSE",
       "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb",
       "license": "OFL-1.1"
-    },
-    {
-      "path": "resources/fonts/NotoSansMath-Regular.ttf",
-      "url": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/hinted/ttf/NotoSansMath/NotoSansMath-Regular.ttf",
-      "sha256": "80b61fd613d3519197e64fff6f7e71fdc7f3e6526440ea4115b554ef7fd59af7",
-      "license": "OFL-1.1",
-      "role": "Explicit editorial-symbol fallback"
     },
     {
       "path": "resources/licenses/Hyphenation-LPPL-1.3c.txt",

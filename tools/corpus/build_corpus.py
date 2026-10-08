@@ -44,6 +44,8 @@ for source,filename in [(2,'grcbrent_usfm.zip'),(3,'grcbyz_usfm.zip'),(5,'eng-we
    # Notes, cross references and Strong's attributes are outside display text.
    text=re.sub(r'\\(?:f|x|fe)\s.*?\\(?:f|x|fe)\*','',text,flags=re.S)
    text=re.sub(r'\\\+?w\s+([^|\\]+)(?:\|[^\\]*)?\\\+?w\*',r'\1',text)
+   # The reader's fonts have no white square brackets; [[ ]] keeps them distinct from [ ].
+   if source==3:text=text.replace('⟦','[[').replace('⟧',']]')
    for label in re.findall(r'\\v\s+(\S+)',text):
     if not re.fullmatch(r'\d+[a-z]?(?:-\d+)?',label):raise ValueError('Unsupported verse label: '+filename+' '+label)
    chapter=0

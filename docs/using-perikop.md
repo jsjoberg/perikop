@@ -141,7 +141,7 @@ The [pronunciation review guide](pronunciation-review.md) describes the workflow
 
 Theme choices are System, Light, and Dark.
 The user database stores the theme, calendar choice, parallel language, and font size.
-The application bundles Literata, IBM Plex Sans, and fallback fonts for Hebrew headings and editorial brackets.
+The application bundles Literata, IBM Plex Sans, and a fallback font for Hebrew headings.
 The blue and yellow Orthodox cross appears in the window and the macOS Dock.
 
 **Om Perikop** shows the version and every source the program uses, with links.
