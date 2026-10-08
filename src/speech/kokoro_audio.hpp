@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 namespace ortho {
-inline constexpr char kokoro_pack_id[] = "kokoro-sv-alice-bjorn-2c7968d-v2";
+inline constexpr char kokoro_pack_id[] = "kokoro-sv-alice-bjorn-2c7968d-v3";
 void clean_kokoro_audio(std::vector<float>& pcm);
 // The acoustic stage consumes token IDs from KokoroText.
 class KokoroAudio {

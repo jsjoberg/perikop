@@ -70,7 +70,7 @@ To publish a new pack, set `id` to the `id` in its `voice-pack.json`.
 Then archive and upload it on macOS:
 
 ```sh
-id=kokoro-sv-alice-bjorn-2c7968d-v2
+id=kokoro-sv-alice-bjorn-2c7968d-v3
 COPYFILE_DISABLE=1 tar --no-mac-metadata -czf "build/$id.tar.gz" -C build/kokoro-pack .
 gh release create "$id" "build/$id.tar.gz" --prerelease --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
 cmake -E sha256sum "build/$id.tar.gz"

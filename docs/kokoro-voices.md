@@ -11,6 +11,12 @@ Python and PyTorch are preparation tools managed by `uv`. The distributed applic
 `src/speech/kokoro_text.cpp` is the native pronunciation stage. It reproduces the pinned upstream text path:
 number spelling, NST lexicon lookup with custom overrides, the neural model for unknown words, word fixes, and the Kokoro symbol remap.
 ONNX Runtime runs the exported pronunciation encoder and decoder.
+The pack keeps only the lexicon entries for the words of the Swedish corpus.
+The preparation script runs the neural model on the corpus words without an entry and stores the results in `g2p-corpus.tsv`.
+Read-aloud of the corpus therefore never runs the model.
+The model loads only for other words, such as a speech spelling in the pronunciation review.
+It stores 16-bit weights. Its output differs from the 32-bit export for 2 of the 8,029 precomputed words.
+A change to the Swedish corpus text needs a new pack. Until then, the model pronounces the new words.
 The reader adds three changes. Its own number spelling uses standard words, such as `fyrtio` and `ettusen`.
 A capitalized word with a genitive -s uses the lexicon pronunciation of its stem, such as `Sauls`.
 Text in `⟦…⟧` gives exact phonemes from a pronunciation entry. See [the pronunciation review guide](pronunciation-review.md).
@@ -23,7 +29,7 @@ uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build
 
 The build bundles the prepared pack in the application's resources, under `voices/` and the pack identifier.
 `-DPERIKOP_VOICE_PACK=/path/to/pack` selects another pack directory. The installed program never downloads anything.
-The prepared pack occupies approximately 228 MB. It contains one acoustic model, two pronunciation models, a lexicon, and two voice tensors.
+The prepared pack occupies approximately 180 MB. It contains one acoustic model, two pronunciation models, a lexicon, the precomputed corpus pronunciations, and two voice tensors.
 The acoustic model stores the vocoder weights as 8-bit integers with one scale per channel. ONNX Runtime restores them to 32-bit floats at load.
 All other weights stay 32-bit floats, because rounding them changes durations and prosody.
 Each voice tensor contains 510 styles. Select the style with the phoneme count, as the upstream model requires.
@@ -89,6 +95,9 @@ The token IDs matched for every verse before the reader's three changes.
 After the changes, 207 verses differ, all because of the genitive rule. The verses with digits still match.
 These counts exclude the corpus pronunciation entries, which apply before the front end.
 The native stage processed all verses in 59 seconds, including the lexicon load.
+On October 9, 2026 the pack with precomputed corpus pronunciations gave the same token IDs as the previous pack for every verse.
+This check used the verse text and the text after the bundled pronunciation entries. It also used the reading introductions and the numbers 0 to 999.
+The check gave the same result without the two pronunciation models in the pack. The native stage then processed all verses in 1.3 seconds.
 The reader's Psalm sample with Alice has the same length as the upstream sample. The sample correlation is 0.997.
 
 ## Sources and limits

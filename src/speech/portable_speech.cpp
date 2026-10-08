@@ -54,7 +54,7 @@ class Kokoro {
     static std::filesystem::path checked(const std::filesystem::path& path) {
         for (const char* file :
              {"kokoro.onnx", "g2p-encoder.onnx", "g2p-decoder.onnx", "g2p-config.json", "config.json",
-              "alice.bin", "bjorn.bin", "lexicon.tsv", "custom_lexicon.tsv"})
+              "alice.bin", "bjorn.bin", "lexicon.tsv", "custom_lexicon.tsv", "g2p-corpus.tsv"})
             if (!std::filesystem::is_regular_file(path / file))
                 throw std::runtime_error("Röstpaketet för Alice och Björn saknas eller är ofullständigt. "
                                          "Installera det för att lyssna offline.");
