@@ -490,8 +490,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (!scripture_->marker_position())
         fail(__LINE__);
     auto greek = playing;
-    greek.cue->source = "grc-lxx";
-    greek.cue->verse = greek.cue->last = {22, 3};
+    greek.cue = SpeechCue{0, 0, "Ps", "grc-lxx", {22, 3}, {22, 3}, false};
     scripture_->playback(greek);
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);

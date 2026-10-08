@@ -98,7 +98,7 @@ if(ORTHO_BUILD_GUI)
         endforeach()
         foreach(feature LIBTIFF LIBWEBP LIBLZMA WEBVIEW MEDIACTRL OPENGL GLCANVAS XRC
                 AUI PROPGRID RIBBON RICHTEXT STC HTML HELP WXHTML_HELP XML SOCKETS PROTOCOL URL
-                FS_INET WEBREQUEST SECRETSTORE SPELLCHECK DEBUGREPORT)
+                FS_INET WEBREQUEST SECRETSTORE SPELLCHECK DEBUGREPORT LIBSDL LIBNOTIFY LIBGNOMEVFS)
             set(wxUSE_${feature} OFF CACHE BOOL "" FORCE)
         endforeach()
         FetchContent_Declare(wxWidgets
@@ -130,7 +130,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/pronunciation_review.cpp
         src/ui/study_panel.cpp
         src/typesetting/paragraph_layout.cpp)
-    target_link_libraries(perikop PRIVATE ortho-core ortho-speech ${ortho_wx})
+    target_link_libraries(perikop PRIVATE ortho-speech ortho-core ${ortho_wx})
     if(WIN32)
         enable_language(RC)
         target_sources(perikop PRIVATE cmake/reader.rc)

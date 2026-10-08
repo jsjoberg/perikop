@@ -10,10 +10,14 @@
 #include <atomic>
 #include <cstring>
 #include <miniaudio.h>
+#include <mutex>
 #include <stdexcept>
 namespace ortho {
 struct PcmOutput::Impl {
     ma_device device{};
+    // A mutex, because not every standard library has std::atomic<std::shared_ptr> yet.
+    // The deprecated std::atomic_load functions on shared_ptr also lock.
+    mutable std::mutex mutex;
     std::shared_ptr<PcmStream> playing;
     std::atomic<bool> paused{false};
     std::atomic<float> speed{1};
@@ -22,10 +26,19 @@ struct PcmOutput::Impl {
         auto* self = static_cast<Impl*>(device->pUserData);
         auto* samples = static_cast<float*>(output);
         std::memset(samples, 0, frames * sizeof(float));
-        const auto playing = std::atomic_load(&self->playing);
+        const auto playing = self->current();
         if (!playing || self->paused.load())
             return;
         self->stretch.render(*playing, samples, frames, self->speed.load());
+    }
+    std::shared_ptr<PcmStream> current() const {
+        std::lock_guard lock(mutex);
+        return playing;
+    }
+    // The previous stream is released after the lock, not while the audio callback waits.
+    void replace(std::shared_ptr<PcmStream> stream) {
+        std::lock_guard lock(mutex);
+        playing.swap(stream);
     }
     Impl() {
         auto config = ma_device_config_init(ma_device_type_playback);
@@ -49,27 +62,27 @@ PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {}
 PcmOutput::~PcmOutput() = default;
 void PcmOutput::start(bool paused) {
     impl_->paused.store(paused);
-    std::atomic_store(&impl_->playing, std::make_shared<PcmStream>());
+    impl_->replace(std::make_shared<PcmStream>());
 }
 void PcmOutput::append(std::vector<float> samples) {
-    const auto playback = std::atomic_load(&impl_->playing);
+    const auto playback = impl_->current();
     if (!playback || !playback->append(std::move(samples)))
         throw std::runtime_error("Ljudbufferten är full eller stängd.");
 }
 void PcmOutput::complete() {
-    if (const auto playback = std::atomic_load(&impl_->playing))
+    if (const auto playback = impl_->current())
         playback->complete();
 }
 size_t PcmOutput::buffered() const {
-    const auto playback = std::atomic_load(&impl_->playing);
+    const auto playback = impl_->current();
     return playback ? playback->buffered() : 0;
 }
 uint64_t PcmOutput::buffered_frames() const {
-    const auto playback = std::atomic_load(&impl_->playing);
+    const auto playback = impl_->current();
     return playback ? playback->buffered_frames() : 0;
 }
 void PcmOutput::release() {
-    if (const auto playback = std::atomic_load(&impl_->playing))
+    if (const auto playback = impl_->current())
         playback->release();
 }
 void PcmOutput::pause(bool paused) {
@@ -79,15 +92,15 @@ void PcmOutput::set_speed(double speed) {
     impl_->speed.store(float(speed));
 }
 void PcmOutput::stop() {
-    std::atomic_store(&impl_->playing, std::shared_ptr<PcmStream>{});
+    impl_->replace({});
     impl_->paused.store(false);
 }
 bool PcmOutput::finished() const {
-    const auto playback = std::atomic_load(&impl_->playing);
+    const auto playback = impl_->current();
     return !playback || playback->finished();
 }
 PcmProgress PcmOutput::progress() const {
-    const auto playback = std::atomic_load(&impl_->playing);
+    const auto playback = impl_->current();
     return playback ? PcmProgress{playback->played(), playback->waiting(), playback->finished()}
                     : PcmProgress{};
 }

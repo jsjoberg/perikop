@@ -2,6 +2,7 @@
 # tag without its "v", such as 0.1.0-alpha.2. Other commits use the project version
 # and the commit, such as 0.1.0-bffaaa0. Uncommitted changes add "-dirty". It runs
 # on every build and rewrites the header only when the text changes.
+cmake_minimum_required(VERSION 3.24)
 execute_process(COMMAND git rev-parse --short=7 HEAD
     WORKING_DIRECTORY "${SOURCE_DIR}" OUTPUT_VARIABLE commit
     OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET RESULT_VARIABLE failed)

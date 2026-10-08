@@ -30,12 +30,8 @@ FetchContent_Declare(ortho_audio
     URL https://raw.githubusercontent.com/mackron/miniaudio/0.11.22/miniaudio.h
     URL_HASH SHA256=9019743287e443c55e5737a7297f38e5e358561701d6db2d905afb114390c410 DOWNLOAD_NO_EXTRACT TRUE)
 # Use audited runtime modules only; upstream downloaders, servers, and native checkpoint code stay out.
-foreach(dependency ortho_ort ortho_audio ortho_sonic)
-    FetchContent_GetProperties(${dependency})
-    if(NOT ${dependency}_POPULATED)
-        FetchContent_Populate(${dependency})
-    endif()
-endforeach()
+# None of these archives has a CMakeLists.txt, so this only downloads and unpacks them.
+FetchContent_MakeAvailable(ortho_ort ortho_audio ortho_sonic)
 set(ortho_speech_source "${CMAKE_BINARY_DIR}/speech-source")
 if(APPLE)
     set(ortho_ort_library "${ortho_ort_SOURCE_DIR}/lib/libonnxruntime.${ortho_ort_version}.dylib")
