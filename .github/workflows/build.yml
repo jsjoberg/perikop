@@ -23,6 +23,11 @@ jobs:
       - name: Install Linux toolkit headers
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y g++-13 libgtk-3-dev libfontconfig1-dev xvfb dpkg-dev
+      - name: Compiler cache
+        uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
+        with:
+          key: ${{ matrix.os }}
+          max-size: 2G
       - name: Voice pack
         if: env.PACKAGE == 'true'
         shell: bash
@@ -36,10 +41,12 @@ jobs:
       - name: Configure
         shell: bash
         run: |
+          # ccache cannot reuse precompiled headers, so wxWidgets builds without them in CI.
+          cache="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF"
           if [ "$RUNNER_OS" = Linux ]; then
-            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13
+            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 $cache
           else
-            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
+            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release $cache
           fi
       - run: cmake --build build/cmake --parallel 3
       - name: Tests
@@ -107,6 +114,11 @@ jobs:
           $bin = Join-Path $toolchain 'w64devkit/bin'
           $bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Compiler cache
+        uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
+        with:
+          key: windows
+          max-size: 2G
       - name: Voice pack
         if: env.PACKAGE == 'true'
         shell: bash
@@ -124,8 +136,9 @@ jobs:
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
           $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
           if (-not $runtime) { throw 'Visual C++ runtime not found' }
-          cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)"
-      - run: cmake --build build/cmake --parallel 3
+          cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
+      - run: cmake --build build/cmake --parallel 4
       - run: ctest --test-dir build/cmake --output-on-failure
       - name: Smoke test screenshots
         timeout-minutes: 10
@@ -161,3 +174,43 @@ jobs:
           name: perikop-Windows
           path: build/package/Perikop-*.exe
           if-no-files-found: error
+  release:
+    # A version tag becomes a draft release with all three packages; publish it on GitHub.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [unix, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: perikop-*
+          path: packages
+          merge-multiple: true
+      - name: Draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd packages
+          version=${GITHUB_REF_NAME#v}
+          base=${version%%-*}
+          # The packages carry the version from CMakeLists.txt, which must match the tag.
+          shopt -s nullglob
+          files=(Perikop-"$base"-*)
+          if [ "${#files[@]}" != 3 ]; then
+            echo "::error::The packages are not version $base. Set that version in CMakeLists.txt."
+            exit 1
+          fi
+          prerelease=
+          if [ "$version" != "$base" ]; then
+            prerelease=--prerelease
+            for file in "${files[@]}"; do
+              mv "$file" "Perikop-$version-${file#Perikop-"$base"-}"
+            done
+          fi
+          sha256sum Perikop-* > SHA256SUMS.txt
+          source="https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_REF_NAME"
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --draft $prerelease \
+            --title "Perikop $version" \
+            --notes "See [the changes]($source/CHANGELOG.md) and [installation]($source/docs/using-perikop.md#installation)." \
+            Perikop-* SHA256SUMS.txt

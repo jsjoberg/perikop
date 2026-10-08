@@ -31,15 +31,31 @@ tools/package_appimage.sh build/cmake
 ```
 
 The script downloads pinned linuxdeploy tools and checks their SHA-256 hashes. They copy GTK and the other shared libraries into the image.
+The GTK plugin needs `dpkg-dev` on Debian and Ubuntu.
 The AppImage runs on distributions with the glibc of its build system or later. Ubuntu 24.04 needs glibc 2.39.
 
 The packages go to `build/package`.
 The macOS application has an ad-hoc signature only. The Windows installer has no signature.
 The [user guide](using-perikop.md#installation) describes first launch.
 
+## Release
+
+Set the version in `project()` in `CMakeLists.txt`, then push a tag with the same version:
+
+```sh
+git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
+```
+
+CI builds and tests all three platforms and makes the packages.
+It then creates a draft release with the packages and `SHA256SUMS.txt`.
+A tag with a suffix, such as `-alpha.2`, makes a pre-release, and the suffix is added to the file names.
+CI stops if the tag does not match the version in `CMakeLists.txt`.
+Edit the release notes on GitHub, then publish the draft.
+
 ## CI packages
 
-CI makes the packages for version tags `v*` and for manual runs.
+CI makes the packages for version tags `v*` and for manual runs. Manual runs keep them as build artifacts only.
+CI keeps compiled objects in a ccache cache between runs. To make the cache usable, it builds wxWidgets without precompiled headers.
 It downloads the prepared voice pack from a release of this repository and checks its SHA-256 hash.
 To publish a new pack, set `id` to the `id` in its `voice-pack.json`.
 Then archive and upload it on macOS:
