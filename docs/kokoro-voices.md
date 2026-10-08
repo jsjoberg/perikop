@@ -23,7 +23,9 @@ uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build
 
 The build bundles the prepared pack in the application's resources, under `voices/` and the pack identifier.
 `-DPERIKOP_VOICE_PACK=/path/to/pack` selects another pack directory. The installed program never downloads anything.
-The prepared pack occupies approximately 387 MB. It contains one acoustic model, two pronunciation models, a lexicon, and two voice tensors.
+The prepared pack occupies approximately 228 MB. It contains one acoustic model, two pronunciation models, a lexicon, and two voice tensors.
+The acoustic model stores the vocoder weights as 8-bit integers with one scale per channel. ONNX Runtime restores them to 32-bit floats at load.
+All other weights stay 32-bit floats, because rounding them changes durations and prosody.
 Each voice tensor contains 510 styles. Select the style with the phoneme count, as the upstream model requires.
 
 ## Export checks and samples
@@ -31,6 +33,7 @@ Each voice tensor contains 510 styles. Select the style with the phoneme count, 
 The script compares the pronunciation models with the original PyTorch Transformer at different sequence lengths.
 The check compares encoder outputs, decoder logits, and predicted phoneme IDs.
 It also checks acoustic output at different sequence lengths for finite, non-silent audio.
+The compressed acoustic model must predict the same durations as the 32-bit export.
 
 For a comparison with the upstream pronunciation engine, use its pinned checkout:
 
