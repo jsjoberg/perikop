@@ -7,6 +7,7 @@
 #include <wx/frame.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
+#include <wx/stattext.h>
 #include <wx/timer.h>
 
 namespace ortho {
@@ -24,11 +25,17 @@ public:
 private:
     void make_menus();
     void refresh_day();
+    void layout_home();
     void show_readings();
     void select_day(CivilDate);
     void navigate(int days);
     void pick_date();
     void browse_bible();
+    void about();
+    void back();
+    void show_page(wxWindow*, const wxString& title);
+    void close_page();
+    void close_pages();
     void apply_settings(bool persist = true);
     void update_study();
     Reading in_primary(Reading) const;
@@ -83,7 +90,16 @@ private:
 
     // wxWidgets owns child windows. These pointers are non-owning handles.
     wxPanel* root_ = nullptr;
+    wxBoxSizer* reader_sizer_ = nullptr;
+    wxWindow* page_ = nullptr;
+    wxString page_title_;
+    bool return_to_reader_ = false;
+    std::vector<std::pair<wxWindow*, wxString>> page_history_;
+    std::vector<SymbolButton*> date_buttons_;
     wxScrolledWindow* readings_ = nullptr;
+    wxPanel* home_content_ = nullptr;
+    std::vector<std::pair<wxStaticText*, wxString>> home_labels_;
+    int home_width_ = 0;
     ScriptureView* scripture_ = nullptr;
     StudyPanel* study_ = nullptr;
     wxBoxSizer* entries_ = nullptr;

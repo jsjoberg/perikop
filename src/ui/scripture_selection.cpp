@@ -3,27 +3,44 @@
 #include <algorithm>
 #include <limits>
 namespace ortho {
-std::optional<Passage> ScriptureView::selection() const {
-    if (!selection_)
-        return std::nullopt;
-    const auto last = corpus_.verse(frame_, displayed_.book, selection_->second);
-    return Passage{displayed_.book, selection_->first,
-                   last ? last->last.value_or(selection_->second) : selection_->second};
+std::vector<Passage> ScriptureView::selections() const {
+    std::vector<Passage> result;
+    for (const auto& [first, end] : selections_) {
+        const auto last = corpus_.verse(frame_, displayed_.book, end);
+        result.push_back({displayed_.book, first, last ? last->last.value_or(end) : end});
+    }
+    return result;
 }
-void ScriptureView::select_verses(VerseRef first, VerseRef last) {
+bool ScriptureView::verse_selected(VerseRef ref) const {
+    return std::any_of(selections_.begin(), selections_.end(), [ref](const auto& range) {
+        return range.first <= ref && ref <= range.second;
+    });
+}
+void ScriptureView::select_verses(VerseRef first, VerseRef last, bool append) {
     if (last < first)
         std::swap(first, last);
-    if (selection_ == std::pair{first, last})
+    auto ranges =
+        append ? (drag_anchor_ ? drag_ranges_ : selections_) : std::vector<std::pair<VerseRef, VerseRef>>{};
+    ranges.emplace_back(first, last);
+    std::sort(ranges.begin(), ranges.end());
+    std::vector<std::pair<VerseRef, VerseRef>> merged;
+    for (const auto& range : ranges) {
+        if (!merged.empty() && range.first <= merged.back().second)
+            merged.back().second = std::max(merged.back().second, range.second);
+        else
+            merged.push_back(range);
+    }
+    if (selections_ == merged)
         return;
-    selection_ = std::pair{first, last};
+    selections_ = std::move(merged);
     Refresh(false);
     if (selection_changed_)
         selection_changed_();
 }
 void ScriptureView::clear_selection() {
-    if (!selection_)
+    if (selections_.empty())
         return;
-    selection_.reset();
+    selections_.clear();
     Refresh(false);
     if (selection_changed_)
         selection_changed_();

@@ -2,6 +2,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <wx/msgdlg.h>
+#include <wx/wrapsizer.h>
 namespace ortho {
 std::string MainFrame::day_key(const Reading& reading) const {
     // The date and the lectionary's own coordinates, which do not change with the language.
@@ -41,19 +42,19 @@ void MainFrame::add_plans() {
     // Plans are counted in parts, not days, so nobody falls behind.
     const auto completed = user_.completed();
     entries_->AddSpacer(FromDIP(20));
-    entries_->Add(ui::label(readings_, ui::utf8("LÄSPLANER"), 10), 0, wxBOTTOM, FromDIP(14));
+    entries_->Add(ui::label(home_content_, ui::utf8("LÄSPLANER"), 10), 0, wxBOTTOM, FromDIP(14));
     for (const auto& plan : reading_plans()) {
         std::size_t done = 0;
         for (std::size_t i = 0; i < plan.parts.size(); ++i)
             done += completed.contains(plan_key(plan, i));
-        auto* header = new wxBoxSizer(wxHORIZONTAL);
-        auto* title = new wxStaticText(readings_, wxID_ANY, ui::utf8(plan.title));
+        auto* header = new wxWrapSizer(wxHORIZONTAL, wxREMOVE_LEADING_SPACES);
+        auto* title = new wxStaticText(home_content_, wxID_ANY, ui::utf8(plan.title));
         title->SetFont(body_font(18));
         header->Add(title, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(12));
         header->Add(
-            ui::label(readings_, std::to_string(done) + " av " + std::to_string(plan.parts.size()), 11), 0,
-            wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(12));
-        auto* reset = ui::button(readings_, ui::utf8("Börja om"), [this, plan] {
+            ui::label(home_content_, std::to_string(done) + " av " + std::to_string(plan.parts.size()), 11),
+            0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(12));
+        auto* reset = ui::button(home_content_, ui::utf8("Börja om"), [this, plan] {
             wxMessageDialog question(
                 this, ui::utf8("Vill du ta bort alla markeringar i ") + ui::utf8(plan.title) + "?",
                 ui::utf8("Börja om"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
@@ -75,20 +76,20 @@ void MainFrame::add_plans() {
         reset->Enable(done > 0);
         reset->SetToolTip(ui::utf8("Ta bort alla markeringar i planen"));
         header->Add(reset, 0, wxALIGN_CENTER_VERTICAL);
-        entries_->Add(header, 0, wxBOTTOM, FromDIP(4));
-        auto* about = ui::label(readings_, ui::utf8(plan.description), 11);
-        about->Wrap(std::max(200, GetClientSize().x - FromDIP(150)));
+        entries_->Add(header, 0, wxEXPAND | wxBOTTOM, FromDIP(4));
+        auto* about = ui::label(home_content_, ui::utf8(plan.description), 11);
+        home_labels_.emplace_back(about, about->GetLabel());
         entries_->Add(about, 0, wxBOTTOM, FromDIP(10));
         if (done == plan.parts.size())
-            entries_->Add(ui::label(readings_, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0, wxBOTTOM,
-                          FromDIP(10));
+            entries_->Add(ui::label(home_content_, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0,
+                          wxBOTTOM, FromDIP(10));
         auto* grid = new wxGridSizer(10, FromDIP(4), FromDIP(4));
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(plan.parts[i]));
             auto* tile = new SymbolButton(
-                readings_, read ? std::variant<Symbol, wxString>{Symbol::Check} : number, "Del " + number,
+                home_content_, read ? std::variant<Symbol, wxString>{Symbol::Check} : number, "Del " + number,
                 [this, plan, i, number, label] {
                     try {
                         open_tracked(plan_reading(corpus_, plan.parts[i], settings_.primary),

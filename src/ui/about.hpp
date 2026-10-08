@@ -4,5 +4,5 @@
 #include <wx/window.h>
 namespace ortho {
 // Program information and the sources Perikop builds on, with links to them.
-void show_about(wxWindow* parent, Theme, const std::filesystem::path& resources);
+wxWindow* make_about_page(wxWindow* parent, Theme, const std::filesystem::path& resources);
 } // namespace ortho

@@ -99,7 +99,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         }
         e.Skip();
     });
-    // Dragging across verses marks them; a plain click clears the mark.
+    SetToolTip(wxString::FromUTF8("Dra för att markera verser. Håll Ctrl eller ⌘ och dra för att lägga till "
+                                  "fler intervall. Klicka utan modifierare för att rensa markeringen."));
+    // Ctrl/Command adds a range; each motion rebuilds it from the pre-drag selection.
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& e) {
         SetFocus();
         return_pressed_ = return_rect_.Contains(e.GetPosition());
@@ -107,6 +109,8 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
         dragged_ = false;
+        append_drag_ = e.CmdDown() || e.ControlDown();
+        drag_ranges_ = selections_;
         if (drag_anchor_ && !HasCapture())
             CaptureMouse();
     });
@@ -115,10 +119,10 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         if (!drag_anchor_ || !e.LeftIsDown())
             return;
         const auto verse = verse_at(e.GetPosition());
-        if (!verse || (!dragged_ && *verse == *drag_anchor_ && !selection_))
+        if (!verse || (!dragged_ && *verse == *drag_anchor_ && selections_.empty()))
             return;
         dragged_ = true;
-        select_verses(*drag_anchor_, *verse);
+        select_verses(*drag_anchor_, *verse, append_drag_);
     });
     Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& e) {
         if (HasCapture())
@@ -130,13 +134,16 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         }
         if (drag_anchor_ && !dragged_) {
-            if (selection_)
+            if (append_drag_)
+                select_verses(*drag_anchor_, *drag_anchor_, true);
+            else if (!selections_.empty())
                 clear_selection();
             else if (word_clicked_)
                 if (auto word = word_at(e.GetPosition()))
                     word_clicked_(*word);
         }
         drag_anchor_.reset();
+        drag_ranges_.clear();
     });
     Bind(wxEVT_LEAVE_WINDOW, [this](wxMouseEvent& e) {
         hover_return(false);
@@ -144,12 +151,24 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     });
     Bind(wxEVT_MOUSE_CAPTURE_LOST, [this](wxMouseCaptureLostEvent&) {
         drag_anchor_.reset();
+        drag_ranges_.clear();
     });
 #ifdef __APPLE__
     native_scroll_ = install_native_scroll(this, [this](double pixels) {
         scroll_by(pixels);
     });
 #endif
+}
+bool ScriptureView::Show(bool show) {
+    if (!show) {
+        follow_timer_.Stop();
+        wheel_timer_.Stop();
+        target_ = offset_;
+    }
+    const bool changed = wxPanel::Show(show);
+    if (show && (following_ || guide_ || guide_alpha_ > 0) && !follow_timer_.IsRunning())
+        follow_timer_.Start(16);
+    return changed;
 }
 ScriptureView::~ScriptureView() {
     wheel_timer_.Stop();

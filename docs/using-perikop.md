@@ -20,8 +20,10 @@ For a source build, use the [build guide](building.md#run).
 ## Daily readings and calendar
 
 The day page shows the date, its readings, and three reading plans.
-The **Kalender** menu moves between days and opens a native date picker.
-The picker's Current date button selects the current date before confirmation.
+The arrows beside the date move to the previous or next day.
+The **Idag** button selects the current local date. This button always works and needs no background timer.
+Click **Välj datum** beside **Idag**, click the date, or select **Kalender → Välj datum**, to open the calendar in the main window.
+Select a date and press **Visa dagens läsningar**. A double click also selects a date.
 
 The application selects the current local civil date at startup.
 Only explicit actions change this date. Midnight, sleep, and theme changes do not change it.
@@ -41,7 +43,14 @@ The brass margin line marks the selected passage.
 Prose flows across verses. Small inline numbers preserve verse navigation.
 
 The toolbar has four symbols on each side of the address field.
-On the left, Back returns to the day page. **Lyssna**, **Pausa**, and **Stoppa** control read-aloud.
+On the left, Back returns from the reader to the day page.
+**Lyssna**, **Pausa**, and **Stoppa** control read-aloud.
+The calendar, Bible browser, and **Om Perikop** page use the main window.
+Back returns to the previous view and preserves the reader position, selection, word study, and playback state.
+The address field shows the current view. Click it on the day or About page to open the Bible browser.
+Back then returns to that page. Escape also returns to the previous step.
+Playback and column controls stay dimmed while these pages are open.
+Audio continues while a page is open.
 Controls that do not apply are dimmed. The day page dims the reader controls.
 
 Click the address field to go to another passage.
@@ -53,14 +62,29 @@ Narrow windows use aligned blocks.
 
 ## Bible browser
 
-The Bible action opens a native book, chapter, verse, and edition selector.
+Select **Bibel → Gå till bibelställe** to open the book, chapter, and verse grids.
+Select a book to expand its chapters below the book grids. Select a chapter to expand its verses.
+The page has a vertical scrollbar. Select a verse to open it immediately.
+**Hela boken** and **Hela kapitlet** open complete books and chapters.
 Books outside the Hebrew Bible have an asterisk.
-Books without text in the left pane's language are greyed out. A note under the grid names them.
-The browser lists only books available in the selected edition.
-The World English Bible includes deuterocanonical books and appears as a separate edition.
+Books without text in the left column language are greyed out.
+Back moves from verses to chapters, then books, then the previous view.
 
-Select **Hela boken** or **Hela kapitlet**, before the numbers, to open a whole book or chapter.
-**Lyssna** then reads all of it.
+To prepare a custom reading, enable **Flera intervall**:
+
+1. Select a book and chapter.
+2. Select the start verse.
+3. Select the end verse.
+   For a range across chapters, use Back to select another chapter in the same book.
+4. Select **Lägg till intervall**. For one verse, omit the end verse.
+5. Add more ranges in the order for playback. Ranges can come from different books.
+6. To remove a range, select it in the list and press **Ta bort**.
+7. Select **Öppna urval** to show the reading.
+8. Select **Lyssna** to play all ranges in list order.
+
+**Lägg till hela boken** and **Lägg till hela kapitlet** add complete books and chapters to the list.
+The address field shows a menu of the selected parts.
+
 Each source retains its wording. An explicit alignment links verses across their numbering systems.
 Verses without a counterpart show a message.
 See the [versification guide](versification.md) for the source coordinates and displayed Septuagint numbering.
@@ -111,6 +135,11 @@ The engine generates later chunks during playback, with a buffer of at most two 
 Initial model loading and first-chunk synthesis take time.
 If synthesis cannot keep pace, playback waits for the next chunk.
 A separate SQLite cache accelerates repeat readings.
+
+Drag across verses in the left column to mark a range.
+Hold Ctrl (Windows/Linux) or Command (macOS) while you drag to add separate ranges.
+**Läs markering** plays the marked ranges in Scripture order and combines overlapping ranges.
+A click without a modifier clears the selection.
 
 **Lyssna** opens the passage and follows the spoken text with a moving margin marker.
 The text highlight is off by default.

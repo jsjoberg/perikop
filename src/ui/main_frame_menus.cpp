@@ -125,13 +125,18 @@ void MainFrame::make_menus() {
     Bind(
         wxEVT_MENU,
         [this](wxCommandEvent&) {
-            show_about(this, settings_.theme, resources_);
+            about();
         },
         wxID_ABOUT);
     Bind(
         wxEVT_MENU,
         [this](wxCommandEvent& event) {
             const int id = event.GetId();
+            if (page_) {
+                if (id == Readings)
+                    back();
+                return;
+            }
             if (id == Today) {
                 select_day(local_civil_date());
                 return;

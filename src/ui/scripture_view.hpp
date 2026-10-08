@@ -12,6 +12,7 @@ namespace ortho {
 class ScriptureView final : public wxPanel {
 public:
     ScriptureView(wxWindow*, const CorpusDb&);
+    bool Show(bool show = true) override;
     void open(const Reading&);
     void open_section(std::size_t index);
     void apply(const Settings&);
@@ -40,7 +41,8 @@ public:
         return guide_ ? std::optional<double>{guide_y_} : std::nullopt;
     }
     // Verses marked by dragging in the left pane, as a passage in its edition.
-    std::optional<Passage> selection() const;
+    std::vector<Passage> selections() const;
+    bool verse_selected(VerseRef) const;
     // The left pane's edition, and the edition whose numbering frames the text.
     const std::string& base_source() const {
         return base_source_;
@@ -49,7 +51,7 @@ public:
         return frame_;
     }
     void clear_selection();
-    void select_verses(VerseRef first, VerseRef last);
+    void select_verses(VerseRef first, VerseRef last, bool append = false);
     void on_selection(std::function<void()> callback) {
         selection_changed_ = std::move(callback);
     }
@@ -162,8 +164,8 @@ private:
     bool end_seen_ = false;
     std::optional<Word> highlighted_;
     std::optional<VerseRef> drag_anchor_;
-    std::optional<std::pair<VerseRef, VerseRef>> selection_;
-    bool dragged_ = false;
+    std::vector<std::pair<VerseRef, VerseRef>> selections_, drag_ranges_;
+    bool dragged_ = false, append_drag_ = false;
     wxTimer follow_timer_;
     std::vector<std::string> languages() const;
     int columns_count() const;

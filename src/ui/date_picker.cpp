@@ -1,15 +1,15 @@
 #include "ui/date_picker.hpp"
 #include "ui/controls.hpp"
 #include <wx/calctrl.h>
-#include <wx/dialog.h>
+#include <wx/panel.h>
 #include <wx/sizer.h>
 namespace ortho {
-std::optional<CivilDate> pick_civil_date(wxWindow* parent, CivilDate current, Theme theme) {
-    wxDialog dialog(parent, wxID_ANY, ui::utf8("Välj civilt datum"), wxDefaultPosition, wxDefaultSize,
-                    wxDEFAULT_DIALOG_STYLE);
+wxWindow* make_date_page(wxWindow* parent, CivilDate current, Theme theme,
+                         const std::function<void(CivilDate)>& selected) {
+    auto* page = new wxPanel(parent);
     auto* sizer = new wxBoxSizer(wxVERTICAL);
     auto* calendar = new wxCalendarCtrl(
-        &dialog, wxID_ANY,
+        page, wxID_ANY,
         wxDateTime(unsigned(current.day()), static_cast<wxDateTime::Month>(unsigned(current.month()) - 1),
                    int(current.year())),
         wxDefaultPosition, wxDefaultSize, wxCAL_SUNDAY_FIRST);
@@ -29,22 +29,30 @@ std::optional<CivilDate> pick_civil_date(wxWindow* parent, CivilDate current, Th
         event.Skip();
     });
     mark_sundays();
-    sizer->Add(calendar, 0, wxALL, dialog.FromDIP(20));
+    sizer->AddSpacer(page->FromDIP(48));
+    sizer->Add(ui::label(page, ui::utf8("Välj datum"), 18), 0, wxALIGN_CENTER | wxBOTTOM, page->FromDIP(20));
+    sizer->Add(calendar, 0, wxALIGN_CENTER | wxALL, page->FromDIP(20));
 
-    sizer->Add(ui::button(&dialog, "Aktuellt datum",
-                          [calendar] {
+    sizer->Add(ui::button(page, "Idag",
+                          [calendar, mark_sundays] {
                               calendar->SetDate(wxDateTime::Today());
+                              mark_sundays();
                           }),
-               0, wxALIGN_CENTER | wxBOTTOM, dialog.FromDIP(12));
-    auto* buttons = dialog.CreateButtonSizer(wxOK | wxCANCEL);
-    if (auto* cancel = wxDynamicCast(dialog.FindWindow(wxID_CANCEL), wxButton))
-        cancel->SetLabel("Avbryt");
-    sizer->Add(buttons, 0, wxALIGN_RIGHT | wxALL, dialog.FromDIP(12));
-    dialog.SetSizerAndFit(sizer);
-    ui::recolor(&dialog, palette(theme));
-    if (dialog.ShowModal() != wxID_OK)
-        return std::nullopt;
-    const auto value = calendar->GetDate();
-    return std::chrono::year{value.GetYear()} / (int(value.GetMonth()) + 1) / value.GetDay();
+               0, wxALIGN_CENTER | wxBOTTOM, page->FromDIP(12));
+    const auto choose = [calendar, selected] {
+        const auto value = calendar->GetDate();
+        selected(std::chrono::year{value.GetYear()} / (int(value.GetMonth()) + 1) / value.GetDay());
+    };
+    sizer->Add(ui::button(page, ui::utf8("Visa dagens läsningar"),
+                          [page, choose] {
+                              page->CallAfter(choose);
+                          }),
+               0, wxALIGN_CENTER | wxBOTTOM, page->FromDIP(20));
+    calendar->Bind(wxEVT_CALENDAR_DOUBLECLICKED, [page, choose](wxCalendarEvent&) {
+        page->CallAfter(choose);
+    });
+    page->SetSizer(sizer);
+    ui::recolor(page, palette(theme));
+    return page;
 }
 } // namespace ortho

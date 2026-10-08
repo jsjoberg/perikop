@@ -86,24 +86,28 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                     gc->DrawRoundedRectangle(x + FromDIP(16), marker_y, FromDIP(4), guide_->height * 0.68,
                                              FromDIP(2));
                 }
-                if (gc && c == 0 && selection_) {
+                if (gc && c == 0 && !selections_.empty()) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
                     gc->SetBrush(wxBrush(with_alpha(colors.accent, 56)));
                     for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
                         double first = std::numeric_limits<double>::max(), last = 0;
+                        const auto flush = [&] {
+                            if (last > first)
+                                gc->DrawRectangle(x + FromDIP(30) + first - FromDIP(3),
+                                                  text_y + line * column.text.line_height,
+                                                  last - first + FromDIP(6), column.text.line_height);
+                            first = std::numeric_limits<double>::max();
+                            last = 0;
+                        };
                         for (const auto& run : column.text.lines[line].runs) {
-                            if (!column.main_text(run.tag))
+                            if (!column.main_text(run.tag) || !verse_selected(column.verses[run.tag].first)) {
+                                flush();
                                 continue;
-                            const auto& verse = column.verses[run.tag].first;
-                            if (verse < selection_->first || selection_->second < verse)
-                                continue;
+                            }
                             first = std::min(first, run.x);
                             last = std::max(last, run.x + run.width);
                         }
-                        if (last > first)
-                            gc->DrawRectangle(x + FromDIP(30) + first - FromDIP(3),
-                                              text_y + line * column.text.line_height,
-                                              last - first + FromDIP(6), column.text.line_height);
+                        flush();
                     }
                 }
                 // The word shown in the Ordstudium panel.

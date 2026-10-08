@@ -139,6 +139,8 @@ void ScriptureView::locate_playback() {
     guide_.reset();
 }
 void ScriptureView::advance_playback(double seconds) {
+    if (!IsShown())
+        return;
     const bool active = speech_active(playback_.state);
     const auto ease = [seconds](double rate) {
         return 1 - std::exp(-std::clamp(seconds, 0.0, 0.1) * rate);

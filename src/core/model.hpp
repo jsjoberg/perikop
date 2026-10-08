@@ -38,6 +38,7 @@ struct Reading {
     std::string base_language = "sv";
     std::string source_override;
     // The edition whose numbering the passages use; lectionary rules state theirs.
+    // Empty means each passage already uses the framing edition for its book and language.
     std::string reference = "en-kjv";
     Reading(ReadingKind k, Passage p, std::string name, std::vector<Passage> rest = {},
             std::string language = "sv")

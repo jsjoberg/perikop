@@ -14,15 +14,19 @@ bool MainFrame::active_playback() const {
     return speech_active(read_aloud_.playback().state);
 }
 void MainFrame::play_or_pause() {
+    if (page_)
+        return;
     if (active_playback())
         toggle_pause();
     else if (settings_.primary != "sv")
         return;
-    else if (const auto marked = scripture_->IsShown() ? scripture_->selection() : std::nullopt) {
-        Reading reading{new_testament_book(marked->book) ? ReadingKind::Gospel : ReadingKind::OldTestament,
-                        *marked,
-                        passage_label(corpus_, {*marked}),
-                        {},
+    else if (scripture_->IsShown() && !scripture_->selections().empty()) {
+        const auto marked = scripture_->selections();
+        Reading reading{new_testament_book(marked.front().book) ? ReadingKind::Gospel
+                                                                : ReadingKind::OldTestament,
+                        marked.front(),
+                        passage_label(corpus_, marked),
+                        {marked.begin() + 1, marked.end()},
                         settings_.primary};
         reading.reference = scripture_->frame();
         play_speech({reading});
@@ -89,7 +93,8 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         speech_tracked_.reset();
     read_aloud_.update(playback);
     const bool active = speech_active(playback.state);
-    if (active && following_audio_ && playback.cue && playback.cue->reading < read_aloud_.readings().size()) {
+    if (!page_ && active && following_audio_ && playback.cue &&
+        playback.cue->reading < read_aloud_.readings().size()) {
         const auto view = std::pair{playback.cue->reading, playback.cue->section};
         if (!speech_view_ || *speech_view_ != view) {
             open_reading(read_aloud_.readings()[view.first]);
@@ -107,7 +112,8 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         scripture_->follow_playback(false);
         playback_timer_.Stop();
     }
-    scripture_->playback(playback);
+    if (!page_)
+        scripture_->playback(playback);
     update_bar();
 }
 void MainFrame::play_speech(const std::vector<Reading>& readings) {

@@ -2,7 +2,8 @@
 #include "perikop_version.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/controls.hpp"
-#include <wx/dialog.h>
+#include <algorithm>
+#include <memory>
 #include <wx/hyperlink.h>
 #include <wx/image.h>
 #include <wx/scrolwin.h>
@@ -111,35 +112,35 @@ wxString link_label(wxString url) {
 }
 } // namespace
 
-void show_about(wxWindow* parent, Theme theme, const std::filesystem::path& resources) {
-    wxDialog dialog(parent, wxID_ANY, "Om Perikop", wxDefaultPosition, wxDefaultSize,
-                    wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::path& resources) {
     const auto colors = palette(theme);
     auto* page =
-        new wxScrolledWindow(&dialog, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    page->SetScrollRate(0, dialog.FromDIP(12));
+        new wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
+    page->SetScrollRate(0, page->FromDIP(12));
     auto* sizer = new wxBoxSizer(wxVERTICAL);
-    const int pad = dialog.FromDIP(32), width = dialog.FromDIP(480);
+    const int pad = page->FromDIP(32), width = page->FromDIP(480);
     std::vector<wxWindow*> muted;
+    std::vector<std::pair<wxStaticText*, wxString>> labels;
     std::vector<wxHyperlinkCtrl*> links;
     const auto text = [&](const wxString& value, const wxFont& font, int below, bool quiet = false,
                           int flags = 0) {
         auto* label = new wxStaticText(page, wxID_ANY, value);
+        labels.emplace_back(label, value);
         label->SetFont(font);
         label->Wrap(width);
         sizer->Add(label, 0, wxLEFT | wxRIGHT | flags, pad);
-        sizer->AddSpacer(dialog.FromDIP(below));
+        sizer->AddSpacer(page->FromDIP(below));
         if (quiet)
             muted.push_back(label);
     };
-    sizer->AddSpacer(dialog.FromDIP(28));
+    sizer->AddSpacer(page->FromDIP(28));
     auto icon = app_icon_image();
     if (icon.IsOk()) {
-        const int side = dialog.FromDIP(72);
+        const int side = page->FromDIP(72);
         auto* image =
             new wxStaticBitmap(page, wxID_ANY, wxBitmap(icon.Rescale(side, side, wxIMAGE_QUALITY_HIGH)));
         sizer->Add(image, 0, wxALIGN_CENTER_HORIZONTAL);
-        sizer->AddSpacer(dialog.FromDIP(12));
+        sizer->AddSpacer(page->FromDIP(12));
     }
     text("Perikop", body_font(28), 2, false, wxALIGN_CENTER_HORIZONTAL);
     text("Version " PERIKOP_VERSION, ui_font(10), 18, true, wxALIGN_CENTER_HORIZONTAL);
@@ -151,7 +152,7 @@ void show_about(wxWindow* parent, Theme theme, const std::filesystem::path& reso
                   "arbete; tack till alla nedan. Varje källa har sina egna villkor."),
          ui_font(11), 4, true);
     for (const auto& section : sections()) {
-        sizer->AddSpacer(dialog.FromDIP(18));
+        sizer->AddSpacer(page->FromDIP(18));
         text(ui::utf8(section.title).Upper(), ui_font(9), 6, true);
         for (const auto& credit : section.credits) {
             auto name = ui_font(11);
@@ -166,33 +167,36 @@ void show_about(wxWindow* parent, Theme theme, const std::filesystem::path& reso
                 sizer->Add(link, 0, wxLEFT | wxRIGHT, pad);
                 links.push_back(link);
             }
-            sizer->AddSpacer(dialog.FromDIP(10));
+            sizer->AddSpacer(page->FromDIP(10));
         }
     }
-    sizer->AddSpacer(dialog.FromDIP(8));
+    sizer->AddSpacer(page->FromDIP(8));
     text(ui::utf8("De fullständiga licenstexterna följer med programmet."), ui_font(10), 24, true);
-    page->SetSizer(sizer);
-    page->FitInside();
-    auto* outer = new wxBoxSizer(wxVERTICAL);
-    outer->Add(page, 1, wxEXPAND);
-    auto* buttons = new wxBoxSizer(wxHORIZONTAL);
     const auto licenses = path_text(resources / "licenses");
-    buttons->Add(ui::button(&dialog, "Visa licenstexter",
-                            [licenses] {
-                                wxLaunchDefaultApplication(licenses);
-                            }),
-                 0, wxALIGN_CENTER_VERTICAL);
-    buttons->AddStretchSpacer();
-    auto* close = ui::button(&dialog, ui::utf8("Stäng"), [&dialog] {
-        dialog.EndModal(wxID_OK);
+    sizer->Add(ui::button(page, "Visa licenstexter",
+                          [licenses] {
+                              wxLaunchDefaultApplication(licenses);
+                          }),
+               0, wxLEFT | wxRIGHT | wxBOTTOM, pad);
+    auto* outer = new wxBoxSizer(wxVERTICAL);
+    outer->Add(sizer, 0, wxALIGN_CENTER_HORIZONTAL);
+    page->SetSizer(outer);
+    page->SetMinSize({0, 0});
+    auto wrapped = std::make_shared<int>(width);
+    page->Bind(wxEVT_SIZE, [page, labels = std::move(labels), wrapped, pad, width](wxSizeEvent& event) {
+        const int available = std::clamp(page->GetClientSize().x - 2 * pad, page->FromDIP(200), width);
+        if (*wrapped != available) {
+            *wrapped = available;
+            for (const auto& [label, value] : labels) {
+                label->SetLabel(value);
+                label->Wrap(available);
+            }
+        }
+        page->FitInside();
+        event.Skip();
     });
-    close->SetDefault();
-    buttons->Add(close, 0, wxALIGN_CENTER_VERTICAL);
-    outer->Add(buttons, 0, wxEXPAND | wxALL, dialog.FromDIP(14));
-    dialog.SetSizer(outer);
-    dialog.SetSize(dialog.FromDIP(wxSize(480 + 2 * 32 + 24, 640)));
-    dialog.SetMinSize(dialog.FromDIP(wxSize(420, 360)));
-    ui::recolor(&dialog, colors);
+    page->FitInside();
+    ui::recolor(page, colors);
     for (auto* label : muted)
         label->SetForegroundColour(colors.muted);
     for (auto* link : links) {
@@ -200,8 +204,6 @@ void show_about(wxWindow* parent, Theme theme, const std::filesystem::path& reso
         link->SetVisitedColour(colors.accent);
         link->SetHoverColour(colors.ink);
     }
-    dialog.SetEscapeId(wxID_OK);
-    dialog.CenterOnParent();
-    dialog.ShowModal();
+    return page;
 }
 } // namespace ortho

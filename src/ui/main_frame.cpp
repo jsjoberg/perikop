@@ -1,5 +1,6 @@
 #include "ui/main_frame.hpp"
 #include "core/reading_display.hpp"
+#include "ui/about.hpp"
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/date_picker.hpp"
@@ -9,6 +10,7 @@
 #include <wx/msgdlg.h>
 #include <wx/sizer.h>
 #include <wx/utils.h>
+#include <wx/wrapsizer.h>
 namespace ortho {
 namespace {
 wxString kind_label(ReadingKind kind) {
@@ -39,6 +41,7 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     root_->SetFont(ui_font());
     auto* outer = new wxBoxSizer(wxVERTICAL);
     auto* reader = new wxBoxSizer(wxHORIZONTAL);
+    reader_sizer_ = reader;
     scripture_ = new ScriptureView(root_, corpus);
     create_toolbar();
     outer->Add(bar_, 0, wxEXPAND);
@@ -48,10 +51,16 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
     readings_->SetScrollRate(0, FromDIP(12));
     // The margin is inside the page, so its scrollbar stays at the window edge.
+    home_content_ = new wxPanel(readings_);
     entries_ = new wxBoxSizer(wxVERTICAL);
+    home_content_->SetSizer(entries_);
     auto* page = new wxBoxSizer(wxVERTICAL);
-    page->Add(entries_, 1, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(68));
+    page->Add(home_content_, 0, wxALIGN_CENTER_HORIZONTAL);
     readings_->SetSizer(page);
+    readings_->Bind(wxEVT_SIZE, [this](wxSizeEvent& event) {
+        layout_home();
+        event.Skip();
+    });
     outer->Add(readings_, 1, wxEXPAND);
     make_menus();
     scripture_->on_release_follow([this] {
@@ -76,6 +85,10 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         },
         playback_timer_.GetId());
     Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& event) {
+        if (page_ && event.GetKeyCode() == WXK_ESCAPE) {
+            back();
+            return;
+        }
         if (active_playback() && event.GetKeyCode() == WXK_ESCAPE) {
             stop_speech();
             return;
@@ -133,34 +146,71 @@ void MainFrame::navigate(int days) {
 void MainFrame::refresh_day() {
     day_ = lectionary_.readings_for(selected_.date(), settings_.calendar);
     plan_tiles_.clear();
+    date_buttons_.clear();
+    home_labels_.clear();
+    home_width_ = 0;
     entries_->Clear(true);
     entries_->AddSpacer(FromDIP(48));
-    entries_->Add(ui::label(readings_, ui::utf8(date_swedish(selected_.date())), 13), 0, wxBOTTOM,
-                  FromDIP(8));
+    auto* date_row = new wxBoxSizer(wxHORIZONTAL);
+    auto* date_controls = new wxWrapSizer(wxHORIZONTAL, wxREMOVE_LEADING_SPACES);
+    const auto arrow = [this, date_row](Symbol symbol, const wxString& label, int days) {
+        auto* button = new SymbolButton(home_content_, symbol, label, [this, days] {
+            // refresh_day rebuilds this row, so defer destruction of the clicked control.
+            CallAfter([this, days] {
+                navigate(days);
+            });
+        });
+        button->SetMinSize(FromDIP(wxSize(28, 28)));
+        button->SetToolTip(label);
+        date_buttons_.push_back(button);
+        date_row->Add(button, 0, wxALIGN_CENTER_VERTICAL);
+    };
+    arrow(Symbol::Back, ui::utf8("Föregående dag"), -1);
+    auto* date_label = ui::label(home_content_, ui::utf8(date_swedish(selected_.date())), 13);
+    date_label->SetToolTip(ui::utf8("Välj datum…"));
+    date_label->Bind(wxEVT_LEFT_UP, [this](wxMouseEvent&) {
+        pick_date();
+    });
+    date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(6));
+    arrow(Symbol::Next, ui::utf8("Nästa dag"), 1);
+    date_controls->Add(date_row, 0, wxALIGN_CENTER_VERTICAL);
+    date_controls->Add(ui::button(home_content_, "Idag",
+                                  [this] {
+                                      CallAfter([this] {
+                                          select_day(local_civil_date());
+                                      });
+                                  }),
+                       0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(12));
+    date_controls->Add(ui::button(home_content_, ui::utf8("Välj datum"),
+                                  [this] {
+                                      pick_date();
+                                  }),
+                       0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(8));
+    entries_->Add(date_controls, 0, wxEXPAND | wxBOTTOM, FromDIP(8));
     // The annotation reads "Pascha … · dag N · title"; the separator is four UTF-8 bytes.
     const std::string separator = " · ";
     const auto info =
         day_.day.annotation.find(separator, day_.day.annotation.find(separator) + separator.size());
     if (info != std::string::npos) {
-        auto* feast = new wxStaticText(readings_, wxID_ANY,
+        auto* feast = new wxStaticText(home_content_, wxID_ANY,
                                        ui::utf8(day_.day.annotation.substr(info + separator.size())));
         feast->SetFont(body_font(18));
-        feast->Wrap(std::max(200, GetClientSize().x - FromDIP(150)));
+        home_labels_.emplace_back(feast, feast->GetLabel());
         entries_->Add(feast, 0, wxBOTTOM, FromDIP(8));
     }
     entries_->AddSpacer(FromDIP(28));
     if (day_.readings.empty())
-        entries_->Add(ui::label(readings_, ui::utf8("Ingen daglig bibelläsning är föreskriven"), 18), 0,
+        entries_->Add(ui::label(home_content_, ui::utf8("Ingen daglig bibelläsning är föreskriven"), 18), 0,
                       wxBOTTOM, FromDIP(20));
     const auto completed = user_.completed();
     for (const auto& reading : day_.readings) {
-        auto* section = ui::label(readings_, kind_label(reading.kind), 10);
+        auto* section = ui::label(home_content_, kind_label(reading.kind), 10);
         entries_->Add(section, 0, wxBOTTOM, FromDIP(6));
         const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments()));
         const auto key = day_key(reading);
         const bool done = completed.contains(key);
         auto* open =
-            ui::button(readings_, done ? title + ui::utf8("  ✓") : title, [this, reading, key, title] {
+            ui::button(home_content_, done ? title + ui::utf8("  ✓") : title, [this, reading, key, title] {
                 open_tracked(reading, {key, title});
             });
         open->SetFont(body_font(20));
@@ -169,12 +219,28 @@ void MainFrame::refresh_day() {
         entries_->Add(open, 0, wxBOTTOM, FromDIP(32));
     }
     add_plans();
-    readings_->FitInside();
+    layout_home();
     readings_->Scroll(0, 0);
     apply_settings(false);
     Layout();
 }
+void MainFrame::layout_home() {
+    const int width = std::clamp(readings_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(400));
+    home_content_->SetMinSize(wxSize(width, -1));
+    home_content_->SetSize(wxSize(width, home_content_->GetSize().y));
+    // Replacing a wrapped label at the same width makes wxWidgets skip wrapping it again.
+    if (home_width_ != width) {
+        home_width_ = width;
+        for (const auto& [label, text] : home_labels_) {
+            label->SetLabel(text);
+            label->Wrap(width);
+        }
+    }
+    home_content_->InvalidateBestSize();
+    readings_->FitInside();
+}
 void MainFrame::show_readings() {
+    close_pages();
     // Leaving a start-page item whose end has been read offers to mark it.
     if (tracked_ && scripture_->IsShown() && part_ + 1 >= parts_.size() && scripture_->end_seen()) {
         const auto item = *tracked_;
@@ -185,6 +251,7 @@ void MainFrame::show_readings() {
     following_audio_ = false;
     scripture_->follow_playback(false);
     scripture_->Hide();
+    root_->GetSizer()->Show(reader_sizer_, false);
     readings_->Show();
     update_study();
     update_bar();
@@ -193,6 +260,7 @@ void MainFrame::open_psalm() {
     open_reading({ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, "Psalm 23"});
 }
 void MainFrame::open_reading(const Reading& selected) {
+    close_pages();
     visible_reading_ = selected;
     following_audio_ = false;
     speech_view_.reset();
@@ -200,6 +268,7 @@ void MainFrame::open_reading(const Reading& selected) {
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
     const auto reading = corpus_.localize(in_primary(selected));
     readings_->Hide();
+    root_->GetSizer()->Show(reader_sizer_, true);
     scripture_->Show();
     study_->clear();
     update_study();
@@ -215,8 +284,23 @@ void MainFrame::open_reading(const Reading& selected) {
     scripture_->SetFocus();
 }
 Reading MainFrame::in_primary(Reading reading) const {
-    if (reading.source_override.empty())
+    if (reading.source_override.empty()) {
+        if (reading.reference.empty() && reading.base_language != settings_.primary) {
+            std::vector<Passage> parts;
+            for (const auto& segment : reading.segments()) {
+                const auto mapped =
+                    corpus_.map_passage(frame_source(reading.base_language, segment.book),
+                                        frame_source(settings_.primary, segment.book), segment);
+                if (mapped.empty())
+                    parts.push_back(segment);
+                else
+                    parts.insert(parts.end(), mapped.begin(), mapped.end());
+            }
+            reading.passage = parts.front();
+            reading.additional.assign(parts.begin() + 1, parts.end());
+        }
         reading.base_language = settings_.primary;
+    }
     return reading;
 }
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
@@ -237,15 +321,87 @@ void MainFrame::review_pronunciation() {
     speech_->set_speed(settings_.speech_rate / 100.0);
     refresh_speech();
 }
-void MainFrame::browse_bible() {
-    if (const auto reading = pick_bible_reading(this, corpus_, settings_)) {
-        tracked_.reset();
-        open_reading(*reading);
+void MainFrame::show_page(wxWindow* page, const wxString& title) {
+    if (page_) {
+        page_->Hide();
+        root_->GetSizer()->Detach(page_);
+        page_history_.emplace_back(page_, page_title_);
+    } else
+        return_to_reader_ = scripture_->IsShown();
+    page_ = page;
+    page_title_ = title;
+    scripture_->Hide();
+    root_->GetSizer()->Show(reader_sizer_, false);
+    readings_->Hide();
+    study_->Hide();
+    root_->GetSizer()->Add(page_, 1, wxEXPAND);
+    update_bar();
+    root_->Layout();
+    page_->SetFocus();
+}
+void MainFrame::close_page() {
+    if (!page_)
+        return;
+    root_->GetSizer()->Detach(page_);
+    page_->Hide();
+    page_->Destroy();
+    page_ = nullptr;
+    if (!page_history_.empty()) {
+        auto previous = page_history_.back();
+        page_history_.pop_back();
+        page_ = previous.first;
+        page_title_ = previous.second;
+        root_->GetSizer()->Add(page_, 1, wxEXPAND);
+        page_->Show();
+        root_->Layout();
+        page_->SetFocus();
+        return;
     }
+    root_->GetSizer()->Show(reader_sizer_, return_to_reader_);
+    scripture_->Show(return_to_reader_);
+    readings_->Show(!return_to_reader_);
+    study_->Show(return_to_reader_ && settings_.word_study);
+    root_->Layout();
+}
+void MainFrame::close_pages() {
+    while (page_)
+        close_page();
+}
+void MainFrame::back() {
+    if (page_) {
+        if (auto* picker = dynamic_cast<BiblePicker*>(page_); picker && picker->back())
+            return;
+        close_page();
+        refresh_speech();
+        update_bar();
+        if (scripture_->IsShown())
+            scripture_->SetFocus();
+    } else
+        show_readings();
+}
+void MainFrame::about() {
+    if (page_ && page_title_ == "Om Perikop")
+        return;
+    show_page(make_about_page(root_, settings_.theme, resources_), "Om Perikop");
+}
+void MainFrame::browse_bible() {
+    if (dynamic_cast<BiblePicker*>(page_))
+        return;
+    auto* page = new BiblePicker(root_, corpus_, settings_, [this](const Reading& reading) {
+        close_pages();
+        tracked_.reset();
+        open_reading(reading);
+    });
+    show_page(page, "Bibel");
 }
 void MainFrame::pick_date() {
-    if (const auto date = pick_civil_date(this, selected_.date(), settings_.theme))
-        select_day(*date);
+    if (page_)
+        return;
+    auto* page = make_date_page(root_, selected_.date(), settings_.theme, [this](CivilDate date) {
+        close_pages();
+        select_day(date);
+    });
+    show_page(page, ui::utf8("Välj datum"));
 }
 void MainFrame::apply_settings(bool persist) {
 #if wxCHECK_VERSION(3, 3, 0)
@@ -265,6 +421,8 @@ void MainFrame::apply_settings(bool persist) {
     }
     const auto colors = palette(settings_.theme);
     ui::recolor(root_, colors);
+    for (auto* button : date_buttons_)
+        button->apply(colors);
     for (auto* tile : plan_tiles_)
         tile->apply(colors);
     for (auto* button : {back_, play_, pause_, stop_})
@@ -278,6 +436,8 @@ void MainFrame::apply_settings(bool persist) {
     update_bar();
 }
 void MainFrame::update_study() {
+    if (page_)
+        return;
     const bool shown = settings_.word_study && scripture_->IsShown();
     if (!shown)
         scripture_->highlight_word(std::nullopt);

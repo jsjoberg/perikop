@@ -21,7 +21,12 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
     };
     gc.SetBrush(wxBrush(ink));
     switch (symbol) {
-    case Symbol::Back: {
+    case Symbol::Back:
+    case Symbol::Next: {
+        if (symbol == Symbol::Next) {
+            gc.Translate(20, 0);
+            gc.Scale(-1, 1);
+        }
         pen(1.7);
         gc.SetBrush(*wxTRANSPARENT_BRUSH);
         auto path = gc.CreatePath();

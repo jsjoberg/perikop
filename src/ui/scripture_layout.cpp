@@ -55,8 +55,8 @@ void ScriptureView::open_section(std::size_t index) {
     guide_.reset();
     guide_alpha_ = 0;
     orphans_.clear();
-    if (selection_) {
-        selection_.reset();
+    if (!selections_.empty()) {
+        selections_.clear();
         if (selection_changed_)
             selection_changed_();
     }

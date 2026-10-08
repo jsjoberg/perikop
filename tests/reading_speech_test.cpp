@@ -70,6 +70,25 @@ int main(int argc, char** argv) {
                   batch[4].cue->introduction,
               "Multiple readings and sections must preserve their playback identities");
 
+        // A picker selection can mix LXX and New Testament coordinates without renumbering either.
+        Reading custom{ReadingKind::OldTestament,
+                       {"Ps", {22, 1}, {22, 2}},
+                       "Urval",
+                       {{"John", {1, 3}, {1, 4}}, {"Ps", {22, 6}, {22, 6}}}};
+        custom.reference.clear();
+        const auto localized = corpus.localize(custom).segments();
+        check(localized.size() == 3 && localized[0].first == VerseRef{22, 1} && localized[1].book == "John" &&
+                  localized[2].first == VerseRef{22, 6},
+              "Mixed-book picker ranges must retain their framing coordinates and order");
+        const auto custom_speech = reading_speech(corpus, {custom}, lexicon);
+        check(custom_speech.size() == 6 &&
+                  custom_speech[1].display_text == corpus.verse("sv1917", "Ps", {23, 1})->text &&
+                  custom_speech[2].cue->verse == VerseRef{22, 2} &&
+                  custom_speech[3].cue == SpeechCue{0, 1, "John", "sv1917", {1, 3}, {1, 3}, false} &&
+                  custom_speech[4].cue->verse == VerseRef{1, 4} &&
+                  custom_speech[5].cue == SpeechCue{0, 2, "Ps", "grc-lxx", {22, 6}, {22, 6}, false},
+              "Custom playback must skip unselected gaps and follow the chosen range order across books");
+
         Reading english{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 2}}, "Psalm 23", {}, "en"};
         english.source_override = "en-kjv";
         const auto explicit_edition = reading_speech(corpus, {english}, lexicon);

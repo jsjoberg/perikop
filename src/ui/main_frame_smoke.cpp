@@ -1,5 +1,6 @@
 #include "core/reading_plan.hpp"
 #include "ui/app_icon.hpp"
+#include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
@@ -13,6 +14,29 @@
 #include <wx/graphics.h>
 #include <wx/menu.h>
 namespace ortho {
+namespace {
+// Navigation tests need a held playback position without model loading or sound output.
+class NavigationSpeech final : public SpeechEngine {
+public:
+    SpeechPlayback held;
+    bool changed = false;
+    void speak(const SpeechUtterance&) override {
+        changed = true;
+    }
+    void pause() override {
+        changed = true;
+    }
+    void resume() override {
+        changed = true;
+    }
+    void stop() override {
+        changed = true;
+    }
+    SpeechPlayback playback() const override {
+        return held;
+    }
+};
+} // namespace
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto original = settings_;
     const auto date = selected_.date();
@@ -260,13 +284,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     // The day page keeps the toolbar, with the reader's controls dimmed.
     show_readings();
-    for (auto* child : readings_->GetChildren())
+    for (auto* child : home_content_->GetChildren())
         if (auto* control = dynamic_cast<wxButton*>(child); control && control->GetLabel().Contains("Lyssna"))
             fail(__LINE__);
     if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
         back_->IsEnabled() || panes_.front().second->IsEnabled() ||
-        address_->GetLabel() != ui::utf8("Gå till bibelställe…"))
+        address_->GetLabel() != ui::utf8("Dagens läsningar"))
         fail(__LINE__);
+    // Repeated layout keeps long plan explanations wrapped in the centered column.
+    layout_home();
+    layout_home();
+    for (const auto& [label, text] : home_labels_)
+        if (text.length() > 100 && !label->GetLabel().Contains("\n"))
+            fail(__LINE__);
     // The start page offers the three reading plans; a marked part shows as read.
     if (plan_tiles_.size() != 74)
         fail(__LINE__);
@@ -322,9 +352,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // Marked verses replace the reading as what Lyssna reads.
     open_psalm();
     scripture_->select_verses({23, 4}, {23, 2});
-    const auto marked = scripture_->selection();
-    if (!marked || marked->first != VerseRef{23, 2} || marked->last != VerseRef{23, 4} ||
-        play_->GetLabel() != ui::utf8("Läs markering"))
+    const auto marked = scripture_->selections();
+    if (marked.size() != 1 || marked.front().first != VerseRef{23, 2} ||
+        marked.front().last != VerseRef{23, 4} || play_->GetLabel() != ui::utf8("Läs markering"))
+        fail(__LINE__);
+    scripture_->select_verses({23, 6}, {23, 6}, true);
+    auto multiple = scripture_->selections();
+    if (multiple.size() != 2 || scripture_->verse_selected({23, 5}) || !scripture_->verse_selected({23, 6}))
+        fail(__LINE__);
+    save(render(), "-ranges");
+    scripture_->select_verses({23, 3}, {23, 6}, true);
+    multiple = scripture_->selections();
+    if (multiple.size() != 1 || multiple.front().first != VerseRef{23, 2} ||
+        multiple.front().last != VerseRef{23, 6})
         fail(__LINE__);
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
@@ -398,6 +438,190 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }))
             fail(__LINE__);
     }
+    // Embedded pages must preserve the live reader, marked verses, and word-study article.
+    scripture_->select_verses({1, 1}, {1, 2});
+    scripture_->scroll_by(120);
+    const auto saved_scroll = scripture_->scroll_position();
+    const auto saved_study = study_->text();
+    const auto saved_selection = scripture_->selections();
+    const auto saved_reading = visible_reading_;
+    tracked_ = Tracked{"smoke:preserved", "Urval"};
+    for (int mode = 0; mode < 3; ++mode) {
+        if (mode == 0)
+            about();
+        else if (mode == 1)
+            pick_date();
+        else
+            browse_bible();
+        if (!page_ || scripture_->IsShown() || study_->IsShown() || !back_->IsEnabled() ||
+            play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
+            address_->IsEnabled() == (mode == 2) ||
+            page_->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
+            fail(__LINE__);
+        for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i) {
+#ifdef __WXOSX__
+            const bool available = false;
+#else
+            const bool available = GetMenuBar()->GetMenu(i)->FindItem(wxID_ABOUT) != nullptr;
+#endif
+            if (GetMenuBar()->IsEnabledTop(i) != available)
+                fail(__LINE__);
+        }
+        if (!GetMenuBar()->IsEnabled(wxID_ABOUT))
+            fail(__LINE__);
+        back();
+        for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i)
+            if (!GetMenuBar()->IsEnabledTop(i))
+                fail(__LINE__);
+        const auto restored = scripture_->selections();
+        if (page_ || !scripture_->IsShown() || !study_->IsShown() ||
+            scripture_->scroll_position() != saved_scroll || study_->text() != saved_study ||
+            restored.size() != saved_selection.size() ||
+            restored.front().first != saved_selection.front().first || !tracked_ ||
+            tracked_->key != "smoke:preserved" || visible_reading_->label != saved_reading->label)
+            fail(__LINE__);
+    }
+    about();
+    auto* saved_about = page_;
+    address_clicked();
+    if (!dynamic_cast<BiblePicker*>(page_) || saved_about->IsShown() || page_history_.size() != 1)
+        fail(__LINE__);
+    back();
+    if (page_ != saved_about || !page_->IsShown() || !address_->IsEnabled())
+        fail(__LINE__);
+    back();
+    tracked_.reset();
+    scripture_->clear_selection();
+    // A picker keeps pending endpoints across chapter navigation and supports ranges from multiple books.
+    browse_bible();
+    auto* picker = dynamic_cast<BiblePicker*>(page_);
+    const auto& canon = osb_canon();
+    const auto john = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
+        return book.code == "John";
+    });
+    const auto psalms = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
+        return book.code == "Ps";
+    });
+    if (picker->building_ || picker->builder_panel_->IsShown())
+        fail(__LINE__);
+    picker->show_chapters(john);
+    picker->show_verses(john, 1);
+    if (picker->tables_.size() != 4 || !picker->chapters_label_ || !picker->verses_label_)
+        fail(__LINE__);
+    picker->select_verse(john, {1, 3});
+    if (page_ || scripture_->reading().passage.first != VerseRef{1, 3})
+        fail(__LINE__);
+    browse_bible();
+    picker = dynamic_cast<BiblePicker*>(page_);
+    picker->set_builder(true);
+    const auto picker_size = GetSize();
+    SetSize(FromDIP(wxSize(520, 650)));
+    Layout();
+    root_->Layout();
+    picker->update_grid();
+    const auto content_rect = picker->contents_->GetRect();
+    if (content_rect.GetRight() > picker->grid_->GetClientSize().x ||
+        content_rect.GetBottom() > picker->grid_->GetVirtualSize().y ||
+        picker->grid_->GetScrollRange(wxVERTICAL) <= picker->grid_->GetScrollThumb(wxVERTICAL))
+        fail(__LINE__);
+    for (auto* child : picker->contents_->GetChildren())
+        if (child->GetRect().GetRight() > picker->contents_->GetClientSize().x)
+            fail(__LINE__);
+    if (picker->open_->GetRect().GetRight() > picker->builder_panel_->GetClientSize().x)
+        fail(__LINE__);
+    SetSize(picker_size);
+    Layout();
+    root_->Layout();
+    picker->show_chapters(john);
+    picker->show_verses(john, 1);
+    picker->select_verse(john, {1, 50});
+    back();
+    picker->show_verses(john, 2);
+    picker->select_verse(john, {2, 2});
+    if (!picker->first_ || !picker->last_ || *picker->first_ != VerseRef{1, 50} ||
+        *picker->last_ != VerseRef{2, 2})
+        fail(__LINE__);
+    picker->add_range(john, *picker->last_, *picker->first_);
+    picker->add_range(psalms, {22, 6}, {22, 6});
+    if (picker->ranges_->GetCount() != 2 || !picker->open_->IsEnabled())
+        fail(__LINE__);
+    // About is reachable through its menu action without losing the browser's in-progress reading.
+    const auto browser_scroll = picker->grid_->GetViewStart();
+    const auto browser_first = picker->first_, browser_last = picker->last_;
+    wxCommandEvent show_about(wxEVT_MENU, wxID_ABOUT);
+    GetEventHandler()->ProcessEvent(show_about);
+    if (page_ == picker || picker->IsShown() || page_history_.size() != 1)
+        fail(__LINE__);
+    const auto* about_page = page_;
+    GetEventHandler()->ProcessEvent(show_about);
+    if (page_ != about_page || page_history_.size() != 1)
+        fail(__LINE__);
+    back();
+    if (page_ != picker || !picker->IsShown() || !picker->building_ || picker->chapter_ != 2 ||
+        picker->first_ != browser_first || picker->last_ != browser_last ||
+        picker->grid_->GetViewStart() != browser_scroll || picker->ranges_->GetCount() != 2 ||
+        !page_history_.empty())
+        fail(__LINE__);
+    picker->open_selection();
+    const auto custom = scripture_->reading().segments();
+    if (page_ || custom.size() != 2 || custom[0].book != "John" || custom[0].first != VerseRef{1, 50} ||
+        custom[0].last != VerseRef{2, 2} || custom[1].first != VerseRef{22, 6} || parts_.size() != 2)
+        fail(__LINE__);
+    select_part(1);
+    const auto custom_scroll = scripture_->scroll_position();
+    about();
+    back();
+    if (part_ != 1 || scripture_->scroll_position() != custom_scroll || parts_.size() != 2)
+        fail(__LINE__);
+    // Day navigation controls rebuild safely; today remains available even on the current day.
+    show_readings();
+    const auto click_arrow = [this](size_t index) {
+        auto* button = date_buttons_[index];
+        wxMouseEvent down(wxEVT_LEFT_DOWN), up(wxEVT_LEFT_UP);
+        down.SetPosition({4, 4});
+        up.SetPosition({4, 4});
+        button->GetEventHandler()->ProcessEvent(down);
+        button->GetEventHandler()->ProcessEvent(up);
+        wxTheApp->ProcessPendingEvents();
+    };
+    click_arrow(1);
+    if (selected_.date() != shift_date(date, 1))
+        fail(__LINE__);
+    click_arrow(0);
+    if (selected_.date() != date)
+        fail(__LINE__);
+    for (auto* child : home_content_->GetChildren())
+        if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == "Idag") {
+            if (!button->IsEnabled())
+                fail(__LINE__);
+            wxCommandEvent click(wxEVT_BUTTON, button->GetId());
+            button->GetEventHandler()->ProcessEvent(click);
+            break;
+        }
+    wxTheApp->ProcessPendingEvents();
+    if (selected_.date() != local_civil_date())
+        fail(__LINE__);
+    select_day(date);
+    bool date_button_found = false;
+    for (auto* child : home_content_->GetChildren())
+        if (auto* button = wxDynamicCast(child, wxButton);
+            button && button->GetLabel() == ui::utf8("Välj datum")) {
+            wxCommandEvent click(wxEVT_BUTTON, button->GetId());
+            button->GetEventHandler()->ProcessEvent(click);
+            date_button_found = page_ != nullptr;
+            back();
+            break;
+        }
+    if (!date_button_found || std::abs(home_content_->GetPosition().x * 2 + home_content_->GetSize().x -
+                                       readings_->GetClientSize().x) > 2)
+        fail(__LINE__);
+    const auto home_scroll = readings_->GetViewStart();
+    about();
+    back();
+    if (!readings_->IsShown() || scripture_->IsShown() || back_->IsEnabled() ||
+        readings_->GetViewStart() != home_scroll)
+        fail(__LINE__);
+    std::cout << "Embedded pages: previous view, scroll, selection, study, parts, date controls.\n";
     settings_.word_study = false;
     apply_settings(false);
     if (study_->IsShown())
@@ -442,6 +666,44 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         play_->GetLabel() != ui::utf8("Fortsätt") || !play_->IsEnabled() || pause_->IsEnabled() ||
         !stop_->IsEnabled())
         fail(__LINE__);
+    // Back must preserve the engine's paused state and position; toolbar actions are suspended.
+    {
+        auto real_speech = std::move(speech_);
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        engine->held = paused;
+        speech_ = std::move(held);
+        for (int mode = 0; mode < 3; ++mode) {
+            if (mode == 0)
+                about();
+            else if (mode == 1)
+                pick_date();
+            else
+                browse_bible();
+            display_playback(paused);
+            if (!page_ || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
+                read_aloud_.playback().state != SpeechState::Paused)
+                fail(__LINE__);
+            play_or_pause();
+            back();
+            if (page_ || engine->changed || read_aloud_.playback().state != SpeechState::Paused ||
+                read_aloud_.playback().progress != paused.progress ||
+                scripture_->marker_position() != held_marker ||
+                scripture_->scroll_position() != held_scroll || !following_audio_)
+                fail(__LINE__);
+        }
+        // New playback cues cannot replace a page while the user is in it.
+        engine->held = playing;
+        about();
+        speech_view_.reset();
+        display_playback(playing);
+        if (!page_ || scripture_->IsShown() || speech_view_)
+            fail(__LINE__);
+        close_page();
+        speech_view_ = std::pair<size_t, size_t>{0, 0};
+        speech_ = std::move(real_speech);
+        display_playback(paused);
+    }
     auto buffering = playing;
     buffering.state = SpeechState::Buffering;
     display_playback(buffering);
