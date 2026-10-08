@@ -51,6 +51,7 @@ jobs:
             ctest --test-dir build/cmake --output-on-failure
           fi
       - name: Smoke test backtrace
+        timeout-minutes: 10
         if: failure() && runner.os == 'Linux'
         run: |
           sudo apt-get install -y gdb
@@ -127,6 +128,7 @@ jobs:
       - run: cmake --build build/cmake --parallel 3
       - run: ctest --test-dir build/cmake --output-on-failure
       - name: Smoke test screenshots
+        timeout-minutes: 10
         if: failure()
         shell: pwsh
         run: |

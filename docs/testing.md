@@ -9,7 +9,7 @@ ctest --test-dir build/cmake --output-on-failure
 ```
 
 The GUI smoke test needs a graphical desktop session.
-On Linux, use Xvfb if no desktop session is available:
+If Linux has no desktop session, use Xvfb:
 
 ```sh
 xvfb-run -a ctest --test-dir build/cmake --output-on-failure

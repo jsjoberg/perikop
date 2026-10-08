@@ -48,6 +48,9 @@ See [the architecture guide](architecture.md) for code boundaries and formatting
 If you use w64devkit, run `build.cmd` in its shell.
 The script selects the MinGW Makefiles generator.
 
+For a development build with installed wxWidgets, add `-DORTHO_SYSTEM_WX=ON`.
+The default build uses the pinned static library.
+
 ## Reuse dependency sources
 
 If dependency archives are already available, supply their source directories:
@@ -57,9 +60,6 @@ cmake -S . -B build/cmake \
   -DFETCHCONTENT_SOURCE_DIR_SQLITE=/absolute/path/sqlite-amalgamation-3530400 \
   -DFETCHCONTENT_SOURCE_DIR_WXWIDGETS=/absolute/path/wxWidgets-3.3.3
 ```
-
-For a development build with installed wxWidgets, add `-DORTHO_SYSTEM_WX=ON`.
-The default build uses the pinned static library.
 
 These options reuse SQLite and wxWidgets sources.
 An offline build also needs the other pinned dependencies locally available.
