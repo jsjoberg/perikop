@@ -112,9 +112,11 @@ Initial model loading and first-chunk synthesis take time.
 If synthesis cannot keep pace, playback waits for the next chunk.
 A separate SQLite cache accelerates repeat readings.
 
-**Lyssna** opens the passage and follows the spoken text with a soft highlight and a moving margin marker.
-Select **Visa → Markera texten som läses upp** to turn the highlight off.
-The margin marker stays, and the text still follows the voice.
+**Lyssna** opens the passage and follows the spoken text with a moving margin marker.
+The text highlight is off by default.
+Select **Visa → Markera texten som läses upp** to turn the highlight on.
+Perikop saves this choice. Existing saved choices remain in effect.
+The margin marker and automatic following work with either choice.
 
 Manual scrolling releases automatic following.
 A translucent **Följ uppläsningen** button then floats above the text.

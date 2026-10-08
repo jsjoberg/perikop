@@ -31,6 +31,9 @@ The first release will be 0.1.0. Until then, this section collects everything.
 
 ### Changed
 
+- Read-aloud text highlighting is off by default. Saved choices still apply.
+- Windows executable and installer metadata show the full release version, including prerelease suffixes.
+- Installed resources retain only the PNG icon used by the application. Windows embeds its ICO in the executable.
 - The Windows minimum is now Windows 10 x86-64, including read-aloud.
 - Linux builds require GCC 15 or later. CI uses GCC 15 on Ubuntu 24.04.
 - The program is now called Perikop.

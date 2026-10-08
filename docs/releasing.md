@@ -24,6 +24,11 @@ ONNX Runtime needs the Visual C++ runtime, so the installer carries it.
 Set `-DPERIKOP_MSVC_RUNTIME` to the `Microsoft.VC143.CRT` folder of a Visual Studio redistributable during CMake setup.
 For example, use `VC\Redist\MSVC\<version>\x64\Microsoft.VC143.CRT`.
 
+Windows product versions include the full release suffix, such as `0.1.0-alpha.2`.
+The executable, installer, and Installed Apps entry use the same version as the About page.
+Windows also stores a numeric version, such as `0.1.0.0`, for system comparisons.
+The executable embeds its ICO. Installed icon resources contain only the PNG used by the interface.
+
 On Linux, make the AppImage:
 
 ```sh

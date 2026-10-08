@@ -518,7 +518,8 @@ int main(int argc, char** argv) {
         {
             UserDb user(user_path);
             auto s = user.load();
-            check(s.theme == Theme::System && s.speech_voice == "alice", "default theme and voice");
+            check(s.theme == Theme::System && s.speech_voice == "alice" && !s.speech_highlight,
+                  "default theme, voice, and disabled read-aloud highlight");
             s.theme = Theme::Dark;
             s.calendar = CalendarStyle::Old;
             s.primary = "el";
@@ -526,7 +527,7 @@ int main(int argc, char** argv) {
             s.font_size = 24;
             s.speech_rate = 175;
             s.speech_voice = "bjorn";
-            s.speech_highlight = false;
+            s.speech_highlight = true;
             user.save(s);
         }
         {
@@ -534,7 +535,7 @@ int main(int argc, char** argv) {
             auto s = user.load();
             check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old && s.primary == "el" &&
                       s.parallel == "en" && s.font_size == 24 && s.speech_rate == 175 &&
-                      s.speech_voice == "bjorn" && !s.speech_highlight,
+                      s.speech_voice == "bjorn" && s.speech_highlight,
                   "persisted settings");
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");

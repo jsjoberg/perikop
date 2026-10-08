@@ -459,6 +459,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->follow_playback();
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
+    settings_.speech_highlight = true;
+    apply_settings(false);
+    scripture_->playback(playing);
+    for (int i = 0; i < 90; ++i)
+        scripture_->advance_playback(0.016);
     const auto highlighted = render();
     save(highlighted, "-playing");
     // Without the highlight, the reader still follows the voice and keeps the margin marker, but draws no
