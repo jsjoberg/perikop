@@ -38,7 +38,7 @@ std::optional<std::vector<float>> SpeechCache::load(const std::string& model, co
     if (!query.row())
         return {};
     const auto bytes = query.blob(0);
-    if (bytes.empty() || bytes.size() % 4 || bytes.size() > 16 * 1024 * 1024)
+    if (bytes.empty() || bytes.size() % 4 || bytes.size() > size_t{16} * 1024 * 1024)
         return {};
     std::vector<float> samples;
     samples.reserve(bytes.size() / 4);
@@ -59,7 +59,7 @@ std::optional<std::vector<float>> SpeechCache::load(const std::string& model, co
 }
 void SpeechCache::save(const std::string& model, const std::string& language, const std::string& text,
                        const std::vector<float>& samples) {
-    if (samples.empty() || samples.size() > 4 * 1024 * 1024)
+    if (samples.empty() || samples.size() > size_t{4} * 1024 * 1024)
         throw std::runtime_error("Invalid speech audio length");
     std::vector<unsigned char> bytes;
     bytes.reserve(samples.size() * 4);

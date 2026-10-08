@@ -44,6 +44,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                 const bool continues = (verse && previous && verse->ref == *previous) ||
                                        (!verse && verse.error() == merged_verse);
                 if (continues && found) {
+                    // NOLINTNEXTLINE(bugprone-unchecked-optional-access): queued verses have cues.
                     queue.back().cue->last = ref;
                     continue;
                 }

@@ -14,7 +14,7 @@
 #include <stdexcept>
 namespace ortho {
 struct PcmOutput::Impl {
-    ma_device device{};
+    ma_device device{}; // NOLINT(bugprone-invalid-enum-default-initialization): ma_device_init fills it
     // A mutex, because not every standard library has std::atomic<std::shared_ptr> yet.
     // The deprecated std::atomic_load functions on shared_ptr also lock.
     mutable std::mutex mutex;

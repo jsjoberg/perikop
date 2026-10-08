@@ -1,6 +1,6 @@
 #include "core/model.hpp"
 #include <algorithm>
-#include <cstdio>
+#include <charconv>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -29,9 +29,18 @@ std::string date_iso(CivilDate date) {
     return out.str();
 }
 std::expected<CivilDate, std::string> parse_date(const std::string& value) {
-    int year, month, day;
-    char tail;
-    if (std::sscanf(value.c_str(), "%d-%d-%d%c", &year, &month, &day, &tail) != 3)
+    int year = 0, month = 0, day = 0;
+    const char* position = value.data();
+    const char* const end = value.data() + value.size();
+    const auto field = [&](int& number, bool last) {
+        const auto [next, error] = std::from_chars(position, end, number);
+        position = next;
+        if (error != std::errc{} || (last ? position != end : position == end || *position != '-'))
+            return false;
+        position += last ? 0 : 1;
+        return true;
+    };
+    if (!field(year, false) || !field(month, false) || !field(day, true))
         return std::unexpected("Date must be YYYY-MM-DD");
     if (year < 1 || year > 9999 || month < 1 || month > 12 || day < 1 || day > 31)
         return std::unexpected("Invalid civil date");

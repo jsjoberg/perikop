@@ -52,6 +52,7 @@ int main() {
         for (size_t i = 0; i < ortho::PcmStream::capacity; ++i)
             check(full.append({1}), "Deep lookahead accepted");
         std::vector<float> pending{2};
+        // NOLINTNEXTLINE(bugprone-use-after-move): append moves only when it succeeds.
         check(!full.append(std::move(pending)) && pending == std::vector<float>{2},
               "Full buffer preserves the pending chunk");
         full.release();
@@ -102,6 +103,7 @@ int main() {
                 std::vector<float> samples(1 + i % 17);
                 for (auto& value : samples)
                     value = static_cast<float>(sample++);
+                // NOLINTNEXTLINE(bugprone-use-after-move): append moves only when it succeeds.
                 while (!concurrent.append(std::move(samples)) && !abort.load())
                     std::this_thread::yield();
                 concurrent.release();

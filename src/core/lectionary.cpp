@@ -431,6 +431,7 @@ DayReadings AntiochianLectionary::readings_for(CivilDate civil, CalendarStyle st
             if (r->month == 0 && r->pdist == p && (r->service == "6th Hour" || r->service == "Vespers"))
                 selected.push_back(r);
         }
+    // NOLINTNEXTLINE(bugprone-nondeterministic-pointer-iteration-order): sorted by ordering, not address.
     std::sort(selected.begin(), selected.end(), [](auto a, auto b) {
         return a->ordering < b->ordering;
     });

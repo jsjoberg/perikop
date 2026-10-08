@@ -1,5 +1,6 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
@@ -8,7 +9,7 @@ namespace ortho {
 namespace {
 wxColour mix(const wxColour& from, const wxColour& to, double share) {
     const auto channel = [share](int a, int b) {
-        return static_cast<unsigned char>(a + (b - a) * share + 0.5);
+        return static_cast<unsigned char>(std::lround(a + (b - a) * share));
     };
     return {channel(from.Red(), to.Red()), channel(from.Green(), to.Green()),
             channel(from.Blue(), to.Blue())};

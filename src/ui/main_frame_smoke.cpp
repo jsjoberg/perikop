@@ -285,7 +285,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     settings_.parallel = "";
     apply_settings(false);
-    for (auto reading : std::vector<Reading>{
+    for (const auto& reading : std::vector<Reading>{
              {ReadingKind::OldTestament,
               {"Gen", {31, 50, "a"}, {31, 50, "a"}},
               "Första Moseboken 31:50a",
@@ -470,7 +470,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     const auto plain = render();
     if (!scripture_->marker_position() ||
-        std::equal(plain.GetData(), plain.GetData() + plain.GetWidth() * plain.GetHeight() * 3,
+        std::equal(plain.GetData(), plain.GetData() + size_t(plain.GetWidth()) * plain.GetHeight() * 3,
                    highlighted.GetData()))
         fail(__LINE__);
     save(plain, "-playing-plain");

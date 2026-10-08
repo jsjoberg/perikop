@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
         check(!parse_date("2026-02-29"), "invalid leap date");
         check(!parse_date("2026-257-01") && !parse_date("2026-01-257"), "overflow date parts");
         check(!parse_date("2026-10-05abc"), "trailing date text");
+        check(!parse_date("99999999999-01-01"), "year outside int");
         check(date_swedish(date("2026-10-05")) == "Måndag 5 oktober 2026", "Swedish civil date");
         SelectedDay selected(date("2026-10-05"));
         // Simulate a clock change and wake: no update method consults this clock.

@@ -51,7 +51,7 @@ void write_wav(const std::filesystem::path& path, const std::vector<float>& samp
 class Kokoro {
     KokoroText text_;
     KokoroAudio audio_;
-    static const std::filesystem::path& checked(const std::filesystem::path& path) {
+    static std::filesystem::path checked(const std::filesystem::path& path) {
         for (const char* file :
              {"kokoro.onnx", "g2p-encoder.onnx", "g2p-decoder.onnx", "g2p-config.json", "config.json",
               "alice.bin", "bjorn.bin", "lexicon.tsv", "custom_lexicon.tsv"})
@@ -193,7 +193,7 @@ class PortableSpeech final : public SpeechEngine {
                 // ten minutes of audio or the buffer's slot count.
                 const auto full = [&] {
                     return output_->buffered() >= PcmStream::capacity ||
-                           output_->buffered_frames() >= 600 * 24000;
+                           output_->buffered_frames() >= uint64_t{600} * 24000;
                 };
                 // Called with the mutex held after audio is queued or played.
                 // A full buffer cannot grow, so it plays whatever the estimate says.
@@ -304,8 +304,8 @@ class PortableSpeech final : public SpeechEngine {
     }
 
 public:
-    PortableSpeech(std::filesystem::path voices, std::filesystem::path data, SpeechStatus status)
-        : pack_(std::move(voices) / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)),
+    PortableSpeech(const std::filesystem::path& voices, std::filesystem::path data, SpeechStatus status)
+        : pack_(voices / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)),
           worker_([this] {
               run();
           }) {}

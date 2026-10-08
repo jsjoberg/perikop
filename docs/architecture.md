@@ -77,6 +77,16 @@ Check the native code format:
 cmake --build build/cmake --target format-check
 ```
 
+If `clang-tidy` and `run-clang-tidy` are on the search path during CMake setup, CMake also provides a `tidy` target.
+It runs the checks in `.clang-tidy`, including the Clang Static Analyzer, on the native sources, tests, and C++ tools.
+Build the application first. Any finding is an error. CI runs it on Linux with clang-tidy 18.
+
+```sh
+cmake --build build/cmake --target tidy
+```
+
+To keep a finding that is wrong, add `// NOLINT(check-name)` with the reason, on the line or with `NOLINTNEXTLINE` before it.
+
 Build the application:
 
 ```sh
