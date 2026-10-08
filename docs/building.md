@@ -3,13 +3,30 @@
 ## Requirements
 
 - CMake 3.24 or later and a C++23 compiler with `std::expected`.
-- Windows 11 x86-64: w64devkit with MinGW-w64 GCC 13 or later.
-- Linux x86-64: GCC 13 or later, GTK3 development headers, and Fontconfig development headers.
+- Windows 10 or later, x86-64: w64devkit with MinGW-w64 GCC 13 or later.
+- Linux x86-64: GCC 15 or later, GTK3 development headers, and Fontconfig development headers.
 - macOS: Apple Clang 16 or later and the Xcode command-line tools.
 
 On Linux, install the GTK3 and Fontconfig development packages for your distribution.
 On Debian or Ubuntu, the package names are `libgtk-3-dev` and `libfontconfig1-dev`.
 The compiler must support C++23. Portable speech requires macOS 13.4 or later.
+
+Windows 10 is the minimum for the full application, including read-aloud.
+The bundled [ONNX Runtime](https://onnxruntime.ai/docs/build/inferencing.html#target-environments)
+and [Visual C++ runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
+require Windows 10 or later.
+Windows 7, 8, 8.1, and XP need a different speech runtime and separate validation.
+CI builds on Windows Server 2025. Execution on Windows 10 still needs validation.
+
+CI uses GCC 15 from the Ubuntu toolchain PPA on Ubuntu 24.04.
+This keeps the AppImage's glibc baseline at 2.39.
+On Ubuntu 24.04, install the compiler:
+
+```sh
+sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install -y g++-15
+```
 
 ## Prepare read-aloud
 
@@ -35,6 +52,14 @@ Run these commands from the repository directory:
 
 ```sh
 cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
+cmake --build build/cmake --parallel
+```
+
+On Linux, select GCC 15 explicitly:
+
+```sh
+cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_C_COMPILER=gcc-15 -DCMAKE_CXX_COMPILER=g++-15
 cmake --build build/cmake --parallel
 ```
 
