@@ -31,6 +31,8 @@ The first release will be 0.1.0. Until then, this section collects everything.
 
 ### Changed
 
+- The Windows minimum is now Windows 10 x86-64, including read-aloud.
+- Linux builds require GCC 15 or later. CI uses GCC 15 on Ubuntu 24.04.
 - The program is now called Perikop.
 - The About page shows the release version, such as 0.1.0-alpha.2, in a release build. Other builds show the version and the commit.
 - The Alice and Björn voices are bundled in the application. There is no separate voice installation, and Perikop never uses the network.

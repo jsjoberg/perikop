@@ -58,7 +58,7 @@ The cached PCM preserves repeat playback within an installation.
 The supplied ONNX 1.23.2 Apple Silicon library requires macOS 13.4.
 The application baseline therefore changes from macOS 11 to macOS 13.4.
 The specification permits a later baseline when tests require it.
-Windows 11 x86-64 and Linux x86-64 remain targets. Intel Mac builds use the same runtime version.
+Windows 10 or later, x86-64, and Linux x86-64 are targets. Intel Mac builds use the same runtime version.
 Windows, Linux, Intel Mac, and minimum-version execution still need their own validation.
 
 ## Playback behavior

@@ -19,7 +19,7 @@ On macOS or Windows, make the package:
 cpack --config build/cmake/CPackConfig.cmake -B build/package
 ```
 
-On Windows, the installer needs NSIS on the `PATH`.
+On Windows 10 or later, x86-64, the installer needs NSIS on the `PATH`.
 ONNX Runtime needs the Visual C++ runtime, so the installer carries it.
 Set `-DPERIKOP_MSVC_RUNTIME` to the `Microsoft.VC143.CRT` folder of a Visual Studio redistributable during CMake setup.
 For example, use `VC\Redist\MSVC\<version>\x64\Microsoft.VC143.CRT`.

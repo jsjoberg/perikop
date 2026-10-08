@@ -6,6 +6,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 # Perikop uses no C++ modules. Scanning for them slows builds and stops ccache from caching GCC compiles.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU"
+        AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 15)
+    message(FATAL_ERROR "Linux builds require GCC 15 or later. Reconfigure with -DCMAKE_C_COMPILER=gcc-15 -DCMAKE_CXX_COMPILER=g++-15.")
+endif()
+if(WIN32)
+    # The bundled ONNX Runtime and Visual C++ runtime require Windows 10.
+    # Apply the same API baseline to the application and fetched dependencies.
+    add_compile_definitions(WINVER=0x0A00 _WIN32_WINNT=0x0A00)
+endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 include(FetchContent)
 include(CTest)
