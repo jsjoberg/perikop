@@ -93,22 +93,6 @@ double shaped_width(wxDC& dc, wxGraphicsContext* gc, const wxFont& base, const w
     dc.SetFont(base);
     return width;
 }
-void draw_shaped(wxDC& dc, wxGraphicsContext* gc, const wxFont& base, const wxString& text, double x, int y) {
-    for (const auto& part : shaped_parts(base, text)) {
-        if (gc) {
-            gc->SetFont(part.font, dc.GetTextForeground());
-            gc->DrawText(part.text, x, y);
-            double w = 0;
-            gc->GetTextExtent(part.text, &w, nullptr);
-            x += w;
-        } else {
-            dc.SetFont(part.font);
-            dc.DrawText(part.text, int(std::lround(x)), y);
-            x += dc.GetTextExtent(part.text).x;
-        }
-    }
-    dc.SetFont(base);
-}
 struct Break {
     int word, cut;
     bool hyphen;
@@ -403,15 +387,42 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
                     const std::function<std::optional<wxColour>(const TextRun&)>& colour) {
     const auto base = dc.GetFont();
     const auto ink = dc.GetTextForeground();
+    const int bottom = dc.GetSize().y;
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::CreateFromUnknownDC(dc));
+    // GDI+ builds a new font each time one is set, so set it only when the font or colour changes.
+    wxFont font;
+    wxColour font_colour;
     for (const auto& line : layout.lines) {
-        for (const auto& run : line.runs) {
-            if (colour) {
-                const auto chosen = colour(run);
-                dc.SetTextForeground(chosen ? *chosen : ink);
+        // Draw only the lines inside the drawing area.
+        if (y + layout.line_height > 0 && y < bottom)
+            for (const auto& run : line.runs) {
+                const auto chosen = colour ? colour(run) : std::nullopt;
+                const auto text_colour = chosen ? *chosen : ink;
+                const auto parts = shaped_parts(run.marker ? marker_font(base) : base, run.text);
+                double part_x = x + run.x;
+                for (std::size_t i = 0; i < parts.size(); ++i) {
+                    // The layout places whole runs; measure a part only to place the next one.
+                    const bool more = i + 1 < parts.size();
+                    if (gc) {
+                        if (font != parts[i].font || font_colour != text_colour) {
+                            font = parts[i].font;
+                            font_colour = text_colour;
+                            gc->SetFont(font, font_colour);
+                        }
+                        gc->DrawText(parts[i].text, part_x, y);
+                        double width = 0;
+                        if (more)
+                            gc->GetTextExtent(parts[i].text, &width, nullptr);
+                        part_x += width;
+                    } else {
+                        dc.SetFont(parts[i].font);
+                        dc.SetTextForeground(text_colour);
+                        dc.DrawText(parts[i].text, int(std::lround(part_x)), y);
+                        if (more)
+                            part_x += dc.GetTextExtent(parts[i].text).x;
+                    }
+                }
             }
-            draw_shaped(dc, gc.get(), run.marker ? marker_font(base) : base, run.text, x + run.x, y);
-        }
         y += layout.line_height;
     }
     dc.SetFont(base);
