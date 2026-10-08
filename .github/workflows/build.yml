@@ -119,6 +119,7 @@ jobs:
         with:
           key: windows
           max-size: 2G
+          verbose: 2
       - name: Voice pack
         if: env.PACKAGE == 'true'
         shell: bash
