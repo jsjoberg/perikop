@@ -116,7 +116,7 @@ bool digit(char32_t c) {
 
 // --- Lexicon -----------------------------------------------------------------
 // lexicon.tsv: "word\tp h o n e s", byte-sorted with unique words. Binary
-// search over line offsets keeps the 37 MB file without a per-entry heap node.
+// search over line offsets keeps the file without a per-entry heap node.
 class Lexicon {
     std::string data_;
     std::vector<uint32_t> lines_;
@@ -294,8 +294,9 @@ struct KokoroText::Impl {
     Ort::Env env{ORT_LOGGING_LEVEL_WARNING, "orthodox-reader-kokoro-text"};
     Ort::SessionOptions options;
     Ort::Session encoder{nullptr}, decoder{nullptr};
+    std::filesystem::path pack;
     explicit Impl(const std::filesystem::path& pack)
-        : lexicon(pack / "lexicon.tsv", pack / "custom_lexicon.tsv") {
+        : lexicon(pack / "lexicon.tsv", pack / "custom_lexicon.tsv"), pack(pack) {
         const auto g2p = read_file(pack / "g2p-config.json");
         letters = json_ids(g2p, "char2id");
         for (const auto& [phone, id] : json_ids(g2p, "phon2id")) {
@@ -310,14 +311,25 @@ struct KokoroText::Impl {
         options.SetIntraOpNumThreads(1);
         options.SetInterOpNumThreads(1);
         options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
-        encoder = Ort::Session(env, (pack / "g2p-encoder.onnx").native().c_str(), options);
-        decoder = Ort::Session(env, (pack / "g2p-decoder.onnx").native().c_str(), options);
+        // The pack holds the model's output for every corpus word that the lexicon lacks.
+        std::istringstream corpus(read_file(pack / "g2p-corpus.tsv"));
+        for (std::string line; std::getline(corpus, line);) {
+            const auto tab = line.find('\t');
+            if (tab == std::string::npos || line.find('\t', tab + 1) != std::string::npos)
+                throw std::runtime_error("Invalid Kokoro corpus pronunciation row.");
+            neural_cache[line.substr(0, tab)] = line.substr(tab + 1);
+        }
     }
     // model.G2PTransformer.greedy_decode for one word: BOS letters EOS in,
     // up to max_len=64 phones out, stopping at EOS.
     std::string neural(const std::string& word) {
         if (const auto cached = neural_cache.find(word); cached != neural_cache.end())
             return cached->second;
+        // Other text, such as a speech spelling, loads the model on first use.
+        if (!decoder) {
+            encoder = Ort::Session(env, (pack / "g2p-encoder.onnx").native().c_str(), options);
+            decoder = Ort::Session(env, (pack / "g2p-decoder.onnx").native().c_str(), options);
+        }
         constexpr int64_t pad = 0, bos = 1, eos = 2, max_len = 64;
         std::vector<int64_t> source{bos};
         for (char32_t c : decode(word))

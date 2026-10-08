@@ -5,17 +5,21 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import shutil
+import sqlite3
 import sys
 import time
 
 VOICES = '2c7968d59c2fda1667e9e3ff0dd9967150a53f74'
 G2P = 'a5aac876ccb2bf7480a129774c7e89cf3bbeac01'
-PACK = 'kokoro-sv-alice-bjorn-2c7968d-v2'
+PACK = 'kokoro-sv-alice-bjorn-2c7968d-v3'
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--corpus', type=Path, default=Path(__file__).resolve().parents[2]/'resources/corpus/corpus.db',
+                        help='Corpus whose Swedish words get precomputed pronunciations.')
     parser.add_argument('--reference-source', type=Path, help='Pinned kokoro-sv checkout for upstream pronunciation/audio comparison.')
     args = parser.parse_args()
     import numpy as np
@@ -139,7 +143,6 @@ def main():
     export(Decoder().eval(), (tgt,memory), 'g2p-decoder.onnx', ['tgt','memory'], ['logits'], {'tgt':{1:'phones'},'memory':{1:'letters'}})
     (out/'g2p-config.json').write_text(json.dumps({'cfg':cfg,'vocab':checkpoint['vocab']},ensure_ascii=False),encoding='utf-8')
     lex = fetch('Joakim/kokoro-sv-g2p', G2P, 'g2p/lexicon.tsv', '65eb3aae9c737f6d04c22a44b2ab836d1ec01f682b1cdee07bb2209852355296')
-    shutil.copyfile(lex,out/'lexicon.tsv')
     # Only the pronunciation overrides ship from upstream code; the runtime
     # reproduces its documented remap and number normalization in C++.
     from urllib.request import urlopen
@@ -170,6 +173,83 @@ def main():
             nxt = int(logits.argmax()); assert nxt == int(expected_logits.argmax())
             if nxt==2: break
             prefix.append(nxt)
+    # Every word the reader can say from the corpus: Swedish verses, bundled
+    # speech spellings, and reading introductions with their book names and
+    # numbers. Tokens and case folding follow KokoroText::ipa.
+    corpus = sqlite3.connect(f'file:{args.corpus.resolve()}?mode=ro', uri=True)
+    texts = [t for (t,) in corpus.execute("SELECT text FROM verse JOIN source ON source.id=verse.source_id WHERE source.language='sv'")]
+    texts += [t for (t,) in corpus.execute("SELECT spoken FROM pronunciation WHERE language='sv' AND spoken<>''")]
+    texts += [t for (t,) in corpus.execute("SELECT name_sv FROM book WHERE name_sv IS NOT NULL")]
+    texts.append('Läsning ur Psaltaren, kapitel, vers till.')
+    corpus_digest = hashlib.sha256(args.corpus.read_bytes()).hexdigest()
+    corpus.close()
+    ones = 'noll ett två tre fyra fem sex sju åtta nio tio elva tolv tretton fjorton femton sexton sjutton arton nitton'.split()
+    tens = ',,tjugo,trettio,fyrtio,femtio,sextio,sjuttio,åttio,nittio'.split(',')
+    def cardinal(n):
+        # swedish_numbers in kokoro_text.cpp, below one million.
+        rest = lambda part: cardinal(part) if part else ''
+        if n < 20: return ones[n]
+        if n < 100: return tens[n//10]+rest(n%10)
+        if n < 1000: return cardinal(n//100)+'hundra'+rest(n%100)
+        return (cardinal(n//1000)+'tusen').replace('etttusen','ettusen')+rest(n%1000)
+    texts += [cardinal(n) for n in range(1000)]
+    texts = [re.sub('[0-9]+', lambda m: f' {cardinal(int(m[0]))} ' if int(m[0]) < 10**6 else ' ', t) for t in texts]
+    upper, lower = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ', 'abcdefghijklmnopqrstuvwxyzåäö'
+    words = {w.translate(str.maketrans(upper,lower)) for t in texts for w in re.findall(f'[{lower}éèüáàâëï{upper}]+', t)}
+    # A capitalized genitive -s uses the lexicon entry of its stem.
+    stems = {w[:-1] for w in words if w.endswith('s') and len(w.encode())>2}
+    custom = {}
+    for line in (out/'custom_lexicon.tsv').read_text(encoding='utf-8').splitlines():
+        if line and not line.startswith('#'):
+            word, phones = line.split('\t')
+            custom[word.lower()] = phones.replace(' ','')
+    kept, known = [], set()
+    with open(lex, encoding='utf-8', newline='\n') as source:
+        for line in source:
+            word, phones = line.rstrip('\n').split('\t')
+            if word in words or word in stems:
+                kept.append(line if line.endswith('\n') else line+'\n')
+                if phones.strip(): known.add(word)
+    (out/'lexicon.tsv').write_text(''.join(kept), encoding='utf-8', newline='\n')
+    # The model's output for the remaining words, so reading never needs it.
+    char2id = checkpoint['vocab']['char2id']; id2phone = {v:k for k,v in checkpoint['vocab']['phon2id'].items()}
+    def neural(word, enc, dec):
+        # KokoroText's greedy decode.
+        source = ([1]+[char2id[c] for c in word if c in char2id])[:63]+[2]
+        memory = enc.run(None,{'src':np.array([source],dtype=np.int64)})[0]
+        target, phones = [1], ''
+        for _ in range(64):
+            nxt = int(dec.run(None,{'tgt':np.array([target],dtype=np.int64),'memory':memory})[0].argmax())
+            if nxt==2: break
+            target.append(nxt)
+            if nxt>1: phones += id2phone.get(nxt,'')
+        return phones
+    unknown = sorted(w for w in words if not (custom[w] if w in custom else w in known))
+    precomputed = {w:neural(w,enc,dec) for w in unknown}
+    (out/'g2p-corpus.tsv').write_text(''.join(f'{w}\t{p}\n' for w,p in precomputed.items()), encoding='utf-8', newline='\n')
+    print(f'Corpus words: {len(words)}; lexicon entries kept: {len(kept)}; precomputed: {len(precomputed)}', flush=True)
+    # The model remains for other text, such as speech spellings in the review.
+    # It stores 16-bit weights; ONNX Runtime restores FP32 at load.
+    for name in ['g2p-encoder.onnx','g2p-decoder.onnx']:
+        g2p_model = onnx.load(str(out/name)); graph = g2p_model.graph
+        weights, casts = [], []
+        for init in graph.initializer:
+            w = numpy_helper.to_array(init)
+            if w.dtype!=np.float32 or w.size<4096:
+                weights.append(init); continue
+            weights.append(numpy_helper.from_array(w.astype(np.float16),init.name+'_fp16'))
+            casts.append(helper.make_node('Cast',[init.name+'_fp16'],[init.name],to=onnx.TensorProto.FLOAT))
+        nodes = casts+list(graph.node)
+        del graph.initializer[:], graph.node[:]
+        graph.initializer.extend(weights); graph.node.extend(nodes)
+        onnx.checker.check_model(g2p_model)
+        onnx.save(g2p_model, str(out/name))
+    enc16 = ort.InferenceSession(str(out/'g2p-encoder.onnx'),options,providers=['CPUExecutionProvider'])
+    dec16 = ort.InferenceSession(str(out/'g2p-decoder.onnx'),options,providers=['CPUExecutionProvider'])
+    changed = sum(neural(w,enc16,dec16)!=p for w,p in precomputed.items())
+    print(f'16-bit pronunciation model differs on {changed} of {len(precomputed)} precomputed words', flush=True)
+    if changed > len(precomputed)//1000:
+        raise RuntimeError('16-bit pronunciation model differs from the FP32 export.')
     loaded_at = time.perf_counter()
     acoustic = ort.InferenceSession(str(out/'kokoro.onnx'), options,providers=['CPUExecutionProvider'])
     acoustic_load = time.perf_counter()-loaded_at
@@ -194,7 +274,7 @@ def main():
         from scipy.signal import iirnotch, filtfilt
         import soundfile as sf
         frontend = SwedishG2P(model_path=fetch('Joakim/kokoro-sv-g2p',G2P,'g2p/g2p_model.pt'),
-            lexicon_path=out/'lexicon.tsv',custom_path=out/'custom_lexicon.tsv')
+            lexicon_path=lex,custom_path=out/'custom_lexicon.tsv')
         samples_dir = out.parent/'kokoro-audition'; samples_dir.mkdir(exist_ok=True)
         timings = {'acoustic_load_seconds':acoustic_load,'samples':[]}
         for text in ['Mose.', 'Herren är min herde, mig skall intet fattas. Han låter mig vila på gröna ängar.']:
@@ -220,7 +300,7 @@ def main():
                 np.testing.assert_array_equal(durations,expected_durations.numpy())
         (samples_dir/'timings.json').write_text(json.dumps(timings,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
     files = {p.name:{'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in out.iterdir() if p.is_file() and p.name!='voice-pack.json'}
-    (out/'voice-pack.json').write_text(json.dumps({'id':PACK,'licence':'Apache-2.0','sources':{'voices':VOICES,'g2p':G2P,'code':'42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f'},'files':files},indent=2)+'\n')
+    (out/'voice-pack.json').write_text(json.dumps({'id':PACK,'licence':'Apache-2.0','sources':{'voices':VOICES,'g2p':G2P,'code':'42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f','corpus':corpus_digest},'files':files},indent=2)+'\n')
     print('Prepared and validated:',out,flush=True)
 
 if __name__=='__main__': main()
