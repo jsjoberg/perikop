@@ -79,7 +79,7 @@ cmake --build build/cmake --target format-check
 
 If `clang-tidy` and `run-clang-tidy` are on the search path during CMake setup, CMake also provides a `tidy` target.
 It runs the checks in `.clang-tidy`, including the Clang Static Analyzer, on the native sources, tests, and C++ tools.
-Build the application first. Any finding is an error. CI runs it on Linux with clang-tidy 18.
+Build the application first. Any finding is an error. CI runs it on macOS with the current Homebrew LLVM.
 
 ```sh
 cmake --build build/cmake --target tidy
