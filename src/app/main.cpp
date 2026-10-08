@@ -1,4 +1,5 @@
 #include "speech/portable_speech.hpp"
+#include "ui/app_icon.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/native_icon.hpp"
@@ -141,13 +142,11 @@ public:
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
             auto* frame = new ortho::MainFrame(*corpus_, *user_, date, resources);
-            const auto icon_path = (resources / "icons/orthodox-cross.png").u8string();
             wxIcon icon;
-            icon.LoadFile(wxString::FromUTF8(reinterpret_cast<const char*>(icon_path.c_str())),
-                          wxBITMAP_TYPE_PNG);
+            icon.CopyFromBitmap(wxBitmap(ortho::app_icon_image()));
             if (icon.IsOk())
                 frame->SetIcon(icon);
-            ortho::set_native_app_icon(resources / "icons/orthodox-cross.png");
+            ortho::set_native_app_icon(ortho::app_icon_png());
             SetTopWindow(frame);
             frame->Show();
             if (reader)

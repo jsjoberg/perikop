@@ -149,7 +149,7 @@ struct Settings {
     // The right pane is the Ordstudium lookup panel. Excludes a parallel language.
     bool word_study = false;
     // Read-aloud tints the line being read. The margin marker shows either way.
-    bool speech_highlight = true;
+    bool speech_highlight = false;
     // Playback speed of read-aloud audio, in percent of the voice's own pace.
     int speech_rate = 100;
     // Swedish voice identity. The selected voice survives application restarts.

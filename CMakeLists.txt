@@ -71,6 +71,9 @@ if(ORTHO_SANITIZERS AND NOT MSVC)
     target_link_options(ortho-core PUBLIC -fsanitize=address,undefined)
 endif()
 if(BUILD_TESTING)
+    add_test(NAME build-version COMMAND "${CMAKE_COMMAND}"
+        -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DWORK_DIR=${CMAKE_BINARY_DIR}/test-build-version
+        -P "${CMAKE_SOURCE_DIR}/tests/build_version_test.cmake")
     add_executable(ortho-reading-speech-tests tests/reading_speech_test.cpp)
     target_link_libraries(ortho-reading-speech-tests PRIVATE ortho-core)
     add_test(NAME reading-speech COMMAND ortho-reading-speech-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")
@@ -129,6 +132,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_smoke.cpp
         src/ui/controls.cpp
         src/ui/about.cpp
+        src/ui/app_icon.cpp
         src/ui/toolbar.cpp
         src/ui/bible_picker.cpp
         src/ui/date_picker.cpp
@@ -147,6 +151,12 @@ if(ORTHO_BUILD_GUI)
         target_include_directories(perikop PRIVATE cmake)
     endif()
     set(perikop_version_header "${CMAKE_BINARY_DIR}/generated/perikop_version.hpp")
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+        "${CMAKE_SOURCE_DIR}/resources/icons/orthodox-cross.png")
+    file(READ "${CMAKE_SOURCE_DIR}/resources/icons/orthodox-cross.png" perikop_icon_bytes HEX)
+    string(REGEX REPLACE "(..)" "0x\\1," perikop_icon_bytes "${perikop_icon_bytes}")
+    file(CONFIGURE OUTPUT "${CMAKE_BINARY_DIR}/generated/perikop_icon.hpp"
+        CONTENT "constexpr unsigned char perikop_icon_png[] = {@perikop_icon_bytes@};\n" @ONLY)
     add_custom_target(perikop-version
         COMMAND "${CMAKE_COMMAND}" -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DVERSION=${PROJECT_VERSION}
             -DOUTPUT=${perikop_version_header} -P "${CMAKE_SOURCE_DIR}/cmake/version.cmake"
@@ -187,6 +197,8 @@ if(ORTHO_BUILD_GUI)
     add_custom_target(ortho-resources ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/resources" "${resource_destination}"
+        # Icons are embedded; macOS gets its OS bundle icon separately.
+        COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/icons"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"
@@ -239,9 +251,12 @@ if(ORTHO_BUILD_GUI)
     # Release packages: a DMG on macOS and an installer on Windows. Linux uses tools/package_appimage.sh.
     if(APPLE OR WIN32)
         set(CPACK_PACKAGE_NAME Perikop)
+        set(CPACK_VERBATIM_VARIABLES TRUE)
         set(CPACK_PACKAGE_VENDOR Perikop)
         set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Orthodox lectionary reader")
         set(CPACK_PACKAGE_INSTALL_DIRECTORY Perikop)
+        include(cmake/build-version.cmake)
+        perikop_get_version(CPACK_PACKAGE_VERSION "${CMAKE_SOURCE_DIR}" "${PROJECT_VERSION}")
         if(APPLE)
             set(CPACK_GENERATOR DragNDrop)
             set(CPACK_SYSTEM_NAME "macOS-${CMAKE_SYSTEM_PROCESSOR}")
@@ -256,7 +271,16 @@ if(ORTHO_BUILD_GUI)
             # Nothing needs accepting to install; the license ships in the resources.
             set(CPACK_NSIS_IGNORE_LICENSE_PAGE ON)
             set(CPACK_PACKAGE_EXECUTABLES perikop Perikop)
+            # Windows' fixed version is numeric; its displayed version preserves the release suffix.
+            set(CPACK_NSIS_DEFINES "VIProductVersion \"${PROJECT_VERSION}.0\"
+VIAddVersionKey /LANG=1033 \"ProductName\" \"Perikop\"
+VIAddVersionKey /LANG=1033 \"ProductVersion\" \"${CPACK_PACKAGE_VERSION}\"
+VIAddVersionKey /LANG=1033 \"FileVersion\" \"${CPACK_PACKAGE_VERSION}\"
+VIAddVersionKey /LANG=1033 \"FileDescription\" \"Perikop installer\"
+VIAddVersionKey /LANG=1033 \"LegalCopyright\" \"Perikop contributors. MIT license.\"")
         endif()
+        # CI checks the numeric project version, then adds the tag suffix to all three package names.
+        set(CPACK_PACKAGE_FILE_NAME "Perikop-${PROJECT_VERSION}-${CPACK_SYSTEM_NAME}")
         include(CPack)
     endif()
 endif()

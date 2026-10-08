@@ -1,4 +1,5 @@
 #include "core/reading_plan.hpp"
+#include "ui/app_icon.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
@@ -24,6 +25,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         ok = false;
     };
     if (!corpus_.read_only())
+        fail(__LINE__);
+    // GetIcon() needs an exact system-size match on some ports. Check the stored artwork.
+    if (GetIcons().IsEmpty() || !GetIcons().GetIconByIndex(0).IsOk())
+        fail(__LINE__);
+    if (!app_icon_image().IsOk() || std::filesystem::exists(resources_ / "icons"))
         fail(__LINE__);
     for (const auto* face : {"Literata", "IBM Plex Sans", "Noto Serif Hebrew"})
         if (!wxFontEnumerator::IsValidFacename(face)) {
@@ -457,6 +463,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     following_audio_ = true;
     display_playback(playing);
     scripture_->follow_playback();
+    for (int i = 0; i < 90; ++i)
+        scripture_->advance_playback(0.016);
+    settings_.speech_highlight = true;
+    apply_settings(false);
+    scripture_->playback(playing);
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
     const auto highlighted = render();

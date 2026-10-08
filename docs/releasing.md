@@ -24,6 +24,12 @@ ONNX Runtime needs the Visual C++ runtime, so the installer carries it.
 Set `-DPERIKOP_MSVC_RUNTIME` to the `Microsoft.VC143.CRT` folder of a Visual Studio redistributable during CMake setup.
 For example, use `VC\Redist\MSVC\<version>\x64\Microsoft.VC143.CRT`.
 
+Windows product versions include the full release suffix, such as `0.1.0-alpha.2`.
+The executable, installer, and Installed Apps entry use the same version as the About page.
+Windows also stores a numeric version, such as `0.1.0.0`, for system comparisons.
+The executable embeds its ICO and the interface's PNG. Installed resources have no icons folder.
+macOS keeps its ICNS in the application bundle for the operating system.
+
 On Linux, make the AppImage:
 
 ```sh
@@ -33,6 +39,9 @@ tools/package_appimage.sh build/cmake
 The script downloads pinned linuxdeploy tools and checks their SHA-256 hashes. They copy GTK and the other shared libraries into the image.
 The GTK plugin needs `dpkg-dev` on Debian and Ubuntu.
 The AppImage runs on distributions with the glibc of its build system or later. Ubuntu 24.04 needs glibc 2.39.
+The AppImage uses the host's C++ runtime, so GCC 15 can also raise its runtime requirement.
+The current CI build needs `GLIBCXX_3.4.32` and `CXXABI_1.3.15`, provided by the GCC 14 runtime or later.
+Users need that runtime library, not the compiler. CI logs the required versions after each Linux build.
 
 The packages go to `build/package`.
 The macOS application has an ad-hoc signature only. The Windows installer has no signature.

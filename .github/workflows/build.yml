@@ -62,6 +62,12 @@ jobs:
               "-DORTHO_CLANG_TIDY=$llvm/clang-tidy" "-DORTHO_RUN_CLANG_TIDY=$llvm/run-clang-tidy"
           fi
       - run: cmake --build build/cmake --parallel 3
+      - name: Linux C++ runtime requirements
+        if: runner.os == 'Linux'
+        # The AppImage uses the host's libstdc++; expose the actual ABI requirement.
+        run: |
+          readelf --version-info build/cmake/bin/perikop build/cmake/bin/libonnxruntime.so.1 \
+            | awk '/Name: (GLIBCXX_|CXXABI_)/ {print $3}' | sort -Vu
       - name: Tests
         shell: bash
         run: |
@@ -156,6 +162,17 @@ jobs:
           cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
             -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
       - run: cmake --build build/cmake --parallel 4
+      - name: Windows version and icon resources
+        shell: pwsh
+        run: |
+          $header = Get-Content build/cmake/generated/perikop_version.hpp -Raw
+          if ($header -notmatch '#define PERIKOP_VERSION "([^"]+)"') { throw 'Build version missing' }
+          $expected = $Matches[1]
+          $version = (Get-Item build/cmake/bin/perikop.exe).VersionInfo
+          if ($version.ProductVersion -ne $expected -or $version.FileVersion -ne $expected) {
+            throw "Executable version does not match $expected"
+          }
+          if (Test-Path build/cmake/bin/resources/icons) { throw 'Icon resources should be embedded' }
       - run: ctest --test-dir build/cmake --output-on-failure
       - name: Smoke test screenshots
         timeout-minutes: 10
@@ -177,13 +194,22 @@ jobs:
           version: "0.8.16"
       - run: uv run --locked tools/check_resources.py
       - name: Package
-        if: env.PACKAGE == 'true'
+        # PRs also compile the installer and check its Windows product-version metadata.
+        if: env.PACKAGE == 'true' || github.event_name == 'pull_request'
         shell: pwsh
         run: |
           choco install nsis --version=3.11.0 --no-progress -y
           if ($LASTEXITCODE -ne 0) { throw 'NSIS installation failed' }
           $env:PATH = "${env:ProgramFiles(x86)}\NSIS;$env:PATH"
           cpack --config build/cmake/CPackConfig.cmake -B build/package
+          if ($LASTEXITCODE -ne 0) { throw 'Windows packaging failed' }
+          $header = Get-Content build/cmake/generated/perikop_version.hpp -Raw
+          if ($header -notmatch '#define PERIKOP_VERSION "([^"]+)"') { throw 'Build version missing' }
+          $expected = $Matches[1]
+          $installer = Get-ChildItem build/package/Perikop-*.exe | Select-Object -First 1
+          if (-not $installer -or $installer.VersionInfo.ProductVersion -ne $expected) {
+            throw "Installer version does not match $expected"
+          }
       - name: Upload package
         if: env.PACKAGE == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

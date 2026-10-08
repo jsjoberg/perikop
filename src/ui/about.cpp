@@ -1,5 +1,6 @@
 #include "ui/about.hpp"
 #include "perikop_version.hpp"
+#include "ui/app_icon.hpp"
 #include "ui/controls.hpp"
 #include <wx/dialog.h>
 #include <wx/hyperlink.h>
@@ -132,8 +133,8 @@ void show_about(wxWindow* parent, Theme theme, const std::filesystem::path& reso
             muted.push_back(label);
     };
     sizer->AddSpacer(dialog.FromDIP(28));
-    wxImage icon;
-    if (icon.LoadFile(path_text(resources / "icons/orthodox-cross.png"), wxBITMAP_TYPE_PNG)) {
+    auto icon = app_icon_image();
+    if (icon.IsOk()) {
         const int side = dialog.FromDIP(72);
         auto* image =
             new wxStaticBitmap(page, wxID_ANY, wxBitmap(icon.Rescale(side, side, wxIMAGE_QUALITY_HIGH)));
