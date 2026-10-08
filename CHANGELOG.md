@@ -32,6 +32,6 @@ The first release will be 0.1.0. Until then, this section collects everything.
 ### Changed
 
 - The program is now called Perikop.
-- The version is 0.1.0 plus the commit until the first release.
+- The About page shows the release version, such as 0.1.0-alpha.2, in a release build. Other builds show the version and the commit.
 - The Alice and Björn voices are bundled in the application. There is no separate voice installation, and Perikop never uses the network.
 - The play button shows a play symbol, and play, pause, and stop always stay in the toolbar.

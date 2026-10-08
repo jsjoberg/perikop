@@ -201,16 +201,14 @@ jobs:
             echo "::error::The packages are not version $base. Set that version in CMakeLists.txt."
             exit 1
           fi
-          prerelease=
           if [ "$version" != "$base" ]; then
-            prerelease=--prerelease
             for file in "${files[@]}"; do
               mv "$file" "Perikop-$version-${file#Perikop-"$base"-}"
             done
           fi
           sha256sum Perikop-* > SHA256SUMS.txt
           source="https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_REF_NAME"
-          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --draft $prerelease \
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --draft \
             --title "Perikop $version" \
             --notes "See [the changes]($source/CHANGELOG.md) and [installation]($source/docs/using-perikop.md#installation)." \
             Perikop-* SHA256SUMS.txt

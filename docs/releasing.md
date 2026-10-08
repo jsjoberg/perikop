@@ -48,9 +48,9 @@ git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 
 CI builds and tests all three platforms and makes the packages.
 It then creates a draft release with the packages and `SHA256SUMS.txt`.
-A tag with a suffix, such as `-alpha.2`, makes a pre-release, and the suffix is added to the file names.
+A suffix in the tag, such as `-alpha.2`, is added to the file names. The About page shows the tag version.
 CI stops if the tag does not match the version in `CMakeLists.txt`.
-Edit the release notes on GitHub, then publish the draft.
+Edit the release notes on GitHub, then publish the draft. It becomes the latest release on the repository page.
 
 ## CI packages
 
@@ -63,7 +63,7 @@ Then archive and upload it on macOS:
 ```sh
 id=kokoro-sv-alice-bjorn-2c7968d-v1
 COPYFILE_DISABLE=1 tar --no-mac-metadata -czf "build/$id.tar.gz" -C build/kokoro-pack .
-gh release create "$id" "build/$id.tar.gz" --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
+gh release create "$id" "build/$id.tar.gz" --prerelease --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
 cmake -E sha256sum "build/$id.tar.gz"
 ```
 
