@@ -1,0 +1,20 @@
+# Dependabot cannot see the native dependencies: wxWidgets, SQLite, ONNX Runtime,
+# miniaudio and Sonic are pinned URLs with hashes in CMake, and w64devkit, linuxdeploy
+# and NSIS are pinned in the workflow and tools/package_appimage.sh. Update those by hand.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+  # Only the voice-pack preparation uses these; the application does not.
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      voice-prep:
+        patterns: ["*"]
