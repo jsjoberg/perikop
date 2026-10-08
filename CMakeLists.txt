@@ -243,6 +243,8 @@ if(ORTHO_BUILD_GUI)
             set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/resources/icons/OrthodoxReader.ico")
             set(CPACK_NSIS_INSTALLED_ICON_NAME bin/perikop.exe)
             set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+            # Nothing needs accepting to install; the license ships in the resources.
+            set(CPACK_NSIS_IGNORE_LICENSE_PAGE ON)
             set(CPACK_PACKAGE_EXECUTABLES perikop Perikop)
         endif()
         include(CPack)
