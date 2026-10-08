@@ -206,4 +206,4 @@ private:
     std::filesystem::path test_path_;
     int smoke_exit_ = -1;
 };
-wxIMPLEMENT_APP(ReaderApp);
+wxIMPLEMENT_APP(ReaderApp); // NOLINT(bugprone-throwing-static-initialization): wxWidgets entry point

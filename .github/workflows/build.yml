@@ -1,6 +1,9 @@
 name: Native build
 on:
+  # Other branches, such as Dependabot's, are built by their pull requests.
   push:
+    branches: [main]
+    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -38,6 +41,10 @@ jobs:
           test "$(cmake -E sha256sum "build/$VOICE_PACK.tar.gz" | cut -d ' ' -f 1)" = "$VOICE_PACK_SHA256"
           mkdir -p build/kokoro-pack
           tar -xzf "build/$VOICE_PACK.tar.gz" -C build/kokoro-pack
+      - name: Install clang-tidy
+        if: runner.os == 'macOS'
+        # A pinned major version, so new checks arrive only when this changes.
+        run: brew install llvm@23
       - name: Configure
         shell: bash
         run: |
@@ -46,7 +53,9 @@ jobs:
           if [ "$RUNNER_OS" = Linux ]; then
             cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 $cache
           else
-            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release $cache
+            llvm="$(brew --prefix llvm@23)/bin"
+            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release $cache \
+              "-DORTHO_CLANG_TIDY=$llvm/clang-tidy" "-DORTHO_RUN_CLANG_TIDY=$llvm/run-clang-tidy"
           fi
       - run: cmake --build build/cmake --parallel 3
       - name: Tests
@@ -72,6 +81,10 @@ jobs:
           name: smoke-${{ runner.os }}
           path: build/smoke
           if-no-files-found: ignore
+      - name: Static analysis
+        # Ubuntu's clang-tidy 18 cannot read the C++23 headers of GCC 13 or 14.
+        if: runner.os == 'macOS'
+        run: cmake --build build/cmake --target tidy
       - name: Install preparation tools
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:

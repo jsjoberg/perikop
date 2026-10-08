@@ -11,6 +11,7 @@ include(FetchContent)
 include(CTest)
 include(CheckCXXSourceCompiles)
 include(cmake/format.cmake)
+include(cmake/tidy.cmake)
 check_cxx_source_compiles("#include <expected>
 int main() { std::expected<int,int> value{1}; return *value - 1; }" ORTHO_HAS_EXPECTED)
 if(NOT ORTHO_HAS_EXPECTED)

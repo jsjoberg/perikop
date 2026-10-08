@@ -2,7 +2,10 @@
 #import <AppKit/AppKit.h>
 namespace ortho {
 void set_native_app_icon(const std::filesystem::path& path) {
-    NSImage* icon = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
+    NSString* file = [NSString stringWithUTF8String:path.c_str()];
+    if (!file)
+        return;
+    NSImage* icon = [[NSImage alloc] initWithContentsOfFile:file];
     if (icon)
         [NSApp setApplicationIconImage:icon];
 }

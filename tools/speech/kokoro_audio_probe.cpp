@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
         if (argc == 4 && std::string(argv[1]) == "--filter") {
             std::ifstream input(path(argv[2]), std::ios::binary);
             const auto size = std::filesystem::file_size(path(argv[2]));
-            if (size % sizeof(float) || size > 24000 * 120 * sizeof(float))
+            if (size % sizeof(float) || size > size_t{24000} * 120 * sizeof(float))
                 throw std::runtime_error("Invalid filter input.");
             std::vector<float> pcm(size / sizeof(float));
             input.read(reinterpret_cast<char*>(pcm.data()), size);

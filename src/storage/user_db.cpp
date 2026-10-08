@@ -1,6 +1,7 @@
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
+#include <charconv>
 #include <stdexcept>
 namespace ortho {
 using storage::exec;
@@ -66,18 +67,14 @@ Settings UserDb::load() const {
         if (key == "parallel" &&
             (value.empty() || value == "sv" || value == "el" || value == "en" || value == "el,en"))
             result.parallel = value == "el,en" ? "el" : value;
-        if (key == "font_size") {
-            try {
-                result.font_size = std::clamp(std::stoi(value), 14, 28);
-            } catch (...) {
-            }
-        }
-        if (key == "speech_rate") {
-            try {
-                result.speech_rate = std::clamp(std::stoi(value), 25, 200);
-            } catch (...) {
-            }
-        }
+        // An unreadable number keeps the default.
+        int number = 0;
+        const bool numeric =
+            std::from_chars(value.data(), value.data() + value.size(), number).ec == std::errc{};
+        if (key == "font_size" && numeric)
+            result.font_size = std::clamp(number, 14, 28);
+        if (key == "speech_rate" && numeric)
+            result.speech_rate = std::clamp(number, 25, 200);
         if (key == "speech_voice" && (value == "alice" || value == "bjorn"))
             result.speech_voice = value;
         if (key == "word_study")

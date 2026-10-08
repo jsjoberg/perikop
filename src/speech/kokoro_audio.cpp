@@ -10,7 +10,7 @@
 namespace ortho {
 namespace {
 std::vector<float> style(const std::filesystem::path& file) {
-    constexpr size_t count = 510 * 256;
+    constexpr size_t count = size_t{510} * 256;
     if (!std::filesystem::is_regular_file(file) || std::filesystem::file_size(file) != count * sizeof(float))
         throw std::runtime_error("Kokoro voice tensor is missing or incomplete.");
     std::ifstream input(file, std::ios::binary);
@@ -108,7 +108,7 @@ std::vector<float> KokoroAudio::generate(const std::vector<int64_t>& phones, con
         impl_->session.Run(Ort::RunOptions{nullptr}, names, inputs.data(), inputs.size(), output_names, 1);
     const auto count = result[0].GetTensorTypeAndShapeInfo().GetElementCount();
     const auto* samples = result[0].GetTensorData<float>();
-    if (count < 1000 || count > 24000 * 120 || std::any_of(samples, samples + count, [](float value) {
+    if (count < 1000 || count > size_t{24000} * 120 || std::any_of(samples, samples + count, [](float value) {
             return !std::isfinite(value);
         }))
         throw std::runtime_error("Invalid Kokoro audio output.");

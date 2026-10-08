@@ -150,7 +150,7 @@ Reading plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::st
                     begin = ref;
                 end = ref;
             }
-        if (!begin)
+        if (!begin || !end)
             continue;
         passages.push_back({book->frame_book, *begin, *end});
         reference = frame;

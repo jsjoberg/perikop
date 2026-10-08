@@ -1,6 +1,7 @@
 #include "ui/native_scroll.hpp"
 #import <Cocoa/Cocoa.h>
 namespace ortho {
+// NOLINTNEXTLINE(performance-unnecessary-value-param): the block below keeps its own copy.
 void* install_native_scroll(wxWindow* window, std::function<void(double)> scroll) {
     NSView* view = static_cast<NSView*>(window->GetHandle());
     id monitor = [NSEvent

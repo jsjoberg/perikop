@@ -1,0 +1,30 @@
+# Correctness, performance, and the Clang Static Analyzer, for Perikop's own code.
+# Turned off:
+# - easily-swappable-parameters, narrowing-conversions: flag ordinary signatures and the
+#   deliberate size_t-to-double arithmetic in layout and playback progress.
+# - exception-escape: flags event handler lambdas whose captured strings could in theory
+#   throw std::length_error when copied.
+# - switch-missing-default-case: a style rule.
+# - signed-bitwise: wxWidgets style flags are int constants combined with |.
+# - enum-size, inefficient-string-concatenation, inefficient-vector-operation: small gains
+#   in code that is not hot.
+# - no-int-to-ptr: SQLite's SQLITE_TRANSIENT is defined as such a cast.
+Checks: >
+  bugprone-*,
+  clang-analyzer-*,
+  performance-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  -bugprone-narrowing-conversions,
+  -bugprone-signed-bitwise,
+  -bugprone-switch-missing-default-case,
+  -performance-enum-size,
+  -performance-inefficient-string-concatenation,
+  -performance-inefficient-vector-operation,
+  -performance-no-int-to-ptr
+CheckOptions:
+  # Small values that are copied on purpose.
+  performance-unnecessary-value-param.AllowedTypes: 'VerseRef;CanonBook'
+  performance-for-range-copy.AllowedTypes: 'VerseRef'
+WarningsAsErrors: '*'
+HeaderFilterRegex: '/(src|tests|tools)/'

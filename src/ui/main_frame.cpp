@@ -89,7 +89,8 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     initialize_speech();
     try {
         study_db_ = std::make_unique<StudyDb>(resources_ / "lexicon/study.db");
-    } catch (const std::exception&) {
+    } catch (const std::exception&) { // NOLINT(bugprone-empty-catch)
+        // Word study is optional; without its database the panel stays empty.
     }
     study_ = new StudyPanel(root_, corpus_, study_db_.get(), *speech_, [this](const std::string& language) {
         return speech_lexicon(language);
@@ -182,8 +183,7 @@ void MainFrame::show_readings() {
     }
     tracked_.reset();
     following_audio_ = false;
-    if (scripture_)
-        scripture_->follow_playback(false);
+    scripture_->follow_playback(false);
     scripture_->Hide();
     readings_->Show();
     update_study();
