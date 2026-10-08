@@ -1,6 +1,9 @@
 name: Native build
 on:
+  # Other branches, such as Dependabot's, are built by their pull requests.
   push:
+    branches: [main]
+    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -40,7 +43,8 @@ jobs:
           tar -xzf "build/$VOICE_PACK.tar.gz" -C build/kokoro-pack
       - name: Install clang-tidy
         if: runner.os == 'macOS'
-        run: brew install llvm
+        # A pinned major version, so new checks arrive only when this changes.
+        run: brew install llvm@23
       - name: Configure
         shell: bash
         run: |
@@ -49,7 +53,7 @@ jobs:
           if [ "$RUNNER_OS" = Linux ]; then
             cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 $cache
           else
-            llvm="$(brew --prefix llvm)/bin"
+            llvm="$(brew --prefix llvm@23)/bin"
             cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release $cache \
               "-DORTHO_CLANG_TIDY=$llvm/clang-tidy" "-DORTHO_RUN_CLANG_TIDY=$llvm/run-clang-tidy"
           fi
