@@ -8,7 +8,7 @@ The application needs no network connection after installation.
 ## Installation
 
 - macOS: open the DMG and drag Perikop to Applications.
-- Windows: run the installer. It installs Perikop in Program Files and adds a Start menu shortcut.
+- Windows 10 or later, x86-64: run the installer. It installs Perikop in Program Files and adds a Start menu shortcut.
 - Linux: make the AppImage executable, then run it.
 
 The macOS application has an ad-hoc signature only.
