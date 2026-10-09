@@ -107,7 +107,7 @@ BiblePicker::~BiblePicker() {
 #endif
 }
 std::string BiblePicker::frame(const CanonBook& book) const {
-    return frame_source(settings_.primary, book.frame_book);
+    return corpus_.frame_source(settings_.primary, book.frame_book);
 }
 std::vector<VerseRef> BiblePicker::verses_of(const CanonBook& book) const {
     std::vector<VerseRef> result;
@@ -120,7 +120,7 @@ bool BiblePicker::available(const CanonBook& book) const {
     if (const auto known = availability_.find(book.code); known != availability_.end())
         return known->second;
     const auto verses = verses_of(book);
-    const auto source = source_for_language(settings_.primary, book.code);
+    const auto source = corpus_.source_for_language(settings_.primary, book.code);
     const bool found =
         std::any_of(verses.begin(), verses.begin() + std::min<size_t>(verses.size(), 50), [&](VerseRef ref) {
             return bool(corpus_.parallel_verse(frame(book), source, book.frame_book, ref));
@@ -152,10 +152,10 @@ void BiblePicker::rebuild() {
                    wxTOP | wxBOTTOM, FromDIP(12));
         std::vector<Action> books;
         std::vector<const CanonBook*> canon;
-        for (const auto& book : osb_canon())
+        for (const auto& book : corpus_.canon())
             if (book.new_testament == bool(part)) {
-                books.emplace_back(ui::utf8(book_abbreviation(book.code)) +
-                                       (deuterocanonical_book(book.code) ? "*" : ""),
+                books.emplace_back(ui::utf8(corpus_.book_abbreviation(book.code)) +
+                                       (corpus_.deuterocanonical_book(book.code) ? "*" : ""),
                                    [this, book] {
                                        show_chapters(book);
                                    });
@@ -337,10 +337,9 @@ void BiblePicker::open_selection() {
 void BiblePicker::open_passages(const std::vector<Passage>& passages) {
     if (passages.empty())
         return;
-    Reading reading{new_testament_book(passages.front().book) ? ReadingKind::Gospel
-                                                              : ReadingKind::OldTestament,
+    Reading reading{corpus_.new_testament_book(passages.front().book) ? ReadingKind::Gospel
+                                                                      : ReadingKind::OldTestament,
                     passages.front(),
-                    passage_label(corpus_, passages),
                     {passages.begin() + 1, passages.end()},
                     settings_.primary};
     reading.reference.clear();

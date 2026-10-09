@@ -3,9 +3,21 @@ CREATE TABLE source (
  id INTEGER PRIMARY KEY, code TEXT NOT NULL UNIQUE, language TEXT NOT NULL,
  name TEXT NOT NULL, versification TEXT NOT NULL, license_id TEXT, attribution TEXT
 ) STRICT;
+-- Book data from books.tsv. Stanzas start a paragraph at every verse, as in the Psalms.
 CREATE TABLE book (
  id INTEGER PRIMARY KEY, code TEXT NOT NULL UNIQUE, canonical_order INTEGER NOT NULL,
- name_sv TEXT, name_el TEXT, name_en TEXT
+ name_sv TEXT, name_el TEXT, name_en TEXT, abbreviation_sv TEXT NOT NULL,
+ new_testament INTEGER NOT NULL CHECK(new_testament IN (0,1)),
+ deuterocanonical INTEGER NOT NULL CHECK(deuterocanonical IN (0,1)),
+ stanzas INTEGER NOT NULL CHECK(stanzas IN (0,1))
+) STRICT;
+-- The reader's book order from canon.tsv. A book can be a chapter range of its
+-- framing Septuagint book, as Nehemiah is of 2 Esdras; a NULL last chapter means the end.
+CREATE TABLE canon (
+ position INTEGER PRIMARY KEY, book TEXT NOT NULL UNIQUE REFERENCES book(code),
+ frame_book TEXT NOT NULL REFERENCES book(code),
+ first_chapter INTEGER NOT NULL CHECK(first_chapter>0),
+ last_chapter INTEGER CHECK(last_chapter>=first_chapter)
 ) STRICT;
 CREATE TABLE verse (
  id INTEGER PRIMARY KEY, source_id INTEGER NOT NULL REFERENCES source(id),

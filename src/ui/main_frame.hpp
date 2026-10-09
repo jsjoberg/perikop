@@ -1,16 +1,24 @@
 #pragma once
 
 #include "speech/read_aloud.hpp"
-#include "ui/scripture_view.hpp"
-#include "ui/study_panel.hpp"
-#include "ui/toolbar.hpp"
+#include <filesystem>
+#include <memory>
+#include <utility>
 #include <wx/frame.h>
-#include <wx/scrolwin.h>
-#include <wx/sizer.h>
-#include <wx/stattext.h>
 #include <wx/timer.h>
 
+class wxBoxSizer;
+class wxScrolledWindow;
+class wxStaticText;
+
 namespace ortho {
+class UserDb;
+class PronunciationReviewDb;
+class StudyDb;
+class ScriptureView;
+class StudyPanel;
+class SymbolButton;
+class AddressBar;
 // Languages of the two text columns, in menu and toolbar order.
 inline constexpr const char* column_languages[] = {"sv", "el", "en"};
 class MainFrame final : public wxFrame {
@@ -65,6 +73,7 @@ private:
     void speech_status(const std::string&);
     void refresh_speech();
     void display_playback(const SpeechPlayback&);
+    void open_speech_location(size_t reading, size_t section);
     void follow_speech();
     void update_bar();
 
@@ -86,7 +95,6 @@ private:
     wxTimer playback_timer_;
     ReadAloud read_aloud_;
     std::optional<std::pair<size_t, size_t>> speech_view_;
-    bool following_audio_ = false;
 
     // wxWidgets owns child windows. These pointers are non-owning handles.
     wxPanel* root_ = nullptr;

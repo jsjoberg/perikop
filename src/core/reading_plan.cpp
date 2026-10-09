@@ -1,5 +1,4 @@
 #include "core/reading_plan.hpp"
-#include "core/reading_display.hpp"
 #include "storage/database.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -113,7 +112,7 @@ const std::vector<ReadingPlan>& reading_plans() {
 std::string plan_key(const ReadingPlan& plan, std::size_t part) {
     return "plan:" + plan.id + ":" + std::to_string(part + 1);
 }
-std::string plan_label(const PlanPart& part) {
+std::string plan_label(const CorpusDb& corpus, const PlanPart& part) {
     // Books of one chapter are named without a chapter number, as in "Filem".
     static const std::vector<std::string> single = {"Obad",  "Philemon", "2John", "3John", "Jude",
                                                     "PrMan", "EpJer",    "Sus",   "Bel"};
@@ -121,7 +120,7 @@ std::string plan_label(const PlanPart& part) {
     for (const auto& range : part) {
         if (!label.empty())
             label += " + ";
-        label += book_abbreviation(range.book);
+        label += corpus.book_abbreviation(range.book);
         if (std::find(single.begin(), single.end(), range.book) != single.end())
             continue;
         label += " " + std::to_string(range.first);
@@ -135,13 +134,13 @@ Reading plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::st
     std::string reference;
     bool new_testament = false;
     for (const auto& range : part) {
-        const auto& canon = osb_canon();
+        const auto& canon = corpus.canon();
         const auto book = std::find_if(canon.begin(), canon.end(), [&](const CanonBook& candidate) {
             return candidate.code == range.book;
         });
         if (book == canon.end())
             throw std::logic_error("Okänd bok i läsplanen: " + range.book);
-        const auto frame = frame_source(language, book->frame_book);
+        const auto frame = corpus.frame_source(language, book->frame_book);
         const int first = range.first + book->offset(), last = range.last + book->offset();
         std::optional<VerseRef> begin, end;
         for (const auto& ref : corpus.coordinates(frame, book->frame_book))
@@ -160,7 +159,6 @@ Reading plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::st
         throw std::runtime_error("Delen har ingen text i denna utgåva.");
     Reading reading{new_testament ? ReadingKind::Gospel : ReadingKind::OldTestament,
                     passages.front(),
-                    passage_label(corpus, passages),
                     {passages.begin() + 1, passages.end()},
                     language};
     reading.reference = reference;

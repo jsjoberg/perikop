@@ -5,9 +5,13 @@
 #include "ui/controls.hpp"
 #include "ui/date_picker.hpp"
 #include "ui/pronunciation_review.hpp"
+#include "ui/scripture_view.hpp"
+#include "ui/study_panel.hpp"
+#include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/app.h>
 #include <wx/msgdlg.h>
+#include <wx/scrolwin.h>
 #include <wx/sizer.h>
 #include <wx/utils.h>
 #include <wx/wrapsizer.h>
@@ -64,7 +68,6 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     outer->Add(readings_, 1, wxEXPAND);
     make_menus();
     scripture_->on_release_follow([this] {
-        following_audio_ = false;
         refresh_speech();
     });
     scripture_->on_selection([this] {
@@ -250,7 +253,6 @@ void MainFrame::show_readings() {
         offer_completion(item, false);
     }
     tracked_.reset();
-    following_audio_ = false;
     scripture_->follow_playback(false);
     scripture_->Hide();
     root_->GetSizer()->Show(reader_sizer_, false);
@@ -259,12 +261,11 @@ void MainFrame::show_readings() {
     update_bar();
 }
 void MainFrame::open_psalm() {
-    open_reading({ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, "Psalm 23"});
+    open_reading({ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}});
 }
 void MainFrame::open_reading(const Reading& selected) {
     close_pages();
     visible_reading_ = selected;
-    following_audio_ = false;
     speech_view_.reset();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
@@ -291,8 +292,8 @@ Reading MainFrame::in_primary(Reading reading) const {
             std::vector<Passage> parts;
             for (const auto& segment : reading.segments()) {
                 const auto mapped =
-                    corpus_.map_passage(frame_source(reading.base_language, segment.book),
-                                        frame_source(settings_.primary, segment.book), segment);
+                    corpus_.map_passage(corpus_.frame_source(reading.base_language, segment.book),
+                                        corpus_.frame_source(settings_.primary, segment.book), segment);
                 if (mapped.empty())
                     parts.push_back(segment);
                 else

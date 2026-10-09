@@ -33,17 +33,14 @@ std::expected<Passage, std::string> normalize_passage(Passage passage);
 struct Reading {
     ReadingKind kind;
     Passage passage;
-    std::string label;
     std::vector<Passage> additional;
     std::string base_language = "sv";
     std::string source_override;
     // The edition whose numbering the passages use; lectionary rules state theirs.
     // Empty means each passage already uses the framing edition for its book and language.
     std::string reference = "en-kjv";
-    Reading(ReadingKind k, Passage p, std::string name, std::vector<Passage> rest = {},
-            std::string language = "sv")
-        : kind(k), passage(std::move(p)), label(std::move(name)), additional(std::move(rest)),
-          base_language(std::move(language)) {}
+    Reading(ReadingKind k, Passage p, std::vector<Passage> rest = {}, std::string language = "sv")
+        : kind(k), passage(std::move(p)), additional(std::move(rest)), base_language(std::move(language)) {}
     bool contains(VerseRef ref, const std::string& book = "") const {
         const auto& selected = book.empty() ? passage.book : book;
         if (passage.book == selected && passage.contains(ref))
@@ -71,10 +68,6 @@ struct FeastRule {
 struct OrdoRule {
     int year, month, day, pdist;
     std::string service;
-};
-struct Book {
-    std::string code, name;
-    int order;
 };
 struct LiturgicalDay {
     CivilDate civil_date;
@@ -104,7 +97,6 @@ private:
     std::vector<FeastRule> feasts_;
     std::vector<OrdoRule> ordos_;
 };
-bool new_testament_book(const std::string&);
 class SelectedDay {
 public:
     explicit SelectedDay(CivilDate initial) {
@@ -156,10 +148,8 @@ struct Settings {
     // Swedish voice identity. The selected voice survives application restarts.
     std::string speech_voice = "alice";
 };
-std::string source_for_language(const std::string& language, const std::string& book);
 // The language of an edition, such as "el" for grc-lxx: "sv", "el" or "en".
 std::string source_language(const std::string& source);
-bool deuterocanonical_book(const std::string& book);
 // A book as the reader presents it. Old Testament books are numbered by the
 // Septuagint (grc-lxx); some occupy only a chapter range of a Greek book.
 struct CanonBook {
@@ -171,10 +161,4 @@ struct CanonBook {
         return first_chapter - 1;
     }
 };
-// Books in the order of the Orthodox Study Bible.
-const std::vector<CanonBook>& osb_canon();
-const CanonBook* canon_book(const std::string& frame_book, int chapter);
-// The edition whose numbering frames a book: the Septuagint for the Old
-// Testament, so every pane shows Old Testament text in LXX order and numbers.
-std::string frame_source(const std::string& language, const std::string& book);
 } // namespace ortho

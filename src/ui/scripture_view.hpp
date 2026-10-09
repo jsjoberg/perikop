@@ -184,7 +184,7 @@ private:
     wxTimer wheel_timer_;
     void* native_scroll_ = nullptr;
     const CorpusDb& corpus_;
-    Reading reading_{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, "Psalm 23"};
+    Reading reading_{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
     Settings settings_;
     Passage displayed_{"Ps", {23, 1}, {23, 6}};
     std::string base_source_ = "sv1917", frame_ = "grc-lxx";

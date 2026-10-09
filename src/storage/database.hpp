@@ -1,6 +1,7 @@
 #pragma once
 #include "core/model.hpp"
 #include <filesystem>
+#include <map>
 #include <memory>
 #include <set>
 #include <utility>
@@ -38,7 +39,23 @@ public:
     std::vector<WordExample> word_examples(const std::string& word, int limit = 3) const;
     std::string book_name(const std::string& book, const std::string& language = "sv") const;
     bool read_only() const;
-    std::vector<Book> books(const std::string& language = "sv") const;
+    // Book data from books.tsv, loaded when the corpus opens. Unknown books have no flags.
+    bool new_testament_book(const std::string& book) const;
+    bool deuterocanonical_book(const std::string& book) const;
+    // Whether each verse starts its own paragraph, as in the Psalms.
+    bool stanza_book(const std::string& book) const;
+    // Short Swedish name of a book, such as "1 Mos", for grids and plan parts.
+    std::string book_abbreviation(const std::string& book) const;
+    // Books in the order of the Orthodox Study Bible, from canon.tsv.
+    const std::vector<CanonBook>& canon() const {
+        return canon_;
+    }
+    const CanonBook* canon_book(const std::string& frame_book, int chapter) const;
+    // The edition a pane shows for a language; empty for an unknown language.
+    std::string source_for_language(const std::string& language, const std::string& book) const;
+    // The edition whose numbering frames a book: the Septuagint for the Old
+    // Testament, so every pane shows Old Testament text in LXX order and numbers.
+    std::string frame_source(const std::string& language, const std::string& book) const;
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
@@ -46,6 +63,14 @@ public:
 private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;
     DatabaseHandle db_;
+    // Each edition's versification system, by source code. The corpus is read-only.
+    std::map<std::string, std::string> versification_;
+    struct BookInfo {
+        std::string abbreviation;
+        bool new_testament, deuterocanonical, stanzas;
+    };
+    std::map<std::string, BookInfo> books_;
+    std::vector<CanonBook> canon_;
 };
 struct DalinEntry {
     std::string headword, gram, definition;

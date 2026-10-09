@@ -3,6 +3,9 @@
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/scripture_view.hpp"
+#include "ui/study_panel.hpp"
+#include "ui/toolbar.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -347,21 +350,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     settings_.parallel = "";
     apply_settings(false);
-    for (const auto& reading : std::vector<Reading>{
-             {ReadingKind::OldTestament,
-              {"Gen", {31, 50, "a"}, {31, 50, "a"}},
-              "Första Moseboken 31:50a",
-              {},
-              "el"},
-             {ReadingKind::OldTestament, {"4Macc", {8, 29}, {8, 29}}, "Fjärde Mackabeerboken 8:29", {}, "en"},
-             {ReadingKind::OldTestament, {"2Esd", {1, 1}, {1, 1}}, "Andra Esdrasboken 1:1"}}) {
+    for (const auto& reading :
+         std::vector<Reading>{{ReadingKind::OldTestament, {"Gen", {31, 50, "a"}, {31, 50, "a"}}, {}, "el"},
+                              {ReadingKind::OldTestament, {"4Macc", {8, 29}, {8, 29}}, {}, "en"},
+                              {ReadingKind::OldTestament, {"2Esd", {1, 1}, {1, 1}}}}) {
         open_reading(reading);
         scripture_->center_passage();
         if (scripture_->cached_rows() == 0)
             fail(__LINE__);
         save(render(), "-" + ui::utf8(reading.passage.book));
     }
-    open_reading({ReadingKind::Epistle, {"1Cor", {4, 9}, {4, 16}}, "Första Korintierbrevet 4:9–16"});
+    open_reading({ReadingKind::Epistle, {"1Cor", {4, 9}, {4, 16}}});
     save(render(), "-prose");
     // The end of a book keeps blank space below its last line.
     scripture_->scroll_by(1e9);
@@ -406,7 +405,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // Ordstudium replaces the right pane; a word shows Dalin and the verse's Strong's entries.
     settings_.word_study = true;
     apply_settings(false);
-    open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}, "Johannesevangeliet 1:1–5"});
+    open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
         fail(__LINE__);
     study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source(), scripture_->frame());
@@ -504,7 +503,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             scripture_->scroll_position() != saved_scroll || study_->text() != saved_study ||
             restored.size() != saved_selection.size() ||
             restored.front().first != saved_selection.front().first || !tracked_ ||
-            tracked_->key != "smoke:preserved" || visible_reading_->label != saved_reading->label)
+            tracked_->key != "smoke:preserved" ||
+            visible_reading_->passage.book != saved_reading->passage.book ||
+            visible_reading_->passage.first != saved_reading->passage.first)
             fail(__LINE__);
     }
     about();
@@ -521,7 +522,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // A picker keeps pending endpoints across chapter navigation and supports ranges from multiple books.
     browse_bible();
     auto* picker = dynamic_cast<BiblePicker*>(page_);
-    const auto& canon = osb_canon();
+    const auto& canon = corpus_.canon();
     const auto john = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
         return book.code == "John";
     });
@@ -674,7 +675,6 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}, false},
                            0.35, 0.4};
-    following_audio_ = true;
     scripture_->playback(playing);
     scripture_->follow_playback();
     for (int i = 0; i < 90; ++i)
@@ -715,7 +715,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             if (page_ || engine->changed || read_aloud_.playback().state != SpeechState::Paused ||
                 read_aloud_.playback().progress != paused.progress ||
                 scripture_->marker_position() != held_marker ||
-                scripture_->scroll_position() != held_scroll || !following_audio_)
+                scripture_->scroll_position() != held_scroll || !scripture_->follows_playback())
                 fail(__LINE__);
         }
         // New playback cues cannot replace a page while the user is in it.
@@ -746,11 +746,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (read_aloud_.feedback() != SpeechState::Buffering)
         fail(__LINE__);
     scripture_->scroll_by(20);
-    if (scripture_->follows_playback() || following_audio_)
+    if (scripture_->follows_playback())
         fail(__LINE__);
-    following_audio_ = true;
-    display_playback(playing);
     scripture_->follow_playback();
+    display_playback(playing);
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
     settings_.speech_highlight = true;
@@ -826,6 +825,58 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (scripture_->marker_position() || play_->GetLabel() != "Lyssna" || !play_->IsEnabled() ||
         pause_->IsEnabled() || stop_->IsEnabled())
         fail(__LINE__);
+    // Following, section changes and browsing all use the reader's follow state.
+    {
+        auto real_speech = std::move(speech_);
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        speech_ = std::move(held);
+        const Reading psalms{
+            ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, {{"Ps", {24, 1}, {24, 10}}}};
+        const Reading gospel{ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}};
+        read_aloud_.start({psalms, gospel}, {});
+        engine->held = {SpeechState::Paused, SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}, false}, 0,
+                        0.5};
+        follow_speech();
+        if (part_ != 1 || parts_.size() != 2 || !scripture_->follows_playback() ||
+            speech_view_ != std::pair<size_t, size_t>{0, 1} || engine->changed)
+            fail(__LINE__);
+        // A cue for the next reading cannot take over after a manual scroll.
+        scripture_->scroll_by(20);
+        engine->held.cue = SpeechCue{1, 0, "John", "sv1917", {1, 1}, {1, 1}, false};
+        display_playback(engine->held);
+        if (scripture_->follows_playback() || visible_reading_->passage.book != "Ps")
+            fail(__LINE__);
+        follow_speech();
+        if (part_ != 0 || visible_reading_->passage.book != "John" || !scripture_->follows_playback() ||
+            engine->changed)
+            fail(__LINE__);
+        about();
+        engine->held.cue = SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}, false};
+        display_playback(engine->held);
+        if (!page_ || visible_reading_->passage.book != "John")
+            fail(__LINE__);
+        back();
+        if (page_ || part_ != 1 || visible_reading_->passage.book != "Ps" ||
+            !scripture_->follows_playback() || engine->changed)
+            fail(__LINE__);
+        select_part(0);
+        display_playback(engine->held);
+        if (part_ != 0 || scripture_->follows_playback())
+            fail(__LINE__);
+        follow_speech();
+        if (part_ != 1 || !scripture_->follows_playback())
+            fail(__LINE__);
+        show_readings();
+        display_playback(engine->held);
+        if (scripture_->IsShown() || scripture_->follows_playback())
+            fail(__LINE__);
+        follow_speech();
+        if (!scripture_->IsShown() || part_ != 1 || !scripture_->follows_playback() || engine->changed)
+            fail(__LINE__);
+        speech_ = std::move(real_speech);
+        display_playback({SpeechState::Stopped, {}, 0, 0});
+    }
     std::cout << "Playback presentation: marker, pause, buffering, manual scroll, follow, stop.\n";
     open_psalm();
     settings_ = original;

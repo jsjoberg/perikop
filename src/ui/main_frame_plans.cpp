@@ -1,7 +1,10 @@
 #include "core/reading_plan.hpp"
+#include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/toolbar.hpp"
 #include <wx/msgdlg.h>
+#include <wx/sizer.h>
 #include <wx/wrapsizer.h>
 namespace ortho {
 std::string MainFrame::day_key(const Reading& reading) const {
@@ -87,7 +90,7 @@ void MainFrame::add_plans() {
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
-            const auto label = ui::utf8(plan_label(plan.parts[i]));
+            const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
             auto* tile = new SymbolButton(
                 home_content_, read ? std::variant<Symbol, wxString>{Symbol::Check} : number, "Del " + number,
                 [this, plan, i, number, label] {

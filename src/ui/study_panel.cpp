@@ -52,7 +52,7 @@ void StudyPanel::show(const ScriptureView::Word& word, const std::string& base_s
     chosen_ = false;
     expanded_articles_.clear();
     // A Greek word is its own tagged word: the same occurrence of the same form.
-    if (base_source == greek_source && study_ && new_testament_book(word.book)) {
+    if (base_source == greek_source && study_ && corpus_.new_testament_book(word.book)) {
         const auto target = ui::utf8(word.text).Lower();
         int seen = 0;
         const auto words = study_->greek_words(word.book, word.verse);
@@ -179,7 +179,7 @@ void StudyPanel::rebuild() {
             }
         }
         section(ui::utf8("GREKISKA · STRONG'S"));
-        if (!new_testament_book(word.book))
+        if (!corpus_.new_testament_book(word.book))
             text(ui::utf8("Strong's-uppgifter finns ännu bara för Nya testamentet."), ui_font(11),
                  colors.muted);
         else {

@@ -94,7 +94,7 @@ English and Greek New Testament books still share coordinates with each other.
 ## Presentation in Septuagint numbering
 
 The reader presents the Old Testament in the Septuagint's order and numbering, as the Orthodox Study Bible does.
-`src/core/canon.cpp` lists the books in OSB order. The Greek edition frames each book: its chapters and verses make the rows, in every pane.
+`resources/corpus/canon.tsv` lists the books in OSB order. The Greek edition frames each book: its chapters and verses make the rows, in every pane.
 Each pane shows its own edition's text for those verses through the alignment.
 Where an edition numbers a verse differently, the pane shows the LXX number with the edition's own number in small print, such as `13 (33:13)`.
 Verses that only the Hebrew text has follow the LXX verse they come after. They are muted, marked `hebr.`, and not read aloud.

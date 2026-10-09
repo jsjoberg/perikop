@@ -1,0 +1,88 @@
+# Books of the corpus. Row order sets book.canonical_order. Edit, then run tools/corpus/build_corpus.py.
+# testament: OT or NT. deuterocanonical and stanzas: 1 or 0; stanzas starts a paragraph at every verse.
+# code	usfm	name_en	name_sv	abbreviation_sv	testament	deuterocanonical	stanzas
+Gen	GEN	Genesis	Första Moseboken	1 Mos	OT	0	0
+Exod	EXO	Exodus	Andra Moseboken	2 Mos	OT	0	0
+Lev	LEV	Leviticus	Tredje Moseboken	3 Mos	OT	0	0
+Num	NUM	Numbers	Fjärde Moseboken	4 Mos	OT	0	0
+Deut	DEU	Deuteronomy	Femte Moseboken	5 Mos	OT	0	0
+Josh	JOS	Joshua	Josua	Jos	OT	0	0
+Judg	JDG	Judges	Domarboken	Dom	OT	0	0
+Ruth	RUT	Ruth	Rut	Rut	OT	0	0
+1Sam	1SA	I Samuel	Första Samuelsboken	1 Sam	OT	0	0
+2Sam	2SA	II Samuel	Andra Samuelsboken	2 Sam	OT	0	0
+1Kgs	1KI	I Kings	Första Kungaboken	1 Kung	OT	0	0
+2Kgs	2KI	II Kings	Andra Kungaboken	2 Kung	OT	0	0
+1Chr	1CH	I Chronicles	Första Krönikeboken	1 Krön	OT	0	0
+2Chr	2CH	II Chronicles	Andra Krönikeboken	2 Krön	OT	0	0
+Ezra	EZR	Ezra	Esra	Esra	OT	0	0
+Neh	NEH	Nehemiah	Nehemja	Neh	OT	0	0
+Esth	EST	Esther	Ester	Est	OT	0	0
+Job	JOB	Job	Job	Job	OT	0	0
+Ps	PSA	Psalms	Psaltaren	Ps	OT	0	1
+Prov	PRO	Proverbs	Ordspråksboken	Ords	OT	0	1
+Eccl	ECC	Ecclesiastes	Predikaren	Pred	OT	0	0
+Song	SNG	Song of Solomon	Höga Visan	Höga v	OT	0	1
+Isa	ISA	Isaiah	Jesaja	Jes	OT	0	0
+Jer	JER	Jeremiah	Jeremia	Jer	OT	0	0
+Lam	LAM	Lamentations	Klagovisorna	Klag	OT	0	1
+Ezek	EZK	Ezekiel	Hesekiel	Hes	OT	0	0
+Dan	DAN	Daniel	Daniel	Dan	OT	0	0
+Hos	HOS	Hosea	Hosea	Hos	OT	0	0
+Joel	JOL	Joel	Joel	Joel	OT	0	0
+Amos	AMO	Amos	Amos	Am	OT	0	0
+Obad	OBA	Obadiah	Obadja	Ob	OT	0	0
+Jonah	JON	Jonah	Jona	Jona	OT	0	0
+Micah	MIC	Micah	Mika	Mika	OT	0	0
+Nah	NAM	Nahum	Nahum	Nah	OT	0	0
+Hab	HAB	Habakkuk	Habackuk	Hab	OT	0	0
+Zeph	ZEP	Zephaniah	Sefanja	Sef	OT	0	0
+Hag	HAG	Haggai	Haggai	Hagg	OT	0	0
+Zech	ZEC	Zechariah	Sakarja	Sak	OT	0	0
+Mal	MAL	Malachi	Malaki	Mal	OT	0	0
+Tob	TOB	Tobit	Tobit	Tob	OT	1	0
+Jdt	JDT	Judith	Judit	Judit	OT	1	0
+EsthGr	ESG	Esther (Greek)	Tillägg till Ester	T Est	OT	1	0
+Wis	WIS	Wisdom	Salomos vishet	Vish	OT	1	0
+Sir	SIR	Sirach	Jesus Syraks vishet	Syr	OT	1	0
+Baruch	BAR	Baruch	Baruk	Bar	OT	1	0
+PrAzar	S3Y	Prayer of Azariah	Asarjas bön	Asarj	OT	1	0
+Sus	SUS	Susanna	Susanna	Sus	OT	1	0
+Bel	BEL	Bel and the Dragon	Bel och draken	Bel	OT	1	0
+1Macc	1MA	I Maccabees	Första Mackabeerboken	1 Mack	OT	1	0
+2Macc	2MA	II Maccabees	Andra Mackabeerboken	2 Mack	OT	1	0
+1Esd	1ES	I Esdras	Första Esdrasboken	1 Esd	OT	1	0
+PrMan	MAN	Prayer of Manasses	Manasses bön	Man	OT	1	0
+Ps151	PS2	Additional Psalm	Psalm 151	Ps 151	OT	1	1
+3Macc	3MA	III Maccabees	Tredje Mackabeerboken	3 Mack	OT	1	0
+2Esd	2ES	II Esdras	Andra Esdrasboken	2 Esd	OT	1	0
+4Macc	4MA	IV Maccabees	Fjärde Mackabeerboken	4 Mack	OT	1	0
+Matt	MAT	Matthew	Matteusevangeliet	Matt	NT	0	0
+Mark	MRK	Mark	Markusevangeliet	Mark	NT	0	0
+Luke	LUK	Luke	Lukasevangeliet	Luk	NT	0	0
+John	JHN	John	Johannesevangeliet	Joh	NT	0	0
+Acts	ACT	Acts	Apostlagärningarna	Apg	NT	0	0
+Rom	ROM	Romans	Romarbrevet	Rom	NT	0	0
+1Cor	1CO	I Corinthians	Första Korintierbrevet	1 Kor	NT	0	0
+2Cor	2CO	II Corinthians	Andra Korintierbrevet	2 Kor	NT	0	0
+Gal	GAL	Galatians	Galaterbrevet	Gal	NT	0	0
+Eph	EPH	Ephesians	Efesierbrevet	Ef	NT	0	0
+Phil	PHP	Philippians	Filipperbrevet	Fil	NT	0	0
+Col	COL	Colossians	Kolosserbrevet	Kol	NT	0	0
+1Thess	1TH	I Thessalonians	Första Thessalonikerbrevet	1 Tess	NT	0	0
+2Thess	2TH	II Thessalonians	Andra Thessalonikerbrevet	2 Tess	NT	0	0
+1Tim	1TI	I Timothy	Första Timotheosbrevet	1 Tim	NT	0	0
+2Tim	2TI	II Timothy	Andra Timotheosbrevet	2 Tim	NT	0	0
+Titus	TIT	Titus	Titusbrevet	Tit	NT	0	0
+Philemon	PHM	Philemon	Filemonbrevet	Filem	NT	0	0
+Heb	HEB	Hebrews	Hebreerbrevet	Hebr	NT	0	0
+James	JAS	James	Jakobsbrevet	Jak	NT	0	0
+1Peter	1PE	I Peter	Första Petrusbrevet	1 Petr	NT	0	0
+2Peter	2PE	II Peter	Andra Petrusbrevet	2 Petr	NT	0	0
+1John	1JN	I John	Första Johannesbrevet	1 Joh	NT	0	0
+2John	2JN	II John	Andra Johannesbrevet	2 Joh	NT	0	0
+3John	3JN	III John	Tredje Johannesbrevet	3 Joh	NT	0	0
+Jude	JUD	Jude	Judasbrevet	Jud	NT	0	0
+Rev	REV	Revelation of John	Uppenbarelseboken	Upp	NT	0	0
+EpJer	LJE	Epistle of Jeremiah	Jeremias brev	Jer br	OT	1	0
+DanGr	DAG	Daniel (Greek)	Daniel (grekisk text)	Dan gr	OT	1	0

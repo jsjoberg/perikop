@@ -216,17 +216,17 @@ int main(int argc, char** argv) {
         check(passage && passage->first == VerseRef{6, 27}, "normalize reverse range");
         check(passage->contains({6, 31}) && !passage->contains({6, 37}), "passage membership");
         check(!normalize_passage({"", {1, 1}, {1, 1}}), "invalid empty book");
-        check(source_for_language("el", "Ps") == "grc-lxx", "OT source selection");
-        check(source_for_language("el", "Luke") == "grc-patriarchal", "NT source selection");
-        check(source_for_language("xx", "Luke").empty(), "unknown source selection");
+        check(corpus.source_for_language("el", "Ps") == "grc-lxx", "OT source selection");
+        check(corpus.source_for_language("el", "Luke") == "grc-patriarchal", "NT source selection");
+        check(corpus.source_for_language("xx", "Luke").empty(), "unknown source selection");
         check(corpus.read_only(), "corpus not read-only");
         check(corpus.sources().size() == 5, "source catalog");
         for (const auto& [book, ch, first, last] : std::vector<std::tuple<std::string, int, int, int>>{
                  {"Ps", 23, 1, 6}, {"Ps", 24, 1, 10}, {"Luke", 6, 1, 49}, {"Phil", 2, 1, 30}}) {
             for (int v = first; v <= last; ++v)
                 for (const std::string language : {"sv", "el", "en"}) {
-                    auto text =
-                        corpus.parallel_verse("sv1917", source_for_language(language, book), book, {ch, v});
+                    auto text = corpus.parallel_verse("sv1917", corpus.source_for_language(language, book),
+                                                      book, {ch, v});
                     check(text && !text->text.empty(), "required aligned fixture verse missing");
                 }
         }
@@ -271,8 +271,9 @@ int main(int argc, char** argv) {
         check(joel.size() == 1 && joel[0].first == VerseRef{3, 1} && joel[0].last == VerseRef{3, 5},
               "Joel 2:28-32 is LXX 3:1-5");
         const auto rules = corpus.reading_rules();
+        // Holy Saturday's 15th Vespers reading: Daniel 3 with the Song of the Three.
         const auto song = std::find_if(rules.begin(), rules.end(), [](const auto& r) {
-            return r.reading.label.find("Song of the Three") != std::string::npos;
+            return r.pdist == -1 && r.service == "Vespers" && r.description == "15th reading";
         });
         check(song != rules.end() && song->reading.reference == "grc-lxx",
               "Song of the Three uses Septuagint numbering");
@@ -294,16 +295,26 @@ int main(int argc, char** argv) {
                 VerseRef{3, 36},
             "Baruch 3:35 is Swedish 3:36");
         // The OSB order frames the Old Testament by the Septuagint; Brenton's 2 Esdras 11 is Nehemiah 1.
-        check(canon_book("Ezra", 11) && canon_book("Ezra", 11)->code == "Neh" &&
-                  canon_book("Ezra", 11)->offset() == 10,
+        check(corpus.canon_book("Ezra", 11) && corpus.canon_book("Ezra", 11)->code == "Neh" &&
+                  corpus.canon_book("Ezra", 11)->offset() == 10,
               "Nehemiah within Greek 2 Esdras");
-        check(canon_book("EsthGr", 1) && canon_book("EsthGr", 1)->code == "Esth",
+        check(corpus.canon_book("EsthGr", 1) && corpus.canon_book("EsthGr", 1)->code == "Esth",
               "Greek Esther is the OSB's Esther");
-        check(frame_source("sv", "Ps") == "grc-lxx" && frame_source("sv", "John") == "sv1917",
+        check(corpus.frame_source("sv", "Ps") == "grc-lxx" && corpus.frame_source("sv", "John") == "sv1917",
               "Septuagint frames only the Old Testament");
+        // Book data comes from books.tsv and canon.tsv through the corpus.
+        check(corpus.canon().size() == 79 && corpus.canon().front().code == "Gen" &&
+                  corpus.canon().back().code == "Rev" && corpus.canon().back().new_testament &&
+                  !corpus.canon().front().new_testament,
+              "OSB canon order");
+        check(corpus.book_abbreviation("Gen") == "1 Mos" && corpus.book_abbreviation("unknown") == "unknown",
+              "book abbreviations");
+        check(corpus.new_testament_book("Rev") && !corpus.new_testament_book("Mal") &&
+                  corpus.deuterocanonical_book("Tob") && !corpus.deuterocanonical_book("Gen") &&
+                  corpus.stanza_book("Ps") && !corpus.stanza_book("Gen"),
+              "book classifications");
         auto refs = corpus.coordinates("sv1917", "Luke");
         check(refs.front().chapter == 1 && refs.back().chapter == 24, "adjacent chapter context");
-        check(corpus.books().size() >= 80, "full book catalog");
         {
             // Every part opens and can be read aloud in Swedish, and no chapter is in two parts.
             const auto& plans = reading_plans();
@@ -318,22 +329,22 @@ int main(int argc, char** argv) {
                 for (const auto& part : plan.parts) {
                     const auto reading = plan_reading(corpus, part, "sv");
                     check(reading.segments().size() == part.size(),
-                          "plan range without text: " + plan_label(part));
+                          "plan range without text: " + plan_label(corpus, part));
                     check(!reading_speech(corpus, {reading}, no_lexicon).empty(),
-                          "plan part cannot be read aloud: " + plan_label(part));
+                          "plan part cannot be read aloud: " + plan_label(corpus, part));
                     for (const auto& range : part)
                         for (int chapter = range.first; chapter <= range.last; ++chapter)
                             check(covered[range.book].insert(chapter).second,
                                   "chapter in two plan parts: " + range.book);
                 }
-            check(plan_label(plans[0].parts[22]) == "2 Tim 4 + Tit 1–3 + Filem + Hebr 1–4",
+            check(plan_label(corpus, plans[0].parts[22]) == "2 Tim 4 + Tit 1–3 + Filem + Hebr 1–4",
                   "plan part label");
             check(plan_key(plans[1], 6) == "plan:ot:7", "plan part key");
             // Together the plans cover the Septuagint canon and the New Testament, except the books
             // that have no Swedish text yet.
             std::vector<std::string> missing;
-            for (const auto& book : osb_canon()) {
-                const auto frame = frame_source("sv", book.frame_book);
+            for (const auto& book : corpus.canon()) {
+                const auto frame = corpus.frame_source("sv", book.frame_book);
                 std::set<int> chapters;
                 for (const auto& ref : corpus.coordinates(frame, book.frame_book))
                     if (book.first_chapter <= ref.chapter && ref.chapter <= book.last_chapter)
@@ -375,7 +386,7 @@ int main(int argc, char** argv) {
         auto joined = corpus.verse("en-web", "4Macc", {8, 29});
         check(joined && joined->ref == VerseRef{8, 28} && joined->last == VerseRef{8, 29},
               "joined publisher verse retains its complete range");
-        check(source_for_language("en", "Wis") == "en-web", "English deuterocanonical selection");
+        check(corpus.source_for_language("en", "Wis") == "en-web", "English deuterocanonical selection");
         check(corpus.verse("grc-patriarchal", "Luke", {2, 23})->text.find("strong=") == std::string::npos,
               "nested USFM attributes leaked into display");
         sqlite3* readonly = nullptr;
@@ -511,7 +522,8 @@ int main(int argc, char** argv) {
         check(engine.state == StubSpeechEngine::State::Accepted, "speech resume");
         engine.stop();
         check(engine.accepted.empty() && engine.state == StubSpeechEngine::State::Idle, "speech stop");
-        check(reading_introduction(today.readings[0]).find("kapitel 1, vers 1 till 7") != std::string::npos,
+        check(reading_introduction(corpus.book_name("Phil"), today.readings[0].passage) ==
+                  "Läsning ur Filipperbrevet, kapitel 1, vers 1 till 7.",
               "spoken reference");
         const std::filesystem::path user_path(argv[2]);
         std::filesystem::remove(user_path);

@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47",
+      "sha256": "46e60c028b4c0164174a47b4dd70626563f874b71af5ecaf1bccf225c2f88ac9",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "e78f68120bab5a5ecc2b8c41e02252a2eb682f26ca9d3ecd9cecc3a8a429b548"
+      "sha256": "e7de78fda0f60e63f76e9d0b74c63aa32e3993494e128db762560975a8168d49"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -373,6 +373,18 @@
       "sha256": "3b4cc7f5ddc738b1e074ae0d1e5de5c1ac2576949615ddc044491ce1a5f09f6e",
       "license": "MIT",
       "role": "Curated Swedish name phonemes for the Kokoro voices; first-pass drafts pending listening review"
+    },
+    {
+      "path": "resources/corpus/books.tsv",
+      "sha256": "80057b866c13fb666b64aaef4ce3540aee9d98938a9b4416f8aba45818fc952a",
+      "license": "MIT",
+      "role": "Curated book names, abbreviations and classifications imported by tools/corpus/build_corpus.py"
+    },
+    {
+      "path": "resources/corpus/canon.tsv",
+      "sha256": "73e771f635751003c8899a81f30befbb7b08a07271aab4b2a878361d6a06778c",
+      "license": "MIT",
+      "role": "Curated Orthodox Study Bible book order imported by tools/corpus/build_corpus.py"
     },
     {
       "path": "resources/lexicon/sv1917-words.tsv",

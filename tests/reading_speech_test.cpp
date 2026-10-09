@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
             return result;
         };
 
-        const Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, "Psalm 23"};
+        const Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
         const auto spoken = reading_speech(corpus, {psalm}, lexicon);
         check(spoken.size() == 7, "Psalm 23 must have one introduction and six Swedish verses");
         check(spoken[0].display_text == "Läsning ur Psaltaren, kapitel 22, vers 1 till 6.",
@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
                   "Spoken verses must follow the framing order and cue source");
         }
 
-        Reading merged{ReadingKind::OldTestament, {"1Chr", {12, 4}, {12, 5}}, "Första Krönikeboken"};
+        Reading merged{ReadingKind::OldTestament, {"1Chr", {12, 4}, {12, 5}}};
         merged.reference = "grc-lxx";
         const auto merged_speech = reading_speech(corpus, {merged}, lexicon);
         check(merged_speech.size() == 2, "A merged Swedish verse must be read only once");
@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
                   merged_speech[1].cue == SpeechCue{0, 0, "1Chr", "grc-lxx", {12, 4}, {12, 5}, false},
               "One utterance must cover both framing verses in a merged passage");
 
-        Reading nehemiah{ReadingKind::OldTestament, {"Neh", {1, 1}, {1, 2}}, "Nehemja"};
+        Reading nehemiah{ReadingKind::OldTestament, {"Neh", {1, 1}, {1, 2}}};
         nehemiah.reference = "sv1917";
         const auto nehemiah_speech = reading_speech(corpus, {nehemiah}, lexicon);
         check(nehemiah_speech.size() == 3 &&
@@ -62,8 +62,7 @@ int main(int argc, char** argv) {
                   "Nehemja 1:1–2; 1:4",
               "Passage labels must apply canon offsets and omit repeated book names");
 
-        const Reading sections{
-            ReadingKind::Gospel, {"John", {1, 1}, {1, 1}}, "Johannesevangeliet", {{"John", {1, 3}, {1, 4}}}};
+        const Reading sections{ReadingKind::Gospel, {"John", {1, 1}, {1, 1}}, {{"John", {1, 3}, {1, 4}}}};
         const auto batch = reading_speech(corpus, {sections, psalm}, lexicon);
         check(batch.size() == 11 && batch[1].cue->reading == 0 && batch[1].cue->section == 0 &&
                   batch[2].cue->section == 1 && batch[3].cue->section == 1 && batch[4].cue->reading == 1 &&
@@ -73,7 +72,6 @@ int main(int argc, char** argv) {
         // A picker selection can mix LXX and New Testament coordinates without renumbering either.
         Reading custom{ReadingKind::OldTestament,
                        {"Ps", {22, 1}, {22, 2}},
-                       "Urval",
                        {{"John", {1, 3}, {1, 4}}, {"Ps", {22, 6}, {22, 6}}}};
         custom.reference.clear();
         const auto localized = corpus.localize(custom).segments();
@@ -89,7 +87,7 @@ int main(int argc, char** argv) {
                   custom_speech[5].cue == SpeechCue{0, 2, "Ps", "grc-lxx", {22, 6}, {22, 6}, false},
               "Custom playback must skip unselected gaps and follow the chosen range order across books");
 
-        Reading english{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 2}}, "Psalm 23", {}, "en"};
+        Reading english{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 2}}, {}, "en"};
         english.source_override = "en-kjv";
         const auto explicit_edition = reading_speech(corpus, {english}, lexicon);
         check(explicit_edition.size() == 2 && explicit_edition[0].language == "en" &&
@@ -97,8 +95,7 @@ int main(int argc, char** argv) {
                   explicit_edition[0].display_text == corpus.verse("en-kjv", "Ps", {23, 1})->text,
               "An explicit edition must retain its own coordinates and skip a Swedish introduction");
 
-        Reading untranslated{
-            ReadingKind::OldTestament, {"1Kgs", {2, 35, "a"}, {2, 35, "b"}}, "Första Kungaboken"};
+        Reading untranslated{ReadingKind::OldTestament, {"1Kgs", {2, 35, "a"}, {2, 35, "b"}}};
         untranslated.reference = "grc-lxx";
         bool rejected = false;
         try {

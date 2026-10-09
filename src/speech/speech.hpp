@@ -26,7 +26,8 @@ struct SpeechUtterance {
 };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language,
                                const std::vector<Pronunciation>& lexicon);
-std::string reading_introduction(const Reading&);
+// The spoken announcement of a passage, with the book's Swedish name.
+std::string reading_introduction(const std::string& book_name, const Passage&);
 std::vector<std::string> speech_chunks(const std::string&);
 double speech_text_weight(const std::string&);
 std::string pronunciation_key(const std::string&);

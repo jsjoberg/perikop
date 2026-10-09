@@ -67,19 +67,19 @@ void ScriptureView::open_section(std::size_t index) {
             selection_changed_();
     }
     // The Septuagint frames the Old Testament: its books, order and numbers.
-    frame_ = reading_.source_override.empty() ? frame_source(reading_.base_language, displayed_.book)
+    frame_ = reading_.source_override.empty() ? corpus_.frame_source(reading_.base_language, displayed_.book)
                                               : reading_.source_override;
     if (corpus_.coordinates(frame_, displayed_.book).empty())
         for (const std::string language : {"sv", "el", "en"}) {
-            const auto source = source_for_language(language, displayed_.book);
+            const auto source = corpus_.source_for_language(language, displayed_.book);
             if (!corpus_.coordinates(source, displayed_.book).empty()) {
                 frame_ = source;
                 break;
             }
         }
-    canon_ = canon_book(displayed_.book, displayed_.first.chapter);
+    canon_ = corpus_.canon_book(displayed_.book, displayed_.first.chapter);
     base_source_ = reading_.source_override.empty()
-                       ? source_for_language(reading_.base_language, canon_code())
+                       ? corpus_.source_for_language(reading_.base_language, canon_code())
                        : reading_.source_override;
     // Paragraphs follow the left pane's edition, placed at its framing verses.
     std::set<VerseRef> boundaries;
@@ -94,8 +94,7 @@ void ScriptureView::open_section(std::size_t index) {
                     break;
                 }
     int chapter = 0;
-    const bool stanza = displayed_.book == "Ps" || displayed_.book == "Ps151" || displayed_.book == "Prov" ||
-                        displayed_.book == "Song" || displayed_.book == "Lam";
+    const bool stanza = corpus_.stanza_book(displayed_.book);
     for (auto ref : corpus_.coordinates(frame_, displayed_.book)) {
         if (canon_ && (ref.chapter < canon_->first_chapter || ref.chapter > canon_->last_chapter))
             continue;
@@ -122,7 +121,8 @@ void ScriptureView::open_section(std::size_t index) {
     Refresh(false);
 }
 std::string ScriptureView::source_of(const std::string& language) const {
-    return language == languages().front() ? base_source_ : source_for_language(language, canon_code());
+    return language == languages().front() ? base_source_
+                                           : corpus_.source_for_language(language, canon_code());
 }
 const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
     if (auto it = orphans_.find(source); it != orphans_.end())

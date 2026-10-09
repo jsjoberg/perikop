@@ -1,4 +1,6 @@
 #include "speech/portable_speech.hpp"
+#include "storage/database.hpp"
+#include "typesetting/paragraph_layout.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
@@ -7,7 +9,6 @@
 #include <filesystem>
 #include <iostream>
 #include <wx/app.h>
-#include <wx/filename.h>
 #include <wx/fontenum.h>
 #include <wx/image.h>
 #include <wx/msgdlg.h>

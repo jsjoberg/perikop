@@ -1,8 +1,8 @@
-#include "core/reading_display.hpp"
 #include "speech/portable_speech.hpp"
 #include "speech/reading_speech.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/scripture_view.hpp"
 #include <atomic>
 #include <stdexcept>
 #include <wx/app.h>
@@ -22,10 +22,9 @@ void MainFrame::play_or_pause() {
         return;
     else if (scripture_->IsShown() && !scripture_->selections().empty()) {
         const auto marked = scripture_->selections();
-        Reading reading{new_testament_book(marked.front().book) ? ReadingKind::Gospel
-                                                                : ReadingKind::OldTestament,
+        Reading reading{corpus_.new_testament_book(marked.front().book) ? ReadingKind::Gospel
+                                                                        : ReadingKind::OldTestament,
                         marked.front(),
-                        passage_label(corpus_, marked),
                         {marked.begin() + 1, marked.end()},
                         settings_.primary};
         reading.reference = scripture_->frame();
@@ -52,17 +51,11 @@ void MainFrame::toggle_pause() {
 }
 void MainFrame::stop_speech() {
     speech_->stop();
-    following_audio_ = false;
     scripture_->follow_playback(false);
     refresh_speech();
 }
-void MainFrame::follow_speech() {
+void MainFrame::open_speech_location(size_t reading, size_t section) {
     const auto& readings = read_aloud_.readings();
-    if (readings.empty())
-        return;
-    const auto playback = speech_->playback();
-    const size_t reading = playback.cue ? playback.cue->reading : 0,
-                 section = playback.cue ? playback.cue->section : 0;
     if (reading >= readings.size())
         return;
     if (!speech_view_ || *speech_view_ != std::pair{reading, section} || !scripture_->IsShown()) {
@@ -72,8 +65,16 @@ void MainFrame::follow_speech() {
             part_ = section;
         }
         speech_view_ = std::pair{reading, section};
+        scripture_->follow_playback();
     }
-    following_audio_ = true;
+}
+void MainFrame::follow_speech() {
+    const auto playback = speech_->playback();
+    const size_t reading = playback.cue ? playback.cue->reading : 0,
+                 section = playback.cue ? playback.cue->section : 0;
+    if (reading >= read_aloud_.readings().size())
+        return;
+    open_speech_location(reading, section);
     scripture_->playback(playback);
     scripture_->follow_playback();
     scripture_->SetFocus();
@@ -93,22 +94,9 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         speech_tracked_.reset();
     read_aloud_.update(playback);
     const bool active = speech_active(playback.state);
-    if (!page_ && active && following_audio_ && playback.cue &&
-        playback.cue->reading < read_aloud_.readings().size()) {
-        const auto view = std::pair{playback.cue->reading, playback.cue->section};
-        if (!speech_view_ || *speech_view_ != view) {
-            open_reading(read_aloud_.readings()[view.first]);
-            if (view.second) {
-                scripture_->open_section(view.second);
-                part_ = view.second;
-            }
-            speech_view_ = view;
-            following_audio_ = true;
-            scripture_->follow_playback();
-        }
-    }
+    if (!page_ && active && scripture_->follows_playback() && playback.cue)
+        open_speech_location(playback.cue->reading, playback.cue->section);
     if (!active) {
-        following_audio_ = false;
         scripture_->follow_playback(false);
         playback_timer_.Stop();
     }
@@ -133,7 +121,6 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
             speech_view_ = std::pair<size_t, size_t>{0, 0};
         }
         speech_->speak_batch(queue);
-        following_audio_ = true;
         scripture_->follow_playback();
         playback_timer_.Start(30);
         refresh_speech();

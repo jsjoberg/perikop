@@ -1,9 +1,12 @@
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
-#include <iterator>
+#include "ui/scripture_view.hpp"
+#include "ui/toolbar.hpp"
+#include <algorithm>
 #include <wx/dcbuffer.h>
 #include <wx/menu.h>
+#include <wx/sizer.h>
 namespace ortho {
 void MainFrame::create_toolbar() {
     // One browser-like bar for the whole program: four symbols on each side
@@ -85,7 +88,7 @@ void MainFrame::address_clicked() {
 }
 void MainFrame::select_part(size_t part) {
     part_ = part;
-    following_audio_ = false;
+    speech_view_.reset();
     scripture_->follow_playback(false);
     scripture_->open_section(part);
     refresh_speech();
@@ -156,10 +159,11 @@ void MainFrame::update_bar() {
         button->checked(pane == "study" ? settings_.word_study : settings_.parallel == pane);
         button->Enable(reader && pane != settings_.primary);
     }
-    scripture_->return_button(active   ? (following_audio_ ? wxString{} : ui::utf8("Följ uppläsningen"))
-                              : reader ? ui::utf8("Till läsningen")
-                                       : wxString{},
-                              active);
+    scripture_->return_button(
+        active   ? (scripture_->follows_playback() ? wxString{} : ui::utf8("Följ uppläsningen"))
+        : reader ? ui::utf8("Till läsningen")
+                 : wxString{},
+        active);
     // One short line: what is shown, where the reading is, or what it is waiting for.
     const bool dropdown = reader && parts_.size() > 1;
     wxString title, tooltip;

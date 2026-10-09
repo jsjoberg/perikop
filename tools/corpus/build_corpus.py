@@ -6,16 +6,15 @@ import runeberg1917
 root=Path(__file__).resolve().parents[2]
 inputs=root/'resources/corpus/input'
 # OSIS codes preserve the existing public API; USFM identifies Greek inputs.
-entries=[
-('Gen','GEN','Genesis','Första Moseboken'),('Exod','EXO','Exodus','Andra Moseboken'),('Lev','LEV','Leviticus','Tredje Moseboken'),('Num','NUM','Numbers','Fjärde Moseboken'),('Deut','DEU','Deuteronomy','Femte Moseboken'),('Josh','JOS','Joshua','Josua'),('Judg','JDG','Judges','Domarboken'),('Ruth','RUT','Ruth','Rut'),('1Sam','1SA','I Samuel','Första Samuelsboken'),('2Sam','2SA','II Samuel','Andra Samuelsboken'),('1Kgs','1KI','I Kings','Första Kungaboken'),('2Kgs','2KI','II Kings','Andra Kungaboken'),('1Chr','1CH','I Chronicles','Första Krönikeboken'),('2Chr','2CH','II Chronicles','Andra Krönikeboken'),('Ezra','EZR','Ezra','Esra'),('Neh','NEH','Nehemiah','Nehemja'),('Esth','EST','Esther','Ester'),('Job','JOB','Job','Job'),('Ps','PSA','Psalms','Psaltaren'),('Prov','PRO','Proverbs','Ordspråksboken'),('Eccl','ECC','Ecclesiastes','Predikaren'),('Song','SNG','Song of Solomon','Höga Visan'),('Isa','ISA','Isaiah','Jesaja'),('Jer','JER','Jeremiah','Jeremia'),('Lam','LAM','Lamentations','Klagovisorna'),('Ezek','EZK','Ezekiel','Hesekiel'),('Dan','DAN','Daniel','Daniel'),('Hos','HOS','Hosea','Hosea'),('Joel','JOL','Joel','Joel'),('Amos','AMO','Amos','Amos'),('Obad','OBA','Obadiah','Obadja'),('Jonah','JON','Jonah','Jona'),('Micah','MIC','Micah','Mika'),('Nah','NAM','Nahum','Nahum'),('Hab','HAB','Habakkuk','Habackuk'),('Zeph','ZEP','Zephaniah','Sefanja'),('Hag','HAG','Haggai','Haggai'),('Zech','ZEC','Zechariah','Sakarja'),('Mal','MAL','Malachi','Malaki'),
-('Tob','TOB','Tobit','Tobit'),('Jdt','JDT','Judith','Judit'),('EsthGr','ESG','Esther (Greek)','Tillägg till Ester'),('Wis','WIS','Wisdom','Salomos vishet'),('Sir','SIR','Sirach','Jesus Syraks vishet'),('Baruch','BAR','Baruch','Baruk'),('PrAzar','S3Y','Prayer of Azariah','Asarjas bön'),('Sus','SUS','Susanna','Susanna'),('Bel','BEL','Bel and the Dragon','Bel och draken'),('1Macc','1MA','I Maccabees','Första Mackabeerboken'),('2Macc','2MA','II Maccabees','Andra Mackabeerboken'),('1Esd','1ES','I Esdras','Första Esdrasboken'),('PrMan','MAN','Prayer of Manasses','Manasses bön'),('Ps151','PS2','Additional Psalm','Psalm 151'),('3Macc','3MA','III Maccabees','Tredje Mackabeerboken'),('2Esd','2ES','II Esdras','Andra Esdrasboken'),('4Macc','4MA','IV Maccabees','Fjärde Mackabeerboken'),
-('Matt','MAT','Matthew','Matteusevangeliet'),('Mark','MRK','Mark','Markusevangeliet'),('Luke','LUK','Luke','Lukasevangeliet'),('John','JHN','John','Johannesevangeliet'),('Acts','ACT','Acts','Apostlagärningarna'),('Rom','ROM','Romans','Romarbrevet'),('1Cor','1CO','I Corinthians','Första Korintierbrevet'),('2Cor','2CO','II Corinthians','Andra Korintierbrevet'),('Gal','GAL','Galatians','Galaterbrevet'),('Eph','EPH','Ephesians','Efesierbrevet'),('Phil','PHP','Philippians','Filipperbrevet'),('Col','COL','Colossians','Kolosserbrevet'),('1Thess','1TH','I Thessalonians','Första Thessalonikerbrevet'),('2Thess','2TH','II Thessalonians','Andra Thessalonikerbrevet'),('1Tim','1TI','I Timothy','Första Timotheosbrevet'),('2Tim','2TI','II Timothy','Andra Timotheosbrevet'),('Titus','TIT','Titus','Titusbrevet'),('Philemon','PHM','Philemon','Filemonbrevet'),('Heb','HEB','Hebrews','Hebreerbrevet'),('James','JAS','James','Jakobsbrevet'),('1Peter','1PE','I Peter','Första Petrusbrevet'),('2Peter','2PE','II Peter','Andra Petrusbrevet'),('1John','1JN','I John','Första Johannesbrevet'),('2John','2JN','II John','Andra Johannesbrevet'),('3John','3JN','III John','Tredje Johannesbrevet'),('Jude','JUD','Jude','Judasbrevet'),('Rev','REV','Revelation of John','Uppenbarelseboken'),('EpJer','LJE','Epistle of Jeremiah','Jeremias brev'),('DanGr','DAG','Daniel (Greek)','Daniel (grekisk text)')]
+def table(name):
+ return [line.split('\t') for line in (root/'resources/corpus'/name).read_text(encoding='utf-8').splitlines() if line and not line.startswith('#')]
+entries=table('books.tsv')
 # Keep original IDs used by the curated Psalm alignment records.
 ids={'Ps':1,'Luke':2,'Phil':3}
-for code,_,_,_ in entries:
+for code,*_ in entries:
  if code not in ids:ids[code]=len(ids)+1
-byname={name:code for code,_,name,_ in entries}
-byusfm={usfm:code for code,usfm,_,_ in entries}
+byname={name:code for code,_,name,*_ in entries}
+byusfm={usfm:code for code,usfm,*_ in entries}
 verses=[];greek_names={};paragraphs=[]
 # Swedish keeps its printed 1917/1921 verse numbers; see runeberg1917.py and apocrypha1921.py.
 for (code,chapter,verse),text in runeberg1917.read(inputs/'runeberg-bibeln-1917.html').items():
@@ -77,7 +76,10 @@ with sqlite3.connect(temp) as db:
  db.executescript((root/'resources/corpus/schema.sql').read_text())
  sources=[(1,'sv1917','sv','Svenska 1917 med apokryfer','SV1917','Public-Domain','Swedish 1917 and 1921 apocrypha; Project Runeberg e-text and facsimile'),(2,'grc-lxx','el','Brenton Septuaginta 1851','LXX','Public-Domain','eBible.org Greek Brenton text'),(3,'grc-patriarchal','el','Patriarkal grekiska 1904','NT','Public-Domain','eBible.org 1904 Patriarchal text with corrections'),(4,'en-kjv','en','King James Version','MT','Public-Domain','Scrollmapper; UK Crown rights may apply'),(5,'en-web','en','World English Bible Classic med deuterokanon','MT','Public-Domain','eBible.org; stable 2020 text, includes deuterocanonical books')]
  db.executemany('INSERT INTO source VALUES(?,?,?,?,?,?,?)',sources)
- db.executemany('INSERT INTO book VALUES(?,?,?,?,?,?)',[(ids[c],c,i+1,sv,greek_names.get(c,''),name) for i,(c,_,name,sv) in enumerate(entries)])
+ db.executemany('INSERT INTO book VALUES(?,?,?,?,?,?,?,?,?,?)',[(ids[c],c,i+1,sv,greek_names.get(c,''),name,abbreviation,int(testament=='NT'),int(deutero),int(stanzas)) for i,(c,_,name,sv,abbreviation,testament,deutero,stanzas) in enumerate(entries)])
+ for position,(book,frame,chapters) in enumerate(table('canon.tsv')):
+  first,_,last=chapters.partition('-')
+  db.execute('INSERT INTO canon VALUES(?,?,?,?,?)',(position,book,frame,int(first or 1),int(last) if last else None))
  db.executemany('INSERT INTO verse(source_id,book_id,chapter,verse,last_verse,verse_suffix,text) VALUES(?,?,?,?,?,?,?)',verses)
  # Versification alignment generated by align_editions.py from reviewed rules.
  code_id={code:i for i,code,*_ in sources}
@@ -103,7 +105,7 @@ with sqlite3.connect(temp) as db:
  # Import recurring references, never the project's third-party Scripture wording.
  tables=json.loads((root/'resources/lectionary/orthocal-tables.json').read_text())
  # Orthocal follows KJV numbering, except where a reference only exists in the Septuagint.
- new_testament={code for code,*_ in entries[56:83]}
+ new_testament={code for code,_,_,_,_,testament,*_ in entries if testament=='NT'}
  kjv_last={(b,c):v for b,c,v in db.execute('SELECT book.code,chapter,max(verse) FROM verse JOIN book ON book.id=book_id WHERE source_id=4 GROUP BY book_id,chapter')}
  pericopes={x['pk']:x['fields'] for x in tables if x['model']=='calendarium.pericope'}
  for x in tables:
@@ -137,7 +139,7 @@ with sqlite3.connect(temp) as db:
  db.execute("INSERT INTO reading_rule VALUES(20001,63,0,0,'Epistle','All Saints of Antioch',800,'greek','Acts 11:19-30',4)")
  replace_segments(20001,[('Acts',11,19,11,30)])
  db.execute("INSERT INTO feast_rule VALUES(20001,63,0,0,4,'','All Saints of Antioch','greek')")
- db.execute('PRAGMA user_version=3')
+ db.execute('PRAGMA user_version=4')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()
@@ -149,7 +151,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
-GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
+GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
 metadata=json.loads(manifest.read_text())
 metadata['schema_version']=3
 for asset in metadata['assets']:

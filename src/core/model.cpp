@@ -71,32 +71,6 @@ void SelectedDay::select(CivilDate date) {
         throw std::invalid_argument("Invalid selected date");
     date_ = date;
 }
-bool new_testament_book(const std::string& book) {
-    static const std::vector<std::string> books = {
-        "Matt", "Mark",  "Luke",   "John",   "Acts",   "Rom",   "1Cor",  "2Cor",  "Gal",
-        "Eph",  "Phil",  "Col",    "1Thess", "2Thess", "1Tim",  "2Tim",  "Titus", "Philemon",
-        "Heb",  "James", "1Peter", "2Peter", "1John",  "2John", "3John", "Jude",  "Rev"};
-    for (const auto& code : books)
-        if (code == book)
-            return true;
-    return false;
-}
-bool deuterocanonical_book(const std::string& book) {
-    static const std::vector<std::string> deuterocanon = {
-        "Tob",   "Jdt",   "EsthGr", "Wis",   "Sir",   "Baruch", "EpJer", "PrAzar", "Sus",  "Bel",
-        "PrMan", "Ps151", "1Macc",  "2Macc", "3Macc", "4Macc",  "1Esd",  "2Esd",   "DanGr"};
-    return std::find(deuterocanon.begin(), deuterocanon.end(), book) != deuterocanon.end();
-}
-std::string source_for_language(const std::string& language, const std::string& book) {
-    if (language == "sv")
-        return "sv1917";
-    // KJV remains the familiar main edition; WEB supplies deuterocanonical books.
-    if (language == "en")
-        return deuterocanonical_book(book) ? "en-web" : "en-kjv";
-    if (language == "el")
-        return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
-    return {};
-}
 std::string source_language(const std::string& source) {
     return source.starts_with("grc") ? "el" : source.starts_with("en") ? "en" : "sv";
 }

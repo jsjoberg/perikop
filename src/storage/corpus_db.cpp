@@ -12,9 +12,56 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 3 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 4 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
+    for (const auto& source : sources())
+        versification_.emplace(source.code, source.versification);
+    Statement books(db_.get(),
+                    "SELECT code,abbreviation_sv,new_testament,deuterocanonical,stanzas FROM book");
+    while (books.row())
+        books_.emplace(books.text(0), BookInfo{books.text(1), books.number(2) == 1, books.number(3) == 1,
+                                               books.number(4) == 1});
+    Statement canon(db_.get(), "SELECT book,frame_book,first_chapter,coalesce(last_chapter,999) FROM canon "
+                               "ORDER BY position");
+    while (canon.row())
+        canon_.push_back({canon.text(0), canon.text(1), canon.number(2), canon.number(3),
+                          new_testament_book(canon.text(0))});
+}
+bool CorpusDb::new_testament_book(const std::string& book) const {
+    const auto it = books_.find(book);
+    return it != books_.end() && it->second.new_testament;
+}
+bool CorpusDb::deuterocanonical_book(const std::string& book) const {
+    const auto it = books_.find(book);
+    return it != books_.end() && it->second.deuterocanonical;
+}
+bool CorpusDb::stanza_book(const std::string& book) const {
+    const auto it = books_.find(book);
+    return it != books_.end() && it->second.stanzas;
+}
+std::string CorpusDb::book_abbreviation(const std::string& book) const {
+    const auto it = books_.find(book);
+    return it == books_.end() ? book : it->second.abbreviation;
+}
+const CanonBook* CorpusDb::canon_book(const std::string& frame_book, int chapter) const {
+    for (const auto& book : canon_)
+        if (book.frame_book == frame_book && book.first_chapter <= chapter && chapter <= book.last_chapter)
+            return &book;
+    return nullptr;
+}
+std::string CorpusDb::source_for_language(const std::string& language, const std::string& book) const {
+    if (language == "sv")
+        return "sv1917";
+    // KJV remains the familiar main edition; WEB supplies deuterocanonical books.
+    if (language == "en")
+        return deuterocanonical_book(book) ? "en-web" : "en-kjv";
+    if (language == "el")
+        return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
+    return {};
+}
+std::string CorpusDb::frame_source(const std::string& language, const std::string& book) const {
+    return new_testament_book(book) ? source_for_language(language, book) : "grc-lxx";
 }
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
@@ -119,15 +166,9 @@ std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std:
                       {query.number(11), query.number(12), query.text(13)}}};
 }
 bool CorpusDb::same_numbering(const std::string& from, const std::string& to, const std::string& book) const {
-    auto list = sources();
-    const auto f = std::find_if(list.begin(), list.end(), [&](auto& s) {
-        return s.code == from;
-    });
-    const auto t = std::find_if(list.begin(), list.end(), [&](auto& s) {
-        return s.code == to;
-    });
-    return f != list.end() && t != list.end() &&
-           (f->versification == t->versification || new_testament_book(book));
+    const auto f = versification_.find(from), t = versification_.find(to);
+    return f != versification_.end() && t != versification_.end() &&
+           (f->second == t->second || new_testament_book(book));
 }
 std::vector<std::pair<std::string, VerseRef>> CorpusDb::counterparts(const std::string& from,
                                                                      const std::string& to,
@@ -274,22 +315,10 @@ std::string CorpusDb::book_name(const std::string& book, const std::string& lang
     query.text(1, book);
     return query.row() ? query.text(0) : book;
 }
-std::vector<Book> CorpusDb::books(const std::string& language) const {
-    Statement q(db_.get(), "SELECT code,CASE WHEN ?='en' THEN name_en WHEN ?='el' AND name_el<>'' THEN "
-                           "name_el ELSE name_sv END,canonical_order FROM book WHERE EXISTS(SELECT 1 FROM "
-                           "verse WHERE book_id=book.id) ORDER BY canonical_order");
-    q.text(1, language);
-    q.text(2, language);
-    std::vector<Book> result;
-    while (q.row())
-        result.push_back({q.text(0), q.text(1), q.number(2)});
-    return result;
-}
 std::vector<ReadingRule> CorpusDb::reading_rules() const {
-    Statement q(
-        db_.get(),
-        "SELECT reading_rule.id,pdist,month,day,ordering,service,description,tradition,label,source.code "
-        "FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
+    Statement q(db_.get(),
+                "SELECT reading_rule.id,pdist,month,day,ordering,service,description,tradition,source.code "
+                "FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
     std::vector<ReadingRule> result;
     while (q.row()) {
         const auto service = q.text(5);
@@ -297,10 +326,9 @@ std::vector<ReadingRule> CorpusDb::reading_rules() const {
                           : service == "Gospel"  ? ReadingKind::Gospel
                           : service == "Vespers" ? ReadingKind::Vespers
                                                  : ReadingKind::OldTestament;
-        ReadingRule rule{q.number(0), q.number(1), q.number(2),
-                         q.number(3), q.number(4), service,
-                         q.text(6),   q.text(7),   {kind, {}, q.text(8), {}}};
-        rule.reading.reference = q.text(9);
+        ReadingRule rule{q.number(0), q.number(1), q.number(2), q.number(3), q.number(4),
+                         service,     q.text(6),   q.text(7),   {kind, {}}};
+        rule.reading.reference = q.text(8);
         Statement parts(db_.get(), "SELECT book,first_chapter,first_verse,last_chapter,last_verse FROM "
                                    "reading_segment WHERE rule_id=? ORDER BY ordering");
         parts.number(1, rule.id);

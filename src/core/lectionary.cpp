@@ -267,10 +267,6 @@ struct Year {
         return -999;
     }
 };
-std::string localized_label(const Reading& reading, const CorpusDb* = nullptr) {
-    // The table's display retains discontinuous chapter/verse punctuation.
-    return reading.label;
-}
 } // namespace
 CivilDate orthodox_pascha(int y) {
     if (y < 0 || y > 10000)
@@ -283,22 +279,7 @@ CivilDate fixed_calendar_date(CivilDate civil, CalendarStyle style) {
     return style == CalendarStyle::Old ? julian_label(jdn(civil)) : revised_label(jdn(civil));
 }
 AntiochianLectionary::AntiochianLectionary(const CorpusDb& corpus)
-    : rules_(corpus.reading_rules()), feasts_(corpus.feast_rules()), ordos_(corpus.ordo_rules()) {
-    for (auto& rule : rules_) {
-        std::string label;
-        for (const auto& p : rule.reading.segments()) {
-            if (!label.empty())
-                label += "; ";
-            label += corpus.book_name(p.book) + " " + std::to_string(p.first.chapter) + ":" +
-                     std::to_string(p.first.verse);
-            if (p.first != p.last)
-                label += "–" +
-                         (p.last.chapter != p.first.chapter ? std::to_string(p.last.chapter) + ":" : "") +
-                         std::to_string(p.last.verse);
-        }
-        rule.reading.label = label;
-    }
-}
+    : rules_(corpus.reading_rules()), feasts_(corpus.feast_rules()), ordos_(corpus.ordo_rules()) {}
 DayReadings AntiochianLectionary::readings_for(CivilDate civil, CalendarStyle style) const {
     if (!civil.ok() || int(civil.year()) < 1 || int(civil.year()) > 9999)
         throw std::invalid_argument("Invalid lectionary civil date");
@@ -444,11 +425,8 @@ DayReadings AntiochianLectionary::readings_for(CivilDate civil, CalendarStyle st
         result.day.annotation += " · " + title;
     if (annual)
         result.day.annotation += " · publicerad årsanvisning";
-    for (const auto* r : selected) {
-        auto reading = r->reading;
-        reading.label = localized_label(reading);
-        result.readings.push_back(std::move(reading));
-    }
+    for (const auto* r : selected)
+        result.readings.push_back(r->reading);
     return result;
 }
 } // namespace ortho

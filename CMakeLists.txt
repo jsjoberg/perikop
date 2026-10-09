@@ -56,7 +56,6 @@ add_library(ortho-core
     src/core/model.cpp
     src/core/lectionary.cpp
     src/core/swedish_titles.cpp
-    src/core/canon.cpp
     src/core/reading_display.cpp
     src/core/reading_plan.cpp
     src/storage/sqlite.cpp

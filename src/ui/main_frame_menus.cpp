@@ -1,6 +1,7 @@
-#include "ui/about.hpp"
+#include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/scripture_view.hpp"
 #include <algorithm>
 #include <wx/menu.h>
 namespace ortho {

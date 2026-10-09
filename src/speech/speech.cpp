@@ -136,13 +136,8 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
     result += text.substr(copied);
     return {text, result, language, {}};
 }
-std::string reading_introduction(const Reading& reading) {
-    const auto& p = reading.passage;
-    const auto reference = reading.label.find(" " + std::to_string(p.first.chapter) + ":");
-    const std::string book = p.book == "Ps"                   ? "Psaltaren"
-                             : reference == std::string::npos ? reading.label
-                                                              : reading.label.substr(0, reference);
-    return "Läsning ur " + book + ", kapitel " + std::to_string(p.first.chapter) + ", vers " +
+std::string reading_introduction(const std::string& book_name, const Passage& p) {
+    return "Läsning ur " + book_name + ", kapitel " + std::to_string(p.first.chapter) + ", vers " +
            std::to_string(p.first.verse) +
            (p.last == p.first ? "."
                               : " till " +
