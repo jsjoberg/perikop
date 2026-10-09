@@ -20,10 +20,13 @@ For a source build, use the [build guide](building.md#run).
 ## Daily readings and calendar
 
 The day page shows the date, its readings, and three reading plans.
+Press **Läs** beside a reading to open it.
 The arrows beside the date move to the previous or next day.
 The **Idag** button selects the current local date. This button always works and needs no background timer.
-Click **Välj datum** beside **Idag**, click the date, or select **Kalender → Välj datum**, to open the calendar in the main window.
-Select a date and press **Visa dagens läsningar**. A double click also selects a date.
+Click the date, or select **Kalender → Välj datum**, to open the month calendar below the date.
+Click a day to show its readings. The arrows beside the month name change the month.
+With the keyboard, the arrow keys move the day, Page Up and Page Down change the month, and Home moves to today.
+Return selects the day, and Escape closes the calendar.
 
 The application selects the current local civil date at startup.
 Only explicit actions change this date. Midnight, sleep, and theme changes do not change it.
@@ -106,14 +109,14 @@ The [word-study guide](word-study.md) describes the dictionaries, alignment, and
 
 The day page offers three plans:
 
-- The New Testament in 30 parts.
-- The Masoretic canon in 30 parts.
-- More books from the Septuagint in 14 parts.
+- **Nya testamentet**: the New Testament in 30 parts.
+- **Gamla testamentet**: the books of the Hebrew Bible in 30 parts.
+- **Septuagintas övriga böcker**: the books outside the Hebrew Bible in 14 parts.
 
+The Old Testament plan keeps the Hebrew Bible's book order and uses Septuagint chapter numbers.
+Esther and Daniel include their Greek additions. Its parts have about the same length.
 The last plan contains the books outside the Hebrew Bible that Perikop has in Swedish.
 It excludes First Esdras, Third Maccabees, and Psalm 151 because Perikop has no Swedish text for them.
-The Masoretic plan keeps the Hebrew Bible's book order and uses Septuagint chapter numbers.
-Its parts have about the same length.
 
 Plans count parts, not days.
 Select a numbered part to open it.

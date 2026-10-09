@@ -12,6 +12,8 @@ CivilDate local_civil_date();
 CivilDate shift_date(CivilDate date, int days);
 std::string date_iso(CivilDate date);
 std::string date_swedish(CivilDate date);
+// The month and year, such as "oktober 2026".
+std::string month_swedish(CivilDate date);
 std::expected<CivilDate, std::string> parse_date(const std::string& value);
 enum class CalendarStyle { New, Old };
 enum class Theme { System, Light, Dark };

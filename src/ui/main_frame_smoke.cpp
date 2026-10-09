@@ -3,6 +3,7 @@
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/month_calendar.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
@@ -323,7 +324,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // Repeated layout keeps long plan explanations wrapped in the centered column.
     layout_home();
     layout_home();
-    for (const auto& [label, text] : home_labels_)
+    for (const auto& [label, text, beside] : home_labels_)
         if (text.length() > 100 && !label->GetLabel().Contains("\n"))
             fail(__LINE__);
     // The start page offers the three reading plans; a marked part shows as read.
@@ -471,16 +472,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto saved_selection = scripture_->selections();
     const auto saved_reading = visible_reading_;
     tracked_ = Tracked{"smoke:preserved", "Urval"};
-    for (int mode = 0; mode < 3; ++mode) {
+    for (int mode = 0; mode < 2; ++mode) {
         if (mode == 0)
             about();
-        else if (mode == 1)
-            pick_date();
         else
             browse_bible();
         if (!page_ || scripture_->IsShown() || study_->IsShown() || !back_->IsEnabled() ||
             play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
-            address_->IsEnabled() == (mode == 2) ||
+            address_->IsEnabled() == (mode == 1) ||
             page_->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
             fail(__LINE__);
         for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i) {
@@ -629,18 +628,34 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (selected_.date() != local_civil_date())
         fail(__LINE__);
     select_day(date);
-    bool date_button_found = false;
-    for (auto* child : home_content_->GetChildren())
-        if (auto* button = wxDynamicCast(child, wxButton);
-            button && button->GetLabel() == ui::utf8("Välj datum")) {
-            wxCommandEvent click(wxEVT_BUTTON, button->GetId());
-            button->GetEventHandler()->ProcessEvent(click);
-            date_button_found = page_ != nullptr;
-            back();
-            break;
-        }
-    if (!date_button_found || std::abs(home_content_->GetPosition().x * 2 + home_content_->GetSize().x -
-                                       readings_->GetClientSize().x) > 2)
+    // The calendar folds out on the start page; a key moves the day and Return chooses it.
+    pick_date();
+    if (page_ || !month_ || !month_->IsShown() || month_->focused() != date)
+        fail(__LINE__);
+    const auto press = [this](int code) {
+        wxKeyEvent key(wxEVT_KEY_DOWN);
+        key.m_keyCode = code;
+        month_->GetEventHandler()->ProcessEvent(key);
+        wxTheApp->ProcessPendingEvents();
+    };
+    press(WXK_RIGHT);
+    press(WXK_RETURN);
+    if (month_ || month_open_ || selected_.date() != shift_date(date, 1))
+        fail(__LINE__);
+    pick_date();
+    press(WXK_ESCAPE);
+    if (month_ || selected_.date() != shift_date(date, 1))
+        fail(__LINE__);
+    open_psalm();
+    pick_date();
+    if (!readings_->IsShown() || scripture_->IsShown() || !month_)
+        fail(__LINE__);
+    pick_date();
+    if (month_)
+        fail(__LINE__);
+    select_day(date);
+    if (std::abs(home_content_->GetPosition().x * 2 + home_content_->GetSize().x -
+                 readings_->GetClientSize().x) > 2)
         fail(__LINE__);
     const auto home_scroll = readings_->GetViewStart();
     about();
@@ -699,11 +714,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         auto* engine = held.get();
         engine->held = paused;
         speech_ = std::move(held);
-        for (int mode = 0; mode < 3; ++mode) {
+        for (int mode = 0; mode < 2; ++mode) {
             if (mode == 0)
                 about();
-            else if (mode == 1)
-                pick_date();
             else
                 browse_bible();
             display_playback(paused);

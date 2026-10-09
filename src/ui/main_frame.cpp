@@ -3,7 +3,7 @@
 #include "ui/about.hpp"
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
-#include "ui/date_picker.hpp"
+#include "ui/month_calendar.hpp"
 #include "ui/pronunciation_review.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
@@ -156,8 +156,13 @@ void MainFrame::refresh_day() {
     home_width_ = 0;
     entries_->Clear(true);
     entries_->AddSpacer(FromDIP(48));
+    const auto wrapped = [this](const wxString& text, const wxFont& font, int beside = 0) {
+        auto* label = new wxStaticText(home_content_, wxID_ANY, text);
+        label->SetFont(font);
+        home_labels_.push_back({label, text, beside});
+        return label;
+    };
     auto* date_row = new wxBoxSizer(wxHORIZONTAL);
-    auto* date_controls = new wxWrapSizer(wxHORIZONTAL, wxREMOVE_LEADING_SPACES);
     const auto arrow = [this, date_row](Symbol symbol, const wxString& label, int days) {
         auto* button = new SymbolButton(home_content_, symbol, label, [this, days] {
             // refresh_day rebuilds this row, so defer destruction of the clicked control.
@@ -171,55 +176,71 @@ void MainFrame::refresh_day() {
         date_row->Add(button, 0, wxALIGN_CENTER_VERTICAL);
     };
     arrow(Symbol::Back, ui::utf8("Föregående dag"), -1);
-    auto* date_label = ui::label(home_content_, ui::utf8(date_swedish(selected_.date())), 13);
-    date_label->SetToolTip(ui::utf8("Välj datum…"));
+    auto* date_label = ui::label(
+        home_content_, ui::utf8(date_swedish(selected_.date()) + (month_open_ ? "  ▴" : "  ▾")), 13);
+    date_label->SetToolTip(ui::utf8("Välj datum"));
+    date_label->SetCursor(wxCursor(wxCURSOR_HAND));
     date_label->Bind(wxEVT_LEFT_UP, [this](wxMouseEvent&) {
-        pick_date();
+        CallAfter([this] {
+            pick_date();
+        });
     });
     date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(6));
     arrow(Symbol::Next, ui::utf8("Nästa dag"), 1);
-    date_controls->Add(date_row, 0, wxALIGN_CENTER_VERTICAL);
-    date_controls->Add(ui::button(home_content_, "Idag",
-                                  [this] {
-                                      CallAfter([this] {
-                                          select_day(local_civil_date());
-                                      });
-                                  }),
-                       0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(12));
-    date_controls->Add(ui::button(home_content_, ui::utf8("Välj datum"),
-                                  [this] {
-                                      pick_date();
-                                  }),
-                       0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(8));
-    entries_->Add(date_controls, 0, wxEXPAND | wxBOTTOM, FromDIP(8));
+    date_row->AddStretchSpacer();
+    date_row->Add(ui::button(home_content_, "Idag",
+                             [this] {
+                                 CallAfter([this] {
+                                     select_day(local_civil_date());
+                                 });
+                             }),
+                  0, wxALIGN_CENTER_VERTICAL);
+    entries_->Add(date_row, 0, wxEXPAND | wxBOTTOM, FromDIP(12));
+    month_ = nullptr;
+    if (month_open_) {
+        month_ = new MonthCalendar(home_content_, selected_.date(), [this](std::optional<CivilDate> date) {
+            // Choosing rebuilds the page and its calendar.
+            CallAfter([this, date] {
+                month_open_ = false;
+                if (date)
+                    select_day(*date);
+                else
+                    refresh_day();
+            });
+        });
+        month_->on_resize([this] {
+            readings_->Layout();
+            layout_home();
+        });
+        entries_->Add(month_, 0, wxBOTTOM, FromDIP(20));
+    }
     auto heading = day_.day.title;
     if (day_.day.annual)
         heading += (heading.empty() ? "" : " · ") + std::string("publicerad årsanvisning");
-    if (!heading.empty()) {
-        auto* feast = new wxStaticText(home_content_, wxID_ANY, ui::utf8(heading));
-        feast->SetFont(body_font(18));
-        home_labels_.emplace_back(feast, feast->GetLabel());
-        entries_->Add(feast, 0, wxBOTTOM, FromDIP(8));
-    }
+    if (!heading.empty())
+        entries_->Add(wrapped(ui::utf8(heading), body_font(18)), 0, wxBOTTOM, FromDIP(8));
     entries_->AddSpacer(FromDIP(28));
     if (day_.readings.empty())
-        entries_->Add(ui::label(home_content_, ui::utf8("Ingen daglig bibelläsning är föreskriven"), 18), 0,
+        entries_->Add(wrapped(ui::utf8("Ingen daglig bibelläsning är föreskriven"), body_font(18)), 0,
                       wxBOTTOM, FromDIP(20));
     const auto completed = user_.completed();
     for (const auto& reading : day_.readings) {
-        auto* section = ui::label(home_content_, kind_label(reading.kind), 10);
-        entries_->Add(section, 0, wxBOTTOM, FromDIP(6));
+        entries_->Add(ui::label(home_content_, kind_label(reading.kind), 10), 0, wxBOTTOM, FromDIP(6));
         const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments()));
         const auto key = day_key(reading);
         const bool done = completed.contains(key);
-        auto* open =
-            ui::button(home_content_, done ? title + ui::utf8("  ✓") : title, [this, reading, key, title] {
-                open_tracked(reading, {key, title});
-            });
-        open->SetFont(body_font(20));
+        auto* open = ui::button(home_content_, ui::utf8("Läs"), [this, reading, key, title] {
+            open_tracked(reading, {key, title});
+        });
+        const int gap = FromDIP(12);
+        auto* passage =
+            wrapped(done ? title + ui::utf8("  ✓") : title, body_font(20), open->GetBestSize().x + gap);
         if (done)
-            open->SetToolTip(ui::utf8("Läst"));
-        entries_->Add(open, 0, wxBOTTOM, FromDIP(32));
+            passage->SetToolTip(ui::utf8("Läst"));
+        auto* row = new wxBoxSizer(wxHORIZONTAL);
+        row->Add(passage, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, gap);
+        row->Add(open, 0, wxALIGN_CENTER_VERTICAL);
+        entries_->Add(row, 0, wxBOTTOM, FromDIP(28));
     }
     add_plans();
     layout_home();
@@ -234,9 +255,9 @@ void MainFrame::layout_home() {
     // Replacing a wrapped label at the same width makes wxWidgets skip wrapping it again.
     if (home_width_ != width) {
         home_width_ = width;
-        for (const auto& [label, text] : home_labels_) {
+        for (const auto& [label, text, beside] : home_labels_) {
             label->SetLabel(text);
-            label->Wrap(width);
+            label->Wrap(width - beside);
         }
     }
     home_content_->InvalidateBestSize();
@@ -398,11 +419,13 @@ void MainFrame::browse_bible() {
 void MainFrame::pick_date() {
     if (page_)
         return;
-    auto* page = make_date_page(root_, selected_.date(), settings_.theme, [this](CivilDate date) {
-        close_pages();
-        select_day(date);
-    });
-    show_page(page, ui::utf8("Välj datum"));
+    // From the reader, the calendar opens on the start page.
+    month_open_ = !readings_->IsShown() || !month_open_;
+    if (!readings_->IsShown())
+        show_readings();
+    refresh_day();
+    if (month_)
+        month_->SetFocus();
 }
 void MainFrame::apply_settings(bool persist) {
 #if wxCHECK_VERSION(3, 3, 0)
@@ -424,6 +447,8 @@ void MainFrame::apply_settings(bool persist) {
     ui::recolor(root_, colors);
     for (auto* button : date_buttons_)
         button->apply(colors);
+    if (month_)
+        month_->apply(colors);
     for (auto* tile : plan_tiles_)
         tile->apply(colors);
     for (auto* button : {back_, play_, pause_, stop_})

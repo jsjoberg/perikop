@@ -4,8 +4,8 @@
 #include <stdexcept>
 namespace ortho {
 const std::vector<ReadingPlan>& reading_plans() {
-    // Descriptions state what a plan contains and nothing about pace.
-    // The Masoretic-canon plan keeps the Hebrew Bible's book order and splits
+    // Titles and descriptions stay short; docs/using-perikop.md explains the plans.
+    // The Old Testament plan keeps the Hebrew Bible's book order and splits
     // it into parts of about the same length of Septuagint text, at chapter
     // breaks and mostly at book ends. Chapters use Septuagint numbers, so
     // Esther and Daniel 3 include their Greek additions; the other books
@@ -13,7 +13,7 @@ const std::vector<ReadingPlan>& reading_plans() {
     static const std::vector<ReadingPlan> plans = {
         {"nt",
          "Nya testamentet",
-         "Nya testamentet i 30 delar.",
+         "",
          {{{"Matt", 1, 9}},
           {{"Matt", 10, 18}},
           {{"Matt", 19, 28}},
@@ -45,9 +45,8 @@ const std::vector<ReadingPlan>& reading_plans() {
           {{"Rev", 13, 17}},
           {{"Rev", 18, 22}}}},
         {"ot",
-         "Masoretisk kanon",
-         "Gamla testamentets böcker i den hebreiska bibeln, i 30 delar. Kapitlen följer Septuagintas "
-         "numrering, och Ester och Daniel har sina grekiska tillägg.",
+         "Gamla testamentet",
+         "Den hebreiska bibelns böcker.",
          {{{"Gen", 1, 27}},
           {{"Gen", 28, 50}},
           {{"Exod", 1, 24}},
@@ -88,10 +87,8 @@ const std::vector<ReadingPlan>& reading_plans() {
            {"Zech", 1, 14},
            {"Mal", 1, 3}}}},
         {"lxx",
-         "Fler böcker ur Septuaginta",
-         "De böcker utanför den hebreiska bibeln som Perikop har på svenska, i 14 delar. Första "
-         "Esdrasboken, Tredje Mackabeerboken och Psalm 151 finns inte med, eftersom Perikop saknar svensk "
-         "text för dem.",
+         "Septuagintas övriga böcker",
+         "Böckerna utanför den hebreiska bibeln.",
          {{{"PrMan", 1, 1}, {"Tob", 1, 7}},
           {{"Tob", 8, 14}, {"Jdt", 1, 3}},
           {{"Jdt", 4, 12}},

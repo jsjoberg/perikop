@@ -19,6 +19,7 @@ class ScriptureView;
 class StudyPanel;
 class SymbolButton;
 class AddressBar;
+class MonthCalendar;
 // Languages of the two text columns, in menu and toolbar order.
 inline constexpr const char* column_languages[] = {"sv", "el", "en"};
 class MainFrame final : public wxFrame {
@@ -104,9 +105,18 @@ private:
     bool return_to_reader_ = false;
     std::vector<std::pair<wxWindow*, wxString>> page_history_;
     std::vector<SymbolButton*> date_buttons_;
+    // The start page's month, folded out under the date while a day is chosen.
+    MonthCalendar* month_ = nullptr;
+    bool month_open_ = false;
     wxScrolledWindow* readings_ = nullptr;
     wxPanel* home_content_ = nullptr;
-    std::vector<std::pair<wxStaticText*, wxString>> home_labels_;
+    // Start-page labels wrap to the column, less the width of what stands beside them.
+    struct HomeLabel {
+        wxStaticText* label;
+        wxString text;
+        int beside = 0;
+    };
+    std::vector<HomeLabel> home_labels_;
     int home_width_ = 0;
     ScriptureView* scripture_ = nullptr;
     StudyPanel* study_ = nullptr;

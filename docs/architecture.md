@@ -39,7 +39,8 @@ Its menu, playback, toolbar, and smoke-test implementations have separate files.
 `ReadAloud` keeps the queue being read aloud and the text that describes its progress, without wxWidgets.
 The window keeps the speech engine, the playback timer, and which reading the view follows.
 `toolbar` contains the drawn toolbar controls: symbol buttons and the address field.
-The Bible and date pickers return selections to the window.
+The Bible picker returns selections to the window.
+`month_calendar` is the start page's drawn month calendar. It reports the chosen day to the window.
 
 `ScriptureView` owns the reader state. Its implementation has separate files for layout, selection, playback tracking, and drawing.
 `controls` contains common native control helpers and UTF-8 conversions.
@@ -56,7 +57,7 @@ The renderer retains book coordinates and at most 192 text layouts.
 It creates no native control for individual verses.
 The [corpus guide](corpus.md#display-metadata-and-limits) describes paragraph metadata and display limits.
 
-The build patches a wxWidgets 3.3.3 macOS bug in the date picker.
+The build patches a wxWidgets 3.3.3 macOS bug in its locale month and weekday names.
 The bug over-released Swedish month and weekday names and caused a crash.
 
 ## Development checks

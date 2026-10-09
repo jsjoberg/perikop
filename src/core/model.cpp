@@ -50,13 +50,15 @@ std::expected<CivilDate, std::string> parse_date(const std::string& value) {
         return std::unexpected("Invalid civil date");
     return date;
 }
-std::string date_swedish(CivilDate date) {
-    static const char* weekdays[] = {"Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"};
+std::string month_swedish(CivilDate date) {
     static const char* months[] = {"januari", "februari", "mars",      "april",   "maj",      "juni",
                                    "juli",    "augusti",  "september", "oktober", "november", "december"};
+    return std::string(months[unsigned(date.month()) - 1]) + " " + std::to_string(int(date.year()));
+}
+std::string date_swedish(CivilDate date) {
+    static const char* weekdays[] = {"Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"};
     return std::string(weekdays[std::chrono::weekday{std::chrono::sys_days{date}}.c_encoding()]) + " " +
-           std::to_string(unsigned(date.day())) + " " + months[unsigned(date.month()) - 1] + " " +
-           std::to_string(int(date.year()));
+           std::to_string(unsigned(date.day())) + " " + month_swedish(date);
 }
 std::expected<Passage, std::string> normalize_passage(Passage passage) {
     if (passage.book.empty() || passage.first.chapter < 1 || passage.first.verse < 1 ||

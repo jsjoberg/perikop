@@ -80,9 +80,12 @@ void MainFrame::add_plans() {
         reset->SetToolTip(ui::utf8("Ta bort alla markeringar i planen"));
         header->Add(reset, 0, wxALIGN_CENTER_VERTICAL);
         entries_->Add(header, 0, wxEXPAND | wxBOTTOM, FromDIP(4));
-        auto* about = ui::label(home_content_, ui::utf8(plan.description), 11);
-        home_labels_.emplace_back(about, about->GetLabel());
-        entries_->Add(about, 0, wxBOTTOM, FromDIP(10));
+        if (!plan.description.empty()) {
+            auto* about = ui::label(home_content_, ui::utf8(plan.description), 11);
+            home_labels_.push_back({about, about->GetLabel()});
+            entries_->Add(about, 0, wxBOTTOM, FromDIP(10));
+        } else
+            entries_->AddSpacer(FromDIP(10));
         if (done == plan.parts.size())
             entries_->Add(ui::label(home_content_, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0,
                           wxBOTTOM, FromDIP(10));

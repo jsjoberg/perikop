@@ -50,10 +50,10 @@ const std::vector<Section>& sections() {
            {"https://ebible.org/bible/details.php?id=eng-web"}}}},
         {"Läsordning",
          {{"Orthocal",
-           "Brian Glass. Perikoptabeller och kalenderregler för grekisk och slavisk läsordning. MIT.",
+           "Brian Glass. Läsordningar och kalenderregler. MIT.",
            {"https://github.com/brianglass/orthocal-python"}},
           {"Antiokiska ärkestiftet i Nordamerika",
-           "Den antiokiska läsordningens egna läsningar, ur den officiella läsordningen för 2026.",
+           "Antiokiska läsningar ur läsordningen för 2026.",
            {{"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
              "Liturgical%20Chart%20for%202026%20English.pdf",
              "Liturgical Chart for 2026 (PDF)"}}}}},
@@ -144,12 +144,10 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
     }
     text("Perikop", body_font(28), 2, false, wxALIGN_CENTER_HORIZONTAL);
     text("Version " PERIKOP_VERSION, ui_font(10), 18, true, wxALIGN_CENTER_HORIZONTAL);
-    text(ui::utf8("Dagens bibelläsningar enligt den antiokiska ortodoxa kyrkans läsordning i Nordamerika, "
-                  "med Svenska Bibeln 1917, grekisk och engelsk parallelltext, ordstudium och svensk "
-                  "uppläsning. Allt fungerar utan nätverksanslutning."),
+    text(ui::utf8("Dagens bibelläsningar i ortodox läsordning, med svensk, grekisk och engelsk text och "
+                  "svensk uppläsning. Fungerar utan nätverk."),
          ui_font(11), 8);
-    text(ui::utf8("Perikop är fri programvara under MIT-licensen. Programmet bygger på andras generösa "
-                  "arbete; tack till alla nedan. Varje källa har sina egna villkor."),
+    text(ui::utf8("Fri programvara under MIT-licensen. Tack till alla nedan; varje källa har egna villkor."),
          ui_font(11), 4, true);
     for (const auto& section : sections()) {
         sizer->AddSpacer(page->FromDIP(18));

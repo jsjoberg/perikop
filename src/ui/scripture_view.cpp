@@ -99,8 +99,6 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         }
         e.Skip();
     });
-    SetToolTip(wxString::FromUTF8("Dra för att markera verser. Håll Ctrl eller ⌘ och dra för att lägga till "
-                                  "fler intervall. Klicka utan modifierare för att rensa markeringen."));
     // Ctrl/Command adds a range; each motion rebuilds it from the pre-drag selection.
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& e) {
         SetFocus();
