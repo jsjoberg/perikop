@@ -80,7 +80,7 @@ private:
     const CorpusDb& corpus_;
     UserDb& user_;
     const std::filesystem::path resources_;
-    AntiochianLectionary lectionary_;
+    Lectionary lectionary_;
     SelectedDay selected_;
     Settings settings_;
     DayReadings day_;

@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "46e60c028b4c0164174a47b4dd70626563f874b71af5ecaf1bccf225c2f88ac9",
+      "sha256": "fb4d4caeb5dd65c986ecf468ea5c4233caf1bff374fc67d9357f338d7e68b25c",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "e7de78fda0f60e63f76e9d0b74c63aa32e3993494e128db762560975a8168d49"
+      "sha256": "d0bd1d5a9e01198fb7128966d25c18aa64dd684a420e0d3f85c6cf72fda503d3"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -299,18 +299,18 @@
       "sha256": "bb81111505954f0dbf5f722be93ff7080d66eaa85bedd590fe77c7ba29c56f7f"
     },
     {
-      "path": "resources/lectionary/antiochian-chart-2026.json",
-      "license": "Factual Scripture citations",
-      "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
-      "role": "Official Sunday chart transcription; checked against original PDF",
-      "sha256": "9577ce57dac168ecd9a88154f4903e2885231b1b7c40a5757774252d4d29e98d"
-    },
-    {
       "path": "resources/lectionary/orthocal-tables.json",
       "license": "MIT",
-      "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/5bdf0a5e1cad406388d7860ec74ed506a7a19197/fixtures/calendarium.json",
-      "role": "Greek and shared factual references only; no imported Scripture wording",
-      "sha256": "d8d68af2334bc356761f9ce99d5ce927f2ae4ed7277b1f72805effb5edd59f4e"
+      "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/eba3af4d6552f43ea09079e19b3f6147619b6dfb/fixtures/calendarium.json",
+      "role": "Common, Greek and Slavic reading rules and the Greek and Antiochian annual ordo; the upstream fixture without its composite records, as compact JSON. Factual references only; no Scripture wording",
+      "sha256": "adbd3437ca5bc400333a047fdaa80e4408197ad0069ba63755d0b3d681986614"
+    },
+    {
+      "path": "resources/lectionary/antiochian.json",
+      "license": "Factual Scripture citations",
+      "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
+      "role": "Antiochian Archdiocese readings that differ from the shared Greek lectionary, in Orthocal's record format; checked against the official 2026 chart",
+      "sha256": "a70375c6fcb1f5032c79771328bc9321f0685c8be60808ab461a5c515a49f5ae"
     },
     {
       "path": "resources/fonts/NotoSerifHebrew-Regular.ttf",

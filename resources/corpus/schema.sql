@@ -54,6 +54,8 @@ CREATE TABLE pronunciation (
  priority INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(language,source)
 ) STRICT;
 -- Segment coordinates follow the reference edition's numbering.
+-- tradition is common, greek, slavic or antiochian. A tradition's row replaces the
+-- common row with the same slot; Antiochian rows also replace Greek ones.
 CREATE TABLE reading_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,service TEXT,description TEXT,ordering INTEGER,tradition TEXT,label TEXT,reference INTEGER NOT NULL REFERENCES source(id)) STRICT;
 CREATE TABLE reading_segment(
  rule_id INTEGER NOT NULL REFERENCES reading_rule(id),ordering INTEGER NOT NULL CHECK(ordering>=0),
@@ -64,4 +66,5 @@ CREATE TABLE reading_segment(
  PRIMARY KEY(rule_id,ordering)
 ) STRICT;
 CREATE TABLE feast_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,rank INTEGER,title TEXT,feast TEXT,tradition TEXT) STRICT;
-CREATE TABLE ordo_rule(year INTEGER,month INTEGER,day INTEGER,service TEXT,pdist INTEGER,PRIMARY KEY(year,month,day,service)) STRICT;
+-- Published annual assignments of one jurisdiction: greek (GOA) or antiochian.
+CREATE TABLE ordo_rule(jurisdiction TEXT NOT NULL CHECK(jurisdiction IN ('greek','antiochian')),year INTEGER,month INTEGER,day INTEGER,service TEXT,pdist INTEGER,PRIMARY KEY(jurisdiction,year,month,day,service)) STRICT;

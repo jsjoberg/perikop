@@ -61,6 +61,10 @@ Settings UserDb::load() const {
             result.theme = value == "dark" ? Theme::Dark : value == "light" ? Theme::Light : Theme::System;
         if (key == "calendar")
             result.calendar = value == "old" ? CalendarStyle::Old : CalendarStyle::New;
+        if (key == "tradition")
+            result.tradition = value == "greek"    ? Tradition::Greek
+                               : value == "slavic" ? Tradition::Slavic
+                                                   : Tradition::Antiochian;
         if (key == "primary" && (value == "sv" || value == "el" || value == "en"))
             result.primary = value;
         // The three-pane mode "el,en" is retired; it keeps its Greek pane.
@@ -95,6 +99,9 @@ void UserDb::save(const Settings& settings) {
                   : settings.theme == Theme::Light ? "light"
                                                    : "system"},
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
+        {"tradition", settings.tradition == Tradition::Greek    ? "greek"
+                      : settings.tradition == Tradition::Slavic ? "slavic"
+                                                                : "antiochian"},
         {"primary", settings.primary},
         {"parallel", settings.parallel},
         {"font_size", std::to_string(settings.font_size)},

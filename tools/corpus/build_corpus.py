@@ -103,7 +103,9 @@ with sqlite3.connect(temp) as db:
   if not set(ipa)<=phones or ipa.count('ˈ')!=1:raise SystemExit('Invalid phonemes for '+word+': '+ipa)
   db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv',word,'',ipa,50),('sv',word+'s','',ipa+'s',50)])
  # Import recurring references, never the project's third-party Scripture wording.
- tables=json.loads((root/'resources/lectionary/orthocal-tables.json').read_text())
+ # Rows are tagged common, greek or slavic; antiochian.json adds the Antiochian
+ # Archdiocese's own readings in the same format, each in the slot it replaces.
+ tables=[x for name in ('orthocal-tables.json','antiochian.json') for x in json.loads((root/'resources/lectionary'/name).read_text())]
  # Orthocal follows KJV numbering, except where a reference only exists in the Septuagint.
  new_testament={code for code,_,_,_,_,testament,*_ in entries if testament=='NT'}
  kjv_last={(b,c):v for b,c,v in db.execute('SELECT book.code,chapter,max(verse) FROM verse JOIN book ON book.id=book_id WHERE source_id=4 GROUP BY book_id,chapter')}
@@ -113,7 +115,7 @@ with sqlite3.connect(temp) as db:
   if model=='calendarium.day':
    db.execute('INSERT INTO feast_rule VALUES(?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['feast_level'],f['title'],f['feast_name'],f['tradition']))
   elif model=='calendarium.ordoreading':
-   db.execute('INSERT INTO ordo_rule VALUES(?,?,?,?,?)',(f['year'],f['month'],f['day'],f['source'],f['pdist']))
+   db.execute('INSERT INTO ordo_rule VALUES(?,?,?,?,?,?)',(f['jurisdiction'],f['year'],f['month'],f['day'],f['source'],f['pdist']))
   elif model=='calendarium.reading':
    p=pericopes[f['pericope']];parts=p['verses'].strip().split('|')
    if parts[0].startswith('Comp_'):continue # liturgical composites are not contiguous Scripture
@@ -123,23 +125,7 @@ with sqlite3.connect(temp) as db:
     book,first,last=part.strip().split('_');book={'3Kg':'1Kgs','4Kg':'2Kgs'}.get(book,book)
     first,last=int(first),int(last)
     db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(x['pk'],idx,book,first//1000,first%1000,last//1000,last%1000))
- # Antiochian recurring variants checked against its official 2026 chart.
- def replace_segments(rule_id,segments):
-  db.execute('DELETE FROM reading_segment WHERE rule_id=?',(rule_id,))
-  for i,(book,fc,fv,lc,lv) in enumerate(segments):
-   db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(rule_id,i,book,fc,fv,lc,lv))
- replace_segments(456,[('Acts',11,19,11,30)])
- replace_segments(194,[('Heb',11,24,11,26),('Heb',11,32,11,40)])
- # Luke the Evangelist's Epistle is longer in the Antiochian book.
- for rule in db.execute("SELECT id FROM reading_rule WHERE month=10 AND day=18 AND service='Epistle'").fetchall():
-  replace_segments(rule[0],[('Col',4,5,4,11),('Col',4,14,4,18)])
- for rule in db.execute("SELECT id FROM reading_rule WHERE pdist=224 AND month=0 AND service='Epistle' AND description=''").fetchall():
-  replace_segments(rule[0],[('Eph',4,1,4,7)])
- # Second Sunday after Pentecost is All Saints of Antioch.
- db.execute("INSERT INTO reading_rule VALUES(20001,63,0,0,'Epistle','All Saints of Antioch',800,'greek','Acts 11:19-30',4)")
- replace_segments(20001,[('Acts',11,19,11,30)])
- db.execute("INSERT INTO feast_rule VALUES(20001,63,0,0,4,'','All Saints of Antioch','greek')")
- db.execute('PRAGMA user_version=4')
+ db.execute('PRAGMA user_version=5')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()
@@ -151,7 +137,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
-GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
+GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
 metadata=json.loads(manifest.read_text())
 metadata['schema_version']=3
 for asset in metadata['assets']:

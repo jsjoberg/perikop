@@ -1,0 +1,117 @@
+[
+ {
+  "model": "calendarium.pericope",
+  "pk": 20001,
+  "fields": {
+   "display": "Acts 11.19-30",
+   "verses": "Acts_11019_11030"
+  }
+ },
+ {
+  "model": "calendarium.pericope",
+  "pk": 20002,
+  "fields": {
+   "display": "Hebrews 11.24-26, 32-40",
+   "verses": "Heb_11024_11026|Heb_11032_11040"
+  }
+ },
+ {
+  "model": "calendarium.pericope",
+  "pk": 20003,
+  "fields": {
+   "display": "Colossians 4.5-11, 14-18",
+   "verses": "Col_4005_4011|Col_4014_4018"
+  }
+ },
+ {
+  "model": "calendarium.pericope",
+  "pk": 20004,
+  "fields": {
+   "display": "Ephesians 4.1-7",
+   "verses": "Eph_4001_4007"
+  }
+ },
+ {
+  "model": "calendarium.reading",
+  "pk": 20001,
+  "fields": {
+   "month": 0,
+   "day": 0,
+   "pdist": 28,
+   "source": "Epistle",
+   "desc": "",
+   "pericope": 20001,
+   "ordering": 811,
+   "tradition": "antiochian"
+  }
+ },
+ {
+  "model": "calendarium.reading",
+  "pk": 20002,
+  "fields": {
+   "month": 0,
+   "day": 0,
+   "pdist": -42,
+   "source": "Epistle",
+   "desc": "",
+   "pericope": 20002,
+   "ordering": 811,
+   "tradition": "antiochian"
+  }
+ },
+ {
+  "model": "calendarium.reading",
+  "pk": 20003,
+  "fields": {
+   "month": 10,
+   "day": 18,
+   "pdist": 999,
+   "source": "Epistle",
+   "desc": "St Luke",
+   "pericope": 20003,
+   "ordering": 821,
+   "tradition": "antiochian"
+  }
+ },
+ {
+  "model": "calendarium.reading",
+  "pk": 20004,
+  "fields": {
+   "month": 0,
+   "day": 0,
+   "pdist": 224,
+   "source": "Epistle",
+   "desc": "",
+   "pericope": 20004,
+   "ordering": 811,
+   "tradition": "antiochian"
+  }
+ },
+ {
+  "model": "calendarium.reading",
+  "pk": 20005,
+  "fields": {
+   "month": 0,
+   "day": 0,
+   "pdist": 63,
+   "source": "Epistle",
+   "desc": "All Saints of Antioch",
+   "pericope": 20001,
+   "ordering": 800,
+   "tradition": "antiochian"
+  }
+ },
+ {
+  "model": "calendarium.day",
+  "pk": 20001,
+  "fields": {
+   "pdist": 63,
+   "month": 0,
+   "day": 0,
+   "title": "",
+   "feast_name": "All Saints of Antioch",
+   "feast_level": 4,
+   "tradition": "antiochian"
+  }
+ }
+]

@@ -29,8 +29,14 @@ The application selects the current local civil date at startup.
 Only explicit actions change this date. Midnight, sleep, and theme changes do not change it.
 The selected date does not persist between launches.
 
-New calendar mode uses the North American Antiochian Greek reading rules.
-Old calendar mode applies those rules to Julian fixed dates as a comparison mode.
+Select the reading order in the **Kalender** menu:
+
+- **Antiokiska läsordningen** adds the readings of the Antiochian Archdiocese of North America to the Greek order.
+- **Grekiska läsordningen** follows the shared Greek lectionary and the annual assignments of the Greek Orthodox Archdiocese of America.
+- **Slaviska läsordningen** follows the Russian and OCA order.
+
+**Nya kalendern** uses Revised Julian fixed dates. **Gamla kalendern** uses Julian fixed dates.
+Each reading order works with both calendars. The application keeps both choices between launches.
 Julian conversion calculates the date difference for each century.
 See the [lectionary guide](lectionary.md) for the calculation rules and reference sources.
 

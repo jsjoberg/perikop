@@ -69,13 +69,14 @@ No modern Antiochian website Scripture translation is copied into the corpus.
 
 ## Calendar rules
 
-Recurring Greek and shared pericope tables and the native rule port derive from Orthocal.
-The selected revision is `5bdf0a5e1cad406388d7860ec74ed506a7a19197`.
+Recurring common, Greek, and Slavic pericope tables, the Greek and Antiochian annual assignments, and the native rule port derive from Orthocal.
+The selected revision is `eba3af4d6552f43ea09079e19b3f6147619b6dfb`.
 Copyright (c) 2022 Brian Glass. MIT license: `resources/licenses/Orthocal-MIT.txt`.
 https://github.com/brianglass/orthocal-python
 
-Antiochian Scripture citations are factual references from the official 2026 chart and daily reading metadata.
-The package excludes Slavic-specific tables and liturgical composite wording.
+The Antiochian readings in `resources/lectionary/antiochian.json` are factual references from the Archdiocese's official 2026 chart.
+The test fixture `tests/oca-2026.tsv` contains factual references from oca.org, as Orthocal collected them.
+The package excludes liturgical composite wording.
 
 ## Hyphenation and fallback fonts
 

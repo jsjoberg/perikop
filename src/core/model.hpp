@@ -15,6 +15,9 @@ std::string date_swedish(CivilDate date);
 std::expected<CivilDate, std::string> parse_date(const std::string& value);
 enum class CalendarStyle { New, Old };
 enum class Theme { System, Light, Dark };
+// The reading order: the Antiochian Archdiocese's, the shared Greek lectionary
+// with the Greek Archdiocese's annual assignments, or the Slavic (OCA, Russian).
+enum class Tradition { Antiochian, Greek, Slavic };
 enum class ReadingKind { MorningPsalm, Epistle, Gospel, OldTestament, Vespers, EveningPsalm };
 struct VerseRef {
     int chapter = 1;
@@ -65,9 +68,10 @@ struct FeastRule {
     int pdist, month, day, rank;
     std::string title, feast, tradition;
 };
+// A published annual assignment of one jurisdiction: "greek" (GOA) or "antiochian".
 struct OrdoRule {
     int year, month, day, pdist;
-    std::string service;
+    std::string service, jurisdiction;
 };
 struct LiturgicalDay {
     CivilDate civil_date;
@@ -76,7 +80,10 @@ struct LiturgicalDay {
     // Fixed labels can include leap days that are invalid in the Gregorian calendar.
     std::optional<std::string> fixed_cycle;
     std::optional<std::string> paschal_cycle;
-    std::string annotation;
+    // Swedish names of the day and its feasts, joined by " · ".
+    std::string title;
+    // Whether a published annual assignment replaced a calculated reading.
+    bool annual = false;
 };
 struct DayReadings {
     LiturgicalDay day;
@@ -87,10 +94,10 @@ CivilDate orthodox_pascha(int year);
 CivilDate fixed_calendar_date(CivilDate, CalendarStyle);
 // Swedish form of an English day or feast title from the calendar tables.
 std::optional<std::string> swedish_title(const std::string&);
-class AntiochianLectionary {
+class Lectionary {
 public:
-    explicit AntiochianLectionary(const CorpusDb&);
-    DayReadings readings_for(CivilDate, CalendarStyle) const;
+    explicit Lectionary(const CorpusDb&);
+    DayReadings readings_for(CivilDate, CalendarStyle, Tradition) const;
 
 private:
     std::vector<ReadingRule> rules_;
@@ -133,6 +140,7 @@ struct Pronunciation {
 };
 struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
+    Tradition tradition = Tradition::Antiochian;
     Theme theme = Theme::System;
     int font_size = 19;
     // Left pane language: "sv", "el" or "en". It is also the language read aloud.

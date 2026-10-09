@@ -12,7 +12,7 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 4 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 5 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
@@ -356,10 +356,10 @@ std::vector<FeastRule> CorpusDb::feast_rules() const {
     return result;
 }
 std::vector<OrdoRule> CorpusDb::ordo_rules() const {
-    Statement q(db_.get(), "SELECT year,month,day,pdist,service FROM ordo_rule");
+    Statement q(db_.get(), "SELECT year,month,day,pdist,service,jurisdiction FROM ordo_rule");
     std::vector<OrdoRule> result;
     while (q.row())
-        result.push_back({q.number(0), q.number(1), q.number(2), q.number(3), q.text(4)});
+        result.push_back({q.number(0), q.number(1), q.number(2), q.number(3), q.text(4), q.text(5)});
     return result;
 }
 } // namespace ortho

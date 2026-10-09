@@ -12,7 +12,7 @@ The first release will be 0.1.0. Until then, this section collects everything.
 
 ### Added
 
-- Daily readings for the North American Antiochian tradition, calculated offline, with new and old calendar modes.
+- Daily readings in the Antiochian, Greek, or Slavic reading order, calculated offline, with new and old calendar modes.
 - Swedish Bible 1917 with the 1921 apocrypha, the Septuagint, the 1904 Patriarchal Greek New Testament, the King James Version, and the World English Bible.
 - A continuous reader framed by the Septuagint, with paragraph fitting, hyphenation, and a parallel language column.
 - Go to any passage with a book, chapter, and verse picker.

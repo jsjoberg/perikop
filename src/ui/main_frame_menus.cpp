@@ -13,6 +13,9 @@ void MainFrame::make_menus() {
         Pick,
         New,
         Old,
+        Antiochian,
+        Greek,
+        Slavic,
         Readings,
         Bible,
         System,
@@ -54,6 +57,12 @@ void MainFrame::make_menus() {
     calendar->AppendRadioItem(New, "Nya kalendern");
     calendar->AppendRadioItem(Old, "Gamla kalendern");
     calendar->Check(settings_.calendar == CalendarStyle::Old ? Old : New, true);
+    calendar->AppendSeparator();
+    // In Tradition order.
+    calendar->AppendRadioItem(Antiochian, "Antiokiska läsordningen");
+    calendar->AppendRadioItem(Greek, "Grekiska läsordningen");
+    calendar->AppendRadioItem(Slavic, "Slaviska läsordningen");
+    calendar->Check(Antiochian + int(settings_.tradition), true);
     auto* bible = new wxMenu;
     bible->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
     bible->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
@@ -170,8 +179,11 @@ void MainFrame::make_menus() {
                 review_pronunciation();
                 return;
             }
-            if (id == New || id == Old) {
-                settings_.calendar = id == Old ? CalendarStyle::Old : CalendarStyle::New;
+            if (id == New || id == Old || (id >= Antiochian && id <= Slavic)) {
+                if (id == New || id == Old)
+                    settings_.calendar = id == Old ? CalendarStyle::Old : CalendarStyle::New;
+                else
+                    settings_.tradition = static_cast<Tradition>(id - Antiochian);
                 if (!scripture_->IsShown())
                     refresh_day();
             } else if (id >= System && id <= Dark)

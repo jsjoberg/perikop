@@ -1,4 +1,4 @@
-// Swedish day and feast titles for the Antiochian calendar.
+// Swedish day and feast titles for the Greek, Antiochian and Slavic calendar tables.
 // Terms follow Kristi Uppståndelses ortodoxa församling (Göteborg, Antiochia)
 // where its texts use them; other titles use common Swedish Orthodox usage.
 #include "core/model.hpp"
@@ -177,6 +177,28 @@ const std::map<std::string, std::string>& names() {
         {"New Martyrs and Confessors of Russia", "Rysslands nya martyrer och bekännare"},
         {"Repose St. Tikhon, Patriarch of Moscow, Enlightener N. America",
          "Den helige Tichon, patriark av Moskva och Nordamerikas upplysare"},
+        {"St Raphael Bishop of Brooklyn", "Den helige Rafael, biskop av Brooklyn"},
+        // Slavic tradition. Slavic saints keep their Russian name forms.
+        {"Protection (Pokrov) of the Most-Holy Theotokos", "Gudaföderskans beskydd (Pokrov)"},
+        {"Repose St Innocent, Metr. Moscow and Apostle to Americas",
+         "Den helige Innokentij, metropolit av Moskva och Amerikas apostel"},
+        {"Trans. Rel. Boris and Gleb", "Återförandet av de heliga Boris och Glebs reliker"},
+        {"Martyrs Boris and Gleb, Passionbearers", "De heliga lidandesbärarna Boris och Gleb"},
+        {"Ven. Theodosius, Abbot of the Kiev Caves", "Den helige Feodosij, abbot i Kievs grottkloster"},
+        {"Ven. Anthony of the Kiev Caves", "Den helige Antonij av Kievs grottkloster"},
+        {"SS Cyril and Methodius, Apostles to the Slavs",
+         "De heliga Kyrillos och Methodios, slavernas apostlar"},
+        {"Great Prince Vladimir, Equal-to-the-Apostles, Enlightener of the Lands of Rus",
+         "Den helige storfursten Vladimir, apostlarnas like och upplysare av Rus"},
+        {"Unc. Rel. Ven. Seraphim of Sarov", "Fyndet av den helige Serafim av Sarovs reliker"},
+        {"Repose of St Jacob Netsvetov, Enlightener of the Peoples of Alaska",
+         "Den helige Jakov Netsvetov, upplysare av Alaskas folk"},
+        {"Ven. Job of Pochaev", "Den helige Iov av Potjajev"},
+        {"Repose of Ven. Sergius of Radonezh", "Den helige Sergij av Radonezj"},
+        {"Rt. Blv. Great Prince Alexander Nevsky", "Den helige storfursten Aleksandr Nevskij"},
+        {"Repose Ven. Herman of Alaska, Wonderworker of All America",
+         "Den helige German av Alaska, hela Amerikas undergörare"},
+        {"Repose of St. John of Kronstadt", "Den helige Ioann av Kronstadt"},
     };
     return table;
 }

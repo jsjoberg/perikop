@@ -149,7 +149,7 @@ void MainFrame::navigate(int days) {
     }
 }
 void MainFrame::refresh_day() {
-    day_ = lectionary_.readings_for(selected_.date(), settings_.calendar);
+    day_ = lectionary_.readings_for(selected_.date(), settings_.calendar, settings_.tradition);
     plan_tiles_.clear();
     date_buttons_.clear();
     home_labels_.clear();
@@ -192,13 +192,11 @@ void MainFrame::refresh_day() {
                                   }),
                        0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(8));
     entries_->Add(date_controls, 0, wxEXPAND | wxBOTTOM, FromDIP(8));
-    // The annotation reads "Pascha … · dag N · title"; the separator is four UTF-8 bytes.
-    const std::string separator = " · ";
-    const auto info =
-        day_.day.annotation.find(separator, day_.day.annotation.find(separator) + separator.size());
-    if (info != std::string::npos) {
-        auto* feast = new wxStaticText(home_content_, wxID_ANY,
-                                       ui::utf8(day_.day.annotation.substr(info + separator.size())));
+    auto heading = day_.day.title;
+    if (day_.day.annual)
+        heading += (heading.empty() ? "" : " · ") + std::string("publicerad årsanvisning");
+    if (!heading.empty()) {
+        auto* feast = new wxStaticText(home_content_, wxID_ANY, ui::utf8(heading));
         feast->SetFont(body_font(18));
         home_labels_.emplace_back(feast, feast->GetLabel());
         entries_->Add(feast, 0, wxBOTTOM, FromDIP(8));

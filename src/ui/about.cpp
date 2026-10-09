@@ -50,10 +50,10 @@ const std::vector<Section>& sections() {
            {"https://ebible.org/bible/details.php?id=eng-web"}}}},
         {"Läsordning",
          {{"Orthocal",
-           "Brian Glass. Perikoptabeller och kalenderregler. MIT.",
+           "Brian Glass. Perikoptabeller och kalenderregler för grekisk och slavisk läsordning. MIT.",
            {"https://github.com/brianglass/orthocal-python"}},
           {"Antiokiska ärkestiftet i Nordamerika",
-           "Bibelhänvisningarna i den officiella läsordningen för 2026.",
+           "Den antiokiska läsordningens egna läsningar, ur den officiella läsordningen för 2026.",
            {{"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
              "Liturgical%20Chart%20for%202026%20English.pdf",
              "Liturgical Chart for 2026 (PDF)"}}}}},

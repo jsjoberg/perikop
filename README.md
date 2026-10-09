@@ -2,7 +2,7 @@
 
 Perikop is an offline Orthodox lectionary reader for Windows, macOS, and Linux.
 It has a Swedish interface, Scripture in Swedish, Greek, and English, and Swedish read-aloud.
-Daily readings follow the North American Antiochian Greek tradition.
+Daily readings follow the Antiochian, Greek, or Slavic reading order, on the new or old calendar.
 The application is a prototype.
 
 ## Build

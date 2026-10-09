@@ -1,15 +1,18 @@
 # Validation record
 
-Local check date: October 6, 2026.
+Local check date: October 10, 2026.
 The release build used Apple Clang 17 on macOS 26.6.2, on Apple Silicon.
 The application targets macOS 11.0. wxWidgets 3.3.3 and SQLite 3.53.4 link statically.
 
-The core suite passed 7,099 checks for storage, date calculations, reading ranges, and pronunciation.
+The core suite passed 18,898 checks for storage, date calculations, reading ranges, and pronunciation.
 The suite compared all 52 Sunday reading pairs with the Antiochian 2026 chart.
+It compared the Slavic order with oca.org's daily readings for every day of 2026.
+On 330 days with comparable readings, the Slavic Epistle and Gospel are one of oca.org's pairs. On 293 days they are its first pair.
+Four other dates are known exceptions. The test names each exception and its cause.
 It also checked the October 5–6 daily references and official Pascha dates for 2026–2030.
 Computed Pascha readings passed for 2027–2035.
 All 52 Sunday pairs also match after removing every annual assignment.
-Every day passes in both modes for years 1, 2036, 2100, 2400, 2800, 5000, and 9999.
+Every day passes in all three reading orders and both calendars for years 1, 2036, 2100, 2400, 2800, 5000, and 9999.
 The complete 532-year Paschal cycle retains its Julian dates and Sunday weekday.
 New Calendar leap tests cover its Revised Julian divergence in 2800 and 2900.
 Serbian publications supply four shared feast dates and two exact Gospel ranges.
@@ -46,9 +49,10 @@ The date model test simulates a clock change. It does not replace an overnight s
 
 ## Remaining scope
 
-Calendar rules and references are computed offline. Later annual Antiochian instructions can change particular assignments.
-The 2026 Sunday chart is the completed independent comparison. Other complete years have not received this comparison.
-Old calendar mode applies Greek rules to Julian fixed dates. It does not represent a separate approved Antiochian jurisdiction.
+Calendar rules and references are computed offline. Later annual instructions from each jurisdiction can change particular assignments.
+The Antiochian 2026 Sunday chart and oca.org's 2026 readings are the completed independent comparisons. Other complete years have not received them.
+No independent source has been compared with the Greek order's daily readings.
+Old calendar mode applies each reading order to Julian fixed dates. The Serbian publications above confirm two Slavic Gospels.
 
 Each publisher's complete available edition is bundled.
 Some books exist in only one language. Empty publisher placeholders are excluded.

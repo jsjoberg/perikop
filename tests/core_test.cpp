@@ -28,8 +28,8 @@ ortho::CivilDate date(const char* value) {
 int main(int argc, char** argv) {
     try {
         using namespace ortho;
-        if (argc != 4)
-            throw std::runtime_error("Usage: ortho-tests CORPUS USER CHART");
+        if (argc != 5)
+            throw std::runtime_error("Usage: ortho-tests CORPUS USER CHART OCA");
         check(shift_date(date("2024-02-28"), 1) == date("2024-02-29"), "leap day");
         check(shift_date(date("2026-12-31"), 1) == date("2027-01-01"), "year navigation");
         check(shift_date(date("2026-03-01"), -1) == date("2026-02-28"), "backwards navigation");
@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
         const auto greek_paragraphs = corpus.paragraph_starts("grc-lxx", "Gen");
         check(std::binary_search(greek_paragraphs.begin(), greek_paragraphs.end(), VerseRef{1, 6}),
               "original USFM Greek paragraph boundary");
-        AntiochianLectionary lectionary(corpus);
+        Lectionary lectionary(corpus);
         for (const auto& feast : corpus.feast_rules())
             for (const auto& name : {feast.title, feast.feast})
                 if (!name.empty() && !swedish_title(name))
@@ -72,7 +72,8 @@ int main(int argc, char** argv) {
         check(swedish_title("Sunday before Nativity – Eve of Nativity") ==
                   "Söndagen före Kristi födelse · Julafton",
               "Coinciding Swedish titles");
-        const auto today = lectionary.readings_for(date("2026-10-05"), CalendarStyle::New);
+        const auto today =
+            lectionary.readings_for(date("2026-10-05"), CalendarStyle::New, Tradition::Antiochian);
         check(today.readings.size() == 2, "Antiochian daily pair");
         check(today.readings[0].passage.book == "Phil" && today.readings[0].passage.first == VerseRef{1, 1} &&
                   today.readings[0].passage.last == VerseRef{1, 7},
@@ -81,13 +82,14 @@ int main(int argc, char** argv) {
                   today.readings[1].passage.first == VerseRef{6, 24} &&
                   today.readings[1].passage.last == VerseRef{6, 30},
               "official Oct 5 gospel");
-        auto old = lectionary.readings_for(date("2026-10-06"), CalendarStyle::Old);
-        auto modern = lectionary.readings_for(date("2026-10-06"), CalendarStyle::New);
+        auto old = lectionary.readings_for(date("2026-10-06"), CalendarStyle::Old, Tradition::Antiochian);
+        auto modern = lectionary.readings_for(date("2026-10-06"), CalendarStyle::New, Tradition::Antiochian);
         check(old.day.civil_date == modern.day.civil_date, "calendar shifts civil date");
         check(old.day.fixed_cycle == "2026-09-23" && modern.day.fixed_cycle == "2026-10-06",
               "independent fixed cycle");
         check(old.day.fixed_cycle && old.day.paschal_cycle, "computed calendar cycles");
-        check(!lectionary.readings_for(date("2030-01-01"), CalendarStyle::New).readings.empty(),
+        check(!lectionary.readings_for(date("2030-01-01"), CalendarStyle::New, Tradition::Antiochian)
+                   .readings.empty(),
               "future recurring readings");
         check(orthodox_pascha(2026) == date("2026-04-12") && orthodox_pascha(2027) == date("2027-05-02"),
               "official Pascha dates");
@@ -100,12 +102,14 @@ int main(int argc, char** argv) {
               "Serbian Theophany fixed date");
         check(fixed_calendar_date(date("2026-09-27"), CalendarStyle::Old) == date("2026-09-14"),
               "Serbian Elevation fixed date");
-        const auto serbian_sunday = lectionary.readings_for(date("2026-01-11"), CalendarStyle::Old);
+        const auto serbian_sunday =
+            lectionary.readings_for(date("2026-01-11"), CalendarStyle::Old, Tradition::Antiochian);
         check(serbian_sunday.readings[1].passage.book == "Matt" &&
                   serbian_sunday.readings[1].passage.first == VerseRef{2, 13} &&
                   serbian_sunday.readings[1].passage.last == VerseRef{2, 23},
               "Serbian Sunday after Nativity Gospel");
-        const auto serbian_pascha = lectionary.readings_for(date("2026-04-12"), CalendarStyle::Old);
+        const auto serbian_pascha =
+            lectionary.readings_for(date("2026-04-12"), CalendarStyle::Old, Tradition::Antiochian);
         check(serbian_pascha.readings[1].passage.book == "John" &&
                   serbian_pascha.readings[1].passage.first == VerseRef{1, 1} &&
                   serbian_pascha.readings[1].passage.last == VerseRef{1, 17},
@@ -122,12 +126,13 @@ int main(int argc, char** argv) {
             const auto start = std::chrono::year{year} / 1 / 1;
             const int length = std::chrono::year{year}.is_leap() ? 366 : 365;
             for (int i = 0; i < length; ++i)
-                for (auto style : {CalendarStyle::New, CalendarStyle::Old}) {
-                    const auto civil = shift_date(start, i);
-                    const auto computed = lectionary.readings_for(civil, style);
-                    check(computed.day.civil_date == civil && !computed.readings.empty(),
-                          "calculated calendar horizon contains a gap");
-                }
+                for (auto style : {CalendarStyle::New, CalendarStyle::Old})
+                    for (auto tradition : {Tradition::Antiochian, Tradition::Greek, Tradition::Slavic}) {
+                        const auto civil = shift_date(start, i);
+                        const auto computed = lectionary.readings_for(civil, style, tradition);
+                        check(computed.day.civil_date == civil && !computed.readings.empty(),
+                              "calculated calendar horizon contains a gap");
+                    }
         }
         // The Julian computus repeats over 532 years; civil dates do not.
         for (int year = 2000; year < 2532; ++year) {
@@ -149,7 +154,7 @@ int main(int argc, char** argv) {
               "remove every annual assignment");
         sqlite3_close(calculated_db);
         auto calculated_corpus = std::make_unique<CorpusDb>(calculated_path);
-        AntiochianLectionary calculated_calendar(*calculated_corpus);
+        Lectionary calculated_calendar(*calculated_corpus);
         std::ifstream chart(argv[3]);
         check(bool(chart), "official chart fixture missing");
         std::string line;
@@ -158,9 +163,10 @@ int main(int argc, char** argv) {
             std::istringstream row(line);
             std::string iso, expected;
             std::getline(row, iso, '\t');
-            const auto result = lectionary.readings_for(parse_date(iso).value(), CalendarStyle::New);
-            const auto calculated =
-                calculated_calendar.readings_for(parse_date(iso).value(), CalendarStyle::New);
+            const auto result =
+                lectionary.readings_for(parse_date(iso).value(), CalendarStyle::New, Tradition::Antiochian);
+            const auto calculated = calculated_calendar.readings_for(
+                parse_date(iso).value(), CalendarStyle::New, Tradition::Antiochian);
             check(calculated.readings.size() == result.readings.size(),
                   "annual table masks a recurring calculation error");
             for (std::size_t i = 0; i < result.readings.size(); ++i) {
@@ -195,18 +201,122 @@ int main(int argc, char** argv) {
         check(sundays == 52, "incomplete Sunday audit");
         calculated_corpus.reset();
         std::filesystem::remove(calculated_path);
-        const auto thomas = lectionary.readings_for(date("2026-10-06"), CalendarStyle::New);
+        // The Antiochian variants and the jurisdictions' annual assignments apply only to their reading
+        // order.
+        const auto first_reading = [&](const char* iso, Tradition tradition, std::size_t index = 0) {
+            const auto readings = lectionary.readings_for(date(iso), CalendarStyle::New, tradition).readings;
+            check(index < readings.size(), "missing reading");
+            return readings[index].passage;
+        };
+        check(first_reading("2026-05-10", Tradition::Antiochian).last == VerseRef{11, 30} &&
+                  first_reading("2026-05-10", Tradition::Greek).last == VerseRef{11, 26},
+              "Antiochian Samaritan Sunday Epistle only in its own order");
+        check(first_reading("2026-06-14", Tradition::Antiochian).book == "Acts" &&
+                  first_reading("2026-06-14", Tradition::Greek).book == "Rom" &&
+                  first_reading("2026-06-14", Tradition::Slavic).book == "Rom",
+              "All Saints of Antioch only in the Antiochian order");
+        check(lectionary.readings_for(date("2026-06-14"), CalendarStyle::New, Tradition::Antiochian)
+                      .day.title.find("Alla Antiokias helgon") != std::string::npos,
+              "All Saints of Antioch title");
+        check(first_reading("2026-01-24", Tradition::Antiochian, 1).first !=
+                  first_reading("2026-01-24", Tradition::Greek, 1).first,
+              "each jurisdiction's own annual assignment");
+        check(lectionary.readings_for(date("2027-01-26"), CalendarStyle::New, Tradition::Greek).day.annual &&
+                  !lectionary.readings_for(date("2027-01-26"), CalendarStyle::New, Tradition::Slavic)
+                       .day.annual,
+              "Greek 2027 annual assignment");
+        for (const auto* iso : {"2026-01-11", "2026-04-12"}) {
+            const auto greek = lectionary.readings_for(date(iso), CalendarStyle::Old, Tradition::Antiochian);
+            const auto slavic = lectionary.readings_for(date(iso), CalendarStyle::Old, Tradition::Slavic);
+            check(slavic.readings.size() == 2 &&
+                      slavic.readings[1].passage.first == greek.readings[1].passage.first,
+                  "Serbian published Gospel in the Slavic order");
+        }
+        // oca.org's printed daily pairs for 2026. The Slavic order's Epistle and Gospel must be
+        // one of them, within a verse for translation boundaries, except on these dates.
+        const std::map<std::string, std::string> oca_exceptions = {
+            {"2026-02-24", "Orthocal reads no fixed propers in Clean Week"},
+            {"2026-02-27", "Orthocal reads no fixed propers in Clean Week"},
+            {"2026-10-31", "oca.org's saint is not in Orthocal's tables"},
+            {"2026-11-08", "Orthocal reads the Unmercenaries on the Sunday after November 1"}};
+        std::ifstream oca(argv[4]);
+        check(bool(oca), "oca.org fixture missing");
+        int compared = 0, leading = 0;
+        std::set<std::string> excepted;
+        while (std::getline(oca, line)) {
+            if (line.empty() || line.front() == '#')
+                continue;
+            std::istringstream row(line);
+            std::string iso, field;
+            std::getline(row, iso, '\t');
+            using Start = std::tuple<std::string, int, int>;
+            const auto start = [](const std::string& token) -> std::optional<Start> {
+                const auto at = token.rfind('_');
+                if (token == "-" || at == std::string::npos)
+                    return std::nullopt;
+                const int value = std::stoi(token.substr(at + 1));
+                return Start{token.substr(0, at), value / 1000, value % 1000};
+            };
+            std::vector<std::pair<std::optional<Start>, std::optional<Start>>> pairs;
+            while (std::getline(row, field, '\t')) {
+                const auto space = field.find(' ');
+                pairs.emplace_back(start(field.substr(0, space)), start(field.substr(space + 1)));
+            }
+            std::optional<Start> epistle, gospel;
+            for (const auto& reading :
+                 lectionary.readings_for(date(iso.c_str()), CalendarStyle::New, Tradition::Slavic).readings) {
+                const Start here{reading.passage.book, reading.passage.first.chapter,
+                                 reading.passage.first.verse};
+                if (reading.kind == ReadingKind::Epistle)
+                    epistle = here;
+                if (reading.kind == ReadingKind::Gospel)
+                    gospel = here;
+            }
+            const auto near = [](const std::optional<Start>& a, const std::optional<Start>& b) {
+                return a && b && std::get<0>(*a) == std::get<0>(*b) && std::get<1>(*a) == std::get<1>(*b) &&
+                       std::abs(std::get<2>(*a) - std::get<2>(*b)) <= 1;
+            };
+            const bool complete = std::ranges::any_of(pairs, [](const auto& pair) {
+                return pair.first && pair.second;
+            });
+            std::optional<std::size_t> found;
+            for (std::size_t i = 0; i < pairs.size() && !found; ++i)
+                if (near(epistle, pairs[i].first) && near(gospel, pairs[i].second))
+                    found = i;
+            // Holy Week and Lenten weekdays: oca.org prints no complete pair, or this order reads prophecies.
+            if (!complete || (!epistle && !gospel) || found) {
+                if (complete && !found)
+                    excepted.insert(iso);
+                if (found) {
+                    ++compared;
+                    leading += *found == 0;
+                }
+                continue;
+            }
+            excepted.insert(iso);
+        }
+        for (const auto& iso : excepted)
+            check(oca_exceptions.contains(iso), "Slavic order differs from oca.org on " + iso);
+        check(excepted.size() == oca_exceptions.size(), "an oca.org exception no longer applies");
+        check(compared >= 330 && leading >= 293,
+              "Slavic order agreement with oca.org regressed: " + std::to_string(leading) + " of " +
+                  std::to_string(compared));
+        const auto thomas =
+            lectionary.readings_for(date("2026-10-06"), CalendarStyle::New, Tradition::Antiochian);
         check(thomas.readings.size() == 2 && thomas.readings[0].passage.book == "1Cor" &&
                   thomas.readings[1].passage.book == "John",
               "Antiochian Apostle Thomas propers");
         check(orthodox_pascha(2028) == date("2028-04-16") && orthodox_pascha(2029) == date("2029-04-08") &&
                   orthodox_pascha(2030) == date("2030-04-28"),
               "official future Pascha dates");
-        const auto pentecost = lectionary.readings_for(date("2026-05-31"), CalendarStyle::New).readings[1];
+        const auto pentecost =
+            lectionary.readings_for(date("2026-05-31"), CalendarStyle::New, Tradition::Antiochian)
+                .readings[1];
         check(pentecost.contains({7, 37}) && !pentecost.contains({8, 1}) && pentecost.contains({8, 12}),
               "omitted Pentecost verses must stay omitted");
         for (int year = 2027; year <= 2035; ++year) {
-            const auto pascha = lectionary.readings_for(orthodox_pascha(year), CalendarStyle::New);
+            const auto pascha =
+                lectionary.readings_for(orthodox_pascha(year), CalendarStyle::New, Tradition::Antiochian);
             check(pascha.readings.size() == 2 && pascha.readings[0].passage.book == "Acts" &&
                       pascha.readings[0].passage.first == VerseRef{1, 1} &&
                       pascha.readings[1].passage.book == "John",
@@ -530,10 +640,12 @@ int main(int argc, char** argv) {
         {
             UserDb user(user_path);
             auto s = user.load();
-            check(s.theme == Theme::System && s.speech_voice == "alice" && !s.speech_highlight,
-                  "default theme, voice, and disabled read-aloud highlight");
+            check(s.theme == Theme::System && s.speech_voice == "alice" && !s.speech_highlight &&
+                      s.tradition == Tradition::Antiochian,
+                  "default theme, voice, reading order, and disabled read-aloud highlight");
             s.theme = Theme::Dark;
             s.calendar = CalendarStyle::Old;
+            s.tradition = Tradition::Slavic;
             s.primary = "el";
             s.parallel = "en";
             s.font_size = 24;
@@ -545,9 +657,10 @@ int main(int argc, char** argv) {
         {
             UserDb user(user_path);
             auto s = user.load();
-            check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old && s.primary == "el" &&
-                      s.parallel == "en" && s.font_size == 24 && s.speech_rate == 175 &&
-                      s.speech_voice == "bjorn" && s.speech_highlight,
+            check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old &&
+                      s.tradition == Tradition::Slavic && s.primary == "el" && s.parallel == "en" &&
+                      s.font_size == 24 && s.speech_rate == 175 && s.speech_voice == "bjorn" &&
+                      s.speech_highlight,
                   "persisted settings");
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");
