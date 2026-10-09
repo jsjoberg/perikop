@@ -218,6 +218,11 @@ jobs:
           $env:PATH = "${env:ProgramFiles(x86)}\NSIS;$env:PATH"
           cpack --config build/cmake/CPackConfig.cmake -B build/package
           if ($LASTEXITCODE -ne 0) { throw 'Windows packaging failed' }
+          $script = Get-Content build/package/_CPack_Packages/windows-x64/NSIS/project.nsi -Raw
+          $languages = [regex]::Matches($script, '!insertmacro MUI_LANGUAGE "([^"]+)"')
+          if ($languages.Count -ne 1 -or $languages[0].Groups[1].Value -ne 'Swedish') {
+            throw 'Installer must include only the Swedish language'
+          }
           $header = Get-Content build/cmake/generated/perikop_version.hpp -Raw
           if ($header -notmatch '#define PERIKOP_VERSION "([^"]+)"') { throw 'Build version missing' }
           $expected = $Matches[1]
