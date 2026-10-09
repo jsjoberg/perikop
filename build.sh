@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release "$@"
+cmake -S . -B build/cmake "$@"
 cmake --build build/cmake --parallel

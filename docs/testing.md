@@ -47,3 +47,11 @@ This test requires the pinned local voice pack. It rejects token-limit truncatio
 
 The [corpus guide](corpus.md#rebuild-and-check-resources) describes resource preparation and resource checks.
 The [validation record](validation.md) contains dated local results and outstanding platform checks.
+
+The icon checks use only Python's standard library:
+
+```sh
+uv run --locked tests/icon_test.py
+```
+
+They check the ICO and ICNS sizes, PNG payloads, and rejection of invalid PNG headers.

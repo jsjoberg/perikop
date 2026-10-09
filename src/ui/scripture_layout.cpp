@@ -19,24 +19,30 @@ int ScriptureView::columns_count() const {
 }
 int ScriptureView::outside_margin() const {
     const int width = GetClientSize().x;
-    if (columns_count() == 1)
-        return std::max(32, (width - std::min(FromDIP(680), width - 64)) / 2);
-    return std::clamp(width / 14, 32, 105);
+    if (columns_count() == 1) {
+        // Fonts use points: macOS has 72 logical pixels per inch, Windows has 96.
+        // Keep the same reading measure relative to the font on both platforms.
+        wxClientDC dc(const_cast<ScriptureView*>(this));
+        const int limit = 680 * dc.GetPPI().x / 72;
+        return std::max(FromDIP(32), (width - std::min(limit, width - FromDIP(64))) / 2);
+    }
+    return std::clamp(width / 14, FromDIP(32), FromDIP(105));
 }
 bool ScriptureView::stacked_columns() const {
-    return (GetClientSize().x - 2 * outside_margin()) / columns_count() < 270;
+    return (GetClientSize().x - 2 * outside_margin()) / columns_count() < FromDIP(270);
 }
 int ScriptureView::column_stride() const {
     const int usable = GetClientSize().x - 2 * outside_margin();
-    return (usable - 44 * (columns_count() - 1)) / columns_count() + 44;
+    const int gap = FromDIP(44);
+    return (usable - gap * (columns_count() - 1)) / columns_count() + gap;
 }
 int ScriptureView::estimated_height(const Row& row) const {
     return row.heading ? FromDIP(124) : FromDIP(150);
 }
 int ScriptureView::column_width() const {
-    const int usable = std::max(120, GetClientSize().x - 2 * outside_margin());
-    const bool stacked = usable / columns_count() < 270;
-    return stacked ? usable - 30 : (usable - 44 * (columns_count() - 1)) / columns_count() - 30;
+    const int usable = std::max(FromDIP(120), GetClientSize().x - 2 * outside_margin());
+    return stacked_columns() ? usable - FromDIP(30)
+                             : (usable - FromDIP(44) * (columns_count() - 1)) / columns_count() - FromDIP(30);
 }
 void ScriptureView::open(const Reading& reading) {
     reading_ = reading;

@@ -100,7 +100,7 @@ Do not introduce C++ modules at this stage.
 The normal developer workflow should stay close to:
 
 ```sh
-cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build/cmake
 cmake --build build/cmake --parallel
 ```
 

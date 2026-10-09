@@ -231,7 +231,7 @@
     {
       "path": "resources/icons/orthodox-cross.svg",
       "license": "MIT",
-      "sha256": "bf1dfe3590fd0c5eea531360fa51b2f3950c19b2e7dabe67354ad8145dd6d2f2"
+      "sha256": "53c3ed4be170ef1acd4c1b0625a21c1fa233a8cf6041081f9b894b3b275dff29"
     },
     {
       "path": "resources/icons/orthodox-cross.png",
@@ -241,7 +241,7 @@
     {
       "path": "resources/icons/OrthodoxReader.icns",
       "license": "MIT",
-      "sha256": "45f19d351b8ebc3e6c56dd12a89c7b0fc9faaa02f20f605c3ea2e9f6c6ca0c48"
+      "sha256": "a959ee5eeb8c858e38a08b675694e2a3b313aecb5f381b118c690d8e1d42c1e7"
     },
     {
       "path": "resources/icons/OrthodoxReader.ico",
@@ -398,6 +398,11 @@
       "sha256": "af5e1f9dde5c8f50fb8db07fd5d302023b2862b25af9468cfc76821fa7772052",
       "license": "MIT",
       "role": "Curated Swedish 1917 biblical name forms and their Nyström headwords"
+    },
+    {
+      "path": "resources/icons/OrthodoxReader.iconset/icon_48x48.png",
+      "license": "MIT",
+      "sha256": "a9244464b6d2b37ce4b07805a35a30f1fb2ef2263e4dd9b1e8a56646b72ac387"
     }
   ],
   "build_dependencies": [

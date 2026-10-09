@@ -10,9 +10,11 @@ The application is a prototype.
 Use CMake 3.24 or later and a C++23 compiler with `std::expected`:
 
 ```sh
-cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build/cmake
 cmake --build build/cmake --parallel
 ```
+
+On Windows, run `build.cmd` in the w64devkit shell.
 
 See the [build guide](docs/building.md) for platform requirements, the voice pack, and run commands.
 

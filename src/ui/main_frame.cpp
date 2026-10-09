@@ -123,7 +123,9 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     show_readings();
     apply_settings(false);
     const auto work = wxGetClientDisplayRect();
-    SetSize(std::min(1120, work.width - 48), std::min(900, work.height - 48));
+    const auto desired = FromDIP(wxSize(1120, 900));
+    const int inset = FromDIP(48);
+    SetSize(std::min(desired.x, work.width - inset), std::min(desired.y, work.height - inset));
     Center();
     Bind(wxEVT_SYS_COLOUR_CHANGED, [this](wxSysColourChangedEvent& e) {
         if (settings_.theme == Theme::System)

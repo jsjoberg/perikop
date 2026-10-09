@@ -211,6 +211,32 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (optical.lines.front().left_protrusion <= 0 || optical.lines.back().right_protrusion <= 0)
         fail(__LINE__);
     settings_.theme = Theme::Light;
+    settings_.parallel.clear();
+    settings_.word_study = false;
+    settings_.font_size = 19;
+    apply_settings(false);
+    scripture_->center_passage();
+    {
+        // A wide single column must retain its reading measure in font points.
+        // The old 680-DIP cap fitted about 25 em on Windows versus 34 em on macOS.
+        const auto image = render();
+        const auto colors = palette(settings_.theme);
+        int first = image.GetWidth(), last = -1;
+        for (int y = scripture_->FromDIP(160); y < image.GetHeight() - scripture_->FromDIP(90); ++y)
+            for (int x = 0; x < image.GetWidth(); ++x)
+                if (image.GetRed(x, y) != colors.paper.Red() ||
+                    image.GetGreen(x, y) != colors.paper.Green() ||
+                    image.GetBlue(x, y) != colors.paper.Blue()) {
+                    first = std::min(first, x);
+                    last = std::max(last, x);
+                }
+        const double em = 19.0 * metrics.GetPPI().x / 72.0;
+        // Allow the page margins when the CI display cannot fit the full column.
+        const double minimum = std::min(32 * em, double(image.GetWidth() - scripture_->FromDIP(110)));
+        if (last - first + 1 < minimum)
+            fail(__LINE__);
+        save(image, "-single");
+    }
     settings_.parallel = "el";
     apply_settings(false);
     scripture_->center_passage();

@@ -28,10 +28,42 @@ sudo apt-get update
 sudo apt-get install -y g++-15
 ```
 
-## Prepare read-aloud
+## Build
+
+Run these commands from the repository directory:
+
+```sh
+cmake -S . -B build/cmake
+cmake --build build/cmake --parallel
+```
+
+CMake defaults to Release for generators with one build configuration.
+On Linux, CMake selects the installed `gcc-15` and `g++-15` pair.
+Explicit compiler options, `CC`, `CXX`, and toolchain files take precedence.
+For a debug build, add `-DCMAKE_BUILD_TYPE=Debug`.
+
+The first build downloads pinned wxWidgets, SQLite, and portable speech dependencies.
+CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside the application.
+The remaining libraries build statically.
+The application has no runtime scripting dependency.
+
+See [the architecture guide](architecture.md) for code boundaries and formatting commands.
+
+On Windows, run `build.cmd` in the w64devkit shell.
+The script selects the MinGW Makefiles generator and runs both build commands.
+On macOS or Linux, `./build.sh` runs both commands.
+
+For a development build with installed wxWidgets, add `-DORTHO_SYSTEM_WX=ON`.
+The default build uses the pinned static library.
+
+The application builds without Python, Swift, or a voice pack.
+CI supplies extra options for compiler caching, static analysis, and release packaging.
+These options are optional for local builds.
+
+## Optional read-aloud
 
 The Alice and Björn voice pack occupies about 180 MB.
-Prepare it before the build:
+To include read-aloud, prepare the pack before the build:
 
 ```sh
 uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
@@ -46,35 +78,22 @@ Use `uv` for all Python preparation commands.
 The distributed application needs neither Python nor `uv`.
 The [Kokoro voice guide](kokoro-voices.md) describes the models, export checks, and samples.
 
-## Build
+## Update the icon
 
-Run these commands from the repository directory:
+The repository includes the SVG artwork, PNG sizes, Windows ICO, and macOS ICNS.
+Normal builds use these files directly.
 
-```sh
-cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
-cmake --build build/cmake --parallel
-```
-
-On Linux, select GCC 15 explicitly:
+After an artwork change, export the PNG sizes into `resources/icons/OrthodoxReader.iconset`.
+Export the 1024-pixel PNG as `resources/icons/orthodox-cross.png` for the embedded application icon.
+Then package the native icons:
 
 ```sh
-cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_C_COMPILER=gcc-15 -DCMAKE_CXX_COMPILER=g++-15
-cmake --build build/cmake --parallel
+uv run --locked tools/make_icon.py
 ```
 
-The first build downloads pinned wxWidgets, SQLite, and portable speech dependencies.
-CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside the application.
-The remaining libraries build statically.
-The application has no runtime scripting dependency.
-
-See [the architecture guide](architecture.md) for code boundaries and formatting commands.
-
-If you use w64devkit, run `build.cmd` in its shell.
-The script selects the MinGW Makefiles generator.
-
-For a development build with installed wxWidgets, add `-DORTHO_SYSTEM_WX=ON`.
-The default build uses the pinned static library.
+The tool uses only Python's standard library and runs on all three platforms.
+It preserves the PNG artwork, including the 48-pixel Windows icon.
+For the default output directory, it also updates the icon hashes in `resources/manifest.json`.
 
 ## Reuse dependency sources
 

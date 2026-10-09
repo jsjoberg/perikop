@@ -55,10 +55,10 @@ jobs:
           # ccache cannot reuse precompiled headers, so wxWidgets builds without them in CI.
           cache="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF"
           if [ "$RUNNER_OS" = Linux ]; then
-            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-15 -DCMAKE_CXX_COMPILER=g++-15 $cache
+            cmake -S . -B build/cmake $cache
           else
             llvm="$(brew --prefix llvm@23)/bin"
-            cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release $cache \
+            cmake -S . -B build/cmake $cache \
               "-DORTHO_CLANG_TIDY=$llvm/clang-tidy" "-DORTHO_RUN_CLANG_TIDY=$llvm/run-clang-tidy"
           fi
       - run: cmake --build build/cmake --parallel 3
@@ -100,6 +100,7 @@ jobs:
         with:
           version: "0.8.16"
       - run: uv run --locked tools/check_resources.py
+      - run: uv run --locked tests/icon_test.py
       - name: Package
         if: env.PACKAGE == 'true'
         shell: bash
@@ -159,7 +160,7 @@ jobs:
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
           $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
           if (-not $runtime) { throw 'Visual C++ runtime not found' }
-          cmake -S . -B build/cmake -G Ninja -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
+          cmake -S . -B build/cmake -G Ninja "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
             -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
       - run: cmake --build build/cmake --parallel 4
       - name: Windows version and icon resources
@@ -193,6 +194,7 @@ jobs:
         with:
           version: "0.8.16"
       - run: uv run --locked tools/check_resources.py
+      - run: uv run --locked tests/icon_test.py
       - name: Package
         # PRs also compile the installer and check its Windows product-version metadata.
         if: env.PACKAGE == 'true' || github.event_name == 'pull_request'

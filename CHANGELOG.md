@@ -34,6 +34,9 @@ The first release will be 0.1.0. Until then, this section collects everything.
 
 ### Changed
 
+- CMake defaults to Release and selects an installed GCC 15 pair on Linux. Local build commands need fewer options.
+- A portable Python tool packages the existing icon artwork. Swift is no longer required for icon preparation.
+- The single-column reader width accounts for font resolution on Windows. Page spacing and the initial window size also follow display scaling.
 - Read-aloud text highlighting is off by default. Saved choices still apply.
 - Windows executable and installer metadata show the full release version, including prerelease suffixes.
 - Application icons are embedded in the executable. Installed resources no longer contain an icons folder.
