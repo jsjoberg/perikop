@@ -57,8 +57,8 @@ Empty book and verse placeholders are excluded.
   The publisher dedicates the text to the public domain. Its name remains a trademark.
   https://ebible.org/bible/details.php?id=eng-web
 
-The manifest records input URLs, revisions, and SHA-256 hashes.
-Complete JSON and USFM inputs remain bundled for offline reproduction.
+The source repository's `resources/manifest.json` records input URLs, revisions, and SHA-256 hashes.
+The source repository keeps the complete JSON and USFM inputs for offline reproduction.
 USFM notes, headings, and Strong's attributes remain outside displayed Scripture.
 The importer preserves verse wording, joined verse ranges, and lettered verse labels.
 Greek Daniel uses the publisher's DAG file. Greek Ezra includes Nehemiah within its source numbering.

@@ -211,6 +211,14 @@ if(ORTHO_BUILD_GUI)
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/resources" "${resource_destination}"
         # Icons are embedded; macOS gets its OS bundle icon separately.
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/icons"
+        # The program reads only the built databases; their inputs stay in the source tree.
+        COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/corpus/input"
+            "${resource_destination}/corpus/provenance" "${resource_destination}/lectionary"
+        COMMAND ${CMAKE_COMMAND} -E rm -f "${resource_destination}/manifest.json"
+            "${resource_destination}/corpus/schema.sql" "${resource_destination}/corpus/alignment.tsv"
+            "${resource_destination}/corpus/books.tsv" "${resource_destination}/corpus/canon.tsv"
+            "${resource_destination}/corpus/pronunciation-sv.tsv"
+            "${resource_destination}/lexicon/sv1917-forms.tsv" "${resource_destination}/lexicon/sv1917-biblical-forms.tsv"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"
