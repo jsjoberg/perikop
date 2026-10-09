@@ -3,7 +3,7 @@
 ## Requirements
 
 - CMake 3.24 or later and a C++23 compiler with `std::expected`.
-- Windows 10 or later, x86-64: w64devkit with MinGW-w64 GCC 13 or later.
+- Windows 10 or later, x86-64: w64devkit with MinGW-w64 GCC 15 or later.
 - Linux x86-64: GCC 15 or later, GTK3 development headers, and Fontconfig development headers.
 - macOS: Apple Clang 16 or later and the Xcode command-line tools.
 
@@ -18,15 +18,21 @@ require Windows 10 or later.
 Windows 7, 8, 8.1, and XP need a different speech runtime and separate validation.
 CI builds on Windows Server 2025. Execution on Windows 10 still needs validation.
 
-CI uses GCC 15 from the Ubuntu toolchain PPA on Ubuntu 24.04.
-This keeps the AppImage's glibc baseline at 2.39.
-On Ubuntu 24.04, install the compiler:
+CI uses stable GCC 15 on both Windows and Linux.
+Windows CI uses [w64devkit 2.7.0](https://github.com/skeeto/w64devkit/releases/tag/v2.7.0), which contains GCC 15.2.0.
+Linux CI uses the distribution's GCC Toolset 15 inside Rocky Linux 9.
+The packaged app targets glibc 2.34, which includes enterprise Linux 9 and Ubuntu 22.04 or later.
+Desktop and read-aloud compatibility on these systems still need validation.
+
+On RHEL 9 or Rocky Linux 9, install and enable the compiler:
 
 ```sh
-sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get install -y g++-15
+sudo dnf install gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ gtk3-devel fontconfig-devel cmake make
+scl enable gcc-toolset-15 bash
 ```
+
+The toolset leaves the system compiler and glibc in place.
+On Debian or Ubuntu, install a stable GCC 15 package from a trusted repository for your distribution.
 
 ## Build
 
@@ -44,6 +50,7 @@ For a debug build, add `-DCMAKE_BUILD_TYPE=Debug`.
 
 The first build downloads pinned wxWidgets, SQLite, and portable speech dependencies.
 CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside the application.
+Linux GNU builds also carry the selected compiler's `libstdc++` and `libgcc_s` beside the application.
 The remaining libraries build statically.
 The application has no runtime scripting dependency.
 

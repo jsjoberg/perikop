@@ -25,5 +25,8 @@ cd "$source/build/package"
 PATH="$tools:$PATH" APPIMAGE_EXTRACT_AND_RUN=1 DEPLOY_GTK_VERSION=3 \
     LINUXDEPLOY_OUTPUT_VERSION=$(sed -n 's/^project(perikop VERSION \([^ ]*\).*/\1/p' "$source/CMakeLists.txt") \
     "$tools/linuxdeploy-x86_64.AppImage" --appdir "$appdir" --executable "$appdir/usr/bin/perikop" \
+    --library "$appdir/usr/bin/libstdc++.so.6" --library "$appdir/usr/bin/libgcc_s.so.1" \
     --desktop-file "$source/cmake/perikop.desktop" --icon-file "$tools/perikop.png" \
     --plugin gtk --output appimage
+# Also check GTK libraries and AppRun added by the packaging tools.
+python3 "$source/tools/check_linux_abi.py" "$appdir"

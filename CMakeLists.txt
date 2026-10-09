@@ -12,9 +12,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 # Perikop uses no C++ modules. Scanning for them slows builds and stops ccache from caching GCC compiles.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU"
+if((CMAKE_SYSTEM_NAME STREQUAL "Linux" OR WIN32) AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU"
         AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 15)
-    message(FATAL_ERROR "Linux builds require GCC 15 or later. Reconfigure with -DCMAKE_C_COMPILER=gcc-15 -DCMAKE_CXX_COMPILER=g++-15.")
+    if(WIN32)
+        message(FATAL_ERROR "Windows builds require GCC 15 or later. Use a stable w64devkit release and configure in its shell.")
+    else()
+        message(FATAL_ERROR "Linux builds require GCC 15 or later. Install gcc-15 and g++-15 or enable GCC Toolset 15, then configure a fresh build directory.")
+    endif()
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    include(cmake/gcc-runtime.cmake)
 endif()
 if(WIN32)
     # The bundled ONNX Runtime and Visual C++ runtime require Windows 10.
@@ -30,7 +37,7 @@ include(cmake/tidy.cmake)
 check_cxx_source_compiles("#include <expected>
 int main() { std::expected<int,int> value{1}; return *value - 1; }" ORTHO_HAS_EXPECTED)
 if(NOT ORTHO_HAS_EXPECTED)
-    message(FATAL_ERROR "A C++23 standard library with std::expected is required. Use GCC 13+ or a recent Apple Clang.")
+    message(FATAL_ERROR "A C++23 standard library with std::expected is required. Use GCC 15+ or a recent Apple Clang.")
 endif()
 option(ORTHO_BUILD_GUI "Build the native reader" ON)
 option(ORTHO_SYSTEM_WX "Use installed wxWidgets for developer builds" OFF)
@@ -238,6 +245,15 @@ if(ORTHO_BUILD_GUI)
         add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${ortho_ort_library}" "$<TARGET_FILE_DIR:perikop>/libonnxruntime.so.1")
         install(FILES "${ortho_ort_library}" DESTINATION bin RENAME libonnxruntime.so.1)
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            # Carry the compiler runtime so older distributions need only their own glibc.
+            foreach(runtime IN LISTS perikop_gcc_runtimes)
+                set(runtime_path "${perikop_runtime_${runtime}}")
+                add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    "${runtime_path}" "$<TARGET_FILE_DIR:perikop>/${runtime}")
+                install(FILES "${runtime_path}" DESTINATION bin RENAME "${runtime}")
+            endforeach()
+        endif()
     endif()
     # The assembled resources include the generated licenses and the bundled voice pack.
     if(APPLE)

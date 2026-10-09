@@ -25,6 +25,13 @@ SQLite 3.53.4 is dedicated to the public domain. It is built from the pinned
 amalgamation with loadable extensions disabled.
 Source: https://sqlite.org/copyright.html
 
+GNU builds include GCC's runtime libraries, under GPLv3 or later with the GCC Runtime Library Exception 3.1.
+Linux packages carry the selected toolchain's `libstdc++` and `libgcc_s` as shared libraries.
+The licenses are in `resources/licenses/GCC-COPYING3.txt` and `resources/licenses/GCC-RUNTIME-EXCEPTION.txt`.
+Upstream source: https://gcc.gnu.org/releases.html
+The Linux toolset and runtime source packages are available from Rocky Linux:
+https://dl.rockylinux.org/pub/rocky/9/
+
 ## Complete Scripture editions
 
 The package retains complete nonempty publisher texts and their source coordinates.

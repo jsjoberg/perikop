@@ -38,10 +38,13 @@ tools/package_appimage.sh build/cmake
 
 The script downloads pinned linuxdeploy tools and checks their SHA-256 hashes. They copy GTK and the other shared libraries into the image.
 The GTK plugin needs `dpkg-dev` on Debian and Ubuntu.
-The AppImage runs on distributions with the glibc of its build system or later. Ubuntu 24.04 needs glibc 2.39.
-The AppImage uses the host's C++ runtime, so GCC 15 can also raise its runtime requirement.
-The current CI build needs `GLIBCXX_3.4.32` and `CXXABI_1.3.15`, provided by the GCC 14 runtime or later.
-Users need that runtime library, not the compiler. CI logs the required versions after each Linux build.
+Linux CI builds inside Rocky Linux 9 with the distribution's GCC Toolset 15 and a glibc 2.34 baseline.
+The AppImage carries GCC's C++ runtime. Users need no compiler or separate GCC runtime update.
+It uses the host's glibc. CI rejects ELF dependencies above glibc 2.34 in the build and assembled AppDir.
+This includes libraries and AppRun added by linuxdeploy.
+Packages built on newer local systems can fail this check. Use the CI container for release builds.
+Enterprise Linux 9 and Ubuntu 22.04 or later are compatibility targets.
+Desktop and read-aloud tests on those systems still need validation.
 
 The packages go to `build/package`.
 The macOS application has an ad-hoc signature only. The Windows installer has no signature.

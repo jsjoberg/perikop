@@ -41,7 +41,8 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Windows executable and installer metadata show the full release version, including prerelease suffixes.
 - Application icons are embedded in the executable. Installed resources no longer contain an icons folder.
 - The Windows minimum is now Windows 10 x86-64, including read-aloud.
-- Linux builds require GCC 15 or later. CI uses GCC 15 on Ubuntu 24.04.
+- Windows and Linux builds require GCC 15 or later. CI uses stable GCC 15 through the Linux distribution toolset and w64devkit 2.7.0.
+- Linux packages target glibc 2.34 through an enterprise Linux 9 build container, bundle the GCC runtime, and reject newer glibc dependencies.
 - The program is now called Perikop.
 - The About page shows the release version, such as 0.1.0-alpha.2, in a release build. Other builds show the version and the commit.
 - The Alice and Björn voices are bundled in the application. There is no separate voice installation, and Perikop never uses the network.

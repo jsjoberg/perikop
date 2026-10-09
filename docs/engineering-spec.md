@@ -81,8 +81,8 @@ Desktop only.
 
 Primary targets:
 
-- **Windows 10 or later, x86-64** — w64devkit / MinGW-w64 GCC
-- **Linux x86-64** — GCC 15 or later, GTK3 wxWidgets backend initially
+- **Windows 10 or later, x86-64** — w64devkit / MinGW-w64 GCC 15 or later
+- **Linux x86-64** — GCC 15 or later, GTK3 wxWidgets backend initially; packaged glibc baseline 2.34
 - **macOS** — Apple Clang, macOS 11+ unless testing forces a later baseline
 
 Windows ARM64 is **not a target** for the initial project.

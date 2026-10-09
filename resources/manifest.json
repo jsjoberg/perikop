@@ -403,6 +403,18 @@
       "path": "resources/icons/OrthodoxReader.iconset/icon_48x48.png",
       "license": "MIT",
       "sha256": "a9244464b6d2b37ce4b07805a35a30f1fb2ef2263e4dd9b1e8a56646b72ac387"
+    },
+    {
+      "path": "resources/licenses/GCC-COPYING3.txt",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/COPYING3",
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "license": "GPL-3.0-or-later"
+    },
+    {
+      "path": "resources/licenses/GCC-RUNTIME-EXCEPTION.txt",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/COPYING.RUNTIME",
+      "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+      "license": "GCC-exception-3.1"
     }
   ],
   "build_dependencies": [
