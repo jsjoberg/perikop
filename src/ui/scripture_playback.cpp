@@ -3,6 +3,12 @@
 #include <cmath>
 #include <limits>
 namespace ortho {
+void ScriptureView::start_animation() {
+    if (IsShown() && !follow_timer_.IsRunning()) {
+        animation_tick_ = std::chrono::steady_clock::now();
+        follow_timer_.Start(16);
+    }
+}
 void ScriptureView::release_follow() {
     if (!following_)
         return;
@@ -22,12 +28,15 @@ void ScriptureView::follow_playback(bool follow) {
             if (playback_.state == SpeechState::Paused)
                 set_position(follow_target_);
         }
-        if (!follow_timer_.IsRunning())
-            follow_timer_.Start(16);
+        start_animation();
     }
 }
 void ScriptureView::playback(const SpeechPlayback& playback) {
+    if (playback_.state == playback.state && playback_.cue == playback.cue &&
+        playback_.verse_progress == playback.verse_progress)
+        return;
     const bool was_visible = bool(guide_);
+    const double previous_y = guide_y_;
     const bool cue_changed = playback_.cue != playback.cue;
     playback_ = playback;
     const bool active = speech_active(playback.state);
@@ -36,10 +45,13 @@ void ScriptureView::playback(const SpeechPlayback& playback) {
         if (guide_ && (!was_visible || (cue_changed && playback.state == SpeechState::Paused)))
             guide_y_ = guide_->y;
     }
-    if ((guide_ || guide_alpha_ > 0) && !follow_timer_.IsRunning())
-        follow_timer_.Start(16);
-    if (guide_ || was_visible)
-        Refresh(false);
+    const bool fading = guide_alpha_ != (active && guide_ ? 1.0 : 0.0);
+    const bool moving =
+        guide_ && playback.state == SpeechState::Playing && (guide_->y != guide_y_ || following_);
+    if (fading || moving)
+        start_animation();
+    if (was_visible != bool(guide_) || previous_y != guide_y_ || (cue_changed && guide_))
+        request_repaint();
 }
 void ScriptureView::locate_playback() {
     if (!playback_.cue || playback_.cue->introduction || playback_.cue->book != displayed_.book) {
@@ -47,7 +59,8 @@ void ScriptureView::locate_playback() {
         return;
     }
     const auto& cue = *playback_.cue;
-    if (located_cue_ != playback_.cue) {
+    const bool cue_changed = located_cue_ != playback_.cue;
+    if (cue_changed) {
         located_cue_ = playback_.cue;
         speech_row_.reset();
         VerseRef first = cue.verse, last = cue.last;
@@ -72,6 +85,27 @@ void ScriptureView::locate_playback() {
         return;
     }
     const auto index = *speech_row_;
+    const auto update_line = [&] {
+        double weight = 0;
+        for (const auto& span : guide_->spans)
+            weight += span.weight;
+        double remaining = std::clamp(playback_.verse_progress, 0.0, 1.0) * weight;
+        guide_->line = guide_->spans.back().line;
+        for (const auto& span : guide_->spans) {
+            if (remaining < span.weight) {
+                guide_->line = span.line;
+                break;
+            }
+            remaining -= span.weight;
+        }
+        const bool label = stacked_columns() && columns_count() > 1;
+        guide_->y = positions_[index] + FromDIP(12) + (label ? FromDIP(24) : 0) +
+                    (guide_->line + 0.5) * guide_->height;
+    };
+    if (!cue_changed && guide_ && guide_->row == index && guide_epoch_ == layout_epoch_) {
+        update_line();
+        return;
+    }
     const auto anchor = first_visible();
     const double old = positions_[anchor];
     bool changed = false;
@@ -97,7 +131,6 @@ void ScriptureView::locate_playback() {
             y += FromDIP(24);
         if (c == 0) {
             Guide guide{index, c, 0, y, column.text.line_height, {}};
-            double weight = 0;
             for (size_t line = 0; line < column.text.lines.size(); ++line) {
                 GuideSpan span{line, std::numeric_limits<double>::max(), 0, 0};
                 for (const auto& run : column.text.lines[line].runs) {
@@ -112,7 +145,6 @@ void ScriptureView::locate_playback() {
                         span.weight += speech_text_weight(run.text.ToStdString(wxConvUTF8));
                 }
                 if (span.last > span.first) {
-                    weight += span.weight;
                     guide.spans.push_back(span);
                 }
             }
@@ -120,17 +152,9 @@ void ScriptureView::locate_playback() {
                 guide_.reset();
                 return;
             }
-            double remaining = std::clamp(playback_.verse_progress, 0.0, 1.0) * weight;
-            guide.line = guide.spans.back().line;
-            for (const auto& span : guide.spans) {
-                if (remaining < span.weight) {
-                    guide.line = span.line;
-                    break;
-                }
-                remaining -= span.weight;
-            }
-            guide.y = y + (guide.line + 0.5) * guide.height;
             guide_ = std::move(guide);
+            guide_epoch_ = layout_epoch_;
+            update_line();
             return;
         }
         if (stacked)
@@ -142,15 +166,21 @@ void ScriptureView::advance_playback(double seconds) {
     if (!IsShown())
         return;
     const bool active = speech_active(playback_.state);
+    const double previous_alpha = guide_alpha_, previous_y = guide_y_, previous_offset = offset_;
     const auto ease = [seconds](double rate) {
         return 1 - std::exp(-std::clamp(seconds, 0.0, 0.1) * rate);
     };
     if (active)
         locate_playback();
-    guide_alpha_ += ((active && guide_ ? 1.0 : 0.0) - guide_alpha_) * ease(14);
+    const double alpha_target = active && guide_ ? 1.0 : 0.0;
+    guide_alpha_ += (alpha_target - guide_alpha_) * ease(14);
+    if (std::abs(alpha_target - guide_alpha_) < 0.001)
+        guide_alpha_ = alpha_target;
     // The marker and page hold still during pause and a genuine audio underrun.
     if (guide_ && playback_.state == SpeechState::Playing) {
         guide_y_ += (guide_->y - guide_y_) * ease(16);
+        if (std::abs(guide_->y - guide_y_) < 0.1)
+            guide_y_ = guide_->y;
         if (following_) {
             const double height = GetClientSize().y, screen = guide_->y - offset_;
             if (screen > height * 0.56 || screen < height * 0.22)
@@ -167,6 +197,12 @@ void ScriptureView::advance_playback(double seconds) {
         guide_alpha_ = 0;
         follow_timer_.Stop();
     }
-    Refresh(false);
+    const bool moving = guide_ && playback_.state == SpeechState::Playing &&
+                        (guide_y_ != guide_->y || (following_ && std::abs(follow_target_ - offset_) > 0.1));
+    if (guide_alpha_ == alpha_target && !moving)
+        follow_timer_.Stop();
+    // set_position already requests a repaint when the viewport moves.
+    if (previous_offset == offset_ && (previous_alpha != guide_alpha_ || previous_y != guide_y_))
+        request_repaint();
 }
 } // namespace ortho

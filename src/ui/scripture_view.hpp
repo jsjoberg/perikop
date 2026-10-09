@@ -3,9 +3,11 @@
 #include "storage/database.hpp"
 #include "typesetting/paragraph_layout.hpp"
 #include "ui/theme.hpp"
+#include <chrono>
 #include <list>
 #include <map>
 #include <memory>
+#include <tuple>
 #include <wx/panel.h>
 #include <wx/timer.h>
 namespace ortho {
@@ -23,7 +25,17 @@ public:
     std::size_t cached_rows() const {
         return cache_.size();
     }
-    void render_to(wxDC&, wxSize size);
+    void render_to(wxDC&, wxSize size, bool cache_text = true);
+    struct RenderStats {
+        std::size_t layout_builds = 0, tile_builds = 0, tile_hits = 0, repaint_requests = 0;
+        std::size_t tile_bytes = 0;
+    };
+    RenderStats render_stats() const {
+        return render_stats_;
+    }
+    bool animating() const {
+        return follow_timer_.IsRunning();
+    }
     void scroll_by(double pixels);
     double scroll_position() const {
         return offset_;
@@ -105,6 +117,7 @@ private:
     struct Layout {
         std::vector<Column> columns;
         int height = 0;
+        std::list<std::size_t>::iterator recency;
     };
     // The runs of one word, which a hyphenated line break can split in two.
     struct WordRuns {
@@ -127,6 +140,8 @@ private:
     double max_offset() const;
     void rebuild_positions();
     void prepare_visible();
+    void prefetch_layout();
+    void schedule_prefetch();
     std::size_t first_visible() const;
     void scrollbar();
     const Layout& row_layout(std::size_t row) const;
@@ -134,8 +149,13 @@ private:
     bool passage_in_view() const;
     void draw_return(wxDC&);
     void hover_return(bool);
-    void draw(wxDC&, wxSize, std::size_t begin, std::size_t end, double top) const;
+    void draw(wxDC&, wxSize, std::size_t begin, std::size_t end, double top, bool cache_text = true) const;
+    void draw_text(wxGraphicsContext&, wxDC&, const Column&, std::size_t row, std::size_t column, int x,
+                   int y, int bottom) const;
+    void clear_tiles() const;
+    void request_repaint();
     void invalidate();
+    void start_animation();
     void release_follow();
     void locate_playback();
     struct GuideSpan {
@@ -149,6 +169,7 @@ private:
         std::vector<GuideSpan> spans;
     };
     std::optional<Guide> guide_;
+    std::size_t layout_epoch_ = 0, guide_epoch_ = 0;
     SpeechPlayback playback_;
     std::optional<SpeechCue> located_cue_;
     std::optional<size_t> speech_row_;
@@ -167,6 +188,7 @@ private:
     std::vector<std::pair<VerseRef, VerseRef>> selections_, drag_ranges_;
     bool dragged_ = false, append_drag_ = false;
     wxTimer follow_timer_;
+    std::chrono::steady_clock::time_point animation_tick_;
     std::vector<std::string> languages() const;
     int columns_count() const;
     int outside_margin() const;
@@ -182,6 +204,7 @@ private:
     double offset_ = 0, target_ = 0;
     int layout_width_ = 0;
     wxTimer wheel_timer_;
+    wxTimer layout_timer_;
     void* native_scroll_ = nullptr;
     const CorpusDb& corpus_;
     Reading reading_{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
@@ -201,5 +224,22 @@ private:
     mutable std::map<std::size_t, Layout> cache_;
     mutable std::list<std::size_t> order_;
     static constexpr std::size_t cache_limit = 192;
+    // Eight lines per transparent tile. Keep native pixels at the destination's
+    // scale, and bound the cache by bytes rather than paragraph count.
+    using TileKey = std::tuple<std::size_t, std::size_t, std::size_t>;
+    struct TextTile {
+        wxGraphicsBitmap bitmap;
+        int width, height;
+        std::size_t bytes;
+        std::list<TileKey>::iterator recency;
+    };
+    mutable std::map<TileKey, TextTile> tiles_;
+    mutable std::list<TileKey> tile_order_;
+    mutable double tile_scale_ = 0;
+    mutable wxRealPoint tile_dpi_;
+    mutable wxColour tile_ink_, tile_muted_;
+    mutable RenderStats render_stats_;
+    static constexpr std::size_t tile_budget = std::size_t{32} * 1024 * 1024;
+    static constexpr std::size_t tile_lines = 8;
 };
 } // namespace ortho

@@ -57,6 +57,23 @@ The renderer retains book coordinates and at most 192 text layouts.
 It creates no native control for individual verses.
 The [corpus guide](corpus.md#display-metadata-and-limits) describes paragraph metadata and display limits.
 
+The reader caches transparent text tiles with eight lines per tile.
+The tile cache uses native display pixels and retains at most 32 MiB of pixel data.
+Scrolling copies cached tiles instead of drawing every word again.
+Speech highlights and selections appear beneath the text tiles.
+The Windows renderer uses grayscale antialiasing for transparent text.
+
+Font, width, and DPI changes invalidate paragraph layouts and text tiles.
+Color changes invalidate text tiles without discarding paragraph layouts.
+The layout cache retains the most recently used paragraphs.
+A timer prepares nearby paragraphs, one paragraph per event, between input events.
+A direct jump can still require synchronous layout of the visible paragraphs.
+
+Playback caches the geometry of the spoken verse.
+The animation uses elapsed time and stops after the marker and opacity settle.
+Repeated paused or buffering updates do not request reader frames.
+The renderer still uses native graphics contexts. It does not use a GPU glyph atlas.
+
 The build patches a wxWidgets 3.3.3 macOS bug in its locale month and weekday names.
 The bug over-released Swedish month and weekday names and caused a crash.
 

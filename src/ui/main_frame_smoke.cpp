@@ -65,13 +65,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         }
     // The reader as drawn in a size, and a copy saved beside the screenshot.
-    const auto render = [this](wxSize size = {}) {
+    const auto render = [this](wxSize size = {}, bool cached = true, double scale = 1) {
         if (size == wxSize{})
             size = scripture_->GetClientSize();
-        wxBitmap bitmap(size.x, size.y);
+        wxBitmap bitmap;
+        bitmap.CreateWithLogicalSize(size, scale);
         {
             wxMemoryDC dc(bitmap);
-            scripture_->render_to(dc, size);
+            scripture_->render_to(dc, size, cached);
         }
         return bitmap.ConvertToImage();
     };
@@ -121,7 +122,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                                              "seven", "eight", "nine",  "ten",  "eleven", "twelve"};
         std::unique_ptr<wxGraphicsContext> gc(
             wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext());
-        gc->SetFont(metrics.GetFont(), *wxBLACK);
+        const auto ppi = metrics.GetPPI();
+        gc->SetFont(
+            gc->GetRenderer()->CreateFontAtDPI(metrics.GetFont(), wxRealPoint(ppi.x, ppi.y), *wxBLACK));
         std::vector<double> widths;
         double space = 0;
         gc->GetTextExtent(" ", &space, nullptr);
@@ -278,6 +281,29 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 continue;
             }
             const auto image = render();
+            const auto cached_stats = scripture_->render_stats();
+            render();
+            const auto reused_stats = scripture_->render_stats();
+            if (reused_stats.tile_builds != cached_stats.tile_builds ||
+                reused_stats.layout_builds != cached_stats.layout_builds ||
+                reused_stats.tile_hits <= cached_stats.tile_hits ||
+                reused_stats.tile_bytes > std::size_t{32} * 1024 * 1024)
+                fail(__LINE__);
+            // Native text and cached alpha tiles retain the same typography.
+            // Allow native antialiasing differences, but reject lost/clipped/moved text.
+            for (double scale : {1.0, 2.0}) {
+                const auto direct = render({}, false, scale);
+                const auto cached = render({}, true, scale);
+                const auto bytes = std::size_t(direct.GetWidth()) * direct.GetHeight() * 3;
+                double difference = 0;
+                for (std::size_t i = 0; i < bytes; ++i)
+                    difference += std::abs(int(direct.GetData()[i]) - int(cached.GetData()[i]));
+                if (difference / bytes > 1.5) {
+                    std::cerr << "Cached text pixel difference=" << difference / bytes << ", scale=" << scale
+                              << '\n';
+                    fail(__LINE__);
+                }
+            }
             const auto colors = palette(settings_.theme);
             std::size_t changed = 0;
             for (int y = 0; y < image.GetHeight(); ++y)
@@ -700,7 +726,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto held_scroll = scripture_->scroll_position();
     auto paused = playing;
     paused.state = SpeechState::Paused;
+    playback_timer_.Start(30);
     display_playback(paused);
+    if (playback_timer_.IsRunning())
+        fail(__LINE__);
     for (int i = 0; i < 30; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
@@ -750,6 +779,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
         address_->GetLabel() != ui::utf8("Förbereder fortsättningen…"))
+        fail(__LINE__);
+    for (int i = 0; i < 120; ++i)
+        scripture_->advance_playback(0.016);
+    const auto settled = scripture_->render_stats();
+    for (int i = 0; i < 120; ++i) {
+        scripture_->playback(buffering);
+        scripture_->advance_playback(0.016);
+    }
+    if (scripture_->animating() || scripture_->render_stats().repaint_requests != settled.repaint_requests)
         fail(__LINE__);
     display_playback(playing);
     display_playback(buffering);

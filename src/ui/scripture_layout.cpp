@@ -111,6 +111,8 @@ void ScriptureView::open_section(std::size_t index) {
     }
     cache_.clear();
     order_.clear();
+    ++layout_epoch_;
+    clear_tiles();
     offset_ = target_ = 0;
     wheel_timer_.Stop();
     heights_.clear();
@@ -118,7 +120,8 @@ void ScriptureView::open_section(std::size_t index) {
         heights_.push_back(estimated_height(row));
     rebuild_positions();
     center_passage();
-    Refresh(false);
+    schedule_prefetch();
+    request_repaint();
 }
 std::string ScriptureView::source_of(const std::string& language) const {
     return language == languages().front() ? base_source_
@@ -213,11 +216,16 @@ bool ScriptureView::passage_in_view() const {
     return false;
 }
 void ScriptureView::apply(const Settings& settings) {
+    const bool metrics_changed =
+        settings_.font_size != settings.font_size || settings_.parallel != settings.parallel;
     settings_ = settings;
     const auto colors = palette(settings.theme);
     SetBackgroundColour(colors.paper);
     SetForegroundColour(colors.ink);
-    invalidate();
+    if (metrics_changed)
+        invalidate();
+    else
+        request_repaint();
 }
 void ScriptureView::invalidate() {
     const double marker_screen = guide_y_ - offset_;
@@ -226,6 +234,8 @@ void ScriptureView::invalidate() {
         rows_.empty() ? 0 : (offset_ - positions_[anchor]) / std::max(1, heights_[anchor]);
     cache_.clear();
     order_.clear();
+    ++layout_epoch_;
+    clear_tiles();
     layout_width_ = GetClientSize().x;
     for (std::size_t i = 0; i < rows_.size(); ++i)
         heights_[i] = estimated_height(rows_[i]);
@@ -238,18 +248,24 @@ void ScriptureView::invalidate() {
     }
     prepare_visible();
     scrollbar();
-    Refresh(false);
+    schedule_prefetch();
+    request_repaint();
     guide_y_ = offset_ + marker_screen;
     follow_target_ = offset_;
-    if (playback_.state == SpeechState::Paused || playback_.state == SpeechState::Buffering) {
+    if (speech_active(playback_.state)) {
         locate_playback();
-        if (guide_)
+        if (guide_ && playback_.state != SpeechState::Playing)
             guide_y_ = guide_->y;
+        if (guide_)
+            start_animation();
     }
 }
 const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const {
-    if (auto it = cache_.find(index); it != cache_.end())
+    if (auto it = cache_.find(index); it != cache_.end()) {
+        order_.splice(order_.end(), order_, it->second.recency);
         return it->second;
+    }
+    ++render_stats_.layout_builds;
     wxClientDC dc(const_cast<ScriptureView*>(this));
     dc.SetFont(body_font(settings_.font_size));
     Layout layout;
@@ -329,6 +345,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
         order_.pop_front();
     }
     order_.push_back(index);
+    layout.recency = std::prev(order_.end());
     return cache_.emplace(index, std::move(layout)).first->second;
 }
 } // namespace ortho

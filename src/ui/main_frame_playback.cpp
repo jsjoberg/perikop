@@ -43,9 +43,10 @@ void MainFrame::speech_status(const std::string& status) {
     refresh_speech();
 }
 void MainFrame::toggle_pause() {
-    if (speech_->playback().state == SpeechState::Paused)
+    if (speech_->playback().state == SpeechState::Paused) {
         speech_->resume();
-    else
+        playback_timer_.Start(30);
+    } else
         speech_->pause();
     refresh_speech();
 }
@@ -99,7 +100,8 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     if (!active) {
         scripture_->follow_playback(false);
         playback_timer_.Stop();
-    }
+    } else if (playback.state == SpeechState::Paused)
+        playback_timer_.Stop();
     if (!page_)
         scripture_->playback(playback);
     update_bar();

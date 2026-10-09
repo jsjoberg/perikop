@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <wx/dc.h>
+#include <wx/graphics.h>
 namespace ortho {
 struct TextRun {
     wxString text;
@@ -37,5 +38,10 @@ TextLayout layout_paragraph(wxDC&, const std::vector<TextFragment>&, int width,
                             const std::string& language = "sv");
 // colour may return another colour for a run, such as muted text.
 void draw_paragraph(wxDC&, const TextLayout&, int x, int y,
+                    const std::function<std::optional<wxColour>(const TextRun&)>& colour = {});
+// Draw a line range into a reusable context. DPI comes from the destination,
+// so offscreen text has the same metrics as text drawn into a native window.
+void draw_paragraph(wxGraphicsContext&, const TextLayout&, const wxFont&, const wxRealPoint& dpi,
+                    const wxColour& ink, int x, int y, std::size_t first, std::size_t end,
                     const std::function<std::optional<wxColour>(const TextRun&)>& colour = {});
 } // namespace ortho

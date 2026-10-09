@@ -79,7 +79,9 @@ double shaped_width(wxDC& dc, wxGraphicsContext* gc, const wxFont& base, const w
     double width = 0;
     for (const auto& part : shaped_parts(base, text)) {
         if (gc) {
-            gc->SetFont(part.font, dc.GetTextForeground());
+            const auto ppi = dc.GetPPI();
+            gc->SetFont(gc->GetRenderer()->CreateFontAtDPI(part.font, wxRealPoint(ppi.x, ppi.y),
+                                                           dc.GetTextForeground()));
             double w = 0;
             gc->GetTextExtent(part.text, &w, nullptr);
             width += w;
@@ -245,6 +247,7 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
             breaks.push_back({w, k, true});
         breaks.push_back({w + 1, 0, false});
     }
+    std::map<unsigned, double> character_widths;
     const auto protrusion = [&](const wxString& word, bool left) {
         const auto character = left ? word[0] : word[word.length() - 1];
         const unsigned c = character.GetValue();
@@ -261,7 +264,12 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
             else if (c == '-')
                 fraction = 0.2;
         }
-        return fraction ? shaped_width(dc, measuring.get(), base_font, wxString(character)) * fraction : 0;
+        if (!fraction)
+            return 0.0;
+        auto [found, inserted] = character_widths.try_emplace(c, 0);
+        if (inserted)
+            found->second = shaped_width(dc, measuring.get(), base_font, wxString(character));
+        return found->second * fraction;
     };
     auto line_measure = [&](const Break& a, const Break& b) {
         const int last = b.word - (b.cut == 0 ? 1 : 0);
@@ -383,15 +391,23 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
 }
 void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
                     const std::function<std::optional<wxColour>(const TextRun&)>& colour) {
+    if (layout.line_height <= 0)
+        return;
     const auto base = dc.GetFont();
     const auto ink = dc.GetTextForeground();
     const int bottom = dc.GetSize().y;
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::CreateFromUnknownDC(dc));
-    // GDI+ builds a new font each time one is set, so set it only when the font or colour changes.
-    wxFont font;
-    wxColour font_colour;
+    if (gc) {
+        wxRealPoint dpi;
+        gc->GetDPI(&dpi.x, &dpi.y);
+        const auto first = std::min(layout.lines.size(), std::size_t(std::max(0, -y / layout.line_height)));
+        const auto end =
+            std::min(layout.lines.size(),
+                     std::size_t(std::max(0, (bottom - y + layout.line_height - 1) / layout.line_height)));
+        draw_paragraph(*gc, layout, base, dpi, ink, x, y, first, end, colour);
+        return;
+    }
     for (const auto& line : layout.lines) {
-        // Draw only the lines inside the drawing area.
         if (y + layout.line_height > 0 && y < bottom)
             for (const auto& run : line.runs) {
                 const auto chosen = colour ? colour(run) : std::nullopt;
@@ -399,31 +415,46 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
                 const auto parts = shaped_parts(run.marker ? marker_font(base) : base, run.text);
                 double part_x = x + run.x;
                 for (std::size_t i = 0; i < parts.size(); ++i) {
-                    // The layout places whole runs; measure a part only to place the next one.
-                    const bool more = i + 1 < parts.size();
-                    if (gc) {
-                        if (font != parts[i].font || font_colour != text_colour) {
-                            font = parts[i].font;
-                            font_colour = text_colour;
-                            gc->SetFont(font, font_colour);
-                        }
-                        gc->DrawText(parts[i].text, part_x, y);
-                        double width = 0;
-                        if (more)
-                            gc->GetTextExtent(parts[i].text, &width, nullptr);
-                        part_x += width;
-                    } else {
-                        dc.SetFont(parts[i].font);
-                        dc.SetTextForeground(text_colour);
-                        dc.DrawText(parts[i].text, int(std::lround(part_x)), y);
-                        if (more)
-                            part_x += dc.GetTextExtent(parts[i].text).x;
-                    }
+                    dc.SetFont(parts[i].font);
+                    dc.SetTextForeground(text_colour);
+                    dc.DrawText(parts[i].text, int(std::lround(part_x)), y);
+                    if (i + 1 < parts.size())
+                        part_x += dc.GetTextExtent(parts[i].text).x;
                 }
             }
         y += layout.line_height;
     }
     dc.SetFont(base);
     dc.SetTextForeground(ink);
+}
+void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFont& base,
+                    const wxRealPoint& dpi, const wxColour& ink, int x, int y, std::size_t first,
+                    std::size_t end, const std::function<std::optional<wxColour>(const TextRun&)>& colour) {
+    // GDI+ builds a new font each time one is set, so set it only when the font or colour changes.
+    wxFont font;
+    wxColour font_colour;
+    for (auto line = first; line < std::min(end, layout.lines.size()); ++line) {
+        const int line_y = y + int(line) * layout.line_height;
+        for (const auto& run : layout.lines[line].runs) {
+            const auto chosen = colour ? colour(run) : std::nullopt;
+            const auto text_colour = chosen ? *chosen : ink;
+            const auto parts = shaped_parts(run.marker ? marker_font(base) : base, run.text);
+            double part_x = x + run.x;
+            for (std::size_t i = 0; i < parts.size(); ++i) {
+                // The layout places whole runs; measure a part only to place the next one.
+                const bool more = i + 1 < parts.size();
+                if (font != parts[i].font || font_colour != text_colour) {
+                    font = parts[i].font;
+                    font_colour = text_colour;
+                    gc.SetFont(gc.GetRenderer()->CreateFontAtDPI(font, dpi, font_colour));
+                }
+                gc.DrawText(parts[i].text, part_x, line_y);
+                double width = 0;
+                if (more)
+                    gc.GetTextExtent(parts[i].text, &width, nullptr);
+                part_x += width;
+            }
+        }
+    }
 }
 } // namespace ortho

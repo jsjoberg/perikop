@@ -142,6 +142,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_toolbar.cpp
         src/ui/main_frame_plans.cpp
         src/ui/main_frame_smoke.cpp
+        src/ui/main_frame_benchmark.cpp
         src/ui/controls.cpp
         src/ui/about.cpp
         src/ui/app_icon.cpp
@@ -153,12 +154,14 @@ if(ORTHO_BUILD_GUI)
         src/ui/scripture_selection.cpp
         src/ui/scripture_playback.cpp
         src/ui/scripture_render.cpp
+        src/ui/scripture_text_cache.cpp
         src/ui/pronunciation_review.cpp
         src/ui/study_panel.cpp
         src/typesetting/paragraph_layout.cpp)
     target_link_libraries(perikop PRIVATE ortho-speech ortho-core ${ortho_wx})
     if(WIN32)
         enable_language(RC)
+        target_link_libraries(perikop PRIVATE gdiplus)
         target_sources(perikop PRIVATE cmake/reader.rc)
         target_include_directories(perikop PRIVATE cmake)
     endif()

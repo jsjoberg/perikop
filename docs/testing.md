@@ -31,6 +31,34 @@ To save reader images, add `--screenshot /absolute/path/reader.png` to the appli
 On Windows or Linux, use the corresponding executable.
 The paragraph test compares 39 native layouts with an exhaustive word-boundary oracle.
 It also checks a layout that differs from greedy wrapping.
+The smoke test compares cached text with direct text at two display scales.
+It also checks tile reuse, the memory limit, and the absence of repeated frames during settled buffering.
+
+## Reader benchmark
+
+Run the reader benchmark on the target computer:
+
+```sh
+"build/cmake/bin/Perikop.app/Contents/MacOS/Perikop" --render-benchmark
+```
+
+On Windows, run the corresponding executable:
+
+```powershell
+.\build\cmake\bin\perikop.exe --render-benchmark
+```
+
+The benchmark uses a temporary user database and does not change personal settings.
+It reports median and 99th-percentile frame preparation times for Swedish text and two parallel modes.
+Warm measurements compare direct text drawing with cached tiles at the same two scroll positions.
+First-visit measurements include layout and raster cache misses.
+The benchmark also reports cache construction counts, retained pixel bytes, and settled pause activity.
+
+The measurements use an offscreen bitmap at the window display scale.
+They exclude screen presentation, compositor delay, input latency, and speech synthesis.
+They do not measure end-to-end frame rate or fan activity.
+Compare timings on the same computer, build, viewport, and display scale.
+Timings are diagnostic results, not fixed pass thresholds.
 
 ## Offline speech probe
 

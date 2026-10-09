@@ -5,7 +5,8 @@
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
 namespace ortho {
-void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t end, double top) const {
+void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t end, double top,
+                         bool cache_text) const {
     const auto colors = palette(settings_.theme);
     dc.SetBackground(wxBrush(colors.paper));
     dc.Clear();
@@ -133,13 +134,26 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         }
                     }
                 }
-                draw_paragraph(dc, column.text, x + FromDIP(30), text_y,
-                               [&](const TextRun& run) -> std::optional<wxColour> {
-                                   if (run.tag >= 0 && size_t(run.tag) < column.faint.size() &&
-                                       column.faint[run.tag])
-                                       return colors.muted;
-                                   return std::nullopt;
-                               });
+                if (gc && cache_text) {
+                    draw_text(*gc, dc, column, index, c, x + FromDIP(30), text_y, size.y);
+                    gc->Flush();
+                } else {
+                    const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {
+                        if (run.tag >= 0 && size_t(run.tag) < column.faint.size() && column.faint[run.tag])
+                            return colors.muted;
+                        return std::nullopt;
+                    };
+                    if (gc) {
+                        const auto dpi = GetDPI();
+                        const auto first = std::size_t(std::max(0, -text_y / column.text.line_height));
+                        const auto end = std::size_t(std::max(
+                            0, (size.y - text_y + column.text.line_height - 1) / column.text.line_height));
+                        draw_paragraph(*gc, column.text, dc.GetFont(), wxRealPoint(dpi.x, dpi.y), colors.ink,
+                                       x + FromDIP(30), text_y, first, end, colour);
+                        gc->Flush();
+                    } else
+                        draw_paragraph(dc, column.text, x + FromDIP(30), text_y, colour);
+                }
                 // Mark only the lines containing the prescribed verse range.
                 if (c == 0) {
                     dc.SetPen(wxPen(colors.accent, FromDIP(3)));
@@ -181,14 +195,14 @@ void ScriptureView::return_button(const wxString& label, bool always) {
         return;
     return_label_ = label;
     return_always_ = always;
-    Refresh(false);
+    request_repaint();
 }
 void ScriptureView::hover_return(bool hover) {
     if (return_hover_ == hover)
         return;
     return_hover_ = hover;
     SetCursor(hover ? wxCursor(wxCURSOR_HAND) : wxNullCursor);
-    Refresh(false);
+    request_repaint();
 }
 void ScriptureView::draw_return(wxDC& dc) {
     return_rect_ = {};
@@ -221,9 +235,9 @@ void ScriptureView::draw_return(wxDC& dc) {
     gc->SetFont(font, with_alpha(colors.ink, hover ? 255 : 165));
     gc->DrawText(return_label_, return_rect_.x + pad_x, return_rect_.y + (return_rect_.height - height) / 2);
 }
-void ScriptureView::render_to(wxDC& dc, wxSize size) {
+void ScriptureView::render_to(wxDC& dc, wxSize size, bool cache_text) {
     prepare_visible();
     const auto begin = first_visible();
-    draw(dc, size, begin, rows_.size(), positions_.empty() ? 0 : positions_[begin] - offset_);
+    draw(dc, size, begin, rows_.size(), positions_.empty() ? 0 : positions_[begin] - offset_, cache_text);
 }
 } // namespace ortho

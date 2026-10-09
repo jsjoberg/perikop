@@ -38,13 +38,15 @@ public:
         SetVendorName("orthodox-reader");
         SetAppDisplayName("Perikop");
         wxInitAllImageHandlers();
-        bool smoke = false, reader = false, pronunciation_review = false;
+        bool smoke = false, benchmark = false, reader = false, pronunciation_review = false;
         wxString resource_override, screenshot, speech_probe;
         auto date = ortho::local_civil_date();
         for (int i = 1; i < argc; ++i) {
             const wxString arg = argv[i];
             if (arg == "--smoke-test")
                 smoke = true;
+            else if (arg == "--render-benchmark")
+                benchmark = true;
             else if (arg == "--reader")
                 reader = true;
             else if (arg == "--pronunciation-review")
@@ -130,7 +132,7 @@ public:
 #endif
             ortho::load_hyphenation(resources / "hyphenation");
             corpus_ = std::make_unique<ortho::CorpusDb>(resources / "corpus/corpus.db");
-            if (smoke) {
+            if (smoke || benchmark) {
                 test_path_ = std::filesystem::temp_directory_path() /
                              std::filesystem::path(
                                  "perikop-smoke-" +
@@ -156,26 +158,27 @@ public:
                 frame->CallAfter([frame] {
                     frame->review_pronunciation();
                 });
-            if (smoke) {
+            if (smoke || benchmark) {
                 timer_ = std::make_unique<wxTimer>(this);
-                Bind(wxEVT_TIMER, [this, frame, screenshot](wxTimerEvent&) {
+                Bind(wxEVT_TIMER, [this, frame, screenshot, benchmark](wxTimerEvent&) {
                     try {
-                        smoke_exit_ = frame->smoke_test(screenshot) ? 0 : 1;
+                        smoke_exit_ =
+                            (benchmark ? frame->render_benchmark() : frame->smoke_test(screenshot)) ? 0 : 1;
                     } catch (const std::exception& e) {
                         std::cerr << e.what() << '\n';
                         smoke_exit_ = 1;
                     }
-                    std::cout
-                        << (smoke_exit_ == 0
-                                ? "UI smoke passed: fonts, rendering, themes, parallel modes, stable date.\n"
-                                : "UI smoke failed.\n");
+                    if (!benchmark)
+                        std::cout << (smoke_exit_ == 0 ? "UI smoke passed: fonts, rendering, themes, "
+                                                         "parallel modes, stable date.\n"
+                                                       : "UI smoke failed.\n");
                     frame->Close(true);
                 });
                 timer_->StartOnce(300);
             }
             return true;
         } catch (const std::exception& e) {
-            if (smoke)
+            if (smoke || benchmark)
                 std::cerr << e.what() << '\n';
             else
                 wxMessageBox(wxString::FromUTF8(e.what()), "Perikop", wxOK | wxICON_ERROR);

@@ -30,6 +30,7 @@ public:
     void open_psalm();
     void review_pronunciation();
     bool smoke_test(const wxString& screenshot_path);
+    bool render_benchmark();
 
 private:
     void make_menus();

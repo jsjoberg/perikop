@@ -7,7 +7,7 @@
 namespace ortho {
 ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS | wxVSCROLL),
-      follow_timer_(this), wheel_timer_(this), corpus_(corpus) {
+      follow_timer_(this), wheel_timer_(this), layout_timer_(this), corpus_(corpus) {
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetName(wxString::FromUTF8("Kontinuerlig skriftläsare"));
     Bind(wxEVT_PAINT, &ScriptureView::paint, this);
@@ -17,6 +17,16 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         scrollbar();
         e.Skip();
     });
+    Bind(wxEVT_DPI_CHANGED, [this](wxDPIChangedEvent& e) {
+        invalidate();
+        e.Skip();
+    });
+    Bind(
+        wxEVT_TIMER,
+        [this](wxTimerEvent&) {
+            prefetch_layout();
+        },
+        layout_timer_.GetId());
     Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent& e) {
         if (e.GetWheelAxis() != wxMOUSE_WHEEL_VERTICAL) {
             e.Skip();
@@ -29,7 +39,8 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         const double amount=-double(e.GetWheelRotation())/std::max(1,e.GetWheelDelta())*
             (e.IsPageScroll()?GetClientSize().y*0.85:std::max(1,e.GetLinesPerAction())*FromDIP(30));
         target_=std::clamp(target_+amount,0.0,max_offset());
-        wheel_timer_.Start(16);
+        if (!wheel_timer_.IsRunning())
+            wheel_timer_.Start(16);
 #endif
     });
     Bind(
@@ -46,12 +57,16 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     Bind(
         wxEVT_TIMER,
         [this](wxTimerEvent&) {
-            advance_playback(0.016);
+            const auto now = std::chrono::steady_clock::now();
+            const double elapsed = std::chrono::duration<double>(now - animation_tick_).count();
+            animation_tick_ = now;
+            advance_playback(elapsed);
         },
         follow_timer_.GetId());
     const auto scroll_event = [this](wxScrollWinEvent& e) {
         release_follow();
         wheel_timer_.Stop();
+        layout_timer_.Stop();
         if (e.GetEventType() == wxEVT_SCROLLWIN_LINEUP)
             scroll_by(-FromDIP(30));
         else if (e.GetEventType() == wxEVT_SCROLLWIN_LINEDOWN)
@@ -161,16 +176,21 @@ bool ScriptureView::Show(bool show) {
     if (!show) {
         follow_timer_.Stop();
         wheel_timer_.Stop();
+        layout_timer_.Stop();
         target_ = offset_;
     }
     const bool changed = wxPanel::Show(show);
-    if (show && (following_ || guide_ || guide_alpha_ > 0) && !follow_timer_.IsRunning())
-        follow_timer_.Start(16);
+    if (show) {
+        schedule_prefetch();
+        if (following_ || guide_ || guide_alpha_ > 0)
+            start_animation();
+    }
     return changed;
 }
 ScriptureView::~ScriptureView() {
     wheel_timer_.Stop();
     follow_timer_.Stop();
+    layout_timer_.Stop();
 #ifdef __APPLE__
     remove_native_scroll(native_scroll_);
 #endif
@@ -192,11 +212,9 @@ void ScriptureView::prepare_visible() {
         return;
     const auto anchor = first_visible();
     const double within = offset_ - positions_[anchor];
-    const auto begin = anchor > 8 ? anchor - 8 : 0;
-    double covered = 0;
+    double covered = -within;
     bool changed = false;
-    for (std::size_t i = begin; i < rows_.size() && (i <= anchor || covered < GetClientSize().y * 2 + 600);
-         ++i) {
+    for (std::size_t i = anchor; i < rows_.size() && covered < GetClientSize().y + FromDIP(12); ++i) {
         const int height = row_layout(i).height;
         changed |= heights_[i] != height;
         heights_[i] = height;
@@ -209,6 +227,47 @@ void ScriptureView::prepare_visible() {
         offset_ += adjustment;
         target_ += adjustment;
     }
+}
+void ScriptureView::schedule_prefetch() {
+    if (IsShown() && !rows_.empty() && !layout_timer_.IsRunning())
+        layout_timer_.StartOnce(20);
+}
+void ScriptureView::prefetch_layout() {
+    if (!IsShown() || rows_.empty())
+        return;
+    const auto anchor = first_visible();
+    const double within = offset_ - positions_[anchor];
+    const auto begin = anchor > 8 ? anchor - 8 : 0;
+    const auto visible_end =
+        std::lower_bound(positions_.begin(), positions_.end(), offset_ + GetClientSize().y);
+    const auto visible_count = std::size_t(visible_end - positions_.begin()) - anchor;
+    // Keep the prefetch working set smaller than the cache. Otherwise a tall
+    // viewport can evict its own prefetched rows and keep the timer busy forever.
+    if (visible_count + 8 >= cache_limit / 2)
+        return;
+    const auto end = std::min(rows_.size(), begin + cache_limit / 2);
+    // One paragraph per event lets input/paint run between cold layout jobs.
+    for (auto i = begin; i < end && positions_[i] < offset_ + GetClientSize().y * 2 + FromDIP(600); ++i) {
+        if (cache_.contains(i))
+            continue;
+        const int height = row_layout(i).height;
+        if (heights_[i] != height) {
+            heights_[i] = height;
+            rebuild_positions();
+            const double adjustment = positions_[anchor] + within - offset_;
+            offset_ += adjustment;
+            target_ += adjustment;
+            follow_target_ += adjustment;
+            guide_y_ += adjustment;
+            scrollbar();
+        }
+        layout_timer_.StartOnce(1);
+        return;
+    }
+}
+void ScriptureView::request_repaint() {
+    ++render_stats_.repaint_requests;
+    Refresh(false);
 }
 double ScriptureView::content_height() const {
     // The end of a book keeps blank space below it, like the heading space above its first chapter.
@@ -223,14 +282,17 @@ void ScriptureView::scrollbar() {
     SetScrollbar(wxVERTICAL, int(std::lround(offset_)), page, total, true);
 }
 void ScriptureView::set_position(double value) {
-    prepare_visible();
+    const double previous = offset_;
     const bool to_end = value >= max_offset();
     offset_ = std::clamp(value, 0.0, max_offset());
     prepare_visible();
     // Measured rows can be taller than their estimates; a position past the end stays at the end.
     offset_ = to_end ? max_offset() : std::clamp(offset_, 0.0, max_offset());
-    scrollbar();
-    Refresh(false);
+    if (previous != offset_) {
+        scrollbar();
+        request_repaint();
+    }
+    schedule_prefetch();
 }
 void ScriptureView::scroll_by(double pixels) {
     release_follow();
