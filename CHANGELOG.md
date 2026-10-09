@@ -28,6 +28,9 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - An option in Visa to turn off the highlight of the text being read aloud.
 - In the book picker, an asterisk on the books outside the Hebrew Bible and a note that names the books without text in the chosen language.
 - Release packages: a DMG for macOS, an installer for Windows, and an AppImage for Linux. Each contains the voices and works offline.
+- Arrows beside the date for the previous and next day, and an **Idag** button for the current date.
+- Custom readings in the Bible browser: with **Flera intervall**, add verse ranges from different books in playback order, then open or play them.
+- Drag across verses in the reader to mark a range. Ctrl or Command adds more ranges. **Läs markering** plays them in Scripture order.
 
 ### Changed
 
@@ -41,3 +44,6 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - The Alice and Björn voices are bundled in the application. There is no separate voice installation, and Perikop never uses the network.
 - The play button shows a play symbol, and play, pause, and stop always stay in the toolbar.
 - The Greek text of 1 John 5:7 marks its bracketed passage with [[ ]] instead of ⟦ ⟧, in the reader's own font. Perikop no longer includes the Noto Sans Math font.
+- The calendar, Bible browser, and About page open in the main window instead of separate dialogs. Back and Escape return to the previous view, and playback continues.
+- The Bible browser shows book, chapter, and verse grids on one page. A verse opens immediately.
+- The voice model is half the size and uses less memory. Pronunciations for the Bible text are prepared in advance.
