@@ -278,6 +278,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
         const auto segments = reading_.segments();
         int height = 0;
         for (const auto& language : selected_languages) {
+            const auto fetch_begin = std::chrono::steady_clock::now();
             const auto source = source_of(language);
             Column column;
             column.language = language;
@@ -333,7 +334,13 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                                         ui::utf8(own.suffix),
                                     ref, ref, true, true);
             }
+            const auto typeset_begin = std::chrono::steady_clock::now();
+            render_stats_.fragment_ms +=
+                std::chrono::duration<double, std::milli>(typeset_begin - fetch_begin).count();
             column.text = layout_paragraph(dc, fragments, std::max(80, column_width()), language);
+            render_stats_.typesetting_ms +=
+                std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - typeset_begin)
+                    .count();
             const int h = column.text.height() + (stacked && selected_languages.size() > 1 ? FromDIP(24) : 0);
             height = stacked ? height + h : std::max(height, h);
             layout.columns.push_back(std::move(column));

@@ -29,6 +29,7 @@ public:
     struct RenderStats {
         std::size_t layout_builds = 0, tile_builds = 0, tile_hits = 0, repaint_requests = 0;
         std::size_t tile_bytes = 0;
+        double fragment_ms = 0, typesetting_ms = 0;
     };
     RenderStats render_stats() const {
         return render_stats_;

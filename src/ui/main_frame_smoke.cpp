@@ -209,6 +209,45 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (markers != 2 || recovered != expected)
             fail(__LINE__);
     }
+    // Repeated words must retain native metrics across font size, style and script changes.
+    for (const int size : {19, 24, 19}) {
+        for (const bool bold : {false, true, false}) {
+            auto font = body_font(size);
+            if (bold)
+                font.SetWeight(wxFONTWEIGHT_BOLD);
+            metrics.SetFont(font);
+            const auto fit =
+                layout_paragraph(metrics, std::vector<TextFragment>{{ui::utf8("MMMM שלום Λόγος"), "7", 0}},
+                                 2000, "no-patterns");
+            std::unique_ptr<wxGraphicsContext> gc(
+                wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext());
+            const auto ppi = metrics.GetPPI();
+            if (fit.lines.size() != 1)
+                fail(__LINE__);
+            for (const auto& line : fit.lines)
+                for (const auto& run : line.runs) {
+                    auto chosen = font;
+                    if (run.marker)
+                        chosen.SetFractionalPointSize(font.GetFractionalPointSize() * 0.57);
+                    else if (run.text == ui::utf8("שלום"))
+                        chosen.SetFaceName("Noto Serif Hebrew");
+                    gc->SetFont(
+                        gc->GetRenderer()->CreateFontAtDPI(chosen, wxRealPoint(ppi.x, ppi.y), *wxBLACK));
+                    double expected = 0;
+                    gc->GetTextExtent(run.text, &expected, nullptr);
+                    if (run.marker) {
+                        gc->SetFont(
+                            gc->GetRenderer()->CreateFontAtDPI(font, wxRealPoint(ppi.x, ppi.y), *wxBLACK));
+                        double space = 0;
+                        gc->GetTextExtent(" ", &space, nullptr);
+                        expected += std::max(1.0, space) * 0.5;
+                    }
+                    if (std::abs(run.width - expected) > 0.01)
+                        fail(__LINE__);
+                }
+        }
+    }
+    metrics.SetFont(body_font(19));
     if (hyphenation_points("begynnelsen", "sv").empty() || hyphenation_points("beginning", "en").empty() ||
         hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"), "el").empty())
         fail(__LINE__);

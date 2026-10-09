@@ -18,7 +18,9 @@ bool MainFrame::render_benchmark() {
     for (const auto* parallel : {"", "el", "en"}) {
         settings_.parallel = parallel;
         apply_settings(false);
+        const auto open_begin = Clock::now();
         open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 18}}});
+        const auto open_ms = std::chrono::duration<double, std::milli>(Clock::now() - open_begin).count();
         Layout();
         const auto size = scripture_->GetClientSize();
         const double scale = scripture_->GetContentScaleFactor();
@@ -28,6 +30,7 @@ bool MainFrame::render_benchmark() {
         wxMemoryDC dc(bitmap);
         std::cout << "Reader benchmark: sv" << (*parallel ? "/" : "") << parallel << ", viewport=" << size.x
                   << 'x' << size.y << ", scale=" << scale << ", dpi=" << scripture_->GetDPI().x << '\n';
+        std::cout << "Open reading: ms=" << open_ms << '\n';
         const auto report = [](const char* label, std::vector<double> samples) {
             std::sort(samples.begin(), samples.end());
             std::cout << label << ": median_ms=" << samples[samples.size() / 2]
@@ -65,8 +68,24 @@ bool MainFrame::render_benchmark() {
                   << ", first visit new layouts=" << after.layout_builds - warm.layout_builds
                   << ", first visit new tiles=" << after.tile_builds - warm.tile_builds
                   << ", cached_MiB=" << after.tile_bytes / (1024.0 * 1024.0) << '\n';
+        std::cout << "First visit phases (total over 120 frames): fetch_and_fragments_ms="
+                  << after.fragment_ms - warm.fragment_ms
+                  << ", typesetting_ms=" << after.typesetting_ms - warm.typesetting_ms << '\n';
         if (after.tile_bytes > std::size_t{32} * 1024 * 1024 || scripture_->cached_rows() > 192)
             ok = false;
+    }
+    // Old Testament openings include whole-book verse mapping and Hebrew-only text discovery.
+    settings_.parallel = "el";
+    apply_settings(false);
+    for (const auto* book : {"Ps", "Jer", "Isa"}) {
+        const auto before = scripture_->render_stats();
+        const auto begin = Clock::now();
+        open_reading({ReadingKind::OldTestament, {book, {1, 1}, {1, 6}}});
+        const auto elapsed = std::chrono::duration<double, std::milli>(Clock::now() - begin).count();
+        const auto after = scripture_->render_stats();
+        std::cout << "Open sv/el " << book << ": ms=" << elapsed
+                  << ", fetch_and_fragments_ms=" << after.fragment_ms - before.fragment_ms
+                  << ", typesetting_ms=" << after.typesetting_ms - before.typesetting_ms << '\n';
     }
     // Exercise a quiet paused guide without loading or running a speech model.
     open_psalm();

@@ -4,12 +4,15 @@
 #include <cmath>
 #include <fstream>
 #include <limits>
+#include <list>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
+#include <unordered_map>
 #include <wx/graphics.h>
+#include <wx/hashmap.h>
 #include <wx/tokenzr.h>
 namespace ortho {
 namespace {
@@ -23,6 +26,41 @@ struct Patterns {
     int left = 2, right = 2;
 };
 std::map<std::string, Patterns> dictionaries;
+std::size_t dictionary_epoch = 0;
+// Limit both entry count and retained key/value payload. Long tokens bypass the cache.
+template <typename Value> class Memo {
+public:
+    const Value* find(const wxString& key) {
+        const auto found = index_.find(key);
+        if (found == index_.end())
+            return nullptr;
+        entries_.splice(entries_.end(), entries_, found->second);
+        return &found->second->value;
+    }
+    void insert(const wxString& key, Value value, std::size_t bytes) {
+        if (bytes > budget)
+            return;
+        while (!entries_.empty() && (index_.size() >= limit || bytes_ + bytes > budget)) {
+            bytes_ -= entries_.front().bytes;
+            index_.erase(entries_.front().key);
+            entries_.pop_front();
+        }
+        entries_.push_back({key, std::move(value), bytes});
+        index_.emplace(key, std::prev(entries_.end()));
+        bytes_ += bytes;
+    }
+
+private:
+    struct Entry {
+        wxString key;
+        Value value;
+        std::size_t bytes;
+    };
+    std::list<Entry> entries_;
+    std::unordered_map<wxString, typename std::list<Entry>::iterator, wxStringHash> index_;
+    std::size_t bytes_ = 0;
+    static constexpr std::size_t limit = 2048, budget = std::size_t{256} * 1024;
+};
 bool combining(unsigned c) {
     return (c >= 0x300 && c <= 0x36f) || (c >= 0x1ab0 && c <= 0x1aff);
 }
@@ -55,6 +93,10 @@ struct ShapedPart {
     wxFont font;
 };
 std::vector<ShapedPart> shaped_parts(const wxFont& base, const wxString& text) {
+    if (std::none_of(text.begin(), text.end(), [](auto c) {
+            return font_category(c.GetValue()) == 1;
+        }))
+        return {{text, base}};
     std::vector<ShapedPart> parts;
     int previous = -1;
     for (auto c : text) {
@@ -75,24 +117,71 @@ wxFont marker_font(const wxFont& base) {
     font.SetFractionalPointSize(base.GetFractionalPointSize() * 0.57);
     return font;
 }
-double shaped_width(wxDC& dc, wxGraphicsContext* gc, const wxFont& base, const wxString& text) {
-    double width = 0;
-    for (const auto& part : shaped_parts(base, text)) {
-        if (gc) {
-            const auto ppi = dc.GetPPI();
-            gc->SetFont(gc->GetRenderer()->CreateFontAtDPI(part.font, wxRealPoint(ppi.x, ppi.y),
-                                                           dc.GetTextForeground()));
-            double w = 0;
-            gc->GetTextExtent(part.text, &w, nullptr);
-            width += w;
-        } else {
-            dc.SetFont(part.font);
-            width += dc.GetTextExtent(part.text).x;
+class Measurement {
+public:
+    explicit Measurement(wxDC& dc)
+        : dc_(dc), base_(dc.GetFont()), marker_(marker_font(base_)), ppi_(dc.GetPPI()),
+          gc_(wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext()) {
+        const Key key{base_.GetNativeFontInfoDesc(), ppi_.x, ppi_.y, dc.GetContentScaleFactor(),
+                      gc_ ? gc_->GetRenderer() : nullptr};
+        const auto found = std::find_if(banks_.begin(), banks_.end(), [&](const auto& bank) {
+            return bank.key == key;
+        });
+        if (found != banks_.end())
+            banks_.splice(banks_.end(), banks_, found);
+        else {
+            if (banks_.size() == 4)
+                banks_.pop_front();
+            banks_.push_back({key, {}});
         }
+        bank_ = &banks_.back();
     }
-    dc.SetFont(base);
-    return width;
-}
+    double width(const wxString& text, bool marker = false) {
+        const auto& font = marker ? marker_ : base_;
+        auto& widths = bank_->widths[marker ? 1 : 0];
+        if (const auto* found = widths.find(text))
+            return *found;
+        double width = 0;
+        for (const auto& part : shaped_parts(font, text)) {
+            if (gc_) {
+                const auto slot =
+                    std::size_t(marker ? 2 : 0) + (part.font.GetFaceName() == font.GetFaceName() ? 0 : 1);
+                if (fonts_[slot].IsNull())
+                    fonts_[slot] = gc_->GetRenderer()->CreateFontAtDPI(part.font, wxRealPoint(ppi_.x, ppi_.y),
+                                                                       dc_.GetTextForeground());
+                if (active_ != slot) {
+                    gc_->SetFont(fonts_[slot]);
+                    active_ = slot;
+                }
+                double w = 0;
+                gc_->GetTextExtent(part.text, &w, nullptr);
+                width += w;
+            } else {
+                dc_.SetFont(part.font);
+                width += dc_.GetTextExtent(part.text).x;
+            }
+        }
+        dc_.SetFont(base_);
+        widths.insert(text, width, 2 * (text.length() * sizeof(wxChar) + sizeof(wxString)) + sizeof(double));
+        return width;
+    }
+
+private:
+    using Key = std::tuple<wxString, int, int, double, wxGraphicsRenderer*>;
+    struct Bank {
+        Key key;
+        std::array<Memo<double>, 2> widths;
+    };
+    wxDC& dc_;
+    wxFont base_, marker_;
+    wxSize ppi_;
+    std::unique_ptr<wxGraphicsContext> gc_;
+    std::array<wxGraphicsFont, 4> fonts_;
+    std::size_t active_ = fonts_.size();
+    Bank* bank_ = nullptr;
+    static thread_local std::list<Bank> banks_;
+};
+thread_local std::list<Measurement::Bank> Measurement::banks_;
 struct Break {
     int word, cut;
     bool hyphen;
@@ -103,6 +192,7 @@ struct State {
 };
 } // namespace
 void load_hyphenation(const std::filesystem::path& directory) {
+    ++dictionary_epoch;
     dictionaries.clear();
     for (const auto& [language, file, left, right] :
          std::vector<std::tuple<std::string, std::string, int, int>>{
@@ -146,7 +236,8 @@ void load_hyphenation(const std::filesystem::path& directory) {
         dictionaries.emplace(language, std::move(patterns));
     }
 }
-std::vector<int> hyphenation_points(const wxString& word, const std::string& language) {
+namespace {
+std::vector<int> find_hyphenation_points(const wxString& word, const std::string& language) {
     auto it = dictionaries.find(language);
     if (it == dictionaries.end())
         return {};
@@ -187,6 +278,24 @@ std::vector<int> hyphenation_points(const wxString& word, const std::string& lan
             result.push_back(first + i);
     return result;
 }
+} // namespace
+std::vector<int> hyphenation_points(const wxString& word, const std::string& language) {
+    if (!dictionaries.contains(language))
+        return {};
+    static thread_local std::map<std::string, Memo<std::vector<int>>> caches;
+    static thread_local std::size_t epoch = dictionary_epoch;
+    if (epoch != dictionary_epoch) {
+        caches.clear();
+        epoch = dictionary_epoch;
+    }
+    auto& cache = caches[language];
+    if (const auto* found = cache.find(word))
+        return *found;
+    auto result = find_hyphenation_points(word, language);
+    cache.insert(word, result,
+                 2 * (word.length() * sizeof(wxChar) + sizeof(wxString)) + result.size() * sizeof(int));
+    return result;
+}
 TextLayout layout_paragraph(wxDC& dc, const wxString& text, int width, const std::string& language) {
     return layout_paragraph(dc, std::vector<TextFragment>{{text, {}}}, width, language);
 }
@@ -212,23 +321,18 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
         return result;
     }
     const int n = int(words.size());
-    const auto base_font = dc.GetFont();
-    std::unique_ptr<wxGraphicsContext> measuring(
-        wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext());
-    const double natural_space = std::max(1.0, shaped_width(dc, measuring.get(), base_font, " "));
+    Measurement measuring(dc);
+    const double natural_space = std::max(1.0, measuring.width(" "));
     std::vector<double> prefixes;
     for (const auto& label : labels)
-        prefixes.push_back(label.empty() ? 0
-                                         : shaped_width(dc, measuring.get(), marker_font(base_font), label) +
-                                               natural_space * 0.5);
+        prefixes.push_back(label.empty() ? 0 : measuring.width(label, true) + natural_space * 0.5);
     std::map<std::tuple<int, int, int, bool>, double> measures;
     auto measure = [&](int w, int first, int last, bool hyphen) {
         const auto key = std::tuple{w, first, last, hyphen};
         if (auto it = measures.find(key); it != measures.end())
             return it->second;
         const auto run = words[w].Mid(first, last - first) + (hyphen ? "-" : "");
-        const double value =
-            shaped_width(dc, measuring.get(), base_font, run) + (first == 0 ? prefixes[w] : 0);
+        const double value = measuring.width(run) + (first == 0 ? prefixes[w] : 0);
         measures.emplace(key, value);
         return value;
     };
@@ -268,7 +372,7 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
             return 0.0;
         auto [found, inserted] = character_widths.try_emplace(c, 0);
         if (inserted)
-            found->second = shaped_width(dc, measuring.get(), base_font, wxString(character));
+            found->second = measuring.width(wxString(character));
         return found->second * fraction;
     };
     auto line_measure = [&](const Break& a, const Break& b) {
@@ -430,9 +534,15 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
 void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFont& base,
                     const wxRealPoint& dpi, const wxColour& ink, int x, int y, std::size_t first,
                     std::size_t end, const std::function<std::optional<wxColour>(const TextRun&)>& colour) {
-    // GDI+ builds a new font each time one is set, so set it only when the font or colour changes.
+    // Reuse native fonts when inline markers or muted runs switch back to an earlier font.
     wxFont font;
     wxColour font_colour;
+    struct Font {
+        wxFont font;
+        wxColour colour;
+        wxGraphicsFont graphics;
+    };
+    std::vector<Font> fonts;
     for (auto line = first; line < std::min(end, layout.lines.size()); ++line) {
         const int line_y = y + int(line) * layout.line_height;
         for (const auto& run : layout.lines[line].runs) {
@@ -446,7 +556,15 @@ void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFon
                 if (font != parts[i].font || font_colour != text_colour) {
                     font = parts[i].font;
                     font_colour = text_colour;
-                    gc.SetFont(gc.GetRenderer()->CreateFontAtDPI(font, dpi, font_colour));
+                    auto found = std::find_if(fonts.begin(), fonts.end(), [&](const auto& entry) {
+                        return entry.font == font && entry.colour == font_colour;
+                    });
+                    if (found == fonts.end()) {
+                        fonts.push_back(
+                            {font, font_colour, gc.GetRenderer()->CreateFontAtDPI(font, dpi, font_colour)});
+                        found = std::prev(fonts.end());
+                    }
+                    gc.SetFont(found->graphics);
                 }
                 gc.DrawText(parts[i].text, part_x, line_y);
                 double width = 0;

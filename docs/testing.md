@@ -53,6 +53,9 @@ It reports median and 99th-percentile frame preparation times for Swedish text a
 Warm measurements compare direct text drawing with cached tiles at the same two scroll positions.
 First-visit measurements include layout and raster cache misses.
 The benchmark also reports cache construction counts, retained pixel bytes, and settled pause activity.
+It times opening a reading and separates first-visit text fetching and fragment preparation from paragraph typesetting.
+It also times opening Psalms, Jeremiah, and Isaiah with Swedish and Greek panes.
+The fetching measurement includes verse mapping and string construction; it does not isolate SQLite execution.
 
 The measurements use an offscreen bitmap at the window display scale.
 They exclude screen presentation, compositor delay, input latency, and speech synthesis.

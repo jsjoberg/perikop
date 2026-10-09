@@ -69,6 +69,13 @@ The layout cache retains the most recently used paragraphs.
 A timer prepares nearby paragraphs, one paragraph per event, between input events.
 A direct jump can still require synchronous layout of the visible paragraphs.
 
+Paragraph measurement reuses native fonts and measured word widths, including hyphenated fragments.
+Width caches distinguish font attributes, DPI, display scale, and graphics renderer.
+Four font configurations retain separate body and marker widths.
+Hyphenation caches are separate for each language and reset when patterns reload.
+Each cache retains at most 2,048 entries and 256 KiB of estimated key and value payload, plus container overhead.
+Drawing also reuses native fonts when inline verse numbers or muted text change the font.
+
 Playback caches the geometry of the spoken verse.
 The animation uses elapsed time and stops after the marker and opacity settle.
 Repeated paused or buffering updates do not request reader frames.
