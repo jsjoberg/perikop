@@ -1,0 +1,77 @@
+name: Prepare CI dependencies
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: prepare-ci-dependencies
+  cancel-in-progress: false
+jobs:
+  inputs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Download and verify pinned upstream inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/ci/dependencies.py upstream --output build/snapshot
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dependency-inputs
+          path: build/snapshot/inputs-*.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Prepare Linux toolchain and system libraries
+        run: |
+          docker build --pull -f ci/linux.Dockerfile -t perikop-ci-linux:dependencies ci
+          mkdir -p build/snapshot
+          docker run --rm --network none perikop-ci-linux:dependencies bash -c 'g++ --version && cmake --version && python3 --version && ccache --version'
+          docker save perikop-ci-linux:dependencies | gzip -1 > build/snapshot/Linux-environment.tar.gz
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dependency-linux
+          path: build/snapshot/Linux-environment.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+  macos:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Prepare macOS analysis tools
+        run: |
+          brew install llvm@23 ccache
+          mkdir -p build/snapshot
+          python3 tools/ci/macos_tools.py build/snapshot
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dependency-macos
+          path: build/snapshot/macOS-tools.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+  publish:
+    needs: [inputs, linux, macos]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: dependency-*
+          path: build/snapshot
+          merge-multiple: true
+      - name: Publish dependency snapshot and its lock file
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="ci-dependencies-${GITHUB_SHA:0:12}"
+          python3 tools/ci/dependencies.py lock --output build/snapshot --repository "$GITHUB_REPOSITORY" --release "$tag"
+          gh release create "$tag" build/snapshot/*.tar.gz build/snapshot/dependencies-lock.json \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --latest=false \
+            --title "CI dependencies ${GITHUB_SHA:0:12}" \
+            --notes "Prepared explicitly from the pinned upstreams at commit $GITHUB_SHA. Commit dependencies-lock.json as ci/dependencies-lock.json to activate this snapshot. Ordinary builds never fetch upstream inputs."
