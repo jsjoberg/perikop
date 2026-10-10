@@ -99,13 +99,20 @@ public:
 // real-time factor r (seconds of work per second of audio) and R seconds
 // still to generate, playback may run once B >= (r - 1) * R is buffered.
 // The margin covers estimation error; the cushion covers chunk granularity.
-inline double buffer_target(double remaining_seconds, double realtime_factor) {
-    constexpr double margin = 1.25, cushion = 6;
+inline double buffer_target(double remaining_seconds, double realtime_factor, double next_seconds = 0) {
+    // Cache playback only needs a small disk-read lead. Fast synthesis needs
+    // two seconds; keep the original cushion when synthesis cannot keep up.
+    if (remaining_seconds <= 0)
+        return 0.25;
+    constexpr double margin = 1.25;
+    // Even a fast model must finish a whole chunk before it can append audio.
+    const double cushion =
+        std::max(realtime_factor * margin <= 1 ? 2.0 : 6.0, next_seconds * realtime_factor * margin);
     return std::max(0.0, (realtime_factor * margin - 1) * remaining_seconds) + cushion;
 }
 // Fast models need a short rolling lead. Slower models retain their startup
 // requirement, up to the existing ten-minute memory bound.
-inline double buffer_limit(double remaining_seconds, double realtime_factor) {
-    return std::clamp(buffer_target(remaining_seconds, realtime_factor), 30.0, 600.0);
+inline double buffer_limit(double remaining_seconds, double realtime_factor, double next_seconds = 0) {
+    return std::clamp(buffer_target(remaining_seconds, realtime_factor, next_seconds), 30.0, 600.0);
 }
 } // namespace ortho

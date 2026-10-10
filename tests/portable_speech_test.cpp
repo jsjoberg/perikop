@@ -19,6 +19,7 @@ std::condition_variable changed;
 std::shared_ptr<ortho::PcmStream> stream;
 size_t appended = 0;
 bool paused = false, released = false;
+bool first_chunk_released = false;
 bool hold_device = false, device_entered = false;
 std::string status;
 void check(bool value, const char* message) {
@@ -125,10 +126,19 @@ int main(int argc, char** argv) {
             cache.save(revision, "sv", "Andra.", {4, 5, 6});
             cache.save(revision, "sv", "Tredje.", {7, 8, 9});
             cache.save(revision, "sv", "Ny läsning.", {10, 11, 12});
+            cache.save(revision, "sv", "Start.", std::vector<float>(24000, 1.0f));
+            cache.save(revision, "sv", "En längre fortsättning som redan finns i ljudcachen.",
+                       std::vector<float>(24000 * 30, 2.0f));
+            check(cache.contains(revision, "sv", "Start.") && !cache.contains(revision, "sv", "Ej cachad.") &&
+                      !cache.contains(revision, "en", "Start.") &&
+                      !cache.contains(revision + "-other", "sv", "Start."),
+                  "Cache availability must match the exact text, language, model and voice");
         }
         auto engine = create_portable_speech(data / "voices", data, [](const SpeechUpdate& update) {
             std::lock_guard lock(audio_mutex);
             status = update.text;
+            if (appended == 1 && status == "Läser med Alice")
+                first_chunk_released = released;
             changed.notify_all();
         });
         const SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}, false};
@@ -253,9 +263,23 @@ int main(int argc, char** argv) {
             },
             "The replacement reading must complete");
 
+        engine->speak_batch(
+            {{"", "Start.", "sv"}, {"", "En längre fortsättning som redan finns i ljudcachen.", "sv"}});
+        wait_for(
+            [] {
+                return appended == 2 && stream && !stream->waiting();
+            },
+            "Cached audio must start without waiting for the whole reading");
+        {
+            std::lock_guard lock(audio_mutex);
+            check(first_chunk_released,
+                  "A cached reading must release the first chunk before loading later audio");
+        }
+        engine->stop();
+
         // A cached first chunk must not start playback that later, slower
         // synthesis would stall. The model then fails validation deterministically.
-        engine->speak_batch({reading[0], {"", "Ej cachad.", "sv"}});
+        engine->speak_batch({{"", "Start.", "sv"}, {"", "Ej cachad.", "sv"}});
         wait_for(
             [] {
                 return status.starts_with("Uppläsning:");

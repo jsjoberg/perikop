@@ -63,11 +63,14 @@ int main() {
         full.render(output, 1);
         check(full.append(std::move(pending)), "A played slot is reused");
 
-        check(ortho::buffer_target(0, 2.3) == 6, "Nothing left to generate needs only the cushion");
+        check(ortho::buffer_target(0, 2.3) == 0.25,
+              "Cached playback needs only a short disk-read lead, even on a slow machine");
         check(std::abs(ortho::buffer_target(100, 2.3) - 193.5) < 1e-9,
               "Slow synthesis buffers enough to finish before playback catches up");
-        check(ortho::buffer_target(100, 0.5) == 6,
-              "Faster-than-real-time synthesis starts after the cushion");
+        check(ortho::buffer_target(100, 0.5) == 2,
+              "Faster-than-real-time synthesis starts with a smaller cushion");
+        check(ortho::buffer_target(100, 0.5, 10) == 6.25,
+              "A short introduction must wait for enough audio to cover a long next synthesis chunk");
         check(ortho::buffer_limit(1000, 0.5) == 30,
               "Fast synthesis must use a rolling lead instead of preparing ten minutes ahead");
         check(std::abs(ortho::buffer_limit(100, 2.3) - 193.5) < 1e-9 && ortho::buffer_limit(1000, 2.3) == 600,

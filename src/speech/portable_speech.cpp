@@ -214,7 +214,9 @@ class PortableSpeech final : public SpeechEngine {
                     std::string language, text;
                     std::optional<SpeechCue> cue;
                     double from, to, weight;
+                    bool cached;
                 };
+                const auto revision = std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
                 std::vector<Part> parts;
                 for (const auto& utterance : batch) {
                     auto chunks = speech_chunks(utterance.speech_text);
@@ -223,9 +225,12 @@ class PortableSpeech final : public SpeechEngine {
                         total += speech_text_weight(text);
                     for (auto& text : chunks) {
                         const auto weight = speech_text_weight(text);
+                        if (cancelled())
+                            break;
+                        const bool cached = cache->contains(revision, utterance.language, text);
                         parts.push_back({utterance.language, std::move(text), utterance.cue,
                                          used / std::max(1.0, total), (used + weight) / std::max(1.0, total),
-                                         weight});
+                                         weight, cached});
                         used += weight;
                     }
                 }
@@ -236,26 +241,35 @@ class PortableSpeech final : public SpeechEngine {
                     timeline_.reset(parts.size());
                 }
                 double remaining_weight = 0, produced_weight = 0, produced_seconds = 0;
+                double next_weight = 0;
                 std::string playing;
                 for (const auto& part : parts)
-                    remaining_weight += part.weight;
+                    if (!part.cached)
+                        remaining_weight += part.weight;
                 // Keep a rolling lead; slower models can prepare up to ten minutes.
                 // Pause suspends preparation between chunks as well as audio playback.
                 const auto estimated_remaining = [&] {
-                    return remaining_weight * produced_seconds / std::max(1e-9, produced_weight);
+                    // Cached parts are disk reads, not future model inference.
+                    return std::max(0.0, remaining_weight) * produced_seconds /
+                           std::max(1e-9, produced_weight);
                 };
                 const auto realtime_factor = [&] {
                     return (model_audio > 0 ? model_seconds / model_audio : 2.5) * speed_;
                 };
+                const auto estimated_next = [&] {
+                    return next_weight * produced_seconds / std::max(1e-9, produced_weight);
+                };
                 const auto full = [&] {
-                    const auto limit = buffer_limit(estimated_remaining(), realtime_factor());
+                    const auto limit =
+                        buffer_limit(estimated_remaining(), realtime_factor(), estimated_next());
                     return output_->buffered() >= PcmStream::capacity ||
                            output_->buffered_frames() / 24000.0 >= limit;
                 };
                 // Called with the mutex held after audio is queued or played.
                 // A full buffer cannot grow, so it plays whatever the estimate says.
                 const auto update_gate = [&] {
-                    const double target = buffer_target(estimated_remaining(), realtime_factor());
+                    const double target =
+                        buffer_target(estimated_remaining(), realtime_factor(), estimated_next());
                     const double buffered = output_->buffered_frames() / 24000.0;
                     ready_ = std::min(1.0, buffered / target);
                     if (output_->buffered() && (buffered >= target || full()))
@@ -282,7 +296,6 @@ class PortableSpeech final : public SpeechEngine {
                     const auto& text = part.text;
                     const auto progress = std::to_string(i + 1) + "/" + std::to_string(parts.size());
                     const auto name = voice_name(voice);
-                    const auto revision = std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
                     playing = "Läser med " + name;
                     report(generation, i ? "Läser med " + name + " · förbereder del " + progress
                                          : "Förbereder läsningen · " + progress);
@@ -328,7 +341,9 @@ class PortableSpeech final : public SpeechEngine {
                         timeline_.append(part.cue, samples->size(), i ? 4800 : 0, part.from, part.to);
                         produced_seconds += samples->size() / 24000.0;
                         produced_weight += part.weight;
-                        remaining_weight -= part.weight;
+                        if (!part.cached)
+                            remaining_weight -= part.weight;
+                        next_weight = i + 1 < parts.size() && !parts[i + 1].cached ? parts[i + 1].weight : 0;
                         output_->append(std::move(*samples));
                         output_started_ = true;
                         update_gate();

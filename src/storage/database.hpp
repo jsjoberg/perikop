@@ -125,6 +125,8 @@ private:
 class SpeechCache {
 public:
     explicit SpeechCache(const std::filesystem::path&);
+    // Check availability without reading or allocating the audio blob.
+    bool contains(const std::string& model, const std::string& language, const std::string& text);
     std::optional<std::vector<float>> load(const std::string& model, const std::string& language,
                                            const std::string& text);
     void save(const std::string& model, const std::string& language, const std::string& text,

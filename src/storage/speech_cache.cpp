@@ -29,6 +29,16 @@ SpeechCache::SpeechCache(const std::filesystem::path& path) {
     } else if (identity != 0x4f525453)
         throw std::runtime_error("Unsupported speech cache identity");
 }
+bool SpeechCache::contains(const std::string& model, const std::string& language, const std::string& text) {
+    Statement query(db_.get(), "SELECT length(pcm_f32le) FROM audio WHERE model=? AND language=? AND text=?");
+    query.text(1, model);
+    query.text(2, language);
+    query.text(3, text);
+    if (!query.row())
+        return false;
+    const auto bytes = query.number(0);
+    return bytes > 0 && bytes % 4 == 0 && bytes <= 16 * 1024 * 1024;
+}
 std::optional<std::vector<float>> SpeechCache::load(const std::string& model, const std::string& language,
                                                     const std::string& text) {
     Statement query(db_.get(), "SELECT pcm_f32le FROM audio WHERE model=? AND language=? AND text=?");
