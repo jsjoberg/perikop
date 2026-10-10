@@ -14,6 +14,11 @@
 #include <wx/graphics.h>
 #include <wx/hashmap.h>
 #include <wx/tokenzr.h>
+#ifdef __WXMSW__
+#include <wx/msw/wrapwin.h>
+
+#include <gdiplus.h>
+#endif
 namespace ortho {
 namespace {
 struct Node {
@@ -534,6 +539,13 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
 void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFont& base,
                     const wxRealPoint& dpi, const wxColour& ink, int x, int y, std::size_t first,
                     std::size_t end, const std::function<std::optional<wxColour>(const TextRun&)>& colour) {
+#ifdef __WXMSW__
+    // Use the same grayscale coverage on screen and in transparent tiles.
+    // ClearType assumes an opaque background and uses different glyph hinting.
+    if (gc.GetRenderer() == wxGraphicsRenderer::GetGDIPlusRenderer())
+        static_cast<Gdiplus::Graphics*>(gc.GetNativeContext())
+            ->SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAliasGridFit);
+#endif
     // Reuse native fonts when inline markers or muted runs switch back to an earlier font.
     wxFont font;
     wxColour font_colour;

@@ -116,18 +116,20 @@ class PortableSpeech final : public SpeechEngine {
         std::function<void(std::string)> deliver;
     };
     std::mutex lookup_queue_mutex_;
-    std::condition_variable_any lookup_condition_;
+    std::condition_variable lookup_condition_;
     std::optional<Lookup> lookup_request_;
-    std::jthread lookup_worker_;
+    std::atomic<bool> lookup_shutdown_{false};
+    std::thread lookup_worker_;
     std::thread worker_;
-    void run_lookups(const std::stop_token& stop) {
-        while (!stop.stop_requested()) {
+    void run_lookups() {
+        while (true) {
             Lookup request;
             {
                 std::unique_lock lock(lookup_queue_mutex_);
-                if (!lookup_condition_.wait(lock, stop, [this] {
-                        return lookup_request_.has_value();
-                    }))
+                lookup_condition_.wait(lock, [this] {
+                    return lookup_shutdown_ || lookup_request_.has_value();
+                });
+                if (lookup_shutdown_)
                     return;
                 if (!lookup_request_)
                     continue;
@@ -135,9 +137,30 @@ class PortableSpeech final : public SpeechEngine {
                 lookup_request_.reset();
             }
             auto result = pronunciation(request.text);
-            if (!stop.stop_requested())
+            if (!lookup_shutdown_)
                 request.deliver(std::move(result));
         }
+    }
+    void shutdown_workers() {
+        {
+            std::lock_guard lock(lookup_queue_mutex_);
+            lookup_shutdown_ = true;
+        }
+        lookup_condition_.notify_all();
+        {
+            std::lock_guard lock(mutex_);
+            shutdown_ = true;
+            ++generation_;
+            queue_.clear();
+            callback_ = {};
+            if (output_)
+                output_->stop();
+        }
+        condition_.notify_all();
+        if (lookup_worker_.joinable())
+            lookup_worker_.join();
+        if (worker_.joinable())
+            worker_.join();
     }
     void report(uint64_t generation, const std::string& status, SpeechState state = SpeechState::Buffering) {
         std::lock_guard lock(mutex_);
@@ -353,27 +376,22 @@ class PortableSpeech final : public SpeechEngine {
 
 public:
     PortableSpeech(const std::filesystem::path& voices, std::filesystem::path data, SpeechStatus status)
-        : pack_(voices / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)),
-          lookup_worker_([this](const std::stop_token& stop) {
-              run_lookups(stop);
-          }),
-          worker_([this] {
-              run();
-          }) {}
-    ~PortableSpeech() override {
-        lookup_worker_.request_stop();
-        {
-            std::lock_guard lock(mutex_);
-            shutdown_ = true;
-            ++generation_;
-            queue_.clear();
-            callback_ = {};
-            if (output_)
-                output_->stop();
+        : pack_(voices / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)) {
+        // Also join the first worker if starting the second one fails.
+        try {
+            lookup_worker_ = std::thread([this] {
+                run_lookups();
+            });
+            worker_ = std::thread([this] {
+                run();
+            });
+        } catch (...) {
+            shutdown_workers();
+            throw;
         }
-        condition_.notify_all();
-        lookup_worker_.join();
-        worker_.join();
+    }
+    ~PortableSpeech() override {
+        shutdown_workers();
     }
     void speak(const SpeechUtterance& utterance) override {
         speak_batch({utterance});

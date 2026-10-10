@@ -4,6 +4,7 @@
 #include "ui/main_frame.hpp"
 #include "ui/toolbar.hpp"
 #include <wx/msgdlg.h>
+#include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/wrapsizer.h>
 namespace ortho {

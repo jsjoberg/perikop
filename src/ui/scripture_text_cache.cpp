@@ -2,11 +2,6 @@
 #include <algorithm>
 #include <cmath>
 #include <wx/image.h>
-#ifdef __WXMSW__
-#include <wx/msw/wrapwin.h>
-
-#include <gdiplus.h>
-#endif
 
 namespace ortho {
 void ScriptureView::clear_tiles() const {
@@ -18,7 +13,13 @@ void ScriptureView::clear_tiles() const {
 void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& column, std::size_t row,
                               std::size_t col, int x, int y, int bottom) const {
     const auto colors = palette(settings_.theme);
+#ifdef __WXMSW__
+    // MSW draws in device pixels. A bitmap's scale metadata affects fonts,
+    // but does not scale its pixels or the GDI+ drawing coordinates.
+    const double scale = 1;
+#else
     const double scale = dc.GetContentScaleFactor();
+#endif
     // Layout uses window metrics. A memory DC can report the system DPI even
     // when this window is on a different monitor.
     const auto window_dpi = GetDPI();
@@ -71,12 +72,6 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
             raster->Scale(scale, scale);
             // Grayscale coverage remains correct over any highlight/background colour.
             raster->SetAntialiasMode(wxANTIALIAS_DEFAULT);
-#ifdef __WXMSW__
-            // ClearType's RGB coverage assumes an opaque background. Tiles need
-            // grayscale alpha so selections can be drawn underneath them.
-            static_cast<Gdiplus::Graphics*>(raster->GetNativeContext())
-                ->SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAliasGridFit);
-#endif
             draw_paragraph(*raster, text, dc.GetFont(), dpi, colors.ink, pad, pad - top, begin, end, colour);
             raster.reset(); // Image contexts finish writing their pixels on destruction.
             auto bitmap = gc.CreateBitmapFromImage(image);

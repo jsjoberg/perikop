@@ -344,6 +344,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 if (difference / bytes > 1.5) {
                     std::cerr << "Cached text pixel difference=" << difference / bytes << ", scale=" << scale
                               << '\n';
+                    const auto suffix = wxString::Format("-text-%d-%s-%g", int(theme), wxString(mode), scale);
+                    save(direct, suffix + "-direct");
+                    save(cached, suffix + "-cached");
                     fail(__LINE__);
                 }
             }
