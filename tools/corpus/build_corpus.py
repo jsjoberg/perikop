@@ -101,6 +101,12 @@ with sqlite3.connect(temp) as db:
   if not line or line.startswith('#'):continue
   word,ipa=line.split('\t')
   if not set(ipa)<=phones or ipa.count('ˈ')!=1:raise SystemExit('Invalid phonemes for '+word+': '+ipa)
+  # A phrase gives its bracketed word one sense. It outranks review corrections (1000) and previews (2000).
+  if '[' in word:
+   m=re.fullmatch(r'([^\[\]]*)\[([^\[\]\s]+)\]([^\[\]]*)',word)
+   if not m or not (m[1]+m[3]).strip():raise SystemExit('A phrase needs one [word] and context: '+word)
+   db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',m[1]+m[2]+m[3],m[1]+'⟦'+ipa+'⟧'+m[3],'',3000))
+   continue
   db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv',word,'',ipa,50),('sv',word+'s','',ipa+'s',50)])
  # Import recurring references, never the project's third-party Scripture wording.
  # Rows are tagged common, greek or slavic; antiochian.json adds the Antiochian

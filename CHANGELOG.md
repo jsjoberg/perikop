@@ -55,5 +55,6 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - On the start page, readings of the same service and occasion form one reading, such as the three Vespers prophecies.
 - Read-aloud announces every passage of a reading before it begins, not only the first.
 - Read-aloud pronounces 38 frequent words with more than one pronunciation in the sense they have in the Bible, such as "han", "du", "hon", "kan", "son", "dom", "ben", and "kors". The voice used the pronunciation of a name, an abbreviation, or another word.
+- Read-aloud pronounces "förlåten", "hov", "bete", and "dans" in the sense of each verse: the temple veil or "forgiven", a royal court or the past tense of "häva", pasture or "bete sig", and a dance or the tribe of Dan. Bundled phrase entries such as "innanför förlåten" and "Dans stam" choose the sense.
 - The pronunciation review has a filter for the 303 Bible words with several pronunciations in NST. Each pronunciation can be heard in its verse with one click.
 - The voice model is half the size and uses less memory. Pronunciations for the Bible text are prepared in advance.

@@ -737,6 +737,90 @@ int main(int argc, char** argv) {
         check(make_utterance("Han bar sitt kors, och hans ben", "sv", lexicon).speech_text ==
                   "⟦hˈan⟧ bar sitt ⟦kˈɔʂ⟧, och ⟦hˈans⟧ ⟦bˈeːn⟧",
               "bundled homographs take the sense of this Bible, not a name's or another word's");
+        check(
+            make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
+                    .speech_text == "Och ⟦fˈøːɭˌoːtən⟧ i templet rämnade. Vilkens överträdelse är förlåten.",
+            "the veil is a phrase; forgiven is the voice's reading");
+        check(make_utterance("Han hov upp sin röst i ditt hov.", "sv", lexicon).speech_text ==
+                  "⟦hˈan⟧ ⟦hˈuːv⟧ upp sin röst i ditt ⟦hˈoːv⟧.",
+              "hov is häva's past tense, except a court");
+        check(make_utterance("Intet bete för sina får; han skulle bete sig vanvettigt.", "sv", lexicon)
+                      .speech_text == "Intet bete för sina får; ⟦hˈan⟧ skulle ⟦bətˈeː⟧ sig vanvettigt.",
+              "bete is pasture, except the verb bete sig");
+        check(make_utterance("Av Dans stam, under sång och dans.", "sv", lexicon).speech_text ==
+                  "Av ⟦dˈɑːns⟧ stam, under sång och ⟦dˈans⟧.",
+              "Dans is the tribe before its noun, otherwise a dance");
+        {
+            // A review preview or correction of the word applies outside the phrases.
+            auto preview = lexicon;
+            preview.push_back({"sv", "förlåten", "förlåtet", "", 2000});
+            check(make_utterance("förlåten i templet, innanför förlåten; förlåten", "sv", preview)
+                          .speech_text == "⟦fˈøːɭˌoːtən⟧ i templet, innanför ⟦fˈøːɭˌoːtən⟧; förlåtet",
+                  "phrases outrank per-word corrections");
+        }
+        {
+            // Every sv1917 occurrence of each word, with the verses of its first reading.
+            struct Homograph {
+                std::string word, first, second;
+                int occurrences;
+                std::set<std::string> verses;
+            };
+            const std::string veil = "⟦fˈøːɭˌoːtən⟧";
+            const std::vector<Homograph> homographs{
+                {"förlåten",
+                 "förlåten",
+                 veil,
+                 42,
+                 {"Luke 6:37", "2Cor 2:10", "Acts 8:22", "Col 3:13", "Deut 21:8", "Eph 4:32", "Isa 33:24",
+                  "John 20:23", "Lev 19:22", "Mark 11:25", "Matt 12:31", "Matt 18:35", "Matt 6:14",
+                  "Matt 6:15", "Ps 32:1"}},
+                {"hov", "⟦hˈoːv⟧", "⟦hˈuːv⟧", 24, {"Dan 2:49", "Ps 45:10"}},
+                {"bete", "⟦bətˈeː⟧", "bete", 17, {"1Sam 1:14", "1Sam 21:15", "2Kgs 7:9", "Hos 3:3"}},
+                {"dans",
+                 "⟦dˈans⟧",
+                 "⟦dˈɑːns⟧",
+                 48,
+                 {"1Sam 18:6", "Exod 15:20", "Jdt 15:12", "Jdt 15:13", "Jdt 3:7", "Jer 31:13", "Jer 31:4",
+                  "Judg 11:34", "Lam 5:15", "Luke 15:25", "Ps 149:3", "Ps 150:4", "Ps 87:7"}},
+            };
+            const PronunciationMatcher matcher("sv", lexicon);
+            const auto count = [](const std::string& text, const std::string& word) {
+                int result = 0;
+                std::istringstream pieces(text);
+                for (std::string piece; pieces >> piece;)
+                    result += word.starts_with("⟦") ? piece.find(word) != std::string::npos
+                                                    : contains_speech_word(piece, word);
+                return result;
+            };
+            std::map<std::string, int> found;
+            sqlite3* corpus_db = nullptr;
+            check(sqlite3_open_v2(argv[1], &corpus_db, SQLITE_OPEN_READONLY, nullptr) == SQLITE_OK,
+                  "open corpus for homographs");
+            sqlite3_stmt* verses = nullptr;
+            sqlite3_prepare_v2(
+                corpus_db,
+                "SELECT book.code||' '||chapter||':'||verse,text FROM verse JOIN book ON "
+                "book.id=book_id JOIN source ON source.id=source_id WHERE source.code='sv1917'",
+                -1, &verses, nullptr);
+            while (sqlite3_step(verses) == SQLITE_ROW) {
+                const std::string ref = reinterpret_cast<const char*>(sqlite3_column_text(verses, 0));
+                const std::string text = reinterpret_cast<const char*>(sqlite3_column_text(verses, 1));
+                for (const auto& homograph : homographs) {
+                    const int n = count(text, homograph.word);
+                    if (!n)
+                        continue;
+                    found[homograph.word] += n;
+                    const auto& expected =
+                        homograph.verses.contains(ref) ? homograph.first : homograph.second;
+                    check(count(matcher.utterance(text).speech_text, expected) == n,
+                          "homograph " + homograph.word + " in " + ref);
+                }
+            }
+            sqlite3_finalize(verses);
+            sqlite3_close(corpus_db);
+            for (const auto& homograph : homographs)
+                check(found[homograph.word] == homograph.occurrences, "occurrences of " + homograph.word);
+        }
         lexicon.push_back({"sv", "Manasse", "Manasse-respelt", "", 1000});
         check(make_utterance("Manasse", "sv", lexicon).speech_text == "Manasse-respelt",
               "review corrections outrank bundled phonemes");
