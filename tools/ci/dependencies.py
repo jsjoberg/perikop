@@ -96,10 +96,10 @@ def make_lock(output, repository, release):
     (output / "dependencies-lock.json").write_text(json.dumps(lock, indent=2) + "\n")
 
 
-def fetch_snapshot(names, downloads):
+def fetch_snapshot(names, downloads, validate_upstreams=True):
     audit()
     lock = json.loads(LOCK.read_text())
-    if lock["upstreams_sha256"] != digest(UPSTREAMS):
+    if validate_upstreams and lock["upstreams_sha256"] != digest(UPSTREAMS):
         raise ValueError("Upstreams changed. Prepare and pin a new dependency snapshot first.")
     downloads.mkdir(parents=True, exist_ok=True)
     for name in names:
@@ -143,7 +143,7 @@ def restore(platform, output, package=False):
     if platform == "Linux":
         target = output / "tools/appimage"
         target.mkdir(parents=True, exist_ok=True)
-        for name in ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh"):
+        for name in ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"):
             shutil.copyfile(archives / name, target / name)
             (target / name).chmod(0o755)
     elif platform == "Windows":
@@ -179,11 +179,14 @@ def main():
     elif args.command == "reuse":
         if args.platform == "Linux":
             names = ["Linux-environment.tar.gz"]
+        elif args.platform == "macOS":
+            names = ["macOS-tools.tar.gz"]
         elif args.platform is None:
             names = ["inputs-" + platform + ".tar.gz" for platform in ("Linux", "macOS", "Windows")]
         else:
-            parser.error("reuse accepts --platform Linux or no platform")
-        fetch_snapshot(names, args.output)
+            parser.error("reuse accepts --platform Linux, macOS, or no platform")
+        # Environment snapshots are independent of the native source manifest.
+        fetch_snapshot(names, args.output, validate_upstreams=args.platform is None)
     else:
         audit()
 

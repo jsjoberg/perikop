@@ -38,7 +38,7 @@ class DependenciesTest(unittest.TestCase):
         with tarfile.open(downloads / "inputs-Linux.tar.gz", "w:gz") as archive:
             archive.add(manifest, arcname="upstreams.json")
             archive.add(root / "dependency.zip", arcname="dependency.zip")
-            for name in ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh"):
+            for name in ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"):
                 (root / name).write_bytes(b"fixture tool")
                 archive.add(root / name, arcname=name)
         lock = root / "ci/dependencies-lock.json"

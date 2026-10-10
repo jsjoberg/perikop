@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
             cache.save(revision, "sv", "Ny läsning.", {10, 11, 12});
             cache.save(revision, "sv", "Start.", std::vector<float>(24000, 1.0f));
             cache.save(revision, "sv", "En längre fortsättning som redan finns i ljudcachen.",
-                       std::vector<float>(24000 * 30, 2.0f));
+                       std::vector<float>(size_t{24000} * 30, 2.0f));
             check(cache.contains(revision, "sv", "Start.") && !cache.contains(revision, "sv", "Ej cachad.") &&
                       !cache.contains(revision, "en", "Start.") &&
                       !cache.contains(revision + "-other", "sv", "Start."),

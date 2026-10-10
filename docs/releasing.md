@@ -98,7 +98,7 @@ CI keeps compiled objects in a ccache cache between runs. To make the cache usab
 
 Ordinary CI builds use GitHub runners and dependencies stored in this repository's releases.
 They do not contact Chocolatey, Homebrew, distribution mirrors, SQLite, or other upstream download servers.
-The snapshot includes native sources, voices, Windows GCC and NSIS, macOS analysis tools, Linux system libraries, and AppImage tools.
+The snapshot includes native sources, voices, Windows GCC and NSIS, macOS analysis tools, Linux system libraries, and AppImage tools and runtime.
 The runner supplies its preinstalled operating system, Xcode or Visual C++ runtime, CMake, Python, Git, and archive tools.
 
 `ci/dependencies-lock.json` pins each snapshot archive by SHA-256.
@@ -123,6 +123,12 @@ For a macOS analysis-tool update only, reuse the pinned sources and Linux enviro
 
 ```sh
 gh workflow run dependencies.yml --ref main -f macos_tools_only=true
+```
+
+For a source or packaging-input update, reuse both tool environments:
+
+```sh
+gh workflow run dependencies.yml --ref main -f reuse_environments=true
 ```
 
 After all preparation jobs pass, the workflow publishes a `ci-dependencies-<commit>` prerelease.

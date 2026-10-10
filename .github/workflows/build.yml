@@ -83,6 +83,7 @@ jobs:
           restore-keys: |
             objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
             objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
+            objects-${{ runner.os }}-
       - name: Build, test, and package Linux offline
         if: runner.os == 'Linux'
         run: |
@@ -149,6 +150,7 @@ jobs:
           restore-keys: |
             objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
             objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
+            objects-${{ runner.os }}-
       - name: Configure
         shell: pwsh
         run: |
