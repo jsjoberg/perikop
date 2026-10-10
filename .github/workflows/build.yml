@@ -40,7 +40,7 @@ jobs:
           gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
           latest=$(jq -r '
             [.[][] | select(.draft == false and .prerelease == true)
-              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}$"))]
+              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7})?$"))]
             | sort_by(.published_at, .tag_name) | last | .tag_name // empty
           ' releases.json)
           if [ -n "$latest" ]; then
@@ -269,7 +269,7 @@ jobs:
           set -euo pipefail
           cd packages
           day=$(TZ=Europe/Stockholm date +%F)
-          tag="nightly-$day"
+          tag="nightly-$day-${GITHUB_SHA:0:7}"
           shopt -s nullglob
           files=(Perikop-*)
           if [ "${#files[@]}" != 3 ]; then
@@ -303,7 +303,7 @@ jobs:
           gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
           jq -r --arg current "$NIGHTLY_TAG" '
             [.[][] | select(.draft == false and .prerelease == true)
-              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}$"))]
+              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7})?$"))]
             | if any(.tag_name == $current) then
                 sort_by(.published_at, .tag_name) | reverse | .[7:] | .[].tag_name
               else error("Published nightly is missing; cleanup stopped") end

@@ -82,7 +82,8 @@ GitHub can delay the start when its runners are busy.
 Before the builds, CI compares this commit with the last successful nightly.
 If the commit is unchanged, CI skips all three builds. Failed builds retry on the next night.
 
-After all three platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-10`.
+After all three platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-11-abcdef0`.
+The commit suffix permits multiple builds per day without replacing an earlier download.
 Each prerelease contains the packages, their SHA-256 hashes, and a link to the source commit.
 Nightlies do not replace the latest stable release.
 The schedule starts after the workflow reaches the default branch.
