@@ -76,7 +76,9 @@ https://github.com/brianglass/orthocal-python
 
 The Antiochian readings in `resources/lectionary/antiochian.json` are factual references from the Archdiocese's official 2026 chart.
 The test fixture `tests/oca-2026.tsv` contains factual references from oca.org, as Orthocal collected them.
-The package excludes liturgical composite wording.
+The fasting rule port and `tests/fasting-orthocal.tsv` also derive from the selected Orthocal revision under its MIT license.
+`resources/lectionary/commemorations.json` contains factual commemoration names and calendar metadata from that revision.
+The package excludes narrative biographies, stories, and liturgical composite wording. Composite readings retain their factual citations.
 
 ## Hyphenation and fallback fonts
 

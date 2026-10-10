@@ -19,8 +19,13 @@ For a source build, use the [build guide](building.md#run).
 
 ## Daily readings and calendar
 
-The day page shows the date, its readings, and three reading plans.
+The day page shows the date, fasting information, commemorations, service readings, and three reading plans.
 Press **Läs** beside a reading to open it.
+Service labels identify Vespers, Matins, the Hours, and other readings when they apply.
+Saints' readings appear beside the ordinary daily readings.
+Fasting information identifies the period, permitted exceptions, and foods to abstain from.
+Commemorations use Swedish names where available. Other names retain the source's English text.
+Composite liturgical readings show their citations without a **Läs** button. Their adapted text is not in the Bible corpus.
 The arrows beside the date move to the previous or next day.
 The **Idag** button selects the current local date. This button always works and needs no background timer.
 Click the date, or select **Kalender → Välj datum**, to open the month calendar below the date.
@@ -34,11 +39,15 @@ The selected date does not persist between launches.
 
 Select the reading order in the **Kalender** menu:
 
-- **Antiokiska läsordningen** adds the readings of the Antiochian Archdiocese of North America to the Greek order.
-- **Grekiska läsordningen** follows the shared Greek lectionary and the annual assignments of the Greek Orthodox Archdiocese of America.
+- **Grekiska läsordningen** uses the Greek order. When Antiochian readings differ, the day page shows both, with church names and an explanation.
 - **Slaviska läsordningen** follows the Russian and OCA order.
 
-**Nya kalendern** uses Revised Julian fixed dates. **Gamla kalendern** uses Julian fixed dates.
+Shared Greek and Antiochian readings appear once. Press **Läs** beside either variant to open it.
+Separate Serbian and Georgian variants need additional source tables.
+Existing Antiochian settings now select the Greek family.
+
+**Gregoriansk / reviderad juliansk** uses Revised Julian fixed dates. **Juliansk** uses Julian fixed dates.
+Revised Julian dates match Gregorian dates through February 2800.
 Each reading order works with both calendars. The application keeps both choices between launches.
 Julian conversion calculates the date difference for each century.
 See the [lectionary guide](lectionary.md) for the calculation rules and reference sources.

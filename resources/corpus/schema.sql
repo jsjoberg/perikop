@@ -65,6 +65,9 @@ CREATE TABLE reading_segment(
  CHECK(last_chapter>first_chapter OR (last_chapter=first_chapter AND last_verse>=first_verse)),
  PRIMARY KEY(rule_id,ordering)
 ) STRICT;
-CREATE TABLE feast_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,rank INTEGER,title TEXT,feast TEXT,tradition TEXT) STRICT;
+-- NULL fasting fields inherit the common slot. Zero is an explicit override.
+CREATE TABLE feast_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,rank INTEGER,title TEXT,feast TEXT,tradition TEXT,fast INTEGER,fast_exception INTEGER,fast_cap_exempt INTEGER) STRICT;
+-- Factual commemoration names only; no third-party stories or liturgical wording.
+CREATE TABLE commemoration_rule(id INTEGER PRIMARY KEY,day_id INTEGER NOT NULL REFERENCES feast_rule(id),ordering INTEGER NOT NULL,title TEXT NOT NULL,tradition TEXT NOT NULL,new_style INTEGER NOT NULL CHECK(new_style IN (0,1)),day_native INTEGER NOT NULL CHECK(day_native IN (0,1))) STRICT;
 -- Published annual assignments of one jurisdiction: greek (GOA) or antiochian.
 CREATE TABLE ordo_rule(jurisdiction TEXT NOT NULL CHECK(jurisdiction IN ('greek','antiochian')),year INTEGER,month INTEGER,day INTEGER,service TEXT,pdist INTEGER,PRIMARY KEY(jurisdiction,year,month,day,service)) STRICT;

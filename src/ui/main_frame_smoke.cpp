@@ -1,3 +1,4 @@
+#include "core/reading_display.hpp"
 #include "core/reading_plan.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/bible_picker.hpp"
@@ -718,6 +719,44 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // Day navigation controls rebuild safely; today remains available even on the current day.
     show_readings();
+    // Both church variants open independently, while the shared Gospel has one button.
+    const auto previous_tradition = settings_.tradition;
+    const auto previous_calendar = settings_.calendar;
+    settings_.tradition = Tradition::Greek;
+    settings_.calendar = CalendarStyle::New;
+    select_day(parse_date("2026-05-10").value());
+    std::vector<wxButton*> reading_buttons;
+    for (auto* child : home_content_->GetChildren())
+        if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == ui::utf8("Läs"))
+            reading_buttons.push_back(button);
+    const auto openable = std::ranges::count(day_.readings, true, &Reading::can_open) +
+                          std::ranges::count_if(day_.variants, [](const auto& variant) {
+                              return variant.reading && variant.reading->can_open();
+                          });
+    if (reading_buttons.size() != std::size_t(openable))
+        fail(__LINE__);
+    wxButton* variant_button = nullptr;
+    if (!day_.variants.empty() && day_.variants[0].reading) {
+        const auto variant_title = ui::utf8(
+            passage_label(corpus_, corpus_.localize(in_primary(*day_.variants[0].reading)).segments()));
+        for (const auto& label : home_labels_)
+            if (label.text.StartsWith(variant_title))
+                if (auto* row = label.label->GetContainingSizer(); row && row->GetItemCount() == 2)
+                    variant_button = wxDynamicCast(row->GetItem(std::size_t(1))->GetWindow(), wxButton);
+    }
+    if (variant_button) {
+        wxCommandEvent click(wxEVT_BUTTON, variant_button->GetId());
+        variant_button->GetEventHandler()->ProcessEvent(click);
+        if (!visible_reading_ || visible_reading_->passage.last != VerseRef{11, 30} || !tracked_ ||
+            tracked_->key != "day:2026-05-10:Acts 11:19-11:30")
+            fail(__LINE__);
+    } else
+        fail(__LINE__);
+    tracked_.reset();
+    show_readings();
+    settings_.tradition = previous_tradition;
+    settings_.calendar = previous_calendar;
+    select_day(date);
     const auto click_arrow = [this](size_t index) {
         auto* button = date_buttons_[index];
         wxMouseEvent down(wxEVT_LEFT_DOWN), up(wxEVT_LEFT_UP);

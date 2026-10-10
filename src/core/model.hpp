@@ -17,10 +17,19 @@ std::string month_swedish(CivilDate date);
 std::expected<CivilDate, std::string> parse_date(const std::string& value);
 enum class CalendarStyle { New, Old };
 enum class Theme { System, Light, Dark };
-// The reading order: the Antiochian Archdiocese's, the shared Greek lectionary
-// with the Greek Archdiocese's annual assignments, or the Slavic (OCA, Russian).
+// Internal source orders. The interface groups Antiochian under Greek.
 enum class Tradition { Antiochian, Greek, Slavic };
-enum class ReadingKind { MorningPsalm, Epistle, Gospel, OldTestament, Vespers, EveningPsalm };
+enum class ReadingKind {
+    MorningPsalm,
+    Epistle,
+    Gospel,
+    OldTestament,
+    Vespers,
+    EveningPsalm,
+    Matins,
+    Hours,
+    OtherService
+};
 struct VerseRef {
     int chapter = 1;
     int verse = 1;
@@ -44,6 +53,13 @@ struct Reading {
     // The edition whose numbering the passages use; lectionary rules state theirs.
     // Empty means each passage already uses the framing edition for its book and language.
     std::string reference = "en-kjv";
+    // Liturgical service and occasion. Empty for manually selected Scripture.
+    std::string service, occasion;
+    // Composite readings retain their published citation without importing adapted liturgical wording.
+    std::string citation;
+    bool can_open() const {
+        return !passage.book.empty();
+    }
     Reading(ReadingKind k, Passage p, std::vector<Passage> rest = {}, std::string language = "sv")
         : kind(k), passage(std::move(p)), additional(std::move(rest)), base_language(std::move(language)) {}
     bool contains(VerseRef ref, const std::string& book = "") const {
@@ -69,7 +85,24 @@ struct ReadingRule {
 struct FeastRule {
     int pdist, month, day, rank;
     std::string title, feast, tradition;
+    int id = 0, fast = -1, fast_exception = -1, fast_cap_exempt = -1;
 };
+struct CommemorationRule {
+    int day_id, ordering;
+    std::string title, tradition;
+    bool new_style, day_native;
+};
+enum class FastPeriod { None, Day, Lent, Apostles, Dormition, Nativity };
+enum class DietaryAllowance { Strict, Wine, WineOil, WineOilCaviar, FishWineOil, MeatFast, Free };
+struct Fasting {
+    FastPeriod period = FastPeriod::None;
+    DietaryAllowance allowance = DietaryAllowance::Strict;
+    auto operator<=>(const Fasting&) const = default;
+};
+std::string fasting_period_label(FastPeriod);
+std::string fasting_allowance_label(Fasting);
+std::string fasting_abstentions(Fasting);
+std::string service_label(const std::string&);
 // A published annual assignment of one jurisdiction: "greek" (GOA) or "antiochian".
 struct OrdoRule {
     int year, month, day, pdist;
@@ -86,10 +119,19 @@ struct LiturgicalDay {
     std::string title;
     // Whether a published annual assignment replaced a calculated reading.
     bool annual = false;
+    Fasting fasting;
+    std::vector<std::string> commemorations;
 };
 struct DayReadings {
     LiturgicalDay day;
     std::vector<Reading> readings;
+    struct Variant {
+        // Missing index means an additional reading; missing reading means an omission.
+        std::optional<std::size_t> primary_index;
+        std::optional<Reading> reading;
+        std::string jurisdiction, explanation;
+    };
+    std::vector<Variant> variants = {};
 };
 class CorpusDb;
 CivilDate orthodox_pascha(int year);
@@ -100,11 +142,17 @@ class Lectionary {
 public:
     explicit Lectionary(const CorpusDb&);
     DayReadings readings_for(CivilDate, CalendarStyle, Tradition) const;
+    // Every applicable service reading, including saints' readings beside the daily cycle.
+    DayReadings service_readings_for(CivilDate, CalendarStyle, Tradition) const;
+    // Greek includes differing Antiochian readings. Slavic currently has one verified source order.
+    DayReadings readings_with_variants(CivilDate, CalendarStyle, Tradition) const;
 
 private:
+    DayReadings calculate(CivilDate, CalendarStyle, Tradition, bool full) const;
     std::vector<ReadingRule> rules_;
     std::vector<FeastRule> feasts_;
     std::vector<OrdoRule> ordos_;
+    std::vector<CommemorationRule> commemorations_;
 };
 class SelectedDay {
 public:
@@ -142,7 +190,7 @@ struct Pronunciation {
 };
 struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
-    Tradition tradition = Tradition::Antiochian;
+    Tradition tradition = Tradition::Greek;
     Theme theme = Theme::System;
     int font_size = 19;
     // Left pane language: "sv", "el" or "en". It is also the language read aloud.

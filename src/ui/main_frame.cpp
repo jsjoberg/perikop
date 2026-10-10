@@ -31,6 +31,12 @@ wxString kind_label(ReadingKind kind) {
         return "VESPER";
     case ReadingKind::EveningPsalm:
         return ui::utf8("KVÄLL");
+    case ReadingKind::Matins:
+        return "MATUTIN";
+    case ReadingKind::Hours:
+        return ui::utf8("TIMBÖNER");
+    case ReadingKind::OtherService:
+        return ui::utf8("GUDSTJÄNST");
     }
     return {};
 }
@@ -149,7 +155,7 @@ void MainFrame::navigate(int days) {
     }
 }
 void MainFrame::refresh_day() {
-    day_ = lectionary_.readings_for(selected_.date(), settings_.calendar, settings_.tradition);
+    day_ = lectionary_.readings_with_variants(selected_.date(), settings_.calendar, settings_.tradition);
     plan_tiles_.clear();
     date_buttons_.clear();
     home_labels_.clear();
@@ -214,18 +220,52 @@ void MainFrame::refresh_day() {
         });
         entries_->Add(month_, 0, wxBOTTOM, FromDIP(20));
     }
-    auto heading = day_.day.title;
-    if (day_.day.annual)
-        heading += (heading.empty() ? "" : " · ") + std::string("publicerad årsanvisning");
+    const auto& heading = day_.day.title;
     if (!heading.empty())
         entries_->Add(wrapped(ui::utf8(heading), body_font(18)), 0, wxBOTTOM, FromDIP(8));
+    entries_->Add(wrapped(ui::utf8(settings_.tradition == Tradition::Slavic ? "Slavisk läsordning · rysk/OCA"
+                                                                            : "Grekisk läsordning"),
+                          body_font(13)),
+                  0, wxBOTTOM, FromDIP(8));
     entries_->AddSpacer(FromDIP(28));
+    entries_->Add(ui::label(home_content_, "FASTA", 10), 0, wxBOTTOM, FromDIP(6));
+    const auto fast = day_.day.fasting;
+    const auto fast_text = fast.period == FastPeriod::None
+                               ? fasting_allowance_label(fast)
+                               : fasting_period_label(fast.period) + " · " + fasting_allowance_label(fast);
+    entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
+    if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
+        entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
+    if (!day_.day.commemorations.empty()) {
+        entries_->Add(ui::label(home_content_, ui::utf8("ÅMINNELSER"), 10), 0, wxTOP | wxBOTTOM, FromDIP(12));
+        for (const auto& name : day_.day.commemorations)
+            entries_->Add(wrapped(ui::utf8("• " + name), body_font(13)), 0, wxBOTTOM, FromDIP(6));
+    }
+    entries_->AddSpacer(FromDIP(24));
     if (day_.readings.empty())
         entries_->Add(wrapped(ui::utf8("Ingen daglig bibelläsning är föreskriven"), body_font(18)), 0,
                       wxBOTTOM, FromDIP(20));
     const auto completed = user_.completed();
-    for (const auto& reading : day_.readings) {
-        entries_->Add(ui::label(home_content_, kind_label(reading.kind), 10), 0, wxBOTTOM, FromDIP(6));
+    const auto add_reading = [&](const Reading& reading, const std::string& jurisdiction = "") {
+        if (!jurisdiction.empty())
+            entries_->Add(wrapped(ui::utf8(jurisdiction), body_font(13)), 0, wxBOTTOM, FromDIP(6));
+        const auto service =
+            reading.service.empty() ? kind_label(reading.kind) : ui::utf8(service_label(reading.service));
+        entries_->Add(wrapped(service, ui_font(10)), 0, wxBOTTOM, FromDIP(6));
+        if (!reading.occasion.empty())
+            entries_->Add(
+                wrapped(ui::utf8(swedish_title(reading.occasion).value_or(reading.occasion)), body_font(13)),
+                0, wxBOTTOM, FromDIP(6));
+        if (!reading.can_open()) {
+            entries_->Add(wrapped(ui::utf8(reading.citation), body_font(18)), 0, wxBOTTOM, FromDIP(8));
+            entries_->Add(
+                wrapped(
+                    ui::utf8(
+                        "Sammansatt liturgisk läsning. Den sammanställda texten finns inte i bibelkorpusen."),
+                    body_font(13)),
+                0, wxBOTTOM, FromDIP(28));
+            return;
+        }
         const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments()));
         const auto key = day_key(reading);
         const bool done = completed.contains(key);
@@ -241,7 +281,26 @@ void MainFrame::refresh_day() {
         row->Add(passage, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, gap);
         row->Add(open, 0, wxALIGN_CENTER_VERTICAL);
         entries_->Add(row, 0, wxBOTTOM, FromDIP(28));
+    };
+    const auto add_variant = [&](const DayReadings::Variant& variant) {
+        entries_->Add(wrapped(ui::utf8(variant.explanation), body_font(13)), 0, wxBOTTOM, FromDIP(10));
+        if (variant.reading)
+            add_reading(*variant.reading, variant.jurisdiction);
+        else
+            entries_->Add(wrapped(ui::utf8(variant.jurisdiction), body_font(13)), 0, wxBOTTOM, FromDIP(28));
+    };
+    for (std::size_t i = 0; i < day_.readings.size(); ++i) {
+        const bool differs = std::ranges::any_of(day_.variants, [i](const auto& variant) {
+            return variant.primary_index == i;
+        });
+        add_reading(day_.readings[i], differs ? "Grekiska ärkestiftet i Amerika (GOA)" : "");
+        for (const auto& variant : day_.variants)
+            if (variant.primary_index == i)
+                add_variant(variant);
     }
+    for (const auto& variant : day_.variants)
+        if (!variant.primary_index)
+            add_variant(variant);
     add_plans();
     layout_home();
     readings_->Scroll(0, 0);

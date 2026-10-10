@@ -1,6 +1,7 @@
 // Calendar rules adapted from Orthocal (c) 2022 Brian Glass, MIT: its GreekYear for
 // the Greek and Antiochian reading orders, its SlavicYear for the Slavic one.
 // Scripture wording is supplied by the separate corpus.
+#include "core/fasting.hpp"
 #include "core/model.hpp"
 #include "storage/database.hpp"
 #include <algorithm>
@@ -123,6 +124,15 @@ struct Year {
         if (p == sat_after_theophany && sat_after_theophany == theophany + 1)
             return false;
         return !(p == annunciation && mod(annunciation, 7) == 6);
+    }
+    bool no_paremias(int p) const {
+        constexpr std::array<std::pair<int, int>, 8> feasts = {
+            {{2, 24}, {2, 27}, {3, 9}, {3, 31}, {4, 7}, {4, 23}, {4, 25}, {4, 30}}};
+        for (const auto& [m, d] : feasts)
+            if (const int position = date(m, d);
+                position == p && -44 < position && position < -7 && mod(position, 7) > 1)
+                return true;
+        return false;
     }
     void make_floats() {
         const int july = date(7, 16), fathers = july + (mod(july, 7) < 4 ? -mod(july, 7) : 7 - mod(july, 7));
@@ -322,8 +332,17 @@ CivilDate fixed_calendar_date(CivilDate civil, CalendarStyle style) {
     return style == CalendarStyle::Old ? julian_label(jdn(civil)) : revised_label(jdn(civil));
 }
 Lectionary::Lectionary(const CorpusDb& corpus)
-    : rules_(corpus.reading_rules()), feasts_(corpus.feast_rules()), ordos_(corpus.ordo_rules()) {}
+    : rules_(corpus.reading_rules()), feasts_(corpus.feast_rules()), ordos_(corpus.ordo_rules()),
+      commemorations_(corpus.commemoration_rules()) {}
 DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradition tradition) const {
+    return calculate(civil, style, tradition, false);
+}
+DayReadings Lectionary::service_readings_for(CivilDate civil, CalendarStyle style,
+                                             Tradition tradition) const {
+    return calculate(civil, style, tradition, true);
+}
+DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Tradition tradition,
+                                  bool full) const {
     if (!civil.ok() || int(civil.year()) < 1 || int(civil.year()) > 9999)
         throw std::invalid_argument("Invalid lectionary civil date");
     const bool slavic = tradition == Tradition::Slavic;
@@ -381,10 +400,14 @@ DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradi
             }
     // A tradition's row overrides the fields it sets in the common row for the same day.
     std::map<std::tuple<int, int, int>, std::pair<int, FeastRule>> merged;
+    std::set<int> commemoration_days;
     for (const auto& f : feasts_) {
+        const bool matches =
+            (f.month == month && f.day == day) || (f.month == 0 && (f.pdist == p || f.pdist == floating));
+        if (matches)
+            commemoration_days.insert(f.id);
         const int rank = tradition_rank(f.tradition, tradition);
-        if (rank < 0 ||
-            !((f.month == month && f.day == day) || (f.month == 0 && (f.pdist == p || f.pdist == floating))))
+        if (rank < 0 || !matches)
             continue;
         auto key = std::tuple{f.pdist, f.month, f.day};
         auto it = merged.find(key);
@@ -399,13 +422,23 @@ DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradi
                 base.title = f.title;
             if (!f.feast.empty())
                 base.feast = f.feast;
+            if (f.fast >= 0)
+                base.fast = f.fast;
+            if (f.fast_exception >= 0)
+                base.fast_exception = f.fast_exception;
+            if (f.fast_cap_exempt >= 0)
+                base.fast_cap_exempt = f.fast_cap_exempt;
         }
     }
     int fixed_rank = 0, moveable_rank = 0, feast_level = 0;
     std::string title;
+    std::vector<FeastRule> day_rules;
+    std::set<int> winning_days;
     for (const auto& [key, ranked] : merged) {
         (void)key;
         const auto& f = ranked.second;
+        day_rules.push_back(f);
+        winning_days.insert(f.id);
         (f.month ? fixed_rank : moveable_rank) = std::max(f.month ? fixed_rank : moveable_rank, f.rank);
         feast_level = std::max(feast_level, f.rank);
         const auto& name = f.feast.empty() ? f.title : f.feast;
@@ -424,16 +457,32 @@ DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradi
     // Resolve tradition overrides at identical recurring slots.
     using Slot = std::tuple<int, int, int, std::string, int, std::string>;
     std::map<Slot, std::pair<int, const ReadingRule*>> candidates;
+    const auto next_fixed = fixed_calendar_date(from_jdn(jdn(civil) + 1), style);
+    const bool fixed_matins = weekday != 0 || (!(p > -8 && p < 50) && feast_level >= 7);
+    const int eothinon = weekday == 0 && !(p > -8 && p < 50) && feast_level < 7
+                             ? 701 + mod(floor_div(p - 49, 7) - 1, 11)
+                             : -999;
     for (const auto& r : rules_) {
         const int rank = tradition_rank(r.tradition, tradition);
-        const bool fixed_match = r.month == month && r.day == day;
+        bool fixed_match = r.month == month && r.day == day;
+        if (full && fixed_match) {
+            if ((!fixed_matins && r.service == "Matins Gospel") ||
+                (year.no_paremias(p) && r.service == "Vespers") ||
+                (month == 3 && day == 26 && (weekday == 1 || weekday == 2 || weekday == 4) &&
+                 r.description == "Theotokos"))
+                fixed_match = false;
+        }
         const bool float_match = r.month == 0 && r.pdist == floating;
         const bool ordinary =
             r.month == 0 &&
             ((r.service == "Epistle" && r.pdist == ep) || (r.service == "Gospel" && r.pdist == gospel) ||
              (r.service != "Epistle" && r.service != "Gospel" && r.pdist == p));
-        if (rank < 0 || !(fixed_match || float_match || ordinary) ||
-            (r.description == "Departed" && (!slavic || no_memorial)))
+        const bool matins_cycle = full && r.month == 0 && r.pdist == eothinon;
+        const bool moved = full && year.no_paremias(p + 1) && r.month == int(unsigned(next_fixed.month())) &&
+                           r.day == int(unsigned(next_fixed.day())) && r.service == "Vespers";
+        if (rank < 0 || !(fixed_match || float_match || ordinary || matins_cycle || moved) ||
+            (r.description == "Departed" && (no_memorial || (!full && !slavic))) ||
+            (!full && !r.reading.can_open()))
             continue;
         // The first common row holds its slot; a tradition's row replaces it.
         Slot slot{r.pdist, r.month, r.day, r.service, r.ordering, r.description};
@@ -472,7 +521,12 @@ DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradi
         }
         return winner;
     };
-    if (slavic) {
+    if (full) {
+        for (const auto& [slot, ranked] : candidates) {
+            (void)slot;
+            selected.push_back(ranked.second);
+        }
+    } else if (slavic) {
         // Orthocal's choice of one Epistle and Gospel, measured against oca.org: a
         // floating feast's pair first, then a proper of rank 3 or more on a weekday,
         // else the ordinary daily pair before a saint's. Fixed propers need rank 2,
@@ -535,23 +589,117 @@ DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradi
             selected.push_back(r);
     }
     // Weekday Lent has prophecy readings instead of a daily Apostle/Gospel.
-    if (selected.empty() || unpaired)
+    if (!full && (selected.empty() || unpaired))
         for (const auto& [slot, ranked] : candidates) {
             (void)slot;
             const auto* r = ranked.second;
             if (r->month == 0 && r->pdist == p && (r->service == "6th Hour" || r->service == "Vespers"))
                 selected.push_back(r);
         }
-    // NOLINTNEXTLINE(bugprone-nondeterministic-pointer-iteration-order): sorted by ordering, not address.
-    std::sort(selected.begin(), selected.end(), [](auto a, auto b) {
-        return a->ordering < b->ordering;
+    const bool matins_first = full && -42 < p && p < -7 && feast_level < 7;
+    const auto reading_order = [matins_first](const auto* r) {
+        return std::tuple{!(matins_first && r->service == "Matins Gospel"), r->ordering, r->id};
+    };
+    // NOLINTNEXTLINE(bugprone-nondeterministic-pointer-iteration-order): sorted by service and ordering, not
+    // address.
+    std::sort(selected.begin(), selected.end(), [&](auto a, auto b) {
+        return reading_order(a) < reading_order(b);
     });
-    DayReadings result{{civil, style, date_iso(fixed),
-                        "Pascha " + date_iso(orthodox_pascha(py)) + " · dag " + std::to_string(p), title,
-                        annual},
+    DayReadings result{{civil,
+                        style,
+                        date_iso(fixed),
+                        "Pascha " + date_iso(orthodox_pascha(py)) + " · dag " + std::to_string(p),
+                        title,
+                        annual,
+                        {},
+                        {}},
                        {}};
     for (const auto* r : selected)
         result.readings.push_back(r->reading);
+    if (full) {
+        result.day.fasting = resolve_fasting(day_rules, p, weekday, feast_level, year.date(6, 29),
+                                             year.nativity, year.theophany, slavic);
+        std::set<int> civil_days;
+        if (style == CalendarStyle::Old)
+            for (const auto& f : feasts_)
+                if (f.month == int(unsigned(civil.month())) && f.day == int(unsigned(civil.day())))
+                    civil_days.insert(f.id);
+        std::vector<std::string> native, additive;
+        for (const auto& c : commemorations_) {
+            if (tradition_rank(c.tradition, tradition) < 0)
+                continue;
+            const bool civil_anchored = style == CalendarStyle::Old && c.new_style;
+            if (!(civil_anchored ? civil_days : commemoration_days).contains(c.day_id))
+                continue;
+            if (!civil_anchored && c.ordering < 0 && winning_days.contains(c.day_id))
+                continue;
+            (c.day_native && !civil_anchored && c.ordering >= 0 ? native : additive)
+                .push_back(swedish_title(c.title).value_or(c.title));
+        }
+        native.insert(native.end(), additive.begin(), additive.end());
+        std::set<std::string> shown;
+        for (auto& name : native)
+            if (shown.insert(name).second)
+                result.day.commemorations.push_back(std::move(name));
+    }
+    return result;
+}
+DayReadings Lectionary::readings_with_variants(CivilDate civil, CalendarStyle style,
+                                               Tradition tradition) const {
+    if (tradition == Tradition::Slavic)
+        return service_readings_for(civil, style, tradition);
+    auto result = service_readings_for(civil, style, Tradition::Greek);
+    const auto antiochian = service_readings_for(civil, style, Tradition::Antiochian);
+    const auto same_passage = [](const Passage& a, const Passage& b) {
+        return a.book == b.book && a.first == b.first && a.last == b.last;
+    };
+    const auto same_reading = [&](const Reading& a, const Reading& b) {
+        return a.kind == b.kind && a.service == b.service && a.reference == b.reference &&
+               (a.can_open() || a.citation == b.citation) && same_passage(a.passage, b.passage) &&
+               std::ranges::equal(a.additional, b.additional, same_passage);
+    };
+    // Match shared readings first so that repeated services retain the correct alternatives.
+    std::vector<bool> matched(result.readings.size()), shared(antiochian.readings.size());
+    for (std::size_t j = 0; j < antiochian.readings.size(); ++j)
+        for (std::size_t i = 0; i < result.readings.size(); ++i)
+            if (!matched[i] && same_reading(result.readings[i], antiochian.readings[j])) {
+                matched[i] = shared[j] = true;
+                break;
+            }
+    const std::string jurisdiction = "Antiokiska ärkestiftet i Nordamerika";
+    const auto explanation = [&](const Reading* primary, const Reading& alternative) {
+        std::string text;
+        if (!primary)
+            text = "Den antiokiska ordningen anger en ytterligare läsning.";
+        else if (primary->can_open() && alternative.can_open() &&
+                 primary->passage.book == alternative.passage.book &&
+                 primary->passage.first == alternative.passage.first &&
+                 primary->reference == alternative.reference)
+            text = "Den antiokiska ordningen har en annan versavgränsning.";
+        else
+            text = "De två kyrkornas läsordningar anger olika bibelställen denna dag.";
+        if (result.day.title != antiochian.day.title && !antiochian.day.title.empty())
+            text += " Antiokisk dagsrubrik: " + antiochian.day.title + ".";
+        return text;
+    };
+    for (std::size_t j = 0; j < antiochian.readings.size(); ++j) {
+        if (shared[j])
+            continue;
+        const auto& alternative = antiochian.readings[j];
+        std::optional<std::size_t> index;
+        for (std::size_t i = 0; i < result.readings.size(); ++i)
+            if (!matched[i] && result.readings[i].service == alternative.service) {
+                index = i;
+                matched[i] = true;
+                break;
+            }
+        result.variants.push_back({index, alternative, jurisdiction,
+                                   explanation(index ? &result.readings[*index] : nullptr, alternative)});
+    }
+    for (std::size_t i = 0; i < result.readings.size(); ++i)
+        if (!matched[i])
+            result.variants.push_back(
+                {i, std::nullopt, jurisdiction, "Den antiokiska ordningen anger ingen motsvarande läsning."});
     return result;
 }
 } // namespace ortho

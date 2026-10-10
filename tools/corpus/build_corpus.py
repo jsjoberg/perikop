@@ -113,19 +113,22 @@ with sqlite3.connect(temp) as db:
  for x in tables:
   f=x['fields'];model=x['model']
   if model=='calendarium.day':
-   db.execute('INSERT INTO feast_rule VALUES(?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['feast_level'],f['title'],f['feast_name'],f['tradition']))
+   db.execute('INSERT INTO feast_rule VALUES(?,?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['feast_level'],f['title'],f['feast_name'],f['tradition'],f.get('fast'),f.get('fast_exception'),f.get('fast_cap_exempt')))
   elif model=='calendarium.ordoreading':
    db.execute('INSERT INTO ordo_rule VALUES(?,?,?,?,?,?)',(f['jurisdiction'],f['year'],f['month'],f['day'],f['source'],f['pdist']))
   elif model=='calendarium.reading':
    p=pericopes[f['pericope']];parts=p['verses'].strip().split('|')
-   if parts[0].startswith('Comp_'):continue # liturgical composites are not contiguous Scripture
-   septuagint='LXX' in p['display'] or any(b not in new_testament and kjv_last.get((b,int(last)//1000),0)<int(last)%1000 for b,_,last in (part.strip().replace('3Kg','1Kgs').replace('4Kg','2Kgs').split('_') for part in parts))
+   composite=parts[0].startswith('Comp_')
+   septuagint=not composite and ('LXX' in p['display'] or any(b not in new_testament and kjv_last.get((b,int(last)//1000),0)<int(last)%1000 for b,_,last in (part.strip().replace('3Kg','1Kgs').replace('4Kg','2Kgs').split('_') for part in parts)))
    db.execute('INSERT INTO reading_rule VALUES(?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['source'],f['desc'],f['ordering'],f['tradition'],p['display'],2 if septuagint else 4))
+   if composite:continue # retain the citation; never substitute a guessed Scripture range
    for idx,part in enumerate(parts):
     book,first,last=part.strip().split('_');book={'3Kg':'1Kgs','4Kg':'2Kgs'}.get(book,book)
     first,last=int(first),int(last)
     db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(x['pk'],idx,book,first//1000,first%1000,last//1000,last%1000))
- db.execute('PRAGMA user_version=5')
+ for f in json.loads((root/'resources/lectionary/commemorations.json').read_text()):
+  db.execute('INSERT INTO commemoration_rule VALUES(?,?,?,?,?,?,?)',(f['pk'],f['day'],f['ordering'],f['title'],f['tradition'],int(f['new_style']),int(f['day_native'])))
+ db.execute('PRAGMA user_version=6')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()

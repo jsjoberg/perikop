@@ -225,6 +225,34 @@ int main(int argc, char** argv) {
                   !lectionary.readings_for(date("2027-01-26"), CalendarStyle::New, Tradition::Slavic)
                        .day.annual,
               "Greek 2027 annual assignment");
+        const auto family =
+            lectionary.readings_with_variants(date("2026-05-10"), CalendarStyle::New, Tradition::Greek);
+        check(family.variants.size() == 1 && family.variants[0].primary_index && family.variants[0].reading &&
+                  family.readings[*family.variants[0].primary_index].passage.last == VerseRef{11, 26} &&
+                  family.variants[0].reading->passage.last == VerseRef{11, 30} &&
+                  family.variants[0].explanation.find("versavgränsning") != std::string::npos,
+              "Greek family includes the Antiochian range difference without duplicating the Gospel");
+        const auto local_feast =
+            lectionary.readings_with_variants(date("2026-06-14"), CalendarStyle::New, Tradition::Greek);
+        check(local_feast.variants.size() == 1 && !local_feast.variants[0].primary_index &&
+                  local_feast.variants[0].reading->passage.book == "Acts" &&
+                  local_feast.variants[0].explanation.find("Alla Antiokias helgon") != std::string::npos,
+              "Greek family explains the Antiochian local feast");
+        for (auto style : {CalendarStyle::New, CalendarStyle::Old}) {
+            check(lectionary.readings_with_variants(date("2026-04-12"), style, Tradition::Greek)
+                      .variants.empty(),
+                  "shared Pascha readings appear once in either calendar");
+            check(lectionary.readings_with_variants(date("2026-06-14"), style, Tradition::Slavic)
+                      .variants.empty(),
+                  "Slavic family does not invent unsupported jurisdiction variants");
+        }
+        const auto annual_variants =
+            lectionary.readings_with_variants(date("2026-01-24"), CalendarStyle::New, Tradition::Greek);
+        check(std::ranges::any_of(annual_variants.variants,
+                                  [](const auto& variant) {
+                                      return variant.reading && variant.reading->kind == ReadingKind::Gospel;
+                                  }),
+              "Greek family includes differing annual Gospel assignments");
         for (const auto* iso : {"2026-01-11", "2026-04-12"}) {
             const auto greek = lectionary.readings_for(date(iso), CalendarStyle::Old, Tradition::Antiochian);
             const auto slavic = lectionary.readings_for(date(iso), CalendarStyle::Old, Tradition::Slavic);
@@ -232,6 +260,93 @@ int main(int argc, char** argv) {
                       slavic.readings[1].passage.first == greek.readings[1].passage.first,
                   "Serbian published Gospel in the Slavic order");
         }
+        const auto friday =
+            lectionary.service_readings_for(date("2026-10-09"), CalendarStyle::New, Tradition::Slavic);
+        check(friday.readings.size() == 8 &&
+                  std::ranges::count(friday.readings, ReadingKind::Vespers, &Reading::kind) == 3 &&
+                  std::ranges::count(friday.readings, ReadingKind::Matins, &Reading::kind) == 1 &&
+                  std::ranges::count(friday.readings, ReadingKind::Epistle, &Reading::kind) == 2 &&
+                  std::ranges::count(friday.readings, ReadingKind::Gospel, &Reading::kind) == 2,
+              "October 9 contains Vespers, Matins, daily readings, and the saint's readings");
+        check(friday.day.fasting == Fasting{FastPeriod::Day, DietaryAllowance::FishWineOil} &&
+                  std::ranges::any_of(friday.day.commemorations,
+                                      [](const auto& title) {
+                                          return title.find("Tikhon") != std::string::npos;
+                                      }) &&
+                  std::ranges::any_of(friday.day.commemorations,
+                                      [](const auto& title) {
+                                          return title.find("Stephen the Blind") != std::string::npos;
+                                      }),
+              "Friday includes its Slavic fasting allowance and Russian and Serbian commemorations");
+        const auto greek_friday =
+            lectionary.service_readings_for(date("2026-10-09"), CalendarStyle::New, Tradition::Greek);
+        check(greek_friday.day.fasting == Fasting{FastPeriod::Day, DietaryAllowance::Strict} &&
+                  std::ranges::none_of(greek_friday.day.commemorations,
+                                       [](const auto& title) {
+                                           return title.find("Tikhon") != std::string::npos;
+                                       }) &&
+                  std::ranges::any_of(greek_friday.day.commemorations,
+                                      [](const auto& title) {
+                                          return title.find("Poplia") != std::string::npos;
+                                      }),
+              "Greek fasting and commemoration overlays remain distinct from Slavic ones");
+        const auto hours =
+            lectionary.service_readings_for(date("2026-01-05"), CalendarStyle::New, Tradition::Slavic);
+        check(std::ranges::count(hours.readings, ReadingKind::Hours, &Reading::kind) == 12 &&
+                  std::ranges::count(hours.readings, ReadingKind::OtherService, &Reading::kind) == 5,
+              "Theophany eve includes Royal Hours and the Great Blessing of Waters");
+        const auto saturday =
+            lectionary.service_readings_for(date("2026-04-11"), CalendarStyle::New, Tradition::Slavic);
+        check(std::ranges::count(saturday.readings, std::string("Vespers"), &Reading::service) == 15 &&
+                  saturday.day.fasting == Fasting{FastPeriod::Lent, DietaryAllowance::Wine},
+              "Holy Saturday includes fifteen Vespers readings and the wine-only allowance");
+        const auto moved_eve =
+            lectionary.service_readings_for(date("2026-03-30"), CalendarStyle::New, Tradition::Slavic);
+        const auto moved_feast =
+            lectionary.service_readings_for(date("2026-03-31"), CalendarStyle::New, Tradition::Slavic);
+        check(std::ranges::count(moved_eve.readings, std::string("Vespers"), &Reading::service) == 5 &&
+                  std::ranges::count(moved_eve.readings, false, &Reading::can_open) == 3 &&
+                  std::ranges::count(moved_feast.readings, std::string("Vespers"), &Reading::service) == 2,
+              "Lenten feast Vespers move to the eve, with composites retained as citations");
+        const auto old_annunciation =
+            lectionary.service_readings_for(date("2026-04-07"), CalendarStyle::Old, Tradition::Slavic);
+        check(
+            std::ranges::any_of(old_annunciation.day.commemorations,
+                                [](const auto& title) {
+                                    return title.find("Justin (Popovic)") != std::string::npos;
+                                }) &&
+                std::ranges::none_of(
+                    lectionary.service_readings_for(date("2026-04-20"), CalendarStyle::Old, Tradition::Slavic)
+                        .day.commemorations,
+                    [](const auto& title) {
+                        return title.find("Justin (Popovic)") != std::string::npos;
+                    }),
+            "civil-anchored commemorations stay on their civil date in Julian mode");
+        std::ifstream fasting(std::filesystem::path(argv[4]).parent_path() / "fasting-orthocal.tsv");
+        check(bool(fasting), "upstream fasting fixture missing");
+        int fasting_dates = 0;
+        for (std::string line; std::getline(fasting, line);) {
+            if (line.empty() || line.starts_with('#'))
+                continue;
+            std::istringstream row(line);
+            std::string iso, tradition;
+            int period = 0, allowance = 0;
+            check(bool(row >> iso >> tradition >> period >> allowance), "invalid fasting fixture row");
+            const auto computed =
+                lectionary
+                    .service_readings_for(parse_date(iso).value(), CalendarStyle::New,
+                                          tradition == "greek" ? Tradition::Greek : Tradition::Slavic)
+                    .day.fasting;
+            check(int(computed.period) == period && (!period || int(computed.allowance) == allowance),
+                  "upstream fasting differs on " + iso + " " + tradition);
+            ++fasting_dates;
+        }
+        check(fasting_dates == 3652, "incomplete five-year fasting audit");
+        check(lectionary.service_readings_for(date("2026-11-28"), CalendarStyle::Old, Tradition::Slavic)
+                          .day.fasting == Fasting{FastPeriod::Nativity, DietaryAllowance::FishWineOil} &&
+                  lectionary.service_readings_for(date("2026-01-07"), CalendarStyle::Old, Tradition::Slavic)
+                          .day.fasting.period == FastPeriod::None,
+              "Julian fasting seasons follow the fixed calendar, including Nativity");
         // oca.org's printed daily pairs for 2026. The Slavic order's Epistle and Gospel must be
         // one of them, within a verse for translation boundaries, except on these dates.
         const std::map<std::string, std::string> oca_exceptions = {
@@ -647,8 +762,16 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::System && s.speech_voice == "alice" && !s.speech_highlight &&
-                      s.tradition == Tradition::Antiochian,
+                      s.tradition == Tradition::Greek,
                   "default theme, voice, reading order, and disabled read-aloud highlight");
+            sqlite3* legacy = nullptr;
+            check(sqlite3_open(user_path.string().c_str(), &legacy) == SQLITE_OK,
+                  "open legacy user settings");
+            const int legacy_result = sqlite3_exec(
+                legacy, "INSERT INTO settings VALUES('tradition','antiochian')", nullptr, nullptr, nullptr);
+            sqlite3_close(legacy);
+            check(legacy_result == SQLITE_OK && user.load().tradition == Tradition::Greek,
+                  "legacy Antiochian settings select the Greek family");
             s.theme = Theme::Dark;
             s.calendar = CalendarStyle::Old;
             s.tradition = Tradition::Slavic;

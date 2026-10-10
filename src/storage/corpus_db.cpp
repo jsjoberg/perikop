@@ -12,7 +12,7 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 5 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 6 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
@@ -321,19 +321,29 @@ std::string CorpusDb::book_name(const std::string& book, const std::string& lang
                                                                           : 0];
 }
 std::vector<ReadingRule> CorpusDb::reading_rules() const {
-    Statement q(db_.get(),
-                "SELECT reading_rule.id,pdist,month,day,ordering,service,description,tradition,source.code "
-                "FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
+    Statement q(
+        db_.get(),
+        "SELECT reading_rule.id,pdist,month,day,ordering,service,description,tradition,source.code,label "
+        "FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
     std::vector<ReadingRule> result;
     while (q.row()) {
         const auto service = q.text(5);
-        const auto kind = service == "Epistle"   ? ReadingKind::Epistle
-                          : service == "Gospel"  ? ReadingKind::Gospel
-                          : service == "Vespers" ? ReadingKind::Vespers
-                                                 : ReadingKind::OldTestament;
+        const auto kind =
+            service == "Epistle"             ? ReadingKind::Epistle
+            : service == "Gospel"            ? ReadingKind::Gospel
+            : service.starts_with("Vespers") ? ReadingKind::Vespers
+            : service.find("Matins") != std::string::npos || service.find("Passion") != std::string::npos
+                ? ReadingKind::Matins
+            : service.find("Hour") != std::string::npos ? ReadingKind::Hours
+            : service == "Great Blessing of Waters" || service == "Cross Procession"
+                ? ReadingKind::OtherService
+                : ReadingKind::OldTestament;
         ReadingRule rule{q.number(0), q.number(1), q.number(2), q.number(3), q.number(4),
                          service,     q.text(6),   q.text(7),   {kind, {}}};
         rule.reading.reference = q.text(8);
+        rule.reading.service = service;
+        rule.reading.occasion = q.text(6);
+        rule.reading.citation = q.text(9);
         Statement parts(db_.get(), "SELECT book,first_chapter,first_verse,last_chapter,last_verse FROM "
                                    "reading_segment WHERE rule_id=? ORDER BY ordering");
         parts.number(1, rule.id);
@@ -351,13 +361,13 @@ std::vector<ReadingRule> CorpusDb::reading_rules() const {
     return result;
 }
 std::vector<FeastRule> CorpusDb::feast_rules() const {
-    Statement q(
-        db_.get(),
-        "SELECT pdist,month,day,coalesce(rank,-100),title,feast,tradition FROM feast_rule ORDER BY id");
+    Statement q(db_.get(),
+                "SELECT pdist,month,day,coalesce(rank,-100),title,feast,tradition,id,coalesce(fast,-1),"
+                "coalesce(fast_exception,-1),coalesce(fast_cap_exempt,-1) FROM feast_rule ORDER BY id");
     std::vector<FeastRule> result;
     while (q.row())
-        result.push_back(
-            {q.number(0), q.number(1), q.number(2), q.number(3), q.text(4), q.text(5), q.text(6)});
+        result.push_back({q.number(0), q.number(1), q.number(2), q.number(3), q.text(4), q.text(5), q.text(6),
+                          q.number(7), q.number(8), q.number(9), q.number(10)});
     return result;
 }
 std::vector<OrdoRule> CorpusDb::ordo_rules() const {
@@ -365,6 +375,15 @@ std::vector<OrdoRule> CorpusDb::ordo_rules() const {
     std::vector<OrdoRule> result;
     while (q.row())
         result.push_back({q.number(0), q.number(1), q.number(2), q.number(3), q.text(4), q.text(5)});
+    return result;
+}
+std::vector<CommemorationRule> CorpusDb::commemoration_rules() const {
+    Statement q(db_.get(), "SELECT day_id,ordering,title,tradition,new_style,day_native "
+                           "FROM commemoration_rule ORDER BY day_id,ordering,id");
+    std::vector<CommemorationRule> result;
+    while (q.row())
+        result.push_back(
+            {q.number(0), q.number(1), q.text(2), q.text(3), q.number(4) == 1, q.number(5) == 1});
     return result;
 }
 } // namespace ortho

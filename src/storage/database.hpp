@@ -60,6 +60,7 @@ public:
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
+    std::vector<CommemorationRule> commemoration_rules() const;
 
 private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;

@@ -16,10 +16,19 @@ int main(int argc, char** argv) {
                                : order == "slavic" ? ortho::Tradition::Slavic
                                                    : ortho::Tradition::Antiochian;
         for (int i = 0; i < length; ++i) {
-            auto day = calendar.readings_for(ortho::shift_date(start, i), style, tradition);
+            const bool full = argc > 6 && std::string(argv[6]) == "full";
+            auto day = full ? calendar.service_readings_for(ortho::shift_date(start, i), style, tradition)
+                            : calendar.readings_for(ortho::shift_date(start, i), style, tradition);
             std::cout << ortho::date_iso(day.day.civil_date);
+            if (full)
+                std::cout << "\tfast=" << int(day.day.fasting.period) << '/'
+                          << int(day.day.fasting.allowance);
             for (const auto& reading : day.readings) {
-                std::cout << '\t' << int(reading.kind) << '=';
+                std::cout << '\t' << (full ? reading.service : std::to_string(int(reading.kind))) << '=';
+                if (!reading.can_open()) {
+                    std::cout << reading.citation;
+                    continue;
+                }
                 bool first = true;
                 for (const auto& p : reading.segments()) {
                     if (!first)
@@ -29,6 +38,9 @@ int main(int argc, char** argv) {
                               << p.last.chapter * 1000 + p.last.verse;
                 }
             }
+            if (full)
+                for (const auto& name : day.day.commemorations)
+                    std::cout << "\tcomm=" << name;
             std::cout << '\n';
         }
     } catch (const std::exception& e) {
