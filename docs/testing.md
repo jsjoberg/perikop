@@ -55,6 +55,7 @@ First-visit measurements include layout and raster cache misses.
 The benchmark also reports cache construction counts, retained pixel bytes, and settled pause activity.
 It times opening a reading and separates first-visit text fetching and fragment preparation from paragraph typesetting.
 It also times opening Psalms, Jeremiah, and Isaiah with Swedish and Greek panes.
+It times speech queue preparation for all of John without loading a voice model or playing audio.
 The fetching measurement includes verse mapping and string construction; it does not isolate SQLite execution.
 
 The measurements use an offscreen bitmap at the window display scale.
@@ -62,6 +63,10 @@ They exclude screen presentation, compositor delay, input latency, and speech sy
 They do not measure end-to-end frame rate or fan activity.
 Compare timings on the same computer, build, viewport, and display scale.
 Timings are diagnostic results, not fixed pass thresholds.
+
+The speech worker tests hold audio device initialization while exercising pause and progress polling.
+They also check paused preparation, resume, cancellation, and worker delivery of pronunciation results.
+GUI checks cover late pronunciation results after another word, clearing the panel, and destroying the panel.
 
 ## Offline speech probe
 

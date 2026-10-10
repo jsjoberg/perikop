@@ -161,6 +161,7 @@ A translucent **Följ uppläsningen** button then floats above the text.
 Select this button to return to the current spoken text.
 Without playback, **Till läsningen** appears in the same place after the passage leaves the view.
 Pause freezes the marker and scrolling. Stop clears the marker and keeps the page position.
+Pause also suspends audio preparation after the current chunk finishes.
 
 Verse boundaries follow audio playback.
 Movement between lines within a verse is an estimate, because the model supplies no word timestamps.

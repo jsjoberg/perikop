@@ -73,6 +73,8 @@ struct KokoroAudio::Impl {
         env.DisableTelemetryEvents();
         options.SetIntraOpNumThreads(4);
         options.SetInterOpNumThreads(1);
+        // Park the pool between requests without disabling coordination during inference.
+        options.AddConfigEntry("session.force_spinning_stop", "1");
         options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
         session = Ort::Session(env, (pack / "kokoro.onnx").native().c_str(), options);
     }

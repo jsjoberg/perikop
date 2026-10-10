@@ -6,9 +6,11 @@
 #include <chrono>
 #include <condition_variable>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <mutex>
 #include <stdexcept>
+#include <thread>
 namespace {
 // A manually drained audio device lets the real speech worker run without
 // sound, model inference, or timing assumptions about physical playback.
@@ -17,6 +19,7 @@ std::condition_variable changed;
 std::shared_ptr<ortho::PcmStream> stream;
 size_t appended = 0;
 bool paused = false, released = false;
+bool hold_device = false, device_entered = false;
 std::string status;
 void check(bool value, const char* message) {
     if (!value)
@@ -40,7 +43,14 @@ std::vector<float> drain(size_t frames = 6000) {
 } // namespace
 namespace ortho {
 struct PcmOutput::Impl {};
-PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {}
+PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {
+    std::unique_lock lock(audio_mutex);
+    device_entered = true;
+    changed.notify_all();
+    changed.wait(lock, [] {
+        return !hold_device;
+    });
+}
 PcmOutput::~PcmOutput() = default;
 void PcmOutput::start(bool pause) {
     std::lock_guard lock(audio_mutex);
@@ -126,6 +136,59 @@ int main(int argc, char** argv) {
             {"", "Första.", "sv", first},
             {"", "Andra.", "sv", SpeechCue{0, 0, "Ps", "sv1917", {23, 2}, {23, 2}, false}},
             {"", "Tredje.", "sv", SpeechCue{1, 1, "John", "sv1917", {1, 1}, {1, 1}, false}}};
+        {
+            std::lock_guard lock(audio_mutex);
+            hold_device = true;
+        }
+        engine->speak_batch(reading);
+        wait_for(
+            [] {
+                return device_entered;
+            },
+            "The worker must begin opening the audio device");
+        auto controls = std::async(std::launch::async, [&] {
+            engine->pause();
+            return engine->playback().state;
+        });
+        const bool responsive = controls.wait_for(std::chrono::seconds(1)) == std::future_status::ready;
+        {
+            std::lock_guard lock(audio_mutex);
+            hold_device = false;
+        }
+        changed.notify_all();
+        const auto held_state = controls.get();
+        check(responsive && held_state == SpeechState::Paused,
+              "Pause and playback polling must not wait for audio device initialization");
+        wait_for(
+            [] {
+                return appended == 1;
+            },
+            "An in-flight chunk may finish while paused");
+        {
+            std::unique_lock lock(audio_mutex);
+            check(!changed.wait_for(lock, std::chrono::milliseconds(150),
+                                    [] {
+                                        return appended > 1;
+                                    }),
+                  "Pause must suspend preparation of later chunks");
+        }
+        engine->resume();
+        wait_for(
+            [] {
+                return appended == 3;
+            },
+            "Resume must wake speech preparation");
+        engine->stop();
+
+        // The lookup worker must deliver results without holding up its caller.
+        std::promise<bool> lookup_result;
+        auto lookup_done = lookup_result.get_future();
+        const auto caller = std::this_thread::get_id();
+        engine->pronunciation_async("begynnelsen", [&](const auto&) {
+            lookup_result.set_value(std::this_thread::get_id() != caller);
+        });
+        check(lookup_done.wait_for(std::chrono::seconds(3)) == std::future_status::ready && lookup_done.get(),
+              "Pronunciation lookup must run on a worker");
         engine->speak_batch(reading);
         wait_for(
             [] {

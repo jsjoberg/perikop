@@ -32,7 +32,11 @@ int main() {
         check(!stream.finished(), "Underrun must not end an unfinished reading");
         check(stream.played() == 3 && stream.waiting() && stream.held(),
               "Underrun holds playback so it can rebuffer");
+        check(stream.retained_frames() == 3,
+              "The audio callback must leave buffer reclamation to the producer");
         check(stream.append({4, 5}) && stream.append({6, 7}), "Chunks queue during an underrun");
+        check(stream.retained_frames() == 4,
+              "The producer must release played audio instead of retaining the ring's history");
         stream.render(output, 4);
         check(output[0] == 0 && stream.played() == 3, "Rebuffering does not play a trickle of audio");
         stream.release();
@@ -64,6 +68,12 @@ int main() {
               "Slow synthesis buffers enough to finish before playback catches up");
         check(ortho::buffer_target(100, 0.5) == 6,
               "Faster-than-real-time synthesis starts after the cushion");
+        check(ortho::buffer_limit(1000, 0.5) == 30,
+              "Fast synthesis must use a rolling lead instead of preparing ten minutes ahead");
+        check(std::abs(ortho::buffer_limit(100, 2.3) - 193.5) < 1e-9 && ortho::buffer_limit(1000, 2.3) == 600,
+              "Slow synthesis must retain enough startup audio within the memory bound");
+        check(ortho::buffer_limit(100, 0.7) < ortho::buffer_limit(100, 0.7 * 2),
+              "Faster playback must increase preparation when synthesis cannot keep up");
 
         ortho::PlaybackTimeline timeline;
         const ortho::SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}, false};

@@ -76,34 +76,42 @@ bool contains_speech_word(const std::string& text, const std::string& word) {
             return true;
     return false;
 }
-SpeechUtterance make_utterance(const std::string& text, const std::string& language,
-                               const std::vector<Pronunciation>& lexicon) {
-    auto ordered = lexicon;
-    std::stable_sort(ordered.begin(), ordered.end(), [](auto& a, auto& b) {
-        return a.priority != b.priority ? a.priority > b.priority : a.source.size() > b.source.size();
-    });
-    const auto words = tokens(text);
+struct PronunciationMatcher::Impl {
+    std::string language;
+    std::vector<Pronunciation> ordered;
     struct Candidate {
-        const Pronunciation* entry;
+        std::size_t entry;
         std::vector<Token> phrase;
     };
     std::unordered_map<std::string, std::vector<Candidate>> candidates;
-    for (const auto& entry : ordered) {
-        if (entry.language != language || (entry.spoken.empty() && entry.phonemes.empty()))
-            continue;
-        auto phrase = tokens(entry.source);
-        if (!phrase.empty()) {
-            const auto first = phrase.front().folded;
-            candidates[first].push_back({&entry, std::move(phrase)});
+    Impl(std::string language, std::vector<Pronunciation> lexicon)
+        : language(std::move(language)), ordered(std::move(lexicon)) {
+        std::stable_sort(ordered.begin(), ordered.end(), [](auto& a, auto& b) {
+            return a.priority != b.priority ? a.priority > b.priority : a.source.size() > b.source.size();
+        });
+        for (std::size_t i = 0; i < ordered.size(); ++i) {
+            const auto& entry = ordered[i];
+            if (entry.language != this->language || (entry.spoken.empty() && entry.phonemes.empty()))
+                continue;
+            auto phrase = tokens(entry.source);
+            if (!phrase.empty()) {
+                const auto first = phrase.front().folded;
+                candidates[first].push_back({i, std::move(phrase)});
+            }
         }
     }
+};
+PronunciationMatcher::PronunciationMatcher(std::string language, std::vector<Pronunciation> lexicon)
+    : impl_(std::make_shared<Impl>(std::move(language), std::move(lexicon))) {}
+SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
+    const auto words = tokens(text);
     std::string result;
     std::size_t copied = 0;
     for (std::size_t i = 0; i < words.size();) {
         std::size_t count = 0;
         std::string replacement;
-        const auto bucket = candidates.find(words[i].folded);
-        if (bucket != candidates.end())
+        const auto bucket = impl_->candidates.find(words[i].folded);
+        if (bucket != impl_->candidates.end())
             for (const auto& candidate : bucket->second) {
                 const auto& phrase = candidate.phrase;
                 if (i + phrase.size() > words.size())
@@ -118,9 +126,9 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
                 }
                 // Phonemes go to the Swedish Kokoro front end as one ⟦…⟧ word.
                 if (match) {
+                    const auto& entry = impl_->ordered[candidate.entry];
                     count = phrase.size();
-                    replacement = candidate.entry->phonemes.empty() ? candidate.entry->spoken
-                                                                    : "⟦" + candidate.entry->phonemes + "⟧";
+                    replacement = entry.phonemes.empty() ? entry.spoken : "⟦" + entry.phonemes + "⟧";
                     break;
                 }
             }
@@ -134,7 +142,11 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
         i += count;
     }
     result += text.substr(copied);
-    return {text, result, language, {}};
+    return {text, result, impl_->language, {}};
+}
+SpeechUtterance make_utterance(const std::string& text, const std::string& language,
+                               const std::vector<Pronunciation>& lexicon) {
+    return PronunciationMatcher(language, lexicon).utterance(text);
 }
 std::string reading_introduction(const std::string& book_name, const Passage& p) {
     return "Läsning ur " + book_name + ", kapitel " + std::to_string(p.first.chapter) + ", vers " +

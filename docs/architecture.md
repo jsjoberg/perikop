@@ -18,6 +18,7 @@ The application uses C++23 and wxWidgets. Python tools prepare resources and che
 `sqlite.hpp` and `sqlite.cpp` contain internal connection, statement, and transaction helpers.
 Statements and transactions own their cleanup and cannot be copied.
 All SQL stays in this layer. The [storage guide](storage.md) describes the database policies.
+Passage mapping reuses target-book coordinates when it joins adjacent verses.
 
 ## Reading and speech
 
@@ -28,9 +29,19 @@ The reader, Bible picker, and speech introductions use the same passage labels.
 It accepts a pronunciation lookup function so that callers can include local corrections.
 Each utterance retains its reading, section, and framing coordinates for playback tracking.
 Merged verses produce one utterance that covers their full framing range.
+Each speech batch compiles pronunciation rules once per language and reuses them for every verse.
 
 `portable_speech` owns the synthesis worker and coordinates the audio buffer.
 The engine sends numbered status updates. The window delivers these updates on the UI thread and discards stale updates.
+Audio device initialization runs outside the lock used by speech controls and playback polling.
+Pause suspends further preparation after the current chunk finishes. Resume wakes the worker and preserves queued audio.
+Fast synthesis maintains about 30 seconds of queued audio instead of continuously preparing ten minutes ahead.
+Slower synthesis retains a larger lead, up to ten minutes, based on measured synthesis and playback speed.
+The synthesis worker releases played audio chunks. The audio callback does not free buffers or retain the entire ring's playback history.
+ONNX Runtime sessions park worker threads between inference calls and retain normal thread coordination during inference.
+Word pronunciation uses a separate worker. A new word replaces pending requests, and the UI discards results for an earlier word.
+Panel resizing and theme changes reuse the current word's prepared pronunciation.
+Book names stay in immutable corpus metadata, so playback status polling does not query SQLite for each update.
 
 ## UI
 

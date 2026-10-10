@@ -1,11 +1,19 @@
 #include "speech/reading_speech.hpp"
 #include "core/reading_display.hpp"
 #include "storage/database.hpp"
+#include <map>
 #include <stdexcept>
 namespace ortho {
 std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::vector<Reading>& readings,
                                             const PronunciationLookup& lookup) {
     std::vector<SpeechUtterance> queue;
+    std::map<std::string, PronunciationMatcher> matchers;
+    const auto prepare = [&](const std::string& text, const std::string& language) {
+        auto found = matchers.find(language);
+        if (found == matchers.end())
+            found = matchers.try_emplace(language, language, lookup(language)).first;
+        return found->second.utterance(text);
+    };
     for (size_t r = 0; r < readings.size(); ++r) {
         const auto& reading = readings[r];
         const auto localized = corpus.localize(reading);
@@ -13,8 +21,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
         if (reading.base_language == "sv") {
             // Announced in the numbers shown on screen.
             const auto shown = displayed_passage(corpus, passages.front());
-            auto intro =
-                make_utterance(reading_introduction(corpus.book_name(shown.book), shown), "sv", lookup("sv"));
+            auto intro = prepare(reading_introduction(corpus.book_name(shown.book), shown), "sv");
             intro.cue = SpeechCue{
                 r, 0, passages.front().book, "", passages.front().first, passages.front().last, true};
             queue.push_back(std::move(intro));
@@ -34,7 +41,6 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
             if (corpus.coordinates(frame, passage.book).empty())
                 frame = source;
             const auto language = source_language(source);
-            const auto lexicon = lookup(language);
             bool found = false;
             std::optional<VerseRef> previous;
             for (auto ref : corpus.coordinates(frame, passage.book)) {
@@ -53,7 +59,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                 if (!verse)
                     continue;
                 previous = verse->ref;
-                auto utterance = make_utterance(verse->text, language, lexicon);
+                auto utterance = prepare(verse->text, language);
                 utterance.cue = SpeechCue{r, s, passage.book, frame, ref, ref, false};
                 queue.push_back(std::move(utterance));
                 found = true;

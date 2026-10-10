@@ -1,5 +1,7 @@
 #pragma once
 #include "core/model.hpp"
+#include <functional>
+#include <memory>
 namespace ortho {
 enum class SpeechState { Idle, Loading, Buffering, Playing, Paused, Stopped, Completed, Error };
 constexpr bool speech_active(SpeechState state) {
@@ -23,6 +25,16 @@ struct SpeechPlayback {
 struct SpeechUtterance {
     std::string display_text, speech_text, language;
     std::optional<SpeechCue> cue = {};
+};
+// Compile pronunciation phrases once and reuse them for every verse in a batch.
+class PronunciationMatcher {
+public:
+    PronunciationMatcher(std::string language, std::vector<Pronunciation> lexicon);
+    SpeechUtterance utterance(const std::string& text) const;
+
+private:
+    struct Impl;
+    std::shared_ptr<const Impl> impl_;
 };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language,
                                const std::vector<Pronunciation>& lexicon);
@@ -53,6 +65,12 @@ public:
     // IPA the Swedish voice uses for speech text; empty when it is unavailable.
     virtual std::string pronunciation(const std::string&) {
         return {};
+    }
+    // Delivery may run on a worker. UI callers must dispatch results to the UI thread.
+    // A newer request may replace a pending lookup without delivering its result.
+    // NOLINTNEXTLINE(performance-unnecessary-value-param): worker implementations retain the callback.
+    virtual void pronunciation_async(const std::string& text, std::function<void(std::string)> deliver) {
+        deliver(pronunciation(text));
     }
 };
 // This diagnostic engine accepts utterances; it produces no audio.

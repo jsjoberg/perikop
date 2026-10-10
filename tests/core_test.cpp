@@ -331,6 +331,12 @@ int main(int argc, char** argv) {
         check(corpus.source_for_language("xx", "Luke").empty(), "unknown source selection");
         check(corpus.read_only(), "corpus not read-only");
         check(corpus.sources().size() == 5, "source catalog");
+        check(corpus.book_name("Ps") == "Psaltaren" && corpus.book_name("Ps", "en") == "Psalms" &&
+                  corpus.book_name("Ps", "el") == "ΨΑΛΜΟΙ",
+              "Book names must retain each edition's language");
+        check(corpus.book_name("missing-book") == "missing-book" &&
+                  corpus.book_name("Ps", "unknown-language") == corpus.book_name("Ps"),
+              "Book-name fallbacks must retain their previous behavior");
         for (const auto& [book, ch, first, last] : std::vector<std::tuple<std::string, int, int, int>>{
                  {"Ps", 23, 1, 6}, {"Ps", 24, 1, 10}, {"Luke", 6, 1, 49}, {"Phil", 2, 1, 30}}) {
             for (int v = first; v <= last; ++v)

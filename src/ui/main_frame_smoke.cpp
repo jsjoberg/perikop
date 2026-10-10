@@ -24,6 +24,7 @@ class NavigationSpeech final : public SpeechEngine {
 public:
     SpeechPlayback held;
     bool changed = false;
+    std::vector<std::function<void(std::string)>> lookups;
     void speak(const SpeechUtterance&) override {
         changed = true;
     }
@@ -38,6 +39,9 @@ public:
     }
     SpeechPlayback playback() const override {
         return held;
+    }
+    void pronunciation_async(const std::string&, std::function<void(std::string)> deliver) override {
+        lookups.push_back(std::move(deliver));
     }
 };
 } // namespace
@@ -476,6 +480,43 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source(), scripture_->frame());
     {
+        NavigationSpeech deferred;
+        auto panel = std::make_unique<StudyPanel>(root_, corpus_, study_db_.get(), deferred,
+                                                  [this](const auto& language) {
+                                                      return speech_lexicon(language);
+                                                  });
+        panel->Hide();
+        const auto has = [&](const std::string& value) {
+            const auto lines = panel->text();
+            return std::any_of(lines.begin(), lines.end(), [&](const auto& line) {
+                return line.Contains(ui::utf8(value));
+            });
+        };
+        panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917", "sv1917");
+        panel->show({"John", "Jesu", {1, 17}, 0}, "sv1917", "sv1917");
+        if (deferred.lookups.size() != 2)
+            fail(__LINE__);
+        else {
+            deferred.lookups[0]("stale-pronunciation");
+            wxTheApp->ProcessPendingEvents();
+            if (has("stale-pronunciation"))
+                fail(__LINE__);
+            deferred.lookups[1]("current-pronunciation");
+            wxTheApp->ProcessPendingEvents();
+            panel->apply(Theme::Dark);
+            if (!has("current-pronunciation") || deferred.lookups.size() != 2)
+                fail(__LINE__);
+            panel->clear();
+            deferred.lookups[1]("cleared-pronunciation");
+            wxTheApp->ProcessPendingEvents();
+            if (has("cleared-pronunciation"))
+                fail(__LINE__);
+            panel.reset();
+            deferred.lookups[1]("destroyed-pronunciation");
+            wxTheApp->ProcessPendingEvents();
+        }
+    }
+    {
         const auto lines = study_->text();
         const auto has = [&](const wxString& part) {
             return std::any_of(lines.begin(), lines.end(), [&](const wxString& line) {
@@ -533,7 +574,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->select_verses({1, 1}, {1, 2});
     scripture_->scroll_by(120);
     const auto saved_scroll = scripture_->scroll_position();
-    const auto saved_study = study_->text();
+    const auto study_content = [&] {
+        auto lines = study_->text();
+        // IPA may arrive while another page is open; the article and selected word stay put.
+        std::erase_if(lines, [](const auto& line) {
+            return line.StartsWith("/") && line.EndsWith("/");
+        });
+        return lines;
+    };
+    const auto saved_study = study_content();
     const auto saved_selection = scripture_->selections();
     const auto saved_reading = visible_reading_;
     tracked_ = Tracked{"smoke:preserved", "Urval"};
@@ -564,7 +613,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 fail(__LINE__);
         const auto restored = scripture_->selections();
         if (page_ || !scripture_->IsShown() || !study_->IsShown() ||
-            scripture_->scroll_position() != saved_scroll || study_->text() != saved_study ||
+            scripture_->scroll_position() != saved_scroll || study_content() != saved_study ||
             restored.size() != saved_selection.size() ||
             restored.front().first != saved_selection.front().first || !tracked_ ||
             tracked_->key != "smoke:preserved" ||

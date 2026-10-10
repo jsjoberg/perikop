@@ -1,5 +1,6 @@
 #pragma once
 #include "core/model.hpp"
+#include <array>
 #include <filesystem>
 #include <map>
 #include <memory>
@@ -68,6 +69,7 @@ private:
     struct BookInfo {
         std::string abbreviation;
         bool new_testament, deuterocanonical, stanzas;
+        std::array<std::string, 3> names; // Swedish, English, Greek.
     };
     std::map<std::string, BookInfo> books_;
     std::vector<CanonBook> canon_;

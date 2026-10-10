@@ -64,6 +64,16 @@ int main(int argc, char** argv) {
 
         const Reading sections{ReadingKind::Gospel, {"John", {1, 1}, {1, 1}}, {{"John", {1, 3}, {1, 4}}}};
         const auto batch = reading_speech(corpus, {sections, psalm}, lexicon);
+        int lookups = 0;
+        const auto reused = reading_speech(corpus, {sections, psalm}, [&](const auto& language) {
+            ++lookups;
+            return lexicon(language);
+        });
+        check(lookups == 1 && reused.size() == batch.size(),
+              "A speech batch must fetch pronunciation rules once per language");
+        for (std::size_t i = 0; i < batch.size(); ++i)
+            check(reused[i].speech_text == batch[i].speech_text && reused[i].cue == batch[i].cue,
+                  "Reusing pronunciation rules must preserve speech and playback coordinates");
         check(batch.size() == 11 && batch[1].cue->reading == 0 && batch[1].cue->section == 0 &&
                   batch[2].cue->section == 1 && batch[3].cue->section == 1 && batch[4].cue->reading == 1 &&
                   batch[4].cue->introduction,

@@ -310,6 +310,7 @@ struct KokoroText::Impl {
         env.DisableTelemetryEvents();
         options.SetIntraOpNumThreads(1);
         options.SetInterOpNumThreads(1);
+        options.AddConfigEntry("session.force_spinning_stop", "1");
         options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
         // The pack holds the model's output for every corpus word that the lexicon lacks.
         std::istringstream corpus(read_file(pack / "g2p-corpus.tsv"));

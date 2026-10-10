@@ -111,7 +111,34 @@ class PortableSpeech final : public SpeechEngine {
     // Word lookups use their own front end, so they never wait for synthesis.
     std::mutex lookup_mutex_;
     std::unique_ptr<KokoroText> lookup_;
+    struct Lookup {
+        std::string text;
+        std::function<void(std::string)> deliver;
+    };
+    std::mutex lookup_queue_mutex_;
+    std::condition_variable_any lookup_condition_;
+    std::optional<Lookup> lookup_request_;
+    std::jthread lookup_worker_;
     std::thread worker_;
+    void run_lookups(const std::stop_token& stop) {
+        while (!stop.stop_requested()) {
+            Lookup request;
+            {
+                std::unique_lock lock(lookup_queue_mutex_);
+                if (!lookup_condition_.wait(lock, stop, [this] {
+                        return lookup_request_.has_value();
+                    }))
+                    return;
+                if (!lookup_request_)
+                    continue;
+                request = std::move(*lookup_request_);
+                lookup_request_.reset();
+            }
+            auto result = pronunciation(request.text);
+            if (!stop.stop_requested())
+                request.deliver(std::move(result));
+        }
+    }
     void report(uint64_t generation, const std::string& status, SpeechState state = SpeechState::Buffering) {
         std::lock_guard lock(mutex_);
         if (shutdown_ || generation != generation_.load())
@@ -189,18 +216,23 @@ class PortableSpeech final : public SpeechEngine {
                 std::string playing;
                 for (const auto& part : parts)
                     remaining_weight += part.weight;
-                // Generate ahead as fast as possible, also while paused, up to
-                // ten minutes of audio or the buffer's slot count.
+                // Keep a rolling lead; slower models can prepare up to ten minutes.
+                // Pause suspends preparation between chunks as well as audio playback.
+                const auto estimated_remaining = [&] {
+                    return remaining_weight * produced_seconds / std::max(1e-9, produced_weight);
+                };
+                const auto realtime_factor = [&] {
+                    return (model_audio > 0 ? model_seconds / model_audio : 2.5) * speed_;
+                };
                 const auto full = [&] {
+                    const auto limit = buffer_limit(estimated_remaining(), realtime_factor());
                     return output_->buffered() >= PcmStream::capacity ||
-                           output_->buffered_frames() >= uint64_t{600} * 24000;
+                           output_->buffered_frames() / 24000.0 >= limit;
                 };
                 // Called with the mutex held after audio is queued or played.
                 // A full buffer cannot grow, so it plays whatever the estimate says.
                 const auto update_gate = [&] {
-                    const double seconds_per_weight = produced_seconds / std::max(1e-9, produced_weight);
-                    const double factor = model_audio > 0 ? model_seconds / model_audio : 2.5;
-                    const double target = buffer_target(remaining_weight * seconds_per_weight, factor);
+                    const double target = buffer_target(estimated_remaining(), realtime_factor());
                     const double buffered = output_->buffered_frames() / 24000.0;
                     ready_ = std::min(1.0, buffered / target);
                     if (output_->buffered() && (buffered >= target || full()))
@@ -209,9 +241,15 @@ class PortableSpeech final : public SpeechEngine {
                 for (size_t i = 0; i < parts.size(); ++i) {
                     {
                         std::unique_lock lock(mutex_);
-                        while (!cancelled() && i && full()) {
-                            update_gate();
-                            condition_.wait_for(lock, 100ms);
+                        while (!cancelled() && (paused_ || (i && full()))) {
+                            if (paused_)
+                                condition_.wait(lock, [&] {
+                                    return cancelled() || !paused_;
+                                });
+                            else {
+                                update_gate();
+                                condition_.wait_for(lock, 100ms);
+                            }
                         }
                         if (cancelled())
                             break;
@@ -244,12 +282,22 @@ class PortableSpeech final : public SpeechEngine {
                     }
                     if (i)
                         samples->insert(samples->begin(), 4800, 0.0f);
+                    bool need_output = false;
                     {
                         std::lock_guard lock(mutex_);
                         if (cancelled())
                             break;
-                        if (!output_) {
-                            output_ = std::make_unique<PcmOutput>();
+                        need_output = !output_;
+                    }
+                    // Opening a device can wait for the OS. Controls and playback polling
+                    // must remain available while this happens.
+                    auto prepared_output = need_output ? std::make_unique<PcmOutput>() : nullptr;
+                    {
+                        std::lock_guard lock(mutex_);
+                        if (cancelled())
+                            break;
+                        if (prepared_output) {
+                            output_ = std::move(prepared_output);
                             output_->set_speed(speed_);
                         }
                         if (!i)
@@ -306,10 +354,14 @@ class PortableSpeech final : public SpeechEngine {
 public:
     PortableSpeech(const std::filesystem::path& voices, std::filesystem::path data, SpeechStatus status)
         : pack_(voices / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)),
+          lookup_worker_([this](const std::stop_token& stop) {
+              run_lookups(stop);
+          }),
           worker_([this] {
               run();
           }) {}
     ~PortableSpeech() override {
+        lookup_worker_.request_stop();
         {
             std::lock_guard lock(mutex_);
             shutdown_ = true;
@@ -320,6 +372,7 @@ public:
                 output_->stop();
         }
         condition_.notify_all();
+        lookup_worker_.join();
         worker_.join();
     }
     void speak(const SpeechUtterance& utterance) override {
@@ -384,6 +437,7 @@ public:
         speed_ = speed;
         if (output_)
             output_->set_speed(speed);
+        condition_.notify_all();
     }
     void set_voice(const std::string& voice) override {
         std::lock_guard lock(mutex_);
@@ -398,6 +452,14 @@ public:
         } catch (const std::exception&) {
             return {};
         }
+    }
+    void pronunciation_async(const std::string& text, std::function<void(std::string)> deliver) override {
+        {
+            std::lock_guard lock(lookup_queue_mutex_);
+            // Clicking a new word replaces pending work for the previous one.
+            lookup_request_ = Lookup{text, std::move(deliver)};
+        }
+        lookup_condition_.notify_one();
     }
     SpeechPlayback playback() const override {
         std::lock_guard lock(mutex_);

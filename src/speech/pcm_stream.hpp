@@ -6,8 +6,8 @@
 #include <cstring>
 #include <vector>
 namespace ortho {
-// One synthesis producer and one audio consumer. Slots remain allocated until
-// the producer reuses them; the audio callback neither locks nor frees buffers.
+// One synthesis producer and one audio consumer. The producer retires played
+// chunks; the audio callback neither locks nor frees buffers.
 // Output starts held. The producer releases it once enough audio is buffered;
 // an underrun holds it again so playback rebuffers instead of stuttering.
 class PcmStream {
@@ -19,6 +19,8 @@ private:
     std::atomic<size_t> read_{0}, written_{0};
     std::atomic<bool> complete_{false}, held_{true};
     std::atomic<uint64_t> played_{0}, appended_{0};
+    std::atomic<uint64_t> retained_{0};
+    size_t retired_ = 0;  // Synthesis producer only.
     size_t position_ = 0; // Audio consumer only.
 public:
     size_t buffered() const {
@@ -28,14 +30,25 @@ public:
     uint64_t buffered_frames() const {
         return appended_.load(std::memory_order_acquire) - played_.load(std::memory_order_acquire);
     }
+    uint64_t retained_frames() const {
+        return retained_.load(std::memory_order_relaxed);
+    }
     bool append(std::vector<float>&& samples) {
         const auto written = written_.load(std::memory_order_relaxed);
-        if (complete_.load(std::memory_order_acquire) || samples.empty() ||
-            written - read_.load(std::memory_order_acquire) == capacity)
+        const auto read = read_.load(std::memory_order_acquire);
+        if (complete_.load(std::memory_order_acquire) || samples.empty() || written - read == capacity)
             return false;
+        // Publication of read means the consumer has finished touching these chunks.
+        // Release their allocations here instead of retaining an entire ring's history.
+        while (retired_ < read) {
+            auto& chunk = chunks_[retired_++ % capacity];
+            retained_.fetch_sub(chunk.size(), std::memory_order_relaxed);
+            std::vector<float>().swap(chunk);
+        }
         const auto frames = samples.size();
         chunks_[written % capacity] = std::move(samples);
         appended_.fetch_add(frames, std::memory_order_release);
+        retained_.fetch_add(frames, std::memory_order_relaxed);
         written_.store(written + 1, std::memory_order_release);
         return true;
     }
@@ -89,5 +102,10 @@ public:
 inline double buffer_target(double remaining_seconds, double realtime_factor) {
     constexpr double margin = 1.25, cushion = 6;
     return std::max(0.0, (realtime_factor * margin - 1) * remaining_seconds) + cushion;
+}
+// Fast models need a short rolling lead. Slower models retain their startup
+// requirement, up to the existing ten-minute memory bound.
+inline double buffer_limit(double remaining_seconds, double realtime_factor) {
+    return std::clamp(buffer_target(remaining_seconds, realtime_factor), 30.0, 600.0);
 }
 } // namespace ortho

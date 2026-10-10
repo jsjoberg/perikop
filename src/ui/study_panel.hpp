@@ -26,6 +26,10 @@ private:
     SpeechEngine& speech_;
     Lexicon lexicon_;
     std::optional<ScriptureView::Word> word_;
+    std::optional<SpeechUtterance> utterance_;
+    std::string pronunciation_;
+    std::size_t pronunciation_epoch_ = 0;
+    bool pronunciation_requested_ = false;
     std::string base_source_, frame_;
     std::set<std::string> expanded_articles_;
     // The chosen tagged Greek word of the verse, and whether the lookup has
@@ -34,5 +38,6 @@ private:
     bool chosen_ = false;
     Theme theme_ = Theme::System;
     int wrapped_ = 0;
+    bool rebuild_pending_ = false;
 };
 } // namespace ortho

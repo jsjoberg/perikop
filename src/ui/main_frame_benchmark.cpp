@@ -1,3 +1,4 @@
+#include "speech/reading_speech.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
 #include <algorithm>
@@ -87,6 +88,14 @@ bool MainFrame::render_benchmark() {
                   << ", fetch_and_fragments_ms=" << after.fragment_ms - before.fragment_ms
                   << ", typesetting_ms=" << after.typesetting_ms - before.typesetting_ms << '\n';
     }
+    const auto speech_begin = Clock::now();
+    const auto utterances = reading_speech(corpus_, {{ReadingKind::Gospel, {"John", {1, 1}, {21, 25}}}},
+                                           [this](const auto& language) {
+                                               return speech_lexicon(language);
+                                           });
+    std::cout << "Prepare speech, all of John: ms="
+              << std::chrono::duration<double, std::milli>(Clock::now() - speech_begin).count()
+              << ", utterances=" << utterances.size() << '\n';
     // Exercise a quiet paused guide without loading or running a speech model.
     open_psalm();
     SpeechPlayback paused{SpeechState::Paused, SpeechCue{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}, false}, 0,

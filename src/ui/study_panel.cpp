@@ -1,9 +1,11 @@
 #include "ui/study_panel.hpp"
 #include "ui/controls.hpp"
 #include "ui/theme.hpp"
+#include <wx/app.h>
 #include <wx/hyperlink.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
+#include <wx/weakref.h>
 namespace ortho {
 namespace {
 // Strong's numbers read "G746", without the lexicon's padding zeros.
@@ -23,10 +25,14 @@ StudyPanel::StudyPanel(wxWindow* parent, const CorpusDb& corpus, const StudyDb* 
     SetScrollRate(0, FromDIP(12));
     // Definitions wrap to the panel width; rewrap when it changes noticeably.
     Bind(wxEVT_SIZE, [this](wxSizeEvent& e) {
-        if (std::abs(GetClientSize().x - wrapped_) > FromDIP(12))
+        if (std::abs(GetClientSize().x - wrapped_) > FromDIP(12) && !rebuild_pending_) {
+            rebuild_pending_ = true;
             CallAfter([this] {
-                rebuild();
+                rebuild_pending_ = false;
+                if (std::abs(GetClientSize().x - wrapped_) > FromDIP(12))
+                    rebuild();
             });
+        }
         e.Skip();
     });
     rebuild();
@@ -38,6 +44,9 @@ void StudyPanel::apply(Theme theme) {
 void StudyPanel::clear() {
     if (word_) {
         word_.reset();
+        utterance_.reset();
+        pronunciation_.clear();
+        ++pronunciation_epoch_;
         selected_.reset();
         expanded_articles_.clear();
         rebuild();
@@ -46,6 +55,10 @@ void StudyPanel::clear() {
 void StudyPanel::show(const ScriptureView::Word& word, const std::string& base_source,
                       const std::string& frame) {
     word_ = word;
+    utterance_.reset();
+    pronunciation_.clear();
+    pronunciation_requested_ = false;
+    ++pronunciation_epoch_;
     base_source_ = base_source;
     frame_ = frame;
     selected_.reset();
@@ -106,10 +119,25 @@ void StudyPanel::rebuild() {
         const bool swedish = language == "sv", greek = base_source_ == greek_source;
         text(ui::utf8(word.text), body_font(26), colors.ink, 4);
         // What the voice says: bundled phonemes and review corrections apply.
-        const auto utterance = make_utterance(word.text, language, lexicon_(language));
-        if (swedish)
-            if (const auto ipa = speech_.pronunciation(utterance.speech_text); !ipa.empty())
-                text(ui::utf8("/" + ipa + "/"), ui_font(13), colors.muted, 4);
+        if (!utterance_)
+            utterance_ = make_utterance(word.text, language, lexicon_(language));
+        const auto utterance = *utterance_;
+        if (swedish && !pronunciation_requested_) {
+            pronunciation_requested_ = true;
+            auto weak = std::make_shared<wxWeakRef<StudyPanel>>(this);
+            const auto epoch = pronunciation_epoch_;
+            speech_.pronunciation_async(utterance.speech_text, [weak, epoch](std::string ipa) {
+                // wxWeakRef is inspected only on the UI thread, after worker delivery.
+                wxTheApp->CallAfter([weak, epoch, ipa = std::move(ipa)] {
+                    if (*weak && (*weak)->pronunciation_epoch_ == epoch && !ipa.empty()) {
+                        (*weak)->pronunciation_ = ipa;
+                        (*weak)->rebuild();
+                    }
+                });
+            });
+        }
+        if (swedish && !pronunciation_.empty())
+            text(ui::utf8("/" + pronunciation_ + "/"), ui_font(13), colors.muted, 4);
         // Read-aloud is Swedish only.
         if (swedish) {
             auto* listen = ui::button(this, "Lyssna", [this, utterance] {

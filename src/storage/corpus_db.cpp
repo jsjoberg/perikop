@@ -17,11 +17,14 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
         versification_.emplace(source.code, source.versification);
-    Statement books(db_.get(),
-                    "SELECT code,abbreviation_sv,new_testament,deuterocanonical,stanzas FROM book");
+    Statement books(db_.get(), "SELECT code,abbreviation_sv,new_testament,deuterocanonical,stanzas,"
+                               "name_sv,name_en,name_el FROM book");
     while (books.row())
-        books_.emplace(books.text(0), BookInfo{books.text(1), books.number(2) == 1, books.number(3) == 1,
-                                               books.number(4) == 1});
+        books_.emplace(books.text(0), BookInfo{books.text(1),
+                                               books.number(2) == 1,
+                                               books.number(3) == 1,
+                                               books.number(4) == 1,
+                                               {books.text(5), books.text(6), books.text(7)}});
     Statement canon(db_.get(), "SELECT book,frame_book,first_chapter,coalesce(last_chapter,999) FROM canon "
                                "ORDER BY position");
     while (canon.row())
@@ -264,7 +267,10 @@ std::vector<Passage> CorpusDb::map_passage(const std::string& from, const std::s
     std::vector<Passage> result;
     std::map<std::string, std::vector<VerseRef>> editions;
     for (const auto& [book, ref] : found) {
-        const auto& refs = editions.try_emplace(book, coordinates(to, book)).first->second;
+        auto edition = editions.find(book);
+        if (edition == editions.end())
+            edition = editions.emplace(book, coordinates(to, book)).first;
+        const auto& refs = edition->second;
         const auto at = std::find(refs.begin(), refs.end(), ref);
         if (at == refs.end())
             continue;
@@ -308,12 +314,11 @@ std::vector<Pronunciation> CorpusDb::pronunciations(const std::string& language)
     return result;
 }
 std::string CorpusDb::book_name(const std::string& book, const std::string& language) const {
-    const char* sql = language == "el"   ? "SELECT name_el FROM book WHERE code=?"
-                      : language == "en" ? "SELECT name_en FROM book WHERE code=?"
-                                         : "SELECT name_sv FROM book WHERE code=?";
-    Statement query(db_.get(), sql);
-    query.text(1, book);
-    return query.row() ? query.text(0) : book;
+    const auto found = books_.find(book);
+    return found == books_.end() ? book
+                                 : found->second.names[language == "el"   ? 2
+                                                       : language == "en" ? 1
+                                                                          : 0];
 }
 std::vector<ReadingRule> CorpusDb::reading_rules() const {
     Statement q(db_.get(),
