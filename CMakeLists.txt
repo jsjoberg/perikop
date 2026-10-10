@@ -281,7 +281,12 @@ if(ORTHO_BUILD_GUI)
     endif()
     if(BUILD_TESTING)
         add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
-        set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT 30)
+        set(perikop_smoke_timeout 30)
+        if(perikop_macos_universal)
+            # A fresh CI runner must translate the Intel app and Cocoa frameworks through Rosetta.
+            set(perikop_smoke_timeout 120)
+        endif()
+        set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
     endif()
     # Release packages: a DMG on macOS and an installer on Windows. Linux uses tools/package_appimage.sh.
     if(APPLE OR WIN32)
