@@ -103,6 +103,34 @@ class DependenciesTest(unittest.TestCase):
                 dependencies.extract(root / "bad.zip", root / "output")
             self.assertFalse((root / "escape").exists())
 
+    def test_new_unprepared_dependency_cannot_download(self):
+        policy = subprocess.run(["cmake", "--help-policy", "CMP0170"], capture_output=True)
+        if policy.returncode:
+            self.skipTest("Older CMake prevents downloads but does not enforce missing source directories")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            sources = root / "sources"
+            for name in ("sqlite/sqlite3.h", "wxwidgets/CMakeLists.txt", "ortho_sonic/sonic.h",
+                         "ortho_audio/miniaudio.h", "ortho_ort/include/onnxruntime_c_api.h"):
+                file = sources / name
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_text("")
+            locale = sources / "wxwidgets/src/osx/core/uilocale.mm"
+            locale.parent.mkdir(parents=True)
+            locale.write_text("\n".join("    wxCFStringRef cf(" + name + ");\n    [df release];\n    return cf.AsString();"
+                                        for name in ("monthName", "weekdayName")))
+            (root / "CMakeLists.txt").write_text(
+                'cmake_minimum_required(VERSION 3.24)\nproject(offline NONE)\ninclude(FetchContent)\n'
+                'set(PERIKOP_DEPENDENCY_DIR "' + sources.as_posix() + '")\n'
+                'include("' + (ROOT / "cmake/offline-dependencies.cmake").as_posix() + '" NO_POLICY_SCOPE)\n'
+                'FetchContent_Declare(unprepared URL https://upstream.invalid/archive.tar.gz)\n'
+                'FetchContent_MakeAvailable(unprepared)\n')
+            result = subprocess.run(["cmake", "-S", str(root), "-B", str(root / "build")],
+                                    capture_output=True, text=True, timeout=15)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("FETCHCONTENT_FULLY_DISCONNECTED", result.stderr)
+            self.assertNotIn("Downloading", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -13,6 +13,11 @@ if(PERIKOP_DEPENDENCY_DIR)
         string(TOUPPER "${dependency}" key)
         set("FETCHCONTENT_SOURCE_DIR_${key}" "${PERIKOP_DEPENDENCY_DIR}/${dependency}" CACHE PATH "" FORCE)
     endforeach()
+    # Also block downloads for any future dependency without a source override.
+    set(FETCHCONTENT_FULLY_DISCONNECTED ON CACHE BOOL "Offline CI dependencies" FORCE)
+    if(POLICY CMP0170)
+        cmake_policy(SET CMP0170 NEW)
+    endif()
     # Apply the current patch even when the snapshot predates a patch change.
     execute_process(COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_LIST_DIR}/patch-wxwidgets.cmake"
         "${PERIKOP_DEPENDENCY_DIR}/wxwidgets" COMMAND_ERROR_IS_FATAL ANY)
