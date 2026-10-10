@@ -15,7 +15,11 @@ if ! xvfb-run -a ctest --test-dir build/cmake --output-on-failure; then
         --resources build/cmake/bin/resources --screenshot /work/build/smoke/reader.png || true
     exit 1
 fi
-python3 tools/check_resources.py
+# EL9's Python links an older system SQLite that cannot read STRICT tables.
+# Use the same verified SQLite source as the reader for this resource check.
+gcc -shared -fPIC build/ci/sources/sqlite/sqlite3.c -o build/ci/libsqlite3.so -ldl -lpthread
+LD_PRELOAD="$PWD/build/ci/libsqlite3.so" python3 -c 'import sqlite3; assert sqlite3.sqlite_version_info >= (3, 37, 0)'
+LD_PRELOAD="$PWD/build/ci/libsqlite3.so" python3 tools/check_resources.py
 python3 tests/icon_test.py
 python3 tests/linux_abi_test.py
 python3 tests/ci_dependencies_test.py

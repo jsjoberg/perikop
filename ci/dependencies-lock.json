@@ -1,12 +1,12 @@
 {
   "repository": "jsjoberg/perikop",
-  "release": "ci-dependencies-708453b85612",
+  "release": "ci-dependencies-62205df69a20",
   "upstreams_sha256": "9db3fb761d37203aae57717fec5aa50275e78f8d818b783d343e2e3e491db1cf",
   "assets": {
     "inputs-Linux.tar.gz": "96ff8685b3842a46fa560f112f245528ac6cbc3ea267a369bb3e95783d25de97",
     "inputs-macOS.tar.gz": "5360940e40b17977db9e66984401ada2fcde56275d25141cb4f703278cdbd693",
     "inputs-Windows.tar.gz": "9bb64b5949f93476516edd10fe43671e8d95de6bae8c2d38dc4bc2503a053c2a",
     "Linux-environment.tar.gz": "6a50ee9bcdd305223be6eb93de67141a295abf8be11c04c113cb9bd8d103588a",
-    "macOS-tools.tar.gz": "3ecdf82160d90e721cee1b21cc84d8696e7d4613ebc6fbc5cd4db8d1b7296455"
+    "macOS-tools.tar.gz": "610a9f5d6725234f4bb8f574d025ecd8b0e10d4597ad9f26459a29b266324741"
   }
 }
