@@ -600,8 +600,8 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
     const auto reading_order = [matins_first](const auto* r) {
         return std::tuple{!(matins_first && r->service == "Matins Gospel"), r->ordering, r->id};
     };
-    // NOLINTNEXTLINE(bugprone-nondeterministic-pointer-iteration-order): sorted by service and ordering, not
-    // address.
+    // Order by service priority, numeric ordering, and ID instead of pointer addresses.
+    // NOLINTNEXTLINE(bugprone-nondeterministic-pointer-iteration-order)
     std::sort(selected.begin(), selected.end(), [&](auto a, auto b) {
         return reading_order(a) < reading_order(b);
     });
