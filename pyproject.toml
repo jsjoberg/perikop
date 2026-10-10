@@ -12,7 +12,7 @@ voice-prep = [
     "transformers==5.19.0",
     "onnx==1.23.2",
     "onnxruntime==1.30.0",
-    "huggingface-hub==1.33.0",
+    "huggingface-hub==2.1.1",
     "num2words==0.5.14",
     "soundfile==0.14.0",
     "scipy==1.18.1",
