@@ -8,6 +8,7 @@
 #include <wx/timer.h>
 
 class wxBoxSizer;
+class wxPanel;
 class wxScrolledWindow;
 class wxStaticText;
 
