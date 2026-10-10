@@ -183,6 +183,9 @@ jobs:
           if ($header -notmatch '#define PERIKOP_VERSION "([^"]+)"') { throw 'Build version missing' }
           $expected = $Matches[1]
           $version = (Get-Item build/cmake/bin/perikop.exe).VersionInfo
+          if ($version.FileDescription -ne 'Perikop' -or $version.ProductName -ne 'Perikop') {
+            throw 'Executable must be named Perikop in Task Manager and file properties'
+          }
           if ($version.ProductVersion -ne $expected -or $version.FileVersion -ne $expected) {
             throw "Executable version does not match $expected"
           }
