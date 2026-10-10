@@ -96,6 +96,12 @@ int main(int argc, char** argv) {
                   custom_speech[4].cue->verse == VerseRef{1, 4} &&
                   custom_speech[5].cue == SpeechCue{0, 2, "Ps", "grc-lxx", {22, 6}, {22, 6}, false},
               "Custom playback must skip unselected gaps and follow the chosen range order across books");
+        check(custom_speech[0].display_text ==
+                  "Läsning ur Psaltaren, kapitel 22, vers 1 till 2; ur Johannesevangeliet, kapitel 1, vers 3 "
+                  "till 4; och ur Psaltaren, kapitel 22, vers 6.",
+              "The introduction must announce every passage of a reading in order");
+        check(batch[0].display_text == "Läsning ur Johannesevangeliet, kapitel 1, vers 1; och vers 3 till 4.",
+              "The introduction must not repeat the book or chapter of a following passage");
 
         Reading english{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 2}}, {}, "en"};
         english.source_override = "en-kjv";

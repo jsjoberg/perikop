@@ -2,6 +2,7 @@
 #include "core/model.hpp"
 #include <functional>
 #include <memory>
+#include <utility>
 namespace ortho {
 enum class SpeechState { Idle, Loading, Buffering, Playing, Paused, Stopped, Completed, Error };
 constexpr bool speech_active(SpeechState state) {
@@ -38,8 +39,9 @@ private:
 };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language,
                                const std::vector<Pronunciation>& lexicon);
-// The spoken announcement of a passage, with the book's Swedish name.
-std::string reading_introduction(const std::string& book_name, const Passage&);
+// The spoken announcement of every passage of a reading, each with its book's Swedish name.
+// A repeated book or chapter is not named again.
+std::string reading_introduction(const std::vector<std::pair<std::string, Passage>>& parts);
 std::vector<std::string> speech_chunks(const std::string&);
 double speech_text_weight(const std::string&);
 std::string pronunciation_key(const std::string&);

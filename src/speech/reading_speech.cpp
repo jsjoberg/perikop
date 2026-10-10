@@ -19,9 +19,13 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
         const auto localized = corpus.localize(reading);
         const auto passages = localized.segments();
         if (reading.base_language == "sv") {
-            // Announced in the numbers shown on screen.
-            const auto shown = displayed_passage(corpus, passages.front());
-            auto intro = prepare(reading_introduction(corpus.book_name(shown.book), shown), "sv");
+            // Every passage is announced first, in the numbers shown on screen.
+            std::vector<std::pair<std::string, Passage>> parts;
+            for (const auto& passage : passages) {
+                const auto shown = displayed_passage(corpus, passage);
+                parts.emplace_back(corpus.book_name(shown.book), shown);
+            }
+            auto intro = prepare(reading_introduction(parts), "sv");
             intro.cue = SpeechCue{
                 r, 0, passages.front().book, "", passages.front().first, passages.front().last, true};
             queue.push_back(std::move(intro));

@@ -148,15 +148,26 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
                                const std::vector<Pronunciation>& lexicon) {
     return PronunciationMatcher(language, lexicon).utterance(text);
 }
-std::string reading_introduction(const std::string& book_name, const Passage& p) {
-    return "Läsning ur " + book_name + ", kapitel " + std::to_string(p.first.chapter) + ", vers " +
-           std::to_string(p.first.verse) +
-           (p.last == p.first ? "."
-                              : " till " +
-                                    (p.last.chapter != p.first.chapter
-                                         ? "kapitel " + std::to_string(p.last.chapter) + ", vers "
-                                         : "") +
-                                    std::to_string(p.last.verse) + ".");
+std::string reading_introduction(const std::vector<std::pair<std::string, Passage>>& parts) {
+    std::string text = "Läsning ur ";
+    for (std::size_t i = 0; i < parts.size(); ++i) {
+        const auto& [book, p] = parts[i];
+        const bool same_book = i && parts[i - 1].first == book;
+        if (i)
+            text += i + 1 == parts.size() ? "; och " : "; ";
+        if (!same_book)
+            text += (i ? "ur " : "") + book + ", ";
+        if (!same_book || parts[i - 1].second.last.chapter != p.first.chapter)
+            text += "kapitel " + std::to_string(p.first.chapter) + ", ";
+        text += "vers " + std::to_string(p.first.verse);
+        if (p.last != p.first)
+            text +=
+                " till " +
+                (p.last.chapter != p.first.chapter ? "kapitel " + std::to_string(p.last.chapter) + ", vers "
+                                                   : "") +
+                std::to_string(p.last.verse);
+    }
+    return text + ".";
 }
 std::vector<std::string> speech_chunks(const std::string& text) {
     const auto space = [](unsigned char c) {

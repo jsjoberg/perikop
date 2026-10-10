@@ -53,4 +53,5 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - In the Bible browser, a book's chapters unfold directly under its row, and a chapter's verses unfold under the chapter. Click again to fold them. With **Flera intervall**, the pending range is shaded.
 - The start page no longer names the reading order, and it shows fasting only on fast days and fast-free days.
 - On the start page, readings of the same service and occasion form one reading, such as the three Vespers prophecies.
+- Read-aloud announces every passage of a reading before it begins, not only the first.
 - The voice model is half the size and uses less memory. Pronunciations for the Bible text are prepared in advance.

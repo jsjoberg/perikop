@@ -764,7 +764,7 @@ int main(int argc, char** argv) {
         check(engine.state == StubSpeechEngine::State::Accepted, "speech resume");
         engine.stop();
         check(engine.accepted.empty() && engine.state == StubSpeechEngine::State::Idle, "speech stop");
-        check(reading_introduction(corpus.book_name("Phil"), today.readings[0].passage) ==
+        check(reading_introduction({{corpus.book_name("Phil"), today.readings[0].passage}}) ==
                   "Läsning ur Filipperbrevet, kapitel 1, vers 1 till 7.",
               "spoken reference");
         const std::filesystem::path user_path(argv[2]);
