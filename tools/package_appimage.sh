@@ -4,11 +4,17 @@
 set -eu
 build=$(realpath "${1:-build/cmake}")
 source=$(realpath "$(dirname "$0")/..")
-tools=$build/appimage-tools
+tools=${PERIKOP_APPIMAGE_TOOLS:-$build/appimage-tools}
 appdir=$build/AppDir
 mkdir -p "$tools" "$source/build/package"
 fetch() {
-    [ -f "$tools/$1" ] || curl -fsSL -o "$tools/$1" "$2"
+    if [ ! -f "$tools/$1" ]; then
+        if [ "${PERIKOP_OFFLINE:-0}" = 1 ]; then
+            echo "Missing offline AppImage tool: $1" >&2
+            exit 1
+        fi
+        curl -fsSL -o "$tools/$1" "$2"
+    fi
     echo "$3  $tools/$1" | sha256sum -c -
     chmod +x "$tools/$1"
 }

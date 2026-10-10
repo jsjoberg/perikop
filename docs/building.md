@@ -20,7 +20,7 @@ CI builds on Windows Server 2025. Execution on Windows 10 still needs validation
 
 CI uses stable GCC 15 on both Windows and Linux.
 Windows CI uses [w64devkit 2.7.0](https://github.com/skeeto/w64devkit/releases/tag/v2.7.0), which contains GCC 15.2.0.
-Linux CI uses the distribution's GCC Toolset 15 inside Rocky Linux 9.
+Linux CI uses a saved Rocky Linux 9 environment with the distribution's GCC Toolset 15.
 The packaged app targets glibc 2.34, which includes enterprise Linux 9 and Ubuntu 22.04 or later.
 Desktop and read-aloud compatibility on these systems still need validation.
 
@@ -53,6 +53,19 @@ CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside
 Linux GNU builds also carry the selected compiler's `libstdc++` and `libgcc_s` beside the application.
 The remaining libraries build statically.
 The application has no runtime scripting dependency.
+
+CI instead restores a pinned [dependency snapshot](releasing.md#ci-dependency-snapshots) from this repository's GitHub releases.
+Its native sources are local before CMake starts. CI has no upstream download fallback.
+For a local build with the same prepared sources, restore the snapshot for your supported platform:
+
+```sh
+python3 tools/ci/dependencies.py restore --platform macOS
+cmake -S . -B build/offline -DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources"
+cmake --build build/offline --parallel
+```
+
+Use `Linux`, `macOS`, or `Windows` as the platform. The prepared macOS snapshot targets arm64.
+After restoration, CMake builds without network access. Missing source files stop configuration.
 
 See [the architecture guide](architecture.md) for code boundaries and formatting commands.
 

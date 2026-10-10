@@ -38,7 +38,7 @@ tools/package_appimage.sh build/cmake
 
 The script downloads pinned linuxdeploy tools and checks their SHA-256 hashes. They copy GTK and the other shared libraries into the image.
 The GTK plugin needs `dpkg-dev` on Debian and Ubuntu.
-Linux CI builds inside Rocky Linux 9 with the distribution's GCC Toolset 15 and a glibc 2.34 baseline.
+Linux CI uses a saved Rocky Linux 9 environment with GCC Toolset 15 and a glibc 2.34 baseline.
 The AppImage carries GCC's C++ runtime. Users need no compiler or separate GCC runtime update.
 It uses the host's glibc. CI rejects ELF dependencies above glibc 2.34 in the build and assembled AppDir.
 This includes libraries and AppRun added by linuxdeploy.
@@ -93,7 +93,47 @@ Cleanup leaves version releases, other prereleases, drafts, and the voice pack i
 Temporary nightly artifacts expire after one day. Other runs use the repository's default artifact retention.
 
 CI keeps compiled objects in a ccache cache between runs. To make the cache usable, it builds wxWidgets without precompiled headers.
-It downloads the prepared voice pack from a release of this repository and checks its SHA-256 hash.
+
+## CI dependency snapshots
+
+Ordinary CI builds use GitHub runners and dependencies stored in this repository's releases.
+They do not contact Chocolatey, Homebrew, distribution mirrors, SQLite, or other upstream download servers.
+The snapshot includes native sources, voices, Windows GCC and NSIS, macOS analysis tools, Linux system libraries, and AppImage tools.
+The runner supplies its preinstalled operating system, Xcode or Visual C++ runtime, CMake, Python, Git, and archive tools.
+
+`ci/dependencies-lock.json` pins each snapshot archive by SHA-256.
+CI checks both cached archives and downloads before it uses them.
+If the cache is empty or evicted, CI downloads the same pinned archive from this repository's release.
+It never falls back to upstream servers.
+Missing or damaged dependencies stop the build.
+Linux disables container networking. macOS denies network access during compilation, tests, analysis, and packaging.
+
+Dependency preparation is a separate, manually triggered workflow. It is the only CI workflow that contacts upstream servers.
+For a dependency update, edit `ci/upstreams.json` and the corresponding native dependency declaration.
+For a Linux environment update, edit `ci/linux.Dockerfile`.
+Commit and push those changes before preparation.
+
+Start preparation:
+
+```sh
+gh workflow run dependencies.yml --ref main
+```
+
+After all preparation jobs pass, the workflow publishes a `ci-dependencies-<commit>` prerelease.
+It contains all snapshot archives and a generated lock file.
+Dependency releases do not expire with the nightly retention policy.
+
+Download the generated lock file:
+
+```sh
+gh release download ci-dependencies-<commit> --pattern dependencies-lock.json --dir ci --clobber
+```
+
+Commit and push `ci/dependencies-lock.json` to activate the snapshot.
+Then start a manual package build to check all three platforms.
+
+### Update the voice pack
+
 To publish a new pack, set `id` to the `id` in its `voice-pack.json`.
 Then archive and upload it on macOS:
 
@@ -104,4 +144,4 @@ gh release create "$id" "build/$id.tar.gz" --prerelease --title "Voice pack $id"
 cmake -E sha256sum "build/$id.tar.gz"
 ```
 
-Then set `VOICE_PACK` and `VOICE_PACK_SHA256` in `.github/workflows/build.yml`.
+Then update the `voice` entry in `ci/upstreams.json` and prepare a new dependency snapshot.

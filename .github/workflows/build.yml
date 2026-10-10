@@ -24,9 +24,6 @@ env:
   NIGHTLY: ${{ github.event_name == 'schedule' || inputs.nightly == true }}
   # Release packages are built for version tags, manual runs, and nightlies.
   PACKAGE: ${{ startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
-  # The prepared voice pack is a release asset of this repository; see docs/releasing.md.
-  VOICE_PACK: kokoro-sv-alice-bjorn-2c7968d-v3
-  VOICE_PACK_SHA256: 1cbe56619edeb0af8420f4774149af39a4063329d6dc8171f1022ef80484d816
 jobs:
   nightly:
     if: github.event_name == 'schedule' || inputs.nightly == true
@@ -57,86 +54,42 @@ jobs:
           echo 'build=true' >> "$GITHUB_OUTPUT"
   unix:
     needs: [nightly]
-    # Ordinary runs bypass the nightly change check.
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-24.04
-            container: rockylinux:9
-          - os: macos-15
+        os: [ubuntu-24.04, macos-15]
     runs-on: ${{ matrix.os }}
-    container: ${{ matrix.container }}
     steps:
-      - name: Install Linux build tools
-        if: runner.os == 'Linux'
-        # Enterprise Linux 9 supplies glibc 2.34 and a supported GCC toolset.
-        run: |
-          dnf install -y epel-release dnf-plugins-core
-          dnf config-manager --set-enabled crb
-          dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-          dnf install -y gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ make cmake ninja-build ccache gh git curl-minimal tar xz zstd \
-            gtk3-devel fontconfig-devel xorg-x11-server-Xvfb xorg-x11-xauth python3 binutils file findutils which
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Enable Linux GCC toolset
-        if: runner.os == 'Linux'
-        run: |
-          compiler=/opt/rh/gcc-toolset-15/root/usr/bin
-          "$compiler/g++" --version
-          test "$("$compiler/g++" -dumpversion | cut -d . -f 1)" = 15
-          echo "$compiler" >> "$GITHUB_PATH"
-      - name: Compiler cache
-        uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
+      - name: Cached dependency snapshots
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          key: ${{ matrix.os }}-${{ matrix.container }}-gcc15
-          max-size: 2G
-      - name: Voice pack
-        if: env.PACKAGE == 'true'
+          path: build/ci/downloads
+          key: dependencies-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}
+      - name: Restore verified dependencies from this repository
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download "$VOICE_PACK" --repo "$GITHUB_REPOSITORY" --pattern "$VOICE_PACK.tar.gz" --dir build
-          test "$(cmake -E sha256sum "build/$VOICE_PACK.tar.gz" | cut -d ' ' -f 1)" = "$VOICE_PACK_SHA256"
-          mkdir -p build/kokoro-pack
-          tar -xzf "build/$VOICE_PACK.tar.gz" -C build/kokoro-pack
-      - name: Install clang-tidy
-        if: runner.os == 'macOS'
-        # A pinned major version, so new checks arrive only when this changes.
-        run: brew install llvm@23
-      - name: Configure
-        shell: bash
-        run: |
-          # ccache cannot reuse precompiled headers, so wxWidgets builds without them in CI.
-          cache=(-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF)
-          if [ "$RUNNER_OS" = Linux ]; then
-            cmake -S . -B build/cmake "${cache[@]}"
-          else
-            llvm="$(brew --prefix llvm@23)/bin"
-            cmake -S . -B build/cmake "${cache[@]}" \
-              "-DORTHO_CLANG_TIDY=$llvm/clang-tidy" "-DORTHO_RUN_CLANG_TIDY=$llvm/run-clang-tidy"
-          fi
-      - run: cmake --build build/cmake --parallel 3
-      - name: Linux glibc baseline
+          args=()
+          [ "$PACKAGE" != true ] || args+=(--package)
+          python3 tools/ci/dependencies.py restore --platform "$RUNNER_OS" "${args[@]}"
+      - name: Compiler cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: build/ccache
+          key: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-${{ github.sha }}
+          restore-keys: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
+      - name: Build, test, and package Linux offline
         if: runner.os == 'Linux'
-        run: python3 tools/check_linux_abi.py build/cmake/bin
-      - name: Tests
-        shell: bash
         run: |
-          if [ "$RUNNER_OS" = Linux ]; then
-            xvfb-run -a ctest --test-dir build/cmake --output-on-failure
-          else
-            ctest --test-dir build/cmake --output-on-failure
-          fi
-      - name: Smoke test backtrace
-        timeout-minutes: 10
-        if: failure() && runner.os == 'Linux'
-        run: |
-          dnf install -y gdb
-          mkdir -p build/smoke
-          xvfb-run -a gdb -batch -ex run -ex bt --args build/cmake/bin/perikop --smoke-test \
-            --resources build/cmake/bin/resources --screenshot "$PWD/build/smoke/reader.png"
+          docker load --input build/ci/downloads/Linux-environment.tar.gz
+          docker run --rm --pull never --network none -v "$PWD:/work" -e PACKAGE \
+            perikop-ci-linux:dependencies bash tools/ci/build-linux.sh
+      - name: Build, analyze, test, and package macOS offline
+        if: runner.os == 'macOS'
+        run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-macos.sh
       - name: Upload smoke screenshots
         if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -144,31 +97,6 @@ jobs:
           name: smoke-${{ runner.os }}
           path: build/smoke
           if-no-files-found: ignore
-      - name: Static analysis
-        # Linux's distribution clang-tidy cannot read GCC 15's C++23 headers.
-        if: runner.os == 'macOS'
-        run: cmake --build build/cmake --target tidy
-      - name: Install preparation tools
-        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-        with:
-          version: "0.8.16"
-      - run: uv run --locked tools/check_resources.py
-      - run: uv run --locked tests/icon_test.py
-      - run: uv run --locked tests/linux_abi_test.py
-      - name: Package
-        if: env.PACKAGE == 'true'
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" = Linux ]; then
-            tools/package_appimage.sh build/cmake
-          else
-            # hdiutil on hosted runners sometimes fails with "Resource busy"; try again.
-            for attempt in 1 2 3; do
-              cpack --config build/cmake/CPackConfig.cmake -B build/package && break
-              [ "$attempt" = 3 ] && exit 1
-              sleep 15
-            done
-          fi
       - name: Upload package
         if: env.PACKAGE == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -177,45 +105,46 @@ jobs:
           retention-days: ${{ env.NIGHTLY == 'true' && 1 || 0 }}
           path: build/package/Perikop-*
           if-no-files-found: error
+          compression-level: 0
   windows:
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: windows-2025
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/build/ccache
+      CCACHE_BASEDIR: ${{ github.workspace }}
+      CCACHE_COMPILERCHECK: content
+      CCACHE_MAXSIZE: 2G
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Install pinned w64devkit (GCC 15.2)
-        shell: pwsh
-        run: |
-          $archive = Join-Path $env:RUNNER_TEMP 'w64devkit.7z.exe'
-          Invoke-WebRequest 'https://github.com/skeeto/w64devkit/releases/download/v2.7.0/w64devkit-x64-2.7.0.7z.exe' -OutFile $archive
-          if ((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower() -ne '0ed4248d260d823c2fca5a71d6be8e6332d3c46fe15f92181fc01f3f1297be93') { throw 'w64devkit hash mismatch' }
-          $toolchain = Join-Path $env:RUNNER_TEMP 'toolchain'
-          & 7z x $archive "-o$toolchain" -y
-          if ($LASTEXITCODE -ne 0) { throw 'w64devkit extraction failed' }
-          $bin = Join-Path $toolchain 'w64devkit/bin'
-          $gccVersion = & (Join-Path $bin 'g++.exe') -dumpfullversion -dumpversion
-          if ($LASTEXITCODE -ne 0 -or $gccVersion -ne '15.2.0') { throw "Expected GCC 15.2.0, got $gccVersion" }
-          $bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      - name: Compiler cache
-        uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
+      - name: Cached dependency snapshots
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          key: windows
-          max-size: 2G
-      - name: Voice pack
-        if: env.PACKAGE == 'true'
+          path: build/ci/downloads
+          key: dependencies-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}
+      - name: Restore verified dependencies from this repository
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # w64devkit's bash cannot run GitHub's --noprofile shell command.
-          $archive = "build/$env:VOICE_PACK.tar.gz"
-          gh release download $env:VOICE_PACK --repo $env:GITHUB_REPOSITORY --pattern "$env:VOICE_PACK.tar.gz" --dir build
-          if ($LASTEXITCODE -ne 0) { throw 'Voice pack download failed' }
-          if ((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower() -ne $env:VOICE_PACK_SHA256) { throw 'Voice pack hash mismatch' }
-          New-Item -ItemType Directory -Force build/kokoro-pack | Out-Null
-          tar -xzf $archive -C build/kokoro-pack
-          if ($LASTEXITCODE -ne 0) { throw 'Voice pack extraction failed' }
+          $options = @()
+          if ($env:PACKAGE -eq 'true') { $options += '--package' }
+          python tools/ci/dependencies.py restore --platform Windows @options
+          if ($LASTEXITCODE -ne 0) { throw 'Dependency snapshot restore failed' }
+          $bin = Join-Path $PWD 'build/ci/tools/w64devkit/bin'
+          $gccVersion = & (Join-Path $bin 'g++.exe') -dumpfullversion -dumpversion
+          if ($LASTEXITCODE -ne 0 -or $gccVersion -ne '15.2.0') { throw "Expected GCC 15.2.0, got $gccVersion" }
+          $bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          (Join-Path $PWD 'build/ci/tools/ccache') | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          (Join-Path $PWD 'build/ci/tools/nsis') | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "NSISDIR=$(Join-Path $PWD 'build/ci/tools/nsis')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Compiler cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: build/ccache
+          key: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-${{ github.sha }}
+          restore-keys: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
       - name: Configure
         shell: pwsh
         run: |
@@ -223,7 +152,7 @@ jobs:
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
           $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
           if (-not $runtime) { throw 'Visual C++ runtime not found' }
-          cmake -S . -B build/cmake -G Ninja "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
+          cmake -S . -B build/cmake -G Ninja "-DPERIKOP_DEPENDENCY_DIR=$PWD/build/ci/sources" "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
             -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
       - run: cmake --build build/cmake --parallel 4
       - name: Windows version and icon resources
@@ -255,20 +184,15 @@ jobs:
           name: smoke-${{ runner.os }}
           path: build/smoke
           if-no-files-found: ignore
-      - name: Install preparation tools
-        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-        with:
-          version: "0.8.16"
-      - run: uv run --locked tools/check_resources.py
-      - run: uv run --locked tests/icon_test.py
+      - run: python tools/check_resources.py
+      - run: python tests/icon_test.py
+      - run: python tests/linux_abi_test.py
+      - run: python tests/ci_dependencies_test.py
       - name: Package
         # PRs also compile the installer and check its Windows product-version metadata.
         if: env.PACKAGE == 'true' || github.event_name == 'pull_request'
         shell: pwsh
         run: |
-          choco install nsis --version=3.11.0 --no-progress -y
-          if ($LASTEXITCODE -ne 0) { throw 'NSIS installation failed' }
-          $env:PATH = "${env:ProgramFiles(x86)}\NSIS;$env:PATH"
           cpack --config build/cmake/CPackConfig.cmake -B build/package
           if ($LASTEXITCODE -ne 0) { throw 'Windows packaging failed' }
           $script = Get-Content build/package/_CPack_Packages/windows-x64/NSIS/project.nsi -Raw
