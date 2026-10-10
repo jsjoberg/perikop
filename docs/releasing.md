@@ -66,7 +66,32 @@ Edit the release notes on GitHub, then publish the draft. It becomes the latest 
 
 ## CI packages
 
-CI makes the packages for version tags `v*` and for manual runs. Manual runs keep them as build artifacts only.
+CI makes the packages for version tags `v*`, manual runs, and nightly runs.
+Ordinary manual runs keep them as build artifacts only.
+Manual runs with the `nightly` option use the scheduled nightly process, including publication and cleanup.
+
+To start that process now, run:
+
+```sh
+gh workflow run build.yml --ref main -f nightly=true
+```
+
+Nightly builds start at 05:00 Stockholm time, with automatic daylight saving changes.
+They use the latest commit on the default branch.
+GitHub can delay the start when its runners are busy.
+Before the builds, CI compares this commit with the last successful nightly.
+If the commit is unchanged, CI skips all three builds. Failed builds retry on the next night.
+
+After all three platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-10`.
+Each prerelease contains the packages, their SHA-256 hashes, and a link to the source commit.
+Nightlies do not replace the latest stable release.
+The schedule starts after the workflow reaches the default branch.
+
+After publication, CI keeps the latest seven successful nightlies and deletes older nightly releases, their packages, and their tags.
+This count gives seven versions for comparison, even across weeks without changes.
+Cleanup leaves version releases, other prereleases, drafts, and the voice pack intact.
+Temporary nightly artifacts expire after one day. Other runs use the repository's default artifact retention.
+
 CI keeps compiled objects in a ccache cache between runs. To make the cache usable, it builds wxWidgets without precompiled headers.
 It downloads the prepared voice pack from a release of this repository and checks its SHA-256 hash.
 To publish a new pack, set `id` to the `id` in its `voice-pack.json`.
