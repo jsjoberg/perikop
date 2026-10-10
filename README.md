@@ -2,24 +2,9 @@
 
 Perikop is an offline Orthodox lectionary reader for Windows, macOS, and Linux.
 It has a Swedish interface, Scripture in Swedish, Greek, and English, and Swedish read-aloud.
-Daily readings follow the Antiochian, Greek, or Slavic reading order, on the new or old calendar.
 The application is a prototype.
 
-## Build
-
-Use CMake 3.24 or later and a C++23 compiler with `std::expected`:
-
-```sh
-cmake -S . -B build/cmake
-cmake --build build/cmake --parallel
-```
-
-On Windows, run `build.cmd` in the w64devkit shell.
-
-See the [build guide](docs/building.md) for platform requirements, the voice pack, and run commands.
-
-## Documentation
-
 - [User guide](docs/using-perikop.md)
-- [Documentation index](docs/README.md): development, releases, data sources, and known limits.
+- [Build guide](docs/building.md)
+- [Development, releases, and data sources](docs/README.md)
 - [Third-party notices](THIRD-PARTY-NOTICES.md)
