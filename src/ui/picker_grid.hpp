@@ -22,13 +22,13 @@ public:
     struct Block {
         // A small capital heading; a title with an optional action beside it; or a grid of cells.
         enum class Kind { Heading, Title, Cells } kind;
-        wxString text, action_label;
-        std::function<void()> action;
-        std::vector<Cell> cells;
+        wxString text{}, action_label{};
+        std::function<void()> action{};
+        std::vector<Cell> cells{};
         int columns = 10;
         // The cell whose row the drawer follows, and the drawer's contents.
-        std::optional<std::size_t> open;
-        std::vector<Block> drawer;
+        std::optional<std::size_t> open{};
+        std::vector<Block> drawer{};
     };
     PickerGrid(wxWindow* parent, Theme);
     void set(std::vector<Block>);
