@@ -204,7 +204,7 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
                                           show_verses(book, chapter);
                                   }});
     }
-    if (chapters.open) {
+    if (chapters.open && chapter_) {
         auto& verse_drawer = chapters.drawer;
         verse_drawer.push_back(
             {.kind = Block::Kind::Title,

@@ -1,6 +1,7 @@
 #include "ui/picker_grid.hpp"
 #include <algorithm>
 #include <memory>
+#include <utility>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
 
@@ -125,8 +126,8 @@ int PickerGrid::place(const std::vector<Block>& blocks, int x, int width, int y,
                         {{left, y, right - left, FromDIP(cell_height)}, &block, &block.cells[i]});
                 }
                 y += FromDIP(cell_height);
-                if (block.open && first <= *block.open && *block.open < end) {
-                    const wxRect opener = items_[items_.size() - (end - *block.open)].rect;
+                if (const auto& open = block.open; open && first <= *open && *open < end) {
+                    const wxRect opener = items_[items_.size() - (end - *open)].rect;
                     y += FromDIP(notch + 4);
                     const int top = y;
                     y = place(block.drawer, x + FromDIP(inset), width - 2 * FromDIP(inset),
@@ -213,17 +214,15 @@ void PickerGrid::key(wxKeyEvent& e) {
         // The nearest row above or below, then the cell closest across.
         const auto from = items_[*focus_].rect;
         const bool up = code == WXK_UP;
-        std::optional<int> row;
+        std::optional<std::pair<int, int>> best;
         for (std::size_t i = 0; i < items_.size(); ++i) {
             const auto& r = items_[i].rect;
             if (!active(i) || (up ? r.GetBottom() >= from.y : r.y <= from.GetBottom()))
                 continue;
             const int distance = up ? from.y - r.GetBottom() : r.y - from.GetBottom();
             const int across = std::abs(r.x + r.width / 2 - (from.x + from.width / 2));
-            if (!row || distance < *row ||
-                (distance == *row && across < std::abs(items_[*next].rect.x + items_[*next].rect.width / 2 -
-                                                       (from.x + from.width / 2)))) {
-                row = distance;
+            if (const std::pair candidate{distance, across}; !best || candidate < *best) {
+                best = candidate;
                 next = i;
             }
         }
