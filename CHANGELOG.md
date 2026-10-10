@@ -26,7 +26,7 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Reading plans on the start page: the New Testament in 30 parts; the Masoretic canon in 30 parts, with Septuagint numbering; and the books outside the Hebrew Bible that have Swedish text, in 14 parts.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
 - An option in Visa to turn off the highlight of the text being read aloud.
-- In the book picker, an asterisk on the books outside the Hebrew Bible and a note that names the books without text in the chosen language.
+- In the book picker, books without text in the chosen language are greyed out.
 - Release packages: a DMG for macOS, an installer for Windows, and an AppImage for Linux. Each contains the voices and works offline.
 - Arrows beside the date for the previous and next day, and an **Idag** button for the current date.
 - Custom readings in the Bible browser: with **Flera intervall**, add verse ranges from different books in playback order, then open or play them.

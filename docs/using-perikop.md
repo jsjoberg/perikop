@@ -81,10 +81,10 @@ Narrow windows use aligned blocks.
 ## Bible browser
 
 Select **Bibel → Gå till bibelställe** to open the book, chapter, and verse grids.
-Select a book to expand its chapters below the book grids. Select a chapter to expand its verses.
+Select a book to unfold its chapters directly beneath its row. Select a chapter to unfold its verses beneath it.
+Select an open book or chapter again to fold it.
 The page has a vertical scrollbar. Select a verse to open it immediately.
 **Hela boken** and **Hela kapitlet** open complete books and chapters.
-Books outside the Hebrew Bible have an asterisk.
 Books without text in the left column language are greyed out.
 Back moves from verses to chapters, then books, then the previous view.
 

@@ -52,7 +52,6 @@ private:
     wxScrolledWindow* grid_ = nullptr;
     wxPanel* contents_ = nullptr;
     PickerGrid* cells_ = nullptr;
-    wxStaticText* note_ = nullptr;
     std::optional<CanonBook> book_;
     std::optional<int> chapter_;
     void* native_scroll_ = nullptr;

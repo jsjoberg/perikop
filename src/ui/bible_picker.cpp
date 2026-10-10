@@ -33,9 +33,7 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
         reveal(cell);
     });
     rows->Add(cells_, 0);
-    note_ = ui::label(contents_, "", 10);
-    rows->Add(note_, 0, wxTOP | wxBOTTOM, FromDIP(12));
-    rows->AddSpacer(FromDIP(20));
+    rows->AddSpacer(FromDIP(32));
     contents_->SetSizer(rows);
     auto* centered = new wxBoxSizer(wxVERTICAL);
     centered->Add(contents_, 0, wxALIGN_CENTER_HORIZONTAL);
@@ -155,8 +153,7 @@ void BiblePicker::rebuild() {
                 books.open = books.cells.size();
                 books.drawer = book_drawer(book);
             }
-            books.cells.push_back({ui::utf8(corpus_.book_abbreviation(book.code)) +
-                                       (corpus_.deuterocanonical_book(book.code) ? "*" : ""),
+            books.cells.push_back({ui::utf8(corpus_.book_abbreviation(book.code)),
                                    ui::utf8(corpus_.book_name(book.code)) +
                                        (has_text ? wxString{} : ui::utf8(" · Ingen text på valt språk")),
                                    has_text, open ? State::Selected : State::Plain, [this, book, open] {
@@ -170,7 +167,6 @@ void BiblePicker::rebuild() {
     }
     cells_->set(std::move(blocks));
     ui::recolor(this, palette(settings_.theme));
-    note_->SetForegroundColour(palette(settings_.theme).muted);
     update_grid();
 }
 std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
@@ -242,9 +238,6 @@ void BiblePicker::update_grid() {
     const int width = std::clamp(grid_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(680));
     contents_->SetMinSize({width, -1});
     cells_->set_width(width);
-    note_->SetLabel(ui::utf8("Böcker med * finns i Septuaginta men inte i den hebreiska bibeln.\n"
-                             "Gråa böcker har ingen text på valt språk."));
-    note_->Wrap(width);
     contents_->InvalidateBestSize();
     contents_->Layout();
     grid_->FitInside();
