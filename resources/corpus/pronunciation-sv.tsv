@@ -4,7 +4,8 @@
 # First-pass drafts for frequent names and book titles that the neural
 # fallback misreads, mostly in stress. Compound titles follow the lexicon:
 # main stress on the first part, secondary stress on the second. Not yet reviewed by ear. The corpus build adds the
-# genitive -s form of each entry. Corrections in the review tool take priority.
+# genitive -s form of each word entry. Corrections in the review tool take
+# priority over word entries, but not over phrases (see the end of the file).
 abia	abˈiːa
 abigail	ˈɑːbɪɡajl
 abihu	abˈiːhʉ
@@ -131,8 +132,7 @@ ussia	ɵsˈiːa
 # often took a name's, an abbreviation's, or another word's, such as "Han" for
 # "han" and the genitive of "ko" for "kors". Each entry is the NST alternative
 # for the word's sense in this Bible, chosen from
-# resources/lexicon/sv1917-homographs.tsv. Words whose sense changes between
-# verses, such as "förlåten", "hov", "bete", and "dans", are left to the voice.
+# resources/lexicon/sv1917-homographs.tsv.
 han	hˈan
 du	dˈʉː
 hon	hˈʊn
@@ -171,3 +171,46 @@ person	pəʂˈuːn
 tom	tˈʊm
 oliver	ʊlˈiːvər
 foster	fˈʊstər
+# Words whose sense changes between verses. A row with a bracketed word is a
+# phrase: the phonemes apply to that word wherever the whole phrase occurs, and
+# the phrase outranks a per-word entry or review correction. The phrases cover
+# every sv1917 occurrence of the less frequent sense, or of the sense the voice
+# does not give.
+# "hov": past tense of "häva", except a royal court.
+hov	hˈuːv
+ditt [hov]	hˈoːv
+konungens [hov]	hˈoːv
+# "förlåten": the voice says "forgiven"; these phrases are the temple veil.
+innanför [förlåten]	fˈøːɭˌoːtən
+utanför [förlåten]	fˈøːɭˌoːtən
+framför [förlåten]	fˈøːɭˌoːtən
+bakom [förlåten]	fˈøːɭˌoːtən
+genom [förlåten]	fˈøːɭˌoːtən
+vid [förlåten]	fˈøːɭˌoːtən
+till [förlåten]	fˈøːɭˌoːtən
+för [förlåten]	fˈøːɭˌoːtən
+andra [förlåten]	fˈøːɭˌoːtən
+upp [förlåten]	fˈøːɭˌoːtən
+hänga [förlåten]	fˈøːɭˌoːtən
+gjorde [förlåten]	fˈøːɭˌoːtən
+gjorde ock [förlåten]	fˈøːɭˌoːtən
+så skall [förlåten]	fˈøːɭˌoːtən
+fyrfaten och [förlåten]	fˈøːɭˌoːtən
+[förlåten] i templet	fˈøːɭˌoːtən
+# "bete": the voice says the noun (pasture); these phrases are the verb "bete sig".
+[bete] mig	bətˈeː
+[bete] dig	bətˈeː
+[bete] sig	bətˈeː
+[bete] oss	bətˈeː
+# "dans" is a dance, except the tribe of Dan: "Dans stam", "Dans barn".
+dans	dˈans
+[Dans] barn	dˈɑːns
+[Dans] barns	dˈɑːns
+[Dans] stam	dˈɑːns
+[Dans] söner	dˈɑːns
+[Dans] döttrar	dˈɑːns
+[Dans] läger	dˈɑːns
+[Dans] område	dˈɑːns
+[Dans] port	dˈɑːns
+[Dans] släkter	dˈɑːns
+efter [Dans]	dˈɑːns

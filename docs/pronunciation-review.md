@@ -52,13 +52,33 @@ For each word there is one button for each NST pronunciation, with its parts of 
 "röstens val" marks the pronunciation of the voice pack.
 A button puts the phonemes in **Uttalsstavning** and plays the verse with them.
 
-`resources/corpus/pronunciation-sv.tsv` corrects 38 of these words for the sense they have in this Bible.
-Some words change their sense between verses, such as "förlåten" (the veil, or forgiven), "hov", "bete", and "dans".
-A correction for one word applies to every verse, so these words keep the voice's pronunciation.
+`resources/corpus/pronunciation-sv.tsv` corrects 40 of these words for the sense they have in this Bible.
+
+Some words change their sense between verses:
+
+| Word | Senses | Phrases mark |
+|------|--------|--------------|
+| förlåten | the temple veil, or "forgiven" | the veil, such as "innanför förlåten" and "förlåten i templet" |
+| hov | a royal court, or the past tense of "häva" | the court: "ditt hov" and "konungens hov" |
+| bete | pasture, or the verb "bete sig" | the verb: "bete sig", "bete mig", "bete dig", and "bete oss" |
+| dans | a dance, or "Dans" (of the tribe of Dan) | the tribe, such as "Dans stam" and "Dans barn" |
+
+A phrase row puts the word in brackets, for example `innanför [förlåten]	fˈøːɭˌoːtən`.
+The phonemes apply to the bracketed word wherever the complete phrase occurs.
+The words of a phrase must be separated only by spaces, so punctuation stops a match.
+Capitalization does not matter, so "Dans" and "dans" need different neighboring words.
+Elsewhere, the word gets its own row, such as `hov	hˈuːv`, or the voice's pronunciation.
+The phrases cover each occurrence of the other sense in the Swedish 1917 corpus.
+`tests/core_test.cpp` checks every occurrence of the four words.
+Check new phrases against every verse that contains the word. A short phrase can match a verse with the other sense.
+
+A phrase has priority over a saved correction and over a preview of the word.
+Thus a correction of "förlåten" does not change "innanför förlåten".
+If an example verse contains a phrase, **Vers · förslag** plays the phrase pronunciation in that verse.
 
 ## Bundled phonemes
 
-`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 122 frequent names and book titles, and the 38 homograph corrections.
+`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 122 frequent names and book titles, the 40 homograph corrections, and the phrases above.
 They mainly correct the stress that the neural fallback guesses for unknown names, such as `Johannesevangeliet`.
 They are drafts and nobody has reviewed them by ear yet.
 The field shows a draft as the current `⟦…⟧` spelling. **Godkänn nuvarande** keeps it, and a saved correction replaces it.
