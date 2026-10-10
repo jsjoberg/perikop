@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Cached dependency snapshots
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ci/downloads
           key: dependencies-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}
@@ -76,7 +76,7 @@ jobs:
           [ "$PACKAGE" != true ] || args+=(--package)
           python3 tools/ci/dependencies.py restore --platform "$RUNNER_OS" "${args[@]}"
       - name: Compiler cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ccache
           key: objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
@@ -120,7 +120,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Cached dependency snapshots
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ci/downloads
           key: dependencies-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}
@@ -142,7 +142,7 @@ jobs:
           "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "NSISDIR=$(Join-Path $PWD 'build/ci/tools/nsis')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Compiler cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ccache
           key: objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
