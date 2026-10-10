@@ -9,6 +9,15 @@ if(ORTHO_RUN_CLANG_TIDY AND ORTHO_CLANG_TIDY)
         # A non-Apple clang-tidy needs to be told where the macOS SDK is.
         execute_process(COMMAND xcrun --show-sdk-path OUTPUT_VARIABLE ortho_sdk OUTPUT_STRIP_TRAILING_WHITESPACE)
         set(ortho_tidy_extra "-extra-arg=-isysroot${ortho_sdk}")
+        list(LENGTH CMAKE_OSX_ARCHITECTURES ortho_architecture_count)
+        if(ortho_architecture_count GREATER 1)
+            # clang-tidy accepts one compiler job; analyze the host slice of a universal build.
+            list(APPEND ortho_tidy_extra -removed-arg=-arch)
+            foreach(architecture IN LISTS CMAKE_OSX_ARCHITECTURES)
+                list(APPEND ortho_tidy_extra "-removed-arg=${architecture}")
+            endforeach()
+            list(APPEND ortho_tidy_extra -extra-arg=-arch "-extra-arg=${CMAKE_HOST_SYSTEM_PROCESSOR}")
+        endif()
     endif()
     add_custom_target(tidy
         COMMAND "${ORTHO_RUN_CLANG_TIDY}" -p "${CMAKE_BINARY_DIR}" -quiet

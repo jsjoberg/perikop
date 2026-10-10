@@ -64,8 +64,27 @@ cmake -S . -B build/offline -DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources"
 cmake --build build/offline --parallel
 ```
 
-Use `Linux`, `macOS`, or `Windows` as the platform. The prepared macOS snapshot targets arm64.
+Use `Linux`, `macOS`, or `Windows` as the platform. The macOS snapshot contains both speech-runtime architectures.
 After restoration, CMake builds without network access. Missing source files stop configuration.
+
+### Universal macOS app
+
+CI builds one macOS app for Intel and Apple Silicon. Both architectures require macOS 13.4 or later.
+The app and its bundled speech library contain `arm64` and `x86_64` slices.
+CI runs the native tests for both slices. It runs Intel tests through Rosetta on an Apple Silicon runner.
+
+For a local universal build, use a separate build directory:
+
+```sh
+cmake -S . -B build/universal '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'
+cmake --build build/universal --parallel
+python3 tools/check_macos_arch.py build/universal/bin/Perikop.app
+cpack --config build/universal/CPackConfig.cmake -B build/package
+```
+
+For an offline build, also set `-DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources"` after snapshot restoration.
+The package name ends with `macOS-universal.dmg`. Resources and voices have one shared copy.
+Without the architecture option, local builds target the host processor.
 
 See [the architecture guide](architecture.md) for code boundaries and formatting commands.
 

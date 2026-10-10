@@ -4,7 +4,7 @@
 
 Each package contains the application, its resources, and the Alice and Björn voices. It works offline.
 
-- macOS: `Perikop-0.1.0-macOS-arm64.dmg`. Drag Perikop to Applications.
+- macOS: `Perikop-0.1.0-macOS-universal.dmg`. One app for Intel and Apple Silicon. Drag Perikop to Applications.
 - Windows: `Perikop-0.1.0-windows-x64.exe`. The installer puts Perikop in Program Files and adds a Start menu shortcut.
 - Linux: `Perikop-0.1.0-x86_64.AppImage`. Make the file executable, then run it.
 

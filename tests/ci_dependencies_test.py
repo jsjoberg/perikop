@@ -103,6 +103,20 @@ class DependenciesTest(unittest.TestCase):
                 dependencies.extract(root / "bad.zip", root / "output")
             self.assertFalse((root / "escape").exists())
 
+    def test_universal_build_requires_offline_intel_runtime(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for name in ("sqlite/sqlite3.h", "wxwidgets/CMakeLists.txt", "ortho_sonic/sonic.h",
+                         "ortho_audio/miniaudio.h", "ortho_ort/include/onnxruntime_c_api.h"):
+                file = root / name
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_text("")
+            result = subprocess.run(["cmake", "-DAPPLE=TRUE", "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64",
+                "-DPERIKOP_DEPENDENCY_DIR=" + temporary, "-P", str(ROOT / "cmake/offline-dependencies.cmake")],
+                capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Offline Intel speech runtime is missing", result.stderr)
+
     def test_new_unprepared_dependency_cannot_download(self):
         policy = subprocess.run(["cmake", "--help-policy", "CMP0170"], capture_output=True)
         if policy.returncode:
