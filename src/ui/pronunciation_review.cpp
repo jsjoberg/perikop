@@ -16,6 +16,7 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/timer.h>
+#include <wx/wrapsizer.h>
 namespace ortho {
 namespace {
 wxString status_label(const std::string& status) {
@@ -28,6 +29,7 @@ wxString status_label(const std::string& status) {
 void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, PronunciationReviewDb& db,
                                SpeechEngine& speech, const std::filesystem::path& resources) {
     const auto words = load_pronunciation_words(resources / "lexicon/sv1917-words.tsv");
+    const auto homographs = load_homographs(resources / "lexicon/sv1917-homographs.tsv");
     speech.stop();
     speech.set_speed(1);
     wxDialog dialog(parent, wxID_ANY, ui::utf8("Uttalsgranskning · Svenska 1917"), wxDefaultPosition,
@@ -45,9 +47,9 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
     search->SetHint(ui::utf8("Sök ord…"));
     search->SetName(ui::utf8("Sök ord"));
     filters->Add(search, 1, wxRIGHT, 10);
-    auto* category =
-        new wxChoice(&dialog, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                     {ui::utf8("Namn utan NST"), ui::utf8("Alla utan NST"), ui::utf8("Alla ord")});
+    auto* category = new wxChoice(&dialog, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                                  {ui::utf8("Namn utan NST"), ui::utf8("Alla utan NST"), ui::utf8("Alla ord"),
+                                   ui::utf8("Flera uttal i NST")});
     category->SetSelection(0);
     category->SetName(ui::utf8("Ordgrupp"));
     filters->Add(category, 0, wxRIGHT, 10);
@@ -91,6 +93,9 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
     detail->Add(spoken, 0, wxEXPAND | wxBOTTOM, 8);
     auto* current = new wxStaticText(&dialog, wxID_ANY, "");
     detail->Add(current, 0, wxEXPAND | wxBOTTOM, 8);
+    // A word with several NST pronunciations offers each one; a choice plays its verse.
+    auto* choices = new wxWrapSizer(wxHORIZONTAL, wxREMOVE_LEADING_SPACES);
+    detail->Add(choices, 0, wxEXPAND | wxBOTTOM, 8);
     auto* note = new wxTextCtrl(&dialog, wxID_ANY);
     note->SetHint(ui::utf8("Anteckning (valfri)"));
     note->SetName(ui::utf8("Anteckning"));
@@ -254,6 +259,16 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
                 spoken->ChangeValue(ui::utf8(found->second.spoken));
         }
         current->SetLabel(ui::utf8("Nuvarande uttalsstavning: " + active));
+        choices->Clear(true);
+        if (const auto found = homographs.find(pronunciation_key(word.form)); found != homographs.end())
+            for (const auto& choice : found->second.choices) {
+                const auto label = choice.phonemes + " · " + choice.label +
+                                   (choice.phonemes == found->second.voice ? " · röstens val" : "");
+                add_button(choices, ui::utf8(label), [&, phonemes = choice.phonemes] {
+                    spoken->ChangeValue(ui::utf8("⟦" + phonemes + "⟧"));
+                    play(true, true);
+                });
+            }
         for (auto* control : {original_word, proposed_word, approve, correct, defer})
             control->Enable();
         original_context->Enable(!examples.empty());
@@ -279,6 +294,8 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
             if (category->GetSelection() == 0 && (word.kind != "name" || !word.sampa.empty()))
                 continue;
             if (category->GetSelection() == 1 && !word.sampa.empty())
+                continue;
+            if (category->GetSelection() == 3 && !homographs.contains(key))
                 continue;
             if (pending->GetValue() && decisions.contains(key))
                 continue;
@@ -312,6 +329,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
             spoken->ChangeValue("");
             note->ChangeValue("");
             current->SetLabel("");
+            choices->Clear(true);
             for (auto* control :
                  {original_word, original_context, proposed_word, proposed_context, approve, correct, defer})
                 control->Disable();

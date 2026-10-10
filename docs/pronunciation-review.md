@@ -9,7 +9,7 @@ Capitalization identifies possible names, so this classification can include oth
 Open **Uppläsning → Granska svenskt uttal…**.
 You can also start the application with `--pronunciation-review`.
 The default queue shows possible names without NST entries, in order of decreasing frequency.
-The filters can show all missing forms or all words.
+The filters can show all missing forms, all words, or the words with several NST pronunciations.
 Each word has up to three examples from the bundled Swedish corpus.
 The examples use complete words and ignore capitalization.
 
@@ -31,7 +31,34 @@ Speech spellings guide the voice model through text replacements.
 Text in `⟦…⟧` gives the exact phonemes of one word, for example `⟦manˈasə⟧`.
 Phonemes use the voice pack's NST symbols, with the stress mark directly before the stressed vowel.
 
-`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 122 frequent names and book titles.
+## Words with several pronunciations
+
+Some spellings have more than one pronunciation, such as "kors" (a cross, or the genitive of "ko").
+The voice pack's lexicon keeps only one pronunciation for each spelling.
+For frequent Bible words it often has the pronunciation of a name or an abbreviation, such as "Han" for "han" and "Du" for "du".
+
+`tools/lexicon/build_homographs.py` finds these words.
+It compares the corpus words with every NST pronunciation and with the prepared voice pack.
+It writes `resources/lexicon/sv1917-homographs.tsv`, which contains 303 words.
+Run it after the voice pack preparation:
+
+```sh
+uv run --locked tools/lexicon/build_homographs.py
+```
+
+The filter **Flera uttal i NST** shows these words.
+For each word there is one button for each NST pronunciation, with its parts of speech.
+"böjd form" marks a pronunciation that NST lists only as an inflection of another word.
+"röstens val" marks the pronunciation of the voice pack.
+A button puts the phonemes in **Uttalsstavning** and plays the verse with them.
+
+`resources/corpus/pronunciation-sv.tsv` corrects 38 of these words for the sense they have in this Bible.
+Some words change their sense between verses, such as "förlåten" (the veil, or forgiven), "hov", "bete", and "dans".
+A correction for one word applies to every verse, so these words keep the voice's pronunciation.
+
+## Bundled phonemes
+
+`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 122 frequent names and book titles, and the 38 homograph corrections.
 They mainly correct the stress that the neural fallback guesses for unknown names, such as `Johannesevangeliet`.
 They are drafts and nobody has reviewed them by ear yet.
 The field shows a draft as the current `⟦…⟧` spelling. **Godkänn nuvarande** keeps it, and a saved correction replaces it.

@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "2bf900e82bc4eedb9cee9e9e69d1286d7d7b145b7eea05aa07fc0c23d89b1b1b",
+      "sha256": "ced9a8a5a9a8ea5330e919eacb45567fd68b9ea768f5b214304d66c5ea055a91",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -370,7 +370,7 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "3b4cc7f5ddc738b1e074ae0d1e5de5c1ac2576949615ddc044491ce1a5f09f6e",
+      "sha256": "44b4416752d68cd96753f548ca1f9abc3cc9b80de9b637f26c6ef7fd8f5912ef",
       "license": "MIT",
       "role": "Curated Swedish name phonemes for the Kokoro voices; first-pass drafts pending listening review"
     },
@@ -434,6 +434,13 @@
       "license": "MIT",
       "role": "Factual commemoration names and calendar metadata only; stories and saint narratives excluded",
       "sha256": "e73c700453c75b62f5929aa27fc9a5a4705c77a37b55228833f2e5f8b78379fb"
+    },
+    {
+      "path": "resources/lexicon/sv1917-homographs.tsv",
+      "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
+      "sha256": "e3f03102c7862ae2939fad4bbc1af5203db3539ec531c822252ef61878ab4a92",
+      "license": "CC0-1.0 (NST); public-domain corpus word counts",
+      "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     }
   ],
   "build_dependencies": [

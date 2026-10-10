@@ -734,6 +734,9 @@ int main(int argc, char** argv) {
         check(make_utterance("Manasse och Manasses söner", "sv", lexicon).speech_text ==
                   "⟦manˈasə⟧ och ⟦manˈasəs⟧ söner",
               "bundled name phonemes and genitive");
+        check(make_utterance("Han bar sitt kors, och hans ben", "sv", lexicon).speech_text ==
+                  "⟦hˈan⟧ bar sitt ⟦kˈɔʂ⟧, och ⟦hˈans⟧ ⟦bˈeːn⟧",
+              "bundled homographs take the sense of this Bible, not a name's or another word's");
         lexicon.push_back({"sv", "Manasse", "Manasse-respelt", "", 1000});
         check(make_utterance("Manasse", "sv", lexicon).speech_text == "Manasse-respelt",
               "review corrections outrank bundled phonemes");

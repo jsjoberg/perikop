@@ -21,6 +21,12 @@ int main(int argc, char** argv) {
         std::filesystem::remove(db_path);
         auto words = load_pronunciation_words(resources / "lexicon/sv1917-words.tsv");
         check(words.size() == 28487, "prepared word list coverage");
+        const auto homographs = load_homographs(resources / "lexicon/sv1917-homographs.tsv");
+        const auto cross = homographs.find("kors");
+        check(homographs.size() == 303 && cross != homographs.end() && cross->second.voice == "kˈuːʂ" &&
+                  cross->second.choices.size() == 2 && cross->second.choices[1].phonemes == "kˈɔʂ" &&
+                  cross->second.choices[0].label == "substantiv, böjd form",
+              "homographs list the voice's choice and each NST alternative");
         check(pronunciation_key("ÄR Å Ö") == "är å ö", "Swedish case folding");
         check(contains_speech_word("Saul, och SAULS söner.", "saul"), "word with punctuation");
         check(!contains_speech_word("Sauls söner.", "Saul"), "whole word boundary");

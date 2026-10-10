@@ -1,4 +1,4 @@
-# Swedish name pronunciations for the Alice and Björn voices.
+# Swedish name and word pronunciations for the Alice and Björn voices.
 # Columns: word<TAB>phonemes. Phonemes use the NST/Kokoro symbols of the voice
 # pack lexicon, with the stress mark directly before the stressed vowel.
 # First-pass drafts for frequent names and book titles that the neural
@@ -127,3 +127,47 @@ tryfon	trˈyːfɔn
 tubal	tˈʉːbal
 uria	ʉrˈiːa
 ussia	ɵsˈiːa
+# Homographs. The voice pack's lexicon keeps one pronunciation per spelling and
+# often took a name's, an abbreviation's, or another word's, such as "Han" for
+# "han" and the genitive of "ko" for "kors". Each entry is the NST alternative
+# for the word's sense in this Bible, chosen from
+# resources/lexicon/sv1917-homographs.tsv. Words whose sense changes between
+# verses, such as "förlåten", "hov", "bete", and "dans", are left to the voice.
+han	hˈan
+du	dˈʉː
+hon	hˈʊn
+kan	kˈan
+son	sˈoːn
+drog	drˈuːɡ
+dom	dˈʊm
+domens	dˈʊməns
+vän	vˈɛn
+ben	bˈeːn
+kors	kˈɔʂ
+andre	ˈandrə
+sen	sˈeːn
+togo	tˈuːɡʊ
+jordan	jˈoːɖan
+bergen	bˈɛrjən
+vars	vˈaʂ
+ute	ˈʉːtə
+mans	mˈans
+lova	lˈoːva
+antal	ˈantɑːl
+gods	ɡˈʊds
+fred	frˈeːd
+glans	ɡlˈans
+livs	lˈɪfs
+lyste	lˈyːstə
+driver	drˈiːvər
+syntes	sˈyːntəs
+legat	lˈeːɡat
+förlåter	fœɭˈoːtər
+lovar	lˈoːvar
+modern	mˈuːdəɳ
+loge	lˈuːɡə
+mods	mˈuːds
+person	pəʂˈuːn
+tom	tˈʊm
+oliver	ʊlˈiːvər
+foster	fˈʊstər
