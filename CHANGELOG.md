@@ -50,4 +50,7 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - The Greek text of 1 John 5:7 marks its bracketed passage with [[ ]] instead of ⟦ ⟧, in the reader's own font. Perikop no longer includes the Noto Sans Math font.
 - The calendar, Bible browser, and About page open in the main window instead of separate dialogs. Back and Escape return to the previous view, and playback continues.
 - The Bible browser shows book, chapter, and verse grids on one page. A verse opens immediately.
+- In the Bible browser, a book's chapters unfold directly under its row, and a chapter's verses unfold under the chapter. Click again to fold them. With **Flera intervall**, the pending range is shaded.
+- The start page no longer names the reading order, and it shows fasting only on fast days and fast-free days.
+- On the start page, readings of the same service and occasion form one reading, such as the three Vespers prophecies.
 - The voice model is half the size and uses less memory. Pronunciations for the Bible text are prepared in advance.

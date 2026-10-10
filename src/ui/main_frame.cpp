@@ -223,19 +223,18 @@ void MainFrame::refresh_day() {
     const auto& heading = day_.day.title;
     if (!heading.empty())
         entries_->Add(wrapped(ui::utf8(heading), body_font(18)), 0, wxBOTTOM, FromDIP(8));
-    entries_->Add(wrapped(ui::utf8(settings_.tradition == Tradition::Slavic ? "Slavisk läsordning · rysk/OCA"
-                                                                            : "Grekisk läsordning"),
-                          body_font(13)),
-                  0, wxBOTTOM, FromDIP(8));
     entries_->AddSpacer(FromDIP(28));
-    entries_->Add(ui::label(home_content_, "FASTA", 10), 0, wxBOTTOM, FromDIP(6));
+    // An ordinary day without a fast needs no notice; fast-free periods still say so.
     const auto fast = day_.day.fasting;
-    const auto fast_text = fast.period == FastPeriod::None
-                               ? fasting_allowance_label(fast)
-                               : fasting_period_label(fast.period) + " · " + fasting_allowance_label(fast);
-    entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
-    if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
-        entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
+    if (fast.period != FastPeriod::None || fast.allowance == DietaryAllowance::Free) {
+        entries_->Add(ui::label(home_content_, "FASTA", 10), 0, wxBOTTOM, FromDIP(6));
+        const auto fast_text = fast.period == FastPeriod::None ? fasting_allowance_label(fast)
+                                                               : fasting_period_label(fast.period) + " · " +
+                                                                     fasting_allowance_label(fast);
+        entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
+        if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
+            entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
+    }
     if (!day_.day.commemorations.empty()) {
         entries_->Add(ui::label(home_content_, ui::utf8("ÅMINNELSER"), 10), 0, wxTOP | wxBOTTOM, FromDIP(12));
         for (const auto& name : day_.day.commemorations)

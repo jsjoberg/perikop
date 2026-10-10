@@ -1,6 +1,7 @@
 #pragma once
 
 #include "storage/database.hpp"
+#include "ui/picker_grid.hpp"
 #include <functional>
 #include <map>
 #include <wx/checkbox.h>
@@ -20,12 +21,11 @@ public:
 
 private:
     friend class MainFrame;
-    using Action = std::pair<wxString, std::function<void()>>;
     std::string frame(const CanonBook&) const;
     std::vector<VerseRef> verses_of(const CanonBook&) const;
     bool available(const CanonBook&) const;
-    void append_cells(const std::vector<Action>&, int columns);
     void rebuild();
+    std::vector<PickerGrid::Block> book_drawer(const CanonBook&);
     void show_books();
     void show_chapters(CanonBook);
     void show_verses(CanonBook, int chapter);
@@ -35,7 +35,8 @@ private:
     void add_range(const CanonBook&, VerseRef first, VerseRef last);
     void update_selection();
     void update_grid();
-    void scroll_to(wxWindow*);
+    // Scrolls the least that shows this part of the grid.
+    void reveal(wxRect);
     void open_selection();
     void open_passages(const std::vector<Passage>&);
 
@@ -50,11 +51,8 @@ private:
     wxStaticText* range_label_ = nullptr;
     wxScrolledWindow* grid_ = nullptr;
     wxPanel* contents_ = nullptr;
-    wxBoxSizer* rows_ = nullptr;
-    std::vector<std::pair<wxGridSizer*, int>> tables_;
+    PickerGrid* cells_ = nullptr;
     wxStaticText* note_ = nullptr;
-    wxStaticText* chapters_label_ = nullptr;
-    wxStaticText* verses_label_ = nullptr;
     std::optional<CanonBook> book_;
     std::optional<int> chapter_;
     void* native_scroll_ = nullptr;

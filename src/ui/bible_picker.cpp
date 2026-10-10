@@ -27,8 +27,16 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
     grid_->ShowScrollbars(wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
     grid_->SetMinSize({0, 0});
     contents_ = new wxPanel(grid_);
-    rows_ = new wxBoxSizer(wxVERTICAL);
-    contents_->SetSizer(rows_);
+    auto* rows = new wxBoxSizer(wxVERTICAL);
+    cells_ = new PickerGrid(contents_, settings_.theme);
+    cells_->on_focus([this](wxRect cell) {
+        reveal(cell);
+    });
+    rows->Add(cells_, 0);
+    note_ = ui::label(contents_, "", 10);
+    rows->Add(note_, 0, wxTOP | wxBOTTOM, FromDIP(12));
+    rows->AddSpacer(FromDIP(20));
+    contents_->SetSizer(rows);
     auto* centered = new wxBoxSizer(wxVERTICAL);
     centered->Add(contents_, 0, wxALIGN_CENTER_HORIZONTAL);
     grid_->SetSizer(centered);
@@ -59,6 +67,7 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
             first_.reset();
             last_.reset();
             update_selection();
+            rebuild();
         }
     });
     builder->Add(add_, 0, wxBOTTOM, FromDIP(12));
@@ -128,154 +137,152 @@ bool BiblePicker::available(const CanonBook& book) const {
     availability_[book.code] = found;
     return found;
 }
-void BiblePicker::append_cells(const std::vector<Action>& items, int columns) {
-    auto* table = new wxGridSizer(columns, FromDIP(4), FromDIP(4));
-    tables_.emplace_back(table, columns);
-    rows_->Add(table, 0, wxEXPAND);
-    for (const auto& [label, action] : items) {
-        auto* cell = ui::button(contents_, label, [this, action] {
-            // Rebuilding a section must wait until the clicked button's handler returns.
-            CallAfter(action);
-        });
-        cell->SetMinSize(FromDIP(wxSize(58, 30)));
-        table->Add(cell, 0, wxEXPAND);
-    }
-}
 void BiblePicker::rebuild() {
+    using Block = PickerGrid::Block;
+    using State = PickerGrid::State;
     wheel_remainder_ = 0;
-    tables_.clear();
-    note_ = chapters_label_ = verses_label_ = nullptr;
-    rows_->Clear(true);
-    // All books stay on this page. The chosen book and chapter append their own sections below them.
+    // Every book stays on this page. An open book unfolds its chapters beneath its own row.
+    std::vector<Block> blocks;
     for (int part = 0; part < 2; ++part) {
-        rows_->Add(ui::label(contents_, part ? "NYA TESTAMENTET" : "GAMLA TESTAMENTET", 9), 0,
-                   wxTOP | wxBOTTOM, FromDIP(12));
-        std::vector<Action> books;
-        std::vector<const CanonBook*> canon;
-        for (const auto& book : corpus_.canon())
-            if (book.new_testament == bool(part)) {
-                books.emplace_back(ui::utf8(corpus_.book_abbreviation(book.code)) +
+        blocks.push_back(
+            {.kind = Block::Kind::Heading, .text = part ? "NYA TESTAMENTET" : "GAMLA TESTAMENTET"});
+        Block books{.kind = Block::Kind::Cells, .columns = 8};
+        for (const auto& book : corpus_.canon()) {
+            if (book.new_testament != bool(part))
+                continue;
+            const bool has_text = available(book), open = book_ && book_->code == book.code;
+            if (open) {
+                books.open = books.cells.size();
+                books.drawer = book_drawer(book);
+            }
+            books.cells.push_back({ui::utf8(corpus_.book_abbreviation(book.code)) +
                                        (corpus_.deuterocanonical_book(book.code) ? "*" : ""),
-                                   [this, book] {
-                                       show_chapters(book);
-                                   });
-                canon.push_back(&book);
-            }
-        append_cells(books, 8);
-        size_t i = 0;
-        for (auto* item : tables_.back().first->GetChildren()) {
-            auto* cell = static_cast<wxButton*>(item->GetWindow());
-            const auto& book = *canon[i++];
-            const bool has_text = available(book);
-            cell->Enable(has_text);
-            cell->SetToolTip(ui::utf8(corpus_.book_name(book.code)) +
-                             (has_text ? wxString{} : ui::utf8(" · Ingen text på valt språk")));
-            if (book_ && book_->code == book.code) {
-                auto font = cell->GetFont();
-                font.SetWeight(wxFONTWEIGHT_BOLD);
-                cell->SetFont(font);
-            }
+                                   ui::utf8(corpus_.book_name(book.code)) +
+                                       (has_text ? wxString{} : ui::utf8(" · Ingen text på valt språk")),
+                                   has_text, open ? State::Selected : State::Plain, [this, book, open] {
+                                       if (open)
+                                           show_books();
+                                       else
+                                           show_chapters(book);
+                                   }});
         }
+        blocks.push_back(std::move(books));
     }
-    note_ = ui::label(contents_, "", 10);
-    rows_->Add(note_, 0, wxTOP, FromDIP(12));
-    if (book_) {
-        const auto book = *book_;
-        const auto verses = verses_of(book);
-        chapters_label_ =
-            ui::label(contents_, ui::utf8(corpus_.book_name(book.code)) + ui::utf8(" · Kapitel"), 18);
-        rows_->Add(chapters_label_, 0, wxTOP | wxBOTTOM, FromDIP(28));
-        rows_->Add(ui::button(contents_,
-                              building_ ? ui::utf8("Lägg till hela boken") : ui::utf8("Hela boken"),
-                              [this, book, verses] {
-                                  CallAfter([this, book, verses] {
-                                      if (!verses.empty())
-                                          choose_range(book, verses.front(), verses.back());
-                                  });
-                              }),
-                   0, wxBOTTOM, FromDIP(12));
-        std::vector<Action> chapters;
-        int previous = -1;
-        for (const auto& ref : verses)
-            if (ref.chapter != previous) {
-                previous = ref.chapter;
-                chapters.emplace_back(wxString::Format("%d", ref.chapter - book.offset()),
-                                      [this, book, chapter = ref.chapter] {
-                                          show_verses(book, chapter);
-                                      });
-            }
-        append_cells(chapters, 10);
-        if (chapter_) {
-            verses_label_ =
-                ui::label(contents_,
-                          ui::utf8(corpus_.book_name(book.code)) +
-                              wxString::Format(" %d", *chapter_ - book.offset()) + ui::utf8(" · Verser"),
-                          18);
-            rows_->Add(verses_label_, 0, wxTOP | wxBOTTOM, FromDIP(28));
-            std::vector<VerseRef> in_chapter;
-            std::vector<Action> numbers;
-            for (const auto& ref : verses)
-                if (ref.chapter == *chapter_) {
-                    in_chapter.push_back(ref);
-                    numbers.emplace_back(wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
-                                         [this, book, ref] {
-                                             select_verse(book, ref);
-                                         });
-                }
-            rows_->Add(ui::button(contents_,
-                                  building_ ? ui::utf8("Lägg till hela kapitlet") : ui::utf8("Hela kapitlet"),
-                                  [this, book, in_chapter] {
-                                      CallAfter([this, book, in_chapter] {
-                                          if (!in_chapter.empty())
-                                              choose_range(book, in_chapter.front(), in_chapter.back());
-                                      });
-                                  }),
-                       0, wxBOTTOM, FromDIP(12));
-            append_cells(numbers, 10);
-        }
-    }
-    rows_->AddSpacer(FromDIP(32));
+    cells_->set(std::move(blocks));
     ui::recolor(this, palette(settings_.theme));
     note_->SetForegroundColour(palette(settings_.theme).muted);
     update_grid();
 }
+std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
+    using Block = PickerGrid::Block;
+    using State = PickerGrid::State;
+    const auto verses = verses_of(book);
+    std::vector<Block> drawer;
+    drawer.push_back({.kind = Block::Kind::Title,
+                      .text = ui::utf8(corpus_.book_name(book.code)),
+                      .action_label = building_ ? ui::utf8("Lägg till hela boken") : ui::utf8("Hela boken"),
+                      .action = [this, book, verses] {
+                          if (!verses.empty())
+                              choose_range(book, verses.front(), verses.back());
+                      }});
+    Block chapters{.kind = Block::Kind::Cells};
+    std::vector<VerseRef> in_chapter;
+    int previous = -1;
+    for (const auto& ref : verses) {
+        if (ref.chapter == chapter_)
+            in_chapter.push_back(ref);
+        if (ref.chapter == previous)
+            continue;
+        previous = ref.chapter;
+        const bool open = ref.chapter == chapter_;
+        if (open)
+            chapters.open = chapters.cells.size();
+        chapters.cells.push_back({wxString::Format("%d", ref.chapter - book.offset()),
+                                  {},
+                                  true,
+                                  open ? State::Selected : State::Plain,
+                                  [this, book, open, chapter = ref.chapter] {
+                                      if (open)
+                                          show_chapters(book);
+                                      else
+                                          show_verses(book, chapter);
+                                  }});
+    }
+    if (chapters.open) {
+        auto& verse_drawer = chapters.drawer;
+        verse_drawer.push_back(
+            {.kind = Block::Kind::Title,
+             .text = ui::utf8("Kapitel ") + wxString::Format("%d", *chapter_ - book.offset()),
+             .action_label = building_ ? ui::utf8("Lägg till hela kapitlet") : ui::utf8("Hela kapitlet"),
+             .action = [this, book, in_chapter] {
+                 if (!in_chapter.empty())
+                     choose_range(book, in_chapter.front(), in_chapter.back());
+             }});
+        // While building, the pending range is shaded and its ends are marked.
+        const bool pending = building_ && first_ && range_book_ && range_book_->code == book.code;
+        const auto low = pending ? std::min(*first_, last_.value_or(*first_)) : VerseRef{};
+        const auto high = pending ? std::max(*first_, last_.value_or(*first_)) : VerseRef{};
+        Block numbers{.kind = Block::Kind::Cells};
+        for (const auto& ref : in_chapter)
+            numbers.cells.push_back({wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
+                                     {},
+                                     true,
+                                     !pending || ref < low || high < ref ? State::Plain
+                                     : ref == low || ref == high         ? State::Selected
+                                                                         : State::Marked,
+                                     [this, book, ref] {
+                                         select_verse(book, ref);
+                                     }});
+        verse_drawer.push_back(std::move(numbers));
+    }
+    drawer.push_back(std::move(chapters));
+    return drawer;
+}
 void BiblePicker::update_grid() {
     const int width = std::clamp(grid_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(680));
     contents_->SetMinSize({width, -1});
-    const int columns = std::max(1, width / FromDIP(64));
-    for (auto& [table, maximum] : tables_)
-        table->SetCols(std::min(columns, maximum));
-    if (note_) {
-        note_->SetLabel(ui::utf8("Böcker med * finns i Septuaginta men inte i den hebreiska bibeln.\n"
-                                 "Gråa böcker har ingen text på valt språk."));
-        note_->Wrap(width);
-    }
+    cells_->set_width(width);
+    note_->SetLabel(ui::utf8("Böcker med * finns i Septuaginta men inte i den hebreiska bibeln.\n"
+                             "Gråa böcker har ingen text på valt språk."));
+    note_->Wrap(width);
     contents_->InvalidateBestSize();
+    contents_->Layout();
     grid_->FitInside();
+    grid_->Layout();
 }
-void BiblePicker::scroll_to(wxWindow* target) {
+void BiblePicker::reveal(wxRect area) {
+    if (area.IsEmpty())
+        return;
     update_grid();
-    const int y =
-        target ? grid_->CalcUnscrolledPosition(contents_->GetPosition()).y + target->GetPosition().y : 0;
-    grid_->Scroll(0, y / FromDIP(12));
+    const int unit = FromDIP(12), margin = FromDIP(12);
+    const int top =
+        grid_->CalcUnscrolledPosition(contents_->GetPosition()).y + cells_->GetPosition().y + area.y - margin;
+    const int bottom = top + area.height + 2 * margin;
+    const int view = grid_->GetViewStart().y * unit, height = grid_->GetClientSize().y;
+    // Bring the end into view without moving the start out of it.
+    int target = view;
+    if (bottom > view + height)
+        target = bottom - height;
+    target = std::min(target, top);
+    if (target != view)
+        grid_->Scroll(0, std::max(0, target > view ? (target + unit - 1) / unit : target / unit));
 }
 void BiblePicker::show_books() {
     book_.reset();
     chapter_.reset();
     rebuild();
-    scroll_to(nullptr);
 }
 void BiblePicker::show_chapters(CanonBook book) {
     book_ = std::move(book);
     chapter_.reset();
     rebuild();
-    scroll_to(chapters_label_);
+    reveal(cells_->unfolded(1));
 }
 void BiblePicker::show_verses(CanonBook book, int chapter) {
     book_ = std::move(book);
     chapter_ = chapter;
     rebuild();
-    scroll_to(verses_label_);
+    reveal(cells_->unfolded(2));
 }
 void BiblePicker::set_builder(bool enabled) {
     building_ = enabled;
@@ -283,7 +290,6 @@ void BiblePicker::set_builder(bool enabled) {
     builder_panel_->Show(enabled);
     update_selection();
     rebuild();
-    scroll_to(verses_label_ ? verses_label_ : chapters_label_);
 }
 void BiblePicker::select_verse(CanonBook book, VerseRef ref) {
     if (!building_) {
@@ -297,6 +303,7 @@ void BiblePicker::select_verse(CanonBook book, VerseRef ref) {
     } else
         last_ = ref;
     update_selection();
+    rebuild();
 }
 void BiblePicker::choose_range(const CanonBook& book, VerseRef first, VerseRef last) {
     if (building_)

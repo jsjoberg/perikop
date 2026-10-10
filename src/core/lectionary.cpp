@@ -320,6 +320,26 @@ int tradition_rank(const std::string& tag, Tradition tradition) {
         return 1;
     return tradition == Tradition::Antiochian && tag == "antiochian" ? 2 : -1;
 }
+// Adjacent readings of one service and occasion, such as the three Vespers
+// prophecies, become one reading whose passages keep their order.
+void combine_services(std::vector<Reading>& readings) {
+    std::vector<Reading> result;
+    for (auto& reading : readings) {
+        if (!result.empty()) {
+            auto& last = result.back();
+            if (last.can_open() && reading.can_open() && last.kind == reading.kind &&
+                last.service == reading.service && last.occasion == reading.occasion &&
+                last.reference == reading.reference && last.base_language == reading.base_language &&
+                last.source_override == reading.source_override) {
+                const auto parts = reading.segments();
+                last.additional.insert(last.additional.end(), parts.begin(), parts.end());
+                continue;
+            }
+        }
+        result.push_back(std::move(reading));
+    }
+    readings = std::move(result);
+}
 } // namespace
 CivilDate orthodox_pascha(int y) {
     if (y < 0 || y > 10000)
@@ -646,10 +666,15 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
 }
 DayReadings Lectionary::readings_with_variants(CivilDate civil, CalendarStyle style,
                                                Tradition tradition) const {
-    if (tradition == Tradition::Slavic)
-        return service_readings_for(civil, style, tradition);
+    if (tradition == Tradition::Slavic) {
+        auto result = service_readings_for(civil, style, tradition);
+        combine_services(result.readings);
+        return result;
+    }
     auto result = service_readings_for(civil, style, Tradition::Greek);
-    const auto antiochian = service_readings_for(civil, style, Tradition::Antiochian);
+    auto antiochian = service_readings_for(civil, style, Tradition::Antiochian);
+    combine_services(result.readings);
+    combine_services(antiochian.readings);
     const auto same_passage = [](const Passage& a, const Passage& b) {
         return a.book == b.book && a.first == b.first && a.last == b.last;
     };

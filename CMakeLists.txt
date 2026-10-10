@@ -149,6 +149,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/app_icon.cpp
         src/ui/toolbar.cpp
         src/ui/bible_picker.cpp
+        src/ui/picker_grid.cpp
         src/ui/month_calendar.cpp
         src/ui/scripture_view.cpp
         src/ui/scripture_layout.cpp

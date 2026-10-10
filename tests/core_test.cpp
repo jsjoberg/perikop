@@ -268,6 +268,17 @@ int main(int argc, char** argv) {
                   std::ranges::count(friday.readings, ReadingKind::Epistle, &Reading::kind) == 2 &&
                   std::ranges::count(friday.readings, ReadingKind::Gospel, &Reading::kind) == 2,
               "October 9 contains Vespers, Matins, daily readings, and the saint's readings");
+        for (auto order : {Tradition::Greek, Tradition::Slavic}) {
+            const auto shown =
+                lectionary.readings_with_variants(date("2026-10-09"), CalendarStyle::New, order);
+            const auto vespers = std::ranges::find(shown.readings, ReadingKind::Vespers, &Reading::kind);
+            check(
+                shown.readings.size() == 6 && vespers != shown.readings.end() &&
+                    vespers->segments().size() == 3 && vespers->additional[1].first == VerseRef{4, 7} &&
+                    std::ranges::count(shown.readings, ReadingKind::Epistle, &Reading::kind) == 2 &&
+                    std::ranges::count(shown.readings, ReadingKind::Gospel, &Reading::kind) == 2,
+                "October 9 shows its Vespers prophecies as one reading and keeps the saint's readings apart");
+        }
         check(friday.day.fasting == Fasting{FastPeriod::Day, DietaryAllowance::FishWineOil} &&
                   std::ranges::any_of(friday.day.commemorations,
                                       [](const auto& title) {

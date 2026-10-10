@@ -650,7 +650,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     picker->show_chapters(john);
     picker->show_verses(john, 1);
-    if (picker->tables_.size() != 4 || !picker->chapters_label_ || !picker->verses_label_)
+    // John's chapters and verses unfold beneath its row, above the books that follow it.
+    const auto chapters = picker->cells_->unfolded(1), verses = picker->cells_->unfolded(2);
+    if (chapters.IsEmpty() || verses.IsEmpty() || !chapters.Contains(verses) ||
+        chapters.GetBottom() + FromDIP(30) > picker->cells_->GetSize().y)
         fail(__LINE__);
     picker->select_verse(john, {1, 3});
     if (page_ || scripture_->reading().passage.first != VerseRef{1, 3})
