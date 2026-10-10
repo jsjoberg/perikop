@@ -96,17 +96,11 @@ def make_lock(output, repository, release):
     (output / "dependencies-lock.json").write_text(json.dumps(lock, indent=2) + "\n")
 
 
-def restore(platform, output, package=False):
+def fetch_snapshot(names, downloads):
     audit()
     lock = json.loads(LOCK.read_text())
     if lock["upstreams_sha256"] != digest(UPSTREAMS):
         raise ValueError("Upstreams changed. Prepare and pin a new dependency snapshot first.")
-    names = ["inputs-" + platform + ".tar.gz"]
-    if platform == "Linux":
-        names.append("Linux-environment.tar.gz")
-    elif platform == "macOS":
-        names.append("macOS-tools.tar.gz")
-    downloads = output / "downloads"
     downloads.mkdir(parents=True, exist_ok=True)
     for name in names:
         destination = downloads / name
@@ -119,6 +113,17 @@ def restore(platform, output, package=False):
                 verify(Path(temporary) / name, expected)
                 shutil.copyfile(Path(temporary) / name, destination)
         verify(destination, expected)
+    return lock
+
+
+def restore(platform, output, package=False):
+    names = ["inputs-" + platform + ".tar.gz"]
+    if platform == "Linux":
+        names.append("Linux-environment.tar.gz")
+    elif platform == "macOS":
+        names.append("macOS-tools.tar.gz")
+    downloads = output / "downloads"
+    lock = fetch_snapshot(names, downloads)
     archives = output / "archives"
     extract(downloads / names[0], archives)
     verify(archives / "upstreams.json", lock["upstreams_sha256"])
@@ -154,7 +159,7 @@ def restore(platform, output, package=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["upstream", "lock", "restore", "audit"])
+    parser.add_argument("command", choices=["upstream", "lock", "restore", "reuse", "audit"])
     parser.add_argument("--output", type=Path, default=ROOT / "build/ci")
     parser.add_argument("--platform", choices=["Linux", "macOS", "Windows"])
     parser.add_argument("--package", action="store_true")
@@ -171,6 +176,14 @@ def main():
         if not args.platform:
             parser.error("restore requires --platform")
         restore(args.platform, args.output, args.package)
+    elif args.command == "reuse":
+        if args.platform == "Linux":
+            names = ["Linux-environment.tar.gz"]
+        elif args.platform is None:
+            names = ["inputs-" + platform + ".tar.gz" for platform in ("Linux", "macOS", "Windows")]
+        else:
+            parser.error("reuse accepts --platform Linux or no platform")
+        fetch_snapshot(names, args.output)
     else:
         audit()
 

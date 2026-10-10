@@ -79,8 +79,10 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: build/ccache
-          key: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-${{ github.sha }}
-          restore-keys: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
+          key: objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
+          restore-keys: |
+            objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
+            objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
       - name: Build, test, and package Linux offline
         if: runner.os == 'Linux'
         run: |
@@ -143,8 +145,10 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: build/ccache
-          key: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-${{ github.sha }}
-          restore-keys: objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
+          key: objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
+          restore-keys: |
+            objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
+            objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
       - name: Configure
         shell: pwsh
         run: |

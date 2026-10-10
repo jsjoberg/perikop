@@ -1,6 +1,11 @@
 name: Prepare CI dependencies
 on:
   workflow_dispatch:
+    inputs:
+      macos_tools_only:
+        description: Rebuild macOS tools; reuse the pinned native inputs and Linux environment
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -14,7 +19,13 @@ jobs:
       - name: Download and verify pinned upstream inputs
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 tools/ci/dependencies.py upstream --output build/snapshot
+          MACOS_TOOLS_ONLY: ${{ inputs.macos_tools_only }}
+        run: |
+          if [ "$MACOS_TOOLS_ONLY" = true ]; then
+            python3 tools/ci/dependencies.py reuse --output build/snapshot
+          else
+            python3 tools/ci/dependencies.py upstream --output build/snapshot
+          fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dependency-inputs
@@ -26,11 +37,17 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Prepare Linux toolchain and system libraries
+        if: inputs.macos_tools_only != true
         run: |
           docker build --pull -f ci/linux.Dockerfile -t perikop-ci-linux:dependencies ci
           mkdir -p build/snapshot
           docker run --rm --network none perikop-ci-linux:dependencies bash -c 'g++ --version && cmake --version && python3 --version && ccache --version'
           docker save perikop-ci-linux:dependencies | gzip -1 > build/snapshot/Linux-environment.tar.gz
+      - name: Reuse pinned Linux environment
+        if: inputs.macos_tools_only == true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/ci/dependencies.py reuse --platform Linux --output build/snapshot
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dependency-linux

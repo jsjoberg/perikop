@@ -119,6 +119,12 @@ Start preparation:
 gh workflow run dependencies.yml --ref main
 ```
 
+For a macOS analysis-tool update only, reuse the pinned sources and Linux environment:
+
+```sh
+gh workflow run dependencies.yml --ref main -f macos_tools_only=true
+```
+
 After all preparation jobs pass, the workflow publishes a `ci-dependencies-<commit>` prerelease.
 It contains all snapshot archives and a generated lock file.
 Dependency releases do not expire with the nightly retention policy.

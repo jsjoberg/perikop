@@ -56,7 +56,7 @@ The application has no runtime scripting dependency.
 
 CI instead restores a pinned [dependency snapshot](releasing.md#ci-dependency-snapshots) from this repository's GitHub releases.
 Its native sources are local before CMake starts. CI has no upstream download fallback.
-For a local build with the same prepared sources, restore the snapshot for your supported platform:
+For a local build, restore the snapshot for your platform:
 
 ```sh
 python3 tools/ci/dependencies.py restore --platform macOS
