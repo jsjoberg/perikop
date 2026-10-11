@@ -19,12 +19,11 @@ For a source build, use the [build guide](building.md#run).
 
 ## Daily readings and calendar
 
-The day page shows the date, fasting information, commemorations, service readings, and three reading plans.
+The day page shows the date, fasting information, service readings, and three reading plans.
 Press **Läs** beside a reading to open it.
 Service labels identify Vespers, Matins, the Hours, and other readings when they apply.
 Saints' readings appear beside the ordinary daily readings.
 Fasting information identifies the period, permitted exceptions, and foods to abstain from.
-Commemorations use Swedish names where available. Other names retain the source's English text.
 Composite liturgical readings show their citations without a **Läs** button. Their adapted text is not in the Bible corpus.
 The arrows beside the date move to the previous or next day.
 The **Idag** button selects the current local date. This button always works and needs no background timer.
@@ -104,23 +103,16 @@ Then select chapter 5. The range extends from John 3:3 to the end of chapter 5.
 Then select verse 5 in chapter 5. The range changes to John 3:3–5:5.
 Select **Öppna urval** to open the range.
 
-Books without Swedish text are greyed out.
+Books without Swedish text, such as 1 Esdras, open too, for their Greek and English text.
+Their tooltip says **Svenska saknas**. The Swedish column shows "Saknas i denna utgåva".
 Back moves from verses to chapters, then books, then the previous view.
 
-To prepare a custom reading from several passages, select **Bibel → Välj flera bibelställen** (Ctrl+Shift+G):
-
-1. Select a book and chapter.
-2. Select the start verse.
-3. Select the end verse.
-   For a range across chapters, use Back to select another chapter in the same book.
-4. Select **Lägg till intervall**. For one verse, omit the end verse.
-5. Add more ranges in the order for playback. Ranges can come from different books.
-6. To remove a range, select it in the list and press **Ta bort**.
-7. Select **Öppna urval** to show the reading.
-8. Select **Lyssna** to play all ranges in list order.
-
-**Lägg till hela boken** and **Lägg till hela kapitlet** add complete books and chapters to the list.
-The address field shows a menu of the selected parts.
+To read several passages as one reading, select a range and then **Lägg till**.
+The range becomes Del 1, and the address field shows it as for a reading in several parts.
+Select the next range, from the same or another book, and **Lägg till** again.
+**Öppna urval** opens the added parts, and the current range as the last part, as one reading.
+**Lyssna** then plays the parts in order.
+**Rensa** removes the added parts. The address field lists the parts; choose one to open the reading there.
 
 Each source retains its wording. An explicit alignment links verses across their numbering systems.
 Verses without a counterpart show a message.

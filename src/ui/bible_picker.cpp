@@ -6,7 +6,7 @@
 #include "ui/native_scroll.hpp"
 #endif
 namespace ortho {
-BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings settings, bool ranges,
+BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings settings,
                          std::function<void(Reading)> chosen)
     : wxPanel(parent), corpus_(corpus), settings_(std::move(settings)), chosen_(std::move(chosen)) {
     // The address field names the page, so the grid starts at the top.
@@ -46,53 +46,9 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
 #endif
     page->Add(grid_, 1, wxEXPAND);
 
-    builder_panel_ = new wxPanel(this);
-    auto* builder = new wxBoxSizer(wxVERTICAL);
-    range_label_ = ui::label(builder_panel_, "", 11);
-    builder->Add(range_label_, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(12));
-    add_ = ui::button(builder_panel_, ui::utf8("Lägg till intervall"), [this] {
-        if (range_book_ && first_) {
-            add_range(*range_book_, *first_, last_.value_or(*first_));
-            first_.reset();
-            last_.reset();
-            update_selection();
-            rebuild();
-        }
-    });
-    builder->Add(add_, 0, wxBOTTOM, FromDIP(12));
-    ranges_ = new wxListBox(builder_panel_, wxID_ANY, wxDefaultPosition, FromDIP(wxSize(-1, 76)));
-    ranges_->SetName(ui::utf8("Valda intervall i uppläsningsordning"));
-    ranges_->Bind(wxEVT_LISTBOX, [this](wxCommandEvent&) {
-        update_selection();
-    });
-    builder->Add(ranges_, 0, wxEXPAND);
-    auto* actions = new wxBoxSizer(wxHORIZONTAL);
-    remove_ = ui::button(builder_panel_, "Ta bort", [this] {
-        const int index = ranges_->GetSelection();
-        if (index != wxNOT_FOUND) {
-            selected_.erase(selected_.begin() + index);
-            ranges_->Delete(unsigned(index));
-            update_selection();
-        }
-    });
-    actions->Add(remove_, 0);
-    actions->AddStretchSpacer();
-    open_ = ui::button(builder_panel_, ui::utf8("Öppna urval"), [this] {
-        CallAfter([this] {
-            open_selection();
-        });
-    });
-    actions->Add(open_, 0);
-    builder->Add(actions, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(12));
-    builder_panel_->SetSizer(builder);
-    page->Add(builder_panel_, 0, wxALIGN_CENTER_HORIZONTAL);
-    builder_panel_->Hide();
     SetSizer(page);
-    set_builder(ranges);
+    rebuild();
     Bind(wxEVT_SIZE, [this](wxSizeEvent& event) {
-        const int width = std::clamp(GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(680));
-        builder_panel_->SetMinSize({width, -1});
-        update_selection();
         update_grid();
         event.Skip();
     });
@@ -137,14 +93,15 @@ void BiblePicker::rebuild() {
         for (const auto& book : corpus_.canon()) {
             if (book.new_testament != bool(part))
                 continue;
-            const bool has_text = available(book), open = book_ && book_->code == book.code;
+            const bool open = book_ && book_->code == book.code;
             if (open) {
                 books.open = books.cells.size();
                 books.drawer = book_drawer(book);
             }
+            // Books without Swedish text open too, for their Greek and English text.
             books.cells.push_back(
                 {ui::utf8(book.abbreviation),
-                 ui::utf8(book.name) + (has_text ? wxString{} : ui::utf8(" · Ingen svensk text")), has_text,
+                 ui::utf8(book.name) + (available(book) ? wxString{} : ui::utf8(" · Svenska saknas")), true,
                  open ? State::Selected : State::Plain, [this, book, open] {
                      if (open)
                          show_books();
@@ -165,18 +122,29 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     const bool pending = first_ && range_book_ && range_book_->code == book.code;
     const auto low = pending ? std::min(*first_, last_.value_or(*first_)) : VerseRef{};
     const auto high = pending ? std::max(*first_, last_.value_or(*first_)) : VerseRef{};
+    // Lägg till makes the selection the next part of one reading, as Del 1, Del 2 and so on.
+    const bool selection = first_ && range_book_;
     std::vector<Block> drawer;
     drawer.push_back({.kind = Block::Kind::Title,
                       .text = ui::utf8(book.name),
-                      .action_label = building_ ? ui::utf8("Lägg till hela boken") : ui::utf8("Öppna urval"),
-                      .action = [this, book, verses] {
-                          if (!building_)
-                              CallAfter([this] {
-                                  open_selection();
-                              });
-                          else if (!verses.empty())
-                              choose_range(book, verses.front(), verses.back());
-                      }});
+                      .actions = {{ui::utf8("Lägg till"),
+                                   [this] {
+                                       add_selection();
+                                   },
+                                   selection},
+                                  {"Rensa",
+                                   [this] {
+                                       clear_stack();
+                                   },
+                                   !stack_.empty()},
+                                  {ui::utf8("Öppna urval"),
+                                   [this] {
+                                       // Opening closes this page, so it waits for the click to end.
+                                       CallAfter([this] {
+                                           open_selection();
+                                       });
+                                   },
+                                   selection || !stack_.empty()}}});
     Block chapters{.kind = Block::Kind::Cells};
     std::vector<VerseRef> in_chapter;
     int previous = -1;
@@ -193,7 +161,7 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
             {wxString::Format("%d", ref.chapter - book.offset()),
              {},
              true,
-             !building_ && pending && low.chapter <= ref.chapter && ref.chapter <= high.chapter
+             pending && low.chapter <= ref.chapter && ref.chapter <= high.chapter
                  ? (ref.chapter == low.chapter || ref.chapter == high.chapter ? State::Selected
                                                                               : State::Marked)
              : open ? State::Selected
@@ -207,17 +175,10 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     }
     if (chapters.open && chapter_) {
         auto& verse_drawer = chapters.drawer;
-        Block title{.kind = Block::Kind::Title,
-                    .text = ui::utf8("Kapitel ") + wxString::Format("%d", *chapter_ - book.offset())};
-        if (building_) {
-            title.action_label = ui::utf8("Lägg till hela kapitlet");
-            title.action = [this, book, in_chapter] {
-                if (!in_chapter.empty())
-                    choose_range(book, in_chapter.front(), in_chapter.back());
-            };
-        }
-        verse_drawer.push_back(std::move(title));
-        // Shade the pending range and mark its ends in both browser modes.
+        verse_drawer.push_back(
+            {.kind = Block::Kind::Title,
+             .text = ui::utf8("Kapitel ") + wxString::Format("%d", *chapter_ - book.offset())});
+        // Shade the selected range and mark its ends.
         Block numbers{.kind = Block::Kind::Cells};
         for (const auto& ref : in_chapter)
             numbers.cells.push_back({wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
@@ -277,33 +238,20 @@ void BiblePicker::show_verses(CanonBook book, int chapter) {
     rebuild();
     reveal(cells_->unfolded(2));
 }
-void BiblePicker::set_builder(bool enabled) {
-    building_ = enabled;
-    builder_panel_->Show(enabled);
-    add_->Show(enabled);
-    ranges_->Show(enabled);
-    remove_->Show(enabled);
-    update_selection();
-    rebuild();
-}
 void BiblePicker::select_book(CanonBook book) {
-    if (!building_) {
-        const auto verses = verses_of(book);
-        if (!verses.empty())
-            select_single_range(book, verses.front(), verses.back(), SelectionUnit::Book, true);
-    }
+    const auto verses = verses_of(book);
+    if (!verses.empty())
+        select_single_range(book, verses.front(), verses.back(), SelectionUnit::Book, true);
     show_chapters(std::move(book));
 }
 void BiblePicker::select_chapter(CanonBook book, int chapter) {
-    if (!building_) {
-        auto verses = verses_of(book);
-        std::erase_if(verses, [chapter](const auto& ref) {
-            return ref.chapter != chapter;
-        });
-        if (!verses.empty())
-            select_single_range(book, verses.front(), verses.back(), SelectionUnit::Chapter,
-                                anchor_unit_ == SelectionUnit::Book);
-    }
+    auto verses = verses_of(book);
+    std::erase_if(verses, [chapter](const auto& ref) {
+        return ref.chapter != chapter;
+    });
+    if (!verses.empty())
+        select_single_range(book, verses.front(), verses.back(), SelectionUnit::Chapter,
+                            anchor_unit_ == SelectionUnit::Book);
     show_verses(std::move(book), chapter);
 }
 void BiblePicker::select_single_range(const CanonBook& book, VerseRef first, VerseRef last,
@@ -318,71 +266,53 @@ void BiblePicker::select_single_range(const CanonBook& book, VerseRef first, Ver
     update_selection();
 }
 void BiblePicker::select_verse(CanonBook book, VerseRef ref) {
-    if (!building_) {
-        // A verse starts a precise range within the default book or chapter selection.
-        // Later clicks keep this anchor and adjust the other end, including across chapters.
-        select_single_range(book, ref, ref, SelectionUnit::Verse,
-                            anchor_unit_ == SelectionUnit::Book ||
-                                (anchor_unit_ == SelectionUnit::Chapter && first_ && last_ &&
-                                 first_->chapter == last_->chapter));
-        rebuild();
+    // A verse starts a precise range within the default book or chapter selection.
+    // Later clicks keep this anchor and adjust the other end, including across chapters.
+    select_single_range(
+        book, ref, ref, SelectionUnit::Verse,
+        anchor_unit_ == SelectionUnit::Book ||
+            (anchor_unit_ == SelectionUnit::Chapter && first_ && last_ && first_->chapter == last_->chapter));
+    rebuild();
+}
+void BiblePicker::add_selection() {
+    if (!first_ || !range_book_)
         return;
-    }
-    if (!first_ || last_ || !range_book_ || range_book_->code != book.code) {
-        range_book_ = std::move(book);
-        first_ = ref;
-        last_.reset();
-    } else
-        last_ = ref;
+    stack_.push_back({range_book_->frame_book, *first_, last_.value_or(*first_)});
+    // The next selection starts afresh and becomes the next part.
+    first_.reset();
+    last_.reset();
+    anchor_.reset();
+    anchor_unit_ = SelectionUnit::Book;
     update_selection();
     rebuild();
 }
-void BiblePicker::choose_range(const CanonBook& book, VerseRef first, VerseRef last) {
-    if (building_)
-        add_range(book, first, last);
-    else
-        select_single_range(book, first, last, SelectionUnit::Verse, true);
-}
-void BiblePicker::add_range(const CanonBook& book, VerseRef first, VerseRef last) {
-    if (last < first)
-        std::swap(first, last);
-    const Passage passage{book.frame_book, first, last};
-    selected_.push_back(passage);
-    ranges_->Append(ui::utf8(passage_label(corpus_, {passage})));
-    ranges_->SetSelection(int(selected_.size() - 1));
+void BiblePicker::clear_stack() {
+    stack_.clear();
     update_selection();
+    rebuild();
 }
 void BiblePicker::update_selection() {
-    if (first_ && range_book_) {
-        auto first = *first_, last = last_.value_or(first);
-        if (last < first)
-            std::swap(first, last);
-        range_label_->SetLabel(
-            ui::utf8(passage_label(corpus_, {{range_book_->frame_book, first, last}})) +
-            (!building_ || last_ ? wxString{} : ui::utf8(" · Välj slutvers eller lägg till denna vers.")));
-    } else
-        range_label_->SetLabel(
-            building_ ? ui::utf8("Välj start- och slutvers. Lägg till fler intervall i önskad ordning.")
-                      : ui::utf8("Välj en bok, ett kapitel eller start- och slutvers. Öppna sedan urvalet."));
-    range_label_->Wrap(std::max(200, builder_panel_->GetMinSize().x));
-    add_->Enable(bool(first_));
-    remove_->Enable(ranges_->GetSelection() != wxNOT_FOUND);
-    open_->Enable(building_ ? !selected_.empty() : bool(first_ && range_book_));
-    Layout();
-    grid_->FitInside();
     if (selection_changed_)
         selection_changed_();
 }
-wxString BiblePicker::address_title() const {
-    if (building_ || !first_ || !range_book_)
-        return {};
-    return ui::utf8(passage_label(corpus_, {{range_book_->frame_book, *first_, last_.value_or(*first_)}}));
+std::vector<Passage> BiblePicker::parts() const {
+    auto result = stack_;
+    if (first_ && range_book_)
+        result.push_back({range_book_->frame_book, *first_, last_.value_or(*first_)});
+    return result;
+}
+std::vector<wxString> BiblePicker::part_labels() const {
+    // As for a reading in several parts: Del 1 · Ps 22:1–6.
+    std::vector<wxString> result;
+    const auto all = parts();
+    for (std::size_t i = 0; i < all.size(); ++i)
+        result.push_back(stack_.empty() ? ui::utf8(passage_label(corpus_, {all[i]}))
+                                        : wxString::Format(ui::utf8("Del %d · "), int(i + 1)) +
+                                              ui::utf8(passage_label(corpus_, {all[i]})));
+    return result;
 }
 void BiblePicker::open_selection() {
-    if (building_)
-        open_passages(selected_);
-    else if (range_book_ && first_)
-        open_passages({{range_book_->frame_book, *first_, last_.value_or(*first_)}});
+    open_passages(parts());
 }
 void BiblePicker::open_passages(const std::vector<Passage>& passages) {
     if (passages.empty())

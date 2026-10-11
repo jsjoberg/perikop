@@ -143,7 +143,7 @@ wxString ScriptureView::swedish_edition(std::size_t heading) const {
     return swedish_editions_[heading] = bible && apocrypha ? ui::utf8("SVENSKA 1917 OCH 1921")
                                         : apocrypha        ? ui::utf8("SVENSKA 1921")
                                         : bible            ? ui::utf8("SVENSKA 1917")
-                                                           : ui::utf8("SVENSKA");
+                                                           : ui::utf8("SVENSKA SAKNAS");
 }
 const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
     if (auto it = orphans_.find(source); it != orphans_.end())

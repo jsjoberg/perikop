@@ -25,7 +25,6 @@ enum {
     Slavic,
     Readings,
     Bible,
-    Ranges,
     System,
     Light,
     Dark,
@@ -105,7 +104,6 @@ std::vector<std::pair<wxMenu*, wxString>> MainFrame::menus() const {
     auto* bible = new wxMenu;
     bible->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
     bible->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
-    bible->Append(Ranges, ui::utf8("Välj flera bibelställen…\tCtrl+Shift+G"));
     auto* view = new wxMenu;
     view->AppendRadioItem(Right, "Bara svenska");
     view->AppendRadioItem(Study, "Svenska och ordstudium");
@@ -233,8 +231,8 @@ void MainFrame::make_menus() {
                 show_readings();
                 return;
             }
-            if (id == Bible || id == Ranges) {
-                browse_bible(id == Ranges);
+            if (id == Bible) {
+                browse_bible();
                 return;
             }
             if (id == Play) {

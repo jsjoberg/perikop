@@ -100,6 +100,7 @@ struct Fasting {
     auto operator<=>(const Fasting&) const = default;
 };
 std::string fasting_period_label(FastPeriod);
+// What a fast allows, such as "Vin och olja tillåtna"; empty for a strict fast.
 std::string fasting_allowance_label(Fasting);
 std::string fasting_abstentions(Fasting);
 std::string service_label(const std::string&);

@@ -218,7 +218,8 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
     if (map && map->kind == AlignmentKind::Merged && ref != map->from.first)
         return std::unexpected(merged_verse);
     if (!map && !same_numbering(from, to, book))
-        return std::unexpected("Ingen belagd textmappning");
+        return std::unexpected(coordinates(to, book).empty() ? "Saknas i denna utgåva"
+                                                             : "Ingen belagd textmappning");
     const auto targets = counterparts(from, to, book, ref);
     if (targets.empty())
         return std::unexpected("Text saknas i denna utgåva");

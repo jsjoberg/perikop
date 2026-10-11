@@ -113,7 +113,8 @@ std::string fasting_allowance_label(Fasting fast) {
         return fast.allowance == DietaryAllowance::Free ? "Fastefri dag" : "Ingen föreskriven fasta";
     switch (fast.allowance) {
     case DietaryAllowance::Strict:
-        return "Strikt fasta";
+        // The period alone says it, and the abstentions list the foods; "Strikt fasta" sounded dramatic.
+        return {};
     case DietaryAllowance::Wine:
         return "Vin tillåtet";
     case DietaryAllowance::WineOil:

@@ -230,17 +230,13 @@ void MainFrame::refresh_day() {
     const auto fast = day_.day.fasting;
     if (fast.period != FastPeriod::None || fast.allowance == DietaryAllowance::Free) {
         entries_->Add(ui::label(home_content_, "FASTA", 10), 0, wxBOTTOM, FromDIP(6));
-        const auto fast_text = fast.period == FastPeriod::None ? fasting_allowance_label(fast)
-                                                               : fasting_period_label(fast.period) + " · " +
-                                                                     fasting_allowance_label(fast);
+        const auto allowance = fasting_allowance_label(fast);
+        const auto fast_text = fast.period == FastPeriod::None ? allowance
+                               : allowance.empty() ? fasting_period_label(fast.period)
+                                                   : fasting_period_label(fast.period) + " · " + allowance;
         entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
         if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
             entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
-    }
-    if (!day_.day.commemorations.empty()) {
-        entries_->Add(ui::label(home_content_, ui::utf8("ÅMINNELSER"), 10), 0, wxTOP | wxBOTTOM, FromDIP(12));
-        for (const auto& name : day_.day.commemorations)
-            entries_->Add(wrapped(ui::utf8("• " + name), body_font(13)), 0, wxBOTTOM, FromDIP(6));
     }
     entries_->AddSpacer(FromDIP(24));
     if (day_.readings.empty())
@@ -469,10 +465,10 @@ void MainFrame::about() {
         return;
     show_page(make_about_page(root_, settings_.theme, resources_), "Om Perikop");
 }
-void MainFrame::browse_bible(bool ranges) {
+void MainFrame::browse_bible() {
     if (dynamic_cast<BiblePicker*>(page_))
         return;
-    auto* page = new BiblePicker(root_, corpus_, settings_, ranges, [this](const Reading& reading) {
+    auto* page = new BiblePicker(root_, corpus_, settings_, [this](const Reading& reading) {
         close_pages();
         tracked_.reset();
         open_reading(reading);
@@ -480,7 +476,7 @@ void MainFrame::browse_bible(bool ranges) {
     page->on_selection([this] {
         update_bar();
     });
-    show_page(page, ranges ? ui::utf8("Välj flera bibelställen") : wxString("Bibel"));
+    show_page(page, "Bibel");
 }
 void MainFrame::pick_date() {
     if (page_)

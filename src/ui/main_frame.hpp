@@ -49,7 +49,7 @@ private:
     void select_day(CivilDate);
     void navigate(int days);
     void pick_date();
-    void browse_bible(bool ranges = false);
+    void browse_bible();
     void about();
     void back();
     void show_page(wxWindow*, const wxString& title);

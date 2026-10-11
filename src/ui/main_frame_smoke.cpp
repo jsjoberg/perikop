@@ -665,9 +665,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto psalms = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
         return book.code == "Ps";
     });
-    if (picker->building_ || picker->builder_panel_->IsShown() || picker->ranges_->IsShown() ||
-        picker->add_->IsShown() || picker->remove_->IsShown() || picker->open_->IsEnabled() ||
-        address_->GetLabel() != "Bibel")
+    if (picker->stacked() || !picker->parts().empty() || address_->GetLabel() != "Bibel" ||
+        address_->IsEnabled())
         fail(__LINE__);
     picker->open_selection();
     if (page_ != picker)
@@ -675,7 +674,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     picker->select_book(john);
     const auto john_verses = picker->verses_of(john);
     if (picker->first_ != john_verses.front() || picker->last_ != john_verses.back() ||
-        !picker->open_->IsEnabled() || page_ != picker ||
+        picker->parts().size() != 1 || page_ != picker ||
         address_->GetLabel() !=
             ui::utf8(passage_label(corpus_, {{"John", john_verses.front(), john_verses.back()}})))
         fail(__LINE__);
@@ -735,7 +734,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (address_->GetLabel() != "Om Perikop")
         fail(__LINE__);
     back();
-    if (page_ != picker || address_->GetLabel() != selection_title || picker->builder_panel_->IsShown())
+    if (page_ != picker || address_->GetLabel() != selection_title)
         fail(__LINE__);
     picker->select_verse(john, {3, 4});
     if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 4})
@@ -754,13 +753,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (page_ || scripture_->reading().passage.first != VerseRef{3, 1} ||
         scripture_->reading().passage.last != chapter_end(3) || scripture_->reading().segments().size() != 1)
         fail(__LINE__);
-    // The multi-passage browser keeps pending endpoints across navigation and collects multiple books.
-    browse_bible(true);
+    // Lägg till stacks selections from several books as the parts of one reading.
+    browse_bible();
     picker = dynamic_cast<BiblePicker*>(page_);
-    if (!picker->building_ || !picker->builder_panel_->IsShown() ||
-        page_title_ != ui::utf8("Välj flera bibelställen"))
-        fail(__LINE__);
     const auto picker_size = GetSize();
+    // In a small window, the unfolded Psalms scroll and nothing is wider than the page.
+    picker->show_chapters(psalms);
     SetSize(FromDIP(wxSize(520, 650)));
     Layout();
     root_->Layout();
@@ -773,24 +771,36 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (auto* child : picker->contents_->GetChildren())
         if (child->GetRect().GetRight() > picker->contents_->GetClientSize().x)
             fail(__LINE__);
-    if (picker->open_->GetRect().GetRight() > picker->builder_panel_->GetClientSize().x)
-        fail(__LINE__);
     SetSize(picker_size);
     Layout();
     root_->Layout();
-    picker->show_chapters(john);
-    picker->show_verses(john, 1);
+    picker->select_book(john);
+    picker->select_chapter(john, 1);
     picker->select_verse(john, {1, 50});
-    back();
-    picker->show_verses(john, 2);
+    picker->select_chapter(john, 2);
     picker->select_verse(john, {2, 2});
     if (!picker->first_ || !picker->last_ || *picker->first_ != VerseRef{1, 50} ||
         *picker->last_ != VerseRef{2, 2})
         fail(__LINE__);
-    picker->add_range(john, *picker->last_, *picker->first_);
-    picker->add_range(psalms, {22, 6}, {22, 6});
-    if (picker->ranges_->GetCount() != 2 || !picker->open_->IsEnabled())
+    picker->add_selection();
+    const auto first_part =
+        ui::utf8("Del 1 · ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
+    if (!picker->stacked() || picker->first_ || address_->GetLabel() != first_part || !address_->IsEnabled())
         fail(__LINE__);
+    picker->select_book(psalms);
+    picker->select_chapter(psalms, 22);
+    picker->select_verse(psalms, {22, 6});
+    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2 · ")))
+        fail(__LINE__);
+    // Rensa empties the stack and keeps the current selection.
+    {
+        const auto stack = picker->stack_;
+        picker->clear_stack();
+        if (picker->stacked() || picker->parts().size() != 1)
+            fail(__LINE__);
+        picker->stack_ = stack;
+        picker->update_selection();
+    }
     // About is reachable through its menu action without losing the browser's in-progress reading.
     const auto browser_scroll = picker->grid_->GetViewStart();
     const auto browser_first = picker->first_, browser_last = picker->last_;
@@ -803,10 +813,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (page_ != about_page || page_history_.size() != 1)
         fail(__LINE__);
     back();
-    if (page_ != picker || !picker->IsShown() || !picker->building_ || picker->chapter_ != 2 ||
-        picker->first_ != browser_first || picker->last_ != browser_last ||
-        picker->grid_->GetViewStart() != browser_scroll || picker->ranges_->GetCount() != 2 ||
-        !page_history_.empty())
+    if (page_ != picker || !picker->IsShown() || picker->chapter_ != 22 || picker->first_ != browser_first ||
+        picker->last_ != browser_last || picker->grid_->GetViewStart() != browser_scroll ||
+        picker->parts().size() != 2 || !page_history_.empty())
         fail(__LINE__);
     picker->open_selection();
     const auto custom = scripture_->reading().segments();

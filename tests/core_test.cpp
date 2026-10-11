@@ -498,6 +498,10 @@ int main(int argc, char** argv) {
         check(corpus.parallel_verse("grc-lxx", "en-lxx2012", "Ps", {3, 2}).error() ==
                   "Ingår i föregående vers",
               "merged verse is shown once");
+        check(corpus.parallel_verse("grc-lxx", "sv1917", "1Esd", {1, 1}).error() == "Saknas i denna utgåva" &&
+                  corpus.parallel_verse("grc-lxx", "sv1917", "Ps", {151, 1}).error() ==
+                      "Saknas i denna utgåva",
+              "texts the Swedish edition lacks");
         check(corpus.parallel_verse("sv1917", "grc-lxx", "Ps", {100, 1})->ref == VerseRef{99, 1},
               "complete Psalter alignment");
         // The Septuagint orders Jeremiah differently and lacks about one eighth of the Hebrew text.

@@ -29,8 +29,8 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - A ⋮ menu at the right of the toolbar with every menu command. Windows and Linux hide the menu bar; Alt shows it.
 - **Visa → Normal textstorlek** returns the text to its default size.
 - The left column is always Swedish. **Visa** offers Bara svenska, or Swedish with word study, Greek, or English.
-- **Bibel → Välj flera bibelställen** collects several passages into one reading.
-- In the book picker, books without text in the chosen language are greyed out.
+- In the Bible browser, **Lägg till** stacks selected ranges as the parts of one reading, and **Rensa** clears them.
+- Books without Swedish text open in the Bible browser for their Greek and English text.
 - The Greek Esther and Daniel are named "Ester enligt den grekiska texten" and "Daniel enligt den grekiska texten", as in Bibel 2000.
 - Chapter headings name the Swedish 1917 Bible, the 1921 apocrypha, or both, after the chapter's Swedish text.
 - Release packages: a DMG for macOS, an installer for Windows, and an AppImage for Linux. Each contains the voices and works offline.

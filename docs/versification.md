@@ -115,7 +115,8 @@ Brenton joins Ezra and Nehemiah as 2 Esdras 1–23. The reader shows 2 Esdras 11
 As in Bibel 2000, the reader names the Greek texts "Ester enligt den grekiska texten" and "Daniel enligt den grekiska texten".
 They include the additions, which the Swedish pane takes from the 1921 apocrypha.
 A chapter heading names the Swedish edition of its verses: Svenska 1917, Svenska 1921, or both.
-Books that the left pane's edition lacks, such as 1 Esdras in Swedish, are greyed out in the book picker.
+Books that the Swedish edition lacks, such as 1 Esdras, still open for their Greek and English text.
+Their chapter headings read "Svenska saknas".
 The New Testament keeps common coordinates.
 
 ## Lectionary references
