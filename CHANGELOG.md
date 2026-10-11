@@ -13,11 +13,11 @@ The first release will be 0.1.0. Until then, this section collects everything.
 ### Added
 
 - Daily readings in the Antiochian, Greek, or Slavic reading order, calculated offline, with new and old calendar modes.
-- Swedish Bible 1917 with the 1921 apocrypha, the Septuagint, the 1904 Patriarchal Greek New Testament, the King James Version, and the World English Bible.
+- Swedish Bible 1917 with the 1921 apocrypha, the Septuagint, the 1904 Patriarchal Greek New Testament, and in English the LXX2012 Septuagint with the World English Bible New Testament, as on Orthocal.
 - A continuous reader framed by the Septuagint, with paragraph fitting, hyphenation, and a parallel language column.
 - Go to any passage with a book, chapter, and verse picker.
 - Swedish read-aloud with the Alice and Björn voices, following the text as it is read.
-- Word study with Dalin's dictionary, Nyström's biblical dictionary, and Strong's Greek lexicon.
+- Word study with Dalin's dictionary and Nyström's biblical dictionary.
 - A pronunciation review for Swedish read-aloud.
 - A browser-like toolbar with back, play, pause, and stop, an address field for passages, and right-column choices.
 - A translucent button that returns to the passage or to the text being read.

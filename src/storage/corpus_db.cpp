@@ -56,9 +56,9 @@ const CanonBook* CorpusDb::canon_book(const std::string& frame_book, int chapter
 std::string CorpusDb::source_for_language(const std::string& language, const std::string& book) const {
     if (language == "sv")
         return "sv1917";
-    // KJV remains the familiar main edition; WEB supplies deuterocanonical books.
+    // LXX2012 translates the Septuagint; WEB supplies the New Testament, as on Orthocal.
     if (language == "en")
-        return deuterocanonical_book(book) ? "en-web" : "en-kjv";
+        return new_testament_book(book) ? "en-web" : "en-lxx2012";
     if (language == "el")
         return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
     return {};

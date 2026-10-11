@@ -142,7 +142,12 @@ int main(int argc, char** argv) {
             check(std::chrono::weekday{std::chrono::sys_days{orthodox_pascha(year)}} == std::chrono::Sunday,
                   "computed Pascha is not Sunday");
         }
-        // Independently transcribed citations from the Archdiocese's official chart.
+        // Independently transcribed citations from the Archdiocese's official chart. Charts print
+        // English numbering, which the WEB keeps in the New Testament.
+        const auto published = [&](Reading reading) {
+            reading.base_language = "en";
+            return corpus.localize(std::move(reading));
+        };
         const auto calculated_path =
             std::filesystem::path(argv[2]).parent_path() / "test-calculated-calendar.db";
         std::filesystem::copy_file(argv[1], calculated_path,
@@ -183,7 +188,7 @@ int main(int argc, char** argv) {
                 check(bool(std::getline(row, expected, '\t')), "extra computed Sunday reading");
                 std::string actual = std::to_string(int(reading.kind)) + "=";
                 bool first = true;
-                for (const auto& p : reading.segments()) {
+                for (const auto& p : published(reading).segments()) {
                     if (!first)
                         actual += '|';
                     first = false;
@@ -389,8 +394,9 @@ int main(int argc, char** argv) {
                 pairs.emplace_back(start(field.substr(0, space)), start(field.substr(space + 1)));
             }
             std::optional<Start> epistle, gospel;
-            for (const auto& reading :
+            for (const auto& listed :
                  lectionary.readings_for(date(iso.c_str()), CalendarStyle::New, Tradition::Slavic).readings) {
+                const auto reading = published(listed);
                 const Start here{reading.passage.book, reading.passage.first.chapter,
                                  reading.passage.first.verse};
                 if (reading.kind == ReadingKind::Epistle)
@@ -482,12 +488,15 @@ int main(int argc, char** argv) {
         auto psalm = corpus.map_passage("sv1917", "grc-lxx", {"Ps", {51, 1}, {51, 21}});
         check(psalm.size() == 1 && psalm[0].first == VerseRef{50, 1} && psalm[0].last == VerseRef{50, 21},
               "Hebrew and Greek Psalm titles share verse numbers");
-        auto title = corpus.parallel_verse("sv1917", "en-kjv", "Ps", {22, 1});
-        check(title && title->ref == VerseRef{22, 1} && title->text.find("My God") != std::string::npos,
-              "KJV includes the title in verse 1");
-        auto kjv_shift = corpus.parallel_verse("sv1917", "en-kjv", "Ps", {22, 3});
-        check(kjv_shift && kjv_shift->ref == VerseRef{22, 2}, "source-specific title numbering");
-        check(corpus.parallel_verse("sv1917", "en-kjv", "Ps", {22, 2}).error() == "Ingår i föregående vers",
+        // LXX2012 prints Psalm titles apart; the build keeps them with verse 1.
+        auto title = corpus.parallel_verse("grc-lxx", "en-lxx2012", "Ps", {3, 1});
+        check(title && title->ref == VerseRef{3, 1} && title->text.find("Abessalom") != std::string::npos &&
+                  title->text.find("multiplied") != std::string::npos,
+              "LXX2012 includes the title in verse 1");
+        auto title_shift = corpus.parallel_verse("grc-lxx", "en-lxx2012", "Ps", {3, 3});
+        check(title_shift && title_shift->ref == VerseRef{3, 2}, "source-specific title numbering");
+        check(corpus.parallel_verse("grc-lxx", "en-lxx2012", "Ps", {3, 2}).error() ==
+                  "Ingår i föregående vers",
               "merged verse is shown once");
         check(corpus.parallel_verse("sv1917", "grc-lxx", "Ps", {100, 1})->ref == VerseRef{99, 1},
               "complete Psalter alignment");
@@ -502,17 +511,41 @@ int main(int argc, char** argv) {
               "verse without LXX counterpart");
         check(corpus.parallel_verse("grc-lxx", "sv1917", "Jer", {23, 40, "a"})->ref == VerseRef{23, 7},
               "transposed LXX verse");
-        check(corpus.parallel_verse("en-kjv", "grc-lxx", "Jer", {31, 31})->ref == VerseRef{38, 31},
-              "KJV reaches the LXX through the Swedish alignment");
+        // LXX2012 translates the Greek but follows English chapter divisions in places.
+        check(corpus.parallel_verse("en-lxx2012", "grc-lxx", "Mal", {4, 5})->ref == VerseRef{3, 23},
+              "LXX2012 Malachi 4 is Greek Malachi 3:19-24");
+        check(corpus.parallel_verse("grc-lxx", "en-lxx2012", "Josh", {9, 2, "a"})->ref == VerseRef{8, 30},
+              "LXX2012 prints the altar on Mount Ebal in its Hebrew place");
+        check(corpus.parallel_verse("sv1917", "en-lxx2012", "Jer", {31, 31})->ref == VerseRef{38, 31},
+              "Swedish reaches LXX2012 through the Greek");
         auto nehemiah = corpus.parallel_verse("sv1917", "grc-lxx", "Neh", {1, 1});
         check(nehemiah && nehemiah->ref == VerseRef{11, 1}, "Nehemiah in Greek 2 Esdras 11");
         check(corpus.parallel_verse("sv1917", "grc-lxx", "Baruch", {6, 2})->ref == VerseRef{1, 3},
               "Letter of Jeremiah after its Greek title");
-        // Lectionary references use KJV numbering, or the Septuagint's where the KJV has no such verse.
-        auto joel = corpus.map_passage("en-kjv", "grc-lxx", {"Joel", {2, 28}, {2, 32}});
+        auto joel = corpus.map_passage("en-lxx2012", "grc-lxx", {"Joel", {2, 28}, {2, 32}});
         check(joel.size() == 1 && joel[0].first == VerseRef{3, 1} && joel[0].last == VerseRef{3, 5},
-              "Joel 2:28-32 is LXX 3:1-5");
+              "LXX2012 Joel 2:28-32 is Greek 3:1-5");
         const auto rules = corpus.reading_rules();
+        // The build restates Orthocal's KJV-numbered references in the Greek editions' numbering.
+        check(std::ranges::all_of(rules,
+                                  [&](const auto& r) {
+                                      return r.reading.reference == "grc-lxx" ||
+                                             (r.reading.reference == "grc-patriarchal" &&
+                                              corpus.new_testament_book(r.reading.passage.book));
+                                  }),
+              "lectionary references use Greek numbering");
+        const auto joel_reading = std::ranges::find_if(rules, [](const auto& r) {
+            return r.reading.citation.starts_with("Joel 2.23-32");
+        });
+        check(joel_reading != rules.end() && joel_reading->reading.passage.first == VerseRef{2, 23} &&
+                  joel_reading->reading.passage.last == VerseRef{3, 5},
+              "KJV Joel 2:23-32 is LXX Joel 2:23-3:5");
+        const auto doxology = std::ranges::find_if(rules, [](const auto& r) {
+            return r.reading.citation == "Romans 14.19-23, 16.25-27";
+        });
+        check(doxology != rules.end() && doxology->reading.additional.size() == 1 &&
+                  doxology->reading.additional[0].first == VerseRef{14, 24},
+              "the KJV doxology is Patriarchal Romans 14:24-26");
         // Holy Saturday's 15th Vespers reading: Daniel 3 with the Song of the Three.
         const auto song = std::find_if(rules.begin(), rules.end(), [](const auto& r) {
             return r.pdist == -1 && r.service == "Vespers" && r.description == "15th reading";
@@ -610,7 +643,8 @@ int main(int argc, char** argv) {
               "Swedish apocrypha");
         check(corpus.verse("grc-lxx", "4Macc", {18, 24}) && corpus.verse("grc-patriarchal", "Rev", {22, 21}),
               "Greek full corpus endpoints");
-        check(corpus.verse("en-kjv", "Gen", {1, 1}) && corpus.verse("en-kjv", "Rev", {22, 21}),
+        check(corpus.verse("en-lxx2012", "Gen", {1, 1}) && corpus.verse("en-lxx2012", "4Macc", {18, 24}) &&
+                  corpus.verse("en-web", "Matt", {1, 1}) && corpus.verse("en-web", "Rev", {22, 21}),
               "English full corpus endpoints");
         check(corpus.verse("grc-lxx", "Dan", {1, 1}) && corpus.verse("grc-lxx", "Dan", {12, 13}),
               "Greek Daniel retained from DAG source");
@@ -621,14 +655,19 @@ int main(int argc, char** argv) {
         const auto letter = std::find(esther.begin(), esther.end(), VerseRef{4, 17, "a"});
         check(letter != esther.end() && letter != esther.begin() && *(letter - 1) == VerseRef{4, 17},
               "lettered portions retain their position in continuous Scripture");
-        check(corpus.verse("en-web", "Gen", {1, 1}) && corpus.verse("en-web", "Rev", {22, 21}),
-              "WEB complete Bible endpoints");
-        for (const std::string book : {"Wis", "Tob", "3Macc", "4Macc", "1Esd", "2Esd", "Ps151", "DanGr"})
-            check(corpus.verse("en-web", book, {1, 1}).has_value(), "English deuterocanonical content");
-        auto joined = corpus.verse("en-web", "4Macc", {8, 29});
-        check(joined && joined->ref == VerseRef{8, 28} && joined->last == VerseRef{8, 29},
+        check(!corpus.verse("en-web", "Gen", {1, 1}) && !corpus.verse("en-kjv", "Gen", {1, 1}),
+              "build witnesses do not ship");
+        for (const std::string book : {"Wis", "Tob", "3Macc", "4Macc", "1Esd", "PrMan", "EpJer", "PrAzar"})
+            check(corpus.verse("en-lxx2012", book, {1, 1}).has_value(), "English deuterocanonical content");
+        check(corpus.verse("en-lxx2012", "Ps", {151, 1}).has_value(), "English Psalm 151");
+        check(corpus.verse("en-lxx2012", "Ps", {23, 4})->text.find("\u2303") == std::string::npos,
+              "LXX2012 plural marks removed");
+        auto joined = corpus.verse("en-lxx2012", "1Kgs", {4, 26});
+        check(joined && joined->ref == VerseRef{4, 24} && joined->last == VerseRef{4, 28},
               "joined publisher verse retains its complete range");
-        check(corpus.source_for_language("en", "Wis") == "en-web", "English deuterocanonical selection");
+        check(corpus.source_for_language("en", "Wis") == "en-lxx2012" &&
+                  corpus.source_for_language("en", "John") == "en-web",
+              "English edition selection");
         check(corpus.verse("grc-patriarchal", "Luke", {2, 23})->text.find("strong=") == std::string::npos,
               "nested USFM attributes leaked into display");
         sqlite3* readonly = nullptr;
@@ -653,17 +692,22 @@ int main(int argc, char** argv) {
             check(greek("Matt", {23, 13}) == Refs{{"Matt", {23, 14}}},
                   "the Byzantine text swaps Matthew 23:13-14");
             check(greek("Luke", {10, 6}) == Refs{{"Luke", {10, 6}}}, "unchanged verses keep their numbers");
-            check(corpus.counterparts("sv1917", "en-kjv", "John", {11, 35}) == Refs{{"John", {11, 36}}},
-                  "the KJV shares the John 11 division with the Greek");
-            check(corpus.counterparts("sv1917", "en-kjv", "Matt", {23, 13}) == Refs{{"Matt", {23, 13}}},
-                  "the KJV keeps Matthew 23:13 in the 1917 order");
-            const auto philippians = corpus.map_passage("en-kjv", "sv1917", {"Phil", {1, 12}, {1, 20}});
+            check(corpus.counterparts("sv1917", "en-web", "John", {11, 35}) == Refs{{"John", {11, 36}}},
+                  "the WEB shares the John 11 division with the Greek");
+            check(corpus.counterparts("sv1917", "en-web", "Matt", {23, 13}) == Refs{{"Matt", {23, 14}}},
+                  "the WEB follows the Byzantine Matthew 23:13-14");
+            check(corpus.counterparts("grc-patriarchal", "en-web", "John", {1, 40}) ==
+                      Refs{{"John", {1, 39}}},
+                  "the WEB keeps the common John 1:38-39 division");
+            check(corpus.counterparts("grc-patriarchal", "en-web", "Acts", {8, 37}).empty(),
+                  "the WEB omits Acts 8:37");
+            const auto philippians = corpus.map_passage("en-web", "sv1917", {"Phil", {1, 12}, {1, 20}});
             check(philippians.size() == 1 && philippians.front().first == VerseRef{1, 12} &&
                       philippians.front().last == VerseRef{1, 20},
                   "a reordered verse pair stays one reading");
         }
         {
-            // Word study: 1917 forms resolve to Dalin entries, and Greek verses carry Strong's tags.
+            // Word study: 1917 forms resolve to Dalin entries and Nyström's biblical articles.
             const StudyDb study(std::filesystem::path(argv[1]).parent_path().parent_path() /
                                 "lexicon/study.db");
             const auto entries = study.swedish("svarade");
@@ -704,18 +748,6 @@ int main(int argc, char** argv) {
                       mordokai.back().definition.find("Ester") != std::string::npos,
                   "a cross-reference opens its referenced biography offline");
             check(study.biblical("xjesu").empty(), "name matching does not use substrings");
-            const auto words = study.greek_words("John", {1, 1});
-            check(words.size() >= 17 && words.front().surface == "Ἐν" && words.front().strong == "G1722",
-                  "Greek verse words and Strong's tags");
-            const auto loved = study.greek_link("John", {3, 16}, "älskade", 0);
-            check(loved && loved->first == VerseRef{3, 16} &&
-                      study.greek_words("John", loved->first).at(std::size_t(loved->second)).strong ==
-                          "G0025",
-                  "aligned Greek word for a Swedish word");
-            const auto wept = study.greek_link("John", {11, 34}, "grät", 0);
-            check(wept && wept->first == VerseRef{11, 35}, "alignment follows the 1917 verse division");
-            const auto love = study.strongs("G0026");
-            check(love && love->lemma == "ἀγάπη" && love->gloss == "love", "Strong's lexicon entry");
         }
         auto lexicon = corpus.pronunciations("sv");
         auto utterance = make_utterance("Melkisedek, inte XMelkisedek eller Melkisedeks.", "sv", lexicon);

@@ -37,7 +37,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 const auto source = source_of(language);
                 labels += language == "sv" ? "SVENSKA 1917"
                           : language == "en"
-                              ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "KING JAMES")
+                              ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "LXX2012")
                               : ui::utf8("ΕΛΛΗΝΙΚΑ");
             }
             dc.DrawText(labels, (size.x - dc.GetTextExtent(labels).x) / 2, y + FromDIP(93));

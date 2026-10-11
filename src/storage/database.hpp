@@ -81,14 +81,8 @@ struct DalinEntry {
 struct BiblicalEntry {
     std::string id, headword, definition, url;
 };
-struct StrongsEntry {
-    std::string strong, lemma, transliteration, gloss, definition;
-};
-struct GreekWord {
-    std::string surface, strong;
-};
 // Word-study data from tools/lexicon/build_study.py: Dalin and biblical articles
-// for Swedish 1917 forms, and Strong's tags for the Greek New Testament.
+// for Swedish 1917 forms.
 class StudyDb {
 public:
     explicit StudyDb(const std::filesystem::path& path);
@@ -96,13 +90,6 @@ public:
     std::vector<DalinEntry> swedish(const std::string& form) const;
     // Nyström's historical biblical articles for a lowercase Swedish 1917 form.
     std::vector<BiblicalEntry> biblical(const std::string& form) const;
-    std::optional<StrongsEntry> strongs(const std::string& strong) const;
-    // The tagged words of a grc-patriarchal verse, in text order.
-    std::vector<GreekWord> greek_words(const std::string& book, VerseRef) const;
-    // The Greek word that the word aligner links to an occurrence of a lowercase
-    // form in a sv1917 New Testament verse: its Greek verse and position there.
-    std::optional<std::pair<VerseRef, int>> greek_link(const std::string& book, VerseRef,
-                                                       const std::string& form, int occurrence) const;
 
 private:
     DatabaseHandle db_;

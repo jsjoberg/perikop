@@ -114,7 +114,7 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     } catch (const std::exception&) { // NOLINT(bugprone-empty-catch)
         // Word study is optional; without its database the panel stays empty.
     }
-    study_ = new StudyPanel(root_, corpus_, study_db_.get(), *speech_, [this](const std::string& language) {
+    study_ = new StudyPanel(root_, study_db_.get(), *speech_, [this](const std::string& language) {
         return speech_lexicon(language);
     });
     reader->Add(study_, 2, wxEXPAND);
@@ -122,7 +122,7 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         if (!settings_.word_study)
             return;
         scripture_->highlight_word(word);
-        study_->show(word, scripture_->base_source(), scripture_->frame());
+        study_->show(word, scripture_->base_source());
     });
     root_->SetSizer(outer);
     auto* frame_sizer = new wxBoxSizer(wxVERTICAL);
@@ -338,7 +338,10 @@ void MainFrame::show_readings() {
     update_bar();
 }
 void MainFrame::open_psalm() {
-    open_reading({ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}});
+    // Psalm 23 in the 1917 Bible's Hebrew numbering, the Septuagint's Psalm 22.
+    Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
+    psalm.reference = "sv1917";
+    open_reading(psalm);
 }
 void MainFrame::open_reading(const Reading& selected) {
     close_pages();

@@ -27,15 +27,15 @@ The layout cache remains bounded at 192 rows.
 The test uses a temporary user database.
 
 The resource check covers every bundled file listed in the manifest.
-Literata and the explicit Noto fallbacks cover all 315 distinct corpus characters.
+Literata and the explicit Noto fallbacks cover all 288 distinct corpus characters.
 The check also rejects leftover import markup.
-The corpus contains 141,201 nonempty Scripture records across five editions.
+The corpus contains 108,347 nonempty Scripture records across five editions.
 Greek Daniel, 317 lettered LXX portions, and English deuterocanonical books are included.
-One English publisher record contains two joined verse coordinates.
+47 LXX2012 records contain joined verse coordinates.
 The resource check asserts each edition's exact record and book counts.
 The database opens read-only. A separate database stores personal settings.
 Explicit SQLite policy, failed-save rollback, and speech-cache future-version rejection tests pass.
-The GUI smoke test also opens lettered Greek text, joined WEB text, and an English-only book.
+The GUI smoke test also opens lettered Greek text, a deuterocanonical book in English, and a book without Swedish text.
 
 ## Platform checks
 
@@ -62,7 +62,7 @@ MT/LXX alignment covers every verse of the bundled Old Testament editions at ver
 The reader shows verses without a counterpart and can open each edition directly through the Bible browser.
 
 The renderer fits whole paragraphs with native shaping, Knuth–Plass demerits, and Liang hyphenation.
-Prose flows across verses, using USFM boundaries or labelled WEB editorial boundaries for Swedish and KJV.
+Prose flows across verses, using USFM boundaries or labelled editorial boundaries: WEB boundaries for Swedish and Greek boundaries for LXX2012.
 Poetry retains verse stanzas. Breaks inside a verse remain a display limitation.
 An exhaustive word-boundary oracle confirms 39 globally optimal paragraph fits, including choices that differ from greedy wrapping.
 The macOS speech backend generated 59,668 non-silent PCM frames from the installed Alva voice.

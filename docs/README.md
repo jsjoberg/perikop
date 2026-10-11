@@ -3,7 +3,7 @@
 ## Use Perikop
 
 - [User guide](using-perikop.md): installation, navigation, reading plans, and read-aloud.
-- [Word study](word-study.md): dictionaries, pronunciation, and Strong's entries.
+- [Word study](word-study.md): dictionaries and pronunciation.
 - [Pronunciation review](pronunciation-review.md): previews, local corrections, and TSV export.
 
 ## Build and develop

@@ -52,7 +52,7 @@ struct Reading {
     std::string source_override;
     // The edition whose numbering the passages use; lectionary rules state theirs.
     // Empty means each passage already uses the framing edition for its book and language.
-    std::string reference = "en-kjv";
+    std::string reference;
     // Liturgical service and occasion. Empty for manually selected Scripture.
     std::string service, occasion;
     // Composite readings retain their published citation without importing adapted liturgical wording.

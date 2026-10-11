@@ -64,13 +64,25 @@ Jeremiah shows the largest differences:
 The Greek also lacks about one eighth of the Hebrew text, for example 33:14–26 and 39:4–13.
 Verses without a counterpart show "Saknas i Septuaginta".
 
-The table aligns Swedish with the Septuagint, the KJV, and WEB.
-The KJV and WEB reach the Septuagint through the Swedish alignment. WEB numbers the Old Testament like the KJV.
+The table aligns Swedish with the Septuagint.
+The KJV, a build witness, reaches the Septuagint through the Swedish alignment.
+
+## LXX2012
+
+LXX2012 updates the language of Brenton's English, but renumbers it in places.
+It follows English chapter divisions, as in Joel 3 and Malachi 4, and joins the lettered Greek verses, as in 3 Kingdoms 2:35a–o.
+It prints Nehemiah as a book and the Prayer of Azariah apart from Daniel.
+Brenton's original English keeps the Greek numbering in all but 23 verses.
+`align_editions.py` therefore matches LXX2012 to Brenton's English by shared words, and so to the Greek.
+Later passes match transposed passages, such as Sirach 30–36.
+LXX2012 has about 90 verses without a Greek counterpart. Most come from the Hebrew text, such as 1 Kingdoms 17:12–31.
+They follow the Greek verse they come after, like the Swedish verses that only the Hebrew text has.
+Swedish and LXX2012 link through the Greek.
 
 ## New Testament
 
 The 1917 New Testament follows a critical text. It omits verses such as Acts 8:37 without renumbering the rest.
-The table also aligns Swedish with the Patriarchal Greek text, and with the KJV and WEB in the New Testament.
+The table also aligns Swedish, the WEB, and the KJV with the Patriarchal Greek text in the New Testament.
 A few passages are renumbered or divided differently. Each is a reviewed override:
 
 | Swedish | Patriarchal Greek | KJV | WEB |
@@ -88,8 +100,9 @@ A few passages are renumbered or divided differently. Each is a reviewed overrid
 | 2 Cor 5:14 | 5:14–15 | same | same |
 | 1 Pet 2:8 | 2:7–8 | same | same |
 
-A word dictionary from the word-study alignment flagged the candidates, which were then reviewed against all four texts.
-English and Greek New Testament books still share coordinates with each other.
+A word dictionary flagged the candidates, which were then reviewed against all four texts.
+The Patriarchal text also joins 2 Corinthians 13:12–13 and divides 3 John 14. It omits Mark 7:16.
+The WEB omits Luke 17:36 and Acts 8:37, 15:34, and 24:7.
 
 ## Presentation in Septuagint numbering
 
@@ -106,8 +119,11 @@ The New Testament keeps common coordinates.
 
 Orthocal references use KJV numbering. References that the KJV cannot address use Septuagint numbering.
 These include the deuterocanonical books, Daniel 3:24–90, and readings marked LXX.
-The importer records the reference edition for each reading rule.
-The reader maps each reading into Septuagint numbering.
+The KJV does not ship. The corpus build restates each KJV reference in the numbering of the Greek editions:
+the Septuagint in the Old Testament and the Patriarchal text in the New Testament.
+The Patriarchal text keeps verses that the WEB omits, such as Acts 15:34.
+Where a Patriarchal verse spans two KJV verses, as 2 Corinthians 5:15, the other editions show both verses.
+The reader maps each reading into the numbering of the left pane's edition.
 For example, Jeremiah 31:31–34 is Septuagint 38:31–34, and Baruch 3:35 is Swedish 3:36.
 The Holy Saturday reading Daniel 3:1–88 shows Swedish Daniel 3:1–23 and Asarjas bön in the Swedish pane.
 A mapped passage includes verses that only the target edition has, such as lettered Septuagint additions.

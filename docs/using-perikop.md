@@ -110,9 +110,8 @@ See the [versification guide](versification.md) for the source coordinates and d
 ## Word study
 
 Select **Visa → Höger spalt → Ordstudium** to open the lookup panel.
-Click a word to see its pronunciation and dictionary entries.
-In the New Testament, the panel also shows the verse's Strong's entries.
-The [word-study guide](word-study.md) describes the dictionaries, alignment, and data limits.
+Click a Swedish word to see its pronunciation and dictionary entries.
+The [word-study guide](word-study.md) describes the dictionaries and data limits.
 
 ## Reading plans
 

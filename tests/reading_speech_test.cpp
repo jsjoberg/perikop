@@ -23,7 +23,8 @@ int main(int argc, char** argv) {
             return result;
         };
 
-        const Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
+        Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
+        psalm.reference = "sv1917";
         const auto spoken = reading_speech(corpus, {psalm}, lexicon);
         check(spoken.size() == 7, "Psalm 23 must have one introduction and six Swedish verses");
         check(spoken[0].display_text == "Läsning ur Psaltaren, kapitel 22, vers 1 till 6.",
@@ -104,11 +105,11 @@ int main(int argc, char** argv) {
               "The introduction must not repeat the book or chapter of a following passage");
 
         Reading english{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 2}}, {}, "en"};
-        english.source_override = "en-kjv";
+        english.source_override = "en-lxx2012";
         const auto explicit_edition = reading_speech(corpus, {english}, lexicon);
         check(explicit_edition.size() == 2 && explicit_edition[0].language == "en" &&
-                  explicit_edition[0].cue == SpeechCue{0, 0, "Ps", "en-kjv", {23, 1}, {23, 1}, false} &&
-                  explicit_edition[0].display_text == corpus.verse("en-kjv", "Ps", {23, 1})->text,
+                  explicit_edition[0].cue == SpeechCue{0, 0, "Ps", "en-lxx2012", {23, 1}, {23, 1}, false} &&
+                  explicit_edition[0].display_text == corpus.verse("en-lxx2012", "Ps", {23, 1})->text,
               "An explicit edition must retain its own coordinates and skip a Swedish introduction");
 
         Reading untranslated{ReadingKind::OldTestament, {"1Kgs", {2, 35, "a"}, {2, 35, "b"}}};

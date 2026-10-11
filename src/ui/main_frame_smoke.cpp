@@ -427,7 +427,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (const auto& reading :
          std::vector<Reading>{{ReadingKind::OldTestament, {"Gen", {31, 50, "a"}, {31, 50, "a"}}, {}, "el"},
                               {ReadingKind::OldTestament, {"4Macc", {8, 29}, {8, 29}}, {}, "en"},
-                              {ReadingKind::OldTestament, {"2Esd", {1, 1}, {1, 1}}}}) {
+                              {ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 1}}}}) {
         open_reading(reading);
         scripture_->center_passage();
         if (scripture_->cached_rows() == 0)
@@ -476,19 +476,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     settings_.primary = "sv";
     apply_settings(false);
-    // Ordstudium replaces the right pane; a word shows Dalin and the verse's Strong's entries.
+    // Ordstudium replaces the right pane; a Swedish word shows Dalin and Nyström.
     settings_.word_study = true;
     apply_settings(false);
     open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
         fail(__LINE__);
-    study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source(), scripture_->frame());
+    study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source());
     {
         NavigationSpeech deferred;
-        auto panel = std::make_unique<StudyPanel>(root_, corpus_, study_db_.get(), deferred,
-                                                  [this](const auto& language) {
-                                                      return speech_lexicon(language);
-                                                  });
+        auto panel =
+            std::make_unique<StudyPanel>(root_, study_db_.get(), deferred, [this](const auto& language) {
+                return speech_lexicon(language);
+            });
         panel->Hide();
         const auto has = [&](const std::string& value) {
             const auto lines = panel->text();
@@ -496,8 +496,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(ui::utf8(value));
             });
         };
-        panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917", "sv1917");
-        panel->show({"John", "Jesu", {1, 17}, 0}, "sv1917", "sv1917");
+        panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917");
+        panel->show({"John", "Jesu", {1, 17}, 0}, "sv1917");
         if (deferred.lookups.size() != 2)
             fail(__LINE__);
         else {
@@ -527,10 +527,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(part);
             });
         };
-        if (!has("DALIN") || !has("begynnelse") || !has("G746"))
+        if (!has("DALIN") || !has("begynnelse") || has("STRONG"))
             fail(__LINE__);
     }
-    study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source(), scripture_->frame());
+    study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source());
     {
         const auto lines = study_->text();
         const auto has = [&](const wxString& part) {
@@ -566,7 +566,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }))
             fail(__LINE__);
     }
-    study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source(), scripture_->frame());
+    study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source());
     {
         const auto lines = study_->text();
         if (std::none_of(lines.begin(), lines.end(), [](const wxString& line) {
