@@ -153,15 +153,15 @@ void BiblePicker::rebuild() {
                 books.open = books.cells.size();
                 books.drawer = book_drawer(book);
             }
-            books.cells.push_back({ui::utf8(corpus_.book_abbreviation(book.code)),
-                                   ui::utf8(corpus_.book_name(book.code)) +
-                                       (has_text ? wxString{} : ui::utf8(" · Ingen text på valt språk")),
-                                   has_text, open ? State::Selected : State::Plain, [this, book, open] {
-                                       if (open)
-                                           show_books();
-                                       else
-                                           show_chapters(book);
-                                   }});
+            books.cells.push_back(
+                {ui::utf8(book.abbreviation),
+                 ui::utf8(book.name) + (has_text ? wxString{} : ui::utf8(" · Ingen text på valt språk")),
+                 has_text, open ? State::Selected : State::Plain, [this, book, open] {
+                     if (open)
+                         show_books();
+                     else
+                         show_chapters(book);
+                 }});
         }
         blocks.push_back(std::move(books));
     }
@@ -175,7 +175,7 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     const auto verses = verses_of(book);
     std::vector<Block> drawer;
     drawer.push_back({.kind = Block::Kind::Title,
-                      .text = ui::utf8(corpus_.book_name(book.code)),
+                      .text = ui::utf8(book.name),
                       .action_label = building_ ? ui::utf8("Lägg till hela boken") : ui::utf8("Hela boken"),
                       .action = [this, book, verses] {
                           if (!verses.empty())

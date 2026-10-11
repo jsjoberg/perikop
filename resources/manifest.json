@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "2ca7cf8dffbd932b2e76d4a3bed46f7d91989c5f3bc12fcaf992c39afe7e2b4d",
+      "sha256": "3b7d043536710c4a68d5b86184e129f42f8457dc146467b73a8305d2c0ba7bd4",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "ee5c52abcf104c1eebc14d57693b7d4b73707ea9c66e73fd711137531723d8cb"
+      "sha256": "2f5d1ebc5bbc2fe8d335e9426cef128f401660649a7072b1b945e36e57b5ad7b"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -400,7 +400,7 @@
     },
     {
       "path": "resources/corpus/canon.tsv",
-      "sha256": "73e771f635751003c8899a81f30befbb7b08a07271aab4b2a878361d6a06778c",
+      "sha256": "092158c16c740fc473f5e3a88b8510ae792da14bc3bdcc93c7bd7fc4008c1326",
       "license": "MIT",
       "role": "Curated Orthodox Study Bible book order imported by tools/corpus/build_corpus.py"
     },

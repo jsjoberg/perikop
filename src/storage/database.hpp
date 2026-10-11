@@ -52,6 +52,10 @@ public:
         return canon_;
     }
     const CanonBook* canon_book(const std::string& frame_book, int chapter) const;
+    // The reader's Swedish names of a canon book, such as "Ester enligt den grekiska texten".
+    // Other books keep their own names.
+    std::string title(const std::string& book) const;
+    std::string short_title(const std::string& book) const;
     // The edition a pane shows for a language; empty for an unknown language.
     std::string source_for_language(const std::string& language, const std::string& book) const;
     // The edition whose numbering frames a book: the Septuagint for the Old

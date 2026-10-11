@@ -111,7 +111,10 @@ The reader presents the Old Testament in the Septuagint's order and numbering, a
 Each pane shows its own edition's text for those verses through the alignment.
 Where an edition numbers a verse differently, the pane shows the LXX number with the edition's own number in small print, such as `13 (33:13)`.
 Verses that only the Hebrew text has follow the LXX verse they come after. They are muted, marked `hebr.`, and not read aloud.
-Brenton joins Ezra and Nehemiah as 2 Esdras 1–23. The reader shows 2 Esdras 11–23 as Nehemiah 1–13, and Greek Esther as Esther.
+Brenton joins Ezra and Nehemiah as 2 Esdras 1–23. The reader shows 2 Esdras 11–23 as Nehemiah 1–13.
+As in Bibel 2000, the reader names the Greek texts "Ester enligt den grekiska texten" and "Daniel enligt den grekiska texten".
+They include the additions, which the Swedish pane takes from the 1921 apocrypha.
+A chapter heading names the Swedish edition of its verses: Svenska 1917, Svenska 1921, or both.
 Books that the left pane's edition lacks, such as 1 Esdras in Swedish, are greyed out in the book picker.
 The New Testament keeps common coordinates.
 

@@ -12,7 +12,7 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 6 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 7 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
@@ -25,11 +25,13 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
                                                books.number(3) == 1,
                                                books.number(4) == 1,
                                                {books.text(5), books.text(6), books.text(7)}});
-    Statement canon(db_.get(), "SELECT book,frame_book,first_chapter,coalesce(last_chapter,999) FROM canon "
+    Statement canon(db_.get(), "SELECT book,frame_book,coalesce(canon.name_sv,book.name_sv),"
+                               "coalesce(canon.abbreviation_sv,book.abbreviation_sv),first_chapter,"
+                               "coalesce(last_chapter,999) FROM canon JOIN book ON book.code=canon.book "
                                "ORDER BY position");
     while (canon.row())
-        canon_.push_back({canon.text(0), canon.text(1), canon.number(2), canon.number(3),
-                          new_testament_book(canon.text(0))});
+        canon_.push_back({canon.text(0), canon.text(1), canon.text(2), canon.text(3), canon.number(4),
+                          canon.number(5), new_testament_book(canon.text(0))});
 }
 bool CorpusDb::new_testament_book(const std::string& book) const {
     const auto it = books_.find(book);
@@ -52,6 +54,14 @@ const CanonBook* CorpusDb::canon_book(const std::string& frame_book, int chapter
         if (book.frame_book == frame_book && book.first_chapter <= chapter && chapter <= book.last_chapter)
             return &book;
     return nullptr;
+}
+std::string CorpusDb::title(const std::string& book) const {
+    const auto it = std::ranges::find(canon_, book, &CanonBook::code);
+    return it == canon_.end() ? book_name(book) : it->name;
+}
+std::string CorpusDb::short_title(const std::string& book) const {
+    const auto it = std::ranges::find(canon_, book, &CanonBook::code);
+    return it == canon_.end() ? book_abbreviation(book) : it->abbreviation;
 }
 std::string CorpusDb::source_for_language(const std::string& language, const std::string& book) const {
     if (language == "sv")

@@ -17,7 +17,7 @@ std::string passage_label(const CorpusDb& corpus, const std::vector<Passage>& pa
         if (!label.empty())
             label += "; ";
         if (p.book != book) {
-            label += corpus.book_name(p.book) + " ";
+            label += corpus.title(p.book) + " ";
             book = p.book;
         }
         label += std::to_string(p.first.chapter) + ":" + std::to_string(p.first.verse) + p.first.suffix;

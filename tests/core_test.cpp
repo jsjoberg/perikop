@@ -575,6 +575,13 @@ int main(int argc, char** argv) {
               "Nehemiah within Greek 2 Esdras");
         check(corpus.canon_book("EsthGr", 1) && corpus.canon_book("EsthGr", 1)->code == "Esth",
               "Greek Esther is the OSB's Esther");
+        // As in Bibel 2000, the reader names the Greek texts of Esther and Daniel; the 1917 books keep their
+        // names.
+        check(corpus.title("Esth") == "Ester enligt den grekiska texten" &&
+                  corpus.short_title("Esth") == "Est gr" &&
+                  corpus.title("Dan") == "Daniel enligt den grekiska texten" &&
+                  corpus.title("Gen") == "Första Moseboken" && corpus.book_name("Esth") == "Ester",
+              "reader titles for the Greek Esther and Daniel");
         check(corpus.frame_source("sv", "Ps") == "grc-lxx" && corpus.frame_source("sv", "John") == "sv1917",
               "Septuagint frames only the Old Testament");
         // Book data comes from books.tsv and canon.tsv through the corpus.

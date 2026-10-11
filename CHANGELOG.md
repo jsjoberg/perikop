@@ -27,6 +27,8 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
 - An option in Visa to turn off the highlight of the text being read aloud.
 - In the book picker, books without text in the chosen language are greyed out.
+- The Greek Esther and Daniel are named "Ester enligt den grekiska texten" and "Daniel enligt den grekiska texten", as in Bibel 2000.
+- Chapter headings name the Swedish 1917 Bible, the 1921 apocrypha, or both, after the chapter's Swedish text.
 - Release packages: a DMG for macOS, an installer for Windows, and an AppImage for Linux. Each contains the voices and works offline.
 - Arrows beside the date for the previous and next day, and an **Idag** button for the current date.
 - Custom readings in the Bible browser: with **Flera intervall**, add verse ranges from different books in playback order, then open or play them.

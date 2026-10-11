@@ -23,7 +23,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
             std::vector<std::pair<std::string, Passage>> parts;
             for (const auto& passage : passages) {
                 const auto shown = displayed_passage(corpus, passage);
-                parts.emplace_back(corpus.book_name(shown.book), shown);
+                parts.emplace_back(corpus.title(shown.book), shown);
             }
             auto intro = prepare(reading_introduction(parts), "sv");
             intro.cue = SpeechCue{

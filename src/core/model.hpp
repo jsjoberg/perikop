@@ -213,6 +213,8 @@ std::string source_language(const std::string& source);
 struct CanonBook {
     std::string code;       // name and picker identity, e.g. "Neh"
     std::string frame_book; // the book in the framing edition, e.g. "Ezra"
+    // Swedish names as the reader shows the book, e.g. "Ester enligt den grekiska texten".
+    std::string name, abbreviation;
     int first_chapter = 1, last_chapter = 999;
     bool new_testament = false;
     int offset() const {

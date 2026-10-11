@@ -21,7 +21,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
         if (row.heading) {
             dc.SetTextForeground(colors.muted);
             dc.SetFont(ui_font(11));
-            auto name = ui::utf8(corpus_.book_name(canon_code())).Upper();
+            auto name = ui::utf8(corpus_.title(canon_code())).Upper();
             const auto extent = dc.GetTextExtent(name);
             dc.DrawText(name, (size.x - extent.x) / 2, y + FromDIP(15));
             dc.SetFont(body_font(28));
@@ -35,7 +35,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 if (!labels.empty())
                     labels += ui::utf8("     ·     ");
                 const auto source = source_of(language);
-                labels += language == "sv" ? "SVENSKA 1917"
+                labels += language == "sv" ? swedish_edition(index)
                           : language == "en"
                               ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "LXX2012")
                               : ui::utf8("ΕΛΛΗΝΙΚΑ");

@@ -61,6 +61,7 @@ void ScriptureView::open_section(std::size_t index) {
     guide_.reset();
     guide_alpha_ = 0;
     orphans_.clear();
+    swedish_editions_.clear();
     if (!selections_.empty()) {
         selections_.clear();
         if (selection_changed_)
@@ -126,6 +127,23 @@ void ScriptureView::open_section(std::size_t index) {
 std::string ScriptureView::source_of(const std::string& language) const {
     return language == languages().front() ? base_source_
                                            : corpus_.source_for_language(language, canon_code());
+}
+wxString ScriptureView::swedish_edition(std::size_t heading) const {
+    if (auto it = swedish_editions_.find(heading); it != swedish_editions_.end())
+        return it->second;
+    // The Swedish deuterocanonical books are the 1921 apocrypha.
+    bool bible = false, apocrypha = false;
+    for (auto index = heading + 1; index < rows_.size() && !rows_[index].heading; ++index)
+        for (const auto& ref : rows_[index].verses)
+            for (const auto& [book, target] :
+                 corpus_.counterparts(frame_, source_of("sv"), displayed_.book, ref)) {
+                (void)target;
+                (corpus_.deuterocanonical_book(book) ? apocrypha : bible) = true;
+            }
+    return swedish_editions_[heading] = bible && apocrypha ? ui::utf8("SVENSKA 1917 OCH 1921")
+                                        : apocrypha        ? ui::utf8("SVENSKA 1921")
+                                        : bible            ? ui::utf8("SVENSKA 1917")
+                                                           : ui::utf8("SVENSKA");
 }
 const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
     if (auto it = orphans_.find(source); it != orphans_.end())

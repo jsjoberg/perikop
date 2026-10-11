@@ -221,6 +221,9 @@ private:
     using Orphans = std::map<VerseRef, std::vector<std::pair<std::string, VerseRef>>>;
     const Orphans& orphans(const std::string& source) const;
     mutable std::map<std::string, Orphans> orphans_;
+    // The Swedish edition of the chapter a heading row opens: the 1917 Bible, the 1921 apocrypha, or both.
+    wxString swedish_edition(std::size_t heading) const;
+    mutable std::map<std::size_t, wxString> swedish_editions_;
     std::vector<Row> rows_;
     mutable std::map<std::size_t, Layout> cache_;
     mutable std::list<std::size_t> order_;
