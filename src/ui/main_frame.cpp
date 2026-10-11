@@ -116,7 +116,7 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     } catch (const std::exception&) { // NOLINT(bugprone-empty-catch)
         // Word study is optional; without its database the panel stays empty.
     }
-    study_ = new StudyPanel(root_, study_db_.get(), *speech_, [this](const std::string& language) {
+    study_ = new StudyPanel(root_, corpus_, study_db_.get(), *speech_, [this](const std::string& language) {
         return speech_lexicon(language);
     });
     reader->Add(study_, 2, wxEXPAND);

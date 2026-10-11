@@ -18,6 +18,7 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Go to any passage with a book, chapter, and verse picker.
 - Swedish read-aloud with the Alice and Björn voices, following the text as it is read.
 - Word study with Dalin's dictionary and Nyström's biblical dictionary.
+- Online verse buttons in word study for Folkbibeln SFB15, Kärnbibeln, Reformationsbibeln, and Bibel 2026.
 - A pronunciation review for Swedish read-aloud.
 - A browser-like toolbar with back, play, pause, and stop, an address field for passages, and right-column choices.
 - A translucent button that returns to the passage or to the text being read.

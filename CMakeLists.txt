@@ -59,6 +59,7 @@ add_library(ortho-core
     src/core/fasting.cpp
     src/core/swedish_titles.cpp
     src/core/reading_display.cpp
+    src/core/online_bibles.cpp
     src/core/reading_plan.cpp
     src/storage/sqlite.cpp
     src/storage/corpus_db.cpp

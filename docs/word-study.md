@@ -6,6 +6,14 @@ Click a word in the left pane to look it up. Dragging still marks verses for **L
 
 ## What the panel shows
 
+At the top, **LÄS VERSEN ONLINE** shows the Swedish reference for the clicked word.
+The buttons **SFB15**, **SKB**, **SRB**, and **B2026** open that verse in Folkbibeln, Kärnbibeln, Reformationsbibeln, or Bibel 2026 in your default browser.
+Psalm numbers and other differences from the reader's Septuagint numbering use the corpus's Swedish verse mapping.
+Buttons without a verified book and verse link are disabled. Bibeln.se also supports the mapped apocryphal books listed in the application.
+Kärnbibeln opens at the verse anchor. Reformationsbibeln uses Bibelonline's **Visa valda verser** page.
+The application creates a temporary HTML page that submits the verse reference to its search form, because the site ignores URL search parameters.
+The links remain available when the local dictionary database is missing. Opening an online source requires an internet connection.
+
 For a Swedish 1917 word:
 
 1. The word, the IPA that the Swedish voice uses, and **Lyssna**. Read-aloud is Swedish only.

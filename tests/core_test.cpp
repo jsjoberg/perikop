@@ -1,4 +1,5 @@
 #include "core/model.hpp"
+#include "core/online_bibles.hpp"
 #include "core/reading_plan.hpp"
 #include "speech/reading_speech.hpp"
 #include "speech/speech.hpp"
@@ -48,6 +49,51 @@ int main(int argc, char** argv) {
         selected.select(date("2026-10-07"));
         check(selected.date() == date("2026-10-07"), "explicit selection");
         CorpusDb corpus(argv[1]);
+        {
+            const auto john = online_bible_links(corpus, "sv1917", "John", {3, 16});
+            check(john.size() == 4 &&
+                      john[0].url.find("tr=SFB15&book=joh&chapter=3&verse=16") != std::string::npos &&
+                      john[1].url.ends_with("?b=43#3_16") && john[3].url.ends_with("/B2026/JHN.3.16"),
+                  "online Bible sources open the selected verse in the requested editions");
+            check(john[2].post_reference == "Joh. 3:16" &&
+                      john[2].url == "https://bibelonline.se/showref.php",
+                  "Reformationsbibeln submits the selected verse to Bibelonline's reference search");
+            const auto form = online_bible_form(john[2]);
+            check(form.find("method=\"post\"") != std::string::npos &&
+                      form.find("action=\"https://bibelonline.se/showref.php\"") != std::string::npos &&
+                      form.find("name=\"search\" value=\"Joh. 3:16\"") != std::string::npos &&
+                      form.find(".submit();") != std::string::npos && online_bible_form(john[1]).empty(),
+                  "POST handoff preserves the exact verse and ordinary links stay direct");
+            check(online_bible_form({"<label>", "https://example.test/?a=1&b=2", "test", "\"<&"})
+                          .find("value=\"&quot;&lt;&amp;\"") != std::string::npos,
+                  "POST form attributes escape reference text");
+            const auto psalm = online_bible_links(corpus, "grc-lxx", "Ps", {22, 1});
+            check(psalm[0].url.ends_with("book=ps&chapter=23&verse=1") && psalm[3].url.ends_with("/PSA.23.1"),
+                  "online Psalm links use the Swedish counterpart, not the reader's LXX numbers");
+            check(psalm[1].url.ends_with("?b=19#23_1") && psalm[2].post_reference == "Ps. 23:1",
+                  "Kärnbibeln anchors and Reformationsbibeln searches use the mapped Psalm verse");
+            check(online_bible_links(corpus, "sv1917", "Song", {1, 1})[2].post_reference == "Hv. 1:1" &&
+                      online_bible_links(corpus, "sv1917", "1Thess", {1, 1})[2].post_reference ==
+                          "1 Thess. 1:1",
+                  "Bibelonline reference searches use its accepted book abbreviations");
+            const auto nehemiah = online_bible_links(corpus, "grc-lxx", "Ezra", {11, 1});
+            check(nehemiah[0].url.ends_with("book=neh&chapter=1&verse=1"),
+                  "online links map framing books and chapter offsets to Swedish books");
+            const auto tobit = online_bible_links(corpus, "sv1917", "Tob", {1, 1});
+            check(tobit[0].url.empty() && tobit[1].url.empty() && tobit[2].url.empty() &&
+                      tobit[3].url.ends_with("/TOB.1.1"),
+                  "deuterocanonical sources only enable supported online editions");
+            for (const auto& [book, verse] :
+                 std::array{std::pair{"Ps", VerseRef{151, 1}}, std::pair{"Unknown", VerseRef{1, 1}},
+                            std::pair{"John", VerseRef{3, 999}}}) {
+                const auto links = online_bible_links(corpus, "grc-lxx", book, verse);
+                check(std::ranges::all_of(links,
+                                          [](const auto& link) {
+                                              return link.url.empty();
+                                          }),
+                      "unmapped or missing verses never produce misleading online URLs");
+            }
+        }
         const auto paragraphs = corpus.paragraph_starts("sv1917", "John");
         check(std::binary_search(paragraphs.begin(), paragraphs.end(), VerseRef{20, 20}),
               "WEB editorial resurrection paragraph");

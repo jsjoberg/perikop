@@ -502,12 +502,23 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
         fail(__LINE__);
     study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source());
+    if (!screenshot_path.empty()) {
+        Layout();
+        Update();
+        wxBitmap bitmap(GetClientSize());
+        wxClientDC window(this);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-word-study");
+    }
     {
         NavigationSpeech deferred;
-        auto panel =
-            std::make_unique<StudyPanel>(root_, study_db_.get(), deferred, [this](const auto& language) {
-                return speech_lexicon(language);
-            });
+        auto panel = std::make_unique<StudyPanel>(root_, corpus_, study_db_.get(), deferred,
+                                                  [this](const auto& language) {
+                                                      return speech_lexicon(language);
+                                                  });
         panel->Hide();
         const auto has = [&](const std::string& value) {
             const auto lines = panel->text();
@@ -516,26 +527,48 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             });
         };
         panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917");
+        const auto source_buttons = [&] {
+            std::vector<wxButton*> buttons;
+            for (auto* child : panel->GetChildren()) {
+                auto* button = wxDynamicCast(child, wxButton);
+                if (button && (button->GetLabel() == "SFB15" || button->GetLabel() == "SKB" ||
+                               button->GetLabel() == "SRB" || button->GetLabel() == "B2026"))
+                    buttons.push_back(button);
+            }
+            return buttons;
+        };
+        if (source_buttons().size() != 4 || !has("Joh 1:1"))
+            fail(__LINE__);
+        panel->show({"Tob", "Tobit", {1, 1}, 0}, "sv1917");
+        const auto apocrypha_buttons = source_buttons();
+        if (apocrypha_buttons.size() != 4 ||
+            std::count_if(apocrypha_buttons.begin(), apocrypha_buttons.end(), [](auto* button) {
+                return button->IsEnabled();
+            }) != 1)
+            fail(__LINE__);
+        panel->clear();
+        if (!source_buttons().empty())
+            fail(__LINE__);
         panel->show({"John", "Jesu", {1, 17}, 0}, "sv1917");
-        if (deferred.lookups.size() != 2)
+        if (deferred.lookups.size() != 3)
             fail(__LINE__);
         else {
             deferred.lookups[0]("stale-pronunciation");
             wxTheApp->ProcessPendingEvents();
             if (has("stale-pronunciation"))
                 fail(__LINE__);
-            deferred.lookups[1]("current-pronunciation");
+            deferred.lookups[2]("current-pronunciation");
             wxTheApp->ProcessPendingEvents();
             panel->apply(Theme::Dark);
-            if (!has("current-pronunciation") || deferred.lookups.size() != 2)
+            if (!has("current-pronunciation") || deferred.lookups.size() != 3)
                 fail(__LINE__);
             panel->clear();
-            deferred.lookups[1]("cleared-pronunciation");
+            deferred.lookups[2]("cleared-pronunciation");
             wxTheApp->ProcessPendingEvents();
             if (has("cleared-pronunciation"))
                 fail(__LINE__);
             panel.reset();
-            deferred.lookups[1]("destroyed-pronunciation");
+            deferred.lookups[2]("destroyed-pronunciation");
             wxTheApp->ProcessPendingEvents();
         }
     }
