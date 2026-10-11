@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
+import tempfile
 
 
 def command(*args):
@@ -73,12 +74,21 @@ def main():
             subprocess.run(["install_name_tool", "-change", old, prefix + mapping[library].name, str(target)], check=True)
         subprocess.run(["codesign", "--force", "--sign", "-", str(target)], check=True)
     shutil.copy2(llvm / "bin/run-clang-tidy", staging / "bin/run-clang-tidy")
+    # clang-tidy finds builtin headers relative to its own executable.
+    for version in (llvm / "lib/clang").iterdir():
+        if (version / "include").is_dir():
+            shutil.copytree(version / "include", staging / "lib/clang" / version.name / "include")
     (staging / "LICENSE-LLVM.txt").write_text((llvm / "share/doc/llvm/LICENSE.txt").read_text()
                                              if (llvm / "share/doc/llvm/LICENSE.txt").exists()
                                              else "LLVM: Apache-2.0 WITH LLVM-exception. https://llvm.org/LICENSE.txt\n")
     (staging / "LICENSE-ccache.txt").write_text("ccache: GPL-3.0-or-later. https://ccache.dev/license.html\n")
     subprocess.run([str(staging / "bin/clang-tidy"), "--version"], check=True)
     subprocess.run([str(staging / "bin/ccache"), "--version"], check=True)
+    with tempfile.TemporaryDirectory() as temporary:
+        probe = Path(temporary) / "resource-probe.cpp"
+        probe.write_text("#include <stddef.h>\nsize_t size_of(void* p) { return sizeof(p); }\n")
+        subprocess.run([str(staging / "bin/clang-tidy"), "--checks=clang-analyzer-core*", str(probe),
+                        "--", "-std=c++23", "-isysroot", command("xcrun", "--show-sdk-path")], check=True)
     with tarfile.open(output / "macOS-tools.tar.gz", "w:gz", compresslevel=1) as archive:
         for entry in staging.iterdir():
             archive.add(entry, arcname=entry.name)
