@@ -83,7 +83,7 @@ public:
         word_clicked_ = std::move(callback);
     }
     void highlight_word(std::optional<Word>);
-    // A translucent button floating over the text's lower edge; an empty
+    // A translucent button floating at the top centre of the text; an empty
     // label removes it. Unless always shown, it appears only while the
     // passage is scrolled out of view.
     void return_button(const wxString& label, bool always);

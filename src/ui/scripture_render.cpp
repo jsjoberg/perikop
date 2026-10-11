@@ -222,8 +222,8 @@ void ScriptureView::draw_return(wxDC& dc) {
     gc->GetTextExtent(return_label_, &width, &height);
     const int pad_x = FromDIP(26), pad_y = FromDIP(12);
     const auto size = GetClientSize();
-    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, size.y - FromDIP(30) - int(height) - 2 * pad_y,
-                          int(width) + 2 * pad_x, int(height) + 2 * pad_y);
+    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, FromDIP(30), int(width) + 2 * pad_x,
+                          int(height) + 2 * pad_y);
     // Mostly see-through until the pointer reaches it.
     const bool hover = return_hover_;
     gc->SetBrush(wxBrush(with_alpha(colors.paper, hover ? 245 : 185)));

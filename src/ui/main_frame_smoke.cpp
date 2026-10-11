@@ -1073,6 +1073,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->scroll_by(20);
     if (scripture_->follows_playback())
         fail(__LINE__);
+    if (!screenshot_path.empty()) {
+        display_playback(playing);
+        scripture_->Update();
+        wxBitmap bitmap(scripture_->GetClientSize());
+        wxClientDC window(scripture_);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-follow-button");
+    }
     scripture_->follow_playback();
     display_playback(playing);
     for (int i = 0; i < 90; ++i)
