@@ -64,11 +64,8 @@ Settings UserDb::load() const {
         if (key == "tradition")
             // Retired Antiochian settings now select the Greek family, including its variants.
             result.tradition = value == "slavic" ? Tradition::Slavic : Tradition::Greek;
-        if (key == "primary" && (value == "sv" || value == "el" || value == "en"))
-            result.primary = value;
         // The three-pane mode "el,en" is retired; it keeps its Greek pane.
-        if (key == "parallel" &&
-            (value.empty() || value == "sv" || value == "el" || value == "en" || value == "el,en"))
+        if (key == "parallel" && (value.empty() || value == "el" || value == "en" || value == "el,en"))
             result.parallel = value == "el,en" ? "el" : value;
         // An unreadable number keeps the default.
         int number = 0;
@@ -85,8 +82,6 @@ Settings UserDb::load() const {
         if (key == "speech_highlight")
             result.speech_highlight = value != "0";
     }
-    if (result.parallel == result.primary)
-        result.parallel.clear();
     if (result.word_study)
         result.parallel.clear();
     return result;
@@ -99,7 +94,6 @@ void UserDb::save(const Settings& settings) {
                                                    : "system"},
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
         {"tradition", settings.tradition == Tradition::Slavic ? "slavic" : "greek"},
-        {"primary", settings.primary},
         {"parallel", settings.parallel},
         {"font_size", std::to_string(settings.font_size)},
         {"speech_rate", std::to_string(settings.speech_rate)},

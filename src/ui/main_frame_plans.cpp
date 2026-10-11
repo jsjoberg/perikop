@@ -99,7 +99,7 @@ void MainFrame::add_plans() {
                 home_content_, read ? std::variant<Symbol, wxString>{Symbol::Check} : number, "Del " + number,
                 [this, plan, i, number, label] {
                     try {
-                        open_tracked(plan_reading(corpus_, plan.parts[i], settings_.primary),
+                        open_tracked(plan_reading(corpus_, plan.parts[i], "sv"),
                                      {plan_key(plan, i), "del " + number + ui::utf8(" i ") +
                                                              ui::utf8(plan.title) + " (" + label + ")"});
                     } catch (const std::exception& e) {

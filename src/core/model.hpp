@@ -193,9 +193,7 @@ struct Settings {
     Tradition tradition = Tradition::Greek;
     Theme theme = Theme::System;
     int font_size = 19;
-    // Left pane language: "sv", "el" or "en". It is also the language read aloud.
-    std::string primary = "sv";
-    // Right pane language, or empty for one pane. Never the same as primary.
+    // Right pane language, "el" or "en", or empty for one pane. The left pane is Swedish.
     std::string parallel;
     // The right pane is the Ordstudium lookup panel. Excludes a parallel language.
     bool word_study = false;

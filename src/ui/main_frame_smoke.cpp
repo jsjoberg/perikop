@@ -59,6 +59,16 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     };
     if (!corpus_.read_only())
         fail(__LINE__);
+    // The ⋮ menu is always there. Windows and Linux hide the menu bar until Alt; the checks below use it.
+    if (!menu_ || !menu_->IsShown() || !menu_bar_)
+        fail(__LINE__);
+#ifndef __WXOSX__
+    if (GetMenuBar())
+        fail(__LINE__);
+    show_menu_bar(true);
+#endif
+    if (GetMenuBar() != menu_bar_)
+        fail(__LINE__);
     // GetIcon() needs an exact system-size match on some ports. Check the stored artwork.
     if (GetIcons().IsEmpty() || !GetIcons().GetIconByIndex(0).IsOk())
         fail(__LINE__);
@@ -417,11 +427,28 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (settings_.parallel != "el" || settings_.word_study)
         fail(__LINE__);
     toggle_pane("study");
-    if (!settings_.parallel.empty() || !settings_.word_study || !GetMenuBar()->IsChecked(study_item_))
+    if (!settings_.parallel.empty() || !settings_.word_study ||
+        !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Svenska och ordstudium")))
         fail(__LINE__);
     toggle_pane("study");
-    if (settings_.word_study || !GetMenuBar()->IsChecked(right_item_))
+    if (settings_.word_study || !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Bara svenska")))
         fail(__LINE__);
+    // The left column is always Swedish, so no symbol offers Swedish beside it.
+    if (std::ranges::any_of(panes_, [](const auto& pane) {
+            return pane.first == "sv";
+        }))
+        fail(__LINE__);
+    // The text size returns to its default.
+    {
+        const auto size = settings_.font_size;
+        settings_.font_size = 26;
+        wxCommandEvent normal(wxEVT_MENU, menu_bar_->FindMenuItem("Visa", "Normal textstorlek"));
+        ProcessWindowEvent(normal);
+        if (settings_.font_size != Settings{}.font_size)
+            fail(__LINE__);
+        settings_.font_size = size;
+        apply_settings(false);
+    }
     settings_.parallel = "";
     apply_settings(false);
     for (const auto& reading :
@@ -468,14 +495,6 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
         fail(__LINE__);
-    // The left pane's language chooses the edition and its numbering: LXX Psalm 22 is Psalm 23.
-    settings_.primary = "el";
-    apply_settings(false);
-    open_psalm();
-    if (scripture_->base_source() != "grc-lxx" || scripture_->reading().passage.first.chapter != 22)
-        fail(__LINE__);
-    settings_.primary = "sv";
-    apply_settings(false);
     // Ordstudium replaces the right pane; a Swedish word shows Dalin and Nyström.
     settings_.word_study = true;
     apply_settings(false);
@@ -658,9 +677,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     picker->select_verse(john, {1, 3});
     if (page_ || scripture_->reading().passage.first != VerseRef{1, 3})
         fail(__LINE__);
-    browse_bible();
+    // Several passages are their own way into the Bible browser.
+    browse_bible(true);
     picker = dynamic_cast<BiblePicker*>(page_);
-    picker->set_builder(true);
+    if (!picker->building_ || !picker->builder_panel_->IsShown() ||
+        page_title_ != ui::utf8("Välj flera bibelställen"))
+        fail(__LINE__);
     const auto picker_size = GetSize();
     SetSize(FromDIP(wxSize(520, 650)));
     Layout();
@@ -741,7 +763,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     wxButton* variant_button = nullptr;
     if (!day_.variants.empty() && day_.variants[0].reading) {
         const auto variant_title = ui::utf8(
-            passage_label(corpus_, corpus_.localize(in_primary(*day_.variants[0].reading)).segments()));
+            passage_label(corpus_, corpus_.localize(in_swedish(*day_.variants[0].reading)).segments()));
         for (const auto& label : home_labels_)
             if (label.text.StartsWith(variant_title))
                 if (auto* row = label.label->GetContainingSizer(); row && row->GetItemCount() == 2)

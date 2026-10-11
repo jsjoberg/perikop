@@ -11,7 +11,6 @@ namespace ortho {
 bool MainFrame::render_benchmark() {
     using Clock = std::chrono::steady_clock;
     bool ok = true;
-    settings_.primary = "sv";
     settings_.theme = Theme::Light;
     settings_.font_size = 19;
     settings_.word_study = false;

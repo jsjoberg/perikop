@@ -1,7 +1,7 @@
 # Word study (Ordstudium)
 
 Ordstudium turns the right pane into a lookup panel.
-Select it in **Visa → Höger spalt → Ordstudium**. It replaces the parallel language, and **Ingen** keeps the one-pane reader.
+Select it in **Visa → Svenska och ordstudium**. It replaces the parallel language, and **Bara svenska** keeps the one-pane reader.
 Click a word in the left pane to look it up. Dragging still marks verses for **Läs markering**.
 
 ## What the panel shows
@@ -16,8 +16,6 @@ For a Swedish 1917 word:
    These cover biblical people, places, and terms. **Jesu** links to **Jesus**, and **Kristi** links to **Kristus**.
    Long articles start with a preview. Select **Visa hela artikeln** to read the full prose offline.
    The source link opens the original Runeberg article. Different people with the same name can have separate entries.
-
-For a Greek or English word, the panel shows the word only. The sources are Swedish.
 
 ## Data
 

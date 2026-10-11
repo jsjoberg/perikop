@@ -185,8 +185,8 @@ if(ORTHO_BUILD_GUI)
     target_compile_definitions(perikop PRIVATE ORTHO_RESOURCE_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/perikop/resources")
     if(APPLE)
         enable_language(OBJCXX)
-        target_sources(perikop PRIVATE src/ui/native_scroll.mm src/ui/native_icon.mm)
-        set_source_files_properties(src/ui/native_icon.mm PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
+        target_sources(perikop PRIVATE src/ui/native_scroll.mm src/ui/native_icon.mm src/ui/native_menu.mm)
+        set_source_files_properties(src/ui/native_icon.mm src/ui/native_menu.mm PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
         target_link_libraries(perikop PRIVATE "-framework CoreText" "-framework CoreFoundation")
         set_target_properties(perikop PROPERTIES OUTPUT_NAME "Perikop"
             MACOSX_BUNDLE_GUI_IDENTIFIER "org.perikop.prototype"

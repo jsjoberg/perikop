@@ -60,7 +60,7 @@ The reader preserves macOS trackpad precision and momentum.
 The brass margin line marks the selected passage.
 Prose flows across verses. Small inline numbers preserve verse navigation.
 
-The toolbar has four symbols on each side of the address field.
+The toolbar has four symbols left of the address field, and the column symbols and ⋮ to its right.
 On the left, Back returns from the reader to the day page.
 **Lyssna**, **Pausa**, and **Stoppa** control read-aloud.
 The calendar, Bible browser, and **Om Perikop** page use the main window.
@@ -73,10 +73,16 @@ Controls that do not apply are dimmed. The day page dims the reader controls.
 
 Click the address field to go to another passage.
 For a reading in several parts, the field is a menu of the parts.
-The symbols on the right select word study, Swedish, Greek, or English for the right column.
+The left column is always the Swedish text.
+The symbols on the right select word study, Greek, or English for the right column.
 Click the selected symbol again to close the column.
-The text control adds Greek, English, or all three languages to the selected main edition.
 Narrow windows use aligned blocks.
+
+The ⋮ button at the right end of the toolbar opens a menu with every menu command, as in Chrome.
+It opens inside the window, aligned with the button's right edge.
+On Windows and Linux the menu bar is hidden. Press and release Alt to show it, and again to hide it.
+The keyboard shortcuts work either way. macOS keeps its own menu bar.
+**Visa → Normal textstorlek** (Ctrl+0, ⌘0 on macOS) returns the text to the default size.
 
 ## Bible browser
 
@@ -85,10 +91,10 @@ Select a book to unfold its chapters directly beneath its row. Select a chapter 
 Select an open book or chapter again to fold it.
 The page has a vertical scrollbar. Select a verse to open it immediately.
 **Hela boken** and **Hela kapitlet** open complete books and chapters.
-Books without text in the left column language are greyed out.
+Books without Swedish text are greyed out.
 Back moves from verses to chapters, then books, then the previous view.
 
-To prepare a custom reading, enable **Flera intervall**:
+To prepare a custom reading from several passages, select **Bibel → Välj flera bibelställen** (Ctrl+Shift+G):
 
 1. Select a book and chapter.
 2. Select the start verse.
@@ -109,7 +115,7 @@ See the [versification guide](versification.md) for the source coordinates and d
 
 ## Word study
 
-Select **Visa → Höger spalt → Ordstudium** to open the lookup panel.
+Select **Visa → Svenska och ordstudium** to open the lookup panel.
 Click a Swedish word to see its pronunciation and dictionary entries.
 The [word-study guide](word-study.md) describes the dictionaries and data limits.
 
@@ -140,7 +146,6 @@ The day's readings use the same progress controls.
 **Lyssna** reads Swedish with Alice or Björn from the local Kokoro model.
 Select the voice in **Uppläsning → Alice** or **Björn**.
 The choice applies from the next reading and survives restarts.
-With Greek or English in the left pane, **Lyssna** is disabled.
 The voice uses common C++ code on all target platforms.
 
 **Pausa**, **Fortsätt**, and **Stoppa** control playback.

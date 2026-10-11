@@ -912,7 +912,6 @@ int main(int argc, char** argv) {
             s.theme = Theme::Dark;
             s.calendar = CalendarStyle::Old;
             s.tradition = Tradition::Slavic;
-            s.primary = "el";
             s.parallel = "en";
             s.font_size = 24;
             s.speech_rate = 175;
@@ -924,9 +923,8 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old &&
-                      s.tradition == Tradition::Slavic && s.primary == "el" && s.parallel == "en" &&
-                      s.font_size == 24 && s.speech_rate == 175 && s.speech_voice == "bjorn" &&
-                      s.speech_highlight,
+                      s.tradition == Tradition::Slavic && s.parallel == "en" && s.font_size == 24 &&
+                      s.speech_rate == 175 && s.speech_voice == "bjorn" && s.speech_highlight,
                   "persisted settings");
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");

@@ -9,8 +9,8 @@
 #include <wx/sizer.h>
 namespace ortho {
 void MainFrame::create_toolbar() {
-    // One browser-like bar for the whole program: four symbols on each side
-    // of the address field. Controls that do not apply are dimmed, not hidden.
+    // One browser-like bar for the whole program: playback symbols, the address field,
+    // the right-column symbols and the ⋮ menu. Controls that do not apply are dimmed, not hidden.
     bar_ = new wxPanel(root_);
     bar_->SetBackgroundStyle(wxBG_STYLE_PAINT);
     bar_->Bind(wxEVT_PAINT, &MainFrame::paint_toolbar, this);
@@ -42,17 +42,22 @@ void MainFrame::create_toolbar() {
     bar->Add(address_, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(10));
     // Symbols for the right column; pressing the chosen one again closes it.
     const std::pair<std::string, std::variant<Symbol, wxString>> panes[] = {
-        {"study", Symbol::Study}, {"sv", "SV"}, {"el", "GR"}, {"en", "EN"}};
-    const char* names[] = {"Ordstudium", "Svenska", "Grekiska", "Engelska"};
+        {"study", Symbol::Study}, {"el", "GR"}, {"en", "EN"}};
+    const char* names[] = {"Svenska och ordstudium", "Svenska och grekiska", "Svenska och engelska"};
     for (std::size_t i = 0; i < std::size(panes); ++i) {
         const auto& [pane, face] = panes[i];
         auto* button = new SymbolButton(bar_, face, names[i], [this, pane = pane] {
             toggle_pane(pane);
         });
-        button->SetToolTip(ui::utf8("Höger spalt: ") + ui::utf8(names[i]).Lower());
+        button->SetToolTip(ui::utf8(names[i]));
         bar->Add(button, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(2));
         panes_.emplace_back(pane, button);
     }
+    menu_ = new SymbolButton(bar_, Symbol::Menu, "Meny", [this] {
+        show_menu();
+    });
+    menu_->SetToolTip(ui::utf8("Meny"));
+    bar->Add(menu_, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(8));
     auto* inset = new wxBoxSizer(wxVERTICAL);
     inset->Add(bar, 0, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(8));
     inset->Add(0, 0, 0, wxBOTTOM, FromDIP(1));
@@ -113,42 +118,27 @@ void MainFrame::update_bar() {
                                          : "Pausa";
     // The toolbar has its own pause button, so its Lyssna never reads "Pausa".
     const wxString listen_label = active ? ui::utf8("Fortsätt") : play_label;
-    // Only the Swedish text can be read aloud; Greek and English have no voice.
-    const bool speakable = active || settings_.primary == "sv";
-    if (auto* bar = GetMenuBar()) {
-        for (size_t i = 0; i < bar->GetMenuCount(); ++i) {
+    for (size_t i = 0; menu_bar_ && i < menu_bar_->GetMenuCount(); ++i)
+        sync_menu(*menu_bar_->GetMenu(i));
+    // A hidden bar keeps its items' state; only an attached one can dim a whole menu.
+    if (menu_bar_ && GetMenuBar())
+        for (size_t i = 0; i < menu_bar_->GetMenuCount(); ++i) {
             bool enabled = !auxiliary;
 #ifndef __WXOSX__
             // About stays available from auxiliary pages through the Help menu.
-            enabled = enabled || bar->GetMenu(i)->FindItem(wxID_ABOUT);
+            enabled = enabled || menu_bar_->GetMenu(i)->FindItem(wxID_ABOUT);
 #endif
-            if (bar->IsEnabledTop(i) != enabled)
-                bar->EnableTop(i, enabled);
+            if (menu_bar_->IsEnabledTop(i) != enabled)
+                menu_bar_->EnableTop(i, enabled);
         }
-        bar->Enable(wxID_ABOUT, true);
-        bar->SetLabel(play_item_, play_label + "\tCtrl+P");
-        bar->Enable(play_item_, !auxiliary && (reader || active) && speakable);
-        bar->Enable(stop_item_, !auxiliary && active);
-        int pane_item = settings_.word_study ? study_item_ : right_item_;
-        for (int i = 0; i < 3; ++i) {
-            if (!settings_.word_study && settings_.parallel == column_languages[i])
-                pane_item = right_item_ + 1 + i;
-            const bool available = settings_.primary != column_languages[i];
-            if (bar->IsEnabled(right_item_ + 1 + i) != available)
-                bar->Enable(right_item_ + 1 + i, available);
-        }
-        if (!bar->IsChecked(pane_item))
-            bar->Check(pane_item, true);
-    }
     const auto tooltip_of = [](wxWindow* control, const wxString& text) {
         if (control->GetToolTipText() != text)
             control->SetToolTip(text);
     };
     if (play_->GetLabel() != listen_label)
         play_->SetLabel(listen_label);
-    tooltip_of(play_, speakable ? listen_label + ui::utf8(" · mellanslag")
-                                : ui::utf8("Uppläsning finns bara på svenska"));
-    play_->Enable(!auxiliary && (active ? paused : reader && speakable));
+    tooltip_of(play_, listen_label + ui::utf8(" · mellanslag"));
+    play_->Enable(!auxiliary && (active ? paused : reader));
     pause_->Enable(!auxiliary && active && !paused);
     stop_->Enable(!auxiliary && active);
     back_->Enable(auxiliary || reader);
@@ -157,7 +147,7 @@ void MainFrame::update_bar() {
     address_->Enable(dynamic_cast<BiblePicker*>(page_) == nullptr);
     for (auto& [pane, button] : panes_) {
         button->checked(pane == "study" ? settings_.word_study : settings_.parallel == pane);
-        button->Enable(reader && pane != settings_.primary);
+        button->Enable(reader);
     }
     scripture_->return_button(
         active   ? (scripture_->follows_playback() ? wxString{} : ui::utf8("Följ uppläsningen"))

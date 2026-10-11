@@ -18,15 +18,13 @@ void MainFrame::play_or_pause() {
         return;
     if (active_playback())
         toggle_pause();
-    else if (settings_.primary != "sv")
-        return;
     else if (scripture_->IsShown() && !scripture_->selections().empty()) {
         const auto marked = scripture_->selections();
         Reading reading{corpus_.new_testament_book(marked.front().book) ? ReadingKind::Gospel
                                                                         : ReadingKind::OldTestament,
                         marked.front(),
                         {marked.begin() + 1, marked.end()},
-                        settings_.primary};
+                        "sv"};
         reading.reference = scripture_->frame();
         play_speech({reading});
     } else if (scripture_->IsShown()) {
@@ -113,7 +111,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         std::vector<Reading> primary_readings;
         primary_readings.reserve(readings.size());
         for (const auto& reading : readings)
-            primary_readings.push_back(in_primary(reading));
+            primary_readings.push_back(in_swedish(reading));
         const auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });

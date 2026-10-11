@@ -73,6 +73,12 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.SetPen(*wxTRANSPARENT_PEN);
         gc.DrawRoundedRectangle(5, 5, 10, 10, 2);
         break;
+    case Symbol::Menu:
+        // Chrome's three vertical dots.
+        gc.SetPen(*wxTRANSPARENT_PEN);
+        for (const double y : {4.0, 10.0, 16.0})
+            gc.DrawEllipse(8.4, y - 1.6, 3.2, 3.2);
+        break;
     case Symbol::Study: {
         // An open book.
         pen(1.5);

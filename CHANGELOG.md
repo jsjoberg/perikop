@@ -26,6 +26,10 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Reading plans on the start page: the New Testament in 30 parts; the Masoretic canon in 30 parts, with Septuagint numbering; and the books outside the Hebrew Bible that have Swedish text, in 14 parts.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
 - An option in Visa to turn off the highlight of the text being read aloud.
+- A ⋮ menu at the right of the toolbar with every menu command. Windows and Linux hide the menu bar; Alt shows it.
+- **Visa → Normal textstorlek** returns the text to its default size.
+- The left column is always Swedish. **Visa** offers Bara svenska, or Swedish with word study, Greek, or English.
+- **Bibel → Välj flera bibelställen** collects several passages into one reading.
 - In the book picker, books without text in the chosen language are greyed out.
 - The Greek Esther and Daniel are named "Ester enligt den grekiska texten" and "Daniel enligt den grekiska texten", as in Bibel 2000.
 - Chapter headings name the Swedish 1917 Bible, the 1921 apocrypha, or both, after the chapter's Swedish text.

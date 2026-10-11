@@ -6,21 +6,12 @@
 #include "ui/native_scroll.hpp"
 #endif
 namespace ortho {
-BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings settings,
+BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings settings, bool ranges,
                          std::function<void(Reading)> chosen)
     : wxPanel(parent), corpus_(corpus), settings_(std::move(settings)), chosen_(std::move(chosen)) {
+    // The address field names the page, so the grid starts at the top.
     auto* page = new wxBoxSizer(wxVERTICAL);
-    header_ = new wxPanel(this);
-    auto* header = new wxBoxSizer(wxHORIZONTAL);
-    header->Add(ui::label(header_, "Bibel", 18), 1, wxALIGN_CENTER_VERTICAL);
-    builder_toggle_ = new wxCheckBox(header_, wxID_ANY, ui::utf8("Flera intervall"));
-    builder_toggle_->SetFont(ui_font());
-    builder_toggle_->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event) {
-        set_builder(event.IsChecked());
-    });
-    header->Add(builder_toggle_, 0, wxALIGN_CENTER_VERTICAL);
-    header_->SetSizer(header);
-    page->Add(header_, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(24));
+    page->AddSpacer(FromDIP(24));
 
     grid_ = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
     grid_->SetScrollRate(0, FromDIP(12));
@@ -97,11 +88,9 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
     page->Add(builder_panel_, 0, wxALIGN_CENTER_HORIZONTAL);
     builder_panel_->Hide();
     SetSizer(page);
-    rebuild();
-    update_selection();
+    set_builder(ranges);
     Bind(wxEVT_SIZE, [this](wxSizeEvent& event) {
         const int width = std::clamp(GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(680));
-        header_->SetMinSize({width, -1});
         builder_panel_->SetMinSize({width, -1});
         update_selection();
         update_grid();
@@ -114,7 +103,7 @@ BiblePicker::~BiblePicker() {
 #endif
 }
 std::string BiblePicker::frame(const CanonBook& book) const {
-    return corpus_.frame_source(settings_.primary, book.frame_book);
+    return corpus_.frame_source("sv", book.frame_book);
 }
 std::vector<VerseRef> BiblePicker::verses_of(const CanonBook& book) const {
     std::vector<VerseRef> result;
@@ -127,7 +116,7 @@ bool BiblePicker::available(const CanonBook& book) const {
     if (const auto known = availability_.find(book.code); known != availability_.end())
         return known->second;
     const auto verses = verses_of(book);
-    const auto source = corpus_.source_for_language(settings_.primary, book.code);
+    const auto source = corpus_.source_for_language("sv", book.code);
     const bool found =
         std::any_of(verses.begin(), verses.begin() + std::min<size_t>(verses.size(), 50), [&](VerseRef ref) {
             return bool(corpus_.parallel_verse(frame(book), source, book.frame_book, ref));
@@ -155,8 +144,8 @@ void BiblePicker::rebuild() {
             }
             books.cells.push_back(
                 {ui::utf8(book.abbreviation),
-                 ui::utf8(book.name) + (has_text ? wxString{} : ui::utf8(" · Ingen text på valt språk")),
-                 has_text, open ? State::Selected : State::Plain, [this, book, open] {
+                 ui::utf8(book.name) + (has_text ? wxString{} : ui::utf8(" · Ingen svensk text")), has_text,
+                 open ? State::Selected : State::Plain, [this, book, open] {
                      if (open)
                          show_books();
                      else
@@ -279,7 +268,6 @@ void BiblePicker::show_verses(CanonBook book, int chapter) {
 }
 void BiblePicker::set_builder(bool enabled) {
     building_ = enabled;
-    builder_toggle_->SetValue(enabled);
     builder_panel_->Show(enabled);
     update_selection();
     rebuild();
@@ -341,7 +329,7 @@ void BiblePicker::open_passages(const std::vector<Passage>& passages) {
                                                                       : ReadingKind::OldTestament,
                     passages.front(),
                     {passages.begin() + 1, passages.end()},
-                    settings_.primary};
+                    "sv"};
     reading.reference.clear();
     auto chosen = chosen_; // The callback can destroy this page.
     chosen(std::move(reading));

@@ -4,10 +4,14 @@
 #include <filesystem>
 #include <memory>
 #include <utility>
+#include <wx/accel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
 
 class wxBoxSizer;
+class wxEventFilter;
+class wxMenu;
+class wxMenuBar;
 class wxPanel;
 class wxScrolledWindow;
 class wxStaticText;
@@ -21,8 +25,6 @@ class StudyPanel;
 class SymbolButton;
 class AddressBar;
 class MonthCalendar;
-// Languages of the two text columns, in menu and toolbar order.
-inline constexpr const char* column_languages[] = {"sv", "el", "en"};
 class MainFrame final : public wxFrame {
 public:
     MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources);
@@ -35,13 +37,19 @@ public:
 
 private:
     void make_menus();
+    // The menu bar's menus, built for the current settings. The ⋮ menu shows them too.
+    std::vector<std::pair<wxMenu*, wxString>> menus() const;
+    void sync_menu(wxMenu&) const;
+    void show_menu();
+    // Windows and Linux hide the menu bar; Alt shows it. macOS always shows its own.
+    void show_menu_bar(bool);
     void refresh_day();
     void layout_home();
     void show_readings();
     void select_day(CivilDate);
     void navigate(int days);
     void pick_date();
-    void browse_bible();
+    void browse_bible(bool ranges = false);
     void about();
     void back();
     void show_page(wxWindow*, const wxString& title);
@@ -49,7 +57,8 @@ private:
     void close_pages();
     void apply_settings(bool persist = true);
     void update_study();
-    Reading in_primary(Reading) const;
+    // The reading as the Swedish left column shows it.
+    Reading in_swedish(Reading) const;
 
     // Something the start page opens, which the reader can mark as read.
     struct Tracked {
@@ -129,14 +138,15 @@ private:
     SymbolButton* pause_ = nullptr;
     SymbolButton* stop_ = nullptr;
     AddressBar* address_ = nullptr;
+    SymbolButton* menu_ = nullptr;
+    // The menu bar, also while it is hidden and so not owned by the frame.
+    wxMenuBar* menu_bar_ = nullptr;
+    wxAcceleratorTable accelerators_;
+    std::unique_ptr<wxEventFilter> alt_tap_;
     // Right-column choices: "study" or a language code.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<SymbolButton*> plan_tiles_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
-    int play_item_ = 0;
-    int stop_item_ = 0;
-    int right_item_ = 0;
-    int study_item_ = 0;
 };
 } // namespace ortho

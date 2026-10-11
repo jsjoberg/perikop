@@ -178,8 +178,7 @@ void StudyPanel::rebuild() {
                 section(ui::utf8("SVENSKA UPPSLAGSKÄLLOR"));
                 text(ui::utf8("Ordet finns inte i de svenska uppslagskällorna."), ui_font(11), colors.muted);
             }
-        } else
-            text(ui::utf8("Ordstudium finns för ord i Svenska 1917."), ui_font(11), colors.muted);
+        }
         sizer->AddSpacer(FromDIP(18));
         text(ui::utf8("Dalins ordbok, Språkbanken Text, CC BY 4.0"), ui_font(8), colors.muted);
     }

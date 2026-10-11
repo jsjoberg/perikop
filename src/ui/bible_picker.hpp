@@ -4,7 +4,6 @@
 #include "ui/picker_grid.hpp"
 #include <functional>
 #include <map>
-#include <wx/checkbox.h>
 #include <wx/listbox.h>
 #include <wx/panel.h>
 #include <wx/scrolwin.h>
@@ -14,7 +13,9 @@
 namespace ortho {
 class BiblePicker final : public wxPanel {
 public:
-    BiblePicker(wxWindow* parent, const CorpusDb&, Settings, std::function<void(Reading)> chosen);
+    // With ranges, the page collects several passages for one reading.
+    BiblePicker(wxWindow* parent, const CorpusDb&, Settings, bool ranges,
+                std::function<void(Reading)> chosen);
     ~BiblePicker() override;
     // Collapse verses, then chapters, before returning to the previous main view.
     bool back();
@@ -44,8 +45,6 @@ private:
     Settings settings_;
     std::function<void(Reading)> chosen_;
     mutable std::map<std::string, bool> availability_;
-    wxPanel* header_ = nullptr;
-    wxCheckBox* builder_toggle_ = nullptr;
     wxPanel* builder_panel_ = nullptr;
     bool building_ = false;
     wxStaticText* range_label_ = nullptr;

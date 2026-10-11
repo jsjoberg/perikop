@@ -10,6 +10,8 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/app.h>
+#include <wx/eventfilter.h>
+#include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
@@ -265,7 +267,7 @@ void MainFrame::refresh_day() {
                 0, wxBOTTOM, FromDIP(28));
             return;
         }
-        const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments()));
+        const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_swedish(reading)).segments()));
         const auto key = day_key(reading);
         const bool done = completed.contains(key);
         auto* open = ui::button(home_content_, ui::utf8("Läs"), [this, reading, key, title] {
@@ -349,7 +351,7 @@ void MainFrame::open_reading(const Reading& selected) {
     speech_view_.reset();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
-    const auto reading = corpus_.localize(in_primary(selected));
+    const auto reading = corpus_.localize(in_swedish(selected));
     readings_->Hide();
     root_->GetSizer()->Show(reader_sizer_, true);
     scripture_->Show();
@@ -366,14 +368,14 @@ void MainFrame::open_reading(const Reading& selected) {
     scripture_->open(reading);
     scripture_->SetFocus();
 }
-Reading MainFrame::in_primary(Reading reading) const {
+Reading MainFrame::in_swedish(Reading reading) const {
     if (reading.source_override.empty()) {
-        if (reading.reference.empty() && reading.base_language != settings_.primary) {
+        if (reading.reference.empty() && reading.base_language != "sv") {
             std::vector<Passage> parts;
             for (const auto& segment : reading.segments()) {
                 const auto mapped =
                     corpus_.map_passage(corpus_.frame_source(reading.base_language, segment.book),
-                                        corpus_.frame_source(settings_.primary, segment.book), segment);
+                                        corpus_.frame_source("sv", segment.book), segment);
                 if (mapped.empty())
                     parts.push_back(segment);
                 else
@@ -382,7 +384,7 @@ Reading MainFrame::in_primary(Reading reading) const {
             reading.passage = parts.front();
             reading.additional.assign(parts.begin() + 1, parts.end());
         }
-        reading.base_language = settings_.primary;
+        reading.base_language = "sv";
     }
     return reading;
 }
@@ -467,15 +469,15 @@ void MainFrame::about() {
         return;
     show_page(make_about_page(root_, settings_.theme, resources_), "Om Perikop");
 }
-void MainFrame::browse_bible() {
+void MainFrame::browse_bible(bool ranges) {
     if (dynamic_cast<BiblePicker*>(page_))
         return;
-    auto* page = new BiblePicker(root_, corpus_, settings_, [this](const Reading& reading) {
+    auto* page = new BiblePicker(root_, corpus_, settings_, ranges, [this](const Reading& reading) {
         close_pages();
         tracked_.reset();
         open_reading(reading);
     });
-    show_page(page, "Bibel");
+    show_page(page, ranges ? ui::utf8("Välj flera bibelställen") : wxString("Bibel"));
 }
 void MainFrame::pick_date() {
     if (page_)
@@ -532,6 +534,10 @@ void MainFrame::update_study() {
     root_->Layout();
 }
 MainFrame::~MainFrame() {
+    alt_tap_.reset();
+    // A hidden menu bar is not the frame's to delete.
+    if (GetMenuBar() != menu_bar_)
+        delete menu_bar_;
     playback_timer_.Stop();
     speech_.reset();
 }
