@@ -89,8 +89,21 @@ The keyboard shortcuts work either way. macOS keeps its own menu bar.
 Select **Bibel → Gå till bibelställe** to open the book, chapter, and verse grids.
 Select a book to unfold its chapters directly beneath its row. Select a chapter to unfold its verses beneath it.
 Select an open book or chapter again to fold it.
-The page has a vertical scrollbar. Select a verse to open it immediately.
-**Hela boken** and **Hela kapitlet** open complete books and chapters.
+The page has a vertical scrollbar. The normal browser selects one continuous range.
+The address field shows the current range.
+The selection starts with the complete book. The first chapter selection changes the range to the complete chapter.
+Another chapter selection extends the range to include both chapters and all chapters between them.
+
+The first verse selection within a complete chapter starts a range at that verse.
+Later verse selections change the end of the range.
+
+For example, select John 3. Then select verse 3. Then select verse 5.
+The range is John 3:3–3:5.
+
+Then select chapter 5. The range extends from John 3:3 to the end of chapter 5.
+Then select verse 5 in chapter 5. The range changes to John 3:3–5:5.
+Select **Öppna urval** to open the range.
+
 Books without Swedish text are greyed out.
 Back moves from verses to chapters, then books, then the previous view.
 

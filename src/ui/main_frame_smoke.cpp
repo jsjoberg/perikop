@@ -655,7 +655,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     back();
     tracked_.reset();
     scripture_->clear_selection();
-    // A picker keeps pending endpoints across chapter navigation and supports ranges from multiple books.
+    // The normal browser prepares one range and opens it only after confirmation.
     browse_bible();
     auto* picker = dynamic_cast<BiblePicker*>(page_);
     const auto& canon = corpus_.canon();
@@ -665,19 +665,96 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto psalms = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
         return book.code == "Ps";
     });
-    if (picker->building_ || picker->builder_panel_->IsShown())
+    if (picker->building_ || picker->builder_panel_->IsShown() || picker->ranges_->IsShown() ||
+        picker->add_->IsShown() || picker->remove_->IsShown() || picker->open_->IsEnabled() ||
+        address_->GetLabel() != "Bibel")
         fail(__LINE__);
-    picker->show_chapters(john);
-    picker->show_verses(john, 1);
+    picker->open_selection();
+    if (page_ != picker)
+        fail(__LINE__);
+    picker->select_book(john);
+    const auto john_verses = picker->verses_of(john);
+    if (picker->first_ != john_verses.front() || picker->last_ != john_verses.back() ||
+        !picker->open_->IsEnabled() || page_ != picker ||
+        address_->GetLabel() !=
+            ui::utf8(passage_label(corpus_, {{"John", john_verses.front(), john_verses.back()}})))
+        fail(__LINE__);
+    picker->select_chapter(john, 1);
     // John's chapters and verses unfold beneath its row, above the books that follow it.
     const auto chapters = picker->cells_->unfolded(1), verses = picker->cells_->unfolded(2);
     if (chapters.IsEmpty() || verses.IsEmpty() || !chapters.Contains(verses) ||
         chapters.GetBottom() + FromDIP(30) > picker->cells_->GetSize().y)
         fail(__LINE__);
     picker->select_verse(john, {1, 3});
-    if (page_ || scripture_->reading().passage.first != VerseRef{1, 3})
+    if (page_ != picker || picker->first_ != VerseRef{1, 3} || picker->last_ != VerseRef{1, 3})
         fail(__LINE__);
-    // Several passages are their own way into the Bible browser.
+    picker->open_selection();
+    if (page_ || scripture_->reading().passage.first != VerseRef{1, 3} ||
+        scripture_->reading().passage.last != VerseRef{1, 3} || scripture_->reading().segments().size() != 1)
+        fail(__LINE__);
+    browse_bible();
+    picker = dynamic_cast<BiblePicker*>(page_);
+    const auto chapter_end = [&](int chapter) {
+        return *std::find_if(john_verses.rbegin(), john_verses.rend(), [chapter](VerseRef ref) {
+            return ref.chapter == chapter;
+        });
+    };
+    picker->select_book(john);
+    picker->select_chapter(john, 3);
+    if (picker->first_ != VerseRef{3, 1} || picker->last_ != chapter_end(3))
+        fail(__LINE__);
+    picker->select_chapter(john, 5);
+    if (picker->first_ != VerseRef{3, 1} || picker->last_ != chapter_end(5))
+        fail(__LINE__);
+    picker->select_book(john);
+    picker->select_chapter(john, 5);
+    picker->select_chapter(john, 3);
+    if (picker->first_ != VerseRef{3, 1} || picker->last_ != chapter_end(5))
+        fail(__LINE__);
+    picker->select_book(john);
+    picker->select_chapter(john, 3);
+    picker->select_verse(john, {3, 3});
+    picker->select_verse(john, {3, 5});
+    if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
+        fail(__LINE__);
+    back();
+    if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
+        fail(__LINE__);
+    picker->select_chapter(john, 5);
+    if (picker->first_ != VerseRef{3, 3} || picker->last_ != chapter_end(5))
+        fail(__LINE__);
+    picker->select_verse(john, {5, 5});
+    const auto selection_title = ui::utf8(passage_label(corpus_, {{"John", {3, 3}, {5, 5}}}));
+    if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{5, 5} ||
+        address_->GetLabel() != selection_title || address_->GetToolTipText() != selection_title)
+        fail(__LINE__);
+    update_bar();
+    if (address_->GetLabel() != selection_title)
+        fail(__LINE__);
+    about();
+    if (address_->GetLabel() != "Om Perikop")
+        fail(__LINE__);
+    back();
+    if (page_ != picker || address_->GetLabel() != selection_title || picker->builder_panel_->IsShown())
+        fail(__LINE__);
+    picker->select_verse(john, {3, 4});
+    if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 4})
+        fail(__LINE__);
+    picker->select_verse(john, {2, 5});
+    if (picker->first_ != VerseRef{2, 5} || picker->last_ != VerseRef{3, 3})
+        fail(__LINE__);
+    picker->select_book(psalms);
+    const auto psalm_verses = picker->verses_of(psalms);
+    if (picker->range_book_->code != psalms.code || picker->first_ != psalm_verses.front() ||
+        picker->last_ != psalm_verses.back())
+        fail(__LINE__);
+    picker->select_book(john);
+    picker->select_chapter(john, 3);
+    picker->open_selection();
+    if (page_ || scripture_->reading().passage.first != VerseRef{3, 1} ||
+        scripture_->reading().passage.last != chapter_end(3) || scripture_->reading().segments().size() != 1)
+        fail(__LINE__);
+    // The multi-passage browser keeps pending endpoints across navigation and collects multiple books.
     browse_bible(true);
     picker = dynamic_cast<BiblePicker*>(page_);
     if (!picker->building_ || !picker->builder_panel_->IsShown() ||

@@ -157,7 +157,13 @@ void MainFrame::update_bar() {
     // One short line: what is shown, where the reading is, or what it is waiting for.
     const bool dropdown = reader && parts_.size() > 1;
     wxString title, tooltip;
-    if (auxiliary)
+    if (const auto* picker = dynamic_cast<BiblePicker*>(page_)) {
+        title = picker->address_title();
+        if (title.empty())
+            title = page_title_;
+        else
+            tooltip = title;
+    } else if (auxiliary)
         title = page_title_;
     else if (!reader)
         title = ui::utf8("Dagens läsningar");

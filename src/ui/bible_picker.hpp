@@ -19,6 +19,10 @@ public:
     ~BiblePicker() override;
     // Collapse verses, then chapters, before returning to the previous main view.
     bool back();
+    wxString address_title() const;
+    void on_selection(std::function<void()> callback) {
+        selection_changed_ = std::move(callback);
+    }
 
 private:
     friend class MainFrame;
@@ -30,7 +34,11 @@ private:
     void show_books();
     void show_chapters(CanonBook);
     void show_verses(CanonBook, int chapter);
+    void select_book(CanonBook);
+    void select_chapter(CanonBook, int chapter);
     void select_verse(CanonBook, VerseRef);
+    enum class SelectionUnit { Book, Chapter, Verse };
+    void select_single_range(const CanonBook&, VerseRef first, VerseRef last, SelectionUnit, bool reset);
     void choose_range(const CanonBook&, VerseRef first, VerseRef last);
     void set_builder(bool);
     void add_range(const CanonBook&, VerseRef first, VerseRef last);
@@ -44,6 +52,7 @@ private:
     const CorpusDb& corpus_;
     Settings settings_;
     std::function<void(Reading)> chosen_;
+    std::function<void()> selection_changed_;
     mutable std::map<std::string, bool> availability_;
     wxPanel* builder_panel_ = nullptr;
     bool building_ = false;
@@ -61,6 +70,8 @@ private:
     wxButton* open_ = nullptr;
     std::optional<CanonBook> range_book_;
     std::optional<VerseRef> first_, last_;
+    std::optional<Passage> anchor_;
+    SelectionUnit anchor_unit_ = SelectionUnit::Book;
     std::vector<Passage> selected_;
 };
 } // namespace ortho

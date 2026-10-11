@@ -477,6 +477,9 @@ void MainFrame::browse_bible(bool ranges) {
         tracked_.reset();
         open_reading(reading);
     });
+    page->on_selection([this] {
+        update_bar();
+    });
     show_page(page, ranges ? ui::utf8("Välj flera bibelställen") : wxString("Bibel"));
 }
 void MainFrame::pick_date() {
