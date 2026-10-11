@@ -76,7 +76,7 @@ To start that process now, run:
 gh workflow run build.yml --ref main -f nightly=true
 ```
 
-Nightly builds start at 05:00 Stockholm time, with automatic daylight saving changes.
+Nightly builds start at 22:15 Stockholm time, with automatic daylight saving changes.
 They use the latest commit on the default branch.
 GitHub can delay the start when its runners are busy.
 Before the builds, CI compares this commit with the last successful nightly.
