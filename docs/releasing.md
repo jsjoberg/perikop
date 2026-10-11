@@ -4,7 +4,7 @@
 
 Each package contains the application, its resources, and the Alice and Björn voices. It works offline.
 
-- macOS: `Perikop-0.1.0-macOS-arm64.dmg`. Drag Perikop to Applications.
+- macOS: `Perikop-0.1.0-macOS-universal.dmg`. One app for Intel and Apple Silicon. Drag Perikop to Applications.
 - Windows: `Perikop-0.1.0-windows-x64.exe`. The installer puts Perikop in Program Files and adds a Start menu shortcut.
 - Linux: `Perikop-0.1.0-x86_64.AppImage`. Make the file executable, then run it.
 
@@ -82,7 +82,8 @@ GitHub can delay the start when its runners are busy.
 Before the builds, CI compares this commit with the last successful nightly.
 If the commit is unchanged, CI skips all three builds. Failed builds retry on the next night.
 
-After all three platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-10`.
+After all three platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-11-abcdef0`.
+The commit suffix permits multiple builds per day without replacing an earlier download.
 Each prerelease contains the packages, their SHA-256 hashes, and a link to the source commit.
 Nightlies do not replace the latest stable release.
 The schedule starts after the workflow reaches the default branch.
@@ -98,7 +99,7 @@ CI keeps compiled objects in a ccache cache between runs. To make the cache usab
 
 Ordinary CI builds use GitHub runners and dependencies stored in this repository's releases.
 They do not contact Chocolatey, Homebrew, distribution mirrors, SQLite, or other upstream download servers.
-The snapshot includes native sources, voices, Windows GCC and NSIS, macOS analysis tools, Linux system libraries, and AppImage tools.
+The snapshot includes native sources, voices, Windows GCC and NSIS, macOS analysis tools, Linux system libraries, and AppImage tools and runtime.
 The runner supplies its preinstalled operating system, Xcode or Visual C++ runtime, CMake, Python, Git, and archive tools.
 
 `ci/dependencies-lock.json` pins each snapshot archive by SHA-256.
@@ -123,6 +124,12 @@ For a macOS analysis-tool update only, reuse the pinned sources and Linux enviro
 
 ```sh
 gh workflow run dependencies.yml --ref main -f macos_tools_only=true
+```
+
+For a source or packaging-input update, reuse both tool environments:
+
+```sh
+gh workflow run dependencies.yml --ref main -f reuse_environments=true
 ```
 
 After all preparation jobs pass, the workflow publishes a `ci-dependencies-<commit>` prerelease.

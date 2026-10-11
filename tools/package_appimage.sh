@@ -24,11 +24,14 @@ fetch linuxdeploy-x86_64.AppImage \
 fetch linuxdeploy-plugin-gtk.sh \
     https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/3b67a1d1c1b0c8268f57f2bce40fe2d33d409cea/linuxdeploy-plugin-gtk.sh \
     b0f4cbc684a0103a9651f0955b635eaea0096b3a66c0f5a2c2aa337960375171
+fetch runtime-x86_64 \
+    https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64 \
+    156f4bdbde9c52d01814600013e0a273f0118dc2de98975f3c8c63427ec79074
 cp "$source/resources/icons/OrthodoxReader.iconset/icon_256x256.png" "$tools/perikop.png"
 rm -rf "$appdir"
 DESTDIR="$appdir" cmake --install "$build" --prefix /usr
 cd "$source/build/package"
-PATH="$tools:$PATH" APPIMAGE_EXTRACT_AND_RUN=1 DEPLOY_GTK_VERSION=3 \
+PATH="$tools:$PATH" APPIMAGE_EXTRACT_AND_RUN=1 DEPLOY_GTK_VERSION=3 LDAI_RUNTIME_FILE="$tools/runtime-x86_64" \
     LINUXDEPLOY_OUTPUT_VERSION=$(sed -n 's/^project(perikop VERSION \([^ ]*\).*/\1/p' "$source/CMakeLists.txt") \
     "$tools/linuxdeploy-x86_64.AppImage" --appdir "$appdir" --executable "$appdir/usr/bin/perikop" \
     --library "$appdir/usr/bin/libstdc++.so.6" --library "$appdir/usr/bin/libgcc_s.so.1" \

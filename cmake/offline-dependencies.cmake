@@ -9,10 +9,22 @@ if(PERIKOP_DEPENDENCY_DIR)
             message(FATAL_ERROR "Offline dependency is missing: ${entry}. Restore the pinned CI snapshot; no upstream download is allowed.")
         endif()
     endforeach()
+    if(APPLE AND (CMAKE_OSX_ARCHITECTURES MATCHES "x86_64" OR
+            (NOT CMAKE_OSX_ARCHITECTURES AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")))
+        if(NOT EXISTS "${PERIKOP_DEPENDENCY_DIR}/ortho_ort_x86_64/include/onnxruntime_c_api.h")
+            message(FATAL_ERROR "Offline Intel speech runtime is missing. Restore the pinned macOS snapshot; no upstream download is allowed.")
+        endif()
+        set(FETCHCONTENT_SOURCE_DIR_ORTHO_ORT_X86_64 "${PERIKOP_DEPENDENCY_DIR}/ortho_ort_x86_64" CACHE PATH "" FORCE)
+    endif()
     foreach(dependency sqlite wxwidgets ortho_sonic ortho_audio ortho_ort)
         string(TOUPPER "${dependency}" key)
         set("FETCHCONTENT_SOURCE_DIR_${key}" "${PERIKOP_DEPENDENCY_DIR}/${dependency}" CACHE PATH "" FORCE)
     endforeach()
+    # Also block downloads for any future dependency without a source override.
+    set(FETCHCONTENT_FULLY_DISCONNECTED ON CACHE BOOL "Offline CI dependencies" FORCE)
+    if(POLICY CMP0170)
+        cmake_policy(SET CMP0170 NEW)
+    endif()
     # Apply the current patch even when the snapshot predates a patch change.
     execute_process(COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_LIST_DIR}/patch-wxwidgets.cmake"
         "${PERIKOP_DEPENDENCY_DIR}/wxwidgets" COMMAND_ERROR_IS_FATAL ANY)
