@@ -131,7 +131,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $options = @()
-          if ($env:PACKAGE -eq 'true') { $options += '--package' }
+          if ($env:PACKAGE -eq 'true' -or $env:GITHUB_EVENT_NAME -eq 'pull_request') { $options += '--package' }
           python tools/ci/dependencies.py restore --platform Windows @options
           if ($LASTEXITCODE -ne 0) { throw 'Dependency snapshot restore failed' }
           $bin = Join-Path $PWD 'build/ci/tools/w64devkit/bin'
