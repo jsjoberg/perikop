@@ -97,8 +97,7 @@ bool MainFrame::render_benchmark() {
               << ", utterances=" << utterances.size() << '\n';
     // Exercise a quiet paused guide without loading or running a speech model.
     open_psalm();
-    SpeechPlayback paused{SpeechState::Paused, SpeechCue{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}, false}, 0,
-                          0};
+    SpeechPlayback paused{SpeechState::Paused, SpeechCue{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}}, 0, 0};
     scripture_->playback(paused);
     for (int i = 0; i < 120; ++i)
         scripture_->advance_playback(0.016);

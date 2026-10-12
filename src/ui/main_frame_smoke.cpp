@@ -1100,18 +1100,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (address_->GetLabel() != ui::utf8("Laddar rösten…") || play_->IsEnabled() || !pause_->IsEnabled() ||
         !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown())
         fail(__LINE__);
-    // During the introduction the address field shows what the voice says.
-    const std::string introduction = "Läsning ur Psaltaren, kapitel 23, vers 1 till 6.";
-    const SpeechCue introduction_cue{0, 0, "Ps", "", {23, 1}, {23, 6}, true};
-    read_aloud_.start({}, {{introduction, introduction, "sv", introduction_cue}});
-    display_playback({SpeechState::Playing, introduction_cue, 0, 0.01});
-    if (address_->GetLabel() != ui::utf8(introduction))
+    // Playback starts on Scripture and immediately shows the first verse.
+    const SpeechCue first_verse{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
+    read_aloud_.start({});
+    display_playback({SpeechState::Playing, first_verse, 0, 0.01});
+    if (address_->GetLabel() != ui::utf8("Psaltaren 23:1") || !scripture_->marker_position())
         fail(__LINE__);
     display_playback({SpeechState::Buffering, {}, 0, 0, 0.4});
     if (address_->GetLabel() != ui::utf8("Förbereder uppläsningen… 40 %") || scripture_->marker_position())
         fail(__LINE__);
-    SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}, false},
-                           0.35, 0.4};
+    SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}}, 0.35,
+                           0.4};
     scripture_->playback(playing);
     scripture_->follow_playback();
     for (int i = 0; i < 90; ++i)
@@ -1246,7 +1245,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (!scripture_->marker_position())
         fail(__LINE__);
     auto greek = playing;
-    greek.cue = SpeechCue{0, 0, "Ps", "grc-lxx", {22, 3}, {22, 3}, false};
+    greek.cue = SpeechCue{0, 0, "Ps", "grc-lxx", {22, 3}, {22, 3}};
     scripture_->playback(greek);
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
@@ -1292,16 +1291,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const Reading psalms{
             ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, {{"Ps", {24, 1}, {24, 10}}}};
         const Reading gospel{ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}};
-        read_aloud_.start({psalms, gospel}, {});
-        engine->held = {SpeechState::Paused, SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}, false}, 0,
-                        0.5};
+        read_aloud_.start({psalms, gospel});
+        engine->held = {SpeechState::Paused, SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}}, 0, 0.5};
         follow_speech();
         if (part_ != 1 || parts_.size() != 2 || !scripture_->follows_playback() ||
             speech_view_ != std::pair<size_t, size_t>{0, 1} || engine->changed)
             fail(__LINE__);
         // A cue for the next reading cannot take over after a manual scroll.
         scripture_->scroll_by(20);
-        engine->held.cue = SpeechCue{1, 0, "John", "sv1917", {1, 1}, {1, 1}, false};
+        engine->held.cue = SpeechCue{1, 0, "John", "sv1917", {1, 1}, {1, 1}};
         display_playback(engine->held);
         if (scripture_->follows_playback() || visible_reading_->passage.book != "Ps")
             fail(__LINE__);
@@ -1310,7 +1308,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             engine->changed)
             fail(__LINE__);
         about();
-        engine->held.cue = SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}, false};
+        engine->held.cue = SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}};
         display_playback(engine->held);
         if (!page_ || visible_reading_->passage.book != "John")
             fail(__LINE__);

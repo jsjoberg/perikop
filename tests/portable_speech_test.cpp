@@ -152,11 +152,11 @@ int main(int argc, char** argv) {
                 first_chunk_released = released;
             changed.notify_all();
         });
-        const SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}, false};
+        const SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
         const std::vector<SpeechUtterance> reading = {
             {"", "Första.", "sv", first},
-            {"", "Andra.", "sv", SpeechCue{0, 0, "Ps", "sv1917", {23, 2}, {23, 2}, false}},
-            {"", "Tredje.", "sv", SpeechCue{1, 1, "John", "sv1917", {1, 1}, {1, 1}, false}}};
+            {"", "Andra.", "sv", SpeechCue{0, 0, "Ps", "sv1917", {23, 2}, {23, 2}}},
+            {"", "Tredje.", "sv", SpeechCue{1, 1, "John", "sv1917", {1, 1}, {1, 1}}}};
         {
             std::lock_guard lock(audio_mutex);
             hold_device = true;

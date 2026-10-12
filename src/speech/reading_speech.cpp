@@ -1,5 +1,4 @@
 #include "speech/reading_speech.hpp"
-#include "core/reading_display.hpp"
 #include "storage/database.hpp"
 #include <map>
 #include <stdexcept>
@@ -18,18 +17,6 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
         const auto& reading = readings[r];
         const auto localized = corpus.localize(reading);
         const auto passages = localized.segments();
-        if (reading.base_language == "sv") {
-            // Every passage is announced first, in the numbers shown on screen.
-            std::vector<std::pair<std::string, Passage>> parts;
-            for (const auto& passage : passages) {
-                const auto shown = displayed_passage(corpus, passage);
-                parts.emplace_back(corpus.title(shown.book), shown);
-            }
-            auto intro = prepare(reading_introduction(parts), "sv");
-            intro.cue = SpeechCue{
-                r, 0, passages.front().book, "", passages.front().first, passages.front().last, true};
-            queue.push_back(std::move(intro));
-        }
         for (size_t s = 0; s < passages.size(); ++s) {
             const auto& passage = passages[s];
             // Walk the framing verses and read the left pane's text for each,
@@ -64,7 +51,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                     continue;
                 previous = verse->ref;
                 auto utterance = prepare(verse->text, language);
-                utterance.cue = SpeechCue{r, s, passage.book, frame, ref, ref, false};
+                utterance.cue = SpeechCue{r, s, passage.book, frame, ref, ref};
                 queue.push_back(std::move(utterance));
                 found = true;
             }

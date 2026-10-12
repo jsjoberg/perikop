@@ -80,7 +80,7 @@ Pause and underrun silence do not advance this position.
 Completion waits for the tempo output to drain.
 Playback cues associate these frames with a reading, passage section, source edition, and verse range.
 The interface follows these cues, including transitions between readings and omitted verse ranges.
-Generated introductions have their own playback cues and do not highlight Scripture.
+Each reading starts directly with its first verse.
 
 The active verse has a soft highlight. A margin marker moves between its lines with an eased transition.
 Verse boundaries use actual audio offsets. Movement within a verse estimates text position from text weight and audio duration.

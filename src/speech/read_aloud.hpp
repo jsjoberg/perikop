@@ -2,7 +2,6 @@
 
 #include "speech/speech.hpp"
 #include <chrono>
-#include <map>
 
 namespace ortho {
 // The queue being read aloud and how its progress is described. The window
@@ -14,8 +13,8 @@ public:
         std::string title;
         std::string tooltip = {};
     };
-    // Readings as opened, and the utterances the voice says for them.
-    void start(std::vector<Reading> readings, const std::vector<SpeechUtterance>& queue);
+    // Readings as opened, retained for playback navigation.
+    void start(std::vector<Reading> readings);
     void update(const SpeechPlayback&, Clock::time_point now = Clock::now());
     // The engine's latest message, shown when playback fails.
     void report(std::string message) {
@@ -36,8 +35,6 @@ public:
 
 private:
     std::vector<Reading> readings_;
-    // What the voice says before each reading, shown while it is said.
-    std::map<size_t, std::string> introductions_;
     SpeechPlayback playback_;
     SpeechState feedback_ = SpeechState::Idle;
     Clock::time_point buffering_since_;

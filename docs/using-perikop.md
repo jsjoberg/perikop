@@ -156,7 +156,8 @@ The choice applies from the next reading and survives restarts.
 The voice uses common C++ code on all target platforms.
 
 **Pausa**, **Fortsätt**, and **Stoppa** control playback.
-The address field shows loading, buffering, the spoken introduction, and the current verse.
+Each reading starts directly with its first verse.
+The address field shows loading, buffering, and the current verse.
 A line along its lower edge shows progress.
 
 Playback starts after enough audio is ready for the estimated synthesis speed.

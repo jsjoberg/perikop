@@ -678,10 +678,9 @@ Requirements:
 - match tokens/phrases, not arbitrary substrings;
 - support multi-word expressions;
 - support names and book titles;
-- permit future phonemic representation;
-- permit generated speech introductions independently of Bible text.
+- permit future phonemic representation.
 
-The speech layer should be able to say a reference naturally rather than reading abbreviations literally.
+Each reading starts directly with its first verse, without a spoken reference announcement.
 
 ## 19. User database
 

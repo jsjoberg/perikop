@@ -13,7 +13,6 @@ struct SpeechCue {
     size_t reading = 0, section = 0;
     std::string book, source;
     VerseRef verse, last;
-    bool introduction = false;
     bool operator==(const SpeechCue&) const = default;
 };
 struct SpeechPlayback {
@@ -39,9 +38,6 @@ private:
 };
 SpeechUtterance make_utterance(const std::string& text, const std::string& language,
                                const std::vector<Pronunciation>& lexicon);
-// The spoken announcement of every passage of a reading, each with its book's Swedish name.
-// A repeated book or chapter is not named again.
-std::string reading_introduction(const std::vector<std::pair<std::string, Passage>>& parts);
 std::vector<std::string> speech_chunks(const std::string&);
 double speech_text_weight(const std::string&);
 std::string pronunciation_key(const std::string&);

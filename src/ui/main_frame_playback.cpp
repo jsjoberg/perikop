@@ -115,7 +115,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         const auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        read_aloud_.start(readings, queue);
+        read_aloud_.start(readings);
         if (!readings.empty()) {
             open_reading(readings.front());
             speech_view_ = std::pair<size_t, size_t>{0, 0};
