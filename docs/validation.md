@@ -1,72 +1,74 @@
 # Validation record
 
-Local check date: October 10, 2026.
-The release build used Apple Clang 17 on macOS 26.6.2, on Apple Silicon.
-The application targets macOS 11.0. wxWidgets 3.3.3 and SQLite 3.53.4 link statically.
+## Current implementation
 
-The core suite passed 18,898 checks for storage, date calculations, reading ranges, and pronunciation.
-The suite compared all 52 Sunday reading pairs with the Antiochian 2026 chart.
-It compared the Slavic order with oca.org's daily readings for every day of 2026.
-On 330 days with comparable readings, the Slavic Epistle and Gospel are one of oca.org's pairs. On 293 days they are its first pair.
-Four other dates are known exceptions. The test names each exception and its cause.
-It also checked the October 5–6 daily references and official Pascha dates for 2026–2030.
-Computed Pascha readings passed for 2027–2035.
-All 52 Sunday pairs also match after removing every annual assignment.
-Every day passes in all three reading orders and both calendars for years 1, 2036, 2100, 2400, 2800, 5000, and 9999.
-The complete 532-year Paschal cycle retains its Julian dates and Sunday weekday.
-New Calendar leap tests cover its Revised Julian divergence in 2800 and 2900.
-Serbian publications supply four shared feast dates and two exact Gospel ranges.
-Other checks cover date stability, Julian century leap labels, discontinuous passages, complete corpus endpoints, alignment, pronunciation, and local settings.
+Record date: 12 October 2026.
+The local changes start from [e9da60c](https://github.com/jsjoberg/perikop/commit/e9da60c4caee597b69c1dc441720438ba4e1c068).
+The [improvement tracker](improvement-plan.md) records the changes and remaining work.
+The [10 October record](validation-2026-10-10.md) preserves the earlier measurements.
 
-The GUI smoke test passed in all three themes and four parallel modes.
-It also passed in a narrow window.
-The test checks native paragraph justification, optical punctuation, final-line treatment, source-text recovery, and hyphenation in all three languages.
-It checks fractional scrolling and compares images before and after a 17-pixel scroll.
-At least 99.5% of the compared viewport pixels must equal the corresponding shifted pixels.
-The layout cache remains bounded at 192 rows.
-The test uses a temporary user database.
+| Platform | Current minimum | Remaining execution checks |
+| --- | --- | --- |
+| macOS arm64 and x86-64 | macOS 13.4 | Intel, minimum-version hardware, physical playback |
+| Windows x86-64 | Windows 10 | Installed package, minimum-version hardware, physical playback |
+| Linux x86-64 | glibc 2.34 and GTK3 | Installed AppImage, target distributions, physical playback |
 
-The resource check covers every bundled file listed in the manifest.
-Literata and the explicit Noto fallbacks cover all 315 distinct corpus characters.
-The check also rejects leftover import markup.
-The corpus contains 141,201 nonempty Scripture records across five editions.
-Greek Daniel, 317 lettered LXX portions, and English deuterocanonical books are included.
-One English publisher record contains two joined verse coordinates.
-The resource check asserts each edition's exact record and book counts.
-The database opens read-only. A separate database stores personal settings.
-Explicit SQLite policy, failed-save rollback, and speech-cache future-version rejection tests pass.
-The GUI smoke test also opens lettered Greek text, joined WEB text, and an English-only book.
+All platforms use portable Kokoro speech with Alice and Björn.
+Corpus schema 7 and study schema 4 are current.
+The release workflow includes builds for Windows, Linux, and both macOS architectures.
+The workflow now requires ASan and UBSan checks before publication.
+Package checks now generate audio with both bundled voices and both passage lengths.
+A successful local check does not establish success on another platform.
 
-## Platform checks
+## Local evidence
 
-Windows and Linux builds did not run in this local macOS session.
-The repository includes a CI workflow for both platforms and macOS.
-The workflow requires repository publication before it can run.
+The local build uses Apple Clang 17 on macOS 26.6.2, arm64.
+The release build passed all 10 CTest tests, including 26,379 core checks.
+The Python checks passed 19 tests. All 74 resource hashes passed.
+Formatting and static analysis also passed.
+The full ASan/UBSan build passed all 10 tests with LLVM Clang 22.1.8 and the same native wxWidgets libraries.
+Apple Clang 17's ASan runtime stalled during initialization on this macOS 26.6.2 host, before application code ran.
+The local LLVM build used `-include cstddef` for compatibility with the installed SDK headers.
+The CI sanitizer job uses the supported Apple toolchain on its macOS 15 runner and still needs its first run.
+The CTest suite covers storage, calendar calculations, speech preparation, PCM streaming, tempo changes, optional cache recovery, and native UI behavior.
+The tempo regressions cover reused stream addresses, unity-speed transitions, quarter-speed tails, and double-speed transitions.
+The worker regression covers pause, resume, and a speed change during the final tempo tail.
+Progress uses delivered output, with an estimated source position during tempo changes.
+Completion waits for the tempo output to drain.
+Physical device latency remains outside these component checks.
 
-Manual checks remain for Windows and Linux native scrolling and font registration.
-Checks also remain for Intel Macs, macOS 11, assistive technology, multiple displays, and real overnight wake behavior.
-The date model test simulates a clock change. It does not replace an overnight session.
+The GUI checks cover native plan buttons, custom keyboard activation, and preserved settings after optional pronunciation failures.
+Diagnostic checks run both smoke tests and benchmarks with an isolated profile.
+Sentinel files in an explicitly supplied personal profile remain unchanged.
+The Windows/Linux wheel regression runs on those platforms because Cocoa does not use the wheel timer.
 
-## Remaining scope
+Real inference from `kokoro-sv-alice-bjorn-2c7968d-v3` passed for Alice and Björn on arm64.
+The short passage produced 4.85 seconds for Alice and 4.825 seconds for Björn.
+The long passage produced 65.95 seconds for Alice and 73.25 seconds for Björn.
+Generation took approximately 0.95/12.52 seconds for Alice and 0.85/13.66 seconds for Björn (short/long).
+Each result contained finite, non-silent PCM.
+These measurements exclude physical audio playback and listening quality.
 
-Calendar rules and references are computed offline. Later annual instructions from each jurisdiction can change particular assignments.
-The Antiochian 2026 Sunday chart and oca.org's 2026 readings are the completed independent comparisons. Other complete years have not received them.
-No independent source has been compared with the Greek order's daily readings.
-Old calendar mode applies each reading order to Julian fixed dates. The Serbian publications above confirm two Slavic Gospels.
+Cache fault checks use real inference and a simulated audio device.
+They cover corrupt data, future schemas, missing tables, write rejection, database locks, and an invalid cache path.
+Speech completes without the cache and preserves progress and pronunciation decisions.
+The GUI checks also preserve corrupt pronunciation bytes and corrections in an unsupported future schema.
+Full-disk and platform permission faults still need checks on installed packages.
 
-Each publisher's complete available edition is bundled.
-Some books exist in only one language. Empty publisher placeholders are excluded.
-The Bible browser filters its book list by the chosen edition.
-This release does not claim full Matins, Vespers, or composite liturgical service coverage.
-MT/LXX alignment covers every verse of the bundled Old Testament editions at verse level. See `docs/versification.md`.
-The reader shows verses without a counterpart and can open each edition directly through the Bible browser.
+## Independent calendar evidence
 
-The renderer fits whole paragraphs with native shaping, Knuth–Plass demerits, and Liang hyphenation.
-Prose flows across verses, using USFM boundaries or labelled WEB editorial boundaries for Swedish and KJV.
-Poetry retains verse stanzas. Breaks inside a verse remain a display limitation.
-An exhaustive word-boundary oracle confirms 39 globally optimal paragraph fits, including choices that differ from greedy wrapping.
-The macOS speech backend generated 59,668 non-silent PCM frames from the installed Alva voice.
-The installed application showed the cross and continuous justified prose.
-Native playback controls passed Listen, Pause, Resume, and Stop checks using Alva.
-Cancelled utterance callbacks cannot overwrite the stopped status.
-Windows and Linux speech playback remain unavailable.
+The existing fixtures compare the Antiochian 2026 Sunday chart and OCA daily readings for 2026.
+The core suite retains explicit exceptions and calendar arithmetic checks.
+No complete independent reference confirms the Greek daily order.
+A complete-year Greek reference and a second year with different feast interactions remain necessary.
+A domain reviewer must approve source-backed explanations for differences.
+Algorithm agreement alone does not establish the intended jurisdiction's reading assignments.
+
+## Remaining manual checks
+
+VoiceOver and NVDA checks remain for control roles, toggle states, and Scripture text.
+The custom Scripture panel still needs an accessible representation of its verses.
+Listening checks remain for both voices, short and long readings, and pronunciation corrections.
+Installed-package checks remain for Windows, Linux, Intel Macs, and minimum platform versions.
+Overnight wake, multiple displays, and physical audio-device behavior also remain outside the local automated evidence.
+Repository ruleset enforcement is a separate administration task.

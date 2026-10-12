@@ -57,10 +57,14 @@ void ScriptureView::open_section(std::size_t index) {
     rows_.clear();
     located_cue_.reset();
     highlighted_.reset();
+    highlighted_verse_.reset();
+    if (verse_links_)
+        verse_links_->Hide();
     speech_row_.reset();
     guide_.reset();
     guide_alpha_ = 0;
     orphans_.clear();
+    swedish_editions_.clear();
     if (!selections_.empty()) {
         selections_.clear();
         if (selection_changed_)
@@ -126,6 +130,23 @@ void ScriptureView::open_section(std::size_t index) {
 std::string ScriptureView::source_of(const std::string& language) const {
     return language == languages().front() ? base_source_
                                            : corpus_.source_for_language(language, canon_code());
+}
+wxString ScriptureView::swedish_edition(std::size_t heading) const {
+    if (auto it = swedish_editions_.find(heading); it != swedish_editions_.end())
+        return it->second;
+    // The Swedish deuterocanonical books are the 1921 apocrypha.
+    bool bible = false, apocrypha = false;
+    for (auto index = heading + 1; index < rows_.size() && !rows_[index].heading; ++index)
+        for (const auto& ref : rows_[index].verses)
+            for (const auto& [book, target] :
+                 corpus_.counterparts(frame_, source_of("sv"), displayed_.book, ref)) {
+                (void)target;
+                (corpus_.deuterocanonical_book(book) ? apocrypha : bible) = true;
+            }
+    return swedish_editions_[heading] = bible && apocrypha ? ui::utf8("SVENSKA 1917 OCH 1921")
+                                        : apocrypha        ? ui::utf8("SVENSKA 1921")
+                                        : bible            ? ui::utf8("SVENSKA 1917")
+                                                           : ui::utf8("SVENSKA SAKNAS");
 }
 const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
     if (auto it = orphans_.find(source); it != orphans_.end())
@@ -218,14 +239,26 @@ bool ScriptureView::passage_in_view() const {
 void ScriptureView::apply(const Settings& settings) {
     const bool metrics_changed =
         settings_.font_size != settings.font_size || settings_.parallel != settings.parallel;
+    if (settings_.word_study != settings.word_study) {
+        highlighted_.reset();
+        highlighted_verse_.reset();
+        if (verse_links_)
+            verse_links_->Hide();
+        if (word_clicked_)
+            word_clicked_(std::nullopt);
+    }
     settings_ = settings;
     const auto colors = palette(settings.theme);
     SetBackgroundColour(colors.paper);
     SetForegroundColour(colors.ink);
+    if (verse_links_)
+        ui::recolor(verse_links_, colors);
     if (metrics_changed)
         invalidate();
     else
         request_repaint();
+    if (highlighted_verse_)
+        rebuild_verse_links();
 }
 void ScriptureView::invalidate() {
     const double marker_screen = guide_y_ - offset_;

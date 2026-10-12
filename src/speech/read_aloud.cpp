@@ -2,12 +2,8 @@
 #include "core/reading_display.hpp"
 
 namespace ortho {
-void ReadAloud::start(std::vector<Reading> readings, const std::vector<SpeechUtterance>& queue) {
+void ReadAloud::start(std::vector<Reading> readings) {
     readings_ = std::move(readings);
-    introductions_.clear();
-    for (const auto& utterance : queue)
-        if (utterance.cue && utterance.cue->introduction)
-            introductions_[utterance.cue->reading] = utterance.display_text;
 }
 void ReadAloud::update(const SpeechPlayback& playback, Clock::time_point now) {
     if (playback.state == SpeechState::Buffering && playback_.state != SpeechState::Buffering) {
@@ -27,13 +23,7 @@ std::optional<ReadAloud::Status> ReadAloud::status(const CorpusDb& corpus) const
     std::string location;
     if (playback_.cue) {
         const auto& cue = *playback_.cue;
-        if (!cue.introduction)
-            location = passage_label(corpus, {{cue.book, cue.verse, cue.verse}});
-        else if (const auto said = introductions_.find(cue.reading);
-                 said != introductions_.end() && !said->second.empty())
-            location = said->second;
-        else
-            location = "Introduktion";
+        location = passage_label(corpus, {{cue.book, cue.verse, cue.verse}});
     }
     const std::string ready =
         playback_.ready > 0 ? " " + std::to_string(int(playback_.ready * 100)) + " %" : std::string{};

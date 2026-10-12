@@ -43,9 +43,6 @@ Empty book and verse placeholders are excluded.
   The apocrypha are curated from Runeberg's 1921 facsimile and the Scrollmapper transcription (MIT).
   https://runeberg.org/apokryf/
   https://github.com/scrollmapper/bible_databases/tree/master/sources/sv/Swe1917
-- English KJV: 31,102 verses in 66 books, from Scrollmapper.
-  The text is public domain in many jurisdictions. UK Crown printing rights can apply.
-  https://github.com/scrollmapper/bible_databases/tree/master/sources/en/KJV
 - Greek OT: 28,597 verse records in 52 books, from eBible's Brenton Septuagint.
   The publisher identifies the text as public domain.
   https://ebible.org/grcbrent/copyright.htm
@@ -53,18 +50,25 @@ Empty book and verse placeholders are excluded.
   The publisher identifies the text as public domain.
   https://ebible.org/grcbyz/copyright.htm
 
-- World English Bible Classic: 38,029 records in 81 books, including deuterocanonical books.
+- English OT: 28,324 verse records in 54 books, from eBible's LXX2012.
+  LXX2012 is Brenton's 1851 translation of the Septuagint with American English updates by Michael Paul Johnson.
+  The publisher identifies the text and the updates as public domain.
+  https://ebible.org/eng-lxx2012/copyright.htm
+- English NT: 7,953 verses in 27 books, from eBible's World English Bible Classic.
   The publisher dedicates the text to the public domain. Its name remains a trademark.
   https://ebible.org/bible/details.php?id=eng-web
 
 The source repository's `resources/manifest.json` records input URLs, revisions, and SHA-256 hashes.
 The source repository keeps the complete JSON and USFM inputs for offline reproduction.
-USFM notes, headings, and Strong's attributes remain outside displayed Scripture.
+USFM notes, headings, and word attributes remain outside displayed Scripture.
+LXX2012 marks a plural "you" with ⌃. The importer removes the mark and keeps each Psalm title with verse 1.
 The importer preserves verse wording, joined verse ranges, and lettered verse labels.
 Greek Daniel uses the publisher's DAG file. Greek Ezra includes Nehemiah within its source numbering.
 The Swedish source has five empty book placeholders: 1 and 2 Esdras, Psalm 151, and 3 and 4 Maccabees.
 These placeholders are not translations. The Greek and English editions supply available texts.
-WEB publishes Greek Daniel separately and includes the Letter of Jeremiah within Baruch 6.
+The source repository also keeps three public-domain witnesses that the package does not contain:
+the KJV from Scrollmapper, the complete World English Bible, and eBible's Brenton English Septuagint.
+The corpus build uses them only for verse numbering, Swedish paragraph boundaries, and the LXX2012 alignment.
 No modern Antiochian website Scripture translation is copied into the corpus.
 
 ## Calendar rules
@@ -133,10 +137,6 @@ https://runeberg.org/biblobok/
 https://runeberg.org/authors/nystreri.html
 The curated lookup aliases in `resources/lexicon/sv1917-biblical-forms.tsv` use MIT.
 
-Strong's definitions come from TBESG by STEP Bible (www.STEPBible.org), Tyndale House Cambridge, under CC BY 4.0.
-The pinned source is STEPBible-Data commit `1f3423d42400f59f1f30fe08f74e38fcd3bbf7bc`.
-Changes: only entries used by the Greek New Testament, definitions converted to plain text, Greek normalized to NFC.
-https://github.com/STEPBible/STEPBible-Data
 
 ONNX Runtime 1.23.2 uses MIT and includes its dependency notices.
 https://github.com/microsoft/onnxruntime/releases/tag/v1.23.2

@@ -148,27 +148,6 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
                                const std::vector<Pronunciation>& lexicon) {
     return PronunciationMatcher(language, lexicon).utterance(text);
 }
-std::string reading_introduction(const std::vector<std::pair<std::string, Passage>>& parts) {
-    std::string text = "Läsning ur ";
-    for (std::size_t i = 0; i < parts.size(); ++i) {
-        const auto& [book, p] = parts[i];
-        const bool same_book = i && parts[i - 1].first == book;
-        if (i)
-            text += i + 1 == parts.size() ? "; och " : "; ";
-        if (!same_book)
-            text += (i ? "ur " : "") + book + ", ";
-        if (!same_book || parts[i - 1].second.last.chapter != p.first.chapter)
-            text += "kapitel " + std::to_string(p.first.chapter) + ", ";
-        text += "vers " + std::to_string(p.first.verse);
-        if (p.last != p.first)
-            text +=
-                " till " +
-                (p.last.chapter != p.first.chapter ? "kapitel " + std::to_string(p.last.chapter) + ", vers "
-                                                   : "") +
-                std::to_string(p.last.verse);
-    }
-    return text + ".";
-}
 std::vector<std::string> speech_chunks(const std::string& text) {
     const auto space = [](unsigned char c) {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f';
@@ -182,17 +161,27 @@ std::vector<std::string> speech_chunks(const std::string& text) {
             break;
         auto end = std::min(begin + 240, text.size());
         if (end < text.size()) {
-            auto split = text.find_last_of(" \t\n\r\v\f", end);
-            if (split != std::string::npos && split > begin)
-                end = split;
+            // Finish a nearby sentence instead of leaving its last words in a
+            // separate synthesis request, which adds a pause inside the phrase.
+            const auto limit = std::min(begin + 320, text.size());
+            const auto next_sentence = text.find_first_of(".!?;", end);
+            if (next_sentence != std::string::npos && next_sentence < limit)
+                end = next_sentence + 1;
+            else if (text.size() <= limit)
+                end = text.size();
             else {
-                end = text.find_first_of(" \t\n\r\v\f", end);
-                if (end == std::string::npos)
-                    end = text.size();
+                auto split = text.find_last_of(" \t\n\r\v\f", end);
+                if (split != std::string::npos && split > begin)
+                    end = split;
+                else {
+                    end = text.find_first_of(" \t\n\r\v\f", end);
+                    if (end == std::string::npos)
+                        end = text.size();
+                }
+                const auto sentence = text.find_last_of(".!?;", end - 1);
+                if (sentence != std::string::npos && sentence >= begin + 40)
+                    end = sentence + 1;
             }
-            const auto sentence = text.find_last_of(".!?;", end - 1);
-            if (sentence != std::string::npos && sentence >= begin + 40)
-                end = sentence + 1;
         }
         result.push_back(text.substr(begin, end - begin));
         begin = end;

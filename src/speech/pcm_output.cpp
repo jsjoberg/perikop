@@ -18,7 +18,12 @@ struct PcmOutput::Impl {
     // A mutex, because not every standard library has std::atomic<std::shared_ptr> yet.
     // The deprecated std::atomic_load functions on shared_ptr also lock.
     mutable std::mutex mutex;
-    std::shared_ptr<PcmStream> playing;
+    struct Playback {
+        PcmStream source;
+        std::atomic<uint64_t> played{0};
+        std::atomic<bool> waiting{true}, finished{false};
+    };
+    std::shared_ptr<Playback> playing;
     std::atomic<bool> paused{false};
     std::atomic<float> speed{1};
     TempoStretch stretch; // Audio callback only.
@@ -29,14 +34,17 @@ struct PcmOutput::Impl {
         const auto playing = self->current();
         if (!playing || self->paused.load())
             return;
-        self->stretch.render(*playing, samples, frames, self->speed.load());
+        self->stretch.render(playing->source, samples, frames, self->speed.load());
+        playing->played.store(self->stretch.played());
+        playing->waiting.store(self->stretch.waiting());
+        playing->finished.store(self->stretch.finished());
     }
-    std::shared_ptr<PcmStream> current() const {
+    std::shared_ptr<Playback> current() const {
         std::lock_guard lock(mutex);
         return playing;
     }
     // The previous stream is released after the lock, not while the audio callback waits.
-    void replace(std::shared_ptr<PcmStream> stream) {
+    void replace(std::shared_ptr<Playback> stream) {
         std::lock_guard lock(mutex);
         playing.swap(stream);
     }
@@ -62,28 +70,28 @@ PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {}
 PcmOutput::~PcmOutput() = default;
 void PcmOutput::start(bool paused) {
     impl_->paused.store(paused);
-    impl_->replace(std::make_shared<PcmStream>());
+    impl_->replace(std::make_shared<Impl::Playback>());
 }
 void PcmOutput::append(std::vector<float> samples) {
     const auto playback = impl_->current();
-    if (!playback || !playback->append(std::move(samples)))
+    if (!playback || !playback->source.append(std::move(samples)))
         throw std::runtime_error("Ljudbufferten är full eller stängd.");
 }
 void PcmOutput::complete() {
     if (const auto playback = impl_->current())
-        playback->complete();
+        playback->source.complete();
 }
 size_t PcmOutput::buffered() const {
     const auto playback = impl_->current();
-    return playback ? playback->buffered() : 0;
+    return playback ? playback->source.buffered() : 0;
 }
 uint64_t PcmOutput::buffered_frames() const {
     const auto playback = impl_->current();
-    return playback ? playback->buffered_frames() : 0;
+    return playback ? playback->source.buffered_frames() : 0;
 }
 void PcmOutput::release() {
     if (const auto playback = impl_->current())
-        playback->release();
+        playback->source.release();
 }
 void PcmOutput::pause(bool paused) {
     impl_->paused.store(paused);
@@ -97,11 +105,12 @@ void PcmOutput::stop() {
 }
 bool PcmOutput::finished() const {
     const auto playback = impl_->current();
-    return !playback || playback->finished();
+    return !playback || playback->finished.load();
 }
 PcmProgress PcmOutput::progress() const {
     const auto playback = impl_->current();
-    return playback ? PcmProgress{playback->played(), playback->waiting(), playback->finished()}
-                    : PcmProgress{};
+    return playback
+               ? PcmProgress{playback->played.load(), playback->waiting.load(), playback->finished.load()}
+               : PcmProgress{};
 }
 } // namespace ortho

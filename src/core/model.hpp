@@ -52,7 +52,7 @@ struct Reading {
     std::string source_override;
     // The edition whose numbering the passages use; lectionary rules state theirs.
     // Empty means each passage already uses the framing edition for its book and language.
-    std::string reference = "en-kjv";
+    std::string reference;
     // Liturgical service and occasion. Empty for manually selected Scripture.
     std::string service, occasion;
     // Composite readings retain their published citation without importing adapted liturgical wording.
@@ -100,6 +100,7 @@ struct Fasting {
     auto operator<=>(const Fasting&) const = default;
 };
 std::string fasting_period_label(FastPeriod);
+// What a fast allows, such as "Vin och olja tillåtna"; empty for a strict fast.
 std::string fasting_allowance_label(Fasting);
 std::string fasting_abstentions(Fasting);
 std::string service_label(const std::string&);
@@ -193,9 +194,7 @@ struct Settings {
     Tradition tradition = Tradition::Greek;
     Theme theme = Theme::System;
     int font_size = 19;
-    // Left pane language: "sv", "el" or "en". It is also the language read aloud.
-    std::string primary = "sv";
-    // Right pane language, or empty for one pane. Never the same as primary.
+    // Right pane language, "el" or "en", or empty for one pane. The left pane is Swedish.
     std::string parallel;
     // The right pane is the Ordstudium lookup panel. Excludes a parallel language.
     bool word_study = false;
@@ -213,6 +212,8 @@ std::string source_language(const std::string& source);
 struct CanonBook {
     std::string code;       // name and picker identity, e.g. "Neh"
     std::string frame_book; // the book in the framing edition, e.g. "Ezra"
+    // Swedish names as the reader shows the book, e.g. "Ester enligt den grekiska texten".
+    std::string name, abbreviation;
     int first_chapter = 1, last_chapter = 999;
     bool new_testament = false;
     int offset() const {

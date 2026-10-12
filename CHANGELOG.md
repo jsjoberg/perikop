@@ -13,11 +13,12 @@ The first release will be 0.1.0. Until then, this section collects everything.
 ### Added
 
 - Daily readings in the Antiochian, Greek, or Slavic reading order, calculated offline, with new and old calendar modes.
-- Swedish Bible 1917 with the 1921 apocrypha, the Septuagint, the 1904 Patriarchal Greek New Testament, the King James Version, and the World English Bible.
+- Swedish Bible 1917 with the 1921 apocrypha, the Septuagint, the 1904 Patriarchal Greek New Testament, and in English the LXX2012 Septuagint with the World English Bible New Testament, as on Orthocal.
 - A continuous reader framed by the Septuagint, with paragraph fitting, hyphenation, and a parallel language column.
 - Go to any passage with a book, chapter, and verse picker.
 - Swedish read-aloud with the Alice and Björn voices, following the text as it is read.
-- Word study with Dalin's dictionary, Nyström's biblical dictionary, and Strong's Greek lexicon.
+- Word study with Dalin's dictionary and Nyström's biblical dictionary.
+- Online verse buttons in word study for Folkbibeln SFB15, Kärnbibeln, Reformationsbibeln, and Bibel 2026.
 - A pronunciation review for Swedish read-aloud.
 - A browser-like toolbar with back, play, pause, and stop, an address field for passages, and right-column choices.
 - A translucent button that returns to the passage or to the text being read.
@@ -26,7 +27,13 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Reading plans on the start page: the New Testament in 30 parts; the Masoretic canon in 30 parts, with Septuagint numbering; and the books outside the Hebrew Bible that have Swedish text, in 14 parts.
 - Marks for read plan parts and daily readings. Perikop asks after a part is read or listened to, and each plan can start over.
 - An option in Visa to turn off the highlight of the text being read aloud.
-- In the book picker, books without text in the chosen language are greyed out.
+- A ⋮ menu at the right of the toolbar with every menu command. Windows and Linux hide the menu bar; Alt shows it.
+- **Visa → Normal textstorlek** returns the text to its default size.
+- The left column is always Swedish. **Visa** offers Bara svenska, or Swedish with word study, Greek, or English.
+- In the Bible browser, **Lägg till** stacks selected ranges as the parts of one reading, and **Rensa** clears them.
+- Books without Swedish text open in the Bible browser for their Greek and English text.
+- The Greek Esther and Daniel are named "Ester enligt den grekiska texten" and "Daniel enligt den grekiska texten", as in Bibel 2000.
+- Chapter headings name the Swedish 1917 Bible, the 1921 apocrypha, or both, after the chapter's Swedish text.
 - Release packages: a DMG for macOS, an installer for Windows, and an AppImage for Linux. Each contains the voices and works offline.
 - Arrows beside the date for the previous and next day, and an **Idag** button for the current date.
 - Custom readings in the Bible browser: with **Flera intervall**, add verse ranges from different books in playback order, then open or play them.

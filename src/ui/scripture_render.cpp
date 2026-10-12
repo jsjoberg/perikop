@@ -21,7 +21,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
         if (row.heading) {
             dc.SetTextForeground(colors.muted);
             dc.SetFont(ui_font(11));
-            auto name = ui::utf8(corpus_.book_name(canon_code())).Upper();
+            auto name = ui::utf8(corpus_.title(canon_code())).Upper();
             const auto extent = dc.GetTextExtent(name);
             dc.DrawText(name, (size.x - extent.x) / 2, y + FromDIP(15));
             dc.SetFont(body_font(28));
@@ -35,9 +35,9 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 if (!labels.empty())
                     labels += ui::utf8("     ·     ");
                 const auto source = source_of(language);
-                labels += language == "sv" ? "SVENSKA 1917"
+                labels += language == "sv" ? swedish_edition(index)
                           : language == "en"
-                              ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "KING JAMES")
+                              ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "LXX2012")
                               : ui::utf8("ΕΛΛΗΝΙΚΑ");
             }
             dc.DrawText(labels, (size.x - dc.GetTextExtent(labels).x) / 2, y + FromDIP(93));
@@ -65,6 +65,34 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 }
                 dc.SetFont(body_font(settings_.font_size));
                 dc.SetTextForeground(colors.ink);
+                // A clicked verse shares its framing range across both editions.
+                if (gc && highlighted_verse_ && !settings_.word_study) {
+                    gc->SetPen(*wxTRANSPARENT_PEN);
+                    gc->SetBrush(wxBrush(with_alpha(colors.accent, 36)));
+                    for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
+                        double first = std::numeric_limits<double>::max(), last = 0;
+                        const auto flush = [&] {
+                            if (last > first)
+                                gc->DrawRoundedRectangle(x + FromDIP(30) + first - FromDIP(5),
+                                                         text_y + line * column.text.line_height + FromDIP(1),
+                                                         last - first + FromDIP(10),
+                                                         column.text.line_height - FromDIP(2), FromDIP(4));
+                            first = std::numeric_limits<double>::max();
+                            last = 0;
+                        };
+                        for (const auto& run : column.text.lines[line].runs) {
+                            if (!column.main_text(run.tag) || column.faint[run.tag] ||
+                                column.verses[run.tag].first > highlighted_verse_->second ||
+                                column.verses[run.tag].second < highlighted_verse_->first) {
+                                flush();
+                                continue;
+                            }
+                            first = std::min(first, run.x);
+                            last = std::max(last, run.x + run.width);
+                        }
+                        flush();
+                    }
+                }
                 // The margin marker, and the tinted spoken line unless the reader turned it off.
                 if (gc && guide_ && guide_->row == index && guide_->column == c && guide_alpha_ > 0.01) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
@@ -124,7 +152,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         if (lower != target || occurrence != highlighted_->occurrence)
                             continue;
                         gc->SetPen(*wxTRANSPARENT_PEN);
-                        gc->SetBrush(wxBrush(with_alpha(colors.accent, 72)));
+                        gc->SetBrush(wxBrush(with_alpha(colors.accent, 36)));
                         for (const auto& [line, index] : word.runs) {
                             const auto& run = column.text.lines[line].runs[index];
                             gc->DrawRoundedRectangle(x + FromDIP(30) + run.x - FromDIP(3),
@@ -183,6 +211,7 @@ void ScriptureView::paint(wxPaintEvent&) {
     wxAutoBufferedPaintDC dc(this);
     const auto begin = first_visible();
     draw(dc, GetClientSize(), begin, rows_.size(), positions_.empty() ? 0 : positions_[begin] - offset_);
+    position_verse_links();
     draw_return(dc);
     // The passage's last paragraph has been seen once its end is on screen.
     const double bottom = offset_ + GetClientSize().y;
@@ -222,8 +251,8 @@ void ScriptureView::draw_return(wxDC& dc) {
     gc->GetTextExtent(return_label_, &width, &height);
     const int pad_x = FromDIP(26), pad_y = FromDIP(12);
     const auto size = GetClientSize();
-    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, size.y - FromDIP(30) - int(height) - 2 * pad_y,
-                          int(width) + 2 * pad_x, int(height) + 2 * pad_y);
+    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, FromDIP(30), int(width) + 2 * pad_x,
+                          int(height) + 2 * pad_y);
     // Mostly see-through until the pointer reaches it.
     const bool hover = return_hover_;
     gc->SetBrush(wxBrush(with_alpha(colors.paper, hover ? 245 : 185)));

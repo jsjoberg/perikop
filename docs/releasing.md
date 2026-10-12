@@ -59,10 +59,23 @@ git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 ```
 
 CI builds and tests all three platforms and makes the packages.
+It generates finite, non-silent audio for Alice and Björn with short and long text from the assembled resources.
+The macOS package probe runs both architecture slices from the mounted DMG.
+The Linux probe uses the assembled AppDir. The Windows probe uses the installer input tree.
+Publication also requires the macOS arm64 ASan and UBSan job.
 It then creates a draft release with the packages and `SHA256SUMS.txt`.
 A suffix in the tag, such as `-alpha.2`, is added to the file names. The About page shows the tag version.
 CI stops if the tag does not match the version in `CMakeLists.txt`.
 Edit the release notes on GitHub, then publish the draft. It becomes the latest release on the repository page.
+
+Before broader distribution, do the remaining checks for each supported platform and minimum version:
+
+- Listen to both voices with short and long readings.
+- Check pause, resume, speed changes, Stop/Start, and the final audio tail on a physical device.
+- Check pronunciation corrections and uncached speech.
+- Check keyboard navigation and Scripture access with VoiceOver or NVDA.
+
+Record the package identity, platform version, architecture, and results in the validation record.
 
 ## CI packages
 
@@ -76,7 +89,7 @@ To start that process now, run:
 gh workflow run build.yml --ref main -f nightly=true
 ```
 
-Nightly builds start at 05:00 Stockholm time, with automatic daylight saving changes.
+Nightly builds start at 22:15 Stockholm time, with automatic daylight saving changes.
 They use the latest commit on the default branch.
 GitHub can delay the start when its runners are busy.
 Before the builds, CI compares this commit with the last successful nightly.

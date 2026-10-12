@@ -100,5 +100,5 @@ Personal corrections do not automatically change the bundled data.
 
 NST source details and the pinned download hash are in `tools/lexicon/inputs.json`.
 The prepared word list uses the NST Swedish pronunciation lexicon under CC0.
-Strong's numbers and Dalin definitions belong to [the word-study panel](word-study.md).
-This pronunciation tool does not include those datasets.
+Dalin definitions belong to [the word-study panel](word-study.md).
+This pronunciation tool does not include that dataset.

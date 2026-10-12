@@ -13,8 +13,14 @@ namespace ortho {
 class PcmStream {
 public:
     static constexpr size_t capacity = 1024;
+    // Addresses may be reused between Stop/Start. This identity never is.
+    uint64_t generation() const {
+        return generation_;
+    }
 
 private:
+    inline static std::atomic<uint64_t> next_generation_{0};
+    const uint64_t generation_ = next_generation_.fetch_add(1, std::memory_order_relaxed) + 1;
     std::array<std::vector<float>, capacity> chunks_;
     std::atomic<size_t> read_{0}, written_{0};
     std::atomic<bool> complete_{false}, held_{true};

@@ -9,6 +9,8 @@ alignment cannot find, such as transposed verses: 'refs > refs' links all source
 with all target refs, 'range >> range' links verse by verse, and '-' means none.
 """
 SV,GR,KJV,WEB='sv1917','grc-lxx','en-kjv','en-web'
+# LXX2012 aligns with the Greek through Brenton's English; see align_editions.bridge.
+LXX2012,BRENTON='en-lxx2012','en-brenton'
 OT=['Gen','Exod','Lev','Num','Deut','Josh','Judg','Ruth','1Sam','2Sam','1Kgs','2Kgs','1Chr','2Chr','Ezra','Job','Ps','Prov','Eccl','Song','Isa','Jer','Lam','Ezek','Dan','Hos','Joel','Amos','Obad','Jonah','Micah','Nah','Hab','Zeph','Hag','Zech','Mal','EsthGr']
 APOCRYPHA=['Tob','Jdt','Wis','Sir','Baruch','EpJer','Sus','Bel','1Macc','2Macc','PrMan']
 
@@ -116,13 +118,12 @@ OVERRIDES[(SV,KJV)]=SV_KJV_OVERRIDES
 CANON=['Gen','Exod','Lev','Num','Deut','Josh','Judg','Ruth','1Sam','2Sam','1Kgs','2Kgs','1Chr','2Chr','Ezra','Neh','Esth','Job','Ps','Prov','Eccl','Song','Isa','Jer','Lam','Ezek','Dan','Hos','Joel','Amos','Obad','Jonah','Micah','Nah','Hab','Zeph','Hag','Zech','Mal',
  'Matt','Mark','Luke','John','Acts','Rom','1Cor','2Cor','Gal','Eph','Phil','Col','1Thess','2Thess','1Tim','2Tim','Titus','Philemon','Heb','James','1Peter','2Peter','1John','2John','3John','Jude','Rev']
 OLD_TESTAMENT=set(CANON[:39])
+# The WEB deuterocanon only supplies Swedish paragraph boundaries; these links keep them to matching verses.
 # WEB embeds most additions to Esther in long verses, and numbers Greek Daniel with Susanna and Bel as chapters 13-14.
 UNITS[(SV,WEB)]={'EsthGr':{'src':ESTHER_ORDER,'keep':{'EsthGr'}},'DanGr':{'src':DANIEL_ORDER+[('Sus',None),('Bel',None)],'tgt':[('DanGr',None)],'keep':{'PrAzar','Sus','Bel'}}}
 RULES[(SV,WEB)]={'EsthGr':['EsthGr 1-7=-'],'DanGr':['Dan 3:24-30=DanGr 3:91','PrAzar 1:1-65=-','Dan 3:31-33=DanGr 4:1','Dan 4:1-34=DanGr 4:4','Sus 1:1-64=DanGr 13:1','Bel 1:1-42=DanGr 14:1']}
 OVERRIDES[(SV,WEB)]={'EsthGr':['EsthGr 1:1-17 > EsthGr 1:1','EsthGr 2:1-7 > EsthGr 3:13','EsthGr 3:1-11 >> EsthGr 4:18-28','EsthGr 4:1-19 >> EsthGr 4:29-47',
  'EsthGr 5:1-11 > EsthGr 5:1','EsthGr 5:12-16 > EsthGr 5:2','EsthGr 6:1-24 > EsthGr 8:13','EsthGr 7:1-11 >> EsthGr 10:4-14']}
-UNITS[(WEB,GR)]={'Ps151':{'tgt':[('Ps','151')]}}
-RULES[(WEB,GR)]={'Ps151':['Ps151 1-1=Ps 151']}
 # New Testament: the 1917 Bible follows a critical text. It omits some verses
 # without renumbering, but renumbers or redivides these, reviewed against the
 # Patriarchal Greek text, the KJV and the WEB (which numbers like the Greek).
@@ -150,5 +151,12 @@ def merged(*tables):
 OVERRIDES[(SV,GRP)]=merged(NT_SHARED,NT_BYZANTINE,NT_PATRIARCHAL)
 OVERRIDES[(SV,WEB)]=merged(OVERRIDES[(SV,WEB)],NT_SHARED,NT_BYZANTINE)
 OVERRIDES[(SV,KJV)]=merged(SV_KJV_OVERRIDES,NT_SHARED)
-PAIRS={(SV,GR):OT+APOCRYPHA,(SV,KJV):CANON,(SV,WEB):['Tob','Jdt','Wis','Sir','Baruch','1Macc','2Macc','PrMan','EsthGr','DanGr']+NT,(WEB,GR):['1Esd','3Macc','4Macc','Ps151'],
- (SV,GRP):NT}
+# The English editions number like the 1917 Bible where only the Patriarchal text differs.
+ENGLISH_GRP=merged(NT_PATRIARCHAL,{'2Cor':['2Cor 13:12 2Cor 13:13 > 2Cor 13:12','2Cor 13:14 > 2Cor 13:13'],'3John':['3John 1:14 > 3John 1:14 3John 1:15']})
+OVERRIDES[(WEB,GRP)]=ENGLISH_GRP
+# Lectionary references use KJV numbering. The build restates New Testament ones in the Patriarchal
+# numbering, which keeps verses that the WEB omits, such as Acts 15:34.
+OVERRIDES[(KJV,GRP)]=merged(ENGLISH_GRP,{'Matt':['Matt 23:13 > Matt 23:14','Matt 23:14 > Matt 23:13'],'Rom':['Rom 16:25-27 >> Rom 14:24-26']})
+PAIRS={(SV,GR):OT+APOCRYPHA,(SV,KJV):CANON,(SV,WEB):['Tob','Jdt','Wis','Sir','Baruch','1Macc','2Macc','PrMan','EsthGr','DanGr']+NT,(SV,GRP):NT,(WEB,GRP):NT,(KJV,GRP):NT}
+# LXX2012 joins 2 Esdras' Nehemiah part as a book and prints the Prayer of Azariah after Daniel 3:23.
+BRIDGE_UNITS={'Ezra':[('Ezra',None),('Neh',None)],'Dan':[('Dan','1-3:23'),('PrAzar',None),('Dan','3:24-12:99')]}

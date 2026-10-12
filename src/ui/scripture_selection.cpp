@@ -32,6 +32,14 @@ void ScriptureView::select_verses(VerseRef first, VerseRef last, bool append) {
     }
     if (selections_ == merged)
         return;
+    highlighted_verse_.reset();
+    if (verse_links_)
+        verse_links_->Hide();
+    if (highlighted_) {
+        highlighted_.reset();
+        if (word_clicked_)
+            word_clicked_(std::nullopt);
+    }
     selections_ = std::move(merged);
     Refresh(false);
     if (selection_changed_)
@@ -47,7 +55,7 @@ void ScriptureView::clear_selection() {
 }
 std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
     const auto found = hit(point);
-    if (!found || found->run < 0)
+    if (!found || found->run < 0 || found->distance > FromDIP(4))
         return std::nullopt;
     const auto& column = *found->column;
     return column.verses[column.text.lines[found->line].runs[found->run].tag].first;
@@ -108,7 +116,7 @@ ScriptureView::word_of(const Column& column, int tag, std::size_t line, int run)
 }
 std::optional<ScriptureView::Word> ScriptureView::word_at(wxPoint point) const {
     const auto found = hit(point);
-    if (!found || found->run < 0 || found->distance > FromDIP(4))
+    if (!found || found->column_index != 0 || found->run < 0 || found->distance > FromDIP(4))
         return std::nullopt;
     const auto& column = *found->column;
     const int tag = column.text.lines[found->line].runs[found->run].tag;
@@ -122,6 +130,37 @@ std::optional<ScriptureView::Word> ScriptureView::word_at(wxPoint point) const {
 void ScriptureView::highlight_word(std::optional<Word> word) {
     highlighted_ = std::move(word);
     Refresh(false);
+}
+std::optional<Passage> ScriptureView::highlighted_verse() const {
+    if (!highlighted_verse_)
+        return std::nullopt;
+    return Passage{displayed_.book, highlighted_verse_->first, highlighted_verse_->second};
+}
+void ScriptureView::click_text(wxPoint point) {
+    const auto found = hit(point);
+    if (!found || found->run < 0 || found->distance > FromDIP(4))
+        return;
+    if (settings_.word_study) {
+        const auto word = word_at(point);
+        if (!word)
+            return;
+        highlight_word(highlighted_ == word ? std::nullopt : word);
+        if (word_clicked_)
+            word_clicked_(highlighted_);
+        return;
+    }
+    const auto& column = *found->column;
+    const auto range = column.verses[column.text.lines[found->line].runs[found->run].tag];
+    // A merged verse in one edition can cover several verses in the other.
+    // Clicking any of those counterparts closes the same highlight.
+    if (highlighted_verse_ && range.first <= highlighted_verse_->second &&
+        highlighted_verse_->first <= range.second)
+        highlighted_verse_.reset();
+    else
+        highlighted_verse_ = range;
+    highlighted_column_ = found->column_index;
+    rebuild_verse_links();
+    request_repaint();
 }
 std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
     if (rows_.empty() || positions_.empty())
@@ -139,24 +178,38 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
         return std::nullopt;
     const int margin = outside_margin(), stride = column_stride();
     const bool stacked = stacked_columns();
-    if (!stacked && columns_count() > 1 && point.x >= margin + stride - FromDIP(24))
+    if (point.x < margin || point.x >= GetClientSize().x - margin)
         return std::nullopt;
-    const auto& column = layout.columns.front();
+    std::size_t column_index = 0;
     double top = positions_[index];
-    if (stacked && layout.columns.size() > 1)
-        top += FromDIP(24);
+    if (stacked) {
+        for (; column_index < layout.columns.size(); ++column_index) {
+            if (layout.columns.size() > 1)
+                top += FromDIP(24);
+            if (y < top + layout.columns[column_index].text.height())
+                break;
+            top += layout.columns[column_index].text.height();
+        }
+    } else {
+        column_index = std::size_t((point.x - margin) / stride);
+        if (point.x - margin - int(column_index) * stride >= FromDIP(30) + column_width())
+            return std::nullopt; // The gutter between columns.
+    }
+    if (column_index >= layout.columns.size())
+        return std::nullopt;
+    const auto& column = layout.columns[column_index];
     if (y < top || y >= top + column.text.height())
         return std::nullopt;
     const auto line =
         std::min(column.text.lines.size() - 1, std::size_t((y - top) / column.text.line_height));
-    const double x = point.x - margin - FromDIP(30);
+    const double x = point.x - margin - (stacked ? 0 : int(column_index) * stride) - FromDIP(30);
     // The run under the pointer, or the nearest one on that line.
     int nearest = -1;
     double best = std::numeric_limits<double>::max();
     const auto& runs = column.text.lines[line].runs;
     for (std::size_t i = 0; i < runs.size(); ++i) {
         const auto& run = runs[i];
-        if (!column.main_text(run.tag))
+        if (!column.main_text(run.tag) || column.faint[run.tag])
             continue;
         const double distance = x < run.x ? run.x - x : x > run.x + run.width ? x - run.x - run.width : 0;
         if (distance < best) {
@@ -164,6 +217,6 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
             nearest = int(i);
         }
     }
-    return Hit{index, &column, line, nearest, best};
+    return Hit{index, &column, column_index, line, nearest, best};
 }
 } // namespace ortho

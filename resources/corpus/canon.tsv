@@ -1,7 +1,9 @@
 # The reader's book order: the Orthodox Study Bible, framed by Septuagint numbering.
 # Brenton's Greek joins Ezra and Nehemiah as 2 Esdras 1-23 and prints Esther with its additions
 # as one book; the OSB separates and names them. chapters limits a book to part of its frame book.
-# book	frame_book	chapters
+# name_sv and abbreviation_sv replace the book's Swedish names where the reader shows another text,
+# as Bibel 2000 names the Greek Esther "Ester enligt den grekiska texten".
+# book	frame_book	chapters	name_sv	abbreviation_sv
 Gen	Gen	
 Exod	Exod	
 Lev	Lev	
@@ -22,7 +24,7 @@ Ezra	Ezra	1-10
 Neh	Ezra	11-23
 Tob	Tob	
 Jdt	Jdt	
-Esth	EsthGr	
+Esth	EsthGr		Ester enligt den grekiska texten	Est gr
 1Macc	1Macc	
 2Macc	2Macc	
 3Macc	3Macc	
@@ -52,7 +54,7 @@ Lam	Lam
 EpJer	EpJer	
 Ezek	Ezek	
 Sus	Sus	
-Dan	Dan	
+Dan	Dan		Daniel enligt den grekiska texten	Dan gr
 Bel	Bel	
 Matt	Matt	
 Mark	Mark	

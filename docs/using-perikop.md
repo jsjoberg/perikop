@@ -7,9 +7,9 @@ The application needs no network connection after installation.
 
 ## Installation
 
-- macOS: open the DMG and drag Perikop to Applications.
+- macOS 13.4 or later, Intel or Apple Silicon: open the DMG and drag Perikop to Applications.
 - Windows 10 or later, x86-64: run the installer. It installs Perikop in Program Files and adds a Start menu shortcut.
-- Linux: make the AppImage executable, then run it.
+- Linux x86-64 with glibc 2.34 or later: make the AppImage executable, then run it.
 
 The macOS application has an ad-hoc signature only.
 On first launch, open **System Settings → Privacy & Security** and select **Open Anyway**.
@@ -19,12 +19,11 @@ For a source build, use the [build guide](building.md#run).
 
 ## Daily readings and calendar
 
-The day page shows the date, fasting information, commemorations, service readings, and three reading plans.
+The day page shows the date, fasting information, service readings, and three reading plans.
 Press **Läs** beside a reading to open it.
 Service labels identify Vespers, Matins, the Hours, and other readings when they apply.
 Saints' readings appear beside the ordinary daily readings.
 Fasting information identifies the period, permitted exceptions, and foods to abstain from.
-Commemorations use Swedish names where available. Other names retain the source's English text.
 Composite liturgical readings show their citations without a **Läs** button. Their adapted text is not in the Bible corpus.
 The arrows beside the date move to the previous or next day.
 The **Idag** button selects the current local date. This button always works and needs no background timer.
@@ -60,7 +59,16 @@ The reader preserves macOS trackpad precision and momentum.
 The brass margin line marks the selected passage.
 Prose flows across verses. Small inline numbers preserve verse navigation.
 
-The toolbar has four symbols on each side of the address field.
+Click a verse to highlight it. Click the same verse again to close the highlight.
+In parallel view, either language can open or close the highlight. Both columns highlight the corresponding verse.
+In **Bara svenska**, source buttons appear above the selected verse and move with it during scrolling.
+Greek, English, and word-study views hide these buttons.
+They disappear when the verse leaves the screen.
+**SFB15**, **SKB**, **SRB**, and **B2026** open the verse in your browser.
+Links use each source's verse numbering. Buttons without a verified verse link are disabled.
+Opening an online source needs an internet connection.
+
+The toolbar has four symbols left of the address field, and the column symbols and ⋮ to its right.
 On the left, Back returns from the reader to the day page.
 **Lyssna**, **Pausa**, and **Stoppa** control read-aloud.
 The calendar, Bible browser, and **Om Perikop** page use the main window.
@@ -73,35 +81,47 @@ Controls that do not apply are dimmed. The day page dims the reader controls.
 
 Click the address field to go to another passage.
 For a reading in several parts, the field is a menu of the parts.
-The symbols on the right select word study, Swedish, Greek, or English for the right column.
+The left column is always the Swedish text.
+The symbols on the right select word study, Greek, or English for the right column.
 Click the selected symbol again to close the column.
-The text control adds Greek, English, or all three languages to the selected main edition.
 Narrow windows use aligned blocks.
+
+The ⋮ button at the right end of the toolbar opens a menu with every menu command, as in Chrome.
+It opens inside the window, aligned with the button's right edge.
+On Windows and Linux the menu bar is hidden. Press and release Alt to show it, and again to hide it.
+The keyboard shortcuts work either way. macOS keeps its own menu bar.
+**Visa → Normal textstorlek** (Ctrl+0, ⌘0 on macOS) returns the text to the default size.
 
 ## Bible browser
 
 Select **Bibel → Gå till bibelställe** to open the book, chapter, and verse grids.
 Select a book to unfold its chapters directly beneath its row. Select a chapter to unfold its verses beneath it.
 Select an open book or chapter again to fold it.
-The page has a vertical scrollbar. Select a verse to open it immediately.
-**Hela boken** and **Hela kapitlet** open complete books and chapters.
-Books without text in the left column language are greyed out.
+The page has a vertical scrollbar. The normal browser selects one continuous range.
+The address field shows the current range.
+The selection starts with the complete book. The first chapter selection changes the range to the complete chapter.
+Another chapter selection extends the range to include both chapters and all chapters between them.
+
+The first verse selection within a complete chapter starts a range at that verse.
+Later verse selections change the end of the range.
+
+For example, select John 3. Then select verse 3. Then select verse 5.
+The range is John 3:3–3:5.
+
+Then select chapter 5. The range extends from John 3:3 to the end of chapter 5.
+Then select verse 5 in chapter 5. The range changes to John 3:3–5:5.
+Select **Öppna urval** to open the range.
+
+Books without Swedish text, such as 1 Esdras, open too, for their Greek and English text.
+Their tooltip says **Svenska saknas**. The Swedish column shows "Saknas i denna utgåva".
 Back moves from verses to chapters, then books, then the previous view.
 
-To prepare a custom reading, enable **Flera intervall**:
-
-1. Select a book and chapter.
-2. Select the start verse.
-3. Select the end verse.
-   For a range across chapters, use Back to select another chapter in the same book.
-4. Select **Lägg till intervall**. For one verse, omit the end verse.
-5. Add more ranges in the order for playback. Ranges can come from different books.
-6. To remove a range, select it in the list and press **Ta bort**.
-7. Select **Öppna urval** to show the reading.
-8. Select **Lyssna** to play all ranges in list order.
-
-**Lägg till hela boken** and **Lägg till hela kapitlet** add complete books and chapters to the list.
-The address field shows a menu of the selected parts.
+To read several passages as one reading, select a range and then **Lägg till**.
+The range becomes Del 1, and the address field shows it as for a reading in several parts.
+Select the next range, from the same or another book, and **Lägg till** again.
+**Öppna urval** opens the added parts, and the current range as the last part, as one reading.
+**Lyssna** then plays the parts in order.
+**Rensa** removes the added parts. The address field lists the parts; choose one to open the reading there.
 
 Each source retains its wording. An explicit alignment links verses across their numbering systems.
 Verses without a counterpart show a message.
@@ -109,10 +129,11 @@ See the [versification guide](versification.md) for the source coordinates and d
 
 ## Word study
 
-Select **Visa → Höger spalt → Ordstudium** to open the lookup panel.
-Click a word to see its pronunciation and dictionary entries.
-In the New Testament, the panel also shows the verse's Strong's entries.
-The [word-study guide](word-study.md) describes the dictionaries, alignment, and data limits.
+Select **Visa → Svenska och ordstudium** to open the lookup panel.
+Click a Swedish word to see its pronunciation and dictionary entries.
+Only that word is highlighted. Click it again to close the highlight and lookup.
+Verse source buttons appear only in **Bara svenska**.
+The [word-study guide](word-study.md) describes the dictionaries and data limits.
 
 ## Reading plans
 
@@ -135,24 +156,38 @@ After the voice finishes a part, Perikop asks whether to mark it as read.
 It also asks after you scroll to the end of a part and leave it.
 The day's readings use the same progress controls.
 **Börja om** clears one plan after confirmation.
+Tab moves between plan parts and toolbar controls. Enter or Space activates the focused control.
+The focus outline identifies the selected control.
 
 ## Swedish read-aloud
 
 **Lyssna** reads Swedish with Alice or Björn from the local Kokoro model.
 Select the voice in **Uppläsning → Alice** or **Björn**.
 The choice applies from the next reading and survives restarts.
-With Greek or English in the left pane, **Lyssna** is disabled.
 The voice uses common C++ code on all target platforms.
 
 **Pausa**, **Fortsätt**, and **Stoppa** control playback.
-The address field shows loading, buffering, the spoken introduction, and the current verse.
+Each reading starts directly with its first verse.
+The address field shows loading, buffering, and the current verse.
 A line along its lower edge shows progress.
 
-Playback starts after the first audio chunk.
-The engine generates later chunks during playback, with a buffer of at most two chunks.
+Playback starts after enough audio is ready for the estimated synthesis speed.
+Fast synthesis needs a short lead. Slower synthesis can prepare more of the reading before playback.
+The rolling buffer limit ranges from 30 to 600 seconds of source audio.
+Pause also suspends preparation between chunks.
 Initial model loading and first-chunk synthesis take time.
 If synthesis cannot keep pace, playback waits for the next chunk.
+Select **Uppläsning → Förbered dagens ljud** to generate audio for the open day's readings and alternatives before listening.
+Preparation uses the selected voice and pronunciation corrections. It produces no sound and does not mark readings as read.
+The address field shows preparation progress. **Stoppa** cancels unfinished preparation.
+Starting playback, changing days, or changing the voice cancels unfinished preparation. Completed audio remains available.
+Prepared audio survives restarts and date changes. The cache retains up to 256 MiB and replaces older audio when needed.
+Voice and pronunciation changes use separate cache entries. Playback speed changes reuse the same audio.
+Preparation covers the day's readings that open in the reader. Reading-plan parts are prepared during their normal playback.
+
 A separate SQLite cache accelerates repeat readings.
+If the cache fails, speech continues without it and the status shows **utan ljudcache**.
+If personal pronunciation data fails, the reader uses the bundled pronunciations and preserves the database.
 
 Drag across verses in the left column to mark a range.
 Hold Ctrl (Windows/Linux) or Command (macOS) while you drag to add separate ranges.

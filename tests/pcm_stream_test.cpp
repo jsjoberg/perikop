@@ -70,7 +70,7 @@ int main() {
         check(ortho::buffer_target(100, 0.5) == 2,
               "Faster-than-real-time synthesis starts with a smaller cushion");
         check(ortho::buffer_target(100, 0.5, 10) == 6.25,
-              "A short introduction must wait for enough audio to cover a long next synthesis chunk");
+              "A short verse must wait for enough audio to cover a long next synthesis chunk");
         check(ortho::buffer_limit(1000, 0.5) == 30,
               "Fast synthesis must use a rolling lead instead of preparing ten minutes ahead");
         check(std::abs(ortho::buffer_limit(100, 2.3) - 193.5) < 1e-9 && ortho::buffer_limit(1000, 2.3) == 600,
@@ -79,8 +79,8 @@ int main() {
               "Faster playback must increase preparation when synthesis cannot keep up");
 
         ortho::PlaybackTimeline timeline;
-        const ortho::SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}, false};
-        const ortho::SpeechCue second{0, 1, "Ps", "sv1917", {23, 2}, {23, 2}, false};
+        const ortho::SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
+        const ortho::SpeechCue second{0, 1, "Ps", "sv1917", {23, 2}, {23, 2}};
         timeline.reset(3);
         timeline.append(first, 10, 0, 0, 1);
         timeline.append(second, 14, 4, 0, 0.5);

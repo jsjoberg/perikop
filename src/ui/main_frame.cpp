@@ -10,6 +10,10 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/app.h>
+#include <wx/button.h>
+#include <wx/eventfilter.h>
+#include <wx/log.h>
+#include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
@@ -42,10 +46,11 @@ wxString kind_label(ReadingKind kind) {
 }
 } // namespace
 MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
-                     const std::filesystem::path& resources)
+                     const std::filesystem::path& resources, const std::filesystem::path& data,
+                     bool diagnostic)
     : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
-      user_(user), resources_(resources), lectionary_(corpus), selected_(date), settings_(user.load()),
-      playback_timer_(this) {
+      user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
+      selected_(date), settings_(user.load()), playback_timer_(this) {
     SetMinSize(FromDIP(wxSize(520, 480)));
     root_ = new wxPanel(this);
     root_->SetFont(ui_font());
@@ -114,15 +119,17 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     } catch (const std::exception&) { // NOLINT(bugprone-empty-catch)
         // Word study is optional; without its database the panel stays empty.
     }
-    study_ = new StudyPanel(root_, corpus_, study_db_.get(), *speech_, [this](const std::string& language) {
+    study_ = new StudyPanel(root_, study_db_.get(), *speech_, [this](const std::string& language) {
         return speech_lexicon(language);
     });
     reader->Add(study_, 2, wxEXPAND);
-    scripture_->on_word([this](const ScriptureView::Word& word) {
+    scripture_->on_word([this](const std::optional<ScriptureView::Word>& word) {
         if (!settings_.word_study)
             return;
-        scripture_->highlight_word(word);
-        study_->show(word, scripture_->base_source(), scripture_->frame());
+        if (word)
+            study_->show(*word, scripture_->base_source());
+        else
+            study_->clear();
     });
     root_->SetSizer(outer);
     auto* frame_sizer = new wxBoxSizer(wxVERTICAL);
@@ -143,6 +150,8 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     });
 }
 void MainFrame::select_day(CivilDate date) {
+    if (date != selected_.date())
+        clear_preparation();
     selected_.select(date);
     show_readings();
     refresh_day();
@@ -228,17 +237,13 @@ void MainFrame::refresh_day() {
     const auto fast = day_.day.fasting;
     if (fast.period != FastPeriod::None || fast.allowance == DietaryAllowance::Free) {
         entries_->Add(ui::label(home_content_, "FASTA", 10), 0, wxBOTTOM, FromDIP(6));
-        const auto fast_text = fast.period == FastPeriod::None ? fasting_allowance_label(fast)
-                                                               : fasting_period_label(fast.period) + " · " +
-                                                                     fasting_allowance_label(fast);
+        const auto allowance = fasting_allowance_label(fast);
+        const auto fast_text = fast.period == FastPeriod::None ? allowance
+                               : allowance.empty() ? fasting_period_label(fast.period)
+                                                   : fasting_period_label(fast.period) + " · " + allowance;
         entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
         if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
             entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
-    }
-    if (!day_.day.commemorations.empty()) {
-        entries_->Add(ui::label(home_content_, ui::utf8("ÅMINNELSER"), 10), 0, wxTOP | wxBOTTOM, FromDIP(12));
-        for (const auto& name : day_.day.commemorations)
-            entries_->Add(wrapped(ui::utf8("• " + name), body_font(13)), 0, wxBOTTOM, FromDIP(6));
     }
     entries_->AddSpacer(FromDIP(24));
     if (day_.readings.empty())
@@ -265,7 +270,7 @@ void MainFrame::refresh_day() {
                 0, wxBOTTOM, FromDIP(28));
             return;
         }
-        const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_primary(reading)).segments()));
+        const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_swedish(reading)).segments()));
         const auto key = day_key(reading);
         const bool done = completed.contains(key);
         auto* open = ui::button(home_content_, ui::utf8("Läs"), [this, reading, key, title] {
@@ -338,7 +343,10 @@ void MainFrame::show_readings() {
     update_bar();
 }
 void MainFrame::open_psalm() {
-    open_reading({ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}});
+    // Psalm 23 in the 1917 Bible's Hebrew numbering, the Septuagint's Psalm 22.
+    Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
+    psalm.reference = "sv1917";
+    open_reading(psalm);
 }
 void MainFrame::open_reading(const Reading& selected) {
     close_pages();
@@ -346,7 +354,7 @@ void MainFrame::open_reading(const Reading& selected) {
     speech_view_.reset();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
-    const auto reading = corpus_.localize(in_primary(selected));
+    const auto reading = corpus_.localize(in_swedish(selected));
     readings_->Hide();
     root_->GetSizer()->Show(reader_sizer_, true);
     scripture_->Show();
@@ -363,14 +371,14 @@ void MainFrame::open_reading(const Reading& selected) {
     scripture_->open(reading);
     scripture_->SetFocus();
 }
-Reading MainFrame::in_primary(Reading reading) const {
+Reading MainFrame::in_swedish(Reading reading) const {
     if (reading.source_override.empty()) {
-        if (reading.reference.empty() && reading.base_language != settings_.primary) {
+        if (reading.reference.empty() && reading.base_language != "sv") {
             std::vector<Passage> parts;
             for (const auto& segment : reading.segments()) {
                 const auto mapped =
                     corpus_.map_passage(corpus_.frame_source(reading.base_language, segment.book),
-                                        corpus_.frame_source(settings_.primary, segment.book), segment);
+                                        corpus_.frame_source("sv", segment.book), segment);
                 if (mapped.empty())
                     parts.push_back(segment);
                 else
@@ -379,21 +387,27 @@ Reading MainFrame::in_primary(Reading reading) const {
             reading.passage = parts.front();
             reading.additional.assign(parts.begin() + 1, parts.end());
         }
-        reading.base_language = settings_.primary;
+        reading.base_language = "sv";
     }
     return reading;
 }
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
     auto result = corpus_.pronunciations(language);
     if (language == "sv" && pronunciation_review_) {
-        const auto overrides = pronunciation_review_->overrides();
-        result.insert(result.begin(), overrides.begin(), overrides.end());
+        try {
+            const auto overrides = pronunciation_review_->overrides();
+            result.insert(result.begin(), overrides.begin(), overrides.end());
+        } catch (const std::exception& e) {
+            wxLogWarning("Uttalskorrigeringar kunde inte läsas: %s", ui::utf8(e.what()));
+        }
     }
     return result;
 }
 void MainFrame::review_pronunciation() {
     stop_speech();
     try {
+        if (!pronunciation_review_)
+            throw std::runtime_error(pronunciation_error_);
         show_pronunciation_review(this, corpus_, *pronunciation_review_, *speech_, resources_);
     } catch (const std::exception& e) {
         wxMessageBox(ui::utf8(e.what()), ui::utf8("Uttalsgranskning"), wxOK | wxICON_ERROR, this);
@@ -472,6 +486,9 @@ void MainFrame::browse_bible() {
         tracked_.reset();
         open_reading(reading);
     });
+    page->on_selection([this] {
+        update_bar();
+    });
     show_page(page, "Bibel");
 }
 void MainFrame::pick_date() {
@@ -507,8 +524,10 @@ void MainFrame::apply_settings(bool persist) {
         button->apply(colors);
     if (month_)
         month_->apply(colors);
-    for (auto* tile : plan_tiles_)
-        tile->apply(colors);
+    for (auto* tile : plan_tiles_) {
+        tile->SetBackgroundColour(colors.paper);
+        tile->SetForegroundColour(colors.ink);
+    }
     for (auto* button : {back_, play_, pause_, stop_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)
@@ -529,6 +548,10 @@ void MainFrame::update_study() {
     root_->Layout();
 }
 MainFrame::~MainFrame() {
+    alt_tap_.reset();
+    // A hidden menu bar is not the frame's to delete.
+    if (GetMenuBar() != menu_bar_)
+        delete menu_bar_;
     playback_timer_.Stop();
     speech_.reset();
 }

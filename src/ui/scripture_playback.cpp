@@ -54,7 +54,7 @@ void ScriptureView::playback(const SpeechPlayback& playback) {
         request_repaint();
 }
 void ScriptureView::locate_playback() {
-    if (!playback_.cue || playback_.cue->introduction || playback_.cue->book != displayed_.book) {
+    if (!playback_.cue || playback_.cue->book != displayed_.book) {
         guide_.reset();
         return;
     }

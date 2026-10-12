@@ -117,7 +117,7 @@ std::string plan_label(const CorpusDb& corpus, const PlanPart& part) {
     for (const auto& range : part) {
         if (!label.empty())
             label += " + ";
-        label += corpus.book_abbreviation(range.book);
+        label += corpus.short_title(range.book);
         if (std::find(single.begin(), single.end(), range.book) != single.end())
             continue;
         label += " " + std::to_string(range.first);

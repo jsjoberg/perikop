@@ -6,13 +6,13 @@
 #include <set>
 #include <wx/scrolwin.h>
 namespace ortho {
-// The right pane in Ordstudium mode: pronunciation, Swedish dictionary entries and
-// the Strong's entries of the verse for the word clicked in the left pane.
+// The right pane in Ordstudium mode: pronunciation and Swedish dictionary entries
+// for the word clicked in the left pane.
 class StudyPanel final : public wxScrolledWindow {
 public:
     using Lexicon = std::function<std::vector<Pronunciation>(const std::string& language)>;
-    StudyPanel(wxWindow*, const CorpusDb&, const StudyDb*, SpeechEngine&, Lexicon);
-    void show(const ScriptureView::Word&, const std::string& base_source, const std::string& frame);
+    StudyPanel(wxWindow*, const StudyDb*, SpeechEngine&, Lexicon);
+    void show(const ScriptureView::Word&, const std::string& base_source);
     // Back to the hint, when the looked-up word is no longer on screen.
     void clear();
     void apply(Theme);
@@ -21,7 +21,6 @@ public:
 
 private:
     void rebuild();
-    const CorpusDb& corpus_;
     const StudyDb* study_;
     SpeechEngine& speech_;
     Lexicon lexicon_;
@@ -30,12 +29,8 @@ private:
     std::string pronunciation_;
     std::size_t pronunciation_epoch_ = 0;
     bool pronunciation_requested_ = false;
-    std::string base_source_, frame_;
+    std::string base_source_;
     std::set<std::string> expanded_articles_;
-    // The chosen tagged Greek word of the verse, and whether the lookup has
-    // already applied the aligner's choice (later the user's choice stands).
-    std::optional<std::size_t> selected_;
-    bool chosen_ = false;
     Theme theme_ = Theme::System;
     int wrapped_ = 0;
     bool rebuild_pending_ = false;

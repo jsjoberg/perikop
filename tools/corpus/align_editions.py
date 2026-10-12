@@ -1,18 +1,21 @@
 #!/usr/bin/env -S uv run --locked
 """Generate verse alignments between Scripture editions with different versifications.
 
-Reads verse texts from resources/corpus/corpus.db, so run build_corpus.py first, and
+Reads verse texts from the build's work database, so run build_corpus.py first, and
 writes resources/corpus/alignment.tsv, which build_corpus.py imports on its next run.
 A Gale-Church dynamic program aligns verse lengths and shared proper names. Each book
 pair has explicit numbering rules: these state where an edition follows another chapter
 division, and the program prefers alignments that agree with them. Overrides state
-transpositions, which a monotonic alignment cannot express. Review the rules with
+transpositions, which a monotonic alignment cannot express. LXX2012 instead reaches the
+Greek through Brenton's English by matching words; see bridge(). Review the rules with
 --report before committing a regenerated table.
 """
-import collections, math, re, sqlite3, sys, unicodedata
+import collections, difflib, math, re, sqlite3, sys, unicodedata
 from pathlib import Path
 root=Path(__file__).resolve().parents[2]
-from align_rules import UNITS, RULES, OVERRIDES, PAIRS, OLD_TESTAMENT, NT
+from align_rules import UNITS, RULES, OVERRIDES, PAIRS, OLD_TESTAMENT, NT, LXX2012, BRENTON, BRIDGE_UNITS
+# build_corpus.py writes the work database, including build-only witness editions.
+WORK=root/'build/corpus/work.db'
 
 def load(db,source,book):
     query='SELECT chapter,verse,verse_suffix,text FROM verse JOIN source ON source.id=source_id JOIN book ON book.id=book_id WHERE source.code=? AND book.code=? ORDER BY chapter,verse,verse_suffix'
@@ -188,8 +191,48 @@ def beads_of(links,order):
         else:beads.append(([ref],list(targets)))
     return beads
 
+# LXX2012 revises Brenton's English of the same Greek text, but renumbers it in places.
+# Brenton's English keeps the Greek numbering, so shared wording links each LXX2012 verse.
+MODERN={'thee':'you','thou':'you','ye':'you','thy':'your','thine':'your','hath':'has','doth':'does','art':'are','shalt':'shall',
+ 'wilt':'will','hast':'have','didst':'did','yea':'yes','unto':'to'}
+def words(text):
+    text=unicodedata.normalize('NFKD',text.lower()).replace('æ','ae').replace('œ','oe')
+    return [MODERN.get(w,w) for w in re.findall(r"[a-z]+",text)]
+def bridge(db,greek_order,report=False):
+    """{LXX2012 verse: Greek verses} and the reverse, through shared Brenton wording."""
+    def verses(code,book,span=None):return select(load(db,code,book),span)
+    forward={}
+    for book, in db.execute("SELECT DISTINCT book.code FROM verse JOIN source ON source.id=source_id JOIN book ON book.id=book_id WHERE source.code=? ORDER BY book.canonical_order",(BRENTON,)):
+        src=[r for b,span in BRIDGE_UNITS.get(book,[(book,None)]) for r in verses(LXX2012,b,span)]
+        tgt=verses(BRENTON,book)
+        if not src:continue
+        ws=[(w,i) for i,(_,t) in enumerate(src) for w in words(t)];wt=[(w,j) for j,(_,t) in enumerate(tgt) for w in words(t)]
+        length_s=collections.Counter(i for _,i in ws);length_t=collections.Counter(j for _,j in wt)
+        linked_s,linked_t=set(),set()
+        # Matching is in order. Transposed passages, as in Sirach 30-36, match in a later
+        # pass over the verses still unlinked.
+        for _ in range(3):
+            ss=[(w,i) for w,i in ws if i not in linked_s];tt=[(w,j) for w,j in wt if j not in linked_t]
+            shared=collections.Counter()
+            for a,b,size in difflib.SequenceMatcher(None,[w for w,_ in ss],[w for w,_ in tt]).get_matching_blocks():
+                for k in range(size):shared[(ss[a+k][1],tt[b+k][1])]+=1
+            # A verse links where most of the shorter verse's words are shared.
+            found=[(i,j) for (i,j),n in shared.items() if n>=max(1,0.5*min(length_s[i],length_t[j]))]
+            if not found:break
+            for i,j in found:
+                forward.setdefault(src[i][0],[]).append(tgt[j][0]);linked_s.add(i);linked_t.add(j)
+        if report:
+            for i,(ref,text) in enumerate(src):
+                if ref not in forward:print('  unlinked LXX2012',fmt(ref),text[:70])
+    # Brenton's English adds 1 Kingdoms 17:12-31 and Proverbs 30:1, which the Greek lacks.
+    forward={s:sorted({t for t in targets if t in greek_order},key=greek_order.get) for s,targets in forward.items()}
+    backward={}
+    for s,targets in forward.items():
+        for t in targets:backward.setdefault(t,[]).append(s)
+    return forward,backward
+
 def generate(report=False):
-    db=sqlite3.connect(root/'resources/corpus/corpus.db')
+    db=sqlite3.connect(WORK)
     orders={}
     def order(code):
         if code not in orders:
@@ -215,11 +258,13 @@ def generate(report=False):
         a2,b2=[('en-web' if code=='en-kjv' else code) for code in (a,b)]
         for ref,targets in links[(a,b)].items():
             if ref[0] in OLD_TESTAMENT and all(t[0] in OLD_TESTAMENT for t in targets):links[(a2,b2)].setdefault(ref,targets)
-    # English editions reach the Septuagint through the reviewed Swedish links.
-    for english in ('en-kjv','en-web'):
-        for a,b in ((english,'grc-lxx'),('grc-lxx',english)):
-            composed=compose({r:t for r,t in links[(a,'sv1917')].items() if r[0] not in NT},links[('sv1917',b)])
-            links[(a,b)]={**composed,**links[(a,b)]}
+    # KJV-numbered lectionary references reach the Septuagint through the reviewed Swedish links.
+    for a,b in (('en-kjv','grc-lxx'),('grc-lxx','en-kjv')):
+        composed=compose({r:t for r,t in links[(a,'sv1917')].items() if r[0] not in NT},links[('sv1917',b)])
+        links[(a,b)]={**composed,**links[(a,b)]}
+    links[(LXX2012,'grc-lxx')],links[('grc-lxx',LXX2012)]=bridge(db,order('grc-lxx'),report)
+    for a,b in ((LXX2012,'sv1917'),('sv1917',LXX2012)):
+        links[(a,b)]=compose(links[(a,'grc-lxx')],links[('grc-lxx',b)])
     out=[]
     for (a,b),table in sorted(links.items()):
         table={r:t for r,t in table.items() if r in order(a)}

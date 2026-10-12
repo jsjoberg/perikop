@@ -1,5 +1,6 @@
 #include "core/reading_display.hpp"
 #include "core/reading_plan.hpp"
+#include "storage/sqlite.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
@@ -10,8 +11,10 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <limits>
+#include <wx/access.h>
 #include <wx/app.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
@@ -24,6 +27,15 @@ namespace {
 class NavigationSpeech final : public SpeechEngine {
 public:
     SpeechPlayback held;
+    SpeechPreparation prepared;
+    std::vector<SpeechUtterance> prepared_queue;
+    void prepare_batch(const std::vector<SpeechUtterance>& utterances) override {
+        prepared_queue = utterances;
+        prepared = {PreparationState::Running, 0, utterances.size(), "Förbereder dagens ljud"};
+    }
+    SpeechPreparation preparation() const override {
+        return prepared;
+    }
     bool changed = false;
     std::vector<std::function<void(std::string)>> lookups;
     void speak(const SpeechUtterance&) override {
@@ -37,6 +49,7 @@ public:
     }
     void stop() override {
         changed = true;
+        prepared = {};
     }
     SpeechPlayback playback() const override {
         return held;
@@ -57,7 +70,52 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::cerr << "Smoke check failed: main_frame_smoke.cpp:" << line << '\n';
         ok = false;
     };
+    // Optional pronunciation failures preserve the profile and leave reading usable.
+    for (const bool future : {false, true}) {
+        const auto data = data_ / (future ? "future-pronunciation" : "corrupt-pronunciation");
+        UserDb profile(data / "user.db");
+        auto settings = profile.load();
+        settings.speech_voice = "bjorn";
+        profile.save(settings);
+        profile.complete("preserved-progress");
+        const auto path = data / "pronunciation-review.db";
+        if (future) {
+            {
+                PronunciationReviewDb review(path);
+                review.save({"RecoverySentinel", "corrected", "preserved correction", "future schema"});
+            }
+            auto db = storage::open(path, SQLITE_OPEN_READWRITE);
+            storage::exec(db.get(), "PRAGMA user_version=99");
+        } else
+            std::ofstream(path) << "preserve corrupt pronunciation bytes";
+        const auto contents = [&] {
+            std::ifstream file(path, std::ios::binary);
+            return std::string((std::istreambuf_iterator<char>(file)), {});
+        };
+        const auto before = contents();
+        {
+            auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data, true);
+            candidate->open_psalm();
+            if (candidate->pronunciation_review_ || !candidate->speech_ ||
+                candidate->scripture_->reading().passage.book != "Ps" ||
+                candidate->speech_lexicon("sv").size() != corpus_.pronunciations("sv").size())
+                fail(__LINE__);
+        }
+        if (contents() != before || profile.load().speech_voice != "bjorn" ||
+            !profile.completed().contains("preserved-progress"))
+            fail(__LINE__);
+    }
     if (!corpus_.read_only())
+        fail(__LINE__);
+    // The ⋮ menu is always there. Windows and Linux hide the menu bar until Alt; the checks below use it.
+    if (!menu_ || !menu_->IsShown() || !menu_bar_)
+        fail(__LINE__);
+#ifndef __WXOSX__
+    if (GetMenuBar())
+        fail(__LINE__);
+    show_menu_bar(true);
+#endif
+    if (GetMenuBar() != menu_bar_)
         fail(__LINE__);
     // GetIcon() needs an exact system-size match on some ports. Check the stored artwork.
     if (GetIcons().IsEmpty() || !GetIcons().GetIconByIndex(0).IsOk())
@@ -85,6 +143,61 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (!screenshot_path.empty())
             ok = image.SaveFile(screenshot_path.BeforeLast('.') + suffix + ".png", wxBITMAP_TYPE_PNG) && ok;
     };
+    // Preparation targets the selected day, independent of the passage currently open.
+    {
+        auto real_speech = std::move(speech_);
+        auto fake = std::make_unique<NavigationSpeech>();
+        auto* preparing = fake.get();
+        speech_ = std::move(fake);
+        const auto completed = user_.completed();
+        select_day(std::chrono::year{2026} / 10 / 12);
+        open_psalm();
+        auto* command = menu_bar_->FindItem(
+            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Förbered dagens ljud")));
+        if (!command || !command->IsEnabled())
+            fail(__LINE__);
+        if (command) {
+            wxCommandEvent event(wxEVT_MENU, command->GetId());
+            GetEventHandler()->ProcessEvent(event);
+        }
+        if (!preparing_day() || preparing->prepared_queue.empty() || active_playback() ||
+            !stop_->IsEnabled() || !address_->GetLabel().Contains(ui::utf8("Förbereder")) ||
+            (command && command->IsEnabled()))
+            fail(__LINE__);
+        if (std::any_of(preparing->prepared_queue.begin(), preparing->prepared_queue.end(),
+                        [](const auto& utterance) {
+                            return utterance.language != "sv" || !utterance.cue ||
+                                   utterance.cue->book == "Ps";
+                        }))
+            fail(__LINE__);
+        if (!screenshot_path.empty()) {
+            Layout();
+            Update();
+            wxBitmap bitmap(GetClientSize());
+            wxClientDC window(this);
+            {
+                wxMemoryDC image(bitmap);
+                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+            }
+            save(bitmap.ConvertToImage(), "-preparation");
+        }
+        if (scripture_->reading().passage.book != "Ps")
+            fail(__LINE__); // Preparation never opens or follows a reading.
+        preparing->prepared = {PreparationState::Ready, 1, 1, "Ljudet är förberett · Alice"};
+        refresh_speech();
+        show_readings();
+        if (preparing_day() || active_playback() || stop_->IsEnabled() ||
+            !address_->GetLabel().Contains(ui::utf8("förberett")) || user_.completed() != completed ||
+            (command && !command->IsEnabled()))
+            fail(__LINE__);
+        prepare_day();
+        select_day(std::chrono::year{2026} / 10 / 13);
+        if (preparing_day() || preparation_day_ || preparing->prepared.state != PreparationState::Idle)
+            fail(__LINE__);
+        speech_ = std::move(real_speech);
+        select_day(date);
+        open_psalm();
+    }
     // Native drawing must use the same shaped widths as paragraph fitting.
     wxClientDC metrics(scripture_);
     metrics.SetFont(body_font(19));
@@ -313,6 +426,30 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
     if (total == 0 || double(equal) / total < 0.995)
         fail(__LINE__);
+#ifndef __APPLE__
+    // Windows/Linux use the wheel timer; Cocoa scrolls immediately.
+    // A wheel animation must not pull Home/End back to its old target.
+    for (const int key : {WXK_HOME, WXK_END}) {
+        scripture_->center_passage();
+        wxMouseEvent wheel(wxEVT_MOUSEWHEEL);
+        wheel.m_wheelRotation = -120;
+        wheel.m_wheelDelta = 120;
+        wheel.m_linesPerAction = 3;
+        scripture_->GetEventHandler()->ProcessEvent(wheel);
+        const auto before_tick = scripture_->scroll_position();
+        scripture_->advance_scroll();
+        if (scripture_->scroll_position() <= before_tick)
+            fail(__LINE__);
+        wxKeyEvent navigate(wxEVT_CHAR_HOOK);
+        navigate.m_keyCode = key;
+        scripture_->GetEventHandler()->ProcessEvent(navigate);
+        const auto position = scripture_->scroll_position();
+        for (int tick = 0; tick < 3; ++tick)
+            scripture_->advance_scroll();
+        if (scripture_->scroll_position() != position || (key == WXK_HOME && position != 0))
+            fail(__LINE__);
+    }
+#endif
     for (auto theme : {Theme::Light, Theme::Dark, Theme::System})
         for (auto mode : {"", "el", "en"}) {
             settings_.theme = theme;
@@ -412,22 +549,99 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     refresh_day();
     if (plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
+    // All plan parts have native button semantics and a descriptive accessible name.
+    for (auto* tile : plan_tiles_)
+        if (!tile->AcceptsFocus() || !tile->GetName().Contains("Del ") || !tile->GetName().Contains(" · "))
+            fail(__LINE__);
+#if wxUSE_ACCESSIBILITY
+    for (auto* tile : plan_tiles_) {
+        wxString name;
+        wxAccRole role = wxROLE_NONE;
+        auto* accessible = tile->GetAccessible();
+        if (!accessible || accessible->GetName(wxACC_SELF, &name) != wxACC_OK ||
+            accessible->GetRole(wxACC_SELF, &role) != wxACC_OK || name != tile->GetName() ||
+            role != wxROLE_SYSTEM_PUSHBUTTON)
+            fail(__LINE__);
+    }
+#endif
+    wxCommandEvent open_part(wxEVT_BUTTON, plan_tiles_.back()->GetId());
+    plan_tiles_.back()->GetEventHandler()->ProcessEvent(open_part);
+    if (!scripture_->IsShown() || !tracked_)
+        fail(__LINE__);
+    back();
+    if (!readings_->IsShown())
+        fail(__LINE__);
+    // Custom toolbar controls activate once, on key release, without mouse input.
+    for (const int key : {WXK_SPACE, WXK_RETURN}) {
+        int activations = 0;
+        auto* button = new SymbolButton(
+            root_, Symbol::Next, "Keyboard test",
+            [&] {
+                ++activations;
+            },
+            true);
+#if wxUSE_ACCESSIBILITY
+        wxAccRole role = wxROLE_NONE;
+        long state = 0;
+        button->checked(true);
+        auto* accessible = button->GetAccessible();
+        if (!accessible || accessible->GetRole(wxACC_SELF, &role) != wxACC_OK ||
+            role != wxROLE_SYSTEM_CHECKBUTTON || accessible->GetState(wxACC_SELF, &state) != wxACC_OK ||
+            !(state & wxACC_STATE_SYSTEM_CHECKED))
+            fail(__LINE__);
+        button->checked(false);
+        if (accessible &&
+            (accessible->GetState(wxACC_SELF, &state) != wxACC_OK || (state & wxACC_STATE_SYSTEM_CHECKED)))
+            fail(__LINE__);
+#endif
+        wxKeyEvent down(wxEVT_KEY_DOWN), up(wxEVT_KEY_UP);
+        down.m_keyCode = up.m_keyCode = key;
+        button->GetEventHandler()->ProcessEvent(down);
+        if (activations != 0)
+            fail(__LINE__);
+        button->GetEventHandler()->ProcessEvent(up);
+        if (activations != 1 || !button->AcceptsFocus())
+            fail(__LINE__);
+        button->Enable(false);
+        button->GetEventHandler()->ProcessEvent(down);
+        button->GetEventHandler()->ProcessEvent(up);
+        if (activations != 1)
+            fail(__LINE__);
+        delete button;
+    }
     // Right-column symbols toggle, and the Visa menu follows them.
     toggle_pane("el");
     if (settings_.parallel != "el" || settings_.word_study)
         fail(__LINE__);
     toggle_pane("study");
-    if (!settings_.parallel.empty() || !settings_.word_study || !GetMenuBar()->IsChecked(study_item_))
+    if (!settings_.parallel.empty() || !settings_.word_study ||
+        !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Svenska och ordstudium")))
         fail(__LINE__);
     toggle_pane("study");
-    if (settings_.word_study || !GetMenuBar()->IsChecked(right_item_))
+    if (settings_.word_study || !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Bara svenska")))
         fail(__LINE__);
+    // The left column is always Swedish, so no symbol offers Swedish beside it.
+    if (std::ranges::any_of(panes_, [](const auto& pane) {
+            return pane.first == "sv";
+        }))
+        fail(__LINE__);
+    // The text size returns to its default.
+    {
+        const auto size = settings_.font_size;
+        settings_.font_size = 26;
+        wxCommandEvent normal(wxEVT_MENU, menu_bar_->FindMenuItem("Visa", "Normal textstorlek"));
+        ProcessWindowEvent(normal);
+        if (settings_.font_size != Settings{}.font_size)
+            fail(__LINE__);
+        settings_.font_size = size;
+        apply_settings(false);
+    }
     settings_.parallel = "";
     apply_settings(false);
     for (const auto& reading :
          std::vector<Reading>{{ReadingKind::OldTestament, {"Gen", {31, 50, "a"}, {31, 50, "a"}}, {}, "el"},
                               {ReadingKind::OldTestament, {"4Macc", {8, 29}, {8, 29}}, {}, "en"},
-                              {ReadingKind::OldTestament, {"2Esd", {1, 1}, {1, 1}}}}) {
+                              {ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 1}}}}) {
         open_reading(reading);
         scripture_->center_passage();
         if (scripture_->cached_rows() == 0)
@@ -468,27 +682,253 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
         fail(__LINE__);
-    // The left pane's language chooses the edition and its numbering: LXX Psalm 22 is Psalm 23.
-    settings_.primary = "el";
+    const auto click_text = [&](wxPoint point) {
+        if (point == wxDefaultPosition) {
+            fail(__LINE__);
+            return;
+        }
+        for (const auto type : {wxEVT_LEFT_DOWN, wxEVT_LEFT_UP}) {
+            wxMouseEvent event(type);
+            event.SetPosition(point);
+            event.SetEventObject(scripture_);
+            scripture_->GetEventHandler()->ProcessEvent(event);
+        }
+    };
+    const auto verse_point = [&](VerseRef ref, int column, bool stacked = false) {
+        const auto size = scripture_->GetClientSize();
+        const int first = stacked || column == 0 ? 0 : size.x / 2;
+        const int last = stacked ? size.x : column == 0 ? size.x / 2 : size.x;
+        // Stacked counterparts occur below the left text; find the last match there.
+        wxPoint result = wxDefaultPosition;
+        for (int y = 0; y < size.y; y += 4)
+            for (int x = first; x < last; x += 4)
+                if (scripture_->verse_at({x, y}) == ref) {
+                    if (!stacked || column == 0)
+                        return wxPoint{x, y};
+                    result = {x, y};
+                    break;
+                }
+        return result;
+    };
+    const auto verse_tools = [&]() -> wxWindow* {
+        for (auto* child : scripture_->GetChildren())
+            if (child->GetName() == ui::utf8("Läs den markerade versen online"))
+                return child;
+        return nullptr;
+    };
+    const auto source_buttons = [](wxWindow* parent) {
+        std::vector<wxButton*> buttons;
+        if (parent)
+            for (auto* child : parent->GetChildren())
+                if (auto* button = wxDynamicCast(child, wxButton))
+                    buttons.push_back(button);
+        return buttons;
+    };
+    // Both language columns open and close the same verse, in either theme.
+    // A small desktop can start with stacked columns; these checks need two columns beside each other.
+    SetSize(FromDIP(wxSize(1120, 900)));
+    Layout();
+    root_->Layout();
+    for (const auto theme : {Theme::Light, Theme::Dark})
+        for (const auto mode : {"el", "en"}) {
+            settings_.theme = theme;
+            settings_.parallel = mode;
+            apply_settings(false);
+            open_psalm();
+            const auto plain = render();
+            const auto left = verse_point({22, 1}, 0), right = verse_point({22, 1}, 1);
+            click_text(left);
+            const auto highlighted = scripture_->highlighted_verse();
+            if (!highlighted || highlighted->first != VerseRef{22, 1} || !scripture_->selections().empty() ||
+                play_->GetLabel() != "Lyssna")
+                fail(__LINE__);
+            auto* tools = verse_tools();
+            if (tools && tools->IsShown())
+                fail(__LINE__); // Bible source buttons are exclusive to single-pane Swedish.
+            click_text({scripture_->GetClientSize().x / 2, left.y});
+            if (!scripture_->highlighted_verse())
+                fail(__LINE__); // The gutter does not toggle a verse.
+            const auto marked = render();
+            std::size_t left_pixels = 0, right_pixels = 0;
+            for (int y = 0; y < plain.GetHeight(); ++y)
+                for (int x = 0; x < plain.GetWidth(); ++x)
+                    if (plain.GetRed(x, y) != marked.GetRed(x, y) ||
+                        plain.GetGreen(x, y) != marked.GetGreen(x, y) ||
+                        plain.GetBlue(x, y) != marked.GetBlue(x, y))
+                        ++(x < plain.GetWidth() / 2 ? left_pixels : right_pixels);
+            if (left_pixels < 100 || right_pixels < 100)
+                fail(__LINE__);
+            save(marked, "-verse-" + wxString(mode) + (theme == Theme::Dark ? "-dark" : ""));
+            if (!screenshot_path.empty() && std::string(mode) == "el") {
+                Layout();
+                Update();
+                wxBitmap bitmap(GetClientSize());
+                wxClientDC window(this);
+                {
+                    wxMemoryDC image(bitmap);
+                    image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+                }
+                save(bitmap.ConvertToImage(),
+                     theme == Theme::Dark ? "-verse-actions-dark" : "-verse-actions");
+            }
+            click_text(right);
+            if (scripture_->highlighted_verse() || (tools && tools->IsShown()))
+                fail(__LINE__);
+            click_text(right);
+            if (!scripture_->highlighted_verse() || (tools && tools->IsShown()))
+                fail(__LINE__);
+            click_text(verse_point({22, 1}, 0));
+            if (scripture_->highlighted_verse())
+                fail(__LINE__);
+        }
+    // Single-pane Swedish retains mapped source links and follows the visible verse.
+    for (const auto theme : {Theme::Light, Theme::Dark}) {
+        settings_.parallel.clear();
+        settings_.theme = theme;
+        apply_settings(false);
+        open_psalm();
+        const auto point = verse_point({22, 1}, 0);
+        click_text(point);
+        auto* tools = verse_tools();
+        const auto buttons = source_buttons(tools);
+        if (!tools || !tools->IsShown() || buttons.size() != 4 ||
+            std::any_of(buttons.begin(), buttons.end(), [](auto* button) {
+                return !button->IsEnabled() || !button->GetToolTipText().Contains("23:1");
+            }))
+            fail(__LINE__);
+        for (std::size_t i = 0; tools && i < buttons.size(); ++i)
+            if (!tools->GetClientRect().Contains(buttons[i]->GetRect()) ||
+                (i && buttons[i - 1]->GetRect().Intersects(buttons[i]->GetRect())))
+                fail(__LINE__);
+        if (tools && tools->GetRect().GetBottom() >= point.y)
+            fail(__LINE__);
+        const auto tools_y = tools ? tools->GetPosition().y : 0;
+        scripture_->scroll_by(20);
+        if (tools && tools->IsShown() && tools->GetPosition().y != tools_y - 20)
+            fail(__LINE__);
+        scripture_->scroll_by(std::max(0, point.y - 20 + 8));
+        if (!tools || !tools->IsShown())
+            fail(__LINE__);
+        scripture_->scroll_by(1e9);
+        if (tools && tools->IsShown())
+            fail(__LINE__);
+        scripture_->center_passage();
+        if (!tools || !tools->IsShown())
+            fail(__LINE__);
+        // Changing panes hides and restores links without losing the verse highlight.
+        settings_.parallel = "el";
+        apply_settings(false);
+        if (!scripture_->highlighted_verse() || (tools && tools->IsShown()))
+            fail(__LINE__);
+        settings_.parallel.clear();
+        apply_settings(false);
+        if (!tools || !tools->IsShown() || !scripture_->highlighted_verse())
+            fail(__LINE__);
+        if (!screenshot_path.empty()) {
+            Layout();
+            Update();
+            wxBitmap bitmap(GetClientSize());
+            wxClientDC window(this);
+            {
+                wxMemoryDC image(bitmap);
+                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+            }
+            save(bitmap.ConvertToImage(),
+                 theme == Theme::Dark ? "-swedish-source-links-dark" : "-swedish-source-links");
+        }
+        click_text(verse_point({22, 1}, 0));
+        if (scripture_->highlighted_verse() || (tools && tools->IsShown()))
+            fail(__LINE__);
+    }
+    for (const auto& source :
+         {corpus_.source_for_language("el", "John"), corpus_.source_for_language("en", "John")}) {
+        Reading reading{ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}};
+        reading.source_override = source;
+        scripture_->open(reading);
+        click_text(verse_point({1, 1}, 0));
+        if (!scripture_->highlighted_verse() || (verse_tools() && verse_tools()->IsShown()))
+            fail(__LINE__);
+    }
+    // A Swedish merged verse highlights both Greek counterparts and toggles from either.
+    settings_.parallel = "el";
+    settings_.theme = Theme::Light;
     apply_settings(false);
-    open_psalm();
-    if (scripture_->base_source() != "grc-lxx" || scripture_->reading().passage.first.chapter != 22)
+    open_reading({ReadingKind::OldTestament, {"1Chr", {12, 4}, {12, 5}}});
+    click_text(verse_point({12, 4}, 0));
+    if (!scripture_->highlighted_verse() || scripture_->highlighted_verse()->last != VerseRef{12, 5})
         fail(__LINE__);
-    settings_.primary = "sv";
+    click_text(verse_point({12, 5}, 1));
+    if (scripture_->highlighted_verse())
+        fail(__LINE__);
+    // Narrow columns stack; the lower language still toggles the upper verse.
+    SetSize(FromDIP(wxSize(520, 850)));
+    Layout();
+    root_->Layout();
+    open_psalm();
+    click_text(verse_point({22, 1}, 1, true));
+    if (!scripture_->highlighted_verse())
+        fail(__LINE__);
+    save(render(), "-verse-stacked");
+    click_text(verse_point({22, 1}, 0, true));
+    if (scripture_->highlighted_verse())
+        fail(__LINE__);
+    SetSize(original_size);
+    Layout();
+    root_->Layout();
+    settings_.parallel.clear();
     apply_settings(false);
-    // Ordstudium replaces the right pane; a word shows Dalin and the verse's Strong's entries.
+    open_reading({ReadingKind::OldTestament, {"Tob", {1, 1}, {1, 1}}});
+    click_text(verse_point({1, 1}, 0));
+    const auto apocrypha_buttons = source_buttons(verse_tools());
+    if (apocrypha_buttons.size() != 4 ||
+        std::count_if(apocrypha_buttons.begin(), apocrypha_buttons.end(), [](auto* button) {
+            return button->IsEnabled();
+        }) != 1)
+        fail(__LINE__);
+    // Ordstudium replaces the right pane; a Swedish word shows Dalin and Nyström.
     settings_.word_study = true;
+    settings_.parallel.clear();
     apply_settings(false);
     open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
         fail(__LINE__);
-    study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source(), scripture_->frame());
+    if (scripture_->highlighted_verse() || (verse_tools() && verse_tools()->IsShown()))
+        fail(__LINE__);
+    const auto word_point = [&] {
+        const auto size = scripture_->GetClientSize();
+        for (int y = 0; y < size.y; y += 4)
+            for (int x = 0; x < size.x; x += 4)
+                if (const auto word = scripture_->word_at({x, y}); word && word->text == "begynnelsen")
+                    return wxPoint{x, y};
+        return wxDefaultPosition;
+    }();
+    click_text(word_point);
+    if (!scripture_->highlighted_word() || scripture_->highlighted_verse() ||
+        scripture_->highlighted_word()->text != "begynnelsen")
+        fail(__LINE__);
+    save(render(), "-word-highlight");
+    click_text(word_point);
+    if (scripture_->highlighted_word() || study_->text().empty() ||
+        !study_->text().front().Contains(ui::utf8("Klicka på ett ord")))
+        fail(__LINE__);
+    click_text(word_point);
+    if (!screenshot_path.empty()) {
+        Layout();
+        Update();
+        wxBitmap bitmap(GetClientSize());
+        wxClientDC window(this);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-word-study");
+    }
     {
         NavigationSpeech deferred;
-        auto panel = std::make_unique<StudyPanel>(root_, corpus_, study_db_.get(), deferred,
-                                                  [this](const auto& language) {
-                                                      return speech_lexicon(language);
-                                                  });
+        auto panel =
+            std::make_unique<StudyPanel>(root_, study_db_.get(), deferred, [this](const auto& language) {
+                return speech_lexicon(language);
+            });
         panel->Hide();
         const auto has = [&](const std::string& value) {
             const auto lines = panel->text();
@@ -496,27 +936,45 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(ui::utf8(value));
             });
         };
-        panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917", "sv1917");
-        panel->show({"John", "Jesu", {1, 17}, 0}, "sv1917", "sv1917");
-        if (deferred.lookups.size() != 2)
+        panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917");
+        const auto source_buttons = [&] {
+            std::vector<wxButton*> buttons;
+            for (auto* child : panel->GetChildren()) {
+                auto* button = wxDynamicCast(child, wxButton);
+                if (button && (button->GetLabel() == "SFB15" || button->GetLabel() == "SKB" ||
+                               button->GetLabel() == "SRB" || button->GetLabel() == "B2026"))
+                    buttons.push_back(button);
+            }
+            return buttons;
+        };
+        if (!source_buttons().empty() || has("LÄS VERSEN ONLINE"))
+            fail(__LINE__);
+        panel->show({"Tob", "Tobit", {1, 1}, 0}, "sv1917");
+        if (!source_buttons().empty())
+            fail(__LINE__);
+        panel->clear();
+        if (!source_buttons().empty())
+            fail(__LINE__);
+        panel->show({"John", "Jesu", {1, 17}, 0}, "sv1917");
+        if (deferred.lookups.size() != 3)
             fail(__LINE__);
         else {
             deferred.lookups[0]("stale-pronunciation");
             wxTheApp->ProcessPendingEvents();
             if (has("stale-pronunciation"))
                 fail(__LINE__);
-            deferred.lookups[1]("current-pronunciation");
+            deferred.lookups[2]("current-pronunciation");
             wxTheApp->ProcessPendingEvents();
             panel->apply(Theme::Dark);
-            if (!has("current-pronunciation") || deferred.lookups.size() != 2)
+            if (!has("current-pronunciation") || deferred.lookups.size() != 3)
                 fail(__LINE__);
             panel->clear();
-            deferred.lookups[1]("cleared-pronunciation");
+            deferred.lookups[2]("cleared-pronunciation");
             wxTheApp->ProcessPendingEvents();
             if (has("cleared-pronunciation"))
                 fail(__LINE__);
             panel.reset();
-            deferred.lookups[1]("destroyed-pronunciation");
+            deferred.lookups[2]("destroyed-pronunciation");
             wxTheApp->ProcessPendingEvents();
         }
     }
@@ -527,10 +985,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(part);
             });
         };
-        if (!has("DALIN") || !has("begynnelse") || !has("G746"))
+        if (!has("DALIN") || !has("begynnelse") || has("STRONG"))
             fail(__LINE__);
     }
-    study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source(), scripture_->frame());
+    study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source());
     {
         const auto lines = study_->text();
         const auto has = [&](const wxString& part) {
@@ -566,7 +1024,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }))
             fail(__LINE__);
     }
-    study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source(), scripture_->frame());
+    study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source());
     {
         const auto lines = study_->text();
         if (std::none_of(lines.begin(), lines.end(), [](const wxString& line) {
@@ -636,7 +1094,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     back();
     tracked_.reset();
     scripture_->clear_selection();
-    // A picker keeps pending endpoints across chapter navigation and supports ranges from multiple books.
+    // The normal browser prepares one range and opens it only after confirmation.
     browse_bible();
     auto* picker = dynamic_cast<BiblePicker*>(page_);
     const auto& canon = corpus_.canon();
@@ -646,22 +1104,100 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto psalms = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
         return book.code == "Ps";
     });
-    if (picker->building_ || picker->builder_panel_->IsShown())
+    if (picker->stacked() || !picker->parts().empty() || address_->GetLabel() != "Bibel" ||
+        address_->IsEnabled())
         fail(__LINE__);
-    picker->show_chapters(john);
-    picker->show_verses(john, 1);
+    picker->open_selection();
+    if (page_ != picker)
+        fail(__LINE__);
+    picker->select_book(john);
+    const auto john_verses = picker->verses_of(john);
+    if (picker->first_ != john_verses.front() || picker->last_ != john_verses.back() ||
+        picker->parts().size() != 1 || page_ != picker ||
+        address_->GetLabel() !=
+            ui::utf8(passage_label(corpus_, {{"John", john_verses.front(), john_verses.back()}})))
+        fail(__LINE__);
+    picker->select_chapter(john, 1);
     // John's chapters and verses unfold beneath its row, above the books that follow it.
     const auto chapters = picker->cells_->unfolded(1), verses = picker->cells_->unfolded(2);
     if (chapters.IsEmpty() || verses.IsEmpty() || !chapters.Contains(verses) ||
         chapters.GetBottom() + FromDIP(30) > picker->cells_->GetSize().y)
         fail(__LINE__);
     picker->select_verse(john, {1, 3});
-    if (page_ || scripture_->reading().passage.first != VerseRef{1, 3})
+    if (page_ != picker || picker->first_ != VerseRef{1, 3} || picker->last_ != VerseRef{1, 3})
+        fail(__LINE__);
+    picker->open_selection();
+    if (page_ || scripture_->reading().passage.first != VerseRef{1, 3} ||
+        scripture_->reading().passage.last != VerseRef{1, 3} || scripture_->reading().segments().size() != 1)
         fail(__LINE__);
     browse_bible();
     picker = dynamic_cast<BiblePicker*>(page_);
-    picker->set_builder(true);
+    const auto chapter_end = [&](int chapter) {
+        return *std::find_if(john_verses.rbegin(), john_verses.rend(), [chapter](VerseRef ref) {
+            return ref.chapter == chapter;
+        });
+    };
+    picker->select_book(john);
+    picker->select_chapter(john, 3);
+    if (picker->first_ != VerseRef{3, 1} || picker->last_ != chapter_end(3))
+        fail(__LINE__);
+    picker->select_chapter(john, 5);
+    if (picker->first_ != VerseRef{3, 1} || picker->last_ != chapter_end(5))
+        fail(__LINE__);
+    picker->select_book(john);
+    picker->select_chapter(john, 5);
+    picker->select_chapter(john, 3);
+    if (picker->first_ != VerseRef{3, 1} || picker->last_ != chapter_end(5))
+        fail(__LINE__);
+    picker->select_book(john);
+    picker->select_chapter(john, 3);
+    picker->select_verse(john, {3, 3});
+    picker->select_verse(john, {3, 5});
+    if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
+        fail(__LINE__);
+    back();
+    if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
+        fail(__LINE__);
+    picker->select_chapter(john, 5);
+    if (picker->first_ != VerseRef{3, 3} || picker->last_ != chapter_end(5))
+        fail(__LINE__);
+    picker->select_verse(john, {5, 5});
+    const auto selection_title = ui::utf8(passage_label(corpus_, {{"John", {3, 3}, {5, 5}}}));
+    if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{5, 5} ||
+        address_->GetLabel() != selection_title || address_->GetToolTipText() != selection_title)
+        fail(__LINE__);
+    update_bar();
+    if (address_->GetLabel() != selection_title)
+        fail(__LINE__);
+    about();
+    if (address_->GetLabel() != "Om Perikop")
+        fail(__LINE__);
+    back();
+    if (page_ != picker || address_->GetLabel() != selection_title)
+        fail(__LINE__);
+    picker->select_verse(john, {3, 4});
+    if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 4})
+        fail(__LINE__);
+    picker->select_verse(john, {2, 5});
+    if (picker->first_ != VerseRef{2, 5} || picker->last_ != VerseRef{3, 3})
+        fail(__LINE__);
+    picker->select_book(psalms);
+    const auto psalm_verses = picker->verses_of(psalms);
+    if (picker->range_book_->code != psalms.code || picker->first_ != psalm_verses.front() ||
+        picker->last_ != psalm_verses.back())
+        fail(__LINE__);
+    picker->select_book(john);
+    picker->select_chapter(john, 3);
+    picker->open_selection();
+    if (page_ || scripture_->reading().passage.first != VerseRef{3, 1} ||
+        scripture_->reading().passage.last != chapter_end(3) || scripture_->reading().segments().size() != 1)
+        fail(__LINE__);
+    // Lägg till stacks selections from several books as the parts of one reading.
+    browse_bible();
+    picker = dynamic_cast<BiblePicker*>(page_);
     const auto picker_size = GetSize();
+    // In a small window, the unfolded Psalms scroll and nothing is wider than the page.
+    picker->show_chapters(psalms);
     SetSize(FromDIP(wxSize(520, 650)));
     Layout();
     root_->Layout();
@@ -674,24 +1210,36 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (auto* child : picker->contents_->GetChildren())
         if (child->GetRect().GetRight() > picker->contents_->GetClientSize().x)
             fail(__LINE__);
-    if (picker->open_->GetRect().GetRight() > picker->builder_panel_->GetClientSize().x)
-        fail(__LINE__);
     SetSize(picker_size);
     Layout();
     root_->Layout();
-    picker->show_chapters(john);
-    picker->show_verses(john, 1);
+    picker->select_book(john);
+    picker->select_chapter(john, 1);
     picker->select_verse(john, {1, 50});
-    back();
-    picker->show_verses(john, 2);
+    picker->select_chapter(john, 2);
     picker->select_verse(john, {2, 2});
     if (!picker->first_ || !picker->last_ || *picker->first_ != VerseRef{1, 50} ||
         *picker->last_ != VerseRef{2, 2})
         fail(__LINE__);
-    picker->add_range(john, *picker->last_, *picker->first_);
-    picker->add_range(psalms, {22, 6}, {22, 6});
-    if (picker->ranges_->GetCount() != 2 || !picker->open_->IsEnabled())
+    picker->add_selection();
+    const auto first_part =
+        ui::utf8("Del 1 · ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
+    if (!picker->stacked() || picker->first_ || address_->GetLabel() != first_part || !address_->IsEnabled())
         fail(__LINE__);
+    picker->select_book(psalms);
+    picker->select_chapter(psalms, 22);
+    picker->select_verse(psalms, {22, 6});
+    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2 · ")))
+        fail(__LINE__);
+    // Rensa empties the stack and keeps the current selection.
+    {
+        const auto stack = picker->stack_;
+        picker->clear_stack();
+        if (picker->stacked() || picker->parts().size() != 1)
+            fail(__LINE__);
+        picker->stack_ = stack;
+        picker->update_selection();
+    }
     // About is reachable through its menu action without losing the browser's in-progress reading.
     const auto browser_scroll = picker->grid_->GetViewStart();
     const auto browser_first = picker->first_, browser_last = picker->last_;
@@ -704,10 +1252,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (page_ != about_page || page_history_.size() != 1)
         fail(__LINE__);
     back();
-    if (page_ != picker || !picker->IsShown() || !picker->building_ || picker->chapter_ != 2 ||
-        picker->first_ != browser_first || picker->last_ != browser_last ||
-        picker->grid_->GetViewStart() != browser_scroll || picker->ranges_->GetCount() != 2 ||
-        !page_history_.empty())
+    if (page_ != picker || !picker->IsShown() || picker->chapter_ != 22 || picker->first_ != browser_first ||
+        picker->last_ != browser_last || picker->grid_->GetViewStart() != browser_scroll ||
+        picker->parts().size() != 2 || !page_history_.empty())
         fail(__LINE__);
     picker->open_selection();
     const auto custom = scripture_->reading().segments();
@@ -741,7 +1288,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     wxButton* variant_button = nullptr;
     if (!day_.variants.empty() && day_.variants[0].reading) {
         const auto variant_title = ui::utf8(
-            passage_label(corpus_, corpus_.localize(in_primary(*day_.variants[0].reading)).segments()));
+            passage_label(corpus_, corpus_.localize(in_swedish(*day_.variants[0].reading)).segments()));
         for (const auto& label : home_labels_)
             if (label.text.StartsWith(variant_title))
                 if (auto* row = label.label->GetContainingSizer(); row && row->GetItemCount() == 2)
@@ -837,18 +1384,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (address_->GetLabel() != ui::utf8("Laddar rösten…") || play_->IsEnabled() || !pause_->IsEnabled() ||
         !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown())
         fail(__LINE__);
-    // During the introduction the address field shows what the voice says.
-    const std::string introduction = "Läsning ur Psaltaren, kapitel 23, vers 1 till 6.";
-    const SpeechCue introduction_cue{0, 0, "Ps", "", {23, 1}, {23, 6}, true};
-    read_aloud_.start({}, {{introduction, introduction, "sv", introduction_cue}});
-    display_playback({SpeechState::Playing, introduction_cue, 0, 0.01});
-    if (address_->GetLabel() != ui::utf8(introduction))
+    // Playback starts on Scripture and immediately shows the first verse.
+    const SpeechCue first_verse{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
+    read_aloud_.start({});
+    display_playback({SpeechState::Playing, first_verse, 0, 0.01});
+    if (address_->GetLabel() != ui::utf8("Psaltaren 23:1") || !scripture_->marker_position())
         fail(__LINE__);
     display_playback({SpeechState::Buffering, {}, 0, 0, 0.4});
     if (address_->GetLabel() != ui::utf8("Förbereder uppläsningen… 40 %") || scripture_->marker_position())
         fail(__LINE__);
-    SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}, false},
-                           0.35, 0.4};
+    SpeechPlayback playing{SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}}, 0.35,
+                           0.4};
     scripture_->playback(playing);
     scripture_->follow_playback();
     for (int i = 0; i < 90; ++i)
@@ -932,6 +1478,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->scroll_by(20);
     if (scripture_->follows_playback())
         fail(__LINE__);
+    if (!screenshot_path.empty()) {
+        display_playback(playing);
+        scripture_->Update();
+        wxBitmap bitmap(scripture_->GetClientSize());
+        wxClientDC window(scripture_);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-follow-button");
+    }
     scripture_->follow_playback();
     display_playback(playing);
     for (int i = 0; i < 90; ++i)
@@ -972,7 +1529,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (!scripture_->marker_position())
         fail(__LINE__);
     auto greek = playing;
-    greek.cue = SpeechCue{0, 0, "Ps", "grc-lxx", {22, 3}, {22, 3}, false};
+    greek.cue = SpeechCue{0, 0, "Ps", "grc-lxx", {22, 3}, {22, 3}};
     scripture_->playback(greek);
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
@@ -1018,16 +1575,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const Reading psalms{
             ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, {{"Ps", {24, 1}, {24, 10}}}};
         const Reading gospel{ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}};
-        read_aloud_.start({psalms, gospel}, {});
-        engine->held = {SpeechState::Paused, SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}, false}, 0,
-                        0.5};
+        read_aloud_.start({psalms, gospel});
+        engine->held = {SpeechState::Paused, SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}}, 0, 0.5};
         follow_speech();
         if (part_ != 1 || parts_.size() != 2 || !scripture_->follows_playback() ||
             speech_view_ != std::pair<size_t, size_t>{0, 1} || engine->changed)
             fail(__LINE__);
         // A cue for the next reading cannot take over after a manual scroll.
         scripture_->scroll_by(20);
-        engine->held.cue = SpeechCue{1, 0, "John", "sv1917", {1, 1}, {1, 1}, false};
+        engine->held.cue = SpeechCue{1, 0, "John", "sv1917", {1, 1}, {1, 1}};
         display_playback(engine->held);
         if (scripture_->follows_playback() || visible_reading_->passage.book != "Ps")
             fail(__LINE__);
@@ -1036,7 +1592,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             engine->changed)
             fail(__LINE__);
         about();
-        engine->held.cue = SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}, false};
+        engine->held.cue = SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}};
         display_playback(engine->held);
         if (!page_ || visible_reading_->passage.book != "John")
             fail(__LINE__);
