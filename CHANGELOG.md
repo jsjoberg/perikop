@@ -8,7 +8,9 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
-The first release will be 0.1.0. Until then, this section collects everything.
+## [0.1.0] - 2026-10-12
+
+The first release.
 
 ### Added
 
@@ -18,6 +20,7 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Go to any passage with a book, chapter, and verse picker.
 - Swedish read-aloud with the Alice and Björn voices, following the text as it is read.
 - Word study with Dalin's dictionary and Nyström's biblical dictionary.
+- Word study shows modern headwords, word classes, and semantic associations from SALDO, and academic vocabulary from Akademisk ordlista.
 - Online verse buttons in word study for Folkbibeln SFB15, Kärnbibeln, Reformationsbibeln, and Bibel 2026.
 - A pronunciation review for Swedish read-aloud.
 - A browser-like toolbar with back, play, pause, and stop, an address field for passages, and right-column choices.
@@ -65,3 +68,6 @@ The first release will be 0.1.0. Until then, this section collects everything.
 - Read-aloud pronounces "förlåten", "hov", "bete", and "dans" in the sense of each verse: the temple veil or "forgiven", a royal court or the past tense of "häva", pasture or "bete sig", and a dance or the tribe of Dan. Bundled phrase entries such as "innanför förlåten" and "Dans stam" choose the sense.
 - The pronunciation review has a filter for the 303 Bible words with several pronunciations in NST. Each pronunciation can be heard in its verse with one click.
 - The voice model is half the size and uses less memory. Pronunciations for the Bible text are prepared in advance.
+
+[Unreleased]: https://github.com/jsjoberg/perikop/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/jsjoberg/perikop/releases/tag/v0.1.0
