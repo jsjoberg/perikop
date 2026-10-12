@@ -129,6 +129,32 @@ Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, Uni
 `resources/lexicon/study.db` keeps the entries that the Swedish 1917 forms use, mapped to those forms.
 https://spraakbanken.gu.se/resurser/dalin
 
+Modern word metadata uses SALDO, SALDOs morfologi, and Akademisk ordlista from Språkbanken under CC BY 4.0.
+These datasets contain word metadata and semantic associations. Their imported XML files contain no prose definitions or translations.
+
+SALDO citation: Borin, Lars, Lönngren, Lennart, and Forsberg, Markus (2017). *SALDO*. Dataset updated 2017-09-19.
+Processed and distributed by Språkbanken.
+https://doi.org/10.23695/s80w-2517
+https://www.sprakbanken.se/resurser/saldo
+
+Morphology citation: Språkbanken (2017). *SALDOs morfologi*. Dataset updated 2017-09-19.
+Processed and distributed by Språkbanken.
+https://doi.org/10.23695/agcm-ny22
+https://www.sprakbanken.se/resurser/saldom
+
+Academic word list citation: Ribeck, Judy Carola, Jansson, Håkan, and Sköldberg, Emma (2017). *Akademisk ordlista*. Dataset updated 2017-09-13.
+Processed and distributed by Språkbanken.
+https://doi.org/10.23695/tqkx-av74
+https://www.sprakbanken.se/resurser/ao
+
+Changes: unused entries omitted, case and Unicode normalized for matching, associations converted to readable headwords, and data converted to SQLite.
+Published inflections and reviewed historical forms link Swedish 1917 words to entries. Compound fragments and component forms of phrases are excluded.
+Academic participle entries omit verbal aliases from inflection matching. Separate entries and SALDO senses remain separate.
+Input URLs, dataset dates, attributions, and SHA-256 hashes are recorded in `tools/lexicon/inputs.json`.
+The dataset licences remain separate from Perikop's MIT code licence. No endorsement by the creators or Språkbanken is implied.
+The CC BY 4.0 legal text is bundled in `resources/licenses/CC-BY-4.0.txt`.
+https://creativecommons.org/licenses/by/4.0/
+
 Biblical people, places, and terms use Erik Nyström's *Biblisk ordbok för hemmet och skolan*, fourth edition (1896), digitized by Project Runeberg.
 Nyström died in 1907; the original text is in the public domain.
 Changes: prose extracted from the 21 letter pages, tables and illustrations omitted, unused entries omitted, Swedish 1917 forms linked to headwords.

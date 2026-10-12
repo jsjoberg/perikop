@@ -1,12 +1,24 @@
 #include "ui/study_panel.hpp"
 #include "ui/controls.hpp"
 #include "ui/theme.hpp"
+#include <map>
 #include <wx/app.h>
 #include <wx/hyperlink.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/weakref.h>
 namespace ortho {
+namespace {
+wxString word_class(const std::string& code) {
+    static const std::map<std::string, std::string> names = {
+        {"nn", "substantiv"},  {"av", "adjektiv"},     {"vb", "verb"},        {"ab", "adverb"},
+        {"pm", "egennamn"},    {"pn", "pronomen"},     {"pp", "preposition"}, {"kn", "konjunktion"},
+        {"sn", "subjunktion"}, {"in", "interjektion"}, {"nl", "räkneord"},    {"al", "artikel"}};
+    if (const auto found = names.find(code); found != names.end())
+        return ui::utf8(found->second);
+    return ui::utf8(code);
+}
+} // namespace
 StudyPanel::StudyPanel(wxWindow* parent, const StudyDb* study, SpeechEngine& speech, Lexicon lexicon)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE),
       study_(study), speech_(speech), lexicon_(std::move(lexicon)) {
@@ -80,6 +92,15 @@ void StudyPanel::rebuild() {
         sizer->AddSpacer(FromDIP(14));
         text(title, ui_font(9), colors.muted, 4);
     };
+    const auto link = [&](const wxString& label, const wxString& url) {
+        auto* source = new wxHyperlinkCtrl(this, wxID_ANY, label, url);
+        source->SetFont(ui_font(9));
+        source->SetNormalColour(colors.accent);
+        source->SetVisitedColour(colors.accent);
+        source->SetHoverColour(colors.ink);
+        sizer->Add(source, 0, wxLEFT, pad);
+        sizer->AddSpacer(FromDIP(5));
+    };
     if (!study_)
         text(ui::utf8(
                  "Ordstudiedata saknas. Bygg resources/lexicon/study.db med tools/lexicon/build_study.py."),
@@ -123,6 +144,33 @@ void StudyPanel::rebuild() {
             const auto form = ui::to_utf8(ui::utf8(word.text).Lower());
             const auto entries = study_->swedish(form);
             const auto articles = study_->biblical(form);
+            const auto saldo = study_->saldo(form);
+            const auto academic = study_->academic(form);
+            const auto modern = [&](const std::vector<ModernWordEntry>& words, bool semantic) {
+                if (words.empty())
+                    return;
+                section(ui::utf8(semantic ? "ORD OCH ASSOCIATIONER · SALDO" : "AKADEMISK ORDLISTA"));
+                for (const auto& entry : words) {
+                    text(ui::utf8(entry.headword) + "   " + word_class(entry.gram), body_font(15), colors.ink,
+                         2);
+                    if (entry.match != "exact")
+                        text(ui::utf8(entry.match == "curated" ? "Äldre form · kopplad till grundformen"
+                                                               : "Böjd form · visar grundformen"),
+                             ui_font(9), colors.muted, 3);
+                    if (!entry.associations.empty())
+                        text(ui::utf8("Associationer (betydelsesamband): " + entry.associations), ui_font(11),
+                             colors.ink, 6);
+                }
+                text(ui::utf8(semantic
+                                  ? "Lars Borin, Lennart Lönngren och Markus Forsberg · Språkbanken"
+                                  : "Judy Carola Ribeck, Håkan Jansson och Emma Sköldberg · Språkbanken"),
+                     ui_font(8), colors.muted, 4);
+                link(ui::utf8("Källa · Språkbanken"), semantic ? "https://www.sprakbanken.se/resurser/saldo"
+                                                               : "https://www.sprakbanken.se/resurser/ao");
+                link("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/");
+            };
+            modern(saldo, true);
+            modern(academic, false);
             if (!entries.empty())
                 section(ui::utf8("ORDBOK · DALIN 1850–53"));
             for (const auto& entry : entries) {
@@ -174,7 +222,7 @@ void StudyPanel::rebuild() {
                     sizer->AddSpacer(FromDIP(12));
                 }
             }
-            if (entries.empty() && articles.empty()) {
+            if (entries.empty() && articles.empty() && saldo.empty() && academic.empty()) {
                 section(ui::utf8("SVENSKA UPPSLAGSKÄLLOR"));
                 text(ui::utf8("Ordet finns inte i de svenska uppslagskällorna."), ui_font(11), colors.muted);
             }

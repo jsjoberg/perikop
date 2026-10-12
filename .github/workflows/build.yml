@@ -191,6 +191,7 @@ jobs:
           path: build/smoke
           if-no-files-found: ignore
       - run: python tools/check_resources.py
+      - run: python tests/modern_lexicon_test.py
       - run: python tests/icon_test.py
       - run: python tests/linux_abi_test.py
       - run: python tests/ci_dependencies_test.py

@@ -20,6 +20,7 @@
 #include <wx/dcmemory.h>
 #include <wx/fontenum.h>
 #include <wx/graphics.h>
+#include <wx/hyperlink.h>
 #include <wx/menu.h>
 namespace ortho {
 namespace {
@@ -986,9 +987,33 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(part);
             });
         };
-        if (!has("DALIN") || !has("begynnelse") || has("STRONG"))
+        if (!has("DALIN") || !has("SALDO") || !has("begynnelse") || has("STRONG"))
             fail(__LINE__);
     }
+    study_->show({"John", "främst", {1, 17}, 0}, scripture_->base_source());
+    {
+        const auto lines = study_->text();
+        const auto has = [&](const wxString& part) {
+            return std::any_of(lines.begin(), lines.end(), [&](const wxString& line) {
+                return line.Contains(part);
+            });
+        };
+        if (!has("AKADEMISK ORDLISTA") || !has("adjektiv") || !has("adverb"))
+            fail(__LINE__);
+        bool source = false, license = false;
+        for (auto* child : study_->GetChildren()) {
+            if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
+                source |= link->GetURL() == "https://www.sprakbanken.se/resurser/ao";
+                license |= link->GetURL() == "https://creativecommons.org/licenses/by/4.0/";
+            }
+        }
+        if (!source || !license)
+            fail(__LINE__);
+    }
+    study_->show({"John", "orimligtpåhittat", {1, 17}, 0}, scripture_->base_source());
+    for (const auto& line : study_->text())
+        if (line.Contains("SALDO") || line.Contains("AKADEMISK ORDLISTA"))
+            fail(__LINE__);
     study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source());
     {
         const auto lines = study_->text();

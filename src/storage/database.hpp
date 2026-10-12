@@ -85,8 +85,10 @@ struct DalinEntry {
 struct BiblicalEntry {
     std::string id, headword, definition, url;
 };
-// Word-study data from tools/lexicon/build_study.py: Dalin and biblical articles
-// for Swedish 1917 forms.
+struct ModernWordEntry {
+    std::string id, headword, gram, associations, match;
+};
+// Offline word-study sources for Swedish 1917 forms.
 class StudyDb {
 public:
     explicit StudyDb(const std::filesystem::path& path);
@@ -94,6 +96,8 @@ public:
     std::vector<DalinEntry> swedish(const std::string& form) const;
     // Nyström's historical biblical articles for a lowercase Swedish 1917 form.
     std::vector<BiblicalEntry> biblical(const std::string& form) const;
+    std::vector<ModernWordEntry> saldo(const std::string& form) const;
+    std::vector<ModernWordEntry> academic(const std::string& form) const;
 
 private:
     DatabaseHandle db_;

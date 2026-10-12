@@ -774,6 +774,31 @@ int main(int argc, char** argv) {
                   "irregular form resolves through the table");
             check(study.swedish("hjärta").front().headword == "hjerta",
                   "reformed spelling resolves to Dalin's spelling");
+            const auto heart = study.saldo("hjärta");
+            check(heart.size() == 2 && heart.front().headword == "hjärta" && heart.front().gram == "nn" &&
+                      heart.front().match == "exact" &&
+                      heart.front().associations.find("organ") != std::string::npos &&
+                      heart.back().associations == "känna",
+                  "SALDO preserves separate senses and semantic associations without phrase matches");
+            const auto many = study.saldo("många");
+            check(many.size() == 1 && many.front().headword == "mången" && many.front().gram == "pn" &&
+                      many.front().match == "inflected",
+                  "SALDO uses the published pronoun form instead of its synthetic placeholder");
+            const auto answered = study.saldo("svarade");
+            check(answered.size() == 2 && answered.front().headword == "svara" &&
+                      answered.front().match == "inflected",
+                  "SALDO matches a published verb inflection");
+            const auto archaic = study.saldo("fingo");
+            check(!archaic.empty() && archaic.front().headword == "få" && archaic.front().gram == "vb" &&
+                      archaic.front().match == "curated",
+                  "reviewed archaic forms retain their matching provenance");
+            const auto academic = study.academic("främst");
+            check(academic.size() == 2 && academic.front().gram != academic.back().gram &&
+                      academic.front().match == "exact",
+                  "the academic list preserves distinct entries sharing a source sense ID");
+            check(study.saldo("xhjärta").empty() && study.academic("xbetydelse").empty() &&
+                      study.academic("gavs").empty(),
+                  "modern lookup never guesses a suffix or maps a verb to an academic participle");
             const auto jesu = study.biblical("jesu");
             check(jesu.size() == 2 && jesu.front().headword == "Jesus Kristus" &&
                       jesu.back().headword == "Jesus Justus",

@@ -1,14 +1,15 @@
 #!/usr/bin/env -S uv run --locked
 """Build resources/lexicon/study.db for the Ordstudium panel from pinned inputs.
 
-Swedish 1917 word forms resolve to Dalin (1850) entries here, offline, so the
-reader only looks forms up.
+Swedish 1917 forms resolve to Dalin, Nyström, SALDO, and academic word entries
+at build time. The reader only looks forms up.
 """
 import hashlib, itertools, json, re, sqlite3
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from fetch import fetch
 from biblobok import articles, resolve_forms
+from modern import saldo_entries, academic_entries, morphology, resolve as resolve_modern, associations
 root=Path(__file__).resolve().parents[2]
 output=root/'resources/lexicon/study.db'
 
@@ -88,17 +89,28 @@ resolved={word:resolve(word) for word in counts}
 biblical_entries=articles()
 biblical_forms=resolve_forms(biblical_entries,counts,spellings)
 biblical_used={article for matches in biblical_forms.values() for article in matches}
+saldo=saldo_entries(fetch('saldo'))
+academic=academic_entries(fetch('ao'))
+inflections=morphology(fetch('saldom'),counts)
+saldo_forms=resolve_modern(saldo,counts,inflections,irregular)
+academic_forms=resolve_modern(academic,counts,inflections,irregular)
+saldo_used={key for matches in saldo_forms.values() for key in matches}
+academic_used={key for matches in academic_forms.values() for key in matches}
 
 # --- Write ---------------------------------------------------------------------
 output.parent.mkdir(parents=True,exist_ok=True)
 temp=output.with_suffix('.tmp');temp.unlink(missing_ok=True)
 db=sqlite3.connect(temp)
 db.executescript('''
-PRAGMA user_version=4; PRAGMA application_id=1330795348;
+PRAGMA user_version=5; PRAGMA application_id=1330795348;
 CREATE TABLE dalin(id INTEGER PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, definition TEXT NOT NULL) STRICT;
 CREATE TABLE sv_word(form TEXT NOT NULL, dalin INTEGER NOT NULL REFERENCES dalin(id), PRIMARY KEY(form,dalin)) STRICT, WITHOUT ROWID;
 CREATE TABLE biblical(id TEXT PRIMARY KEY, headword TEXT NOT NULL, definition TEXT NOT NULL, url TEXT NOT NULL) STRICT, WITHOUT ROWID;
 CREATE TABLE sv_biblical(form TEXT NOT NULL, article TEXT NOT NULL REFERENCES biblical(id), rank INTEGER NOT NULL, PRIMARY KEY(form,article)) STRICT, WITHOUT ROWID;
+CREATE TABLE saldo(id TEXT PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, associations TEXT NOT NULL) STRICT, WITHOUT ROWID;
+CREATE TABLE sv_saldo(form TEXT NOT NULL, entry TEXT NOT NULL REFERENCES saldo(id), match TEXT NOT NULL CHECK(match IN ('exact','inflected','curated')), PRIMARY KEY(form,entry)) STRICT, WITHOUT ROWID;
+CREATE TABLE academic(id TEXT PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL) STRICT, WITHOUT ROWID;
+CREATE TABLE sv_academic(form TEXT NOT NULL, entry TEXT NOT NULL REFERENCES academic(id), match TEXT NOT NULL CHECK(match IN ('exact','inflected','curated')), PRIMARY KEY(form,entry)) STRICT, WITHOUT ROWID;
 ''')
 ids={lemgram:i for i,lemgram in enumerate(sorted({l for ls in resolved.values() for l in ls}),1)}
 db.executemany('INSERT INTO dalin VALUES(?,?,?,?)',[(i,*entries[l]) for l,i in ids.items()])
@@ -106,6 +118,11 @@ db.executemany('INSERT INTO sv_word VALUES(?,?)',sorted((word,ids[l]) for word,l
 db.executemany('INSERT INTO biblical VALUES(?,?,?,?)',sorted((key,headword,definition,url)
     for key,headword,_,definition,url,_ in biblical_entries if key in biblical_used))
 db.executemany('INSERT INTO sv_biblical VALUES(?,?,?)',sorted((word,article,rank) for word,matches in biblical_forms.items() for rank,article in enumerate(matches)))
+db.executemany('INSERT INTO saldo VALUES(?,?,?,?)',[(key,saldo[key].headword,saldo[key].gram,associations(saldo[key],saldo)) for key in sorted(saldo_used)])
+db.executemany('INSERT INTO academic VALUES(?,?,?)',[(key,academic[key].headword,academic[key].gram) for key in sorted(academic_used)])
+for table,matches in (('sv_saldo',saldo_forms),('sv_academic',academic_forms)):
+    db.executemany(f'INSERT INTO {table} VALUES(?,?,?)',sorted((word,key,match) for word,entries in matches.items() for key,match in entries.items()))
+if db.execute('PRAGMA foreign_key_check').fetchall():raise SystemExit('Word-study foreign key check failed')
 db.commit();db.execute('VACUUM');db.close();temp.replace(output)
 
 total=sum(counts.values());covered=sum(n for w,n in counts.items() if resolved[w])
@@ -113,6 +130,10 @@ print(f'Swedish forms: {sum(1 for w in counts if resolved[w])}/{len(counts)} res
 combined=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word])
 print(f'Biblical articles: {len(biblical_used)} of {len(biblical_entries)}; combined Swedish lookup coverage: {100*combined/total:.1f}% of word occurrences')
 print(f'Dalin entries: {len(ids)}')
+print(f'SALDO senses: {len(saldo_used)}; academic words: {len(academic_used)}')
+modern_covered=sum(n for word,n in counts.items() if saldo_forms[word] or academic_forms[word])
+all_covered=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word] or saldo_forms[word] or academic_forms[word])
+print(f'Modern sources: {100*modern_covered/total:.1f}%; all sources: {100*all_covered/total:.1f}% of word occurrences')
 manifest=root/'resources/manifest.json';metadata=json.loads(manifest.read_text(encoding='utf-8'))
 for asset in metadata['assets']:
     if asset.get('path') in ('resources/lexicon/study.db','resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-biblical-forms.tsv'):
