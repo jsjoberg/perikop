@@ -39,7 +39,7 @@ public:
         SetAppDisplayName("Perikop");
         wxInitAllImageHandlers();
         bool smoke = false, benchmark = false, reader = false, pronunciation_review = false;
-        wxString resource_override, screenshot, speech_probe;
+        wxString resource_override, profile_override, screenshot, speech_probe;
         auto date = ortho::local_civil_date();
         for (int i = 1; i < argc; ++i) {
             const wxString arg = argv[i];
@@ -51,12 +51,14 @@ public:
                 reader = true;
             else if (arg == "--pronunciation-review")
                 pronunciation_review = true;
-            else if ((arg == "--resources" || arg == "--date" || arg == "--screenshot" ||
-                      arg == "--speech-probe") &&
+            else if ((arg == "--resources" || arg == "--profile" || arg == "--date" ||
+                      arg == "--screenshot" || arg == "--speech-probe") &&
                      i + 1 < argc) {
                 const wxString value = argv[++i];
                 if (arg == "--resources")
                     resource_override = value;
+                if (arg == "--profile")
+                    profile_override = value;
                 if (arg == "--screenshot")
                     screenshot = value;
                 if (arg == "--speech-probe")
@@ -132,19 +134,22 @@ public:
 #endif
             ortho::load_hyphenation(resources / "hyphenation");
             corpus_ = std::make_unique<ortho::CorpusDb>(resources / "corpus/corpus.db");
+            auto data_path = profile_override.empty()
+                                 ? ortho::ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir())
+                                 : ortho::ui::filesystem_path(profile_override);
             if (smoke || benchmark) {
                 test_path_ = std::filesystem::temp_directory_path() /
                              std::filesystem::path(
                                  "perikop-smoke-" +
                                  std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
-                user_ = std::make_unique<ortho::UserDb>(test_path_ / "user.db");
-            } else
-                user_ = std::make_unique<ortho::UserDb>(
-                    ortho::ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir()) / "user.db");
+                data_path = test_path_;
+            }
+            user_ = std::make_unique<ortho::UserDb>(data_path / "user.db");
 #if wxCHECK_VERSION(3, 3, 0)
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
-            auto* frame = new ortho::MainFrame(*corpus_, *user_, date, resources);
+            auto* frame =
+                new ortho::MainFrame(*corpus_, *user_, date, resources, data_path, smoke || benchmark);
             wxIcon icon;
             icon.CopyFromBitmap(wxBitmap(ortho::app_icon_image()));
             if (icon.IsOk())
@@ -178,7 +183,7 @@ public:
             }
             return true;
         } catch (const std::exception& e) {
-            if (smoke || benchmark)
+            if (smoke || benchmark || !speech_probe.empty())
                 std::cerr << e.what() << '\n';
             else
                 wxMessageBox(wxString::FromUTF8(e.what()), "Perikop", wxOK | wxICON_ERROR);

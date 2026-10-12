@@ -4,10 +4,10 @@
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
 #include <atomic>
+#include <iostream>
 #include <stdexcept>
 #include <wx/app.h>
 #include <wx/msgdlg.h>
-#include <wx/stdpaths.h>
 #include <wx/weakref.h>
 namespace ortho {
 bool MainFrame::active_playback() const {
@@ -136,10 +136,26 @@ void MainFrame::initialize_speech() {
     // The worker copies the shared owner, not wxWeakRef's main-thread tracking data.
     auto weak = std::make_shared<wxWeakRef<MainFrame>>(this);
     auto latest_speech = std::make_shared<std::atomic<uint64_t>>(0);
-    const auto data_path = ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir());
-    pronunciation_review_ = std::make_unique<PronunciationReviewDb>(data_path / "pronunciation-review.db");
+    try {
+        auto review = std::make_unique<PronunciationReviewDb>(data_ / "pronunciation-review.db");
+        review->overrides(); // Check the table before enabling personal corrections.
+        pronunciation_review_ = std::move(review);
+    } catch (const std::exception& e) {
+        const auto path_bytes = (data_ / "pronunciation-review.db").u8string();
+        const std::string path(reinterpret_cast<const char*>(path_bytes.data()), path_bytes.size());
+        pronunciation_error_ = "Uttalskorrigeringar kunde inte läsas. Läsning och uppläsning fungerar med "
+                               "grunduttalen. Databasen har bevarats. Säkerhetskopiera filen innan du "
+                               "försöker återställa den: " +
+                               path + "\n\n" + e.what();
+        std::cerr << pronunciation_error_ << '\n';
+        if (!diagnostic_)
+            CallAfter([this] {
+                wxMessageBox(ui::utf8(pronunciation_error_), ui::utf8("Uttalskorrigeringar"),
+                             wxOK | wxICON_INFORMATION, this);
+            });
+    }
     speech_ = create_portable_speech(
-        resources_ / "voices", data_path, [weak, latest_speech](const SpeechUpdate& update) {
+        resources_ / "voices", data_, [weak, latest_speech](const SpeechUpdate& update) {
             auto known = latest_speech->load();
             while (known < update.sequence && !latest_speech->compare_exchange_weak(known, update.sequence)) {
             }

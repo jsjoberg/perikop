@@ -4,7 +4,7 @@ The native application uses five SQLite databases. It does not use platform pref
 
 `corpus.db` contains Scripture, source metadata, alignment, pronunciation, recurring reading rules, fasting metadata, and commemoration names.
 The connection opens with `SQLITE_OPEN_READONLY` and enables `query_only`.
-Its schema version is 6, and its application identifier is `ORTC`.
+Its schema version is 7, and its application identifier is `ORTC`.
 Application tables use `STRICT` typing. Foreign keys connect reading segments to their rules and books.
 The book and canon tables come from `books.tsv` and `canon.tsv`: names, abbreviations, testament, deuterocanonical and stanza flags, and the reader's book order.
 The application loads them once when the corpus opens.
@@ -14,7 +14,7 @@ The verse uniqueness index also serves coordinate lookups. The importer runs `AN
 The read cache allows 8 MiB. The shipped file needs no writable journal or companion files.
 
 `study.db` contains the word-study data from `tools/lexicon/build_study.py`.
-It is read-only, like the corpus. Its schema version is 3, and its application identifier is `ORST`.
+It is read-only, like the corpus. Its schema version is 4, and its application identifier is `ORST`.
 The reader works without it; the word-study panel then stays empty.
 
 `user.db` contains preferences and reading progress in the platform user-data directory.
@@ -41,6 +41,13 @@ One speech worker owns the cache connection.
 Its schema version is 1, and its application identifier is `ORTP`.
 Corrected forms override the corpus pronunciations when the reader speaks Swedish.
 The [pronunciation review guide](pronunciation-review.md) describes the tool.
+
+The application resolves one profile directory for all three writable databases.
+`--profile PATH` selects another directory for normal use.
+Smoke tests and benchmarks always use a temporary profile, including when this option is present.
+Cache failures disable persistent caching for the current session. Speech continues with fresh inference.
+Unreadable pronunciation decisions disable personal overrides. The reader preserves the database and uses bundled pronunciations.
+Recovery does not delete corrupt files or replace unknown future schemas.
 
 All connections enable foreign keys, defensive mode, and extended result codes.
 They disable trusted schemas and wait up to three seconds for temporary database locks.

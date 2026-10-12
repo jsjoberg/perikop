@@ -25,5 +25,7 @@ python3 tests/linux_abi_test.py
 python3 tests/ci_dependencies_test.py
 if [ "${PACKAGE:-false}" = true ]; then
     tools/package_appimage.sh build/cmake
+    xvfb-run -a build/cmake/AppDir/usr/bin/perikop \
+        --resources build/cmake/AppDir/usr/share/perikop/resources --speech-probe /work/build/voice-linux.wav
 fi
 ccache --show-stats

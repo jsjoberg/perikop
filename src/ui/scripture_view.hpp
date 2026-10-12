@@ -38,6 +38,7 @@ public:
         return follow_timer_.IsRunning();
     }
     void scroll_by(double pixels);
+    void advance_scroll();
     double scroll_position() const {
         return offset_;
     }
@@ -137,6 +138,7 @@ private:
     std::optional<Hit> hit(wxPoint) const;
     std::optional<std::pair<WordRuns, int>> word_of(const Column&, int tag, std::size_t line, int run) const;
     void set_position(double);
+    void navigate_to(double);
     double content_height() const;
     double max_offset() const;
     void rebuild_positions();

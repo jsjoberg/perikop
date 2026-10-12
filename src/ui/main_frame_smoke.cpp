@@ -1,5 +1,6 @@
 #include "core/reading_display.hpp"
 #include "core/reading_plan.hpp"
+#include "storage/sqlite.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
@@ -10,8 +11,10 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <limits>
+#include <wx/access.h>
 #include <wx/app.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
@@ -57,6 +60,41 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::cerr << "Smoke check failed: main_frame_smoke.cpp:" << line << '\n';
         ok = false;
     };
+    // Optional pronunciation failures preserve the profile and leave reading usable.
+    for (const bool future : {false, true}) {
+        const auto data = data_ / (future ? "future-pronunciation" : "corrupt-pronunciation");
+        UserDb profile(data / "user.db");
+        auto settings = profile.load();
+        settings.speech_voice = "bjorn";
+        profile.save(settings);
+        profile.complete("preserved-progress");
+        const auto path = data / "pronunciation-review.db";
+        if (future) {
+            {
+                PronunciationReviewDb review(path);
+                review.save({"RecoverySentinel", "corrected", "preserved correction", "future schema"});
+            }
+            auto db = storage::open(path, SQLITE_OPEN_READWRITE);
+            storage::exec(db.get(), "PRAGMA user_version=99");
+        } else
+            std::ofstream(path) << "preserve corrupt pronunciation bytes";
+        const auto contents = [&] {
+            std::ifstream file(path, std::ios::binary);
+            return std::string((std::istreambuf_iterator<char>(file)), {});
+        };
+        const auto before = contents();
+        {
+            auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data, true);
+            candidate->open_psalm();
+            if (candidate->pronunciation_review_ || !candidate->speech_ ||
+                candidate->scripture_->reading().passage.book != "Ps" ||
+                candidate->speech_lexicon("sv").size() != corpus_.pronunciations("sv").size())
+                fail(__LINE__);
+        }
+        if (contents() != before || profile.load().speech_voice != "bjorn" ||
+            !profile.completed().contains("preserved-progress"))
+            fail(__LINE__);
+    }
     if (!corpus_.read_only())
         fail(__LINE__);
     // The ⋮ menu is always there. Windows and Linux hide the menu bar until Alt; the checks below use it.
@@ -323,6 +361,30 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
     if (total == 0 || double(equal) / total < 0.995)
         fail(__LINE__);
+#ifndef __APPLE__
+    // Windows/Linux use the wheel timer; Cocoa scrolls immediately.
+    // A wheel animation must not pull Home/End back to its old target.
+    for (const int key : {WXK_HOME, WXK_END}) {
+        scripture_->center_passage();
+        wxMouseEvent wheel(wxEVT_MOUSEWHEEL);
+        wheel.m_wheelRotation = -120;
+        wheel.m_wheelDelta = 120;
+        wheel.m_linesPerAction = 3;
+        scripture_->GetEventHandler()->ProcessEvent(wheel);
+        const auto before_tick = scripture_->scroll_position();
+        scripture_->advance_scroll();
+        if (scripture_->scroll_position() <= before_tick)
+            fail(__LINE__);
+        wxKeyEvent navigate(wxEVT_CHAR_HOOK);
+        navigate.m_keyCode = key;
+        scripture_->GetEventHandler()->ProcessEvent(navigate);
+        const auto position = scripture_->scroll_position();
+        for (int tick = 0; tick < 3; ++tick)
+            scripture_->advance_scroll();
+        if (scripture_->scroll_position() != position || (key == WXK_HOME && position != 0))
+            fail(__LINE__);
+    }
+#endif
     for (auto theme : {Theme::Light, Theme::Dark, Theme::System})
         for (auto mode : {"", "el", "en"}) {
             settings_.theme = theme;
@@ -422,6 +484,66 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     refresh_day();
     if (plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
+    // All plan parts have native button semantics and a descriptive accessible name.
+    for (auto* tile : plan_tiles_)
+        if (!tile->AcceptsFocus() || !tile->GetName().Contains("Del ") || !tile->GetName().Contains(" · "))
+            fail(__LINE__);
+#if wxUSE_ACCESSIBILITY
+    for (auto* tile : plan_tiles_) {
+        wxString name;
+        wxAccRole role = wxROLE_NONE;
+        auto* accessible = tile->GetAccessible();
+        if (!accessible || accessible->GetName(wxACC_SELF, &name) != wxACC_OK ||
+            accessible->GetRole(wxACC_SELF, &role) != wxACC_OK || name != tile->GetName() ||
+            role != wxROLE_SYSTEM_PUSHBUTTON)
+            fail(__LINE__);
+    }
+#endif
+    wxCommandEvent open_part(wxEVT_BUTTON, plan_tiles_.back()->GetId());
+    plan_tiles_.back()->GetEventHandler()->ProcessEvent(open_part);
+    if (!scripture_->IsShown() || !tracked_)
+        fail(__LINE__);
+    back();
+    if (!readings_->IsShown())
+        fail(__LINE__);
+    // Custom toolbar controls activate once, on key release, without mouse input.
+    for (const int key : {WXK_SPACE, WXK_RETURN}) {
+        int activations = 0;
+        auto* button = new SymbolButton(
+            root_, Symbol::Next, "Keyboard test",
+            [&] {
+                ++activations;
+            },
+            true);
+#if wxUSE_ACCESSIBILITY
+        wxAccRole role = wxROLE_NONE;
+        long state = 0;
+        button->checked(true);
+        auto* accessible = button->GetAccessible();
+        if (!accessible || accessible->GetRole(wxACC_SELF, &role) != wxACC_OK ||
+            role != wxROLE_SYSTEM_CHECKBUTTON || accessible->GetState(wxACC_SELF, &state) != wxACC_OK ||
+            !(state & wxACC_STATE_SYSTEM_CHECKED))
+            fail(__LINE__);
+        button->checked(false);
+        if (accessible &&
+            (accessible->GetState(wxACC_SELF, &state) != wxACC_OK || (state & wxACC_STATE_SYSTEM_CHECKED)))
+            fail(__LINE__);
+#endif
+        wxKeyEvent down(wxEVT_KEY_DOWN), up(wxEVT_KEY_UP);
+        down.m_keyCode = up.m_keyCode = key;
+        button->GetEventHandler()->ProcessEvent(down);
+        if (activations != 0)
+            fail(__LINE__);
+        button->GetEventHandler()->ProcessEvent(up);
+        if (activations != 1 || !button->AcceptsFocus())
+            fail(__LINE__);
+        button->Enable(false);
+        button->GetEventHandler()->ProcessEvent(down);
+        button->GetEventHandler()->ProcessEvent(up);
+        if (activations != 1)
+            fail(__LINE__);
+        delete button;
+    }
     // Right-column symbols toggle, and the Visa menu follows them.
     toggle_pane("el");
     if (settings_.parallel != "el" || settings_.word_study)

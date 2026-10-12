@@ -7,9 +7,9 @@ The application needs no network connection after installation.
 
 ## Installation
 
-- macOS: open the DMG and drag Perikop to Applications.
+- macOS 13.4 or later, Intel or Apple Silicon: open the DMG and drag Perikop to Applications.
 - Windows 10 or later, x86-64: run the installer. It installs Perikop in Program Files and adds a Start menu shortcut.
-- Linux: make the AppImage executable, then run it.
+- Linux x86-64 with glibc 2.34 or later: make the AppImage executable, then run it.
 
 The macOS application has an ad-hoc signature only.
 On first launch, open **System Settings → Privacy & Security** and select **Open Anyway**.
@@ -145,6 +145,8 @@ After the voice finishes a part, Perikop asks whether to mark it as read.
 It also asks after you scroll to the end of a part and leave it.
 The day's readings use the same progress controls.
 **Börja om** clears one plan after confirmation.
+Tab moves between plan parts and toolbar controls. Enter or Space activates the focused control.
+The focus outline identifies the selected control.
 
 ## Swedish read-aloud
 
@@ -157,11 +159,15 @@ The voice uses common C++ code on all target platforms.
 The address field shows loading, buffering, the spoken introduction, and the current verse.
 A line along its lower edge shows progress.
 
-Playback starts after the first audio chunk.
-The engine generates later chunks during playback, with a buffer of at most two chunks.
+Playback starts after enough audio is ready for the estimated synthesis speed.
+Fast synthesis needs a short lead. Slower synthesis can prepare more of the reading before playback.
+The rolling buffer limit ranges from 30 to 600 seconds of source audio.
+Pause also suspends preparation between chunks.
 Initial model loading and first-chunk synthesis take time.
 If synthesis cannot keep pace, playback waits for the next chunk.
 A separate SQLite cache accelerates repeat readings.
+If the cache fails, speech continues without it and the status shows **utan ljudcache**.
+If personal pronunciation data fails, the reader uses the bundled pronunciations and preserves the database.
 
 Drag across verses in the left column to mark a range.
 Hold Ctrl (Windows/Linux) or Command (macOS) while you drag to add separate ranges.

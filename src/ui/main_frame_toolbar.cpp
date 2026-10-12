@@ -46,9 +46,12 @@ void MainFrame::create_toolbar() {
     const char* names[] = {"Svenska och ordstudium", "Svenska och grekiska", "Svenska och engelska"};
     for (std::size_t i = 0; i < std::size(panes); ++i) {
         const auto& [pane, face] = panes[i];
-        auto* button = new SymbolButton(bar_, face, names[i], [this, pane = pane] {
-            toggle_pane(pane);
-        });
+        auto* button = new SymbolButton(
+            bar_, face, names[i],
+            [this, pane = pane] {
+                toggle_pane(pane);
+            },
+            true);
         button->SetToolTip(ui::utf8(names[i]));
         bar->Add(button, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(2));
         panes_.emplace_back(pane, button);

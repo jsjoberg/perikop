@@ -3,11 +3,44 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/toolbar.hpp"
+#include <wx/access.h>
+#include <wx/button.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/wrapsizer.h>
 namespace ortho {
+namespace {
+#if wxUSE_ACCESSIBILITY
+class PlanAccessible final : public wxWindowAccessible {
+public:
+    using wxWindowAccessible::wxWindowAccessible;
+    wxAccStatus GetName(int child, wxString* name) override {
+        if (child != wxACC_SELF)
+            return wxACC_INVALID_ARG;
+        *name = GetWindow()->GetName();
+        return wxACC_OK;
+    }
+    wxAccStatus GetRole(int child, wxAccRole* role) override {
+        if (child != wxACC_SELF)
+            return wxACC_INVALID_ARG;
+        *role = wxROLE_SYSTEM_PUSHBUTTON;
+        return wxACC_OK;
+    }
+};
+#endif
+// Plan parts stay reachable even when macOS limits tabbing to text controls.
+class PlanButton final : public wxButton {
+public:
+    using wxButton::wxButton;
+    bool AcceptsFocus() const override {
+        return IsShown() && IsEnabled();
+    }
+    bool AcceptsFocusFromKeyboard() const override {
+        return AcceptsFocus();
+    }
+};
+} // namespace
 std::string MainFrame::day_key(const Reading& reading) const {
     // The date and the lectionary's own coordinates, which do not change with the language.
     auto key = "day:" + date_iso(selected_.date());
@@ -95,19 +128,22 @@ void MainFrame::add_plans() {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
-            auto* tile = new SymbolButton(
-                home_content_, read ? std::variant<Symbol, wxString>{Symbol::Check} : number, "Del " + number,
-                [this, plan, i, number, label] {
-                    try {
-                        open_tracked(plan_reading(corpus_, plan.parts[i], "sv"),
-                                     {plan_key(plan, i), "del " + number + ui::utf8(" i ") +
-                                                             ui::utf8(plan.title) + " (" + label + ")"});
-                    } catch (const std::exception& e) {
-                        wxMessageBox(ui::utf8(e.what()), ui::utf8(plan.title), wxOK | wxICON_INFORMATION,
-                                     this);
-                    }
-                });
-            tile->checked(read);
+            auto* tile = new PlanButton(home_content_, wxID_ANY, read ? ui::utf8("✓ ") + number : number,
+                                        wxDefaultPosition, FromDIP(wxSize(40, 30)), wxBU_EXACTFIT);
+            tile->SetName(ui::utf8(plan.title) + " · Del " + number + " · " + label +
+                          (read ? ui::utf8(" · läst") : wxString{}));
+#if wxUSE_ACCESSIBILITY
+            new PlanAccessible(tile);
+#endif
+            tile->Bind(wxEVT_BUTTON, [this, plan, i, number, label](wxCommandEvent&) {
+                try {
+                    open_tracked(plan_reading(corpus_, plan.parts[i], "sv"),
+                                 {plan_key(plan, i), "del " + number + ui::utf8(" i ") +
+                                                         ui::utf8(plan.title) + " (" + label + ")"});
+                } catch (const std::exception& e) {
+                    wxMessageBox(ui::utf8(e.what()), ui::utf8(plan.title), wxOK | wxICON_INFORMATION, this);
+                }
+            });
             tile->SetToolTip("Del " + number + ui::utf8(" · ") + label +
                              (read ? ui::utf8(" · läst") : wxString{}));
             grid->Add(tile);

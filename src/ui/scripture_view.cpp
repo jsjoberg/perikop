@@ -46,12 +46,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     Bind(
         wxEVT_TIMER,
         [this](wxTimerEvent&) {
-            const double distance = target_ - offset_;
-            if (std::abs(distance) < 0.5) {
-                set_position(target_);
-                wheel_timer_.Stop();
-            } else
-                set_position(offset_ + distance * 0.3);
+            advance_scroll();
         },
         wheel_timer_.GetId());
     Bind(
@@ -87,13 +82,11 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& e) {
         const int key = e.GetKeyCode();
         if (key == WXK_HOME) {
-            release_follow();
-            set_position(0);
+            navigate_to(0);
             return;
         }
         if (key == WXK_END) {
-            release_follow();
-            set_position(max_offset());
+            navigate_to(max_offset());
             return;
         }
         if (key == WXK_DOWN) {
@@ -295,8 +288,22 @@ void ScriptureView::set_position(double value) {
     schedule_prefetch();
 }
 void ScriptureView::scroll_by(double pixels) {
+    navigate_to(offset_ + pixels);
+}
+void ScriptureView::navigate_to(double position) {
     release_follow();
-    set_position(offset_ + pixels);
+    wheel_timer_.Stop();
+    set_position(position);
     target_ = offset_;
+}
+void ScriptureView::advance_scroll() {
+    if (!wheel_timer_.IsRunning())
+        return; // A timer event queued before immediate navigation is stale.
+    const double distance = target_ - offset_;
+    if (std::abs(distance) < 0.5) {
+        set_position(target_);
+        wheel_timer_.Stop();
+    } else
+        set_position(offset_ + distance * 0.3);
 }
 } // namespace ortho

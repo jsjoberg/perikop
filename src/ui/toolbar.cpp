@@ -2,11 +2,64 @@
 #include <algorithm>
 #include <cmath>
 #include <memory>
+#include <wx/access.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
 
 namespace ortho {
 namespace {
+#if wxUSE_ACCESSIBILITY
+class ButtonAccessible final : public wxWindowAccessible {
+    std::function<void()> action_;
+    std::function<bool()> checked_;
+    bool toggle_;
+
+public:
+    ButtonAccessible(wxWindow* window, std::function<void()> action, std::function<bool()> checked,
+                     bool toggle)
+        : wxWindowAccessible(window), action_(std::move(action)), checked_(std::move(checked)),
+          toggle_(toggle) {}
+    wxAccStatus GetName(int child, wxString* name) override {
+        if (child != wxACC_SELF)
+            return wxACC_INVALID_ARG;
+        *name = GetWindow()->GetLabel();
+        return wxACC_OK;
+    }
+    wxAccStatus GetRole(int child, wxAccRole* role) override {
+        if (child != wxACC_SELF)
+            return wxACC_INVALID_ARG;
+        *role = toggle_ ? wxROLE_SYSTEM_CHECKBUTTON : wxROLE_SYSTEM_PUSHBUTTON;
+        return wxACC_OK;
+    }
+    wxAccStatus GetState(int child, long* state) override {
+        if (child != wxACC_SELF)
+            return wxACC_INVALID_ARG;
+        *state = wxACC_STATE_SYSTEM_FOCUSABLE;
+        if (!GetWindow()->IsEnabled())
+            *state |= wxACC_STATE_SYSTEM_UNAVAILABLE;
+        if (!GetWindow()->IsShownOnScreen())
+            *state |= wxACC_STATE_SYSTEM_INVISIBLE;
+        if (GetWindow()->HasFocus())
+            *state |= wxACC_STATE_SYSTEM_FOCUSED;
+        if (toggle_ && checked_())
+            *state |= wxACC_STATE_SYSTEM_CHECKED;
+        return wxACC_OK;
+    }
+    wxAccStatus GetDefaultAction(int child, wxString* name) override {
+        if (child != wxACC_SELF)
+            return wxACC_INVALID_ARG;
+        *name = "Aktivera";
+        return wxACC_OK;
+    }
+    wxAccStatus DoDefaultAction(int child) override {
+        if (child != wxACC_SELF || !GetWindow()->IsEnabled())
+            return wxACC_INVALID_ARG;
+        if (action_)
+            action_();
+        return wxACC_OK;
+    }
+};
+#endif
 wxColour mix(const wxColour& from, const wxColour& to, double share) {
     const auto channel = [share](int a, int b) {
         return static_cast<unsigned char>(std::lround(a + (b - a) * share));
@@ -100,13 +153,48 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
 } // namespace
 
 SymbolButton::SymbolButton(wxWindow* parent, std::variant<Symbol, wxString> face, const wxString& label,
-                           std::function<void()> action)
-    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE), face_(std::move(face)),
-      action_(std::move(action)), colors_(palette(Theme::System)) {
+                           std::function<void()> action, bool toggle)
+    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
+      face_(std::move(face)), action_(std::move(action)), colors_(palette(Theme::System)), toggle_(toggle) {
     SetLabel(label);
+    SetName(label + (toggle_ ? " · av" : ""));
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetInitialSize();
+#if wxUSE_ACCESSIBILITY
+    new ButtonAccessible(
+        this, action_,
+        [this] {
+            return checked_;
+        },
+        toggle_);
+#endif
     Bind(wxEVT_PAINT, &SymbolButton::paint, this);
+    const auto focus = [this](wxFocusEvent& e) {
+        pressed_ = false;
+        Refresh(false);
+        e.Skip();
+    };
+    Bind(wxEVT_SET_FOCUS, focus);
+    Bind(wxEVT_KILL_FOCUS, focus);
+    Bind(wxEVT_KEY_DOWN, [this](wxKeyEvent& e) {
+        if (IsEnabled() && (e.GetKeyCode() == WXK_SPACE || e.GetKeyCode() == WXK_RETURN ||
+                            e.GetKeyCode() == WXK_NUMPAD_ENTER)) {
+            pressed_ = true;
+            Refresh(false);
+        } else
+            e.Skip();
+    });
+    Bind(wxEVT_KEY_UP, [this](wxKeyEvent& e) {
+        if (e.GetKeyCode() == WXK_SPACE || e.GetKeyCode() == WXK_RETURN ||
+            e.GetKeyCode() == WXK_NUMPAD_ENTER) {
+            const bool activate = pressed_ && IsEnabled();
+            pressed_ = false;
+            Refresh(false);
+            if (activate && action_)
+                action_();
+        } else
+            e.Skip();
+    });
     Bind(wxEVT_ENTER_WINDOW, [this](wxMouseEvent&) {
         hover_ = true;
         Refresh(false);
@@ -116,6 +204,9 @@ SymbolButton::SymbolButton(wxWindow* parent, std::variant<Symbol, wxString> face
         Refresh(false);
     });
     const auto press = [this](wxMouseEvent&) {
+        if (!IsEnabled())
+            return;
+        SetFocus();
         pressed_ = true;
         Refresh(false);
     };
@@ -141,6 +232,11 @@ void SymbolButton::checked(bool checked) {
     if (checked_ == checked)
         return;
     checked_ = checked;
+    if (toggle_)
+        SetName(GetLabel() + (checked ? " · på" : " · av"));
+#if wxUSE_ACCESSIBILITY
+    wxAccessible::NotifyEvent(wxACC_EVENT_OBJECT_STATECHANGE, this, wxOBJID_CLIENT, wxACC_SELF);
+#endif
     Refresh(false);
 }
 
@@ -172,6 +268,11 @@ void SymbolButton::paint(wxPaintEvent&) {
     const auto size = GetClientSize();
     const double scale = FromDIP(100) / 100.0;
     const bool enabled = IsEnabled();
+    if (enabled && HasFocus()) {
+        gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.accent).Width(2 * scale)));
+        gc->SetBrush(*wxTRANSPARENT_BRUSH);
+        gc->DrawRoundedRectangle(scale, scale, size.x - 2 * scale, size.y - 2 * scale, 5 * scale);
+    }
     if (enabled && (checked_ || hover_)) {
         gc->SetPen(*wxTRANSPARENT_PEN);
         gc->SetBrush(wxBrush(checked_ ? with_alpha(colors_.accent, pressed_ ? 80
@@ -203,13 +304,35 @@ void SymbolButton::paint(wxPaintEvent&) {
 }
 
 AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)
-    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE),
+    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
       action_(std::move(action)), colors_(palette(Theme::System)) {
     SetName(wxString::FromUTF8("Adressfält"));
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetCursor(wxCursor(wxCURSOR_HAND));
     SetInitialSize();
+#if wxUSE_ACCESSIBILITY
+    new ButtonAccessible(
+        this, action_,
+        [] {
+            return false;
+        },
+        false);
+#endif
     Bind(wxEVT_PAINT, &AddressBar::paint, this);
+    const auto focus = [this](wxFocusEvent& e) {
+        Refresh(false);
+        e.Skip();
+    };
+    Bind(wxEVT_SET_FOCUS, focus);
+    Bind(wxEVT_KILL_FOCUS, focus);
+    Bind(wxEVT_KEY_DOWN, [this](wxKeyEvent& e) {
+        if (IsEnabled() && (e.GetKeyCode() == WXK_SPACE || e.GetKeyCode() == WXK_RETURN ||
+                            e.GetKeyCode() == WXK_NUMPAD_ENTER)) {
+            if (action_)
+                action_();
+        } else
+            e.Skip();
+    });
     Bind(wxEVT_ENTER_WINDOW, [this](wxMouseEvent&) {
         hover_ = true;
         Refresh(false);
@@ -220,6 +343,7 @@ AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)
     });
     // Like a menu, the field acts on press.
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent&) {
+        SetFocus();
         if (action_)
             action_();
     });
@@ -229,6 +353,7 @@ void AddressBar::show(const wxString& text, bool dropdown) {
     if (GetLabel() == text && dropdown_ == dropdown)
         return;
     SetLabel(text);
+    SetName(text);
     dropdown_ = dropdown;
     Refresh(false);
 }
@@ -261,6 +386,11 @@ void AddressBar::paint(wxPaintEvent&) {
     gc->SetPen(*wxTRANSPARENT_PEN);
     gc->SetBrush(wxBrush(mix(colors_.paper, colors_.ink, hover_ ? 0.11 : 0.065)));
     gc->DrawRoundedRectangle(0, 0, size.x, size.y, radius);
+    if (HasFocus()) {
+        gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.accent).Width(2 * scale)));
+        gc->SetBrush(*wxTRANSPARENT_BRUSH);
+        gc->DrawRoundedRectangle(scale, scale, size.x - 2 * scale, size.y - 2 * scale, radius);
+    }
     const auto font = ui_font(11);
     dc.SetFont(font);
     // The text is centred together with the magnifier before it or the chevron after it.

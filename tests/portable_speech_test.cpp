@@ -2,6 +2,7 @@
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
 #include "speech/portable_speech.hpp"
+#include "speech/tempo.hpp"
 #include "storage/database.hpp"
 #include <chrono>
 #include <condition_variable>
@@ -17,6 +18,9 @@ namespace {
 std::mutex audio_mutex;
 std::condition_variable changed;
 std::shared_ptr<ortho::PcmStream> stream;
+ortho::TempoStretch stretch;
+ortho::PcmProgress delivered;
+float speed = 1;
 size_t appended = 0;
 bool paused = false, released = false;
 bool first_chunk_released = false;
@@ -34,8 +38,10 @@ std::vector<float> drain(size_t frames = 6000) {
     std::vector<float> samples(frames);
     {
         std::lock_guard lock(audio_mutex);
-        if (stream && !paused)
-            stream->render(samples.data(), samples.size());
+        if (stream && !paused) {
+            stretch.render(*stream, samples.data(), samples.size(), speed);
+            delivered = {stretch.played(), stretch.waiting(), stretch.finished()};
+        }
     }
     changed.notify_all();
     std::erase(samples, 0.0f);
@@ -56,6 +62,7 @@ PcmOutput::~PcmOutput() = default;
 void PcmOutput::start(bool pause) {
     std::lock_guard lock(audio_mutex);
     stream = std::make_shared<PcmStream>();
+    delivered = {};
     paused = pause;
     appended = 0;
     released = false;
@@ -87,7 +94,10 @@ void PcmOutput::release() {
         stream->release();
     changed.notify_all();
 }
-void PcmOutput::set_speed(double) {}
+void PcmOutput::set_speed(double value) {
+    std::lock_guard lock(audio_mutex);
+    speed = float(value);
+}
 void PcmOutput::pause(bool pause) {
     std::lock_guard lock(audio_mutex);
     paused = pause;
@@ -101,11 +111,11 @@ void PcmOutput::stop() {
 }
 bool PcmOutput::finished() const {
     std::lock_guard lock(audio_mutex);
-    return !stream || stream->finished();
+    return !stream || delivered.finished;
 }
 PcmProgress PcmOutput::progress() const {
     std::lock_guard lock(audio_mutex);
-    return stream ? PcmProgress{stream->played(), stream->waiting(), stream->finished()} : PcmProgress{};
+    return stream ? delivered : PcmProgress{};
 }
 } // namespace ortho
 int main(int argc, char** argv) {
@@ -127,6 +137,7 @@ int main(int argc, char** argv) {
             cache.save(revision, "sv", "Tredje.", {7, 8, 9});
             cache.save(revision, "sv", "Ny läsning.", {10, 11, 12});
             cache.save(revision, "sv", "Start.", std::vector<float>(24000, 1.0f));
+            cache.save(revision, "sv", "Slutet.", std::vector<float>(2400, 0.5f));
             cache.save(revision, "sv", "En längre fortsättning som redan finns i ljudcachen.",
                        std::vector<float>(size_t{24000} * 30, 2.0f));
             check(cache.contains(revision, "sv", "Start.") && !cache.contains(revision, "sv", "Ej cachad.") &&
@@ -276,6 +287,44 @@ int main(int argc, char** argv) {
                   "A cached reading must release the first chunk before loading later audio");
         }
         engine->stop();
+
+        engine->set_speed(0.25);
+        engine->speak({"", "Slutet.", "sv", first});
+        wait_for(
+            [] {
+                return appended == 1 && stream && !stream->waiting();
+            },
+            "Tail test prepares cached audio");
+        bool pending_tail = false;
+        for (int block = 0; block < 100; ++block) {
+            drain(256);
+            std::lock_guard lock(audio_mutex);
+            if (stream->finished() && !delivered.finished) {
+                pending_tail = true;
+                break;
+            }
+        }
+        check(pending_tail, "Worker must retain the quarter-speed tail after source consumption");
+        const auto before_pause = engine->playback();
+        check(before_pause.state == SpeechState::Playing && before_pause.progress < 1,
+              "Completion and final cue must wait for audible output");
+        engine->pause();
+        check(drain(256).empty() && engine->playback().progress == before_pause.progress,
+              "Pause preserves the pending tail and its progress");
+        engine->set_speed(2);
+        engine->resume();
+        bool complete = false;
+        for (int block = 0; block < 100; ++block) {
+            drain(256);
+            if (engine->playback().state == SpeechState::Completed) {
+                complete = true;
+                break;
+            }
+        }
+        check(complete && engine->playback().progress == 1,
+              "Resume and a speed change near the end drain audio before completion");
+        engine->stop();
+        engine->set_speed(1);
 
         // A cached first chunk must not start playback that later, slower
         // synthesis would stall. The model then fails validation deterministically.

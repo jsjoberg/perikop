@@ -199,6 +199,8 @@ jobs:
         if: env.PACKAGE == 'true' || github.event_name == 'pull_request'
         shell: pwsh
         run: |
+          & build/cmake/bin/perikop.exe --resources build/cmake/bin/resources --speech-probe "$PWD/build/voice-windows.wav" | Out-Host
+          if ($LASTEXITCODE -ne 0) { throw 'Bundled Alice/Bjorn inference failed' }
           cpack --config build/cmake/CPackConfig.cmake -B build/package
           if ($LASTEXITCODE -ne 0) { throw 'Windows packaging failed' }
           $script = Get-Content build/package/_CPack_Packages/windows-x64/NSIS/project.nsi -Raw
@@ -221,10 +223,28 @@ jobs:
           retention-days: ${{ env.NIGHTLY == 'true' && 1 || 0 }}
           path: build/package/Perikop-*.exe
           if-no-files-found: error
+  sanitizers:
+    needs: [nightly]
+    if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Cached dependency snapshots
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: build/ci/downloads
+          key: dependencies-macOS-${{ hashFiles('ci/dependencies-lock.json') }}
+      - name: Restore verified dependencies
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/ci/dependencies.py restore --platform macOS
+      - name: Storage, speech, layout, and UI with ASan and UBSan
+        timeout-minutes: 30
+        run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-sanitizers.sh
   release:
     # Version tags become drafts. Nightlies publish only after all three platforms pass.
-    if: ${{ !cancelled() && needs.unix.result == 'success' && needs.windows.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'schedule' || inputs.nightly == true) }}
-    needs: [unix, windows]
+    if: ${{ !cancelled() && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'schedule' || inputs.nightly == true) }}
+    needs: [unix, windows, sanitizers]
     runs-on: ubuntu-24.04
     permissions:
       contents: write

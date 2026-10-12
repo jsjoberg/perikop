@@ -107,6 +107,7 @@ class PortableSpeech final : public SpeechEngine {
     std::string voice_ = "alice";
     PlaybackTimeline timeline_;
     std::string stage_ = "Förbereder läsningen";
+    bool cache_unavailable_ = false;
     std::unique_ptr<PcmOutput> output_;
     // Word lookups use their own front end, so they never wait for synthesis.
     std::mutex lookup_mutex_;
@@ -166,14 +167,15 @@ class PortableSpeech final : public SpeechEngine {
         std::lock_guard lock(mutex_);
         if (shutdown_ || generation != generation_.load())
             return;
-        stage_ = status;
+        stage_ = status + (cache_unavailable_ ? " · utan ljudcache" : "");
         state_ = state;
         if (callback_)
-            callback_({++status_sequence_, paused_ ? "Pausad" : status});
+            callback_({++status_sequence_, paused_ ? "Pausad" : stage_});
     }
     void run() {
         std::unique_ptr<Kokoro> kokoro;
         std::unique_ptr<SpeechCache> cache;
+        bool cache_attempted = false;
         // Measured synthesis speed for this session. Until the model has run,
         // assume it is slower than real time, as on the reference hardware.
         double model_seconds = 0, model_audio = 0;
@@ -199,9 +201,29 @@ class PortableSpeech final : public SpeechEngine {
             const auto cancelled = [this, generation] {
                 return generation_.load() != generation;
             };
+            const auto cache_error = [&](const std::exception& error) {
+                cache.reset();
+                std::cerr << "Speech cache disabled; speech continues without it: " << error.what() << '\n';
+                std::lock_guard lock(mutex_);
+                cache_unavailable_ = true;
+            };
+            const auto with_cache = [&](auto&& operation) {
+                if (cache)
+                    try {
+                        operation(*cache);
+                    } catch (const std::exception& error) {
+                        cache_error(error);
+                    }
+            };
             try {
-                if (!cache)
-                    cache = std::make_unique<SpeechCache>(data_ / "speech-cache.db");
+                if (!cache_attempted) {
+                    cache_attempted = true;
+                    try {
+                        cache = std::make_unique<SpeechCache>(data_ / "speech-cache.db");
+                    } catch (const std::exception& error) {
+                        cache_error(error);
+                    }
+                }
                 {
                     std::lock_guard lock(mutex_);
                     if (cancelled())
@@ -227,7 +249,10 @@ class PortableSpeech final : public SpeechEngine {
                         const auto weight = speech_text_weight(text);
                         if (cancelled())
                             break;
-                        const bool cached = cache->contains(revision, utterance.language, text);
+                        bool cached = false;
+                        with_cache([&](SpeechCache& store) {
+                            cached = store.contains(revision, utterance.language, text);
+                        });
                         parts.push_back({utterance.language, std::move(text), utterance.cue,
                                          used / std::max(1.0, total), (used + weight) / std::max(1.0, total),
                                          weight, cached});
@@ -299,7 +324,10 @@ class PortableSpeech final : public SpeechEngine {
                     playing = "Läser med " + name;
                     report(generation, i ? "Läser med " + name + " · förbereder del " + progress
                                          : "Förbereder läsningen · " + progress);
-                    auto samples = cache->load(revision, language, text);
+                    std::optional<std::vector<float>> samples;
+                    with_cache([&](SpeechCache& store) {
+                        samples = store.load(revision, language, text);
+                    });
                     if (!samples) {
                         if (!kokoro) {
                             report(generation, "Förbereder röstmodellen · " + name, SpeechState::Loading);
@@ -314,7 +342,9 @@ class PortableSpeech final : public SpeechEngine {
                         model_seconds +=
                             std::chrono::duration<double>(std::chrono::steady_clock::now() - begin).count();
                         model_audio += samples->size() / 24000.0;
-                        cache->save(revision, language, text, *samples);
+                        with_cache([&](SpeechCache& store) {
+                            store.save(revision, language, text, *samples);
+                        });
                     }
                     if (i)
                         samples->insert(samples->begin(), 4800, 0.0f);
@@ -520,16 +550,52 @@ bool render_speech_probe(const std::filesystem::path& voices, const std::filesys
     const auto begin = std::chrono::steady_clock::now();
     Kokoro model(voices / kokoro_pack_id);
     const auto loaded = std::chrono::steady_clock::now();
-    auto samples = model.generate(
-        "Herren är min herde, mig skall intet fattas. Han låter mig vila på gröna ängar.", "alice", [] {
-            return false;
-        });
-    write_wav(output, samples);
-    std::cout << "Portable Swedish PCM: " << samples.size()
-              << " frames, audio_seconds=" << samples.size() / 24000.0
-              << ", load_seconds=" << std::chrono::duration<double>(loaded - begin).count()
-              << ", generation_seconds="
-              << std::chrono::duration<double>(std::chrono::steady_clock::now() - loaded).count() << '\n';
+#if defined(__aarch64__) || defined(_M_ARM64)
+    constexpr auto architecture = "arm64";
+#elif defined(__x86_64__) || defined(_M_X64)
+    constexpr auto architecture = "x86_64";
+#else
+    constexpr auto architecture = "other";
+#endif
+    const std::string short_text = "Herren är min herde, mig skall intet fattas.";
+    // More than 510 phonemes exercises the voice context's splitting path.
+    std::string long_text;
+    for (int i = 0; i < 8; ++i)
+        long_text += "Han låter mig vila på gröna ängar. Han för mig till vatten där jag finner ro. "
+                     "Han vederkvicker min själ. Han leder mig på rätta vägar för sitt namns skull. ";
+    for (const auto* voice : {"alice", "bjorn"}) {
+        size_t short_frames = 0;
+        for (const bool longer : {false, true}) {
+            const auto started = std::chrono::steady_clock::now();
+            const auto samples = model.generate(longer ? long_text : short_text, voice, [] {
+                return false;
+            });
+            double energy = 0;
+            for (const auto sample : samples) {
+                if (!std::isfinite(sample))
+                    throw std::runtime_error("Speech probe generated a non-finite sample.");
+                energy += double(sample) * sample;
+            }
+            if (samples.size() < 2400 || energy / samples.size() < 1e-10)
+                throw std::runtime_error("Speech probe generated empty or silent audio.");
+            if (longer && samples.size() < short_frames * 4)
+                throw std::runtime_error("Speech probe long passage appears truncated.");
+            if (!longer)
+                short_frames = samples.size();
+            const auto path = std::string(voice) == "alice" && !longer
+                                  ? output
+                                  : output.parent_path() / (output.stem().string() + "-" + voice +
+                                                            (longer ? "-long.wav" : "-short.wav"));
+            write_wav(path, samples);
+            std::cout << "Speech probe: pack=" << kokoro_pack_id << ", architecture=" << architecture
+                      << ", voice=" << voice << ", passage=" << (longer ? "long" : "short")
+                      << ", audio_seconds=" << samples.size() / 24000.0
+                      << ", load_seconds=" << std::chrono::duration<double>(loaded - begin).count()
+                      << ", generation_seconds="
+                      << std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()
+                      << '\n';
+        }
+    }
     return true;
 }
 } // namespace ortho

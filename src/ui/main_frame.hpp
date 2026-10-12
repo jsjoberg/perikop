@@ -9,6 +9,7 @@
 #include <wx/timer.h>
 
 class wxBoxSizer;
+class wxButton;
 class wxEventFilter;
 class wxMenu;
 class wxMenuBar;
@@ -27,7 +28,8 @@ class AddressBar;
 class MonthCalendar;
 class MainFrame final : public wxFrame {
 public:
-    MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources);
+    MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources,
+              const std::filesystem::path& data, bool diagnostic = false);
     ~MainFrame() override;
     void open_reading(const Reading&);
     void open_psalm();
@@ -92,6 +94,9 @@ private:
     const CorpusDb& corpus_;
     UserDb& user_;
     const std::filesystem::path resources_;
+    const std::filesystem::path data_;
+    bool diagnostic_;
+    std::string pronunciation_error_;
     Lectionary lectionary_;
     SelectedDay selected_;
     Settings settings_;
@@ -145,7 +150,7 @@ private:
     std::unique_ptr<wxEventFilter> alt_tap_;
     // Right-column choices: "study" or a language code.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
-    std::vector<SymbolButton*> plan_tiles_;
+    std::vector<wxButton*> plan_tiles_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
 };

@@ -10,7 +10,9 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/app.h>
+#include <wx/button.h>
 #include <wx/eventfilter.h>
+#include <wx/log.h>
 #include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
@@ -44,10 +46,11 @@ wxString kind_label(ReadingKind kind) {
 }
 } // namespace
 MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
-                     const std::filesystem::path& resources)
+                     const std::filesystem::path& resources, const std::filesystem::path& data,
+                     bool diagnostic)
     : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
-      user_(user), resources_(resources), lectionary_(corpus), selected_(date), settings_(user.load()),
-      playback_timer_(this) {
+      user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
+      selected_(date), settings_(user.load()), playback_timer_(this) {
     SetMinSize(FromDIP(wxSize(520, 480)));
     root_ = new wxPanel(this);
     root_->SetFont(ui_font());
@@ -387,14 +390,20 @@ Reading MainFrame::in_swedish(Reading reading) const {
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
     auto result = corpus_.pronunciations(language);
     if (language == "sv" && pronunciation_review_) {
-        const auto overrides = pronunciation_review_->overrides();
-        result.insert(result.begin(), overrides.begin(), overrides.end());
+        try {
+            const auto overrides = pronunciation_review_->overrides();
+            result.insert(result.begin(), overrides.begin(), overrides.end());
+        } catch (const std::exception& e) {
+            wxLogWarning("Uttalskorrigeringar kunde inte läsas: %s", ui::utf8(e.what()));
+        }
     }
     return result;
 }
 void MainFrame::review_pronunciation() {
     stop_speech();
     try {
+        if (!pronunciation_review_)
+            throw std::runtime_error(pronunciation_error_);
         show_pronunciation_review(this, corpus_, *pronunciation_review_, *speech_, resources_);
     } catch (const std::exception& e) {
         wxMessageBox(ui::utf8(e.what()), ui::utf8("Uttalsgranskning"), wxOK | wxICON_ERROR, this);
@@ -511,8 +520,10 @@ void MainFrame::apply_settings(bool persist) {
         button->apply(colors);
     if (month_)
         month_->apply(colors);
-    for (auto* tile : plan_tiles_)
-        tile->apply(colors);
+    for (auto* tile : plan_tiles_) {
+        tile->SetBackgroundColour(colors.paper);
+        tile->SetForegroundColour(colors.ink);
+    }
     for (auto* button : {back_, play_, pause_, stop_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)

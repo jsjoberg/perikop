@@ -14,6 +14,7 @@
 - [Architecture](architecture.md): code boundaries, reader layout, and formatting commands.
 - [Storage](storage.md): SQLite databases and their policies.
 - [Validation record](validation.md): dated local results and outstanding platform checks.
+- [Improvement tracker](improvement-plan.md): review actions, implementation evidence, and remaining work.
 - [Original engineering specification](engineering-spec.md): the initial handoff specification.
 
 ## Data and reference
