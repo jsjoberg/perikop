@@ -924,13 +924,19 @@ int main(int argc, char** argv) {
             return s;
         };
         for (const auto& chunk : speech_chunks(long_speech)) {
-            check(!chunk.empty() && chunk.size() <= 240, "bounded speech chunks");
+            check(!chunk.empty() && chunk.size() <= 320, "bounded speech chunks");
             recovered += chunk;
         }
         check(compact(recovered) == compact(long_speech),
               "chunking must retain every Swedish and polytonic Greek byte in order");
         check(speech_chunks(std::string(300, 'x')) == std::vector<std::string>{std::string(300, 'x')},
               "a long word must never be cut into invalid pieces");
+        const auto epistle = make_utterance(corpus.verse("sv1917", "Phil", {2, 12})->text, "sv", lexicon);
+        check(speech_chunks(epistle.speech_text) == std::vector<std::string>{epistle.speech_text},
+              "Philippians 2:12 must keep 'då jag är frånvarande' in one synthesis chunk");
+        const auto sentence = std::string(230, 'a') + " då jag är frånvarande.";
+        check(speech_chunks(sentence + " Nästa mening.")[0] == sentence,
+              "A nearby sentence ending must take precedence over a split inside its last phrase");
         StubSpeechEngine engine;
         engine.speak(utterance);
         check(engine.accepted.size() == 1, "speech engine accepts utterance");

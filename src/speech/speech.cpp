@@ -161,17 +161,27 @@ std::vector<std::string> speech_chunks(const std::string& text) {
             break;
         auto end = std::min(begin + 240, text.size());
         if (end < text.size()) {
-            auto split = text.find_last_of(" \t\n\r\v\f", end);
-            if (split != std::string::npos && split > begin)
-                end = split;
+            // Finish a nearby sentence instead of leaving its last words in a
+            // separate synthesis request, which adds a pause inside the phrase.
+            const auto limit = std::min(begin + 320, text.size());
+            const auto next_sentence = text.find_first_of(".!?;", end);
+            if (next_sentence != std::string::npos && next_sentence < limit)
+                end = next_sentence + 1;
+            else if (text.size() <= limit)
+                end = text.size();
             else {
-                end = text.find_first_of(" \t\n\r\v\f", end);
-                if (end == std::string::npos)
-                    end = text.size();
+                auto split = text.find_last_of(" \t\n\r\v\f", end);
+                if (split != std::string::npos && split > begin)
+                    end = split;
+                else {
+                    end = text.find_first_of(" \t\n\r\v\f", end);
+                    if (end == std::string::npos)
+                        end = text.size();
+                }
+                const auto sentence = text.find_last_of(".!?;", end - 1);
+                if (sentence != std::string::npos && sentence >= begin + 40)
+                    end = sentence + 1;
             }
-            const auto sentence = text.find_last_of(".!?;", end - 1);
-            if (sentence != std::string::npos && sentence >= begin + 40)
-                end = sentence + 1;
         }
         result.push_back(text.substr(begin, end - begin));
         begin = end;
