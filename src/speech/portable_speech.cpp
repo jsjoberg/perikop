@@ -102,6 +102,8 @@ class PortableSpeech final : public SpeechEngine {
     uint64_t status_sequence_ = 0;
     bool shutdown_ = false, paused_ = false, active_ = false;
     bool output_started_ = false;
+    bool preparing_ = false;
+    SpeechPreparation preparation_;
     SpeechState state_ = SpeechState::Idle;
     double ready_ = 0, speed_ = 1;
     std::string voice_ = "alice";
@@ -167,8 +169,15 @@ class PortableSpeech final : public SpeechEngine {
         std::lock_guard lock(mutex_);
         if (shutdown_ || generation != generation_.load())
             return;
-        stage_ = status + (cache_unavailable_ ? " · utan ljudcache" : "");
-        state_ = state;
+        stage_ = status + (!preparing_ && cache_unavailable_ ? " · utan ljudcache" : "");
+        if (preparing_) {
+            preparation_.status = stage_;
+            if (state == SpeechState::Completed)
+                preparation_.state = PreparationState::Ready;
+            else if (state == SpeechState::Error)
+                preparation_.state = PreparationState::Error;
+        } else
+            state_ = state;
         if (callback_)
             callback_({++status_sequence_, paused_ ? "Pausad" : stage_});
     }
@@ -183,6 +192,7 @@ class PortableSpeech final : public SpeechEngine {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
             std::string voice;
+            bool preparing;
             {
                 std::unique_lock lock(mutex_);
                 condition_.wait(lock, [this] {
@@ -192,10 +202,11 @@ class PortableSpeech final : public SpeechEngine {
                     return;
                 generation = generation_.load();
                 voice = voice_;
+                preparing = preparing_;
                 batch.swap(queue_);
                 active_ = true;
                 output_started_ = false;
-                state_ = SpeechState::Buffering;
+                state_ = preparing ? SpeechState::Stopped : SpeechState::Buffering;
                 ready_ = 0;
             }
             const auto cancelled = [this, generation] {
@@ -213,6 +224,8 @@ class PortableSpeech final : public SpeechEngine {
                         operation(*cache);
                     } catch (const std::exception& error) {
                         cache_error(error);
+                        if (preparing)
+                            throw;
                     }
             };
             try {
@@ -224,6 +237,9 @@ class PortableSpeech final : public SpeechEngine {
                         cache_error(error);
                     }
                 }
+                if (preparing && !cache)
+                    throw std::runtime_error(
+                        "Ljudcachen är inte tillgänglig. Ljudet kan inte sparas inför uppläsningen.");
                 {
                     std::lock_guard lock(mutex_);
                     if (cancelled())
@@ -264,6 +280,8 @@ class PortableSpeech final : public SpeechEngine {
                     if (cancelled())
                         continue;
                     timeline_.reset(parts.size());
+                    if (preparing)
+                        preparation_.total = parts.size();
                 }
                 double remaining_weight = 0, produced_weight = 0, produced_seconds = 0;
                 double next_weight = 0;
@@ -303,7 +321,7 @@ class PortableSpeech final : public SpeechEngine {
                 for (size_t i = 0; i < parts.size(); ++i) {
                     {
                         std::unique_lock lock(mutex_);
-                        while (!cancelled() && (paused_ || (i && full()))) {
+                        while (!cancelled() && (paused_ || (!preparing && i && full()))) {
                             if (paused_)
                                 condition_.wait(lock, [&] {
                                     return cancelled() || !paused_;
@@ -322,8 +340,9 @@ class PortableSpeech final : public SpeechEngine {
                     const auto progress = std::to_string(i + 1) + "/" + std::to_string(parts.size());
                     const auto name = voice_name(voice);
                     playing = "Läser med " + name;
-                    report(generation, i ? "Läser med " + name + " · förbereder del " + progress
-                                         : "Förbereder läsningen · " + progress);
+                    report(generation, preparing ? "Förbereder ljud med " + name + " · " + progress
+                                       : i       ? "Läser med " + name + " · förbereder del " + progress
+                                                 : "Förbereder läsningen · " + progress);
                     std::optional<std::vector<float>> samples;
                     with_cache([&](SpeechCache& store) {
                         samples = store.load(revision, language, text);
@@ -333,8 +352,9 @@ class PortableSpeech final : public SpeechEngine {
                             report(generation, "Förbereder röstmodellen · " + name, SpeechState::Loading);
                             kokoro = std::make_unique<Kokoro>(pack_);
                         }
-                        report(generation, i ? "Läser med " + name + " · förbereder del " + progress
-                                             : "Förbereder läsningen · " + progress);
+                        report(generation, preparing ? "Förbereder ljud med " + name + " · " + progress
+                                           : i       ? "Läser med " + name + " · förbereder del " + progress
+                                                     : "Förbereder läsningen · " + progress);
                         const auto begin = std::chrono::steady_clock::now();
                         samples = kokoro->generate(text, voice, cancelled);
                         if (cancelled())
@@ -345,6 +365,18 @@ class PortableSpeech final : public SpeechEngine {
                         with_cache([&](SpeechCache& store) {
                             store.save(revision, language, text, *samples);
                         });
+                    }
+                    if (preparing) {
+                        if (!cache)
+                            throw std::runtime_error("Ljudcachen kunde inte spara det förberedda ljudet.");
+                        {
+                            std::lock_guard lock(mutex_);
+                            if (cancelled())
+                                break;
+                            preparation_.completed = i + 1;
+                        }
+                        report(generation, "Förbereder ljud med " + name + " · " + progress);
+                        continue;
                     }
                     if (i)
                         samples->insert(samples->begin(), 4800, 0.0f);
@@ -386,6 +418,30 @@ class PortableSpeech final : public SpeechEngine {
                         continue;
                     if (parts.empty())
                         throw std::runtime_error("Ingen text finns att läsa upp.");
+                }
+                if (preparing) {
+                    // A long day's audio may exceed the bounded cache. Never promise that
+                    // the entire day is ready if earlier chunks were evicted during synthesis.
+                    for (const auto& part : parts) {
+                        if (cancelled())
+                            break;
+                        if (!cache->contains(revision, part.language, part.text))
+                            throw std::runtime_error("Allt ljud fick inte plats i ljudcachen. Sparade delar "
+                                                     "kan fortfarande användas.");
+                    }
+                    {
+                        std::lock_guard lock(mutex_);
+                        if (cancelled())
+                            continue;
+                        active_ = false;
+                    }
+                    report(generation, "Ljudet är förberett · " + voice_name(voice), SpeechState::Completed);
+                    continue;
+                }
+                {
+                    std::lock_guard lock(mutex_);
+                    if (cancelled())
+                        continue;
                     output_->complete();
                     ready_ = 1;
                 }
@@ -414,9 +470,42 @@ class PortableSpeech final : public SpeechEngine {
                     if (output_)
                         output_->stop();
                 }
-                report(generation, std::string("Uppläsning: ") + error.what(), SpeechState::Error);
+                report(generation, std::string(preparing ? "Förberedelse: " : "Uppläsning: ") + error.what(),
+                       SpeechState::Error);
             }
         }
+    }
+    void submit(const std::vector<SpeechUtterance>& utterances, bool prepare) {
+        if (utterances.empty())
+            throw std::runtime_error("Ingen text finns att läsa upp.");
+        for (const auto& utterance : utterances)
+            if (utterance.language != "sv")
+                throw std::runtime_error("Uppläsning finns bara på svenska.");
+        if (!std::filesystem::exists(pack_ / "kokoro.onnx"))
+            throw std::runtime_error("Den här versionen av Perikop byggdes utan rösterna Alice och Björn.");
+        {
+            std::lock_guard lock(mutex_);
+            if (prepare || preparing_) {
+                ++generation_;
+                queue_.clear();
+                active_ = paused_ = output_started_ = false;
+                if (output_)
+                    output_->stop();
+            }
+            preparing_ = prepare;
+            preparation_ = {};
+            if (prepare) {
+                preparation_.state = PreparationState::Running;
+                preparation_.status = "Förbereder dagens ljud";
+            }
+            queue_.insert(queue_.end(), utterances.begin(), utterances.end());
+            if (!active_) {
+                state_ = prepare ? SpeechState::Stopped : SpeechState::Buffering;
+                output_started_ = false;
+            }
+            active_ = true;
+        }
+        condition_.notify_all();
     }
 
 public:
@@ -442,23 +531,14 @@ public:
         speak_batch({utterance});
     }
     void speak_batch(const std::vector<SpeechUtterance>& utterances) override {
-        if (utterances.empty())
-            throw std::runtime_error("Ingen text finns att läsa upp.");
-        for (const auto& utterance : utterances)
-            if (utterance.language != "sv")
-                throw std::runtime_error("Uppläsning finns bara på svenska.");
-        if (!std::filesystem::exists(pack_ / "kokoro.onnx"))
-            throw std::runtime_error("Den här versionen av Perikop byggdes utan rösterna Alice och Björn.");
-        {
-            std::lock_guard lock(mutex_);
-            queue_.insert(queue_.end(), utterances.begin(), utterances.end());
-            if (!active_) {
-                state_ = SpeechState::Buffering;
-                output_started_ = false;
-            }
-            active_ = true;
-        }
-        condition_.notify_all();
+        submit(utterances, false);
+    }
+    void prepare_batch(const std::vector<SpeechUtterance>& utterances) override {
+        submit(utterances, true);
+    }
+    SpeechPreparation preparation() const override {
+        std::lock_guard lock(mutex_);
+        return preparation_;
     }
     void pause() override {
         std::lock_guard lock(mutex_);
@@ -486,6 +566,8 @@ public:
         ++generation_;
         queue_.clear();
         active_ = false;
+        preparing_ = false;
+        preparation_ = {};
         paused_ = false;
         output_started_ = false;
         state_ = SpeechState::Stopped;

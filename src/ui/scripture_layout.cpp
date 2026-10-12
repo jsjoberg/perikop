@@ -257,6 +257,8 @@ void ScriptureView::apply(const Settings& settings) {
         invalidate();
     else
         request_repaint();
+    if (highlighted_verse_)
+        rebuild_verse_links();
 }
 void ScriptureView::invalidate() {
     const double marker_screen = guide_y_ - offset_;

@@ -1,8 +1,10 @@
+#include "speech/kokoro_audio.hpp"
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
 #include "speech/portable_speech.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -14,6 +16,7 @@ namespace {
 std::mutex audio_mutex;
 std::shared_ptr<ortho::PcmStream> stream;
 bool paused = false;
+size_t devices_opened = 0;
 void check(bool value, const char* message) {
     if (!value)
         throw std::runtime_error(message);
@@ -26,7 +29,10 @@ std::string contents(const std::filesystem::path& path) {
 namespace ortho {
 // Real inference and cache operations, with a device drained by the test thread.
 struct PcmOutput::Impl {};
-PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {}
+PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {
+    std::lock_guard lock(audio_mutex);
+    ++devices_opened;
+}
 PcmOutput::~PcmOutput() = default;
 void PcmOutput::start(bool pause) {
     std::lock_guard lock(audio_mutex);
@@ -78,6 +84,67 @@ int main(int argc, char** argv) {
         check(argc == 3, "Expected bundled voices and isolated test directory");
         const std::filesystem::path voices(argv[1]), root(argv[2]);
         std::filesystem::remove_all(root);
+        {
+            const auto data = root / "prepared";
+            std::filesystem::create_directories(data);
+            const std::string text = "Herren är min herde.";
+            auto engine = create_portable_speech(voices, data, {});
+            engine->prepare_batch({{"", text, "sv"}});
+            const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(45);
+            while (engine->preparation().state == PreparationState::Running &&
+                   std::chrono::steady_clock::now() < deadline)
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            check(engine->preparation().state == PreparationState::Ready &&
+                      !speech_active(engine->playback().state),
+                  "Real inference prepares audio independently of playback");
+            {
+                std::lock_guard guard(audio_mutex);
+                check(devices_opened == 0 && !stream, "Real preparation never opens an audio device");
+            }
+            engine.reset();
+            {
+                SpeechCache cache(data / "speech-cache.db");
+                const auto samples =
+                    cache.load(std::string(kokoro_pack_id) + "/ort1.23.2/alice/v1", "sv", text);
+                check(samples && std::any_of(samples->begin(), samples->end(),
+                                             [](float sample) {
+                                                 return std::abs(sample) > 1e-5f;
+                                             }),
+                      "Preparation persists non-silent audio across engine restarts");
+            }
+            // A broken voice pack makes any accidental regeneration fail.
+            const auto cached_voices = data / "cached-voices";
+            std::filesystem::create_directories(cached_voices / kokoro_pack_id);
+            std::ofstream(cached_voices / kokoro_pack_id / "kokoro.onnx") << "";
+            engine = create_portable_speech(cached_voices, data, {});
+            engine->speak({"", text, "sv"});
+            bool heard = false, done = false;
+            const auto playback_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+            while (std::chrono::steady_clock::now() < playback_deadline) {
+                {
+                    std::lock_guard guard(audio_mutex);
+                    if (stream) {
+                        float samples[6000];
+                        const auto count = stream->render(samples, 6000);
+                        for (size_t i = 0; i < count; ++i)
+                            heard = heard || std::abs(samples[i]) > 1e-5f;
+                    }
+                }
+                check(engine->playback().state != SpeechState::Error,
+                      "Prepared playback must reuse cached audio");
+                if (engine->playback().state == SpeechState::Completed) {
+                    done = true;
+                    break;
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+            check(done && heard, "Prepared audio plays after restart without synthesis");
+            engine.reset();
+            {
+                std::lock_guard guard(audio_mutex);
+                stream.reset();
+            }
+        }
         for (const auto* failure : {"corrupt", "future", "read", "write", "lock", "directory"}) {
             const auto data = root / failure, path = data / "speech-cache.db";
             std::filesystem::create_directories(data);
@@ -144,6 +211,17 @@ int main(int argc, char** argv) {
                   "Cache recovery preserves pronunciation corrections");
             if (kind == "corrupt" || kind == "future")
                 check(contents(path) == before, "Recovery preserves corrupt bytes and future cache schemas");
+            // Silent preparation must report failure when it cannot retain audio.
+            engine = create_portable_speech(voices, data, {});
+            engine->prepare_batch({{"", "Herren är min herde.", "sv"}});
+            const auto preparation_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(45);
+            while (engine->preparation().state == PreparationState::Running &&
+                   std::chrono::steady_clock::now() < preparation_deadline)
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            check(engine->preparation().state == PreparationState::Error &&
+                      !speech_active(engine->playback().state),
+                  "Preparation cannot claim success without a working cache");
+            engine.reset();
             std::cout << "Uncached speech recovery passed: " << kind << '\n';
         }
         std::filesystem::remove_all(root);

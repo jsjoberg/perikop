@@ -36,6 +36,8 @@ At most 256 MiB of audio remains in the table. SQLite reuses evicted pages.
 Transactions update each chunk and evict the oldest entries when needed.
 Invalid samples and unknown future schemas are rejected.
 One speech worker owns the cache connection.
+Silent day preparation and playback use the same cache. Date changes and restarts retain completed chunks.
+Preparation succeeds only if every requested chunk remains in the bounded cache.
 
 `pronunciation-review.db` contains the decisions of the Swedish pronunciation review.
 Its schema version is 1, and its application identifier is `ORTP`.

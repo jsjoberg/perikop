@@ -39,7 +39,8 @@ enum {
     Alice,
     Bjorn,
     Study,
-    Highlight
+    Highlight,
+    Prepare
 };
 const int rates[] = {25, 50, 75, 100, 125, 150, 175, 200};
 // The left column is Swedish. Beside it: nothing, Ordstudium, or one of these languages.
@@ -124,6 +125,7 @@ std::vector<std::pair<wxMenu*, wxString>> MainFrame::menus() const {
     auto* reading = new wxMenu;
     reading->Append(Play, "Lyssna\tCtrl+P");
     reading->Append(Stop, "Stoppa\tCtrl+.");
+    reading->Append(Prepare, ui::utf8("Förbered dagens ljud"));
     reading->AppendSeparator();
     for (int i = 0; i < 8; ++i) {
         reading->AppendRadioItem(Rate + i, rate_label(rates[i]));
@@ -155,7 +157,20 @@ void MainFrame::sync_menu(wxMenu& menu) const {
         if (menu.GetLabel(Play) != label + "\tCtrl+P")
             menu.SetLabel(Play, label + "\tCtrl+P");
         menu.Enable(Play, !auxiliary && (reader || active));
-        menu.Enable(Stop, !auxiliary && active);
+        const bool preparing = preparing_day();
+        const auto stop_label =
+            (preparing ? ui::utf8("Avbryt förberedelsen") : wxString("Stoppa")) + "\tCtrl+.";
+        if (menu.GetLabel(Stop) != stop_label)
+            menu.SetLabel(Stop, stop_label);
+        menu.Enable(Stop, !auxiliary && (active || preparing));
+        const bool available = std::ranges::any_of(day_.readings,
+                                                   [](const Reading& reading) {
+                                                       return reading.can_open();
+                                                   }) ||
+                               std::ranges::any_of(day_.variants, [](const DayReadings::Variant& variant) {
+                                   return variant.reading && variant.reading->can_open();
+                               });
+        menu.Enable(Prepare, !auxiliary && !active && !preparing && available);
     }
     if (menu.FindItem(Right)) {
         int pane = settings_.word_study ? Study : Right;
@@ -243,11 +258,16 @@ void MainFrame::make_menus() {
                 stop_speech();
                 return;
             }
+            if (id == Prepare) {
+                prepare_day();
+                return;
+            }
             if (id == Review) {
                 review_pronunciation();
                 return;
             }
             if (id == Gregorian || id == Julian || id == Greek || id == Slavic) {
+                clear_preparation();
                 if (id == Gregorian || id == Julian)
                     settings_.calendar = id == Julian ? CalendarStyle::Old : CalendarStyle::New;
                 else
@@ -277,6 +297,7 @@ void MainFrame::make_menus() {
                 settings_.speech_rate = rates[id - Rate];
                 speech_->set_speed(settings_.speech_rate / 100.0);
             } else if (id == Alice || id == Bjorn) {
+                clear_preparation();
                 settings_.speech_voice = id == Bjorn ? "bjorn" : "alice";
                 speech_->set_voice(settings_.speech_voice);
             } else {
@@ -285,7 +306,7 @@ void MainFrame::make_menus() {
             }
             apply_settings();
         },
-        Today, Highlight);
+        Today, Prepare);
 }
 void MainFrame::show_menu_bar(bool shown) {
 #ifdef __WXOSX__

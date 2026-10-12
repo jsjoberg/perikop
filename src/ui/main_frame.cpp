@@ -150,6 +150,8 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     });
 }
 void MainFrame::select_day(CivilDate date) {
+    if (date != selected_.date())
+        clear_preparation();
     selected_.select(date);
     show_readings();
     refresh_day();

@@ -2,6 +2,7 @@
 #include "core/model.hpp"
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <utility>
 namespace ortho {
 enum class SpeechState { Idle, Loading, Buffering, Playing, Paused, Stopped, Completed, Error };
@@ -26,6 +27,12 @@ struct SpeechUtterance {
     std::string display_text, speech_text, language;
     std::optional<SpeechCue> cue = {};
 };
+enum class PreparationState { Idle, Running, Ready, Error };
+struct SpeechPreparation {
+    PreparationState state = PreparationState::Idle;
+    size_t completed = 0, total = 0;
+    std::string status;
+};
 // Compile pronunciation phrases once and reuse them for every verse in a batch.
 class PronunciationMatcher {
 public:
@@ -49,6 +56,13 @@ public:
     virtual void speak_batch(const std::vector<SpeechUtterance>& utterances) {
         for (const auto& utterance : utterances)
             speak(utterance);
+    }
+    // Generate reusable cached audio without opening an audio device or starting playback.
+    virtual void prepare_batch(const std::vector<SpeechUtterance>&) {
+        throw std::runtime_error("Den här röstmotorn kan inte förbereda ljud.");
+    }
+    virtual SpeechPreparation preparation() const {
+        return {};
     }
     virtual void pause() = 0;
     virtual void resume() = 0;

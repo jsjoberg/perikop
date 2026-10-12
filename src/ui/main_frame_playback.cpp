@@ -13,6 +13,42 @@ namespace ortho {
 bool MainFrame::active_playback() const {
     return speech_active(read_aloud_.playback().state);
 }
+bool MainFrame::preparing_day() const {
+    return preparation_day_ && speech_ && speech_->preparation().state == PreparationState::Running;
+}
+void MainFrame::clear_preparation() {
+    if (preparing_day())
+        speech_->stop();
+    preparation_day_.reset();
+}
+void MainFrame::prepare_day() {
+    if (page_ || active_playback() || preparing_day())
+        return;
+    stop_speech();
+    try {
+        const auto day =
+            lectionary_.readings_with_variants(selected_.date(), settings_.calendar, settings_.tradition);
+        std::vector<Reading> readings;
+        const auto add = [&](const Reading& reading) {
+            if (reading.can_open())
+                readings.push_back(in_swedish(reading));
+        };
+        for (const auto& reading : day.readings)
+            add(reading);
+        for (const auto& variant : day.variants)
+            if (variant.reading)
+                add(*variant.reading);
+        const auto queue = reading_speech(corpus_, readings, [this](const std::string& language) {
+            return speech_lexicon(language);
+        });
+        speech_->prepare_batch(queue);
+        preparation_day_ = selected_.date();
+        refresh_speech();
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered dagens ljud"), wxOK | wxICON_INFORMATION,
+                     this);
+    }
+}
 void MainFrame::play_or_pause() {
     if (page_)
         return;
@@ -37,7 +73,8 @@ void MainFrame::speech_status(const std::string& status) {
     if (read_aloud_.playback().state == SpeechState::Error &&
         speech_->playback().state == SpeechState::Stopped)
         return;
-    read_aloud_.report(status);
+    if (!preparation_day_)
+        read_aloud_.report(status);
     refresh_speech();
 }
 void MainFrame::toggle_pause() {
@@ -50,6 +87,7 @@ void MainFrame::toggle_pause() {
 }
 void MainFrame::stop_speech() {
     speech_->stop();
+    preparation_day_.reset();
     scripture_->follow_playback(false);
     refresh_speech();
 }

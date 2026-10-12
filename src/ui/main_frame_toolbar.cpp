@@ -130,6 +130,7 @@ void MainFrame::toggle_pane(const std::string& pane) {
 void MainFrame::update_bar() {
     const bool auxiliary = page_ != nullptr;
     const bool reader = scripture_->IsShown(), active = active_playback();
+    const bool preparing = preparing_day();
     const bool marked = reader && !scripture_->selections().empty();
     const bool paused = read_aloud_.playback().state == SpeechState::Paused;
     const wxString play_label = !active  ? (marked ? ui::utf8("Läs markering") : "Lyssna")
@@ -159,7 +160,8 @@ void MainFrame::update_bar() {
     tooltip_of(play_, listen_label + ui::utf8(" · mellanslag"));
     play_->Enable(!auxiliary && (active ? paused : reader));
     pause_->Enable(!auxiliary && active && !paused);
-    stop_->Enable(!auxiliary && active);
+    stop_->Enable(!auxiliary && (active || preparing));
+    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen · Ctrl+.") : ui::utf8("Stoppa · Ctrl+."));
     back_->Enable(auxiliary || reader);
     tooltip_of(back_, auxiliary ? ui::utf8("Tillbaka · Escape")
                                 : ui::utf8("Tillbaka till dagens läsningar · Ctrl+L"));
@@ -176,7 +178,7 @@ void MainFrame::update_bar() {
                  : wxString{},
         active);
     // One short line: what is shown, where the reading is, or what it is waiting for.
-    const bool dropdown = (reader && parts_.size() > 1) || (picker && picker->stacked());
+    const bool dropdown = !preparing && ((reader && parts_.size() > 1) || (picker && picker->stacked()));
     wxString title, tooltip;
     if (picker) {
         const auto labels = picker->part_labels();
@@ -185,7 +187,13 @@ void MainFrame::update_bar() {
             tooltip = picker->stacked() ? ui::utf8("Visa delarna") : title;
     } else if (auxiliary)
         title = page_title_;
-    else if (!reader)
+    else if (preparation_day_ && (preparing || !reader)) {
+        const auto preparation = speech_->preparation();
+        title = ui::utf8(preparation.status + " · " + date_swedish(*preparation_day_));
+        tooltip = ui::utf8(preparation.status +
+                           "\n\nFörbereder den öppna dagens svenska läsningar och alternativ med den valda "
+                           "rösten. Sparat ljud återanvänds vid uppläsning.");
+    } else if (!reader)
         title = ui::utf8("Dagens läsningar");
     else if (const auto status = read_aloud_.status(corpus_)) {
         title = ui::utf8(status->title);
@@ -196,6 +204,9 @@ void MainFrame::update_bar() {
     if (tooltip.empty())
         tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe… · Ctrl+G");
     tooltip_of(address_, tooltip);
-    address_->progress(reader && active ? read_aloud_.playback().progress : 0);
+    const auto preparation = speech_ ? speech_->preparation() : SpeechPreparation{};
+    address_->progress(preparing && preparation.total ? double(preparation.completed) / preparation.total
+                       : reader && active             ? read_aloud_.playback().progress
+                                                      : 0);
 }
 } // namespace ortho

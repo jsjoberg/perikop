@@ -61,7 +61,8 @@ Prose flows across verses. Small inline numbers preserve verse navigation.
 
 Click a verse to highlight it. Click the same verse again to close the highlight.
 In parallel view, either language can open or close the highlight. Both columns highlight the corresponding verse.
-The source buttons appear above the selected verse and move with it during scrolling.
+In **Bara svenska**, source buttons appear above the selected verse and move with it during scrolling.
+Greek, English, and word-study views hide these buttons.
 They disappear when the verse leaves the screen.
 **SFB15**, **SKB**, **SRB**, and **B2026** open the verse in your browser.
 Links use each source's verse numbering. Buttons without a verified verse link are disabled.
@@ -131,7 +132,7 @@ See the [versification guide](versification.md) for the source coordinates and d
 Select **Visa → Svenska och ordstudium** to open the lookup panel.
 Click a Swedish word to see its pronunciation and dictionary entries.
 Only that word is highlighted. Click it again to close the highlight and lookup.
-Verse source buttons appear in the normal reader view.
+Verse source buttons appear only in **Bara svenska**.
 The [word-study guide](word-study.md) describes the dictionaries and data limits.
 
 ## Reading plans
@@ -176,6 +177,14 @@ The rolling buffer limit ranges from 30 to 600 seconds of source audio.
 Pause also suspends preparation between chunks.
 Initial model loading and first-chunk synthesis take time.
 If synthesis cannot keep pace, playback waits for the next chunk.
+Select **Uppläsning → Förbered dagens ljud** to generate audio for the open day's readings and alternatives before listening.
+Preparation uses the selected voice and pronunciation corrections. It produces no sound and does not mark readings as read.
+The address field shows preparation progress. **Stoppa** cancels unfinished preparation.
+Starting playback, changing days, or changing the voice cancels unfinished preparation. Completed audio remains available.
+Prepared audio survives restarts and date changes. The cache retains up to 256 MiB and replaces older audio when needed.
+Voice and pronunciation changes use separate cache entries. Playback speed changes reuse the same audio.
+Preparation covers the day's readings that open in the reader. Reading-plan parts are prepared during their normal playback.
+
 A separate SQLite cache accelerates repeat readings.
 If the cache fails, speech continues without it and the status shows **utan ljudcache**.
 If personal pronunciation data fails, the reader uses the bundled pronunciations and preserves the database.

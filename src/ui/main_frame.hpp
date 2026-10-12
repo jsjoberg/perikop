@@ -80,6 +80,9 @@ private:
     void select_part(size_t);
     void toggle_pane(const std::string&);
     void play_speech(const std::vector<Reading>&);
+    void prepare_day();
+    bool preparing_day() const;
+    void clear_preparation();
     void play_or_pause();
     void toggle_pause();
     void stop_speech();
@@ -112,6 +115,7 @@ private:
     wxTimer playback_timer_;
     ReadAloud read_aloud_;
     std::optional<std::pair<size_t, size_t>> speech_view_;
+    std::optional<CivilDate> preparation_day_;
 
     // wxWidgets owns child windows. These pointers are non-owning handles.
     wxPanel* root_ = nullptr;
