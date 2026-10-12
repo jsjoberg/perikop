@@ -60,6 +60,7 @@ public:
 };
 } // namespace
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
+    std::cout << std::unitbuf; // Keep completed checks in CI logs even if a later check times out.
     const auto original = settings_;
     const auto date = selected_.date();
     open_psalm();

@@ -45,7 +45,8 @@ option(ORTHO_SYSTEM_WX "Use installed wxWidgets for developer builds" OFF)
 option(ORTHO_SANITIZERS "Enable address and undefined behavior sanitizers" OFF)
 add_library(ortho-sanitizers INTERFACE)
 if(ORTHO_SANITIZERS AND NOT MSVC)
-    target_compile_options(ortho-sanitizers INTERFACE -fsanitize=address,undefined -fno-omit-frame-pointer)
+    # ASan recommends at least -O1; unoptimized SQLite makes the UI checks exceed their CI budget.
+    target_compile_options(ortho-sanitizers INTERFACE -O1 -fsanitize=address,undefined -fno-omit-frame-pointer)
     target_link_options(ortho-sanitizers INTERFACE -fsanitize=address,undefined)
 endif()
 FetchContent_Declare(sqlite
