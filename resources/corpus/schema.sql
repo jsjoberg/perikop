@@ -13,11 +13,13 @@ CREATE TABLE book (
 ) STRICT;
 -- The reader's book order from canon.tsv. A book can be a chapter range of its
 -- framing Septuagint book, as Nehemiah is of 2 Esdras; a NULL last chapter means the end.
+-- NULL names are the book's own.
 CREATE TABLE canon (
  position INTEGER PRIMARY KEY, book TEXT NOT NULL UNIQUE REFERENCES book(code),
  frame_book TEXT NOT NULL REFERENCES book(code),
  first_chapter INTEGER NOT NULL CHECK(first_chapter>0),
- last_chapter INTEGER CHECK(last_chapter>=first_chapter)
+ last_chapter INTEGER CHECK(last_chapter>=first_chapter),
+ name_sv TEXT, abbreviation_sv TEXT
 ) STRICT;
 CREATE TABLE verse (
  id INTEGER PRIMARY KEY, source_id INTEGER NOT NULL REFERENCES source(id),

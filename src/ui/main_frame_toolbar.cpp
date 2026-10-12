@@ -9,8 +9,8 @@
 #include <wx/sizer.h>
 namespace ortho {
 void MainFrame::create_toolbar() {
-    // One browser-like bar for the whole program: four symbols on each side
-    // of the address field. Controls that do not apply are dimmed, not hidden.
+    // One browser-like bar for the whole program: playback symbols, the address field,
+    // the right-column symbols and the ⋮ menu. Controls that do not apply are dimmed, not hidden.
     bar_ = new wxPanel(root_);
     bar_->SetBackgroundStyle(wxBG_STYLE_PAINT);
     bar_->Bind(wxEVT_PAINT, &MainFrame::paint_toolbar, this);
@@ -42,17 +42,25 @@ void MainFrame::create_toolbar() {
     bar->Add(address_, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(10));
     // Symbols for the right column; pressing the chosen one again closes it.
     const std::pair<std::string, std::variant<Symbol, wxString>> panes[] = {
-        {"study", Symbol::Study}, {"sv", "SV"}, {"el", "GR"}, {"en", "EN"}};
-    const char* names[] = {"Ordstudium", "Svenska", "Grekiska", "Engelska"};
+        {"study", Symbol::Study}, {"el", "GR"}, {"en", "EN"}};
+    const char* names[] = {"Svenska och ordstudium", "Svenska och grekiska", "Svenska och engelska"};
     for (std::size_t i = 0; i < std::size(panes); ++i) {
         const auto& [pane, face] = panes[i];
-        auto* button = new SymbolButton(bar_, face, names[i], [this, pane = pane] {
-            toggle_pane(pane);
-        });
-        button->SetToolTip(ui::utf8("Höger spalt: ") + ui::utf8(names[i]).Lower());
+        auto* button = new SymbolButton(
+            bar_, face, names[i],
+            [this, pane = pane] {
+                toggle_pane(pane);
+            },
+            true);
+        button->SetToolTip(ui::utf8(names[i]));
         bar->Add(button, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(2));
         panes_.emplace_back(pane, button);
     }
+    menu_ = new SymbolButton(bar_, Symbol::Menu, "Meny", [this] {
+        show_menu();
+    });
+    menu_->SetToolTip(ui::utf8("Meny"));
+    bar->Add(menu_, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(8));
     auto* inset = new wxBoxSizer(wxVERTICAL);
     inset->Add(bar, 0, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(8));
     inset->Add(0, 0, 0, wxBOTTOM, FromDIP(1));
@@ -70,6 +78,22 @@ void MainFrame::paint_toolbar(wxPaintEvent&) {
     dc.DrawLine(0, size.y - 1, size.x, size.y - 1);
 }
 void MainFrame::address_clicked() {
+    if (auto* picker = dynamic_cast<BiblePicker*>(page_)) {
+        // The parts of the selection, as for a reading; choosing one opens the reading there.
+        enum { First = wxID_HIGHEST + 1000 };
+        wxMenu menu;
+        const auto labels = picker->part_labels();
+        for (std::size_t i = 0; i < labels.size(); ++i)
+            menu.AppendRadioItem(First + int(i), labels[i]);
+        if (!labels.empty())
+            menu.Check(First + int(labels.size() - 1), true);
+        const int chosen = address_->GetPopupMenuSelectionFromUser(menu, 0, address_->GetSize().y);
+        if (chosen != wxID_NONE) {
+            picker->open_selection();
+            select_part(std::size_t(chosen - First));
+        }
+        return;
+    }
     if (page_) {
         browse_bible();
         return;
@@ -106,6 +130,7 @@ void MainFrame::toggle_pane(const std::string& pane) {
 void MainFrame::update_bar() {
     const bool auxiliary = page_ != nullptr;
     const bool reader = scripture_->IsShown(), active = active_playback();
+    const bool preparing = preparing_day();
     const bool marked = reader && !scripture_->selections().empty();
     const bool paused = read_aloud_.playback().state == SpeechState::Paused;
     const wxString play_label = !active  ? (marked ? ui::utf8("Läs markering") : "Lyssna")
@@ -113,51 +138,39 @@ void MainFrame::update_bar() {
                                          : "Pausa";
     // The toolbar has its own pause button, so its Lyssna never reads "Pausa".
     const wxString listen_label = active ? ui::utf8("Fortsätt") : play_label;
-    // Only the Swedish text can be read aloud; Greek and English have no voice.
-    const bool speakable = active || settings_.primary == "sv";
-    if (auto* bar = GetMenuBar()) {
-        for (size_t i = 0; i < bar->GetMenuCount(); ++i) {
+    for (size_t i = 0; menu_bar_ && i < menu_bar_->GetMenuCount(); ++i)
+        sync_menu(*menu_bar_->GetMenu(i));
+    // A hidden bar keeps its items' state; only an attached one can dim a whole menu.
+    if (menu_bar_ && GetMenuBar())
+        for (size_t i = 0; i < menu_bar_->GetMenuCount(); ++i) {
             bool enabled = !auxiliary;
 #ifndef __WXOSX__
             // About stays available from auxiliary pages through the Help menu.
-            enabled = enabled || bar->GetMenu(i)->FindItem(wxID_ABOUT);
+            enabled = enabled || menu_bar_->GetMenu(i)->FindItem(wxID_ABOUT);
 #endif
-            if (bar->IsEnabledTop(i) != enabled)
-                bar->EnableTop(i, enabled);
+            if (menu_bar_->IsEnabledTop(i) != enabled)
+                menu_bar_->EnableTop(i, enabled);
         }
-        bar->Enable(wxID_ABOUT, true);
-        bar->SetLabel(play_item_, play_label + "\tCtrl+P");
-        bar->Enable(play_item_, !auxiliary && (reader || active) && speakable);
-        bar->Enable(stop_item_, !auxiliary && active);
-        int pane_item = settings_.word_study ? study_item_ : right_item_;
-        for (int i = 0; i < 3; ++i) {
-            if (!settings_.word_study && settings_.parallel == column_languages[i])
-                pane_item = right_item_ + 1 + i;
-            const bool available = settings_.primary != column_languages[i];
-            if (bar->IsEnabled(right_item_ + 1 + i) != available)
-                bar->Enable(right_item_ + 1 + i, available);
-        }
-        if (!bar->IsChecked(pane_item))
-            bar->Check(pane_item, true);
-    }
     const auto tooltip_of = [](wxWindow* control, const wxString& text) {
         if (control->GetToolTipText() != text)
             control->SetToolTip(text);
     };
     if (play_->GetLabel() != listen_label)
         play_->SetLabel(listen_label);
-    tooltip_of(play_, speakable ? listen_label + ui::utf8(" · mellanslag")
-                                : ui::utf8("Uppläsning finns bara på svenska"));
-    play_->Enable(!auxiliary && (active ? paused : reader && speakable));
+    tooltip_of(play_, listen_label + ui::utf8(" · mellanslag"));
+    play_->Enable(!auxiliary && (active ? paused : reader));
     pause_->Enable(!auxiliary && active && !paused);
-    stop_->Enable(!auxiliary && active);
+    stop_->Enable(!auxiliary && (active || preparing));
+    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen · Ctrl+.") : ui::utf8("Stoppa · Ctrl+."));
     back_->Enable(auxiliary || reader);
     tooltip_of(back_, auxiliary ? ui::utf8("Tillbaka · Escape")
                                 : ui::utf8("Tillbaka till dagens läsningar · Ctrl+L"));
-    address_->Enable(dynamic_cast<BiblePicker*>(page_) == nullptr);
+    // In the Bible browser the field lists the added parts once there are any.
+    const auto* picker = dynamic_cast<BiblePicker*>(page_);
+    address_->Enable(!picker || picker->stacked());
     for (auto& [pane, button] : panes_) {
         button->checked(pane == "study" ? settings_.word_study : settings_.parallel == pane);
-        button->Enable(reader && pane != settings_.primary);
+        button->Enable(reader);
     }
     scripture_->return_button(
         active   ? (scripture_->follows_playback() ? wxString{} : ui::utf8("Följ uppläsningen"))
@@ -165,11 +178,22 @@ void MainFrame::update_bar() {
                  : wxString{},
         active);
     // One short line: what is shown, where the reading is, or what it is waiting for.
-    const bool dropdown = reader && parts_.size() > 1;
+    const bool dropdown = !preparing && ((reader && parts_.size() > 1) || (picker && picker->stacked()));
     wxString title, tooltip;
-    if (auxiliary)
+    if (picker) {
+        const auto labels = picker->part_labels();
+        title = labels.empty() ? page_title_ : labels.back();
+        if (!labels.empty())
+            tooltip = picker->stacked() ? ui::utf8("Visa delarna") : title;
+    } else if (auxiliary)
         title = page_title_;
-    else if (!reader)
+    else if (preparation_day_ && (preparing || !reader)) {
+        const auto preparation = speech_->preparation();
+        title = ui::utf8(preparation.status + " · " + date_swedish(*preparation_day_));
+        tooltip = ui::utf8(preparation.status +
+                           "\n\nFörbereder den öppna dagens svenska läsningar och alternativ med den valda "
+                           "rösten. Sparat ljud återanvänds vid uppläsning.");
+    } else if (!reader)
         title = ui::utf8("Dagens läsningar");
     else if (const auto status = read_aloud_.status(corpus_)) {
         title = ui::utf8(status->title);
@@ -180,6 +204,9 @@ void MainFrame::update_bar() {
     if (tooltip.empty())
         tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe… · Ctrl+G");
     tooltip_of(address_, tooltip);
-    address_->progress(reader && active ? read_aloud_.playback().progress : 0);
+    const auto preparation = speech_ ? speech_->preparation() : SpeechPreparation{};
+    address_->progress(preparing && preparation.total ? double(preparation.completed) / preparation.total
+                       : reader && active             ? read_aloud_.playback().progress
+                                                      : 0);
 }
 } // namespace ortho

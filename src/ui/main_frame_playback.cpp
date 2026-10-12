@@ -4,29 +4,63 @@
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
 #include <atomic>
+#include <iostream>
 #include <stdexcept>
 #include <wx/app.h>
 #include <wx/msgdlg.h>
-#include <wx/stdpaths.h>
 #include <wx/weakref.h>
 namespace ortho {
 bool MainFrame::active_playback() const {
     return speech_active(read_aloud_.playback().state);
+}
+bool MainFrame::preparing_day() const {
+    return preparation_day_ && speech_ && speech_->preparation().state == PreparationState::Running;
+}
+void MainFrame::clear_preparation() {
+    if (preparing_day())
+        speech_->stop();
+    preparation_day_.reset();
+}
+void MainFrame::prepare_day() {
+    if (page_ || active_playback() || preparing_day())
+        return;
+    stop_speech();
+    try {
+        const auto day =
+            lectionary_.readings_with_variants(selected_.date(), settings_.calendar, settings_.tradition);
+        std::vector<Reading> readings;
+        const auto add = [&](const Reading& reading) {
+            if (reading.can_open())
+                readings.push_back(in_swedish(reading));
+        };
+        for (const auto& reading : day.readings)
+            add(reading);
+        for (const auto& variant : day.variants)
+            if (variant.reading)
+                add(*variant.reading);
+        const auto queue = reading_speech(corpus_, readings, [this](const std::string& language) {
+            return speech_lexicon(language);
+        });
+        speech_->prepare_batch(queue);
+        preparation_day_ = selected_.date();
+        refresh_speech();
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered dagens ljud"), wxOK | wxICON_INFORMATION,
+                     this);
+    }
 }
 void MainFrame::play_or_pause() {
     if (page_)
         return;
     if (active_playback())
         toggle_pause();
-    else if (settings_.primary != "sv")
-        return;
     else if (scripture_->IsShown() && !scripture_->selections().empty()) {
         const auto marked = scripture_->selections();
         Reading reading{corpus_.new_testament_book(marked.front().book) ? ReadingKind::Gospel
                                                                         : ReadingKind::OldTestament,
                         marked.front(),
                         {marked.begin() + 1, marked.end()},
-                        settings_.primary};
+                        "sv"};
         reading.reference = scripture_->frame();
         play_speech({reading});
     } else if (scripture_->IsShown()) {
@@ -39,7 +73,8 @@ void MainFrame::speech_status(const std::string& status) {
     if (read_aloud_.playback().state == SpeechState::Error &&
         speech_->playback().state == SpeechState::Stopped)
         return;
-    read_aloud_.report(status);
+    if (!preparation_day_)
+        read_aloud_.report(status);
     refresh_speech();
 }
 void MainFrame::toggle_pause() {
@@ -52,6 +87,7 @@ void MainFrame::toggle_pause() {
 }
 void MainFrame::stop_speech() {
     speech_->stop();
+    preparation_day_.reset();
     scripture_->follow_playback(false);
     refresh_speech();
 }
@@ -113,11 +149,11 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         std::vector<Reading> primary_readings;
         primary_readings.reserve(readings.size());
         for (const auto& reading : readings)
-            primary_readings.push_back(in_primary(reading));
+            primary_readings.push_back(in_swedish(reading));
         const auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        read_aloud_.start(readings, queue);
+        read_aloud_.start(readings);
         if (!readings.empty()) {
             open_reading(readings.front());
             speech_view_ = std::pair<size_t, size_t>{0, 0};
@@ -138,10 +174,26 @@ void MainFrame::initialize_speech() {
     // The worker copies the shared owner, not wxWeakRef's main-thread tracking data.
     auto weak = std::make_shared<wxWeakRef<MainFrame>>(this);
     auto latest_speech = std::make_shared<std::atomic<uint64_t>>(0);
-    const auto data_path = ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir());
-    pronunciation_review_ = std::make_unique<PronunciationReviewDb>(data_path / "pronunciation-review.db");
+    try {
+        auto review = std::make_unique<PronunciationReviewDb>(data_ / "pronunciation-review.db");
+        review->overrides(); // Check the table before enabling personal corrections.
+        pronunciation_review_ = std::move(review);
+    } catch (const std::exception& e) {
+        const auto path_bytes = (data_ / "pronunciation-review.db").u8string();
+        const std::string path(reinterpret_cast<const char*>(path_bytes.data()), path_bytes.size());
+        pronunciation_error_ = "Uttalskorrigeringar kunde inte läsas. Läsning och uppläsning fungerar med "
+                               "grunduttalen. Databasen har bevarats. Säkerhetskopiera filen innan du "
+                               "försöker återställa den: " +
+                               path + "\n\n" + e.what();
+        std::cerr << pronunciation_error_ << '\n';
+        if (!diagnostic_)
+            CallAfter([this] {
+                wxMessageBox(ui::utf8(pronunciation_error_), ui::utf8("Uttalskorrigeringar"),
+                             wxOK | wxICON_INFORMATION, this);
+            });
+    }
     speech_ = create_portable_speech(
-        resources_ / "voices", data_path, [weak, latest_speech](const SpeechUpdate& update) {
+        resources_ / "voices", data_, [weak, latest_speech](const SpeechUpdate& update) {
             auto known = latest_speech->load();
             while (known < update.sequence && !latest_speech->compare_exchange_weak(known, update.sequence)) {
             }

@@ -161,4 +161,8 @@ For Psalm 23, run:
 
 On Windows or Linux, use the platform executable with the same arguments.
 
+For an isolated normal session, add `--profile /absolute/path/profile`.
+This directory contains settings, progress, pronunciation decisions, and the speech cache.
+Smoke tests and benchmarks always use a fresh temporary profile instead.
+
 See the [user guide](using-perikop.md), [tests](testing.md), and [release guide](releasing.md) for the next steps.

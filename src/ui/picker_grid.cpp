@@ -98,16 +98,24 @@ int PickerGrid::place(const std::vector<Block>& blocks, int x, int width, int y,
             GetTextExtent(block.text, &w, &h, nullptr, nullptr, &title_font);
             items_.push_back({{x, y, w, h}, &block});
             int bottom = y + h;
-            if (block.action) {
-                int aw = 0, ah = 0;
-                GetTextExtent(block.action_label, &aw, &ah, nullptr, nullptr, &action_font);
-                const wxSize pill(aw + FromDIP(24), std::max(ah + FromDIP(10), FromDIP(26)));
-                // Beside the title when both fit, else beneath it.
-                const bool beside = w + FromDIP(16) + pill.x <= width;
-                const wxPoint at = beside ? wxPoint(x + width - pill.x, y + (h - pill.y) / 2)
-                                          : wxPoint(x, y + h + FromDIP(8));
-                items_.push_back({{at, pill}, &block, nullptr, true});
-                bottom = std::max(bottom, at.y + pill.y);
+            if (!block.actions.empty()) {
+                std::vector<wxSize> pills;
+                int row = 0;
+                for (const auto& action : block.actions) {
+                    int aw = 0, ah = 0;
+                    GetTextExtent(action.label, &aw, &ah, nullptr, nullptr, &action_font);
+                    pills.emplace_back(aw + FromDIP(24), std::max(ah + FromDIP(10), FromDIP(26)));
+                    row += pills.back().x + (row ? FromDIP(8) : 0);
+                }
+                // A right-aligned row beside the title when both fit, else a row beneath it.
+                const bool beside = w + FromDIP(16) + row <= width;
+                wxPoint at = beside ? wxPoint(x + width - row, y) : wxPoint(x, y + h + FromDIP(8));
+                for (std::size_t i = 0; i < pills.size(); ++i) {
+                    const wxPoint pill_at(at.x, beside ? y + (h - pills[i].y) / 2 : at.y);
+                    items_.push_back({{pill_at, pills[i]}, &block, nullptr, &block.actions[i]});
+                    bottom = std::max(bottom, pill_at.y + pills[i].y);
+                    at.x += pills[i].x + FromDIP(8);
+                }
             }
             y = bottom + FromDIP(12);
             break;
@@ -163,7 +171,7 @@ std::optional<std::size_t> PickerGrid::item_at(wxPoint point) const {
 
 bool PickerGrid::active(std::size_t index) const {
     const auto& item = items_[index];
-    return item.action || (item.cell && item.cell->enabled && item.cell->action);
+    return (item.action && item.action->enabled) || (item.cell && item.cell->enabled && item.cell->action);
 }
 
 void PickerGrid::hover(std::optional<std::size_t> index) {
@@ -182,7 +190,7 @@ void PickerGrid::hover(std::optional<std::size_t> index) {
 void PickerGrid::activate(std::size_t index) {
     const auto& item = items_[index];
     // The action can replace these cells or close the picker, so it runs after this event.
-    CallAfter(item.cell ? item.cell->action : item.block->action);
+    CallAfter(item.cell ? item.cell->action : item.action->run);
 }
 
 void PickerGrid::key(wxKeyEvent& e) {
@@ -273,17 +281,17 @@ void PickerGrid::paint(wxPaintEvent&) {
             continue;
         }
         if (item.action) {
-            if (hovered) {
+            const auto ink = item.action->enabled ? colors.accent : with_alpha(colors.muted, 110);
+            if (hovered && item.action->enabled) {
                 gc->SetBrush(wxBrush(with_alpha(colors.accent, 36)));
                 gc->DrawRoundedRectangle(r.x, r.y, r.width, r.height, r.height / 2.0);
             }
             gc->SetBrush(*wxTRANSPARENT_BRUSH);
-            gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors.accent).Width(1.1 * scale)));
+            gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(ink).Width(1.1 * scale)));
             gc->DrawRoundedRectangle(r.x + 0.5, r.y + 0.5, r.width - 1, r.height - 1, (r.height - 1) / 2.0);
-            gc->SetFont(ui_font(10), colors.accent);
-            gc->GetTextExtent(item.block->action_label, &width, &height);
-            gc->DrawText(item.block->action_label, r.x + (r.width - width) / 2,
-                         r.y + (r.height - height) / 2);
+            gc->SetFont(ui_font(10), ink);
+            gc->GetTextExtent(item.action->label, &width, &height);
+            gc->DrawText(item.action->label, r.x + (r.width - width) / 2, r.y + (r.height - height) / 2);
         } else {
             const auto& cell = *item.cell;
             const bool selected = cell.state == State::Selected;

@@ -69,16 +69,18 @@ Every non-whitespace byte stays in order. Displayed Scripture remains unchanged.
 The engine rejects token-limit truncation, invalid samples, and silent output.
 Generative speech can still omit or repeat words; listening review must check this explicitly.
 
-PCM playback starts as soon as the first chunk is ready.
-The worker generates subsequent chunks during playback and keeps at most two chunks in the playback buffer.
-Pause holds the playback position and limits generation to the available buffer space.
+PCM playback starts after an adaptive lead for the measured synthesis speed.
+The worker uses a rolling buffer limit of 30–600 seconds of source audio.
+Pause holds playback and suspends preparation between chunks.
 Initial model loading and first-chunk synthesis still delay uncached playback.
 If synthesis runs slower than playback, the output supplies silence until the next chunk is ready.
 
-The audio callback counts consumed PCM frames. Pause and underrun silence do not advance this count.
+The audio callback counts delivered audio and estimates its source position during tempo changes.
+Pause and underrun silence do not advance this position.
+Completion waits for the tempo output to drain.
 Playback cues associate these frames with a reading, passage section, source edition, and verse range.
 The interface follows these cues, including transitions between readings and omitted verse ranges.
-Generated introductions have their own playback cues and do not highlight Scripture.
+Each reading starts directly with its first verse.
 
 The active verse has a soft highlight. A margin marker moves between its lines with an eased transition.
 Verse boundaries use actual audio offsets. Movement within a verse estimates text position from text weight and audio duration.

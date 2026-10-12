@@ -6,7 +6,7 @@
 #include <wx/control.h>
 
 namespace ortho {
-enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check };
+enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check, Menu };
 
 // A borderless, browser-style toolbar button. It draws a symbol, or short
 // text such as a language code, in the theme's colours. The label is its
@@ -14,13 +14,16 @@ enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check };
 class SymbolButton final : public wxControl {
 public:
     SymbolButton(wxWindow* parent, std::variant<Symbol, wxString> face, const wxString& label,
-                 std::function<void()> action);
+                 std::function<void()> action, bool toggle = false);
     void face(std::variant<Symbol, wxString>);
     void checked(bool);
     void apply(const Palette&);
     bool Enable(bool enable = true) override;
     bool AcceptsFocus() const override {
-        return false;
+        return IsShown() && IsEnabled();
+    }
+    bool AcceptsFocusFromKeyboard() const override {
+        return AcceptsFocus();
     }
 
 protected:
@@ -31,7 +34,7 @@ private:
     std::variant<Symbol, wxString> face_;
     std::function<void()> action_;
     Palette colors_;
-    bool checked_ = false, hover_ = false, pressed_ = false;
+    bool checked_ = false, hover_ = false, pressed_ = false, toggle_ = false;
 };
 
 // The address field: what is shown or read, and the way to another passage.
@@ -45,7 +48,10 @@ public:
     void progress(double);
     void apply(const Palette&);
     bool AcceptsFocus() const override {
-        return false;
+        return IsShown() && IsEnabled();
+    }
+    bool AcceptsFocusFromKeyboard() const override {
+        return AcceptsFocus();
     }
 
 protected:

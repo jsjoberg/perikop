@@ -46,12 +46,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     Bind(
         wxEVT_TIMER,
         [this](wxTimerEvent&) {
-            const double distance = target_ - offset_;
-            if (std::abs(distance) < 0.5) {
-                set_position(target_);
-                wheel_timer_.Stop();
-            } else
-                set_position(offset_ + distance * 0.3);
+            advance_scroll();
         },
         wheel_timer_.GetId());
     Bind(
@@ -87,13 +82,11 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& e) {
         const int key = e.GetKeyCode();
         if (key == WXK_HOME) {
-            release_follow();
-            set_position(0);
+            navigate_to(0);
             return;
         }
         if (key == WXK_END) {
-            release_follow();
-            set_position(max_offset());
+            navigate_to(max_offset());
             return;
         }
         if (key == WXK_DOWN) {
@@ -121,6 +114,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         if (return_pressed_)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
+        press_point_ = e.GetPosition();
+        if (const auto found = hit(e.GetPosition()))
+            drag_column_ = found->column_index;
         dragged_ = false;
         append_drag_ = e.CmdDown() || e.ControlDown();
         drag_ranges_ = selections_;
@@ -131,6 +127,11 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         hover_return(!drag_anchor_ && return_rect_.Contains(e.GetPosition()));
         if (!drag_anchor_ || !e.LeftIsDown())
             return;
+        if (drag_column_ != 0) {
+            const auto distance = e.GetPosition() - press_point_;
+            dragged_ |= std::abs(distance.x) > FromDIP(4) || std::abs(distance.y) > FromDIP(4);
+            return;
+        }
         const auto verse = verse_at(e.GetPosition());
         if (!verse || (!dragged_ && *verse == *drag_anchor_ && selections_.empty()))
             return;
@@ -147,13 +148,12 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         }
         if (drag_anchor_ && !dragged_) {
-            if (append_drag_)
+            if (append_drag_ && drag_column_ == 0)
                 select_verses(*drag_anchor_, *drag_anchor_, true);
-            else if (!selections_.empty())
+            else {
                 clear_selection();
-            else if (word_clicked_)
-                if (auto word = word_at(e.GetPosition()))
-                    word_clicked_(*word);
+                click_text(e.GetPosition());
+            }
         }
         drag_anchor_.reset();
         drag_ranges_.clear();
@@ -289,14 +289,29 @@ void ScriptureView::set_position(double value) {
     // Measured rows can be taller than their estimates; a position past the end stays at the end.
     offset_ = to_end ? max_offset() : std::clamp(offset_, 0.0, max_offset());
     if (previous != offset_) {
+        position_verse_links();
         scrollbar();
         request_repaint();
     }
     schedule_prefetch();
 }
 void ScriptureView::scroll_by(double pixels) {
+    navigate_to(offset_ + pixels);
+}
+void ScriptureView::navigate_to(double position) {
     release_follow();
-    set_position(offset_ + pixels);
+    wheel_timer_.Stop();
+    set_position(position);
     target_ = offset_;
+}
+void ScriptureView::advance_scroll() {
+    if (!wheel_timer_.IsRunning())
+        return; // A timer event queued before immediate navigation is stale.
+    const double distance = target_ - offset_;
+    if (std::abs(distance) < 0.5) {
+        set_position(target_);
+        wheel_timer_.Stop();
+    } else
+        set_position(offset_ + distance * 0.3);
 }
 } // namespace ortho

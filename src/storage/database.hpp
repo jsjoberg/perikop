@@ -52,6 +52,10 @@ public:
         return canon_;
     }
     const CanonBook* canon_book(const std::string& frame_book, int chapter) const;
+    // The reader's Swedish names of a canon book, such as "Ester enligt den grekiska texten".
+    // Other books keep their own names.
+    std::string title(const std::string& book) const;
+    std::string short_title(const std::string& book) const;
     // The edition a pane shows for a language; empty for an unknown language.
     std::string source_for_language(const std::string& language, const std::string& book) const;
     // The edition whose numbering frames a book: the Septuagint for the Old
@@ -81,14 +85,8 @@ struct DalinEntry {
 struct BiblicalEntry {
     std::string id, headword, definition, url;
 };
-struct StrongsEntry {
-    std::string strong, lemma, transliteration, gloss, definition;
-};
-struct GreekWord {
-    std::string surface, strong;
-};
 // Word-study data from tools/lexicon/build_study.py: Dalin and biblical articles
-// for Swedish 1917 forms, and Strong's tags for the Greek New Testament.
+// for Swedish 1917 forms.
 class StudyDb {
 public:
     explicit StudyDb(const std::filesystem::path& path);
@@ -96,13 +94,6 @@ public:
     std::vector<DalinEntry> swedish(const std::string& form) const;
     // Nyström's historical biblical articles for a lowercase Swedish 1917 form.
     std::vector<BiblicalEntry> biblical(const std::string& form) const;
-    std::optional<StrongsEntry> strongs(const std::string& strong) const;
-    // The tagged words of a grc-patriarchal verse, in text order.
-    std::vector<GreekWord> greek_words(const std::string& book, VerseRef) const;
-    // The Greek word that the word aligner links to an occurrence of a lowercase
-    // form in a sv1917 New Testament verse: its Greek verse and position there.
-    std::optional<std::pair<VerseRef, int>> greek_link(const std::string& book, VerseRef,
-                                                       const std::string& form, int occurrence) const;
 
 private:
     DatabaseHandle db_;

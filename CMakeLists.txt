@@ -43,6 +43,11 @@ endif()
 option(ORTHO_BUILD_GUI "Build the native reader" ON)
 option(ORTHO_SYSTEM_WX "Use installed wxWidgets for developer builds" OFF)
 option(ORTHO_SANITIZERS "Enable address and undefined behavior sanitizers" OFF)
+add_library(ortho-sanitizers INTERFACE)
+if(ORTHO_SANITIZERS AND NOT MSVC)
+    target_compile_options(ortho-sanitizers INTERFACE -fsanitize=address,undefined -fno-omit-frame-pointer)
+    target_link_options(ortho-sanitizers INTERFACE -fsanitize=address,undefined)
+endif()
 FetchContent_Declare(sqlite
     URL https://sqlite.org/2026/sqlite-amalgamation-3530400.zip
     URL_HASH SHA256=1e71ddf93849c6a6ecf58b827c0692073d2dd7ee40196158068f7b29f422e87d
@@ -52,13 +57,14 @@ add_library(ortho-sqlite STATIC "${sqlite_SOURCE_DIR}/sqlite3.c")
 target_include_directories(ortho-sqlite PUBLIC "${sqlite_SOURCE_DIR}")
 target_compile_definitions(ortho-sqlite PRIVATE SQLITE_THREADSAFE=1 SQLITE_OMIT_LOAD_EXTENSION)
 find_package(Threads REQUIRED)
-target_link_libraries(ortho-sqlite PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
+target_link_libraries(ortho-sqlite PUBLIC Threads::Threads ${CMAKE_DL_LIBS} PRIVATE ortho-sanitizers)
 add_library(ortho-core
     src/core/model.cpp
     src/core/lectionary.cpp
     src/core/fasting.cpp
     src/core/swedish_titles.cpp
     src/core/reading_display.cpp
+    src/core/online_bibles.cpp
     src/core/reading_plan.cpp
     src/storage/sqlite.cpp
     src/storage/corpus_db.cpp
@@ -71,7 +77,7 @@ add_library(ortho-core
     src/speech/read_aloud.cpp
     src/speech/pronunciation_review.cpp)
 target_include_directories(ortho-core PUBLIC src)
-target_link_libraries(ortho-core PUBLIC ortho-sqlite)
+target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers)
 if(MSVC)
     target_compile_options(ortho-core PUBLIC /W4 /utf-8)
 else()
@@ -79,10 +85,6 @@ else()
 endif()
 if(MINGW)
     add_link_options(-static)
-endif()
-if(ORTHO_SANITIZERS AND NOT MSVC)
-    target_compile_options(ortho-core PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer)
-    target_link_options(ortho-core PUBLIC -fsanitize=address,undefined)
 endif()
 if(BUILD_TESTING)
     add_test(NAME build-version COMMAND "${CMAKE_COMMAND}"
@@ -155,6 +157,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/scripture_view.cpp
         src/ui/scripture_layout.cpp
         src/ui/scripture_selection.cpp
+        src/ui/scripture_links.cpp
         src/ui/scripture_playback.cpp
         src/ui/scripture_render.cpp
         src/ui/scripture_text_cache.cpp
@@ -185,8 +188,8 @@ if(ORTHO_BUILD_GUI)
     target_compile_definitions(perikop PRIVATE ORTHO_RESOURCE_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/perikop/resources")
     if(APPLE)
         enable_language(OBJCXX)
-        target_sources(perikop PRIVATE src/ui/native_scroll.mm src/ui/native_icon.mm)
-        set_source_files_properties(src/ui/native_icon.mm PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
+        target_sources(perikop PRIVATE src/ui/native_scroll.mm src/ui/native_icon.mm src/ui/native_menu.mm)
+        set_source_files_properties(src/ui/native_icon.mm src/ui/native_menu.mm PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
         target_link_libraries(perikop PRIVATE "-framework CoreText" "-framework CoreFoundation")
         set_target_properties(perikop PROPERTIES OUTPUT_NAME "Perikop"
             MACOSX_BUNDLE_GUI_IDENTIFIER "org.perikop.prototype"
@@ -280,11 +283,28 @@ if(ORTHO_BUILD_GUI)
         install(DIRECTORY "${resource_destination}/" DESTINATION share/perikop/resources)
     endif()
     if(BUILD_TESTING)
+        if(EXISTS "${PERIKOP_VOICE_PACK}/voice-pack.json")
+            add_executable(ortho-speech-recovery-tests tests/portable_speech_recovery_test.cpp src/speech/portable_speech.cpp)
+            target_link_libraries(ortho-speech-recovery-tests PRIVATE ortho-core ortho-kokoro Threads::Threads)
+            add_dependencies(ortho-speech-recovery-tests ortho-resources)
+            add_test(NAME speech-cache-recovery COMMAND ortho-speech-recovery-tests
+                "${resource_destination}/voices" "${CMAKE_BINARY_DIR}/test-cache-recovery")
+            set_tests_properties(speech-cache-recovery PROPERTIES TIMEOUT 300)
+        endif()
         add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
-        set(perikop_smoke_timeout 30)
+        add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
+            "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"
+            "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
+            -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
+        set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
+        # Font shaping and native widgets take longer on hosted Windows runners.
+        set(perikop_smoke_timeout 60)
         if(perikop_macos_universal)
             # A fresh CI runner must translate the Intel app and Cocoa frameworks through Rosetta.
             set(perikop_smoke_timeout 120)
+        endif()
+        if(ORTHO_SANITIZERS)
+            set(perikop_smoke_timeout 180)
         endif()
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
     endif()

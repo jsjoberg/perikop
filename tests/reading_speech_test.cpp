@@ -23,40 +23,35 @@ int main(int argc, char** argv) {
             return result;
         };
 
-        const Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
+        Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
+        psalm.reference = "sv1917";
         const auto spoken = reading_speech(corpus, {psalm}, lexicon);
-        check(spoken.size() == 7, "Psalm 23 must have one introduction and six Swedish verses");
-        check(spoken[0].display_text == "Läsning ur Psaltaren, kapitel 22, vers 1 till 6.",
-              "The introduction must announce the reader's framing numbers");
-        check(spoken[0].cue == SpeechCue{0, 0, "Ps", "", {22, 1}, {22, 6}, true},
-              "Introductions must retain framing coordinates for following");
-        check(spoken[1].display_text == corpus.verse("sv1917", "Ps", {23, 1})->text,
-              "Septuagint framing must still read the corresponding Swedish text");
-        check(spoken[1].speech_text.find("Herren-test") != std::string::npos &&
-                  spoken[1].display_text.find("Herren-test") == std::string::npos,
+        check(spoken.size() == 6, "Psalm 23 must contain only its six Swedish verses");
+        check(spoken[0].display_text == corpus.verse("sv1917", "Ps", {23, 1})->text,
+              "Playback must start directly with Swedish Scripture in Septuagint framing");
+        check(spoken[0].speech_text.find("Herren-test") != std::string::npos &&
+                  spoken[0].display_text.find("Herren-test") == std::string::npos,
               "User pronunciation overrides must affect speech only");
-        for (std::size_t i = 1; i < spoken.size(); ++i) {
+        for (std::size_t i = 0; i < spoken.size(); ++i) {
             check(spoken[i].language == "sv" &&
-                      spoken[i].cue == SpeechCue{0, 0, "Ps", "grc-lxx", {22, int(i)}, {22, int(i)}, false},
+                      spoken[i].cue == SpeechCue{0, 0, "Ps", "grc-lxx", {22, int(i + 1)}, {22, int(i + 1)}},
                   "Spoken verses must follow the framing order and cue source");
         }
 
         Reading merged{ReadingKind::OldTestament, {"1Chr", {12, 4}, {12, 5}}};
         merged.reference = "grc-lxx";
         const auto merged_speech = reading_speech(corpus, {merged}, lexicon);
-        check(merged_speech.size() == 2, "A merged Swedish verse must be read only once");
-        check(merged_speech[1].display_text == corpus.verse("sv1917", "1Chr", {12, 4})->text &&
-                  merged_speech[1].cue == SpeechCue{0, 0, "1Chr", "grc-lxx", {12, 4}, {12, 5}, false},
+        check(merged_speech.size() == 1, "A merged Swedish verse must be read only once");
+        check(merged_speech[0].display_text == corpus.verse("sv1917", "1Chr", {12, 4})->text &&
+                  merged_speech[0].cue == SpeechCue{0, 0, "1Chr", "grc-lxx", {12, 4}, {12, 5}},
               "One utterance must cover both framing verses in a merged passage");
 
         Reading nehemiah{ReadingKind::OldTestament, {"Neh", {1, 1}, {1, 2}}};
         nehemiah.reference = "sv1917";
         const auto nehemiah_speech = reading_speech(corpus, {nehemiah}, lexicon);
-        check(nehemiah_speech.size() == 3 &&
-                  nehemiah_speech[0].display_text == "Läsning ur Nehemja, kapitel 1, vers 1 till 2.",
-              "The introduction must use the displayed Nehemiah chapter, not Ezra 11");
-        check(nehemiah_speech[1].cue == SpeechCue{0, 0, "Ezra", "grc-lxx", {11, 1}, {11, 1}, false} &&
-                  nehemiah_speech[1].display_text == corpus.verse("sv1917", "Neh", {1, 1})->text,
+        check(nehemiah_speech.size() == 2, "Nehemiah playback must contain only the selected verses");
+        check(nehemiah_speech[0].cue == SpeechCue{0, 0, "Ezra", "grc-lxx", {11, 1}, {11, 1}} &&
+                  nehemiah_speech[0].display_text == corpus.verse("sv1917", "Neh", {1, 1})->text,
               "Nehemiah must retain its framing cue and its Swedish text");
         check(passage_label(corpus, {{"Ezra", {11, 1}, {11, 2}}, {"Ezra", {11, 4}, {11, 4}}}) ==
                   "Nehemja 1:1–2; 1:4",
@@ -74,10 +69,10 @@ int main(int argc, char** argv) {
         for (std::size_t i = 0; i < batch.size(); ++i)
             check(reused[i].speech_text == batch[i].speech_text && reused[i].cue == batch[i].cue,
                   "Reusing pronunciation rules must preserve speech and playback coordinates");
-        check(batch.size() == 11 && batch[1].cue->reading == 0 && batch[1].cue->section == 0 &&
-                  batch[2].cue->section == 1 && batch[3].cue->section == 1 && batch[4].cue->reading == 1 &&
-                  batch[4].cue->introduction,
-              "Multiple readings and sections must preserve their playback identities");
+        check(batch.size() == 9 && batch[0].cue->reading == 0 && batch[0].cue->section == 0 &&
+                  batch[1].cue->section == 1 && batch[2].cue->section == 1 &&
+                  batch[3].cue == SpeechCue{1, 0, "Ps", "grc-lxx", {22, 1}, {22, 1}},
+              "Multiple readings and sections must move directly between Scripture verses");
 
         // A picker selection can mix LXX and New Testament coordinates without renumbering either.
         Reading custom{ReadingKind::OldTestament,
@@ -89,27 +84,24 @@ int main(int argc, char** argv) {
                   localized[2].first == VerseRef{22, 6},
               "Mixed-book picker ranges must retain their framing coordinates and order");
         const auto custom_speech = reading_speech(corpus, {custom}, lexicon);
-        check(custom_speech.size() == 6 &&
-                  custom_speech[1].display_text == corpus.verse("sv1917", "Ps", {23, 1})->text &&
-                  custom_speech[2].cue->verse == VerseRef{22, 2} &&
-                  custom_speech[3].cue == SpeechCue{0, 1, "John", "sv1917", {1, 3}, {1, 3}, false} &&
-                  custom_speech[4].cue->verse == VerseRef{1, 4} &&
-                  custom_speech[5].cue == SpeechCue{0, 2, "Ps", "grc-lxx", {22, 6}, {22, 6}, false},
+        check(custom_speech.size() == 5 &&
+                  custom_speech[0].display_text == corpus.verse("sv1917", "Ps", {23, 1})->text &&
+                  custom_speech[1].cue->verse == VerseRef{22, 2} &&
+                  custom_speech[2].cue == SpeechCue{0, 1, "John", "sv1917", {1, 3}, {1, 3}} &&
+                  custom_speech[3].cue->verse == VerseRef{1, 4} &&
+                  custom_speech[4].cue == SpeechCue{0, 2, "Ps", "grc-lxx", {22, 6}, {22, 6}},
               "Custom playback must skip unselected gaps and follow the chosen range order across books");
-        check(custom_speech[0].display_text ==
-                  "Läsning ur Psaltaren, kapitel 22, vers 1 till 2; ur Johannesevangeliet, kapitel 1, vers 3 "
-                  "till 4; och ur Psaltaren, kapitel 22, vers 6.",
-              "The introduction must announce every passage of a reading in order");
-        check(batch[0].display_text == "Läsning ur Johannesevangeliet, kapitel 1, vers 1; och vers 3 till 4.",
-              "The introduction must not repeat the book or chapter of a following passage");
+        check(batch[0].display_text == corpus.verse("sv1917", "John", {1, 1})->text &&
+                  batch[3].display_text == spoken[0].display_text,
+              "Every reading in a batch must start with its first verse without an announcement");
 
         Reading english{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 2}}, {}, "en"};
-        english.source_override = "en-kjv";
+        english.source_override = "en-lxx2012";
         const auto explicit_edition = reading_speech(corpus, {english}, lexicon);
         check(explicit_edition.size() == 2 && explicit_edition[0].language == "en" &&
-                  explicit_edition[0].cue == SpeechCue{0, 0, "Ps", "en-kjv", {23, 1}, {23, 1}, false} &&
-                  explicit_edition[0].display_text == corpus.verse("en-kjv", "Ps", {23, 1})->text,
-              "An explicit edition must retain its own coordinates and skip a Swedish introduction");
+                  explicit_edition[0].cue == SpeechCue{0, 0, "Ps", "en-lxx2012", {23, 1}, {23, 1}} &&
+                  explicit_edition[0].display_text == corpus.verse("en-lxx2012", "Ps", {23, 1})->text,
+              "An explicit edition must start with its first verse and retain its own coordinates");
 
         Reading untranslated{ReadingKind::OldTestament, {"1Kgs", {2, 35, "a"}, {2, 35, "b"}}};
         untranslated.reference = "grc-lxx";
@@ -124,17 +116,17 @@ int main(int argc, char** argv) {
 
         ReadAloud read_aloud;
         check(!read_aloud.status(corpus), "Nothing being read must leave the address field to the window");
-        read_aloud.start({sections, psalm}, batch);
+        read_aloud.start({sections, psalm});
         read_aloud.update({SpeechState::Loading, {}, 0, 0});
         check(read_aloud.status(corpus)->title == "Laddar rösten…", "Loading must be shown");
         read_aloud.update({SpeechState::Buffering, {}, 0, 0, 0.4});
         check(read_aloud.status(corpus)->title == "Förbereder uppläsningen… 40 %" &&
                   !read_aloud.status(corpus)->tooltip.empty(),
               "Startup buffering must be shown at once with its share of ready audio");
-        read_aloud.update({SpeechState::Playing, batch[4].cue, 0, 0.5});
-        check(read_aloud.status(corpus)->title == batch[4].display_text,
-              "An introduction must show what the voice says");
-        read_aloud.update({SpeechState::Paused, batch[1].cue, 0, 0.1});
+        read_aloud.update({SpeechState::Playing, batch[3].cue, 0, 0.5});
+        check(read_aloud.status(corpus)->title == "Psaltaren 22:1",
+              "The address field must show the first verse as each reading starts");
+        read_aloud.update({SpeechState::Paused, batch[0].cue, 0, 0.1});
         check(read_aloud.status(corpus)->title ==
                   "Pausad · " + passage_label(corpus, {{"John", {1, 1}, {1, 1}}}),
               "A paused verse must show where the reading is");
@@ -156,9 +148,6 @@ int main(int argc, char** argv) {
         read_aloud.update({SpeechState::Stopped, {}, 0, 0});
         check(!read_aloud.status(corpus) && read_aloud.readings().size() == 2,
               "A stopped queue must leave the address field to the window");
-        read_aloud.start({}, {{"", "", "sv", SpeechCue{0, 0, "Ps", "", {22, 1}, {22, 6}, true}}});
-        read_aloud.update({SpeechState::Playing, SpeechCue{0, 0, "Ps", "", {22, 1}, {22, 6}, true}, 0, 0});
-        check(read_aloud.status(corpus)->title == "Introduktion", "An unspoken introduction must be named");
         std::cout << "Reading speech checks passed\n";
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

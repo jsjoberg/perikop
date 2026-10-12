@@ -17,13 +17,6 @@
     "license": "CC-BY-4.0",
     "credit": "Dalin's morphology, Språkbanken Text, University of Gothenburg"
   },
-  "tbesg": {
-    "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/1f3423d42400f59f1f30fe08f74e38fcd3bbf7bc/Lexicons/TBESG%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Greek%20-%20STEPBible.org%20CC%20BY.txt",
-    "file": "TBESG.txt",
-    "sha256": "312f723d7b8ef263bbdfb0451c9b8057125804dfff390b6f8544cff2a84b57f4",
-    "license": "CC-BY-4.0",
-    "credit": "TBESG, Translators Brief lexicon of Extended Strongs for Greek, STEP Bible (www.STEPBible.org), Tyndale House Cambridge"
-  },
   "biblobok_a": {
     "url": "https://runeberg.org/biblobok/ordbok_a.html",
     "file": "biblobok-ordbok_a.html",

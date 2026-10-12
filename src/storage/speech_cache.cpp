@@ -12,12 +12,12 @@ using storage::Transaction;
 SpeechCache::SpeechCache(const std::filesystem::path& path) {
     std::filesystem::create_directories(path.parent_path());
     db_ = open(path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
-    exec(db_.get(), "PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL; PRAGMA foreign_keys=ON; PRAGMA "
-                    "cache_size=-2048; PRAGMA wal_autocheckpoint=256");
     const int version = pragma_number(db_.get(), "PRAGMA user_version");
     const int identity = pragma_number(db_.get(), "PRAGMA application_id");
-    if (version > 1 || (identity != 0 && identity != 0x4f525453))
+    if (version > 1 || (identity != 0 && identity != 0x4f525453) || (version == 1 && identity != 0x4f525453))
         throw std::runtime_error("Unsupported speech cache");
+    exec(db_.get(), "PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL; PRAGMA foreign_keys=ON; PRAGMA "
+                    "cache_size=-2048; PRAGMA wal_autocheckpoint=256");
     if (!version) {
         Transaction transaction(db_.get());
         exec(
@@ -26,8 +26,7 @@ SpeechCache::SpeechCache(const std::filesystem::path& path) {
             "NOT NULL CHECK(length(pcm_f32le)>0 AND length(pcm_f32le)%4=0),used INTEGER NOT NULL,PRIMARY "
             "KEY(model,language,text)) STRICT; PRAGMA application_id=1330795603; PRAGMA user_version=1");
         transaction.commit();
-    } else if (identity != 0x4f525453)
-        throw std::runtime_error("Unsupported speech cache identity");
+    }
 }
 bool SpeechCache::contains(const std::string& model, const std::string& language, const std::string& text) {
     Statement query(db_.get(), "SELECT length(pcm_f32le) FROM audio WHERE model=? AND language=? AND text=?");

@@ -23,7 +23,7 @@ Passage mapping reuses target-book coordinates when it joins adjacent verses.
 ## Reading and speech
 
 `reading_display` converts canon coordinates into visible book names and chapter numbers.
-The reader, Bible picker, and speech introductions use the same passage labels.
+The reader, Bible picker, and playback status use the same passage labels.
 
 `reading_speech` prepares utterances from the corpus without wxWidgets.
 It accepts a pronunciation lookup function so that callers can include local corrections.

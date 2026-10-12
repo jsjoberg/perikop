@@ -12,7 +12,7 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 6 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 7 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
@@ -25,11 +25,13 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
                                                books.number(3) == 1,
                                                books.number(4) == 1,
                                                {books.text(5), books.text(6), books.text(7)}});
-    Statement canon(db_.get(), "SELECT book,frame_book,first_chapter,coalesce(last_chapter,999) FROM canon "
+    Statement canon(db_.get(), "SELECT book,frame_book,coalesce(canon.name_sv,book.name_sv),"
+                               "coalesce(canon.abbreviation_sv,book.abbreviation_sv),first_chapter,"
+                               "coalesce(last_chapter,999) FROM canon JOIN book ON book.code=canon.book "
                                "ORDER BY position");
     while (canon.row())
-        canon_.push_back({canon.text(0), canon.text(1), canon.number(2), canon.number(3),
-                          new_testament_book(canon.text(0))});
+        canon_.push_back({canon.text(0), canon.text(1), canon.text(2), canon.text(3), canon.number(4),
+                          canon.number(5), new_testament_book(canon.text(0))});
 }
 bool CorpusDb::new_testament_book(const std::string& book) const {
     const auto it = books_.find(book);
@@ -53,12 +55,20 @@ const CanonBook* CorpusDb::canon_book(const std::string& frame_book, int chapter
             return &book;
     return nullptr;
 }
+std::string CorpusDb::title(const std::string& book) const {
+    const auto it = std::ranges::find(canon_, book, &CanonBook::code);
+    return it == canon_.end() ? book_name(book) : it->name;
+}
+std::string CorpusDb::short_title(const std::string& book) const {
+    const auto it = std::ranges::find(canon_, book, &CanonBook::code);
+    return it == canon_.end() ? book_abbreviation(book) : it->abbreviation;
+}
 std::string CorpusDb::source_for_language(const std::string& language, const std::string& book) const {
     if (language == "sv")
         return "sv1917";
-    // KJV remains the familiar main edition; WEB supplies deuterocanonical books.
+    // LXX2012 translates the Septuagint; WEB supplies the New Testament, as on Orthocal.
     if (language == "en")
-        return deuterocanonical_book(book) ? "en-web" : "en-kjv";
+        return new_testament_book(book) ? "en-web" : "en-lxx2012";
     if (language == "el")
         return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
     return {};
@@ -208,7 +218,8 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
     if (map && map->kind == AlignmentKind::Merged && ref != map->from.first)
         return std::unexpected(merged_verse);
     if (!map && !same_numbering(from, to, book))
-        return std::unexpected("Ingen belagd textmappning");
+        return std::unexpected(coordinates(to, book).empty() ? "Saknas i denna utgåva"
+                                                             : "Ingen belagd textmappning");
     const auto targets = counterparts(from, to, book, ref);
     if (targets.empty())
         return std::unexpected("Text saknas i denna utgåva");

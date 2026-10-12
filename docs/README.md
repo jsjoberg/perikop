@@ -3,7 +3,7 @@
 ## Use Perikop
 
 - [User guide](using-perikop.md): installation, navigation, reading plans, and read-aloud.
-- [Word study](word-study.md): dictionaries, pronunciation, and Strong's entries.
+- [Word study](word-study.md): dictionaries and pronunciation.
 - [Pronunciation review](pronunciation-review.md): previews, local corrections, and TSV export.
 
 ## Build and develop
@@ -14,6 +14,7 @@
 - [Architecture](architecture.md): code boundaries, reader layout, and formatting commands.
 - [Storage](storage.md): SQLite databases and their policies.
 - [Validation record](validation.md): dated local results and outstanding platform checks.
+- [Improvement tracker](improvement-plan.md): review actions, implementation evidence, and remaining work.
 - [Original engineering specification](engineering-spec.md): the initial handoff specification.
 
 ## Data and reference

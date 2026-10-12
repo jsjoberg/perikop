@@ -7,20 +7,9 @@
 #include <wx/stattext.h>
 #include <wx/weakref.h>
 namespace ortho {
-namespace {
-// Strong's numbers read "G746", without the lexicon's padding zeros.
-wxString strong_label(const std::string& strong) {
-    std::size_t digits = 1;
-    while (digits + 1 < strong.size() && strong[digits] == '0')
-        ++digits;
-    return ui::utf8(strong.substr(0, 1) + strong.substr(digits));
-}
-const char* greek_source = "grc-patriarchal";
-} // namespace
-StudyPanel::StudyPanel(wxWindow* parent, const CorpusDb& corpus, const StudyDb* study, SpeechEngine& speech,
-                       Lexicon lexicon)
+StudyPanel::StudyPanel(wxWindow* parent, const StudyDb* study, SpeechEngine& speech, Lexicon lexicon)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE),
-      corpus_(corpus), study_(study), speech_(speech), lexicon_(std::move(lexicon)) {
+      study_(study), speech_(speech), lexicon_(std::move(lexicon)) {
     SetMinSize(FromDIP(wxSize(260, -1)));
     SetScrollRate(0, FromDIP(12));
     // Definitions wrap to the panel width; rewrap when it changes noticeably.
@@ -47,34 +36,18 @@ void StudyPanel::clear() {
         utterance_.reset();
         pronunciation_.clear();
         ++pronunciation_epoch_;
-        selected_.reset();
         expanded_articles_.clear();
         rebuild();
     }
 }
-void StudyPanel::show(const ScriptureView::Word& word, const std::string& base_source,
-                      const std::string& frame) {
+void StudyPanel::show(const ScriptureView::Word& word, const std::string& base_source) {
     word_ = word;
     utterance_.reset();
     pronunciation_.clear();
     pronunciation_requested_ = false;
     ++pronunciation_epoch_;
     base_source_ = base_source;
-    frame_ = frame;
-    selected_.reset();
-    chosen_ = false;
     expanded_articles_.clear();
-    // A Greek word is its own tagged word: the same occurrence of the same form.
-    if (base_source == greek_source && study_ && corpus_.new_testament_book(word.book)) {
-        const auto target = ui::utf8(word.text).Lower();
-        int seen = 0;
-        const auto words = study_->greek_words(word.book, word.verse);
-        for (std::size_t i = 0; i < words.size(); ++i)
-            if (ui::utf8(words[i].surface).Lower() == target && seen++ == word.occurrence) {
-                selected_ = i;
-                break;
-            }
-    }
     rebuild();
     Scroll(0, 0);
 }
@@ -116,7 +89,7 @@ void StudyPanel::rebuild() {
     else {
         const auto& word = *word_;
         const auto language = source_language(base_source_);
-        const bool swedish = language == "sv", greek = base_source_ == greek_source;
+        const bool swedish = language == "sv";
         text(ui::utf8(word.text), body_font(26), colors.ink, 4);
         // What the voice says: bundled phonemes and review corrections apply.
         if (!utterance_)
@@ -206,74 +179,8 @@ void StudyPanel::rebuild() {
                 text(ui::utf8("Ordet finns inte i de svenska uppslagskällorna."), ui_font(11), colors.muted);
             }
         }
-        section(ui::utf8("GREKISKA · STRONG'S"));
-        if (!corpus_.new_testament_book(word.book))
-            text(ui::utf8("Strong's-uppgifter finns ännu bara för Nya testamentet."), ui_font(11),
-                 colors.muted);
-        else {
-            // The verse's tagged Greek words, in each Greek verse it translates.
-            std::vector<std::pair<std::string, VerseRef>> verses;
-            if (frame_ == greek_source)
-                verses.emplace_back(word.book, word.verse);
-            else
-                verses = corpus_.counterparts(frame_, greek_source, word.book, word.verse);
-            std::vector<GreekWord> words;
-            // A Swedish word preselects the Greek word the aligner linked it to, once per lookup.
-            const auto link =
-                swedish ? study_->greek_link(word.book, word.verse, ui::to_utf8(ui::utf8(word.text).Lower()),
-                                             word.occurrence)
-                        : std::nullopt;
-            for (const auto& [book, ref] : verses) {
-                if (link && !chosen_ && ref == link->first)
-                    selected_ = words.size() + std::size_t(link->second);
-                auto part = study_->greek_words(book, ref);
-                words.insert(words.end(), part.begin(), part.end());
-            }
-            chosen_ = true;
-            if (words.empty())
-                text(ui::utf8("Versen saknar Strong's-taggning i den grekiska källan."), ui_font(11),
-                     colors.muted);
-            else {
-                if (!greek)
-                    text(link ? ui::utf8(
-                                    "Förvalt av en automatisk ordlänkning. Välj ett annat ord om det inte "
-                                    "stämmer.")
-                              : ui::utf8("Välj det grekiska ord som motsvarar ordet."),
-                         ui_font(10), colors.muted, 4);
-                for (std::size_t i = 0; i < words.size(); ++i) {
-                    const auto entry = study_->strongs(words[i].strong);
-                    const bool chosen = selected_ == i;
-                    auto* row = text(ui::utf8(words[i].surface) + ui::utf8("   ") +
-                                         (entry ? ui::utf8(entry->gloss) : wxString{}) + ui::utf8("   ") +
-                                         strong_label(words[i].strong),
-                                     chosen ? body_font(14).Bold() : body_font(14),
-                                     chosen ? colors.accent : colors.ink, 1);
-                    row->SetCursor(wxCursor(wxCURSOR_HAND));
-                    // Rebuilding destroys the clicked label, so do it after the click.
-                    row->Bind(wxEVT_LEFT_UP, [this, i](wxMouseEvent&) {
-                        CallAfter([this, i] {
-                            selected_ = selected_ == i ? std::nullopt : std::optional<std::size_t>{i};
-                            chosen_ = true;
-                            rebuild();
-                        });
-                    });
-                    // The chosen word's lexicon entry opens below its row.
-                    if (!chosen)
-                        continue;
-                    if (entry) {
-                        sizer->AddSpacer(FromDIP(6));
-                        text(ui::utf8(entry->lemma) + ui::utf8("   ") + ui::utf8(entry->transliteration),
-                             body_font(18), colors.ink, 2);
-                        text(ui::utf8(entry->definition), ui_font(10), colors.muted, 12);
-                    } else
-                        text(ui::utf8("Strong's-numret saknas i lexikonet."), ui_font(11), colors.muted, 12);
-                }
-            }
-        }
         sizer->AddSpacer(FromDIP(18));
-        text(ui::utf8("Dalins ordbok, Språkbanken Text, CC BY 4.0 · Strong's och lexikon: STEP Bible, "
-                      "www.STEPBible.org, CC BY 4.0"),
-             ui_font(8), colors.muted);
+        text(ui::utf8("Dalins ordbok, Språkbanken Text, CC BY 4.0"), ui_font(8), colors.muted);
     }
     SetSizer(sizer);
     SetBackgroundColour(colors.paper);

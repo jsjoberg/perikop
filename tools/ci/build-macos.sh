@@ -35,6 +35,8 @@ if [ "${PACKAGE:-false}" = true ]; then
     for architecture in arm64 x86_64; do
         /usr/bin/arch "-$architecture" "$mount/Perikop.app/Contents/MacOS/Perikop" \
             --smoke-test --resources "$mount/Perikop.app/Contents/Resources"
+        /usr/bin/arch "-$architecture" "$mount/Perikop.app/Contents/MacOS/Perikop" \
+            --speech-probe "$PWD/build/voice-$architecture.wav" --resources "$mount/Perikop.app/Contents/Resources"
     done
     hdiutil detach "$mount"
     trap - EXIT

@@ -19,11 +19,17 @@ public:
         State state = State::Plain;
         std::function<void()> action;
     };
+    // A pill-shaped button beside a title.
+    struct Action {
+        wxString label;
+        std::function<void()> run;
+        bool enabled = true;
+    };
     struct Block {
-        // A small capital heading; a title with an optional action beside it; or a grid of cells.
+        // A small capital heading; a title with actions beside it; or a grid of cells.
         enum class Kind { Heading, Title, Cells } kind;
-        wxString text{}, action_label{};
-        std::function<void()> action{};
+        wxString text{};
+        std::vector<Action> actions{};
         std::vector<Cell> cells{};
         int columns = 10;
         // The cell whose row the drawer follows, and the drawer's contents.
@@ -48,8 +54,8 @@ private:
     struct Item {
         wxRect rect;
         const Block* block;
-        const Cell* cell = nullptr; // a cell, else the block's title or action
-        bool action = false;
+        const Cell* cell = nullptr; // a cell, else the block's title or one of its actions
+        const Action* action = nullptr;
     };
     struct Drawer {
         wxRect rect, opener;

@@ -4,10 +4,15 @@
 #include <filesystem>
 #include <memory>
 #include <utility>
+#include <wx/accel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
 
 class wxBoxSizer;
+class wxButton;
+class wxEventFilter;
+class wxMenu;
+class wxMenuBar;
 class wxPanel;
 class wxScrolledWindow;
 class wxStaticText;
@@ -21,11 +26,10 @@ class StudyPanel;
 class SymbolButton;
 class AddressBar;
 class MonthCalendar;
-// Languages of the two text columns, in menu and toolbar order.
-inline constexpr const char* column_languages[] = {"sv", "el", "en"};
 class MainFrame final : public wxFrame {
 public:
-    MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources);
+    MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources,
+              const std::filesystem::path& data, bool diagnostic = false);
     ~MainFrame() override;
     void open_reading(const Reading&);
     void open_psalm();
@@ -35,6 +39,12 @@ public:
 
 private:
     void make_menus();
+    // The menu bar's menus, built for the current settings. The ⋮ menu shows them too.
+    std::vector<std::pair<wxMenu*, wxString>> menus() const;
+    void sync_menu(wxMenu&) const;
+    void show_menu();
+    // Windows and Linux hide the menu bar; Alt shows it. macOS always shows its own.
+    void show_menu_bar(bool);
     void refresh_day();
     void layout_home();
     void show_readings();
@@ -49,7 +59,8 @@ private:
     void close_pages();
     void apply_settings(bool persist = true);
     void update_study();
-    Reading in_primary(Reading) const;
+    // The reading as the Swedish left column shows it.
+    Reading in_swedish(Reading) const;
 
     // Something the start page opens, which the reader can mark as read.
     struct Tracked {
@@ -69,6 +80,9 @@ private:
     void select_part(size_t);
     void toggle_pane(const std::string&);
     void play_speech(const std::vector<Reading>&);
+    void prepare_day();
+    bool preparing_day() const;
+    void clear_preparation();
     void play_or_pause();
     void toggle_pause();
     void stop_speech();
@@ -83,6 +97,9 @@ private:
     const CorpusDb& corpus_;
     UserDb& user_;
     const std::filesystem::path resources_;
+    const std::filesystem::path data_;
+    bool diagnostic_;
+    std::string pronunciation_error_;
     Lectionary lectionary_;
     SelectedDay selected_;
     Settings settings_;
@@ -98,6 +115,7 @@ private:
     wxTimer playback_timer_;
     ReadAloud read_aloud_;
     std::optional<std::pair<size_t, size_t>> speech_view_;
+    std::optional<CivilDate> preparation_day_;
 
     // wxWidgets owns child windows. These pointers are non-owning handles.
     wxPanel* root_ = nullptr;
@@ -129,14 +147,15 @@ private:
     SymbolButton* pause_ = nullptr;
     SymbolButton* stop_ = nullptr;
     AddressBar* address_ = nullptr;
+    SymbolButton* menu_ = nullptr;
+    // The menu bar, also while it is hidden and so not owned by the frame.
+    wxMenuBar* menu_bar_ = nullptr;
+    wxAcceleratorTable accelerators_;
+    std::unique_ptr<wxEventFilter> alt_tap_;
     // Right-column choices: "study" or a language code.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
-    std::vector<SymbolButton*> plan_tiles_;
+    std::vector<wxButton*> plan_tiles_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
-    int play_item_ = 0;
-    int stop_item_ = 0;
-    int right_item_ = 0;
-    int study_item_ = 0;
 };
 } // namespace ortho
