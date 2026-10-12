@@ -9,9 +9,9 @@ cmake -S . -B build/cmake -DPERIKOP_DEPENDENCY_DIR=/work/build/ci/sources \
     -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
 cmake --build build/cmake --parallel 3
 python3 tools/check_linux_abi.py build/cmake/bin
-if ! xvfb-run -a ctest --test-dir build/cmake --output-on-failure; then
+if ! xvfb-run -a -s '-screen 0 1600x1200x24' ctest --test-dir build/cmake --output-on-failure; then
     mkdir -p build/smoke
-    xvfb-run -a gdb -batch -ex run -ex bt --args build/cmake/bin/perikop --smoke-test \
+    xvfb-run -a -s '-screen 0 1600x1200x24' gdb -batch -ex run -ex bt --args build/cmake/bin/perikop --smoke-test \
         --resources build/cmake/bin/resources --screenshot /work/build/smoke/reader.png || true
     exit 1
 fi
@@ -25,7 +25,7 @@ python3 tests/linux_abi_test.py
 python3 tests/ci_dependencies_test.py
 if [ "${PACKAGE:-false}" = true ]; then
     tools/package_appimage.sh build/cmake
-    xvfb-run -a build/cmake/AppDir/usr/bin/perikop \
+    xvfb-run -a -s '-screen 0 1600x1200x24' build/cmake/AppDir/usr/bin/perikop \
         --resources build/cmake/AppDir/usr/share/perikop/resources --speech-probe /work/build/voice-linux.wav
 fi
 ccache --show-stats

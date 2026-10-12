@@ -297,7 +297,8 @@ if(ORTHO_BUILD_GUI)
             "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
             -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
         set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
-        set(perikop_smoke_timeout 30)
+        # Font shaping and native widgets take longer on hosted Windows runners.
+        set(perikop_smoke_timeout 60)
         if(perikop_macos_universal)
             # A fresh CI runner must translate the Intel app and Cocoa frameworks through Rosetta.
             set(perikop_smoke_timeout 120)

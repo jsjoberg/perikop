@@ -161,7 +161,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             GetEventHandler()->ProcessEvent(event);
         }
         if (!preparing_day() || preparing->prepared_queue.empty() || active_playback() ||
-            !stop_->IsEnabled() || !address_->GetLabel().Contains("Förbereder") ||
+            !stop_->IsEnabled() || !address_->GetLabel().Contains(ui::utf8("Förbereder")) ||
             (command && command->IsEnabled()))
             fail(__LINE__);
         if (std::any_of(preparing->prepared_queue.begin(), preparing->prepared_queue.end(),
@@ -187,7 +187,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         refresh_speech();
         show_readings();
         if (preparing_day() || active_playback() || stop_->IsEnabled() ||
-            !address_->GetLabel().Contains("förberett") || user_.completed() != completed ||
+            !address_->GetLabel().Contains(ui::utf8("förberett")) || user_.completed() != completed ||
             (command && !command->IsEnabled()))
             fail(__LINE__);
         prepare_day();
@@ -725,6 +725,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         return buttons;
     };
     // Both language columns open and close the same verse, in either theme.
+    // A small desktop can start with stacked columns; these checks need two columns beside each other.
+    SetSize(FromDIP(wxSize(1120, 900)));
+    Layout();
+    root_->Layout();
     for (const auto theme : {Theme::Light, Theme::Dark})
         for (const auto mode : {"el", "en"}) {
             settings_.theme = theme;
@@ -905,7 +909,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     save(render(), "-word-highlight");
     click_text(word_point);
     if (scripture_->highlighted_word() || study_->text().empty() ||
-        !study_->text().front().Contains("Klicka på ett ord"))
+        !study_->text().front().Contains(ui::utf8("Klicka på ett ord")))
         fail(__LINE__);
     click_text(word_point);
     if (!screenshot_path.empty()) {
