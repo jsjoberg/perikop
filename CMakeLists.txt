@@ -157,6 +157,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/scripture_view.cpp
         src/ui/scripture_layout.cpp
         src/ui/scripture_selection.cpp
+        src/ui/scripture_links.cpp
         src/ui/scripture_playback.cpp
         src/ui/scripture_render.cpp
         src/ui/scripture_text_cache.cpp

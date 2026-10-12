@@ -1,23 +1,15 @@
 #include "ui/study_panel.hpp"
-#include "core/online_bibles.hpp"
 #include "ui/controls.hpp"
 #include "ui/theme.hpp"
 #include <wx/app.h>
-#include <wx/file.h>
-#include <wx/filename.h>
-#include <wx/filesys.h>
 #include <wx/hyperlink.h>
-#include <wx/log.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
-#include <wx/utils.h>
 #include <wx/weakref.h>
-#include <wx/wrapsizer.h>
 namespace ortho {
-StudyPanel::StudyPanel(wxWindow* parent, const CorpusDb& corpus, const StudyDb* study, SpeechEngine& speech,
-                       Lexicon lexicon)
+StudyPanel::StudyPanel(wxWindow* parent, const StudyDb* study, SpeechEngine& speech, Lexicon lexicon)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE),
-      corpus_(corpus), study_(study), speech_(speech), lexicon_(std::move(lexicon)) {
+      study_(study), speech_(speech), lexicon_(std::move(lexicon)) {
     SetMinSize(FromDIP(wxSize(260, -1)));
     SetScrollRate(0, FromDIP(12));
     // Definitions wrap to the panel width; rewrap when it changes noticeably.
@@ -88,51 +80,6 @@ void StudyPanel::rebuild() {
         sizer->AddSpacer(FromDIP(14));
         text(title, ui_font(9), colors.muted, 4);
     };
-    if (word_) {
-        const auto& word = *word_;
-        text(ui::utf8("LÄS VERSEN ONLINE"), ui_font(9), colors.muted, 4);
-        const auto links = online_bible_links(
-            corpus_, corpus_.frame_source(source_language(base_source_), word.book), word.book, word.verse);
-        if (!links.front().reference.empty())
-            text(ui::utf8(links.front().reference), ui_font(11), colors.ink, 8);
-        auto* sources = new wxWrapSizer(wxHORIZONTAL, wxREMOVE_LEADING_SPACES);
-        for (const auto& link : links) {
-            auto* button = ui::button(this, ui::utf8(link.label), [link] {
-                if (link.url.empty())
-                    return;
-                const auto form = online_bible_form(link);
-                if (form.empty()) {
-                    wxLaunchDefaultBrowser(ui::utf8(link.url));
-                    return;
-                }
-                // Browser navigation can submit the site's POST-only verse form.
-                // Keep the temporary page until the browser has read it.
-                wxFile file;
-                const auto temporary = wxFileName::CreateTempFileName("perikop-bible-", &file);
-                if (temporary.empty()) {
-                    wxLogError(ui::utf8("Kunde inte skapa verslänken."));
-                    return;
-                }
-                const bool written = file.Write(ui::utf8(form));
-                const bool closed = file.Close();
-                const auto page = temporary + ".html";
-                if (!written || !closed || !wxRenameFile(temporary, page, false)) {
-                    wxRemoveFile(temporary);
-                    wxLogError(ui::utf8("Kunde inte skapa verslänken."));
-                    return;
-                }
-                wxLaunchDefaultBrowser(wxFileSystem::FileNameToURL(wxFileName(page)));
-            });
-            button->SetFont(ui_font(10));
-            button->Enable(!link.url.empty());
-            button->SetToolTip(ui::utf8(link.url.empty() ? "Ingen verifierad verslänk för detta bibelställe."
-                                                         : "Öppna " + link.reference + " i " + link.label +
-                                                               " i webbläsaren."));
-            sources->Add(button, 0, wxRIGHT | wxBOTTOM, FromDIP(6));
-        }
-        sizer->Add(sources, 0, wxEXPAND | wxLEFT | wxRIGHT, pad);
-        sizer->AddSpacer(FromDIP(18));
-    }
     if (!study_)
         text(ui::utf8(
                  "Ordstudiedata saknas. Bygg resources/lexicon/study.db med tools/lexicon/build_study.py."),

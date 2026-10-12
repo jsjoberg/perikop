@@ -617,13 +617,185 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
         fail(__LINE__);
+    const auto click_text = [&](wxPoint point) {
+        if (point == wxDefaultPosition) {
+            fail(__LINE__);
+            return;
+        }
+        for (const auto type : {wxEVT_LEFT_DOWN, wxEVT_LEFT_UP}) {
+            wxMouseEvent event(type);
+            event.SetPosition(point);
+            event.SetEventObject(scripture_);
+            scripture_->GetEventHandler()->ProcessEvent(event);
+        }
+    };
+    const auto verse_point = [&](VerseRef ref, int column, bool stacked = false) {
+        const auto size = scripture_->GetClientSize();
+        const int first = stacked || column == 0 ? 0 : size.x / 2;
+        const int last = stacked ? size.x : column == 0 ? size.x / 2 : size.x;
+        // Stacked counterparts occur below the left text; find the last match there.
+        wxPoint result = wxDefaultPosition;
+        for (int y = 0; y < size.y; y += 4)
+            for (int x = first; x < last; x += 4)
+                if (scripture_->verse_at({x, y}) == ref) {
+                    if (!stacked || column == 0)
+                        return wxPoint{x, y};
+                    result = {x, y};
+                    break;
+                }
+        return result;
+    };
+    const auto verse_tools = [&]() -> wxWindow* {
+        for (auto* child : scripture_->GetChildren())
+            if (child->GetName() == ui::utf8("Läs den markerade versen online"))
+                return child;
+        return nullptr;
+    };
+    const auto source_buttons = [](wxWindow* parent) {
+        std::vector<wxButton*> buttons;
+        if (parent)
+            for (auto* child : parent->GetChildren())
+                if (auto* button = wxDynamicCast(child, wxButton))
+                    buttons.push_back(button);
+        return buttons;
+    };
+    // Both language columns open and close the same verse, in either theme.
+    for (const auto theme : {Theme::Light, Theme::Dark})
+        for (const auto mode : {"el", "en"}) {
+            settings_.theme = theme;
+            settings_.parallel = mode;
+            apply_settings(false);
+            open_psalm();
+            const auto plain = render();
+            const auto left = verse_point({22, 1}, 0), right = verse_point({22, 1}, 1);
+            click_text(left);
+            const auto highlighted = scripture_->highlighted_verse();
+            if (!highlighted || highlighted->first != VerseRef{22, 1} || !scripture_->selections().empty() ||
+                play_->GetLabel() != "Lyssna")
+                fail(__LINE__);
+            auto* tools = verse_tools();
+            const auto buttons = source_buttons(tools);
+            if (!tools || !tools->IsShown() || buttons.size() != 4 ||
+                std::any_of(buttons.begin(), buttons.end(), [&](auto* button) {
+                    return !button->IsEnabled() || !button->GetToolTipText().Contains("23:1");
+                }))
+                fail(__LINE__);
+            for (std::size_t i = 0; tools && i < buttons.size(); ++i)
+                if (!tools->GetClientRect().Contains(buttons[i]->GetRect()) ||
+                    (i && buttons[i - 1]->GetRect().Intersects(buttons[i]->GetRect())))
+                    fail(__LINE__);
+            if (tools && tools->GetRect().GetBottom() >= left.y)
+                fail(__LINE__);
+            click_text({scripture_->GetClientSize().x / 2, left.y});
+            if (!scripture_->highlighted_verse())
+                fail(__LINE__); // The gutter does not toggle a verse.
+            const auto marked = render();
+            std::size_t left_pixels = 0, right_pixels = 0;
+            for (int y = 0; y < plain.GetHeight(); ++y)
+                for (int x = 0; x < plain.GetWidth(); ++x)
+                    if (plain.GetRed(x, y) != marked.GetRed(x, y) ||
+                        plain.GetGreen(x, y) != marked.GetGreen(x, y) ||
+                        plain.GetBlue(x, y) != marked.GetBlue(x, y))
+                        ++(x < plain.GetWidth() / 2 ? left_pixels : right_pixels);
+            if (left_pixels < 100 || right_pixels < 100)
+                fail(__LINE__);
+            save(marked, "-verse-" + wxString(mode) + (theme == Theme::Dark ? "-dark" : ""));
+            if (!screenshot_path.empty() && std::string(mode) == "el") {
+                Layout();
+                Update();
+                wxBitmap bitmap(GetClientSize());
+                wxClientDC window(this);
+                {
+                    wxMemoryDC image(bitmap);
+                    image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+                }
+                save(bitmap.ConvertToImage(),
+                     theme == Theme::Dark ? "-verse-actions-dark" : "-verse-actions");
+            }
+            click_text(right);
+            if (scripture_->highlighted_verse() || (tools && tools->IsShown()))
+                fail(__LINE__);
+            click_text(right);
+            if (!scripture_->highlighted_verse() || !tools || !tools->IsShown())
+                fail(__LINE__);
+            const auto tools_y = tools ? tools->GetPosition().y : 0;
+            scripture_->scroll_by(20);
+            if (tools && tools->IsShown() && tools->GetPosition().y != tools_y - 20)
+                fail(__LINE__);
+            scripture_->scroll_by(std::max(0, left.y - 20 + 8));
+            if (!tools || !tools->IsShown())
+                fail(__LINE__); // Source actions remain available for a partly visible verse.
+            scripture_->scroll_by(1e9);
+            if (tools && tools->IsShown())
+                fail(__LINE__);
+            scripture_->center_passage();
+            if (!tools || !tools->IsShown())
+                fail(__LINE__);
+            click_text(verse_point({22, 1}, 0));
+            if (scripture_->highlighted_verse())
+                fail(__LINE__);
+        }
+    // A Swedish merged verse highlights both Greek counterparts and toggles from either.
+    settings_.parallel = "el";
+    settings_.theme = Theme::Light;
+    apply_settings(false);
+    open_reading({ReadingKind::OldTestament, {"1Chr", {12, 4}, {12, 5}}});
+    click_text(verse_point({12, 4}, 0));
+    if (!scripture_->highlighted_verse() || scripture_->highlighted_verse()->last != VerseRef{12, 5})
+        fail(__LINE__);
+    click_text(verse_point({12, 5}, 1));
+    if (scripture_->highlighted_verse())
+        fail(__LINE__);
+    // Narrow columns stack; the lower language still toggles the upper verse.
+    SetSize(FromDIP(wxSize(520, 850)));
+    Layout();
+    root_->Layout();
+    open_psalm();
+    click_text(verse_point({22, 1}, 1, true));
+    if (!scripture_->highlighted_verse())
+        fail(__LINE__);
+    save(render(), "-verse-stacked");
+    click_text(verse_point({22, 1}, 0, true));
+    if (scripture_->highlighted_verse())
+        fail(__LINE__);
+    SetSize(original_size);
+    Layout();
+    root_->Layout();
+    open_reading({ReadingKind::OldTestament, {"Tob", {1, 1}, {1, 1}}});
+    click_text(verse_point({1, 1}, 0));
+    const auto apocrypha_buttons = source_buttons(verse_tools());
+    if (apocrypha_buttons.size() != 4 ||
+        std::count_if(apocrypha_buttons.begin(), apocrypha_buttons.end(), [](auto* button) {
+            return button->IsEnabled();
+        }) != 1)
+        fail(__LINE__);
     // Ordstudium replaces the right pane; a Swedish word shows Dalin and Nyström.
     settings_.word_study = true;
+    settings_.parallel.clear();
     apply_settings(false);
     open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
         fail(__LINE__);
-    study_->show({"John", "begynnelsen", {1, 1}, 0}, scripture_->base_source());
+    if (scripture_->highlighted_verse() || (verse_tools() && verse_tools()->IsShown()))
+        fail(__LINE__);
+    const auto word_point = [&] {
+        const auto size = scripture_->GetClientSize();
+        for (int y = 0; y < size.y; y += 4)
+            for (int x = 0; x < size.x; x += 4)
+                if (const auto word = scripture_->word_at({x, y}); word && word->text == "begynnelsen")
+                    return wxPoint{x, y};
+        return wxDefaultPosition;
+    }();
+    click_text(word_point);
+    if (!scripture_->highlighted_word() || scripture_->highlighted_verse() ||
+        scripture_->highlighted_word()->text != "begynnelsen")
+        fail(__LINE__);
+    save(render(), "-word-highlight");
+    click_text(word_point);
+    if (scripture_->highlighted_word() || study_->text().empty() ||
+        !study_->text().front().Contains("Klicka på ett ord"))
+        fail(__LINE__);
+    click_text(word_point);
     if (!screenshot_path.empty()) {
         Layout();
         Update();
@@ -637,10 +809,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     {
         NavigationSpeech deferred;
-        auto panel = std::make_unique<StudyPanel>(root_, corpus_, study_db_.get(), deferred,
-                                                  [this](const auto& language) {
-                                                      return speech_lexicon(language);
-                                                  });
+        auto panel =
+            std::make_unique<StudyPanel>(root_, study_db_.get(), deferred, [this](const auto& language) {
+                return speech_lexicon(language);
+            });
         panel->Hide();
         const auto has = [&](const std::string& value) {
             const auto lines = panel->text();
@@ -659,14 +831,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }
             return buttons;
         };
-        if (source_buttons().size() != 4 || !has("Joh 1:1"))
+        if (!source_buttons().empty() || has("LÄS VERSEN ONLINE"))
             fail(__LINE__);
         panel->show({"Tob", "Tobit", {1, 1}, 0}, "sv1917");
-        const auto apocrypha_buttons = source_buttons();
-        if (apocrypha_buttons.size() != 4 ||
-            std::count_if(apocrypha_buttons.begin(), apocrypha_buttons.end(), [](auto* button) {
-                return button->IsEnabled();
-            }) != 1)
+        if (!source_buttons().empty())
             fail(__LINE__);
         panel->clear();
         if (!source_buttons().empty())

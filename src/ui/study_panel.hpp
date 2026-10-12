@@ -11,7 +11,7 @@ namespace ortho {
 class StudyPanel final : public wxScrolledWindow {
 public:
     using Lexicon = std::function<std::vector<Pronunciation>(const std::string& language)>;
-    StudyPanel(wxWindow*, const CorpusDb&, const StudyDb*, SpeechEngine&, Lexicon);
+    StudyPanel(wxWindow*, const StudyDb*, SpeechEngine&, Lexicon);
     void show(const ScriptureView::Word&, const std::string& base_source);
     // Back to the hint, when the looked-up word is no longer on screen.
     void clear();
@@ -21,7 +21,6 @@ public:
 
 private:
     void rebuild();
-    const CorpusDb& corpus_;
     const StudyDb* study_;
     SpeechEngine& speech_;
     Lexicon lexicon_;

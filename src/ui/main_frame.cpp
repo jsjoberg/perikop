@@ -119,15 +119,17 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     } catch (const std::exception&) { // NOLINT(bugprone-empty-catch)
         // Word study is optional; without its database the panel stays empty.
     }
-    study_ = new StudyPanel(root_, corpus_, study_db_.get(), *speech_, [this](const std::string& language) {
+    study_ = new StudyPanel(root_, study_db_.get(), *speech_, [this](const std::string& language) {
         return speech_lexicon(language);
     });
     reader->Add(study_, 2, wxEXPAND);
-    scripture_->on_word([this](const ScriptureView::Word& word) {
+    scripture_->on_word([this](const std::optional<ScriptureView::Word>& word) {
         if (!settings_.word_study)
             return;
-        scripture_->highlight_word(word);
-        study_->show(word, scripture_->base_source());
+        if (word)
+            study_->show(*word, scripture_->base_source());
+        else
+            study_->clear();
     });
     root_->SetSizer(outer);
     auto* frame_sizer = new wxBoxSizer(wxVERTICAL);

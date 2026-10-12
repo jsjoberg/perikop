@@ -69,21 +69,26 @@ public:
     void on_selection(std::function<void()> callback) {
         selection_changed_ = std::move(callback);
     }
-    // The left-pane verse under a point in client coordinates.
+    // The framing verse under a point in either Scripture column.
     std::optional<VerseRef> verse_at(wxPoint) const;
+    std::optional<Passage> highlighted_verse() const;
     // A left-pane word: its framing book and verse, and which occurrence of
     // the same word in that verse it is, counting from 0.
     struct Word {
         std::string book, text;
         VerseRef verse;
         int occurrence = 0;
+        bool operator==(const Word&) const = default;
     };
     std::optional<Word> word_at(wxPoint) const;
-    // A plain click on a word, when no verses are marked.
-    void on_word(std::function<void(const Word&)> callback) {
+    // A word-study click; an empty word closes the lookup.
+    void on_word(std::function<void(const std::optional<Word>&)> callback) {
         word_clicked_ = std::move(callback);
     }
     void highlight_word(std::optional<Word>);
+    const std::optional<Word>& highlighted_word() const {
+        return highlighted_;
+    }
     // A translucent button floating at the top centre of the text; an empty
     // label removes it. Unless always shown, it appears only while the
     // passage is scrolled out of view.
@@ -131,11 +136,15 @@ private:
     struct Hit {
         std::size_t row;
         const Column* column;
+        std::size_t column_index;
         std::size_t line;
         int run;
         double distance;
     };
     std::optional<Hit> hit(wxPoint) const;
+    void click_text(wxPoint);
+    void rebuild_verse_links();
+    void position_verse_links();
     std::optional<std::pair<WordRuns, int>> word_of(const Column&, int tag, std::size_t line, int run) const;
     void set_position(double);
     void navigate_to(double);
@@ -180,14 +189,19 @@ private:
     double guide_y_ = 0, guide_alpha_ = 0, follow_target_ = 0;
     bool following_ = false;
     std::function<void()> release_follow_, selection_changed_;
-    std::function<void(const Word&)> word_clicked_;
+    std::function<void(const std::optional<Word>&)> word_clicked_;
     std::function<void()> returned_;
     wxString return_label_;
     wxRect return_rect_; // empty while the button is hidden
     bool return_always_ = false, return_hover_ = false, return_pressed_ = false;
     bool end_seen_ = false;
     std::optional<Word> highlighted_;
+    std::optional<std::pair<VerseRef, VerseRef>> highlighted_verse_;
+    std::size_t highlighted_column_ = 0;
+    wxPanel* verse_links_ = nullptr;
     std::optional<VerseRef> drag_anchor_;
+    std::size_t drag_column_ = 0;
+    wxPoint press_point_;
     std::vector<std::pair<VerseRef, VerseRef>> selections_, drag_ranges_;
     bool dragged_ = false, append_drag_ = false;
     wxTimer follow_timer_;

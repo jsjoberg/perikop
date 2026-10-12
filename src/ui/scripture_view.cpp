@@ -114,6 +114,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         if (return_pressed_)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
+        press_point_ = e.GetPosition();
+        if (const auto found = hit(e.GetPosition()))
+            drag_column_ = found->column_index;
         dragged_ = false;
         append_drag_ = e.CmdDown() || e.ControlDown();
         drag_ranges_ = selections_;
@@ -124,6 +127,11 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         hover_return(!drag_anchor_ && return_rect_.Contains(e.GetPosition()));
         if (!drag_anchor_ || !e.LeftIsDown())
             return;
+        if (drag_column_ != 0) {
+            const auto distance = e.GetPosition() - press_point_;
+            dragged_ |= std::abs(distance.x) > FromDIP(4) || std::abs(distance.y) > FromDIP(4);
+            return;
+        }
         const auto verse = verse_at(e.GetPosition());
         if (!verse || (!dragged_ && *verse == *drag_anchor_ && selections_.empty()))
             return;
@@ -140,13 +148,12 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         }
         if (drag_anchor_ && !dragged_) {
-            if (append_drag_)
+            if (append_drag_ && drag_column_ == 0)
                 select_verses(*drag_anchor_, *drag_anchor_, true);
-            else if (!selections_.empty())
+            else {
                 clear_selection();
-            else if (word_clicked_)
-                if (auto word = word_at(e.GetPosition()))
-                    word_clicked_(*word);
+                click_text(e.GetPosition());
+            }
         }
         drag_anchor_.reset();
         drag_ranges_.clear();
@@ -282,6 +289,7 @@ void ScriptureView::set_position(double value) {
     // Measured rows can be taller than their estimates; a position past the end stays at the end.
     offset_ = to_end ? max_offset() : std::clamp(offset_, 0.0, max_offset());
     if (previous != offset_) {
+        position_verse_links();
         scrollbar();
         request_repaint();
     }

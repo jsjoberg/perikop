@@ -57,6 +57,9 @@ void ScriptureView::open_section(std::size_t index) {
     rows_.clear();
     located_cue_.reset();
     highlighted_.reset();
+    highlighted_verse_.reset();
+    if (verse_links_)
+        verse_links_->Hide();
     speech_row_.reset();
     guide_.reset();
     guide_alpha_ = 0;
@@ -236,10 +239,20 @@ bool ScriptureView::passage_in_view() const {
 void ScriptureView::apply(const Settings& settings) {
     const bool metrics_changed =
         settings_.font_size != settings.font_size || settings_.parallel != settings.parallel;
+    if (settings_.word_study != settings.word_study) {
+        highlighted_.reset();
+        highlighted_verse_.reset();
+        if (verse_links_)
+            verse_links_->Hide();
+        if (word_clicked_)
+            word_clicked_(std::nullopt);
+    }
     settings_ = settings;
     const auto colors = palette(settings.theme);
     SetBackgroundColour(colors.paper);
     SetForegroundColour(colors.ink);
+    if (verse_links_)
+        ui::recolor(verse_links_, colors);
     if (metrics_changed)
         invalidate();
     else

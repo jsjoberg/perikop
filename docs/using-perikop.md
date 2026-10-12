@@ -59,6 +59,14 @@ The reader preserves macOS trackpad precision and momentum.
 The brass margin line marks the selected passage.
 Prose flows across verses. Small inline numbers preserve verse navigation.
 
+Click a verse to highlight it. Click the same verse again to close the highlight.
+In parallel view, either language can open or close the highlight. Both columns highlight the corresponding verse.
+The source buttons appear above the selected verse and move with it during scrolling.
+They disappear when the verse leaves the screen.
+**SFB15**, **SKB**, **SRB**, and **B2026** open the verse in your browser.
+Links use each source's verse numbering. Buttons without a verified verse link are disabled.
+Opening an online source needs an internet connection.
+
 The toolbar has four symbols left of the address field, and the column symbols and ⋮ to its right.
 On the left, Back returns from the reader to the day page.
 **Lyssna**, **Pausa**, and **Stoppa** control read-aloud.
@@ -122,6 +130,8 @@ See the [versification guide](versification.md) for the source coordinates and d
 
 Select **Visa → Svenska och ordstudium** to open the lookup panel.
 Click a Swedish word to see its pronunciation and dictionary entries.
+Only that word is highlighted. Click it again to close the highlight and lookup.
+Verse source buttons appear in the normal reader view.
 The [word-study guide](word-study.md) describes the dictionaries and data limits.
 
 ## Reading plans
