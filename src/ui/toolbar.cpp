@@ -126,6 +126,16 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.SetPen(*wxTRANSPARENT_PEN);
         gc.DrawRoundedRectangle(5, 5, 10, 10, 2);
         break;
+    case Symbol::Chevron: {
+        pen(1.6);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        auto path = gc.CreatePath();
+        path.MoveToPoint(8, 4.5);
+        path.AddLineToPoint(13.5, 10);
+        path.AddLineToPoint(8, 15.5);
+        gc.StrokePath(path);
+        break;
+    }
     case Symbol::Menu:
         // Chrome's three vertical dots.
         gc.SetPen(*wxTRANSPARENT_PEN);
@@ -150,6 +160,63 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
     }
     }
 }
+// Activates on mouse release inside the control, or on Space or Return release, like a native button.
+// The state and action belong to the control, so they live as long as these handlers.
+void bind_press(wxWindow* window, PressState& state, const std::function<void()>& action) {
+    const auto focus = [window, &state](wxFocusEvent& e) {
+        state.pressed = false;
+        window->Refresh(false);
+        e.Skip();
+    };
+    window->Bind(wxEVT_SET_FOCUS, focus);
+    window->Bind(wxEVT_KILL_FOCUS, focus);
+    const auto activation_key = [](const wxKeyEvent& e) {
+        return e.GetKeyCode() == WXK_SPACE || e.GetKeyCode() == WXK_RETURN ||
+               e.GetKeyCode() == WXK_NUMPAD_ENTER;
+    };
+    window->Bind(wxEVT_KEY_DOWN, [window, &state, activation_key](wxKeyEvent& e) {
+        if (window->IsEnabled() && activation_key(e)) {
+            state.pressed = true;
+            window->Refresh(false);
+        } else
+            e.Skip();
+    });
+    window->Bind(wxEVT_KEY_UP, [window, &state, &action, activation_key](wxKeyEvent& e) {
+        if (activation_key(e)) {
+            const bool activate = state.pressed && window->IsEnabled();
+            state.pressed = false;
+            window->Refresh(false);
+            if (activate && action)
+                action();
+        } else
+            e.Skip();
+    });
+    window->Bind(wxEVT_ENTER_WINDOW, [window, &state](wxMouseEvent&) {
+        state.hover = true;
+        window->Refresh(false);
+    });
+    window->Bind(wxEVT_LEAVE_WINDOW, [window, &state](wxMouseEvent&) {
+        state.hover = state.pressed = false;
+        window->Refresh(false);
+    });
+    const auto press = [window, &state](wxMouseEvent&) {
+        if (!window->IsEnabled())
+            return;
+        window->SetFocus();
+        state.pressed = true;
+        window->Refresh(false);
+    };
+    window->Bind(wxEVT_LEFT_DOWN, press);
+    window->Bind(wxEVT_LEFT_DCLICK, press);
+    window->Bind(wxEVT_LEFT_UP, [window, &state, &action](wxMouseEvent& e) {
+        const bool click =
+            state.pressed && window->IsEnabled() && window->GetClientRect().Contains(e.GetPosition());
+        state.pressed = false;
+        window->Refresh(false);
+        if (click && action)
+            action();
+    });
+}
 } // namespace
 
 SymbolButton::SymbolButton(wxWindow* parent, std::variant<Symbol, wxString> face, const wxString& label,
@@ -169,56 +236,7 @@ SymbolButton::SymbolButton(wxWindow* parent, std::variant<Symbol, wxString> face
         toggle_);
 #endif
     Bind(wxEVT_PAINT, &SymbolButton::paint, this);
-    const auto focus = [this](wxFocusEvent& e) {
-        pressed_ = false;
-        Refresh(false);
-        e.Skip();
-    };
-    Bind(wxEVT_SET_FOCUS, focus);
-    Bind(wxEVT_KILL_FOCUS, focus);
-    Bind(wxEVT_KEY_DOWN, [this](wxKeyEvent& e) {
-        if (IsEnabled() && (e.GetKeyCode() == WXK_SPACE || e.GetKeyCode() == WXK_RETURN ||
-                            e.GetKeyCode() == WXK_NUMPAD_ENTER)) {
-            pressed_ = true;
-            Refresh(false);
-        } else
-            e.Skip();
-    });
-    Bind(wxEVT_KEY_UP, [this](wxKeyEvent& e) {
-        if (e.GetKeyCode() == WXK_SPACE || e.GetKeyCode() == WXK_RETURN ||
-            e.GetKeyCode() == WXK_NUMPAD_ENTER) {
-            const bool activate = pressed_ && IsEnabled();
-            pressed_ = false;
-            Refresh(false);
-            if (activate && action_)
-                action_();
-        } else
-            e.Skip();
-    });
-    Bind(wxEVT_ENTER_WINDOW, [this](wxMouseEvent&) {
-        hover_ = true;
-        Refresh(false);
-    });
-    Bind(wxEVT_LEAVE_WINDOW, [this](wxMouseEvent&) {
-        hover_ = pressed_ = false;
-        Refresh(false);
-    });
-    const auto press = [this](wxMouseEvent&) {
-        if (!IsEnabled())
-            return;
-        SetFocus();
-        pressed_ = true;
-        Refresh(false);
-    };
-    Bind(wxEVT_LEFT_DOWN, press);
-    Bind(wxEVT_LEFT_DCLICK, press);
-    Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& e) {
-        const bool click = pressed_ && IsEnabled() && GetClientRect().Contains(e.GetPosition());
-        pressed_ = false;
-        Refresh(false);
-        if (click && action_)
-            action_();
-    });
+    bind_press(this, press_, action_);
 }
 
 void SymbolButton::face(std::variant<Symbol, wxString> face) {
@@ -249,7 +267,7 @@ bool SymbolButton::Enable(bool enable) {
     if (!wxControl::Enable(enable))
         return false;
     if (!enable)
-        hover_ = pressed_ = false;
+        press_.hover = press_.pressed = false;
     Refresh(false);
     return true;
 }
@@ -273,12 +291,12 @@ void SymbolButton::paint(wxPaintEvent&) {
         gc->SetBrush(*wxTRANSPARENT_BRUSH);
         gc->DrawRoundedRectangle(scale, scale, size.x - 2 * scale, size.y - 2 * scale, 5 * scale);
     }
-    if (enabled && (checked_ || hover_)) {
+    if (enabled && (checked_ || press_.hover)) {
         gc->SetPen(*wxTRANSPARENT_PEN);
-        gc->SetBrush(wxBrush(checked_ ? with_alpha(colors_.accent, pressed_ ? 80
-                                                                   : hover_ ? 64
-                                                                            : 44)
-                                      : with_alpha(colors_.ink, pressed_ ? 36 : 20)));
+        gc->SetBrush(wxBrush(checked_ ? with_alpha(colors_.accent, press_.pressed ? 80
+                                                                   : press_.hover ? 64
+                                                                                  : 44)
+                                      : with_alpha(colors_.ink, press_.pressed ? 36 : 20)));
         gc->DrawRoundedRectangle(0, 0, size.x, size.y, 6 * scale);
     }
     const wxColour ink = !enabled ? with_alpha(colors_.muted, 110) : checked_ ? colors_.accent : colors_.ink;
@@ -301,6 +319,125 @@ void SymbolButton::paint(wxPaintEvent&) {
     gc->Translate((size.x - 20 * unit) / 2, (size.y - 20 * unit) / 2);
     gc->Scale(unit, unit);
     draw_symbol(*gc, std::get<Symbol>(face_), ink);
+}
+
+ReadingRow::ReadingRow(wxWindow* parent, const wxString& label, const wxString& text,
+                       std::function<void()> action, bool done)
+    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
+      label_(label), text_(text), action_(std::move(action)), colors_(palette(Theme::System)), done_(done) {
+    SetLabel(label.empty() ? text
+                           : label + " · " + text + (done ? wxString::FromUTF8(" · läst") : wxString{}));
+    SetName(GetLabel());
+    SetBackgroundStyle(wxBG_STYLE_PAINT);
+    Bind(wxEVT_PAINT, &ReadingRow::paint, this);
+    if (!opens())
+        return;
+    SetCursor(wxCursor(wxCURSOR_HAND));
+#if wxUSE_ACCESSIBILITY
+    new ButtonAccessible(
+        this, action_,
+        [] {
+            return false;
+        },
+        false);
+#endif
+    bind_press(this, press_, action_);
+}
+
+void ReadingRow::wrap(int width) {
+    const auto label_font = ui_font(10), body = body_font(18);
+    int unused = 0;
+    if (!label_.empty())
+        GetTextExtent(label_, &unused, &label_height_, nullptr, nullptr, &label_font);
+    GetTextExtent("Ag", &unused, &line_height_, nullptr, nullptr, &body);
+    const auto measure = [&](const wxString& text) {
+        int extent = 0;
+        GetTextExtent(text, &extent, &unused, nullptr, nullptr, &body);
+        return extent;
+    };
+    const int available = std::max(FromDIP(80), width - FromDIP(48));
+    // References break after a semicolon or plus sign; one that is still too long breaks at its spaces.
+    std::vector<wxString> chunks;
+    wxString chunk;
+    for (size_t i = 0; i < text_.length(); ++i) {
+        if (text_[i] == ' ' && i && (text_[i - 1] == ';' || text_[i - 1] == '+')) {
+            chunks.push_back(chunk);
+            chunk.clear();
+        } else
+            chunk += text_[i];
+    }
+    chunks.push_back(chunk);
+    lines_.clear();
+    wxString line;
+    const auto add = [&](const wxString& piece) {
+        const auto joined = line.empty() ? piece : line + " " + piece;
+        if (!line.empty() && measure(joined) > available) {
+            lines_.push_back(line);
+            line = piece;
+        } else
+            line = joined;
+    };
+    for (const auto& piece : chunks)
+        if (measure(piece) > available)
+            for (const auto& word : wxSplit(piece, ' ', '\0'))
+                add(word);
+        else
+            add(piece);
+    if (!line.empty())
+        lines_.push_back(line);
+    const int height =
+        FromDIP(22) + (label_.empty() ? 0 : label_height_ + FromDIP(2)) + int(lines_.size()) * line_height_;
+    if (GetMinSize().y != height) {
+        SetMinSize({-1, height});
+        InvalidateBestSize();
+    }
+    Refresh(false);
+}
+
+void ReadingRow::apply(const Palette& colors) {
+    colors_ = colors;
+    Refresh(false);
+}
+
+void ReadingRow::paint(wxPaintEvent&) {
+    wxAutoBufferedPaintDC dc(this);
+    const auto size = GetClientSize();
+    const bool active = opens() && IsEnabled();
+    dc.SetBackground(wxBrush(active && press_.hover
+                                 ? mix(colors_.paper, colors_.ink, press_.pressed ? 0.1 : 0.05)
+                                 : colors_.paper));
+    dc.Clear();
+    dc.SetPen(wxPen(colors_.rule));
+    dc.DrawLine(0, size.y - 1, size.x, size.y - 1);
+    const int x = FromDIP(12);
+    int y = FromDIP(11);
+    if (!label_.empty()) {
+        dc.SetFont(ui_font(10));
+        dc.SetTextForeground(colors_.muted);
+        dc.DrawText(label_, x, y);
+        y += label_height_ + FromDIP(2);
+    }
+    dc.SetFont(body_font(18));
+    dc.SetTextForeground(opens() ? colors_.ink : colors_.muted);
+    for (const auto& line : lines_) {
+        dc.DrawText(line, x, y);
+        y += line_height_;
+    }
+    if (!opens())
+        return;
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
+    if (!gc)
+        return;
+    const double scale = FromDIP(100) / 100.0;
+    if (HasFocus()) {
+        gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.accent).Width(2 * scale)));
+        gc->SetBrush(*wxTRANSPARENT_BRUSH);
+        gc->DrawRoundedRectangle(scale, scale, size.x - 2 * scale, size.y - 3 * scale, 5 * scale);
+    }
+    const double unit = 0.9 * scale;
+    gc->Translate(size.x - FromDIP(34), (size.y - 20 * unit) / 2);
+    gc->Scale(unit, unit);
+    draw_symbol(*gc, done_ ? Symbol::Check : Symbol::Chevron, done_ ? colors_.accent : colors_.muted);
 }
 
 AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)

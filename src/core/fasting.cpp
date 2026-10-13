@@ -152,15 +152,15 @@ std::string fasting_abstentions(Fasting fast) {
 }
 std::string service_label(const std::string& service) {
     static const std::map<std::string, std::string> names = {
-        {"Epistle", "EPISTEL"},
-        {"Gospel", "EVANGELIUM"},
-        {"Vespers", "VESPER"},
-        {"Vespers Gospel", "VESPER · EVANGELIUM"},
-        {"Matins", "MATUTIN"},
-        {"Matins Gospel", "MATUTIN · EVANGELIUM"},
-        {"Matins Epistle", "MATUTIN · EPISTEL"},
-        {"Great Blessing of Waters", "STORA VATTENVÄLSIGNELSEN"},
-        {"Cross Procession", "KORSPROCESSION"}};
+        {"Epistle", "Epistel"},
+        {"Gospel", "Evangelium"},
+        {"Vespers", "Vesper"},
+        {"Vespers Gospel", "Vesper · evangelium"},
+        {"Matins", "Matutin"},
+        {"Matins Gospel", "Matutin · evangelium"},
+        {"Matins Epistle", "Matutin · epistel"},
+        {"Great Blessing of Waters", "Stora vattenvälsignelsen"},
+        {"Cross Procession", "Korsprocession"}};
     if (const auto it = names.find(service); it != names.end())
         return it->second;
     int number = 0;
@@ -168,20 +168,20 @@ std::string service_label(const std::string& service) {
     if (parsed.ec == std::errc{}) {
         if (service.find("Hour") != std::string::npos) {
             static const std::map<int, std::string> hours = {
-                {1, "FÖRSTA TIMMEN"}, {3, "TREDJE TIMMEN"}, {6, "SJÄTTE TIMMEN"}, {9, "NIONDE TIMMEN"}};
-            auto label = hours.contains(number) ? hours.at(number) : std::to_string(number) + ":E TIMMEN";
+                {1, "Första timmen"}, {3, "Tredje timmen"}, {6, "Sjätte timmen"}, {9, "Nionde timmen"}};
+            auto label = hours.contains(number) ? hours.at(number) : std::to_string(number) + ":e timmen";
             if (service.ends_with("Prophecy"))
-                label += " · PROFETIA";
+                label += " · profetia";
             if (service.ends_with("Epistle"))
-                label += " · EPISTEL";
+                label += " · epistel";
             if (service.ends_with("Gospel"))
-                label += " · EVANGELIUM";
+                label += " · evangelium";
             return label;
         }
         if (service.ends_with("Matins Gospel"))
-            return "MATUTIN · EVANGELIUM " + std::to_string(number);
+            return "Matutin · evangelium " + std::to_string(number);
         if (service.ends_with("Passion Gospel"))
-            return "PASSIONSEVANGELIUM " + std::to_string(number);
+            return "Passionsevangelium " + std::to_string(number);
     }
     return service;
 }

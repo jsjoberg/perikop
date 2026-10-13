@@ -3,10 +3,15 @@
 #include "ui/theme.hpp"
 #include <functional>
 #include <variant>
+#include <vector>
 #include <wx/control.h>
 
 namespace ortho {
-enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check, Menu };
+enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check, Menu, Chevron };
+// Hover and press state of a drawn button, which acts on release like a native one.
+struct PressState {
+    bool hover = false, pressed = false;
+};
 
 // A borderless, browser-style toolbar button. It draws a symbol, or short
 // text such as a language code, in the theme's colours. The label is its
@@ -34,7 +39,38 @@ private:
     std::variant<Symbol, wxString> face_;
     std::function<void()> action_;
     Palette colors_;
-    bool checked_ = false, hover_ = false, pressed_ = false, toggle_ = false;
+    PressState press_;
+    bool checked_ = false, toggle_ = false;
+};
+
+// A start-page row that opens what it names: a quiet label above the wrapped text,
+// with a chevron, or a check once read. Without an action it only shows the text.
+class ReadingRow final : public wxControl {
+public:
+    ReadingRow(wxWindow* parent, const wxString& label, const wxString& text, std::function<void()> action,
+               bool done = false);
+    // Wraps the text to the width, after semicolons and plus signs where it can, and sets the height.
+    void wrap(int width);
+    void apply(const Palette&);
+    bool opens() const {
+        return bool(action_);
+    }
+    bool AcceptsFocus() const override {
+        return IsShown() && IsEnabled() && opens();
+    }
+    bool AcceptsFocusFromKeyboard() const override {
+        return AcceptsFocus();
+    }
+
+private:
+    void paint(wxPaintEvent&);
+    wxString label_, text_;
+    std::vector<wxString> lines_;
+    int label_height_ = 0, line_height_ = 0;
+    std::function<void()> action_;
+    Palette colors_;
+    PressState press_;
+    bool done_;
 };
 
 // The address field: what is shown or read, and the way to another passage.

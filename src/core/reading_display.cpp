@@ -10,14 +10,14 @@ Passage displayed_passage(const CorpusDb& corpus, Passage passage) {
     }
     return passage;
 }
-std::string passage_label(const CorpusDb& corpus, const std::vector<Passage>& passages) {
+std::string passage_label(const CorpusDb& corpus, const std::vector<Passage>& passages, bool short_names) {
     std::string label, book;
     for (const auto& framing : passages) {
         const auto p = displayed_passage(corpus, framing);
         if (!label.empty())
             label += "; ";
         if (p.book != book) {
-            label += corpus.title(p.book) + " ";
+            label += (short_names ? corpus.short_title(p.book) : corpus.title(p.book)) + " ";
             book = p.book;
         }
         label += std::to_string(p.first.chapter) + ":" + std::to_string(p.first.verse) + p.first.suffix;

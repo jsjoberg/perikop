@@ -9,7 +9,6 @@
 #include <wx/timer.h>
 
 class wxBoxSizer;
-class wxButton;
 class wxEventFilter;
 class wxMenu;
 class wxMenuBar;
@@ -26,6 +25,8 @@ class StudyPanel;
 class SymbolButton;
 class AddressBar;
 class MonthCalendar;
+class ReadingRow;
+struct ReadingPlan;
 class MainFrame final : public wxFrame {
 public:
     MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources,
@@ -67,7 +68,12 @@ private:
         std::string key;
         wxString title;
     };
-    void add_plans();
+    // The reading plans have their own page, opened from the start page and the Bibel menu.
+    void show_plans();
+    void fill_plans(wxScrolledWindow*);
+    // The start page's plan section: the next part of the plan in progress, and all plans.
+    void add_next_plan();
+    void open_plan_part(const ReadingPlan&, std::size_t part);
     void open_tracked(const Reading&, Tracked);
     void offer_completion(const Tracked&, bool listened);
     std::string day_key(const Reading&) const;
@@ -137,6 +143,7 @@ private:
         int beside = 0;
     };
     std::vector<HomeLabel> home_labels_;
+    std::vector<ReadingRow*> home_rows_;
     int home_width_ = 0;
     ScriptureView* scripture_ = nullptr;
     StudyPanel* study_ = nullptr;
@@ -154,7 +161,6 @@ private:
     std::unique_ptr<wxEventFilter> alt_tap_;
     // Right-column choices: "study" or a language code.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
-    std::vector<wxButton*> plan_tiles_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
 };
