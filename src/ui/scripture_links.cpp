@@ -55,7 +55,7 @@ void ScriptureView::rebuild_verse_links() {
         });
         button->SetFont(ui_font(10));
         button->Enable(!link.url.empty());
-        button->SetName(ui::utf8(link.label + " · " + link.reference));
+        button->SetName(ui::utf8(link.label + ", " + link.reference));
         button->SetToolTip(
             ui::utf8(link.url.empty() ? "Ingen verifierad verslänk för detta bibelställe."
                                       : "Öppna " + link.reference + " i " + link.label + " i webbläsaren."));

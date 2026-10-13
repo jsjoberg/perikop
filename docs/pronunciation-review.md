@@ -14,10 +14,10 @@ Each word has up to three examples from the bundled Swedish corpus.
 The examples use complete words and ignore capitalization.
 
 1. Select a word.
-2. Use **Ord · nu** to hear its current pronunciation.
-3. Use **Vers · nu** to hear the pronunciation in context.
+2. Use **Ord, nu** to hear its current pronunciation.
+3. Use **Vers, nu** to hear the pronunciation in context.
 4. If the pronunciation needs a correction, enter a speech spelling or phonemes in **Uttalsstavning**.
-5. Use **Ord · förslag** or **Vers · förslag** to hear the proposed spelling.
+5. Use **Ord, förslag** or **Vers, förslag** to hear the proposed spelling.
 6. Use **Godkänn nuvarande**, **Spara korrigering**, or **Granska senare** to record your decision.
 
 The preview uses the Swedish voice selected in the reader, at its normal speed.
@@ -74,7 +74,7 @@ Check new phrases against every verse that contains the word. A short phrase can
 
 A phrase has priority over a saved correction and over a preview of the word.
 Thus a correction of "förlåten" does not change "innanför förlåten".
-If an example verse contains a phrase, **Vers · förslag** plays the phrase pronunciation in that verse.
+If an example verse contains a phrase, **Vers, förslag** plays the phrase pronunciation in that verse.
 
 ## Bundled phonemes
 

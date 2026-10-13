@@ -106,7 +106,7 @@ struct LiturgicalDay {
     // Fixed labels can include leap days that are invalid in the Gregorian calendar.
     std::optional<std::string> fixed_cycle;
     std::optional<std::string> paschal_cycle;
-    // Swedish names of the day and its feasts, joined by " · ".
+    // Swedish names of the day and its feasts, joined by ", ".
     std::string title;
     // Whether a published annual assignment replaced a calculated reading.
     bool annual = false;

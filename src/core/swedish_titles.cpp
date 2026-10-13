@@ -30,7 +30,7 @@ const std::map<std::string, std::string>& names() {
         {"Sunday of the Publican and the Pharisee", "Publikanens och fariséns söndag"},
         {"Sunday of Zacchaeus", "Sackeus söndag"},
         {"Sunday of the Prodigal Son", "Den förlorade sonens söndag"},
-        {"Sunday of Meatfare", "Domsöndagen · köttfastans söndag"},
+        {"Sunday of Meatfare", "Domsöndagen, köttfastans söndag"},
         {"Sunday of the Last Judgment", "Domsöndagen"},
         {"Sunday of Cheesefare", "Ostavståendets söndag"},
         {"Forgiveness Sunday", "Förlåtelsens söndag"},
@@ -69,7 +69,7 @@ const std::map<std::string, std::string>& names() {
         {"Day of the Holy Spirit", "Den Helige Andes dag"},
         {"Third Day of the Trinity", "Tredje pingstdagen"},
         {"All Saints", "Alla helgons söndag"},
-        {"All Saints of America, All Saints of Russia", "Alla Amerikas helgon · alla Rysslands helgon"},
+        {"All Saints of America, All Saints of Russia", "Alla Amerikas helgon, alla Rysslands helgon"},
         {"All Saints of Antioch", "Alla Antiokias helgon"},
         {"Commemoration of Departed Righteous Monastics", "Minnet av de avsomnade rättfärdiga monastikerna"},
         // Great feasts and their fore- and afterfeasts
@@ -79,7 +79,7 @@ const std::map<std::string, std::string>& names() {
         {"Entry of the Most-Holy Theotokos into the Temple", "Gudaföderskans införande i templet"},
         {"Nativity of Christ", "Kristi födelse"},
         {"Circumcision of Our Lord", "Herrens omskärelse"},
-        {"Theophany of Our Lord and Savior Jesus Christ", "Teofania · Kristi dop"},
+        {"Theophany of Our Lord and Savior Jesus Christ", "Teofania, Kristi dop"},
         {"Meeting of Christ in the Temple", "Kristi frambärande i templet"},
         {"Annunciation Most Holy Theotokos", "Gudaföderskans bebådelse"},
         {"Transfiguration of Our Lord", "Kristi förklaring"},
@@ -238,7 +238,7 @@ const std::map<std::string, std::string>& names() {
         {"Placing of the Sash of the Theotokos", "Nedläggandet av Gudaföderskans gördel"},
         {"Miracle of the Theotokos Myrtidiotissa", "Underverket genom Gudaföderskans ikon Myrtidiotissa"},
         {"Myrtidiotissa Miracle", "Underverket genom Gudaföderskans ikon Myrtidiotissa"},
-        {"Sunday after Nativity and Theotokos", "Söndagen efter Kristi födelse · Gudaföderskan"},
+        {"Sunday after Nativity and Theotokos", "Söndagen efter Kristi födelse, Gudaföderskan"},
         {"Appearance of the Cross over Jerusalem", "Korsets uppenbarelse över Jerusalem"},
         {"Earthquake", "Minnet av jordbävningen"},
         {"Angels", "Änglarna"},
@@ -418,7 +418,7 @@ std::optional<std::string> swedish_title(const std::string& english) {
             continue;
         auto first = single(english.substr(0, at)), second = single(english.substr(at + separator.size()));
         if (first && second)
-            return *first + " · " + *second;
+            return *first + ", " + *second;
     }
     return std::nullopt;
 }

@@ -124,7 +124,7 @@ void MainFrame::add_next_plan() {
         while (completed.contains(plan_key(*plan, part)))
             ++part;
         add_row(new ReadingRow(home_content_,
-                               ui::utf8(plan->title + " · del " + std::to_string(part + 1) + " av " +
+                               ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
                                         std::to_string(plan->parts.size())),
                                ui::utf8(plan_label(corpus_, plan->parts[part])), [this, &plan = *plan, part] {
                                    open_plan_part(plan, part);
@@ -205,16 +205,16 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
             auto* tile = new PlanButton(content, wxID_ANY, read ? ui::utf8("✓ ") + number : number,
                                         wxDefaultPosition, FromDIP(wxSize(44, 34)), wxBU_EXACTFIT);
-            tile->SetName(ui::utf8(plan.title) + " · Del " + number + " · " + label +
-                          (read ? ui::utf8(" · läst") : wxString{}));
+            tile->SetName(ui::utf8(plan.title) + ", Del " + number + ", " + label +
+                          (read ? ui::utf8(", läst") : wxString{}));
 #if wxUSE_ACCESSIBILITY
             new PlanAccessible(tile);
 #endif
             tile->Bind(wxEVT_BUTTON, [this, &plan, i](wxCommandEvent&) {
                 open_plan_part(plan, i);
             });
-            tile->SetToolTip("Del " + number + ui::utf8(" · ") + label +
-                             (read ? ui::utf8(" · läst") : wxString{}));
+            tile->SetToolTip("Del " + number + ui::utf8(", ") + label +
+                             (read ? ui::utf8(", läst") : wxString{}));
             grid->Add(tile);
         }
         entries->Add(grid, 0, wxBOTTOM, FromDIP(36));

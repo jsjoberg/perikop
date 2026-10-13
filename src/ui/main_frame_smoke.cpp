@@ -186,7 +186,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         if (scripture_->reading().passage.book != "Ps")
             fail(__LINE__); // Preparation never opens or follows a reading.
-        preparing->prepared = {PreparationState::Ready, 1, 1, "Ljudet är förberett · Alice"};
+        preparing->prepared = {PreparationState::Ready, 1, 1, "Ljudet är förberett, Alice"};
         refresh_speech();
         show_readings();
         if (preparing_day() || active_playback() || stop_->IsEnabled() ||
@@ -552,7 +552,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             for (auto* panel : page_->GetChildren())
                 for (auto* child : panel->GetChildren())
                     if (auto* tile = wxDynamicCast(child, wxButton);
-                        tile && tile->GetName().Contains(" · Del "))
+                        tile && tile->GetName().Contains(", Del "))
                         tiles.push_back(tile);
         return tiles;
     };
@@ -570,7 +570,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // All plan parts have native button semantics and a descriptive accessible name.
     for (auto* tile : plan_tiles())
-        if (!tile->AcceptsFocus() || !tile->GetName().Contains("Del ") || !tile->GetName().Contains(" · "))
+        if (!tile->AcceptsFocus() || !tile->GetName().Contains("Del ") || !tile->GetName().Contains(", "))
             fail(__LINE__);
 #if wxUSE_ACCESSIBILITY
     for (auto* tile : plan_tiles()) {
@@ -1289,13 +1289,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     picker->add_selection();
     const auto first_part =
-        ui::utf8("Del 1 · ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
+        ui::utf8("Del 1, ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
     if (!picker->stacked() || picker->first_ || address_->GetLabel() != first_part || !address_->IsEnabled())
         fail(__LINE__);
     picker->select_book(psalms);
     picker->select_chapter(psalms, 22);
     picker->select_verse(psalms, {22, 6});
-    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2 · ")))
+    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2, ")))
         fail(__LINE__);
     // Rensa empties the stack and keeps the current selection.
     {

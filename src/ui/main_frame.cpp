@@ -37,7 +37,7 @@ wxString kind_label(ReadingKind kind) {
     case ReadingKind::EveningPsalm:
         return ui::utf8("Kväll");
     case ReadingKind::Matins:
-        return "Matutin";
+        return "Ortros";
     case ReadingKind::Hours:
         return ui::utf8("Timböner");
     case ReadingKind::OtherService:
@@ -241,7 +241,7 @@ void MainFrame::refresh_day() {
         const auto allowance = fasting_allowance_label(fast);
         const auto fast_text = fast.period == FastPeriod::None ? allowance
                                : allowance.empty() ? fasting_period_label(fast.period)
-                                                   : fasting_period_label(fast.period) + " · " + allowance;
+                                                   : fasting_period_label(fast.period) + ", " + allowance;
         entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
         if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
             entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
@@ -264,9 +264,9 @@ void MainFrame::refresh_day() {
             reading.service.empty() ? kind_label(reading.kind) : ui::utf8(service_label(reading.service));
         // "Composite" names no occasion; the reading's own references show that it is composed.
         if (!reading.occasion.empty() && reading.occasion != "Composite")
-            label += ui::utf8(" · " + swedish_title(reading.occasion).value_or(reading.occasion));
+            label += ui::utf8(", " + swedish_title(reading.occasion).value_or(reading.occasion));
         if (!church.empty())
-            label = ui::utf8(church + " · ") + label;
+            label = ui::utf8(church + ", ") + label;
         if (!reading.can_open()) {
             add_row(new ReadingRow(home_content_, label, ui::utf8(reading.citation), {}),
                     "Sammansatt liturgisk läsning. Den sammanställda texten finns inte i bibelkorpusen.");
@@ -369,7 +369,7 @@ void MainFrame::open_reading(const Reading& selected) {
     parts_.clear();
     const auto segments = reading.segments();
     for (std::size_t i = 0; i < segments.size(); ++i)
-        parts_.push_back(wxString::Format(ui::utf8("Del %d · "), int(i + 1)) +
+        parts_.push_back(wxString::Format(ui::utf8("Del %d, "), int(i + 1)) +
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();

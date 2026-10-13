@@ -156,30 +156,29 @@ void StudyPanel::rebuild() {
             const auto modern = [&](const std::vector<ModernWordEntry>& words, bool semantic) {
                 if (words.empty())
                     return;
-                section(ui::utf8(semantic ? "ORD OCH ASSOCIATIONER · SALDO" : "AKADEMISK ORDLISTA"));
+                section(ui::utf8(semantic ? "ORD OCH ASSOCIATIONER, SALDO" : "AKADEMISK ORDLISTA"));
                 for (const auto& entry : words) {
                     text(ui::utf8(entry.headword) + "   " + word_class(entry.gram), body_font(15), colors.ink,
                          2);
                     if (entry.match != "exact")
-                        text(ui::utf8(entry.match == "curated" ? "Äldre form · kopplad till grundformen"
-                                                               : "Böjd form · visar grundformen"),
+                        text(ui::utf8(entry.match == "curated" ? "Äldre form, kopplad till grundformen"
+                                                               : "Böjd form, visar grundformen"),
                              ui_font(9), colors.muted, 3);
                     if (!entry.associations.empty())
                         text(ui::utf8("Associationer (betydelsesamband): " + entry.associations), ui_font(11),
                              colors.ink, 6);
                 }
-                text(ui::utf8(semantic
-                                  ? "Lars Borin, Lennart Lönngren och Markus Forsberg · Språkbanken"
-                                  : "Judy Carola Ribeck, Håkan Jansson och Emma Sköldberg · Språkbanken"),
+                text(ui::utf8(semantic ? "Lars Borin, Lennart Lönngren och Markus Forsberg, Språkbanken"
+                                       : "Judy Carola Ribeck, Håkan Jansson och Emma Sköldberg, Språkbanken"),
                      ui_font(8), colors.muted, 4);
-                link(ui::utf8("Källa · Språkbanken"), semantic ? "https://www.sprakbanken.se/resurser/saldo"
-                                                               : "https://www.sprakbanken.se/resurser/ao");
+                link(ui::utf8("Källa, Språkbanken"), semantic ? "https://www.sprakbanken.se/resurser/saldo"
+                                                              : "https://www.sprakbanken.se/resurser/ao");
                 link("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/");
             };
             modern(saldo, true);
             modern(academic, false);
             if (!entries.empty())
-                section(ui::utf8("ORDBOK · DALIN 1850–53"));
+                section(ui::utf8("ORDBOK, DALIN 1850–53"));
             for (const auto& entry : entries) {
                 text(ui::utf8(entry.headword) +
                          (entry.gram.empty() ? wxString{} : ui::utf8("   ") + ui::utf8(entry.gram)),
@@ -187,7 +186,7 @@ void StudyPanel::rebuild() {
                 text(ui::utf8(entry.definition), ui_font(11), colors.ink, 10);
             }
             if (!articles.empty()) {
-                section(ui::utf8("BIBLISK ORDBOK · NYSTRÖM 1896"));
+                section(ui::utf8("BIBLISK ORDBOK, NYSTRÖM 1896"));
                 text(ui::utf8("Historisk källa: språk, uppgifter och tolkningar från 1896."), ui_font(9),
                      colors.muted, 8);
                 for (const auto& entry : articles) {
@@ -219,7 +218,7 @@ void StudyPanel::rebuild() {
                         sizer->Add(more, 0, wxLEFT, pad);
                         sizer->AddSpacer(FromDIP(5));
                     }
-                    auto* source = new wxHyperlinkCtrl(this, wxID_ANY, ui::utf8("Källa · Projekt Runeberg"),
+                    auto* source = new wxHyperlinkCtrl(this, wxID_ANY, ui::utf8("Källa, Projekt Runeberg"),
                                                        ui::utf8(entry.url));
                     source->SetFont(ui_font(9));
                     source->SetNormalColour(colors.accent);

@@ -37,7 +37,7 @@ std::optional<ReadAloud::Status> ReadAloud::status(const CorpusDb& corpus) const
     case SpeechState::Playing:
         return Status{location};
     case SpeechState::Paused:
-        return Status{location.empty() ? std::string("Pausad") : "Pausad · " + location};
+        return Status{location.empty() ? std::string("Pausad") : "Pausad, " + location};
     case SpeechState::Error:
         return Status{"Uppläsningen kunde inte fortsätta", message_};
     case SpeechState::Stopped:

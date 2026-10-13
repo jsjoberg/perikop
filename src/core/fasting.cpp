@@ -155,10 +155,10 @@ std::string service_label(const std::string& service) {
         {"Epistle", "Epistel"},
         {"Gospel", "Evangelium"},
         {"Vespers", "Vesper"},
-        {"Vespers Gospel", "Vesper · evangelium"},
-        {"Matins", "Matutin"},
-        {"Matins Gospel", "Matutin · evangelium"},
-        {"Matins Epistle", "Matutin · epistel"},
+        {"Vespers Gospel", "Vesper, evangelium"},
+        {"Matins", "Ortros"},
+        {"Matins Gospel", "Ortros, evangelium"},
+        {"Matins Epistle", "Ortros, epistel"},
         {"Great Blessing of Waters", "Stora vattenvälsignelsen"},
         {"Cross Procession", "Korsprocession"}};
     if (const auto it = names.find(service); it != names.end())
@@ -171,15 +171,15 @@ std::string service_label(const std::string& service) {
                 {1, "Första timmen"}, {3, "Tredje timmen"}, {6, "Sjätte timmen"}, {9, "Nionde timmen"}};
             auto label = hours.contains(number) ? hours.at(number) : std::to_string(number) + ":e timmen";
             if (service.ends_with("Prophecy"))
-                label += " · profetia";
+                label += ", profetia";
             if (service.ends_with("Epistle"))
-                label += " · epistel";
+                label += ", epistel";
             if (service.ends_with("Gospel"))
-                label += " · evangelium";
+                label += ", evangelium";
             return label;
         }
         if (service.ends_with("Matins Gospel"))
-            return "Matutin · evangelium " + std::to_string(number);
+            return "Ortros, evangelium " + std::to_string(number);
         if (service.ends_with("Passion Gospel"))
             return "Passionsevangelium " + std::to_string(number);
     }

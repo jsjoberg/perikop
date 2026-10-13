@@ -32,7 +32,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
     const auto homographs = load_homographs(resources / "lexicon/sv1917-homographs.tsv");
     speech.stop();
     speech.set_speed(1);
-    wxDialog dialog(parent, wxID_ANY, ui::utf8("Uttalsgranskning · Svenska 1917"), wxDefaultPosition,
+    wxDialog dialog(parent, wxID_ANY, ui::utf8("Uttalsgranskning, Svenska 1917"), wxDefaultPosition,
                     wxSize(1080, 760), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
     dialog.SetMinSize(wxSize(880, 650));
     dialog.SetFont(ui_font(11));
@@ -148,16 +148,16 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         speech.stop();
         speech.speak(make_utterance(text, "sv", entries));
     };
-    auto* original_word = add_button(audio, ui::utf8("Ord · nu"), [&] {
+    auto* original_word = add_button(audio, ui::utf8("Ord, nu"), [&] {
         play(false, false);
     });
-    auto* original_context = add_button(audio, ui::utf8("Vers · nu"), [&] {
+    auto* original_context = add_button(audio, ui::utf8("Vers, nu"), [&] {
         play(false, true);
     });
-    auto* proposed_word = add_button(audio, ui::utf8("Ord · förslag"), [&] {
+    auto* proposed_word = add_button(audio, ui::utf8("Ord, förslag"), [&] {
         play(true, false);
     });
-    auto* proposed_context = add_button(audio, ui::utf8("Vers · förslag"), [&] {
+    auto* proposed_context = add_button(audio, ui::utf8("Vers, förslag"), [&] {
         play(true, true);
     });
     add_button(audio, "Stoppa", [&] {
@@ -237,7 +237,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         list->SetItemState(long(row), wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
         list->EnsureVisible(long(row));
         title->SetLabel(ui::utf8(word.form) +
-                        wxString::Format(ui::utf8(" · %d förekomster"), word.occurrences));
+                        wxString::Format(ui::utf8(", %d förekomster"), word.occurrences));
         nst->ChangeValue(word.sampa.empty() ? ui::utf8("NST: uttal saknas")
                                             : ui::utf8("NST SAMPA: " + word.sampa));
         examples = corpus.word_examples(word.form);
@@ -262,8 +262,8 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         choices->Clear(true);
         if (const auto found = homographs.find(pronunciation_key(word.form)); found != homographs.end())
             for (const auto& choice : found->second.choices) {
-                const auto label = choice.phonemes + " · " + choice.label +
-                                   (choice.phonemes == found->second.voice ? " · röstens val" : "");
+                const auto label = choice.phonemes + ", " + choice.label +
+                                   (choice.phonemes == found->second.voice ? ", röstens val" : "");
                 add_button(choices, ui::utf8(label), [&, phonemes = choice.phonemes] {
                     spoken->ChangeValue(ui::utf8("⟦" + phonemes + "⟧"));
                     play(true, true);
@@ -311,7 +311,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         list->Thaw();
         rebuilding = false;
         progress->SetLabel(
-            wxString::Format(ui::utf8("%zu ordformer i urvalet · %zu granskade ord · %zu sparade beslut"),
+            wxString::Format(ui::utf8("%zu ordformer i urvalet, %zu granskade ord, %zu sparade beslut"),
                              visible.size(), completed.size(), decisions.size()));
         if (!visible.empty()) {
             size_t row = 0;

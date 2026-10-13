@@ -224,7 +224,7 @@ SymbolButton::SymbolButton(wxWindow* parent, std::variant<Symbol, wxString> face
     : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
       face_(std::move(face)), action_(std::move(action)), colors_(palette(Theme::System)), toggle_(toggle) {
     SetLabel(label);
-    SetName(label + (toggle_ ? " · av" : ""));
+    SetName(label + (toggle_ ? ", av" : ""));
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetInitialSize();
 #if wxUSE_ACCESSIBILITY
@@ -251,7 +251,7 @@ void SymbolButton::checked(bool checked) {
         return;
     checked_ = checked;
     if (toggle_)
-        SetName(GetLabel() + (checked ? " · på" : " · av"));
+        SetName(GetLabel() + (checked ? ", på" : ", av"));
 #if wxUSE_ACCESSIBILITY
     wxAccessible::NotifyEvent(wxACC_EVENT_OBJECT_STATECHANGE, this, wxOBJID_CLIENT, wxACC_SELF);
 #endif
@@ -325,8 +325,7 @@ ReadingRow::ReadingRow(wxWindow* parent, const wxString& label, const wxString& 
                        std::function<void()> action, bool done)
     : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
       label_(label), text_(text), action_(std::move(action)), colors_(palette(Theme::System)), done_(done) {
-    SetLabel(label.empty() ? text
-                           : label + " · " + text + (done ? wxString::FromUTF8(" · läst") : wxString{}));
+    SetLabel(label.empty() ? text : label + ", " + text + (done ? wxString::FromUTF8(", läst") : wxString{}));
     SetName(GetLabel());
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     Bind(wxEVT_PAINT, &ReadingRow::paint, this);
