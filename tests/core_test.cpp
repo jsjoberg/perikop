@@ -109,6 +109,26 @@ int main(int argc, char** argv) {
             for (const auto& name : {feast.title, feast.feast})
                 if (!name.empty() && !swedish_title(name))
                     throw std::runtime_error("Missing Swedish title: " + name);
+        {
+            // The start page shows each reading's occasion; "Composite" is hidden there.
+            sqlite3* corpus_db = nullptr;
+            check(sqlite3_open_v2(argv[1], &corpus_db, SQLITE_OPEN_READONLY, nullptr) == SQLITE_OK,
+                  "open corpus for occasions");
+            sqlite3_stmt* occasions = nullptr;
+            sqlite3_prepare_v2(corpus_db,
+                               "SELECT DISTINCT description FROM reading_rule "
+                               "WHERE description<>'' AND description<>'Composite'",
+                               -1, &occasions, nullptr);
+            std::string missing;
+            while (sqlite3_step(occasions) == SQLITE_ROW) {
+                const std::string occasion = reinterpret_cast<const char*>(sqlite3_column_text(occasions, 0));
+                if (!swedish_title(occasion))
+                    missing += "\n  " + occasion;
+            }
+            sqlite3_finalize(occasions);
+            sqlite3_close(corpus_db);
+            check(missing.empty(), "Missing Swedish occasion titles:" + missing);
+        }
         check(swedish_title("Tuesday of the 19th week after Pentecost") ==
                   "Tisdag i 19:e veckan efter pingst",
               "Swedish weekday title");
