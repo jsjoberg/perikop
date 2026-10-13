@@ -4,7 +4,9 @@
 #include <filesystem>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <set>
+#include <tuple>
 #include <utility>
 struct sqlite3;
 namespace ortho {
@@ -18,13 +20,22 @@ struct WordExample {
     std::string book;
     Verse verse;
 };
+struct DalinEntry {
+    std::string headword, gram, definition;
+};
+struct BiblicalEntry {
+    std::string id, headword, definition, url;
+};
+struct ModernWordEntry {
+    std::string id, headword, gram, associations, match;
+};
 class CorpusDb {
 public:
     explicit CorpusDb(const std::filesystem::path& path);
     std::vector<Source> sources() const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,
                                             VerseRef ref) const;
-    std::vector<VerseRef> coordinates(const std::string& source, const std::string& book) const;
+    const std::vector<VerseRef>& coordinates(const std::string& source, const std::string& book) const;
     std::vector<VerseRef> paragraph_starts(const std::string& source, const std::string& book) const;
     std::optional<Alignment> alignment(const std::string& from, const std::string& to, const Passage&) const;
     std::expected<Verse, std::string> parallel_verse(const std::string& from, const std::string& to,
@@ -65,10 +76,31 @@ public:
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
     std::vector<CommemorationRule> commemoration_rules() const;
+    // Word study for a lowercase Swedish 1917 form: Dalin, Nyström's biblical articles,
+    // SALDO and Akademisk ordlista. The entries are resolved when the corpus is built.
+    std::vector<DalinEntry> swedish(const std::string& form) const;
+    std::vector<BiblicalEntry> biblical(const std::string& form) const;
+    std::vector<ModernWordEntry> saldo(const std::string& form) const;
+    std::vector<ModernWordEntry> academic(const std::string& form) const;
 
 private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;
+    // A book of one edition, in chapter, verse and letter order, read in one query when first needed.
+    // Readers ask verse by verse; one query per verse made a parallel Psalter take 100 ms.
+    struct BookText {
+        std::vector<VerseRef> coordinates;
+        std::vector<int> last_verses;
+        std::vector<std::string> texts;
+    };
+    const BookText& book_text(const std::string& source, const std::string& book) const;
+    // The alignment rows from one edition to another for a book, ordered by their first verse.
+    const std::vector<Alignment>& book_alignment(const std::string& from, const std::string& to,
+                                                 const std::string& book) const;
     DatabaseHandle db_;
+    // Loaded books are never changed or removed, so references to them stay valid.
+    mutable std::mutex cache_mutex_;
+    mutable std::map<std::pair<std::string, std::string>, BookText> texts_;
+    mutable std::map<std::tuple<std::string, std::string, std::string>, std::vector<Alignment>> alignments_;
     // Each edition's versification system, by source code. The corpus is read-only.
     std::map<std::string, std::string> versification_;
     struct BookInfo {
@@ -78,29 +110,6 @@ private:
     };
     std::map<std::string, BookInfo> books_;
     std::vector<CanonBook> canon_;
-};
-struct DalinEntry {
-    std::string headword, gram, definition;
-};
-struct BiblicalEntry {
-    std::string id, headword, definition, url;
-};
-struct ModernWordEntry {
-    std::string id, headword, gram, associations, match;
-};
-// Offline word-study sources for Swedish 1917 forms.
-class StudyDb {
-public:
-    explicit StudyDb(const std::filesystem::path& path);
-    // Dalin entries for a lowercase Swedish 1917 word form.
-    std::vector<DalinEntry> swedish(const std::string& form) const;
-    // Nyström's historical biblical articles for a lowercase Swedish 1917 form.
-    std::vector<BiblicalEntry> biblical(const std::string& form) const;
-    std::vector<ModernWordEntry> saldo(const std::string& form) const;
-    std::vector<ModernWordEntry> academic(const std::string& form) const;
-
-private:
-    DatabaseHandle db_;
 };
 class UserDb {
 public:

@@ -53,14 +53,12 @@ with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',u
     if db.execute("SELECT count(*) FROM verse WHERE verse_suffix<>''").fetchone()[0]!=317:raise SystemExit('Lettered Greek verse portions are missing')
     bad=db.execute("SELECT count(*) FROM verse WHERE text LIKE '%strong=%' OR text LIKE '%<%' OR text LIKE '%\\%'").fetchone()[0]
     if bad:raise SystemExit(f'{bad} verses still contain import markup')
+    if db.execute('PRAGMA user_version').fetchone()[0]!=8:raise SystemExit('Unsupported corpus schema')
+    for table,expected in [('saldo',12751),('academic',336)]:
+        if db.execute(f'SELECT count(*) FROM {table}').fetchone()[0]!=expected:raise SystemExit(f'Incomplete {table} word-study data')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:
     fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')
     missing=required-(cmap(root/'resources/fonts'/name)|fallback)
     if missing:raise SystemExit(f'{name}: missing glyphs '+', '.join(f'U+{c:04X}' for c in sorted(missing)))
     print(f'{name}: all {len(required)} corpus characters covered, including bundled fallback')
-with sqlite3.connect('file:'+str(root/'resources/lexicon/study.db')+'?mode=ro',uri=True) as db:
-    if db.execute('PRAGMA user_version').fetchone()[0]!=5:raise SystemExit('Unsupported word-study schema')
-    if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchall():raise SystemExit('Word-study integrity failed')
-    for table,expected in [('saldo',12751),('academic',336)]:
-        if db.execute(f'SELECT count(*) FROM {table}').fetchone()[0]!=expected:raise SystemExit(f'Incomplete {table} word-study data')
 print(f'{checks} resource hashes passed')

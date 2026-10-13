@@ -19,7 +19,6 @@ class wxStaticText;
 namespace ortho {
 class UserDb;
 class PronunciationReviewDb;
-class StudyDb;
 class ScriptureView;
 class StudyPanel;
 class SymbolButton;
@@ -116,7 +115,6 @@ private:
     wxString reading_title_;
 
     std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
-    std::unique_ptr<StudyDb> study_db_;
     std::unique_ptr<SpeechEngine> speech_;
     wxTimer playback_timer_;
     ReadAloud read_aloud_;

@@ -948,10 +948,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     {
         NavigationSpeech deferred;
-        auto panel =
-            std::make_unique<StudyPanel>(root_, study_db_.get(), deferred, [this](const auto& language) {
-                return speech_lexicon(language);
-            });
+        auto panel = std::make_unique<StudyPanel>(root_, corpus_, deferred, [this](const auto& language) {
+            return speech_lexicon(language);
+        });
         panel->Hide();
         const auto has = [&](const std::string& value) {
             const auto lines = panel->text();

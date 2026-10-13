@@ -788,8 +788,7 @@ int main(int argc, char** argv) {
         }
         {
             // Word study: 1917 forms resolve to Dalin entries and Nyström's biblical articles.
-            const StudyDb study(std::filesystem::path(argv[1]).parent_path().parent_path() /
-                                "lexicon/study.db");
+            const auto& study = corpus;
             const auto entries = study.swedish("svarade");
             check(entries.size() == 1 && entries.front().headword == "svara",
                   "regular verb form resolves to its Dalin entry");

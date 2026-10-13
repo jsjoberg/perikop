@@ -224,6 +224,7 @@ if(ORTHO_BUILD_GUI)
         # The program reads only the built databases; their inputs stay in the source tree.
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/corpus/input"
             "${resource_destination}/corpus/provenance" "${resource_destination}/lectionary"
+            "${resource_destination}/lexicon/input"
         COMMAND ${CMAKE_COMMAND} -E rm -f "${resource_destination}/manifest.json"
             "${resource_destination}/corpus/schema.sql" "${resource_destination}/corpus/alignment.tsv"
             "${resource_destination}/corpus/books.tsv" "${resource_destination}/corpus/canon.tsv"

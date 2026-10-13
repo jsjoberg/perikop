@@ -12,7 +12,7 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 7 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 8 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
@@ -99,38 +99,44 @@ std::vector<Source> CorpusDb::sources() const {
         result.push_back({query.number(0), query.text(1), query.text(2), query.text(3), query.text(4)});
     return result;
 }
+const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const std::string& book) const {
+    std::lock_guard lock(cache_mutex_);
+    auto [entry, added] = texts_.try_emplace({source, book});
+    if (!added)
+        return entry->second;
+    Statement query(db_.get(),
+                    "SELECT chapter,verse,verse_suffix,last_verse,text FROM verse JOIN source ON "
+                    "source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? "
+                    "AND book.code=? ORDER BY chapter,verse,verse_suffix");
+    query.text(1, source);
+    query.text(2, book);
+    auto& text = entry->second;
+    while (query.row()) {
+        text.coordinates.push_back({query.number(0), query.number(1), query.text(2)});
+        text.last_verses.push_back(query.number(3));
+        text.texts.push_back(query.text(4));
+    }
+    return text;
+}
 std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, const std::string& book,
                                                   VerseRef ref) const {
-    Statement query(
-        db_.get(),
-        "SELECT verse,last_verse,text,verse_suffix FROM verse JOIN source ON source.id=verse.source_id JOIN "
-        "book ON book.id=verse.book_id WHERE source.code=? AND book.code=? AND chapter=? AND verse<=? AND "
-        "last_verse>=? AND verse_suffix=? ORDER BY verse DESC LIMIT 1");
-    query.text(1, source);
-    query.text(2, book);
-    query.number(3, ref.chapter);
-    query.number(4, ref.verse);
-    query.number(5, ref.verse);
-    query.text(6, ref.suffix);
-    if (!query.row())
-        return std::unexpected("Text saknas i denna utgåva");
-    return Verse{{ref.chapter, query.number(0), query.text(3)},
-                 query.text(2),
-                 query.number(0) == query.number(1)
-                     ? std::nullopt
-                     : std::optional<VerseRef>{{ref.chapter, query.number(1)}}};
+    // The verse row that covers the number: the last one in the chapter that starts at or before it.
+    const auto& text = book_text(source, book);
+    const auto& refs = text.coordinates;
+    auto at = std::upper_bound(refs.begin(), refs.end(), VerseRef{ref.chapter, ref.verse, "\x7f"});
+    while (at != refs.begin() && (at - 1)->chapter == ref.chapter) {
+        --at;
+        const auto i = std::size_t(at - refs.begin());
+        if (at->suffix == ref.suffix && text.last_verses[i] >= ref.verse)
+            return Verse{*at, text.texts[i],
+                         text.last_verses[i] == at->verse
+                             ? std::nullopt
+                             : std::optional<VerseRef>{{ref.chapter, text.last_verses[i]}}};
+    }
+    return std::unexpected("Text saknas i denna utgåva");
 }
-std::vector<VerseRef> CorpusDb::coordinates(const std::string& source, const std::string& book) const {
-    Statement query(
-        db_.get(),
-        "SELECT chapter,verse,verse_suffix FROM verse JOIN source ON source.id=verse.source_id JOIN book ON "
-        "book.id=verse.book_id WHERE source.code=? AND book.code=? ORDER BY chapter,verse,verse_suffix");
-    query.text(1, source);
-    query.text(2, book);
-    std::vector<VerseRef> result;
-    while (query.row())
-        result.push_back({query.number(0), query.number(1), query.text(2)});
-    return result;
+const std::vector<VerseRef>& CorpusDb::coordinates(const std::string& source, const std::string& book) const {
+    return book_text(source, book).coordinates;
 }
 std::vector<VerseRef> CorpusDb::paragraph_starts(const std::string& source, const std::string& book) const {
     Statement query(
@@ -144,8 +150,12 @@ std::vector<VerseRef> CorpusDb::paragraph_starts(const std::string& source, cons
         result.push_back({query.number(0), query.number(1), query.text(2)});
     return result;
 }
-std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std::string& to,
-                                             const Passage& passage) const {
+const std::vector<Alignment>& CorpusDb::book_alignment(const std::string& from, const std::string& to,
+                                                       const std::string& book) const {
+    std::lock_guard lock(cache_mutex_);
+    auto [entry, added] = alignments_.try_emplace({from, to, book});
+    if (!added)
+        return entry->second;
     Statement query(
         db_.get(),
         "SELECT "
@@ -155,28 +165,35 @@ std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std:
         "suffix,''),coalesce(to_last_chapter,0),coalesce(to_last_verse,0),coalesce(to_last_suffix,'') "
         "FROM alignment JOIN source f ON f.id=from_source JOIN source t ON t.id=to_source JOIN book ON "
         "book.id=book_id LEFT JOIN book target ON target.id=to_book_id "
-        "WHERE f.code=? AND t.code=? AND book.code=? AND "
-        "(from_first_chapter,from_first_verse,from_first_suffix)<=(?,?,?) AND "
-        "(from_last_chapter,from_last_verse,from_last_suffix)>=(?,?,?) "
-        "ORDER BY from_first_chapter DESC,from_first_verse DESC,from_first_suffix DESC LIMIT 1");
+        "WHERE f.code=? AND t.code=? AND book.code=? "
+        "ORDER BY from_first_chapter,from_first_verse,from_first_suffix");
     query.text(1, from);
     query.text(2, to);
-    query.text(3, passage.book);
-    query.number(4, passage.first.chapter);
-    query.number(5, passage.first.verse);
-    query.text(6, passage.first.suffix);
-    query.number(7, passage.last.chapter);
-    query.number(8, passage.last.verse);
-    query.text(9, passage.last.suffix);
-    if (!query.row())
-        return {};
-    return Alignment{static_cast<AlignmentKind>(query.number(0)),
-                     {passage.book,
-                      {query.number(1), query.number(2), query.text(3)},
-                      {query.number(4), query.number(5), query.text(6)}},
-                     {query.text(7),
-                      {query.number(8), query.number(9), query.text(10)},
-                      {query.number(11), query.number(12), query.text(13)}}};
+    query.text(3, book);
+    while (query.row())
+        entry->second.push_back({static_cast<AlignmentKind>(query.number(0)),
+                                 {book,
+                                  {query.number(1), query.number(2), query.text(3)},
+                                  {query.number(4), query.number(5), query.text(6)}},
+                                 {query.text(7),
+                                  {query.number(8), query.number(9), query.text(10)},
+                                  {query.number(11), query.number(12), query.text(13)}}});
+    return entry->second;
+}
+std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std::string& to,
+                                             const Passage& passage) const {
+    // The row with the latest start at or before the passage that also reaches its end.
+    const auto& rows = book_alignment(from, to, passage.book);
+    auto at = std::upper_bound(rows.begin(), rows.end(), passage.first,
+                               [](const VerseRef& first, const Alignment& row) {
+                                   return first < row.from.first;
+                               });
+    while (at != rows.begin()) {
+        --at;
+        if (at->from.last >= passage.last)
+            return *at;
+    }
+    return {};
 }
 bool CorpusDb::same_numbering(const std::string& from, const std::string& to, const std::string& book) const {
     const auto f = versification_.find(from), t = versification_.find(to);

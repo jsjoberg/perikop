@@ -126,7 +126,8 @@ The native Swedish front end in `src/speech/kokoro_text.cpp` reproduces the koko
 https://github.com/joakimeriksson/kokoro-sv
 
 Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, University of Gothenburg, under CC BY 4.0.
-`resources/lexicon/study.db` keeps the entries that the Swedish 1917 forms use, mapped to those forms.
+The word-study tables in `resources/corpus/corpus.db` keep the entries that the Swedish 1917 forms use, mapped to those forms.
+The unmodified inputs are kept xz-compressed in `resources/lexicon/input` in the source repository; they do not ship.
 https://spraakbanken.gu.se/resurser/dalin
 
 Modern word metadata uses SALDO, SALDOs morfologi, and Akademisk ordlista from Språkbanken under CC BY 4.0.

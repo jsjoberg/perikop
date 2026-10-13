@@ -19,9 +19,9 @@ wxString word_class(const std::string& code) {
     return ui::utf8(code);
 }
 } // namespace
-StudyPanel::StudyPanel(wxWindow* parent, const StudyDb* study, SpeechEngine& speech, Lexicon lexicon)
+StudyPanel::StudyPanel(wxWindow* parent, const CorpusDb& corpus, SpeechEngine& speech, Lexicon lexicon)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE),
-      study_(study), speech_(speech), lexicon_(std::move(lexicon)) {
+      corpus_(corpus), speech_(speech), lexicon_(std::move(lexicon)) {
     SetMinSize(FromDIP(wxSize(260, -1)));
     SetScrollRate(0, FromDIP(12));
     // Definitions wrap to the panel width; rewrap when it changes noticeably.
@@ -107,11 +107,7 @@ void StudyPanel::rebuild() {
         sizer->Add(source, 0, wxLEFT, pad);
         sizer->AddSpacer(FromDIP(5));
     };
-    if (!study_)
-        text(ui::utf8(
-                 "Ordstudiedata saknas. Bygg resources/lexicon/study.db med tools/lexicon/build_study.py."),
-             ui_font(12), colors.muted);
-    else if (!word_)
+    if (!word_)
         text(ui::utf8("Klicka på ett ord i texten för att slå upp det."), ui_font(12), colors.muted);
     else {
         const auto& word = *word_;
@@ -149,10 +145,10 @@ void StudyPanel::rebuild() {
         }
         if (swedish) {
             const auto form = ui::to_utf8(ui::utf8(word.text).Lower());
-            const auto entries = study_->swedish(form);
-            const auto articles = study_->biblical(form);
-            const auto saldo = study_->saldo(form);
-            const auto academic = study_->academic(form);
+            const auto entries = corpus_.swedish(form);
+            const auto articles = corpus_.biblical(form);
+            const auto saldo = corpus_.saldo(form);
+            const auto academic = corpus_.academic(form);
             const auto modern = [&](const std::vector<ModernWordEntry>& words, bool semantic) {
                 if (words.empty())
                     return;

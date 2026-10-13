@@ -30,9 +30,11 @@ For a Swedish 1917 word:
 
 ## Data
 
-`tools/lexicon/build_study.py` builds `resources/lexicon/study.db` from pinned inputs.
-`uv run --locked tools/lexicon/fetch.py` downloads the inputs into `build/inputs`. They are not committed.
-Run `uv run --locked tools/lexicon/build_study.py` to rebuild the database.
+The word-study tables are part of `resources/corpus/corpus.db`.
+`tools/corpus/build_corpus.py` fills them with `tools/lexicon/build_study.py` when it builds the corpus.
+The inputs are committed xz-compressed in `resources/lexicon/input`. They do not ship with the application.
+`tools/lexicon/fetch.py` decompresses them into `build/inputs` and checks their pinned SHA-256 hashes.
+The rebuild needs no network access.
 
 | Data | Source | License |
 |---|---|---|
@@ -57,7 +59,7 @@ It keeps entries for different people with the same name. A lookup cannot always
 The importer retains original prose and source URLs. It omits tables, illustrations, the modern introduction, and website navigation.
 Short cross-references also show the referenced article when its target exists in the imported text.
 For articles without an HTML anchor, the source link opens the corresponding letter page.
-The 21 downloaded pages have pinned SHA-256 hashes in `tools/lexicon/inputs.json`.
+The 21 pages have pinned SHA-256 hashes in `tools/lexicon/inputs.json`.
 The combined sources cover 88.2 % of Swedish 1917 word occurrences. The bundle contains 2,413 biblical articles, including cross-reference targets.
 
 SALDO matches whole headwords and published full forms through their lemma identifiers.

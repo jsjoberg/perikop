@@ -48,7 +48,7 @@ The build writes all editions to `build/corpus/work.db`, which `align_editions.p
 
 ## Rebuild and check resources
 
-Rebuild the corpus from bundled source data:
+Rebuild the corpus and its word-study tables from bundled source data:
 
 ```sh
 uv run --locked tools/corpus/build_corpus.py

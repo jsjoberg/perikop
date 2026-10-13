@@ -1,19 +1,9 @@
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
-#include <stdexcept>
+// The corpus's word-study queries.
 namespace ortho {
-using storage::exec;
-using storage::open;
-using storage::pragma_number;
 using storage::Statement;
-using storage::Transaction;
-StudyDb::StudyDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
-    exec(db_.get(), "PRAGMA query_only=ON");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 5 ||
-        pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525354)
-        throw std::runtime_error("Unsupported word-study schema");
-}
-std::vector<DalinEntry> StudyDb::swedish(const std::string& form) const {
+std::vector<DalinEntry> CorpusDb::swedish(const std::string& form) const {
     Statement query(db_.get(), "SELECT headword,gram,definition FROM sv_word JOIN dalin ON "
                                "dalin.id=sv_word.dalin WHERE form=? ORDER BY dalin.id");
     query.text(1, form);
@@ -22,7 +12,7 @@ std::vector<DalinEntry> StudyDb::swedish(const std::string& form) const {
         result.push_back({query.text(0), query.text(1), query.text(2)});
     return result;
 }
-std::vector<BiblicalEntry> StudyDb::biblical(const std::string& form) const {
+std::vector<BiblicalEntry> CorpusDb::biblical(const std::string& form) const {
     Statement query(db_.get(),
                     "SELECT biblical.id,headword,definition,url FROM sv_biblical JOIN biblical ON "
                     "biblical.id=sv_biblical.article WHERE form=? ORDER BY sv_biblical.rank,biblical.id");
@@ -42,13 +32,13 @@ std::vector<ModernWordEntry> modern_words(sqlite3* db, const char* sql, const st
     return result;
 }
 } // namespace
-std::vector<ModernWordEntry> StudyDb::saldo(const std::string& form) const {
+std::vector<ModernWordEntry> CorpusDb::saldo(const std::string& form) const {
     return modern_words(db_.get(),
                         "SELECT saldo.id,headword,gram,associations,match FROM sv_saldo JOIN saldo "
                         "ON saldo.id=sv_saldo.entry WHERE form=? ORDER BY saldo.id",
                         form);
 }
-std::vector<ModernWordEntry> StudyDb::academic(const std::string& form) const {
+std::vector<ModernWordEntry> CorpusDb::academic(const std::string& form) const {
     return modern_words(db_.get(),
                         "SELECT academic.id,headword,gram,'',match FROM sv_academic JOIN academic "
                         "ON academic.id=sv_academic.entry WHERE form=? ORDER BY academic.id",

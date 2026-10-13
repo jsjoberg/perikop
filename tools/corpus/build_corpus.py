@@ -5,11 +5,13 @@ The build first writes a work database that also holds witness editions, which n
 the KJV states the numbering of Orthocal's references, the WEB Old Testament supplies Swedish
 paragraph boundaries, and Brenton's English links LXX2012 to the Greek (see align_editions.py).
 """
-import json, re, shutil, sqlite3, zipfile, hashlib
+import json, re, shutil, sqlite3, sys, zipfile, hashlib
 from pathlib import Path
 import runeberg1917
 from mapping import Mapper
 root=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(root/'tools/lexicon'))
+import build_study
 inputs=root/'resources/corpus/input'
 WORK=root/'build/corpus/work.db'
 # OSIS codes preserve the existing public API; USFM identifies Greek inputs.
@@ -168,7 +170,7 @@ with sqlite3.connect(temp) as db:
     db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(x['pk'],idx,book,*first[:2],*last[:2]))
  for f in json.loads((root/'resources/lectionary/commemorations.json').read_text()):
   db.execute('INSERT INTO commemoration_rule VALUES(?,?,?,?,?,?,?)',(f['pk'],f['day'],f['ordering'],f['title'],f['tradition'],int(f['new_style']),int(f['day_native'])))
- db.execute('PRAGMA user_version=7')
+ db.execute('PRAGMA user_version=8')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()
@@ -178,7 +180,7 @@ temp.replace(WORK)
 # align_editions.py reads the work database, so a missing alignment fails only the shipped corpus.
 if unmapped:raise SystemExit('Run align_editions.py, then rebuild. Cannot restate:\n'+'\n'.join(unmapped))
 
-# The shipped corpus omits the witnesses and the WEB Old Testament.
+# The shipped corpus omits the witnesses and the WEB Old Testament, and adds the word study.
 output=root/'resources/corpus/corpus.db';temp=output.with_suffix('.tmp');temp.unlink(missing_ok=True)
 shutil.copyfile(WORK,temp)
 with sqlite3.connect(temp) as db:
@@ -186,6 +188,7 @@ with sqlite3.connect(temp) as db:
  for name in ('verse','paragraph'):db.execute(f'DELETE FROM {name} WHERE source_id IN ({WITNESSES}) OR (source_id=5 AND book_id IN {old_testament})')
  db.execute(f'DELETE FROM alignment WHERE from_source IN ({WITNESSES}) OR to_source IN ({WITNESSES}) OR (5 IN (from_source,to_source) AND book_id IN {old_testament})')
  db.execute(f'DELETE FROM source WHERE id IN ({WITNESSES})')
+ build_study.build(db)
  assert not db.execute('PRAGMA foreign_key_check').fetchall()
  db.commit()
  db.execute('VACUUM')
@@ -198,7 +201,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
-GENERATED={'resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
+GENERATED={'resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-biblical-forms.tsv','resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
 metadata=json.loads(manifest.read_text())
 metadata['schema_version']=3
 for asset in metadata['assets']:
