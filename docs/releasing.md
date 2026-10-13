@@ -47,6 +47,8 @@ Enterprise Linux 9 and Ubuntu 22.04 or later are compatibility targets.
 Desktop and read-aloud tests on those systems still need validation.
 
 The packages go to `build/package`.
+Release packaging strips executable symbols from the installed copy. The build executable keeps its symbols for debugging.
+On macOS, packaging also strips the bundled ONNX Runtime before the application receives its signature.
 The macOS application has an ad-hoc signature only. The Windows installer has no signature.
 The [user guide](using-perikop.md#installation) describes first launch.
 

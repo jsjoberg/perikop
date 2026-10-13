@@ -1,5 +1,4 @@
 #pragma once
-#include <filesystem>
 #include <functional>
 #include <optional>
 #include <string>
@@ -31,7 +30,7 @@ struct TextLayout {
     }
 };
 // TeX's total-paragraph fit and Liang patterns; wxDC retains native word shaping.
-void load_hyphenation(const std::filesystem::path& directory);
+void load_hyphenation();
 std::vector<int> hyphenation_points(const wxString&, const std::string& language);
 TextLayout layout_paragraph(wxDC&, const wxString&, int width, const std::string& language = "sv");
 TextLayout layout_paragraph(wxDC&, const std::vector<TextFragment>&, int width,

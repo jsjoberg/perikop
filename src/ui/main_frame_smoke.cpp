@@ -374,10 +374,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
     }
     metrics.SetFont(body_font(19));
-    if (hyphenation_points("begynnelsen", "sv").empty() || hyphenation_points("beginning", "en").empty() ||
-        hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"), "el").empty())
+    if (hyphenation_points("begynnelsen", "sv") != std::vector<int>{2, 5, 8} ||
+        hyphenation_points("beginning", "en") != std::vector<int>{2, 5} ||
+        hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"), "el") != std::vector<int>{2, 4, 5} ||
+        hyphenation_points(wxString::FromUTF8("ἀρχιερεύς"), "el") != std::vector<int>{2, 4, 5})
         fail(__LINE__);
-    if (!hyphenation_points("project", "en").empty())
+    if (!hyphenation_points("project", "en").empty() ||
+        hyphenation_points("associate", "en") != std::vector<int>{2, 4} ||
+        hyphenation_points("obligatory", "en") != std::vector<int>{5, 6})
         fail(__LINE__);
     const auto optical = layout_paragraph(metrics, wxString::FromUTF8("“Guds ord.”"), 280, "sv");
     if (optical.lines.front().left_protrusion <= 0 || optical.lines.back().right_protrusion <= 0)

@@ -86,7 +86,9 @@ The package excludes narrative biographies, stories, and liturgical composite wo
 
 ## Hyphenation and fallback fonts
 
-The complete, unmodified CTAN pattern files retain their copyright and license headers.
+The source repository keeps the complete, unmodified CTAN pattern files with their copyright and license headers.
+CMake converts their patterns and exceptions into compiled C++ data.
+The package preserves the complete source headers in `resources/licenses/Hyphenation-NOTICES.txt`.
 The native Liang and paragraph-fitting code uses the application license.
 The Justif project supplied a design reference. No JavaScript or web runtime is embedded.
 https://github.com/lyallcooper/justif

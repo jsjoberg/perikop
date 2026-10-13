@@ -53,6 +53,8 @@ CMake checks their SHA-256 hashes. ONNX Runtime ships as a shared library beside
 Linux GNU builds also carry the selected compiler's `libstdc++` and `libgcc_s` beside the application.
 The remaining libraries build statically.
 The application has no runtime scripting dependency.
+During configuration, CMake converts the Swedish, Ancient Greek, and American English hyphenation patterns into C++ data.
+The application uses this compiled data for word breaks. Installed resources contain no TeX files.
 
 CI instead restores a pinned [dependency snapshot](releasing.md#ci-dependency-snapshots) from this repository's GitHub releases.
 Its native sources are local before CMake starts. CI has no upstream download fallback.

@@ -107,6 +107,7 @@ if(BUILD_TESTING)
     add_test(NAME core-storage-speech COMMAND ortho-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db" "${CMAKE_BINARY_DIR}/test-user.db" "${CMAKE_SOURCE_DIR}/tests/antiochian-2026.tsv" "${CMAKE_SOURCE_DIR}/tests/oca-2026.tsv")
 endif()
 if(ORTHO_BUILD_GUI)
+    include(cmake/hyphenation.cmake)
     if(APPLE AND CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS 13.4)
         message(FATAL_ERROR "Portable speech requires macOS 13.4 or later. Reconfigure with -DCMAKE_OSX_DEPLOYMENT_TARGET=13.4.")
     endif()
@@ -219,8 +220,9 @@ if(ORTHO_BUILD_GUI)
     add_custom_target(ortho-resources ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/resources" "${resource_destination}"
-        # Icons are embedded; macOS gets its OS bundle icon separately.
+        # Icons and hyphenation are compiled; macOS gets its OS bundle icon separately.
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/icons"
+            "${resource_destination}/hyphenation"
         # The program reads only the built databases; their inputs stay in the source tree.
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/corpus/input"
             "${resource_destination}/corpus/provenance" "${resource_destination}/lectionary"
@@ -233,6 +235,8 @@ if(ORTHO_BUILD_GUI)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${perikop_hyphenation_notices}"
+            "${resource_destination}/licenses/Hyphenation-NOTICES.txt"
         ${ortho_icon_copy}
         ${perikop_voice_copy})
     add_dependencies(perikop ortho-resources)
@@ -276,6 +280,14 @@ if(ORTHO_BUILD_GUI)
     # The assembled resources include the generated licenses and the bundled voice pack.
     if(APPLE)
         install(DIRECTORY "${resource_destination}/" DESTINATION "Perikop.app/Contents/Resources")
+        # CMake's bundle installation does not strip its binaries automatically.
+        # Strip only the installed release copy, before renewing its signature.
+        install(CODE "if(CMAKE_INSTALL_DO_STRIP)
+            execute_process(COMMAND \"${CMAKE_STRIP}\" -S -x
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Perikop.app/Contents/MacOS/Perikop\"
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Perikop.app/Contents/Frameworks/libonnxruntime.${ortho_ort_version}.dylib\"
+                COMMAND_ERROR_IS_FATAL ANY)
+        endif()")
         # A downloaded bundle whose seal does not cover its contents opens as "damaged".
         install(CODE "execute_process(COMMAND codesign --force --deep --sign -
             \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Perikop.app\" COMMAND_ERROR_IS_FATAL ANY)")
@@ -313,6 +325,7 @@ if(ORTHO_BUILD_GUI)
     # Release packages: a DMG on macOS and an installer on Windows. Linux uses tools/package_appimage.sh.
     if(APPLE OR WIN32)
         set(CPACK_PACKAGE_NAME Perikop)
+        set(CPACK_STRIP_FILES TRUE)
         set(CPACK_VERBATIM_VARIABLES TRUE)
         set(CPACK_PACKAGE_VENDOR Perikop)
         set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Orthodox lectionary reader")

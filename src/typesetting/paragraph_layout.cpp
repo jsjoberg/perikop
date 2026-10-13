@@ -1,13 +1,12 @@
 #include "typesetting/paragraph_layout.hpp"
+#include "perikop_hyphenation.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <fstream>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
-#include <sstream>
 #include <stdexcept>
 #include <tuple>
 #include <unordered_map>
@@ -196,49 +195,38 @@ struct State {
     int previous = -1, fitness = 1;
 };
 } // namespace
-void load_hyphenation(const std::filesystem::path& directory) {
+void load_hyphenation() {
     ++dictionary_epoch;
     dictionaries.clear();
-    for (const auto& [language, file, left, right] :
-         std::vector<std::tuple<std::string, std::string, int, int>>{
-             {"sv", "hyph-sv.tex", 2, 2}, {"el", "hyph-grc.tex", 1, 1}, {"en", "hyph-en-us.tex", 2, 3}}) {
-        std::ifstream input(directory / file);
-        if (!input)
-            throw std::runtime_error("Bundled hyphenation patterns missing: " + file);
-        std::string cleaned, line;
-        while (std::getline(input, line)) {
-            line = line.substr(0, line.find('%'));
-            cleaned += line + "\n";
+    const auto tokens = [](std::string_view text, auto consume) {
+        while (!text.empty()) {
+            const auto end = text.find('\n');
+            const auto token = text.substr(0, end);
+            consume(wxString::FromUTF8(token.data(), token.size()));
+            if (end == std::string_view::npos)
+                break;
+            text.remove_prefix(end + 1);
         }
-        const auto begin = cleaned.find("\\patterns{");
-        const auto end = cleaned.find('}', begin);
-        if (begin == std::string::npos || end == std::string::npos)
-            throw std::runtime_error("Invalid hyphenation file: " + file);
+    };
+    for (const auto& dictionary : hyphenation_data::dictionaries) {
         Patterns patterns;
-        patterns.left = left;
-        patterns.right = right;
-        std::istringstream tokens(cleaned.substr(begin + 10, end - begin - 10));
-        std::string token;
-        while (tokens >> token)
-            add_pattern(patterns, wxString::FromUTF8(token));
-        const auto exception_begin = cleaned.find("\\hyphenation{");
-        if (exception_begin != std::string::npos) {
-            const auto exception_end = cleaned.find('}', exception_begin);
-            std::istringstream entries(
-                cleaned.substr(exception_begin + 13, exception_end - exception_begin - 13));
-            while (entries >> token) {
-                wxString word;
-                std::vector<int> points;
-                for (auto c : wxString::FromUTF8(token)) {
-                    if (c == '-')
-                        points.push_back(int(word.length()));
-                    else
-                        word += c;
-                }
-                patterns.exceptions.emplace(word, std::move(points));
+        patterns.left = dictionary.left;
+        patterns.right = dictionary.right;
+        tokens(dictionary.patterns, [&](const wxString& pattern) {
+            add_pattern(patterns, pattern);
+        });
+        tokens(dictionary.exceptions, [&](const wxString& token) {
+            wxString word;
+            std::vector<int> points;
+            for (auto c : token) {
+                if (c == '-')
+                    points.push_back(int(word.length()));
+                else
+                    word += c;
             }
-        }
-        dictionaries.emplace(language, std::move(patterns));
+            patterns.exceptions.emplace(word, std::move(points));
+        });
+        dictionaries.emplace(dictionary.language, std::move(patterns));
     }
 }
 namespace {

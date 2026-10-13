@@ -29,7 +29,7 @@ fetch runtime-x86_64 \
     156f4bdbde9c52d01814600013e0a273f0118dc2de98975f3c8c63427ec79074
 cp "$source/resources/icons/OrthodoxReader.iconset/icon_256x256.png" "$tools/perikop.png"
 rm -rf "$appdir"
-DESTDIR="$appdir" cmake --install "$build" --prefix /usr
+DESTDIR="$appdir" cmake --install "$build" --prefix /usr --strip
 cd "$source/build/package"
 PATH="$tools:$PATH" APPIMAGE_EXTRACT_AND_RUN=1 DEPLOY_GTK_VERSION=3 LDAI_RUNTIME_FILE="$tools/runtime-x86_64" \
     LINUXDEPLOY_OUTPUT_VERSION=$(sed -n 's/^project(perikop VERSION \([^ ]*\).*/\1/p' "$source/CMakeLists.txt") \

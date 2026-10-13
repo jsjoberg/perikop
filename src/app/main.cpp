@@ -132,7 +132,7 @@ public:
             pango_fc_font_map_config_changed(PANGO_FC_FONT_MAP(pango_cairo_font_map_get_default()));
             wxFontEnumerator::InvalidateCache();
 #endif
-            ortho::load_hyphenation(resources / "hyphenation");
+            ortho::load_hyphenation();
             corpus_ = std::make_unique<ortho::CorpusDb>(resources / "corpus/corpus.db");
             auto data_path = profile_override.empty()
                                  ? ortho::ui::filesystem_path(wxStandardPaths::Get().GetUserLocalDataDir())

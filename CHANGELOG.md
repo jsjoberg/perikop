@@ -8,6 +8,11 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
+### Changed
+
+- Release packages strip executable symbols and the bundled macOS ONNX Runtime. Build binaries keep their symbols for debugging.
+- Hyphenation patterns compile into C++ data. Installed resources no longer contain TeX files.
+
 ### Removed
 
 - Akademisk ordlista from word study. SALDO already shows the same headwords and word classes for almost every word it matched, and some of its matches were wrong.
