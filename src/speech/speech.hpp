@@ -85,27 +85,4 @@ public:
         deliver(pronunciation(text));
     }
 };
-// This diagnostic engine accepts utterances; it produces no audio.
-class StubSpeechEngine final : public SpeechEngine {
-public:
-    enum class State { Idle, Accepted, Paused };
-    void speak(const SpeechUtterance& utterance) override {
-        accepted.push_back(utterance);
-        state = State::Accepted;
-    }
-    void pause() override {
-        if (state == State::Accepted)
-            state = State::Paused;
-    }
-    void resume() override {
-        if (state == State::Paused)
-            state = State::Accepted;
-    }
-    void stop() override {
-        accepted.clear();
-        state = State::Idle;
-    }
-    std::vector<SpeechUtterance> accepted;
-    State state = State::Idle;
-};
 } // namespace ortho

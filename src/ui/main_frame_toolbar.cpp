@@ -2,6 +2,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
+#include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/dcbuffer.h>
@@ -161,6 +162,7 @@ void MainFrame::update_bar() {
     play_->Enable(!auxiliary && (active ? paused : reader));
     pause_->Enable(!auxiliary && active && !paused);
     stop_->Enable(!auxiliary && (active || preparing));
+    study_->allow_listening(!active && !preparing);
     tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen · Ctrl+.") : ui::utf8("Stoppa · Ctrl+."));
     back_->Enable(auxiliary || reader);
     tooltip_of(back_, auxiliary ? ui::utf8("Tillbaka · Escape")

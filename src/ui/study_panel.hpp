@@ -16,6 +16,8 @@ public:
     // Back to the hint, when the looked-up word is no longer on screen.
     void clear();
     void apply(Theme);
+    // Lyssna would stop a reading or preparation in progress, so the window disables it meanwhile.
+    void allow_listening(bool);
     // Lines of the current lookup, for the smoke test.
     std::vector<wxString> text() const;
 
@@ -29,6 +31,8 @@ private:
     std::string pronunciation_;
     std::size_t pronunciation_epoch_ = 0;
     bool pronunciation_requested_ = false;
+    wxWindow* listen_ = nullptr;
+    bool listening_allowed_ = true;
     std::string base_source_;
     std::set<std::string> expanded_articles_;
     Theme theme_ = Theme::System;

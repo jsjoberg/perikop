@@ -192,6 +192,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             !address_->GetLabel().Contains(ui::utf8("förberett")) || user_.completed() != completed ||
             (command && !command->IsEnabled()))
             fail(__LINE__);
+        // A stop outside stop_speech, such as a word played in the study panel, ends the preparation too.
+        speech_->stop();
+        speech_status("Stoppad");
+        if (preparation_day_ || address_->GetLabel() != ui::utf8("Dagens läsningar"))
+            fail(__LINE__);
         prepare_day();
         select_day(std::chrono::year{2026} / 10 / 13);
         if (preparing_day() || preparation_day_ || preparing->prepared.state != PreparationState::Idle)
@@ -1056,6 +1061,26 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (std::none_of(lines.begin(), lines.end(), [](const wxString& line) {
                 return line.Contains("Messias");
             }))
+            fail(__LINE__);
+    }
+    // A word's Lyssna would stop the reading in progress, so it waits until the reading ends.
+    {
+        const auto word_listen = [&]() -> wxButton* {
+            for (auto* child : study_->GetChildren())
+                if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == "Lyssna")
+                    return button;
+            return nullptr;
+        };
+        if (!word_listen() || !word_listen()->IsEnabled())
+            fail(__LINE__);
+        display_playback({SpeechState::Playing, {}, 0, 0});
+        if (!word_listen() || word_listen()->IsEnabled())
+            fail(__LINE__);
+        study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source());
+        if (!word_listen() || word_listen()->IsEnabled())
+            fail(__LINE__);
+        display_playback({SpeechState::Stopped, {}, 0, 0});
+        if (!word_listen() || !word_listen()->IsEnabled())
             fail(__LINE__);
     }
     // Embedded pages must preserve the live reader, marked verses, and word-study article.

@@ -73,6 +73,9 @@ void MainFrame::speech_status(const std::string& status) {
     if (read_aloud_.playback().state == SpeechState::Error &&
         speech_->playback().state == SpeechState::Stopped)
         return;
+    // A stop that bypassed stop_speech, such as a word played in the study panel, ended the preparation.
+    if (preparation_day_ && speech_->preparation().state == PreparationState::Idle)
+        preparation_day_.reset();
     if (!preparation_day_)
         read_aloud_.report(status);
     refresh_speech();

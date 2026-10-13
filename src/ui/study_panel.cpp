@@ -42,6 +42,11 @@ void StudyPanel::apply(Theme theme) {
     theme_ = theme;
     rebuild();
 }
+void StudyPanel::allow_listening(bool allowed) {
+    listening_allowed_ = allowed;
+    if (listen_)
+        listen_->Enable(allowed);
+}
 void StudyPanel::clear() {
     if (word_) {
         word_.reset();
@@ -73,6 +78,7 @@ std::vector<wxString> StudyPanel::text() const {
 void StudyPanel::rebuild() {
     Freeze();
     DestroyChildren();
+    listen_ = nullptr;
     const auto colors = palette(theme_);
     const int pad = FromDIP(20);
     wrapped_ = GetClientSize().x;
@@ -134,11 +140,12 @@ void StudyPanel::rebuild() {
             text(ui::utf8("/" + pronunciation_ + "/"), ui_font(13), colors.muted, 4);
         // Read-aloud is Swedish only.
         if (swedish) {
-            auto* listen = ui::button(this, "Lyssna", [this, utterance] {
+            listen_ = ui::button(this, "Lyssna", [this, utterance] {
                 speech_.stop();
                 speech_.speak(utterance);
             });
-            sizer->Add(listen, 0, wxLEFT | wxBOTTOM, pad);
+            listen_->Enable(listening_allowed_);
+            sizer->Add(listen_, 0, wxLEFT | wxBOTTOM, pad);
         }
         if (swedish) {
             const auto form = ui::to_utf8(ui::utf8(word.text).Lower());

@@ -490,7 +490,12 @@ int main(int argc, char** argv) {
         const auto pentecost =
             lectionary.readings_for(date("2026-05-31"), CalendarStyle::New, Tradition::Antiochian)
                 .readings[1];
-        check(pentecost.contains({7, 37}) && !pentecost.contains({8, 1}) && pentecost.contains({8, 12}),
+        const auto in_pentecost = [&](VerseRef ref) {
+            return std::ranges::any_of(pentecost.segments(), [&](const Passage& part) {
+                return part.contains(ref);
+            });
+        };
+        check(in_pentecost({7, 37}) && !in_pentecost({8, 1}) && in_pentecost({8, 12}),
               "omitted Pentecost verses must stay omitted");
         for (int year = 2027; year <= 2035; ++year) {
             const auto pascha =
@@ -500,10 +505,8 @@ int main(int argc, char** argv) {
                       pascha.readings[1].passage.book == "John",
                   "future computed Pascha");
         }
-        auto passage = normalize_passage({"Luke", {6, 36}, {6, 27}});
-        check(passage && passage->first == VerseRef{6, 27}, "normalize reverse range");
-        check(passage->contains({6, 31}) && !passage->contains({6, 37}), "passage membership");
-        check(!normalize_passage({"", {1, 1}, {1, 1}}), "invalid empty book");
+        const Passage passage{"Luke", {6, 27}, {6, 36}};
+        check(passage.contains({6, 31}) && !passage.contains({6, 37}), "passage membership");
         check(corpus.source_for_language("el", "Ps") == "grc-lxx", "OT source selection");
         check(corpus.source_for_language("el", "Luke") == "grc-patriarchal", "NT source selection");
         check(corpus.source_for_language("xx", "Luke").empty(), "unknown source selection");
@@ -962,15 +965,6 @@ int main(int argc, char** argv) {
         const auto sentence = std::string(230, 'a') + " då jag är frånvarande.";
         check(speech_chunks(sentence + " Nästa mening.")[0] == sentence,
               "A nearby sentence ending must take precedence over a split inside its last phrase");
-        StubSpeechEngine engine;
-        engine.speak(utterance);
-        check(engine.accepted.size() == 1, "speech engine accepts utterance");
-        engine.pause();
-        check(engine.state == StubSpeechEngine::State::Paused, "speech pause");
-        engine.resume();
-        check(engine.state == StubSpeechEngine::State::Accepted, "speech resume");
-        engine.stop();
-        check(engine.accepted.empty() && engine.state == StubSpeechEngine::State::Idle, "speech stop");
         const std::filesystem::path user_path(argv[2]);
         std::filesystem::remove(user_path);
         {
