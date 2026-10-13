@@ -418,7 +418,7 @@ std::optional<std::string> swedish_title(const std::string& english) {
             continue;
         auto first = single(english.substr(0, at)), second = single(english.substr(at + separator.size()));
         if (first && second)
-            return *first + ", " + *second;
+            return *first + "; " + *second;
     }
     return std::nullopt;
 }

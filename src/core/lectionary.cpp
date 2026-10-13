@@ -464,7 +464,7 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
         const auto& name = f.feast.empty() ? f.title : f.feast;
         if (!name.empty()) {
             if (!title.empty())
-                title += ", ";
+                title += "; ";
             title += swedish_title(name).value_or(name);
         }
     }

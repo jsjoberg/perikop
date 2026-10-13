@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
               "The address field must show the first verse as each reading starts");
         read_aloud.update({SpeechState::Paused, batch[0].cue, 0, 0.1});
         check(read_aloud.status(corpus)->title ==
-                  "Pausad, " + passage_label(corpus, {{"John", {1, 1}, {1, 1}}}),
+                  "Pausad: " + passage_label(corpus, {{"John", {1, 1}, {1, 1}}}),
               "A paused verse must show where the reading is");
         const auto start = ReadAloud::Clock::now();
         read_aloud.update({SpeechState::Playing, batch[2].cue, 0, 0.2}, start);

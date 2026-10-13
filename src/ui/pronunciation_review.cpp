@@ -311,7 +311,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         list->Thaw();
         rebuilding = false;
         progress->SetLabel(
-            wxString::Format(ui::utf8("%zu ordformer i urvalet, %zu granskade ord, %zu sparade beslut"),
+            wxString::Format(ui::utf8("%zu ordformer i urvalet; %zu granskade ord; %zu sparade beslut"),
                              visible.size(), completed.size(), decisions.size()));
         if (!visible.empty()) {
             size_t row = 0;

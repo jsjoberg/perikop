@@ -302,12 +302,12 @@ std::vector<Passage> BiblePicker::parts() const {
     return result;
 }
 std::vector<wxString> BiblePicker::part_labels() const {
-    // As for a reading in several parts: Del 1, Ps 22:1–6.
+    // As for a reading in several parts: Del 1: Ps 22:1–6.
     std::vector<wxString> result;
     const auto all = parts();
     for (std::size_t i = 0; i < all.size(); ++i)
         result.push_back(stack_.empty() ? ui::utf8(passage_label(corpus_, {all[i]}))
-                                        : wxString::Format(ui::utf8("Del %d, "), int(i + 1)) +
+                                        : wxString::Format(ui::utf8("Del %d: "), int(i + 1)) +
                                               ui::utf8(passage_label(corpus_, {all[i]})));
     return result;
 }

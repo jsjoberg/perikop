@@ -136,7 +136,7 @@ int main(int argc, char** argv) {
                   swedish_title("11th Sunday after Pentecost") == "11:e söndagen efter pingst",
               "Swedish ordinals");
         check(swedish_title("Sunday before Nativity – Eve of Nativity") ==
-                  "Söndagen före Kristi födelse, Julafton",
+                  "Söndagen före Kristi födelse; Julafton",
               "Coinciding Swedish titles");
         const auto today =
             lectionary.readings_for(date("2026-10-05"), CalendarStyle::New, Tradition::Antiochian);

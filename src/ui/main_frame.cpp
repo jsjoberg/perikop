@@ -9,6 +9,7 @@
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
+#include <cctype>
 #include <numeric>
 #include <wx/app.h>
 #include <wx/button.h>
@@ -237,11 +238,14 @@ void MainFrame::refresh_day() {
     // An ordinary day without a fast needs no notice; fast-free periods still say so.
     const auto fast = day_.day.fasting;
     if (fast.period != FastPeriod::None || fast.allowance == DietaryAllowance::Free) {
-        entries_->Add(ui::label(home_content_, "FASTA", 10), 0, wxBOTTOM, FromDIP(6));
-        const auto allowance = fasting_allowance_label(fast);
-        const auto fast_text = fast.period == FastPeriod::None ? allowance
-                               : allowance.empty() ? fasting_period_label(fast.period)
-                                                   : fasting_period_label(fast.period) + ", " + allowance;
+        auto allowance = fasting_allowance_label(fast);
+        if (fast.period != FastPeriod::None && !allowance.empty())
+            // After the colon, as in "Stora fastan: vin och olja tillåtna". The labels start with an ASCII
+            // letter.
+            allowance = fasting_period_label(fast.period) + ": " +
+                        char(std::tolower(static_cast<unsigned char>(allowance.front()))) +
+                        allowance.substr(1);
+        const auto fast_text = allowance.empty() ? fasting_period_label(fast.period) : allowance;
         entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
         if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
             entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
@@ -369,7 +373,7 @@ void MainFrame::open_reading(const Reading& selected) {
     parts_.clear();
     const auto segments = reading.segments();
     for (std::size_t i = 0; i < segments.size(); ++i)
-        parts_.push_back(wxString::Format(ui::utf8("Del %d, "), int(i + 1)) +
+        parts_.push_back(wxString::Format(ui::utf8("Del %d: "), int(i + 1)) +
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();

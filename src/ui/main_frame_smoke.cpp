@@ -1290,13 +1290,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     picker->add_selection();
     const auto first_part =
-        ui::utf8("Del 1, ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
+        ui::utf8("Del 1: ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
     if (!picker->stacked() || picker->first_ || address_->GetLabel() != first_part || !address_->IsEnabled())
         fail(__LINE__);
     picker->select_book(psalms);
     picker->select_chapter(psalms, 22);
     picker->select_verse(psalms, {22, 6});
-    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2, ")))
+    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2: ")))
         fail(__LINE__);
     // Rensa empties the stack and keeps the current selection.
     {

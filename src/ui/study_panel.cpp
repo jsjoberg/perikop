@@ -171,7 +171,7 @@ void StudyPanel::rebuild() {
                 text(ui::utf8(semantic ? "Lars Borin, Lennart Lönngren och Markus Forsberg, Språkbanken"
                                        : "Judy Carola Ribeck, Håkan Jansson och Emma Sköldberg, Språkbanken"),
                      ui_font(8), colors.muted, 4);
-                link(ui::utf8("Källa, Språkbanken"), semantic ? "https://www.sprakbanken.se/resurser/saldo"
+                link(ui::utf8("Källa: Språkbanken"), semantic ? "https://www.sprakbanken.se/resurser/saldo"
                                                               : "https://www.sprakbanken.se/resurser/ao");
                 link("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/");
             };
@@ -218,7 +218,7 @@ void StudyPanel::rebuild() {
                         sizer->Add(more, 0, wxLEFT, pad);
                         sizer->AddSpacer(FromDIP(5));
                     }
-                    auto* source = new wxHyperlinkCtrl(this, wxID_ANY, ui::utf8("Källa, Projekt Runeberg"),
+                    auto* source = new wxHyperlinkCtrl(this, wxID_ANY, ui::utf8("Källa: Projekt Runeberg"),
                                                        ui::utf8(entry.url));
                     source->SetFont(ui_font(9));
                     source->SetNormalColour(colors.accent);
