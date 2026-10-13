@@ -159,7 +159,7 @@ jobs:
           $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
           if (-not $runtime) { throw 'Visual C++ runtime not found' }
           cmake -S . -B build/cmake -G Ninja "-DPERIKOP_DEPENDENCY_DIR=$PWD/build/ci/sources" "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
-            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
+            -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
       - run: cmake --build build/cmake --parallel 4
       - name: Windows version and icon resources
         shell: pwsh

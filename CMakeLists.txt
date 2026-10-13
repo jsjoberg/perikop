@@ -4,7 +4,7 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET 13.4 CACHE STRING "Oldest supported macOS with p
 project(perikop VERSION 0.1.0 LANGUAGES C CXX)
 get_property(perikop_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(NOT perikop_multi_config AND NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+    set(CMAKE_BUILD_TYPE MinSizeRel CACHE STRING "Build type" FORCE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel)
 endif()
 set(CMAKE_CXX_STANDARD 23)
@@ -43,6 +43,7 @@ endif()
 option(ORTHO_BUILD_GUI "Build the native reader" ON)
 option(ORTHO_SYSTEM_WX "Use installed wxWidgets for developer builds" OFF)
 option(ORTHO_SANITIZERS "Enable address and undefined behavior sanitizers" OFF)
+include(cmake/optimization.cmake)
 add_library(ortho-sanitizers INTERFACE)
 if(ORTHO_SANITIZERS AND NOT MSVC)
     # ASan recommends at least -O1; unoptimized SQLite makes the UI checks exceed their CI budget.
@@ -166,6 +167,11 @@ if(ORTHO_BUILD_GUI)
         src/ui/pronunciation_review.cpp
         src/ui/study_panel.cpp
         src/typesetting/paragraph_layout.cpp)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
+        # Keep paragraph fitting fast on older CPUs; the remaining code uses MinSizeRel.
+        set_source_files_properties(src/typesetting/paragraph_layout.cpp PROPERTIES
+            COMPILE_OPTIONS "$<$<CONFIG:MinSizeRel>:-O2>")
+    endif()
     target_link_libraries(perikop PRIVATE ortho-speech ortho-core ${ortho_wx})
     if(WIN32)
         enable_language(RC)

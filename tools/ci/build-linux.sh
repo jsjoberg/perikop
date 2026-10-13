@@ -6,6 +6,7 @@ export PERIKOP_OFFLINE=1 PERIKOP_APPIMAGE_TOOLS=/work/build/ci/tools/appimage
 compiler=/opt/rh/gcc-toolset-15/root/usr/bin
 test "$("$compiler/g++" -dumpversion | cut -d . -f 1)" = 15
 cmake -S . -B build/cmake -DPERIKOP_DEPENDENCY_DIR=/work/build/ci/sources \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
 cmake --build build/cmake --parallel 3
 python3 tools/check_linux_abi.py build/cmake/bin

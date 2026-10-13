@@ -8,6 +8,10 @@ Each package contains the application, its resources, and the Alice and Björn v
 - Windows: `Perikop-0.1.0-windows-x64.exe`. The installer puts Perikop in Program Files and adds a Start menu shortcut.
 - Linux: `Perikop-0.1.0-x86_64.AppImage`. Make the file executable, then run it.
 
+CI builds native code with MinSizeRel, link-time optimization, and removal of unused code.
+x86-64 packages target `x86-64-v2`. The Apple Silicon slice uses the Apple arm64 baseline.
+The bundled ONNX Runtime selects faster speech kernels when the processor supports them.
+
 ## Make a package
 
 Prepare the [voice pack](kokoro-voices.md#prepare-the-pack).

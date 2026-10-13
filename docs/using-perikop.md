@@ -11,6 +11,9 @@ The application needs no network connection after installation.
 - Windows 10 or later, x86-64: run the installer. It installs Perikop in Program Files and adds a Start menu shortcut.
 - Linux x86-64 with glibc 2.34 or later: make the AppImage executable, then run it.
 
+x86-64 packages require an `x86-64-v2` processor, which includes SSE4.2 and POPCNT support.
+The Core i3 ThinkPad X220i is within this CPU target. Execution on that hardware still needs validation.
+
 The macOS application has an ad-hoc signature only.
 On first launch, open **System Settings → Privacy & Security** and select **Open Anyway**.
 The Windows installer has no signature, so SmartScreen shows a warning.

@@ -293,7 +293,8 @@ int main(int argc, char** argv) {
         engine->speak({"", "Ny läsning.", "sv"});
         wait_for(
             [] {
-                return stream && appended == 1 && status.starts_with("Läser");
+                // The first playing report can precede release of a short reading.
+                return stream && appended == 1 && !stream->waiting() && status.starts_with("Läser");
             },
             "A new reading must start after cancellation");
         check(drain() == std::vector<float>{10, 11, 12},

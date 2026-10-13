@@ -5,6 +5,7 @@ export PATH="$PWD/build/ci/tools/bin:$PATH"
 export CCACHE_DIR="$PWD/build/ccache" CCACHE_BASEDIR="$PWD" CCACHE_COMPILERCHECK=content CCACHE_MAXSIZE=2G
 llvm="$PWD/build/ci/tools/bin"
 cmake -S . -B build/cmake "-DPERIKOP_DEPENDENCY_DIR=$PWD/build/ci/sources" \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
     '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64' '-DCMAKE_TEST_LAUNCHER=/usr/bin/arch;-arm64' \
     -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF \
     "-DORTHO_CLANG_TIDY=$llvm/clang-tidy" "-DORTHO_RUN_CLANG_TIDY=$llvm/run-clang-tidy"

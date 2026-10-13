@@ -3,8 +3,8 @@
 ## Requirements
 
 - CMake 3.24 or later and a C++23 compiler with `std::expected`.
-- Windows 10 or later, x86-64: w64devkit with MinGW-w64 GCC 15 or later.
-- Linux x86-64: GCC 15 or later, GTK3 development headers, and Fontconfig development headers.
+- Windows 10 or later, x86-64-v2: w64devkit with MinGW-w64 GCC 15 or later.
+- Linux x86-64-v2: GCC 15 or later, GTK3 development headers, and Fontconfig development headers.
 - macOS: Apple Clang 16 or later and the Xcode command-line tools.
 
 On Linux, install the GTK3 and Fontconfig development packages for your distribution.
@@ -43,7 +43,23 @@ cmake -S . -B build/cmake
 cmake --build build/cmake --parallel
 ```
 
-CMake defaults to Release for generators with one build configuration.
+CMake defaults to MinSizeRel for generators with one build configuration. CI also uses MinSizeRel.
+This configuration optimizes native code for size and disables assertions.
+Paragraph layout uses `-O2` to preserve rendering speed on older CPUs.
+Release and MinSizeRel builds use link-time optimization when the toolchain supports it.
+Static dependencies participate in this optimization. The prebuilt ONNX Runtime keeps its upstream CPU optimizations.
+The linker removes unused native code from Release and MinSizeRel executables.
+For a build without link-time optimization, add `-DPERIKOP_LTO=OFF`.
+Debug builds and sanitizer builds do not enable link-time optimization by default.
+
+x86-64 builds target `x86-64-v2`, which includes SSE4.2 and POPCNT without requiring AVX or AVX2.
+This baseline targets X220-era computers, including the Core i3 ThinkPad X220i.
+The ARM slice of a universal macOS app keeps the Apple arm64 baseline.
+ONNX Runtime selects faster speech kernels at runtime when the processor and operating system support them.
+Execution and speech performance on an X220i still need hardware validation.
+See the [GCC CPU targets](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html)
+and the [ONNX CPU dispatch code](https://github.com/microsoft/onnxruntime/blob/v1.23.2/onnxruntime/core/mlas/lib/platform.cpp).
+
 On Linux, CMake selects the installed `gcc-15` and `g++-15` pair.
 Explicit compiler options, `CC`, `CXX`, and toolchain files take precedence.
 For a debug build, add `-DCMAKE_BUILD_TYPE=Debug`.
