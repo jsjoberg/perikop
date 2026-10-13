@@ -43,7 +43,6 @@ struct Passage {
         return first <= ref && ref <= last;
     }
 };
-std::expected<Passage, std::string> normalize_passage(Passage passage);
 struct Reading {
     ReadingKind kind;
     Passage passage;
@@ -62,15 +61,6 @@ struct Reading {
     }
     Reading(ReadingKind k, Passage p, std::vector<Passage> rest = {}, std::string language = "sv")
         : kind(k), passage(std::move(p)), additional(std::move(rest)), base_language(std::move(language)) {}
-    bool contains(VerseRef ref, const std::string& book = "") const {
-        const auto& selected = book.empty() ? passage.book : book;
-        if (passage.book == selected && passage.contains(ref))
-            return true;
-        for (const auto& p : additional)
-            if (p.book == selected && p.contains(ref))
-                return true;
-        return false;
-    }
     std::vector<Passage> segments() const {
         auto parts = additional;
         parts.insert(parts.begin(), passage);
@@ -116,7 +106,7 @@ struct LiturgicalDay {
     // Fixed labels can include leap days that are invalid in the Gregorian calendar.
     std::optional<std::string> fixed_cycle;
     std::optional<std::string> paschal_cycle;
-    // Swedish names of the day and its feasts, joined by " · ".
+    // Swedish names of the day and its feasts, joined by ", ".
     std::string title;
     // Whether a published annual assignment replaced a calculated reading.
     bool annual = false;

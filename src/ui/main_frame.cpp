@@ -9,6 +9,7 @@
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
+#include <numeric>
 #include <wx/app.h>
 #include <wx/button.h>
 #include <wx/eventfilter.h>
@@ -24,23 +25,23 @@ namespace {
 wxString kind_label(ReadingKind kind) {
     switch (kind) {
     case ReadingKind::MorningPsalm:
-        return "MORGON";
+        return "Morgon";
     case ReadingKind::Epistle:
-        return "EPISTEL";
+        return "Epistel";
     case ReadingKind::Gospel:
-        return "EVANGELIUM";
+        return "Evangelium";
     case ReadingKind::OldTestament:
-        return "GAMLA TESTAMENTET";
+        return "Gamla testamentet";
     case ReadingKind::Vespers:
-        return "VESPER";
+        return "Vesper";
     case ReadingKind::EveningPsalm:
-        return ui::utf8("KVÄLL");
+        return ui::utf8("Kväll");
     case ReadingKind::Matins:
-        return "MATUTIN";
+        return "Ortros";
     case ReadingKind::Hours:
-        return ui::utf8("TIMBÖNER");
+        return ui::utf8("Timböner");
     case ReadingKind::OtherService:
-        return ui::utf8("GUDSTJÄNST");
+        return ui::utf8("Gudstjänst");
     }
     return {};
 }
@@ -165,9 +166,9 @@ void MainFrame::navigate(int days) {
 }
 void MainFrame::refresh_day() {
     day_ = lectionary_.readings_with_variants(selected_.date(), settings_.calendar, settings_.tradition);
-    plan_tiles_.clear();
     date_buttons_.clear();
     home_labels_.clear();
+    home_rows_.clear();
     home_width_ = 0;
     entries_->Clear(true);
     entries_->AddSpacer(FromDIP(48));
@@ -231,7 +232,7 @@ void MainFrame::refresh_day() {
     }
     const auto& heading = day_.day.title;
     if (!heading.empty())
-        entries_->Add(wrapped(ui::utf8(heading), body_font(18)), 0, wxBOTTOM, FromDIP(8));
+        entries_->Add(wrapped(ui::utf8(heading), body_font(24)), 0, wxBOTTOM, FromDIP(8));
     entries_->AddSpacer(FromDIP(28));
     // An ordinary day without a fast needs no notice; fast-free periods still say so.
     const auto fast = day_.day.fasting;
@@ -240,79 +241,81 @@ void MainFrame::refresh_day() {
         const auto allowance = fasting_allowance_label(fast);
         const auto fast_text = fast.period == FastPeriod::None ? allowance
                                : allowance.empty() ? fasting_period_label(fast.period)
-                                                   : fasting_period_label(fast.period) + " · " + allowance;
+                                                   : fasting_period_label(fast.period) + ", " + allowance;
         entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
         if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
             entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
     }
     entries_->AddSpacer(FromDIP(24));
+    entries_->Add(ui::label(home_content_, ui::utf8("LÄSNINGAR"), 10), 0, wxBOTTOM, FromDIP(6));
     if (day_.readings.empty())
         entries_->Add(wrapped(ui::utf8("Ingen daglig bibelläsning är föreskriven"), body_font(18)), 0,
                       wxBOTTOM, FromDIP(20));
     const auto completed = user_.completed();
-    const auto add_reading = [&](const Reading& reading, const std::string& jurisdiction = "") {
-        if (!jurisdiction.empty())
-            entries_->Add(wrapped(ui::utf8(jurisdiction), body_font(13)), 0, wxBOTTOM, FromDIP(6));
-        const auto service =
+    const auto add_row = [this](ReadingRow* row, const std::string& tooltip = "") {
+        if (!tooltip.empty())
+            row->SetToolTip(ui::utf8(tooltip));
+        home_rows_.push_back(row);
+        entries_->Add(row, 0, wxEXPAND);
+    };
+    const auto add_reading = [&](const Reading& reading, const std::string& church,
+                                 const std::string& tooltip) {
+        auto label =
             reading.service.empty() ? kind_label(reading.kind) : ui::utf8(service_label(reading.service));
-        entries_->Add(wrapped(service, ui_font(10)), 0, wxBOTTOM, FromDIP(6));
-        if (!reading.occasion.empty())
-            entries_->Add(
-                wrapped(ui::utf8(swedish_title(reading.occasion).value_or(reading.occasion)), body_font(13)),
-                0, wxBOTTOM, FromDIP(6));
+        // "Composite" names no occasion; the reading's own references show that it is composed.
+        if (!reading.occasion.empty() && reading.occasion != "Composite")
+            label += ui::utf8(", " + swedish_title(reading.occasion).value_or(reading.occasion));
+        if (!church.empty())
+            label = ui::utf8(church + ", ") + label;
         if (!reading.can_open()) {
-            entries_->Add(wrapped(ui::utf8(reading.citation), body_font(18)), 0, wxBOTTOM, FromDIP(8));
-            entries_->Add(
-                wrapped(
-                    ui::utf8(
-                        "Sammansatt liturgisk läsning. Den sammanställda texten finns inte i bibelkorpusen."),
-                    body_font(13)),
-                0, wxBOTTOM, FromDIP(28));
+            add_row(new ReadingRow(home_content_, label, ui::utf8(reading.citation), {}),
+                    "Sammansatt liturgisk läsning. Den sammanställda texten finns inte i bibelkorpusen.");
             return;
         }
-        const auto title = ui::utf8(passage_label(corpus_, corpus_.localize(in_swedish(reading)).segments()));
+        const auto segments = corpus_.localize(in_swedish(reading)).segments();
+        const auto title = ui::utf8(passage_label(corpus_, segments));
         const auto key = day_key(reading);
-        const bool done = completed.contains(key);
-        auto* open = ui::button(home_content_, ui::utf8("Läs"), [this, reading, key, title] {
-            open_tracked(reading, {key, title});
-        });
-        const int gap = FromDIP(12);
-        auto* passage =
-            wrapped(done ? title + ui::utf8("  ✓") : title, body_font(20), open->GetBestSize().x + gap);
-        if (done)
-            passage->SetToolTip(ui::utf8("Läst"));
-        auto* row = new wxBoxSizer(wxHORIZONTAL);
-        row->Add(passage, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, gap);
-        row->Add(open, 0, wxALIGN_CENTER_VERTICAL);
-        entries_->Add(row, 0, wxBOTTOM, FromDIP(28));
+        add_row(new ReadingRow(
+                    home_content_, label, ui::utf8(passage_label(corpus_, segments, true)),
+                    [this, reading, key, title] {
+                        open_tracked(reading, {key, title});
+                    },
+                    completed.contains(key)),
+                tooltip);
     };
-    const auto add_variant = [&](const DayReadings::Variant& variant) {
-        entries_->Add(wrapped(ui::utf8(variant.explanation), body_font(13)), 0, wxBOTTOM, FromDIP(10));
-        if (variant.reading)
-            add_reading(*variant.reading, variant.jurisdiction);
-        else
-            entries_->Add(wrapped(ui::utf8(variant.jurisdiction), body_font(13)), 0, wxBOTTOM, FromDIP(28));
-    };
-    for (std::size_t i = 0; i < day_.readings.size(); ++i) {
-        const bool differs = std::ranges::any_of(day_.variants, [i](const auto& variant) {
-            return variant.primary_index == i;
-        });
-        add_reading(day_.readings[i], differs ? "Grekiska ärkestiftet i Amerika (GOA)" : "");
+    // Epistles, then Gospels, then the other services, each in their own order.
+    std::vector<std::size_t> order(day_.readings.size());
+    std::iota(order.begin(), order.end(), std::size_t{0});
+    std::ranges::stable_sort(order, {}, [this](std::size_t i) {
+        const auto& service = day_.readings[i].service;
+        return service == "Epistle" ? 0 : service == "Gospel" ? 1 : 2;
+    });
+    for (const auto i : order) {
+        // Where the Antiochian order differs, both churches' readings are named.
+        std::string greek_note;
+        bool differs = false;
         for (const auto& variant : day_.variants)
-            if (variant.primary_index == i)
-                add_variant(variant);
+            if (variant.primary_index == i) {
+                differs = true;
+                if (!variant.reading)
+                    greek_note = variant.explanation;
+            }
+        add_reading(day_.readings[i], differs ? "Grekisk" : "", greek_note);
+        for (const auto& variant : day_.variants)
+            if (variant.primary_index == i && variant.reading)
+                add_reading(*variant.reading, "Antiokisk", variant.explanation);
     }
     for (const auto& variant : day_.variants)
-        if (!variant.primary_index)
-            add_variant(variant);
-    add_plans();
+        if (!variant.primary_index && variant.reading)
+            add_reading(*variant.reading, "Antiokisk", variant.explanation);
+    add_next_plan();
     layout_home();
     readings_->Scroll(0, 0);
     apply_settings(false);
     Layout();
 }
 void MainFrame::layout_home() {
-    const int width = std::clamp(readings_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(400));
+    const int width = std::clamp(readings_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(560));
     home_content_->SetMinSize(wxSize(width, -1));
     home_content_->SetSize(wxSize(width, home_content_->GetSize().y));
     // Replacing a wrapped label at the same width makes wxWidgets skip wrapping it again.
@@ -322,6 +325,8 @@ void MainFrame::layout_home() {
             label->SetLabel(text);
             label->Wrap(width - beside);
         }
+        for (auto* row : home_rows_)
+            row->wrap(width);
     }
     home_content_->InvalidateBestSize();
     readings_->FitInside();
@@ -364,7 +369,7 @@ void MainFrame::open_reading(const Reading& selected) {
     parts_.clear();
     const auto segments = reading.segments();
     for (std::size_t i = 0; i < segments.size(); ++i)
-        parts_.push_back(wxString::Format(ui::utf8("Del %d · "), int(i + 1)) +
+        parts_.push_back(wxString::Format(ui::utf8("Del %d, "), int(i + 1)) +
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();
@@ -522,13 +527,11 @@ void MainFrame::apply_settings(bool persist) {
     ui::recolor(root_, colors);
     for (auto* button : date_buttons_)
         button->apply(colors);
+    for (auto* row : home_rows_)
+        row->apply(colors);
     if (month_)
         month_->apply(colors);
-    for (auto* tile : plan_tiles_) {
-        tile->SetBackgroundColour(colors.paper);
-        tile->SetForegroundColour(colors.ink);
-    }
-    for (auto* button : {back_, play_, pause_, stop_})
+    for (auto* button : {back_, play_, pause_, stop_, menu_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)
         button->apply(colors);

@@ -109,6 +109,26 @@ int main(int argc, char** argv) {
             for (const auto& name : {feast.title, feast.feast})
                 if (!name.empty() && !swedish_title(name))
                     throw std::runtime_error("Missing Swedish title: " + name);
+        {
+            // The start page shows each reading's occasion; "Composite" is hidden there.
+            sqlite3* corpus_db = nullptr;
+            check(sqlite3_open_v2(argv[1], &corpus_db, SQLITE_OPEN_READONLY, nullptr) == SQLITE_OK,
+                  "open corpus for occasions");
+            sqlite3_stmt* occasions = nullptr;
+            sqlite3_prepare_v2(corpus_db,
+                               "SELECT DISTINCT description FROM reading_rule "
+                               "WHERE description<>'' AND description<>'Composite'",
+                               -1, &occasions, nullptr);
+            std::string missing;
+            while (sqlite3_step(occasions) == SQLITE_ROW) {
+                const std::string occasion = reinterpret_cast<const char*>(sqlite3_column_text(occasions, 0));
+                if (!swedish_title(occasion))
+                    missing += "\n  " + occasion;
+            }
+            sqlite3_finalize(occasions);
+            sqlite3_close(corpus_db);
+            check(missing.empty(), "Missing Swedish occasion titles:" + missing);
+        }
         check(swedish_title("Tuesday of the 19th week after Pentecost") ==
                   "Tisdag i 19:e veckan efter pingst",
               "Swedish weekday title");
@@ -116,7 +136,7 @@ int main(int argc, char** argv) {
                   swedish_title("11th Sunday after Pentecost") == "11:e söndagen efter pingst",
               "Swedish ordinals");
         check(swedish_title("Sunday before Nativity – Eve of Nativity") ==
-                  "Söndagen före Kristi födelse · Julafton",
+                  "Söndagen före Kristi födelse, Julafton",
               "Coinciding Swedish titles");
         const auto today =
             lectionary.readings_for(date("2026-10-05"), CalendarStyle::New, Tradition::Antiochian);
@@ -490,7 +510,12 @@ int main(int argc, char** argv) {
         const auto pentecost =
             lectionary.readings_for(date("2026-05-31"), CalendarStyle::New, Tradition::Antiochian)
                 .readings[1];
-        check(pentecost.contains({7, 37}) && !pentecost.contains({8, 1}) && pentecost.contains({8, 12}),
+        const auto in_pentecost = [&](VerseRef ref) {
+            return std::ranges::any_of(pentecost.segments(), [&](const Passage& part) {
+                return part.contains(ref);
+            });
+        };
+        check(in_pentecost({7, 37}) && !in_pentecost({8, 1}) && in_pentecost({8, 12}),
               "omitted Pentecost verses must stay omitted");
         for (int year = 2027; year <= 2035; ++year) {
             const auto pascha =
@@ -500,10 +525,8 @@ int main(int argc, char** argv) {
                       pascha.readings[1].passage.book == "John",
                   "future computed Pascha");
         }
-        auto passage = normalize_passage({"Luke", {6, 36}, {6, 27}});
-        check(passage && passage->first == VerseRef{6, 27}, "normalize reverse range");
-        check(passage->contains({6, 31}) && !passage->contains({6, 37}), "passage membership");
-        check(!normalize_passage({"", {1, 1}, {1, 1}}), "invalid empty book");
+        const Passage passage{"Luke", {6, 27}, {6, 36}};
+        check(passage.contains({6, 31}) && !passage.contains({6, 37}), "passage membership");
         check(corpus.source_for_language("el", "Ps") == "grc-lxx", "OT source selection");
         check(corpus.source_for_language("el", "Luke") == "grc-patriarchal", "NT source selection");
         check(corpus.source_for_language("xx", "Luke").empty(), "unknown source selection");
@@ -962,15 +985,6 @@ int main(int argc, char** argv) {
         const auto sentence = std::string(230, 'a') + " då jag är frånvarande.";
         check(speech_chunks(sentence + " Nästa mening.")[0] == sentence,
               "A nearby sentence ending must take precedence over a split inside its last phrase");
-        StubSpeechEngine engine;
-        engine.speak(utterance);
-        check(engine.accepted.size() == 1, "speech engine accepts utterance");
-        engine.pause();
-        check(engine.state == StubSpeechEngine::State::Paused, "speech pause");
-        engine.resume();
-        check(engine.state == StubSpeechEngine::State::Accepted, "speech resume");
-        engine.stop();
-        check(engine.accepted.empty() && engine.state == StubSpeechEngine::State::Idle, "speech stop");
         const std::filesystem::path user_path(argv[2]);
         std::filesystem::remove(user_path);
         {

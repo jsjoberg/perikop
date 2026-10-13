@@ -2,6 +2,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
+#include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/dcbuffer.h>
@@ -18,7 +19,7 @@ void MainFrame::create_toolbar() {
     back_ = new SymbolButton(bar_, Symbol::Back, "Tillbaka", [this] {
         back();
     });
-    back_->SetToolTip(ui::utf8("Tillbaka till dagens läsningar · Ctrl+L"));
+    back_->SetToolTip(ui::utf8("Tillbaka till dagens läsningar, Ctrl+L"));
     bar->Add(back_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
     // Lyssna starts a reading or resumes a paused one; Pausa only pauses.
     play_ = new SymbolButton(bar_, Symbol::Play, "Lyssna", [this] {
@@ -28,12 +29,12 @@ void MainFrame::create_toolbar() {
     pause_ = new SymbolButton(bar_, Symbol::Pause, "Pausa", [this] {
         play_or_pause();
     });
-    pause_->SetToolTip(ui::utf8("Pausa · mellanslag"));
+    pause_->SetToolTip(ui::utf8("Pausa, mellanslag"));
     bar->Add(pause_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
     stop_ = new SymbolButton(bar_, Symbol::Stop, "Stoppa", [this] {
         stop_speech();
     });
-    stop_->SetToolTip(ui::utf8("Avsluta uppläsningen · Escape"));
+    stop_->SetToolTip(ui::utf8("Avsluta uppläsningen, Escape"));
     bar->Add(stop_, 0, wxALIGN_CENTER_VERTICAL);
     address_ = new AddressBar(bar_, [this] {
         address_clicked();
@@ -157,14 +158,15 @@ void MainFrame::update_bar() {
     };
     if (play_->GetLabel() != listen_label)
         play_->SetLabel(listen_label);
-    tooltip_of(play_, listen_label + ui::utf8(" · mellanslag"));
+    tooltip_of(play_, listen_label + ui::utf8(", mellanslag"));
     play_->Enable(!auxiliary && (active ? paused : reader));
     pause_->Enable(!auxiliary && active && !paused);
     stop_->Enable(!auxiliary && (active || preparing));
-    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen · Ctrl+.") : ui::utf8("Stoppa · Ctrl+."));
+    study_->allow_listening(!active && !preparing);
+    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.") : ui::utf8("Stoppa, Ctrl+."));
     back_->Enable(auxiliary || reader);
-    tooltip_of(back_, auxiliary ? ui::utf8("Tillbaka · Escape")
-                                : ui::utf8("Tillbaka till dagens läsningar · Ctrl+L"));
+    tooltip_of(back_,
+               auxiliary ? ui::utf8("Tillbaka, Escape") : ui::utf8("Tillbaka till dagens läsningar, Ctrl+L"));
     // In the Bible browser the field lists the added parts once there are any.
     const auto* picker = dynamic_cast<BiblePicker*>(page_);
     address_->Enable(!picker || picker->stacked());
@@ -189,7 +191,7 @@ void MainFrame::update_bar() {
         title = page_title_;
     else if (preparation_day_ && (preparing || !reader)) {
         const auto preparation = speech_->preparation();
-        title = ui::utf8(preparation.status + " · " + date_swedish(*preparation_day_));
+        title = ui::utf8(preparation.status + ", " + date_swedish(*preparation_day_));
         tooltip = ui::utf8(preparation.status +
                            "\n\nFörbereder den öppna dagens svenska läsningar och alternativ med den valda "
                            "rösten. Sparat ljud återanvänds vid uppläsning.");
@@ -202,7 +204,7 @@ void MainFrame::update_bar() {
         title = dropdown ? parts_[std::min(part_, parts_.size() - 1)] : reading_title_;
     address_->show(title, dropdown);
     if (tooltip.empty())
-        tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe… · Ctrl+G");
+        tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe…, Ctrl+G");
     tooltip_of(address_, tooltip);
     const auto preparation = speech_ ? speech_->preparation() : SpeechPreparation{};
     address_->progress(preparing && preparation.total ? double(preparation.completed) / preparation.total

@@ -22,6 +22,7 @@
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
 #include <wx/menu.h>
+#include <wx/scrolwin.h>
 namespace ortho {
 namespace {
 // Navigation tests need a held playback position without model loading or sound output.
@@ -185,12 +186,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         if (scripture_->reading().passage.book != "Ps")
             fail(__LINE__); // Preparation never opens or follows a reading.
-        preparing->prepared = {PreparationState::Ready, 1, 1, "Ljudet är förberett · Alice"};
+        preparing->prepared = {PreparationState::Ready, 1, 1, "Ljudet är förberett, Alice"};
         refresh_speech();
         show_readings();
         if (preparing_day() || active_playback() || stop_->IsEnabled() ||
             !address_->GetLabel().Contains(ui::utf8("förberett")) || user_.completed() != completed ||
             (command && !command->IsEnabled()))
+            fail(__LINE__);
+        // A stop outside stop_speech, such as a word played in the study panel, ends the preparation too.
+        speech_->stop();
+        speech_status("Stoppad");
+        if (preparation_day_ || address_->GetLabel() != ui::utf8("Dagens läsningar"))
             fail(__LINE__);
         prepare_day();
         select_day(std::chrono::year{2026} / 10 / 13);
@@ -533,30 +539,41 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         back_->IsEnabled() || panes_.front().second->IsEnabled() ||
         address_->GetLabel() != ui::utf8("Dagens läsningar"))
         fail(__LINE__);
-    // Repeated layout keeps long plan explanations wrapped in the centered column.
+    // Repeated layout keeps long explanations wrapped in the centered column.
     layout_home();
     layout_home();
     for (const auto& [label, text, beside] : home_labels_)
         if (text.length() > 100 && !label->GetLabel().Contains("\n"))
             fail(__LINE__);
-    // The start page offers the three reading plans; a marked part shows as read.
-    if (plan_tiles_.size() != 74)
+    // The reading plans have their own page; a marked part shows as read.
+    const auto plan_tiles = [&] {
+        std::vector<wxButton*> tiles;
+        if (page_)
+            for (auto* panel : page_->GetChildren())
+                for (auto* child : panel->GetChildren())
+                    if (auto* tile = wxDynamicCast(child, wxButton);
+                        tile && tile->GetName().Contains(", Del "))
+                        tiles.push_back(tile);
+        return tiles;
+    };
+    show_plans();
+    if (page_title_ != ui::utf8("Läsplaner") || plan_tiles().size() != 74 || readings_->IsShown())
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
-    refresh_day();
-    if (!plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")) ||
-        plan_tiles_[1]->GetToolTipText().EndsWith(ui::utf8("läst")))
+    fill_plans(static_cast<wxScrolledWindow*>(page_));
+    if (plan_tiles().size() != 74 || !plan_tiles().front()->GetToolTipText().EndsWith(ui::utf8("läst")) ||
+        plan_tiles()[1]->GetToolTipText().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
     user_.forget("plan:");
-    refresh_day();
-    if (plan_tiles_.front()->GetToolTipText().EndsWith(ui::utf8("läst")))
+    fill_plans(static_cast<wxScrolledWindow*>(page_));
+    if (plan_tiles().empty() || plan_tiles().front()->GetToolTipText().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
     // All plan parts have native button semantics and a descriptive accessible name.
-    for (auto* tile : plan_tiles_)
-        if (!tile->AcceptsFocus() || !tile->GetName().Contains("Del ") || !tile->GetName().Contains(" · "))
+    for (auto* tile : plan_tiles())
+        if (!tile->AcceptsFocus() || !tile->GetName().Contains("Del ") || !tile->GetName().Contains(", "))
             fail(__LINE__);
 #if wxUSE_ACCESSIBILITY
-    for (auto* tile : plan_tiles_) {
+    for (auto* tile : plan_tiles()) {
         wxString name;
         wxAccRole role = wxROLE_NONE;
         auto* accessible = tile->GetAccessible();
@@ -566,9 +583,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
 #endif
-    wxCommandEvent open_part(wxEVT_BUTTON, plan_tiles_.back()->GetId());
-    plan_tiles_.back()->GetEventHandler()->ProcessEvent(open_part);
-    if (!scripture_->IsShown() || !tracked_)
+    if (const auto tiles = plan_tiles(); !tiles.empty()) {
+        wxCommandEvent open_part(wxEVT_BUTTON, tiles.back()->GetId());
+        tiles.back()->GetEventHandler()->ProcessEvent(open_part);
+        wxTheApp->ProcessPendingEvents();
+    }
+    if (page_ || !scripture_->IsShown() || !tracked_)
         fail(__LINE__);
     back();
     if (!readings_->IsShown())
@@ -1058,6 +1078,26 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }))
             fail(__LINE__);
     }
+    // A word's Lyssna would stop the reading in progress, so it waits until the reading ends.
+    {
+        const auto word_listen = [&]() -> wxButton* {
+            for (auto* child : study_->GetChildren())
+                if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == "Lyssna")
+                    return button;
+            return nullptr;
+        };
+        if (!word_listen() || !word_listen()->IsEnabled())
+            fail(__LINE__);
+        display_playback({SpeechState::Playing, {}, 0, 0});
+        if (!word_listen() || word_listen()->IsEnabled())
+            fail(__LINE__);
+        study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source());
+        if (!word_listen() || word_listen()->IsEnabled())
+            fail(__LINE__);
+        display_playback({SpeechState::Stopped, {}, 0, 0});
+        if (!word_listen() || !word_listen()->IsEnabled())
+            fail(__LINE__);
+    }
     // Embedded pages must preserve the live reader, marked verses, and word-study article.
     scripture_->select_verses({1, 1}, {1, 2});
     scripture_->scroll_by(120);
@@ -1249,13 +1289,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     picker->add_selection();
     const auto first_part =
-        ui::utf8("Del 1 · ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
+        ui::utf8("Del 1, ") + ui::utf8(passage_label(corpus_, {{"John", {1, 50}, {2, 2}}}));
     if (!picker->stacked() || picker->first_ || address_->GetLabel() != first_part || !address_->IsEnabled())
         fail(__LINE__);
     picker->select_book(psalms);
     picker->select_chapter(psalms, 22);
     picker->select_verse(psalms, {22, 6});
-    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2 · ")))
+    if (picker->parts().size() != 2 || !address_->GetLabel().StartsWith(ui::utf8("Del 2, ")))
         fail(__LINE__);
     // Rensa empties the stack and keeps the current selection.
     {
@@ -1301,33 +1341,41 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.tradition = Tradition::Greek;
     settings_.calendar = CalendarStyle::New;
     select_day(parse_date("2026-05-10").value());
-    std::vector<wxButton*> reading_buttons;
-    for (auto* child : home_content_->GetChildren())
-        if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == ui::utf8("Läs"))
-            reading_buttons.push_back(button);
+    const auto click_row = [](ReadingRow* row) {
+        wxMouseEvent down(wxEVT_LEFT_DOWN), up(wxEVT_LEFT_UP);
+        down.SetPosition({4, 4});
+        up.SetPosition({4, 4});
+        row->GetEventHandler()->ProcessEvent(down);
+        row->GetEventHandler()->ProcessEvent(up);
+        wxTheApp->ProcessPendingEvents();
+    };
     const auto openable = std::ranges::count(day_.readings, true, &Reading::can_open) +
                           std::ranges::count_if(day_.variants, [](const auto& variant) {
                               return variant.reading && variant.reading->can_open();
                           });
-    if (reading_buttons.size() != std::size_t(openable))
+    // Every reading has one row, then the next plan part and all plans.
+    if (std::ranges::count_if(home_rows_, &ReadingRow::opens) != openable + 2 ||
+        home_rows_.back()->GetLabel() != ui::utf8("Alla läsplaner"))
         fail(__LINE__);
-    wxButton* variant_button = nullptr;
-    if (!day_.variants.empty() && day_.variants[0].reading) {
-        const auto variant_title = ui::utf8(
-            passage_label(corpus_, corpus_.localize(in_swedish(*day_.variants[0].reading)).segments()));
-        for (const auto& label : home_labels_)
-            if (label.text.StartsWith(variant_title))
-                if (auto* row = label.label->GetContainingSizer(); row && row->GetItemCount() == 2)
-                    variant_button = wxDynamicCast(row->GetItem(std::size_t(1))->GetWindow(), wxButton);
-    }
-    if (variant_button) {
-        wxCommandEvent click(wxEVT_BUTTON, variant_button->GetId());
-        variant_button->GetEventHandler()->ProcessEvent(click);
+    // The Liturgy's Epistle and Gospel come first.
+    if (home_rows_.empty() || !home_rows_.front()->GetLabel().Contains("Epistel"))
+        fail(__LINE__);
+    ReadingRow* variant_row = nullptr;
+    for (auto* row : home_rows_)
+        if (row->GetLabel().StartsWith("Antiokisk"))
+            variant_row = row;
+    if (variant_row) {
+        click_row(variant_row);
         if (!visible_reading_ || visible_reading_->passage.last != VerseRef{11, 30} || !tracked_ ||
             tracked_->key != "day:2026-05-10:Acts 11:19-11:30")
             fail(__LINE__);
     } else
         fail(__LINE__);
+    show_readings();
+    click_row(home_rows_.back());
+    if (page_title_ != ui::utf8("Läsplaner"))
+        fail(__LINE__);
+    close_pages();
     tracked_.reset();
     show_readings();
     settings_.tradition = previous_tradition;

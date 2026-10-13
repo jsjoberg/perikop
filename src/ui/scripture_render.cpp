@@ -33,7 +33,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
             wxString labels;
             for (const auto& language : languages()) {
                 if (!labels.empty())
-                    labels += ui::utf8("     ·     ");
+                    labels += ui::utf8(", ");
                 const auto source = source_of(language);
                 labels += language == "sv" ? swedish_edition(index)
                           : language == "en"

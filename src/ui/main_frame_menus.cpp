@@ -40,7 +40,8 @@ enum {
     Bjorn,
     Study,
     Highlight,
-    Prepare
+    Prepare,
+    Plans
 };
 const int rates[] = {25, 50, 75, 100, 125, 150, 175, 200};
 // The left column is Swedish. Beside it: nothing, Ordstudium, or one of these languages.
@@ -105,6 +106,7 @@ std::vector<std::pair<wxMenu*, wxString>> MainFrame::menus() const {
     auto* bible = new wxMenu;
     bible->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
     bible->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
+    bible->Append(Plans, ui::utf8("Läsplaner"));
     auto* view = new wxMenu;
     view->AppendRadioItem(Right, "Bara svenska");
     view->AppendRadioItem(Study, "Svenska och ordstudium");
@@ -250,6 +252,10 @@ void MainFrame::make_menus() {
                 browse_bible();
                 return;
             }
+            if (id == Plans) {
+                show_plans();
+                return;
+            }
             if (id == Play) {
                 play_or_pause();
                 return;
@@ -306,7 +312,7 @@ void MainFrame::make_menus() {
             }
             apply_settings();
         },
-        Today, Prepare);
+        Today, Plans);
 }
 void MainFrame::show_menu_bar(bool shown) {
 #ifdef __WXOSX__

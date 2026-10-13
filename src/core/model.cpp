@@ -1,5 +1,4 @@
 #include "core/model.hpp"
-#include <algorithm>
 #include <charconv>
 #include <ctime>
 #include <iomanip>
@@ -59,14 +58,6 @@ std::string date_swedish(CivilDate date) {
     static const char* weekdays[] = {"Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"};
     return std::string(weekdays[std::chrono::weekday{std::chrono::sys_days{date}}.c_encoding()]) + " " +
            std::to_string(unsigned(date.day())) + " " + month_swedish(date);
-}
-std::expected<Passage, std::string> normalize_passage(Passage passage) {
-    if (passage.book.empty() || passage.first.chapter < 1 || passage.first.verse < 1 ||
-        passage.last.chapter < 1 || passage.last.verse < 1)
-        return std::unexpected("Invalid passage coordinates");
-    if (passage.last < passage.first)
-        std::swap(passage.first, passage.last);
-    return passage;
 }
 void SelectedDay::select(CivilDate date) {
     if (!date.ok() || int(date.year()) < 1 || int(date.year()) > 9999)

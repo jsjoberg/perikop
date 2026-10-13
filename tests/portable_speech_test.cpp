@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
         engine->prepare_batch(reading);
         wait_for(
             [] {
-                return status == "Ljudet är förberett · Alice";
+                return status == "Ljudet är förberett, Alice";
             },
             "Cached preparation must finish without playback");
         const auto prepared = engine->preparation();

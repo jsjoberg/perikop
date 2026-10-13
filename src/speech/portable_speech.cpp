@@ -169,7 +169,7 @@ class PortableSpeech final : public SpeechEngine {
         std::lock_guard lock(mutex_);
         if (shutdown_ || generation != generation_.load())
             return;
-        stage_ = status + (!preparing_ && cache_unavailable_ ? " · utan ljudcache" : "");
+        stage_ = status + (!preparing_ && cache_unavailable_ ? ", utan ljudcache" : "");
         if (preparing_) {
             preparation_.status = stage_;
             if (state == SpeechState::Completed)
@@ -340,21 +340,21 @@ class PortableSpeech final : public SpeechEngine {
                     const auto progress = std::to_string(i + 1) + "/" + std::to_string(parts.size());
                     const auto name = voice_name(voice);
                     playing = "Läser med " + name;
-                    report(generation, preparing ? "Förbereder ljud med " + name + " · " + progress
-                                       : i       ? "Läser med " + name + " · förbereder del " + progress
-                                                 : "Förbereder läsningen · " + progress);
+                    report(generation, preparing ? "Förbereder ljud med " + name + ", " + progress
+                                       : i       ? "Läser med " + name + ", förbereder del " + progress
+                                                 : "Förbereder läsningen, " + progress);
                     std::optional<std::vector<float>> samples;
                     with_cache([&](SpeechCache& store) {
                         samples = store.load(revision, language, text);
                     });
                     if (!samples) {
                         if (!kokoro) {
-                            report(generation, "Förbereder röstmodellen · " + name, SpeechState::Loading);
+                            report(generation, "Förbereder röstmodellen, " + name, SpeechState::Loading);
                             kokoro = std::make_unique<Kokoro>(pack_);
                         }
-                        report(generation, preparing ? "Förbereder ljud med " + name + " · " + progress
-                                           : i       ? "Läser med " + name + " · förbereder del " + progress
-                                                     : "Förbereder läsningen · " + progress);
+                        report(generation, preparing ? "Förbereder ljud med " + name + ", " + progress
+                                           : i       ? "Läser med " + name + ", förbereder del " + progress
+                                                     : "Förbereder läsningen, " + progress);
                         const auto begin = std::chrono::steady_clock::now();
                         samples = kokoro->generate(text, voice, cancelled);
                         if (cancelled())
@@ -375,7 +375,7 @@ class PortableSpeech final : public SpeechEngine {
                                 break;
                             preparation_.completed = i + 1;
                         }
-                        report(generation, "Förbereder ljud med " + name + " · " + progress);
+                        report(generation, "Förbereder ljud med " + name + ", " + progress);
                         continue;
                     }
                     if (i)
@@ -435,7 +435,7 @@ class PortableSpeech final : public SpeechEngine {
                             continue;
                         active_ = false;
                     }
-                    report(generation, "Ljudet är förberett · " + voice_name(voice), SpeechState::Completed);
+                    report(generation, "Ljudet är förberett, " + voice_name(voice), SpeechState::Completed);
                     continue;
                 }
                 {
