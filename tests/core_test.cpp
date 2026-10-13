@@ -814,13 +814,7 @@ int main(int argc, char** argv) {
             check(!archaic.empty() && archaic.front().headword == "få" && archaic.front().gram == "vb" &&
                       archaic.front().match == "curated",
                   "reviewed archaic forms retain their matching provenance");
-            const auto academic = study.academic("främst");
-            check(academic.size() == 2 && academic.front().gram != academic.back().gram &&
-                      academic.front().match == "exact",
-                  "the academic list preserves distinct entries sharing a source sense ID");
-            check(study.saldo("xhjärta").empty() && study.academic("xbetydelse").empty() &&
-                      study.academic("gavs").empty(),
-                  "modern lookup never guesses a suffix or maps a verb to an academic participle");
+            check(study.saldo("xhjärta").empty(), "modern lookup never guesses a suffix");
             const auto jesu = study.biblical("jesu");
             check(jesu.size() == 2 && jesu.front().headword == "Jesus Kristus" &&
                       jesu.back().headword == "Jesus Justus",

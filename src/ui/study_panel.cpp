@@ -148,12 +148,9 @@ void StudyPanel::rebuild() {
             const auto entries = corpus_.swedish(form);
             const auto articles = corpus_.biblical(form);
             const auto saldo = corpus_.saldo(form);
-            const auto academic = corpus_.academic(form);
-            const auto modern = [&](const std::vector<ModernWordEntry>& words, bool semantic) {
-                if (words.empty())
-                    return;
-                section(ui::utf8(semantic ? "ORD OCH ASSOCIATIONER, SALDO" : "AKADEMISK ORDLISTA"));
-                for (const auto& entry : words) {
+            if (!saldo.empty()) {
+                section(ui::utf8("ORD OCH ASSOCIATIONER, SALDO"));
+                for (const auto& entry : saldo) {
                     text(ui::utf8(entry.headword) + "   " + word_class(entry.gram), body_font(15), colors.ink,
                          2);
                     if (entry.match != "exact")
@@ -164,15 +161,11 @@ void StudyPanel::rebuild() {
                         text(ui::utf8("Associationer (betydelsesamband): " + entry.associations), ui_font(11),
                              colors.ink, 6);
                 }
-                text(ui::utf8(semantic ? "Lars Borin, Lennart Lönngren och Markus Forsberg, Språkbanken"
-                                       : "Judy Carola Ribeck, Håkan Jansson och Emma Sköldberg, Språkbanken"),
-                     ui_font(8), colors.muted, 4);
-                link(ui::utf8("Källa: Språkbanken"), semantic ? "https://www.sprakbanken.se/resurser/saldo"
-                                                              : "https://www.sprakbanken.se/resurser/ao");
+                text(ui::utf8("Lars Borin, Lennart Lönngren och Markus Forsberg, Språkbanken"), ui_font(8),
+                     colors.muted, 4);
+                link(ui::utf8("Källa: Språkbanken"), "https://www.sprakbanken.se/resurser/saldo");
                 link("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/");
-            };
-            modern(saldo, true);
-            modern(academic, false);
+            }
             if (!entries.empty())
                 section(ui::utf8("ORDBOK, DALIN 1850–53"));
             for (const auto& entry : entries) {
@@ -224,7 +217,7 @@ void StudyPanel::rebuild() {
                     sizer->AddSpacer(FromDIP(12));
                 }
             }
-            if (entries.empty() && articles.empty() && saldo.empty() && academic.empty()) {
+            if (entries.empty() && articles.empty() && saldo.empty()) {
                 section(ui::utf8("SVENSKA UPPSLAGSKÄLLOR"));
                 text(ui::utf8("Ordet finns inte i de svenska uppslagskällorna."), ui_font(11), colors.muted);
             }

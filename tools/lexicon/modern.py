@@ -1,4 +1,4 @@
-"""Import licensed SALDO associations, morphology, and academic word metadata."""
+"""Import licensed SALDO associations and morphology."""
 from dataclasses import dataclass
 import unicodedata
 import xml.etree.ElementTree as ET
@@ -56,23 +56,6 @@ def saldo_entries(path):
     return result
 
 
-def academic_entries(path):
-    result = {}
-    for element in lexical_entries(path):
-        form = element.find('Lemma/FormRepresentation')
-        fields = features(form)
-        sense = element.find('Sense')
-        # The export repeats some sense IDs for distinct ranked entries.
-        lemgrams = frozenset(x.get('val') for x in form.findall('feat[@att="lemgram"]')
-                            if fields['nativePartOfSpeech'] != 'particip' or '..vb.' not in x.get('val'))
-        entry = Entry(sense.get('id') + '#' + fields['rank'], fields['writtenForm'],
-                      fields['nativePartOfSpeech'], lemgrams)
-        if entry.id in result:
-            raise ValueError(f'Duplicate academic word: {entry.id}')
-        result[entry.id] = entry
-    return result
-
-
 def morphology(path, words):
     """Keep published full forms for corpus words; exclude compound fragments."""
     result = {}
@@ -113,7 +96,7 @@ def resolve(entries, words, inflections, curated):
         if not matches and word in curated:
             headword, verbs = curated[word]
             matches = {key: 'curated' for key in headwords.get(normalized(headword), ())
-                       if not verbs or entries[key].gram in ('vb', 'verb')}
+                       if not verbs or entries[key].gram == 'vb'}
         result[word] = matches
     return result
 

@@ -130,7 +130,7 @@ The word-study tables in `resources/corpus/corpus.db` keep the entries that the 
 The unmodified inputs are kept xz-compressed in `resources/lexicon/input` in the source repository; they do not ship.
 https://spraakbanken.gu.se/resurser/dalin
 
-Modern word metadata uses SALDO, SALDOs morfologi, and Akademisk ordlista from Språkbanken under CC BY 4.0.
+Modern word metadata uses SALDO and SALDOs morfologi from Språkbanken under CC BY 4.0.
 These datasets contain word metadata and semantic associations. Their imported XML files contain no prose definitions or translations.
 
 SALDO citation: Borin, Lars, Lönngren, Lennart, and Forsberg, Markus (2017). *SALDO*. Dataset updated 2017-09-19.
@@ -143,14 +143,9 @@ Processed and distributed by Språkbanken.
 https://doi.org/10.23695/agcm-ny22
 https://www.sprakbanken.se/resurser/saldom
 
-Academic word list citation: Ribeck, Judy Carola, Jansson, Håkan, and Sköldberg, Emma (2017). *Akademisk ordlista*. Dataset updated 2017-09-13.
-Processed and distributed by Språkbanken.
-https://doi.org/10.23695/tqkx-av74
-https://www.sprakbanken.se/resurser/ao
-
 Changes: unused entries omitted, case and Unicode normalized for matching, associations converted to readable headwords, and data converted to SQLite.
 Published inflections and reviewed historical forms link Swedish 1917 words to entries. Compound fragments and component forms of phrases are excluded.
-Academic participle entries omit verbal aliases from inflection matching. Separate entries and SALDO senses remain separate.
+Separate SALDO senses remain separate.
 Input URLs, dataset dates, attributions, and SHA-256 hashes are recorded in `tools/lexicon/inputs.json`.
 The dataset licences remain separate from Perikop's MIT code licence. No endorsement by the creators or Språkbanken is implied.
 The CC BY 4.0 legal text is bundled in `resources/licenses/CC-BY-4.0.txt`.

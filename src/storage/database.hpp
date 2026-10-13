@@ -77,11 +77,10 @@ public:
     std::vector<OrdoRule> ordo_rules() const;
     std::vector<CommemorationRule> commemoration_rules() const;
     // Word study for a lowercase Swedish 1917 form: Dalin, Nyström's biblical articles,
-    // SALDO and Akademisk ordlista. The entries are resolved when the corpus is built.
+    // and SALDO. The entries are resolved when the corpus is built.
     std::vector<DalinEntry> swedish(const std::string& form) const;
     std::vector<BiblicalEntry> biblical(const std::string& form) const;
     std::vector<ModernWordEntry> saldo(const std::string& form) const;
-    std::vector<ModernWordEntry> academic(const std::string& form) const;
 
 private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;

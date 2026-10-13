@@ -2,7 +2,7 @@
 
 Status on 2026-10-12: awaiting an authorized dataset export.
 SAOL data is not bundled or displayed by Perikop yet.
-SALDO and Akademisk ordlista are integrated alternatives. See [Word study](word-study.md) for their scope and licences.
+SALDO is the integrated alternative. See [Word study](word-study.md) for their scope and licences.
 
 ## Verified source and licence
 

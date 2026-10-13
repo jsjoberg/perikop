@@ -2,7 +2,7 @@
 """Fill the corpus database's word-study tables for the Ordstudium panel from pinned inputs.
 
 tools/corpus/build_corpus.py calls build() on the database it is building.
-Swedish 1917 forms resolve to Dalin, Nyström, SALDO, and academic word entries
+Swedish 1917 forms resolve to Dalin, Nyström, and SALDO entries
 at build time. The reader only looks forms up.
 """
 import itertools, re
@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from fetch import fetch
 from biblobok import articles, resolve_forms
-from modern import saldo_entries, academic_entries, morphology, resolve as resolve_modern, associations
+from modern import saldo_entries, morphology, resolve as resolve_modern, associations
 root=Path(__file__).resolve().parents[2]
 
 def build(db):
@@ -91,12 +91,9 @@ def build(db):
     biblical_forms=resolve_forms(biblical_entries,counts,spellings)
     biblical_used={article for matches in biblical_forms.values() for article in matches}
     saldo=saldo_entries(fetch('saldo'))
-    academic=academic_entries(fetch('ao'))
     inflections=morphology(fetch('saldom'),counts)
     saldo_forms=resolve_modern(saldo,counts,inflections,irregular)
-    academic_forms=resolve_modern(academic,counts,inflections,irregular)
     saldo_used={key for matches in saldo_forms.values() for key in matches}
-    academic_used={key for matches in academic_forms.values() for key in matches}
 
     # --- Write ---------------------------------------------------------------------
     ids={lemgram:i for i,lemgram in enumerate(sorted({l for ls in resolved.values() for l in ls}),1)}
@@ -106,16 +103,14 @@ def build(db):
         for key,headword,_,definition,url,_ in biblical_entries if key in biblical_used))
     db.executemany('INSERT INTO sv_biblical VALUES(?,?,?)',sorted((word,article,rank) for word,matches in biblical_forms.items() for rank,article in enumerate(matches)))
     db.executemany('INSERT INTO saldo VALUES(?,?,?,?)',[(key,saldo[key].headword,saldo[key].gram,associations(saldo[key],saldo)) for key in sorted(saldo_used)])
-    db.executemany('INSERT INTO academic VALUES(?,?,?)',[(key,academic[key].headword,academic[key].gram) for key in sorted(academic_used)])
-    for table,matches in (('sv_saldo',saldo_forms),('sv_academic',academic_forms)):
-        db.executemany(f'INSERT INTO {table} VALUES(?,?,?)',sorted((word,key,match) for word,entries in matches.items() for key,match in entries.items()))
+    db.executemany('INSERT INTO sv_saldo VALUES(?,?,?)',sorted((word,key,match) for word,entries in saldo_forms.items() for key,match in entries.items()))
     if db.execute('PRAGMA foreign_key_check').fetchall():raise SystemExit('Word-study foreign key check failed')
     total=sum(counts.values());covered=sum(n for w,n in counts.items() if resolved[w])
     print(f'Swedish forms: {sum(1 for w in counts if resolved[w])}/{len(counts)} resolved, {100*covered/total:.1f}% of word occurrences')
     combined=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word])
     print(f'Biblical articles: {len(biblical_used)} of {len(biblical_entries)}; combined Swedish lookup coverage: {100*combined/total:.1f}% of word occurrences')
     print(f'Dalin entries: {len(ids)}')
-    print(f'SALDO senses: {len(saldo_used)}; academic words: {len(academic_used)}')
-    modern_covered=sum(n for word,n in counts.items() if saldo_forms[word] or academic_forms[word])
-    all_covered=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word] or saldo_forms[word] or academic_forms[word])
-    print(f'Modern sources: {100*modern_covered/total:.1f}%; all sources: {100*all_covered/total:.1f}% of word occurrences')
+    print(f'SALDO senses: {len(saldo_used)}')
+    modern_covered=sum(n for word,n in counts.items() if saldo_forms[word])
+    all_covered=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word] or saldo_forms[word])
+    print(f'SALDO: {100*modern_covered/total:.1f}%; all sources: {100*all_covered/total:.1f}% of word occurrences')

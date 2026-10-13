@@ -18,12 +18,10 @@ For a Swedish 1917 word:
 2. Matching SALDO entries show modern headwords, word classes, and semantic associations.
    Associations describe relationships between meanings. They are not dictionary definitions or guaranteed synonyms.
    Published inflections identify base forms. Reviewed historical mappings have a separate label.
-3. Matching Akademisk ordlista entries identify academic vocabulary and word classes.
-   The downloaded XML contains no prose definitions or English translations.
-   Both sources show their creators, Språkbanken source links, and the CC BY 4.0 licence link.
-4. Its entries in Dalin's *Ordbok öfver svenska språket* (1850–1853).
+   The section shows the creators, the Språkbanken source link, and the CC BY 4.0 licence link.
+3. Its entries in Dalin's *Ordbok öfver svenska språket* (1850–1853).
    Dalin's Swedish is close to the 1917 text, so it also explains archaic words.
-5. Matching articles from Erik Nyström's *Biblisk ordbok för hemmet och skolan* (1896).
+4. Matching articles from Erik Nyström's *Biblisk ordbok för hemmet och skolan* (1896).
    These cover biblical people, places, and terms. **Jesu** links to **Jesus**, and **Kristi** links to **Kristus**.
    Long articles start with a preview. Select **Visa hela artikeln** to read the full prose offline.
    The source link opens the original Runeberg article. Different people with the same name can have separate entries.
@@ -40,7 +38,6 @@ The rebuild needs no network access.
 |---|---|---|
 | Modern headwords and semantic associations | [SALDO](https://www.sprakbanken.se/resurser/saldo), `saldo.xml`, Språkbanken | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | Modern inflected forms | [SALDOs morfologi](https://www.sprakbanken.se/resurser/saldom), `saldom.xml`, Språkbanken | CC BY 4.0 |
-| Academic vocabulary and word classes | [Akademisk ordlista](https://www.sprakbanken.se/resurser/ao), `ao.xml`, Språkbanken | CC BY 4.0 |
 | Swedish definitions | Dalin, `dalin.xml`, Språkbanken Text | CC BY 4.0 |
 | Old inflected forms | Dalin's morphology, `dalinm.xml`, Språkbanken Text | CC BY 4.0 |
 | Biblical articles | Nyström, fourth edition (1896), Project Runeberg, 21 letter pages | Public domain |
@@ -63,14 +60,12 @@ The 21 pages have pinned SHA-256 hashes in `tools/lexicon/inputs.json`.
 The combined sources cover 88.2 % of Swedish 1917 word occurrences. The bundle contains 2,413 biblical articles, including cross-reference targets.
 
 SALDO matches whole headwords and published full forms through their lemma identifiers.
-Compound fragments and component forms of phrases are excluded. No suffix guesses run for these sources.
+Compound fragments and component forms of phrases are excluded. No suffix guesses run for SALDO.
 Reviewed irregular 1917 forms supply a fallback when no published form matches.
 Distinct SALDO senses remain separate. Word classes describe possible entries, rather than a grammatical analysis of the verse.
-Academic participles exclude verbal aliases from inflection matching, so a verb form cannot match every participle with that verb's identifier.
-The academic export repeats some sense IDs. The import combines each ID with its source rank to retain distinct entries.
 
-The bundle contains 12,751 SALDO senses and 336 academic word entries.
-These sources match 96.0 % of Swedish word occurrences. All four sources together match 98.2 %.
+The bundle contains 12,751 SALDO senses.
+SALDO matches 96.0 % of Swedish word occurrences. All three sources together match 98.2 %.
 These percentages measure available entries, not prose definitions or correct interpretation of each word in context.
 
 The build keeps only entries that the texts use.

@@ -1018,12 +1018,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(part);
             });
         };
-        if (!has("AKADEMISK ORDLISTA") || !has("adjektiv") || !has("adverb"))
+        if (!has("SALDO") || !has("adjektiv") || !has("adverb"))
             fail(__LINE__);
         bool source = false, license = false;
         for (auto* child : study_->GetChildren()) {
             if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
-                source |= link->GetURL() == "https://www.sprakbanken.se/resurser/ao";
+                source |= link->GetURL() == "https://www.sprakbanken.se/resurser/saldo";
                 license |= link->GetURL() == "https://creativecommons.org/licenses/by/4.0/";
             }
         }
@@ -1032,7 +1032,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     study_->show({"John", "orimligtpåhittat", {1, 17}, 0}, scripture_->base_source());
     for (const auto& line : study_->text())
-        if (line.Contains("SALDO") || line.Contains("AKADEMISK ORDLISTA"))
+        if (line.Contains("SALDO"))
             fail(__LINE__);
     study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source());
     {

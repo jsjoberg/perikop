@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "327f32b9591bb303223273abb6fb36a71d71e7f75e0aedd0a9e97455ff2b618f",
+      "sha256": "15c9d558eba14177fd1df5506dcf5b54d628485a5cc0b4d748f91fffc88d1eeb",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "88830a2d9c6b45a96965493036acd4dabf2ddeaa87b161fff7d9b1c7ebd3371c"
+      "sha256": "7a0b45495e9f4c5f8178da6b240e0408c28647921e853096839df3773f3fa7a3"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -597,13 +597,6 @@
       "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/saldom/saldom.xml",
       "role": "Word-study input for tools/lexicon/build_study.py, xz-compressed; the decompressed file has the SHA-256 in tools/lexicon/inputs.json; not shipped",
       "sha256": "bf4d8f14d596adfbcbfc80bc099b1ec53ea22ee19438d20030af89f3632e52d4"
-    },
-    {
-      "path": "resources/lexicon/input/ao.xml.xz",
-      "license": "CC-BY-4.0",
-      "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/ao/ao.xml",
-      "role": "Word-study input for tools/lexicon/build_study.py, xz-compressed; the decompressed file has the SHA-256 in tools/lexicon/inputs.json; not shipped",
-      "sha256": "95167496b53099a8e6565fe149bcbc4f13d3c1e4523938e382d21227a9537688"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_48x48.png",

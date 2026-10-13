@@ -65,11 +65,6 @@ const std::vector<Section>& sections() {
            {{"https://doi.org/10.23695/s80w-2517", "SALDO, uppdaterat 2017-09-19"},
             {"https://doi.org/10.23695/agcm-ny22", "SALDOs morfologi, Språkbanken, 2017-09-19"},
             {"https://creativecommons.org/licenses/by/4.0/", "CC BY 4.0"}}},
-          {"Akademisk ordlista (2017)",
-           "Judy Carola Ribeck, Håkan Jansson och Emma Sköldberg. Bearbetad och distribuerad av Språkbanken. "
-           "CC BY 4.0. Filtrerad och kopplad till bibeltextens ordformer.",
-           {{"https://doi.org/10.23695/tqkx-av74", "Akademisk ordlista, uppdaterad 2017-09-13"},
-            {"https://creativecommons.org/licenses/by/4.0/", "CC BY 4.0"}}},
           {"Dalins ordbok",
            "Språkbanken Text, Göteborgs universitet. CC BY 4.0.",
            {"https://spraakbanken.gu.se/resurser/dalin"}},

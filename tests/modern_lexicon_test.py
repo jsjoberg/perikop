@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools/lexicon'))
-from modern import Entry, academic_entries, associations, morphology, resolve, saldo_entries
+from modern import Entry, associations, morphology, resolve, saldo_entries
 
 
 class ModernLexiconTest(unittest.TestCase):
@@ -69,23 +69,6 @@ class ModernLexiconTest(unittest.TestCase):
         self.assertEqual(entries['mången..1'].lemgrams, {'mången..pn.1'})
         entries['mycken..1'] = Entry('mycken..1', 'mycken', 'pn', frozenset())
         self.assertEqual(associations(entries['mången..1'], entries), 'mycken')
-
-    def test_academic_repeated_ids_and_participle_aliases(self):
-        path = self.xml('''
-          <LexicalEntry><Lemma><FormRepresentation>
-            <feat att="writtenForm" val="given"/><feat att="lemgram" val="ge..vb.1"/>
-            <feat att="nativePartOfSpeech" val="particip"/><feat att="rank" val="244"/>
-          </FormRepresentation></Lemma><Sense id="ao--given"/></LexicalEntry>
-          <LexicalEntry><Lemma><FormRepresentation>
-            <feat att="writtenForm" val="given"/><feat att="lemgram" val="given..av.1"/>
-            <feat att="nativePartOfSpeech" val="particip"/><feat att="rank" val="257"/>
-          </FormRepresentation></Lemma><Sense id="ao--given"/></LexicalEntry>''')
-        entries = academic_entries(path)
-        matches = resolve(entries, ['given', 'givna', 'gav'],
-                          {'givna': {'given..av.1'}, 'gav': {'ge..vb.1'}}, {})
-        self.assertEqual(set(matches['given']), {'ao--given#244', 'ao--given#257'})
-        self.assertEqual(matches['givna'], {'ao--given#257': 'inflected'})
-        self.assertFalse(matches['gav'])
 
     def test_curated_verbs_do_not_include_adjective_namesakes(self):
         entries = {'verb': Entry('verb', 'få', 'vb', frozenset()),

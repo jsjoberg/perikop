@@ -8,6 +8,10 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
+### Removed
+
+- Akademisk ordlista from word study. SALDO already shows the same headwords and word classes for almost every word it matched, and some of its matches were wrong.
+
 ## [0.1.0] - 2026-10-12
 
 The first release.

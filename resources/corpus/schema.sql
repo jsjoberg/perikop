@@ -74,12 +74,10 @@ CREATE TABLE commemoration_rule(id INTEGER PRIMARY KEY,day_id INTEGER NOT NULL R
 -- Published annual assignments of one jurisdiction: greek (GOA) or antiochian.
 CREATE TABLE ordo_rule(jurisdiction TEXT NOT NULL CHECK(jurisdiction IN ('greek','antiochian')),year INTEGER,month INTEGER,day INTEGER,service TEXT,pdist INTEGER,PRIMARY KEY(jurisdiction,year,month,day,service)) STRICT;
 -- Word study, filled by tools/lexicon/build_study.py: entries the Swedish 1917 word forms
--- resolve to in Dalin, Nyström's Biblisk ordbok, SALDO and Akademisk ordlista.
+-- resolve to in Dalin, Nyström's Biblisk ordbok and SALDO.
 CREATE TABLE dalin(id INTEGER PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, definition TEXT NOT NULL) STRICT;
 CREATE TABLE sv_word(form TEXT NOT NULL, dalin INTEGER NOT NULL REFERENCES dalin(id), PRIMARY KEY(form,dalin)) STRICT, WITHOUT ROWID;
 CREATE TABLE biblical(id TEXT PRIMARY KEY, headword TEXT NOT NULL, definition TEXT NOT NULL, url TEXT NOT NULL) STRICT, WITHOUT ROWID;
 CREATE TABLE sv_biblical(form TEXT NOT NULL, article TEXT NOT NULL REFERENCES biblical(id), rank INTEGER NOT NULL, PRIMARY KEY(form,article)) STRICT, WITHOUT ROWID;
 CREATE TABLE saldo(id TEXT PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, associations TEXT NOT NULL) STRICT, WITHOUT ROWID;
 CREATE TABLE sv_saldo(form TEXT NOT NULL, entry TEXT NOT NULL REFERENCES saldo(id), match TEXT NOT NULL CHECK(match IN ('exact','inflected','curated')), PRIMARY KEY(form,entry)) STRICT, WITHOUT ROWID;
-CREATE TABLE academic(id TEXT PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL) STRICT, WITHOUT ROWID;
-CREATE TABLE sv_academic(form TEXT NOT NULL, entry TEXT NOT NULL REFERENCES academic(id), match TEXT NOT NULL CHECK(match IN ('exact','inflected','curated')), PRIMARY KEY(form,entry)) STRICT, WITHOUT ROWID;
