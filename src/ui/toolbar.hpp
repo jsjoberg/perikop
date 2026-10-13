@@ -43,6 +43,28 @@ private:
     bool checked_ = false, toggle_ = false;
 };
 
+// A drawn text button, the same on every platform. It paints in the background and
+// foreground colours its page sets, and sends wxEVT_BUTTON like a native button.
+class TextButton final : public wxControl {
+public:
+    TextButton(wxWindow* parent, const wxString& label);
+    bool Enable(bool enable = true) override;
+    bool AcceptsFocus() const override {
+        return IsShown() && IsEnabled();
+    }
+    bool AcceptsFocusFromKeyboard() const override {
+        return AcceptsFocus();
+    }
+
+protected:
+    wxSize DoGetBestClientSize() const override;
+
+private:
+    void paint(wxPaintEvent&);
+    std::function<void()> click_;
+    PressState press_;
+};
+
 // A start-page row that opens what it names: a quiet label above the wrapped text,
 // with a chevron, or a check once read. Without an action it only shows the text.
 class ReadingRow final : public wxControl {

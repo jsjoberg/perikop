@@ -5,8 +5,6 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <ranges>
-#include <wx/access.h>
-#include <wx/button.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/scrolwin.h>
@@ -14,35 +12,6 @@
 #include <wx/wrapsizer.h>
 namespace ortho {
 namespace {
-#if wxUSE_ACCESSIBILITY
-class PlanAccessible final : public wxWindowAccessible {
-public:
-    using wxWindowAccessible::wxWindowAccessible;
-    wxAccStatus GetName(int child, wxString* name) override {
-        if (child != wxACC_SELF)
-            return wxACC_INVALID_ARG;
-        *name = GetWindow()->GetName();
-        return wxACC_OK;
-    }
-    wxAccStatus GetRole(int child, wxAccRole* role) override {
-        if (child != wxACC_SELF)
-            return wxACC_INVALID_ARG;
-        *role = wxROLE_SYSTEM_PUSHBUTTON;
-        return wxACC_OK;
-    }
-};
-#endif
-// Plan parts stay reachable even when macOS limits tabbing to text controls.
-class PlanButton final : public wxButton {
-public:
-    using wxButton::wxButton;
-    bool AcceptsFocus() const override {
-        return IsShown() && IsEnabled();
-    }
-    bool AcceptsFocusFromKeyboard() const override {
-        return AcceptsFocus();
-    }
-};
 wxString plans_title() {
     return ui::utf8("Läsplaner");
 }
@@ -203,13 +172,10 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
-            auto* tile = new PlanButton(content, wxID_ANY, read ? ui::utf8("✓ ") + number : number,
-                                        wxDefaultPosition, FromDIP(wxSize(44, 34)), wxBU_EXACTFIT);
+            auto* tile = new TextButton(content, read ? ui::utf8("✓ ") + number : number);
+            tile->SetMinSize(FromDIP(wxSize(44, 34)));
             tile->SetName(ui::utf8(plan.title) + ", Del " + number + ", " + label +
                           (read ? ui::utf8(", läst") : wxString{}));
-#if wxUSE_ACCESSIBILITY
-            new PlanAccessible(tile);
-#endif
             tile->Bind(wxEVT_BUTTON, [this, &plan, i](wxCommandEvent&) {
                 open_plan_part(plan, i);
             });

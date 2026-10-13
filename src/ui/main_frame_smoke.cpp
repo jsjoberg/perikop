@@ -533,7 +533,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // The day page keeps the toolbar, with the reader's controls dimmed.
     show_readings();
     for (auto* child : home_content_->GetChildren())
-        if (auto* control = dynamic_cast<wxButton*>(child); control && control->GetLabel().Contains("Lyssna"))
+        if (auto* control = dynamic_cast<TextButton*>(child);
+            control && control->GetLabel().Contains("Lyssna"))
             fail(__LINE__);
     if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
         back_->IsEnabled() || panes_.front().second->IsEnabled() ||
@@ -547,11 +548,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     // The reading plans have their own page; a marked part shows as read.
     const auto plan_tiles = [&] {
-        std::vector<wxButton*> tiles;
+        std::vector<TextButton*> tiles;
         if (page_)
             for (auto* panel : page_->GetChildren())
                 for (auto* child : panel->GetChildren())
-                    if (auto* tile = wxDynamicCast(child, wxButton);
+                    if (auto* tile = dynamic_cast<TextButton*>(child);
                         tile && tile->GetName().Contains(", Del "))
                         tiles.push_back(tile);
         return tiles;
@@ -739,10 +740,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         return nullptr;
     };
     const auto source_buttons = [](wxWindow* parent) {
-        std::vector<wxButton*> buttons;
+        std::vector<TextButton*> buttons;
         if (parent)
             for (auto* child : parent->GetChildren())
-                if (auto* button = wxDynamicCast(child, wxButton))
+                if (auto* button = dynamic_cast<TextButton*>(child))
                     buttons.push_back(button);
         return buttons;
     };
@@ -960,9 +961,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         };
         panel->show({"John", "begynnelsen", {1, 1}, 0}, "sv1917");
         const auto source_buttons = [&] {
-            std::vector<wxButton*> buttons;
+            std::vector<TextButton*> buttons;
             for (auto* child : panel->GetChildren()) {
-                auto* button = wxDynamicCast(child, wxButton);
+                auto* button = dynamic_cast<TextButton*>(child);
                 if (button && (button->GetLabel() == "SFB15" || button->GetLabel() == "SKB" ||
                                button->GetLabel() == "SRB" || button->GetLabel() == "B2026"))
                     buttons.push_back(button);
@@ -1053,7 +1054,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     bool expanded = false;
     for (auto* child : study_->GetChildren()) {
-        auto* more = wxDynamicCast(child, wxButton);
+        auto* more = dynamic_cast<TextButton*>(child);
         if (!more || more->GetLabel() != wxString::FromUTF8("Visa hela artikeln"))
             continue;
         wxCommandEvent click(wxEVT_BUTTON, more->GetId());
@@ -1080,9 +1081,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     // A word's Lyssna would stop the reading in progress, so it waits until the reading ends.
     {
-        const auto word_listen = [&]() -> wxButton* {
+        const auto word_listen = [&]() -> TextButton* {
             for (auto* child : study_->GetChildren())
-                if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == "Lyssna")
+                if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Lyssna")
                     return button;
             return nullptr;
         };
@@ -1397,7 +1398,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (selected_.date() != date)
         fail(__LINE__);
     for (auto* child : home_content_->GetChildren())
-        if (auto* button = wxDynamicCast(child, wxButton); button && button->GetLabel() == "Idag") {
+        if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Idag") {
             if (!button->IsEnabled())
                 fail(__LINE__);
             wxCommandEvent click(wxEVT_BUTTON, button->GetId());

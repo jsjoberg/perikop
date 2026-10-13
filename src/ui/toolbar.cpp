@@ -22,7 +22,7 @@ public:
     wxAccStatus GetName(int child, wxString* name) override {
         if (child != wxACC_SELF)
             return wxACC_INVALID_ARG;
-        *name = GetWindow()->GetLabel();
+        *name = GetWindow()->GetName();
         return wxACC_OK;
     }
     wxAccStatus GetRole(int child, wxAccRole* role) override {
@@ -321,6 +321,74 @@ void SymbolButton::paint(wxPaintEvent&) {
     draw_symbol(*gc, std::get<Symbol>(face_), ink);
 }
 
+TextButton::TextButton(wxWindow* parent, const wxString& label)
+    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
+      click_([this] {
+          wxCommandEvent event(wxEVT_BUTTON, GetId());
+          event.SetEventObject(this);
+          ProcessWindowEvent(event);
+      }) {
+    SetLabel(label);
+    SetName(label);
+    SetFont(ui_font());
+    SetBackgroundStyle(wxBG_STYLE_PAINT);
+    SetInitialSize();
+#if wxUSE_ACCESSIBILITY
+    new ButtonAccessible(
+        this, click_,
+        [] {
+            return false;
+        },
+        false);
+#endif
+    Bind(wxEVT_PAINT, &TextButton::paint, this);
+    bind_press(this, press_, click_);
+}
+
+bool TextButton::Enable(bool enable) {
+    if (!wxControl::Enable(enable))
+        return false;
+    if (!enable)
+        press_.hover = press_.pressed = false;
+    Refresh(false);
+    return true;
+}
+
+wxSize TextButton::DoGetBestClientSize() const {
+    int width = 0, height = 0;
+    GetTextExtent(GetLabel(), &width, &height);
+    return {width + FromDIP(28), height + FromDIP(14)};
+}
+
+void TextButton::paint(wxPaintEvent&) {
+    wxAutoBufferedPaintDC dc(this);
+    const auto paper = GetBackgroundColour(), ink = GetForegroundColour();
+    dc.SetBackground(wxBrush(paper));
+    dc.Clear();
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
+    if (!gc)
+        return;
+    const auto size = GetClientSize();
+    const double scale = FromDIP(100) / 100.0, radius = 6 * scale;
+    const bool enabled = IsEnabled();
+    gc->SetPen(*wxTRANSPARENT_PEN);
+    gc->SetBrush(wxBrush(mix(paper, ink,
+                             !enabled         ? 0.04
+                             : press_.pressed ? 0.2
+                             : press_.hover   ? 0.14
+                                              : 0.08)));
+    gc->DrawRoundedRectangle(0, 0, size.x, size.y, radius);
+    if (enabled && HasFocus()) {
+        gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(mix(paper, ink, 0.6)).Width(1.5 * scale)));
+        gc->SetBrush(*wxTRANSPARENT_BRUSH);
+        gc->DrawRoundedRectangle(scale, scale, size.x - 2 * scale, size.y - 2 * scale, radius);
+    }
+    gc->SetFont(GetFont(), enabled ? ink : mix(paper, ink, 0.4));
+    double width = 0, height = 0;
+    gc->GetTextExtent(GetLabel(), &width, &height);
+    gc->DrawText(GetLabel(), (size.x - width) / 2, (size.y - height) / 2);
+}
+
 ReadingRow::ReadingRow(wxWindow* parent, const wxString& label, const wxString& text,
                        std::function<void()> action, bool done)
     : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
@@ -354,7 +422,8 @@ void ReadingRow::wrap(int width) {
         GetTextExtent(text, &extent, &unused, nullptr, nullptr, &body);
         return extent;
     };
-    const int available = std::max(FromDIP(80), width - FromDIP(48));
+    // Room for the left margin and the chevron, so the longest line never runs into it.
+    const int available = std::max(FromDIP(80), width - FromDIP(64));
     // References break after a semicolon or plus sign; one that is still too long breaks at its spaces.
     std::vector<wxString> chunks;
     wxString chunk;

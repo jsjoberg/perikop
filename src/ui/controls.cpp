@@ -1,4 +1,5 @@
 #include "ui/controls.hpp"
+#include "ui/toolbar.hpp"
 
 namespace ortho::ui {
 wxString utf8(const std::string& text) {
@@ -17,9 +18,8 @@ std::filesystem::path filesystem_path(const wxString& text) {
         std::u8string(reinterpret_cast<const char8_t*>(bytes.data()), bytes.length()));
 }
 
-wxButton* button(wxWindow* parent, const wxString& text, const std::function<void()>& action) {
-    auto* control = new wxButton(parent, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-    control->SetFont(ui_font());
+wxControl* button(wxWindow* parent, const wxString& text, const std::function<void()>& action) {
+    auto* control = new TextButton(parent, text);
     control->Bind(wxEVT_BUTTON, [action](wxCommandEvent&) {
         action();
     });
