@@ -805,6 +805,13 @@ int main(int argc, char** argv) {
         check(make_utterance("Manasse och Manasses söner", "sv", lexicon).speech_text ==
                   "⟦manˈasə⟧ och ⟦manˈasəs⟧ söner",
               "bundled name phonemes and genitive");
+        const std::string joses = "Joses, Joses' moder; Joses’ moder. Josef och Josefs.";
+        const auto joses_utterance = make_utterance(joses, "sv", lexicon);
+        check(joses_utterance.display_text == joses,
+              "Joses and possessive punctuation remain in display text");
+        check(joses_utterance.speech_text ==
+                  "⟦jˈuːsəs⟧, ⟦jˈuːsəs⟧' moder; ⟦jˈuːsəs⟧’ moder. Josef och Josefs.",
+              "Joses and its possessive keep the Swedish j instead of Spanish Jose's pronunciation");
         check(make_utterance("Han bar sitt kors, och hans ben", "sv", lexicon).speech_text ==
                   "⟦hˈan⟧ bar sitt ⟦kˈɔʂ⟧, och ⟦hˈans⟧ ⟦bˈeːn⟧",
               "bundled homographs take the sense of this Bible, not a name's or another word's");
@@ -891,6 +898,7 @@ int main(int argc, char** argv) {
                 {"öst", "", "⟦ˈøːst⟧", 1, {}},
                 {"skylt", "", "⟦ɧˈyːlt⟧", 3, {}},
                 {"fördraget", "", "⟦fœɖrˈɑːɡət⟧", 4, {}},
+                {"joses", "", "⟦jˈuːsəs⟧", 4, {}},
                 {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
                 {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
             };

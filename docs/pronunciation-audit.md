@@ -62,6 +62,17 @@ The existing phrase rules for `förlåten`, `hov`, `bete`, and `dans` remain in 
 `tests/core_test.cpp` checks every occurrence of all six context words and all 35 additional word corrections.
 The tests check the selected pronunciation and the occurrence count.
 
+## Joses and its possessive
+
+The voice treats an unknown capitalized word that ends in s as a possible genitive.
+For `Joses`, it finds the Spanish name `Jose` and adds s to that pronunciation.
+This takes priority over the prepared pronunciation of the complete name.
+
+The bundled correction gives `Joses` the Swedish pronunciation `jˈuːsəs`.
+It uses `word-only`, because the possessive is `Joses'`, with no additional s.
+The correction preserves both straight and curved apostrophes in the displayed text.
+The corpus test checks Mark 6:3, Mark 15:40, Mark 15:47, and Matthew 27:56.
+
 ## Limits of the audit
 
 An NST difference does not always identify a wrong meaning.

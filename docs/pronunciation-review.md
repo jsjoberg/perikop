@@ -82,7 +82,7 @@ If an example verse contains a phrase, **Vers, förslag** plays the phrase pronu
 
 ## Bundled phonemes
 
-`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 122 frequent names and book titles, the 75 homograph corrections, and the phrases above.
+`resources/corpus/pronunciation-sv.tsv` contains first-pass phonemes for 123 names and book titles, the 75 homograph corrections, and the phrases above.
 They mainly correct the stress that the neural fallback guesses for unknown names, such as `Johannesevangeliet`.
 They are drafts and nobody has reviewed them by ear yet.
 The field shows a draft as the current `⟦…⟧` spelling. **Godkänn nuvarande** keeps it, and a saved correction replaces it.
