@@ -380,7 +380,10 @@ int main(int argc, char** argv) {
         const auto moved_feast =
             lectionary.service_readings_for(date("2026-03-31"), CalendarStyle::New, Tradition::Slavic);
         check(std::ranges::count(moved_eve.readings, std::string("Vespers"), &Reading::service) == 5 &&
-                  std::ranges::none_of(moved_eve.readings, [](const Reading& r) { return !r.can_open(); }) &&
+                  std::ranges::none_of(moved_eve.readings,
+                                       [](const Reading& r) {
+                                           return !r.can_open();
+                                       }) &&
                   std::ranges::count(moved_feast.readings, std::string("Vespers"), &Reading::service) == 2,
               "Lenten feast Vespers move to the eve, with composites at their sourced verses");
         {

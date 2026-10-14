@@ -79,7 +79,13 @@ const std::vector<Section>& sections() {
              "Liturgical Chart for 2025 (PDF)"},
             {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
              "Liturgical%20Chart%20for%202026%20English.pdf",
-             "Liturgical Chart for 2026 (PDF)"}}}}},
+             "Liturgical Chart for 2026 (PDF)"}}},
+          {"Ortodoxa kyrkan i Amerika och Azbuka very",
+           "Versförteckningar för sammansatta vesperläsningar, från OCA:s dagliga läsningar och "
+           "samlingen Паремии на все дни года.",
+           {{"https://www.oca.org/readings", "OCA, dagliga läsningar"},
+            {"https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/",
+             "Паремии на все дни года, azbyka.ru"}}}}},
         {"Ordstudium",
          {{"SALDO (2017) och SALDOs morfologi",
            "Lars Borin, Lennart Lönngren och Markus Forsberg. Bearbetat och distribuerat av Språkbanken. "
