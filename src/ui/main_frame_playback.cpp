@@ -11,18 +11,16 @@
 #include <wx/weakref.h>
 namespace ortho {
 bool MainFrame::active_playback() const {
-    return speech_active(read_aloud_.playback().state);
+    return playback_.active();
 }
 bool MainFrame::preparing_day() const {
-    return preparation_day_ && speech_ && speech_->preparation().state == PreparationState::Running;
+    return speech_ && playback_.preparing(*speech_);
 }
 void MainFrame::clear_preparation() {
-    if (preparing_day())
-        speech_->stop();
-    preparation_day_.reset();
+    playback_.clear_preparation(*speech_);
 }
 void MainFrame::prepare_day() {
-    if (page_ || active_playback() || preparing_day())
+    if (!controls().prepare)
         return;
     stop_speech();
     try {
@@ -41,8 +39,7 @@ void MainFrame::prepare_day() {
         const auto queue = reading_speech(corpus_, readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        speech_->prepare_batch(queue);
-        preparation_day_ = selected_.date();
+        playback_.prepare(*speech_, queue, selected_.date());
         refresh_speech();
     } catch (const std::exception& error) {
         wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered dagens ljud"), wxOK | wxICON_INFORMATION,
@@ -50,11 +47,12 @@ void MainFrame::prepare_day() {
     }
 }
 void MainFrame::play_or_pause() {
-    if (page_ || !scripture_->IsShown())
+    const auto action = controls().playback_action;
+    if (action == PlaybackAction::None)
         return;
-    if (active_playback())
+    if (action == PlaybackAction::Pause || action == PlaybackAction::Resume)
         toggle_pause();
-    else if (scripture_->IsShown() && !scripture_->selections().empty()) {
+    else if (action == PlaybackAction::StartSelection) {
         const auto marked = scripture_->selections();
         Reading reading{corpus_.new_testament_book(marked.front().book) ? ReadingKind::Gospel
                                                                         : ReadingKind::OldTestament,
@@ -63,55 +61,47 @@ void MainFrame::play_or_pause() {
                         "sv"};
         reading.reference = scripture_->frame();
         play_speech({reading});
-    } else if (scripture_->IsShown()) {
+    } else {
         play_speech({visible_reading_.value_or(scripture_->reading())});
         // Listening to the whole of a start-page item offers to mark it as read.
         speech_tracked_ = tracked_;
     }
 }
 void MainFrame::speech_status(const std::string& status) {
-    if (read_aloud_.playback().state == SpeechState::Error &&
-        speech_->playback().state == SpeechState::Stopped)
+    if (playback_.playback().state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
         return;
     // A stop that bypassed stop_speech, such as a word played in the study panel, ended the preparation.
-    if (preparation_day_ && speech_->preparation().state == PreparationState::Idle)
-        preparation_day_.reset();
-    if (!preparation_day_)
-        read_aloud_.report(status);
+    playback_.observe_preparation(*speech_);
+    if (!playback_.prepared_day())
+        playback_.report(status);
     refresh_speech();
 }
 void MainFrame::toggle_pause() {
-    if (speech_->playback().state == SpeechState::Paused) {
-        speech_->resume();
-        playback_timer_.Start(30);
-    } else
-        speech_->pause();
+    playback_.toggle_pause(*speech_);
     refresh_speech();
+    if (playback_.polling())
+        playback_timer_.Start(30);
 }
 void MainFrame::pause_for_navigation() {
-    if (!speech_)
-        return;
-    const auto state = speech_->playback().state;
-    if (speech_active(state) && state != SpeechState::Paused)
-        speech_->pause();
+    if (speech_)
+        playback_.leave_reader(*speech_);
 }
 void MainFrame::stop_speech() {
-    speech_->stop();
-    preparation_day_.reset();
+    playback_.stop(*speech_);
     scripture_->follow_playback(false);
     refresh_speech();
 }
 void MainFrame::open_speech_location(size_t reading, size_t section) {
-    const auto& readings = read_aloud_.readings();
+    const auto& readings = playback_.readings();
     if (reading >= readings.size())
         return;
-    if (!speech_view_ || *speech_view_ != std::pair{reading, section} || !scripture_->IsShown()) {
+    if (playback_.needs_location({reading, section}, navigation_.reader())) {
         show_reading(readings[reading]);
         if (section) {
             scripture_->open_section(section);
             part_ = section;
         }
-        speech_view_ = std::pair{reading, section};
+        playback_.location(std::pair{reading, section});
         scripture_->follow_playback();
     }
 }
@@ -119,7 +109,7 @@ void MainFrame::follow_speech() {
     const auto playback = speech_->playback();
     const size_t reading = playback.cue ? playback.cue->reading : 0,
                  section = playback.cue ? playback.cue->section : 0;
-    if (reading >= read_aloud_.readings().size())
+    if (reading >= playback_.readings().size())
         return;
     open_speech_location(reading, section);
     scripture_->playback(playback);
@@ -132,29 +122,29 @@ void MainFrame::refresh_speech() {
         display_playback(speech_->playback());
 }
 void MainFrame::display_playback(const SpeechPlayback& playback) {
-    if (playback.state == SpeechState::Completed && read_aloud_.playback().state != SpeechState::Completed &&
+    if (playback.state == SpeechState::Completed && playback_.playback().state != SpeechState::Completed &&
         speech_tracked_)
         CallAfter([this, item = *speech_tracked_] {
             offer_completion(item, true);
         });
     if (playback.state != SpeechState::Completed && !speech_active(playback.state))
         speech_tracked_.reset();
-    read_aloud_.update(playback);
+    playback_.update(playback);
     const bool active = speech_active(playback.state);
-    if (!page_ && active && scripture_->follows_playback() && playback.cue)
+    if (!navigation_.auxiliary() && active && scripture_->follows_playback() && playback.cue)
         open_speech_location(playback.cue->reading, playback.cue->section);
     if (!active) {
         scripture_->follow_playback(false);
+    }
+    if (!playback_.polling())
         playback_timer_.Stop();
-    } else if (playback.state == SpeechState::Paused)
-        playback_timer_.Stop();
-    if (!page_)
+    if (!navigation_.auxiliary())
         scripture_->playback(playback);
     update_bar();
 }
 void MainFrame::play_speech(const std::vector<Reading>& readings) {
     stop_speech();
-    speech_view_.reset();
+    playback_.forget_location();
     try {
         std::vector<Reading> primary_readings;
         primary_readings.reserve(readings.size());
@@ -163,10 +153,10 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         const auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        read_aloud_.start(readings);
+        playback_.start(readings);
         if (!readings.empty()) {
             show_reading(readings.front());
-            speech_view_ = std::pair<size_t, size_t>{0, 0};
+            playback_.location(std::pair<size_t, size_t>{0, 0});
         }
         speech_->speak_batch(queue);
         scripture_->follow_playback();
@@ -174,7 +164,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         refresh_speech();
     } catch (const std::exception& error) {
         stop_speech();
-        read_aloud_.report(error.what());
+        playback_.report(error.what());
         display_playback({SpeechState::Error, {}, 0, 0});
         wxMessageBox(ui::utf8(error.what()), ui::utf8("Uppläsning"), wxOK | wxICON_INFORMATION, this);
     }

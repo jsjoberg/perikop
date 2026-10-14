@@ -199,11 +199,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         // A stop outside stop_speech, such as a word played in the study panel, ends the preparation too.
         speech_->stop();
         speech_status("Stoppad");
-        if (preparation_day_ || address_->GetLabel() != ui::utf8("Dagens läsningar"))
+        if (playback_.prepared_day() || address_->GetLabel() != ui::utf8("Dagens läsningar"))
             fail(__LINE__);
         prepare_day();
         select_day(std::chrono::year{2026} / 10 / 13);
-        if (preparing_day() || preparation_day_ || preparing->prepared.state != PreparationState::Idle)
+        if (preparing_day() || playback_.prepared_day() ||
+            preparing->prepared.state != PreparationState::Idle)
             fail(__LINE__);
         speech_ = std::move(real_speech);
         select_day(date);
@@ -556,8 +557,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // The reading plans have their own page; a marked part shows as read.
     const auto plan_tiles = [&] {
         std::vector<TextButton*> tiles;
-        if (page_)
-            for (auto* panel : page_->GetChildren())
+        if (current_page())
+            for (auto* panel : current_page()->GetChildren())
                 for (auto* child : panel->GetChildren())
                     if (auto* tile = dynamic_cast<TextButton*>(child);
                         tile && tile->GetName().Contains(", Del "))
@@ -565,15 +566,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         return tiles;
     };
     show_plans();
-    if (page_title_ != ui::utf8("Läsplaner") || plan_tiles().size() != 74 || readings_->IsShown())
+    if (current_page_title() != ui::utf8("Läsplaner") || plan_tiles().size() != 74 || readings_->IsShown())
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
-    fill_plans(static_cast<wxScrolledWindow*>(page_));
+    fill_plans(static_cast<wxScrolledWindow*>(current_page()));
     if (plan_tiles().size() != 74 || !plan_tiles().front()->GetToolTipText().EndsWith(ui::utf8("läst")) ||
         plan_tiles()[1]->GetToolTipText().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
     user_.forget("plan:");
-    fill_plans(static_cast<wxScrolledWindow*>(page_));
+    fill_plans(static_cast<wxScrolledWindow*>(current_page()));
     if (plan_tiles().empty() || plan_tiles().front()->GetToolTipText().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
     // All plan parts have native button semantics and a descriptive accessible name.
@@ -596,7 +597,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         tiles.back()->GetEventHandler()->ProcessEvent(open_part);
         wxTheApp->ProcessPendingEvents();
     }
-    if (page_ || !scripture_->IsShown() || !tracked_)
+    if (current_page() || !scripture_->IsShown() || !tracked_)
         fail(__LINE__);
     back();
     if (!readings_->IsShown())
@@ -1126,9 +1127,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             about();
         else
             browse_bible();
-        if (!page_ || scripture_->IsShown() || study_->IsShown() || !back_->IsEnabled() ||
+        if (!current_page() || scripture_->IsShown() || study_->IsShown() || !back_->IsEnabled() ||
             play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || !address_->IsEnabled() ||
-            page_->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
+            current_page()->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
             fail(__LINE__);
         for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i) {
 #ifdef __WXOSX__
@@ -1142,7 +1143,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (!GetMenuBar()->IsEnabled(wxID_ABOUT))
             fail(__LINE__);
         if (mode == 1) {
-            auto* browser = dynamic_cast<BiblePicker*>(page_);
+            auto* browser = dynamic_cast<BiblePicker*>(current_page());
             browser->select_book(corpus_.canon().front());
             browser->select_chapter(corpus_.canon().front(), 1);
             address_clicked();
@@ -1152,7 +1153,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             if (!GetMenuBar()->IsEnabledTop(i))
                 fail(__LINE__);
         const auto restored = scripture_->selections();
-        if (page_ || !scripture_->IsShown() || !study_->IsShown() ||
+        if (current_page() || !scripture_->IsShown() || !study_->IsShown() ||
             scripture_->scroll_position() != saved_scroll || study_content() != saved_study ||
             restored.size() != saved_selection.size() ||
             restored.front().first != saved_selection.front().first || !tracked_ ||
@@ -1162,19 +1163,20 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
     about();
-    auto* saved_about = page_;
+    auto* saved_about = current_page();
     address_clicked();
-    if (!dynamic_cast<BiblePicker*>(page_) || saved_about->IsShown() || page_history_.size() != 1)
+    if (!dynamic_cast<BiblePicker*>(current_page()) || saved_about->IsShown() ||
+        navigation_.history_size() != 1)
         fail(__LINE__);
     address_clicked();
-    if (page_ != saved_about || !page_->IsShown() || !address_->IsEnabled())
+    if (current_page() != saved_about || !current_page()->IsShown() || !address_->IsEnabled())
         fail(__LINE__);
     back();
     tracked_.reset();
     scripture_->clear_selection();
     // The normal browser prepares one range and opens it only after confirmation.
     browse_bible();
-    auto* picker = dynamic_cast<BiblePicker*>(page_);
+    auto* picker = dynamic_cast<BiblePicker*>(current_page());
     const auto& canon = corpus_.canon();
     const auto john = *std::find_if(canon.begin(), canon.end(), [](const auto& book) {
         return book.code == "John";
@@ -1186,12 +1188,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         !address_->IsEnabled())
         fail(__LINE__);
     picker->open_selection();
-    if (page_ != picker)
+    if (current_page() != picker)
         fail(__LINE__);
     picker->select_book(john);
     const auto john_verses = picker->verses_of(john);
     if (picker->first_ != john_verses.front() || picker->last_ != john_verses.back() ||
-        picker->parts().size() != 1 || page_ != picker ||
+        picker->parts().size() != 1 || current_page() != picker ||
         address_->GetLabel() !=
             ui::utf8(passage_label(corpus_, {{"John", john_verses.front(), john_verses.back()}})))
         fail(__LINE__);
@@ -1202,14 +1204,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         chapters.GetBottom() + FromDIP(30) > picker->cells_->GetSize().y)
         fail(__LINE__);
     picker->select_verse(john, {1, 3});
-    if (page_ != picker || picker->first_ != VerseRef{1, 3} || picker->last_ != VerseRef{1, 3})
+    if (current_page() != picker || picker->first_ != VerseRef{1, 3} || picker->last_ != VerseRef{1, 3})
         fail(__LINE__);
     picker->open_selection();
-    if (page_ || scripture_->reading().passage.first != VerseRef{1, 3} ||
+    if (current_page() || scripture_->reading().passage.first != VerseRef{1, 3} ||
         scripture_->reading().passage.last != VerseRef{1, 3} || scripture_->reading().segments().size() != 1)
         fail(__LINE__);
     browse_bible();
-    picker = dynamic_cast<BiblePicker*>(page_);
+    picker = dynamic_cast<BiblePicker*>(current_page());
     const auto chapter_end = [&](int chapter) {
         return *std::find_if(john_verses.rbegin(), john_verses.rend(), [chapter](VerseRef ref) {
             return ref.chapter == chapter;
@@ -1234,14 +1236,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
         fail(__LINE__);
     back();
-    if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
+    if (current_page() != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
         fail(__LINE__);
     picker->select_chapter(john, 5);
     if (picker->first_ != VerseRef{3, 3} || picker->last_ != chapter_end(5))
         fail(__LINE__);
     picker->select_verse(john, {5, 5});
     const auto selection_title = ui::utf8(passage_label(corpus_, {{"John", {3, 3}, {5, 5}}}));
-    if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{5, 5} ||
+    if (current_page() != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{5, 5} ||
         address_->GetLabel() != selection_title ||
         !address_->GetToolTipText().Contains(ui::utf8("gå tillbaka")))
         fail(__LINE__);
@@ -1252,7 +1254,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (address_->GetLabel() != "Om Perikop")
         fail(__LINE__);
     back();
-    if (page_ != picker || address_->GetLabel() != selection_title)
+    if (current_page() != picker || address_->GetLabel() != selection_title)
         fail(__LINE__);
     picker->select_verse(john, {3, 4});
     if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 4})
@@ -1268,12 +1270,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     picker->select_book(john);
     picker->select_chapter(john, 3);
     picker->open_selection();
-    if (page_ || scripture_->reading().passage.first != VerseRef{3, 1} ||
+    if (current_page() || scripture_->reading().passage.first != VerseRef{3, 1} ||
         scripture_->reading().passage.last != chapter_end(3) || scripture_->reading().segments().size() != 1)
         fail(__LINE__);
     // Lägg till stacks selections from several books as the parts of one reading.
     browse_bible();
-    picker = dynamic_cast<BiblePicker*>(page_);
+    picker = dynamic_cast<BiblePicker*>(current_page());
     const auto picker_size = GetSize();
     // In a small window, the unfolded Psalms scroll and nothing is wider than the page.
     picker->show_chapters(psalms);
@@ -1324,21 +1326,23 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto browser_first = picker->first_, browser_last = picker->last_;
     wxCommandEvent show_about(wxEVT_MENU, wxID_ABOUT);
     GetEventHandler()->ProcessEvent(show_about);
-    if (page_ == picker || picker->IsShown() || page_history_.size() != 1)
+    if (current_page() == picker || picker->IsShown() || navigation_.history_size() != 1)
         fail(__LINE__);
-    const auto* about_page = page_;
+    const auto* about_page = current_page();
     GetEventHandler()->ProcessEvent(show_about);
-    if (page_ != about_page || page_history_.size() != 1)
+    if (current_page() != about_page || navigation_.history_size() != 1)
         fail(__LINE__);
     back();
-    if (page_ != picker || !picker->IsShown() || picker->chapter_ != 22 || picker->first_ != browser_first ||
-        picker->last_ != browser_last || picker->grid_->GetViewStart() != browser_scroll ||
-        picker->parts().size() != 2 || !page_history_.empty())
+    if (current_page() != picker || !picker->IsShown() || picker->chapter_ != 22 ||
+        picker->first_ != browser_first || picker->last_ != browser_last ||
+        picker->grid_->GetViewStart() != browser_scroll || picker->parts().size() != 2 ||
+        navigation_.history_size() != 0)
         fail(__LINE__);
     picker->open_selection();
     const auto custom = scripture_->reading().segments();
-    if (page_ || custom.size() != 2 || custom[0].book != "John" || custom[0].first != VerseRef{1, 50} ||
-        custom[0].last != VerseRef{2, 2} || custom[1].first != VerseRef{22, 6} || parts_.size() != 2)
+    if (current_page() || custom.size() != 2 || custom[0].book != "John" ||
+        custom[0].first != VerseRef{1, 50} || custom[0].last != VerseRef{2, 2} ||
+        custom[1].first != VerseRef{22, 6} || parts_.size() != 2)
         fail(__LINE__);
     select_part(1);
     const auto custom_scroll = scripture_->scroll_position();
@@ -1386,7 +1390,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     show_readings();
     click_row(home_rows_.back());
-    if (page_title_ != ui::utf8("Läsplaner"))
+    if (current_page_title() != ui::utf8("Läsplaner"))
         fail(__LINE__);
     close_pages();
     tracked_.reset();
@@ -1414,7 +1418,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     // The calendar folds out on the start page; a key moves the day and Return chooses it.
     pick_date();
-    if (page_ || !month_ || !month_->IsShown() || month_->focused() != date)
+    if (current_page() || !month_ || !month_->IsShown() || month_->focused() != date)
         fail(__LINE__);
     const auto press = [this](int code) {
         wxKeyEvent key(wxEVT_KEY_DOWN);
@@ -1575,7 +1579,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // Playback starts on Scripture and immediately shows the first verse.
     const SpeechCue first_verse{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
-    read_aloud_.start({});
+    playback_.start({});
     display_playback({SpeechState::Playing, first_verse, 0, 0.01});
     if (address_->GetLabel() != ui::utf8("Psaltaren 23:1") || !scripture_->marker_position())
         fail(__LINE__);
@@ -1617,13 +1621,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             else
                 browse_bible();
             display_playback(paused);
-            if (!page_ || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
-                read_aloud_.playback().state != SpeechState::Paused)
+            if (!current_page() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
+                playback_.playback().state != SpeechState::Paused)
                 fail(__LINE__);
             play_or_pause();
             back();
-            if (page_ || engine->changed || read_aloud_.playback().state != SpeechState::Paused ||
-                read_aloud_.playback().progress != paused.progress ||
+            if (current_page() || engine->changed || playback_.playback().state != SpeechState::Paused ||
+                playback_.playback().progress != paused.progress ||
                 scripture_->marker_position() != held_marker ||
                 scripture_->scroll_position() != held_scroll || !scripture_->follows_playback())
                 fail(__LINE__);
@@ -1631,12 +1635,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         // New playback cues cannot replace a page while the user is in it.
         engine->held = playing;
         about();
-        speech_view_.reset();
+        playback_.forget_location();
         display_playback(playing);
-        if (!page_ || scripture_->IsShown() || speech_view_)
+        if (!current_page() || scripture_->IsShown() || playback_.location())
             fail(__LINE__);
         close_page();
-        speech_view_ = std::pair<size_t, size_t>{0, 0};
+        playback_.location(std::pair<size_t, size_t>{0, 0});
         speech_ = std::move(real_speech);
         display_playback(paused);
     }
@@ -1659,10 +1663,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     display_playback(playing);
     display_playback(buffering);
-    if (read_aloud_.feedback() != SpeechState::Playing)
+    if (playback_.feedback() != SpeechState::Playing)
         fail(__LINE__);
-    read_aloud_.update(buffering, ReadAloud::Clock::now() + std::chrono::seconds(1));
-    if (read_aloud_.feedback() != SpeechState::Buffering)
+    playback_.update(buffering, PlaybackController::Clock::now() + std::chrono::seconds(1));
+    if (playback_.feedback() != SpeechState::Buffering)
         fail(__LINE__);
     scripture_->scroll_by(20);
     if (scripture_->follows_playback())
@@ -1764,11 +1768,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const Reading psalms{
             ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}, {{"Ps", {24, 1}, {24, 10}}}};
         const Reading gospel{ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}};
-        read_aloud_.start({psalms, gospel});
+        playback_.start({psalms, gospel});
         engine->held = {SpeechState::Paused, SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}}, 0, 0.5};
         follow_speech();
         if (part_ != 1 || parts_.size() != 2 || !scripture_->follows_playback() ||
-            speech_view_ != std::pair<size_t, size_t>{0, 1} || engine->changed)
+            playback_.location() != std::pair<size_t, size_t>{0, 1} || engine->changed)
             fail(__LINE__);
         // A cue for the next reading cannot take over after a manual scroll.
         scripture_->scroll_by(20);
@@ -1783,10 +1787,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         about();
         engine->held.cue = SpeechCue{0, 1, "Ps", "sv1917", {24, 1}, {24, 1}};
         display_playback(engine->held);
-        if (!page_ || visible_reading_->passage.book != "John")
+        if (!current_page() || visible_reading_->passage.book != "John")
             fail(__LINE__);
         back();
-        if (page_ || part_ != 1 || visible_reading_->passage.book != "Ps" ||
+        if (current_page() || part_ != 1 || visible_reading_->passage.book != "Ps" ||
             !scripture_->follows_playback() || engine->changed)
             fail(__LINE__);
         select_part(0);
@@ -1816,7 +1820,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             else
                 show_plans();
             if (!engine->changed || engine->held.state != SpeechState::Paused ||
-                read_aloud_.playback().state != SpeechState::Paused || playback_timer_.IsRunning() ||
+                playback_.playback().state != SpeechState::Paused || playback_timer_.IsRunning() ||
                 play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
                 fail(__LINE__);
             engine->changed = false;
@@ -1824,7 +1828,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 address_clicked();
             else
                 back();
-            if (page_ || engine->changed || engine->held.state != SpeechState::Paused ||
+            if (current_page() || engine->changed || engine->held.state != SpeechState::Paused ||
                 engine->held.progress != progress || !play_->IsEnabled() || pause_->IsEnabled())
                 fail(__LINE__);
         }
@@ -1844,26 +1848,26 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         play_or_pause();
         address_clicked();
         address_clicked();
-        if (engine->changed || page_ || !readings_->IsShown() || scripture_->IsShown() ||
+        if (engine->changed || current_page() || !readings_->IsShown() || scripture_->IsShown() ||
             play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
             fail(__LINE__);
         // A manually chosen reading replaces a paused session and has fresh playback controls.
         open_reading(gospel);
         if (!engine->changed || engine->held.state != SpeechState::Stopped ||
-            read_aloud_.playback().state != SpeechState::Stopped ||
-            visible_reading_->passage.book != "John" || scripture_->marker_position() ||
-            !play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || play_->GetLabel() != "Lyssna")
+            playback_.playback().state != SpeechState::Stopped || visible_reading_->passage.book != "John" ||
+            scripture_->marker_position() || !play_->IsEnabled() || pause_->IsEnabled() ||
+            stop_->IsEnabled() || play_->GetLabel() != "Lyssna")
             fail(__LINE__);
         engine->held = {SpeechState::Paused, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}}, 0.35, 0.4};
         follow_speech();
         browse_bible();
-        auto* browser = dynamic_cast<BiblePicker*>(page_);
+        auto* browser = dynamic_cast<BiblePicker*>(current_page());
         browser->select_book(john);
         browser->select_chapter(john, 1);
         browser->select_verse(john, {1, 2});
         engine->changed = false;
         browser->open_selection();
-        if (page_ || !engine->changed || engine->held.state != SpeechState::Stopped ||
+        if (current_page() || !engine->changed || engine->held.state != SpeechState::Stopped ||
             visible_reading_->passage.first != VerseRef{1, 2})
             fail(__LINE__);
         // Automatic queue transitions continue playback rather than replacing its session.

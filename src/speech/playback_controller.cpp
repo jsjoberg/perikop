@@ -1,11 +1,50 @@
-#include "speech/read_aloud.hpp"
+#include "speech/playback_controller.hpp"
 #include "core/reading_display.hpp"
 
 namespace ortho {
-void ReadAloud::start(std::vector<Reading> readings) {
+void PlaybackController::start(std::vector<Reading> readings) {
     readings_ = std::move(readings);
 }
-void ReadAloud::update(const SpeechPlayback& playback, Clock::time_point now) {
+bool PlaybackController::select_reading(SpeechEngine& engine) {
+    if (!active() && !speech_active(engine.playback().state))
+        return false;
+    stop(engine);
+    return true;
+}
+void PlaybackController::leave_reader(SpeechEngine& engine) {
+    const auto state = engine.playback().state;
+    if (speech_active(state) && state != SpeechState::Paused)
+        engine.pause();
+}
+void PlaybackController::toggle_pause(SpeechEngine& engine) {
+    if (engine.playback().state == SpeechState::Paused)
+        engine.resume();
+    else
+        engine.pause();
+}
+void PlaybackController::stop(SpeechEngine& engine) {
+    engine.stop();
+    preparation_day_.reset();
+    location_.reset();
+}
+bool PlaybackController::preparing(const SpeechEngine& engine) const {
+    return preparation_day_ && engine.preparation().state == PreparationState::Running;
+}
+void PlaybackController::prepare(SpeechEngine& engine, const std::vector<SpeechUtterance>& utterances,
+                                 CivilDate date) {
+    engine.prepare_batch(utterances);
+    preparation_day_ = date;
+}
+void PlaybackController::clear_preparation(SpeechEngine& engine) {
+    if (preparing(engine))
+        engine.stop();
+    preparation_day_.reset();
+}
+void PlaybackController::observe_preparation(const SpeechEngine& engine) {
+    if (preparation_day_ && engine.preparation().state == PreparationState::Idle)
+        preparation_day_.reset();
+}
+void PlaybackController::update(const SpeechPlayback& playback, Clock::time_point now) {
     if (playback.state == SpeechState::Buffering && playback_.state != SpeechState::Buffering) {
         buffering_since_ = now;
         debounce_buffering_ = playback_.state == SpeechState::Playing && playback.cue.has_value();
@@ -19,7 +58,7 @@ void ReadAloud::update(const SpeechPlayback& playback, Clock::time_point now) {
                     ? SpeechState::Playing
                     : playback.state;
 }
-std::optional<ReadAloud::Status> ReadAloud::status(const CorpusDb& corpus) const {
+std::optional<PlaybackController::Status> PlaybackController::status(const CorpusDb& corpus) const {
     std::string location;
     if (playback_.cue) {
         const auto& cue = *playback_.cue;

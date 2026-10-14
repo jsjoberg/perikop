@@ -45,10 +45,20 @@ Book names stay in immutable corpus metadata, so playback status polling does no
 
 ## UI
 
-`MainFrame` coordinates the selected day, settings, reader, and speech engine.
-Its menu, playback, toolbar, and smoke-test implementations have separate files.
-`ReadAloud` keeps the queue being read aloud and the text that describes its progress, without wxWidgets.
-The window keeps the speech engine, the playback timer, and which reading the view follows.
+`MainFrame` presents the selected day, settings, reader, and native pages.
+`NavigationState` owns the current screen and return history. Each auxiliary view has a unique identifier.
+The frame maps these identifiers to native windows and applies visibility changes in `present_navigation`.
+Navigation decisions use the model's screen, rather than widget visibility or page-title text.
+
+`reader_controls` supplies one policy for toolbar buttons, menu items, and command guards.
+It uses the screen, playback state, preparation state, and available readings to calculate permitted actions and labels.
+
+`PlaybackController` owns the reading queue, playback feedback, preparation date, and location of the reading that the view follows.
+It issues pause, resume, and stop commands through `SpeechEngine`, without wxWidgets.
+User selection ends an active session. Automatic playback navigation retains that session.
+The frame owns the engine's lifetime, delivers worker updates, and runs the native playback timer.
+
+Model and policy tests run without a window or audio device. UI smoke tests verify their integration with native controls.
 `toolbar` contains the drawn toolbar controls: symbol buttons and the address field.
 The Bible picker returns selections to the window.
 `month_calendar` is the start page's drawn month calendar. It reports the chosen day to the window.

@@ -10,6 +10,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
+- Navigation state, playback commands, and reader control rules have separate components. Toolbar and menu actions use the same policy.
 - Clicking the address field in the Bible browser closes it and restores the previous view.
 - Leaving a reading pauses read-aloud. Opening another reading ends the previous playback session. Paused playback controls are disabled outside the reader.
 - The month calendar marks today and dates with Orthros, Vespers, and other service readings. Tooltips list services and reading counts.

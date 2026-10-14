@@ -4,17 +4,40 @@
 #include <chrono>
 
 namespace ortho {
-// The queue being read aloud and how its progress is described. The window
-// keeps the engine, the timer, and which reading the view shows.
-class ReadAloud {
+// Playback commands, queue, preparation, and progress. Native windows and timers stay in the UI.
+class PlaybackController {
 public:
     using Clock = std::chrono::steady_clock;
+    using Location = std::pair<size_t, size_t>;
     struct Status {
         std::string title;
         std::string tooltip = {};
     };
     // Readings as opened, retained for playback navigation.
     void start(std::vector<Reading> readings);
+    bool select_reading(SpeechEngine&);
+    void leave_reader(SpeechEngine&);
+    void toggle_pause(SpeechEngine&);
+    void stop(SpeechEngine&);
+    void prepare(SpeechEngine&, const std::vector<SpeechUtterance>&, CivilDate);
+    void clear_preparation(SpeechEngine&);
+    void observe_preparation(const SpeechEngine&);
+    bool preparing(const SpeechEngine&) const;
+    const std::optional<CivilDate>& prepared_day() const {
+        return preparation_day_;
+    }
+    const std::optional<Location>& location() const {
+        return location_;
+    }
+    void location(Location location) {
+        location_ = location;
+    }
+    void forget_location() {
+        location_.reset();
+    }
+    bool needs_location(Location location, bool reader) const {
+        return !reader || location_ != location;
+    }
     void update(const SpeechPlayback&, Clock::time_point now = Clock::now());
     // The engine's latest message, shown when playback fails.
     void report(std::string message) {
@@ -26,6 +49,12 @@ public:
     const SpeechPlayback& playback() const {
         return playback_;
     }
+    bool active() const {
+        return speech_active(playback_.state);
+    }
+    bool polling() const {
+        return active() && playback_.state != SpeechState::Paused;
+    }
     // The state to show: a brief buffering gap during playback still reads as playing.
     SpeechState feedback() const {
         return feedback_;
@@ -35,6 +64,8 @@ public:
 
 private:
     std::vector<Reading> readings_;
+    std::optional<Location> location_;
+    std::optional<CivilDate> preparation_day_;
     SpeechPlayback playback_;
     SpeechState feedback_ = SpeechState::Idle;
     Clock::time_point buffering_since_;

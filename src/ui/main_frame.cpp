@@ -1,7 +1,5 @@
 #include "ui/main_frame.hpp"
 #include "core/reading_display.hpp"
-#include "ui/about.hpp"
-#include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/month_calendar.hpp"
 #include "ui/pronunciation_review.hpp"
@@ -9,7 +7,6 @@
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
-#include <cctype>
 #include <numeric>
 #include <wx/app.h>
 #include <wx/button.h>
@@ -20,7 +17,6 @@
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
 #include <wx/utils.h>
-#include <wx/wrapsizer.h>
 namespace ortho {
 namespace {
 wxString kind_label(ReadingKind kind) {
@@ -101,11 +97,11 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         },
         playback_timer_.GetId());
     Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& event) {
-        if (page_ && event.GetKeyCode() == WXK_ESCAPE) {
+        if (navigation_.auxiliary() && event.GetKeyCode() == WXK_ESCAPE) {
             back();
             return;
         }
-        if (scripture_->IsShown() && active_playback() && event.GetKeyCode() == WXK_ESCAPE) {
+        if (controls().stop && active_playback() && event.GetKeyCode() == WXK_ESCAPE) {
             stop_speech();
             return;
         }
@@ -311,23 +307,6 @@ void MainFrame::layout_home() {
     home_content_->InvalidateBestSize();
     readings_->FitInside();
 }
-void MainFrame::show_readings() {
-    pause_for_navigation();
-    close_pages();
-    // Leaving a start-page item whose end has been read offers to mark it.
-    if (tracked_ && scripture_->IsShown() && part_ + 1 >= parts_.size() && scripture_->end_seen()) {
-        const auto item = *tracked_;
-        tracked_.reset();
-        offer_completion(item, false);
-    }
-    tracked_.reset();
-    scripture_->follow_playback(false);
-    scripture_->Hide();
-    root_->GetSizer()->Show(reader_sizer_, false);
-    readings_->Show();
-    update_study();
-    refresh_speech();
-}
 void MainFrame::open_psalm() {
     // Psalm 23 in the 1917 Bible's Hebrew numbering, the Septuagint's Psalm 22.
     Reading psalm{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
@@ -335,20 +314,21 @@ void MainFrame::open_psalm() {
     open_reading(psalm);
 }
 void MainFrame::open_reading(const Reading& selected) {
-    if (active_playback() || (speech_ && speech_active(speech_->playback().state)))
-        stop_speech();
+    if (playback_.select_reading(*speech_)) {
+        scripture_->follow_playback(false);
+        refresh_speech();
+    }
     show_reading(selected);
 }
 void MainFrame::show_reading(const Reading& selected) {
     close_pages();
     visible_reading_ = selected;
-    speech_view_.reset();
+    playback_.forget_location();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
     const auto reading = corpus_.localize(in_swedish(selected));
-    readings_->Hide();
-    root_->GetSizer()->Show(reader_sizer_, true);
-    scripture_->Show();
+    navigation_.show_root(Screen::Reader);
+    present_navigation();
     study_->clear();
     update_study();
     reading_title_ = ui::utf8(passage_label(corpus_, reading.segments()));
@@ -406,94 +386,6 @@ void MainFrame::review_pronunciation() {
     speech_->set_speed(settings_.speech_rate / 100.0);
     refresh_speech();
 }
-void MainFrame::show_page(wxWindow* page, const wxString& title) {
-    pause_for_navigation();
-    if (page_) {
-        page_->Hide();
-        root_->GetSizer()->Detach(page_);
-        page_history_.emplace_back(page_, page_title_);
-    } else
-        return_to_reader_ = scripture_->IsShown();
-    page_ = page;
-    page_title_ = title;
-    scripture_->Hide();
-    root_->GetSizer()->Show(reader_sizer_, false);
-    readings_->Hide();
-    study_->Hide();
-    root_->GetSizer()->Add(page_, 1, wxEXPAND);
-    refresh_speech();
-    root_->Layout();
-    page_->SetFocus();
-}
-void MainFrame::close_page() {
-    if (!page_)
-        return;
-    root_->GetSizer()->Detach(page_);
-    page_->Hide();
-    page_->Destroy();
-    page_ = nullptr;
-    if (!page_history_.empty()) {
-        auto previous = page_history_.back();
-        page_history_.pop_back();
-        page_ = previous.first;
-        page_title_ = previous.second;
-        root_->GetSizer()->Add(page_, 1, wxEXPAND);
-        page_->Show();
-        root_->Layout();
-        page_->SetFocus();
-        return;
-    }
-    root_->GetSizer()->Show(reader_sizer_, return_to_reader_);
-    scripture_->Show(return_to_reader_);
-    readings_->Show(!return_to_reader_);
-    study_->Show(return_to_reader_ && settings_.word_study);
-    root_->Layout();
-}
-void MainFrame::close_pages() {
-    while (page_)
-        close_page();
-}
-void MainFrame::back() {
-    if (page_) {
-        if (auto* picker = dynamic_cast<BiblePicker*>(page_); picker && picker->back())
-            return;
-        close_page();
-        refresh_speech();
-        update_bar();
-        if (scripture_->IsShown())
-            scripture_->SetFocus();
-    } else
-        show_readings();
-}
-void MainFrame::about() {
-    if (page_ && page_title_ == "Om Perikop")
-        return;
-    show_page(make_about_page(root_, settings_.theme, resources_), "Om Perikop");
-}
-void MainFrame::browse_bible() {
-    if (dynamic_cast<BiblePicker*>(page_))
-        return;
-    auto* page = new BiblePicker(root_, corpus_, settings_, [this](const Reading& reading) {
-        close_pages();
-        tracked_.reset();
-        open_reading(reading);
-    });
-    page->on_selection([this] {
-        update_bar();
-    });
-    show_page(page, "Bibel");
-}
-void MainFrame::pick_date() {
-    if (page_)
-        return;
-    // From the reader, the calendar opens on the start page.
-    month_open_ = !readings_->IsShown() || !month_open_;
-    if (!readings_->IsShown())
-        show_readings();
-    refresh_day();
-    if (month_)
-        month_->SetFocus();
-}
 void MainFrame::apply_settings(bool persist) {
 #if wxCHECK_VERSION(3, 3, 0)
     static std::optional<Theme> native_theme;
@@ -529,9 +421,9 @@ void MainFrame::apply_settings(bool persist) {
     update_bar();
 }
 void MainFrame::update_study() {
-    if (page_)
+    if (navigation_.auxiliary())
         return;
-    const bool shown = settings_.word_study && scripture_->IsShown();
+    const bool shown = settings_.word_study && navigation_.reader();
     if (!shown)
         scripture_->highlight_word(std::nullopt);
     study_->Show(shown);

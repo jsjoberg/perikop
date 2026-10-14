@@ -1,7 +1,10 @@
 #pragma once
 
-#include "speech/read_aloud.hpp"
+#include "core/navigation.hpp"
+#include "speech/playback_controller.hpp"
+#include "ui/reader_controls.hpp"
 #include <filesystem>
+#include <map>
 #include <memory>
 #include <utility>
 #include <wx/accel.h>
@@ -56,7 +59,11 @@ private:
     void browse_bible();
     void about();
     void back();
-    void show_page(wxWindow*, const wxString& title);
+    void show_page(wxWindow*, Screen, const wxString& title);
+    wxWindow* current_page() const;
+    wxString current_page_title() const;
+    void present_navigation();
+    ReaderControls controls() const;
     void close_page();
     void close_pages();
     void apply_settings(bool persist = true);
@@ -120,17 +127,17 @@ private:
     std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
     std::unique_ptr<SpeechEngine> speech_;
     wxTimer playback_timer_;
-    ReadAloud read_aloud_;
-    std::optional<std::pair<size_t, size_t>> speech_view_;
-    std::optional<CivilDate> preparation_day_;
+    PlaybackController playback_;
 
     // wxWidgets owns child windows. These pointers are non-owning handles.
     wxPanel* root_ = nullptr;
     wxBoxSizer* reader_sizer_ = nullptr;
-    wxWindow* page_ = nullptr;
-    wxString page_title_;
-    bool return_to_reader_ = false;
-    std::vector<std::pair<wxWindow*, wxString>> page_history_;
+    NavigationState navigation_;
+    struct PageWindow {
+        wxWindow* window;
+        wxString title;
+    };
+    std::map<NavigationState::ViewId, PageWindow> pages_;
     std::vector<SymbolButton*> date_buttons_;
     // The start page's month, folded out under the date while a day is chosen.
     MonthCalendar* month_ = nullptr;

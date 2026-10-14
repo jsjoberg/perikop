@@ -62,6 +62,8 @@ find_package(Threads REQUIRED)
 target_link_libraries(ortho-sqlite PUBLIC Threads::Threads ${CMAKE_DL_LIBS} PRIVATE ortho-sanitizers)
 add_library(ortho-core
     src/core/model.cpp
+    src/core/navigation.cpp
+    src/ui/reader_controls.cpp
     src/core/lectionary.cpp
     src/core/service_labels.cpp
     src/core/swedish_titles.cpp
@@ -76,7 +78,7 @@ add_library(ortho-core
     src/storage/pronunciation_review_db.cpp
     src/speech/speech.cpp
     src/speech/reading_speech.cpp
-    src/speech/read_aloud.cpp
+    src/speech/playback_controller.cpp
     src/speech/pronunciation_review.cpp)
 target_include_directories(ortho-core PUBLIC src)
 target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers)
@@ -92,6 +94,9 @@ if(BUILD_TESTING)
     add_test(NAME build-version COMMAND "${CMAKE_COMMAND}"
         -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DWORK_DIR=${CMAKE_BINARY_DIR}/test-build-version
         -P "${CMAKE_SOURCE_DIR}/tests/build_version_test.cmake")
+    add_executable(ortho-reader-state-tests tests/reader_state_test.cpp)
+    target_link_libraries(ortho-reader-state-tests PRIVATE ortho-core)
+    add_test(NAME reader-state COMMAND ortho-reader-state-tests)
     add_executable(ortho-reading-speech-tests tests/reading_speech_test.cpp)
     target_link_libraries(ortho-reading-speech-tests PRIVATE ortho-core)
     add_test(NAME reading-speech COMMAND ortho-reading-speech-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")
@@ -144,6 +149,7 @@ if(ORTHO_BUILD_GUI)
     add_executable(perikop WIN32 MACOSX_BUNDLE
         src/app/main.cpp
         src/ui/main_frame.cpp
+        src/ui/main_frame_navigation.cpp
         src/ui/main_frame_menus.cpp
         src/ui/main_frame_playback.cpp
         src/ui/main_frame_toolbar.cpp

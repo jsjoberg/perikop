@@ -148,31 +148,19 @@ std::vector<std::pair<wxMenu*, wxString>> MainFrame::menus() const {
     return result;
 }
 void MainFrame::sync_menu(wxMenu& menu) const {
-    const bool auxiliary = page_ != nullptr;
-    const bool reader = scripture_->IsShown(), active = active_playback();
-    const bool marked = reader && !scripture_->selections().empty();
-    const bool paused = read_aloud_.playback().state == SpeechState::Paused;
-    const wxString label = !active  ? (marked ? ui::utf8("Läs markering") : "Lyssna")
-                           : paused ? ui::utf8("Fortsätt")
-                                    : "Pausa";
+    const auto policy = controls();
+    const auto label = ui::utf8(policy.playback_label);
     if (menu.FindItem(Play)) {
         if (menu.GetLabel(Play) != label + "\tCtrl+P")
             menu.SetLabel(Play, label + "\tCtrl+P");
-        menu.Enable(Play, !auxiliary && reader);
+        menu.Enable(Play, policy.playback_action != PlaybackAction::None);
         const bool preparing = preparing_day();
         const auto stop_label =
             (preparing ? ui::utf8("Avbryt förberedelsen") : wxString("Stoppa")) + "\tCtrl+.";
         if (menu.GetLabel(Stop) != stop_label)
             menu.SetLabel(Stop, stop_label);
-        menu.Enable(Stop, !auxiliary && ((reader && active) || preparing));
-        const bool available = std::ranges::any_of(day_.readings,
-                                                   [](const Reading& reading) {
-                                                       return reading.can_open();
-                                                   }) ||
-                               std::ranges::any_of(day_.variants, [](const DayReadings::Variant& variant) {
-                                   return variant.reading && variant.reading->can_open();
-                               });
-        menu.Enable(Prepare, !auxiliary && !active && !preparing && available);
+        menu.Enable(Stop, policy.stop);
+        menu.Enable(Prepare, policy.prepare);
     }
     if (menu.FindItem(Right)) {
         int pane = settings_.word_study ? Study : Right;
@@ -227,7 +215,7 @@ void MainFrame::make_menus() {
         wxEVT_MENU,
         [this](wxCommandEvent& event) {
             const int id = event.GetId();
-            if (page_) {
+            if (navigation_.auxiliary()) {
                 if (id == Readings)
                     back();
                 return;
@@ -261,7 +249,7 @@ void MainFrame::make_menus() {
                 return;
             }
             if (id == Stop) {
-                if (scripture_->IsShown() || preparing_day())
+                if (controls().stop)
                     stop_speech();
                 return;
             }
@@ -279,7 +267,7 @@ void MainFrame::make_menus() {
                     settings_.calendar = id == Julian ? CalendarStyle::Old : CalendarStyle::New;
                 else
                     settings_.tradition = id == Slavic ? Tradition::Slavic : Tradition::Greek;
-                if (!scripture_->IsShown())
+                if (!navigation_.reader())
                     refresh_day();
             } else if (id >= System && id <= Dark)
                 settings_.theme = static_cast<Theme>(id - System);
@@ -333,7 +321,7 @@ void MainFrame::show_menu() {
     wxMenu menu;
     for (const auto& [submenu, title] : menus()) {
         auto* item = menu.AppendSubMenu(submenu, title);
-        menu.Enable(item->GetId(), page_ == nullptr);
+        menu.Enable(item->GetId(), controls().menus);
     }
     menu.AppendSeparator();
     menu.Append(wxID_ABOUT, "Om Perikop");

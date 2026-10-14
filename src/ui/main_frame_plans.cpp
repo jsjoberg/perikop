@@ -107,13 +107,13 @@ void MainFrame::add_next_plan() {
     entries_->AddSpacer(FromDIP(30));
 }
 void MainFrame::show_plans() {
-    if (page_ && page_title_ == plans_title())
+    if (navigation_.current().screen == Screen::Plans)
         return;
     auto* page =
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
     page->SetScrollRate(0, FromDIP(12));
     fill_plans(page);
-    show_page(page, plans_title());
+    show_page(page, Screen::Plans, plans_title());
 }
 void MainFrame::fill_plans(wxScrolledWindow* page) {
     // Plans are counted in parts, not days, so nobody falls behind.
@@ -151,8 +151,8 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             }
             // The button belongs to the page that is rebuilt.
             CallAfter([this] {
-                if (auto* plans = dynamic_cast<wxScrolledWindow*>(page_);
-                    plans && page_title_ == plans_title())
+                if (auto* plans = dynamic_cast<wxScrolledWindow*>(current_page());
+                    plans && navigation_.current().screen == Screen::Plans)
                     fill_plans(plans);
             });
         });

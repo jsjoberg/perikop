@@ -1,5 +1,5 @@
 #include "core/reading_display.hpp"
-#include "speech/read_aloud.hpp"
+#include "speech/playback_controller.hpp"
 #include "speech/reading_speech.hpp"
 #include "storage/database.hpp"
 #include <iostream>
@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
         check(rejected, "A passage without Swedish text must report that no speech is available");
         check(reading_speech(corpus, {}, lexicon).empty(), "An empty batch must contain no utterances");
 
-        ReadAloud read_aloud;
+        PlaybackController read_aloud;
         check(!read_aloud.status(corpus), "Nothing being read must leave the address field to the window");
         read_aloud.start({sections, psalm});
         read_aloud.update({SpeechState::Loading, {}, 0, 0});
@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
         check(read_aloud.status(corpus)->title ==
                   "Pausad: " + passage_label(corpus, {{"John", {1, 1}, {1, 1}}}),
               "A paused verse must show where the reading is");
-        const auto start = ReadAloud::Clock::now();
+        const auto start = PlaybackController::Clock::now();
         read_aloud.update({SpeechState::Playing, batch[2].cue, 0, 0.2}, start);
         read_aloud.update({SpeechState::Buffering, batch[2].cue, 0, 0.2}, start);
         read_aloud.update({SpeechState::Buffering, batch[2].cue, 0, 0.2},
