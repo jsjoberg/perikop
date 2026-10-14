@@ -247,8 +247,9 @@ int main(int argc, char** argv) {
                 const auto result = lectionary.readings_for(civil, CalendarStyle::New, Tradition::Antiochian);
                 auto services =
                     lectionary.service_readings_for(civil, CalendarStyle::New, Tradition::Antiochian);
+                // Composite Vespers name the source of their verses, not a chart.
                 std::erase_if(services.readings, [](const auto& r) {
-                    return r.assignment_source_url.empty();
+                    return r.assignment_source_url.empty() || r.kind == ReadingKind::Vespers;
                 });
                 check(result.day.annual && services.day.annual, "published chart coverage");
                 check(result.readings.size() == 2 && services.readings.size() == 2,
@@ -379,9 +380,33 @@ int main(int argc, char** argv) {
         const auto moved_feast =
             lectionary.service_readings_for(date("2026-03-31"), CalendarStyle::New, Tradition::Slavic);
         check(std::ranges::count(moved_eve.readings, std::string("Vespers"), &Reading::service) == 5 &&
-                  std::ranges::count(moved_eve.readings, false, &Reading::can_open) == 3 &&
+                  std::ranges::none_of(moved_eve.readings, [](const Reading& r) { return !r.can_open(); }) &&
                   std::ranges::count(moved_feast.readings, std::string("Vespers"), &Reading::service) == 2,
-              "Lenten feast Vespers move to the eve, with composites retained as citations");
+              "Lenten feast Vespers move to the eve, with composites at their sourced verses");
+        {
+            // Composites open at their cited verses and keep the short published citation.
+            const auto innocent =
+                lectionary.service_readings_for(date("2026-10-06"), CalendarStyle::New, Tradition::Slavic);
+            std::vector<const Reading*> vespers;
+            for (const auto& r : innocent.readings)
+                if (r.service == "Vespers")
+                    vespers.push_back(&r);
+            const std::string paremii =
+                "https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/";
+            check(vespers.size() == 3 && std::ranges::all_of(vespers, &Reading::can_open) &&
+                      vespers[0]->citation == "Prov 10, 3, 8" &&
+                      vespers[0]->assignment_source_url == paremii + "458#458_316" &&
+                      vespers[0]->passage.book == "Prov" && vespers[0]->passage.first == VerseRef{10, 7} &&
+                      vespers[1]->citation == "Wis 4, 5" &&
+                      vespers[1]->assignment_source_url == paremii + "454#454_306" &&
+                      vespers[1]->segments().size() == 4 && vespers[1]->passage.first == VerseRef{4, 7} &&
+                      vespers[2]->assignment_source_url == paremii + "458#458_317",
+                  "Composite Vespers open at their sourced verses");
+            for (const auto& rule : corpus.reading_rules())
+                check(!rule.reading.citation.starts_with("Composite") &&
+                          !rule.reading.citation.starts_with("​"),
+                      "Composite citations use the short published form");
+        }
 
         // oca.org's printed daily pairs for 2026. The Slavic order's Epistle and Gospel must be
         // one of them, within a verse for translation boundaries, except on these dates.

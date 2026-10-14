@@ -59,9 +59,11 @@ struct Reading {
     std::string reference;
     // Liturgical service and occasion. Empty for manually selected Scripture.
     std::string service, occasion;
-    // Official source of this dated assignment; separate from the Bible text edition.
+    // Official source of this dated assignment, or of a composite reading's verse list;
+    // separate from the Bible text edition.
     std::string assignment_source_url;
-    // Composite readings retain their published citation without importing adapted liturgical wording.
+    // Composite readings keep their published short citation, never adapted liturgical wording;
+    // one without a cited verse list cannot open.
     std::string citation;
     bool can_open() const {
         return !passage.book.empty();

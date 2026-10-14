@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "6bf0ee2c22db2b045a7a0d7a0f4047cc9956c90d7e293107d72113378f053d49",
+      "sha256": "a3a992720970d66d9b433c04ff5b6744b2e8badfdc793977f429cdb49e20848a",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -304,6 +304,12 @@
       "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/eba3af4d6552f43ea09079e19b3f6147619b6dfb/fixtures/calendarium.json",
       "role": "Common, Greek and Slavic recurring reading rules and annual assignments from Orthocal; annual data retained from 2019 only. No Scripture wording",
       "sha256": "f12fad0fe5799662af445dd36ecbe159daee31151a6167dc17de0d42bc037791"
+    },
+    {
+      "path": "resources/lectionary/composites.tsv",
+      "license": "Factual Scripture citations",
+      "role": "Curated verse lists for Orthocal's composite Vespers readings, each with the liturgical source that cites them; no adapted wording",
+      "sha256": "fc1cfd46a5633d81ff0ea551d0dd1e72df34b3bb026ac92dbf89aba1c03e68fd"
     },
     {
       "path": "resources/lectionary/antiochian.json",

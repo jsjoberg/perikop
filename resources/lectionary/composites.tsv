@@ -1,0 +1,31 @@
+# Verses of Orthocal's composite Vespers readings (pericope verses Comp_N...), keyed by N.
+# Ranges use Orthocal's form and KJV numbering; Wisdom has only the Septuagint's.
+# Each row names the page that cites these verses: an oca.org reading title, or the reading's
+# own citation in azbyka.ru's "Паремии на все дни года". Half-verse marks there (7А) cover the
+# whole verse here; a part the page leaves unidentified ("?") is left out. Corrections:
+# 2: the page prints "10:7А, 5 А", but its text "и благословения – на голове его" is 10:6.
+# 9: the page also lists Mark 1:2; a reading keeps to one testament, and Malachi 3:1 says the same.
+1	Gen_17001_17002|Gen_17004_17012|Gen_17014_17014	https://www.oca.org/readings/daily/2025/01/01/1
+2	Prov_10007_10007|Prov_10006_10006|Prov_3013_3016|Prov_8006_8006|Prov_8034_8035|Prov_8004_8004|Prov_8012_8012|Prov_8014_8014|Prov_8017_8017|Prov_8005_8009	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/458#458_316
+3	Wis_4007_4007|Wis_4016_4017|Wis_4019_4020|Wis_5001_5007	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/454#454_306
+4	Prov_10031_10032|Prov_11002_11002|Prov_10002_10002|Prov_11007_11007|Prov_11019_11019|Prov_13002_13002|Prov_13009_13009|Prov_15002_15002|Prov_14033_14033|Prov_22011_22011|Wis_6013_6013|Wis_6012_6012|Wis_6014_6016|Wis_7030_7030|Wis_8002_8004|Wis_8007_8009|Wis_8017_8018|Wis_8021_8021|Wis_9001_9005|Wis_9010_9011|Wis_9014_9014	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/458#458_317
+5	Prov_29002_29002|Wis_4001_4001|Wis_4014_4014|Wis_6011_6011|Wis_6017_6018|Wis_6021_6021|Wis_7015_7015|Wis_7021_7022|Wis_7026_7027|Wis_7029_7029|Wis_10009_10010|Wis_10012_10012|Wis_7030_7030|Wis_2001_2001|Wis_2010_2011|Wis_2013_2017|Wis_2019_2022|Prov_3034_3034	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/458#458_318
+6	Exod_12051_12051|Exod_13001_13003|Exod_13010_13012|Exod_13014_13016|Exod_22029_22029|Lev_12001_12004|Lev_12006_12006|Lev_12008_12008|Num_8015_8017	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/111#111_106
+7	Isa_19001_19001|Isa_19003_19005|Isa_19012_19012|Isa_19016_19016|Isa_19019_19021	https://www.oca.org/readings/daily/2025/02/02/3
+8	Isa_40001_40003|Isa_40009_40009|Isa_41017_41018|Isa_45008_45008|Isa_48020_48021|Isa_54001_54001	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/454#454_304
+9	Mal_3001_3003|Mal_3005_3007|Mal_3012_3012|Mal_3018_3018|Mal_3017_3017|Mal_4004_4006	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/454#454_305
+10	Gen_17015_17017|Gen_17019_17019|Gen_18011_18014|Gen_21001_21008	https://www.oca.org/readings/daily/2025/06/24/1
+11	Judg_13002_13008|Judg_13013_13014|Judg_13017_13018|Judg_13021_13021	https://www.oca.org/readings/daily/2025/06/24/2
+12	3Kg_17001_17023	https://www.oca.org/readings/daily/2025/07/20/1
+13	3Kg_18001_18001|3Kg_18017_18041|3Kg_18044_18044|3Kg_18042_18042|3Kg_18045_18046|3Kg_19001_19016	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/187#187_166
+14	3Kg_19019_19021|4Kg_2001_2001|4Kg_2006_2014	https://www.oca.org/readings/daily/2025/07/20/3
+15	Exod_33011_33023|Exod_34004_34006|Exod_34008_34008	https://www.oca.org/readings/daily/2025/08/06/2
+16	Isa_63015_64005|Isa_64008_64009	https://www.oca.org/readings/daily/2025/10/26/1
+17	Exod_40001_40005|Exod_40009_40010|Exod_40016_40016|Exod_40034_40035	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/50#50_43
+18	3Kg_7051_7051|3Kg_8001_8001|3Kg_8003_8007|3Kg_8009_8011	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/50#50_44
+19	Micah_4002_4003|Micah_4005_4005|Micah_6002_6005|Micah_6008_6008|Micah_5004_5005	https://www.oca.org/readings/daily/2025/05/14/1
+20	Isa_55001_55001|Isa_12003_12004|Isa_55002_55013	https://www.oca.org/readings/daily/2025/05/14/2
+21	Isa_62010_63003|Isa_63007_63009	https://www.oca.org/readings/daily/2025/05/29/2
+22	Zech_14001_14001|Zech_14004_14004|Zech_14008_14011	https://www.oca.org/readings/daily/2025/05/29/3
+23	3Kg_19003_19009|3Kg_19011_19013|3Kg_19015_19016	https://www.oca.org/readings/daily/2025/08/06/3
+24	Lev_26003_26012|Lev_26014_26017|Lev_26019_26020|Lev_26022_26022|Lev_26033_26033|Lev_26040_26041	https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/1#1_2

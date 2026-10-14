@@ -147,6 +147,8 @@ with sqlite3.connect(temp) as db:
  new_testament={code for code,_,_,_,_,testament,*_ in entries if testament=='NT'}
  kjv_last={(b,c):v for b,c,v in db.execute('SELECT book.code,chapter,max(verse) FROM verse JOIN book ON book.id=book_id WHERE source_id=6 GROUP BY book_id,chapter')}
  pericopes={x['pk']:x['fields'] for x in tables if x['model']=='calendarium.pericope'}
+ # Orthocal holds composites as adapted wording; composites.tsv gives the cited verses of some.
+ composites={int(n):(verses,url) for n,verses,url in (line.split('\t') for line in (root/'resources/lectionary/composites.tsv').read_text().splitlines() if line and not line.startswith('#'))}
  unmapped=[]
  for x in tables:
   f=x['fields'];model=x['model']
@@ -162,7 +164,11 @@ with sqlite3.connect(temp) as db:
     if f['year']<2019 or assigned.weekday()!=6 or f['tradition']!='antiochian' or f['source'] not in ('Epistle','Gospel') or f.get('source_url')!=expected_url:
      raise SystemExit('Invalid official Sunday chart assignment: '+str(f))
    p=pericopes[f['pericope']];parts=p['verses'].strip().split('|')
-   composite=parts[0].startswith('Comp_')
+   composite=parts[0].startswith('Comp_');label,source_url=p['display'],f.get('source_url','')
+   if composite:
+    label=p['sdisplay']
+    if (curated:=composites.get(int(parts[0].split('_')[1])//1000)):
+     parts,source_url=curated[0].split('|'),curated[1];composite=False
    septuagint=not composite and ('LXX' in p['display'] or any(b not in new_testament and kjv_last.get((b,int(last)//1000),0)<int(last)%1000 for b,_,last in (part.strip().replace('3Kg','1Kgs').replace('4Kg','2Kgs').split('_') for part in parts)))
    reference,segments='grc-lxx',[]
    for part in [] if composite else parts: # a composite keeps its citation; never a guessed Scripture range
@@ -175,7 +181,7 @@ with sqlite3.connect(temp) as db:
      unmapped.append('%s %s in %s numbering'%(p['display'],part,reference));mapped=[(book,first,last)]
     segments+=mapped
    if len({book in new_testament for book,_,_ in segments})>1:raise SystemExit('A reading mixes the testaments: '+p['display'])
-   db.execute('INSERT INTO reading_rule VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['source'],f['desc'],f['ordering'],f['tradition'],p['display'],code_id[reference],f.get('year',0),f.get('source_url','')))
+   db.execute('INSERT INTO reading_rule VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['source'],f['desc'],f['ordering'],f['tradition'],label,code_id[reference],f.get('year',0),source_url))
    for idx,(book,first,last) in enumerate(segments):
     db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(x['pk'],idx,book,*first[:2],*last[:2]))
  db.execute('PRAGMA user_version=10')
@@ -209,7 +215,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
-GENERATED={'resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-biblical-forms.tsv','resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
+GENERATED={'resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-biblical-forms.tsv','resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/lectionary/composites.tsv','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
 metadata=json.loads(manifest.read_text())
 metadata['schema_version']=3
 for asset in metadata['assets']:

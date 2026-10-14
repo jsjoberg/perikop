@@ -84,6 +84,9 @@ These annual assignments apply only to the New Calendar for their stated dates. 
 Annual data before 2019 are excluded from both jurisdictions.
 The test fixture `tests/oca-2026.tsv` contains factual references from oca.org, as Orthocal collected them.
 The package excludes narrative biographies, stories, and liturgical composite wording. Composite readings retain their factual citations.
+`resources/lectionary/composites.tsv` gives the verses of each composite as factual references from oca.org's reading titles
+or the readings' citations in "Паремии на все дни года" at azbyka.ru; each row keeps the page URL, and the reader shows the
+Bible text of those verses.
 
 ## Hyphenation and fallback fonts
 
