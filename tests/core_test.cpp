@@ -899,6 +899,8 @@ int main(int argc, char** argv) {
                 {"skylt", "", "⟦ɧˈyːlt⟧", 3, {}},
                 {"fördraget", "", "⟦fœɖrˈɑːɡət⟧", 4, {}},
                 {"joses", "", "⟦jˈuːsəs⟧", 4, {}},
+                {"krubba", "", "⟦krˈɵba⟧", 4, {}},
+                {"krubban", "", "⟦krˈɵban⟧", 3, {}},
                 {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
                 {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
             };

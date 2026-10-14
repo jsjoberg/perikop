@@ -73,6 +73,16 @@ It uses `word-only`, because the possessive is `Joses'`, with no additional s.
 The correction preserves both straight and curved apostrophes in the displayed text.
 The corpus test checks Mark 6:3, Mark 15:40, Mark 15:47, and Matthew 27:56.
 
+## Krubba and krubban
+
+The NST entries and the prepared voice lexicon give both forms the long vowel `ʉː`.
+The bundled corrections use the short vowel `ɵ`: `krˈɵba` and `krˈɵban`.
+Both rows use `word-only`.
+
+The corpus test checks all seven occurrences.
+`Krubba` occurs in Isaiah 1:3, Job 39:12, Luke 2:7, and Luke 2:12.
+`Krubban` occurs in Luke 2:16, Luke 13:15, and Proverbs 14:4.
+
 ## Limits of the audit
 
 An NST difference does not always identify a wrong meaning.

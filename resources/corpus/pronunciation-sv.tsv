@@ -132,6 +132,9 @@ tryfon	trˈyːfɔn
 tubal	tˈʉːbal
 uria	ʉrˈiːa
 ussia	ɵsˈiːa
+# Vowel length: NST incorrectly gives these forms a long u.
+krubba	krˈɵba	word-only
+krubban	krˈɵban	word-only
 # Homographs. The voice pack's lexicon keeps one pronunciation per spelling and
 # often took a name's, an abbreviation's, or another word's, such as "Han" for
 # "han" and the genitive of "ko" for "kors". Each entry is the NST alternative
