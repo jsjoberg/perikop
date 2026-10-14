@@ -14,6 +14,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 - Clicking the address field in the Bible browser closes it and restores the previous view.
 - Leaving a reading pauses read-aloud. Opening another reading ends the previous playback session. Paused playback controls are disabled outside the reader.
 - The month calendar marks today and dates with Orthros, Vespers, and other service readings. Tooltips list services and reading counts.
+- The month and year in the calendar open grids to choose a month or year. The current month and year are marked like today.
 - Fasting guidance, fixed feast headings and markers, and commemoration lists are removed. Internal day ranks still select the prescribed readings.
 - The reading-cycle day and week heading stays visible, centered with the date controls and month calendar.
 - The separate Idag button beside the date is removed. The menu action and keyboard shortcut remain available.

@@ -40,6 +40,8 @@ The markers follow the selected calendar style and reading order.
 **Kalender → Idag**, or **Ctrl+T**, selects the current local date.
 Click the date, or select **Kalender → Välj datum**, to open the month calendar below the date.
 Click a day to show its readings. Arrows on either side of the month name change the month; arrows around the year jump one year.
+Click the month name or the year to show a grid of months or of twelve years in place of the days. Click a month or year to go there.
+The grids mark the current month and year like today. In the year grid, the year arrows show the previous or next twelve years.
 Year jumps keep the month and day, using February 28 when February 29 is unavailable.
 With the keyboard, the arrow keys move the day, Page Up and Page Down change the month, Shift+Page Up and Shift+Page Down change the year, and Home moves to today.
 Return selects the day, and Escape closes the calendar.

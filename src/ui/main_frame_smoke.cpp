@@ -1504,6 +1504,46 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     calendar_arrow(-1);
     if (month_->focused() != parse_date("2024-02-28").value())
         fail(__LINE__);
+    for (const int group : {0, 1}) {
+        const auto area = month_->title(group);
+        wxMouseEvent hover(wxEVT_MOTION);
+        hover.SetPosition({area.x + area.width / 2, area.y + area.height / 2});
+        month_->GetEventHandler()->ProcessEvent(hover);
+        if (month_->GetToolTipText() != ui::utf8(group == 0 ? "Välj månad" : "Välj år"))
+            fail(__LINE__);
+    }
+    // The titles open grids of months and years; a cell moves there and shows the days again.
+    const auto click_at = [this](const wxRect& area) {
+        wxMouseEvent click(wxEVT_LEFT_UP);
+        click.SetPosition({area.x + area.width / 2, area.y + area.height / 2});
+        month_->GetEventHandler()->ProcessEvent(click);
+    };
+    month_->focus(parse_date("2024-01-31").value());
+    click_at(month_->title(0));
+    if (month_->view_ != MonthCalendar::View::Months)
+        fail(__LINE__);
+    click_at(month_->grid_cell(1));
+    if (month_->view_ != MonthCalendar::View::Days || month_->focused() != parse_date("2024-02-29").value())
+        fail(__LINE__);
+    click_at(month_->title(1));
+    if (month_->grid_date(0) != parse_date("2019-02-28").value())
+        fail(__LINE__);
+    calendar_arrow(12);
+    if (month_->focused() != parse_date("2036-02-29").value() ||
+        month_->grid_date(0) != parse_date("2031-02-28").value())
+        fail(__LINE__);
+    click_at(month_->grid_cell(0));
+    if (month_->view_ != MonthCalendar::View::Days || month_->focused() != parse_date("2031-02-28").value())
+        fail(__LINE__);
+    // Paging years keeps the grid's height: October 2038 has six weeks, October 2026 five.
+    month_->focus(parse_date("2026-10-14").value());
+    click_at(month_->title(1));
+    const auto grid_size = month_->GetBestSize();
+    calendar_arrow(12);
+    if (month_->GetBestSize() != grid_size)
+        fail(__LINE__);
+    click_at(month_->title(1));
+    month_->focus(parse_date("2024-02-28").value());
     wxKeyEvent next_year(wxEVT_KEY_DOWN);
     next_year.m_keyCode = WXK_PAGEDOWN;
     next_year.m_shiftDown = true;

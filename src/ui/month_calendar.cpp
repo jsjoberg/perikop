@@ -40,6 +40,14 @@ void service_marker(wxGraphicsContext& gc, double x, double y, double size, cons
 bool supported(CivilDate date) {
     return selectable_date(date);
 }
+std::string month_name(CivilDate date) {
+    const auto month_and_year = month_swedish(date);
+    return month_and_year.substr(0, month_and_year.find_last_of(' '));
+}
+// The same day in another month, or that month's last day when it is shorter.
+CivilDate same_day(year_month month, CivilDate date) {
+    return month / std::min(date.day(), (month / last).day());
+}
 } // namespace
 
 MonthCalendar::MonthCalendar(wxWindow* parent, CivilDate selected,
@@ -65,10 +73,11 @@ MonthCalendar::MonthCalendar(wxWindow* parent, CivilDate selected,
     });
     Bind(wxEVT_MOTION, [this](wxMouseEvent& e) {
         const auto day = day_at(e.GetPosition());
-        const int arrow = arrow_at(e.GetPosition());
-        if (day != hover_ || arrow != arrow_hover_) {
+        const int arrow = arrow_at(e.GetPosition()), title = title_at(e.GetPosition());
+        if (day != hover_ || arrow != arrow_hover_ || title != title_hover_) {
             hover_ = day;
             arrow_hover_ = arrow;
+            title_hover_ = title;
             update_description();
             Refresh(false);
         }
@@ -76,6 +85,7 @@ MonthCalendar::MonthCalendar(wxWindow* parent, CivilDate selected,
     Bind(wxEVT_LEAVE_WINDOW, [this](wxMouseEvent&) {
         hover_.reset();
         arrow_hover_ = 0;
+        title_hover_ = -1;
         UnsetToolTip();
         Refresh(false);
     });
@@ -85,9 +95,18 @@ MonthCalendar::MonthCalendar(wxWindow* parent, CivilDate selected,
     });
     Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& e) {
         if (const int direction = arrow_at(e.GetPosition()))
-            shift_month(direction);
-        else if (const auto day = day_at(e.GetPosition()))
-            choose(day);
+            shift_month(months_for(direction));
+        else if (const int group = title_at(e.GetPosition()); group >= 0) {
+            const auto grid = group == 0 ? View::Months : View::Years;
+            show(view_ == grid ? View::Days : grid);
+        } else if (const auto day = day_at(e.GetPosition())) {
+            if (view_ == View::Days)
+                choose(day);
+            else {
+                focus(*day);
+                show(View::Days);
+            }
+        }
     });
 }
 
@@ -147,19 +166,24 @@ wxString MonthCalendar::description(CivilDate date) const {
 void MonthCalendar::update_description() {
     SetLabel(ui::utf8("Välj datum: ") + description(focus_));
     wxString tooltip;
-    if (hover_)
+    if (hover_ && view_ == View::Days)
         tooltip = description(*hover_);
     else if (arrow_hover_)
         tooltip =
-            ui::utf8(std::abs(arrow_hover_) == 12 ? (arrow_hover_ < 0 ? "Föregående år" : "Nästa år")
-                                                  : (arrow_hover_ < 0 ? "Föregående månad" : "Nästa månad"));
-    else if (keyboard_)
+            ui::utf8(std::abs(arrow_hover_) != 12 ? (arrow_hover_ < 0 ? "Föregående månad" : "Nästa månad")
+                     : view_ == View::Years       ? (arrow_hover_ < 0 ? "Tidigare år" : "Senare år")
+                                                  : (arrow_hover_ < 0 ? "Föregående år" : "Nästa år"));
+    else if (title_hover_ >= 0)
+        tooltip = ui::utf8(title_hover_ == 0 ? "Välj månad" : "Välj år");
+    else if (keyboard_ && view_ == View::Days)
         tooltip = description(focus_);
     if (tooltip != GetToolTipText())
         SetToolTip(tooltip);
 }
 
 int MonthCalendar::weeks() const {
+    if (view_ != View::Days)
+        return grid_weeks_;
     const auto first = first_shown();
     const int cells =
         int(weekday{sys_days{first}}.c_encoding() + unsigned((first.year() / first.month() / last).day()));
@@ -181,15 +205,63 @@ wxRect MonthCalendar::arrow(int step) const {
     return {group * half + (step < 0 ? FromDIP(4) : half - side - FromDIP(4)), FromDIP(6), side, side};
 }
 
+wxRect MonthCalendar::title(int group) const {
+    const int half = GetClientSize().x / 2, inset = FromDIP(34);
+    return {group * half + inset, FromDIP(6), half - 2 * inset, FromDIP(28)};
+}
+
+int MonthCalendar::title_at(wxPoint point) const {
+    for (const int group : {0, 1})
+        if (title(group).Contains(point))
+            return group;
+    return -1;
+}
+
+void MonthCalendar::show(View view) {
+    const int before = weeks();
+    if (view_ == View::Days)
+        grid_weeks_ = before;
+    view_ = view;
+    hover_.reset();
+    update_description();
+    fit(before);
+    Refresh(false);
+}
+
+wxRect MonthCalendar::grid_cell(int index) const {
+    // Three columns and four rows in place of the weekday names and the weeks.
+    const int width = 7 * cell_width / 3, height = (weekdays + weeks() * cell_height) / 4;
+    return {FromDIP(index % 3 * width), FromDIP(header + index / 3 * height), FromDIP(width),
+            FromDIP(height)};
+}
+
+CivilDate MonthCalendar::grid_date(int index) const {
+    if (view_ == View::Months)
+        return same_day(focus_.year() / month{unsigned(index + 1)}, focus_);
+    // Pages of twelve years from the calendar's first.
+    const int first = first_calendar_year + (int(focus_.year()) - first_calendar_year) / 12 * 12;
+    return same_day(year{first + index} / focus_.month(), focus_);
+}
+
+int MonthCalendar::months_for(int step) const {
+    return view_ == View::Years && std::abs(step) == 12 ? 12 * step : step;
+}
+
 int MonthCalendar::arrow_at(wxPoint point) const {
     for (const int step : {-1, 1, -12, 12})
-        if (supported((year_month{focus_.year() / focus_.month()} + months{step}) / 1) &&
+        if (supported((year_month{focus_.year() / focus_.month()} + months{months_for(step)}) / 1) &&
             arrow(step).Contains(point))
             return step;
     return 0;
 }
 
 std::optional<CivilDate> MonthCalendar::day_at(wxPoint point) const {
+    if (view_ != View::Days) {
+        for (int index = 0; index < 12; ++index)
+            if (grid_cell(index).Contains(point) && supported(grid_date(index)))
+                return grid_date(index);
+        return std::nullopt;
+    }
     const auto first = first_shown();
     const int offset = int(weekday{sys_days{first}}.c_encoding());
     const int length = int(unsigned((first.year() / first.month() / last).day()));
@@ -213,19 +285,21 @@ void MonthCalendar::focus(CivilDate date) {
     if (first_shown() != month)
         load_month();
     update_description();
-    if (weeks() != before) {
-        InvalidateBestSize();
-        SetMinSize(GetBestSize());
-        if (resized_)
-            resized_();
-    }
+    fit(before);
     Refresh(false);
 }
 
+void MonthCalendar::fit(int weeks_before) {
+    if (weeks() == weeks_before)
+        return;
+    InvalidateBestSize();
+    SetMinSize(GetBestSize());
+    if (resized_)
+        resized_();
+}
+
 void MonthCalendar::shift_month(int months) {
-    const auto month = year_month{focus_.year() / focus_.month()} + std::chrono::months{months};
-    // The same day of the month, or the month's last day when it is shorter.
-    focus(month / std::min(focus_.day(), (month / last).day()));
+    focus(same_day(year_month{focus_.year() / focus_.month()} + std::chrono::months{months}, focus_));
 }
 
 void MonthCalendar::choose(std::optional<CivilDate> date) {
@@ -235,6 +309,29 @@ void MonthCalendar::choose(std::optional<CivilDate> date) {
 
 void MonthCalendar::key(wxKeyEvent& e) {
     keyboard_ = true;
+    if (view_ != View::Days) {
+        // Arrows move through the grid's three columns; Return or Escape goes back to the days.
+        const int unit = view_ == View::Months ? 1 : 12;
+        switch (e.GetKeyCode()) {
+        case WXK_LEFT:
+        case WXK_RIGHT:
+        case WXK_UP:
+        case WXK_DOWN:
+            shift_month(unit * (e.GetKeyCode() == WXK_LEFT    ? -1
+                                : e.GetKeyCode() == WXK_RIGHT ? 1
+                                : e.GetKeyCode() == WXK_UP    ? -3
+                                                              : 3));
+            return;
+        case WXK_RETURN:
+        case WXK_NUMPAD_ENTER:
+        case WXK_SPACE:
+        case WXK_ESCAPE:
+            show(View::Days);
+            return;
+        default:
+            break;
+        }
+    }
     switch (e.GetKeyCode()) {
     case WXK_LEFT:
     case WXK_RIGHT:
@@ -279,11 +376,17 @@ void MonthCalendar::paint(wxPaintEvent&) {
     const double scale = FromDIP(100) / 100.0;
     double width = 0, height = 0;
     // Independent month and year groups, each with arrows around its label.
-    const auto month_and_year = month_swedish(focus_);
-    const std::array labels{ui::utf8(month_and_year.substr(0, month_and_year.find_last_of(' '))),
-                            wxString::Format("%d", int(focus_.year()))};
+    const std::array labels{ui::utf8(month_name(focus_) + (view_ == View::Months ? " ▴" : " ▾")),
+                            wxString::Format("%d", int(focus_.year())) +
+                                ui::utf8(view_ == View::Years ? " ▴" : " ▾")};
     const int half = GetClientSize().x / 2;
     for (std::size_t group = 0; group < labels.size(); ++group) {
+        if (title_hover_ == int(group)) {
+            const auto area = title(int(group));
+            gc->SetPen(*wxTRANSPARENT_PEN);
+            gc->SetBrush(wxBrush(with_alpha(colors_.ink, 20)));
+            gc->DrawRoundedRectangle(area.x, area.y, area.width, area.height, 6 * scale);
+        }
         int points = 12;
         gc->SetFont(ui_font(points), colors_.ink);
         gc->GetTextExtent(labels[group], &width, &height);
@@ -296,7 +399,8 @@ void MonthCalendar::paint(wxPaintEvent&) {
     }
     for (const int step : {-1, 1, -12, 12}) {
         const auto area = arrow(step);
-        const bool enabled = supported((year_month{focus_.year() / focus_.month()} + months{step}) / 1);
+        const bool enabled =
+            supported((year_month{focus_.year() / focus_.month()} + months{months_for(step)}) / 1);
         if (enabled && arrow_hover_ == step) {
             gc->SetPen(*wxTRANSPARENT_PEN);
             gc->SetBrush(wxBrush(with_alpha(colors_.ink, 20)));
@@ -314,34 +418,20 @@ void MonthCalendar::paint(wxPaintEvent&) {
         path.AddLineToPoint(x - direction * arm / 2, y + arm);
         gc->StrokePath(path);
     }
-    // Weekday initials, Sunday first.
-    static const char* names[] = {"sö", "må", "ti", "on", "to", "fr", "lö"};
-    gc->SetFont(ui_font(9), colors_.muted);
-    for (int column = 0; column < 7; ++column) {
-        const auto name = ui::utf8(names[column]);
-        gc->GetTextExtent(name, &width, &height);
-        gc->DrawText(name, FromDIP(column * cell_width) + (FromDIP(cell_width) - width) / 2,
-                     FromDIP(header) + (FromDIP(weekdays) - height) / 2);
-    }
-    const auto first = first_shown();
-    const int offset = int(weekday{sys_days{first}}.c_encoding());
-    const int days_in_month = int(unsigned((first.year() / first.month() / last).day()));
     const auto today = local_civil_date();
     const auto marks = calendar_colors(colors_);
-    for (int day = 1; day <= days_in_month; ++day) {
-        const int index = offset + day - 1;
-        const CivilDate date = first.year() / first.month() / unsigned(day);
-        const auto area = cell(index);
+    // A day, month, or year: tinted when selected, ringed when current, outlined under the keyboard.
+    const auto draw_cell = [&](const wxRect& area, const wxString& text, CivilDate date, bool selected,
+                               bool current, bool accent, double lift) {
         const double x = area.x + 3 * scale, y = area.y + 2 * scale, w = area.width - 6 * scale,
                      h = area.height - 4 * scale, radius = 6 * scale;
-        const bool selected = date == selected_;
         gc->SetPen(*wxTRANSPARENT_PEN);
         if (selected || hover_ == date) {
             gc->SetBrush(wxBrush(selected ? with_alpha(colors_.accent, 44) : with_alpha(colors_.ink, 20)));
             gc->DrawRoundedRectangle(x, y, w, h, radius);
         }
         gc->SetBrush(*wxTRANSPARENT_BRUSH);
-        if (date == today) {
+        if (current) {
             gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(marks.today).Width(1.7 * scale)));
             gc->DrawRoundedRectangle(x + 2 * scale, y + 2 * scale, w - 4 * scale, h - 4 * scale,
                                      radius - scale);
@@ -351,21 +441,54 @@ void MonthCalendar::paint(wxPaintEvent&) {
             gc->DrawRoundedRectangle(x, y, w, h, radius);
         }
         auto font = ui_font(11);
-        if (selected || date == today)
+        if (selected || current)
             font.SetWeight(wxFONTWEIGHT_MEDIUM);
-        gc->SetFont(font, selected || index % 7 == 0 ? colors_.accent : colors_.ink);
-        const auto number = wxString::Format("%d", day);
-        gc->GetTextExtent(number, &width, &height);
-        gc->DrawText(number, area.x + (area.width - width) / 2,
-                     area.y + (area.height - height) / 2 - 2 * scale);
-        const double center = area.x + area.width / 2.0, bottom = area.GetBottom() - 6 * scale;
-        const auto& services = days_.at(date).marked;
-        const int count = std::ranges::count(services, true);
-        int position = 0;
-        for (std::size_t service = 0; service < services.size(); ++service)
-            if (services[service])
-                service_marker(*gc, center + (position++ - (count - 1) / 2.0) * 8 * scale, bottom,
-                               2.3 * scale, marks.services[service], service);
+        gc->SetFont(font, accent ? colors_.accent : colors_.ink);
+        gc->GetTextExtent(text, &width, &height);
+        gc->DrawText(text, area.x + (area.width - width) / 2, area.y + (area.height - height) / 2 - lift);
+    };
+    if (view_ != View::Days) {
+        for (int index = 0; index < 12; ++index) {
+            const auto date = grid_date(index);
+            if (!supported(date))
+                continue;
+            const bool current = view_ == View::Months
+                                     ? date.year() == today.year() && date.month() == today.month()
+                                     : date.year() == today.year();
+            draw_cell(grid_cell(index),
+                      view_ == View::Months ? ui::utf8(month_name(date))
+                                            : wxString::Format("%d", int(date.year())),
+                      date, date == focus_, current, date == focus_, 0);
+        }
+    } else {
+        // Weekday initials, Sunday first.
+        static const char* names[] = {"sö", "må", "ti", "on", "to", "fr", "lö"};
+        gc->SetFont(ui_font(9), colors_.muted);
+        for (int column = 0; column < 7; ++column) {
+            const auto name = ui::utf8(names[column]);
+            gc->GetTextExtent(name, &width, &height);
+            gc->DrawText(name, FromDIP(column * cell_width) + (FromDIP(cell_width) - width) / 2,
+                         FromDIP(header) + (FromDIP(weekdays) - height) / 2);
+        }
+        const auto first = first_shown();
+        const int offset = int(weekday{sys_days{first}}.c_encoding());
+        const int days_in_month = int(unsigned((first.year() / first.month() / last).day()));
+        for (int day = 1; day <= days_in_month; ++day) {
+            const int index = offset + day - 1;
+            const CivilDate date = first.year() / first.month() / unsigned(day);
+            const auto area = cell(index);
+            const bool selected = date == selected_;
+            draw_cell(area, wxString::Format("%d", day), date, selected, date == today,
+                      selected || index % 7 == 0, 2 * scale);
+            const double center = area.x + area.width / 2.0, bottom = area.GetBottom() - 6 * scale;
+            const auto& services = days_.at(date).marked;
+            const int count = std::ranges::count(services, true);
+            int position = 0;
+            for (std::size_t service = 0; service < services.size(); ++service)
+                if (services[service])
+                    service_marker(*gc, center + (position++ - (count - 1) / 2.0) * 8 * scale, bottom,
+                                   2.3 * scale, marks.services[service], service);
+        }
     }
     // Shapes keep the meaning visible without relying on colour alone.
     const double bottom = FromDIP(header + weekdays + weeks() * cell_height);
