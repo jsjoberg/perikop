@@ -1,7 +1,6 @@
 // Calendar rules adapted from Orthocal (c) 2022 Brian Glass, MIT: its GreekYear for
 // the Greek and Antiochian reading orders, its SlavicYear for the Slavic one.
 // Scripture wording is supplied by the separate corpus.
-#include "core/fasting.hpp"
 #include "core/model.hpp"
 #include "storage/database.hpp"
 #include <algorithm>
@@ -352,8 +351,7 @@ CivilDate fixed_calendar_date(CivilDate civil, CalendarStyle style) {
     return style == CalendarStyle::Old ? julian_label(jdn(civil)) : revised_label(jdn(civil));
 }
 Lectionary::Lectionary(const CorpusDb& corpus)
-    : rules_(corpus.reading_rules()), feasts_(corpus.feast_rules()), ordos_(corpus.ordo_rules()),
-      commemorations_(corpus.commemoration_rules()) {}
+    : rules_(corpus.reading_rules()), feasts_(corpus.feast_rules()), ordos_(corpus.ordo_rules()) {}
 DayReadings Lectionary::readings_for(CivilDate civil, CalendarStyle style, Tradition tradition) const {
     return calculate(civil, style, tradition, false);
 }
@@ -420,12 +418,10 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
             }
     // A tradition's row overrides the fields it sets in the common row for the same day.
     std::map<std::tuple<int, int, int>, std::pair<int, FeastRule>> merged;
-    std::set<int> commemoration_days;
+    std::string cycle_title;
     for (const auto& f : feasts_) {
         const bool matches =
             (f.month == month && f.day == day) || (f.month == 0 && (f.pdist == p || f.pdist == floating));
-        if (matches)
-            commemoration_days.insert(f.id);
         const int rank = tradition_rank(f.tradition, tradition);
         if (rank < 0 || !matches)
             continue;
@@ -438,35 +434,18 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
             auto& base = it->second.second;
             if (f.rank != -100)
                 base.rank = f.rank;
-            if (!f.title.empty())
-                base.title = f.title;
-            if (!f.feast.empty())
-                base.feast = f.feast;
-            if (f.fast >= 0)
-                base.fast = f.fast;
-            if (f.fast_exception >= 0)
-                base.fast_exception = f.fast_exception;
-            if (f.fast_cap_exempt >= 0)
-                base.fast_cap_exempt = f.fast_cap_exempt;
+            if (!f.cycle_title.empty())
+                base.cycle_title = f.cycle_title;
         }
     }
     int fixed_rank = 0, moveable_rank = 0, feast_level = 0;
-    std::string title;
-    std::vector<FeastRule> day_rules;
-    std::set<int> winning_days;
     for (const auto& [key, ranked] : merged) {
         (void)key;
         const auto& f = ranked.second;
-        day_rules.push_back(f);
-        winning_days.insert(f.id);
+        if (f.month == 0 && f.pdist == p && !f.cycle_title.empty())
+            cycle_title = swedish_title(f.cycle_title).value_or(f.cycle_title);
         (f.month ? fixed_rank : moveable_rank) = std::max(f.month ? fixed_rank : moveable_rank, f.rank);
         feast_level = std::max(feast_level, f.rank);
-        const auto& name = f.feast.empty() ? f.title : f.feast;
-        if (!name.empty()) {
-            if (!title.empty())
-                title += "; ";
-            title += swedish_title(name).value_or(name);
-        }
     }
     std::vector<const ReadingRule*> selected;
     bool unpaired = false;
@@ -625,46 +604,12 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
     std::sort(selected.begin(), selected.end(), [&](auto a, auto b) {
         return reading_order(a) < reading_order(b);
     });
-    DayReadings result{{civil,
-                        style,
-                        date_iso(fixed),
-                        "Pascha " + date_iso(orthodox_pascha(py)) + ", dag " + std::to_string(p),
-                        title,
-                        annual,
-                        {},
-                        {}},
+    DayReadings result{{civil, style, date_iso(fixed),
+                        "Pascha " + date_iso(orthodox_pascha(py)) + ", dag " + std::to_string(p), cycle_title,
+                        annual},
                        {}};
-    result.day.festal = std::ranges::any_of(day_rules, [](const FeastRule& rule) {
-        return rule.rank >= 2 || (rule.rank >= 0 && !rule.feast.empty());
-    });
     for (const auto* r : selected)
         result.readings.push_back(r->reading);
-    if (full) {
-        result.day.fasting = resolve_fasting(day_rules, p, weekday, feast_level, year.date(6, 29),
-                                             year.nativity, year.theophany, slavic);
-        std::set<int> civil_days;
-        if (style == CalendarStyle::Old)
-            for (const auto& f : feasts_)
-                if (f.month == int(unsigned(civil.month())) && f.day == int(unsigned(civil.day())))
-                    civil_days.insert(f.id);
-        std::vector<std::string> native, additive;
-        for (const auto& c : commemorations_) {
-            if (tradition_rank(c.tradition, tradition) < 0)
-                continue;
-            const bool civil_anchored = style == CalendarStyle::Old && c.new_style;
-            if (!(civil_anchored ? civil_days : commemoration_days).contains(c.day_id))
-                continue;
-            if (!civil_anchored && c.ordering < 0 && winning_days.contains(c.day_id))
-                continue;
-            (c.day_native && !civil_anchored && c.ordering >= 0 ? native : additive)
-                .push_back(swedish_title(c.title).value_or(c.title));
-        }
-        native.insert(native.end(), additive.begin(), additive.end());
-        std::set<std::string> shown;
-        for (auto& name : native)
-            if (shown.insert(name).second)
-                result.day.commemorations.push_back(std::move(name));
-    }
     return result;
 }
 DayReadings Lectionary::readings_with_variants(CivilDate civil, CalendarStyle style,
@@ -706,8 +651,10 @@ DayReadings Lectionary::readings_with_variants(CivilDate civil, CalendarStyle st
             text = "Den antiokiska ordningen har en annan versavgränsning.";
         else
             text = "De två kyrkornas läsordningar anger olika bibelställen denna dag.";
-        if (result.day.title != antiochian.day.title && !antiochian.day.title.empty())
-            text += " Antiokisk dagsrubrik: " + antiochian.day.title + ".";
+        if (!alternative.occasion.empty() && alternative.occasion != "Composite" &&
+            (!primary || alternative.occasion != primary->occasion))
+            text +=
+                " Läsning för " + swedish_title(alternative.occasion).value_or(alternative.occasion) + ".";
         return text;
     };
     for (std::size_t j = 0; j < antiochian.readings.size(); ++j) {

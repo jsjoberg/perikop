@@ -63,7 +63,7 @@ target_link_libraries(ortho-sqlite PUBLIC Threads::Threads ${CMAKE_DL_LIBS} PRIV
 add_library(ortho-core
     src/core/model.cpp
     src/core/lectionary.cpp
-    src/core/fasting.cpp
+    src/core/service_labels.cpp
     src/core/swedish_titles.cpp
     src/core/reading_display.cpp
     src/core/online_bibles.cpp

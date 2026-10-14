@@ -22,19 +22,18 @@ For a source build, use the [build guide](building.md#run).
 
 ## Daily readings and calendar
 
-The day page shows the date, fasting information, service readings, and three reading plans.
+The day page shows the date, the reading-cycle day and week, service readings, and three reading plans.
+The date controls, month calendar, and day heading are centered above the readings.
 Press **Läs** beside a reading to open it.
 Service labels identify Vespers, Matins, the Hours, and other readings when they apply.
 Saints' readings appear beside the ordinary daily readings.
-Fasting information identifies the period, permitted exceptions, and foods to abstain from.
 Composite liturgical readings show their citations without a **Läs** button. Their adapted text is not in the Bible corpus.
 The arrows beside the date move to the previous or next day.
 The calendar marks the current local date with a blue outline.
-Violet dots mark fasting days, gold diamonds mark feasts, and green dashes mark fast-free days.
-A day can have both a fasting marker and a feast marker.
-Green marks an explicit suspension of fasting, including the usual Wednesday and Friday fasts.
-An ordinary day without a prescribed fast has no fasting marker.
-Point to a date for its translated feast title and fasting allowance.
+Violet circles mark Orthros readings, gold diamonds mark Vespers readings, and green squares mark other service readings.
+Other services include the Hours and the Great Blessing of Waters.
+A day can have several service markers. Ordinary Epistle and Gospel readings need no marker.
+Point to a date for its services and reading counts, including any Antiochian alternatives.
 The markers follow the selected calendar style and reading order.
 **Kalender → Idag**, or **Ctrl+T**, selects the current local date.
 Click the date, or select **Kalender → Välj datum**, to open the month calendar below the date.

@@ -230,7 +230,6 @@ The primary screen is **Readings / Läsningar** for the selected date.
 ```text
 ┌──────────────────────────────────────────────────────────┐
 │ ‹        Måndag 5 oktober 2026        ›   Nya kalendern ▾ │
-│          [feast / commemoration, if applicable]          │
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
 │  MORGON                                                  │

@@ -75,7 +75,6 @@ public:
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
-    std::vector<CommemorationRule> commemoration_rules() const;
     // Word study for a lowercase Swedish 1917 form: Dalin, Nyström's biblical articles,
     // and SALDO. The entries are resolved when the corpus is built.
     std::vector<DalinEntry> swedish(const std::string& form) const;

@@ -168,8 +168,9 @@ void MainFrame::refresh_day() {
     home_width_ = 0;
     entries_->Clear(true);
     entries_->AddSpacer(FromDIP(48));
-    const auto wrapped = [this](const wxString& text, const wxFont& font, int beside = 0) {
-        auto* label = new wxStaticText(home_content_, wxID_ANY, text);
+    const auto wrapped = [this](const wxString& text, const wxFont& font, int beside = 0, long style = 0) {
+        auto* label =
+            new wxStaticText(home_content_, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, style);
         label->SetFont(font);
         home_labels_.push_back({label, text, beside});
         return label;
@@ -199,13 +200,13 @@ void MainFrame::refresh_day() {
     });
     date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(6));
     arrow(Symbol::Next, ui::utf8("Nästa dag"), 1);
-    entries_->Add(date_row, 0, wxEXPAND | wxBOTTOM, FromDIP(12));
+    entries_->Add(date_row, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(12));
     month_ = nullptr;
     if (month_open_) {
         month_ = new MonthCalendar(
             home_content_, selected_.date(),
             [this](CivilDate date) {
-                return lectionary_.service_readings_for(date, settings_.calendar, settings_.tradition).day;
+                return lectionary_.readings_with_variants(date, settings_.calendar, settings_.tradition);
             },
             [this](std::optional<CivilDate> date) {
                 // Choosing rebuilds the page and its calendar.
@@ -221,28 +222,11 @@ void MainFrame::refresh_day() {
             readings_->Layout();
             layout_home();
         });
-        entries_->Add(month_, 0, wxBOTTOM, FromDIP(20));
+        entries_->Add(month_, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(20));
     }
-    const auto& heading = day_.day.title;
-    if (!heading.empty())
-        entries_->Add(wrapped(ui::utf8(heading), body_font(24)), 0, wxBOTTOM, FromDIP(8));
-    entries_->AddSpacer(FromDIP(28));
-    // An ordinary day without a fast needs no notice; fast-free periods still say so.
-    const auto fast = day_.day.fasting;
-    if (fast.period != FastPeriod::None || fast.allowance == DietaryAllowance::Free) {
-        auto allowance = fasting_allowance_label(fast);
-        if (fast.period != FastPeriod::None && !allowance.empty())
-            // After the colon, as in "Stora fastan: vin och olja tillåtna". The labels start with an ASCII
-            // letter.
-            allowance = fasting_period_label(fast.period) + ": " +
-                        char(std::tolower(static_cast<unsigned char>(allowance.front()))) +
-                        allowance.substr(1);
-        const auto fast_text = allowance.empty() ? fasting_period_label(fast.period) : allowance;
-        entries_->Add(wrapped(ui::utf8(fast_text), body_font(16)), 0, wxBOTTOM, FromDIP(6));
-        if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
-            entries_->Add(wrapped(ui::utf8(abstentions), body_font(13)), 0, wxBOTTOM, FromDIP(6));
-    }
-    entries_->AddSpacer(FromDIP(24));
+    if (!day_.day.cycle_title.empty())
+        entries_->Add(wrapped(ui::utf8(day_.day.cycle_title), body_font(24), 0, wxALIGN_CENTER_HORIZONTAL), 0,
+                      wxEXPAND | wxBOTTOM, FromDIP(28));
     entries_->Add(ui::label(home_content_, ui::utf8("LÄSNINGAR"), 10), 0, wxBOTTOM, FromDIP(6));
     if (day_.readings.empty())
         entries_->Add(wrapped(ui::utf8("Ingen daglig bibelläsning är föreskriven"), body_font(18)), 0,

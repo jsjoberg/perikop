@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ui/theme.hpp"
+#include <array>
 #include <functional>
 #include <map>
 #include <optional>
@@ -12,7 +13,7 @@ namespace ortho {
 // colour. A click or Return chooses a day; Escape closes without one.
 class MonthCalendar final : public wxControl {
 public:
-    MonthCalendar(wxWindow* parent, CivilDate selected, std::function<LiturgicalDay(CivilDate)> describe,
+    MonthCalendar(wxWindow* parent, CivilDate selected, std::function<DayReadings(CivilDate)> describe,
                   std::function<void(std::optional<CivilDate>)> chosen);
     void apply(const Palette&);
     // The day the keyboard is on; its month is the one shown.
@@ -45,8 +46,15 @@ private:
     int arrow_at(wxPoint) const;
     wxRect arrow(int direction) const;
     CivilDate selected_, focus_;
-    std::function<LiturgicalDay(CivilDate)> describe_;
-    std::map<CivilDate, LiturgicalDay> days_;
+    struct CalendarDay {
+        CalendarStyle calendar;
+        std::optional<std::string> fixed_cycle;
+        std::map<std::string, int> readings;
+        // Orthros, Vespers, and other services beyond the ordinary Epistle/Gospel.
+        std::array<bool, 3> marked{};
+    };
+    std::function<DayReadings(CivilDate)> describe_;
+    std::map<CivilDate, CalendarDay> days_;
     std::function<void(std::optional<CivilDate>)> chosen_;
     std::function<void()> resized_;
     Palette colors_;

@@ -99,23 +99,16 @@ The eleven Sunday Matins Gospels follow their Paschal cycle. Lenten feast Vesper
 The separate abbreviated calculation retains one Epistle/Gospel pair for comparison with published daily charts.
 The original specification's morning and evening Psalm rules remain unspecified.
 
-## Fasting and commemorations
+## Reading calendar
 
-The day page shows the fasting period, dietary allowance, and food categories to abstain from.
-The calculation combines Paschal and fixed-date rules, then applies the selected family's seasonal limits and feast exceptions.
-Sparse fasting fields inherit the common day. Zero values explicitly replace the common value.
-The Apostles' fast combines its Paschal start with the fixed feast of Peter and Paul.
-The calculation includes fast-free weeks, Cheesefare week, Great Lent, and the Apostles', Dormition, and Nativity fasts.
-Greek and Slavic allowances can differ, including on October 9, 2026.
-The five-year fixture in `tests/fasting-orthocal.tsv` checks 3,652 dates against the pinned upstream calculation.
-An additional audit matches 3,678 of 3,683 GOA calendar designations collected by Orthocal.
-Five source differences remain: 2026-02-24, 2029-02-09, 2031-05-21, 2033-03-09, and 2034-02-24.
+The day heading identifies the day and week in the reading cycle, without adding fixed feast headings.
+The month calendar marks dates with readings for Orthros, Vespers, and other services, such as the Hours.
+Date tooltips list the assigned services and reading counts. They include the Antiochian alternatives shown on the day page.
+The markers follow the selected reading family and fixed-calendar style.
 
-`resources/lectionary/commemorations.json` contains 1,728 factual commemoration entries from the same pinned revision.
-The import excludes stories and narrative biographies.
-Common entries combine with the selected family's entries, independently of whole-day feast overrides.
-Julian mode shifts traditional fixed commemorations. Modern entries marked `new_style` retain their civil date, as the source specifies.
-Names use existing Swedish translations where available. Other names and occasion labels retain the source's English text.
+Perikop does not provide fasting guidance, feast markers, or commemoration lists.
+The calculation retains feast dates and ranks to select the correct Scripture readings.
+Occasion names identify the readings to which they belong.
 
 ## Serbian Old Calendar comparison
 

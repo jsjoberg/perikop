@@ -74,25 +74,9 @@ struct ReadingRule {
 };
 struct FeastRule {
     int pdist, month, day, rank;
-    std::string title, feast, tradition;
-    int id = 0, fast = -1, fast_exception = -1, fast_cap_exempt = -1;
+    std::string tradition;
+    std::string cycle_title;
 };
-struct CommemorationRule {
-    int day_id, ordering;
-    std::string title, tradition;
-    bool new_style, day_native;
-};
-enum class FastPeriod { None, Day, Lent, Apostles, Dormition, Nativity };
-enum class DietaryAllowance { Strict, Wine, WineOil, WineOilCaviar, FishWineOil, MeatFast, Free };
-struct Fasting {
-    FastPeriod period = FastPeriod::None;
-    DietaryAllowance allowance = DietaryAllowance::Strict;
-    auto operator<=>(const Fasting&) const = default;
-};
-std::string fasting_period_label(FastPeriod);
-// What a fast allows, such as "Vin och olja tillåtna"; empty for a strict fast.
-std::string fasting_allowance_label(Fasting);
-std::string fasting_abstentions(Fasting);
 std::string service_label(const std::string&);
 // A published annual assignment of one jurisdiction: "greek" (GOA) or "antiochian".
 struct OrdoRule {
@@ -106,14 +90,10 @@ struct LiturgicalDay {
     // Fixed labels can include leap days that are invalid in the Gregorian calendar.
     std::optional<std::string> fixed_cycle;
     std::optional<std::string> paschal_cycle;
-    // Swedish names of the day and its feasts, joined by "; ".
-    std::string title;
+    // The day and week in the reading cycle, without fixed feast headings.
+    std::string cycle_title;
     // Whether a published annual assignment replaced a calculated reading.
     bool annual = false;
-    Fasting fasting;
-    std::vector<std::string> commemorations;
-    // Named celebrations and feasts above ordinary daily commemorations.
-    bool festal = false;
 };
 struct DayReadings {
     LiturgicalDay day;
@@ -145,7 +125,6 @@ private:
     std::vector<ReadingRule> rules_;
     std::vector<FeastRule> feasts_;
     std::vector<OrdoRule> ordos_;
-    std::vector<CommemorationRule> commemorations_;
 };
 class SelectedDay {
 public:

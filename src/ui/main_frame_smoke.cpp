@@ -1451,14 +1451,21 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.calendar = CalendarStyle::New;
     settings_.tradition = Tradition::Greek;
     select_day(parse_date("2026-03-25").value());
+    for (const auto& label : home_labels_)
+        if (label.text.Contains(ui::utf8("Avstå från")) || label.text.Contains(ui::utf8("Vin och olja")) ||
+            label.text.Contains(ui::utf8("bebådelse")))
+            fail(__LINE__);
     pick_date();
     const auto annunciation = selected_.date();
-    const auto& feast_fast = month_->days_.at(annunciation);
-    if (!feast_fast.festal || feast_fast.fasting.period != FastPeriod::Lent ||
-        !month_->description(annunciation).Contains(ui::utf8("bebådelse")) ||
-        !month_->description(annunciation).Contains(ui::utf8("Stora fastan")))
+    if (month_->days_.at(annunciation).marked != std::array{true, true, true} ||
+        !month_->description(annunciation).Contains(ui::utf8("Ortros: 1 läsning")) ||
+        !month_->description(annunciation).Contains(ui::utf8("Vesper:")) ||
+        !month_->description(annunciation).Contains(ui::utf8("Sjätte timmen:")) ||
+        month_->description(annunciation).Contains(ui::utf8("bebådelse")) ||
+        month_->description(annunciation).Contains(ui::utf8("fastan")))
         fail(__LINE__);
-    // Tooltips follow the actual date under the pointer, including fasting allowances.
+    calendar_image("-calendar-services", Theme::Light);
+    // Tooltips follow the actual date under the pointer and describe its service readings.
     const int offset = int(std::chrono::weekday{std::chrono::sys_days{month_->first_shown()}}.c_encoding());
     wxMouseEvent hover(wxEVT_MOTION);
     const auto hovered_cell = month_->cell(offset + 24);
@@ -1466,33 +1473,61 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     month_->GetEventHandler()->ProcessEvent(hover);
     if (month_->GetToolTipText() != month_->description(annunciation))
         fail(__LINE__);
+    month_->focus(parse_date("2026-05-10").value());
+    if (!month_->description(month_->focused()).Contains(ui::utf8("Antiokisk, Epistel: 1 läsning")))
+        fail(__LINE__);
     month_->focus(parse_date("2026-10-09").value());
-    const auto& commemorations = month_->days_.at(month_->focused()).commemorations;
-    if (std::ranges::none_of(commemorations,
-                             [](const auto& name) {
-                                 return name.find("Poplia") != std::string::npos;
-                             }) ||
-        month_->description(month_->focused()).Contains("Poplia") ||
-        month_->description(month_->focused()).Contains(ui::utf8("Åminnelser:")))
+    if (month_->days_.at(month_->focused()).marked != std::array{true, true, false} ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Vesper: 1 läsning")) ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Ortros: 1 läsning")))
         fail(__LINE__);
     month_->focus(parse_date("2026-10-08").value());
-    if (month_->days_.at(month_->focused()).fasting.period != FastPeriod::None ||
-        !month_->description(month_->focused()).Contains(ui::utf8("Ingen föreskriven fasta")) ||
-        month_->description(month_->focused()).Contains(ui::utf8("Fastefri dag")))
+    if (month_->days_.at(month_->focused()).marked != std::array{false, false, false} ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Epistel: 1 läsning")) ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Evangelium: 1 läsning")))
         fail(__LINE__);
     month_->focus(parse_date("2026-04-12").value());
-    if (!month_->days_.at(month_->focused()).festal ||
-        month_->days_.at(month_->focused()).fasting.allowance != DietaryAllowance::Free ||
-        !month_->description(month_->focused()).Contains(ui::utf8("Fastefri dag")) ||
-        month_->days_.size() != 30)
+    if (month_->days_.at(month_->focused()).marked != std::array{false, false, false} ||
+        month_->description(month_->focused()).Contains("Pascha") || month_->days_.size() != 30)
         fail(__LINE__);
     calendar_image("-calendar-pascha", Theme::Light);
     settings_.calendar = CalendarStyle::Old;
     month_->focus(parse_date("2026-01-07").value());
-    if (!month_->days_.at(month_->focused()).festal ||
-        !month_->description(month_->focused()).Contains("2025-12-25") ||
-        !month_->description(month_->focused()).Contains(ui::utf8("Kristi födelse")))
+    if (!month_->description(month_->focused()).Contains("2025-12-25") ||
+        month_->days_.at(month_->focused()).marked != std::array{true, false, false} ||
+        !month_->description(month_->focused()).Contains("Ortros:") ||
+        month_->description(month_->focused()).Contains(ui::utf8("Kristi födelse")))
         fail(__LINE__);
+    press(WXK_ESCAPE);
+    settings_.calendar = CalendarStyle::New;
+    select_day(parse_date("2026-01-05").value());
+    pick_date();
+    if (month_->days_.at(month_->focused()).marked != std::array{false, true, true} ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Stora vattenvälsignelsen:")) ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Första timmen")))
+        fail(__LINE__);
+    press(WXK_ESCAPE);
+    select_day(parse_date("2026-10-14").value());
+    if (home_labels_.empty() || home_labels_.front().text != ui::utf8("Onsdag i 20:e veckan efter pingst") ||
+        !(home_labels_.front().label->GetWindowStyleFlag() & wxALIGN_CENTER_HORIZONTAL))
+        fail(__LINE__);
+    pick_date();
+    const auto date_row = entries_->GetItem(std::size_t{1})->GetRect();
+    if (std::abs(date_row.x * 2 + date_row.width - home_content_->GetSize().x) > 2 ||
+        std::abs(month_->GetPosition().x * 2 + month_->GetSize().x - home_content_->GetSize().x) > 2)
+        fail(__LINE__);
+    if (!screenshot_path.empty()) {
+        readings_->Refresh();
+        readings_->Update();
+        wxBitmap bitmap;
+        bitmap.CreateWithLogicalSize(readings_->GetClientSize(), readings_->GetContentScaleFactor());
+        wxClientDC window(readings_);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, readings_->GetClientSize().x, readings_->GetClientSize().y, &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-day-heading");
+    }
     press(WXK_ESCAPE);
     settings_.tradition = previous_tradition;
     settings_.calendar = previous_calendar;

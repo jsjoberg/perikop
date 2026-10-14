@@ -147,7 +147,8 @@ with sqlite3.connect(temp) as db:
  for x in tables:
   f=x['fields'];model=x['model']
   if model=='calendarium.day':
-   db.execute('INSERT INTO feast_rule VALUES(?,?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['feast_level'],f['title'],f['feast_name'],f['tradition'],f.get('fast'),f.get('fast_exception'),f.get('fast_cap_exempt')))
+   cycle_title=f['title'] if f['month']==0 else ''
+   db.execute('INSERT INTO feast_rule VALUES(?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['feast_level'],f['tradition'],cycle_title))
   elif model=='calendarium.ordoreading':
    db.execute('INSERT INTO ordo_rule VALUES(?,?,?,?,?,?)',(f['jurisdiction'],f['year'],f['month'],f['day'],f['source'],f['pdist']))
   elif model=='calendarium.reading':
@@ -168,9 +169,7 @@ with sqlite3.connect(temp) as db:
    db.execute('INSERT INTO reading_rule VALUES(?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['source'],f['desc'],f['ordering'],f['tradition'],p['display'],code_id[reference]))
    for idx,(book,first,last) in enumerate(segments):
     db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(x['pk'],idx,book,*first[:2],*last[:2]))
- for f in json.loads((root/'resources/lectionary/commemorations.json').read_text()):
-  db.execute('INSERT INTO commemoration_rule VALUES(?,?,?,?,?,?,?)',(f['pk'],f['day'],f['ordering'],f['title'],f['tradition'],int(f['new_style']),int(f['day_native'])))
- db.execute('PRAGMA user_version=8')
+ db.execute('PRAGMA user_version=9')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()

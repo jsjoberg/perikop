@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "15c9d558eba14177fd1df5506dcf5b54d628485a5cc0b4d748f91fffc88d1eeb",
+      "sha256": "6201018f5e3274dd148ec126b4aff89c2ea169d2b6c550a2684709e1d6a8ed6c",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "7a0b45495e9f4c5f8178da6b240e0408c28647921e853096839df3773f3fa7a3"
+      "sha256": "82ce7f74af57e6222c2ac503bf893fbc984b426b963e1cc635175cd91a4e681e"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -614,13 +614,6 @@
       "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/COPYING.RUNTIME",
       "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
       "license": "GCC-exception-3.1"
-    },
-    {
-      "path": "resources/lectionary/commemorations.json",
-      "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/eba3af4d6552f43ea09079e19b3f6147619b6dfb/fixtures/commemorations.json",
-      "license": "MIT",
-      "role": "Factual commemoration names and calendar metadata only; stories and saint narratives excluded",
-      "sha256": "e73c700453c75b62f5929aa27fc9a5a4705c77a37b55228833f2e5f8b78379fb"
     },
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",

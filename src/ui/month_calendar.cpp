@@ -1,5 +1,6 @@
 #include "ui/month_calendar.hpp"
 #include "ui/controls.hpp"
+#include <algorithm>
 #include <memory>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
@@ -10,12 +11,30 @@ using namespace std::chrono;
 // Layout on a grid of device-independent pixels.
 constexpr int cell_width = 40, cell_height = 34, header = 40, weekdays = 24, legend = 38;
 struct CalendarColors {
-    wxColour today, fast, feast, free;
+    wxColour today;
+    std::array<wxColour, 3> services;
 };
 CalendarColors calendar_colors(const Palette& colors) {
     if (colors.paper.Red() < 128)
-        return {{120, 179, 222}, {188, 160, 223}, {215, 180, 105}, {124, 185, 149}};
-    return {{42, 112, 160}, {133, 98, 171}, {174, 129, 41}, {71, 132, 101}};
+        return {{120, 179, 222}, {{{188, 160, 223}, {215, 180, 105}, {124, 185, 149}}}};
+    return {{42, 112, 160}, {{{133, 98, 171}, {174, 129, 41}, {71, 132, 101}}}};
+}
+void service_marker(wxGraphicsContext& gc, double x, double y, double size, const wxColour& color,
+                    std::size_t service) {
+    gc.SetPen(*wxTRANSPARENT_PEN);
+    gc.SetBrush(wxBrush(color));
+    if (service == 0)
+        gc.DrawEllipse(x - size, y - size, 2 * size, 2 * size);
+    else if (service == 1) {
+        auto diamond = gc.CreatePath();
+        diamond.MoveToPoint(x, y - size);
+        diamond.AddLineToPoint(x + size, y);
+        diamond.AddLineToPoint(x, y + size);
+        diamond.AddLineToPoint(x - size, y);
+        diamond.CloseSubpath();
+        gc.FillPath(diamond);
+    } else
+        gc.DrawRectangle(x - size, y - size, 2 * size, 2 * size);
 }
 bool supported(CivilDate date) {
     return date.ok() && int(date.year()) >= 1 && int(date.year()) <= 9999;
@@ -23,7 +42,7 @@ bool supported(CivilDate date) {
 } // namespace
 
 MonthCalendar::MonthCalendar(wxWindow* parent, CivilDate selected,
-                             std::function<LiturgicalDay(CivilDate)> describe,
+                             std::function<DayReadings(CivilDate)> describe,
                              std::function<void(std::optional<CivilDate>)> chosen)
     : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
       selected_(selected), focus_(selected), describe_(std::move(describe)), chosen_(std::move(chosen)),
@@ -86,7 +105,27 @@ void MonthCalendar::load_month() {
     const auto length = unsigned((first.year() / first.month() / last).day());
     for (unsigned day = 1; day <= length; ++day) {
         const CivilDate date = first.year() / first.month() / day;
-        days_.emplace(date, describe_(date));
+        const auto assigned = describe_(date);
+        CalendarDay info{assigned.day.calendar, assigned.day.fixed_cycle, {}, {}};
+        const auto add = [&](const Reading& reading, const std::string& prefix = "") {
+            const auto label = reading.kind == ReadingKind::Matins    ? "Ortros"
+                               : reading.kind == ReadingKind::Vespers ? "Vesper"
+                               : reading.service.empty()              ? "Läsningar"
+                                                                      : service_label(reading.service);
+            ++info.readings[prefix + label];
+            if (reading.kind == ReadingKind::Matins)
+                info.marked[0] = true;
+            else if (reading.kind == ReadingKind::Vespers)
+                info.marked[1] = true;
+            else if (reading.kind != ReadingKind::Epistle && reading.kind != ReadingKind::Gospel)
+                info.marked[2] = true;
+        };
+        for (const auto& reading : assigned.readings)
+            add(reading);
+        for (const auto& variant : assigned.variants)
+            if (variant.reading)
+                add(*variant.reading, "Antiokisk, ");
+        days_.emplace(date, std::move(info));
     }
 }
 
@@ -95,19 +134,12 @@ wxString MonthCalendar::description(CivilDate date) const {
     std::string text = date_swedish(date);
     if (date == local_civil_date())
         text += " — Idag";
-    if (!day.title.empty())
-        text += "\n" + day.title;
     if (day.calendar == CalendarStyle::Old && day.fixed_cycle)
         text += "\nGamla stilen: " + *day.fixed_cycle;
-    const auto fast = day.fasting;
-    if (fast.period != FastPeriod::None) {
-        text += "\n" + fasting_period_label(fast.period);
-        if (const auto allowance = fasting_allowance_label(fast); !allowance.empty())
-            text += ": " + allowance;
-        if (const auto abstentions = fasting_abstentions(fast); !abstentions.empty())
-            text += "\n" + abstentions;
-    } else
-        text += "\n" + fasting_allowance_label(fast);
+    for (const auto& [service, count] : day.readings)
+        text += "\n" + service + ": " + std::to_string(count) + (count == 1 ? " läsning" : " läsningar");
+    if (day.readings.empty())
+        text += "\nInga föreskrivna läsningar";
     return ui::utf8(text);
 }
 
@@ -283,15 +315,7 @@ void MonthCalendar::paint(wxPaintEvent&) {
         const double x = area.x + 3 * scale, y = area.y + 2 * scale, w = area.width - 6 * scale,
                      h = area.height - 4 * scale, radius = 6 * scale;
         const bool selected = date == selected_;
-        const auto& info = days_.at(date);
-        const bool fast =
-            info.fasting.period != FastPeriod::None && info.fasting.allowance != DietaryAllowance::Free;
-        const bool free = info.fasting.allowance == DietaryAllowance::Free;
         gc->SetPen(*wxTRANSPARENT_PEN);
-        if (fast || free || info.festal) {
-            gc->SetBrush(wxBrush(with_alpha(fast ? marks.fast : free ? marks.free : marks.feast, 18)));
-            gc->DrawRoundedRectangle(x, y, w, h, radius);
-        }
         if (selected || hover_ == date) {
             gc->SetBrush(wxBrush(selected ? with_alpha(colors_.accent, 44) : with_alpha(colors_.ink, 20)));
             gc->DrawRoundedRectangle(x, y, w, h, radius);
@@ -315,26 +339,13 @@ void MonthCalendar::paint(wxPaintEvent&) {
         gc->DrawText(number, area.x + (area.width - width) / 2,
                      area.y + (area.height - height) / 2 - 2 * scale);
         const double center = area.x + area.width / 2.0, bottom = area.GetBottom() - 6 * scale;
-        gc->SetPen(*wxTRANSPARENT_PEN);
-        if (fast || free) {
-            const double dot = center - (info.festal ? 5 * scale : 0);
-            gc->SetBrush(wxBrush(free ? marks.free : marks.fast));
-            if (free)
-                gc->DrawRoundedRectangle(dot - 3 * scale, bottom - scale, 6 * scale, 2 * scale, scale);
-            else
-                gc->DrawEllipse(dot - 2 * scale, bottom - 2 * scale, 4 * scale, 4 * scale);
-        }
-        if (info.festal) {
-            const double dot = center + (fast || free ? 5 * scale : 0), size = 2.5 * scale;
-            gc->SetBrush(wxBrush(marks.feast));
-            auto diamond = gc->CreatePath();
-            diamond.MoveToPoint(dot, bottom - size);
-            diamond.AddLineToPoint(dot + size, bottom);
-            diamond.AddLineToPoint(dot, bottom + size);
-            diamond.AddLineToPoint(dot - size, bottom);
-            diamond.CloseSubpath();
-            gc->FillPath(diamond);
-        }
+        const auto& services = days_.at(date).marked;
+        const int count = std::ranges::count(services, true);
+        int position = 0;
+        for (std::size_t service = 0; service < services.size(); ++service)
+            if (services[service])
+                service_marker(*gc, center + (position++ - (count - 1) / 2.0) * 8 * scale, bottom,
+                               2.3 * scale, marks.services[service], service);
     }
     // Shapes keep the meaning visible without relying on colour alone.
     const double bottom = FromDIP(header + weekdays + weeks() * cell_height);
@@ -345,25 +356,15 @@ void MonthCalendar::paint(wxPaintEvent&) {
             gc->SetBrush(*wxTRANSPARENT_BRUSH);
             gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(color).Width(1.4 * scale)));
             gc->DrawRoundedRectangle(x, y - 4 * scale, 8 * scale, 8 * scale, 2 * scale);
-        } else if (shape == 1)
-            gc->DrawEllipse(x + scale, y - 3 * scale, 6 * scale, 6 * scale);
-        else if (shape == 2) {
-            auto diamond = gc->CreatePath();
-            diamond.MoveToPoint(x + 4 * scale, y - 4 * scale);
-            diamond.AddLineToPoint(x + 8 * scale, y);
-            diamond.AddLineToPoint(x + 4 * scale, y + 4 * scale);
-            diamond.AddLineToPoint(x, y);
-            diamond.CloseSubpath();
-            gc->FillPath(diamond);
         } else
-            gc->DrawRoundedRectangle(x, y - scale, 8 * scale, 2 * scale, scale);
+            service_marker(*gc, x + 4 * scale, y, 3 * scale, color, std::size_t(shape - 1));
         gc->SetFont(ui_font(8), colors_.muted);
         gc->GetTextExtent(label, &width, &height);
         gc->DrawText(label, x + 13 * scale, y - height / 2);
     };
     key(8 * scale, bottom + 10 * scale, marks.today, "Idag", 0);
-    key(144 * scale, bottom + 10 * scale, marks.feast, ui::utf8("Högtid"), 2);
-    key(8 * scale, bottom + 27 * scale, marks.fast, "Fasta", 1);
-    key(144 * scale, bottom + 27 * scale, marks.free, "Fastefritt", 3);
+    key(144 * scale, bottom + 10 * scale, marks.services[0], "Ortros", 1);
+    key(8 * scale, bottom + 27 * scale, marks.services[1], "Vesper", 2);
+    key(144 * scale, bottom + 27 * scale, marks.services[2], ui::utf8("Övriga gudstjänster"), 3);
 }
 } // namespace ortho
