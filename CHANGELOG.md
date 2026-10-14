@@ -15,6 +15,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 ### Changed
 
 - The reader lays out paragraphs about 2.5 times faster, so new text appears sooner while scrolling.
+- The Linux AppImage runs natively on Wayland desktops instead of through XWayland. Set `GDK_BACKEND=x11` to use X11.
 - Navigation state, playback commands, and reader control rules have separate components. Toolbar and menu actions use the same policy.
 - Clicking the address field in the Bible browser closes it and restores the previous view.
 - Leaving a reading pauses read-aloud. Opening another reading ends the previous playback session. Paused playback controls are disabled outside the reader.
@@ -34,6 +35,11 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 ### Removed
 
 - Akademisk ordlista from word study. SALDO already shows the same headwords and word classes for almost every word it matched, and some of its matches were wrong.
+
+### Fixed
+
+- Opening the book picker no longer crashes on Wayland when no pointer device is present.
+
 
 ## [0.1.0] - 2026-10-12
 

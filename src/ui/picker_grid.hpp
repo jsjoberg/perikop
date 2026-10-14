@@ -76,6 +76,7 @@ private:
     std::function<void(wxRect)> focused_;
     int width_ = 0, height_ = 0;
     std::optional<std::size_t> hover_, focus_;
+    std::optional<wxPoint> pointer_;
     // The focus ring shows once the keyboard is used, not after a click.
     bool keyboard_ = false;
 };

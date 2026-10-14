@@ -46,6 +46,8 @@ tools/package_appimage.sh build/cmake
 
 The script downloads the pinned linuxdeploy tools for the machine's processor, x86_64 or aarch64, and checks their SHA-256 hashes.
 They copy GTK and the other shared libraries into the image.
+The AppImage uses Wayland when the desktop offers it and X11 otherwise. Set `GDK_BACKEND` to choose one.
+The GTK plugin forces X11, so the script removes that line from its launch hook. Through XWayland the reader was too slow to use on a Raspberry Pi 5.
 The GTK plugin needs `dpkg-dev` on Debian and Ubuntu.
 Linux CI uses a saved Rocky Linux 9 environment with GCC Toolset 15 and a glibc 2.34 baseline.
 The ARM package is built natively in an ARM copy of the same environment on GitHub's `ubuntu-24.04-arm` runner.

@@ -45,11 +45,19 @@ cp "$source/resources/icons/OrthodoxReader.iconset/icon_256x256.png" "$tools/per
 rm -rf "$appdir"
 DESTDIR="$appdir" cmake --install "$build" --prefix /usr --strip
 cd "$source/build/package"
-PATH="$tools:$PATH" APPIMAGE_EXTRACT_AND_RUN=1 DEPLOY_GTK_VERSION=3 LDAI_RUNTIME_FILE="$tools/runtime-$arch" \
-    LINUXDEPLOY_OUTPUT_VERSION=$(sed -n 's/^project(perikop VERSION \([^ ]*\).*/\1/p' "$source/CMakeLists.txt") \
-    "$tools/linuxdeploy-$arch.AppImage" --appdir "$appdir" --executable "$appdir/usr/bin/perikop" \
+linuxdeploy() {
+    PATH="$tools:$PATH" APPIMAGE_EXTRACT_AND_RUN=1 DEPLOY_GTK_VERSION=3 LDAI_RUNTIME_FILE="$tools/runtime-$arch" \
+        LINUXDEPLOY_OUTPUT_VERSION=$(sed -n 's/^project(perikop VERSION \([^ ]*\).*/\1/p' "$source/CMakeLists.txt") \
+        "$tools/linuxdeploy-$arch.AppImage" --appdir "$appdir" "$@"
+}
+linuxdeploy --executable "$appdir/usr/bin/perikop" \
     --library "$appdir/usr/bin/libstdc++.so.6" --library "$appdir/usr/bin/libgcc_s.so.1" \
-    --desktop-file "$source/cmake/perikop.desktop" --icon-file "$tools/perikop.png" \
-    --plugin gtk --output appimage
+    --desktop-file "$source/cmake/perikop.desktop" --icon-file "$tools/perikop.png" --plugin gtk
+# The GTK plugin forces X11. Under Wayland that means XWayland, which made the reader unusable on a
+# Raspberry Pi 5, so let GTK choose: Wayland when available, else X11, or the user's own GDK_BACKEND.
+hook="$appdir/apprun-hooks/linuxdeploy-plugin-gtk.sh"
+grep -q '^export GDK_BACKEND=x11' "$hook" || { echo "GTK hook no longer forces X11; review $hook" >&2; exit 1; }
+sed -i '/^export GDK_BACKEND=x11/d' "$hook"
+linuxdeploy --output appimage
 # Also check GTK libraries and AppRun added by the packaging tools.
 python3 "$source/tools/check_linux_abi.py" "$appdir"

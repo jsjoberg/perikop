@@ -23,9 +23,11 @@ PickerGrid::PickerGrid(wxWindow* parent, Theme theme)
             e.Skip();
         });
     Bind(wxEVT_MOTION, [this](wxMouseEvent& e) {
-        hover(item_at(e.GetPosition()));
+        pointer_ = e.GetPosition();
+        hover(item_at(*pointer_));
     });
     Bind(wxEVT_LEAVE_WINDOW, [this](wxMouseEvent&) {
+        pointer_.reset();
         hover(std::nullopt);
     });
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& e) {
@@ -52,7 +54,9 @@ void PickerGrid::set(std::vector<Block> blocks) {
             focus_ = i;
     hover_.reset();
     UnsetToolTip();
-    hover(item_at(ScreenToClient(wxGetMousePosition())));
+    // Wayland gives no global pointer position, and GTK crashes asking without a pointer device,
+    // so use the last position this window saw.
+    hover(pointer_ ? item_at(*pointer_) : std::nullopt);
 }
 
 void PickerGrid::set_width(int width) {
