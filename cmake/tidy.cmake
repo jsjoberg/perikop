@@ -16,7 +16,13 @@ if(ORTHO_RUN_CLANG_TIDY AND ORTHO_CLANG_TIDY)
             foreach(architecture IN LISTS CMAKE_OSX_ARCHITECTURES)
                 list(APPEND ortho_tidy_extra "-removed-arg=${architecture}")
             endforeach()
+            # Remove Intel slice options along with their selector. They are unused on arm64.
+            list(APPEND ortho_tidy_extra -removed-arg=-Xarch_x86_64
+                -removed-arg=-march=x86-64-v2 -removed-arg=-mtune=generic)
             list(APPEND ortho_tidy_extra -extra-arg=-arch "-extra-arg=${CMAKE_HOST_SYSTEM_PROCESSOR}")
+            if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+                list(APPEND ortho_tidy_extra -extra-arg=-march=x86-64-v2 -extra-arg=-mtune=generic)
+            endif()
         endif()
     endif()
     add_custom_target(tidy

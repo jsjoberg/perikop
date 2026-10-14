@@ -96,6 +96,20 @@ The flags cover SQLite, core code, Kokoro adapters, the speech worker, Sonic, te
 The prebuilt ONNX Runtime and third-party GUI libraries remain outside this instrumentation.
 The release workflow runs these checks on macOS arm64 before publication.
 
+## macOS static analysis
+
+The `tidy` target analyzes one architecture from a universal build.
+It uses the host architecture and keeps the Intel CPU baseline when it selects the Intel slice.
+
+The regression check needs macOS, CMake, `clang-tidy`, and `run-clang-tidy` in `PATH`:
+
+```sh
+python3 tests/macos_tidy_test.py
+```
+
+It checks both architecture orders for universal builds, both analysis slices, and each single-architecture build.
+It also checks that the compiler commands retain the architecture and CPU options.
+
 ## Resource checks and results
 
 The [corpus guide](corpus.md#rebuild-and-check-resources) describes resource preparation and resource checks.

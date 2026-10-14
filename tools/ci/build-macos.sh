@@ -3,7 +3,9 @@
 set -euo pipefail
 export PATH="$PWD/build/ci/tools/bin:$PATH"
 export CCACHE_DIR="$PWD/build/ccache" CCACHE_BASEDIR="$PWD" CCACHE_COMPILERCHECK=content CCACHE_MAXSIZE=2G
+trap 'ccache --show-stats || true' EXIT
 llvm="$PWD/build/ci/tools/bin"
+python3 tests/macos_tidy_test.py
 cmake -S . -B build/cmake "-DPERIKOP_DEPENDENCY_DIR=$PWD/build/ci/sources" \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64' '-DCMAKE_TEST_LAUNCHER=/usr/bin/arch;-arm64' \
@@ -30,7 +32,7 @@ if [ "${PACKAGE:-false}" = true ]; then
     mount="$PWD/build/dmg-check"
     mkdir -p "$mount"
     hdiutil attach -readonly -nobrowse -mountpoint "$mount" build/package/Perikop-*-macOS-universal.dmg
-    trap 'hdiutil detach "$mount"' EXIT
+    trap 'hdiutil detach "$mount" || true; ccache --show-stats || true' EXIT
     python3 tools/check_macos_arch.py "$mount/Perikop.app"
     codesign --verify --deep --strict "$mount/Perikop.app"
     for architecture in arm64 x86_64; do
@@ -40,6 +42,5 @@ if [ "${PACKAGE:-false}" = true ]; then
             --speech-probe "$PWD/build/voice-$architecture.wav" --resources "$mount/Perikop.app/Contents/Resources"
     done
     hdiutil detach "$mount"
-    trap - EXIT
+    trap 'ccache --show-stats || true' EXIT
 fi
-ccache --show-stats
