@@ -15,6 +15,11 @@ std::string date_swedish(CivilDate date);
 // The month and year, such as "oktober 2026".
 std::string month_swedish(CivilDate date);
 std::expected<CivilDate, std::string> parse_date(const std::string& value);
+// Dates exposed by the application calendar. The engine retains earlier arithmetic for cycle tests.
+inline constexpr int first_calendar_year = 2019;
+constexpr bool selectable_date(CivilDate date) {
+    return date.ok() && int(date.year()) >= first_calendar_year && int(date.year()) <= 9999;
+}
 enum class CalendarStyle { New, Old };
 enum class Theme { System, Light, Dark };
 // Internal source orders. The interface groups Antiochian under Greek.
@@ -54,6 +59,8 @@ struct Reading {
     std::string reference;
     // Liturgical service and occasion. Empty for manually selected Scripture.
     std::string service, occasion;
+    // Official source of this dated assignment; separate from the Bible text edition.
+    std::string assignment_source_url;
     // Composite readings retain their published citation without importing adapted liturgical wording.
     std::string citation;
     bool can_open() const {
@@ -71,6 +78,8 @@ struct ReadingRule {
     int id, pdist, month, day, ordering;
     std::string service, description, tradition;
     Reading reading;
+    // Zero is recurring; a civil year scopes a published New Calendar chart row.
+    int year = 0;
 };
 struct FeastRule {
     int pdist, month, day, rank;

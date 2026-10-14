@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "770b8763b89e35e95f8ea2290418259ed75257b660fbbf7c78a43ae20f83f9e0",
+      "sha256": "6bf0ee2c22db2b045a7a0d7a0f4047cc9956c90d7e293107d72113378f053d49",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -180,7 +180,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "82ce7f74af57e6222c2ac503bf893fbc984b426b963e1cc635175cd91a4e681e"
+      "sha256": "d6d9677daca51a5fd1e6336042781b5af1b3f8f3c23640b009b17a8962a1c4ae"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -302,15 +302,56 @@
       "path": "resources/lectionary/orthocal-tables.json",
       "license": "MIT",
       "url": "https://raw.githubusercontent.com/brianglass/orthocal-python/eba3af4d6552f43ea09079e19b3f6147619b6dfb/fixtures/calendarium.json",
-      "role": "Common, Greek and Slavic reading rules and the Greek and Antiochian annual ordo; the upstream fixture without its composite records, as compact JSON. Factual references only; no Scripture wording",
-      "sha256": "adbd3437ca5bc400333a047fdaa80e4408197ad0069ba63755d0b3d681986614"
+      "role": "Common, Greek and Slavic recurring reading rules and annual assignments from Orthocal; annual data retained from 2019 only. No Scripture wording",
+      "sha256": "f12fad0fe5799662af445dd36ecbe159daee31151a6167dc17de0d42bc037791"
     },
     {
       "path": "resources/lectionary/antiochian.json",
       "license": "Factual Scripture citations",
-      "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
-      "role": "Antiochian Archdiocese readings that differ from the shared Greek lectionary, in Orthocal's record format; checked against the official 2026 chart",
-      "sha256": "a70375c6fcb1f5032c79771328bc9321f0685c8be60808ab461a5c515a49f5ae"
+      "role": "All 417 official Sunday Divine Liturgy Epistle/Gospel pairs for 2019–2026; exact civil-date New Calendar assignments, never recurring extrapolations",
+      "sha256": "8bd2ffa3e503c2297c678718049a101bb1b964dd358ecf846e714dd5d673d140",
+      "sources": [
+        {
+          "year": 2019,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202019%20English.pdf",
+          "sha256": "b7a54305f0a645ec6bc91829a0c63e5cdd3830ff49200c1bf069fc19b37f388f"
+        },
+        {
+          "year": 2020,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202020%20English.pdf",
+          "sha256": "90f38398c3f1716032edb60c54fb2762f526dc2dd82d6df8f08cd377fd23c7e6"
+        },
+        {
+          "year": 2021,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202021%20English.pdf",
+          "sha256": "cec2744503e3f780cd38f74553640a5079a03248bd79baa4fd89ec6b9d518531"
+        },
+        {
+          "year": 2022,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202022%20English.pdf",
+          "sha256": "b5d987b4faf4cb8e7d69091b3a8dcb3bdeafbecf66f390b16a022d35fd2e38e0"
+        },
+        {
+          "year": 2023,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202023%20English.pdf",
+          "sha256": "21c651a128e27441c60cf3970a20f2da0dd3e68aaeab3c5c590e250d4cde9df1"
+        },
+        {
+          "year": 2024,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202024%20English.pdf",
+          "sha256": "59519ab6cb5f4af9f27768d59a530d7d908b25097c61bc908e5316387aa658f7"
+        },
+        {
+          "year": 2025,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202025%20English.pdf",
+          "sha256": "dcbded9ea190fbc3562b8d554ae9affb541a43bfc0c25354ea847022e21ab68b"
+        },
+        {
+          "year": 2026,
+          "url": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
+          "sha256": "93f2587f3ae38b05829acd67453cc56d333003c6f94a62ee6cd2f400e6a9dbcd"
+        }
+      ]
     },
     {
       "path": "resources/fonts/NotoSerifHebrew-Regular.ttf",
@@ -651,10 +692,30 @@
     "tradition": "Greek",
     "fixed_calendar": "Revised Julian for New; Julian for Old (Old uses Greek reading rules, not a Serbian jurisdiction)",
     "paschal_calendar": "Julian computus, converted to civil Gregorian dates",
-    "table_revision": "5bdf0a5e1cad406388d7860ec74ed506a7a19197",
-    "official_validation": "52 Sundays in the 2026 chart; 2026-10-05 and 2026-10-06 daily citations",
-    "source": "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf",
-    "supported_civil_years": "1–9999; proleptic dates, calculated locally without a year cache",
-    "old_calendar_validation": "Serbian primary sources: Nativity 2026-01-07, Theophany 2026-01-19, Pascha 2026-04-12, Elevation 2026-09-27; Sunday after Nativity Gospel 2026-01-11"
+    "table_revision": "eba3af4d6552f43ea09079e19b3f6147619b6dfb",
+    "official_validation": "All 417 Sunday pairs in the official 2019–2026 charts, in abbreviated and full service modes; daily readings remain Orthocal-derived",
+    "supported_civil_years": "2019–9999 in the app; earlier arithmetic retained only for internal cycle tests",
+    "old_calendar_validation": "Serbian primary sources: Nativity 2026-01-07, Theophany 2026-01-19, Pascha 2026-04-12, Elevation 2026-09-27; Sunday after Nativity Gospel 2026-01-11",
+    "sources": [
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202019%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202020%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202021%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202022%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202023%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202024%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202025%20English.pdf",
+      "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf"
+    ],
+    "antiochian_source_start_year": 2019,
+    "antiochian_chart_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ]
   }
 }

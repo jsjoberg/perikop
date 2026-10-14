@@ -58,7 +58,7 @@ CREATE TABLE pronunciation (
 -- Segment coordinates follow the reference edition's numbering.
 -- tradition is common, greek, slavic or antiochian. A tradition's row replaces the
 -- common row with the same slot; Antiochian rows also replace Greek ones.
-CREATE TABLE reading_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,service TEXT,description TEXT,ordering INTEGER,tradition TEXT,label TEXT,reference INTEGER NOT NULL REFERENCES source(id)) STRICT;
+CREATE TABLE reading_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,service TEXT,description TEXT,ordering INTEGER,tradition TEXT,label TEXT,reference INTEGER NOT NULL REFERENCES source(id),year INTEGER NOT NULL DEFAULT 0 CHECK(year=0 OR year BETWEEN 2019 AND 9999),source_url TEXT NOT NULL DEFAULT '') STRICT;
 CREATE TABLE reading_segment(
  rule_id INTEGER NOT NULL REFERENCES reading_rule(id),ordering INTEGER NOT NULL CHECK(ordering>=0),
  book TEXT NOT NULL REFERENCES book(code),

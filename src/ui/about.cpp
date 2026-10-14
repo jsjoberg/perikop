@@ -54,8 +54,30 @@ const std::vector<Section>& sections() {
            "Brian Glass. Läsordningar och kalenderregler. MIT.",
            {"https://github.com/brianglass/orthocal-python"}},
           {"Antiokiska ärkestiftet i Nordamerika",
-           "Antiokiska läsningar ur läsordningen för 2026.",
+           "Söndagarnas epistel och evangelium från de officiella läsordningarna 2019–2026. "
+           "Vardagar och övriga gudstjänster beräknas med Orthocal.",
            {{"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202019%20English.pdf",
+             "Liturgical Chart for 2019 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202020%20English.pdf",
+             "Liturgical Chart for 2020 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202021%20English.pdf",
+             "Liturgical Chart for 2021 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202022%20English.pdf",
+             "Liturgical Chart for 2022 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202023%20English.pdf",
+             "Liturgical Chart for 2023 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202024%20English.pdf",
+             "Liturgical Chart for 2024 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202025%20English.pdf",
+             "Liturgical Chart for 2025 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
              "Liturgical%20Chart%20for%202026%20English.pdf",
              "Liturgical Chart for 2026 (PDF)"}}}}},
         {"Ordstudium",

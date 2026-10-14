@@ -42,9 +42,9 @@ private:
     int weeks() const;
     wxRect cell(int index) const;
     std::optional<CivilDate> day_at(wxPoint) const;
-    // -1 or 1 for the previous or next month's arrow, else 0.
+    // Month arrows return -1/+1; year arrows return -12/+12; otherwise zero.
     int arrow_at(wxPoint) const;
-    wxRect arrow(int direction) const;
+    wxRect arrow(int step) const;
     CivilDate selected_, focus_;
     struct CalendarDay {
         CalendarStyle calendar;

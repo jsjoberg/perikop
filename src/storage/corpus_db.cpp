@@ -12,7 +12,7 @@ using storage::Statement;
 using storage::Transaction;
 CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OPEN_READONLY)) {
     exec(db_.get(), "PRAGMA query_only=ON; PRAGMA foreign_keys=ON; PRAGMA cache_size=-8192");
-    if (pragma_number(db_.get(), "PRAGMA user_version") != 9 ||
+    if (pragma_number(db_.get(), "PRAGMA user_version") != 10 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
     for (const auto& source : sources())
@@ -349,10 +349,11 @@ std::string CorpusDb::book_name(const std::string& book, const std::string& lang
                                                                           : 0];
 }
 std::vector<ReadingRule> CorpusDb::reading_rules() const {
-    Statement q(
-        db_.get(),
-        "SELECT reading_rule.id,pdist,month,day,ordering,service,description,tradition,source.code,label "
-        "FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
+    Statement q(db_.get(),
+                "SELECT "
+                "reading_rule.id,pdist,month,day,ordering,service,description,tradition,source.code,label,"
+                "reading_rule.year,reading_rule.source_url "
+                "FROM reading_rule JOIN source ON source.id=reference ORDER BY ordering,reading_rule.id");
     std::vector<ReadingRule> result;
     while (q.row()) {
         const auto service = q.text(5);
@@ -368,6 +369,8 @@ std::vector<ReadingRule> CorpusDb::reading_rules() const {
                 : ReadingKind::OldTestament;
         ReadingRule rule{q.number(0), q.number(1), q.number(2), q.number(3), q.number(4),
                          service,     q.text(6),   q.text(7),   {kind, {}}};
+        rule.year = q.number(10);
+        rule.reading.assignment_source_url = q.text(11);
         rule.reading.reference = q.text(8);
         rule.reading.service = service;
         rule.reading.occasion = q.text(6);

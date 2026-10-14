@@ -144,6 +144,8 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     });
 }
 void MainFrame::select_day(CivilDate date) {
+    if (!selectable_date(date))
+        return;
     if (date != selected_.date())
         clear_preparation();
     selected_.select(date);
@@ -182,6 +184,7 @@ void MainFrame::refresh_day() {
         });
         button->SetMinSize(FromDIP(wxSize(28, 28)));
         button->SetToolTip(label);
+        button->Enable(selectable_date(shift_date(selected_.date(), days)));
         date_buttons_.push_back(button);
         date_row->Add(button, 0, wxALIGN_CENTER_VERTICAL);
     };

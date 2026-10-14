@@ -329,7 +329,8 @@ void combine_services(std::vector<Reading>& readings) {
             if (last.can_open() && reading.can_open() && last.kind == reading.kind &&
                 last.service == reading.service && last.occasion == reading.occasion &&
                 last.reference == reading.reference && last.base_language == reading.base_language &&
-                last.source_override == reading.source_override) {
+                last.source_override == reading.source_override &&
+                last.assignment_source_url == reading.assignment_source_url) {
                 const auto parts = reading.segments();
                 last.additional.insert(last.additional.end(), parts.begin(), parts.end());
                 continue;
@@ -363,6 +364,9 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
                                   bool full) const {
     if (!civil.ok() || int(civil.year()) < 1 || int(civil.year()) > 9999)
         throw std::invalid_argument("Invalid lectionary civil date");
+    // Antiochian source coverage starts in 2019; earlier dates use the Greek calculation.
+    if (tradition == Tradition::Antiochian && int(civil.year()) < first_calendar_year)
+        tradition = Tradition::Greek;
     const bool slavic = tradition == Tradition::Slavic;
     const auto fixed = fixed_calendar_date(civil, style);
     int py = int(fixed.year());
@@ -461,7 +465,15 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
     const int eothinon = weekday == 0 && !(p > -8 && p < 50) && feast_level < 7
                              ? 701 + mod(floor_div(p - 49, 7) - 1, 11)
                              : -999;
+    std::vector<const ReadingRule*> chart_readings;
     for (const auto& r : rules_) {
+        if (r.year != 0) {
+            if (tradition == Tradition::Antiochian && style == CalendarStyle::New &&
+                r.year == int(civil.year()) && r.month == int(unsigned(civil.month())) &&
+                r.day == int(unsigned(civil.day())))
+                chart_readings.push_back(&r);
+            continue;
+        }
         const int rank = tradition_rank(r.tradition, tradition);
         bool fixed_match = r.month == month && r.day == day;
         if (full && fixed_match) {
@@ -595,6 +607,28 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
             if (r->month == 0 && r->pdist == p && (r->service == "6th Hour" || r->service == "Vespers"))
                 selected.push_back(r);
         }
+    // The published Sunday chart supplies the Liturgy pair for its exact date.
+    // Additional saint readings and other services keep their calculated assignments.
+    if (!chart_readings.empty()) {
+        const auto* epistle = pick("Epistle");
+        const auto* gospel_reading = pick("Gospel");
+        std::erase_if(selected, [&](const auto* r) {
+            if (r == epistle || r == gospel_reading)
+                return true;
+            // Keep additional saint readings; avoid duplicating the official pair when a
+            // calculated saint reading already has its exact passages.
+            return std::ranges::any_of(chart_readings, [&](const auto* chart) {
+                return r->service == chart->service && r->reading.reference == chart->reading.reference &&
+                       std::ranges::equal(r->reading.segments(), chart->reading.segments(),
+                                          [](const auto& a, const auto& b) {
+                                              return a.book == b.book && a.first == b.first &&
+                                                     a.last == b.last;
+                                          });
+            });
+        });
+        selected.insert(selected.end(), chart_readings.begin(), chart_readings.end());
+        annual = true;
+    }
     const bool matins_first = full && -42 < p && p < -7 && feast_level < 7;
     const auto reading_order = [matins_first](const auto* r) {
         return std::tuple{!(matins_first && r->service == "Matins Gospel"), r->ordering, r->id};
@@ -620,6 +654,10 @@ DayReadings Lectionary::readings_with_variants(CivilDate civil, CalendarStyle st
         return result;
     }
     auto result = service_readings_for(civil, style, Tradition::Greek);
+    if (int(civil.year()) < first_calendar_year) {
+        combine_services(result.readings);
+        return result;
+    }
     auto antiochian = service_readings_for(civil, style, Tradition::Antiochian);
     combine_services(result.readings);
     combine_services(antiochian.readings);

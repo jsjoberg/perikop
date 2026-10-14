@@ -1428,6 +1428,21 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         button->GetEventHandler()->ProcessEvent(up);
         wxTheApp->ProcessPendingEvents();
     };
+    select_day(parse_date("2019-01-01").value());
+    if (date_buttons_[0]->IsEnabled() || !date_buttons_[1]->IsEnabled())
+        fail(__LINE__);
+    navigate(-1);
+    if (selected_.date() != parse_date("2019-01-01").value())
+        fail(__LINE__);
+    pick_date();
+    month_->shift_month(-1);
+    if (month_->focused() != parse_date("2019-01-01").value())
+        fail(__LINE__);
+    month_->focus(parse_date("2018-12-31").value());
+    if (month_->focused() != parse_date("2019-01-01").value())
+        fail(__LINE__);
+    pick_date();
+    select_day(date);
     click_arrow(1);
     if (selected_.date() != shift_date(date, 1))
         fail(__LINE__);
@@ -1447,6 +1462,58 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         month_->GetEventHandler()->ProcessEvent(key);
         wxTheApp->ProcessPendingEvents();
     };
+    const auto calendar_arrow = [this, &fail](int step) {
+        const auto area = month_->arrow(step);
+        const wxPoint point{area.x + area.width / 2, area.y + area.height / 2};
+        if (month_->arrow_at(point) != step)
+            fail(__LINE__);
+        wxMouseEvent hover(wxEVT_MOTION), click(wxEVT_LEFT_UP);
+        hover.SetPosition(point);
+        click.SetPosition(point);
+        month_->GetEventHandler()->ProcessEvent(hover);
+        const auto tooltip = month_->GetToolTipText();
+        if (!tooltip.Contains(ui::utf8(std::abs(step) == 12 ? "år" : "månad")))
+            fail(__LINE__);
+        month_->GetEventHandler()->ProcessEvent(click);
+    };
+    month_->focus(parse_date("2024-02-29").value());
+    calendar_arrow(12);
+    if (month_->focused() != parse_date("2025-02-28").value())
+        fail(__LINE__);
+    calendar_arrow(-12);
+    if (month_->focused() != parse_date("2024-02-28").value())
+        fail(__LINE__);
+    calendar_arrow(1);
+    if (month_->focused() != parse_date("2024-03-28").value())
+        fail(__LINE__);
+    calendar_arrow(-1);
+    if (month_->focused() != parse_date("2024-02-28").value())
+        fail(__LINE__);
+    wxKeyEvent next_year(wxEVT_KEY_DOWN);
+    next_year.m_keyCode = WXK_PAGEDOWN;
+    next_year.m_shiftDown = true;
+    month_->GetEventHandler()->ProcessEvent(next_year);
+    if (month_->focused() != parse_date("2025-02-28").value())
+        fail(__LINE__);
+    month_->focus(parse_date("2019-01-01").value());
+    for (int step : {-1, -12}) {
+        const auto area = month_->arrow(step);
+        if (month_->arrow_at({area.x + area.width / 2, area.y + area.height / 2}) != 0)
+            fail(__LINE__);
+        month_->shift_month(step);
+    }
+    if (month_->focused() != parse_date("2019-01-01").value())
+        fail(__LINE__);
+    month_->focus(parse_date("9999-12-31").value());
+    for (int step : {1, 12}) {
+        const auto area = month_->arrow(step);
+        if (month_->arrow_at({area.x + area.width / 2, area.y + area.height / 2}) != 0)
+            fail(__LINE__);
+        month_->shift_month(step);
+    }
+    if (month_->focused() != parse_date("9999-12-31").value())
+        fail(__LINE__);
+    month_->focus(date);
     press(WXK_RIGHT);
     press(WXK_RETURN);
     if (month_ || month_open_ || selected_.date() != shift_date(date, 1))
@@ -1478,6 +1545,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     };
     calendar_image("-calendar-light", Theme::Light);
     calendar_image("-calendar-dark", Theme::Dark);
+    month_->focus(parse_date("2026-09-30").value());
+    calendar_image("-calendar-navigation", Theme::Light);
+    month_->focus(parse_date("2019-01-01").value());
+    calendar_image("-calendar-first-year", Theme::Light);
+    month_->focus(today);
     month_->apply(palette(settings_.theme));
     press(WXK_RETURN);
     if (month_ || selected_.date() != today)

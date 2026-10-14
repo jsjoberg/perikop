@@ -34,12 +34,14 @@ The calendar marks the current local date with a blue outline.
 Violet circles mark Orthros readings, gold diamonds mark Vespers readings, and green squares mark other service readings.
 Other services include the Hours and the Great Blessing of Waters.
 A day can have several service markers. Ordinary Epistle and Gospel readings need no marker.
+The calendar starts on January 1, 2019.
 Point to a date for its services and reading counts, including any Antiochian alternatives.
 The markers follow the selected calendar style and reading order.
 **Kalender → Idag**, or **Ctrl+T**, selects the current local date.
 Click the date, or select **Kalender → Välj datum**, to open the month calendar below the date.
-Click a day to show its readings. The arrows beside the month name change the month.
-With the keyboard, the arrow keys move the day, Page Up and Page Down change the month, and Home moves to today.
+Click a day to show its readings. Arrows on either side of the month name change the month; arrows around the year jump one year.
+Year jumps keep the month and day, using February 28 when February 29 is unavailable.
+With the keyboard, the arrow keys move the day, Page Up and Page Down change the month, Shift+Page Up and Shift+Page Down change the year, and Home moves to today.
 Return selects the day, and Escape closes the calendar.
 
 The application selects the current local civil date at startup.

@@ -78,7 +78,10 @@ The selected revision is `eba3af4d6552f43ea09079e19b3f6147619b6dfb`.
 Copyright (c) 2022 Brian Glass. MIT license: `resources/licenses/Orthocal-MIT.txt`.
 https://github.com/brianglass/orthocal-python
 
-The Antiochian readings in `resources/lectionary/antiochian.json` are factual references from the Archdiocese's official 2026 chart.
+The Antiochian readings in `resources/lectionary/antiochian.json` are all 417 Sunday Divine Liturgy Epistle/Gospel pairs from the Archdiocese's official annual charts for 2019 through 2026.
+Each reading retains its chart URL and exact civil year/date. The manifest records the PDF hashes.
+These annual assignments apply only to the New Calendar for their stated dates. Weekdays and other services remain Orthocal-derived.
+Annual data before 2019 are excluded from both jurisdictions.
 The test fixture `tests/oca-2026.tsv` contains factual references from oca.org, as Orthocal collected them.
 The package excludes narrative biographies, stories, and liturgical composite wording. Composite readings retain their factual citations.
 

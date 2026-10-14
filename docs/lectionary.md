@@ -54,10 +54,13 @@ Holy Week days without a complete pair show their Gospels with the prophecies.
 
 The database supplies recurring pericope references and feast metadata.
 It does not store a finite list of computed years.
-The supported civil date range is 1–9999. Earlier dates use proleptic rules, rather than historical adoption dates.
+The application calendar exposes civil dates from January 1, 2019, through December 31, 9999.
+Day buttons, month and year navigation, and selected-date validation enforce that lower bound.
+The engine retains proleptic arithmetic for earlier years only for internal calculation and cycle tests.
 The tests check every day of seven distant years and a complete 532-year Julian Paschal cycle.
 Published annual assignments override recurring positions only for their stated dates, in new calendar mode.
-The Antiochian assignments cover 2019–2026. The Greek assignments cover 2011–2027.
+Bundled Orthocal annual assignments cover 2019–2026 for Antiochian and 2019–2027 for Greek.
+Assignments before 2019 are excluded from both jurisdictions.
 After the last published year, these dates use the calculated reading.
 Later annual instructions can require additional exceptions.
 
@@ -67,13 +70,22 @@ Composite readings retain their published citations, so the day page shows that 
 They have no read button because their adapted text is not a contiguous Scripture passage.
 The upstream MIT license remains in the package.
 
-The [official 2026 Sunday chart](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf) supplies the comparison references.
-All 52 Sundays match, including when every annual override is removed.
-The comparison checks every segment, including omitted verses and chapter crossings.
-The Antiochian readings are in `resources/lectionary/antiochian.json`, in Orthocal's record format.
-They include All Saints of Antioch, the Samaritan Sunday Epistle, and the Sunday of Orthodoxy Epistle.
-The Luke and Evangelist Epistle and the twenty-fifth Sunday Epistle also retain the chart's exact ranges.
-The 2026 chart is the only source for these readings. They apply in every year and in both calendar modes.
+The official Antiochian Sunday charts for [2019](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202019%20English.pdf), [2020](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202020%20English.pdf), [2021](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202021%20English.pdf), [2022](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202022%20English.pdf), [2023](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202023%20English.pdf), [2024](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202024%20English.pdf), [2025](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202025%20English.pdf), [2026](https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%202026%20English.pdf) supply all 417 Sunday Divine Liturgy Epistle/Gospel pairs.
+`resources/lectionary/antiochian.json` records each pair for its exact civil date and year, with the chart URL on every reading.
+The manifest pins the original PDF hashes and records the scope. No Bible wording is imported.
+The annual `tests/antiochian-YYYY.tsv` fixtures for 2019–2026 check the exact published segments in both abbreviated and full service modes.
+The chart pair replaces the main calculated Liturgy pair for that Sunday.
+Additional saint readings and other services remain calculated from Orthocal; the chart does not establish their omission.
+The runtime corpus preserves the chart URL on each assigned reading, separately from its Bible edition.
+The discontinuous readings, chapter crossings, and Matthew 25:14–30 with the added Luke 8:8 ending on February 11, 2024, remain exact.
+
+These annual charts apply only in New Calendar mode and only to their stated dates.
+The former five recurring overrides derived from 2026 are removed.
+For example, June 22, 2025, uses Romans 2:10–16; June 14, 2026, uses Acts 11:19–30 for All Saints of Antioch.
+A published annual exception is never projected into another year or Old Calendar mode.
+No official Antiochian 2027 Sunday chart was located during the October 14, 2026, audit.
+2027 and later use the calculated references pending publication and independent comparison.
+Weekdays, Matins, Vespers, and other services still derive from Orthocal; the Sunday charts do not verify those readings.
 
 `tests/oca-2026.tsv` contains oca.org's daily readings for 2026, as Orthocal collected them.
 The test compares the Slavic order with every day.

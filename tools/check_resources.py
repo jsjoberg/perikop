@@ -53,7 +53,7 @@ with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',u
     if db.execute("SELECT count(*) FROM verse WHERE verse_suffix<>''").fetchone()[0]!=317:raise SystemExit('Lettered Greek verse portions are missing')
     bad=db.execute("SELECT count(*) FROM verse WHERE text LIKE '%strong=%' OR text LIKE '%<%' OR text LIKE '%\\%'").fetchone()[0]
     if bad:raise SystemExit(f'{bad} verses still contain import markup')
-    if db.execute('PRAGMA user_version').fetchone()[0]!=9:raise SystemExit('Unsupported corpus schema')
+    if db.execute('PRAGMA user_version').fetchone()[0]!=10:raise SystemExit('Unsupported corpus schema')
     if db.execute('SELECT count(*) FROM saldo').fetchone()[0]!=12751:raise SystemExit('Incomplete SALDO word-study data')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:
     fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')

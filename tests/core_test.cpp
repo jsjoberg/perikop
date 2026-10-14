@@ -48,6 +48,16 @@ int main(int argc, char** argv) {
         check(selected.date() == simulated_now, "explicit date move");
         selected.select(date("2026-10-07"));
         check(selected.date() == date("2026-10-07"), "explicit selection");
+        SelectedDay first_day(date("2019-01-01"));
+        bool rejected = false;
+        try {
+            first_day.move(-1);
+        } catch (const std::invalid_argument&) {
+            rejected = true;
+        }
+        check(rejected && first_day.date() == date("2019-01-01"), "calendar rejects dates before 2019");
+        check(!selectable_date(date("2018-12-31")) && selectable_date(date("2019-01-01")),
+              "calendar selection bounds");
         CorpusDb corpus(argv[1]);
         {
             const auto john = online_bible_links(corpus, "sv1917", "John", {3, 16});
@@ -213,70 +223,73 @@ int main(int argc, char** argv) {
             check(std::chrono::weekday{std::chrono::sys_days{orthodox_pascha(year)}} == std::chrono::Sunday,
                   "computed Pascha is not Sunday");
         }
-        // Independently transcribed citations from the Archdiocese's official chart. Charts print
-        // English numbering, which the WEB keeps in the New Testament.
+        // Independently checked citations from each official annual Sunday chart.
         const auto published = [&](Reading reading) {
             reading.base_language = "en";
             return corpus.localize(std::move(reading));
         };
-        const auto calculated_path =
-            std::filesystem::path(argv[2]).parent_path() / "test-calculated-calendar.db";
-        std::filesystem::copy_file(argv[1], calculated_path,
-                                   std::filesystem::copy_options::overwrite_existing);
-        sqlite3* calculated_db = nullptr;
-        check(sqlite3_open(calculated_path.string().c_str(), &calculated_db) == SQLITE_OK,
-              "calculated-only calendar fixture");
-        check(sqlite3_exec(calculated_db, "DELETE FROM ordo_rule", nullptr, nullptr, nullptr) == SQLITE_OK,
-              "remove every annual assignment");
-        sqlite3_close(calculated_db);
-        auto calculated_corpus = std::make_unique<CorpusDb>(calculated_path);
-        Lectionary calculated_calendar(*calculated_corpus);
-        std::ifstream chart(argv[3]);
-        check(bool(chart), "official chart fixture missing");
-        std::string line;
-        int sundays = 0;
-        while (std::getline(chart, line)) {
-            std::istringstream row(line);
-            std::string iso, expected;
-            std::getline(row, iso, '\t');
-            const auto result =
-                lectionary.readings_for(parse_date(iso).value(), CalendarStyle::New, Tradition::Antiochian);
-            const auto calculated = calculated_calendar.readings_for(
-                parse_date(iso).value(), CalendarStyle::New, Tradition::Antiochian);
-            check(calculated.readings.size() == result.readings.size(),
-                  "annual table masks a recurring calculation error");
-            for (std::size_t i = 0; i < result.readings.size(); ++i) {
-                const auto expected_parts = result.readings[i].segments(),
-                           parts = calculated.readings[i].segments();
-                check(parts.size() == expected_parts.size(), "calculated-only reading segment count");
-                for (std::size_t j = 0; j < parts.size(); ++j)
-                    check(parts[j].book == expected_parts[j].book &&
-                              parts[j].first == expected_parts[j].first &&
-                              parts[j].last == expected_parts[j].last,
-                          "calculated-only reading differs from the official chart");
-            }
-            for (const auto& reading : result.readings) {
-                check(bool(std::getline(row, expected, '\t')), "extra computed Sunday reading");
-                std::string actual = std::to_string(int(reading.kind)) + "=";
-                bool first = true;
-                for (const auto& p : published(reading).segments()) {
-                    if (!first)
-                        actual += '|';
-                    first = false;
-                    actual += p.book + "_" + std::to_string(p.first.chapter * 1000 + p.first.verse) + "_" +
-                              std::to_string(p.last.chapter * 1000 + p.last.verse);
+        const auto chart_dir = std::filesystem::path(argv[3]).parent_path();
+        for (int chart_year = first_calendar_year; chart_year <= 2026; ++chart_year) {
+            std::ifstream chart(chart_dir / ("antiochian-" + std::to_string(chart_year) + ".tsv"));
+            check(bool(chart), "official chart fixture missing");
+            std::string line;
+            int sundays = 0;
+            const CivilDate january = std::chrono::year{chart_year} / std::chrono::January / 1;
+            const int weekday = int(std::chrono::weekday{std::chrono::sys_days{january}}.c_encoding());
+            auto expected_date = shift_date(january, (7 - weekday) % 7);
+            while (std::getline(chart, line)) {
+                std::istringstream row(line);
+                std::string iso, expected;
+                std::getline(row, iso, '\t');
+                const auto civil = parse_date(iso).value();
+                check(civil == expected_date, "Sunday chart must cover every date in order");
+                expected_date = shift_date(expected_date, 7);
+                const auto result = lectionary.readings_for(civil, CalendarStyle::New, Tradition::Antiochian);
+                auto services =
+                    lectionary.service_readings_for(civil, CalendarStyle::New, Tradition::Antiochian);
+                std::erase_if(services.readings, [](const auto& r) {
+                    return r.assignment_source_url.empty();
+                });
+                check(result.day.annual && services.day.annual, "published chart coverage");
+                check(result.readings.size() == 2 && services.readings.size() == 2,
+                      "official Sunday Liturgy pair");
+                for (std::size_t i = 0; i < result.readings.size(); ++i) {
+                    check(bool(std::getline(row, expected, '\t')), "extra computed Sunday reading");
+                    for (const Reading* reading :
+                         std::initializer_list<const Reading*>{&result.readings[i], &services.readings[i]}) {
+                        check(reading->assignment_source_url ==
+                                  "https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+                                  "Liturgical%20Chart%20for%20" +
+                                      std::to_string(chart_year) + "%20English.pdf",
+                              "official chart source on each assigned reading");
+                        std::string actual = std::to_string(int(reading->kind)) + "=";
+                        for (const auto& p : published(*reading).segments()) {
+                            if (actual.back() != '=')
+                                actual += '|';
+                            actual += p.book + "_" + std::to_string(p.first.chapter * 1000 + p.first.verse) +
+                                      "_" + std::to_string(p.last.chapter * 1000 + p.last.verse);
+                        }
+                        if (actual != expected)
+                            throw std::runtime_error("Official chart mismatch " + iso + ": " + actual +
+                                                     " != " + expected);
+                        ++checks;
+                    }
                 }
-                if (actual != expected)
-                    throw std::runtime_error("Official chart mismatch " + iso + ": " + actual +
-                                             " != " + expected);
-                ++checks;
+                check(!std::getline(row, expected, '\t'), "missing Sunday reading");
+                ++sundays;
             }
-            check(!std::getline(row, expected, '\t'), "missing Sunday reading");
-            ++sundays;
+            check((sundays == 52 || sundays == 53) && int(expected_date.year()) == chart_year + 1,
+                  "incomplete Sunday audit");
         }
-        check(sundays == 52, "incomplete Sunday audit");
-        calculated_corpus.reset();
-        std::filesystem::remove(calculated_path);
+        check(lectionary.readings_with_variants(date("2018-05-06"), CalendarStyle::New, Tradition::Greek)
+                  .variants.empty(),
+              "no Antiochian alternatives before 2019");
+        check(!lectionary.readings_for(date("2027-06-27"), CalendarStyle::New, Tradition::Antiochian)
+                   .day.annual,
+              "unpublished future Sunday uses calculated readings");
+        check(!lectionary.readings_for(date("2026-06-14"), CalendarStyle::Old, Tradition::Antiochian)
+                   .day.annual,
+              "New Calendar chart does not override Old Calendar");
         // The Antiochian variants and the jurisdictions' annual assignments apply only to their reading
         // order.
         const auto first_reading = [&](const char* iso, Tradition tradition, std::size_t index = 0) {
@@ -307,7 +320,7 @@ int main(int argc, char** argv) {
               "Greek family includes the Antiochian range difference without duplicating the Gospel");
         const auto local_feast =
             lectionary.readings_with_variants(date("2026-06-14"), CalendarStyle::New, Tradition::Greek);
-        check(local_feast.variants.size() == 1 && !local_feast.variants[0].primary_index &&
+        check(local_feast.variants.size() == 1 && local_feast.variants[0].primary_index &&
                   local_feast.variants[0].reading->passage.book == "Acts" &&
                   local_feast.variants[0].explanation.find("Alla Antiokias helgon") != std::string::npos,
               "Greek family explains the Antiochian local feast");
@@ -381,6 +394,7 @@ int main(int argc, char** argv) {
         check(bool(oca), "oca.org fixture missing");
         int compared = 0, leading = 0;
         std::set<std::string> excepted;
+        std::string line;
         while (std::getline(oca, line)) {
             if (line.empty() || line.front() == '#')
                 continue;

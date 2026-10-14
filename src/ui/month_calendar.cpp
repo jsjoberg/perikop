@@ -1,6 +1,7 @@
 #include "ui/month_calendar.hpp"
 #include "ui/controls.hpp"
 #include <algorithm>
+#include <cstdlib>
 #include <memory>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
@@ -37,7 +38,7 @@ void service_marker(wxGraphicsContext& gc, double x, double y, double size, cons
         gc.DrawRectangle(x - size, y - size, 2 * size, 2 * size);
 }
 bool supported(CivilDate date) {
-    return date.ok() && int(date.year()) >= 1 && int(date.year()) <= 9999;
+    return selectable_date(date);
 }
 } // namespace
 
@@ -149,7 +150,9 @@ void MonthCalendar::update_description() {
     if (hover_)
         tooltip = description(*hover_);
     else if (arrow_hover_)
-        tooltip = ui::utf8(arrow_hover_ < 0 ? "Föregående månad" : "Nästa månad");
+        tooltip =
+            ui::utf8(std::abs(arrow_hover_) == 12 ? (arrow_hover_ < 0 ? "Föregående år" : "Nästa år")
+                                                  : (arrow_hover_ < 0 ? "Föregående månad" : "Nästa månad"));
     else if (keyboard_)
         tooltip = description(focus_);
     if (tooltip != GetToolTipText())
@@ -172,15 +175,17 @@ wxRect MonthCalendar::cell(int index) const {
             FromDIP(cell_width), FromDIP(cell_height)};
 }
 
-wxRect MonthCalendar::arrow(int direction) const {
-    const int side = FromDIP(28);
-    return {GetClientSize().x - (direction < 0 ? 2 * side + FromDIP(4) : side), FromDIP(6), side, side};
+wxRect MonthCalendar::arrow(int step) const {
+    const int side = FromDIP(28), half = GetClientSize().x / 2;
+    const int group = std::abs(step) == 12 ? 1 : 0;
+    return {group * half + (step < 0 ? FromDIP(4) : half - side - FromDIP(4)), FromDIP(6), side, side};
 }
 
 int MonthCalendar::arrow_at(wxPoint point) const {
-    for (const int direction : {-1, 1})
-        if (arrow(direction).Contains(point))
-            return direction;
+    for (const int step : {-1, 1, -12, 12})
+        if (supported((year_month{focus_.year() / focus_.month()} + months{step}) / 1) &&
+            arrow(step).Contains(point))
+            return step;
     return 0;
 }
 
@@ -243,10 +248,10 @@ void MonthCalendar::key(wxKeyEvent& e) {
         return;
     }
     case WXK_PAGEUP:
-        shift_month(-1);
+        shift_month(e.ShiftDown() ? -12 : -1);
         return;
     case WXK_PAGEDOWN:
-        shift_month(1);
+        shift_month(e.ShiftDown() ? 12 : 1);
         return;
     case WXK_HOME:
         focus(local_civil_date());
@@ -273,20 +278,35 @@ void MonthCalendar::paint(wxPaintEvent&) {
         return;
     const double scale = FromDIP(100) / 100.0;
     double width = 0, height = 0;
-    // The month, and the arrows to the months before and after it.
-    gc->SetFont(body_font(15), colors_.ink);
-    const auto title = ui::utf8(month_swedish(focus_));
-    gc->GetTextExtent(title, &width, &height);
-    gc->DrawText(title, FromDIP(6), (FromDIP(header) - height) / 2);
-    for (const int direction : {-1, 1}) {
-        const auto area = arrow(direction);
-        if (arrow_hover_ == direction) {
+    // Independent month and year groups, each with arrows around its label.
+    const auto month_and_year = month_swedish(focus_);
+    const std::array labels{ui::utf8(month_and_year.substr(0, month_and_year.find_last_of(' '))),
+                            wxString::Format("%d", int(focus_.year()))};
+    const int half = GetClientSize().x / 2;
+    for (std::size_t group = 0; group < labels.size(); ++group) {
+        int points = 12;
+        gc->SetFont(ui_font(points), colors_.ink);
+        gc->GetTextExtent(labels[group], &width, &height);
+        const int available = half - 2 * FromDIP(34);
+        while (width > available && points > 9) {
+            gc->SetFont(ui_font(--points), colors_.ink);
+            gc->GetTextExtent(labels[group], &width, &height);
+        }
+        gc->DrawText(labels[group], group * half + (half - width) / 2, (FromDIP(header) - height) / 2);
+    }
+    for (const int step : {-1, 1, -12, 12}) {
+        const auto area = arrow(step);
+        const bool enabled = supported((year_month{focus_.year() / focus_.month()} + months{step}) / 1);
+        if (enabled && arrow_hover_ == step) {
             gc->SetPen(*wxTRANSPARENT_PEN);
             gc->SetBrush(wxBrush(with_alpha(colors_.ink, 20)));
             gc->DrawRoundedRectangle(area.x, area.y, area.width, area.height, 6 * scale);
         }
-        gc->SetPen(gc->CreatePen(
-            wxGraphicsPenInfo(colors_.ink).Width(1.6 * scale).Cap(wxCAP_ROUND).Join(wxJOIN_ROUND)));
+        gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(enabled ? colors_.ink : colors_.muted)
+                                     .Width(1.6 * scale)
+                                     .Cap(wxCAP_ROUND)
+                                     .Join(wxJOIN_ROUND)));
+        const int direction = step < 0 ? -1 : 1;
         const double x = area.x + area.width / 2.0, y = area.y + area.height / 2.0, arm = 4 * scale;
         auto path = gc->CreatePath();
         path.MoveToPoint(x - direction * arm / 2, y - arm);

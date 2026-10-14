@@ -2,12 +2,13 @@
 
 The native application uses four SQLite databases. It does not use platform preference defaults as its storage system.
 
-`corpus.db` contains Scripture, source metadata, alignment, pronunciation, recurring reading rules, day ranks and cycle titles, and the word-study data.
+`corpus.db` contains Scripture, source metadata, alignment, pronunciation, recurring and dated reading rules, day ranks and cycle titles, and the word-study data.
 The connection opens with `SQLITE_OPEN_READONLY` and enables `query_only`.
-Its schema version is 9, and its application identifier is `ORTC`.
+Its schema version is 10, and its application identifier is `ORTC`.
 Application tables use `STRICT` typing. Foreign keys connect reading segments to their rules and books.
 The book and canon tables come from `books.tsv` and `canon.tsv`: names, abbreviations, testament, deuterocanonical and stanza flags, and the reader's book order.
 The application loads them once when the corpus opens.
+Dated reading rules retain their civil year and official assignment source URL, separately from the Bible edition.
 The lectionary loads the reading rules, day ranks, and cycle titles once. Daily calculation needs no database query or network request.
 The paragraph table records USFM boundaries and labelled boundaries from other editions: WEB boundaries for Swedish and Greek boundaries for LXX2012.
 The verse uniqueness index also serves coordinate lookups. The importer runs `ANALYZE` before packaging.

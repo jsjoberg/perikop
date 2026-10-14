@@ -5,7 +5,7 @@ The build first writes a work database that also holds witness editions, which n
 the KJV states the numbering of Orthocal's references, the WEB Old Testament supplies Swedish
 paragraph boundaries, and Brenton's English links LXX2012 to the Greek (see align_editions.py).
 """
-import json, re, shutil, sqlite3, sys, zipfile, hashlib
+import json, re, shutil, sqlite3, sys, zipfile, hashlib, datetime
 from pathlib import Path
 import runeberg1917
 from mapping import Mapper
@@ -138,7 +138,7 @@ with sqlite3.connect(temp) as db:
    continue
   db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word,'',ipa,50))
   if len(fields)==2:db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word+'s','',ipa+'s',50))
- # Import recurring references, never the project's third-party Scripture wording.
+ # Import recurring and dated references, never third-party Scripture wording.
  # Rows are tagged common, greek or slavic; antiochian.json adds the Antiochian
  # Archdiocese's own readings in the same format, each in the slot it replaces.
  tables=[x for name in ('orthocal-tables.json','antiochian.json') for x in json.loads((root/'resources/lectionary'/name).read_text())]
@@ -156,6 +156,11 @@ with sqlite3.connect(temp) as db:
   elif model=='calendarium.ordoreading':
    db.execute('INSERT INTO ordo_rule VALUES(?,?,?,?,?,?)',(f['jurisdiction'],f['year'],f['month'],f['day'],f['source'],f['pdist']))
   elif model=='calendarium.reading':
+   if f.get('year',0):
+    assigned=datetime.date(f['year'],f['month'],f['day'])
+    expected_url=f"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/Liturgical%20Chart%20for%20{f['year']}%20English.pdf"
+    if f['year']<2019 or assigned.weekday()!=6 or f['tradition']!='antiochian' or f['source'] not in ('Epistle','Gospel') or f.get('source_url')!=expected_url:
+     raise SystemExit('Invalid official Sunday chart assignment: '+str(f))
    p=pericopes[f['pericope']];parts=p['verses'].strip().split('|')
    composite=parts[0].startswith('Comp_')
    septuagint=not composite and ('LXX' in p['display'] or any(b not in new_testament and kjv_last.get((b,int(last)//1000),0)<int(last)%1000 for b,_,last in (part.strip().replace('3Kg','1Kgs').replace('4Kg','2Kgs').split('_') for part in parts)))
@@ -170,10 +175,10 @@ with sqlite3.connect(temp) as db:
      unmapped.append('%s %s in %s numbering'%(p['display'],part,reference));mapped=[(book,first,last)]
     segments+=mapped
    if len({book in new_testament for book,_,_ in segments})>1:raise SystemExit('A reading mixes the testaments: '+p['display'])
-   db.execute('INSERT INTO reading_rule VALUES(?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['source'],f['desc'],f['ordering'],f['tradition'],p['display'],code_id[reference]))
+   db.execute('INSERT INTO reading_rule VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(x['pk'],f['pdist'],f['month'],f['day'],f['source'],f['desc'],f['ordering'],f['tradition'],p['display'],code_id[reference],f.get('year',0),f.get('source_url','')))
    for idx,(book,first,last) in enumerate(segments):
     db.execute('INSERT INTO reading_segment VALUES(?,?,?,?,?,?,?)',(x['pk'],idx,book,*first[:2],*last[:2]))
- db.execute('PRAGMA user_version=9')
+ db.execute('PRAGMA user_version=10')
  db.execute('PRAGMA application_id=1330795587')
  db.execute('ANALYZE')
  assert not db.execute('PRAGMA foreign_key_check').fetchall()
@@ -198,7 +203,7 @@ with sqlite3.connect(temp) as db:
  db.execute('ANALYZE')
  assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
  print('Text:',db.execute('SELECT code,count(*),count(distinct book_id) FROM verse JOIN source ON source.id=source_id GROUP BY source_id').fetchall())
- print('Calendar:',db.execute('SELECT count(*) FROM reading_rule').fetchone()[0],'recurring pericopes')
+ print('Calendar:',db.execute('SELECT count(*) FROM reading_rule').fetchone()[0],'reading assignments')
  db.commit()
 temp.replace(output)
 

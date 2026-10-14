@@ -14,7 +14,7 @@ The [10 October record](validation-2026-10-10.md) preserves the earlier measurem
 | Linux x86-64 | glibc 2.34 and GTK3 | Installed AppImage, target distributions, physical playback |
 
 All platforms use portable Kokoro speech with Alice and Björn.
-Corpus schema 7 and study schema 4 are current.
+Corpus schema 10 includes the dated Antiochian assignments; study schema 4 is current.
 The release workflow includes builds for Windows, Linux, and both macOS architectures.
 The workflow now requires ASan and UBSan checks before publication.
 Package checks now generate audio with both bundled voices and both passage lengths.
@@ -57,7 +57,8 @@ Full-disk and platform permission faults still need checks on installed packages
 
 ## Independent calendar evidence
 
-The existing fixtures compare the Antiochian 2026 Sunday chart and OCA daily readings for 2026.
+The fixtures compare all 417 Sunday Liturgy pairs with the official Antiochian 2019–2026 charts, in abbreviated and full service modes, and OCA daily readings for 2026.
+See [the October 14 chart audit](validation-2026-10-14.md) for source scope and date limits.
 The core suite retains explicit exceptions and calendar arithmetic checks.
 No complete independent reference confirms the Greek daily order.
 A complete-year Greek reference and a second year with different feast interactions remain necessary.

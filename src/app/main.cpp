@@ -69,6 +69,10 @@ public:
                         std::cerr << parsed.error() << '\n';
                         return false;
                     }
+                    if (!ortho::selectable_date(*parsed)) {
+                        std::cerr << "Calendar dates must be between 2019-01-01 and 9999-12-31.\n";
+                        return false;
+                    }
                     date = *parsed;
                 }
             } else {

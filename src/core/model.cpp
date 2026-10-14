@@ -60,8 +60,8 @@ std::string date_swedish(CivilDate date) {
            std::to_string(unsigned(date.day())) + " " + month_swedish(date);
 }
 void SelectedDay::select(CivilDate date) {
-    if (!date.ok() || int(date.year()) < 1 || int(date.year()) > 9999)
-        throw std::invalid_argument("Invalid selected date");
+    if (!selectable_date(date))
+        throw std::invalid_argument("Kalendern börjar den 1 januari 2019.");
     date_ = date;
 }
 std::string source_language(const std::string& source) {
