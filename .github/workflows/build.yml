@@ -60,7 +60,7 @@ jobs:
       matrix:
         include:
           - {os: ubuntu-24.04, platform: Linux}
-          # The Raspberry Pi package, for 64-bit Raspberry Pi OS on a Pi 3B, 4, or 5.
+          # The Raspberry Pi 5 package, for 64-bit Raspberry Pi OS.
           - {os: ubuntu-24.04-arm, platform: Linux-arm64}
           - {os: macos-15, platform: macOS}
     runs-on: ${{ matrix.os }}

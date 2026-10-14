@@ -10,10 +10,10 @@ The application needs no network connection after installation.
 - macOS 13.4 or later, Intel or Apple Silicon: open the DMG and drag Perikop to Applications.
 - Windows 10 or later, x86-64: run the installer. It installs Perikop in Program Files and adds a Start menu shortcut.
 - Linux x86-64 with glibc 2.34 or later: make the AppImage executable, then run it.
-- Raspberry Pi 3B, 4, or 5 with 64-bit Raspberry Pi OS and its desktop: use the `aarch64` AppImage the same way.
-  It is made for the Raspberry Pi, not for ARM Linux in general. Other 64-bit ARM systems may run it, but they are not a target.
-  Raspberry Pi OS Lite and 32-bit Raspberry Pi OS cannot run it.
-  Read-aloud needs about 1 GB of memory while it speaks. A Pi 3B, with 1 GB in total, can read text but not speak it.
+- Raspberry Pi 5 with 64-bit Raspberry Pi OS and its desktop: use the `aarch64` AppImage the same way.
+  Only the Raspberry Pi 5 is supported. Older Raspberry Pi models and other ARM Linux systems are not.
+  On a Pi 5, read-aloud generates speech only about as fast as it plays. Select **Uppläsning → Förbered ljud för vald dag** first for smooth playback.
+  A slow or worn SD card makes opening readings and saving progress stall. An SSD or a fast card helps.
 
 x86-64 packages require an `x86-64-v2` processor, which includes SSE4.2 and POPCNT support.
 The Core i3 ThinkPad X220i is within this CPU target. Execution on that hardware still needs validation.
