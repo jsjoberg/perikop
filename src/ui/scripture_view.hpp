@@ -210,6 +210,8 @@ private:
     int columns_count() const;
     int outside_margin() const;
     int column_width() const;
+    // The width of the lowercase alphabet in the body font, the unit for reading measures.
+    double alphabet_width() const;
     // Columns one above another, when side by side they would be too narrow.
     bool stacked_columns() const;
     // The distance from one side-by-side column to the next.

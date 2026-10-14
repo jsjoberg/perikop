@@ -305,9 +305,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                     if (ratio < -1 || badness > 100)
                         continue;
                     const int fitness = ratio < -0.5 ? 0 : ratio <= 0.5 ? 1 : ratio <= 1 ? 2 : 3;
+                    const bool runt = end + 1 == int(words.size()) && start > 0 && end == start;
                     enumerate(end + 1, fitness,
                               cost + std::pow(10 + badness, 2) +
-                                  (std::abs(previous - fitness) > 1 ? 10000 : 0));
+                                  (std::abs(previous - fitness) > 1 ? 10000 : 0) + (runt ? 5000 : 0));
                 }
             };
             enumerate(0, 1, 0);
@@ -363,7 +364,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 font.SetWeight(wxFONTWEIGHT_BOLD);
             metrics.SetFont(font);
             const auto fit =
-                layout_paragraph(metrics, std::vector<TextFragment>{{ui::utf8("MMMM שלום Λόγος"), "7", 0}},
+                layout_paragraph(metrics, std::vector<TextFragment>{{ui::utf8("Mmmm שלום Λόγος"), "7", 0}},
                                  2000, "no-patterns");
             std::unique_ptr<wxGraphicsContext> gc(
                 wxGraphicsRenderer::GetDefaultRenderer()->CreateMeasuringContext());
@@ -406,6 +407,31 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto optical = layout_paragraph(metrics, wxString::FromUTF8("“Guds ord.”"), 280, "sv");
     if (optical.lines.front().left_protrusion <= 0 || optical.lines.back().right_protrusion <= 0)
         fail(__LINE__);
+    {
+        // Ragged lines keep natural spaces; verse turnovers start at the hanging indent.
+        const auto psalm =
+            ui::utf8("Om jag ock vandrar i dödsskuggans dal, fruktar jag intet ont, ty du är med "
+                     "mig; din käpp och stav, de trösta mig.");
+        const double space = metrics.GetTextExtent(" ").x;
+        const auto verse = layout_paragraph(metrics, {{psalm, "4", 0}}, 280, "sv", {true, 30});
+        if (verse.lines.size() < 2)
+            fail(__LINE__);
+        for (std::size_t i = 0; i < verse.lines.size(); ++i) {
+            const auto& line = verse.lines[i];
+            if (line.justified || std::abs(line.space - space) > 1 || line.width > 281)
+                fail(__LINE__);
+            if ((i == 0 ? 0 : 30) - line.runs.front().x > space)
+                fail(__LINE__);
+        }
+        // A single word alone on the last line is avoided when another fit exists.
+        if (verse.lines.back().runs.size() == 1)
+            fail(__LINE__);
+        // HERREN is set in small capitals after its first letter, and never divided.
+        const auto name = layout_paragraph(metrics, wxString("HERREN"), 280, "sv");
+        if (name.lines.front().runs.front().width >= metrics.GetTextExtent("HERREN").x ||
+            !hyphenation_points("HERRENS", "sv").empty())
+            fail(__LINE__);
+    }
     settings_.theme = Theme::Light;
     settings_.parallel.clear();
     settings_.word_study = false;
@@ -413,8 +439,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     apply_settings(false);
     scripture_->center_passage();
     {
-        // A wide single column must retain its reading measure in font points.
-        // The old 680-DIP cap fitted about 25 em on Windows versus 34 em on macOS.
+        // A wide single column keeps a reading measure of two and a half alphabets.
         const auto image = render();
         const auto colors = palette(settings_.theme);
         int first = image.GetWidth(), last = -1;
@@ -426,10 +451,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                     first = std::min(first, x);
                     last = std::max(last, x);
                 }
-        const double em = 19.0 * metrics.GetPPI().x / 72.0;
+        const double alphabet = metrics.GetTextExtent("abcdefghijklmnopqrstuvwxyz").x;
+        // The ink also spans the verse bars and their gutter, left of the text.
         // Allow the page margins when the CI display cannot fit the full column.
-        const double minimum = std::min(32 * em, double(image.GetWidth() - scripture_->FromDIP(110)));
-        if (last - first + 1 < minimum)
+        const double minimum = std::min(2.2 * alphabet, double(image.GetWidth() - scripture_->FromDIP(110)));
+        if (last - first + 1 < minimum || last - first + 1 > 2.5 * alphabet + scripture_->FromDIP(60))
             fail(__LINE__);
         save(image, "-single");
     }

@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <wx/graphics.h>
 #include <wx/hashmap.h>
 #include <wx/tokenzr.h>
@@ -89,28 +90,49 @@ void add_pattern(Patterns& patterns, const wxString& pattern) {
     }
     patterns.trie[node].weights = std::move(weights);
 }
-int font_category(unsigned c) {
-    return c >= 0x590 && c <= 0x5ff ? 1 : 0;
+bool hebrew(unsigned c) {
+    return c >= 0x590 && c <= 0x5ff;
 }
+// A word of two or more letters, all capitals, such as HERREN.
+bool capitals(const wxString& text) {
+    int letters = 0;
+    for (auto c : text)
+        if (wxIsalpha(c)) {
+            if (!wxIsupper(c))
+                return false;
+            ++letters;
+        }
+    return letters > 1;
+}
+// Base font, Hebrew, and small capitals.
+enum FontCategory { Base, Hebrew, SmallCaps };
 struct ShapedPart {
     wxString text;
     wxFont font;
+    FontCategory category;
 };
 std::vector<ShapedPart> shaped_parts(const wxFont& base, const wxString& text) {
-    if (std::none_of(text.begin(), text.end(), [](auto c) {
-            return font_category(c.GetValue()) == 1;
+    const bool small_caps = capitals(text);
+    if (!small_caps && std::none_of(text.begin(), text.end(), [](auto c) {
+            return hebrew(c.GetValue());
         }))
-        return {{text, base}};
+        return {{text, base, Base}};
     std::vector<ShapedPart> parts;
-    int previous = -1;
+    bool first_letter = true;
     for (auto c : text) {
-        const int category = font_category(c.GetValue());
-        if (category != previous) {
+        // Small capitals follow the word's first letter, as in the traditional setting of the divine name.
+        auto category = hebrew(c.GetValue()) ? Hebrew : Base;
+        if (small_caps && wxIsalpha(c))
+            category = std::exchange(first_letter, false) ? Base : SmallCaps;
+        if (parts.empty() || parts.back().category != category) {
             auto font = base;
-            if (category == 1)
+            if (category == Hebrew)
                 font.SetFaceName("Noto Serif Hebrew");
-            parts.push_back({{}, font});
-            previous = category;
+            else if (category == SmallCaps)
+                // shortcut: scaled capitals stand in for the font's own smcp glyphs, which wxWidgets cannot
+                // select; use them if text drawing moves to HarfBuzz or the platform's OpenType features.
+                font.SetFractionalPointSize(base.GetFractionalPointSize() * 0.8);
+            parts.push_back({{}, font, category});
         }
         parts.back().text += c;
     }
@@ -148,8 +170,7 @@ public:
         double width = 0;
         for (const auto& part : shaped_parts(font, text)) {
             if (gc_) {
-                const auto slot =
-                    std::size_t(marker ? 2 : 0) + (part.font.GetFaceName() == font.GetFaceName() ? 0 : 1);
+                const auto slot = std::size_t(marker ? 3 : 0) + std::size_t(part.category);
                 if (fonts_[slot].IsNull())
                     fonts_[slot] = gc_->GetRenderer()->CreateFontAtDPI(part.font, wxRealPoint(ppi_.x, ppi_.y),
                                                                        dc_.GetTextForeground());
@@ -180,7 +201,7 @@ private:
     wxFont base_, marker_;
     wxSize ppi_;
     std::unique_ptr<wxGraphicsContext> gc_;
-    std::array<wxGraphicsFont, 4> fonts_;
+    std::array<wxGraphicsFont, 6> fonts_;
     std::size_t active_ = fonts_.size();
     Bank* bank_ = nullptr;
     static thread_local std::list<Bank> banks_;
@@ -241,6 +262,9 @@ std::vector<int> find_hyphenation_points(const wxString& word, const std::string
         ++first;
     while (last > first && !wxIsalpha(word[last - 1]) && !combining(word[last - 1].GetValue()))
         --last;
+    // Capitals are names, set in small capitals; they are not divided.
+    if (capitals(word))
+        return {};
     auto folded = word.Mid(first, last - first).Lower();
     for (auto c : folded)
         if (!wxIsalpha(c) && !combining(c.GetValue()))
@@ -293,7 +317,7 @@ TextLayout layout_paragraph(wxDC& dc, const wxString& text, int width, const std
     return layout_paragraph(dc, std::vector<TextFragment>{{text, {}}}, width, language);
 }
 TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments, int width,
-                            const std::string& language) {
+                            const std::string& language, const ParagraphStyle& style) {
     TextLayout result;
     result.line_height = std::max(1, int(dc.GetTextExtent(wxString::FromUTF8("Ågjἄ")).GetHeight() * 1.05));
     width = std::max(1, width);
@@ -398,18 +422,32 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
                 continue;
             for (int i = j - 1; i >= 0; --i) {
                 const auto [natural, gaps, left, right] = line_measure(breaks[i], breaks[j]);
-                const double difference = width - natural;
-                if (natural > width + gaps * natural_space / 3.0) {
-                    if (breaks[j].word - breaks[i].word > 1)
+                // Only the first line, from break zero, starts at the margin.
+                const double available = i == 0 ? width : width - style.hanging_indent;
+                const double difference = available - natural;
+                const double shrink = style.ragged ? 0 : gaps * natural_space / 3.0;
+                if (natural > available + shrink) {
+                    if (breaks[j].word - breaks[i].word > 1) {
+                        // Earlier breaks only lengthen the line, but the first line is wider by the indent:
+                        // skip ahead to it.
+                        if (style.hanging_indent > 0 && i > 0) {
+                            i = 1;
+                            continue;
+                        }
                         break;
+                    }
                     if (pass < 2)
                         continue;
                 }
                 if (pass == 0 && breaks[i].hyphen)
                     continue;
                 const bool last = j == int(breaks.size()) - 1;
+                // Ragged lines keep natural spaces; their shortfall is measured against a third of the
+                // line, like TeX's \raggedright with finite stretch in the right margin, but looser
+                // so narrow columns can avoid hyphens and stranded last words.
                 const double capacity =
-                    std::max(1.0, gaps * natural_space * (difference < 0 ? 1.0 / 3.0 : 0.5) +
+                    std::max(1.0, (style.ragged ? (difference < 0 ? 0 : available / 3.0)
+                                                : gaps * natural_space * (difference < 0 ? 1.0 / 3.0 : 0.5)) +
                                       (pass == 2 ? width * 0.08 : 0));
                 double ratio = difference / capacity;
                 if (last && difference >= 0)
@@ -427,10 +465,13 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
                             cost += 10000;
                         if (last && breaks[i].hyphen)
                             cost += 5000;
+                        // A single word alone on the last line looks stranded (a runt).
+                        if (last && i > 0 && gaps == 0)
+                            cost += 5000;
                         if (std::abs(f - fitness) > 1)
                             cost += 10000;
                         // Emergency stretching remains bounded on the page.
-                        if (!last && gaps && difference / gaps > natural_space)
+                        if (!style.ragged && !last && gaps && difference / gaps > natural_space)
                             cost += 1e7;
                         if (cost < states[j][fitness].cost)
                             states[j][fitness] = {cost, i, f};
@@ -465,9 +506,10 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
         line.left_protrusion = left;
         line.right_protrusion = right;
         const bool last = j == int(breaks.size()) - 1;
-        line.justified = !last && gaps > 0;
-        line.space = line.justified ? natural_space + (width - natural) / gaps : natural_space;
-        double x = -left;
+        const double indent = i == 0 ? 0 : style.hanging_indent;
+        line.justified = !style.ragged && !last && gaps > 0;
+        line.space = line.justified ? natural_space + (width - indent - natural) / gaps : natural_space;
+        double x = indent - left;
         const int final_word = b.word - (b.cut == 0 ? 1 : 0);
         for (int w = a.word; w <= final_word; ++w) {
             const int start = w == a.word ? a.cut : 0;
@@ -504,6 +546,7 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
         draw_paragraph(*gc, layout, base, dpi, ink, x, y, first, end, colour);
         return;
     }
+    std::optional<int> drop;
     for (const auto& line : layout.lines) {
         if (y + layout.line_height > 0 && y < bottom)
             for (const auto& run : line.runs) {
@@ -512,9 +555,20 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
                 const auto parts = shaped_parts(run.marker ? marker_font(base) : base, run.text);
                 double part_x = x + run.x;
                 for (std::size_t i = 0; i < parts.size(); ++i) {
+                    // Smaller capitals sit on the base font's baseline.
+                    if (parts[i].category == SmallCaps && !drop) {
+                        wxCoord width = 0, height = 0, descent = 0;
+                        dc.SetFont(base);
+                        dc.GetTextExtent("H", &width, &height, &descent);
+                        const int ascent = height - descent;
+                        dc.SetFont(parts[i].font);
+                        dc.GetTextExtent("H", &width, &height, &descent);
+                        drop = ascent - (height - descent);
+                    }
                     dc.SetFont(parts[i].font);
                     dc.SetTextForeground(text_colour);
-                    dc.DrawText(parts[i].text, int(std::lround(part_x)), y);
+                    dc.DrawText(parts[i].text, int(std::lround(part_x)),
+                                y + (parts[i].category == SmallCaps ? drop.value_or(0) : 0));
                     if (i + 1 < parts.size())
                         part_x += dc.GetTextExtent(parts[i].text).x;
                 }
@@ -543,6 +597,26 @@ void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFon
         wxGraphicsFont graphics;
     };
     std::vector<Font> fonts;
+    const auto select = [&](const wxFont& wanted, const wxColour& wanted_colour) {
+        if (font == wanted && font_colour == wanted_colour)
+            return;
+        font = wanted;
+        font_colour = wanted_colour;
+        auto found = std::find_if(fonts.begin(), fonts.end(), [&](const auto& entry) {
+            return entry.font == font && entry.colour == font_colour;
+        });
+        if (found == fonts.end()) {
+            fonts.push_back({font, font_colour, gc.GetRenderer()->CreateFontAtDPI(font, dpi, font_colour)});
+            found = std::prev(fonts.end());
+        }
+        gc.SetFont(found->graphics);
+    };
+    const auto ascent = [&] {
+        double width = 0, height = 0, descent = 0, leading = 0;
+        gc.GetTextExtent("H", &width, &height, &descent, &leading);
+        return height - descent;
+    };
+    std::optional<double> drop;
     for (auto line = first; line < std::min(end, layout.lines.size()); ++line) {
         const int line_y = y + int(line) * layout.line_height;
         for (const auto& run : layout.lines[line].runs) {
@@ -553,20 +627,16 @@ void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFon
             for (std::size_t i = 0; i < parts.size(); ++i) {
                 // The layout places whole runs; measure a part only to place the next one.
                 const bool more = i + 1 < parts.size();
-                if (font != parts[i].font || font_colour != text_colour) {
-                    font = parts[i].font;
-                    font_colour = text_colour;
-                    auto found = std::find_if(fonts.begin(), fonts.end(), [&](const auto& entry) {
-                        return entry.font == font && entry.colour == font_colour;
-                    });
-                    if (found == fonts.end()) {
-                        fonts.push_back(
-                            {font, font_colour, gc.GetRenderer()->CreateFontAtDPI(font, dpi, font_colour)});
-                        found = std::prev(fonts.end());
-                    }
-                    gc.SetFont(found->graphics);
+                // Smaller capitals sit on the base font's baseline.
+                if (parts[i].category == SmallCaps && !drop) {
+                    select(base, text_colour);
+                    const double base_ascent = ascent();
+                    select(parts[i].font, text_colour);
+                    drop = base_ascent - ascent();
                 }
-                gc.DrawText(parts[i].text, part_x, line_y);
+                select(parts[i].font, text_colour);
+                gc.DrawText(parts[i].text, part_x,
+                            line_y + (parts[i].category == SmallCaps ? drop.value_or(0) : 0));
                 double width = 0;
                 if (more)
                     gc.GetTextExtent(parts[i].text, &width, nullptr);

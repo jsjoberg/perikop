@@ -17,13 +17,17 @@ std::vector<std::string> ScriptureView::languages() const {
 int ScriptureView::columns_count() const {
     return int(languages().size());
 }
+double ScriptureView::alphabet_width() const {
+    wxClientDC dc(const_cast<ScriptureView*>(this));
+    dc.SetFont(body_font(settings_.font_size));
+    return dc.GetTextExtent("abcdefghijklmnopqrstuvwxyz").x;
+}
 int ScriptureView::outside_margin() const {
     const int width = GetClientSize().x;
     if (columns_count() == 1) {
-        // Fonts use points: macOS has 72 logical pixels per inch, Windows has 96.
-        // Keep the same reading measure relative to the font on both platforms.
-        wxClientDC dc(const_cast<ScriptureView*>(this));
-        const int limit = 680 * dc.GetPPI().x / 72;
+        // Two and a half alphabets, about 65 characters, is Bringhurst's comfortable line;
+        // the extra 30 DIP is the column's gutter for verse bars.
+        const int limit = int(2.5 * alphabet_width()) + FromDIP(30);
         return std::max(FromDIP(32), (width - std::min(limit, width - FromDIP(64))) / 2);
     }
     return std::clamp(width / 14, FromDIP(32), FromDIP(105));
@@ -307,6 +311,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     else {
         const auto selected_languages = languages();
         const bool stacked = stacked_columns();
+        const bool stanza = corpus_.stanza_book(displayed_.book);
         const int offset = canon_ ? canon_->offset() : 0;
         const auto segments = reading_.segments();
         int height = 0;
@@ -370,7 +375,12 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
             const auto typeset_begin = std::chrono::steady_clock::now();
             render_stats_.fragment_ms +=
                 std::chrono::duration<double, std::milli>(typeset_begin - fetch_begin).count();
-            column.text = layout_paragraph(dc, fragments, std::max(80, column_width()), language);
+            // Poetry, and columns of under about 40 characters, are set ragged right.
+            const double letter = alphabet_width() / 26;
+            ParagraphStyle style;
+            style.ragged = stanza || column_width() < 40 * letter;
+            style.hanging_indent = stanza ? 3 * letter : 0;
+            column.text = layout_paragraph(dc, fragments, std::max(80, column_width()), language, style);
             render_stats_.typesetting_ms +=
                 std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - typeset_begin)
                     .count();

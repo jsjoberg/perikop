@@ -29,12 +29,19 @@ struct TextLayout {
         return int(lines.size()) * line_height;
     }
 };
+struct ParagraphStyle {
+    // Flush left with natural word spaces, as for poetry and narrow columns.
+    bool ragged = false;
+    // How far lines after the first start in, as in verse.
+    double hanging_indent = 0;
+};
 // TeX's total-paragraph fit and Liang patterns; wxDC retains native word shaping.
+// Words in capitals, such as HERREN, are set in small capitals after their first letter.
 void load_hyphenation();
 std::vector<int> hyphenation_points(const wxString&, const std::string& language);
 TextLayout layout_paragraph(wxDC&, const wxString&, int width, const std::string& language = "sv");
 TextLayout layout_paragraph(wxDC&, const std::vector<TextFragment>&, int width,
-                            const std::string& language = "sv");
+                            const std::string& language = "sv", const ParagraphStyle& = {});
 // colour may return another colour for a run, such as muted text.
 void draw_paragraph(wxDC&, const TextLayout&, int x, int y,
                     const std::function<std::optional<wxColour>(const TextRun&)>& colour = {});

@@ -74,6 +74,12 @@ The reader scrolls in pixels and preserves macOS trackpad precision and momentum
 Native paragraph fitting uses Knuth–Plass demerits, Liang hyphenation, and fractional native glyph measurements.
 Prose flows across verses. Small inline numbers preserve verse navigation.
 Punctuation protrudes into optical margins.
+A single word alone on a paragraph's last line costs extra, so the fit avoids it when another break works.
+Poetry books, and columns narrower than about 40 characters, are set ragged right with natural word spaces.
+Poetry indents lines after a verse's first line.
+A single column is at most two and a half lowercase alphabets wide, about 65 characters.
+Words in capitals, such as HERREN, are drawn in small capitals after the first letter and never hyphenated.
+The small capitals are scaled capitals on the base font's baseline, because wxWidgets cannot select OpenType features.
 The renderer retains book coordinates and at most 192 text layouts.
 It creates no native control for individual verses.
 The [corpus guide](corpus.md#display-metadata-and-limits) describes paragraph metadata and display limits.

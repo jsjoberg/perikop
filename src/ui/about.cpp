@@ -111,7 +111,9 @@ const std::vector<Section>& sections() {
            "Jan Michael Rynning (svenska, LPPL), Dimitrios Filippou (grekiska, MIT) och "
            "Gerard D.C. Kuiken (engelska).",
            {"https://github.com/hyphenation/tex-hyphen"}},
-          {"Justif", "Förebild för styckesättningen.", {"https://github.com/lyallcooper/justif"}}}},
+          {"Styckesättning",
+           "Knuth–Plass-radbrytning och Liang-avstavning, som i TeX. Justif var förebild.",
+           {"https://github.com/lyallcooper/justif"}}}},
         {"Programbibliotek",
          {{"wxWidgets", "wxWindows Library Licence.", {"https://www.wxwidgets.org"}},
           {"SQLite", "Allmän egendom.", {"https://sqlite.org"}},
