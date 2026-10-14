@@ -14,6 +14,12 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[2]
 UPSTREAMS = ROOT / "ci/upstreams.json"
 LOCK = ROOT / "ci/dependencies-lock.json"
+PLATFORMS = ("Linux", "Linux-arm64", "macOS", "Windows")
+# The AppImage tools for each Linux platform, named for the processor they run on.
+APPIMAGE_TOOLS = {
+    "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"),
+    "Linux-arm64": ("linuxdeploy-aarch64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-aarch64"),
+}
 
 
 def digest(path):
@@ -30,8 +36,11 @@ def verify(path, expected):
 
 
 def selected(platform):
-    return [item for item in json.loads(UPSTREAMS.read_text()).values()
-            if item.get("platform", platform) == platform]
+    """Items for one platform. An item without a platform serves all; a list serves several."""
+    def serves(item):
+        wanted = item.get("platform", platform)
+        return platform in wanted if isinstance(wanted, list) else wanted == platform
+    return [item for item in json.loads(UPSTREAMS.read_text()).values() if serves(item)]
 
 
 def audit():
@@ -81,7 +90,7 @@ def upstream(output, repository):
             subprocess.run(["curl", "--fail", "--location", "--retry", "4", "--retry-all-errors",
                             "--output", str(path), item["url"]], check=True)
         verify(path, item["sha256"])
-    for platform in ("Linux", "macOS", "Windows"):
+    for platform in PLATFORMS:
         with tarfile.open(output / ("inputs-" + platform + ".tar.gz"), "w:gz", compresslevel=1) as bundle:
             bundle.add(UPSTREAMS, arcname="upstreams.json")
             for item in selected(platform):
@@ -89,8 +98,8 @@ def upstream(output, repository):
 
 
 def make_lock(output, repository, release):
-    names = ["inputs-Linux.tar.gz", "inputs-macOS.tar.gz", "inputs-Windows.tar.gz",
-             "Linux-environment.tar.gz", "macOS-tools.tar.gz"]
+    names = ["inputs-" + platform + ".tar.gz" for platform in PLATFORMS]
+    names += ["Linux-environment.tar.gz", "Linux-arm64-environment.tar.gz", "macOS-tools.tar.gz"]
     lock = {"repository": repository, "release": release, "upstreams_sha256": digest(UPSTREAMS),
             "assets": {name: digest(output / name) for name in names}}
     (output / "dependencies-lock.json").write_text(json.dumps(lock, indent=2) + "\n")
@@ -118,8 +127,8 @@ def fetch_snapshot(names, downloads, validate_upstreams=True):
 
 def restore(platform, output, package=False):
     names = ["inputs-" + platform + ".tar.gz"]
-    if platform == "Linux":
-        names.append("Linux-environment.tar.gz")
+    if platform in APPIMAGE_TOOLS:
+        names.append(platform + "-environment.tar.gz")
     elif platform == "macOS":
         names.append("macOS-tools.tar.gz")
     downloads = output / "downloads"
@@ -140,10 +149,10 @@ def restore(platform, output, package=False):
             shutil.copyfile(path, target / "miniaudio.h")
         elif component:
             unpack_root(path, output / "sources" / component)
-    if platform == "Linux":
+    if platform in APPIMAGE_TOOLS:
         target = output / "tools/appimage"
         target.mkdir(parents=True, exist_ok=True)
-        for name in ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"):
+        for name in APPIMAGE_TOOLS[platform]:
             shutil.copyfile(archives / name, target / name)
             (target / name).chmod(0o755)
     elif platform == "Windows":
@@ -161,7 +170,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["upstream", "lock", "restore", "reuse", "audit"])
     parser.add_argument("--output", type=Path, default=ROOT / "build/ci")
-    parser.add_argument("--platform", choices=["Linux", "macOS", "Windows"])
+    parser.add_argument("--platform", choices=PLATFORMS)
     parser.add_argument("--package", action="store_true")
     parser.add_argument("--repository", default="jsjoberg/perikop")
     parser.add_argument("--release")
@@ -177,14 +186,14 @@ def main():
             parser.error("restore requires --platform")
         restore(args.platform, args.output, args.package)
     elif args.command == "reuse":
-        if args.platform == "Linux":
-            names = ["Linux-environment.tar.gz"]
+        if args.platform in APPIMAGE_TOOLS:
+            names = [args.platform + "-environment.tar.gz"]
         elif args.platform == "macOS":
             names = ["macOS-tools.tar.gz"]
         elif args.platform is None:
-            names = ["inputs-" + platform + ".tar.gz" for platform in ("Linux", "macOS", "Windows")]
+            names = ["inputs-" + platform + ".tar.gz" for platform in PLATFORMS]
         else:
-            parser.error("reuse accepts --platform Linux, macOS, or no platform")
+            parser.error("reuse accepts --platform Linux, Linux-arm64, macOS, or no platform")
         # Environment snapshots are independent of the native source manifest.
         fetch_snapshot(names, args.output, validate_upstreams=args.platform is None)
     else:

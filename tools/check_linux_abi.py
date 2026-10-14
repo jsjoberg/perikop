@@ -9,6 +9,9 @@ import subprocess
 import sys
 
 BASELINE = (2, 34)
+# Newer symbols that the baseline's distributions provide anyway. Enterprise Linux 9's
+# glibc 2.34 backports _dl_find_object, which its aarch64 libgcc_s uses for unwinding.
+BACKPORTED = {"_dl_find_object@GLIBC_2.35"}
 
 
 def glibc_requirements(output):
@@ -21,6 +24,11 @@ def glibc_requirements(output):
         if needs:
             versions.update(re.findall(r"Name: (GLIBC_[A-Za-z0-9_.]+)", line))
     return versions
+
+
+def newer_symbols(output, version):
+    """The undefined dynamic symbols that need one glibc version, as name@version."""
+    return set(re.findall(r"\bUND (\S+@" + re.escape(version) + r")\b", output))
 
 
 def check(paths, readelf="readelf"):
@@ -46,9 +54,14 @@ def check(paths, readelf="readelf"):
                 errors.append("{}: unsupported requirement {}".format(path, name))
                 continue
             version = tuple(int(part) for part in suffix.split("."))
-            maximum = max(maximum, version)
             if version > BASELINE:
+                symbols = newer_symbols(subprocess.check_output(
+                    [readelf, "--dyn-syms", "--wide", str(path)], universal_newlines=True,
+                    env=dict(os.environ, LC_ALL="C")), name)
+                if symbols and symbols <= BACKPORTED:
+                    continue
                 errors.append("{}: requires {} (maximum GLIBC_2.34)".format(path, name))
+            maximum = max(maximum, version)
     if not count:
         errors.append("No ELF files found")
     if errors:

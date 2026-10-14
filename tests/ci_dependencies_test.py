@@ -20,7 +20,7 @@ class DependenciesTest(unittest.TestCase):
     def test_native_versions_match_upstream_snapshot(self):
         dependencies.audit()
 
-    def fixture(self, root):
+    def fixture(self, root, platform="Linux"):
         (root / "ci").mkdir()
         (root / "build/ci/downloads").mkdir(parents=True)
         (root / "CMakeLists.txt").write_text("")
@@ -34,11 +34,11 @@ class DependenciesTest(unittest.TestCase):
         manifest = root / "ci/upstreams.json"
         manifest.write_text(json.dumps({"sqlite": item}))
         downloads = root / "build/ci/downloads"
-        (downloads / "Linux-environment.tar.gz").write_bytes(b"pinned container")
-        with tarfile.open(downloads / "inputs-Linux.tar.gz", "w:gz") as archive:
+        (downloads / (platform + "-environment.tar.gz")).write_bytes(b"pinned container")
+        with tarfile.open(downloads / ("inputs-" + platform + ".tar.gz"), "w:gz") as archive:
             archive.add(manifest, arcname="upstreams.json")
             archive.add(root / "dependency.zip", arcname="dependency.zip")
-            for name in ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"):
+            for name in dependencies.APPIMAGE_TOOLS[platform]:
                 (root / name).write_bytes(b"fixture tool")
                 archive.add(root / name, arcname=name)
         lock = root / "ci/dependencies-lock.json"
@@ -56,6 +56,30 @@ class DependenciesTest(unittest.TestCase):
                 dependencies.restore("Linux", root / "build/ci")
                 run.assert_not_called()
             self.assertEqual((root / "build/ci/sources/sqlite/sqlite3.h").read_text(), "offline source")
+
+    def test_arm64_restores_its_own_environment_and_tools(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest, lock, downloads = self.fixture(root, "Linux-arm64")
+            with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
+                    patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
+                dependencies.restore("Linux-arm64", root / "build/ci")
+                run.assert_not_called()
+            tools = sorted(path.name for path in (root / "build/ci/tools/appimage").iterdir())
+            self.assertEqual(tools, sorted(dependencies.APPIMAGE_TOOLS["Linux-arm64"]))
+
+    def test_platform_lists_serve_each_named_platform(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest = Path(temporary) / "upstreams.json"
+            manifest.write_text(json.dumps({
+                "shared": {"file": "shared", "platform": ["Linux", "Linux-arm64"]},
+                "intel": {"file": "intel", "platform": "Linux"},
+                "everywhere": {"file": "everywhere"}}))
+            with patch.object(dependencies, "UPSTREAMS", manifest):
+                files = {platform: sorted(item["file"] for item in dependencies.selected(platform))
+                         for platform in ("Linux", "Linux-arm64", "macOS")}
+            self.assertEqual(files, {"Linux": ["everywhere", "intel", "shared"],
+                                     "Linux-arm64": ["everywhere", "shared"], "macOS": ["everywhere"]})
 
     def test_corrupt_cache_fetches_only_our_release_and_rejects_bad_download(self):
         with tempfile.TemporaryDirectory() as temporary:

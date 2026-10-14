@@ -369,8 +369,7 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
         breaks.push_back({w + 1, 0, false});
     }
     std::map<unsigned, double> character_widths;
-    const auto protrusion = [&](const wxString& word, bool left) {
-        const auto character = left ? word[0] : word[word.length() - 1];
+    const auto protrusion = [&](wxUniChar character, bool left) {
         const unsigned c = character.GetValue();
         double fraction = 0;
         if (left && (c == '"' || c == '\'' || c == 0x2018 || c == 0x201c || c == 0xab))
@@ -392,24 +391,37 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
             found->second = measuring.width(wxString(character));
         return found->second * fraction;
     };
-    auto line_measure = [&](const Break& a, const Break& b) {
-        const int last = b.word - (b.cut == 0 ? 1 : 0);
-        const int gaps = last - a.word;
-        double value = 0;
-        if (last == a.word)
-            value = measure(a.word, a.cut, b.cut ? b.cut : int(words[last].length()), b.hyphen);
-        else {
-            value = measure(a.word, a.cut, int(words[a.word].length()), false);
-            value += sums[last] - sums[a.word + 1];
-            value += measure(last, 0, b.cut ? b.cut : int(words[last].length()), b.hyphen);
+    // What a line starting or ending at each break contributes depends on that break alone,
+    // so the fit loop below adds numbers instead of building and measuring strings.
+    struct Edge {
+        double head = 0, left = 0;  // a line starting here: its first word's rest, protrusion
+        double tail = 0, right = 0; // a line ending here: its last word up to the break, protrusion
+        int last = -1, end = 0;     // the line's last word, and where it stops
+    };
+    std::vector<Edge> edges(breaks.size());
+    for (std::size_t k = 0; k < breaks.size(); ++k) {
+        const auto& b = breaks[k];
+        auto& edge = edges[k];
+        if (b.word < n) {
+            const int length = int(words[b.word].length());
+            edge.head = measure(b.word, b.cut, length, false);
+            edge.left = b.cut == 0 && !labels[b.word].empty() ? 0 : protrusion(words[b.word][b.cut], true);
         }
-        const double left =
-            (a.cut == 0 && !labels[a.word].empty()) ? 0 : protrusion(words[a.word].Mid(a.cut), true);
-        const auto tail =
-            words[last].Mid(last == a.word ? a.cut : 0,
-                            (b.cut ? b.cut : int(words[last].length())) - (last == a.word ? a.cut : 0)) +
-            (b.hyphen ? "-" : "");
-        const double right = protrusion(tail, false);
+        edge.last = b.word - (b.cut == 0 ? 1 : 0);
+        if (edge.last < 0)
+            continue;
+        edge.end = b.cut ? b.cut : int(words[edge.last].length());
+        edge.tail = measure(edge.last, 0, edge.end, b.hyphen);
+        edge.right = protrusion(b.hyphen ? wxUniChar('-') : words[edge.last][edge.end - 1], false);
+    }
+    auto line_measure = [&](int i, int j) {
+        const auto& a = breaks[i];
+        const auto& end = edges[j];
+        const int gaps = end.last - a.word;
+        // A line within one word measures that piece; otherwise the edges and whole words between.
+        const double value = gaps == 0 ? measure(a.word, a.cut, end.end, breaks[j].hyphen)
+                                       : edges[i].head + sums[end.last] - sums[a.word + 1] + end.tail;
+        const double left = edges[i].left, right = end.right;
         return std::tuple{value + gaps * natural_space - left - right, gaps, left, right};
     };
     std::vector<std::array<State, 4>> states;
@@ -421,7 +433,7 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
             if (pass == 0 && breaks[j].hyphen)
                 continue;
             for (int i = j - 1; i >= 0; --i) {
-                const auto [natural, gaps, left, right] = line_measure(breaks[i], breaks[j]);
+                const auto [natural, gaps, left, right] = line_measure(i, j);
                 // Only the first line, from break zero, starts at the margin.
                 const double available = i == 0 ? width : width - style.hanging_indent;
                 const double difference = available - natural;
@@ -500,7 +512,7 @@ TextLayout layout_paragraph(wxDC& dc, const std::vector<TextFragment>& fragments
     for (const auto& [i, j] : path) {
         const auto& a = breaks[i];
         const auto& b = breaks[j];
-        const auto [natural, gaps, left, right] = line_measure(a, b);
+        const auto [natural, gaps, left, right] = line_measure(i, j);
         TextLine line;
         line.hyphenated = b.hyphen;
         line.left_protrusion = left;

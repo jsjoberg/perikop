@@ -22,7 +22,7 @@ ortho::TempoStretch stretch;
 ortho::PcmProgress delivered;
 float speed = 1;
 size_t appended = 0;
-bool paused = false, released = false;
+bool paused = false, released = false, completed = false;
 bool first_chunk_released = false;
 bool hold_device = false, device_entered = false;
 std::string status;
@@ -66,6 +66,7 @@ void PcmOutput::start(bool pause) {
     paused = pause;
     appended = 0;
     released = false;
+    completed = false;
 }
 void PcmOutput::append(std::vector<float> samples) {
     std::lock_guard lock(audio_mutex);
@@ -77,6 +78,7 @@ void PcmOutput::append(std::vector<float> samples) {
 void PcmOutput::complete() {
     std::lock_guard lock(audio_mutex);
     stream->complete();
+    completed = true;
     changed.notify_all();
 }
 size_t PcmOutput::buffered() const {
@@ -263,6 +265,13 @@ int main(int argc, char** argv) {
             check(appended == 3 && status == "Pausad", "Pause must report the paused state");
         }
         engine->resume();
+        // finished() reads the snapshot that drain() takes, so the worker must mark the end of the
+        // stream before the last drain; it may do so after the test has already seen all chunks.
+        wait_for(
+            [] {
+                return completed;
+            },
+            "The worker must mark the end of the reading");
         // Each later chunk begins with a 0.2 s pause, so drain twice.
         for (int i = 0; i < 2; ++i) {
             auto rest = drain();

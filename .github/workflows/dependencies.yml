@@ -37,7 +37,14 @@ jobs:
           if-no-files-found: error
           compression-level: 0
   linux:
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        include:
+          - {os: ubuntu-24.04, platform: Linux}
+          - {os: ubuntu-24.04-arm, platform: Linux-arm64}
+    runs-on: ${{ matrix.os }}
+    env:
+      PLATFORM: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Prepare Linux toolchain and system libraries
@@ -46,16 +53,16 @@ jobs:
           docker build --pull -f ci/linux.Dockerfile -t perikop-ci-linux:dependencies ci
           mkdir -p build/snapshot
           docker run --rm --network none perikop-ci-linux:dependencies bash -c 'g++ --version && cmake --version && python3 --version && ccache --version'
-          docker save perikop-ci-linux:dependencies | gzip -1 > build/snapshot/Linux-environment.tar.gz
+          docker save perikop-ci-linux:dependencies | gzip -1 > "build/snapshot/$PLATFORM-environment.tar.gz"
       - name: Reuse pinned Linux environment
         if: inputs.macos_tools_only == true || inputs.reuse_environments == true
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 tools/ci/dependencies.py reuse --platform Linux --output build/snapshot
+        run: python3 tools/ci/dependencies.py reuse --platform "$PLATFORM" --output build/snapshot
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: dependency-linux
-          path: build/snapshot/Linux-environment.tar.gz
+          name: dependency-${{ matrix.platform }}
+          path: build/snapshot/${{ matrix.platform }}-environment.tar.gz
           if-no-files-found: error
           compression-level: 0
   macos:
