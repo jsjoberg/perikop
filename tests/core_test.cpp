@@ -372,6 +372,15 @@ int main(int argc, char** argv) {
                                           return title.find("Poplia") != std::string::npos;
                                       }),
               "Greek fasting and commemoration overlays remain distinct from Slavic ones");
+        check(lectionary.service_readings_for(date("2026-03-25"), CalendarStyle::New, Tradition::Greek)
+                      .day.festal &&
+                  lectionary.service_readings_for(date("2026-04-12"), CalendarStyle::New, Tradition::Greek)
+                      .day.festal &&
+                  lectionary.service_readings_for(date("2026-01-07"), CalendarStyle::Old, Tradition::Slavic)
+                      .day.festal &&
+                  !lectionary.service_readings_for(date("2026-03-25"), CalendarStyle::Old, Tradition::Greek)
+                       .day.festal,
+              "Calendar feast markers follow movable feasts and the selected fixed-calendar style");
         const auto hours =
             lectionary.service_readings_for(date("2026-01-05"), CalendarStyle::New, Tradition::Slavic);
         check(std::ranges::count(hours.readings, ReadingKind::Hours, &Reading::kind) == 12 &&

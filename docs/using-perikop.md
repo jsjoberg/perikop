@@ -29,7 +29,14 @@ Saints' readings appear beside the ordinary daily readings.
 Fasting information identifies the period, permitted exceptions, and foods to abstain from.
 Composite liturgical readings show their citations without a **Läs** button. Their adapted text is not in the Bible corpus.
 The arrows beside the date move to the previous or next day.
-The **Idag** button selects the current local date. This button always works and needs no background timer.
+The calendar marks the current local date with a blue outline.
+Violet dots mark fasting days, gold diamonds mark feasts, and green dashes mark fast-free days.
+A day can have both a fasting marker and a feast marker.
+Green marks an explicit suspension of fasting, including the usual Wednesday and Friday fasts.
+An ordinary day without a prescribed fast has no fasting marker.
+Point to a date for its translated feast title and fasting allowance.
+The markers follow the selected calendar style and reading order.
+**Kalender → Idag**, or **Ctrl+T**, selects the current local date.
 Click the date, or select **Kalender → Välj datum**, to open the month calendar below the date.
 Click a day to show its readings. The arrows beside the month name change the month.
 With the keyboard, the arrow keys move the day, Page Up and Page Down change the month, and Home moves to today.

@@ -1337,7 +1337,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     back();
     if (part_ != 1 || scripture_->scroll_position() != custom_scroll || parts_.size() != 2)
         fail(__LINE__);
-    // Day navigation controls rebuild safely; today remains available even on the current day.
+    // Day navigation controls rebuild safely; the calendar marks today instead of adding a button.
     show_readings();
     // Both church variants open independently, while the shared Gospel has one button.
     const auto previous_tradition = settings_.tradition;
@@ -1401,17 +1401,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (selected_.date() != date)
         fail(__LINE__);
     for (auto* child : home_content_->GetChildren())
-        if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Idag") {
-            if (!button->IsEnabled())
-                fail(__LINE__);
-            wxCommandEvent click(wxEVT_BUTTON, button->GetId());
-            button->GetEventHandler()->ProcessEvent(click);
-            break;
-        }
-    wxTheApp->ProcessPendingEvents();
-    if (selected_.date() != local_civil_date())
-        fail(__LINE__);
-    select_day(date);
+        if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Idag")
+            fail(__LINE__);
     // The calendar folds out on the start page; a key moves the day and Return chooses it.
     pick_date();
     if (page_ || !month_ || !month_->IsShown() || month_->focused() != date)
@@ -1430,6 +1421,82 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     press(WXK_ESCAPE);
     if (month_ || selected_.date() != shift_date(date, 1))
         fail(__LINE__);
+    pick_date();
+    press(WXK_HOME);
+    const auto today = local_civil_date();
+    if (month_->focused() != today || !month_->description(today).Contains("Idag") ||
+        !month_->GetLabel().Contains(ui::utf8(date_swedish(today))))
+        fail(__LINE__);
+    const auto calendar_image = [&](const wxString& suffix, Theme theme) {
+        if (screenshot_path.empty())
+            return;
+        month_->apply(palette(theme));
+        month_->Refresh();
+        month_->Update();
+        wxBitmap bitmap;
+        bitmap.CreateWithLogicalSize(month_->GetClientSize(), month_->GetContentScaleFactor());
+        wxClientDC window(month_);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, month_->GetClientSize().x, month_->GetClientSize().y, &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), suffix);
+    };
+    calendar_image("-calendar-light", Theme::Light);
+    calendar_image("-calendar-dark", Theme::Dark);
+    month_->apply(palette(settings_.theme));
+    press(WXK_RETURN);
+    if (month_ || selected_.date() != today)
+        fail(__LINE__);
+    settings_.calendar = CalendarStyle::New;
+    settings_.tradition = Tradition::Greek;
+    select_day(parse_date("2026-03-25").value());
+    pick_date();
+    const auto annunciation = selected_.date();
+    const auto& feast_fast = month_->days_.at(annunciation);
+    if (!feast_fast.festal || feast_fast.fasting.period != FastPeriod::Lent ||
+        !month_->description(annunciation).Contains(ui::utf8("bebådelse")) ||
+        !month_->description(annunciation).Contains(ui::utf8("Stora fastan")))
+        fail(__LINE__);
+    // Tooltips follow the actual date under the pointer, including fasting allowances.
+    const int offset = int(std::chrono::weekday{std::chrono::sys_days{month_->first_shown()}}.c_encoding());
+    wxMouseEvent hover(wxEVT_MOTION);
+    const auto hovered_cell = month_->cell(offset + 24);
+    hover.SetPosition({hovered_cell.x + hovered_cell.width / 2, hovered_cell.y + hovered_cell.height / 2});
+    month_->GetEventHandler()->ProcessEvent(hover);
+    if (month_->GetToolTipText() != month_->description(annunciation))
+        fail(__LINE__);
+    month_->focus(parse_date("2026-10-09").value());
+    const auto& commemorations = month_->days_.at(month_->focused()).commemorations;
+    if (std::ranges::none_of(commemorations,
+                             [](const auto& name) {
+                                 return name.find("Poplia") != std::string::npos;
+                             }) ||
+        month_->description(month_->focused()).Contains("Poplia") ||
+        month_->description(month_->focused()).Contains(ui::utf8("Åminnelser:")))
+        fail(__LINE__);
+    month_->focus(parse_date("2026-10-08").value());
+    if (month_->days_.at(month_->focused()).fasting.period != FastPeriod::None ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Ingen föreskriven fasta")) ||
+        month_->description(month_->focused()).Contains(ui::utf8("Fastefri dag")))
+        fail(__LINE__);
+    month_->focus(parse_date("2026-04-12").value());
+    if (!month_->days_.at(month_->focused()).festal ||
+        month_->days_.at(month_->focused()).fasting.allowance != DietaryAllowance::Free ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Fastefri dag")) ||
+        month_->days_.size() != 30)
+        fail(__LINE__);
+    calendar_image("-calendar-pascha", Theme::Light);
+    settings_.calendar = CalendarStyle::Old;
+    month_->focus(parse_date("2026-01-07").value());
+    if (!month_->days_.at(month_->focused()).festal ||
+        !month_->description(month_->focused()).Contains("2025-12-25") ||
+        !month_->description(month_->focused()).Contains(ui::utf8("Kristi födelse")))
+        fail(__LINE__);
+    press(WXK_ESCAPE);
+    settings_.tradition = previous_tradition;
+    settings_.calendar = previous_calendar;
+    select_day(date);
     open_psalm();
     pick_date();
     if (!readings_->IsShown() || scripture_->IsShown() || !month_)

@@ -2,6 +2,7 @@
 
 #include "ui/theme.hpp"
 #include <functional>
+#include <map>
 #include <optional>
 #include <wx/control.h>
 
@@ -11,7 +12,8 @@ namespace ortho {
 // colour. A click or Return chooses a day; Escape closes without one.
 class MonthCalendar final : public wxControl {
 public:
-    MonthCalendar(wxWindow* parent, CivilDate selected, std::function<void(std::optional<CivilDate>)> chosen);
+    MonthCalendar(wxWindow* parent, CivilDate selected, std::function<LiturgicalDay(CivilDate)> describe,
+                  std::function<void(std::optional<CivilDate>)> chosen);
     void apply(const Palette&);
     // The day the keyboard is on; its month is the one shown.
     CivilDate focused() const {
@@ -26,6 +28,10 @@ protected:
     wxSize DoGetBestClientSize() const override;
 
 private:
+    friend class MainFrame;
+    void load_month();
+    wxString description(CivilDate) const;
+    void update_description();
     void paint(wxPaintEvent&);
     void key(wxKeyEvent&);
     void focus(CivilDate);
@@ -39,6 +45,8 @@ private:
     int arrow_at(wxPoint) const;
     wxRect arrow(int direction) const;
     CivilDate selected_, focus_;
+    std::function<LiturgicalDay(CivilDate)> describe_;
+    std::map<CivilDate, LiturgicalDay> days_;
     std::function<void(std::optional<CivilDate>)> chosen_;
     std::function<void()> resized_;
     Palette colors_;

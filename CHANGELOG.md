@@ -10,6 +10,9 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
+- The month calendar marks today, fasts, feasts, and fast-free days, with details in date tooltips.
+- Calendar tooltips omit untranslated commemoration names.
+- The separate Idag button beside the date is removed. The menu action and keyboard shortcut remain available.
 - Native builds and CI default to size optimization, with link-time optimization when supported.
 - x86-64 builds target `x86-64-v2` for X220-era CPUs. Speech kernels select newer CPU instructions at runtime.
 - Release packages strip executable symbols and the bundled macOS ONNX Runtime. Build binaries keep their symbols for debugging.

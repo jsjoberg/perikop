@@ -199,27 +199,24 @@ void MainFrame::refresh_day() {
     });
     date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(6));
     arrow(Symbol::Next, ui::utf8("Nästa dag"), 1);
-    date_row->AddStretchSpacer();
-    date_row->Add(ui::button(home_content_, "Idag",
-                             [this] {
-                                 CallAfter([this] {
-                                     select_day(local_civil_date());
-                                 });
-                             }),
-                  0, wxALIGN_CENTER_VERTICAL);
     entries_->Add(date_row, 0, wxEXPAND | wxBOTTOM, FromDIP(12));
     month_ = nullptr;
     if (month_open_) {
-        month_ = new MonthCalendar(home_content_, selected_.date(), [this](std::optional<CivilDate> date) {
-            // Choosing rebuilds the page and its calendar.
-            CallAfter([this, date] {
-                month_open_ = false;
-                if (date)
-                    select_day(*date);
-                else
-                    refresh_day();
+        month_ = new MonthCalendar(
+            home_content_, selected_.date(),
+            [this](CivilDate date) {
+                return lectionary_.service_readings_for(date, settings_.calendar, settings_.tradition).day;
+            },
+            [this](std::optional<CivilDate> date) {
+                // Choosing rebuilds the page and its calendar.
+                CallAfter([this, date] {
+                    month_open_ = false;
+                    if (date)
+                        select_day(*date);
+                    else
+                        refresh_day();
+                });
             });
-        });
         month_->on_resize([this] {
             readings_->Layout();
             layout_home();

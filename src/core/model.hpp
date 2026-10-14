@@ -112,6 +112,8 @@ struct LiturgicalDay {
     bool annual = false;
     Fasting fasting;
     std::vector<std::string> commemorations;
+    // Named celebrations and feasts above ordinary daily commemorations.
+    bool festal = false;
 };
 struct DayReadings {
     LiturgicalDay day;

@@ -634,6 +634,9 @@ DayReadings Lectionary::calculate(CivilDate civil, CalendarStyle style, Traditio
                         {},
                         {}},
                        {}};
+    result.day.festal = std::ranges::any_of(day_rules, [](const FeastRule& rule) {
+        return rule.rank >= 2 || (rule.rank >= 0 && !rule.feast.empty());
+    });
     for (const auto* r : selected)
         result.readings.push_back(r->reading);
     if (full) {
