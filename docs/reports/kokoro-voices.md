@@ -1,3 +1,5 @@
+> Report as of 2026-10-09 (8cb927b). Not kept up to date; check the code before relying on it.
+
 # Alice and Björn voice pack
 
 The pack contains Alice and Björn from the Swedish Kokoro model.

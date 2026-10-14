@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (ee1a261). Not kept up to date; check the code before relying on it.
+
 > Implementation update, October 6, 2026: see [lectionary.md](lectionary.md) and [validation.md](validation.md). The text below preserves the original v0.1 specification.
 
 # Orthodox Lectionary Reader — v0.1 Engineering Specification

@@ -220,7 +220,7 @@ if(ORTHO_BUILD_GUI)
         install(TARGETS perikop RUNTIME DESTINATION bin)
     endif()
     # The Alice and Björn voice pack is bundled, so the installed program never needs a network.
-    # Prepare it with tools/speech/prepare_kokoro.py; see docs/kokoro-voices.md.
+    # Prepare it with tools/speech/prepare_kokoro.py; see docs/building.md.
     set(PERIKOP_VOICE_PACK "${CMAKE_SOURCE_DIR}/build/kokoro-pack" CACHE PATH "Prepared voice pack to bundle")
     if(EXISTS "${PERIKOP_VOICE_PACK}/voice-pack.json")
         file(READ "${PERIKOP_VOICE_PACK}/voice-pack.json" perikop_voice_manifest)

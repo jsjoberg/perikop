@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (7994b32). Not kept up to date; check the code before relying on it.
+
 # Native code structure
 
 The application uses C++23 and wxWidgets. Python tools prepare resources and check the packaged data.

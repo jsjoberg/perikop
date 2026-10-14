@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (6778b6c). Not kept up to date; check the code before relying on it.
+
 # Offline corpus
 
 ## Bundled editions
@@ -69,7 +71,7 @@ uv run --locked tools/check_resources.py
 ```
 
 `resources/manifest.json` records resource hashes and provenance.
-[Third-party notices](../THIRD-PARTY-NOTICES.md) lists licenses and edition limits.
+[Third-party notices](../../THIRD-PARTY-NOTICES.md) lists licenses and edition limits.
 
 ## Display metadata and limits
 

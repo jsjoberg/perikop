@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (8d4c1c9). Not kept up to date; check the code before relying on it.
+
 # SAOL 15 open word data: integration requirements
 
 Status on 2026-10-12: awaiting an authorized dataset export.

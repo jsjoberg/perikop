@@ -1,3 +1,5 @@
+> Report as of 2026-10-11 (9bcc71f). Not kept up to date; check the code before relying on it.
+
 # Missing Swedish Bible passages
 
 Audit date: 2026-10-11. Source commit: `29aaa0c4a79a37055e1bf69580e0f7733d49c642`.

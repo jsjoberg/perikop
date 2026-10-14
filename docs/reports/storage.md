@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (d20a5e4). Not kept up to date; check the code before relying on it.
+
 # SQLite storage policy
 
 The native application uses four SQLite databases. It does not use platform preference defaults as its storage system.

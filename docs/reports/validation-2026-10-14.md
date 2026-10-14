@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (d20a5e4). Not kept up to date; check the code before relying on it.
+
 # Antiochian chart audit, October 14, 2026
 
 The app calendar begins January 1, 2019. Annual source data before 2019 are removed for both jurisdictions.

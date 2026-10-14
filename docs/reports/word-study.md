@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (8d4c1c9). Not kept up to date; check the code before relying on it.
+
 # Word study (Ordstudium)
 
 Ordstudium turns the right pane into a lookup panel.

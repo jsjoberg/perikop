@@ -1,3 +1,5 @@
+> Report as of 2026-10-12 (7ed4661). Not kept up to date; check the code before relying on it.
+
 # Portable speech selection
 
 Decision date: October 6, 2026.

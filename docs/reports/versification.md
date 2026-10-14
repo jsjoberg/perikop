@@ -1,3 +1,5 @@
+> Report as of 2026-10-11 (25a4224). Not kept up to date; check the code before relying on it.
+
 # Swedish text and Septuagint alignment
 
 The Orthodox Church reads the Old Testament in the Septuagint.

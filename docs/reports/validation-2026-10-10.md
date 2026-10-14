@@ -1,3 +1,5 @@
+> Report as of 2026-10-12 (f107e0d). Not kept up to date; check the code before relying on it.
+
 # Archived validation record — 10 October 2026
 
 This record contains superseded platform and speech claims.

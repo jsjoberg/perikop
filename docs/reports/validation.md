@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (d20a5e4). Not kept up to date; check the code before relying on it.
+
 # Validation record
 
 ## Current implementation

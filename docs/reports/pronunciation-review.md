@@ -1,3 +1,5 @@
+> Report as of 2026-10-14 (60c64bc). Not kept up to date; check the code before relying on it.
+
 # Swedish pronunciation review
 
 The native review tool uses `resources/lexicon/sv1917-words.tsv`.

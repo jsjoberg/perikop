@@ -1,3 +1,5 @@
+> Report as of 2026-10-12 (f107e0d). Not kept up to date; check the code before relying on it.
+
 # Improvement tracker — 12 October 2026
 
 This tracker follows the action report for revision `e9da60c`.
