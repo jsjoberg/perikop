@@ -32,6 +32,17 @@ Upstream source: https://gcc.gnu.org/releases.html
 The Linux toolset and runtime source packages are available from Rocky Linux:
 https://dl.rockylinux.org/pub/rocky/9/
 
+The Linux AppImage also carries unmodified GTK 3 libraries and their dependencies from Rocky Linux 9,
+among them GLib, Pango, Cairo, ATK, GDK-Pixbuf, librsvg, graphite2, ICU, GnuTLS, and OpenSSL.
+Most use LGPL 2.1 or later, MIT, or BSD licences. The packaging step lists each package with its version and licence
+in `licenses/linux/PACKAGES.txt` and copies each package's licence texts beside it.
+Their source packages are available from Rocky Linux at the address above.
+
+The Windows installer carries Microsoft's Visual C++ runtime, which ONNX Runtime needs:
+`msvcp140.dll`, `msvcp140_1.dll`, `vcruntime140.dll`, and `vcruntime140_1.dll`.
+Microsoft permits their redistribution under the Visual Studio license terms.
+https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files
+
 ## Complete Scripture editions
 
 The package retains complete nonempty publisher texts and their source coordinates.

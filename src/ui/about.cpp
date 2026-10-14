@@ -106,6 +106,9 @@ const std::vector<Section>& sections() {
          {{"Kokoro, svenska rösterna Alice och Björn",
            "Svenska Kokoro-vikter, röster och uttalsmodell från kokoro-sv. Apache 2.0.",
            {"https://huggingface.co/Joakim/kokoro-sv-voices", "https://github.com/joakimeriksson/kokoro-sv"}},
+          {"kokoro-sv-g2p",
+           "Uttalsmodell och uttalslexikon byggt på NST, för ord utanför lexikonet. Apache 2.0.",
+           {"https://huggingface.co/Joakim/kokoro-sv-g2p"}},
           {"ONNX Runtime", "Microsoft. MIT.", {"https://github.com/microsoft/onnxruntime"}},
           {"miniaudio", "David Reid. Allmän egendom.", {"https://github.com/mackron/miniaudio"}},
           {"Sonic", "Bill Cox. Apache 2.0.", {"https://github.com/waywardgeek/sonic"}}}},
@@ -127,7 +130,13 @@ const std::vector<Section>& sections() {
            "Ingår i wxWidgets, med egna fria licenser.",
            {"http://www.libpng.org", "https://zlib.net", "https://github.com/PCRE2Project/pcre2",
             "https://github.com/memononen/nanosvg"}},
-          {"libjpeg", "Programmet bygger delvis på arbete av Independent JPEG Group.", {"https://ijg.org"}}}},
+          {"libjpeg", "Programmet bygger delvis på arbete av Independent JPEG Group.", {"https://ijg.org"}},
+          {"GCC:s körtidsbibliotek",
+           "libstdc++ och libgcc i Windows- och Linuxversionerna. GPLv3 med GCC Runtime Library Exception.",
+           {"https://gcc.gnu.org"}},
+          {"Visual C++ Redistributable",
+           "Microsofts körtidsbibliotek för ONNX Runtime i Windowsversionen.",
+           {"https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"}}}},
     };
     return all;
 }

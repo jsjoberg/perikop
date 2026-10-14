@@ -58,6 +58,35 @@ linuxdeploy --executable "$appdir/usr/bin/perikop" \
 hook="$appdir/apprun-hooks/linuxdeploy-plugin-gtk.sh"
 grep -q '^export GDK_BACKEND=x11' "$hook" || { echo "GTK hook no longer forces X11; review $hook" >&2; exit 1; }
 sed -i '/^export GDK_BACKEND=x11/d' "$hook"
+# Ship the licence files of every system package whose libraries linuxdeploy bundled, beside the app's own.
+licenses=$appdir/usr/bin/resources/licenses/linux
+mkdir -p "$licenses"
+rm -f "$build/appimage-unlicensed.txt"
+# libstdc++ and libgcc_s come from the GCC toolset, whose licences the app already ships.
+find "$appdir/usr/lib" -name '*.so.*' ! -name 'libstdc++.so.*' ! -name 'libgcc_s.so.*' -printf '%f\n' |
+    sort -u | while read -r library; do
+    host=$(find /usr/lib64 /lib64 -maxdepth 3 -name "$library" -print -quit 2>/dev/null)
+    [ -n "$host" ] && rpm -qf --qf '%{NAME}\n' "$host" 2>/dev/null || true
+done | sort -u | while read -r package; do
+    # Group by source package: subpackages such as cairo-gobject keep their licence text in cairo.
+    rpm_source=$(rpm -q --qf '%{SOURCERPM}' "$package")
+    origin=$(echo "$rpm_source" | sed 's/-[^-]*-[^-]*\.src\.rpm$//')
+    siblings=$(rpm -qa --qf '%{NAME} %{SOURCERPM}\n' | awk -v s="$rpm_source" '$2 == s { print $1 }')
+    rpm -q --qf '%{NAME} %{VERSION}-%{RELEASE}: %{LICENSE}\n' "$package" >> "$licenses/PACKAGES.txt"
+    { rpm -q --licensefiles $siblings || true
+      rpm -q --docfiles $siblings | grep -i -E '/(COPYING|LICEN[CS]E|COPYRIGHT|NOTICE|BSD)[^/]*$' || true
+    } | grep '^/' | while read -r file; do
+        [ -f "$file" ] && { mkdir -p "$licenses/$origin"; cp "$file" "$licenses/$origin/"; }
+    done
+    # Rocky ships no licence text for some packages; tools/appimage-licenses has upstream's.
+    [ -d "$source/tools/appimage-licenses/$origin" ] && cp -r "$source/tools/appimage-licenses/$origin" "$licenses/"
+    [ -d "$licenses/$origin" ] || [ "$(rpm -q --qf '%{LICENSE}' "$package")" = "Public Domain" ] ||
+        echo "$package" >> "$build/appimage-unlicensed.txt"
+done
+if [ -s "$build/appimage-unlicensed.txt" ]; then
+    echo "No licence text for bundled packages:" $(cat "$build/appimage-unlicensed.txt") >&2
+    exit 1
+fi
 linuxdeploy --output appimage
 # Also check GTK libraries and AppRun added by the packaging tools.
 python3 "$source/tools/check_linux_abi.py" "$appdir"
