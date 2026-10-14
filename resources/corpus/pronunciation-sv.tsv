@@ -1,10 +1,12 @@
 # Swedish name and word pronunciations for the Alice and Björn voices.
-# Columns: word<TAB>phonemes. Phonemes use the NST/Kokoro symbols of the voice
+# Columns: word<TAB>phonemes[<TAB>word-only]. Phonemes use the NST/Kokoro symbols of the voice
 # pack lexicon, with the stress mark directly before the stressed vowel.
 # First-pass drafts for frequent names and book titles that the neural
 # fallback misreads, mostly in stress. Compound titles follow the lexicon:
 # main stress on the first part, secondary stress on the second. Not yet reviewed by ear. The corpus build adds the
-# genitive -s form of each word entry. Corrections in the review tool take
+# genitive -s form unless word-only is set. Homographs need that flag when the
+# extra -s spelling has another meaning, such as ko (cow) and Kos (a place).
+# Corrections in the review tool take
 # priority over word entries, but not over phrases (see the end of the file).
 abia	abˈiːa
 abigail	ˈɑːbɪɡajl
@@ -171,6 +173,42 @@ person	pəʂˈuːn
 tom	tˈʊm
 oliver	ʊlˈiːvər
 foster	fˈʊstər
+# Further homographs, checked against every occurrence in the Swedish corpus.
+hos	hˈʊs	word-only
+vikt	vˈɪkt	word-only
+vänt	vˈɛnt	word-only
+rest	rˈeːst	word-only
+tomt	tˈʊmt	word-only
+predikat	prədˈiːkat	word-only
+förleder	fœɭˈeːdər	word-only
+förena	fœrˈeːna	word-only
+kista	ɕˈɪsta	word-only
+ko	kˈuː	word-only
+svans	svˈans	word-only
+duken	dˈʉːkən	word-only
+kosta	kˈɔsta	word-only
+logen	lˈuːɡən	word-only
+rene	rˈeːnə	word-only
+saks	sˈɑːks	word-only
+synts	sˈyːnts	word-only
+ton	tˈuːn	word-only
+eggen	ˈɛɡən	word-only
+klor	klˈoːr	word-only
+menat	mˈeːnat	word-only
+demon	dəmˈoːn	word-only
+korsar	kˈɔʂar	word-only
+makes	mˈɑːkəs	word-only
+mats	mˈɑːts	word-only
+murat	mˈʉːrat	word-only
+ron	rˈuːn	word-only
+tima	tˈiːma	word-only
+timat	tˈiːmat	word-only
+trumpet	trɵmpˈeːt	word-only
+van	vˈɑːn	word-only
+åse	ˈoːsˌeː	word-only
+öst	ˈøːst	word-only
+skylt	ɧˈyːlt	word-only
+fördraget	fœɖrˈɑːɡət	word-only
 # Words whose sense changes between verses. A row with a bracketed word is a
 # phrase: the phonemes apply to that word wherever the whole phrase occurs, and
 # the phrase outranks a per-word entry or review correction. The phrases cover
@@ -214,3 +252,7 @@ dans	dˈans
 [Dans] port	dˈɑːns
 [Dans] släkter	dˈɑːns
 efter [Dans]	dˈɑːns
+# "ana": the name Ana, except the verb "ana" (suspect).
+att [ana]	ˈɑːna
+# "förband": the verb "förbinda", except the noun (bandage) in Ezekiel 30:21.
+den [förband]	fˈøːrbˌand

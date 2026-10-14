@@ -808,6 +808,9 @@ int main(int argc, char** argv) {
         check(make_utterance("Han bar sitt kors, och hans ben", "sv", lexicon).speech_text ==
                   "⟦hˈan⟧ bar sitt ⟦kˈɔʂ⟧, och ⟦hˈans⟧ ⟦bˈeːn⟧",
               "bundled homographs take the sense of this Bible, not a name's or another word's");
+        check(make_utterance("en ko, sin kos och Kos.", "sv", lexicon).speech_text ==
+                  "en ⟦kˈuː⟧, sin kos och Kos.",
+              "word-only corrections do not turn the place Kos or sin kos into a cow's genitive");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text == "Och ⟦fˈøːɭˌoːtən⟧ i templet rämnade. Vilkens överträdelse är förlåten.",
@@ -853,6 +856,43 @@ int main(int argc, char** argv) {
                  48,
                  {"1Sam 18:6", "Exod 15:20", "Jdt 15:12", "Jdt 15:13", "Jdt 3:7", "Jer 31:13", "Jer 31:4",
                   "Judg 11:34", "Lam 5:15", "Luke 15:25", "Ps 149:3", "Ps 150:4", "Ps 87:7"}},
+                {"hos", "", "⟦hˈʊs⟧", 760, {}},
+                {"vikt", "", "⟦vˈɪkt⟧", 61, {}},
+                {"vänt", "", "⟦vˈɛnt⟧", 44, {}},
+                {"rest", "", "⟦rˈeːst⟧", 17, {}},
+                {"tomt", "", "⟦tˈʊmt⟧", 14, {}},
+                {"predikat", "", "⟦prədˈiːkat⟧", 13, {}},
+                {"förleder", "", "⟦fœɭˈeːdər⟧", 5, {}},
+                {"förena", "", "⟦fœrˈeːna⟧", 4, {}},
+                {"kista", "", "⟦ɕˈɪsta⟧", 4, {}},
+                {"ko", "", "⟦kˈuː⟧", 4, {}},
+                {"svans", "", "⟦svˈans⟧", 4, {}},
+                {"duken", "", "⟦dˈʉːkən⟧", 3, {}},
+                {"kosta", "", "⟦kˈɔsta⟧", 3, {}},
+                {"logen", "", "⟦lˈuːɡən⟧", 3, {}},
+                {"rene", "", "⟦rˈeːnə⟧", 3, {}},
+                {"saks", "", "⟦sˈɑːks⟧", 3, {}},
+                {"synts", "", "⟦sˈyːnts⟧", 3, {}},
+                {"ton", "", "⟦tˈuːn⟧", 3, {}},
+                {"eggen", "", "⟦ˈɛɡən⟧", 2, {}},
+                {"klor", "", "⟦klˈoːr⟧", 2, {}},
+                {"menat", "", "⟦mˈeːnat⟧", 2, {}},
+                {"demon", "", "⟦dəmˈoːn⟧", 1, {}},
+                {"korsar", "", "⟦kˈɔʂar⟧", 1, {}},
+                {"makes", "", "⟦mˈɑːkəs⟧", 1, {}},
+                {"mats", "", "⟦mˈɑːts⟧", 1, {}},
+                {"murat", "", "⟦mˈʉːrat⟧", 1, {}},
+                {"ron", "", "⟦rˈuːn⟧", 1, {}},
+                {"tima", "", "⟦tˈiːma⟧", 1, {}},
+                {"timat", "", "⟦tˈiːmat⟧", 1, {}},
+                {"trumpet", "", "⟦trɵmpˈeːt⟧", 1, {}},
+                {"van", "", "⟦vˈɑːn⟧", 1, {}},
+                {"åse", "", "⟦ˈoːsˌeː⟧", 1, {}},
+                {"öst", "", "⟦ˈøːst⟧", 1, {}},
+                {"skylt", "", "⟦ɧˈyːlt⟧", 3, {}},
+                {"fördraget", "", "⟦fœɖrˈɑːɡət⟧", 4, {}},
+                {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
+                {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
             };
             const PronunciationMatcher matcher("sv", lexicon);
             const auto count = [](const std::string& text, const std::string& word) {

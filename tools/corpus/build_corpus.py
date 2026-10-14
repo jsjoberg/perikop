@@ -121,19 +121,23 @@ with sqlite3.connect(temp) as db:
   for target,ref in mapper.counterparts('grc-lxx','en-lxx2012',book,(chapter,verse,suffix))[:1]:
    if ref in mapper.coordinates('en-lxx2012',target):db.execute('INSERT OR IGNORE INTO paragraph VALUES(4,?,?,?,?,?)',(ids[target],*ref,'Greek USFM'))
  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100)])
- # Swedish name phonemes for the Kokoro voices, plus each name's genitive -s.
+ # Swedish phonemes. Names also get a genitive -s; word-only corrections do not.
  phones=set('abdefhijklmnoprstuvyøŋœɑɔɕɖəɛɡɧɪɭɳɵʂʈʉʊʏˈˌː')
  for line in (root/'resources/corpus/pronunciation-sv.tsv').read_text().splitlines():
   if not line or line.startswith('#'):continue
-  word,ipa=line.split('\t')
+  fields=line.split('\t')
+  if len(fields) not in (2,3) or (len(fields)==3 and fields[2]!='word-only'):raise SystemExit('Invalid pronunciation row: '+line)
+  word,ipa=fields[:2]
   if not set(ipa)<=phones or ipa.count('ˈ')!=1:raise SystemExit('Invalid phonemes for '+word+': '+ipa)
   # A phrase gives its bracketed word one sense. It outranks review corrections (1000) and previews (2000).
   if '[' in word:
+   if len(fields)!=2:raise SystemExit('A phrase cannot have a word-only flag: '+word)
    m=re.fullmatch(r'([^\[\]]*)\[([^\[\]\s]+)\]([^\[\]]*)',word)
    if not m or not (m[1]+m[3]).strip():raise SystemExit('A phrase needs one [word] and context: '+word)
    db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',m[1]+m[2]+m[3],m[1]+'⟦'+ipa+'⟧'+m[3],'',3000))
    continue
-  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv',word,'',ipa,50),('sv',word+'s','',ipa+'s',50)])
+  db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word,'',ipa,50))
+  if len(fields)==2:db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word+'s','',ipa+'s',50))
  # Import recurring references, never the project's third-party Scripture wording.
  # Rows are tagged common, greek or slavic; antiochian.json adds the Antiochian
  # Archdiocese's own readings in the same format, each in the slot it replaces.
