@@ -10,7 +10,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Added
 
-- An AppImage for Raspberry Pi 4 and 5 with 64-bit Raspberry Pi OS. It targets the Raspberry Pi, not ARM Linux in general.
+- An AppImage for Raspberry Pi 3B, 4, and 5 with 64-bit Raspberry Pi OS. It targets the Raspberry Pi, not ARM Linux in general. A Pi 3B has too little memory for read-aloud.
 
 ### Changed
 

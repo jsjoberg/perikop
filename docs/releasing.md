@@ -7,12 +7,13 @@ Each package contains the application, its resources, and the Alice and Björn v
 - macOS: `Perikop-0.1.0-macOS-universal.dmg`. One app for Intel and Apple Silicon. Drag Perikop to Applications.
 - Windows: `Perikop-0.1.0-windows-x64.exe`. The installer puts Perikop in Program Files and adds a Start menu shortcut.
 - Linux: `Perikop-0.1.0-x86_64.AppImage`. Make the file executable, then run it.
-- Raspberry Pi: `Perikop-0.1.0-aarch64.AppImage`, for a Raspberry Pi 4 or 5 with 64-bit Raspberry Pi OS and its desktop.
+- Raspberry Pi: `Perikop-0.1.0-aarch64.AppImage`, for a Raspberry Pi 3B, 4, or 5 with 64-bit Raspberry Pi OS and its desktop.
   It is a Raspberry Pi package, not a general ARM Linux target. It is tested on Debian 12 and 13, the bases of Raspberry Pi OS.
+  Read-aloud needs about 1 GB of memory, so a Pi 3B shows text only.
 
 CI builds native code with MinSizeRel, link-time optimization, and removal of unused code.
 x86-64 packages target `x86-64-v2`. The Apple Silicon slice uses the Apple arm64 baseline.
-The Linux ARM package uses GCC's default `armv8-a` baseline, which includes the Raspberry Pi 4's Cortex-A72.
+The Raspberry Pi package uses GCC's default `armv8-a` baseline, which includes the Cortex-A53 of the Pi 3B and the Cortex-A72 of the Pi 4.
 The bundled ONNX Runtime selects faster speech kernels when the processor supports them.
 
 ## Make a package

@@ -1,6 +1,6 @@
 #!/bin/sh
 # Packs a built Linux tree, by default build/cmake, into build/package/Perikop-<version>-<arch>.AppImage,
-# for x86_64 or aarch64. The aarch64 image is the Raspberry Pi package (Pi 4 or 5, 64-bit Raspberry Pi OS).
+# for x86_64 or aarch64. The aarch64 image is the Raspberry Pi package (Pi 3B, 4, or 5, 64-bit Raspberry Pi OS).
 # linuxdeploy and its GTK plugin copy GTK and the other shared libraries into the image.
 set -eu
 build=$(realpath "${1:-build/cmake}")
