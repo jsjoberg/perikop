@@ -6,6 +6,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/month_calendar.hpp"
+#include "ui/reading_tooltips.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
@@ -540,6 +541,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     // The day page keeps the toolbar, with the reader's controls dimmed.
     show_readings();
+    const auto ellipsis = ui::utf8("…");
+    const auto sample = ui::text_preview(std::string(100, 'a') + " " + std::string(100, 'b'));
+    if (sample != ui::utf8(std::string(100, 'a')) + ellipsis ||
+        ui::text_preview("\n Å ä ö \t text  ") != ui::utf8("Å ä ö text"))
+        fail(__LINE__);
+    if (!day_.readings.empty() && day_.readings.front().can_open()) {
+        const auto preview =
+            ui::reading_tooltip(corpus_, corpus_.localize(in_swedish(day_.readings.front())));
+        if (preview.empty() || std::none_of(home_rows_.begin(), home_rows_.end(), [&](auto* row) {
+                return row->GetToolTipText().StartsWith(preview);
+            }))
+            fail(__LINE__);
+    }
     for (auto* child : home_content_->GetChildren())
         if (auto* control = dynamic_cast<TextButton*>(child);
             control && control->GetLabel().Contains("Lyssna"))
@@ -570,12 +584,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
-    if (plan_tiles().size() != 74 || !plan_tiles().front()->GetToolTipText().EndsWith(ui::utf8("läst")) ||
-        plan_tiles()[1]->GetToolTipText().EndsWith(ui::utf8("läst")))
+    if (plan_tiles().size() != 74 || !plan_tiles().front()->GetName().EndsWith(ui::utf8("läst")) ||
+        plan_tiles()[1]->GetName().EndsWith(ui::utf8("läst")) ||
+        plan_tiles().front()->GetToolTipText() != ui::utf8("Matt 1–9") ||
+        plan_tiles()[4]->GetToolTipText() != ui::utf8("Mark 10–16\nLuk 1–2"))
         fail(__LINE__);
     user_.forget("plan:");
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
-    if (plan_tiles().empty() || plan_tiles().front()->GetToolTipText().EndsWith(ui::utf8("läst")))
+    if (plan_tiles().empty() || plan_tiles().front()->GetName().EndsWith(ui::utf8("läst")))
         fail(__LINE__);
     // All plan parts have native button semantics and a descriptive accessible name.
     for (auto* tile : plan_tiles())
@@ -1198,6 +1214,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             ui::utf8(passage_label(corpus_, {{"John", john_verses.front(), john_verses.back()}})))
         fail(__LINE__);
     picker->select_chapter(john, 1);
+    const auto drawer = picker->book_drawer(john);
+    const auto full_verse = corpus_.verse("sv1917", "John", {1, 1});
+    if (!full_verse || drawer.back().cells.front().tip != ui::utf8(full_verse->text) + ellipsis ||
+        drawer.back().drawer.back().cells.front().tip != ui::utf8(full_verse->text))
+        fail(__LINE__);
     // John's chapters and verses unfold beneath its row, above the books that follow it.
     const auto chapters = picker->cells_->unfolded(1), verses = picker->cells_->unfolded(2);
     if (chapters.IsEmpty() || verses.IsEmpty() || !chapters.Contains(verses) ||

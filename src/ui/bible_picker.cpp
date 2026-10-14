@@ -1,6 +1,7 @@
 #include "ui/bible_picker.hpp"
 #include "core/reading_display.hpp"
 #include "ui/controls.hpp"
+#include "ui/reading_tooltips.hpp"
 #include <algorithm>
 #ifdef __APPLE__
 #include "ui/native_scroll.hpp"
@@ -148,7 +149,8 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     Block chapters{.kind = Block::Kind::Cells};
     std::vector<VerseRef> in_chapter;
     int previous = -1;
-    for (const auto& ref : verses) {
+    for (std::size_t i = 0; i < verses.size(); ++i) {
+        const auto& ref = verses[i];
         if (ref.chapter == chapter_)
             in_chapter.push_back(ref);
         if (ref.chapter == previous)
@@ -159,7 +161,8 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
             chapters.open = chapters.cells.size();
         chapters.cells.push_back(
             {wxString::Format("%d", ref.chapter - book.offset()),
-             {},
+             ui::verse_tooltip(corpus_, frame(book), book.frame_book, ref, true,
+                               i + 1 < verses.size() && verses[i + 1].chapter == ref.chapter),
              true,
              pending && low.chapter <= ref.chapter && ref.chapter <= high.chapter
                  ? (ref.chapter == low.chapter || ref.chapter == high.chapter ? State::Selected
@@ -182,7 +185,7 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
         Block numbers{.kind = Block::Kind::Cells};
         for (const auto& ref : in_chapter)
             numbers.cells.push_back({wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
-                                     {},
+                                     ui::verse_tooltip(corpus_, frame(book), book.frame_book, ref, false),
                                      true,
                                      !pending || ref < low || high < ref ? State::Plain
                                      : ref == low || ref == high         ? State::Selected

@@ -51,6 +51,7 @@ void PickerGrid::set(std::vector<Block> blocks) {
         if (items_[i].rect.GetTopLeft() == *focused && active(i))
             focus_ = i;
     hover_.reset();
+    UnsetToolTip();
     hover(item_at(ScreenToClient(wxGetMousePosition())));
 }
 

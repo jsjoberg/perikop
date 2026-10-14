@@ -2,6 +2,7 @@
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/reading_tooltips.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <ranges>
@@ -92,12 +93,15 @@ void MainFrame::add_next_plan() {
         std::size_t part = 0;
         while (completed.contains(plan_key(*plan, part)))
             ++part;
-        add_row(new ReadingRow(home_content_,
-                               ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
-                                        std::to_string(plan->parts.size())),
-                               ui::utf8(plan_label(corpus_, plan->parts[part])), [this, &plan = *plan, part] {
-                                   open_plan_part(plan, part);
-                               }));
+        auto* row =
+            new ReadingRow(home_content_,
+                           ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
+                                    std::to_string(plan->parts.size())),
+                           ui::utf8(plan_label(corpus_, plan->parts[part])), [this, &plan = *plan, part] {
+                               open_plan_part(plan, part);
+                           });
+        row->SetToolTip(ui::plan_parts_tooltip(corpus_, plan->parts[part]));
+        add_row(row);
     }
     add_row(new ReadingRow(home_content_, {}, ui::utf8("Alla läsplaner"), [this] {
         CallAfter([this] {
@@ -179,8 +183,7 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             tile->Bind(wxEVT_BUTTON, [this, &plan, i](wxCommandEvent&) {
                 open_plan_part(plan, i);
             });
-            tile->SetToolTip("Del " + number + ui::utf8(", ") + label +
-                             (read ? ui::utf8(", läst") : wxString{}));
+            tile->SetToolTip(ui::plan_parts_tooltip(corpus_, plan.parts[i]));
             grid->Add(tile);
         }
         entries->Add(grid, 0, wxBOTTOM, FromDIP(36));

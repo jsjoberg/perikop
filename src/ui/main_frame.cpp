@@ -3,6 +3,7 @@
 #include "ui/controls.hpp"
 #include "ui/month_calendar.hpp"
 #include "ui/pronunciation_review.hpp"
+#include "ui/reading_tooltips.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
 #include "ui/toolbar.hpp"
@@ -248,7 +249,11 @@ void MainFrame::refresh_day() {
                     "Sammansatt liturgisk läsning. Den sammanställda texten finns inte i bibelkorpusen.");
             return;
         }
-        const auto segments = corpus_.localize(in_swedish(reading)).segments();
+        const auto localized = corpus_.localize(in_swedish(reading));
+        const auto segments = localized.segments();
+        auto preview = ui::reading_tooltip(corpus_, localized);
+        if (!tooltip.empty())
+            preview += (preview.empty() ? wxString{} : "\n\n") + ui::utf8(tooltip);
         const auto title = ui::utf8(passage_label(corpus_, segments));
         const auto key = day_key(reading);
         add_row(new ReadingRow(
@@ -257,7 +262,7 @@ void MainFrame::refresh_day() {
                         open_tracked(reading, {key, title});
                     },
                     completed.contains(key)),
-                tooltip);
+                preview.ToStdString(wxConvUTF8));
     };
     // Epistles, then Gospels, then the other services, each in their own order.
     std::vector<std::size_t> order(day_.readings.size());

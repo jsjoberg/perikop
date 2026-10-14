@@ -25,6 +25,7 @@ For a source build, use the [build guide](building.md#run).
 The day page shows the date, the reading-cycle day and week, service readings, and three reading plans.
 The date controls, month calendar, and day heading are centered above the readings.
 Press **Läs** beside a reading to open it.
+Point to a reading for a short preview of its beginning. An ellipsis marks omitted text.
 Service labels identify Vespers, Matins, the Hours, and other readings when they apply.
 Saints' readings appear beside the ordinary daily readings.
 Composite liturgical readings show their citations without a **Läs** button. Their adapted text is not in the Bible corpus.
@@ -108,6 +109,8 @@ The keyboard shortcuts work either way. macOS keeps its own menu bar.
 
 Select **Bibel → Gå till bibelställe** to open the book, chapter, and verse grids.
 Select a book to unfold its chapters directly beneath its row. Select a chapter to unfold its verses beneath it.
+Book tiles keep their name tooltips. Chapter tooltips show short text previews, and verse tooltips show the complete verse.
+Previews use Swedish where available, otherwise English or Greek with a language label.
 Select an open book or chapter again to fold it.
 The page has a vertical scrollbar. The normal browser selects one continuous range.
 The address field shows the current range.
@@ -163,6 +166,7 @@ It excludes First Esdras, Third Maccabees, and Psalm 151 because Perikop has no 
 
 Plans count parts, not days.
 Select a numbered part to open it.
+Its tooltip lists the passage ranges, one per line. The next plan part on the day page uses the same tooltip.
 A part with several books has a section menu in the address field.
 
 After the voice finishes a part, Perikop asks whether to mark it as read.
