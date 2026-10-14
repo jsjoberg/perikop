@@ -188,7 +188,7 @@ void MainFrame::update_bar() {
         const auto preparation = speech_->preparation();
         title = ui::utf8(preparation.status + ", " + date_swedish(*playback_.prepared_day()));
         tooltip = ui::utf8(preparation.status +
-                           "\n\nFörbereder den öppna dagens svenska läsningar och alternativ med den valda "
+                           "\n\nFörbereder den valda dagens svenska läsningar och alternativ med den valda "
                            "rösten. Sparat ljud återanvänds vid uppläsning.");
     } else if (!reader)
         title = ui::utf8("Dagens läsningar");

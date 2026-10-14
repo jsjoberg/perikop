@@ -22,10 +22,10 @@ void MainFrame::clear_preparation() {
 void MainFrame::prepare_day() {
     if (!controls().prepare)
         return;
+    const auto date = selected_.date();
     stop_speech();
     try {
-        const auto day =
-            lectionary_.readings_with_variants(selected_.date(), settings_.calendar, settings_.tradition);
+        const auto day = lectionary_.readings_with_variants(date, settings_.calendar, settings_.tradition);
         std::vector<Reading> readings;
         const auto add = [&](const Reading& reading) {
             if (reading.can_open())
@@ -39,11 +39,11 @@ void MainFrame::prepare_day() {
         const auto queue = reading_speech(corpus_, readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        playback_.prepare(*speech_, queue, selected_.date());
+        playback_.prepare(*speech_, queue, date);
         refresh_speech();
     } catch (const std::exception& error) {
-        wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered dagens ljud"), wxOK | wxICON_INFORMATION,
-                     this);
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered ljud för vald dag"),
+                     wxOK | wxICON_INFORMATION, this);
     }
 }
 void MainFrame::play_or_pause() {

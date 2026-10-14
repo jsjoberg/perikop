@@ -496,7 +496,7 @@ class PortableSpeech final : public SpeechEngine {
             preparation_ = {};
             if (prepare) {
                 preparation_.state = PreparationState::Running;
-                preparation_.status = "Förbereder dagens ljud";
+                preparation_.status = "Förbereder ljud";
             }
             queue_.insert(queue_.end(), utterances.begin(), utterances.end());
             if (!active_) {

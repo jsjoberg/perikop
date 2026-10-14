@@ -127,7 +127,7 @@ std::vector<std::pair<wxMenu*, wxString>> MainFrame::menus() const {
     auto* reading = new wxMenu;
     reading->Append(Play, "Lyssna\tCtrl+P");
     reading->Append(Stop, "Stoppa\tCtrl+.");
-    reading->Append(Prepare, ui::utf8("Förbered dagens ljud"));
+    reading->Append(Prepare, ui::utf8("Förbered ljud för vald dag"));
     reading->AppendSeparator();
     for (int i = 0; i < 8; ++i) {
         reading->AppendRadioItem(Rate + i, rate_label(rates[i]));
@@ -161,6 +161,10 @@ void MainFrame::sync_menu(wxMenu& menu) const {
             menu.SetLabel(Stop, stop_label);
         menu.Enable(Stop, policy.stop);
         menu.Enable(Prepare, policy.prepare);
+        const auto help = ui::utf8("Spara ljud för " + date_swedish(selected_.date()) +
+                                   ". Välj morgondagens datum för att förbereda det i kväll.");
+        if (menu.GetHelpString(Prepare) != help)
+            menu.SetHelpString(Prepare, help);
     }
     if (menu.FindItem(Right)) {
         int pane = settings_.word_study ? Study : Right;

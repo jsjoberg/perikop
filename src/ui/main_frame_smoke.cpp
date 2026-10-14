@@ -34,7 +34,7 @@ public:
     std::vector<SpeechUtterance> prepared_queue;
     void prepare_batch(const std::vector<SpeechUtterance>& utterances) override {
         prepared_queue = utterances;
-        prepared = {PreparationState::Running, 0, utterances.size(), "Förbereder dagens ljud"};
+        prepared = {PreparationState::Running, 0, utterances.size(), "Förbereder ljud"};
     }
     SpeechPreparation preparation() const override {
         return prepared;
@@ -157,18 +157,27 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         auto* preparing = fake.get();
         speech_ = std::move(fake);
         const auto completed = user_.completed();
-        select_day(std::chrono::year{2026} / 10 / 12);
+        const auto tomorrow = shift_date(local_civil_date(), 1);
+        select_day(tomorrow);
+        const auto tomorrow_readings =
+            lectionary_.readings_with_variants(tomorrow, settings_.calendar, settings_.tradition);
+        const auto first_reading = std::ranges::find_if(tomorrow_readings.readings, &Reading::can_open);
+        if (first_reading == tomorrow_readings.readings.end())
+            fail(__LINE__);
         open_psalm();
         auto* command = menu_bar_->FindItem(
-            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Förbered dagens ljud")));
-        if (!command || !command->IsEnabled())
+            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Förbered ljud för vald dag")));
+        if (!command || !command->IsEnabled() ||
+            !command->GetHelp().Contains(ui::utf8(date_swedish(tomorrow))))
             fail(__LINE__);
         if (command) {
             wxCommandEvent event(wxEVT_MENU, command->GetId());
             GetEventHandler()->ProcessEvent(event);
         }
-        if (!preparing_day() || preparing->prepared_queue.empty() || active_playback() ||
-            !stop_->IsEnabled() || !address_->GetLabel().Contains(ui::utf8("Förbereder")) ||
+        if (!preparing_day() || playback_.prepared_day() != tomorrow || preparing->prepared_queue.empty() ||
+            active_playback() || !stop_->IsEnabled() ||
+            !address_->GetLabel().Contains(ui::utf8("Förbereder")) ||
+            !address_->GetLabel().Contains(ui::utf8(date_swedish(tomorrow))) ||
             (command && command->IsEnabled()))
             fail(__LINE__);
         if (std::any_of(preparing->prepared_queue.begin(), preparing->prepared_queue.end(),
@@ -177,6 +186,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                                    utterance.cue->book == "Ps";
                         }))
             fail(__LINE__);
+        if (first_reading != tomorrow_readings.readings.end() && !preparing->prepared_queue.empty()) {
+            const auto expected = corpus_.localize(in_swedish(*first_reading)).passage;
+            const auto& cue = preparing->prepared_queue.front().cue;
+            if (!cue || cue->book != expected.book || !expected.contains(cue->verse))
+                fail(__LINE__); // Queue content comes from tomorrow, not the wall-clock day.
+        }
         if (!screenshot_path.empty()) {
             Layout();
             Update();
@@ -203,7 +218,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (playback_.prepared_day() || address_->GetLabel() != ui::utf8("Dagens läsningar"))
             fail(__LINE__);
         prepare_day();
-        select_day(std::chrono::year{2026} / 10 / 13);
+        select_day(shift_date(tomorrow, 1));
         if (preparing_day() || playback_.prepared_day() ||
             preparing->prepared.state != PreparationState::Idle)
             fail(__LINE__);

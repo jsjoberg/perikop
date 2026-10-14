@@ -196,7 +196,9 @@ The rolling buffer limit ranges from 30 to 600 seconds of source audio.
 Pause also suspends preparation between chunks.
 Initial model loading and first-chunk synthesis take time.
 If synthesis cannot keep pace, playback waits for the next chunk.
-Select **Uppläsning → Förbered dagens ljud** to generate audio for the open day's readings and alternatives before listening.
+Select **Uppläsning → Förbered ljud för vald dag** to generate audio for the selected calendar day's readings and alternatives before listening.
+To prepare tomorrow in the evening, select tomorrow's date first, start preparation, and wait until **Ljudet är förberett** appears before putting the computer to sleep.
+The prepared audio is then available when you wake the computer in the morning. Preparation targets the selected date, even when a different Bible passage is open.
 Preparation uses the selected voice and pronunciation corrections. It produces no sound and does not mark readings as read.
 The address field shows preparation progress. **Stoppa** cancels unfinished preparation.
 Starting playback, changing days, or changing the voice cancels unfinished preparation. Completed audio remains available.
