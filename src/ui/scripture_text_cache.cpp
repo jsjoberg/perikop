@@ -1,6 +1,7 @@
 #include "ui/scripture_view.hpp"
 #include <algorithm>
 #include <cmath>
+#include <wx/dcmemory.h>
 #include <wx/image.h>
 
 namespace ortho {
@@ -61,10 +62,21 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
                 draw_paragraph(gc, text, dc.GetFont(), dpi, colors.ink, x, y, begin, end, colour);
                 continue;
             }
+#ifdef __WXOSX__
+            // Draw straight into a premultiplied CGBitmapContext; the wxImage
+            // route spent more time converting pixels than drawing glyphs.
+            wxBitmap canvas(pixels_x, pixels_y, 32);
+            canvas.UseAlpha();
+            wxMemoryDC memory(canvas);
+            std::unique_ptr<wxGraphicsContext> raster(gc.GetRenderer()->CreateContext(memory));
+            if (raster)
+                raster->ClearRectangle(0, 0, pixels_x, pixels_y);
+#else
             wxImage image(pixels_x, pixels_y);
             image.InitAlpha();
             std::fill_n(image.GetAlpha(), std::size_t(pixels_x) * std::size_t(pixels_y), 0);
             std::unique_ptr<wxGraphicsContext> raster(gc.GetRenderer()->CreateContextFromImage(image));
+#endif
             if (!raster) {
                 draw_paragraph(gc, text, dc.GetFont(), dpi, colors.ink, x, y, begin, end, colour);
                 continue;
@@ -74,7 +86,12 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
             raster->SetAntialiasMode(wxANTIALIAS_DEFAULT);
             draw_paragraph(*raster, text, dc.GetFont(), dpi, colors.ink, pad, pad - top, begin, end, colour);
             raster.reset(); // Image contexts finish writing their pixels on destruction.
+#ifdef __WXOSX__
+            memory.SelectObject(wxNullBitmap);
+            auto bitmap = gc.CreateBitmap(canvas);
+#else
             auto bitmap = gc.CreateBitmapFromImage(image);
+#endif
             if (bitmap.IsNull()) {
                 draw_paragraph(gc, text, dc.GetFont(), dpi, colors.ink, x, y, begin, end, colour);
                 continue;
