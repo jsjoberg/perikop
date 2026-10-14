@@ -7,9 +7,12 @@ Each package contains the application, its resources, and the Alice and Björn v
 - macOS: `Perikop-0.1.0-macOS-universal.dmg`. One app for Intel and Apple Silicon. Drag Perikop to Applications.
 - Windows: `Perikop-0.1.0-windows-x64.exe`. The installer puts Perikop in Program Files and adds a Start menu shortcut.
 - Linux: `Perikop-0.1.0-x86_64.AppImage`. Make the file executable, then run it.
+- Raspberry Pi: `Perikop-0.1.0-aarch64.AppImage`, for a Raspberry Pi 4 or 5 with 64-bit Raspberry Pi OS and its desktop.
+  It is a Raspberry Pi package, not a general ARM Linux target. It is tested on Debian 12 and 13, the bases of Raspberry Pi OS.
 
 CI builds native code with MinSizeRel, link-time optimization, and removal of unused code.
 x86-64 packages target `x86-64-v2`. The Apple Silicon slice uses the Apple arm64 baseline.
+The Linux ARM package uses GCC's default `armv8-a` baseline, which includes the Raspberry Pi 4's Cortex-A72.
 The bundled ONNX Runtime selects faster speech kernels when the processor supports them.
 
 ## Make a package
@@ -40,9 +43,11 @@ On Linux, make the AppImage:
 tools/package_appimage.sh build/cmake
 ```
 
-The script downloads pinned linuxdeploy tools and checks their SHA-256 hashes. They copy GTK and the other shared libraries into the image.
+The script downloads the pinned linuxdeploy tools for the machine's processor, x86_64 or aarch64, and checks their SHA-256 hashes.
+They copy GTK and the other shared libraries into the image.
 The GTK plugin needs `dpkg-dev` on Debian and Ubuntu.
 Linux CI uses a saved Rocky Linux 9 environment with GCC Toolset 15 and a glibc 2.34 baseline.
+The ARM package is built natively in an ARM copy of the same environment on GitHub's `ubuntu-24.04-arm` runner.
 The AppImage carries GCC's C++ runtime. Users need no compiler or separate GCC runtime update.
 It uses the host's glibc. CI rejects ELF dependencies above glibc 2.34 in the build and assembled AppDir.
 This includes libraries and AppRun added by linuxdeploy.
@@ -64,7 +69,7 @@ Set the version in `project()` in `CMakeLists.txt`, then push a tag with the sam
 git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 ```
 
-CI builds and tests all three platforms and makes the packages.
+CI builds and tests all four platforms and makes the packages.
 It generates finite, non-silent audio for Alice and Björn with short and long text from the assembled resources.
 The macOS package probe runs both architecture slices from the mounted DMG.
 The Linux probe uses the assembled AppDir. The Windows probe uses the installer input tree.
@@ -99,9 +104,9 @@ Nightly builds start at 03:15 Stockholm time, with automatic daylight saving cha
 They use the latest commit on the default branch.
 GitHub can delay the start when its runners are busy.
 Before the builds, CI compares this commit with the last successful nightly.
-If the commit is unchanged, CI skips all three builds. Failed builds retry on the next night.
+If the commit is unchanged, CI skips all builds. Failed builds retry on the next night.
 
-After all three platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-11-abcdef0`.
+After all four platforms pass their checks, CI publishes a dated prerelease, such as `nightly-2026-10-11-abcdef0`.
 The commit suffix permits multiple builds per day without replacing an earlier download.
 Each prerelease contains the packages, their SHA-256 hashes, and a link to the source commit.
 Nightlies do not replace the latest stable release.
@@ -130,7 +135,7 @@ Linux disables container networking. macOS denies network access during compilat
 
 Dependency preparation is a separate, manually triggered workflow. It is the only CI workflow that contacts upstream servers.
 For a dependency update, edit `ci/upstreams.json` and the corresponding native dependency declaration.
-For a Linux environment update, edit `ci/linux.Dockerfile`.
+For a Linux environment update, edit `ci/linux.Dockerfile`. Preparation builds it for x86-64 and ARM.
 Commit and push those changes before preparation.
 
 Start preparation:
@@ -162,7 +167,7 @@ gh release download ci-dependencies-<commit> --pattern dependencies-lock.json --
 ```
 
 Commit and push `ci/dependencies-lock.json` to activate the snapshot.
-Then start a manual package build to check all three platforms.
+Then start a manual package build to check all four platforms.
 
 ### Update the voice pack
 

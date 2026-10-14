@@ -8,8 +8,13 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
+### Added
+
+- An AppImage for Raspberry Pi 4 and 5 with 64-bit Raspberry Pi OS. It targets the Raspberry Pi, not ARM Linux in general.
+
 ### Changed
 
+- The reader lays out paragraphs about 2.5 times faster, so new text appears sooner while scrolling.
 - Navigation state, playback commands, and reader control rules have separate components. Toolbar and menu actions use the same policy.
 - Clicking the address field in the Bible browser closes it and restores the previous view.
 - Leaving a reading pauses read-aloud. Opening another reading ends the previous playback session. Paused playback controls are disabled outside the reader.

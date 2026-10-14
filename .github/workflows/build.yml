@@ -58,15 +58,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-15]
+        include:
+          - {os: ubuntu-24.04, platform: Linux}
+          # The Raspberry Pi package, for 64-bit Raspberry Pi OS on a Pi 4 or 5.
+          - {os: ubuntu-24.04-arm, platform: Linux-arm64}
+          - {os: macos-15, platform: macOS}
     runs-on: ${{ matrix.os }}
+    env:
+      PLATFORM: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Cached dependency snapshots
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ci/downloads
-          key: dependencies-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}
+          key: dependencies-${{ matrix.platform }}-${{ hashFiles('ci/dependencies-lock.json') }}
       - name: Restore verified dependencies from this repository
         shell: bash
         env:
@@ -74,21 +80,21 @@ jobs:
         run: |
           args=()
           [ "$PACKAGE" != true ] || args+=(--package)
-          python3 tools/ci/dependencies.py restore --platform "$RUNNER_OS" "${args[@]}"
+          python3 tools/ci/dependencies.py restore --platform "$PLATFORM" "${args[@]}"
       - name: Compiler cache
         id: compiler-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ccache
-          key: objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
+          key: objects-${{ matrix.platform }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
           restore-keys: |
-            objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
-            objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
-            objects-${{ runner.os }}-
+            objects-${{ matrix.platform }}-${{ hashFiles('ci/upstreams.json') }}-
+            objects-${{ matrix.platform }}-${{ hashFiles('ci/dependencies-lock.json') }}-
+            objects-${{ matrix.platform }}-
       - name: Build, test, and package Linux offline
         if: runner.os == 'Linux'
         run: |
-          docker load --input build/ci/downloads/Linux-environment.tar.gz
+          docker load --input "build/ci/downloads/$PLATFORM-environment.tar.gz"
           docker run --rm --pull never --network none -v "$PWD:/work" -e PACKAGE \
             perikop-ci-linux:dependencies bash tools/ci/build-linux.sh
       - name: Build, analyze, test, and package macOS offline
@@ -104,14 +110,14 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: smoke-${{ runner.os }}
+          name: smoke-${{ matrix.platform }}
           path: build/smoke
           if-no-files-found: ignore
       - name: Upload package
         if: env.PACKAGE == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: perikop-${{ runner.os }}
+          name: perikop-${{ matrix.platform }}
           retention-days: ${{ env.NIGHTLY == 'true' && 1 || 0 }}
           path: build/package/Perikop-*
           if-no-files-found: error
@@ -250,7 +256,7 @@ jobs:
         timeout-minutes: 30
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-sanitizers.sh
   release:
-    # Version tags become drafts. Nightlies publish only after all three platforms pass.
+    # Version tags become drafts. Nightlies publish only after all four platforms pass.
     if: ${{ !cancelled() && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'schedule' || inputs.nightly == true) }}
     needs: [unix, windows, sanitizers]
     runs-on: ubuntu-24.04
@@ -273,7 +279,7 @@ jobs:
           # The packages carry the version from CMakeLists.txt, which must match the tag.
           shopt -s nullglob
           files=(Perikop-"$base"-*)
-          if [ "${#files[@]}" != 3 ]; then
+          if [ "${#files[@]}" != 4 ]; then
             echo "::error::The packages are not version $base. Set that version in CMakeLists.txt."
             exit 1
           fi
@@ -300,8 +306,8 @@ jobs:
           tag="nightly-$day-${GITHUB_SHA:0:7}"
           shopt -s nullglob
           files=(Perikop-*)
-          if [ "${#files[@]}" != 3 ]; then
-            echo "::error::The nightly needs all three platform packages."
+          if [ "${#files[@]}" != 4 ]; then
+            echo "::error::The nightly needs all four platform packages."
             exit 1
           fi
           base=${files[0]#Perikop-}
