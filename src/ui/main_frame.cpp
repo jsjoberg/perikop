@@ -105,7 +105,7 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
             back();
             return;
         }
-        if (active_playback() && event.GetKeyCode() == WXK_ESCAPE) {
+        if (scripture_->IsShown() && active_playback() && event.GetKeyCode() == WXK_ESCAPE) {
             stop_speech();
             return;
         }
@@ -312,6 +312,7 @@ void MainFrame::layout_home() {
     readings_->FitInside();
 }
 void MainFrame::show_readings() {
+    pause_for_navigation();
     close_pages();
     // Leaving a start-page item whose end has been read offers to mark it.
     if (tracked_ && scripture_->IsShown() && part_ + 1 >= parts_.size() && scripture_->end_seen()) {
@@ -325,7 +326,7 @@ void MainFrame::show_readings() {
     root_->GetSizer()->Show(reader_sizer_, false);
     readings_->Show();
     update_study();
-    update_bar();
+    refresh_speech();
 }
 void MainFrame::open_psalm() {
     // Psalm 23 in the 1917 Bible's Hebrew numbering, the Septuagint's Psalm 22.
@@ -334,6 +335,11 @@ void MainFrame::open_psalm() {
     open_reading(psalm);
 }
 void MainFrame::open_reading(const Reading& selected) {
+    if (active_playback() || (speech_ && speech_active(speech_->playback().state)))
+        stop_speech();
+    show_reading(selected);
+}
+void MainFrame::show_reading(const Reading& selected) {
     close_pages();
     visible_reading_ = selected;
     speech_view_.reset();
@@ -401,6 +407,7 @@ void MainFrame::review_pronunciation() {
     refresh_speech();
 }
 void MainFrame::show_page(wxWindow* page, const wxString& title) {
+    pause_for_navigation();
     if (page_) {
         page_->Hide();
         root_->GetSizer()->Detach(page_);
@@ -414,7 +421,7 @@ void MainFrame::show_page(wxWindow* page, const wxString& title) {
     readings_->Hide();
     study_->Hide();
     root_->GetSizer()->Add(page_, 1, wxEXPAND);
-    update_bar();
+    refresh_speech();
     root_->Layout();
     page_->SetFocus();
 }

@@ -158,13 +158,13 @@ void MainFrame::sync_menu(wxMenu& menu) const {
     if (menu.FindItem(Play)) {
         if (menu.GetLabel(Play) != label + "\tCtrl+P")
             menu.SetLabel(Play, label + "\tCtrl+P");
-        menu.Enable(Play, !auxiliary && (reader || active));
+        menu.Enable(Play, !auxiliary && reader);
         const bool preparing = preparing_day();
         const auto stop_label =
             (preparing ? ui::utf8("Avbryt förberedelsen") : wxString("Stoppa")) + "\tCtrl+.";
         if (menu.GetLabel(Stop) != stop_label)
             menu.SetLabel(Stop, stop_label);
-        menu.Enable(Stop, !auxiliary && (active || preparing));
+        menu.Enable(Stop, !auxiliary && ((reader && active) || preparing));
         const bool available = std::ranges::any_of(day_.readings,
                                                    [](const Reading& reading) {
                                                        return reading.can_open();
@@ -261,7 +261,8 @@ void MainFrame::make_menus() {
                 return;
             }
             if (id == Stop) {
-                stop_speech();
+                if (scripture_->IsShown() || preparing_day())
+                    stop_speech();
                 return;
             }
             if (id == Prepare) {

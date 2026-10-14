@@ -50,7 +50,7 @@ void MainFrame::prepare_day() {
     }
 }
 void MainFrame::play_or_pause() {
-    if (page_)
+    if (page_ || !scripture_->IsShown())
         return;
     if (active_playback())
         toggle_pause();
@@ -88,6 +88,13 @@ void MainFrame::toggle_pause() {
         speech_->pause();
     refresh_speech();
 }
+void MainFrame::pause_for_navigation() {
+    if (!speech_)
+        return;
+    const auto state = speech_->playback().state;
+    if (speech_active(state) && state != SpeechState::Paused)
+        speech_->pause();
+}
 void MainFrame::stop_speech() {
     speech_->stop();
     preparation_day_.reset();
@@ -99,7 +106,7 @@ void MainFrame::open_speech_location(size_t reading, size_t section) {
     if (reading >= readings.size())
         return;
     if (!speech_view_ || *speech_view_ != std::pair{reading, section} || !scripture_->IsShown()) {
-        open_reading(readings[reading]);
+        show_reading(readings[reading]);
         if (section) {
             scripture_->open_section(section);
             part_ = section;
@@ -158,7 +165,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         });
         read_aloud_.start(readings);
         if (!readings.empty()) {
-            open_reading(readings.front());
+            show_reading(readings.front());
             speech_view_ = std::pair<size_t, size_t>{0, 0};
         }
         speech_->speak_batch(queue);

@@ -48,6 +48,8 @@ private:
     void refresh_day();
     void layout_home();
     void show_readings();
+    // Display a reading without replacing the playback session that requested it.
+    void show_reading(const Reading&);
     void select_day(CivilDate);
     void navigate(int days);
     void pick_date();
@@ -90,6 +92,7 @@ private:
     void clear_preparation();
     void play_or_pause();
     void toggle_pause();
+    void pause_for_navigation();
     void stop_speech();
     bool active_playback() const;
     void speech_status(const std::string&);

@@ -81,11 +81,14 @@ The toolbar has four symbols left of the address field, and the column symbols a
 On the left, Back returns from the reader to the day page.
 **Lyssna**, **Pausa**, and **Stoppa** control read-aloud.
 The calendar, Bible browser, and **Om Perikop** page use the main window.
-Back returns to the previous view and preserves the reader position, selection, word study, and playback state.
+Back returns to the previous view and preserves the reader position, selection, and word study.
 The address field shows the current view. Click it on the day or About page to open the Bible browser.
-Back then returns to that page. Escape also returns to the previous step.
+In the Bible browser, click the address field again to close it and return to the previous view.
+Back and Escape move to the previous step.
 Playback and column controls stay dimmed while these pages are open.
-Audio continues while a page is open.
+Leaving a reading pauses its audio. Returning to it keeps the audio paused until you select **Fortsätt**.
+Opening another reading stops the previous audio session.
+Playback controls are disabled on the day page and other pages while audio is paused.
 Controls that do not apply are dimmed. The day page dims the reader controls.
 
 Click the address field to go to another passage.
@@ -130,7 +133,8 @@ The range becomes Del 1, and the address field shows it as for a reading in seve
 Select the next range, from the same or another book, and **Lägg till** again.
 **Öppna urval** opens the added parts, and the current range as the last part, as one reading.
 **Lyssna** then plays the parts in order.
-**Rensa** removes the added parts. The address field lists the parts; choose one to open the reading there.
+**Rensa** removes the added parts. The address field previews the selected range or the last added part.
+After you open the selection, use the address field to choose a part of the reading.
 
 Each source retains its wording. An explicit alignment links verses across their numbering systems.
 Verses without a counterpart show a message.

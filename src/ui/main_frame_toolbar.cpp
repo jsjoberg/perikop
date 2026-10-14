@@ -79,20 +79,11 @@ void MainFrame::paint_toolbar(wxPaintEvent&) {
     dc.DrawLine(0, size.y - 1, size.x, size.y - 1);
 }
 void MainFrame::address_clicked() {
-    if (auto* picker = dynamic_cast<BiblePicker*>(page_)) {
-        // The parts of the selection, as for a reading; choosing one opens the reading there.
-        enum { First = wxID_HIGHEST + 1000 };
-        wxMenu menu;
-        const auto labels = picker->part_labels();
-        for (std::size_t i = 0; i < labels.size(); ++i)
-            menu.AppendRadioItem(First + int(i), labels[i]);
-        if (!labels.empty())
-            menu.Check(First + int(labels.size() - 1), true);
-        const int chosen = address_->GetPopupMenuSelectionFromUser(menu, 0, address_->GetSize().y);
-        if (chosen != wxID_NONE) {
-            picker->open_selection();
-            select_part(std::size_t(chosen - First));
-        }
+    if (dynamic_cast<BiblePicker*>(page_)) {
+        close_page();
+        refresh_speech();
+        if (scripture_->IsShown())
+            scripture_->SetFocus();
         return;
     }
     if (page_) {
@@ -159,17 +150,16 @@ void MainFrame::update_bar() {
     if (play_->GetLabel() != listen_label)
         play_->SetLabel(listen_label);
     tooltip_of(play_, listen_label + ui::utf8(", mellanslag"));
-    play_->Enable(!auxiliary && (active ? paused : reader));
-    pause_->Enable(!auxiliary && active && !paused);
-    stop_->Enable(!auxiliary && (active || preparing));
+    play_->Enable(!auxiliary && reader && (!active || paused));
+    pause_->Enable(!auxiliary && reader && active && !paused);
+    stop_->Enable(!auxiliary && ((reader && active) || preparing));
     study_->allow_listening(!active && !preparing);
     tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.") : ui::utf8("Stoppa, Ctrl+."));
     back_->Enable(auxiliary || reader);
     tooltip_of(back_,
                auxiliary ? ui::utf8("Tillbaka, Escape") : ui::utf8("Tillbaka till dagens läsningar, Ctrl+L"));
-    // In the Bible browser the field lists the added parts once there are any.
     const auto* picker = dynamic_cast<BiblePicker*>(page_);
-    address_->Enable(!picker || picker->stacked());
+    address_->Enable();
     for (auto& [pane, button] : panes_) {
         button->checked(pane == "study" ? settings_.word_study : settings_.parallel == pane);
         button->Enable(reader);
@@ -180,13 +170,12 @@ void MainFrame::update_bar() {
                  : wxString{},
         active);
     // One short line: what is shown, where the reading is, or what it is waiting for.
-    const bool dropdown = !preparing && ((reader && parts_.size() > 1) || (picker && picker->stacked()));
+    const bool dropdown = !preparing && reader && parts_.size() > 1;
     wxString title, tooltip;
     if (picker) {
         const auto labels = picker->part_labels();
         title = labels.empty() ? page_title_ : labels.back();
-        if (!labels.empty())
-            tooltip = picker->stacked() ? ui::utf8("Visa delarna") : title;
+        tooltip = ui::utf8("Stäng bibelbläddraren och gå tillbaka");
     } else if (auxiliary)
         title = page_title_;
     else if (preparation_day_ && (preparing || !reader)) {

@@ -45,13 +45,16 @@ public:
     }
     void pause() override {
         changed = true;
+        held.state = SpeechState::Paused;
     }
     void resume() override {
         changed = true;
+        held.state = SpeechState::Playing;
     }
     void stop() override {
         changed = true;
         prepared = {};
+        held = {SpeechState::Stopped, {}, 0, 0};
     }
     SpeechPlayback playback() const override {
         return held;
@@ -1124,8 +1127,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         else
             browse_bible();
         if (!page_ || scripture_->IsShown() || study_->IsShown() || !back_->IsEnabled() ||
-            play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
-            address_->IsEnabled() == (mode == 1) ||
+            play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || !address_->IsEnabled() ||
             page_->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
             fail(__LINE__);
         for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i) {
@@ -1139,7 +1141,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         if (!GetMenuBar()->IsEnabled(wxID_ABOUT))
             fail(__LINE__);
-        back();
+        if (mode == 1) {
+            auto* browser = dynamic_cast<BiblePicker*>(page_);
+            browser->select_book(corpus_.canon().front());
+            browser->select_chapter(corpus_.canon().front(), 1);
+            address_clicked();
+        } else
+            back();
         for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i)
             if (!GetMenuBar()->IsEnabledTop(i))
                 fail(__LINE__);
@@ -1158,7 +1166,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     address_clicked();
     if (!dynamic_cast<BiblePicker*>(page_) || saved_about->IsShown() || page_history_.size() != 1)
         fail(__LINE__);
-    back();
+    address_clicked();
     if (page_ != saved_about || !page_->IsShown() || !address_->IsEnabled())
         fail(__LINE__);
     back();
@@ -1175,7 +1183,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         return book.code == "Ps";
     });
     if (picker->stacked() || !picker->parts().empty() || address_->GetLabel() != "Bibel" ||
-        address_->IsEnabled())
+        !address_->IsEnabled())
         fail(__LINE__);
     picker->open_selection();
     if (page_ != picker)
@@ -1234,7 +1242,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     picker->select_verse(john, {5, 5});
     const auto selection_title = ui::utf8(passage_label(corpus_, {{"John", {3, 3}, {5, 5}}}));
     if (page_ != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{5, 5} ||
-        address_->GetLabel() != selection_title || address_->GetToolTipText() != selection_title)
+        address_->GetLabel() != selection_title ||
+        !address_->GetToolTipText().Contains(ui::utf8("gå tillbaka")))
         fail(__LINE__);
     update_bar();
     if (address_->GetLabel() != selection_title)
@@ -1793,6 +1802,78 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         follow_speech();
         if (!scripture_->IsShown() || part_ != 1 || !scripture_->follows_playback() || engine->changed)
+            fail(__LINE__);
+        // Leaving an audible reading pauses it; undoing navigation never resumes it.
+        for (int mode = 0; mode < 3; ++mode) {
+            engine->held.state = SpeechState::Playing;
+            engine->changed = false;
+            display_playback(engine->held);
+            const auto progress = engine->held.progress;
+            if (mode == 0)
+                about();
+            else if (mode == 1)
+                browse_bible();
+            else
+                show_plans();
+            if (!engine->changed || engine->held.state != SpeechState::Paused ||
+                read_aloud_.playback().state != SpeechState::Paused || playback_timer_.IsRunning() ||
+                play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
+                fail(__LINE__);
+            engine->changed = false;
+            if (mode == 1)
+                address_clicked();
+            else
+                back();
+            if (page_ || engine->changed || engine->held.state != SpeechState::Paused ||
+                engine->held.progress != progress || !play_->IsEnabled() || pause_->IsEnabled())
+                fail(__LINE__);
+        }
+        for (const auto state : {SpeechState::Loading, SpeechState::Buffering}) {
+            engine->held.state = state;
+            about();
+            if (engine->held.state != SpeechState::Paused)
+                fail(__LINE__);
+            back();
+        }
+        engine->held.state = SpeechState::Playing;
+        show_readings();
+        if (engine->held.state != SpeechState::Paused || play_->IsEnabled() || pause_->IsEnabled() ||
+            stop_->IsEnabled())
+            fail(__LINE__);
+        engine->changed = false;
+        play_or_pause();
+        address_clicked();
+        address_clicked();
+        if (engine->changed || page_ || !readings_->IsShown() || scripture_->IsShown() ||
+            play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
+            fail(__LINE__);
+        // A manually chosen reading replaces a paused session and has fresh playback controls.
+        open_reading(gospel);
+        if (!engine->changed || engine->held.state != SpeechState::Stopped ||
+            read_aloud_.playback().state != SpeechState::Stopped ||
+            visible_reading_->passage.book != "John" || scripture_->marker_position() ||
+            !play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || play_->GetLabel() != "Lyssna")
+            fail(__LINE__);
+        engine->held = {SpeechState::Paused, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}}, 0.35, 0.4};
+        follow_speech();
+        browse_bible();
+        auto* browser = dynamic_cast<BiblePicker*>(page_);
+        browser->select_book(john);
+        browser->select_chapter(john, 1);
+        browser->select_verse(john, {1, 2});
+        engine->changed = false;
+        browser->open_selection();
+        if (page_ || !engine->changed || engine->held.state != SpeechState::Stopped ||
+            visible_reading_->passage.first != VerseRef{1, 2})
+            fail(__LINE__);
+        // Automatic queue transitions continue playback rather than replacing its session.
+        engine->held = {SpeechState::Playing, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}}, 0.35, 0.4};
+        engine->changed = false;
+        follow_speech();
+        engine->held.cue = SpeechCue{1, 0, "John", "sv1917", {1, 1}, {1, 1}};
+        display_playback(engine->held);
+        if (engine->changed || engine->held.state != SpeechState::Playing ||
+            visible_reading_->passage.book != "John" || !scripture_->follows_playback())
             fail(__LINE__);
         speech_ = std::move(real_speech);
         display_playback({SpeechState::Stopped, {}, 0, 0});
