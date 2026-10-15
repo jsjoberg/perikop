@@ -765,7 +765,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                               {ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 1}}}}) {
         open_reading(reading);
         scripture_->center_passage();
-        if (scripture_->cached_rows() == 0)
+        // Only the Greek addition to Genesis has Swedish text to read aloud.
+        if (scripture_->cached_rows() == 0 || play_->IsEnabled() != (reading.passage.book == "Gen"))
             fail(__LINE__);
         save(render(), "-" + ui::utf8(reading.passage.book));
     }
@@ -1776,10 +1777,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.theme = Theme::Light;
     settings_.parallel = "el";
     apply_settings(false);
+    // The focus follows from Lyssna to Pausa, so Space pauses what it started.
+    play_->SetFocus();
+    const bool focusable = FindFocus() == play_;
     display_playback({SpeechState::Loading, {}, 0, 0});
     // Play, pause and stop stay in place; only what applies is enabled.
     if (address_->GetLabel() != ui::utf8("Laddar rösten…") || play_->IsEnabled() || !pause_->IsEnabled() ||
-        !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown())
+        !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown() || (focusable && FindFocus() != pause_))
         fail(__LINE__);
     // Playback starts on Scripture and immediately shows the first verse.
     const SpeechCue first_verse{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
@@ -1810,7 +1814,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
         play_->GetLabel() != ui::utf8("Fortsätt") || !play_->IsEnabled() || pause_->IsEnabled() ||
-        !stop_->IsEnabled())
+        !stop_->IsEnabled() || (focusable && FindFocus() != play_))
         fail(__LINE__);
     // Back must preserve the engine's paused state and position; toolbar actions are suspended.
     {

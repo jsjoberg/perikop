@@ -121,6 +121,8 @@ private:
     Settings settings_;
     DayReadings day_;
     std::optional<Reading> visible_reading_;
+    // Whether the visible reading has Swedish text to read aloud.
+    bool speakable_ = true;
     // The open start-page item, and the one being read aloud from start to end.
     std::optional<Tracked> tracked_, speech_tracked_;
     wxString reading_title_;

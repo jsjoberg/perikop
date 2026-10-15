@@ -10,11 +10,12 @@ ReaderControls reader_controls(const ReaderContext& context) {
     const auto action = !reader             ? PlaybackAction::None
                         : active            ? (paused ? PlaybackAction::Resume : PlaybackAction::Pause)
                         : context.selection ? PlaybackAction::StartSelection
-                                            : PlaybackAction::StartReading;
+                        : context.speakable ? PlaybackAction::StartReading
+                                            : PlaybackAction::None;
     const auto address = context.screen == Screen::Bible   ? AddressAction::CloseBrowse
                          : reader && context.several_parts ? AddressAction::ChoosePart
                                                            : AddressAction::Browse;
-    return {.listen = reader && (!active || paused),
+    return {.listen = reader && (active ? paused : context.selection || context.speakable),
             .pause = reader && active && !paused,
             .stop = !auxiliary && ((reader && active) || context.preparing),
             .prepare = !auxiliary && !active && !context.preparing && context.daily_readings,

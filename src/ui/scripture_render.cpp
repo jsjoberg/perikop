@@ -31,7 +31,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
             dc.SetFont(ui_font(9));
             dc.SetTextForeground(colors.muted);
             wxString labels;
-            for (const auto& language : languages()) {
+            for (const auto& language : shown_languages(index)) {
                 if (!labels.empty())
                     labels += ui::utf8(", ");
                 const auto source = source_of(language);

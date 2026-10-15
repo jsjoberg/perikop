@@ -115,8 +115,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
         press_point_ = e.GetPosition();
+        // Only the reading's own edition selects verses to read aloud, not English shown in its place.
         if (const auto found = hit(e.GetPosition()))
-            drag_column_ = found->column_index;
+            drag_selects_ = found->column_index == 0 && found->column->source == base_source_;
         dragged_ = false;
         append_drag_ = e.CmdDown() || e.ControlDown();
         drag_ranges_ = selections_;
@@ -127,7 +128,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         hover_return(!drag_anchor_ && return_rect_.Contains(e.GetPosition()));
         if (!drag_anchor_ || !e.LeftIsDown())
             return;
-        if (drag_column_ != 0) {
+        if (!drag_selects_) {
             const auto distance = e.GetPosition() - press_point_;
             dragged_ |=
                 std::abs(distance.x) > FromDIP(zoomed(4)) || std::abs(distance.y) > FromDIP(zoomed(4));
@@ -149,7 +150,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         }
         if (drag_anchor_ && !dragged_) {
-            if (append_drag_ && drag_column_ == 0)
+            if (append_drag_ && drag_selects_)
                 select_verses(*drag_anchor_, *drag_anchor_, true);
             else {
                 clear_selection();

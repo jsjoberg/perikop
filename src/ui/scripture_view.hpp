@@ -200,7 +200,7 @@ private:
     std::size_t highlighted_column_ = 0;
     wxPanel* verse_links_ = nullptr;
     std::optional<VerseRef> drag_anchor_;
-    std::size_t drag_column_ = 0;
+    bool drag_selects_ = true;
     wxPoint press_point_;
     std::vector<std::pair<VerseRef, VerseRef>> selections_, drag_ranges_;
     bool dragged_ = false, append_drag_ = false;
@@ -240,7 +240,10 @@ private:
     const Orphans& orphans(const std::string& source) const;
     mutable std::map<std::string, Orphans> orphans_;
     // The Swedish edition of the chapter a heading row opens: the 1917 Bible, the 1921 apocrypha, or both.
+    // Empty where the chapter has no Swedish text.
     wxString swedish_edition(std::size_t heading) const;
+    // The languages of a row's columns. A chapter without Swedish text shows the English one in its place.
+    std::vector<std::string> shown_languages(std::size_t row) const;
     mutable std::map<std::size_t, wxString> swedish_editions_;
     std::vector<Row> rows_;
     mutable std::map<std::size_t, Layout> cache_;

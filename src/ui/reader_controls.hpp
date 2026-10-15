@@ -9,6 +9,8 @@ struct ReaderContext {
     Screen screen;
     SpeechState playback;
     bool preparing = false, selection = false, several_parts = false, daily_readings = false;
+    // Whether the open reading has Swedish text to read aloud.
+    bool speakable = true;
 };
 // One policy supplies the toolbar, menus, and command guards. It has no native UI dependencies.
 struct ReaderControls {
