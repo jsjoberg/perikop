@@ -951,6 +951,10 @@ int main(int argc, char** argv) {
                 {"spetälsk", "", "⟦spətˈɛlsk⟧", 12, {}},
                 {"spetälska", "", "⟦spətˈɛlska⟧", 48, {}},
                 {"spetälskan", "", "⟦spətˈɛlskan⟧", 5, {}},
+                {"välan", "", "⟦vɛlˈan⟧", 36, {}},
+                {"välsignen", "", "⟦vɛlsˈɪŋnən⟧", 9, {}},
+                {"jerobeam", "", "⟦jɛrˈuːbɛam⟧", 55, {}},
+                {"rehabeam", "", "⟦rɛhˈɑːbɛam⟧", 47, {}},
                 {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
                 {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
             };

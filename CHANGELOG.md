@@ -42,7 +42,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Fixed
 
-- Swedish read-aloud stresses Jordan as Jordán, no longer reads ai as ä in Betsaida and about 40 other names, and stresses spetälsk and spetälska on the second syllable.
+- Swedish read-aloud stresses Jordan as Jordán, no longer reads ai as ä in Betsaida and about 40 other names, stresses spetälsk and spetälska on the second syllable, and stresses välan on -an. Välsignen no longer sounds like "väl" (well) + signen. About 100 other names follow the stress rules of the 1921 Church Bible, such as Rehábeam, Gámliel, Daríus, and Dekápolis.
 - Opening the book picker no longer crashes on Wayland when no pointer device is present.
 
 

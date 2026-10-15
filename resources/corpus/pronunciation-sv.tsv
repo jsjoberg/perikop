@@ -12,7 +12,6 @@ abia	abˈiːa
 abigail	ˈɑːbɪɡajl
 abihu	abˈiːhʉ
 abimelek	abˈiːmɛlɛk
-abinadab	abˈiːnadab
 abiram	abˈiːram
 abisai	abˈiːsaj
 abram	ˈɑːbram
@@ -50,7 +49,6 @@ efesus	ˈeːfɛsɵs
 ekbatana	ɛkbˈɑːtana
 ekron	ˈeːkrɔn
 eleasar	ɛlɛˈɑːsar
-eliab	ɛlˈiːab
 elifas	ˈeːlɪfas
 elihu	ɛlˈiːhʉ
 eljakim	ɛljˈɑːkɪm
@@ -71,9 +69,7 @@ iskariot	ɪskˈɑːrɪɔt
 jair	jˈɑːɪr
 jearim	jɛˈɑːrɪm
 jedutun	jɛdˈʉːtɵn
-jehiel	jɛhˈiːɛl
 jeremia	jɛrɛmˈiːa
-jerobeam	jɛrʊbˈeːam
 jerubbaal	jɛrˈɵbaal
 jesua	jɛsˈʉːa
 jisreel	jˈɪsrɛɛl
@@ -181,6 +177,114 @@ sobai	sˈuːbaɪ
 sotai	sˈuːtaɪ
 surisaddai	sʉrɪsadˈɑːɪ
 tattenai	tatɛnˈɑːɪ
+# Stress from "Betoning av bibliska namn" (De apokryfiska böckerna 1921,
+# p. 277-278): its stressed examples, such as Abinádab, Rehábeam, Daríus,
+# and Dekápolis, and its endings. Before -ael, -eel, -iel, -uel, -iab, -eam,
+# and -oam the stress falls on the syllable before the ending (Mehújael,
+# Gámliel). Before -pater, -pator, -patris, -polis, and -ius it falls on the
+# syllable before the ending, and before -anus, -ene, -itis, -nika, -nice, and
+# -nikus on the next-to-last syllable. These rows correct names that the
+# neural fallback stresses elsewhere or shortens by a syllable.
+jerobeam	jɛrˈuːbɛam
+rehabeam	rɛhˈɑːbɛam
+jeroboam	jɛrˈuːbʊam
+jasobeam	jasˈuːbɛam
+jekameam	jɛkˈɑːmɛam
+jokmeam	jˈɔkmɛam
+miseam	mˈiːsɛam
+ahinoam	ahˈiːnʊam
+eliab	ˈeːlɪab
+oholiab	ʊhˈuːlɪab
+abimael	abˈiːmaɛl
+gabael	ɡˈɑːbaɛl
+hanael	hˈɑːnaɛl
+jael	jˈɑːɛl
+jediael	jɛdˈiːaɛl
+mehujael	mɛhˈʉːjaɛl
+metusael	mɛtˈʉːsaɛl
+pedael	pˈeːdaɛl
+rafael	rˈɑːfaɛl
+refael	rˈeːfaɛl
+subael	sˈʉːbaɛl
+jabneel	jˈabnɛɛl
+jaleel	jˈɑːlɛɛl
+jaseel	jˈɑːsɛɛl
+jekabseel	jɛkˈapsɛɛl
+jerameel	jɛrˈɑːmɛɛl
+jirpeel	jˈɪrpɛɛl
+jokteel	jˈɔktɛɛl
+kabseel	kˈapsɛɛl
+maleleel	malˈeːlɛɛl
+tabeel	tˈɑːbɛɛl
+abdiel	ˈabdɪɛl
+adriel	ˈadrɪɛl
+ammiel	ˈamɪɛl
+ariel	ˈɑːrɪɛl
+eliel	ˈeːlɪɛl
+gamaliel	ɡamˈɑːlɪɛl
+hasiel	hˈɑːsɪɛl
+hiel	hˈiːɛl
+itiel	ˈiːtɪɛl
+jaasiel	jaˈɑːsɪɛl
+jahasiel	jahˈɑːsɪɛl
+jehiel	jˈeːhɪɛl
+jekutiel	jɛkˈʉːtɪɛl
+jeriel	jˈeːrɪɛl
+jesimiel	jɛsˈiːmɪɛl
+kadmiel	kˈadmɪɛl
+malkiel	mˈalkɪɛl
+nahaliel	nahˈɑːlɪɛl
+negiel	nˈeːɡɪɛl
+paltiel	pˈaltɪɛl
+sabdiel	sˈabdɪɛl
+salamiel	salˈɑːmɪɛl
+salatiel	salˈɑːtɪɛl
+sealtiel	sɛˈaltɪɛl
+selumiel	sɛlˈʉːmɪɛl
+suriel	sˈʉːrɪɛl
+uriel	ˈʉːrɪɛl
+ussiel	ˈɵsɪɛl
+aduel	ˈɑːdɵɛl
+betuel	bˈeːtɵɛl
+geuel	jˈeːɵɛl
+jeguel	jˈeːɡɵɛl
+jehuel	jˈeːhɵɛl
+jemuel	jˈeːmɵɛl
+jesuel	jˈeːsɵɛl
+kemuel	ɕˈeːmɵɛl
+nemuel	nˈeːmɵɛl
+penuel	pˈeːnɵɛl
+raguel	rˈɑːɡɵɛl
+reguel	rˈeːɡɵɛl
+sebuel	sˈeːbɵɛl
+abinadab	abɪnˈɑːdab
+aminadab	amɪnˈɑːdab
+gilead	jˈiːlɛad
+kedorlaomer	ɕɛdɔrlaˈuːmɛr
+makpela	makpˈeːla
+antipater	antˈiːpatɛr
+sopater	sˈuːpatɛr
+sosipater	sʊsˈiːpatɛr
+eupator	ˈɛʊpatʊr
+antipatris	antˈiːpatrɪs
+amfipolis	amfˈiːpʊlɪs
+dekapolis	dɛkˈɑːpʊlɪs
+hierapolis	hɪɛrˈɑːpʊlɪs
+neapolis	nɛˈɑːpʊlɪs
+nikopolis	nɪkˈuːpʊlɪs
+persepolis	pɛʂˈeːpʊlɪs
+skytopolis	ɧʏtˈuːpʊlɪs
+darius	darˈiːɵs
+tertius	tˈɛʈsɪɵs
+hauranus	haʊrˈɑːnɵs
+abilene	abɪlˈeːnɛ
+akrabattene	akrabatˈeːnɛ
+galaaditis	ɡalaadˈiːtɪs
+trakonitis	trakʊnˈiːtɪs
+tessalonika	tɛsalʊnˈiːka
+bernice	bɛɳˈiːsɛ
+eunice	ɛʊnˈiːsɛ
+andronikus	andrʊnˈiːkɵs
 # SO gives speˋtälsk and speˋtälska: stress on the second syllable. NST and the
 # voice stress spe- like a compound, with a long e or, in spetälskan, a short ä.
 spetälsk	spətˈɛlsk	word-only
@@ -191,6 +295,12 @@ spetälskes	spətˈɛlskəs	word-only
 spetälskeartat	spətˈɛlskəˌɑːʈat	word-only
 spetälskeskorv	spətˈɛlskəskˌɔrv	word-only
 spetälskesjukdom	spətˈɛlskəɧˌʉːkdʊm	word-only
+# SAOL: the interjection välan is stressed on -an; the colloquial adverb on väl-.
+# Every välan in this Bible is the interjection.
+välan	vɛlˈan	word-only
+# SO: välsigna [-siŋ´na]. NST lacks these two forms, and the fallback reads väl- as "well".
+välsignen	vɛlsˈɪŋnən	word-only
+välsignelsegåva	vɛlsˈɪŋnəlsəɡˌoːva	word-only
 # Vowel length: NST incorrectly gives these forms a long u.
 krubba	krˈɵba	word-only
 krubban	krˈɵban	word-only
