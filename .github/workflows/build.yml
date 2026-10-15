@@ -39,8 +39,10 @@ jobs:
           set -euo pipefail
           gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
           latest=$(jq -r '
-            [.[][] | select(.draft == false and .prerelease == true)
-              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7})?$"))]
+             [.[][] | select(.draft == false and .prerelease == true)
+              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7}(-[0-9]+(-[0-9]+)?)?)?$"))
+              | select(((.body // "") | contains("<!-- perikop-nightly: partial -->")) | not)
+              | select([.assets[]? | select(.name | startswith("Perikop-"))] | length == 4)]
             | sort_by(.published_at, .tag_name) | last | .tag_name // empty
           ' releases.json)
           if [ -n "$latest" ]; then
@@ -341,13 +343,14 @@ jobs:
         timeout-minutes: 30
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-sanitizers.sh
   release:
-    # Version tags become drafts. Nightlies publish only after all four platforms pass.
-    if: ${{ !cancelled() && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'schedule' || inputs.nightly == true) }}
-    needs: [unix, windows, sanitizers]
+    # Version tags require every check. Nightlies retain each successful platform package.
+    if: ${{ !cancelled() && ((startsWith(github.ref, 'refs/tags/v') && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success') || (!startsWith(github.ref, 'refs/tags/v') && (github.event_name == 'schedule' || inputs.nightly == true) && needs.nightly.outputs.build == 'true')) }}
+    needs: [nightly, unix, windows, sanitizers]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: perikop-*
@@ -384,36 +387,30 @@ jobs:
         if: env.NIGHTLY == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          SANITIZERS: ${{ needs.sanitizers.result }}
         run: |
           set -euo pipefail
-          cd packages
+          mkdir -p packages
           day=$(TZ=Europe/Stockholm date +%F)
           tag="nightly-$day-${GITHUB_SHA:0:7}"
-          shopt -s nullglob
-          files=(Perikop-*)
-          if [ "${#files[@]}" != 4 ]; then
-            echo "::error::The nightly needs all four platform packages."
-            exit 1
+          # A retry of an incomplete nightly must not collide with its existing release.
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            tag="$tag-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           fi
-          base=${files[0]#Perikop-}
-          base=${base%%-*}
-          for file in "${files[@]}"; do
-            if [[ "$file" != Perikop-"$base"-* ]]; then
-              echo "::error::The nightly packages have different versions."
-              exit 1
-            fi
-            mv "$file" "Perikop-$tag-${file#Perikop-"$base"-}"
-          done
-          sha256sum Perikop-* > SHA256SUMS.txt
-          source="https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA"
-          run="https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          tag=$(python3 tools/ci/nightly.py --packages packages --repository "$GITHUB_REPOSITORY" \
+            --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --tag "$tag" --sanitizers "$SANITIZERS")
+          if [ -z "$tag" ]; then
+            echo 'No successful platform packages; no nightly was published.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          cd packages
           gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
             --prerelease --latest=false --title "Perikop nightly $day" \
-            --notes "Nightly build of commit $GITHUB_SHA. See [the build]($run), [the changes]($source/CHANGELOG.md), and [installation]($source/docs/using-perikop.md#installation)." \
+            --notes-file NOTES.md \
             Perikop-* SHA256SUMS.txt
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
       - name: Keep the latest seven nightly releases
-        if: env.NIGHTLY == 'true'
+        if: env.NIGHTLY == 'true' && steps.nightly.outputs.tag != ''
         env:
           GH_TOKEN: ${{ github.token }}
           NIGHTLY_TAG: ${{ steps.nightly.outputs.tag }}
@@ -422,7 +419,7 @@ jobs:
           gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
           jq -r --arg current "$NIGHTLY_TAG" '
             [.[][] | select(.draft == false and .prerelease == true)
-              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7})?$"))]
+              | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7}(-[0-9]+(-[0-9]+)?)?)?$"))]
             | if any(.tag_name == $current) then
                 sort_by(.published_at, .tag_name) | reverse | .[7:] | .[].tag_name
               else error("Published nightly is missing; cleanup stopped") end

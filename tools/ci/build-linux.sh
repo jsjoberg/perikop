@@ -26,6 +26,8 @@ python3 tests/icon_test.py
 python3 tests/linux_abi_test.py
 python3 tests/ci_dependencies_test.py
 python3 tests/windows_cross_test.py
+python3 tests/appimage_licenses_test.py
+python3 tests/nightly_test.py
 if [ "${PACKAGE:-false}" = true ]; then
     tools/package_appimage.sh build/cmake
     xvfb-run -a -s '-screen 0 1600x1200x24' build/cmake/AppDir/usr/bin/perikop \

@@ -15,7 +15,17 @@ Write the release notes on GitHub, then publish the draft.
 ## Nightly builds
 
 Nightlies run at 03:15 Stockholm time when the default branch has changed since the last successful nightly.
-They publish a `nightly-<date>-<commit>` prerelease, and CI keeps the latest seven. To start one now:
+They publish a `nightly-<date>-<commit>` prerelease, and CI keeps the latest seven.
+Each nightly includes the platform packages that passed their checks.
+Its notes list available platforms, unavailable platforms, and the sanitizer result.
+Failed jobs still fail the workflow, but do not discard successful packages from other platforms.
+
+Incomplete nightlies do not prevent another scheduled attempt for the same commit.
+Retries on the same day add the run ID and attempt number to the release tag.
+If all platforms fail, CI publishes no nightly.
+Version-tagged releases still require all four platforms and sanitizers to pass.
+
+To start a nightly now:
 
 ```sh
 gh workflow run build.yml --ref main -f nightly=true
