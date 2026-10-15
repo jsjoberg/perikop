@@ -1221,13 +1221,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || !address_->IsEnabled() ||
             current_page()->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
             fail(__LINE__);
-        // The day's and the reading's commands wait; text size, settings and About do not.
+        // Every command stays available from auxiliary pages; those for the day leave the page.
         const auto enabled = [this](const char* menu, const char* label) {
             return GetMenuBar()->IsEnabled(GetMenuBar()->FindMenuItem(ui::utf8(menu), ui::utf8(label)));
         };
-        if (enabled("Gå", "Idag") || enabled("Gå", "Gå till bibelställe…") ||
-            enabled("Visa", "Bara svenska") || !enabled("Visa", "Större text") ||
-            !GetMenuBar()->IsEnabled(wxID_PREFERENCES) || !GetMenuBar()->IsEnabled(wxID_ABOUT))
+        if (!enabled("Gå", "Idag") || !enabled("Gå", "Välj datum…") || !enabled("Gå", "Läsplaner") ||
+            !enabled("Visa", "Större text") || !GetMenuBar()->IsEnabled(wxID_PREFERENCES) ||
+            !GetMenuBar()->IsEnabled(wxID_ABOUT))
             fail(__LINE__);
         if (mode == 1) {
             auto* browser = dynamic_cast<BiblePicker*>(current_page());

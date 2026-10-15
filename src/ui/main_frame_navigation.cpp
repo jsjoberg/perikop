@@ -100,8 +100,6 @@ void MainFrame::browse_bible() {
     show_page(page, Screen::Bible, "Bibel");
 }
 void MainFrame::pick_date() {
-    if (navigation_.auxiliary())
-        return;
     const bool home = navigation_.current().screen == Screen::Day;
     month_open_ = !home || !month_open_;
     if (!home)

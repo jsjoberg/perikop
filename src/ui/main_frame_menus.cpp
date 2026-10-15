@@ -98,16 +98,15 @@ private:
 // Up and Down move between rows, Left and Right within one, Tab through every control.
 class MenuPopup final : public wxPopupTransientWindow {
 public:
-    MenuPopup(wxWindow* owner, wxWindow* button, const Palette& colors)
+    // fill adds the rows; it runs again when the rows are rebuilt.
+    MenuPopup(wxWindow* owner, wxWindow* button, const Palette& colors, std::function<void(MenuPopup&)> fill)
         : wxPopupTransientWindow(owner, wxBORDER_NONE | wxPU_CONTAINS_CONTROLS), owner_(owner),
-          button_(button), colors_(colors) {
+          button_(button), colors_(colors), fill_(std::move(fill)) {
         SetBackgroundColour(colors.rule);
         panel_ = new wxPanel(this);
         panel_->SetBackgroundColour(colors.paper);
         panel_->SetForegroundColour(colors.ink);
-        panel_->SetFont(ui_font());
         rows_ = new wxBoxSizer(wxVERTICAL);
-        rows_->AddSpacer(FromDIP(zoomed(6)));
         panel_->SetSizer(rows_);
         auto* frame = new wxBoxSizer(wxVERTICAL);
         frame->Add(panel_, 1, wxEXPAND | wxALL, FromDIP(1));
@@ -168,22 +167,14 @@ public:
         rows_->Add(line, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(zoomed(2)));
         lines_.push_back({(*buttons)[0], (*buttons)[1]});
     }
-    // Opens with its right edge under the right edge of the button, as Chrome's does.
     void open() {
-        rows_->AddSpacer(FromDIP(zoomed(6)));
-        Fit();
-        SetPosition(button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y}));
-        wxWindow* first = nullptr;
-        for (const auto& line : lines_)
-            for (auto* control : line)
-                if (!first && control->IsEnabled())
-                    first = control;
-        Popup(first);
+        build();
+        // No control is handed to Popup(): on macOS and GTK it would hold a handler that a rebuild destroys.
+        Popup();
 #ifdef __APPLE__
         make_key_window(*this);
-        if (first)
-            first->SetFocus();
 #endif
+        focus(0, 0);
 #ifdef __WXGTK__
         // wxGTK grabs only the pointer for a popup, so keys would still go to the focused main window.
         // wxGTK's ungrab on closing releases this grab too.
@@ -194,7 +185,47 @@ public:
 #endif
     }
 
+    // Builds the rows again at the current text size, with the focus on the same control.
+    void rebuild() {
+        std::size_t line = 0, column = 0;
+        for (std::size_t i = 0; i < lines_.size(); ++i)
+            if (const auto at = std::ranges::find(lines_[i], wxWindow::FindFocus()); at != lines_[i].end()) {
+                line = i;
+                column = std::size_t(at - lines_[i].begin());
+            }
+        // The popup holds the focus while its controls are replaced, so it stays open.
+        SetFocus();
+        rows_->Clear(false);
+        panel_->DestroyChildren();
+        lines_.clear();
+        build();
+        focus(line, column);
+    }
+
 private:
+    // Opens with its right edge under the right edge of the button, as Chrome's does.
+    void build() {
+        panel_->SetFont(ui_font());
+        rows_->AddSpacer(FromDIP(zoomed(6)));
+        fill_(*this);
+        rows_->AddSpacer(FromDIP(zoomed(6)));
+        panel_->InvalidateBestSize();
+        Fit();
+        SetPosition(button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y}));
+    }
+    // That control if it is enabled, else the first enabled one.
+    void focus(std::size_t line, std::size_t column) {
+        if (line < lines_.size() && column < lines_[line].size() && lines_[line][column]->IsEnabled()) {
+            lines_[line][column]->SetFocus();
+            return;
+        }
+        for (const auto& controls : lines_)
+            for (auto* control : controls)
+                if (control->IsEnabled()) {
+                    control->SetFocus();
+                    return;
+                }
+    }
     void OnDismiss() override {
         // The chosen command runs once the menu is gone, so it can move the focus itself.
         if (chosen_)
@@ -244,6 +275,7 @@ private:
     Palette colors_;
     wxPanel* panel_;
     wxBoxSizer* rows_;
+    std::function<void(MenuPopup&)> fill_;
     std::vector<std::vector<wxWindow*>> lines_;
     std::function<void()> chosen_;
 };
@@ -273,10 +305,6 @@ void MainFrame::sync_menu() {
                                ". Välj morgondagens datum för att förbereda det i kväll.");
     if (bar.GetHelpString(Prepare) != help)
         bar.SetHelpString(Prepare, help);
-    // Auxiliary pages suspend the commands for the day and the reading; size, speed and settings stay.
-    for (const int id : std::initializer_list<int>{Today, Previous, Next, Pick, Readings, Bible, Plans, Right,
-                                                   Study, Parallel, Parallel + 1, Review})
-        bar.Enable(id, policy.menus);
     int pane = settings_.word_study ? Study : Right;
     for (int i = 0; i < 2; ++i)
         if (!settings_.word_study && settings_.parallel == parallel[i])
@@ -380,11 +408,6 @@ void MainFrame::make_menus() {
                 apply_settings();
                 return;
             }
-            if (navigation_.auxiliary()) {
-                if (id == Readings)
-                    back();
-                return;
-            }
             if (id == Today) {
                 select_day(local_civil_date());
                 return;
@@ -447,51 +470,56 @@ void MainFrame::show_menu_bar(bool shown) {
 }
 void MainFrame::show_menu() {
     sync_menu();
-    auto* popup = new MenuPopup(this, menu_, palette(settings_.theme));
     const auto command = [this](int id) {
         return [this, id] {
             wxCommandEvent event(wxEVT_MENU, id);
             ProcessWindowEvent(event);
         };
     };
-    const auto item = [&](int id) {
-        const auto* entry = menu_bar_->FindItem(id);
-        popup->item(entry->GetItemLabelText(), shortcut_of(entry->GetItemLabel()), entry->IsEnabled(),
-                    command(id), entry->GetHelp());
-    };
-    for (const int id : {Readings, Bible, Pick, Plans})
-        item(id);
-    popup->separator();
-    popup->stepper(
-        "Textstorlek", "Mindre text", ui::utf8("Större text"),
-        [this] {
-            return wxString::Format("%d %%", settings_.text_zoom);
-        },
-        [this](int direction) {
-            return step(zooms, settings_.text_zoom, direction) != settings_.text_zoom;
-        },
-        [command](int direction) {
-            command(direction > 0 ? Larger : Smaller)();
-        });
-    popup->stepper(
-        "Hastighet", ui::utf8("Långsammare"), "Snabbare",
-        [this] {
-            return rate_label(settings_.speech_rate);
-        },
-        [this](int direction) {
-            return step(rates, settings_.speech_rate, direction) != settings_.speech_rate;
-        },
-        [command](int direction) {
-            command(direction > 0 ? Faster : Slower)();
-        });
-    popup->separator();
-    for (const int id : {Play, Stop, Prepare})
-        item(id);
-    popup->separator();
-    // macOS keeps these two in the application menu, outside the bar's own menus.
-    popup->item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES));
-    item(Review);
-    popup->item("Om Perikop", {}, true, command(wxID_ABOUT));
+    auto* popup = new MenuPopup(this, menu_, palette(settings_.theme), [this, command](MenuPopup& popup) {
+        const auto item = [&](int id) {
+            const auto* entry = menu_bar_->FindItem(id);
+            popup.item(entry->GetItemLabelText(), shortcut_of(entry->GetItemLabel()), entry->IsEnabled(),
+                       command(id), entry->GetHelp());
+        };
+        for (const int id : {Readings, Bible, Pick, Plans})
+            item(id);
+        popup.separator();
+        popup.stepper(
+            "Textstorlek", "Mindre text", ui::utf8("Större text"),
+            [this] {
+                return wxString::Format("%d %%", settings_.text_zoom);
+            },
+            [this](int direction) {
+                return step(zooms, settings_.text_zoom, direction) != settings_.text_zoom;
+            },
+            [command, &popup](int direction) {
+                command(direction > 0 ? Larger : Smaller)();
+                // The menu follows the new size too. The pressed button is replaced, so not from its handler.
+                popup.CallAfter([&popup] {
+                    popup.rebuild();
+                });
+            });
+        popup.stepper(
+            "Hastighet", ui::utf8("Långsammare"), "Snabbare",
+            [this] {
+                return rate_label(settings_.speech_rate);
+            },
+            [this](int direction) {
+                return step(rates, settings_.speech_rate, direction) != settings_.speech_rate;
+            },
+            [command](int direction) {
+                command(direction > 0 ? Faster : Slower)();
+            });
+        popup.separator();
+        for (const int id : {Play, Stop, Prepare})
+            item(id);
+        popup.separator();
+        // macOS keeps these two in the application menu, outside the bar's own menus.
+        popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES));
+        item(Review);
+        popup.item("Om Perikop", {}, true, command(wxID_ABOUT));
+    });
     popup->open();
 }
 } // namespace ortho

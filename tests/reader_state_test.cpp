@@ -83,8 +83,8 @@ void controls_test() {
                                   policy.playback_action == PlaybackAction::None,
                               "Playback actions and reader columns must be unavailable outside the reader");
                     if (auxiliary_screen(screen))
-                        check(!policy.stop && !policy.prepare && !policy.menus && policy.back,
-                              "Auxiliary pages must suspend commands while keeping Back available");
+                        check(!policy.stop && !policy.prepare && policy.back,
+                              "Auxiliary pages must suspend playback while keeping Back available");
                     if (screen == Screen::Bible)
                         check(policy.address_action == AddressAction::CloseBrowse && !policy.address_dropdown,
                               "The address field must close Browse even when parts are selected");
