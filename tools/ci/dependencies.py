@@ -131,9 +131,11 @@ def fetch_snapshot(names, downloads, validate_upstreams=True):
     return lock
 
 
-def restore(platform, output, package=False, cross=False):
+def restore(platform, output, package=False, cross=False, tools_only=False):
     if cross and platform != "Windows":
         raise ValueError("Cross-build inputs require --platform Windows")
+    if tools_only and (platform != "Windows" or cross or package):
+        raise ValueError("Tools-only restore requires Windows without --cross or --package")
     names = ["inputs-" + platform + ".tar.gz"]
     if cross:
         names.append(CROSS_ENVIRONMENT)
@@ -147,6 +149,8 @@ def restore(platform, output, package=False, cross=False):
     extract(downloads / names[0], archives)
     verify(archives / "upstreams.json", lock["upstreams_sha256"])
     for item in selected(platform):
+        if tools_only and item["file"] != "nsis.zip":
+            continue
         path = archives / item["file"]
         verify(path, item["sha256"])
         component = item.get("source")
@@ -171,9 +175,11 @@ def restore(platform, output, package=False, cross=False):
     elif platform == "Windows":
         tools = output / "tools"
         tools.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["7z", "x", str(archives / "w64devkit.7z.exe"), "-o" + str(tools), "-y"], check=True)
+        if not tools_only:
+            subprocess.run(["7z", "x", str(archives / "w64devkit.7z.exe"), "-o" + str(tools), "-y"], check=True)
         unpack_root(archives / "nsis.zip", tools / "nsis")
-        unpack_root(archives / "ccache-windows.zip", tools / "ccache")
+        if not tools_only:
+            unpack_root(archives / "ccache-windows.zip", tools / "ccache")
     else:
         extract(downloads / names[1], output / "tools")
     print("Restored verified {} inputs from {}/{}".format(platform, lock["repository"], lock["release"]))
@@ -186,6 +192,7 @@ def main():
     parser.add_argument("--platform", choices=PLATFORMS + ("Windows-cross",))
     parser.add_argument("--package", action="store_true")
     parser.add_argument("--cross", action="store_true", help="Restore Windows sources and the Linux cross-build environment")
+    parser.add_argument("--tools-only", action="store_true", help="Restore only NSIS for prebuilt Windows packaging")
     parser.add_argument("--repository", default="jsjoberg/perikop")
     parser.add_argument("--release")
     args = parser.parse_args()
@@ -198,7 +205,7 @@ def main():
     elif args.command == "restore":
         if args.platform not in PLATFORMS:
             parser.error("restore requires --platform Linux, Linux-arm64, macOS, or Windows")
-        restore(args.platform, args.output, args.package, args.cross)
+        restore(args.platform, args.output, args.package, args.cross, args.tools_only)
     elif args.command == "reuse":
         if args.platform in APPIMAGE_TOOLS:
             names = [args.platform + "-environment.tar.gz"]

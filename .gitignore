@@ -5,3 +5,22 @@
 *.db-shm
 .venv/
 __pycache__/
+
+# Local worktrees and CMake presets can contain machine-specific paths.
+/.claude/worktrees/
+CMakeUserPresets.json
+
+# Generated CMake/CPack files, including accidental in-source configurations.
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest*.txt
+CTestTestfile.cmake
+DartConfiguration.tcl
+Testing/
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_CPack_Packages/
+build.ninja
+.ninja_deps
+.ninja_log

@@ -1,7 +1,7 @@
 # This image is prepared manually, then saved and pinned in the dependency snapshot.
 FROM debian:13-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      ca-certificates curl xz-utils cmake ninja-build ccache git libtinfo6 && \
+      ca-certificates curl xz-utils cmake ninja-build ccache git libtinfo6 python3 && \
     rm -rf /var/lib/apt/lists/* && \
     git config --global --add safe.directory /work
 # Same llvm-mingw release as the cross-build spike. The archive runs on x86_64 Linux.

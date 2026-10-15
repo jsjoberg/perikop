@@ -36,13 +36,18 @@ cmake -S . -B build/offline -DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources"
 The Windows x64 build uses llvm-mingw on Linux after the dependency snapshot includes `Windows-cross-environment.tar.gz`.
 Until then, CI compiles on Windows.
 The manual dependency workflow prepares this environment with llvm-mingw 20260922 and checks the archive hash.
-To activate Linux compilation, run that workflow and commit its `dependencies-lock.json` as `ci/dependencies-lock.json`.
+To activate Linux compilation, run that workflow.
+Then commit its `dependencies-lock.json` as `ci/dependencies-lock.json`.
 
 Linux transfers the binaries and assembled resources to Windows.
-Windows configures local test paths and the installer, but does not recompile these binaries.
+Linux also exports the CTest commands and strips the application executable.
+Windows configures local test paths and the installer with a compiler-free CMake project.
 Windows still runs native tests and the speech probe, supplies the MSVC runtime, and creates the installer.
 ONNX Runtime and CRT distribution remain unchanged.
-The Windows configuration still needs w64devkit during this transition.
+
+After cross-build activation, Windows restores only NSIS from the dependency snapshot.
+Windows does not extract the source dependencies, voice pack, w64devkit, or ccache.
+The transferred resources already contain the voice pack for installer builds.
 Local Windows builds continue to use w64devkit.
 
 With llvm-mingw on the Linux `PATH`, the same offline cross-build is:
