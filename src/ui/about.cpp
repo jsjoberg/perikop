@@ -159,9 +159,9 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
     const auto colors = palette(theme);
     auto* page =
         new wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    page->SetScrollRate(0, page->FromDIP(12));
+    page->SetScrollRate(0, page->FromDIP(zoomed(12)));
     auto* sizer = new wxBoxSizer(wxVERTICAL);
-    const int pad = page->FromDIP(32), width = page->FromDIP(480);
+    const int pad = page->FromDIP(zoomed(32)), width = page->FromDIP(zoomed(480));
     std::vector<wxWindow*> muted;
     std::vector<std::pair<wxStaticText*, wxString>> labels;
     std::vector<wxHyperlinkCtrl*> links;
@@ -172,18 +172,18 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
         label->SetFont(font);
         label->Wrap(width);
         sizer->Add(label, 0, wxLEFT | wxRIGHT | flags, pad);
-        sizer->AddSpacer(page->FromDIP(below));
+        sizer->AddSpacer(page->FromDIP(zoomed(below)));
         if (quiet)
             muted.push_back(label);
     };
-    sizer->AddSpacer(page->FromDIP(28));
+    sizer->AddSpacer(page->FromDIP(zoomed(28)));
     auto icon = app_icon_image();
     if (icon.IsOk()) {
-        const int side = page->FromDIP(72);
+        const int side = page->FromDIP(zoomed(72));
         auto* image =
             new wxStaticBitmap(page, wxID_ANY, wxBitmap(icon.Rescale(side, side, wxIMAGE_QUALITY_HIGH)));
         sizer->Add(image, 0, wxALIGN_CENTER_HORIZONTAL);
-        sizer->AddSpacer(page->FromDIP(12));
+        sizer->AddSpacer(page->FromDIP(zoomed(12)));
     }
     text("Perikop", body_font(28), 2, false, wxALIGN_CENTER_HORIZONTAL);
     text("Version " PERIKOP_VERSION, ui_font(10), 18, true, wxALIGN_CENTER_HORIZONTAL);
@@ -193,7 +193,7 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
     text(ui::utf8("Fri programvara under MIT-licensen. Tack till alla nedan; varje källa har egna villkor."),
          ui_font(11), 4, true);
     for (const auto& section : sections()) {
-        sizer->AddSpacer(page->FromDIP(18));
+        sizer->AddSpacer(page->FromDIP(zoomed(18)));
         text(ui::utf8(section.title).Upper(), ui_font(9), 6, true);
         for (const auto& credit : section.credits) {
             auto name = ui_font(11);
@@ -208,10 +208,10 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
                 sizer->Add(link, 0, wxLEFT | wxRIGHT, pad);
                 links.push_back(link);
             }
-            sizer->AddSpacer(page->FromDIP(10));
+            sizer->AddSpacer(page->FromDIP(zoomed(10)));
         }
     }
-    sizer->AddSpacer(page->FromDIP(8));
+    sizer->AddSpacer(page->FromDIP(zoomed(8)));
     text(ui::utf8("De fullständiga licenstexterna följer med programmet."), ui_font(10), 24, true);
     const auto licenses = path_text(resources / "licenses");
     sizer->Add(ui::button(page, "Visa licenstexter",
@@ -225,7 +225,8 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
     page->SetMinSize({0, 0});
     auto wrapped = std::make_shared<int>(width);
     page->Bind(wxEVT_SIZE, [page, labels = std::move(labels), wrapped, pad, width](wxSizeEvent& event) {
-        const int available = std::clamp(page->GetClientSize().x - 2 * pad, page->FromDIP(200), width);
+        const int available =
+            std::clamp(page->GetClientSize().x - 2 * pad, page->FromDIP(zoomed(200)), width);
         if (*wrapped != available) {
             *wrapped = available;
             for (const auto& [label, value] : labels) {

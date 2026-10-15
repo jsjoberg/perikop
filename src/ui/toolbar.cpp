@@ -136,6 +136,13 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
         gc.StrokePath(path);
         break;
     }
+    case Symbol::Minus:
+    case Symbol::Plus:
+        pen(1.7);
+        gc.StrokeLine(4.5, 10, 15.5, 10);
+        if (symbol == Symbol::Plus)
+            gc.StrokeLine(10, 4.5, 10, 15.5);
+        break;
     case Symbol::Menu:
         // Chrome's three vertical dots.
         gc.SetPen(*wxTRANSPARENT_PEN);
@@ -273,7 +280,7 @@ bool SymbolButton::Enable(bool enable) {
 }
 
 wxSize SymbolButton::DoGetBestClientSize() const {
-    return FromDIP(wxSize(32, 30));
+    return FromDIP(zoomed(wxSize(32, 30)));
 }
 
 void SymbolButton::paint(wxPaintEvent&) {
@@ -284,7 +291,7 @@ void SymbolButton::paint(wxPaintEvent&) {
     if (!gc)
         return;
     const auto size = GetClientSize();
-    const double scale = FromDIP(100) / 100.0;
+    const double scale = FromDIP(zoomed(100)) / 100.0;
     const bool enabled = IsEnabled();
     if (enabled && HasFocus()) {
         gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.accent).Width(2 * scale)));
@@ -357,7 +364,7 @@ bool TextButton::Enable(bool enable) {
 wxSize TextButton::DoGetBestClientSize() const {
     int width = 0, height = 0;
     GetTextExtent(GetLabel(), &width, &height);
-    return {width + FromDIP(28), height + FromDIP(14)};
+    return {width + FromDIP(zoomed(28)), height + FromDIP(zoomed(14))};
 }
 
 void TextButton::paint(wxPaintEvent&) {
@@ -369,7 +376,7 @@ void TextButton::paint(wxPaintEvent&) {
     if (!gc)
         return;
     const auto size = GetClientSize();
-    const double scale = FromDIP(100) / 100.0, radius = 6 * scale;
+    const double scale = FromDIP(zoomed(100)) / 100.0, radius = 6 * scale;
     const bool enabled = IsEnabled();
     gc->SetPen(*wxTRANSPARENT_PEN);
     gc->SetBrush(wxBrush(mix(paper, ink,
@@ -423,7 +430,7 @@ void ReadingRow::wrap(int width) {
         return extent;
     };
     // Room for the left margin and the chevron, so the longest line never runs into it.
-    const int available = std::max(FromDIP(80), width - FromDIP(64));
+    const int available = std::max(FromDIP(zoomed(80)), width - FromDIP(zoomed(64)));
     // References break after a semicolon or plus sign; one that is still too long breaks at its spaces.
     std::vector<wxString> chunks;
     wxString chunk;
@@ -453,8 +460,8 @@ void ReadingRow::wrap(int width) {
             add(piece);
     if (!line.empty())
         lines_.push_back(line);
-    const int height =
-        FromDIP(22) + (label_.empty() ? 0 : label_height_ + FromDIP(2)) + int(lines_.size()) * line_height_;
+    const int height = FromDIP(zoomed(22)) + (label_.empty() ? 0 : label_height_ + FromDIP(zoomed(2))) +
+                       int(lines_.size()) * line_height_;
     if (GetMinSize().y != height) {
         SetMinSize({-1, height});
         InvalidateBestSize();
@@ -477,13 +484,13 @@ void ReadingRow::paint(wxPaintEvent&) {
     dc.Clear();
     dc.SetPen(wxPen(colors_.rule));
     dc.DrawLine(0, size.y - 1, size.x, size.y - 1);
-    const int x = FromDIP(12);
-    int y = FromDIP(11);
+    const int x = FromDIP(zoomed(12));
+    int y = FromDIP(zoomed(11));
     if (!label_.empty()) {
         dc.SetFont(ui_font(10));
         dc.SetTextForeground(colors_.muted);
         dc.DrawText(label_, x, y);
-        y += label_height_ + FromDIP(2);
+        y += label_height_ + FromDIP(zoomed(2));
     }
     dc.SetFont(body_font(18));
     dc.SetTextForeground(opens() ? colors_.ink : colors_.muted);
@@ -496,16 +503,80 @@ void ReadingRow::paint(wxPaintEvent&) {
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
     if (!gc)
         return;
-    const double scale = FromDIP(100) / 100.0;
+    const double scale = FromDIP(zoomed(100)) / 100.0;
     if (HasFocus()) {
         gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.accent).Width(2 * scale)));
         gc->SetBrush(*wxTRANSPARENT_BRUSH);
         gc->DrawRoundedRectangle(scale, scale, size.x - 2 * scale, size.y - 3 * scale, 5 * scale);
     }
     const double unit = 0.9 * scale;
-    gc->Translate(size.x - FromDIP(34), (size.y - 20 * unit) / 2);
+    gc->Translate(size.x - FromDIP(zoomed(34)), (size.y - 20 * unit) / 2);
     gc->Scale(unit, unit);
     draw_symbol(*gc, done_ ? Symbol::Check : Symbol::Chevron, done_ ? colors_.accent : colors_.muted);
+}
+
+MenuRow::MenuRow(wxWindow* parent, const wxString& label, const wxString& shortcut,
+                 std::function<void()> action)
+    : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
+      shortcut_(shortcut), action_(std::move(action)), colors_(palette(Theme::System)) {
+    SetLabel(label);
+    SetName(shortcut.empty() ? label : label + ", " + shortcut);
+    SetFont(ui_font());
+    SetBackgroundStyle(wxBG_STYLE_PAINT);
+    SetInitialSize();
+#if wxUSE_ACCESSIBILITY
+    new ButtonAccessible(
+        this, action_,
+        [] {
+            return false;
+        },
+        false);
+#endif
+    Bind(wxEVT_PAINT, &MenuRow::paint, this);
+    bind_press(this, press_, action_);
+    Bind(wxEVT_ENTER_WINDOW, [this](wxMouseEvent& e) {
+        if (IsEnabled())
+            SetFocus();
+        e.Skip();
+    });
+}
+
+void MenuRow::apply(const Palette& colors) {
+    colors_ = colors;
+    Refresh(false);
+}
+
+bool MenuRow::Enable(bool enable) {
+    if (!wxControl::Enable(enable))
+        return false;
+    Refresh(false);
+    return true;
+}
+
+wxSize MenuRow::DoGetBestClientSize() const {
+    int label = 0, shortcut = 0, height = 0;
+    GetTextExtent(GetLabel(), &label, &height);
+    if (!shortcut_.empty())
+        GetTextExtent(shortcut_, &shortcut, &height);
+    return {FromDIP(zoomed(16)) + label + (shortcut ? FromDIP(zoomed(40)) + shortcut : 0) +
+                FromDIP(zoomed(16)),
+            height + FromDIP(zoomed(12))};
+}
+
+void MenuRow::paint(wxPaintEvent&) {
+    wxAutoBufferedPaintDC dc(this);
+    const auto size = GetClientSize();
+    const bool enabled = IsEnabled();
+    dc.SetBackground(wxBrush(enabled && HasFocus()
+                                 ? mix(colors_.paper, colors_.ink, press_.pressed ? 0.16 : 0.09)
+                                 : colors_.paper));
+    dc.Clear();
+    dc.SetFont(GetFont());
+    const int pad = FromDIP(zoomed(16)), y = (size.y - dc.GetCharHeight()) / 2;
+    dc.SetTextForeground(enabled ? colors_.ink : mix(colors_.paper, colors_.muted, 0.6));
+    dc.DrawText(GetLabel(), pad, y);
+    dc.SetTextForeground(enabled ? colors_.muted : mix(colors_.paper, colors_.muted, 0.6));
+    dc.DrawText(shortcut_, size.x - pad - dc.GetTextExtent(shortcut_).x, y);
 }
 
 AddressBar::AddressBar(wxWindow* parent, std::function<void()> action)
@@ -575,8 +646,12 @@ void AddressBar::apply(const Palette& colors) {
     Refresh(false);
 }
 
+wxSize AddressBar::GetMinSize() const {
+    return FromDIP(zoomed(wxSize(80, 30)));
+}
+
 wxSize AddressBar::DoGetBestClientSize() const {
-    return FromDIP(wxSize(160, 30));
+    return FromDIP(zoomed(wxSize(160, 30)));
 }
 
 void AddressBar::paint(wxPaintEvent&) {
@@ -587,7 +662,7 @@ void AddressBar::paint(wxPaintEvent&) {
     if (!gc)
         return;
     const auto size = GetClientSize();
-    const double scale = FromDIP(100) / 100.0, radius = 8 * scale;
+    const double scale = FromDIP(zoomed(100)) / 100.0, radius = 8 * scale;
     gc->SetPen(*wxTRANSPARENT_PEN);
     gc->SetBrush(wxBrush(mix(colors_.paper, colors_.ink, hover_ ? 0.11 : 0.065)));
     gc->DrawRoundedRectangle(0, 0, size.x, size.y, radius);

@@ -69,7 +69,8 @@ void navigation_test() {
     }
 }
 void controls_test() {
-    for (auto screen : {Screen::Day, Screen::Reader, Screen::Bible, Screen::Plans, Screen::About})
+    for (auto screen :
+         {Screen::Day, Screen::Reader, Screen::Bible, Screen::Plans, Screen::Settings, Screen::About})
         for (auto state :
              {SpeechState::Idle, SpeechState::Loading, SpeechState::Buffering, SpeechState::Playing,
               SpeechState::Paused, SpeechState::Stopped, SpeechState::Completed, SpeechState::Error})

@@ -1,5 +1,7 @@
 #include "ui/main_frame.hpp"
 #include "core/reading_display.hpp"
+#include "ui/about.hpp"
+#include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/month_calendar.hpp"
 #include "ui/pronunciation_review.hpp"
@@ -50,20 +52,22 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
       user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
       selected_(date), settings_(user.load()), playback_timer_(this) {
+    text_zoom = settings_.text_zoom;
     SetMinSize(FromDIP(wxSize(520, 480)));
     root_ = new wxPanel(this);
     root_->SetFont(ui_font());
     auto* outer = new wxBoxSizer(wxVERTICAL);
     auto* reader = new wxBoxSizer(wxHORIZONTAL);
     reader_sizer_ = reader;
-    scripture_ = new ScriptureView(root_, corpus);
+    // Tab follows the order of creation: the toolbar, then the page, then the study pane.
     create_toolbar();
+    scripture_ = new ScriptureView(root_, corpus);
     outer->Add(bar_, 0, wxEXPAND);
     outer->Add(reader, 1, wxEXPAND);
     reader->Add(scripture_, 3, wxEXPAND);
     readings_ =
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    readings_->SetScrollRate(0, FromDIP(12));
+    readings_->SetScrollRate(0, FromDIP(zoomed(12)));
     // The margin is inside the page, so its scrollbar stays at the window edge.
     home_content_ = new wxPanel(readings_);
     entries_ = new wxBoxSizer(wxVERTICAL);
@@ -108,6 +112,13 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         }
         if (event.GetKeyCode() == WXK_SPACE && wxWindow::FindFocus() == scripture_) {
             play_or_pause();
+            return;
+        }
+        // The drawn controls take every key to see Space and Return, so Tab is moved on here.
+        auto* focus = wxWindow::FindFocus();
+        if (event.GetKeyCode() == WXK_TAB && !event.ControlDown() && focus && focus->HasFlag(wxWANTS_CHARS)) {
+            focus->Navigate(event.ShiftDown() ? wxNavigationKeyEvent::IsBackward
+                                              : wxNavigationKeyEvent::IsForward);
             return;
         }
         event.Skip();
@@ -166,7 +177,7 @@ void MainFrame::refresh_day() {
     home_rows_.clear();
     home_width_ = 0;
     entries_->Clear(true);
-    entries_->AddSpacer(FromDIP(48));
+    entries_->AddSpacer(FromDIP(zoomed(48)));
     const auto wrapped = [this](const wxString& text, const wxFont& font, int beside = 0, long style = 0) {
         auto* label =
             new wxStaticText(home_content_, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, style);
@@ -182,25 +193,27 @@ void MainFrame::refresh_day() {
                 navigate(days);
             });
         });
-        button->SetMinSize(FromDIP(wxSize(28, 28)));
+        button->SetMinSize(FromDIP(zoomed(wxSize(28, 28))));
         button->SetToolTip(label);
         button->Enable(selectable_date(shift_date(selected_.date(), days)));
         date_buttons_.push_back(button);
         date_row->Add(button, 0, wxALIGN_CENTER_VERTICAL);
     };
     arrow(Symbol::Back, ui::utf8("Föregående dag"), -1);
-    auto* date_label = ui::label(
-        home_content_, ui::utf8(date_swedish(selected_.date()) + (month_open_ ? "  ▴" : "  ▾")), 13);
-    date_label->SetToolTip(ui::utf8("Välj datum"));
-    date_label->SetCursor(wxCursor(wxCURSOR_HAND));
-    date_label->Bind(wxEVT_LEFT_UP, [this](wxMouseEvent&) {
-        CallAfter([this] {
-            pick_date();
+    // A button, so the keyboard reaches the date between the arrows.
+    auto* date_label = ui::button(
+        home_content_, ui::utf8(date_swedish(selected_.date()) + (month_open_ ? "  ▴" : "  ▾")), [this] {
+            // pick_date rebuilds this row, so defer destruction of the clicked control.
+            CallAfter([this] {
+                pick_date();
+            });
         });
-    });
-    date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(6));
+    date_label->SetFont(ui_font(13));
+    date_label->SetName(ui::utf8("Välj datum, ") + ui::utf8(date_swedish(selected_.date())));
+    date_label->SetToolTip(ui::utf8("Välj datum, Ctrl+D"));
+    date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(zoomed(6)));
     arrow(Symbol::Next, ui::utf8("Nästa dag"), 1);
-    entries_->Add(date_row, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(12));
+    entries_->Add(date_row, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(zoomed(12)));
     month_ = nullptr;
     if (month_open_) {
         month_ = new MonthCalendar(
@@ -222,15 +235,15 @@ void MainFrame::refresh_day() {
             readings_->Layout();
             layout_home();
         });
-        entries_->Add(month_, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(20));
+        entries_->Add(month_, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(zoomed(20)));
     }
     if (!day_.day.cycle_title.empty())
         entries_->Add(wrapped(ui::utf8(day_.day.cycle_title), body_font(24), 0, wxALIGN_CENTER_HORIZONTAL), 0,
-                      wxEXPAND | wxBOTTOM, FromDIP(28));
-    entries_->Add(ui::label(home_content_, ui::utf8("LÄSNINGAR"), 10), 0, wxBOTTOM, FromDIP(6));
+                      wxEXPAND | wxBOTTOM, FromDIP(zoomed(28)));
+    entries_->Add(ui::label(home_content_, ui::utf8("LÄSNINGAR"), 10), 0, wxBOTTOM, FromDIP(zoomed(6)));
     if (day_.readings.empty())
         entries_->Add(wrapped(ui::utf8("Ingen daglig bibelläsning är föreskriven"), body_font(18)), 0,
-                      wxBOTTOM, FromDIP(20));
+                      wxBOTTOM, FromDIP(zoomed(20)));
     const auto completed = user_.completed();
     const auto add_row = [this](ReadingRow* row, const std::string& tooltip = "") {
         if (!tooltip.empty())
@@ -299,7 +312,8 @@ void MainFrame::refresh_day() {
     Layout();
 }
 void MainFrame::layout_home() {
-    const int width = std::clamp(readings_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(560));
+    const int width = std::clamp(readings_->GetClientSize().x - FromDIP(zoomed(64)), FromDIP(zoomed(200)),
+                                 FromDIP(zoomed(560)));
     home_content_->SetMinSize(wxSize(width, -1));
     home_content_->SetSize(wxSize(width, home_content_->GetSize().y));
     // Replacing a wrapped label at the same width makes wxWidgets skip wrapping it again.
@@ -409,6 +423,38 @@ void MainFrame::apply_settings(bool persist) {
             wxMessageBox(ui::utf8(e.what()), ui::utf8("Inställningar kunde inte sparas"), wxOK | wxICON_ERROR,
                          this);
         }
+    }
+    if (text_zoom != settings_.text_zoom) {
+        // Every page draws its fonts and spacing again at the new size.
+        text_zoom = settings_.text_zoom;
+        root_->SetFont(ui_font());
+        for (auto* control : bar_->GetChildren())
+            control->InvalidateBestSize();
+        refresh_day();
+        for (auto& [id, page] : pages_)
+            switch (page.screen) {
+            case Screen::Bible:
+                static_cast<BiblePicker*>(page.window)->rebuild();
+                break;
+            case Screen::Plans:
+                fill_plans(static_cast<wxScrolledWindow*>(page.window));
+                break;
+            case Screen::Settings:
+                fill_settings(static_cast<wxScrolledWindow*>(page.window));
+                break;
+            case Screen::About: {
+                auto* about = make_about_page(root_, settings_.theme, resources_);
+                about->Show(page.window->IsShown());
+                root_->GetSizer()->Replace(page.window, about);
+                page.window->Destroy();
+                page.window = about;
+                break;
+            }
+            case Screen::Day:
+            case Screen::Reader:
+                break;
+            }
+        root_->Layout();
     }
     const auto colors = palette(settings_.theme);
     ui::recolor(root_, colors);

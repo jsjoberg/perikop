@@ -33,7 +33,7 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
         tile_muted_ = colors.muted;
     }
     const auto& text = column.text;
-    const int pad = FromDIP(8), line_height = text.line_height;
+    const int pad = FromDIP(zoomed(8)), line_height = text.line_height;
     const auto first = std::size_t(std::max(0, (-y - pad) / line_height)) / tile_lines;
     const auto count = (text.lines.size() + tile_lines - 1) / tile_lines;
     const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {

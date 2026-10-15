@@ -116,7 +116,7 @@ void MonthCalendar::apply(const Palette& colors) {
 }
 
 wxSize MonthCalendar::DoGetBestClientSize() const {
-    return FromDIP(wxSize(7 * cell_width, header + weekdays + weeks() * cell_height + legend));
+    return FromDIP(zoomed(wxSize(7 * cell_width, header + weekdays + weeks() * cell_height + legend)));
 }
 
 void MonthCalendar::load_month() {
@@ -195,19 +195,21 @@ CivilDate MonthCalendar::first_shown() const {
 }
 
 wxRect MonthCalendar::cell(int index) const {
-    return {FromDIP(index % 7 * cell_width), FromDIP(header + weekdays + index / 7 * cell_height),
-            FromDIP(cell_width), FromDIP(cell_height)};
+    return {FromDIP(zoomed(index % 7 * cell_width)),
+            FromDIP(zoomed(header + weekdays + index / 7 * cell_height)), FromDIP(zoomed(cell_width)),
+            FromDIP(zoomed(cell_height))};
 }
 
 wxRect MonthCalendar::arrow(int step) const {
-    const int side = FromDIP(28), half = GetClientSize().x / 2;
+    const int side = FromDIP(zoomed(28)), half = GetClientSize().x / 2;
     const int group = std::abs(step) == 12 ? 1 : 0;
-    return {group * half + (step < 0 ? FromDIP(4) : half - side - FromDIP(4)), FromDIP(6), side, side};
+    return {group * half + (step < 0 ? FromDIP(zoomed(4)) : half - side - FromDIP(zoomed(4))),
+            FromDIP(zoomed(6)), side, side};
 }
 
 wxRect MonthCalendar::title(int group) const {
-    const int half = GetClientSize().x / 2, inset = FromDIP(34);
-    return {group * half + inset, FromDIP(6), half - 2 * inset, FromDIP(28)};
+    const int half = GetClientSize().x / 2, inset = FromDIP(zoomed(34));
+    return {group * half + inset, FromDIP(zoomed(6)), half - 2 * inset, FromDIP(zoomed(28))};
 }
 
 int MonthCalendar::title_at(wxPoint point) const {
@@ -231,8 +233,8 @@ void MonthCalendar::show(View view) {
 wxRect MonthCalendar::grid_cell(int index) const {
     // Three columns and four rows in place of the weekday names and the weeks.
     const int width = 7 * cell_width / 3, height = (weekdays + weeks() * cell_height) / 4;
-    return {FromDIP(index % 3 * width), FromDIP(header + index / 3 * height), FromDIP(width),
-            FromDIP(height)};
+    return {FromDIP(zoomed(index % 3 * width)), FromDIP(zoomed(header + index / 3 * height)),
+            FromDIP(zoomed(width)), FromDIP(zoomed(height))};
 }
 
 CivilDate MonthCalendar::grid_date(int index) const {
@@ -373,7 +375,7 @@ void MonthCalendar::paint(wxPaintEvent&) {
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
     if (!gc)
         return;
-    const double scale = FromDIP(100) / 100.0;
+    const double scale = FromDIP(zoomed(100)) / 100.0;
     double width = 0, height = 0;
     // Independent month and year groups, each with arrows around its label.
     const std::array labels{ui::utf8(month_name(focus_) + (view_ == View::Months ? " ▴" : " ▾")),
@@ -390,12 +392,13 @@ void MonthCalendar::paint(wxPaintEvent&) {
         int points = 12;
         gc->SetFont(ui_font(points), colors_.ink);
         gc->GetTextExtent(labels[group], &width, &height);
-        const int available = half - 2 * FromDIP(34);
+        const int available = half - 2 * FromDIP(zoomed(34));
         while (width > available && points > 9) {
             gc->SetFont(ui_font(--points), colors_.ink);
             gc->GetTextExtent(labels[group], &width, &height);
         }
-        gc->DrawText(labels[group], group * half + (half - width) / 2, (FromDIP(header) - height) / 2);
+        gc->DrawText(labels[group], group * half + (half - width) / 2,
+                     (FromDIP(zoomed(header)) - height) / 2);
     }
     for (const int step : {-1, 1, -12, 12}) {
         const auto area = arrow(step);
@@ -467,8 +470,9 @@ void MonthCalendar::paint(wxPaintEvent&) {
         for (int column = 0; column < 7; ++column) {
             const auto name = ui::utf8(names[column]);
             gc->GetTextExtent(name, &width, &height);
-            gc->DrawText(name, FromDIP(column * cell_width) + (FromDIP(cell_width) - width) / 2,
-                         FromDIP(header) + (FromDIP(weekdays) - height) / 2);
+            gc->DrawText(name,
+                         FromDIP(zoomed(column * cell_width)) + (FromDIP(zoomed(cell_width)) - width) / 2,
+                         FromDIP(zoomed(header)) + (FromDIP(zoomed(weekdays)) - height) / 2);
         }
         const auto first = first_shown();
         const int offset = int(weekday{sys_days{first}}.c_encoding());
@@ -491,7 +495,7 @@ void MonthCalendar::paint(wxPaintEvent&) {
         }
     }
     // Shapes keep the meaning visible without relying on colour alone.
-    const double bottom = FromDIP(header + weekdays + weeks() * cell_height);
+    const double bottom = FromDIP(zoomed(header + weekdays + weeks() * cell_height));
     const auto key = [&](double x, double y, const wxColour& color, const wxString& label, int shape) {
         gc->SetPen(*wxTRANSPARENT_PEN);
         gc->SetBrush(wxBrush(color));

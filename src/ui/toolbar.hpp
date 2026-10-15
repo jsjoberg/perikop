@@ -7,7 +7,7 @@
 #include <wx/control.h>
 
 namespace ortho {
-enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check, Menu, Chevron };
+enum class Symbol { Back, Next, Play, Pause, Stop, Study, Search, Check, Menu, Chevron, Minus, Plus };
 // Hover and press state of a drawn button, which acts on release like a native one.
 struct PressState {
     bool hover = false, pressed = false;
@@ -95,6 +95,31 @@ private:
     bool done_;
 };
 
+// A row of the ⋮ menu: the command, with its shortcut at the right. Like a native menu item,
+// the row under the pointer takes the focus, so one highlight shows the row Return chooses.
+class MenuRow final : public wxControl {
+public:
+    MenuRow(wxWindow* parent, const wxString& label, const wxString& shortcut, std::function<void()> action);
+    void apply(const Palette&);
+    bool Enable(bool enable = true) override;
+    bool AcceptsFocus() const override {
+        return IsShown() && IsEnabled();
+    }
+    bool AcceptsFocusFromKeyboard() const override {
+        return AcceptsFocus();
+    }
+
+protected:
+    wxSize DoGetBestClientSize() const override;
+
+private:
+    void paint(wxPaintEvent&);
+    wxString shortcut_;
+    std::function<void()> action_;
+    Palette colors_;
+    PressState press_;
+};
+
 // The address field: what is shown or read, and the way to another passage.
 // As a dropdown it lists a reading's parts; otherwise a magnifier marks it
 // as the passage search. The label is the displayed text.
@@ -111,6 +136,8 @@ public:
     bool AcceptsFocusFromKeyboard() const override {
         return AcceptsFocus();
     }
+    // The narrowest the field gets in a narrow window, at the current text size.
+    wxSize GetMinSize() const override;
 
 protected:
     wxSize DoGetBestClientSize() const override;

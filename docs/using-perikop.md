@@ -30,7 +30,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 - The arrows beside the date change the day. **Ctrl+T** goes to today.
 - Click the date for the month calendar. Click the month or year name for a grid of months or years.
 - Calendar markers: violet circle for Orthros, gold diamond for Vespers, green square for other services.
-- The **Kalender** menu selects the Greek or Slavic reading order and the Revised Julian or Julian calendar.
+- **Inställningar** (Ctrl+, or ⌘, on macOS) selects the Greek or Slavic reading order and the Revised Julian or Julian calendar.
   With the Greek order, the day page shows Antiochian readings beside the Greek ones when they differ.
 
 ## Reader
@@ -38,12 +38,15 @@ The day page shows the selected date's readings and three reading plans. Press *
 - The left column is Swedish. The symbols right of the address field add Greek, English, or word study. Click a symbol again to close the column.
 - Click a verse to highlight it. In **Bara svenska**, buttons above the verse open it in online Swedish Bibles.
 - Click the address field to go to another passage, or to choose a part of a reading in several parts.
-- **⋮** opens every menu command. On Windows and Linux, press Alt to show the menu bar.
-- **Visa → Normal textstorlek** (Ctrl+0, ⌘0 on macOS) resets the text size.
+- **⋮** opens the commands, as in Chrome. **−** and **+** in the menu change the text size and the read-aloud speed without closing it.
+  On Windows and Linux, press Alt to show the menu bar.
+- The text size applies to the whole program. Ctrl++ and Ctrl+- (⌘ on macOS) change it, and Ctrl+0 resets it.
+- **Inställningar** holds the theme, the calendar, the reading order, and the voice.
+- Tab moves through the toolbar, the page, and the word study column in that order. Shift+Tab moves back.
 
 ## Bible browser
 
-Select **Bibel → Gå till bibelställe**, then a book, a chapter, and a verse. Later selections set the end of the range.
+Select **Gå → Gå till bibelställe**, then a book, a chapter, and a verse. Later selections set the end of the range.
 **Lägg till** adds the range as a part, so you can read several passages as one reading. **Öppna urval** opens the selection.
 
 ## Reading plans
@@ -57,10 +60,10 @@ Plans count parts, not days. Perikop asks whether to mark a part as read when th
 
 ## Read-aloud
 
-- **Lyssna** reads Swedish aloud. Select the voice, Alice or Björn, in the **Uppläsning** menu.
+- **Lyssna** reads Swedish aloud. Select the voice, Alice or Björn, in **Inställningar**.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
-- **Visa → Markera texten som läses upp** highlights the spoken text.
+- **Inställningar → Markera texten som läses upp** highlights the spoken text.
 - **Uppläsning → Förbered ljud för vald dag** prepares the selected day's audio in advance, for example the evening before.
 
 ## Word study and pronunciation

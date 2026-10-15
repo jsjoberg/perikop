@@ -52,7 +52,7 @@ void MainFrame::show_page(wxWindow* page, Screen screen, const wxString& title) 
         root_->GetSizer()->Detach(previous);
     }
     const auto view = navigation_.push(screen);
-    pages_.emplace(view.id, PageWindow{page, title});
+    pages_.emplace(view.id, PageWindow{page, title, screen});
     present_navigation();
     refresh_speech();
 }

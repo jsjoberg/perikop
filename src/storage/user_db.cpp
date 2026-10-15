@@ -71,8 +71,8 @@ Settings UserDb::load() const {
         int number = 0;
         const bool numeric =
             std::from_chars(value.data(), value.data() + value.size(), number).ec == std::errc{};
-        if (key == "font_size" && numeric)
-            result.font_size = std::clamp(number, 14, 28);
+        if (key == "text_zoom" && numeric)
+            result.text_zoom = std::clamp(number, 75, 200);
         if (key == "speech_rate" && numeric)
             result.speech_rate = std::clamp(number, 25, 200);
         if (key == "speech_voice" && (value == "alice" || value == "bjorn"))
@@ -95,7 +95,7 @@ void UserDb::save(const Settings& settings) {
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
         {"tradition", settings.tradition == Tradition::Slavic ? "slavic" : "greek"},
         {"parallel", settings.parallel},
-        {"font_size", std::to_string(settings.font_size)},
+        {"text_zoom", std::to_string(settings.text_zoom)},
         {"speech_rate", std::to_string(settings.speech_rate)},
         {"speech_voice", settings.speech_voice},
         {"word_study", settings.word_study ? "1" : "0"},

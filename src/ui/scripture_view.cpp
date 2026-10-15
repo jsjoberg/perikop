@@ -37,7 +37,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         scroll_by(-e.GetWheelRotation()); // fallback; Cocoa monitor preserves fractional deltas
 #else
         const double amount=-double(e.GetWheelRotation())/std::max(1,e.GetWheelDelta())*
-            (e.IsPageScroll()?GetClientSize().y*0.85:std::max(1,e.GetLinesPerAction())*FromDIP(30));
+            (e.IsPageScroll()?GetClientSize().y*0.85:std::max(1,e.GetLinesPerAction())*FromDIP(zoomed(30)));
         target_=std::clamp(target_+amount,0.0,max_offset());
         if (!wheel_timer_.IsRunning())
             wheel_timer_.Start(16);
@@ -63,9 +63,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         wheel_timer_.Stop();
         layout_timer_.Stop();
         if (e.GetEventType() == wxEVT_SCROLLWIN_LINEUP)
-            scroll_by(-FromDIP(30));
+            scroll_by(-FromDIP(zoomed(30)));
         else if (e.GetEventType() == wxEVT_SCROLLWIN_LINEDOWN)
-            scroll_by(FromDIP(30));
+            scroll_by(FromDIP(zoomed(30)));
         else if (e.GetEventType() == wxEVT_SCROLLWIN_PAGEUP)
             scroll_by(-GetClientSize().y * 0.85);
         else if (e.GetEventType() == wxEVT_SCROLLWIN_PAGEDOWN)
@@ -90,11 +90,11 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         }
         if (key == WXK_DOWN) {
-            scroll_by(FromDIP(30));
+            scroll_by(FromDIP(zoomed(30)));
             return;
         }
         if (key == WXK_UP) {
-            scroll_by(-FromDIP(30));
+            scroll_by(-FromDIP(zoomed(30)));
             return;
         }
         if (key == WXK_PAGEDOWN) {
@@ -129,7 +129,8 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         if (drag_column_ != 0) {
             const auto distance = e.GetPosition() - press_point_;
-            dragged_ |= std::abs(distance.x) > FromDIP(4) || std::abs(distance.y) > FromDIP(4);
+            dragged_ |=
+                std::abs(distance.x) > FromDIP(zoomed(4)) || std::abs(distance.y) > FromDIP(zoomed(4));
             return;
         }
         const auto verse = verse_at(e.GetPosition());
@@ -214,7 +215,7 @@ void ScriptureView::prepare_visible() {
     const double within = offset_ - positions_[anchor];
     double covered = -within;
     bool changed = false;
-    for (std::size_t i = anchor; i < rows_.size() && covered < GetClientSize().y + FromDIP(12); ++i) {
+    for (std::size_t i = anchor; i < rows_.size() && covered < GetClientSize().y + FromDIP(zoomed(12)); ++i) {
         const int height = row_layout(i).height;
         changed |= heights_[i] != height;
         heights_[i] = height;
@@ -247,7 +248,8 @@ void ScriptureView::prefetch_layout() {
         return;
     const auto end = std::min(rows_.size(), begin + cache_limit / 2);
     // One paragraph per event lets input/paint run between cold layout jobs.
-    for (auto i = begin; i < end && positions_[i] < offset_ + GetClientSize().y * 2 + FromDIP(600); ++i) {
+    for (auto i = begin; i < end && positions_[i] < offset_ + GetClientSize().y * 2 + FromDIP(zoomed(600));
+         ++i) {
         if (cache_.contains(i))
             continue;
         const int height = row_layout(i).height;
@@ -271,7 +273,7 @@ void ScriptureView::request_repaint() {
 }
 double ScriptureView::content_height() const {
     // The end of a book keeps blank space below it, like the heading space above its first chapter.
-    return positions_.empty() ? 0 : positions_.back() + FromDIP(140);
+    return positions_.empty() ? 0 : positions_.back() + FromDIP(zoomed(140));
 }
 double ScriptureView::max_offset() const {
     return std::max(0.0, content_height() - GetClientSize().y);
