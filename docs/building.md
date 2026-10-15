@@ -31,6 +31,32 @@ python3 tools/ci/dependencies.py restore --platform macOS
 cmake -S . -B build/offline -DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources"
 ```
 
+## Windows cross-builds from Linux
+
+The Windows x64 build uses llvm-mingw on Linux after the dependency snapshot includes `Windows-cross-environment.tar.gz`.
+Until then, CI compiles on Windows.
+The manual dependency workflow prepares this environment with llvm-mingw 20260922 and checks the archive hash.
+To activate Linux compilation, run that workflow and commit its `dependencies-lock.json` as `ci/dependencies-lock.json`.
+
+Linux transfers the binaries and assembled resources to Windows.
+Windows configures local test paths and the installer, but does not recompile these binaries.
+Windows still runs native tests and the speech probe, supplies the MSVC runtime, and creates the installer.
+ONNX Runtime and CRT distribution remain unchanged.
+The Windows configuration still needs w64devkit during this transition.
+Local Windows builds continue to use w64devkit.
+
+With llvm-mingw on the Linux `PATH`, the same offline cross-build is:
+
+```sh
+python3 tools/ci/dependencies.py restore --platform Windows --cross
+cmake -S . -B build/win-x64 -G Ninja --toolchain cmake/llvm-mingw.cmake \
+    -DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources" -DwxBUILD_PRECOMP=OFF
+cmake --build build/win-x64 --parallel
+```
+
+The restore command also downloads the pinned environment archive for container builds.
+Windows ARM64 CI is not part of this migration step.
+
 ## Read-aloud voices
 
 Without a voice pack, Perikop builds without read-aloud. Prepare the pack (about 180 MB) before the build:

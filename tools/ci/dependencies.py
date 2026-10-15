@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 UPSTREAMS = ROOT / "ci/upstreams.json"
 LOCK = ROOT / "ci/dependencies-lock.json"
 PLATFORMS = ("Linux", "Linux-arm64", "macOS", "Windows")
+CROSS_ENVIRONMENT = "Windows-cross-environment.tar.gz"
 # The AppImage tools for each Linux platform, named for the processor they run on.
 APPIMAGE_TOOLS = {
     "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"),
@@ -100,6 +101,8 @@ def upstream(output, repository):
 def make_lock(output, repository, release):
     names = ["inputs-" + platform + ".tar.gz" for platform in PLATFORMS]
     names += ["Linux-environment.tar.gz", "Linux-arm64-environment.tar.gz", "macOS-tools.tar.gz"]
+    if (output / CROSS_ENVIRONMENT).is_file():
+        names.append(CROSS_ENVIRONMENT)
     lock = {"repository": repository, "release": release, "upstreams_sha256": digest(UPSTREAMS),
             "assets": {name: digest(output / name) for name in names}}
     (output / "dependencies-lock.json").write_text(json.dumps(lock, indent=2) + "\n")
@@ -110,6 +113,9 @@ def fetch_snapshot(names, downloads, validate_upstreams=True):
     lock = json.loads(LOCK.read_text())
     if validate_upstreams and lock["upstreams_sha256"] != digest(UPSTREAMS):
         raise ValueError("Upstreams changed. Prepare and pin a new dependency snapshot first.")
+    for name in names:
+        if name not in lock["assets"]:
+            raise ValueError("Dependency snapshot lacks {}. Prepare and pin a new dependency snapshot first.".format(name))
     downloads.mkdir(parents=True, exist_ok=True)
     for name in names:
         destination = downloads / name
@@ -125,9 +131,13 @@ def fetch_snapshot(names, downloads, validate_upstreams=True):
     return lock
 
 
-def restore(platform, output, package=False):
+def restore(platform, output, package=False, cross=False):
+    if cross and platform != "Windows":
+        raise ValueError("Cross-build inputs require --platform Windows")
     names = ["inputs-" + platform + ".tar.gz"]
-    if platform in APPIMAGE_TOOLS:
+    if cross:
+        names.append(CROSS_ENVIRONMENT)
+    elif platform in APPIMAGE_TOOLS:
         names.append(platform + "-environment.tar.gz")
     elif platform == "macOS":
         names.append("macOS-tools.tar.gz")
@@ -149,7 +159,10 @@ def restore(platform, output, package=False):
             shutil.copyfile(path, target / "miniaudio.h")
         elif component:
             unpack_root(path, output / "sources" / component)
-    if platform in APPIMAGE_TOOLS:
+    if cross:
+        # Windows sources are shared with native builds. Its executable tools are not.
+        pass
+    elif platform in APPIMAGE_TOOLS:
         target = output / "tools/appimage"
         target.mkdir(parents=True, exist_ok=True)
         for name in APPIMAGE_TOOLS[platform]:
@@ -170,8 +183,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["upstream", "lock", "restore", "reuse", "audit"])
     parser.add_argument("--output", type=Path, default=ROOT / "build/ci")
-    parser.add_argument("--platform", choices=PLATFORMS)
+    parser.add_argument("--platform", choices=PLATFORMS + ("Windows-cross",))
     parser.add_argument("--package", action="store_true")
+    parser.add_argument("--cross", action="store_true", help="Restore Windows sources and the Linux cross-build environment")
     parser.add_argument("--repository", default="jsjoberg/perikop")
     parser.add_argument("--release")
     args = parser.parse_args()
@@ -182,18 +196,20 @@ def main():
             parser.error("lock requires --release")
         make_lock(args.output, args.repository, args.release)
     elif args.command == "restore":
-        if not args.platform:
-            parser.error("restore requires --platform")
-        restore(args.platform, args.output, args.package)
+        if args.platform not in PLATFORMS:
+            parser.error("restore requires --platform Linux, Linux-arm64, macOS, or Windows")
+        restore(args.platform, args.output, args.package, args.cross)
     elif args.command == "reuse":
         if args.platform in APPIMAGE_TOOLS:
             names = [args.platform + "-environment.tar.gz"]
         elif args.platform == "macOS":
             names = ["macOS-tools.tar.gz"]
+        elif args.platform == "Windows-cross":
+            names = [CROSS_ENVIRONMENT]
         elif args.platform is None:
             names = ["inputs-" + platform + ".tar.gz" for platform in PLATFORMS]
         else:
-            parser.error("reuse accepts --platform Linux, Linux-arm64, macOS, or no platform")
+            parser.error("reuse accepts --platform Linux, Linux-arm64, macOS, Windows-cross, or no platform")
         # Environment snapshots are independent of the native source manifest.
         fetch_snapshot(names, args.output, validate_upstreams=args.platform is None)
     else:

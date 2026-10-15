@@ -71,7 +71,7 @@ endif()
 add_library(ortho-kokoro STATIC src/speech/kokoro_audio.cpp src/speech/kokoro_text.cpp)
 target_include_directories(ortho-kokoro PUBLIC src PRIVATE "${ortho_ort_SOURCE_DIR}/include")
 target_link_libraries(ortho-kokoro PUBLIC ortho-sanitizers PRIVATE "${ortho_ort_library}")
-if(MINGW)
+if(MINGW AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     # The ONNX Runtime headers use _stdcall, which GCC defines only outside strict ISO mode.
     target_compile_definitions(ortho-kokoro PRIVATE _stdcall=__stdcall)
 endif()

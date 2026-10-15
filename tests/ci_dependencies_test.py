@@ -38,7 +38,7 @@ class DependenciesTest(unittest.TestCase):
         with tarfile.open(downloads / ("inputs-" + platform + ".tar.gz"), "w:gz") as archive:
             archive.add(manifest, arcname="upstreams.json")
             archive.add(root / "dependency.zip", arcname="dependency.zip")
-            for name in dependencies.APPIMAGE_TOOLS[platform]:
+            for name in dependencies.APPIMAGE_TOOLS.get(platform, ()):
                 (root / name).write_bytes(b"fixture tool")
                 archive.add(root / name, arcname=name)
         lock = root / "ci/dependencies-lock.json"
@@ -80,6 +80,54 @@ class DependenciesTest(unittest.TestCase):
                          for platform in ("Linux", "Linux-arm64", "macOS")}
             self.assertEqual(files, {"Linux": ["everywhere", "intel", "shared"],
                                      "Linux-arm64": ["everywhere", "shared"], "macOS": ["everywhere"]})
+
+    def test_cross_build_restores_windows_sources_without_windows_tools(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest, lock, downloads = self.fixture(root, "Windows")
+            environment = downloads / dependencies.CROSS_ENVIRONMENT
+            environment.write_bytes(b"pinned cross-build container")
+            data = json.loads(lock.read_text())
+            data["assets"][environment.name] = dependencies.digest(environment)
+            lock.write_text(json.dumps(data))
+            with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
+                    patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
+                dependencies.restore("Windows", root / "build/ci", cross=True)
+                run.assert_not_called()
+            self.assertEqual((root / "build/ci/sources/sqlite/sqlite3.h").read_text(), "offline source")
+            self.assertFalse((root / "build/ci/tools").exists())
+
+    def test_missing_cross_build_environment_stops_before_download(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest, lock, downloads = self.fixture(root, "Windows")
+            with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
+                    patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
+                with self.assertRaisesRegex(ValueError, "snapshot lacks Windows-cross-environment"):
+                    dependencies.restore("Windows", root / "build/ci", cross=True)
+                run.assert_not_called()
+            self.assertFalse((root / "build/ci/sources").exists())
+
+    def test_cross_build_rejects_linux_sources(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaisesRegex(ValueError, "require --platform Windows"):
+                dependencies.restore("Linux", Path(temporary), cross=True)
+
+    def test_snapshot_lock_includes_cross_environment_when_prepared(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            names = ["inputs-" + platform + ".tar.gz" for platform in dependencies.PLATFORMS]
+            names += ["Linux-environment.tar.gz", "Linux-arm64-environment.tar.gz", "macOS-tools.tar.gz"]
+            for name in names:
+                (output / name).write_bytes(b"fixture snapshot")
+            dependencies.make_lock(output, "owner/project", "fixture")
+            self.assertNotIn(dependencies.CROSS_ENVIRONMENT,
+                             json.loads((output / "dependencies-lock.json").read_text())["assets"])
+            (output / dependencies.CROSS_ENVIRONMENT).write_bytes(b"cross-build container")
+            dependencies.make_lock(output, "owner/project", "fixture")
+            assets = json.loads((output / "dependencies-lock.json").read_text())["assets"]
+            self.assertEqual(assets[dependencies.CROSS_ENVIRONMENT],
+                             dependencies.digest(output / dependencies.CROSS_ENVIRONMENT))
 
     def test_corrupt_cache_fetches_only_our_release_and_rejects_bad_download(self):
         with tempfile.TemporaryDirectory() as temporary:

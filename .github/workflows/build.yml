@@ -122,9 +122,71 @@ jobs:
           path: build/package/Perikop-*
           if-no-files-found: error
           compression-level: 0
-  windows:
+  windows-build:
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
+    runs-on: ubuntu-24.04
+    outputs:
+      cross: ${{ steps.environment.outputs.cross }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check for the pinned cross-build environment
+        id: environment
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          assets = json.loads(Path('ci/dependencies-lock.json').read_text())['assets']
+          print('cross=' + str('Windows-cross-environment.tar.gz' in assets).lower())
+          PY
+      - name: Cached dependency snapshots
+        if: steps.environment.outputs.cross == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: build/ci/downloads
+          key: dependencies-Windows-cross-${{ hashFiles('ci/dependencies-lock.json') }}
+      - name: Restore verified Windows sources and Linux toolchain
+        if: steps.environment.outputs.cross == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          args=()
+          if [ "$PACKAGE" = true ] || [ "$GITHUB_EVENT_NAME" = pull_request ]; then args+=(--package); fi
+          python3 tools/ci/dependencies.py restore --platform Windows --cross "${args[@]}"
+      - name: Compiler cache
+        if: steps.environment.outputs.cross == 'true'
+        id: compiler-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: build/ccache
+          key: objects-Windows-cross-${{ hashFiles('ci/upstreams.json', 'ci/windows-cross.Dockerfile') }}-${{ github.sha }}
+          restore-keys: |
+            objects-Windows-cross-${{ hashFiles('ci/upstreams.json', 'ci/windows-cross.Dockerfile') }}-
+            objects-Windows-cross-
+      - name: Compile Windows x64 offline on Linux
+        if: steps.environment.outputs.cross == 'true'
+        run: |
+          docker load --input build/ci/downloads/Windows-cross-environment.tar.gz
+          docker run --rm --pull never --network none -v "$PWD:/work" \
+            perikop-ci-windows-cross:dependencies bash tools/ci/build-windows-cross.sh
+      - name: Save compiler cache after build failure
+        if: always() && !cancelled() && steps.compiler-cache.outputs.cache-primary-key != '' && steps.compiler-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: build/ccache
+          key: ${{ steps.compiler-cache.outputs.cache-primary-key }}
+      - name: Transfer binaries to Windows
+        if: steps.environment.outputs.cross == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: windows-x64-build
+          path: build/windows-x64.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+  windows:
+    needs: [nightly, windows-build]
+    if: ${{ !cancelled() && needs.windows-build.result == 'success' && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: windows-2025
     env:
       CCACHE_DIR: ${{ github.workspace }}/build/ccache
@@ -156,6 +218,7 @@ jobs:
           "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "NSISDIR=$(Join-Path $PWD 'build/ci/tools/nsis')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Compiler cache
+        if: needs.windows-build.outputs.cross != 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ccache
@@ -164,7 +227,7 @@ jobs:
             objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
             objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
             objects-${{ runner.os }}-
-      - name: Configure
+      - name: Configure native test paths and installer
         shell: pwsh
         run: |
           # onnxruntime.dll needs the Visual C++ runtime; the installer carries it beside the DLL.
@@ -173,7 +236,21 @@ jobs:
           if (-not $runtime) { throw 'Visual C++ runtime not found' }
           cmake -S . -B build/cmake -G Ninja "-DPERIKOP_DEPENDENCY_DIR=$PWD/build/ci/sources" "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
             -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
-      - run: cmake --build build/cmake --parallel 4
+      - name: Download cross-built binaries
+        if: needs.windows-build.outputs.cross == 'true'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: windows-x64-build
+          path: build/cross
+      - name: Restore cross-built binaries without recompiling
+        if: needs.windows-build.outputs.cross == 'true'
+        shell: pwsh
+        run: |
+          tar -xzf build/cross/windows-x64.tar.gz -C build/cmake
+          if ($LASTEXITCODE -ne 0) { throw 'Cross-built binary restore failed' }
+      - name: Compile on Windows until the cross-build snapshot is pinned
+        if: needs.windows-build.outputs.cross != 'true'
+        run: cmake --build build/cmake --parallel 4
       - name: Windows version and icon resources
         shell: pwsh
         run: |
@@ -203,11 +280,6 @@ jobs:
           name: smoke-${{ runner.os }}
           path: build/smoke
           if-no-files-found: ignore
-      - run: python tools/check_resources.py
-      - run: python tests/modern_lexicon_test.py
-      - run: python tests/icon_test.py
-      - run: python tests/linux_abi_test.py
-      - run: python tests/ci_dependencies_test.py
       - name: Package
         # PRs also compile the installer and check its Windows product-version metadata.
         if: env.PACKAGE == 'true' || github.event_name == 'pull_request'

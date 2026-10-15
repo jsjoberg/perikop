@@ -21,9 +21,11 @@ fi
 gcc -shared -fPIC build/ci/sources/sqlite/sqlite3.c -o build/ci/libsqlite3.so -ldl -lpthread
 LD_PRELOAD="$PWD/build/ci/libsqlite3.so" python3 -c 'import sqlite3; assert sqlite3.sqlite_version_info >= (3, 37, 0)'
 LD_PRELOAD="$PWD/build/ci/libsqlite3.so" python3 tools/check_resources.py
+python3 tests/modern_lexicon_test.py
 python3 tests/icon_test.py
 python3 tests/linux_abi_test.py
 python3 tests/ci_dependencies_test.py
+python3 tests/windows_cross_test.py
 if [ "${PACKAGE:-false}" = true ]; then
     tools/package_appimage.sh build/cmake
     xvfb-run -a -s '-screen 0 1600x1200x24' build/cmake/AppDir/usr/bin/perikop \
