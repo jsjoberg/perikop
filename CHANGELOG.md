@@ -14,6 +14,10 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
+- The ⋮ menu works like Chrome's: commands in one list, with **−** and **+** rows for text size and read-aloud speed. Arrow keys, Tab, Return, and Escape work in it.
+- Text size is one percentage, 75–200 %, for the whole program instead of the reading text only. Earlier text size settings reset to 100 %.
+- The theme, calendar, reading order, voice, and highlighting are on a new **Inställningar** page (Ctrl+,). The menu bar is now **Visa**, **Gå**, **Uppläsning**, and **Hjälp**.
+- Tab moves through the toolbar, the page, and the word study column in that order, and no longer stops at the first toolbar button. The date on the day page can be reached with Tab.
 - The reader lays out paragraphs about 2.5 times faster, so new text appears sooner while scrolling.
 - The Linux AppImage runs natively on Wayland desktops instead of through XWayland. Set `GDK_BACKEND=x11` to use X11.
 - Navigation state, playback commands, and reader control rules have separate components. Toolbar and menu actions use the same policy.

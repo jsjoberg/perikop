@@ -12,7 +12,7 @@ struct ReaderContext {
 };
 // One policy supplies the toolbar, menus, and command guards. It has no native UI dependencies.
 struct ReaderControls {
-    bool listen, pause, stop, prepare, back, columns, menus, word_audio, address_dropdown;
+    bool listen, pause, stop, prepare, back, columns, word_audio, address_dropdown;
     PlaybackAction playback_action;
     AddressAction address_action;
     std::string listen_label, playback_label;

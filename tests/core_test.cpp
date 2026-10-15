@@ -1031,7 +1031,7 @@ int main(int argc, char** argv) {
             s.calendar = CalendarStyle::Old;
             s.tradition = Tradition::Slavic;
             s.parallel = "en";
-            s.font_size = 24;
+            s.text_zoom = 125;
             s.speech_rate = 175;
             s.speech_voice = "bjorn";
             s.speech_highlight = true;
@@ -1041,7 +1041,7 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old &&
-                      s.tradition == Tradition::Slavic && s.parallel == "en" && s.font_size == 24 &&
+                      s.tradition == Tradition::Slavic && s.parallel == "en" && s.text_zoom == 125 &&
                       s.speech_rate == 175 && s.speech_voice == "bjorn" && s.speech_highlight,
                   "persisted settings");
             user.complete("plan:nt:1");
@@ -1065,7 +1065,7 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             s.theme = Theme::Dark;
-            s.font_size = 25;
+            s.text_zoom = 150;
             user.save(s);
             sqlite3* inspect = nullptr;
             sqlite3_open(user_path.string().c_str(), &inspect);
@@ -1085,14 +1085,14 @@ int main(int argc, char** argv) {
                   "atomicity fixture");
             sqlite3_close(inspect);
             s.theme = Theme::Light;
-            s.font_size = 28;
+            s.text_zoom = 175;
             bool rejected = false;
             try {
                 user.save(s);
             } catch (const std::exception&) {
                 rejected = true;
             }
-            check(rejected && user.load().theme == Theme::Dark && user.load().font_size == 25,
+            check(rejected && user.load().theme == Theme::Dark && user.load().text_zoom == 150,
                   "failed save must roll back every preference");
         }
         std::filesystem::remove(user_path);

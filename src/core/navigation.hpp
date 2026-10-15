@@ -4,7 +4,7 @@
 #include <vector>
 
 namespace ortho {
-enum class Screen { Day, Reader, Bible, Plans, About };
+enum class Screen { Day, Reader, Bible, Plans, Settings, About };
 constexpr bool auxiliary_screen(Screen screen) {
     return screen != Screen::Day && screen != Screen::Reader;
 }

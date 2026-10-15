@@ -99,7 +99,7 @@ void ScriptureView::locate_playback() {
             remaining -= span.weight;
         }
         const bool label = stacked_columns() && columns_count() > 1;
-        guide_->y = positions_[index] + FromDIP(12) + (label ? FromDIP(24) : 0) +
+        guide_->y = positions_[index] + FromDIP(zoomed(12)) + (label ? FromDIP(zoomed(24)) : 0) +
                     (guide_->line + 0.5) * guide_->height;
     };
     if (!cue_changed && guide_ && guide_->row == index && guide_epoch_ == layout_epoch_) {
@@ -124,11 +124,11 @@ void ScriptureView::locate_playback() {
     }
     const auto& layout = row_layout(index);
     const bool stacked = stacked_columns();
-    double y = positions_[index] + FromDIP(12);
+    double y = positions_[index] + FromDIP(zoomed(12));
     for (size_t c = 0; c < layout.columns.size(); ++c) {
         const auto& column = layout.columns[c];
         if (stacked && layout.columns.size() > 1)
-            y += FromDIP(24);
+            y += FromDIP(zoomed(24));
         if (c == 0) {
             Guide guide{index, c, 0, y, column.text.line_height, {}};
             for (size_t line = 0; line < column.text.lines.size(); ++line) {

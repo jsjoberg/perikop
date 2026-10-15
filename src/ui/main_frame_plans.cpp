@@ -83,8 +83,8 @@ void MainFrame::add_next_plan() {
         plan = std::ranges::find_if(plans, [&](const ReadingPlan& candidate) {
             return std::size_t(done(candidate)) < candidate.parts.size();
         });
-    entries_->AddSpacer(FromDIP(28));
-    entries_->Add(ui::label(home_content_, ui::utf8("LÄSPLAN"), 10), 0, wxBOTTOM, FromDIP(6));
+    entries_->AddSpacer(FromDIP(zoomed(28)));
+    entries_->Add(ui::label(home_content_, ui::utf8("LÄSPLAN"), 10), 0, wxBOTTOM, FromDIP(zoomed(6)));
     const auto add_row = [this](ReadingRow* row) {
         home_rows_.push_back(row);
         entries_->Add(row, 0, wxEXPAND);
@@ -108,14 +108,14 @@ void MainFrame::add_next_plan() {
             show_plans();
         });
     }));
-    entries_->AddSpacer(FromDIP(30));
+    entries_->AddSpacer(FromDIP(zoomed(30)));
 }
 void MainFrame::show_plans() {
     if (navigation_.current().screen == Screen::Plans)
         return;
     auto* page =
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    page->SetScrollRate(0, FromDIP(12));
+    page->SetScrollRate(0, FromDIP(zoomed(12)));
     fill_plans(page);
     show_page(page, Screen::Plans, plans_title());
 }
@@ -126,7 +126,7 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
     auto* entries = new wxBoxSizer(wxVERTICAL);
     content->SetSizer(entries);
     auto* outer = new wxBoxSizer(wxVERTICAL);
-    outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(40));
+    outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);
     const auto completed = user_.completed();
     for (const auto& plan : reading_plans()) {
@@ -136,9 +136,9 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
         auto* header = new wxWrapSizer(wxHORIZONTAL, wxREMOVE_LEADING_SPACES);
         auto* title = new wxStaticText(content, wxID_ANY, ui::utf8(plan.title));
         title->SetFont(body_font(20));
-        header->Add(title, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(12));
+        header->Add(title, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(12)));
         header->Add(ui::label(content, std::to_string(done) + " av " + std::to_string(plan.parts.size()), 11),
-                    0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(12));
+                    0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(12)));
         auto* reset = ui::button(content, ui::utf8("Börja om"), [this, plan] {
             wxMessageDialog question(
                 this, ui::utf8("Vill du ta bort alla markeringar i ") + ui::utf8(plan.title) + "?",
@@ -163,21 +163,22 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
         reset->Enable(done > 0);
         reset->SetToolTip(ui::utf8("Ta bort alla markeringar i planen"));
         header->Add(reset, 0, wxALIGN_CENTER_VERTICAL);
-        entries->Add(header, 0, wxEXPAND | wxBOTTOM, FromDIP(4));
+        entries->Add(header, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(4)));
         if (!plan.description.empty())
-            entries->Add(ui::label(content, ui::utf8(plan.description), 11), 0, wxBOTTOM, FromDIP(12));
+            entries->Add(ui::label(content, ui::utf8(plan.description), 11), 0, wxBOTTOM,
+                         FromDIP(zoomed(12)));
         else
-            entries->AddSpacer(FromDIP(12));
+            entries->AddSpacer(FromDIP(zoomed(12)));
         if (done == plan.parts.size())
             entries->Add(ui::label(content, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0, wxBOTTOM,
-                         FromDIP(10));
-        auto* grid = new wxGridSizer(10, FromDIP(6), FromDIP(6));
+                         FromDIP(zoomed(10)));
+        auto* grid = new wxGridSizer(10, FromDIP(zoomed(6)), FromDIP(zoomed(6)));
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
             auto* tile = new TextButton(content, read ? ui::utf8("✓ ") + number : number);
-            tile->SetMinSize(FromDIP(wxSize(44, 34)));
+            tile->SetMinSize(FromDIP(zoomed(wxSize(44, 34))));
             tile->SetName(ui::utf8(plan.title) + ", Del " + number + ", " + label +
                           (read ? ui::utf8(", läst") : wxString{}));
             tile->Bind(wxEVT_BUTTON, [this, &plan, i](wxCommandEvent&) {
@@ -186,7 +187,7 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             tile->SetToolTip(ui::plan_parts_tooltip(corpus_, plan.parts[i]));
             grid->Add(tile);
         }
-        entries->Add(grid, 0, wxBOTTOM, FromDIP(36));
+        entries->Add(grid, 0, wxBOTTOM, FromDIP(zoomed(36)));
     }
     ui::recolor(page, palette(settings_.theme));
     page->FitInside();

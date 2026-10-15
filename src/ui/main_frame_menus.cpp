@@ -5,12 +5,16 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <memory>
-#include <wx/dcclient.h>
+#include <span>
 #include <wx/eventfilter.h>
 #include <wx/menu.h>
-#include <wx/settings.h>
+#include <wx/popupwin.h>
+#include <wx/sizer.h>
 #ifdef __APPLE__
 #include "ui/native_menu.hpp"
+#endif
+#ifdef __WXGTK__
+#include <gtk/gtk.h>
 #endif
 namespace ortho {
 namespace {
@@ -19,31 +23,44 @@ enum {
     Previous,
     Next,
     Pick,
-    Gregorian,
-    Julian,
-    Greek,
-    Slavic,
     Readings,
     Bible,
-    System,
-    Light,
-    Dark,
+    Plans,
     Right,
-    Larger = Right + 3,
+    Study,
+    Parallel,
+    Larger = Parallel + 2,
     Smaller,
     Normal,
     Play,
     Stop,
-    Rate,
-    Review = Rate + 8,
-    Alice,
-    Bjorn,
-    Study,
-    Highlight,
     Prepare,
-    Plans
+    Faster,
+    Slower,
+    NormalRate,
+    Review
 };
+// Text sizes and speeds in percent, as Chrome steps its zoom.
+const int zooms[] = {75, 80, 90, 100, 110, 125, 150, 175, 200};
 const int rates[] = {25, 50, 75, 100, 125, 150, 175, 200};
+// The next step up or down from a value, or the value itself at either end.
+int step(std::span<const int> steps, int value, int direction) {
+    if (direction > 0) {
+        const auto above = std::ranges::upper_bound(steps, value);
+        return above == steps.end() ? value : *above;
+    }
+    const auto below = std::ranges::lower_bound(steps, value);
+    return below == steps.begin() ? value : *std::prev(below);
+}
+// Podcast style: 0,25×, 0,5× … 2×, with a Swedish decimal comma.
+wxString rate_label(int rate) {
+    wxString text = wxString::Format("%d,%02d", rate / 100, rate % 100);
+    while (text.EndsWith("0"))
+        text.RemoveLast();
+    if (text.EndsWith(","))
+        text.RemoveLast();
+    return text + ui::utf8("×");
+}
 // The left column is Swedish. Beside it: nothing, Ordstudium, or one of these languages.
 const char* const parallel[] = {"el", "en"};
 const char* const parallel_names[] = {"Svenska och grekiska", "Svenska och engelska"};
@@ -77,132 +94,284 @@ private:
     bool tap_ = false;
 };
 #endif
+// Chrome's ⋮ menu: rows of commands, and rows with − and + that keep the menu open.
+// Up and Down move between rows, Left and Right within one, Tab through every control.
+class MenuPopup final : public wxPopupTransientWindow {
+public:
+    // fill adds the rows; it runs again when the rows are rebuilt.
+    MenuPopup(wxWindow* owner, wxWindow* button, const Palette& colors, std::function<void(MenuPopup&)> fill)
+        : wxPopupTransientWindow(owner, wxBORDER_NONE | wxPU_CONTAINS_CONTROLS), owner_(owner),
+          button_(button), colors_(colors), fill_(std::move(fill)) {
+        SetBackgroundColour(colors.rule);
+        panel_ = new wxPanel(this);
+        panel_->SetBackgroundColour(colors.paper);
+        panel_->SetForegroundColour(colors.ink);
+        rows_ = new wxBoxSizer(wxVERTICAL);
+        panel_->SetSizer(rows_);
+        auto* frame = new wxBoxSizer(wxVERTICAL);
+        frame->Add(panel_, 1, wxEXPAND | wxALL, FromDIP(1));
+        SetSizer(frame);
+        Bind(wxEVT_CHAR_HOOK, &MenuPopup::key, this);
+    }
+    void item(const wxString& label, const wxString& shortcut, bool enabled, std::function<void()> action,
+              const wxString& help = {}) {
+        auto* row = new MenuRow(panel_, label, shortcut, [this, action = std::move(action)] {
+            chosen_ = action;
+            DismissAndNotify();
+        });
+        row->apply(colors_);
+        row->Enable(enabled);
+        if (!help.empty())
+            row->SetToolTip(help);
+        rows_->Add(row, 0, wxEXPAND);
+        lines_.push_back({row});
+    }
+    void separator() {
+        auto* rule = new wxPanel(panel_, wxID_ANY, wxDefaultPosition, FromDIP(wxSize(-1, 1)));
+        rule->SetBackgroundColour(colors_.rule);
+        rows_->Add(rule, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(zoomed(6)));
+    }
+    // The value between − and +; can(±1) says whether a step is possible, step(±1) takes it.
+    void stepper(const wxString& label, const wxString& less, const wxString& more,
+                 const std::function<wxString()>& value, const std::function<bool(int)>& can,
+                 const std::function<void(int)>& step) {
+        auto* line = new wxBoxSizer(wxHORIZONTAL);
+        line->Add(new wxStaticText(panel_, wxID_ANY, label), 1, wxALIGN_CENTER_VERTICAL | wxLEFT,
+                  FromDIP(zoomed(16)));
+        auto* shown = new wxStaticText(panel_, wxID_ANY, value(), wxDefaultPosition, wxDefaultSize,
+                                       wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE);
+        shown->SetMinSize({shown->GetTextExtent(ui::utf8("200 %")).x + FromDIP(zoomed(8)), -1});
+        auto buttons = std::make_shared<std::array<SymbolButton*, 2>>();
+        const auto press = [=](int direction) {
+            step(direction);
+            shown->SetLabel(value());
+            for (int i = 0; i < 2; ++i)
+                (*buttons)[i]->Enable(can(i ? 1 : -1));
+            // A button that reaches the end passes the focus to the other one.
+            auto* pressed = (*buttons)[direction > 0];
+            if (!pressed->IsEnabled())
+                (*buttons)[direction < 0]->SetFocus();
+        };
+        for (int i = 0; i < 2; ++i) {
+            auto* button = new SymbolButton(panel_, i ? Symbol::Plus : Symbol::Minus, i ? more : less, [=] {
+                press(i ? 1 : -1);
+            });
+            button->SetToolTip(i ? more : less);
+            button->apply(colors_);
+            button->Enable(can(i ? 1 : -1));
+            (*buttons)[i] = button;
+        }
+        line->Add((*buttons)[0], 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(24)));
+        line->Add(shown, 0, wxALIGN_CENTER_VERTICAL);
+        line->Add((*buttons)[1], 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(8)));
+        rows_->Add(line, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(zoomed(2)));
+        lines_.push_back({(*buttons)[0], (*buttons)[1]});
+    }
+    void open() {
+        build();
+        // No control is handed to Popup(): on macOS and GTK it would hold a handler that a rebuild destroys.
+        Popup();
+#ifdef __APPLE__
+        make_key_window(*this);
+#endif
+        focus(0, 0);
+#ifdef __WXGTK__
+        // wxGTK grabs only the pointer for a popup, so keys would still go to the focused main window.
+        // wxGTK's ungrab on closing releases this grab too.
+        auto* widget = static_cast<GtkWidget*>(GetHandle());
+        gdk_seat_grab(gdk_display_get_default_seat(gtk_widget_get_display(widget)),
+                      gtk_widget_get_window(widget), GDK_SEAT_CAPABILITY_KEYBOARD, false, nullptr, nullptr,
+                      nullptr, nullptr);
+#endif
+    }
+
+    // Builds the rows again at the current text size, with the focus on the same control.
+    void rebuild() {
+        std::size_t line = 0, column = 0;
+        for (std::size_t i = 0; i < lines_.size(); ++i)
+            if (const auto at = std::ranges::find(lines_[i], wxWindow::FindFocus()); at != lines_[i].end()) {
+                line = i;
+                column = std::size_t(at - lines_[i].begin());
+            }
+        // The popup holds the focus while its controls are replaced, so it stays open.
+        SetFocus();
+        rows_->Clear(false);
+        panel_->DestroyChildren();
+        lines_.clear();
+        build();
+        focus(line, column);
+    }
+
+private:
+    // Opens with its right edge under the right edge of the button, as Chrome's does.
+    void build() {
+        panel_->SetFont(ui_font());
+        rows_->AddSpacer(FromDIP(zoomed(6)));
+        fill_(*this);
+        rows_->AddSpacer(FromDIP(zoomed(6)));
+        panel_->InvalidateBestSize();
+        Fit();
+        SetPosition(button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y}));
+    }
+    // That control if it is enabled, else the first enabled one.
+    void focus(std::size_t line, std::size_t column) {
+        if (line < lines_.size() && column < lines_[line].size() && lines_[line][column]->IsEnabled()) {
+            lines_[line][column]->SetFocus();
+            return;
+        }
+        for (const auto& controls : lines_)
+            for (auto* control : controls)
+                if (control->IsEnabled()) {
+                    control->SetFocus();
+                    return;
+                }
+    }
+    void OnDismiss() override {
+        // The chosen command runs once the menu is gone, so it can move the focus itself.
+        if (chosen_)
+            owner_->CallAfter(chosen_);
+        else
+            button_->SetFocus();
+        Destroy();
+    }
+    void key(wxKeyEvent& e) {
+        const int code = e.GetKeyCode();
+        if (code == WXK_ESCAPE) {
+            DismissAndNotify();
+            return;
+        }
+        const bool rows = code == WXK_UP || code == WXK_DOWN, within = code == WXK_LEFT || code == WXK_RIGHT;
+        if (!rows && !within && code != WXK_TAB) {
+            e.Skip();
+            return;
+        }
+        auto* focus = wxWindow::FindFocus();
+        // The controls the key moves between, in order: one per row, those of this row, or all.
+        std::vector<wxWindow*> order;
+        for (const auto& line : lines_) {
+            const bool here = std::ranges::find(line, focus) != line.end();
+            if (within && !here)
+                continue;
+            std::vector<wxWindow*> enabled;
+            std::ranges::copy_if(line, std::back_inserter(enabled), &wxWindow::IsEnabled);
+            if (enabled.empty())
+                continue;
+            if (rows)
+                order.push_back(here ? focus : enabled.front());
+            else
+                order.insert(order.end(), enabled.begin(), enabled.end());
+        }
+        if (order.empty())
+            return;
+        const bool forward = code == WXK_DOWN || code == WXK_RIGHT || (code == WXK_TAB && !e.ShiftDown());
+        const auto at = std::ranges::find(order, focus);
+        std::size_t index =
+            at == order.end() ? (forward ? order.size() - 1 : 0) : std::size_t(at - order.begin());
+        index = (index + (forward ? 1 : order.size() - 1)) % order.size();
+        order[index]->SetFocus();
+    }
+    wxWindow* owner_;
+    wxWindow* button_;
+    Palette colors_;
+    wxPanel* panel_;
+    wxBoxSizer* rows_;
+    std::function<void(MenuPopup&)> fill_;
+    std::vector<std::vector<wxWindow*>> lines_;
+    std::function<void()> chosen_;
+};
+// A menu label's shortcut, as the ⋮ menu writes it.
+wxString shortcut_of(const wxString& label) {
+    auto shortcut = label.AfterFirst('\t');
+#ifdef __WXOSX__
+    shortcut.Replace("Ctrl+", ui::utf8("⌘"));
+#endif
+    return shortcut;
+}
 } // namespace
-std::vector<std::pair<wxMenu*, wxString>> MainFrame::menus() const {
-    // Podcast style: 0,25×, 0,5× … 2×, with a Swedish decimal comma.
-    const auto rate_label = [](int rate) {
-        if (rate == 100)
-            return wxString("Normal hastighet");
-        wxString text = wxString::Format("%d,%02d", rate / 100, rate % 100);
-        while (text.EndsWith("0"))
-            text.RemoveLast();
-        if (text.EndsWith(","))
-            text.RemoveLast();
-        return text + ui::utf8("×");
-    };
-    auto* calendar = new wxMenu;
-    calendar->Append(Today, "Idag\tCtrl+T");
-    calendar->Append(Previous, ui::utf8("Föregående dag\tCtrl+["));
-    calendar->Append(Next, ui::utf8("Nästa dag\tCtrl+]"));
-    calendar->Append(Pick, ui::utf8("Välj datum…\tCtrl+D"));
-    calendar->AppendSeparator();
-    calendar->AppendRadioItem(Gregorian, "Gregoriansk / reviderad juliansk");
-    calendar->AppendRadioItem(Julian, "Juliansk");
-    calendar->Check(settings_.calendar == CalendarStyle::Old ? Julian : Gregorian, true);
-    calendar->AppendSeparator();
-    calendar->AppendRadioItem(Greek, "Grekiska läsordningen");
-    calendar->AppendRadioItem(Slavic, "Slaviska läsordningen");
-    calendar->Check(settings_.tradition == Tradition::Slavic ? Slavic : Greek, true);
-    auto* bible = new wxMenu;
-    bible->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
-    bible->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
-    bible->Append(Plans, ui::utf8("Läsplaner"));
+void MainFrame::sync_menu() {
+    auto& bar = *menu_bar_;
+    const auto policy = controls();
+    const auto label = ui::utf8(policy.playback_label) + "\tCtrl+P";
+    if (bar.GetLabel(Play) != label)
+        bar.SetLabel(Play, label);
+    bar.Enable(Play, policy.playback_action != PlaybackAction::None);
+    const auto stop_label =
+        (preparing_day() ? ui::utf8("Avbryt förberedelsen") : wxString("Stoppa")) + "\tCtrl+.";
+    if (bar.GetLabel(Stop) != stop_label)
+        bar.SetLabel(Stop, stop_label);
+    bar.Enable(Stop, policy.stop);
+    bar.Enable(Prepare, policy.prepare);
+    const auto help = ui::utf8("Spara ljud för " + date_swedish(selected_.date()) +
+                               ". Välj morgondagens datum för att förbereda det i kväll.");
+    if (bar.GetHelpString(Prepare) != help)
+        bar.SetHelpString(Prepare, help);
+    int pane = settings_.word_study ? Study : Right;
+    for (int i = 0; i < 2; ++i)
+        if (!settings_.word_study && settings_.parallel == parallel[i])
+            pane = Parallel + i;
+    if (!bar.IsChecked(pane))
+        bar.Check(pane, true);
+    bar.Enable(Larger, step(zooms, settings_.text_zoom, 1) != settings_.text_zoom);
+    bar.Enable(Smaller, step(zooms, settings_.text_zoom, -1) != settings_.text_zoom);
+    bar.Enable(Faster, step(rates, settings_.speech_rate, 1) != settings_.speech_rate);
+    bar.Enable(Slower, step(rates, settings_.speech_rate, -1) != settings_.speech_rate);
+}
+void MainFrame::make_menus() {
     auto* view = new wxMenu;
     view->AppendRadioItem(Right, "Bara svenska");
     view->AppendRadioItem(Study, "Svenska och ordstudium");
     for (int i = 0; i < 2; ++i)
-        view->AppendRadioItem(Right + 1 + i, parallel_names[i]);
-    view->AppendSeparator();
-    view->AppendRadioItem(System, "Systemets tema");
-    view->AppendRadioItem(Light, "Ljust tema");
-    view->AppendRadioItem(Dark, ui::utf8("Mörkt tema"));
-    view->Check(System + int(settings_.theme), true);
+        view->AppendRadioItem(Parallel + i, parallel_names[i]);
     view->AppendSeparator();
     view->Append(Larger, ui::utf8("Större text\tCtrl++"));
     view->Append(Smaller, "Mindre text\tCtrl+-");
     view->Append(Normal, "Normal textstorlek\tCtrl+0");
     view->AppendSeparator();
-    view->AppendCheckItem(Highlight, ui::utf8("Markera texten som läses upp"));
-    view->Check(Highlight, settings_.speech_highlight);
+    // macOS moves this item to the application menu, where Settings belongs.
+    view->Append(wxID_PREFERENCES, ui::utf8("Inställningar…\tCtrl+,"));
+    auto* go = new wxMenu;
+    go->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
+    go->Append(Today, "Idag\tCtrl+T");
+    go->Append(Previous, ui::utf8("Föregående dag\tCtrl+["));
+    go->Append(Next, ui::utf8("Nästa dag\tCtrl+]"));
+    go->Append(Pick, ui::utf8("Välj datum…\tCtrl+D"));
+    go->AppendSeparator();
+    go->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
+    go->Append(Plans, ui::utf8("Läsplaner"));
     auto* reading = new wxMenu;
     reading->Append(Play, "Lyssna\tCtrl+P");
     reading->Append(Stop, "Stoppa\tCtrl+.");
+    reading->AppendSeparator();
+    reading->Append(Faster, "Snabbare");
+    reading->Append(Slower, ui::utf8("Långsammare"));
+    reading->Append(NormalRate, "Normal hastighet");
+    reading->AppendSeparator();
     reading->Append(Prepare, ui::utf8("Förbered ljud för vald dag"));
-    reading->AppendSeparator();
-    for (int i = 0; i < 8; ++i) {
-        reading->AppendRadioItem(Rate + i, rate_label(rates[i]));
-        if (settings_.speech_rate == rates[i])
-            reading->Check(Rate + i, true);
-    }
-    reading->AppendSeparator();
-    // Swedish voice. Read-aloud is Swedish only.
-    reading->AppendRadioItem(Alice, "Alice");
-    reading->AppendRadioItem(Bjorn, ui::utf8("Björn"));
-    reading->Check(settings_.speech_voice == "bjorn" ? Bjorn : Alice, true);
-    reading->AppendSeparator();
     reading->Append(Review, ui::utf8("Granska svenskt uttal…"));
-    std::vector<std::pair<wxMenu*, wxString>> result = {
-        {calendar, "Kalender"}, {bible, "Bibel"}, {view, "Visa"}, {reading, ui::utf8("Uppläsning")}};
-    for (auto& [menu, title] : result)
-        sync_menu(*menu);
-    return result;
-}
-void MainFrame::sync_menu(wxMenu& menu) const {
-    const auto policy = controls();
-    const auto label = ui::utf8(policy.playback_label);
-    if (menu.FindItem(Play)) {
-        if (menu.GetLabel(Play) != label + "\tCtrl+P")
-            menu.SetLabel(Play, label + "\tCtrl+P");
-        menu.Enable(Play, policy.playback_action != PlaybackAction::None);
-        const bool preparing = preparing_day();
-        const auto stop_label =
-            (preparing ? ui::utf8("Avbryt förberedelsen") : wxString("Stoppa")) + "\tCtrl+.";
-        if (menu.GetLabel(Stop) != stop_label)
-            menu.SetLabel(Stop, stop_label);
-        menu.Enable(Stop, policy.stop);
-        menu.Enable(Prepare, policy.prepare);
-        const auto help = ui::utf8("Spara ljud för " + date_swedish(selected_.date()) +
-                                   ". Välj morgondagens datum för att förbereda det i kväll.");
-        if (menu.GetHelpString(Prepare) != help)
-            menu.SetHelpString(Prepare, help);
-    }
-    if (menu.FindItem(Right)) {
-        int pane = settings_.word_study ? Study : Right;
-        for (int i = 0; i < 2; ++i)
-            if (!settings_.word_study && settings_.parallel == parallel[i])
-                pane = Right + 1 + i;
-        if (!menu.IsChecked(pane))
-            menu.Check(pane, true);
-    }
-}
-void MainFrame::make_menus() {
-    auto* bar = new wxMenuBar;
-    for (const auto& [menu, title] : menus())
-        bar->Append(menu, title);
 #ifdef __WXOSX__
-    // macOS moves this item to the application menu, where About belongs.
-    bar->GetMenu(0)->Append(wxID_ABOUT, "Om Perikop");
-#else
+    // macOS moves this item to the application menu, where About belongs, and Hjälp would be empty.
+    view->Append(wxID_ABOUT, "Om Perikop");
+#endif
+    auto* bar = new wxMenuBar;
+    bar->Append(view, "Visa");
+    bar->Append(go, ui::utf8("Gå"));
+    bar->Append(reading, ui::utf8("Uppläsning"));
+#ifndef __WXOSX__
     auto* help = new wxMenu;
     help->Append(wxID_ABOUT, "Om Perikop");
     bar->Append(help, ui::utf8("Hjälp"));
 #endif
     menu_bar_ = bar;
     SetMenuBar(bar);
+    sync_menu();
 #ifndef __WXOSX__
     // The ⋮ menu holds the same commands, so Windows and Linux hide the bar, as browsers do.
     // Shortcuts then come from an accelerator table instead of the bar.
     std::vector<wxAcceleratorEntry> entries;
-    const std::function<void(wxMenu*)> collect = [&](wxMenu* menu) {
-        for (auto* item : menu->GetMenuItems()) {
-            if (item->IsSubMenu())
-                collect(item->GetSubMenu());
-            else if (const std::unique_ptr<wxAcceleratorEntry> accel{item->GetAccel()})
-                entries.emplace_back(accel->GetFlags(), accel->GetKeyCode(), item->GetId());
-        }
-    };
     for (size_t i = 0; i < bar->GetMenuCount(); ++i)
-        collect(bar->GetMenu(i));
+        for (auto* item : bar->GetMenu(i)->GetMenuItems())
+            if (const std::unique_ptr<wxAcceleratorEntry> accel{item->GetAccel()})
+                entries.emplace_back(accel->GetFlags(), accel->GetKeyCode(), item->GetId());
     accelerators_ = wxAcceleratorTable(int(entries.size()), entries.data());
     show_menu_bar(false);
     alt_tap_ = std::make_unique<AltTap>([this] {
@@ -217,11 +386,26 @@ void MainFrame::make_menus() {
         wxID_ABOUT);
     Bind(
         wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            show_settings();
+        },
+        wxID_PREFERENCES);
+    Bind(
+        wxEVT_MENU,
         [this](wxCommandEvent& event) {
             const int id = event.GetId();
-            if (navigation_.auxiliary()) {
-                if (id == Readings)
-                    back();
+            if (id == Larger || id == Smaller || id == Normal) {
+                settings_.text_zoom = id == Normal ? Settings{}.text_zoom
+                                                   : step(zooms, settings_.text_zoom, id == Larger ? 1 : -1);
+                apply_settings();
+                return;
+            }
+            if (id == Faster || id == Slower || id == NormalRate) {
+                settings_.speech_rate = id == NormalRate
+                                            ? Settings{}.speech_rate
+                                            : step(rates, settings_.speech_rate, id == Faster ? 1 : -1);
+                speech_->set_speed(settings_.speech_rate / 100.0);
+                apply_settings();
                 return;
             }
             if (id == Today) {
@@ -265,47 +449,11 @@ void MainFrame::make_menus() {
                 review_pronunciation();
                 return;
             }
-            if (id == Gregorian || id == Julian || id == Greek || id == Slavic) {
-                clear_preparation();
-                if (id == Gregorian || id == Julian)
-                    settings_.calendar = id == Julian ? CalendarStyle::Old : CalendarStyle::New;
-                else
-                    settings_.tradition = id == Slavic ? Tradition::Slavic : Tradition::Greek;
-                if (!navigation_.reader())
-                    refresh_day();
-            } else if (id >= System && id <= Dark)
-                settings_.theme = static_cast<Theme>(id - System);
-            else if (id == Right) {
-                settings_.parallel.clear();
-                settings_.word_study = false;
-            } else if (id == Study) {
-                settings_.parallel.clear();
-                settings_.word_study = true;
-            } else if (id > Right && id <= Right + 2) {
-                settings_.parallel = parallel[id - Right - 1];
-                settings_.word_study = false;
-            } else if (id == Larger)
-                settings_.font_size = std::min(28, settings_.font_size + 1);
-            else if (id == Smaller)
-                settings_.font_size = std::max(14, settings_.font_size - 1);
-            else if (id == Normal)
-                settings_.font_size = Settings{}.font_size;
-            else if (id == Highlight)
-                settings_.speech_highlight = event.IsChecked();
-            else if (id >= Rate && id < Rate + 8) {
-                settings_.speech_rate = rates[id - Rate];
-                speech_->set_speed(settings_.speech_rate / 100.0);
-            } else if (id == Alice || id == Bjorn) {
-                clear_preparation();
-                settings_.speech_voice = id == Bjorn ? "bjorn" : "alice";
-                speech_->set_voice(settings_.speech_voice);
-            } else {
-                event.Skip();
-                return;
-            }
+            settings_.word_study = id == Study;
+            settings_.parallel = id >= Parallel ? parallel[id - Parallel] : "";
             apply_settings();
         },
-        Today, Plans);
+        Today, Review);
 }
 void MainFrame::show_menu_bar(bool shown) {
 #ifdef __WXOSX__
@@ -321,29 +469,57 @@ void MainFrame::show_menu_bar(bool shown) {
 #endif
 }
 void MainFrame::show_menu() {
-    // Chrome's ⋮ menu: every command of the menu bar, below the button at the right.
-    wxMenu menu;
-    for (const auto& [submenu, title] : menus()) {
-        auto* item = menu.AppendSubMenu(submenu, title);
-        menu.Enable(item->GetId(), controls().menus);
-    }
-    menu.AppendSeparator();
-    menu.Append(wxID_ABOUT, "Om Perikop");
-    // Like Chrome's, the menu opens inside the window with its right edge under the button's.
-    // wxWidgets places a popup by its top-left corner, so it needs the menu's width.
-#ifdef __APPLE__
-    const int width = native_menu_width(menu);
-#else
-    // An estimate from the menu font that errs wide: labels, shortcuts, check and submenu marks.
-    wxClientDC dc(menu_);
-    dc.SetFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-    int labels = 0, shortcuts = 0;
-    for (const auto* item : menu.GetMenuItems()) {
-        labels = std::max(labels, dc.GetTextExtent(item->GetItemLabelText()).x);
-        shortcuts = std::max(shortcuts, dc.GetTextExtent(item->GetItemLabel().AfterFirst('\t')).x);
-    }
-    const int width = labels + shortcuts + FromDIP(96);
-#endif
-    menu_->PopupMenu(&menu, menu_->GetSize().x - width, menu_->GetSize().y);
+    sync_menu();
+    const auto command = [this](int id) {
+        return [this, id] {
+            wxCommandEvent event(wxEVT_MENU, id);
+            ProcessWindowEvent(event);
+        };
+    };
+    auto* popup = new MenuPopup(this, menu_, palette(settings_.theme), [this, command](MenuPopup& popup) {
+        const auto item = [&](int id) {
+            const auto* entry = menu_bar_->FindItem(id);
+            popup.item(entry->GetItemLabelText(), shortcut_of(entry->GetItemLabel()), entry->IsEnabled(),
+                       command(id), entry->GetHelp());
+        };
+        for (const int id : {Readings, Bible, Pick, Plans})
+            item(id);
+        popup.separator();
+        popup.stepper(
+            "Textstorlek", "Mindre text", ui::utf8("Större text"),
+            [this] {
+                return wxString::Format("%d %%", settings_.text_zoom);
+            },
+            [this](int direction) {
+                return step(zooms, settings_.text_zoom, direction) != settings_.text_zoom;
+            },
+            [command, &popup](int direction) {
+                command(direction > 0 ? Larger : Smaller)();
+                // The menu follows the new size too. The pressed button is replaced, so not from its handler.
+                popup.CallAfter([&popup] {
+                    popup.rebuild();
+                });
+            });
+        popup.stepper(
+            "Hastighet", ui::utf8("Långsammare"), "Snabbare",
+            [this] {
+                return rate_label(settings_.speech_rate);
+            },
+            [this](int direction) {
+                return step(rates, settings_.speech_rate, direction) != settings_.speech_rate;
+            },
+            [command](int direction) {
+                command(direction > 0 ? Faster : Slower)();
+            });
+        popup.separator();
+        for (const int id : {Play, Stop, Prepare})
+            item(id);
+        popup.separator();
+        // macOS keeps these two in the application menu, outside the bar's own menus.
+        popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES));
+        item(Review);
+        popup.item("Om Perikop", {}, true, command(wxID_ABOUT));
+    });
+    popup->open();
 }
 } // namespace ortho

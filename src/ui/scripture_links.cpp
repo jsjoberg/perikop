@@ -59,7 +59,7 @@ void ScriptureView::rebuild_verse_links() {
         button->SetToolTip(
             ui::utf8(link.url.empty() ? "Ingen verifierad verslänk för detta bibelställe."
                                       : "Öppna " + link.reference + " i " + link.label + " i webbläsaren."));
-        sizer->Add(button, 0, wxALL, FromDIP(3));
+        sizer->Add(button, 0, wxALL, FromDIP(zoomed(3)));
     }
     verse_links_->SetSizerAndFit(sizer);
     // Rebuilding at the same size does not send a size event to lay out new children.
@@ -95,12 +95,12 @@ void ScriptureView::position_verse_links() {
     }
     const auto c = std::min(highlighted_column_, layout.columns.size() - 1);
     const auto& column = layout.columns[c];
-    double top = positions_[index] - offset_ + FromDIP(12);
+    double top = positions_[index] - offset_ + FromDIP(zoomed(12));
     const bool stacked = stacked_columns();
     if (stacked && layout.columns.size() > 1) {
         for (std::size_t before = 0; before < c; ++before)
-            top += layout.columns[before].text.height() + FromDIP(24);
-        top += FromDIP(24);
+            top += layout.columns[before].text.height() + FromDIP(zoomed(24));
+        top += FromDIP(zoomed(24));
     }
     for (std::size_t line = 0; line < column.text.lines.size(); ++line)
         for (const auto& run : column.text.lines[line].runs) {
@@ -115,11 +115,13 @@ void ScriptureView::position_verse_links() {
                 return;
             }
             const auto size = verse_links_->GetSize();
-            const int x =
-                outside_margin() + (stacked ? 0 : int(c) * column_stride()) + FromDIP(30) + int(run.x);
-            const int y = std::max(FromDIP(6), int(verse_top) - size.y - FromDIP(6));
+            const int x = outside_margin() + (stacked ? 0 : int(c) * column_stride()) + FromDIP(zoomed(30)) +
+                          int(run.x);
+            const int y = std::max(FromDIP(zoomed(6)), int(verse_top) - size.y - FromDIP(zoomed(6)));
             const wxPoint position(
-                std::clamp(x, FromDIP(6), std::max(FromDIP(6), GetClientSize().x - size.x - FromDIP(6))), y);
+                std::clamp(x, FromDIP(zoomed(6)),
+                           std::max(FromDIP(zoomed(6)), GetClientSize().x - size.x - FromDIP(zoomed(6)))),
+                y);
             if (verse_links_->GetPosition() != position)
                 verse_links_->Move(position);
             verse_links_->Show();

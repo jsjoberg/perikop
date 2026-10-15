@@ -20,17 +20,17 @@ void MainFrame::create_toolbar() {
         back();
     });
     back_->SetToolTip(ui::utf8("Tillbaka till dagens läsningar, Ctrl+L"));
-    bar->Add(back_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
+    bar->Add(back_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
     // Lyssna starts a reading or resumes a paused one; Pausa only pauses.
     play_ = new SymbolButton(bar_, Symbol::Play, "Lyssna", [this] {
         play_or_pause();
     });
-    bar->Add(play_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
+    bar->Add(play_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
     pause_ = new SymbolButton(bar_, Symbol::Pause, "Pausa", [this] {
         play_or_pause();
     });
     pause_->SetToolTip(ui::utf8("Pausa, mellanslag"));
-    bar->Add(pause_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(2));
+    bar->Add(pause_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
     stop_ = new SymbolButton(bar_, Symbol::Stop, "Stoppa", [this] {
         stop_speech();
     });
@@ -39,8 +39,7 @@ void MainFrame::create_toolbar() {
     address_ = new AddressBar(bar_, [this] {
         address_clicked();
     });
-    address_->SetMinSize(FromDIP(wxSize(80, 30)));
-    bar->Add(address_, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(10));
+    bar->Add(address_, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(zoomed(10)));
     // Symbols for the right column; pressing the chosen one again closes it.
     const std::pair<std::string, std::variant<Symbol, wxString>> panes[] = {
         {"study", Symbol::Study}, {"el", "GR"}, {"en", "EN"}};
@@ -54,19 +53,19 @@ void MainFrame::create_toolbar() {
             },
             true);
         button->SetToolTip(ui::utf8(names[i]));
-        bar->Add(button, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(2));
+        bar->Add(button, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(2)));
         panes_.emplace_back(pane, button);
     }
     menu_ = new SymbolButton(bar_, Symbol::Menu, "Meny", [this] {
         show_menu();
     });
     menu_->SetToolTip(ui::utf8("Meny"));
-    bar->Add(menu_, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(8));
+    bar->Add(menu_, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(8)));
     auto* inset = new wxBoxSizer(wxVERTICAL);
-    inset->Add(bar, 0, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(8));
-    inset->Add(0, 0, 0, wxBOTTOM, FromDIP(1));
+    inset->Add(bar, 0, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(zoomed(8)));
+    inset->Add(0, 0, 0, wxBOTTOM, FromDIP(zoomed(1)));
     auto* outer = new wxBoxSizer(wxVERTICAL);
-    outer->Add(inset, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(7));
+    outer->Add(inset, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(zoomed(7)));
     bar_->SetSizer(outer);
 }
 void MainFrame::paint_toolbar(wxPaintEvent&) {
@@ -135,19 +134,8 @@ void MainFrame::update_bar() {
                active = playback_.active();
     const bool preparing = preparing_day();
     const auto listen_label = ui::utf8(policy.listen_label);
-    for (size_t i = 0; menu_bar_ && i < menu_bar_->GetMenuCount(); ++i)
-        sync_menu(*menu_bar_->GetMenu(i));
-    // A hidden bar keeps its items' state; only an attached one can dim a whole menu.
-    if (menu_bar_ && GetMenuBar())
-        for (size_t i = 0; i < menu_bar_->GetMenuCount(); ++i) {
-            bool enabled = policy.menus;
-#ifndef __WXOSX__
-            // About stays available from auxiliary pages through the Help menu.
-            enabled = enabled || menu_bar_->GetMenu(i)->FindItem(wxID_ABOUT);
-#endif
-            if (menu_bar_->IsEnabledTop(i) != enabled)
-                menu_bar_->EnableTop(i, enabled);
-        }
+    if (menu_bar_)
+        sync_menu();
     const auto tooltip_of = [](wxWindow* control, const wxString& text) {
         if (control->GetToolTipText() != text)
             control->SetToolTip(text);

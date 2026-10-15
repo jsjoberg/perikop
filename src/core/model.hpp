@@ -175,7 +175,8 @@ struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
     Tradition tradition = Tradition::Greek;
     Theme theme = Theme::System;
-    int font_size = 19;
+    // Text size in percent, for every text in the program.
+    int text_zoom = 100;
     // Right pane language, "el" or "en", or empty for one pane. The left pane is Swedish.
     std::string parallel;
     // The right pane is the Ordstudium lookup panel. Excludes a parallel language.

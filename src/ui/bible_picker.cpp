@@ -12,10 +12,10 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
     : wxPanel(parent), corpus_(corpus), settings_(std::move(settings)), chosen_(std::move(chosen)) {
     // The address field names the page, so the grid starts at the top.
     auto* page = new wxBoxSizer(wxVERTICAL);
-    page->AddSpacer(FromDIP(24));
+    page->AddSpacer(FromDIP(zoomed(24)));
 
     grid_ = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    grid_->SetScrollRate(0, FromDIP(12));
+    grid_->SetScrollRate(0, FromDIP(zoomed(12)));
     grid_->ShowScrollbars(wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
     grid_->SetMinSize({0, 0});
     contents_ = new wxPanel(grid_);
@@ -25,7 +25,7 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
         reveal(cell);
     });
     rows->Add(cells_, 0);
-    rows->AddSpacer(FromDIP(32));
+    rows->AddSpacer(FromDIP(zoomed(32)));
     contents_->SetSizer(rows);
     auto* centered = new wxBoxSizer(wxVERTICAL);
     centered->Add(contents_, 0, wxALIGN_CENTER_HORIZONTAL);
@@ -38,7 +38,7 @@ BiblePicker::BiblePicker(wxWindow* parent, const CorpusDb& corpus, Settings sett
     // Capture trackpad input before native buttons consume it; remove the listener in the destructor.
     native_scroll_ = install_native_scroll(grid_, [this](double pixels) {
         wheel_remainder_ += pixels;
-        const int unit = FromDIP(12), lines = int(wheel_remainder_ / unit);
+        const int unit = FromDIP(zoomed(12)), lines = int(wheel_remainder_ / unit);
         if (lines) {
             grid_->Scroll(0, std::max(0, grid_->GetViewStart().y + lines));
             wheel_remainder_ -= lines * unit;
@@ -199,7 +199,8 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     return drawer;
 }
 void BiblePicker::update_grid() {
-    const int width = std::clamp(grid_->GetClientSize().x - FromDIP(64), FromDIP(200), FromDIP(680));
+    const int width = std::clamp(grid_->GetClientSize().x - FromDIP(zoomed(64)), FromDIP(zoomed(200)),
+                                 FromDIP(zoomed(680)));
     contents_->SetMinSize({width, -1});
     cells_->set_width(width);
     contents_->InvalidateBestSize();
@@ -211,7 +212,7 @@ void BiblePicker::reveal(wxRect area) {
     if (area.IsEmpty())
         return;
     update_grid();
-    const int unit = FromDIP(12), margin = FromDIP(12);
+    const int unit = FromDIP(zoomed(12)), margin = FromDIP(zoomed(12));
     const int top =
         grid_->CalcUnscrolledPosition(contents_->GetPosition()).y + cells_->GetPosition().y + area.y - margin;
     const int bottom = top + area.height + 2 * margin;

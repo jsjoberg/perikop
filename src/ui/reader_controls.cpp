@@ -20,7 +20,6 @@ ReaderControls reader_controls(const ReaderContext& context) {
             .prepare = !auxiliary && !active && !context.preparing && context.daily_readings,
             .back = auxiliary || reader,
             .columns = reader,
-            .menus = !auxiliary,
             .word_audio = !active && !context.preparing,
             .address_dropdown = !context.preparing && address == AddressAction::ChoosePart,
             .playback_action = action,

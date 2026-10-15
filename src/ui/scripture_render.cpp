@@ -14,7 +14,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
     const bool stacked = stacked_columns();
     std::unique_ptr<wxGraphicsContext> gc(
         wxGraphicsRenderer::GetDefaultRenderer()->CreateContextFromUnknownDC(dc));
-    int y = int(std::lround(top)) + FromDIP(12);
+    int y = int(std::lround(top)) + FromDIP(zoomed(12));
     for (std::size_t index = begin; index < end && y < size.y; ++index) {
         const auto& row = rows_[index];
         const auto& layout = row_layout(index);
@@ -23,11 +23,11 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
             dc.SetFont(ui_font(11));
             auto name = ui::utf8(corpus_.title(canon_code())).Upper();
             const auto extent = dc.GetTextExtent(name);
-            dc.DrawText(name, (size.x - extent.x) / 2, y + FromDIP(15));
+            dc.DrawText(name, (size.x - extent.x) / 2, y + FromDIP(zoomed(15)));
             dc.SetFont(body_font(28));
             dc.SetTextForeground(colors.ink);
             const wxString title = wxString::Format("%d", row.ref.chapter - (canon_ ? canon_->offset() : 0));
-            dc.DrawText(title, (size.x - dc.GetTextExtent(title).x) / 2, y + FromDIP(42));
+            dc.DrawText(title, (size.x - dc.GetTextExtent(title).x) / 2, y + FromDIP(zoomed(42)));
             dc.SetFont(ui_font(9));
             dc.SetTextForeground(colors.muted);
             wxString labels;
@@ -40,12 +40,12 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                               ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "LXX2012")
                               : ui::utf8("ΕΛΛΗΝΙΚΑ");
             }
-            dc.DrawText(labels, (size.x - dc.GetTextExtent(labels).x) / 2, y + FromDIP(93));
+            dc.DrawText(labels, (size.x - dc.GetTextExtent(labels).x) / 2, y + FromDIP(zoomed(93)));
         } else {
             if (columns_count() > 1 && !stacked) {
                 dc.SetPen(wxPen(colors.rule, 1));
                 for (int c = 1; c < columns_count(); ++c) {
-                    const int gutter = margin + c * stride - FromDIP(24);
+                    const int gutter = margin + c * stride - FromDIP(zoomed(24));
                     dc.DrawLine(gutter, y, gutter, y + layout.height);
                 }
             }
@@ -60,10 +60,10 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                     dc.DrawText(column.language == "sv"   ? "SVENSKA"
                                 : column.language == "el" ? ui::utf8("ΕΛΛΗΝΙΚΑ")
                                                           : "ENGLISH",
-                                x + FromDIP(30), text_y);
-                    text_y += FromDIP(24);
+                                x + FromDIP(zoomed(30)), text_y);
+                    text_y += FromDIP(zoomed(24));
                 }
-                dc.SetFont(body_font(settings_.font_size));
+                dc.SetFont(body_font(reading_points));
                 dc.SetTextForeground(colors.ink);
                 // A clicked verse shares its framing range across both editions.
                 if (gc && highlighted_verse_ && !settings_.word_study) {
@@ -73,10 +73,11 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         double first = std::numeric_limits<double>::max(), last = 0;
                         const auto flush = [&] {
                             if (last > first)
-                                gc->DrawRoundedRectangle(x + FromDIP(30) + first - FromDIP(5),
-                                                         text_y + line * column.text.line_height + FromDIP(1),
-                                                         last - first + FromDIP(10),
-                                                         column.text.line_height - FromDIP(2), FromDIP(4));
+                                gc->DrawRoundedRectangle(
+                                    x + FromDIP(zoomed(30)) + first - FromDIP(zoomed(5)),
+                                    text_y + line * column.text.line_height + FromDIP(zoomed(1)),
+                                    last - first + FromDIP(zoomed(10)),
+                                    column.text.line_height - FromDIP(zoomed(2)), FromDIP(zoomed(4)));
                             first = std::numeric_limits<double>::max();
                             last = 0;
                         };
@@ -99,21 +100,22 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                     for (const auto& span : guide_->spans) {
                         if (!settings_.speech_highlight)
                             break;
-                        const double center = positions_[index] + text_y - y + FromDIP(12) +
+                        const double center = positions_[index] + text_y - y + FromDIP(zoomed(12)) +
                                               (span.line + 0.5) * column.text.line_height;
                         const double emphasis =
                             std::clamp(1 - std::abs(center - guide_y_) / column.text.line_height, 0.0, 1.0);
                         gc->SetBrush(
                             wxBrush(with_alpha(colors.accent, int((16 + 20 * emphasis) * guide_alpha_))));
-                        gc->DrawRoundedRectangle(x + FromDIP(30) + span.first - FromDIP(5),
-                                                 text_y + span.line * column.text.line_height + FromDIP(1),
-                                                 span.last - span.first + FromDIP(10),
-                                                 column.text.line_height - FromDIP(2), FromDIP(4));
+                        gc->DrawRoundedRectangle(
+                            x + FromDIP(zoomed(30)) + span.first - FromDIP(zoomed(5)),
+                            text_y + span.line * column.text.line_height + FromDIP(zoomed(1)),
+                            span.last - span.first + FromDIP(zoomed(10)),
+                            column.text.line_height - FromDIP(zoomed(2)), FromDIP(zoomed(4)));
                     }
                     const double marker_y = guide_y_ - offset_ - guide_->height * 0.34;
                     gc->SetBrush(wxBrush(with_alpha(colors.accent, int(230 * guide_alpha_))));
-                    gc->DrawRoundedRectangle(x + FromDIP(16), marker_y, FromDIP(4), guide_->height * 0.68,
-                                             FromDIP(2));
+                    gc->DrawRoundedRectangle(x + FromDIP(zoomed(16)), marker_y, FromDIP(zoomed(4)),
+                                             guide_->height * 0.68, FromDIP(zoomed(2)));
                 }
                 if (gc && c == 0 && !selections_.empty()) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
@@ -122,9 +124,9 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         double first = std::numeric_limits<double>::max(), last = 0;
                         const auto flush = [&] {
                             if (last > first)
-                                gc->DrawRectangle(x + FromDIP(30) + first - FromDIP(3),
+                                gc->DrawRectangle(x + FromDIP(zoomed(30)) + first - FromDIP(zoomed(3)),
                                                   text_y + line * column.text.line_height,
-                                                  last - first + FromDIP(6), column.text.line_height);
+                                                  last - first + FromDIP(zoomed(6)), column.text.line_height);
                             first = std::numeric_limits<double>::max();
                             last = 0;
                         };
@@ -155,15 +157,16 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         gc->SetBrush(wxBrush(with_alpha(colors.accent, 36)));
                         for (const auto& [line, index] : word.runs) {
                             const auto& run = column.text.lines[line].runs[index];
-                            gc->DrawRoundedRectangle(x + FromDIP(30) + run.x - FromDIP(3),
-                                                     text_y + line * column.text.line_height + FromDIP(2),
-                                                     run.width + FromDIP(6),
-                                                     column.text.line_height - FromDIP(4), FromDIP(4));
+                            gc->DrawRoundedRectangle(
+                                x + FromDIP(zoomed(30)) + run.x - FromDIP(zoomed(3)),
+                                text_y + line * column.text.line_height + FromDIP(zoomed(2)),
+                                run.width + FromDIP(zoomed(6)), column.text.line_height - FromDIP(zoomed(4)),
+                                FromDIP(zoomed(4)));
                         }
                     }
                 }
                 if (gc && cache_text) {
-                    draw_text(*gc, dc, column, index, c, x + FromDIP(30), text_y, size.y);
+                    draw_text(*gc, dc, column, index, c, x + FromDIP(zoomed(30)), text_y, size.y);
                     gc->Flush();
                 } else {
                     const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {
@@ -177,14 +180,14 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         const auto end = std::size_t(std::max(
                             0, (size.y - text_y + column.text.line_height - 1) / column.text.line_height));
                         draw_paragraph(*gc, column.text, dc.GetFont(), wxRealPoint(dpi.x, dpi.y), colors.ink,
-                                       x + FromDIP(30), text_y, first, end, colour);
+                                       x + FromDIP(zoomed(30)), text_y, first, end, colour);
                         gc->Flush();
                     } else
-                        draw_paragraph(dc, column.text, x + FromDIP(30), text_y, colour);
+                        draw_paragraph(dc, column.text, x + FromDIP(zoomed(30)), text_y, colour);
                 }
                 // Mark only the lines containing the prescribed verse range.
                 if (c == 0) {
-                    dc.SetPen(wxPen(colors.accent, FromDIP(3)));
+                    dc.SetPen(wxPen(colors.accent, FromDIP(zoomed(3))));
                     for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
                         const auto& runs = column.text.lines[line].runs;
                         if (std::any_of(runs.begin(), runs.end(), [&](const auto& run) {
@@ -192,7 +195,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                                        column.prescribed[run.tag];
                             })) {
                             const int ly = text_y + int(line) * column.text.line_height;
-                            dc.DrawLine(margin - FromDIP(17), ly, margin - FromDIP(17),
+                            dc.DrawLine(margin - FromDIP(zoomed(17)), ly, margin - FromDIP(zoomed(17)),
                                         ly + column.text.line_height);
                         }
                     }
@@ -249,16 +252,16 @@ void ScriptureView::draw_return(wxDC& dc) {
     gc->SetFont(font, colors.ink);
     double width = 0, height = 0;
     gc->GetTextExtent(return_label_, &width, &height);
-    const int pad_x = FromDIP(26), pad_y = FromDIP(12);
+    const int pad_x = FromDIP(zoomed(26)), pad_y = FromDIP(zoomed(12));
     const auto size = GetClientSize();
-    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, FromDIP(30), int(width) + 2 * pad_x,
+    return_rect_ = wxRect(int((size.x - width) / 2) - pad_x, FromDIP(zoomed(30)), int(width) + 2 * pad_x,
                           int(height) + 2 * pad_y);
     // Mostly see-through until the pointer reaches it.
     const bool hover = return_hover_;
     gc->SetBrush(wxBrush(with_alpha(colors.paper, hover ? 245 : 185)));
     gc->SetPen(
         gc->CreatePen(wxGraphicsPenInfo(with_alpha(hover ? colors.accent : colors.muted, hover ? 200 : 70))
-                          .Width(FromDIP(100) / 100.0)));
+                          .Width(FromDIP(zoomed(100)) / 100.0)));
     gc->DrawRoundedRectangle(return_rect_.x, return_rect_.y, return_rect_.width, return_rect_.height,
                              return_rect_.height / 2.0);
     gc->SetFont(font, with_alpha(colors.ink, hover ? 255 : 165));

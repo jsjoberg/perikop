@@ -12,7 +12,7 @@ bool MainFrame::render_benchmark() {
     using Clock = std::chrono::steady_clock;
     bool ok = true;
     settings_.theme = Theme::Light;
-    settings_.font_size = 19;
+    settings_.text_zoom = 100;
     settings_.word_study = false;
     std::cout << std::fixed << std::setprecision(3);
     for (const auto* parallel : {"", "el", "en"}) {

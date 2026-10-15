@@ -435,7 +435,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.theme = Theme::Light;
     settings_.parallel.clear();
     settings_.word_study = false;
-    settings_.font_size = 19;
+    settings_.text_zoom = 100;
     apply_settings(false);
     scripture_->center_passage();
     {
@@ -713,15 +713,48 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             return pane.first == "sv";
         }))
         fail(__LINE__);
-    // The text size returns to its default.
+    // The text size steps like Chrome's zoom, reaches every page, and returns to its default.
     {
-        const auto size = settings_.font_size;
-        settings_.font_size = 26;
-        wxCommandEvent normal(wxEVT_MENU, menu_bar_->FindMenuItem("Visa", "Normal textstorlek"));
-        ProcessWindowEvent(normal);
-        if (settings_.font_size != Settings{}.font_size)
+        const auto size = settings_.text_zoom;
+        const auto command = [this](const char* menu, const wxString& label) {
+            wxCommandEvent event(wxEVT_MENU, menu_bar_->FindMenuItem(menu, label));
+            ProcessWindowEvent(event);
+        };
+        const int home_width = home_content_->GetMinSize().x;
+        command("Visa", ui::utf8("Större text"));
+        if (settings_.text_zoom != 110 || text_zoom != 110 || ui_font().GetFractionalPointSize() <= 11 ||
+            home_content_->GetMinSize().x <= home_width)
             fail(__LINE__);
-        settings_.font_size = size;
+        settings_.text_zoom = 200;
+        apply_settings(false);
+        command("Visa", ui::utf8("Större text"));
+        if (settings_.text_zoom != 200 ||
+            menu_bar_->IsEnabled(menu_bar_->FindMenuItem("Visa", ui::utf8("Större text"))))
+            fail(__LINE__);
+        command("Visa", "Normal textstorlek");
+        if (settings_.text_zoom != Settings{}.text_zoom || text_zoom != Settings{}.text_zoom)
+            fail(__LINE__);
+        settings_.text_zoom = size;
+        apply_settings(false);
+    }
+    // Speed steps the same way, and stops at either end.
+    {
+        const auto rate = settings_.speech_rate;
+        const auto command = [this](const wxString& label) {
+            wxCommandEvent event(wxEVT_MENU, menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), label));
+            ProcessWindowEvent(event);
+        };
+        settings_.speech_rate = 175;
+        command("Snabbare");
+        command("Snabbare");
+        if (settings_.speech_rate != 200)
+            fail(__LINE__);
+        command(ui::utf8("Normal hastighet"));
+        command(ui::utf8("Långsammare"));
+        if (settings_.speech_rate != 75)
+            fail(__LINE__);
+        settings_.speech_rate = rate;
+        speech_->set_speed(rate / 100.0);
         apply_settings(false);
     }
     settings_.parallel = "";
@@ -1188,16 +1221,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || !address_->IsEnabled() ||
             current_page()->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
             fail(__LINE__);
-        for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i) {
-#ifdef __WXOSX__
-            const bool available = false;
-#else
-            const bool available = GetMenuBar()->GetMenu(i)->FindItem(wxID_ABOUT) != nullptr;
-#endif
-            if (GetMenuBar()->IsEnabledTop(i) != available)
-                fail(__LINE__);
-        }
-        if (!GetMenuBar()->IsEnabled(wxID_ABOUT))
+        // Every command stays available from auxiliary pages; those for the day leave the page.
+        const auto enabled = [this](const char* menu, const char* label) {
+            return GetMenuBar()->IsEnabled(GetMenuBar()->FindMenuItem(ui::utf8(menu), ui::utf8(label)));
+        };
+        if (!enabled("Gå", "Idag") || !enabled("Gå", "Välj datum…") || !enabled("Gå", "Läsplaner") ||
+            !enabled("Visa", "Större text") || !GetMenuBar()->IsEnabled(wxID_PREFERENCES) ||
+            !GetMenuBar()->IsEnabled(wxID_ABOUT))
             fail(__LINE__);
         if (mode == 1) {
             auto* browser = dynamic_cast<BiblePicker*>(current_page());
@@ -1888,7 +1918,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     save(render(), "-playing-dark");
     // Reflow keeps the spoken verse, including the other language column.
-    settings_.font_size = 24;
+    settings_.text_zoom = 125;
     apply_settings(false);
     scripture_->playback(playing);
     for (int i = 0; i < 90; ++i)
@@ -1916,7 +1946,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     SetSize(original_size);
     Layout();
     root_->Layout();
-    settings_.font_size = original.font_size;
+    settings_.text_zoom = original.text_zoom;
     apply_settings(false);
     scripture_->playback(playing);
     scripture_->follow_playback();

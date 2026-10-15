@@ -20,6 +20,10 @@ public:
     void allow_listening(bool);
     // Lines of the current lookup, for the smoke test.
     std::vector<wxString> text() const;
+    // The narrowest the pane gets, at the current text size.
+    wxSize GetMinSize() const override {
+        return FromDIP(zoomed(wxSize(260, -1)));
+    }
 
 private:
     void rebuild();

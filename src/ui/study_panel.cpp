@@ -22,15 +22,14 @@ wxString word_class(const std::string& code) {
 StudyPanel::StudyPanel(wxWindow* parent, const CorpusDb& corpus, SpeechEngine& speech, Lexicon lexicon)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE),
       corpus_(corpus), speech_(speech), lexicon_(std::move(lexicon)) {
-    SetMinSize(FromDIP(wxSize(260, -1)));
-    SetScrollRate(0, FromDIP(12));
+    SetScrollRate(0, FromDIP(zoomed(12)));
     // Definitions wrap to the panel width; rewrap when it changes noticeably.
     Bind(wxEVT_SIZE, [this](wxSizeEvent& e) {
-        if (std::abs(GetClientSize().x - wrapped_) > FromDIP(12) && !rebuild_pending_) {
+        if (std::abs(GetClientSize().x - wrapped_) > FromDIP(zoomed(12)) && !rebuild_pending_) {
             rebuild_pending_ = true;
             CallAfter([this] {
                 rebuild_pending_ = false;
-                if (std::abs(GetClientSize().x - wrapped_) > FromDIP(12))
+                if (std::abs(GetClientSize().x - wrapped_) > FromDIP(zoomed(12)))
                     rebuild();
             });
         }
@@ -80,22 +79,22 @@ void StudyPanel::rebuild() {
     DestroyChildren();
     listen_ = nullptr;
     const auto colors = palette(theme_);
-    const int pad = FromDIP(20);
+    const int pad = FromDIP(zoomed(20));
     wrapped_ = GetClientSize().x;
-    const int width = std::max(FromDIP(160), wrapped_ - 2 * pad - FromDIP(16));
+    const int width = std::max(FromDIP(zoomed(160)), wrapped_ - 2 * pad - FromDIP(zoomed(16)));
     auto* sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->AddSpacer(FromDIP(28));
+    sizer->AddSpacer(FromDIP(zoomed(28)));
     const auto text = [&](const wxString& value, const wxFont& font, const wxColour& colour, int below = 6) {
         auto* label = new wxStaticText(this, wxID_ANY, value);
         label->SetFont(font);
         label->SetForegroundColour(colour);
         label->Wrap(width);
         sizer->Add(label, 0, wxLEFT | wxRIGHT, pad);
-        sizer->AddSpacer(FromDIP(below));
+        sizer->AddSpacer(FromDIP(zoomed(below)));
         return label;
     };
     const auto section = [&](const wxString& title) {
-        sizer->AddSpacer(FromDIP(14));
+        sizer->AddSpacer(FromDIP(zoomed(14)));
         text(title, ui_font(9), colors.muted, 4);
     };
     const auto link = [&](const wxString& label, const wxString& url) {
@@ -105,7 +104,7 @@ void StudyPanel::rebuild() {
         source->SetVisitedColour(colors.accent);
         source->SetHoverColour(colors.ink);
         sizer->Add(source, 0, wxLEFT, pad);
-        sizer->AddSpacer(FromDIP(5));
+        sizer->AddSpacer(FromDIP(zoomed(5)));
     };
     if (!word_)
         text(ui::utf8("Klicka på ett ord i texten för att slå upp det."), ui_font(12), colors.muted);
@@ -205,7 +204,7 @@ void StudyPanel::rebuild() {
                                        });
                         more->SetFont(ui_font(10));
                         sizer->Add(more, 0, wxLEFT, pad);
-                        sizer->AddSpacer(FromDIP(5));
+                        sizer->AddSpacer(FromDIP(zoomed(5)));
                     }
                     auto* source = new wxHyperlinkCtrl(this, wxID_ANY, ui::utf8("Källa: Projekt Runeberg"),
                                                        ui::utf8(entry.url));
@@ -214,7 +213,7 @@ void StudyPanel::rebuild() {
                     source->SetVisitedColour(colors.accent);
                     source->SetHoverColour(colors.ink);
                     sizer->Add(source, 0, wxLEFT, pad);
-                    sizer->AddSpacer(FromDIP(12));
+                    sizer->AddSpacer(FromDIP(zoomed(12)));
                 }
             }
             if (entries.empty() && articles.empty() && saldo.empty()) {
@@ -222,7 +221,7 @@ void StudyPanel::rebuild() {
                 text(ui::utf8("Ordet finns inte i de svenska uppslagskällorna."), ui_font(11), colors.muted);
             }
         }
-        sizer->AddSpacer(FromDIP(18));
+        sizer->AddSpacer(FromDIP(zoomed(18)));
         text(ui::utf8("Dalins ordbok, Språkbanken Text, CC BY 4.0"), ui_font(8), colors.muted);
     }
     SetSizer(sizer);
@@ -233,5 +232,9 @@ void StudyPanel::rebuild() {
     Layout();
     Thaw();
     Refresh();
+    // wxGTK left this pane out of the Tab order while it had no buttons. Moving it to the place it
+    // already has makes the window list it again, now with its Lyssna button and links.
+    if (auto* previous = GetPrevSibling())
+        MoveAfterInTabOrder(previous);
 }
 } // namespace ortho

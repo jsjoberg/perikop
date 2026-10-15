@@ -93,9 +93,9 @@ int PickerGrid::place(const std::vector<Block>& blocks, int x, int width, int y,
         case Block::Kind::Heading: {
             const auto font = ui_font(9);
             GetTextExtent(block.text, &w, &h, nullptr, nullptr, &font);
-            y += FromDIP(12);
+            y += FromDIP(zoomed(12));
             items_.push_back({{x, y, w, h}, &block});
-            y += h + FromDIP(12);
+            y += h + FromDIP(zoomed(12));
             break;
         }
         case Block::Kind::Title: {
@@ -109,24 +109,25 @@ int PickerGrid::place(const std::vector<Block>& blocks, int x, int width, int y,
                 for (const auto& action : block.actions) {
                     int aw = 0, ah = 0;
                     GetTextExtent(action.label, &aw, &ah, nullptr, nullptr, &action_font);
-                    pills.emplace_back(aw + FromDIP(24), std::max(ah + FromDIP(10), FromDIP(26)));
-                    row += pills.back().x + (row ? FromDIP(8) : 0);
+                    pills.emplace_back(aw + FromDIP(zoomed(24)),
+                                       std::max(ah + FromDIP(zoomed(10)), FromDIP(zoomed(26))));
+                    row += pills.back().x + (row ? FromDIP(zoomed(8)) : 0);
                 }
                 // A right-aligned row beside the title when both fit, else a row beneath it.
-                const bool beside = w + FromDIP(16) + row <= width;
-                wxPoint at = beside ? wxPoint(x + width - row, y) : wxPoint(x, y + h + FromDIP(8));
+                const bool beside = w + FromDIP(zoomed(16)) + row <= width;
+                wxPoint at = beside ? wxPoint(x + width - row, y) : wxPoint(x, y + h + FromDIP(zoomed(8)));
                 for (std::size_t i = 0; i < pills.size(); ++i) {
                     const wxPoint pill_at(at.x, beside ? y + (h - pills[i].y) / 2 : at.y);
                     items_.push_back({{pill_at, pills[i]}, &block, nullptr, &block.actions[i]});
                     bottom = std::max(bottom, pill_at.y + pills[i].y);
-                    at.x += pills[i].x + FromDIP(8);
+                    at.x += pills[i].x + FromDIP(zoomed(8));
                 }
             }
-            y = bottom + FromDIP(12);
+            y = bottom + FromDIP(zoomed(12));
             break;
         }
         case Block::Kind::Cells: {
-            const int step = FromDIP(cell_width + gap), space = FromDIP(gap);
+            const int step = FromDIP(zoomed(cell_width + gap)), space = FromDIP(zoomed(gap));
             const int columns = std::clamp((width + space) / step, 1, block.columns);
             for (std::size_t first = 0; first < block.cells.size(); first += std::size_t(columns)) {
                 const auto end = std::min(block.cells.size(), first + std::size_t(columns));
@@ -136,18 +137,18 @@ int PickerGrid::place(const std::vector<Block>& blocks, int x, int width, int y,
                     const int left = x + column * (width + space) / columns;
                     const int right = x + (column + 1) * (width + space) / columns - space;
                     items_.push_back(
-                        {{left, y, right - left, FromDIP(cell_height)}, &block, &block.cells[i]});
+                        {{left, y, right - left, FromDIP(zoomed(cell_height))}, &block, &block.cells[i]});
                 }
-                y += FromDIP(cell_height);
+                y += FromDIP(zoomed(cell_height));
                 if (const auto& open = block.open; open && first <= *open && *open < end) {
                     const wxRect opener = items_[items_.size() - (end - *open)].rect;
-                    y += FromDIP(notch + 4);
+                    y += FromDIP(zoomed(notch + 4));
                     const int top = y;
-                    y = place(block.drawer, x + FromDIP(inset), width - 2 * FromDIP(inset),
-                              y + FromDIP(inset), depth + 1) +
-                        FromDIP(inset - gap);
+                    y = place(block.drawer, x + FromDIP(zoomed(inset)), width - 2 * FromDIP(zoomed(inset)),
+                              y + FromDIP(zoomed(inset)), depth + 1) +
+                        FromDIP(zoomed(inset - gap));
                     drawers_.push_back({{x, top, width, y - top}, opener, depth + 1});
-                    y += FromDIP(10);
+                    y += FromDIP(zoomed(10));
                 } else
                     y += space;
             }
@@ -256,7 +257,7 @@ void PickerGrid::paint(wxPaintEvent&) {
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
     if (!gc)
         return;
-    const double scale = FromDIP(100) / 100.0, radius = 6 * scale;
+    const double scale = FromDIP(zoomed(100)) / 100.0, radius = 6 * scale;
     // Drawers from the outermost in, each with a notch that points at the cell it belongs to.
     auto drawers = drawers_;
     std::ranges::sort(drawers, {}, &Drawer::depth);
@@ -265,7 +266,7 @@ void PickerGrid::paint(wxPaintEvent&) {
     for (const auto& drawer : drawers) {
         const auto& r = drawer.rect;
         gc->DrawRoundedRectangle(r.x, r.y, r.width, r.height, 2 * radius);
-        const double centre = drawer.opener.x + drawer.opener.width / 2.0, tip = FromDIP(notch);
+        const double centre = drawer.opener.x + drawer.opener.width / 2.0, tip = FromDIP(zoomed(notch));
         auto path = gc->CreatePath();
         path.MoveToPoint(centre - tip, r.y);
         path.AddLineToPoint(centre, r.y - tip);

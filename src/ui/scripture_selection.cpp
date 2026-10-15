@@ -55,7 +55,7 @@ void ScriptureView::clear_selection() {
 }
 std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
     const auto found = hit(point);
-    if (!found || found->run < 0 || found->distance > FromDIP(4))
+    if (!found || found->run < 0 || found->distance > FromDIP(zoomed(4)))
         return std::nullopt;
     const auto& column = *found->column;
     return column.verses[column.text.lines[found->line].runs[found->run].tag].first;
@@ -116,7 +116,7 @@ ScriptureView::word_of(const Column& column, int tag, std::size_t line, int run)
 }
 std::optional<ScriptureView::Word> ScriptureView::word_at(wxPoint point) const {
     const auto found = hit(point);
-    if (!found || found->column_index != 0 || found->run < 0 || found->distance > FromDIP(4))
+    if (!found || found->column_index != 0 || found->run < 0 || found->distance > FromDIP(zoomed(4)))
         return std::nullopt;
     const auto& column = *found->column;
     const int tag = column.text.lines[found->line].runs[found->run].tag;
@@ -138,7 +138,7 @@ std::optional<Passage> ScriptureView::highlighted_verse() const {
 }
 void ScriptureView::click_text(wxPoint point) {
     const auto found = hit(point);
-    if (!found || found->run < 0 || found->distance > FromDIP(4))
+    if (!found || found->run < 0 || found->distance > FromDIP(zoomed(4)))
         return;
     if (settings_.word_study) {
         const auto word = word_at(point);
@@ -166,7 +166,7 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
     if (rows_.empty() || positions_.empty())
         return std::nullopt;
     // Rows are drawn from positions_ shifted by the scroll offset and a top inset.
-    const double y = point.y + offset_ - FromDIP(12);
+    const double y = point.y + offset_ - FromDIP(zoomed(12));
     auto it = std::upper_bound(positions_.begin(), positions_.end(), y);
     if (it == positions_.begin())
         return std::nullopt;
@@ -185,14 +185,14 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
     if (stacked) {
         for (; column_index < layout.columns.size(); ++column_index) {
             if (layout.columns.size() > 1)
-                top += FromDIP(24);
+                top += FromDIP(zoomed(24));
             if (y < top + layout.columns[column_index].text.height())
                 break;
             top += layout.columns[column_index].text.height();
         }
     } else {
         column_index = std::size_t((point.x - margin) / stride);
-        if (point.x - margin - int(column_index) * stride >= FromDIP(30) + column_width())
+        if (point.x - margin - int(column_index) * stride >= FromDIP(zoomed(30)) + column_width())
             return std::nullopt; // The gutter between columns.
     }
     if (column_index >= layout.columns.size())
@@ -202,7 +202,7 @@ std::optional<ScriptureView::Hit> ScriptureView::hit(wxPoint point) const {
         return std::nullopt;
     const auto line =
         std::min(column.text.lines.size() - 1, std::size_t((y - top) / column.text.line_height));
-    const double x = point.x - margin - (stacked ? 0 : int(column_index) * stride) - FromDIP(30);
+    const double x = point.x - margin - (stacked ? 0 : int(column_index) * stride) - FromDIP(zoomed(30));
     // The run under the pointer, or the nearest one on that line.
     int nearest = -1;
     double best = std::numeric_limits<double>::max();

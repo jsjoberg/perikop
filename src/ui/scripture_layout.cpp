@@ -19,7 +19,7 @@ int ScriptureView::columns_count() const {
 }
 double ScriptureView::alphabet_width() const {
     wxClientDC dc(const_cast<ScriptureView*>(this));
-    dc.SetFont(body_font(settings_.font_size));
+    dc.SetFont(body_font(reading_points));
     return dc.GetTextExtent("abcdefghijklmnopqrstuvwxyz").x;
 }
 int ScriptureView::outside_margin() const {
@@ -27,26 +27,27 @@ int ScriptureView::outside_margin() const {
     if (columns_count() == 1) {
         // Two and a half alphabets, about 65 characters, is Bringhurst's comfortable line;
         // the extra 30 DIP is the column's gutter for verse bars.
-        const int limit = int(2.5 * alphabet_width()) + FromDIP(30);
-        return std::max(FromDIP(32), (width - std::min(limit, width - FromDIP(64))) / 2);
+        const int limit = int(2.5 * alphabet_width()) + FromDIP(zoomed(30));
+        return std::max(FromDIP(zoomed(32)), (width - std::min(limit, width - FromDIP(zoomed(64)))) / 2);
     }
-    return std::clamp(width / 14, FromDIP(32), FromDIP(105));
+    return std::clamp(width / 14, FromDIP(zoomed(32)), FromDIP(zoomed(105)));
 }
 bool ScriptureView::stacked_columns() const {
-    return (GetClientSize().x - 2 * outside_margin()) / columns_count() < FromDIP(270);
+    return (GetClientSize().x - 2 * outside_margin()) / columns_count() < FromDIP(zoomed(270));
 }
 int ScriptureView::column_stride() const {
     const int usable = GetClientSize().x - 2 * outside_margin();
-    const int gap = FromDIP(44);
+    const int gap = FromDIP(zoomed(44));
     return (usable - gap * (columns_count() - 1)) / columns_count() + gap;
 }
 int ScriptureView::estimated_height(const Row& row) const {
-    return row.heading ? FromDIP(124) : FromDIP(150);
+    return row.heading ? FromDIP(zoomed(124)) : FromDIP(zoomed(150));
 }
 int ScriptureView::column_width() const {
-    const int usable = std::max(FromDIP(120), GetClientSize().x - 2 * outside_margin());
-    return stacked_columns() ? usable - FromDIP(30)
-                             : (usable - FromDIP(44) * (columns_count() - 1)) / columns_count() - FromDIP(30);
+    const int usable = std::max(FromDIP(zoomed(120)), GetClientSize().x - 2 * outside_margin());
+    return stacked_columns() ? usable - FromDIP(zoomed(30))
+                             : (usable - FromDIP(zoomed(44)) * (columns_count() - 1)) / columns_count() -
+                                   FromDIP(zoomed(30));
 }
 void ScriptureView::open(const Reading& reading) {
     reading_ = reading;
@@ -233,7 +234,8 @@ void ScriptureView::center_passage() {
 }
 bool ScriptureView::passage_in_view() const {
     // Rows at the very edges, or under the button, do not count as seen.
-    const double top = offset_ + FromDIP(40), bottom = offset_ + GetClientSize().y - FromDIP(90);
+    const double top = offset_ + FromDIP(zoomed(40)),
+                 bottom = offset_ + GetClientSize().y - FromDIP(zoomed(90));
     for (auto i = first_visible(); i < rows_.size() && positions_[i] < bottom; ++i)
         if (positions_[i + 1] > top && !rows_[i].heading && rows_[i].ref <= displayed_.last &&
             displayed_.first <= rows_[i].last)
@@ -242,7 +244,7 @@ bool ScriptureView::passage_in_view() const {
 }
 void ScriptureView::apply(const Settings& settings) {
     const bool metrics_changed =
-        settings_.font_size != settings.font_size || settings_.parallel != settings.parallel;
+        settings_.text_zoom != settings.text_zoom || settings_.parallel != settings.parallel;
     if (settings_.word_study != settings.word_study) {
         highlighted_.reset();
         highlighted_verse_.reset();
@@ -304,7 +306,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     }
     ++render_stats_.layout_builds;
     wxClientDC dc(const_cast<ScriptureView*>(this));
-    dc.SetFont(body_font(settings_.font_size));
+    dc.SetFont(body_font(reading_points));
     Layout layout;
     if (rows_[index].heading)
         layout.height = estimated_height(rows_[index]);
@@ -384,11 +386,12 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
             render_stats_.typesetting_ms +=
                 std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - typeset_begin)
                     .count();
-            const int h = column.text.height() + (stacked && selected_languages.size() > 1 ? FromDIP(24) : 0);
+            const int h =
+                column.text.height() + (stacked && selected_languages.size() > 1 ? FromDIP(zoomed(24)) : 0);
             height = stacked ? height + h : std::max(height, h);
             layout.columns.push_back(std::move(column));
         }
-        layout.height = height + FromDIP(14);
+        layout.height = height + FromDIP(zoomed(14));
     }
     while (cache_.size() >= cache_limit) {
         cache_.erase(order_.front());

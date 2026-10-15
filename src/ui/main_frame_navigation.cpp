@@ -52,7 +52,7 @@ void MainFrame::show_page(wxWindow* page, Screen screen, const wxString& title) 
         root_->GetSizer()->Detach(previous);
     }
     const auto view = navigation_.push(screen);
-    pages_.emplace(view.id, PageWindow{page, title});
+    pages_.emplace(view.id, PageWindow{page, title, screen});
     present_navigation();
     refresh_speech();
 }
@@ -100,8 +100,6 @@ void MainFrame::browse_bible() {
     show_page(page, Screen::Bible, "Bibel");
 }
 void MainFrame::pick_date() {
-    if (navigation_.auxiliary())
-        return;
     const bool home = navigation_.current().screen == Screen::Day;
     month_open_ = !home || !month_open_;
     if (!home)

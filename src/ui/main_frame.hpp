@@ -13,7 +13,6 @@
 
 class wxBoxSizer;
 class wxEventFilter;
-class wxMenu;
 class wxMenuBar;
 class wxPanel;
 class wxScrolledWindow;
@@ -42,9 +41,8 @@ public:
 
 private:
     void make_menus();
-    // The menu bar's menus, built for the current settings. The ⋮ menu shows them too.
-    std::vector<std::pair<wxMenu*, wxString>> menus() const;
-    void sync_menu(wxMenu&) const;
+    // Brings the menu bar's labels and states up to date. The ⋮ menu shows its items.
+    void sync_menu();
     void show_menu();
     // Windows and Linux hide the menu bar; Alt shows it. macOS always shows its own.
     void show_menu_bar(bool);
@@ -79,6 +77,9 @@ private:
     // The reading plans have their own page, opened from the start page and the Bibel menu.
     void show_plans();
     void fill_plans(wxScrolledWindow*);
+    // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
+    void show_settings();
+    void fill_settings(wxScrolledWindow*);
     // The start page's plan section: the next part of the plan in progress, and all plans.
     void add_next_plan();
     void open_plan_part(const ReadingPlan&, std::size_t part);
@@ -136,6 +137,7 @@ private:
     struct PageWindow {
         wxWindow* window;
         wxString title;
+        Screen screen;
     };
     std::map<NavigationState::ViewId, PageWindow> pages_;
     std::vector<SymbolButton*> date_buttons_;
