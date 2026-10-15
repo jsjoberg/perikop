@@ -232,5 +232,9 @@ void StudyPanel::rebuild() {
     Layout();
     Thaw();
     Refresh();
+    // wxGTK left this pane out of the Tab order while it had no buttons. Moving it to the place it
+    // already has makes the window list it again, now with its Lyssna button and links.
+    if (auto* previous = GetPrevSibling())
+        MoveAfterInTabOrder(previous);
 }
 } // namespace ortho

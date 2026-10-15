@@ -13,6 +13,9 @@
 #ifdef __APPLE__
 #include "ui/native_menu.hpp"
 #endif
+#ifdef __WXGTK__
+#include <gtk/gtk.h>
+#endif
 namespace ortho {
 namespace {
 enum {
@@ -180,6 +183,14 @@ public:
         make_key_window(*this);
         if (first)
             first->SetFocus();
+#endif
+#ifdef __WXGTK__
+        // wxGTK grabs only the pointer for a popup, so keys would still go to the focused main window.
+        // wxGTK's ungrab on closing releases this grab too.
+        auto* widget = static_cast<GtkWidget*>(GetHandle());
+        gdk_seat_grab(gdk_display_get_default_seat(gtk_widget_get_display(widget)),
+                      gtk_widget_get_window(widget), GDK_SEAT_CAPABILITY_KEYBOARD, false, nullptr, nullptr,
+                      nullptr, nullptr);
 #endif
     }
 
