@@ -76,7 +76,11 @@ done | sort -u | while read -r package; do
     { rpm -q --licensefiles $siblings || true
       rpm -q --docfiles $siblings | grep -i -E '/(COPYING|LICEN[CS]E|COPYRIGHT|NOTICE|BSD)[^/]*$' || true
     } | grep '^/' | while read -r file; do
-        [ -f "$file" ] && { mkdir -p "$licenses/$origin"; cp "$file" "$licenses/$origin/"; }
+        # rpm also lists files that are not installed, such as docs in an image built with nodocs.
+        if [ -f "$file" ]; then
+            mkdir -p "$licenses/$origin"
+            cp "$file" "$licenses/$origin/"
+        fi
     done
     # Rocky ships no licence text for some packages; tools/appimage-licenses has upstream's.
     [ -d "$source/tools/appimage-licenses/$origin" ] && cp -r "$source/tools/appimage-licenses/$origin" "$licenses/"
