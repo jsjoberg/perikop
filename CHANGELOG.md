@@ -42,6 +42,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Fixed
 
+- Swedish read-aloud stresses Jordan as Jordán, no longer reads ai as ä in Betsaida and about 40 other names, and stresses spetälsk and spetälska on the second syllable.
 - Opening the book picker no longer crashes on Wayland when no pointer device is present.
 
 

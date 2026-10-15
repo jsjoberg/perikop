@@ -132,6 +132,65 @@ tryfon	trˈyːfɔn
 tubal	tˈʉːbal
 uria	ʉrˈiːa
 ussia	ɵsˈiːa
+# Jordán has stress and a long a on its second syllable ("Betoning av bibliska
+# namn", De apokryfiska böckerna 1921, p. 277). NST's name row jˈoːɖan is the
+# modern given name, which sounds English.
+jordan	jʊɖˈɑːn
+# Betsaída: stress on the ai diphthong (same appendix, New Testament rule 1).
+betsaida	bɛtsˈajda
+# The neural fallback reads ai as ä in these names. Final -ai and the dual
+# -aim are a + i, as in Barsillai, Mahanaim, and NST's Efraim. Stress follows
+# the appendix's Old Testament rules: first syllable in names of two or three
+# syllables, otherwise the next-to-last syllable.
+bebai	bˈeːbaɪ
+berotai	bɛrʊtˈɑːɪ
+birsait	bˈɪʂaɪt
+bosenai	bʊsɛnˈɑːɪ
+diblataim	dɪblatˈɑːɪm
+diblataima	dɪblataˈiːma
+efraimsporten	ˈeːfraɪmspˌʊʈən
+elienai	ɛlɪɛnˈɑːɪ
+esbai	ˈɛsbaɪ
+gederotaim	jɛdɛrʊtˈɑːɪm
+hafaraim	hafarˈɑːɪm
+hassebaim	hasɛbˈɑːɪm
+horonaim	hʊrʊnˈɑːɪm
+jismerai	jɪsmɛrˈɑːɪ
+kelubai	ɕɛlɵbˈɑːɪ
+kirjataim	ɕɪrjatˈɑːɪm
+maherai	mahɛrˈɑːɪ
+maknaddebai	maknadɛbˈɑːɪ
+mattenai	matɛnˈɑːɪ
+meonotai	mɛʊnʊtˈɑːɪ
+merataim	mɛratˈɑːɪm
+misraim	mˈɪsraɪm
+naharaim	naharˈɑːɪm
+naherai	nahɛrˈɑːɪ
+peulletai	pɛɵlɛtˈɑːɪ
+ramataim	ramatˈɑːɪm
+refaim	rˈeːfaɪm
+refaimsdalen	rˈeːfaɪmsdˌɑːlən
+risataim	rɪsatˈɑːɪm
+saharaim	saharˈɑːɪm
+sair	sˈɑːɪr
+sefarvaim	sɛfarvˈɑːɪm
+semaraim	sɛmarˈɑːɪm
+sibraim	sˈɪbraɪm
+sitrai	sˈɪtraɪ
+sobai	sˈuːbaɪ
+sotai	sˈuːtaɪ
+surisaddai	sʉrɪsadˈɑːɪ
+tattenai	tatɛnˈɑːɪ
+# SO gives speˋtälsk and speˋtälska: stress on the second syllable. NST and the
+# voice stress spe- like a compound, with a long e or, in spetälskan, a short ä.
+spetälsk	spətˈɛlsk	word-only
+spetälska	spətˈɛlska	word-only
+spetälskan	spətˈɛlskan	word-only
+spetälske	spətˈɛlskə	word-only
+spetälskes	spətˈɛlskəs	word-only
+spetälskeartat	spətˈɛlskəˌɑːʈat	word-only
+spetälskeskorv	spətˈɛlskəskˌɔrv	word-only
+spetälskesjukdom	spətˈɛlskəɧˌʉːkdʊm	word-only
 # Vowel length: NST incorrectly gives these forms a long u.
 krubba	krˈɵba	word-only
 krubban	krˈɵban	word-only
@@ -154,7 +213,6 @@ kors	kˈɔʂ
 andre	ˈandrə
 sen	sˈeːn
 togo	tˈuːɡʊ
-jordan	jˈoːɖan
 bergen	bˈɛrjən
 vars	vˈaʂ
 ute	ˈʉːtə
