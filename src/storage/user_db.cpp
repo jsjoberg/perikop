@@ -1,6 +1,7 @@
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
+#include <array>
 #include <charconv>
 #include <stdexcept>
 namespace ortho {
@@ -8,6 +9,11 @@ using storage::exec;
 using storage::open;
 using storage::Statement;
 using storage::Transaction;
+namespace {
+// Stored names, in ColorScheme order. An unknown name keeps the default.
+constexpr std::array<const char*, 8> color_schemes{"perikop",    "rose-pine",  "gruvbox",     "nord",
+                                                   "everforest", "catppuccin", "tokyo-night", "solarized"};
+} // namespace
 UserDb::UserDb(const std::filesystem::path& path) {
     if (!path.parent_path().empty())
         std::filesystem::create_directories(path.parent_path());
@@ -59,6 +65,10 @@ Settings UserDb::load() const {
         const auto key = query.text(0), value = query.text(1);
         if (key == "theme")
             result.theme = value == "dark" ? Theme::Dark : value == "light" ? Theme::Light : Theme::System;
+        if (key == "color_scheme")
+            for (int i = 0; i < int(color_schemes.size()); ++i)
+                if (value == color_schemes[i])
+                    result.color_scheme = ColorScheme(i);
         if (key == "calendar")
             result.calendar = value == "old" ? CalendarStyle::Old : CalendarStyle::New;
         if (key == "tradition")
@@ -94,6 +104,7 @@ void UserDb::save(const Settings& settings) {
         {"theme", settings.theme == Theme::Dark    ? "dark"
                   : settings.theme == Theme::Light ? "light"
                                                    : "system"},
+        {"color_scheme", color_schemes[int(settings.color_scheme)]},
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
         {"tradition", settings.tradition == Tradition::Slavic ? "slavic" : "greek"},
         {"parallel", settings.parallel},

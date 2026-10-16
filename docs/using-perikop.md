@@ -42,7 +42,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 - **⋮** opens the commands, as in Chrome. **−** and **+** in the menu change the text size and the read-aloud speed without closing it.
   On Windows and Linux, press Alt to show the menu bar.
 - The text size applies to the whole program. Ctrl++ and Ctrl+- (⌘ on macOS) change it, and Ctrl+0 resets it.
-- **Inställningar** holds the theme, the calendar, the reading order, and the voice.
+- **Inställningar** holds the colour scheme and theme, the calendar, the reading order, and the voice.
 - Tab moves through the toolbar, the page, and the word study column in that order. Shift+Tab moves back.
 
 ## Updates

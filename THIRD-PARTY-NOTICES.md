@@ -14,6 +14,19 @@ unmodified static Regular and Medium fonts. The license is in
 `resources/licenses/IBMPlexSans-OFL.txt`.
 Source: https://github.com/IBM/plex
 
+## Colour schemes
+
+The colour schemes use the colour values and names of these themes. No code or files
+are copied, and the projects do not endorse Perikop.
+
+- Rosé Pine (MIT): https://rosepinetheme.com
+- Gruvbox, by Pavel Pertsev (MIT/X11): https://github.com/morhetz/gruvbox
+- Nord, by Sven Greb (MIT): https://www.nordtheme.com
+- Everforest, by sainnhe (MIT): https://github.com/sainnhe/everforest
+- Catppuccin (MIT): https://catppuccin.com
+- Tokyo Night, by Folke Lemaitre (Apache 2.0): https://github.com/folke/tokyonight.nvim
+- Solarized, by Ethan Schoonover (MIT): https://ethanschoonover.com/solarized
+
 ## Libraries
 
 wxWidgets 3.3.3 uses the wxWindows Library Licence. This license permits static

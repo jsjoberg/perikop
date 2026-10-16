@@ -54,6 +54,7 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
       user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
       selected_(date), settings_(user.load()), playback_timer_(this) {
     text_zoom = settings_.text_zoom;
+    color_scheme = settings_.color_scheme;
     SetMinSize(FromDIP(wxSize(520, 480)));
     root_ = new wxPanel(this);
     root_->SetFont(ui_font());
@@ -419,6 +420,7 @@ void MainFrame::review_pronunciation() {
     refresh_speech();
 }
 void MainFrame::apply_settings(bool persist) {
+    color_scheme = settings_.color_scheme;
 #if wxCHECK_VERSION(3, 3, 0)
     static std::optional<Theme> native_theme;
     if (native_theme != settings_.theme) {

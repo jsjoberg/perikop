@@ -11,15 +11,6 @@ namespace {
 using namespace std::chrono;
 // Layout on a grid of device-independent pixels.
 constexpr int cell_width = 40, cell_height = 34, header = 40, weekdays = 24, legend = 38;
-struct CalendarColors {
-    wxColour today;
-    std::array<wxColour, 3> services;
-};
-CalendarColors calendar_colors(const Palette& colors) {
-    if (colors.paper.Red() < 128)
-        return {{120, 179, 222}, {{{188, 160, 223}, {215, 180, 105}, {124, 185, 149}}}};
-    return {{42, 112, 160}, {{{133, 98, 171}, {174, 129, 41}, {71, 132, 101}}}};
-}
 void service_marker(wxGraphicsContext& gc, double x, double y, double size, const wxColour& color,
                     std::size_t service) {
     gc.SetPen(*wxTRANSPARENT_PEN);
@@ -386,7 +377,7 @@ void MonthCalendar::paint(wxPaintEvent&) {
         if (title_hover_ == int(group)) {
             const auto area = title(int(group));
             gc->SetPen(*wxTRANSPARENT_PEN);
-            gc->SetBrush(wxBrush(with_alpha(colors_.ink, 20)));
+            gc->SetBrush(wxBrush(colors_.surface));
             gc->DrawRoundedRectangle(area.x, area.y, area.width, area.height, 6 * scale);
         }
         int points = 12;
@@ -406,7 +397,7 @@ void MonthCalendar::paint(wxPaintEvent&) {
             supported((year_month{focus_.year() / focus_.month()} + months{months_for(step)}) / 1);
         if (enabled && arrow_hover_ == step) {
             gc->SetPen(*wxTRANSPARENT_PEN);
-            gc->SetBrush(wxBrush(with_alpha(colors_.ink, 20)));
+            gc->SetBrush(wxBrush(colors_.surface));
             gc->DrawRoundedRectangle(area.x, area.y, area.width, area.height, 6 * scale);
         }
         gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(enabled ? colors_.ink : colors_.muted)
@@ -422,7 +413,6 @@ void MonthCalendar::paint(wxPaintEvent&) {
         gc->StrokePath(path);
     }
     const auto today = local_civil_date();
-    const auto marks = calendar_colors(colors_);
     // A day, month, or year: tinted when selected, ringed when current, outlined under the keyboard.
     const auto draw_cell = [&](const wxRect& area, const wxString& text, CivilDate date, bool selected,
                                bool current, bool accent, double lift) {
@@ -430,12 +420,12 @@ void MonthCalendar::paint(wxPaintEvent&) {
                      h = area.height - 4 * scale, radius = 6 * scale;
         gc->SetPen(*wxTRANSPARENT_PEN);
         if (selected || hover_ == date) {
-            gc->SetBrush(wxBrush(selected ? with_alpha(colors_.accent, 44) : with_alpha(colors_.ink, 20)));
+            gc->SetBrush(wxBrush(selected ? with_alpha(colors_.accent, 44) : colors_.surface));
             gc->DrawRoundedRectangle(x, y, w, h, radius);
         }
         gc->SetBrush(*wxTRANSPARENT_BRUSH);
         if (current) {
-            gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(marks.today).Width(1.7 * scale)));
+            gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.today).Width(1.7 * scale)));
             gc->DrawRoundedRectangle(x + 2 * scale, y + 2 * scale, w - 4 * scale, h - 4 * scale,
                                      radius - scale);
         }
@@ -491,7 +481,7 @@ void MonthCalendar::paint(wxPaintEvent&) {
             for (std::size_t service = 0; service < services.size(); ++service)
                 if (services[service])
                     service_marker(*gc, center + (position++ - (count - 1) / 2.0) * 8 * scale, bottom,
-                                   2.3 * scale, marks.services[service], service);
+                                   2.3 * scale, colors_.services[service], service);
         }
     }
     // Shapes keep the meaning visible without relying on colour alone.
@@ -509,9 +499,9 @@ void MonthCalendar::paint(wxPaintEvent&) {
         gc->GetTextExtent(label, &width, &height);
         gc->DrawText(label, x + 13 * scale, y - height / 2);
     };
-    key(8 * scale, bottom + 10 * scale, marks.today, "Idag", 0);
-    key(144 * scale, bottom + 10 * scale, marks.services[0], "Ortros", 1);
-    key(8 * scale, bottom + 27 * scale, marks.services[1], "Vesper", 2);
-    key(144 * scale, bottom + 27 * scale, marks.services[2], ui::utf8("Övriga gudstjänster"), 3);
+    key(8 * scale, bottom + 10 * scale, colors_.today, "Idag", 0);
+    key(144 * scale, bottom + 10 * scale, colors_.services[0], "Ortros", 1);
+    key(8 * scale, bottom + 27 * scale, colors_.services[1], "Vesper", 2);
+    key(144 * scale, bottom + 27 * scale, colors_.services[2], ui::utf8("Övriga gudstjänster"), 3);
 }
 } // namespace ortho

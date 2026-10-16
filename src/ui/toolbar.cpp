@@ -300,10 +300,11 @@ void SymbolButton::paint(wxPaintEvent&) {
     }
     if (enabled && (checked_ || press_.hover)) {
         gc->SetPen(*wxTRANSPARENT_PEN);
-        gc->SetBrush(wxBrush(checked_ ? with_alpha(colors_.accent, press_.pressed ? 80
-                                                                   : press_.hover ? 64
-                                                                                  : 44)
-                                      : with_alpha(colors_.ink, press_.pressed ? 36 : 20)));
+        gc->SetBrush(wxBrush(checked_         ? with_alpha(colors_.accent, press_.pressed ? 80
+                                                                           : press_.hover ? 64
+                                                                                          : 44)
+                             : press_.pressed ? colors_.overlay
+                                              : colors_.surface));
         gc->DrawRoundedRectangle(0, 0, size.x, size.y, 6 * scale);
     }
     const wxColour ink = !enabled ? with_alpha(colors_.muted, 110) : checked_ ? colors_.accent : colors_.ink;
@@ -478,9 +479,8 @@ void ReadingRow::paint(wxPaintEvent&) {
     wxAutoBufferedPaintDC dc(this);
     const auto size = GetClientSize();
     const bool active = opens() && IsEnabled();
-    dc.SetBackground(wxBrush(active && press_.hover
-                                 ? mix(colors_.paper, colors_.ink, press_.pressed ? 0.1 : 0.05)
-                                 : colors_.paper));
+    dc.SetBackground(wxBrush(active && press_.hover ? (press_.pressed ? colors_.overlay : colors_.surface)
+                                                    : colors_.paper));
     dc.Clear();
     dc.SetPen(wxPen(colors_.rule));
     dc.DrawLine(0, size.y - 1, size.x, size.y - 1);
@@ -567,9 +567,8 @@ void MenuRow::paint(wxPaintEvent&) {
     wxAutoBufferedPaintDC dc(this);
     const auto size = GetClientSize();
     const bool enabled = IsEnabled();
-    dc.SetBackground(wxBrush(enabled && HasFocus()
-                                 ? mix(colors_.paper, colors_.ink, press_.pressed ? 0.16 : 0.09)
-                                 : colors_.paper));
+    dc.SetBackground(wxBrush(enabled && HasFocus() ? (press_.pressed ? colors_.overlay : colors_.surface)
+                                                   : colors_.paper));
     dc.Clear();
     dc.SetFont(GetFont());
     const int pad = FromDIP(zoomed(16)), y = (size.y - dc.GetCharHeight()) / 2;
@@ -664,7 +663,7 @@ void AddressBar::paint(wxPaintEvent&) {
     const auto size = GetClientSize();
     const double scale = FromDIP(zoomed(100)) / 100.0, radius = 8 * scale;
     gc->SetPen(*wxTRANSPARENT_PEN);
-    gc->SetBrush(wxBrush(mix(colors_.paper, colors_.ink, hover_ ? 0.11 : 0.065)));
+    gc->SetBrush(wxBrush(hover_ ? colors_.overlay : colors_.surface));
     gc->DrawRoundedRectangle(0, 0, size.x, size.y, radius);
     if (HasFocus()) {
         gc->SetPen(gc->CreatePen(wxGraphicsPenInfo(colors_.accent).Width(2 * scale)));
