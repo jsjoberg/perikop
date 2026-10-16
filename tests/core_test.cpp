@@ -1005,6 +1005,10 @@ int main(int argc, char** argv) {
                   "Tob 12:11",   "Tob 12:7",    "Tob 14:9",    "Tob 4:14",    "Tob 7:4",     "Tob 7:5",
                   "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1"},
                  {{"Ezek 33:32", 1}}},
+                {"gibea", "", "⟦ɡɪbˈeːa⟧", 41, {}},
+                {"ahabs", "", "⟦ˈɑːhabs⟧", 35, {}},
+                {"baesa", "", "⟦baˈeːsa⟧", 22, {}},
+                {"us", "", "⟦ˈʉːs⟧", 8, {}},
                 {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
                 {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
             };
