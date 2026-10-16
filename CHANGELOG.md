@@ -10,6 +10,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Added
 
+- Colour schemes in **Inställningar**: Rosé Pine, Gruvbox, Nord, Everforest, Catppuccin, Tokyo Night, and Solarized, beside the original Perikop scheme. Each has a light and a dark variant that follows the theme setting, and a preview shows both. Colours have roles: surfaces for fields and hovered controls, a selection colour, verse numbers in the scheme's red, and calendar colours.
 - A saved update-channel choice in **Inställningar**: releases by default, or experimental nightly builds. Changing it makes no network requests; the in-app update checker is not yet connected.
 - An AppImage for the Raspberry Pi 5 with 64-bit Raspberry Pi OS. Other Raspberry Pi models and other ARM Linux systems are not supported.
 

@@ -459,6 +459,43 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         save(image, "-single");
     }
+    // Every scheme paints the reader and the settings page in its own paper, light and dark.
+    const auto each_scheme = [&](const std::function<void(const wxString&, const wxColour&)>& check) {
+        for (std::size_t i = 0; i < scheme_names.size(); ++i)
+            for (const auto theme : {Theme::Light, Theme::Dark}) {
+                settings_.color_scheme = ColorScheme(i);
+                settings_.theme = theme;
+                apply_settings(false);
+                check(wxString::Format("-%zu-%s", i, theme == Theme::Dark ? "dark" : "light"),
+                      palette(ColorScheme(i), theme == Theme::Dark).paper);
+            }
+        settings_.color_scheme = ColorScheme::Perikop;
+        settings_.theme = Theme::Light;
+        apply_settings(false);
+    };
+    each_scheme([&](const wxString& suffix, const wxColour& paper) {
+        const auto image = render();
+        if (image.GetRed(0, 0) != paper.Red() || image.GetGreen(0, 0) != paper.Green() ||
+            image.GetBlue(0, 0) != paper.Blue())
+            fail(__LINE__);
+        save(image, "-reader" + suffix);
+    });
+    show_settings();
+    each_scheme([&](const wxString& suffix, const wxColour& paper) {
+        if (!current_page() || current_page()->GetBackgroundColour() != paper)
+            fail(__LINE__);
+        if (screenshot_path.empty())
+            return;
+        Update();
+        wxBitmap bitmap(GetClientSize());
+        wxClientDC window(this);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-settings" + suffix);
+    });
+    close_page();
     settings_.parallel = "el";
     apply_settings(false);
     scripture_->center_passage();

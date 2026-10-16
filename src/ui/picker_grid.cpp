@@ -305,7 +305,8 @@ void PickerGrid::paint(wxPaintEvent&) {
                 gc->SetBrush(wxBrush(selected ? with_alpha(colors.accent, hovered ? 90 : 70)
                                      : cell.state == State::Marked
                                          ? with_alpha(colors.accent, hovered ? 54 : 38)
-                                         : with_alpha(colors.ink, hovered ? 24 : 9)));
+                                     : hovered ? colors.overlay
+                                               : colors.surface));
                 gc->DrawRoundedRectangle(r.x, r.y, r.width, r.height, radius);
             }
             auto font = ui_font(11);

@@ -25,12 +25,14 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
     // when this window is on a different monitor.
     const auto window_dpi = GetDPI();
     const wxRealPoint dpi(window_dpi.x, window_dpi.y);
-    if (tile_scale_ != scale || tile_dpi_ != dpi || tile_ink_ != colors.ink || tile_muted_ != colors.muted) {
+    if (tile_scale_ != scale || tile_dpi_ != dpi || tile_ink_ != colors.ink || tile_muted_ != colors.muted ||
+        tile_verse_ != colors.verse) {
         clear_tiles();
         tile_scale_ = scale;
         tile_dpi_ = dpi;
         tile_ink_ = colors.ink;
         tile_muted_ = colors.muted;
+        tile_verse_ = colors.verse;
     }
     const auto& text = column.text;
     const int pad = FromDIP(zoomed(8)), line_height = text.line_height;
@@ -39,6 +41,8 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
     const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {
         if (run.tag >= 0 && std::size_t(run.tag) < column.faint.size() && column.faint[run.tag])
             return colors.muted;
+        if (run.marker)
+            return colors.verse;
         return std::nullopt;
     };
     for (auto tile = first; tile < count; ++tile) {

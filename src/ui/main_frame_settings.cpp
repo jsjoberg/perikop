@@ -1,10 +1,97 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <wx/checkbox.h>
+#include <wx/dcbuffer.h>
+#include <wx/graphics.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
 namespace ortho {
+namespace {
+// The chosen colour scheme's light and dark variants as small reader pages, so both can be judged at once.
+class SchemePreview final : public wxWindow {
+public:
+    explicit SchemePreview(wxWindow* parent) : wxWindow(parent, wxID_ANY) {
+        SetBackgroundStyle(wxBG_STYLE_PAINT);
+        SetMinSize(FromDIP(zoomed(wxSize(2 * page_width + gap, page_height + 22))));
+        Bind(wxEVT_PAINT, &SchemePreview::paint, this);
+    }
+    bool AcceptsFocus() const override {
+        return false;
+    }
+
+private:
+    static constexpr int page_width = 210, page_height = 172, gap = 14;
+    void paint(wxPaintEvent&) {
+        wxAutoBufferedPaintDC dc(this);
+        dc.SetBackground(wxBrush(GetBackgroundColour()));
+        dc.Clear();
+        std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
+        if (!gc)
+            return;
+        const double unit = FromDIP(zoomed(100)) / 100.0;
+        const auto& names = scheme_names[std::size_t(color_scheme)];
+        for (const bool dark : {false, true}) {
+            gc->PushState();
+            gc->Translate(dark ? (page_width + gap) * unit : 0, 0);
+            gc->SetFont(ui_font(9), GetForegroundColour());
+            gc->DrawText(ui::utf8(dark ? names.dark : names.light), 0, 0);
+            gc->Translate(0, 20 * unit);
+            page(*gc, palette(color_scheme, dark), unit);
+            gc->PopState();
+        }
+    }
+    static void page(wxGraphicsContext& gc, const Palette& colors, double unit) {
+        double width = 0, height = 0;
+        const auto text = [&](const wxString& line, const wxFont& font, const wxColour& colour, double x,
+                              double y) {
+            gc.SetFont(font, colour);
+            gc.DrawText(line, x * unit, y * unit);
+            gc.GetTextExtent(line, &width, &height);
+            return x + width / unit;
+        };
+        gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(colors.rule).Width(unit)));
+        gc.SetBrush(wxBrush(colors.paper));
+        gc.DrawRoundedRectangle(0, 0, page_width * unit, page_height * unit, 6 * unit);
+        gc.SetPen(*wxTRANSPARENT_PEN);
+        // The address field, resting and hovered.
+        gc.SetBrush(wxBrush(colors.surface));
+        gc.DrawRoundedRectangle(46 * unit, 9 * unit, 118 * unit, 18 * unit, 5 * unit);
+        gc.SetBrush(wxBrush(colors.overlay));
+        gc.DrawRoundedRectangle(14 * unit, 9 * unit, 22 * unit, 18 * unit, 5 * unit);
+        text(ui::utf8("Joh 1:1–5"), ui_font(7.5), colors.ink, 82, 12);
+        gc.SetBrush(wxBrush(colors.rule));
+        gc.DrawRectangle(0, 35 * unit, page_width * unit, unit);
+        text("JOHANNES", ui_font(6.5), colors.muted, 82, 44);
+        text("1", body_font(13), colors.ink, 100, 54);
+        // The prescribed-reading bar, a selected phrase, and verse numbers in the rubric colour.
+        gc.SetBrush(wxBrush(colors.accent));
+        gc.DrawRoundedRectangle(14 * unit, 80 * unit, 2.5 * unit, 47 * unit, unit);
+        const auto body = body_font(8.5), number = body_font(6);
+        double x = text("1", number, colors.verse, 24, 80);
+        text(ui::utf8("I begynnelsen var Ordet,"), body, colors.ink, x + 2, 82);
+        x = text(ui::utf8("och Ordet var "), body, colors.ink, 24, 97);
+        gc.GetTextExtent(ui::utf8("hos Gud,"), &width, &height);
+        gc.SetPen(*wxTRANSPARENT_PEN);
+        gc.SetBrush(wxBrush(colors.selection));
+        gc.DrawRoundedRectangle((x - 3) * unit, 96 * unit, width + 6 * unit, height + 2 * unit, 3 * unit);
+        text(ui::utf8("hos Gud,"), body, colors.ink, x, 97);
+        x = text("2", number, colors.verse, 24, 110);
+        x = text(ui::utf8("och Ordet var "), body, colors.ink, x + 2, 112);
+        text("Gud.", body, colors.accent, x, 112);
+        text(ui::utf8("Ordet finns inte i texten."), body, colors.muted, 24, 127);
+        // The calendar's today ring and service markers.
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(colors.today).Width(1.4 * unit)));
+        gc.DrawRoundedRectangle(24 * unit, 148 * unit, 18 * unit, 14 * unit, 3 * unit);
+        gc.SetPen(*wxTRANSPARENT_PEN);
+        for (std::size_t i = 0; i < colors.services.size(); ++i) {
+            gc.SetBrush(wxBrush(colors.services[i]));
+            gc.DrawEllipse((54 + 12 * double(i)) * unit, 152 * unit, 6 * unit, 6 * unit);
+        }
+    }
+};
+} // namespace
 void MainFrame::show_settings() {
     if (navigation_.current().screen == Screen::Settings)
         return;
@@ -37,6 +124,26 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         }
         entries->AddSpacer(FromDIP(zoomed(18)));
     };
+    // The scheme list beside a preview of its light and dark variants.
+    entries->Add(ui::label(content, ui::utf8("FÄRGSCHEMA"), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+    auto* schemes = new wxBoxSizer(wxVERTICAL);
+    auto* preview = new SchemePreview(content);
+    for (std::size_t i = 0; i < scheme_names.size(); ++i) {
+        auto* radio = new wxRadioButton(content, wxID_ANY, ui::utf8(scheme_names[i].name), wxDefaultPosition,
+                                        wxDefaultSize, i ? 0 : wxRB_GROUP);
+        radio->SetFont(ui_font());
+        radio->SetValue(ColorScheme(i) == settings_.color_scheme);
+        radio->Bind(wxEVT_RADIOBUTTON, [this, i](wxCommandEvent&) {
+            settings_.color_scheme = ColorScheme(i);
+            apply_settings();
+        });
+        schemes->Add(radio, 0, wxBOTTOM, FromDIP(zoomed(6)));
+    }
+    auto* scheme_row = new wxBoxSizer(wxHORIZONTAL);
+    scheme_row->Add(schemes, 0, wxRIGHT, FromDIP(zoomed(28)));
+    scheme_row->Add(preview);
+    entries->Add(scheme_row);
+    entries->AddSpacer(FromDIP(zoomed(18)));
     choices("TEMA", {"Systemets tema", "Ljust tema", "Mörkt tema"}, int(settings_.theme), [this](int i) {
         settings_.theme = static_cast<Theme>(i);
         apply_settings();

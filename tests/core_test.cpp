@@ -1088,8 +1088,9 @@ int main(int argc, char** argv) {
         {
             UserDb user(user_path);
             auto s = user.load();
-            check(s.theme == Theme::System && s.speech_voice == "alice" && !s.speech_highlight &&
-                      s.tradition == Tradition::Greek && s.update_channel == UpdateChannel::Releases,
+            check(s.theme == Theme::System && s.color_scheme == ColorScheme::Perikop &&
+                      s.speech_voice == "alice" && !s.speech_highlight && s.tradition == Tradition::Greek &&
+                      s.update_channel == UpdateChannel::Releases,
                   "default theme, voice, reading order, releases channel, and disabled read-aloud highlight");
             sqlite3* legacy = nullptr;
             check(sqlite3_open(user_path.string().c_str(), &legacy) == SQLITE_OK,
@@ -1100,6 +1101,7 @@ int main(int argc, char** argv) {
             check(legacy_result == SQLITE_OK && user.load().tradition == Tradition::Greek,
                   "legacy Antiochian settings select the Greek family");
             s.theme = Theme::Dark;
+            s.color_scheme = ColorScheme::TokyoNight;
             s.calendar = CalendarStyle::Old;
             s.tradition = Tradition::Slavic;
             s.parallel = "en";
@@ -1113,9 +1115,10 @@ int main(int argc, char** argv) {
         {
             UserDb user(user_path);
             auto s = user.load();
-            check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old &&
-                      s.tradition == Tradition::Slavic && s.parallel == "en" && s.text_zoom == 125 &&
-                      s.speech_rate == 175 && s.speech_voice == "bjorn" && s.speech_highlight &&
+            check(s.theme == Theme::Dark && s.color_scheme == ColorScheme::TokyoNight &&
+                      s.calendar == CalendarStyle::Old && s.tradition == Tradition::Slavic &&
+                      s.parallel == "en" && s.text_zoom == 125 && s.speech_rate == 175 &&
+                      s.speech_voice == "bjorn" && s.speech_highlight &&
                       s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
             s.update_channel = UpdateChannel::Releases;
