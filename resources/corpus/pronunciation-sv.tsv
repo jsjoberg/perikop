@@ -12,7 +12,6 @@ abia	abˈiːa
 abigail	ˈɑːbɪɡajl
 abihu	abˈiːhʉ
 abimelek	abˈiːmɛlɛk
-abinadab	abˈiːnadab
 abiram	abˈiːram
 abisai	abˈiːsaj
 abram	ˈɑːbram
@@ -50,7 +49,6 @@ efesus	ˈeːfɛsɵs
 ekbatana	ɛkbˈɑːtana
 ekron	ˈeːkrɔn
 eleasar	ɛlɛˈɑːsar
-eliab	ɛlˈiːab
 elifas	ˈeːlɪfas
 elihu	ɛlˈiːhʉ
 eljakim	ɛljˈɑːkɪm
@@ -71,9 +69,7 @@ iskariot	ɪskˈɑːrɪɔt
 jair	jˈɑːɪr
 jearim	jɛˈɑːrɪm
 jedutun	jɛdˈʉːtɵn
-jehiel	jɛhˈiːɛl
 jeremia	jɛrɛmˈiːa
-jerobeam	jɛrʊbˈeːam
 jerubbaal	jɛrˈɵbaal
 jesua	jɛsˈʉːa
 jisreel	jˈɪsrɛɛl
@@ -132,6 +128,880 @@ tryfon	trˈyːfɔn
 tubal	tˈʉːbal
 uria	ʉrˈiːa
 ussia	ɵsˈiːa
+# Jordán has stress and a long a on its second syllable ("Betoning av bibliska
+# namn", De apokryfiska böckerna 1921, p. 277). NST's name row jˈoːɖan is the
+# modern given name, which sounds English.
+jordan	jʊɖˈɑːn
+# Betsaída: stress on the ai diphthong (same appendix, New Testament rule 1).
+betsaida	bɛtsˈajda
+# The neural fallback reads ai as ä in these names. Final -ai and the dual
+# -aim are a + i, as in Barsillai, Mahanaim, and NST's Efraim. Stress follows
+# the appendix's Old Testament rules: first syllable in names of two or three
+# syllables, otherwise the next-to-last syllable.
+bebai	bˈeːbaɪ
+berotai	bɛrʊtˈɑːɪ
+birsait	bˈɪʂaɪt
+bosenai	bʊsɛnˈɑːɪ
+diblataim	dɪblatˈɑːɪm
+diblataima	dɪblataˈiːma
+efraimsporten	ˈeːfraɪmspˌʊʈən
+elienai	ɛlɪɛnˈɑːɪ
+esbai	ˈɛsbaɪ
+gederotaim	jɛdɛrʊtˈɑːɪm
+hafaraim	hafarˈɑːɪm
+hassebaim	hasɛbˈɑːɪm
+horonaim	hʊrʊnˈɑːɪm
+jismerai	jɪsmɛrˈɑːɪ
+kelubai	ɕɛlɵbˈɑːɪ
+kirjataim	ɕɪrjatˈɑːɪm
+maherai	mahɛrˈɑːɪ
+maknaddebai	maknadɛbˈɑːɪ
+mattenai	matɛnˈɑːɪ
+meonotai	mɛʊnʊtˈɑːɪ
+merataim	mɛratˈɑːɪm
+misraim	mˈɪsraɪm
+naharaim	naharˈɑːɪm
+naherai	nahɛrˈɑːɪ
+peulletai	pɛɵlɛtˈɑːɪ
+ramataim	ramatˈɑːɪm
+refaim	rˈeːfaɪm
+refaimsdalen	rˈeːfaɪmsdˌɑːlən
+risataim	rɪsatˈɑːɪm
+saharaim	saharˈɑːɪm
+sair	sˈɑːɪr
+sefarvaim	sɛfarvˈɑːɪm
+semaraim	sɛmarˈɑːɪm
+sibraim	sˈɪbraɪm
+sitrai	sˈɪtraɪ
+sobai	sˈuːbaɪ
+sotai	sˈuːtaɪ
+surisaddai	sʉrɪsadˈɑːɪ
+tattenai	tatɛnˈɑːɪ
+# Stress from "Betoning av bibliska namn" (De apokryfiska böckerna 1921,
+# p. 277-278): its stressed examples, such as Abinádab, Rehábeam, Daríus,
+# and Dekápolis, and its endings. Before -ael, -eel, -iel, -uel, -iab, -eam,
+# and -oam the stress falls on the syllable before the ending (Mehújael,
+# Gámliel). Before -pater, -pator, -patris, -polis, and -ius it falls on the
+# syllable before the ending, and before -anus, -ene, -itis, -nika, -nice, and
+# -nikus on the next-to-last syllable. These rows correct names that the
+# neural fallback stresses elsewhere or shortens by a syllable.
+jerobeam	jɛrˈuːbɛam
+rehabeam	rɛhˈɑːbɛam
+jeroboam	jɛrˈuːbʊam
+jasobeam	jasˈuːbɛam
+jekameam	jɛkˈɑːmɛam
+jokmeam	jˈɔkmɛam
+miseam	mˈiːsɛam
+ahinoam	ahˈiːnʊam
+eliab	ˈeːlɪab
+oholiab	ʊhˈuːlɪab
+abimael	abˈiːmaɛl
+gabael	ɡˈɑːbaɛl
+hanael	hˈɑːnaɛl
+jael	jˈɑːɛl
+jediael	jɛdˈiːaɛl
+mehujael	mɛhˈʉːjaɛl
+metusael	mɛtˈʉːsaɛl
+pedael	pˈeːdaɛl
+rafael	rˈɑːfaɛl
+refael	rˈeːfaɛl
+subael	sˈʉːbaɛl
+jabneel	jˈabnɛɛl
+jaleel	jˈɑːlɛɛl
+jaseel	jˈɑːsɛɛl
+jekabseel	jɛkˈapsɛɛl
+jerameel	jɛrˈɑːmɛɛl
+jirpeel	jˈɪrpɛɛl
+jokteel	jˈɔktɛɛl
+kabseel	kˈapsɛɛl
+maleleel	malˈeːlɛɛl
+tabeel	tˈɑːbɛɛl
+abdiel	ˈabdɪɛl
+adriel	ˈadrɪɛl
+ammiel	ˈamɪɛl
+ariel	ˈɑːrɪɛl
+eliel	ˈeːlɪɛl
+gamaliel	ɡamˈɑːlɪɛl
+hasiel	hˈɑːsɪɛl
+hiel	hˈiːɛl
+itiel	ˈiːtɪɛl
+jaasiel	jaˈɑːsɪɛl
+jahasiel	jahˈɑːsɪɛl
+jehiel	jˈeːhɪɛl
+jekutiel	jɛkˈʉːtɪɛl
+jeriel	jˈeːrɪɛl
+jesimiel	jɛsˈiːmɪɛl
+kadmiel	kˈadmɪɛl
+malkiel	mˈalkɪɛl
+nahaliel	nahˈɑːlɪɛl
+negiel	nˈeːɡɪɛl
+paltiel	pˈaltɪɛl
+sabdiel	sˈabdɪɛl
+salamiel	salˈɑːmɪɛl
+salatiel	salˈɑːtɪɛl
+sealtiel	sɛˈaltɪɛl
+selumiel	sɛlˈʉːmɪɛl
+suriel	sˈʉːrɪɛl
+uriel	ˈʉːrɪɛl
+ussiel	ˈɵsɪɛl
+aduel	ˈɑːdɵɛl
+betuel	bˈeːtɵɛl
+geuel	jˈeːɵɛl
+jeguel	jˈeːɡɵɛl
+jehuel	jˈeːhɵɛl
+jemuel	jˈeːmɵɛl
+jesuel	jˈeːsɵɛl
+kemuel	ɕˈeːmɵɛl
+nemuel	nˈeːmɵɛl
+penuel	pˈeːnɵɛl
+raguel	rˈɑːɡɵɛl
+reguel	rˈeːɡɵɛl
+sebuel	sˈeːbɵɛl
+abinadab	abɪnˈɑːdab
+aminadab	amɪnˈɑːdab
+gilead	jˈiːlɛad
+kedorlaomer	ɕɛdɔrlaˈuːmɛr
+makpela	makpˈeːla
+antipater	antˈiːpatɛr
+sopater	sˈuːpatɛr
+sosipater	sʊsˈiːpatɛr
+eupator	ˈɛʊpatʊr
+antipatris	antˈiːpatrɪs
+amfipolis	amfˈiːpʊlɪs
+dekapolis	dɛkˈɑːpʊlɪs
+hierapolis	hɪɛrˈɑːpʊlɪs
+neapolis	nɛˈɑːpʊlɪs
+nikopolis	nɪkˈuːpʊlɪs
+persepolis	pɛʂˈeːpʊlɪs
+skytopolis	ɧʏtˈuːpʊlɪs
+darius	darˈiːɵs
+tertius	tˈɛʈsɪɵs
+hauranus	haʊrˈɑːnɵs
+abilene	abɪlˈeːnɛ
+akrabattene	akrabatˈeːnɛ
+galaaditis	ɡalaadˈiːtɪs
+trakonitis	trakʊnˈiːtɪs
+tessalonika	tɛsalʊnˈiːka
+bernice	bɛɳˈiːsɛ
+eunice	ɛʊnˈiːsɛ
+andronikus	andrʊnˈiːkɵs
+# The appendix's general rules for corpus names without an NST entry. Old
+# Testament: names of two or three syllables are stressed on the first
+# syllable, unless they end in -a or the last vowel follows two or more
+# consonants (then the next-to-last); longer names on the next-to-last.
+# Apocrypha and New Testament: the next-to-last syllable before two or more
+# consonants or a diphthong; names also in the Old Testament keep its stress.
+# The neural fallback mostly stresses the last syllable (Abdon, Ebal), reads ae
+# as ä (Baesa, Jaeser), or spells out short names (Us, Kus). Hebrew ae, ee and
+# aa are two vowels, as in Jael and Jaasiel. The psalm titles' own accents
+# (Gittít, Alamót) give their stress. Final -ai is a + i, as above.
+abaddon	abˈadɔn
+abarim	ˈɑːbarɪm
+abdeel	ˈabdɛɛl
+abdon	ˈabdɔn
+abiam	ˈɑːbɪam
+abiasaf	abɪˈɑːsaf
+abib	ˈɑːbɪb
+abidan	ˈɑːbɪdan
+abigal	ˈɑːbɪɡal
+abihud	ˈɑːbɪhɵd
+abiner	ˈɑːbɪnɛr
+abinoams	abˈiːnʊams
+abisaloms	abɪsˈɑːlɔms
+abisur	ˈɑːbɪsɵr	word-only
+abisurs	ˈɑːbɪsɵʂ
+abital	ˈɑːbɪtal
+abitub	ˈɑːbɪtɵb
+abiv	ˈɑːbɪv
+abrona	abrˈuːna
+absai	ˈapsaɪ
+ackub	ˈakɵb
+adami	ˈɑːdamɪ
+adbeel	ˈadbɛɛl
+addon	ˈadɔn
+admin	ˈadmɪn
+adoni	ˈɑːdʊnɪ
+adonikams	adʊnˈiːkams
+adoniram	adʊnˈiːram
+adoram	ˈɑːdʊram
+adrammelek	adramˈeːlɛk
+adullam	adˈɵlam
+afek	ˈɑːfɛk
+aferema	afˈeːrɛma
+afia	afˈiːa
+ahab	ˈɑːhab
+ahara	ahˈɑːra
+aharhel	ahˈarhɛl
+ahava	ahˈɑːva
+ahiam	ˈɑːhɪam
+ahihud	ˈɑːhɪhɵd
+ahiluds	ˈɑːhɪlɵds
+ahiman	ˈɑːhɪman
+ahimot	ˈɑːhɪmɔt
+ahinadab	ahɪnˈɑːdab
+ahiram	ˈɑːhɪram
+ahisahar	ahɪsˈɑːhar
+ahisamaks	ahɪsˈɑːmaks
+ahoa	ahˈuːa
+ahussam	ahˈɵsam
+ahussat	ahˈɵsat
+ajalon	ˈɑːjalɔn
+ajefim	ˈɑːjɛfɪm
+akeldamak	akɛldˈɑːmak
+akiakar	akɪˈɑːkar
+aksib	ˈaksɪb
+alai	ˈɑːlaɪ
+alammelek	alamˈeːlɛk
+alamót	alamˈuːt
+alemet	ˈɑːlɛmɛt
+amam	ˈɑːmam
+amead	ˈɑːmɛad
+aminon	ˈɑːmɪnɔn
+ammaus	ˈamaʊs
+ammihud	ˈamɪhɵd
+ammihurs	ˈamɪhɵʂ
+amrafel	ˈamrafɛl
+anammelek	anamˈeːlɛk
+anani	ˈɑːnanɪ
+anatot	ˈɑːnatɔt
+anem	ˈɑːnɛm
+aniam	ˈɑːnɪam
+anim	ˈɑːnɪm
+anoks	ˈɑːnɔks
+antotja	antˈɔtja
+apollofanes	apʊlˈuːfanɛs
+appaim	ˈapaɪm
+arbatta	arbˈata
+arbela	arbˈeːla
+areli	ˈɑːrɛlɪ
+arfaksad	arfˈaksad
+argob	ˈarɡɔb
+ariarates	arɪˈɑːratɛs
+arielerna	ˈɑːrɪɛlɛɳa	word-only
+aristarkus	arɪstˈarkɵs
+arjok	ˈarjɔk
+armoni	ˈarmʊnɪ
+arodi	ˈɑːrʊdɪ
+arpaksad	arpˈaksad
+artaxerxes	aʈaksˈɛrksɛs
+arubbot	arˈɵbɔt
+aruma	arˈʉːma
+asarel	ˈɑːsarɛl
+asasel	ˈɑːsasɛl
+aseka	asˈeːka
+asenappar	asɛnˈapar
+asenat	ˈɑːsɛnat
+aserorna	asˈeːrʊɳa	word-only
+asisa	asˈiːsa
+assir	ˈasɪr
+astarte	astˈaʈə
+astarterna	astˈaʈɛɳa	word-only
+astyages	astˈyːaɡɛs
+asuba	asˈʉːba
+asynkritus	asˈʏŋkrɪtɵs
+atara	atˈɑːra
+atarot	ˈɑːtarɔt
+attai	ˈataɪ
+attalia	atalˈiːa
+baalat	bˈɑːlat
+baalis	bˈɑːlɪs
+backides	bˈakɪdɛs
+baesa	baˈeːsa
+bahurim	bˈɑːhɵrɪm
+bakbackar	bakbˈakar
+bakbukja	bakbˈɵkja
+baladan	bˈɑːladan
+barakels	bˈɑːrakɛls
+barakias	barakˈiːas
+baria	barˈiːa
+barsabbas	baʂˈabas
+bavai	bˈɑːvaɪ
+bealot	bˈeːalɔt
+beeljada	bɛɛljˈɑːda
+beeri	bˈeːɛrɪ
+beerot	bˈeːɛrɔt
+behemot	bˈeːhɛmɔt
+bekorat	bˈeːkʊrat
+belsassar	bɛlsˈasar	word-only
+belsassars	bɛlsˈasaʂ
+beninu	bˈeːnɪnɵ
+benob	bˈeːnɔb
+benot	bˈeːnɔt
+beon	bˈeːɔn
+berak	bˈeːrak
+berodak	bˈeːrʊdak
+besai	bˈeːsaɪ
+besalel	bˈeːsalɛl
+besek	bˈeːsɛk
+betesda	bɛtˈɛsda
+betfage	bɛtfˈɑːɡə
+betomastaim	bɛtʊmˈastaɪm
+betomestaim	bɛtʊmˈɛstaɪm
+betonim	bˈeːtʊnɪm
+betoron	bɛtˈuːrɔn
+betsura	bɛtsˈʉːra
+betul	bˈeːtɵl
+bigvai	bˈɪɡvaɪ
+binea	bɪnˈeːa
+bisseta	bɪsˈeːta
+buckia	bɵkˈiːa
+cedron	sˈeːdrɔn
+dalmanuta	dalmanˈʉːta
+damaris	dˈɑːmarɪs
+darejaves	darɛjˈɑːvɛs
+darejeves	darɛjˈeːvɛs
+deguels	dˈeːɡɵɛls
+delaja	dɛlˈɑːja
+demofon	dˈeːmʊfɔn
+dessau	dˈɛsaʊ
+diblaims	dˈiːblaɪms
+difat	dˈiːfat
+dilean	dˈiːlɛan
+dimona	dɪmˈuːna
+dinhaba	dɪnhˈɑːba
+diotrefes	dɪˈuːtrɛfɛs
+disons	dˈiːsɔns
+dodavahus	dʊdavˈɑːhɵs
+dorymenes	dʊrˈyːmɛnɛs
+dositeus	dʊsˈiːtɛɵs
+dotain	dˈuːtaɪn
+ebal	ˈeːbal
+ebjatars	ˈɛbjataʂ
+edrei	ˈeːdrɛj
+eflal	ˈeːflal
+efron	ˈeːfrɔn
+eglaim	ˈeːɡlaɪm
+elead	ˈeːlɛad
+eleada	ɛlɛˈɑːda
+eleasa	ɛlɛˈɑːsa
+eleuterus	ɛlˈɛʊtɛrɵs
+eliam	ˈeːlɪam
+elidad	ˈeːlɪdad
+elifal	ˈeːlɪfal
+elifalehu	ɛlɪfalˈeːhɵ
+elim	ˈeːlɪm
+elimelek	ɛlɪmˈeːlɛk
+elisafan	ɛlɪsˈɑːfan
+elisafat	ɛlɪsˈɑːfat
+elisama	ɛlɪsˈɑːma
+eliseba	ɛlɪsˈeːba
+elisur	ˈeːlɪsɵr	word-only
+elisurs	ˈeːlɪsɵʂ
+eljaba	ɛljˈɑːba
+eljada	ɛljˈɑːda
+eloi	ɛlʊˈiː
+enaim	ˈeːnaɪm
+enam	ˈeːnam
+epenetus	ɛpˈeːnɛtɵs
+epifanes	ɛpˈiːfanɛs
+esarhaddon	ɛsarhˈadɔn
+esbaal	ˈɛsbaal
+esdrelon	ɛsdrˈeːlɔn
+esean	ˈeːsɛan
+esek	ˈeːsɛk
+esekias	ɛsɛkˈiːas
+eskol	ˈɛskɔl
+esrom	ˈɛsrɔm
+estaol	ˈɛstaɔl
+estemo	ˈɛstɛmʊ
+estemoa	ɛstɛmˈuːa
+etam	ˈeːtam
+etanim	ˈeːtanɪm
+eumenes	ˈɛʊmɛnɛs
+eupolemus	ɛʊpˈuːlɛmɵs
+eutykus	ˈɛʊtʏkɵs
+evil	ˈeːvɪl
+faselis	fasˈeːlɪs
+filemon	fɪlˈeːmɔn
+filippi	fɪlˈɪpɪ
+filisteen	fɪlɪstˈeːɛn
+filologus	fɪlˈuːlʊɡɵs
+fylarkes	fʏlˈarkɛs
+gaetam	ɡˈɑːɛtam
+galaad	ɡˈɑːlaad
+galal	ɡˈɑːlal
+galed	ɡˈɑːlɛd
+gebal	ɡˈeːbal
+gebims	ɡˈeːbɪms
+gehasi	jˈeːhasɪ
+gelilot	ɡˈeːlɪlɔt
+genneus	jɛnˈeːɵs
+gesem	jˈeːsɛm
+gesur	jˈeːsɵr
+gibea	ɡɪbˈeːa
+giddalti	jɪdˈaltɪ
+gideonis	jɪdɛˈuːnɪs
+gilboa	jɪlbˈuːa
+gittít	ɡɪtˈiːt
+gortyna	ɡʊʈˈyːna
+gudgoda	ɡɵdɡˈuːda
+haaraba	haarˈɑːba
+habbait	hˈabaɪt
+habberim	hˈabɛrɪm
+hadadrimmon	hadadrˈɪmɔn
+hadasa	hadˈɑːsa
+hadassa	hadˈasa
+hadatta	hadˈata
+hadid	hˈɑːdɪd
+hadoram	hˈɑːdʊram
+haemek	hˈɑːɛmɛk
+haesel	hˈɑːɛsɛl
+haeser	hˈɑːɛsɛr
+haggedolims	haɡɛdˈuːlɪms
+haggia	haɡˈiːa
+haggidgad	haɡˈɪdɡad
+haggilgal	haɡˈɪlɡal
+hajarkon	hajˈarkɔn
+hajearim	hajɛˈɑːrɪm
+hajesimot	hajɛsˈiːmɔt
+hakaljas	hakˈaljas
+hakmonis	hˈakmʊnɪs
+halikarnas	halɪkˈaɳas
+hamital	hˈɑːmɪtal
+hammaaka	hamaˈɑːka
+hammahavim	hamahˈɑːvɪm
+hammalekot	hamalˈeːkɔt
+hammarkabot	hamarkˈɑːbɔt
+hammedatas	hamɛdˈɑːtas
+hammela	hamˈeːla
+hammenuhot	hamɛnˈʉːhɔt
+hammerhak	hamˈɛrhak
+hammesobaja	hamɛsʊbˈɑːja
+hammispe	hamˈɪspə
+hammoleket	hamʊlˈeːkɛt
+hanamel	hˈɑːnamɛl
+hanani	hˈɑːnanɪ
+happisses	hapˈɪsɛs
+harackon	harˈakɔn
+harebona	harɛbˈuːna
+harif	hˈɑːrɪf
+harmagedon	harmaɡˈeːdɔn
+haroim	hˈɑːrʊɪm
+hasarmavet	hasarmˈɑːvɛt
+hasbaddana	hasbadˈɑːna
+haserot	hˈɑːsɛrɔt
+hasmona	hasmˈuːna
+hasselelponi	hasɛlɛlpˈuːnɪ
+hassenua	hasɛnˈʉːa
+hassitim	hˈasɪtɪm
+hassobeba	hasʊbˈeːba
+hassoferets	hasʊfˈeːrɛts
+hasuba	hasˈʉːba
+hattaava	hataˈɑːva
+havila	havˈiːla
+hegai	hˈeːɡaɪ
+hegemonides	hɛɡɛmˈuːnɪdɛs
+helkias	hɛlkˈiːas
+hermogenes	hɛrmˈuːjɛnɛs
+herodion	hɛrˈuːdɪɔn
+hesir	hˈeːsɪr
+hesron	hˈɛsrɔn
+hieronymus	hɪɛrˈuːnʏmɵs
+higgajón	hɪɡajˈuːn
+hirom	hˈiːrɔm
+hobab	hˈuːbab
+hodia	hʊdˈiːa
+homam	hˈuːmam
+hosais	hˈuːsaɪs
+hosaja	hʊsˈɑːja
+hosama	hʊsˈɑːma
+hotam	hˈuːtam
+hotir	hˈuːtɪr
+hydaspes	hʏdˈaspɛs
+ieser	ˈiːɛsɛr
+ijon	ˈiːjɔn
+iram	ˈiːram
+isai	ˈiːsaɪ
+isaskar	ɪsˈaskar	word-only
+isaskars	ɪsˈaskaʂ
+issia	ɪsˈiːa
+ittai	ˈɪtaɪ
+jaakoba	jaakˈuːba
+jaaresja	jaarˈɛʂa
+jaasanja	jaasˈanja
+jaasia	jaasˈiːa
+jabal	jˈɑːbal
+jabin	jˈɑːbɪn
+jadais	jˈɑːdaɪs
+jaddua	jadˈʉːa
+jaebes	jˈɑːɛbɛs
+jaekan	jˈɑːɛkan
+jaelam	jˈɑːɛlam
+jaera	jaˈeːra
+jaeser	jˈɑːɛsɛr	word-only
+jaesers	jˈɑːɛsɛʂ
+jafia	jafˈiːa
+jahas	jˈɑːhas
+jakin	jˈɑːkɪn
+jamin	jˈɑːmɪn
+janoa	janˈuːa
+jaroa	jarˈuːa
+jaseja	jasˈeːja
+jasubi	jˈɑːsɵbɪ
+jeberekjas	jɛbɛrˈɛkjas
+jeditun	jˈeːdɪtɵn
+jehia	jɛhˈiːa
+jehudi	jˈeːhɵdɪ
+jehukal	jˈeːhɵkal
+jekamja	jɛkˈamja
+jekilja	jɛɕˈɪlja
+jekolja	jɛkˈɔlja
+jekonias	jɛkʊnˈiːas
+jekonja	jɛkˈɔnja
+jemima	jɛmˈiːma
+jeria	jɛrˈiːa
+jerubbesets	jɛrɵbˈeːsɛts
+jeruels	jˈeːrɵɛls
+jerusa	jɛrˈʉːsa
+jesebab	jˈeːsɛbab
+jesohaja	jɛsʊhˈɑːja
+jessai	jˈɛsaɪ
+jesurun	jˈeːsɵrɵn
+jigdaljas	jɪɡdˈaljas
+jigeal	jˈiːɡɛal
+jiria	jɪrˈiːa
+jislia	jɪslˈiːa
+jismaja	jɪsmˈɑːja
+jismakja	jɪsmˈakja
+jisraja	jɪsrˈɑːja
+jissia	jɪsˈiːa
+joadda	jʊˈada
+joaddan	jʊˈadan
+joaddin	jʊˈadɪn
+joed	jˈuːɛd
+joela	jʊˈeːla
+joeser	jˈuːɛsɛr
+jogbeha	jʊɡbˈeːha
+johanan	jˈuːhanan
+jojarib	jˈuːjarɪb
+josabeat	jʊsabˈeːat
+josbekasa	jʊsbɛkˈɑːsa
+joseba	jʊsˈeːba
+josibja	jʊsˈɪbja
+josifjas	jʊsˈɪfjas
+jotbata	jʊtbˈɑːta
+jubal	jˈʉːbal
+jukal	jˈʉːkal
+kabris	kˈɑːbrɪs
+kaldeen	kaldˈeːɛn
+kalkol	kˈalkɔl
+kallistenes	kalˈɪstɛnɛs
+kamais	kˈɑːmaɪs
+kamon	kˈɑːmɔn
+kandace	kˈandasɛ
+karkemis	kˈarkɛmɪs
+karnaim	kˈaɳaɪm
+karsena	kaʂˈeːna
+kasin	kˈɑːsɪn
+kaspin	kˈaspɪn
+kefirim	ɕˈeːfɪrɪm
+kelal	ɕˈeːlal
+kelkias	ɕɛlkˈiːas
+kelub	ɕˈeːlɵb
+keluhi	kˈeːlɵhɪ
+kenani	kˈeːnanɪ
+keramim	ɕˈeːramɪm
+kereas	ɕˈeːrɛas
+keriot	kˈeːrɪɔt
+kerit	kˈeːrɪt
+kesalon	kˈeːsalɔn
+kesia	kɛsˈiːa
+kesib	kˈeːsɪb
+kesil	kˈeːsɪl
+kinneret	ɕˈɪnɛrɛt
+kirjatama	ɕɪrjatˈɑːma
+korasin	kˈuːrasɪn
+koseba	kʊsˈeːba
+kus	kˈʉːs
+laeda	laˈeːda
+laedan	lˈɑːɛdan
+lahai	lˈɑːhaɪ
+lappidots	lˈapɪdɔts
+lassaron	lˈasarɔn
+leafra	lɛˈafra
+lebbeus	lɛbˈeːɵs
+lebona	lɛbˈuːna
+lemoel	lˈeːmʊɛl
+lemuels	lˈeːmɵɛls
+litostroton	lɪtˈɔstrʊtɔn
+lysimakus	lʏsˈiːmakɵs
+madai	mˈɑːdaɪ
+madmanna	madmˈana
+madon	mˈɑːdɔn
+magadans	mˈɑːɡadans
+magog	mˈɑːɡɔɡ
+mahalat	mˈɑːhalat
+mahalát	mahalˈɑːt
+mahasiot	mahasˈiːɔt
+mahat	mˈɑːhat
+maheli	mˈɑːhɛlɪ
+mahelon	mˈɑːhɛlɔn
+mahols	mˈɑːhɔls
+makir	mˈɑːkɪr	word-only
+makirs	mˈɑːkɪʂ
+malkam	mˈalkam
+malkiram	mˈalkɪram
+malloti	mˈalʊtɪ
+malluki	mˈalɵkɪ
+manaen	mˈɑːnaɛn
+manahat	mˈɑːnahat
+manoa	manˈuːa
+marsena	maʂˈeːna
+masal	mˈɑːsal
+masreka	masrˈeːka
+mattana	matˈɑːna
+mattatta	matˈata
+mattitja	matˈɪtja
+meara	mɛˈɑːra
+medeba	mɛdˈeːba
+mefaat	mˈeːfaat
+megiddons	mɛɡˈɪdɔns
+mehir	mˈeːhɪr
+mehuman	mˈeːhɵman
+memfis	mˈɛmfɪs
+memukan	mˈeːmɵkan
+menahem	mˈeːnahɛm
+menesteus	mɛnˈɛstɛʊs
+meon	mˈeːɔn
+merab	mˈeːrab
+merajot	mˈeːrajɔt
+merari	mˈeːrarɪ
+meremot	mˈeːrɛmɔt
+merib	mˈeːrɪb
+merodak	mˈeːrʊdak
+meroms	mˈeːrɔms
+meron	mˈeːrɔn
+meros	mˈeːrɔs
+mesak	mˈeːsak
+mesek	mˈeːsɛk
+meselemja	mɛsɛlˈɛmja
+mesesabel	mɛsɛsˈɑːbɛl
+mesillemit	mɛsɪlˈeːmɪt
+mesillemot	mɛsɪlˈeːmɔt
+mesobab	mˈeːsʊbab
+meunims	mˈeːɵnɪms
+middin	mˈɪdɪn
+migron	mˈiːɡrɔn
+mijamin	mˈiːjamɪn
+mikneja	mɪknˈeːja
+minjamin	mˈɪnjamɪn
+miseal	mˈiːsɛal
+moadja	mʊˈadja
+mofaat	mˈuːfaat
+molid	mˈuːlɪd
+moreset	mˈuːrɛsɛt
+moria	mʊrˈiːa
+moserot	mˈuːsɛrɔt
+mutlabbén	mɵtlabˈeːn
+nafis	nˈɑːfɪs
+nafot	nˈɑːfɔt
+nahalal	nˈɑːhalal
+nahalol	nˈɑːhalɔl
+nahamani	nahamˈɑːnɪ
+nahams	nˈɑːhams
+nahebi	nˈɑːhɛbɪ
+nearja	nɛˈarja
+nebajot	nˈeːbajɔt
+nebusaradan	nɛbɵsarˈɑːdan
+nebusasban	nɛbɵsˈasban
+nedabja	nɛdˈabja
+nefeg	nˈeːfɛɡ
+nefisims	nˈeːfɪsɪms
+nefusesims	nɛfɵsˈeːsɪms
+nehilót	nɛhɪlˈuːt
+nehusta	nɛhˈɵsta
+nehustan	nɛhˈɵstan
+nereus	nˈeːrɛʊs
+nesib	nˈeːsɪb
+netaim	nˈeːtaɪm
+netanel	nˈeːtanɛl
+noadja	nʊˈadja
+nobai	nˈuːbaɪ
+obal	ˈuːbal
+odollam	ʊdˈɔlam
+ofais	ˈuːfaɪs
+ohola	ʊhˈuːla
+oholiba	ʊhʊlˈiːba
+oholibama	ʊhʊlɪbˈɑːma
+onesiforus	ʊnɛsˈiːfʊrɵs
+onesimus	ʊnˈeːsɪmɵs
+padons	pˈɑːdɔns
+palal	pˈɑːlal
+pareos	pˈɑːrɛɔs
+parmasta	parmˈasta
+parsandata	paʂandˈɑːta
+parvaim	pˈarvaɪm
+pasak	pˈɑːsak
+patara	pˈɑːtara
+patrobas	pˈɑːtrʊbas
+patroklus	patrˈuːklɵs
+patros	pˈɑːtrɔs
+pedasurs	pˈeːdasɵʂ
+pekod	pˈeːkɔd
+pelalja	pɛlˈalja
+pelatja	pɛlˈatja
+peleg	pˈeːlɛɡ
+perasim	pˈeːrasɪm
+pergamus	pˈɛrɡamɵs
+perseus	pˈɛʂɛʊs
+petuels	pˈeːtɵɛls
+pikol	pˈiːkɔl
+pileser	pˈiːlɛsɛr
+pilnesers	pˈɪlnɛsɛʂ
+piram	pˈiːram
+pirgaton	pˈɪrɡatɔn
+pitom	pˈiːtɔm
+potifar	pˈuːtɪfar
+priscilla	prɪsˈɪla
+prokorus	prˈuːkʊrɵs
+puteoli	pɵtˈeːʊlɪ
+putiels	pˈʉːtsɪɛls
+raema	raˈeːma
+rahab	rˈɑːhab
+raham	rˈɑːham
+rakal	rˈɑːkal
+rameses	rˈɑːmɛsɛs
+ramesse	ramˈɛsə
+reaja	rɛˈɑːja
+reelaja	rɛɛlˈɑːja
+refidim	rˈeːfɪdɪm
+regem	rˈeːɡɛm
+regu	rˈeːɡɵ
+rehob	rˈeːhɔb
+rehobot	rˈeːhʊbɔt
+rekab	rˈeːkab
+rekem	rˈeːkɛm
+ribais	rˈiːbaɪs
+rifat	rˈiːfat
+rohaga	rʊhˈɑːɡa
+romamti	rʊmˈamtɪ
+ruhama	rɵhˈɑːma
+saalabbin	saalˈabɪn
+saanannim	saanˈanɪm
+sabbai	sˈabaɪ
+sabteka	sabtˈeːka
+sabud	sˈɑːbɵd
+sabulons	sˈɑːbɵlɔns
+sackais	sˈakaɪs
+safam	sˈɑːfam
+safan	sˈɑːfan
+safat	sˈɑːfat
+safenat	sˈɑːfɛnat
+safon	sˈɑːfɔn
+saham	sˈɑːham
+sahasuma	sahasˈʉːma
+sakerdon	sakˈɛɖɔn
+salmais	sˈalmaɪs
+salmona	salmˈuːna
+sammua	samˈʉːa
+samotrace	samʊtrˈɑːsɛ
+sarai	sˈɑːraɪ
+sarefat	sˈɑːrɛfat
+sareser	sˈɑːrɛsɛr
+saretan	sˈɑːrɛtan
+sarid	sˈɑːrɪd
+seal	sˈeːal
+searja	sɛˈarja
+sebarim	sˈeːbarɪm
+sebul	sˈeːbɵl
+sefam	sˈeːfam
+sefarad	sˈeːfarad
+sefi	sˈeːfɪ
+sefon	sˈeːfɔn
+sefufam	sˈeːfɵfam
+sefufan	sˈeːfɵfan
+seharja	sɛhˈarja
+sekaka	sɛkˈɑːka
+seled	sˈeːlɛd
+selef	sˈeːlɛf
+selek	sˈeːlɛk
+seleucia	sɛlɛʊsˈiːa
+selisia	sɛlɪsˈiːa
+selomis	sˈeːlʊmɪs
+selomit	sˈeːlʊmɪt
+selomot	sˈeːlʊmɔt
+semakja	sɛmˈakja
+semarja	sɛmˈarja
+semeber	sˈeːmɛbɛr
+semed	sˈeːmɛd
+semias	sɛmˈiːas
+seminít	sɛmɪnˈiːt
+senir	sˈeːnɪr
+seorim	sˈeːʊrɪm
+serebja	sɛrˈɛbja
+seruga	sɛrˈʉːɡa
+sesbassar	sɛsbˈasar
+setam	sˈeːtam
+setur	sˈeːtɵr
+sevene	sˈeːvɛnə
+sibea	sɪbˈeːa
+sifamot	sˈiːfamɔt
+sifei	sˈiːfɛj
+sigjonót	sɪɡjʊnˈuːt
+simea	sɪmˈeːa
+simeat	sˈiːmɛat
+simei	sˈiːmɛj
+sinear	sˈiːnɛar	word-only
+sinears	sˈiːnɛaʂ
+sippora	sɪpˈuːra
+sobal	sˈuːbal
+sofai	sˈuːfaɪ
+sofan	sˈuːfan
+soferets	sˈuːfɛrɛts
+sofim	sˈuːfɪm
+soham	sˈuːham
+sostratus	sˈɔstratɵs
+stefanus	stˈeːfanɵs
+sual	sˈʉːal
+sulem	sˈʉːlɛm
+suppim	sˈɵpɪm
+susim	sˈʉːsɪm
+syrakusa	sʏrakˈʉːsa
+taarea	taarˈeːa
+tabals	tˈɑːbals
+tabors	tˈɑːbɔʂ
+tapenes	tˈɑːpɛnɛs
+tappua	tapˈʉːa
+tarsis	tˈaʂɪs
+tatim	tˈɑːtɪm
+tehafnehes	tɛhafnˈeːhɛs
+tehinna	tɛhˈɪna
+tekoa	tɛkˈuːa
+telassar	tɛlˈasar
+telem	tˈeːlɛm
+teodotus	tɛˈuːdʊtɵs
+teofilus	tɛˈuːfɪlɵs
+tideal	tˈiːdɛal
+timeni	tˈiːmɛnɪ
+timeus	tɪmˈeːɵs
+tirhaka	tɪrhˈɑːka
+tirhana	tɪrhˈɑːna
+togarma	tʊɡˈarma
+tryfena	trʏfˈeːna
+ukal	ˈʉːkal
+ulai	ˈʉːlaɪ
+ulam	ˈʉːlam
+us	ˈʉːs
+usais	ˈʉːsaɪs
+usal	ˈʉːsal
+vajsata	vajsˈɑːta
+vofsis	vˈɔfsɪs
+# SO gives speˋtälsk and speˋtälska: stress on the second syllable. NST and the
+# voice stress spe- like a compound, with a long e or, in spetälskan, a short ä.
+spetälsk	spətˈɛlsk	word-only
+spetälska	spətˈɛlska	word-only
+spetälskan	spətˈɛlskan	word-only
+spetälske	spətˈɛlskə	word-only
+spetälskes	spətˈɛlskəs	word-only
+spetälskeartat	spətˈɛlskəˌɑːʈat	word-only
+spetälskeskorv	spətˈɛlskəskˌɔrv	word-only
+spetälskesjukdom	spətˈɛlskəɧˌʉːkdʊm	word-only
+# SAOL: the interjection välan is stressed on -an; the colloquial adverb on väl-.
+# Every välan in this Bible is the interjection.
+välan	vɛlˈan	word-only
+# SO: välsigna [-siŋ´na]. NST lacks these two forms, and the fallback reads väl- as "well".
+välsignen	vɛlsˈɪŋnən	word-only
+välsignelsegåva	vɛlsˈɪŋnəlsəɡˌoːva	word-only
 # Vowel length: NST incorrectly gives these forms a long u.
 krubba	krˈɵba	word-only
 krubban	krˈɵban	word-only
@@ -154,7 +1024,6 @@ kors	kˈɔʂ
 andre	ˈandrə
 sen	sˈeːn
 togo	tˈuːɡʊ
-jordan	jˈoːɖan
 bergen	bˈɛrjən
 vars	vˈaʂ
 ute	ˈʉːtə
@@ -261,3 +1130,127 @@ efter [Dans]	dˈɑːns
 att [ana]	ˈɑːna
 # "förband": the verb "förbinda", except the noun (bandage) in Ezekiel 30:21.
 den [förband]	fˈøːrbˌand
+# "väl": SO separates 1väl "well" [vä´l], with a long ä, from 2väl [väl´], with a
+# short ä. 2väl is the modal "surely" or "I suppose", as in "Kan väl en blind leda
+# en blind?" (Luke 6:39), and the concession "väl ..., men". It is the majority in
+# this Bible, so it is the word's reading. These phrases mark the long "well".
+# They come from a reading of all 645 occurrences; their neighbors have no corrections of their own.
+väl	vˈɛl	word-only
+[väl] befästa	vˈɛːl
+[väl] bekant	vˈɛːl
+[väl] beprövad	vˈɛːl
+[väl] beställt	vˈɛːl
+[väl] bevara	vˈɛːl
+[väl] den som	vˈɛːl
+[väl] dig	vˈɛːl
+[väl] däri	vˈɛːl
+[väl] evinnerligen	vˈɛːl
+[väl] från	vˈɛːl
+[väl] fullborda	vˈɛːl
+[väl] förestå	vˈɛːl
+[väl] förfaren	vˈɛːl
+[väl] förfarna	vˈɛːl
+[väl] förskansat	vˈɛːl
+[väl] förstodo	vˈɛːl
+[väl] grundade	vˈɛːl
+[väl] gå	vˈɛːl
+[väl] har hört	vˈɛːl
+[väl] i att	vˈɛːl
+[väl] klarat	vˈɛːl
+[väl] kända	vˈɛːl
+[väl] luttrat	vˈɛːl
+[väl] med	vˈɛːl
+[väl] mot	vˈɛːl
+[väl] mottagen	vˈɛːl
+[väl] mottaget	vˈɛːl
+[väl] och äro	vˈɛːl
+[väl] om	vˈɛːl
+[väl] packat	vˈɛːl
+[väl] rotat	vˈɛːl
+[väl] sjunger	vˈɛːl
+[väl] skickad	vˈɛːl
+[väl] skött	vˈɛːl
+[väl] stenlagd	vˈɛːl
+[väl] till dina	vˈɛːl
+[väl] till hus	vˈɛːl
+[väl] till med	vˈɛːl
+[väl] tio	vˈɛːl
+[väl] tuktat	vˈɛːl
+[väl] utfört	vˈɛːl
+[väl] ägnad	vˈɛːl
+[väl] överens	vˈɛːl
+[väl] överlagda	vˈɛːl
+alla [väl]	vˈɛːl
+allmänt [väl]	vˈɛːl
+allt [väl]	vˈɛːl
+alltför [väl]	vˈɛːl
+alltid [väl]	vˈɛːl
+allting [väl]	vˈɛːl
+alltså [väl]	vˈɛːl
+behagar mig [väl]	vˈɛːl
+besinna [väl]	vˈɛːl
+betänk det [väl]	vˈɛːl
+dem [väl]	vˈɛːl
+den [väl]	vˈɛːl
+dig [väl]	vˈɛːl
+därför [väl]	vˈɛːl
+eder [väl]	vˈɛːl
+en [väl]	vˈɛːl
+faren [väl]	vˈɛːl
+folket [väl]	vˈɛːl
+fäderneslands [väl]	vˈɛːl
+gick [väl]	vˈɛːl
+gick det [väl]	vˈɛːl
+gick mig [väl]	vˈɛːl
+gick oss [väl]	vˈɛːl
+gjort [väl]	vˈɛːl
+gudfruktiga [väl]	vˈɛːl
+gå [väl]	vˈɛːl
+gå det [väl]	vˈɛːl
+gå oss [väl]	vˈɛːl
+gånge [väl]	vˈɛːl
+går [väl]	vˈɛːl
+går det [väl]	vˈɛːl
+går mig [väl]	vˈɛːl
+gör [väl]	vˈɛːl
+gör denne [väl]	vˈɛːl
+göra [väl]	vˈɛːl
+gören [väl]	vˈɛːl
+herren [väl]	vˈɛːl
+hjärtat [väl]	vˈɛːl
+honom [väl]	vˈɛːl
+huru [väl]	vˈɛːl
+hövitsmännen [väl]	vˈɛːl
+icke [väl]	vˈɛːl
+inrättat [väl]	vˈɛːl
+ja [väl]	vˈɛːl
+konungar [väl]	vˈɛːl
+konungen [väl]	vˈɛːl
+leven [väl]	vˈɛːl
+lik [väl]	vˈɛːl
+lika [väl]	vˈɛːl
+lopp [väl]	vˈɛːl
+lyckas [väl]	vˈɛːl
+länge och [väl]	vˈɛːl
+låg [väl]	vˈɛːl
+låsa [väl]	vˈɛːl
+men [väl]	vˈɛːl
+mycket [väl]	vˈɛːl
+märken [väl]	vˈɛːl
+nu [väl]	vˈɛːl
+och [väl] till	vˈɛːl
+ogudaktige [väl]	vˈɛːl
+ord [väl]	vˈɛːl
+rätt och [väl]	vˈɛːl
+rättfärdiga [väl]	vˈɛːl
+stod [väl]	vˈɛːl
+står [väl] till	vˈɛːl
+så [väl]	vˈɛːl
+tagen [väl]	vˈɛːl
+tjänare [väl]	vˈɛːl
+var [väl]	vˈɛːl
+vara [väl]	vˈɛːl
+vet det [väl]	vˈɛːl
+visserligen [väl]	vˈɛːl
+världen [väl]	vˈɛːl
+ändas [väl]	vˈɛːl

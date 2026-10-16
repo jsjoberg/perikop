@@ -887,6 +887,8 @@ int main(int argc, char** argv) {
                 std::string word, first, second;
                 int occurrences;
                 std::set<std::string> verses;
+                // Verses with both readings: how many take the first.
+                std::map<std::string, int> mixed = {};
             };
             const std::string veil = "⟦fˈøːɭˌoːtən⟧";
             const std::vector<Homograph> homographs{
@@ -943,6 +945,70 @@ int main(int argc, char** argv) {
                 {"joses", "", "⟦jˈuːsəs⟧", 4, {}},
                 {"krubba", "", "⟦krˈɵba⟧", 4, {}},
                 {"krubban", "", "⟦krˈɵban⟧", 3, {}},
+                {"jordan", "", "⟦jʊɖˈɑːn⟧", 187, {}},
+                {"jordans", "", "⟦jʊɖˈɑːns⟧", 12, {}},
+                {"betsaida", "", "⟦bɛtsˈajda⟧", 7, {}},
+                {"tattenai", "", "⟦tatɛnˈɑːɪ⟧", 4, {}},
+                {"sefarvaims", "", "⟦sɛfarvˈɑːɪms⟧", 5, {}},
+                {"spetälsk", "", "⟦spətˈɛlsk⟧", 12, {}},
+                {"spetälska", "", "⟦spətˈɛlska⟧", 48, {}},
+                {"spetälskan", "", "⟦spətˈɛlskan⟧", 5, {}},
+                {"välan", "", "⟦vɛlˈan⟧", 36, {}},
+                {"välsignen", "", "⟦vɛlsˈɪŋnən⟧", 9, {}},
+                {"jerobeam", "", "⟦jɛrˈuːbɛam⟧", 55, {}},
+                {"rehabeam", "", "⟦rɛhˈɑːbɛam⟧", 47, {}},
+                {"väl",
+                 "⟦vˈɛːl⟧",
+                 "⟦vˈɛl⟧",
+                 645,
+                 {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
+                  "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
+                  "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",
+                  "1Macc 8:21",  "1Macc 8:23",  "1Sam 17:18",  "1Sam 26:16",  "1Thess 5:3",  "1Tim 3:12",
+                  "1Tim 3:13",   "1Tim 3:2",    "1Tim 3:4",    "2Chr 13:12",  "2Chr 14:7",   "2Chr 26:5",
+                  "2Chr 30:22",  "2Chr 31:21",  "2Chr 6:8",    "2Chr 7:11",   "2Cor 10:15",  "2Cor 11:4",
+                  "2Cor 6:9",    "2Cor 9:13",   "2Kgs 10:30",  "2Kgs 25:24",  "2Kgs 2:17",   "2Kgs 8:11",
+                  "2Macc 11:21", "2Macc 11:26", "2Macc 11:28", "2Macc 11:33", "2Macc 11:38", "2Macc 12:13",
+                  "2Macc 13:3",  "2Macc 15:17", "2Macc 15:38", "2Macc 15:39", "2Macc 2:16",  "2Macc 3:6",
+                  "2Macc 8:9",   "2Macc 9:20",  "2Macc 9:27",  "2Peter 1:19", "2Sam 11:7",   "2Sam 18:28",
+                  "2Sam 18:29",  "2Sam 18:32",  "2Sam 20:9",   "2Sam 3:36",   "2Tim 2:24",   "2Tim 3:17",
+                  "3John 1:2",   "3John 1:6",   "Acts 10:33",  "Acts 15:29",  "Acts 19:15",  "Acts 20:24",
+                  "Acts 24:22",  "Acts 25:10",  "Acts 26:3",   "Acts 27:12",  "Acts 2:47",   "Baruch 6:63",
+                  "Col 1:23",    "Col 4:5",     "Dan 11:36",   "Dan 8:12",    "Dan 8:24",    "Dan 8:25",
+                  "Deut 10:13",  "Deut 12:25",  "Deut 12:28",  "Deut 19:13",  "Deut 22:7",   "Deut 29:19",
+                  "Deut 2:4",    "Deut 4:40",   "Deut 4:9",    "Deut 5:16",   "Deut 5:29",   "Deut 5:33",
+                  "Deut 6:18",   "Deut 6:24",   "Deut 6:3",    "Deut 9:21",   "Eccl 10:17",  "Eccl 7:4",
+                  "Eccl 8:12",   "Eccl 8:13",   "Eph 5:16",    "Eph 6:3",     "Esth 5:9",    "EsthGr 4:13",
+                  "EsthGr 6:17", "Exod 1:20",   "Ezek 13:10",  "Ezek 13:16",  "Ezek 17:10",  "Ezek 17:15",
+                  "Ezek 17:9",   "Ezra 7:6",    "Ezra 8:22",   "Gal 5:7",     "Gen 12:13",   "Gen 12:16",
+                  "Gen 29:6",    "Gen 37:14",   "Gen 39:23",   "Gen 39:3",    "Gen 40:14",   "Gen 43:27",
+                  "Gen 43:28",   "Gen 45:16",   "Isa 25:6",    "Isa 28:11",   "Isa 3:10",    "James 2:8",
+                  "Jdt 10:16",   "Jdt 11:22",   "Jdt 11:4",    "Jdt 5:17",    "Jer 12:1",    "Jer 15:11",
+                  "Jer 15:5",    "Jer 22:15",   "Jer 22:16",   "Jer 22:21",   "Jer 23:17",   "Jer 29:7",
+                  "Jer 32:39",   "Jer 38:20",   "Jer 40:9",    "Jer 42:19",   "Jer 42:6",    "Jer 44:17",
+                  "Jer 4:10",    "Jer 6:14",    "Jer 7:23",    "Jer 8:11",    "Job 13:9",    "Job 34:16",
+                  "Job 34:9",    "Job 5:27",    "Josh 24:20",  "Josh 6:18",   "Judg 3:25",   "Judg 9:16",
+                  "Lam 1:5",     "Lev 19:17",   "Lev 24:22",   "Luke 15:29",  "Luke 4:10",   "Luke 4:24",
+                  "Luke 6:26",   "Luke 6:38",   "Mal 2:15",    "Mal 2:16",    "Mal 3:4",     "Mark 12:28",
+                  "Mark 7:37",   "Micah 3:5",   "Neh 2:20",    "Neh 4:12",    "Num 14:41",   "Num 9:14",
+                  "Phil 4:14",   "Phil 4:18",   "PrAzar 1:7",  "Prov 11:1",   "Prov 11:10",  "Prov 11:14",
+                  "Prov 11:17",  "Prov 11:20",  "Prov 12:22",  "Prov 14:35",  "Prov 15:8",   "Prov 16:13",
+                  "Prov 16:7",   "Prov 20:18",  "Prov 22:29",  "Prov 23:1",   "Prov 24:25",  "Prov 24:6",
+                  "Prov 27:23",  "Prov 28:13",  "Prov 31:18",  "Ps 104:34",   "Ps 112:5",    "Ps 116:7",
+                  "Ps 118:25",   "Ps 119:122",  "Ps 119:140",  "Ps 119:17",   "Ps 122:3",    "Ps 122:6",
+                  "Ps 128:2",    "Ps 139:14",   "Ps 13:6",     "Ps 142:8",    "Ps 16:6",     "Ps 1:3",
+                  "Ps 30:7",     "Ps 37:35",    "Ps 46:2",     "Ps 51:20",    "Ps 51:4",     "Ps 73:12",
+                  "Ps 73:3",     "Ps 86:17",    "Rom 14:21",   "Rom 15:31",   "Ruth 3:1",    "Sir 15:9",
+                  "Sir 19:9",    "Sir 1:13",    "Sir 21:10",   "Sir 21:22",   "Sir 22:23",   "Sir 25:1",
+                  "Sir 25:4",    "Sir 25:5",    "Sir 26:14",   "Sir 37:28",   "Sir 38:21",   "Sir 3:1",
+                  "Sir 42:21",   "Sir 42:6",    "Sir 6:11",    "Sir 9:13",    "Song 3:8",    "Song 4:4",
+                  "Tob 12:11",   "Tob 12:7",    "Tob 14:9",    "Tob 4:14",    "Tob 7:4",     "Tob 7:5",
+                  "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1"},
+                 {{"Ezek 33:32", 1}}},
+                {"gibea", "", "⟦ɡɪbˈeːa⟧", 41, {}},
+                {"ahabs", "", "⟦ˈɑːhabs⟧", 35, {}},
+                {"baesa", "", "⟦baˈeːsa⟧", 22, {}},
+                {"us", "", "⟦ˈʉːs⟧", 8, {}},
                 {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
                 {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
             };
@@ -973,10 +1039,16 @@ int main(int argc, char** argv) {
                     if (!n)
                         continue;
                     found[homograph.word] += n;
+                    const auto speech = matcher.utterance(text).speech_text;
+                    if (const auto mixed = homograph.mixed.find(ref); mixed != homograph.mixed.end()) {
+                        check(count(speech, homograph.first) == mixed->second &&
+                                  count(speech, homograph.second) == n - mixed->second,
+                              "homograph " + homograph.word + " in " + ref);
+                        continue;
+                    }
                     const auto& expected =
                         homograph.verses.contains(ref) ? homograph.first : homograph.second;
-                    check(count(matcher.utterance(text).speech_text, expected) == n,
-                          "homograph " + homograph.word + " in " + ref);
+                    check(count(speech, expected) == n, "homograph " + homograph.word + " in " + ref);
                 }
             }
             sqlite3_finalize(verses);
