@@ -1,5 +1,6 @@
 #include "ui/main_frame.hpp"
 #include "core/reading_display.hpp"
+#include "speech/reading_speech.hpp"
 #include "ui/about.hpp"
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
@@ -345,6 +346,15 @@ void MainFrame::open_reading(const Reading& selected) {
 void MainFrame::show_reading(const Reading& selected) {
     close_pages();
     visible_reading_ = selected;
+    // Lyssna is offered only where playback would find Swedish verses to read.
+    try {
+        reading_speech(corpus_, {in_swedish(selected)}, [](const std::string&) {
+            return std::vector<Pronunciation>{};
+        });
+        speakable_ = true;
+    } catch (const std::exception&) {
+        speakable_ = false;
+    }
     playback_.forget_location();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.

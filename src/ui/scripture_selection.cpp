@@ -116,7 +116,8 @@ ScriptureView::word_of(const Column& column, int tag, std::size_t line, int run)
 }
 std::optional<ScriptureView::Word> ScriptureView::word_at(wxPoint point) const {
     const auto found = hit(point);
-    if (!found || found->column_index != 0 || found->run < 0 || found->distance > FromDIP(zoomed(4)))
+    if (!found || found->column_index != 0 || found->column->source != base_source_ || found->run < 0 ||
+        found->distance > FromDIP(zoomed(4)))
         return std::nullopt;
     const auto& column = *found->column;
     const int tag = column.text.lines[found->line].runs[found->run].tag;

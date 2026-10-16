@@ -102,6 +102,10 @@ void ScriptureView::open_section(std::size_t index) {
                     boundaries.insert(target);
                     break;
                 }
+    // A book without Swedish text keeps the Septuagint's paragraphs.
+    if (boundaries.empty())
+        for (auto ref : corpus_.paragraph_starts(frame_, displayed_.book))
+            boundaries.insert(ref);
     int chapter = 0;
     const bool stanza = corpus_.stanza_book(displayed_.book);
     for (auto ref : corpus_.coordinates(frame_, displayed_.book)) {
@@ -151,7 +155,17 @@ wxString ScriptureView::swedish_edition(std::size_t heading) const {
     return swedish_editions_[heading] = bible && apocrypha ? ui::utf8("SVENSKA 1917 OCH 1921")
                                         : apocrypha        ? ui::utf8("SVENSKA 1921")
                                         : bible            ? ui::utf8("SVENSKA 1917")
-                                                           : ui::utf8("SVENSKA SAKNAS");
+                                                           : wxString{};
+}
+std::vector<std::string> ScriptureView::shown_languages(std::size_t row) const {
+    while (row > 0 && !rows_[row].heading)
+        --row;
+    auto result = languages();
+    if (result.front() == "sv" && swedish_edition(row).empty()) {
+        result.front() = "en";
+        result.erase(std::unique(result.begin(), result.end()), result.end());
+    }
+    return result;
 }
 const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
     if (auto it = orphans_.find(source); it != orphans_.end())
@@ -311,7 +325,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     if (rows_[index].heading)
         layout.height = estimated_height(rows_[index]);
     else {
-        const auto selected_languages = languages();
+        const auto selected_languages = shown_languages(index);
         const bool stacked = stacked_columns();
         const bool stanza = corpus_.stanza_book(displayed_.book);
         const int offset = canon_ ? canon_->offset() : 0;

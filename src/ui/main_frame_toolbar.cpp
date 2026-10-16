@@ -126,7 +126,8 @@ ReaderControls MainFrame::controls() const {
                             .preparing = preparing_day(),
                             .selection = navigation_.reader() && !scripture_->selections().empty(),
                             .several_parts = parts_.size() > 1,
-                            .daily_readings = available});
+                            .daily_readings = available,
+                            .speakable = speakable_});
 }
 void MainFrame::update_bar() {
     const auto policy = controls();
@@ -142,10 +143,17 @@ void MainFrame::update_bar() {
     };
     if (play_->GetLabel() != listen_label)
         play_->SetLabel(listen_label);
-    tooltip_of(play_, listen_label + ui::utf8(", mellanslag"));
+    tooltip_of(play_, reader && !active && !policy.listen ? ui::utf8("Ingen svensk text att läsa upp")
+                                                          : listen_label + ui::utf8(", mellanslag"));
+    // When Lyssna and Pausa swap, the focus follows to the other one so Space toggles again;
+    // otherwise disabling the focused button would move it on to Stoppa.
+    const auto* focus = FindFocus();
     play_->Enable(policy.listen);
     pause_->Enable(policy.pause);
     stop_->Enable(policy.stop);
+    if ((focus == play_ || focus == pause_) && (policy.listen || policy.pause))
+        if (auto* toggle = policy.listen ? play_ : pause_; toggle != focus)
+            toggle->SetFocus();
     study_->allow_listening(policy.word_audio);
     tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.") : ui::utf8("Stoppa, Ctrl+."));
     back_->Enable(policy.back);
