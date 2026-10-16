@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Require Intel and Apple Silicon slices in every Mach-O file in an app bundle."""
+"""Require the selected architectures in every Mach-O file in an app bundle."""
 
 import argparse
 from pathlib import Path
@@ -10,7 +10,9 @@ MACHO_MAGICS = {bytes.fromhex(value) for value in (
 ARCHITECTURES = {"arm64", "x86_64"}
 
 
-def check(bundle):
+def check(bundle, expected=ARCHITECTURES):
+    expected = set(expected)
+    description = " ".join(sorted(expected))
     count = 0
     errors = []
     for path in sorted(bundle.rglob("*")):
@@ -21,21 +23,23 @@ def check(bundle):
                 continue
         count += 1
         architectures = set(subprocess.check_output(["/usr/bin/lipo", "-archs", str(path)], text=True).split())
-        if architectures != ARCHITECTURES:
-            errors.append("{}: expected arm64 and x86_64, found {}".format(path, " ".join(sorted(architectures))))
+        if architectures != expected:
+            errors.append("{}: expected {}, found {}".format(path, description, " ".join(sorted(architectures))))
     if not count:
         errors.append("No Mach-O files found in " + str(bundle))
     if errors:
         raise ValueError("\n".join(errors))
-    print("Checked {} Mach-O files: arm64 and x86_64 in every binary".format(count))
+    print("Checked {} Mach-O files: {} in every binary".format(count, description))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("bundle", type=Path)
+    parser.add_argument("--architecture", action="append", choices=sorted(ARCHITECTURES),
+                        help="Required architecture; repeat for a universal app (default: both)")
     args = parser.parse_args()
     try:
-        check(args.bundle)
+        check(args.bundle, args.architecture or ARCHITECTURES)
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         parser.exit(1, str(error) + "\n")
 

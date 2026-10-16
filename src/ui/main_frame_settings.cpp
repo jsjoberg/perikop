@@ -71,6 +71,13 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         apply_settings();
     });
     entries->Add(highlight);
+    entries->AddSpacer(FromDIP(zoomed(18)));
+    choices("UPPDATERINGSKANAL", {"Utgåvor (rekommenderas)", "Nattbyggen (experimentella)"},
+            settings_.update_channel == UpdateChannel::Nightly, [this](int i) {
+                settings_.update_channel = i ? UpdateChannel::Nightly : UpdateChannel::Releases;
+                apply_settings();
+            });
+    entries->Add(ui::label(content, ui::utf8("Valet startar ingen sökning eller hämtning.")));
     auto* outer = new wxBoxSizer(wxVERTICAL);
     outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);

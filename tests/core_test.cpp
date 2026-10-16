@@ -1089,8 +1089,8 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::System && s.speech_voice == "alice" && !s.speech_highlight &&
-                      s.tradition == Tradition::Greek,
-                  "default theme, voice, reading order, and disabled read-aloud highlight");
+                      s.tradition == Tradition::Greek && s.update_channel == UpdateChannel::Releases,
+                  "default theme, voice, reading order, releases channel, and disabled read-aloud highlight");
             sqlite3* legacy = nullptr;
             check(sqlite3_open(user_path.string().c_str(), &legacy) == SQLITE_OK,
                   "open legacy user settings");
@@ -1107,6 +1107,7 @@ int main(int argc, char** argv) {
             s.speech_rate = 175;
             s.speech_voice = "bjorn";
             s.speech_highlight = true;
+            s.update_channel = UpdateChannel::Nightly;
             user.save(s);
         }
         {
@@ -1114,8 +1115,11 @@ int main(int argc, char** argv) {
             auto s = user.load();
             check(s.theme == Theme::Dark && s.calendar == CalendarStyle::Old &&
                       s.tradition == Tradition::Slavic && s.parallel == "en" && s.text_zoom == 125 &&
-                      s.speech_rate == 175 && s.speech_voice == "bjorn" && s.speech_highlight,
+                      s.speech_rate == 175 && s.speech_voice == "bjorn" && s.speech_highlight &&
+                      s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
+            s.update_channel = UpdateChannel::Releases;
+            user.save(s);
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");
             user.complete("plan:nt:2");
@@ -1124,6 +1128,17 @@ int main(int argc, char** argv) {
         }
         {
             UserDb user(user_path);
+            check(user.load().update_channel == UpdateChannel::Releases,
+                  "switching back to releases survives reopening the profile");
+            sqlite3* inspect = nullptr;
+            check(sqlite3_open(user_path.string().c_str(), &inspect) == SQLITE_OK,
+                  "open update channel fallback fixture");
+            const int result =
+                sqlite3_exec(inspect, "UPDATE settings SET value='unknown' WHERE key='update_channel'",
+                             nullptr, nullptr, nullptr);
+            sqlite3_close(inspect);
+            check(result == SQLITE_OK && user.load().update_channel == UpdateChannel::Releases,
+                  "unknown update channels fall back to releases");
             check(user.completed().size() == 4 && user.completed().contains("plan:nt:2"),
                   "persisted progress");
             user.complete("plan:nt:1", false);

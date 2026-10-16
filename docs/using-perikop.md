@@ -11,7 +11,8 @@ Requires Windows 10 or later, x86-64. Download the EXE file and run the installe
 The installer is unsigned. If Microsoft Defender SmartScreen blocks it, select *More info* → *Run anyway*.
 
 ### macOS
-Requires macOS 13.4 or later, Intel or Apple Silicon. Download the DMG file, open it, and drag Perikop to Applications.
+Requires macOS 13.4 or later. Download `macOS-arm64.dmg` for Apple Silicon (M-series), or `macOS-x86_64.dmg` for Intel.
+Open the DMG and drag Perikop to Applications. **About This Mac** shows whether your Mac has an Apple chip or an Intel processor.
 The app has an ad-hoc signature. If macOS blocks the app on first launch, go to *System Settings* → *Privacy & Security* and select *Open Anyway*.
 
 ### Linux
@@ -43,6 +44,11 @@ The day page shows the selected date's readings and three reading plans. Press *
 - The text size applies to the whole program. Ctrl++ and Ctrl+- (⌘ on macOS) change it, and Ctrl+0 resets it.
 - **Inställningar** holds the theme, the calendar, the reading order, and the voice.
 - Tab moves through the toolbar, the page, and the word study column in that order. Shift+Tab moves back.
+
+## Updates
+
+**Inställningar → Uppdateringskanal** saves your choice of **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds).
+Changing this setting makes no network requests. The in-app update checker is not yet connected; download updates from [the releases](https://github.com/jsjoberg/perikop/releases).
 
 ## Bible browser
 

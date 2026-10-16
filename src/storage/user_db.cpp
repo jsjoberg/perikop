@@ -77,6 +77,8 @@ Settings UserDb::load() const {
             result.speech_rate = std::clamp(number, 25, 200);
         if (key == "speech_voice" && (value == "alice" || value == "bjorn"))
             result.speech_voice = value;
+        if (key == "update_channel")
+            result.update_channel = value == "nightly" ? UpdateChannel::Nightly : UpdateChannel::Releases;
         if (key == "word_study")
             result.word_study = value == "1";
         if (key == "speech_highlight")
@@ -98,6 +100,7 @@ void UserDb::save(const Settings& settings) {
         {"text_zoom", std::to_string(settings.text_zoom)},
         {"speech_rate", std::to_string(settings.speech_rate)},
         {"speech_voice", settings.speech_voice},
+        {"update_channel", settings.update_channel == UpdateChannel::Nightly ? "nightly" : "releases"},
         {"word_study", settings.word_study ? "1" : "0"},
         {"speech_highlight", settings.speech_highlight ? "1" : "0"}};
     Statement query(db_.get(),

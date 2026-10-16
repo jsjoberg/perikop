@@ -1,4 +1,4 @@
-"""A universal executable must not hide a single-architecture bundled library."""
+"""Every bundled binary must match the package's target architectures."""
 
 import importlib.util
 from pathlib import Path
@@ -39,6 +39,33 @@ class MacOSArchitectureTest(unittest.TestCase):
             with patch.object(macos_arch.subprocess, "check_output", side_effect=architectures):
                 with self.assertRaisesRegex(ValueError, "libonnxruntime.dylib: expected"):
                     macos_arch.check(root)
+
+    def test_separate_architecture_bundles(self):
+        for architecture in ("arm64", "x86_64"):
+            with self.subTest(architecture=architecture), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                self.fixture(root)
+                with patch.object(macos_arch.subprocess, "check_output", return_value=architecture + "\n"):
+                    macos_arch.check(root, {architecture})
+
+    def test_wrong_architecture_speech_library_fails(self):
+        for architecture, other in (("arm64", "x86_64"), ("x86_64", "arm64")):
+            with self.subTest(architecture=architecture), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                executable, library = self.fixture(root)
+                def architectures(command, **kwargs):
+                    return other if command[-1] == str(library) else architecture
+                with patch.object(macos_arch.subprocess, "check_output", side_effect=architectures):
+                    with self.assertRaisesRegex(ValueError, "libonnxruntime.dylib: expected " + architecture):
+                        macos_arch.check(root, {architecture})
+
+    def test_universal_binary_in_single_architecture_package_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            with patch.object(macos_arch.subprocess, "check_output", return_value="arm64 x86_64\n"):
+                with self.assertRaisesRegex(ValueError, "expected arm64, found arm64 x86_64"):
+                    macos_arch.check(root, {"arm64"})
 
     def test_missing_bundle_fails(self):
         with tempfile.TemporaryDirectory() as directory:

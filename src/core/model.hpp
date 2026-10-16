@@ -171,6 +171,7 @@ struct Pronunciation {
     std::string language, source, spoken, phonemes;
     int priority;
 };
+enum class UpdateChannel { Releases, Nightly };
 struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
     Tradition tradition = Tradition::Greek;
@@ -187,6 +188,8 @@ struct Settings {
     int speech_rate = 100;
     // Swedish voice identity. The selected voice survives application restarts.
     std::string speech_voice = "alice";
+    // Selects the source for a user-initiated update check; never enables background networking.
+    UpdateChannel update_channel = UpdateChannel::Releases;
 };
 // The language of an edition, such as "el" for grc-lxx: "sv", "el" or "en".
 std::string source_language(const std::string& source);

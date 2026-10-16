@@ -25,7 +25,7 @@ class NightlyTest(unittest.TestCase):
     def test_partial_nightly_keeps_successful_packages_and_lists_missing_platforms(self):
         with tempfile.TemporaryDirectory() as temporary:
             packages = Path(temporary)
-            suffixes = ["macOS-universal.dmg", "windows-x64.exe"]
+            suffixes = ["macOS-arm64.dmg", "windows-x64.exe"]
             self.fixtures(packages, suffixes)
             self.assertEqual(self.prepare(packages), TAG)
             self.assertEqual(sorted(path.name for path in packages.glob("Perikop-*")),
@@ -34,7 +34,8 @@ class NightlyTest(unittest.TestCase):
                 self.assertEqual((packages / ("Perikop-" + TAG + "-" + suffix)).read_bytes(), suffix.encode())
             notes = (packages / "NOTES.md").read_text()
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
-            self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64", notes)
+            self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64\n- macOS Intel", notes)
+            self.assertIn("- macOS Apple Silicon", notes)
             self.assertIn("Sanitizers: **passed**", notes)
             for line in (packages / "SHA256SUMS.txt").read_text().splitlines():
                 checksum, name = line.split("  ", 1)
@@ -58,7 +59,7 @@ class NightlyTest(unittest.TestCase):
             notes = (packages / "NOTES.md").read_text()
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
             self.assertIn("Sanitizers: **failure**", notes)
-            self.assertEqual(len(list(packages.glob("Perikop-*"))), 4)
+            self.assertEqual(len(list(packages.glob("Perikop-*"))), 5)
 
     def test_empty_nightly_does_not_create_a_release(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -70,7 +71,7 @@ class NightlyTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             packages = Path(temporary)
             self.fixtures(packages, ["windows-x64.exe"])
-            (packages / "Perikop-0.2.0-macOS-universal.dmg").write_bytes(b"fixture")
+            (packages / "Perikop-0.2.0-macOS-x86_64.dmg").write_bytes(b"fixture")
             original = sorted(path.name for path in packages.iterdir())
             with self.assertRaisesRegex(ValueError, "different versions"):
                 self.prepare(packages)
