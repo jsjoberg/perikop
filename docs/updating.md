@@ -25,6 +25,27 @@ The first compatibility prototype should run in the pinned Linux build environme
 - Updating from one locally prepared version to another, preserving the user profile, with startup networking and automatic application of downloaded updates disabled.
 - Producing a Windows EXE on Linux from the existing cross-built application and validating it on Windows.
 
+### Linux compatibility prototype
+
+The separate `Velopack Linux compatibility prototype` workflow is manual (`workflow_dispatch`) and runs on Linux x64 and ARM64. It does not publish releases or change Perikop's installers. It pins Velopack 1.2.161 and verifies the SDK, packaging tool, and licence hashes in `ci/velopack-prototype.json`.
+
+To run it on a Linux host with Docker and Python 3.12 or later:
+
+```sh
+python3 tools/ci/velopack_prototype.py prepare
+docker build --pull -f ci/velopack-prototype.Dockerfile -t perikop-velopack-prototype ci
+docker run --rm --pull never --network none --cap-add SYS_PTRACE -v "$PWD:/work" \
+    perikop-velopack-prototype python3.12 tools/ci/velopack_prototype.py run
+```
+
+Preparation downloads the explicitly pinned upstream inputs; the test environment installs its build tools during preparation. The compile/package/update test itself runs without networking on Rocky Linux 9 (glibc 2.34), using local update feeds. This research workflow is separate from ordinary offline CI; promote successful inputs into dependency snapshots before enabling production integration.
+
+The probe links the native SDK statically against the baseline system libraries and records whether the upstream shared SDK can load. It creates a small native AppImage, updates it from 1.0.0 to 1.0.1, switches to a newer nightly, and returns to the older release. It checks that a profile fixture outside the AppImage survives, and that starting with a staged update neither applies it nor attempts Internet networking. The production GUI and its existing profile databases are not part of this probe.
+
+Diagnostic logs, syscall traces, and `summary.json` are written under `build/velopack-prototype/run-<architecture>`. Each run rebuilds that architecture's prototype output. Windows cross-packaging, GTK AppDir integration, actual application upgrades, and native Mac/Windows validation remain subsequent steps.
+
+The [October 16 Linux ARM64 findings](reports/velopack-linux-2026-10-16.md) record the successful offline upgrade and channel-switch tests, static SDK compatibility with glibc 2.34, and the SDK's cleanup of cached downgrades at startup.
+
 Pin the SDK and packaging tools and prepare them through the dependency-snapshot workflow. Ordinary compilation and packaging remain offline. Signing, notarization, and publication are explicit release steps with their own network access where necessary.
 
 ## macOS cross-compilation later
