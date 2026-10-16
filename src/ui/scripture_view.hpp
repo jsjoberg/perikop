@@ -262,7 +262,7 @@ private:
     mutable std::list<TileKey> tile_order_;
     mutable double tile_scale_ = 0;
     mutable wxRealPoint tile_dpi_;
-    mutable wxColour tile_ink_, tile_muted_;
+    mutable wxColour tile_ink_, tile_muted_, tile_verse_;
     mutable RenderStats render_stats_;
     static constexpr std::size_t tile_budget = std::size_t{32} * 1024 * 1024;
     static constexpr std::size_t tile_lines = 8;

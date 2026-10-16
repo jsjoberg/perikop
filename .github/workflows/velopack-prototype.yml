@@ -1,0 +1,38 @@
+name: Velopack Linux compatibility prototype
+on:
+  # Explicit research, separate from ordinary offline CI and release publication.
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04, architecture: x64}
+          - {os: ubuntu-24.04-arm, architecture: arm64}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Prepare verified prototype SDK and packaging tool
+        run: python3 tools/ci/velopack_prototype.py prepare
+      - name: Prepare glibc 2.34 test environment
+        run: docker build --pull -f ci/velopack-prototype.Dockerfile -t perikop-velopack-prototype ci
+      - name: Compile, package, and exercise updates without networking
+        timeout-minutes: 15
+        run: |
+          docker run --rm --pull never --network none --cap-add SYS_PTRACE -v "$PWD:/work" \
+            perikop-velopack-prototype python3.12 tools/ci/velopack_prototype.py run
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: velopack-prototype-${{ matrix.architecture }}
+          retention-days: 7
+          path: |
+            build/velopack-prototype/run-*/*.json
+            build/velopack-prototype/run-*/*.txt
+            build/velopack-prototype/run-*/*.log
+            build/velopack-prototype/run-*/*.trace
+          if-no-files-found: warn

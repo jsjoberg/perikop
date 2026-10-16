@@ -1,5 +1,7 @@
 # Releases
 
+See the [update migration plan](updating.md) for the planned Linux-hosted Velopack packaging and user-controlled in-app updates. The commands below describe the current release pipeline.
+
 ## Release
 
 Set the version in `project()` in `CMakeLists.txt`, then push a matching tag:
@@ -8,7 +10,8 @@ Set the version in `project()` in `CMakeLists.txt`, then push a matching tag:
 git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 ```
 
-CI builds, tests, and packages all four platforms, then creates a draft release with the packages and `SHA256SUMS.txt`.
+CI builds, tests, and packages five targets: Windows x64, Linux x64, Linux ARM64, macOS Apple Silicon, and macOS Intel.
+It then creates a draft release with the packages and `SHA256SUMS.txt`.
 A tag suffix such as `-alpha.2` goes into the file names. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
 
@@ -23,7 +26,7 @@ Failed jobs still fail the workflow, but do not discard successful packages from
 Incomplete nightlies do not prevent another scheduled attempt for the same commit.
 Retries on the same day add the run ID and attempt number to the release tag.
 If all platforms fail, CI publishes no nightly.
-Version-tagged releases still require all four platforms and sanitizers to pass.
+Version-tagged releases still require all five targets and sanitizers to pass.
 
 To start a nightly now:
 
@@ -41,6 +44,7 @@ tools/package_appimage.sh build/cmake                           # Linux
 ```
 
 The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set to a `Microsoft.VC143.CRT` redistributable folder.
+The macOS DMGs are separate `macOS-arm64.dmg` (Apple Silicon) and `macOS-x86_64.dmg` (Intel) downloads.
 The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.
 
 ## CI dependency snapshots

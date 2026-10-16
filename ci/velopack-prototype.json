@@ -1,0 +1,20 @@
+{
+  "version": "1.2.161",
+  "assets": [
+    {
+      "file": "velopack_libc_1.2.161.zip",
+      "sha256": "31de8f2cf05a47bd5328a9f98b0c41aec1582156f6075f1058b26941f7f17c20",
+      "destination": "sdk"
+    },
+    {
+      "file": "vpk.1.2.161.nupkg",
+      "sha256": "2b56ce117f803fc70c103cb423bd040e395e40370f6ff6e10818e9ff9c26a323",
+      "destination": "vpk"
+    },
+    {
+      "file": "velopack-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/velopack/velopack/92d6a1c91716729d449034df5c50307dcce39493/LICENSE",
+      "sha256": "91845db83551c877ebbb1118e0fb92e4e527290d23b995c55dcd438b3293943f"
+    }
+  ]
+}

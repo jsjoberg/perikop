@@ -320,7 +320,7 @@ if(ORTHO_BUILD_GUI)
         set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
         # Font shaping and native widgets take longer on hosted Windows runners.
         set(perikop_smoke_timeout 60)
-        if(perikop_macos_universal)
+        if(APPLE AND "x86_64" IN_LIST perikop_macos_architectures)
             # A fresh CI runner must translate the Intel app and Cocoa frameworks through Rosetta.
             set(perikop_smoke_timeout 120)
         endif()

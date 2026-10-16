@@ -42,7 +42,7 @@ jobs:
              [.[][] | select(.draft == false and .prerelease == true)
               | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7}(-[0-9]+(-[0-9]+)?)?)?$"))
               | select(((.body // "") | contains("<!-- perikop-nightly: partial -->")) | not)
-              | select([.assets[]? | select(.name | startswith("Perikop-"))] | length == 4)]
+              | select([.assets[]? | select(.name | startswith("Perikop-"))] | length == 5)]
             | sort_by(.published_at, .tag_name) | last | .tag_name // empty
           ' releases.json)
           if [ -n "$latest" ]; then
@@ -64,17 +64,20 @@ jobs:
           - {os: ubuntu-24.04, platform: Linux}
           # The Raspberry Pi 5 package, for 64-bit Raspberry Pi OS.
           - {os: ubuntu-24.04-arm, platform: Linux-arm64}
-          - {os: macos-15, platform: macOS}
+          - {os: macos-15, platform: macOS-arm64, dependencies: macOS, architecture: arm64}
+          # Build Intel separately and run its tests through Rosetta on the ARM runner.
+          - {os: macos-15, platform: macOS-x86_64, dependencies: macOS, architecture: x86_64}
     runs-on: ${{ matrix.os }}
     env:
       PLATFORM: ${{ matrix.platform }}
+      MACOS_ARCH: ${{ matrix.architecture }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Cached dependency snapshots
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ci/downloads
-          key: dependencies-${{ matrix.platform }}-${{ hashFiles('ci/dependencies-lock.json') }}
+          key: dependencies-${{ matrix.dependencies || matrix.platform }}-${{ hashFiles('ci/dependencies-lock.json') }}
       - name: Restore verified dependencies from this repository
         shell: bash
         env:
@@ -82,7 +85,7 @@ jobs:
         run: |
           args=()
           [ "$PACKAGE" != true ] || args+=(--package)
-          python3 tools/ci/dependencies.py restore --platform "$PLATFORM" "${args[@]}"
+          python3 tools/ci/dependencies.py restore --platform "${{ matrix.dependencies || matrix.platform }}" "${args[@]}"
       - name: Compiler cache
         id: compiler-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -367,7 +370,7 @@ jobs:
           # The packages carry the version from CMakeLists.txt, which must match the tag.
           shopt -s nullglob
           files=(Perikop-"$base"-*)
-          if [ "${#files[@]}" != 4 ]; then
+          if [ "${#files[@]}" != 5 ]; then
             echo "::error::The packages are not version $base. Set that version in CMakeLists.txt."
             exit 1
           fi

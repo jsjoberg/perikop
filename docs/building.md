@@ -22,7 +22,12 @@ The default build type is MinSizeRel with link-time optimization. Useful options
 - `-DCMAKE_BUILD_TYPE=Debug`
 - `-DPERIKOP_LTO=OFF`
 - `-DORTHO_SYSTEM_WX=ON` to use an installed wxWidgets.
-- `'-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'` for a universal macOS app. Check it with `python3 tools/check_macos_arch.py build/universal/bin/Perikop.app`.
+- `-DCMAKE_OSX_ARCHITECTURES=arm64` for Apple Silicon, or `-DCMAKE_OSX_ARCHITECTURES=x86_64` for Intel. Use separate build directories for each architecture.
+  Check every bundled binary with `python3 tools/check_macos_arch.py build/cmake/bin/Perikop.app --architecture arm64` (or `x86_64`).
+
+CI builds and packages the two macOS architectures separately. Intel tests run through Rosetta on an Apple Silicon runner.
+
+Linux is the preferred host for future build and packaging work. The [update migration plan](updating.md) covers Linux-hosted Velopack packaging and the longer-term move toward cross-compiling macOS on Linux.
 
 To build offline from the same dependency snapshot as CI (`Linux`, `macOS`, or `Windows`):
 

@@ -68,7 +68,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 // A clicked verse shares its framing range across both editions.
                 if (gc && highlighted_verse_ && !settings_.word_study) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
-                    gc->SetBrush(wxBrush(with_alpha(colors.accent, 36)));
+                    gc->SetBrush(wxBrush(colors.selection));
                     for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
                         double first = std::numeric_limits<double>::max(), last = 0;
                         const auto flush = [&] {
@@ -119,7 +119,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                 }
                 if (gc && c == 0 && !selections_.empty()) {
                     gc->SetPen(*wxTRANSPARENT_PEN);
-                    gc->SetBrush(wxBrush(with_alpha(colors.accent, 56)));
+                    gc->SetBrush(wxBrush(colors.selection));
                     for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
                         double first = std::numeric_limits<double>::max(), last = 0;
                         const auto flush = [&] {
@@ -154,7 +154,7 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         if (lower != target || occurrence != highlighted_->occurrence)
                             continue;
                         gc->SetPen(*wxTRANSPARENT_PEN);
-                        gc->SetBrush(wxBrush(with_alpha(colors.accent, 36)));
+                        gc->SetBrush(wxBrush(colors.selection));
                         for (const auto& [line, index] : word.runs) {
                             const auto& run = column.text.lines[line].runs[index];
                             gc->DrawRoundedRectangle(
@@ -172,6 +172,8 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                     const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {
                         if (run.tag >= 0 && size_t(run.tag) < column.faint.size() && column.faint[run.tag])
                             return colors.muted;
+                        if (run.marker)
+                            return colors.verse;
                         return std::nullopt;
                     };
                     if (gc) {
