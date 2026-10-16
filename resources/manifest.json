@@ -118,7 +118,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "cf9165d7a2b4ee645c8b238a07f4c7ab72999263f0ff119a642618e195b32c37",
+      "sha256": "1b17bad9a491ac2006110e94b0035f47fff4c27eaf9652c6c3d4dcc32010f0e9",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -435,7 +435,7 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "6d1da95782b043de0014da9274358d80130f0d0fee20720011496066672bf41e",
+      "sha256": "b1cded89fb83ed45bb0d7cce8418a3762f9b7f4b2a61d517843fcb7e9837cd5f",
       "license": "MIT",
       "role": "Curated Swedish name phonemes for the Kokoro voices; first-pass drafts pending listening review"
     },
