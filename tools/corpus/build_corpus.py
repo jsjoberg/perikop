@@ -26,7 +26,7 @@ byname={name:code for code,_,name,*_ in entries}
 byusfm={usfm:code for code,usfm,*_ in entries}
 verses=[];greek_names={};paragraphs=[]
 # Swedish keeps its printed 1917/1921 verse numbers; see runeberg1917.py and apocrypha1921.py.
-for (code,chapter,verse),text in runeberg1917.read(inputs/'runeberg-bibeln-1917.html').items():
+for (code,chapter,verse),text in runeberg1917.read(inputs/'runeberg-bibeln-1917-html.zip').items():
  verses.append((1,ids[code],chapter,verse,verse,'',text))
 for line in (inputs/'sv1921-apokryfer.tsv').read_text(encoding='utf-8').splitlines():
  code,chapter,verse,text=line.split('\t');verses.append((1,ids[code],int(chapter),int(verse),int(verse),'',text))
