@@ -49,10 +49,18 @@ wxString kind_label(ReadingKind kind) {
 } // namespace
 MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
                      const std::filesystem::path& resources, const std::filesystem::path& data,
-                     bool diagnostic)
+                     std::unique_ptr<UpdateBackend> updates, bool diagnostic)
     : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
       user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
-      selected_(date), settings_(user.load()), playback_timer_(this) {
+      selected_(date), settings_(user.load()), updater_(std::make_unique<Updater>(
+                                                   std::move(updates),
+                                                   [this](std::function<void()> function) {
+                                                       CallAfter(std::move(function));
+                                                   },
+                                                   [this] {
+                                                       show_update_status();
+                                                   })),
+      playback_timer_(this) {
     text_zoom = settings_.text_zoom;
     color_scheme = settings_.color_scheme;
     SetMinSize(FromDIP(wxSize(520, 480)));
@@ -496,6 +504,8 @@ void MainFrame::update_study() {
     root_->Layout();
 }
 MainFrame::~MainFrame() {
+    // A download still running delivers nothing once the updater is gone.
+    updater_.reset();
     alt_tap_.reset();
     // A hidden menu bar is not the frame's to delete.
     if (GetMenuBar() != menu_bar_)

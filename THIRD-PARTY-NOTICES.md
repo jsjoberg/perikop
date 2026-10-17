@@ -38,6 +38,13 @@ SQLite 3.53.4 is dedicated to the public domain. It is built from the pinned
 amalgamation with loadable extensions disabled.
 Source: https://sqlite.org/copyright.html
 
+Velopack 1.2.161's C/C++ SDK is linked statically into the Linux and macOS programs for
+in-app updates. Velopack uses the MIT license, in `resources/licenses/Velopack-MIT.txt`.
+The SDK contains 115 Rust crates under permissive licenses such as MIT, Apache 2.0, ISC,
+and Unicode 3.0. `resources/licenses/Velopack-crates.txt` lists them with their licence
+texts; `tools/velopack_notices.py` generates it from Velopack's pinned `Cargo.lock`.
+Source: https://github.com/velopack/velopack/tree/92d6a1c91716729d449034df5c50307dcce39493
+
 GNU builds include GCC's runtime libraries, under GPLv3 or later with the GCC Runtime Library Exception 3.1.
 Linux packages carry the selected toolchain's `libstdc++` and `libgcc_s` as shared libraries.
 The licenses are in `resources/licenses/GCC-COPYING3.txt` and `resources/licenses/GCC-RUNTIME-EXCEPTION.txt`.

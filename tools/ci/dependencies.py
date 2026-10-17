@@ -46,7 +46,7 @@ def selected(platform):
 
 def audit():
     """Keep ordinary developer builds and prepared CI sources on the same versions."""
-    native = (ROOT / "CMakeLists.txt").read_text() + (ROOT / "cmake/speech.cmake").read_text()
+    native = "".join((ROOT / name).read_text() for name in ("CMakeLists.txt", "cmake/speech.cmake", "cmake/updates.cmake"))
     for item in json.loads(UPSTREAMS.read_text()).values():
         if item.get("source") not in (None, "voice") and item["sha256"] not in native:
             raise ValueError("Native dependency changed; update ci/upstreams.json: " + item["file"])
@@ -157,6 +157,9 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
         if component == "voice":
             if package:
                 extract(path, ROOT / "build/kokoro-pack")
+        elif component == "ortho_velopack":
+            # The SDK archive holds include/, lib/, and lib-static/ side by side.
+            extract(path, output / "sources" / component)
         elif component == "ortho_audio":
             target = output / "sources" / component
             target.mkdir(parents=True, exist_ok=True)

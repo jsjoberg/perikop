@@ -70,6 +70,7 @@ add_library(ortho-core
     src/core/reading_display.cpp
     src/core/online_bibles.cpp
     src/core/reading_plan.cpp
+    src/core/updater.cpp
     src/storage/sqlite.cpp
     src/storage/corpus_db.cpp
     src/storage/study_db.cpp
@@ -81,7 +82,7 @@ add_library(ortho-core
     src/speech/playback_controller.cpp
     src/speech/pronunciation_review.cpp)
 target_include_directories(ortho-core PUBLIC src)
-target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers)
+target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers Threads::Threads)
 if(MSVC)
     target_compile_options(ortho-core PUBLIC /W4 /utf-8)
 else()
@@ -106,6 +107,9 @@ if(BUILD_TESTING)
     add_executable(ortho-pcm-stream-tests tests/pcm_stream_test.cpp)
     target_link_libraries(ortho-pcm-stream-tests PRIVATE ortho-core Threads::Threads)
     add_test(NAME pcm-streaming COMMAND ortho-pcm-stream-tests)
+    add_executable(ortho-updater-tests tests/updater_test.cpp)
+    target_link_libraries(ortho-updater-tests PRIVATE ortho-core)
+    add_test(NAME updater COMMAND ortho-updater-tests)
     add_executable(ortho-calendar-probe tests/calendar_probe.cpp)
     target_link_libraries(ortho-calendar-probe PRIVATE ortho-core)
     add_executable(ortho-tests tests/core_test.cpp)
@@ -118,6 +122,7 @@ if(ORTHO_BUILD_GUI)
         message(FATAL_ERROR "Portable speech requires macOS 13.4 or later. Reconfigure with -DCMAKE_OSX_DEPLOYMENT_TARGET=13.4.")
     endif()
     include(cmake/speech.cmake)
+    include(cmake/updates.cmake)
     if(ORTHO_SYSTEM_WX)
         find_package(wxWidgets 3.2 REQUIRED COMPONENTS core base adv)
         include(${wxWidgets_USE_FILE})
@@ -148,6 +153,7 @@ if(ORTHO_BUILD_GUI)
     endif()
     add_executable(perikop WIN32 MACOSX_BUNDLE
         src/app/main.cpp
+        src/app/updates.cpp
         src/ui/main_frame.cpp
         src/ui/main_frame_navigation.cpp
         src/ui/main_frame_menus.cpp
@@ -181,6 +187,10 @@ if(ORTHO_BUILD_GUI)
             COMPILE_OPTIONS "$<$<CONFIG:MinSizeRel>:-O2>")
     endif()
     target_link_libraries(perikop PRIVATE ortho-speech ortho-core ${ortho_wx})
+    if(perikop_updates)
+        target_link_libraries(perikop PRIVATE ortho-velopack)
+        target_compile_definitions(perikop PRIVATE PERIKOP_UPDATES)
+    endif()
     if(WIN32)
         enable_language(RC)
         target_link_libraries(perikop PRIVATE gdiplus)

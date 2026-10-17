@@ -111,7 +111,12 @@ The [HTTP source](https://github.com/velopack/velopack/blob/92d6a1c91716729d4490
 Each phase is its own pull request.
 
 1. Versions, channels, these decisions, and moving snapshots and voice packs to `jsjoberg/perikop-assets`. Done.
-2. Updater core and UI: a small updater interface over the Velopack C API, with a fake for tests. It runs off the UI thread. `VelopackApp` runs at startup. **Inställningar** gets **Sök efter uppdateringar**, which checks, shows the version, downloads with progress, and offers **Starta om och installera**. Development builds say that updates need an installed copy.
+2. Updater core and UI. Done, for Linux and macOS; Windows and universal macOS builds explain that they do not update.
+   - `src/core/updater.cpp` runs each user step (check, download, apply) on a worker thread and reports to the UI thread. Avbryt stops waiting; no other step starts until the abandoned request finishes. `tests/updater_test.cpp` covers it with a fake backend.
+   - `src/app/updates.cpp` is the Velopack backend. It uses the GitHub source with the `<os>-<arch>-<track>` channel, lets the user confirm a downgrade, and keeps the selected package from check through apply.
+   - `VelopackApp` runs at startup only in a copy that Velopack installed, because it always opens a log file. Other copies write nothing and make no requests.
+   - The SDK is linked statically from the dependency snapshot. `resources/licenses/Velopack-crates.txt` holds the notices of its 115 Rust crates.
+   - The pinned macOS static library contains crypto objects built for macOS 26.5. The program still targets macOS 13.4, and the linker warns. Check the update steps on macOS 13 before phase 5.
 3. Linux: pack the AppDir with `vpk` on x64 and ARM64, with the static SDK. Test a real upgrade and the profile offline on the glibc 2.34 baseline.
 4. Windows: pack Setup.exe on Linux and test install, update, and uninstall on a Windows runner. The SDK's Windows libraries are MSVC builds; with llvm-mingw, link its DLL through the C API.
 5. macOS: pack each architecture with `vpk` on the Mac runners.

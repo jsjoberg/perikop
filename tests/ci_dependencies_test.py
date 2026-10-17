@@ -31,13 +31,21 @@ class DependenciesTest(unittest.TestCase):
         item = {"file": "dependency.zip", "sha256": dependencies.digest(root / "dependency.zip"),
                 "source": "sqlite", "url": "https://upstream.invalid/dependency.zip"}
         (root / "CMakeLists.txt").write_text(item["sha256"])
+        # The update SDK archive has several top-level folders instead of one root.
+        with zipfile.ZipFile(root / "velopack.zip", "w") as archive:
+            archive.writestr("include/Velopack.hpp", "offline sdk")
+            archive.writestr("lib-static/velopack_libc_linux_x64_gnu.a", "offline library")
+        sdk = {"file": "velopack.zip", "sha256": dependencies.digest(root / "velopack.zip"),
+               "source": "ortho_velopack", "url": "https://upstream.invalid/velopack.zip", "platform": ["Linux"]}
+        (root / "cmake/updates.cmake").write_text(sdk["sha256"])
         manifest = root / "ci/upstreams.json"
-        manifest.write_text(json.dumps({"sqlite": item}))
+        manifest.write_text(json.dumps({"sqlite": item, "velopack": sdk}))
         downloads = root / "build/ci/downloads"
         (downloads / (platform + "-environment.tar.gz")).write_bytes(b"pinned container")
         with tarfile.open(downloads / ("inputs-" + platform + ".tar.gz"), "w:gz") as archive:
             archive.add(manifest, arcname="upstreams.json")
             archive.add(root / "dependency.zip", arcname="dependency.zip")
+            archive.add(root / "velopack.zip", arcname="velopack.zip")
             for name in dependencies.APPIMAGE_TOOLS.get(platform, ()):
                 (root / name).write_bytes(b"fixture tool")
                 archive.add(root / name, arcname=name)
@@ -56,6 +64,9 @@ class DependenciesTest(unittest.TestCase):
                 dependencies.restore("Linux", root / "build/ci")
                 run.assert_not_called()
             self.assertEqual((root / "build/ci/sources/sqlite/sqlite3.h").read_text(), "offline source")
+            sdk = root / "build/ci/sources/ortho_velopack"
+            self.assertEqual((sdk / "include/Velopack.hpp").read_text(), "offline sdk")
+            self.assertTrue((sdk / "lib-static/velopack_libc_linux_x64_gnu.a").is_file())
 
     def test_arm64_restores_its_own_environment_and_tools(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -231,7 +242,8 @@ class DependenciesTest(unittest.TestCase):
             root = Path(temporary)
             sources = root / "sources"
             for name in ("sqlite/sqlite3.h", "wxwidgets/CMakeLists.txt", "ortho_sonic/sonic.h",
-                         "ortho_audio/miniaudio.h", "ortho_ort/include/onnxruntime_c_api.h"):
+                         "ortho_audio/miniaudio.h", "ortho_ort/include/onnxruntime_c_api.h",
+                         "ortho_velopack/include/Velopack.hpp"):
                 file = sources / name
                 file.parent.mkdir(parents=True, exist_ok=True)
                 file.write_text("")

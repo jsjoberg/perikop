@@ -24,8 +24,23 @@
 #include <wx/hyperlink.h>
 #include <wx/menu.h>
 #include <wx/scrolwin.h>
+#include <wx/utils.h>
 namespace ortho {
 namespace {
+// Offers a version without any network, so the smoke test can step through the update controls.
+class SmokeUpdates final : public UpdateBackend {
+public:
+    std::string unavailable() const override {
+        return {};
+    }
+    std::optional<UpdateOffer> check(UpdateChannel) override {
+        return UpdateOffer{"9.9.9", 1'500'000, false};
+    }
+    void download(const std::function<void(int)>& progress) override {
+        progress(100);
+    }
+    void apply() override {}
+};
 // Navigation tests need a held playback position without model loading or sound output.
 class NavigationSpeech final : public SpeechEngine {
 public:
@@ -101,7 +116,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         };
         const auto before = contents();
         {
-            auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data, true);
+            auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                         std::make_unique<SmokeUpdates>(), true);
             candidate->open_psalm();
             if (candidate->pronunciation_review_ || !candidate->speech_ ||
                 candidate->scripture_->reading().passage.book != "Ps" ||
@@ -495,6 +511,58 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         save(bitmap.ConvertToImage(), "-settings" + suffix);
     });
+    {
+        // An uninstalled build explains why it cannot update and offers no step.
+        auto* button = update_button_.get();
+        const auto* text = static_cast<wxStaticText*>(update_text_.get());
+        if (!button || !text ||
+            button->IsEnabled() != (updater_->status().state != UpdateStatus::State::Unavailable))
+            fail(__LINE__);
+        // Each step waits for a click, and the controls follow it.
+        updater_ = std::make_unique<Updater>(
+            std::make_unique<SmokeUpdates>(),
+            [this](std::function<void()> function) {
+                CallAfter(std::move(function));
+            },
+            [this] {
+                show_update_status();
+            });
+        show_update_status();
+        const auto reaches = [&](UpdateStatus::State state) {
+            for (int i = 0; i < 1000 && updater_->status().state != state; ++i) {
+                wxMilliSleep(5);
+                wxTheApp->ProcessPendingEvents();
+            }
+            return updater_->status().state == state;
+        };
+        if (!button->IsEnabled() || update_cancel_->IsShown())
+            fail(__LINE__);
+        update_clicked();
+        if (!reaches(UpdateStatus::State::Available) ||
+            button->GetLabel() != ui::utf8("Hämta version 9.9.9") || !text->GetLabel().Contains("2 MB"))
+            fail(__LINE__);
+        update_clicked();
+        if (!reaches(UpdateStatus::State::Ready) ||
+            button->GetLabel() != ui::utf8("Starta om och installera"))
+            fail(__LINE__);
+        if (!screenshot_path.empty()) {
+            // The update controls are at the end of the page.
+            if (auto* page = dynamic_cast<wxScrolledWindow*>(current_page()))
+                page->Scroll(0, page->GetVirtualSize().y);
+            Update();
+            wxBitmap bitmap(GetClientSize());
+            wxClientDC window(this);
+            {
+                wxMemoryDC image(bitmap);
+                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+            }
+            save(bitmap.ConvertToImage(), "-updates");
+        }
+        updater_->reset();
+        if (updater_->status().state != UpdateStatus::State::Idle ||
+            button->GetLabel() != ui::utf8("Sök efter uppdateringar"))
+            fail(__LINE__);
+    }
     close_page();
     settings_.parallel = "el";
     apply_settings(false);
