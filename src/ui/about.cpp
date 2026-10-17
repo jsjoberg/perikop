@@ -186,7 +186,10 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
         sizer->AddSpacer(page->FromDIP(zoomed(12)));
     }
     text("Perikop", body_font(28), 2, false, wxALIGN_CENTER_HORIZONTAL);
-    text("Version " PERIKOP_VERSION, ui_font(10), 18, true, wxALIGN_CENTER_HORIZONTAL);
+    const wxString version = PERIKOP_VERSION, commit = PERIKOP_COMMIT;
+    text("Version " + version +
+             (commit.empty() || version.Contains(commit) ? wxString{} : " (" + commit + ")"),
+         ui_font(10), 18, true, wxALIGN_CENTER_HORIZONTAL);
     text(ui::utf8("Dagens bibelläsningar i ortodox läsordning, med svensk, grekisk och engelsk text och "
                   "svensk uppläsning. Fungerar utan nätverk."),
          ui_font(11), 8);

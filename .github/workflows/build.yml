@@ -30,7 +30,9 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       build: ${{ steps.changes.outputs.build }}
+      version: ${{ steps.version.outputs.version }}
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Check for changes since the last successful nightly
         id: changes
         env:
@@ -54,6 +56,19 @@ jobs:
             fi
           fi
           echo 'build=true' >> "$GITHUB_OUTPUT"
+      - name: Choose the nightly's version
+        id: version
+        if: steps.changes.outputs.build == 'true'
+        run: |
+          set -euo pipefail
+          base=$(sed -n 's/^project(perikop VERSION \([^ ]*\).*/\1/p' CMakeLists.txt)
+          released=$(jq --arg tag "v$base" '[.[][] | select(.draft == false and .tag_name == $tag)] | length' releases.json)
+          released_flag=
+          [ "$released" = 0 ] || released_flag=--released
+          version=$(python3 tools/ci/nightly.py version --base "$base" $released_flag \
+            --date "$(TZ=Europe/Stockholm date +%F)" --run-number "$GITHUB_RUN_NUMBER" --run-attempt "$GITHUB_RUN_ATTEMPT")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Nightly version $version" >> "$GITHUB_STEP_SUMMARY"
   unix:
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
@@ -71,6 +86,7 @@ jobs:
     env:
       PLATFORM: ${{ matrix.platform }}
       MACOS_ARCH: ${{ matrix.architecture }}
+      PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Cached dependency snapshots
@@ -100,7 +116,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           docker load --input "build/ci/downloads/$PLATFORM-environment.tar.gz"
-          docker run --rm --pull never --network none -v "$PWD:/work" -e PACKAGE \
+          docker run --rm --pull never --network none -v "$PWD:/work" -e PACKAGE -e PERIKOP_BUILD_VERSION \
             perikop-ci-linux:dependencies bash tools/ci/build-linux.sh
       - name: Build, analyze, test, and package macOS offline
         if: runner.os == 'macOS'
@@ -131,6 +147,8 @@ jobs:
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: ubuntu-24.04
+    env:
+      PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
     outputs:
       cross: ${{ steps.environment.outputs.cross }}
     steps:
@@ -172,7 +190,7 @@ jobs:
         if: steps.environment.outputs.cross == 'true'
         run: |
           docker load --input build/ci/downloads/Windows-cross-environment.tar.gz
-          docker run --rm --pull never --network none -v "$PWD:/work" \
+          docker run --rm --pull never --network none -v "$PWD:/work" -e PERIKOP_BUILD_VERSION \
             perikop-ci-windows-cross:dependencies bash tools/ci/build-windows-cross.sh
       - name: Save compiler cache after build failure
         if: always() && !cancelled() && steps.compiler-cache.outputs.cache-primary-key != '' && steps.compiler-cache.outputs.cache-hit != 'true'
@@ -195,6 +213,7 @@ jobs:
     runs-on: windows-2025
     env:
       WINDOWS_CROSS: ${{ needs.windows-build.outputs.cross }}
+      PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
       CCACHE_DIR: ${{ github.workspace }}/build/ccache
       CCACHE_BASEDIR: ${{ github.workspace }}
       CCACHE_COMPILERCHECK: content
@@ -391,6 +410,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           SANITIZERS: ${{ needs.sanitizers.result }}
+          BUILD_VERSION: ${{ needs.nightly.outputs.version }}
         run: |
           set -euo pipefail
           mkdir -p packages
@@ -400,8 +420,9 @@ jobs:
           if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
             tag="$tag-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           fi
-          tag=$(python3 tools/ci/nightly.py --packages packages --repository "$GITHUB_REPOSITORY" \
-            --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --tag "$tag" --sanitizers "$SANITIZERS")
+          tag=$(python3 tools/ci/nightly.py prepare --packages packages --repository "$GITHUB_REPOSITORY" \
+            --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --tag "$tag" --sanitizers "$SANITIZERS" \
+            --version "$BUILD_VERSION")
           if [ -z "$tag" ]; then
             echo 'No successful platform packages; no nightly was published.' >> "$GITHUB_STEP_SUMMARY"
             exit 0

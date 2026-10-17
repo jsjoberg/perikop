@@ -1,5 +1,13 @@
 # Use the exact release tag when present. Other builds identify their commit.
 function(perikop_get_version output source base)
+    # CI gives nightlies an ordered SemVer version, such as 0.1.1-nightly.20261018.412.1.
+    if(NOT "$ENV{PERIKOP_BUILD_VERSION}" STREQUAL "")
+        if(NOT "$ENV{PERIKOP_BUILD_VERSION}" MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$")
+            message(FATAL_ERROR "PERIKOP_BUILD_VERSION is not a SemVer version: $ENV{PERIKOP_BUILD_VERSION}")
+        endif()
+        set(${output} "$ENV{PERIKOP_BUILD_VERSION}" PARENT_SCOPE)
+        return()
+    endif()
     if(NOT EXISTS "${source}/.git")
         set(${output} "${base}" PARENT_SCOPE)
         return()
