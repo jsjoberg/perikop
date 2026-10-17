@@ -11,8 +11,8 @@ using storage::Statement;
 using storage::Transaction;
 namespace {
 // Stored names, in ColorScheme order. An unknown name keeps the default.
-constexpr std::array<const char*, 8> color_schemes{"perikop",    "rose-pine",  "gruvbox",     "nord",
-                                                   "everforest", "catppuccin", "tokyo-night", "solarized"};
+constexpr std::array<const char*, 7> color_schemes{"rose-pine",  "gruvbox",     "nord",     "everforest",
+                                                   "catppuccin", "tokyo-night", "solarized"};
 } // namespace
 UserDb::UserDb(const std::filesystem::path& path) {
     if (!path.parent_path().empty())

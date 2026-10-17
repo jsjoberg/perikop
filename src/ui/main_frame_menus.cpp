@@ -357,6 +357,9 @@ void MainFrame::make_menus() {
     bar->Append(go, ui::utf8("Gå"));
     bar->Append(reading, ui::utf8("Uppläsning"));
 #ifndef __WXOSX__
+    // macOS has its own Quit with ⌘Q in the application menu.
+    view->AppendSeparator();
+    view->Append(wxID_EXIT, "Avsluta\tCtrl+Q");
     auto* help = new wxMenu;
     help->Append(wxID_ABOUT, "Om Perikop");
     bar->Append(help, ui::utf8("Hjälp"));
@@ -390,6 +393,12 @@ void MainFrame::make_menus() {
             show_settings();
         },
         wxID_PREFERENCES);
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            Close();
+        },
+        wxID_EXIT);
     Bind(
         wxEVT_MENU,
         [this](wxCommandEvent& event) {
@@ -519,6 +528,9 @@ void MainFrame::show_menu() {
         popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES));
         item(Review);
         popup.item("Om Perikop", {}, true, command(wxID_ABOUT));
+        // Last, as in Chrome.
+        popup.separator();
+        popup.item("Avsluta", shortcut_of("\tCtrl+Q"), true, command(wxID_EXIT));
     });
     popup->open();
 }
