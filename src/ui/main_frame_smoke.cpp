@@ -82,7 +82,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto data = data_ / (future ? "future-pronunciation" : "corrupt-pronunciation");
         UserDb profile(data / "user.db");
         auto settings = profile.load();
-        settings.speech_voice = "bjorn";
+        settings.speech_voice = "alice";
         profile.save(settings);
         profile.complete("preserved-progress");
         const auto path = data / "pronunciation-review.db";
@@ -108,7 +108,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 candidate->speech_lexicon("sv").size() != corpus_.pronunciations("sv").size())
                 fail(__LINE__);
         }
-        if (contents() != before || profile.load().speech_voice != "bjorn" ||
+        if (contents() != before || profile.load().speech_voice != "alice" ||
             !profile.completed().contains("preserved-progress"))
             fail(__LINE__);
     }
@@ -469,7 +469,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 check(wxString::Format("-%zu-%s", i, theme == Theme::Dark ? "dark" : "light"),
                       palette(ColorScheme(i), theme == Theme::Dark).paper);
             }
-        settings_.color_scheme = ColorScheme::Perikop;
+        settings_.color_scheme = Settings{}.color_scheme;
         settings_.theme = Theme::Light;
         apply_settings(false);
     };

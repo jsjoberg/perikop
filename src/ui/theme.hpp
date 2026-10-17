@@ -35,8 +35,7 @@ inline Palette palette(unsigned paper, unsigned surface, unsigned overlay, unsig
 struct SchemeName {
     const char *name, *light, *dark;
 };
-constexpr std::array<SchemeName, 8> scheme_names{{{"Perikop", "Ljus", "Mörk"},
-                                                  {"Rosé Pine", "Dawn", "Main"},
+constexpr std::array<SchemeName, 7> scheme_names{{{"Rosé Pine", "Dawn", "Main"},
                                                   {"Gruvbox", "Light", "Dark"},
                                                   {"Nord", "Snow Storm", "Polar Night"},
                                                   {"Everforest", "Light", "Dark"},
@@ -46,13 +45,6 @@ constexpr std::array<SchemeName, 8> scheme_names{{{"Perikop", "Ljus", "Mörk"},
 // Values are the upstream palettes' own; comments name their roles.
 inline Palette palette(ColorScheme scheme, bool dark) {
     switch (scheme) {
-    case ColorScheme::Perikop:
-        // The original colours. Surface, overlay, and selection are its earlier tints, made opaque.
-        if (dark)
-            return palette(0x23211e, 0x302d29, 0x393631, 0xe7decc, 0xa79d8d, 0x433d33, 0xbb9e62, 0x443c2d,
-                           0xe7decc, 0x78b3de, 0xbca0df, 0xd7b469, 0x7cb995);
-        return palette(0xf7f3e9, 0xeae7dd, 0xe1ddd4, 0x312d26, 0x7e7463, 0xdcd4c3, 0x91743b, 0xe1d7c3,
-                       0x312d26, 0x2a70a0, 0x8562ab, 0xae8129, 0x478465);
     case ColorScheme::RosePine:
         // base, overlay, highlight med, text, subtle, highlight high, iris, highlight med, love; foam, iris,
         // gold, pine. Dawn's surface is lighter than its base, so controls rest on overlay.
@@ -110,10 +102,10 @@ inline Palette palette(ColorScheme scheme, bool dark) {
         return palette(0xfdf6e3, 0xeee8d5, 0xeee8d5, 0x657b83, 0x93a1a1, 0xeee8d5, 0x268bd2, 0xeee8d5,
                        0xdc322f, 0x2aa198, 0x6c71c4, 0xb58900, 0x859900);
     }
-    return palette(ColorScheme::Perikop, dark);
+    return palette(ColorScheme::RosePine, dark);
 }
 // The chosen scheme. Like text_zoom, every palette follows it.
-inline ColorScheme color_scheme = ColorScheme::Perikop;
+inline ColorScheme color_scheme = ColorScheme::RosePine;
 inline Palette palette(Theme theme) {
     return palette(color_scheme, theme == Theme::Dark ||
                                      (theme == Theme::System && wxSystemSettings::GetAppearance().IsDark()));
