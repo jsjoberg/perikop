@@ -433,6 +433,8 @@ jobs:
             --notes-file NOTES.md \
             Perikop-* SHA256SUMS.txt
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
+      # The in-app updater reads only the 10 newest releases. Keep at most nine nightlies so the
+      # newest version is always among them; see docs/updating.md#feed-source.
       - name: Keep the latest seven nightly releases
         if: env.NIGHTLY == 'true' && steps.nightly.outputs.tag != ''
         env:

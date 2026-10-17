@@ -94,20 +94,23 @@ For example, `linux-arm64-nightly` is the feed `releases.linux-arm64-nightly.jso
 - **Existing packages:** the plain AppImage, DMG, and NSIS installer stay in releases and nightlies until each platform's Velopack package passes its native checks. Windows users uninstall the NSIS version once by hand. The profile is outside the program files and stays.
 - **Delta updates:** enable them. Each full package is 170–215 MB, mostly the voice pack, which rarely changes. CI builds a delta from the previous package in the same channel.
 
-### Open: where the program reads the feed
+### Feed source
 
-The two built-in update sources in the pinned SDK each have a problem for this repository:
+The program reads updates with the SDK's GitHub source (`vpkc_new_source_github`). It sends no identifier: one GitHub API request lists releases, then the program downloads the feeds and the chosen package.
 
-- **GitHub source** (`vpkc_new_source_github`) reads only the 10 newest releases from the GitHub API, then merges their feeds; for the releases track it drops prereleases first. This repository also publishes up to seven nightlies, CI dependency snapshots, and voice packs as prereleases. The newest stable release can fall outside those 10, and the releases track would then find no update. The source sends no identifier.
-- **HTTP source** (`vpkc_new_source_http_url`) reads `releases.<channel>.json` from one base URL and resolves package names against it, so a feed can point at packages in other releases with absolute URLs. For the releases track, `https://github.com/<owner>/<repo>/releases/latest/download/` always names the newest stable release. Nightlies need a fixed release that holds the current nightly feeds. Each request adds `localVersion`, the app ID, and a random per-installation `stagingId` to the feed URL, so GitHub receives a persistent identifier with every check.
+The [pinned GitHub source](https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/src/lib-rust/src/sources/github.rs) reads only the 10 newest releases, and drops prereleases for the releases track. The newest version must therefore always be among the 10 newest releases:
 
-To use the GitHub source, move CI dependency snapshots and voice packs to another repository and keep at most nine nightlies. To use the HTTP source, accept the identifier in the query string. Choose before phase 2. See the pinned [GitHub source](https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/src/lib-rust/src/sources/github.rs) and [HTTP source](https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/src/lib-rust/src/sources/http.rs).
+- Only versions and nightlies are released in this repository. CI dependency snapshots and voice packs are published in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets).
+- CI keeps at most seven nightlies, and never more than nine.
+- Drafts do not count; the API does not show them to unauthenticated requests.
+
+The [HTTP source](https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/src/lib-rust/src/sources/http.rs) was rejected because it adds `localVersion`, the app ID, and a random per-installation `stagingId` to every feed request.
 
 ## Phases
 
 Each phase is its own pull request.
 
-1. Versions, channels, and these decisions. Done.
+1. Versions, channels, these decisions, and moving snapshots and voice packs to `jsjoberg/perikop-assets`. Done.
 2. Updater core and UI: a small updater interface over the Velopack C API, with a fake for tests. It runs off the UI thread. `VelopackApp` runs at startup. **Inställningar** gets **Sök efter uppdateringar**, which checks, shows the version, downloads with progress, and offers **Starta om och installera**. Development builds say that updates need an installed copy.
 3. Linux: pack the AppDir with `vpk` on x64 and ARM64, with the static SDK. Test a real upgrade and the profile offline on the glibc 2.34 baseline.
 4. Windows: pack Setup.exe on Linux and test install, update, and uninstall on a Windows runner. The SDK's Windows libraries are MSVC builds; with llvm-mingw, link its DLL through the C API.

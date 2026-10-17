@@ -49,20 +49,22 @@ The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in t
 
 ## CI dependency snapshots
 
-CI never downloads from upstream servers. It uses snapshot archives published as `ci-dependencies-<commit>` prereleases and pinned in `ci/dependencies-lock.json`.
+CI never downloads from upstream servers. It uses snapshot archives published as `ci-dependencies-<commit>` prereleases in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets) and pinned in `ci/dependencies-lock.json`.
+Snapshots and voice packs are kept out of this repository's releases because the in-app updater reads only the newest releases here.
 To update a dependency:
 
 1. Edit `ci/upstreams.json` and the native dependency declaration, or `ci/linux.Dockerfile`. Commit and push.
-2. Prepare a snapshot. Add `-f reuse_environments=true` for a source-only change, or `-f macos_tools_only=true` for macOS tools only.
+2. Prepare a snapshot from a commit or branch. Add `-f reuse_environments=true` for a source-only change, or `-f macos_tools_only=true` for macOS tools only.
+   The workflow in `jsjoberg/perikop-assets` runs this repository's `dependencies.yml` and publishes the snapshot there.
 
    ```sh
-   gh workflow run dependencies.yml --ref main
+   gh workflow run dependencies.yml --repo jsjoberg/perikop-assets -f ref=main
    ```
 
 3. Download the new lock file, then commit and push it:
 
    ```sh
-   gh release download ci-dependencies-<commit> --pattern dependencies-lock.json --dir ci --clobber
+   gh release download ci-dependencies-<commit> --repo jsjoberg/perikop-assets --pattern dependencies-lock.json --dir ci --clobber
    ```
 
 ### Voice pack
@@ -72,7 +74,7 @@ Set `id` to the `id` in the pack's `voice-pack.json`, then upload it on macOS:
 ```sh
 id=kokoro-sv-alice-bjorn-2c7968d-v3
 COPYFILE_DISABLE=1 tar --no-mac-metadata -czf "build/$id.tar.gz" -C build/kokoro-pack .
-gh release create "$id" "build/$id.tar.gz" --prerelease --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
+gh release create "$id" "build/$id.tar.gz" --repo jsjoberg/perikop-assets --prerelease --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
 cmake -E sha256sum "build/$id.tar.gz"
 ```
 
