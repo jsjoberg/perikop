@@ -214,11 +214,11 @@ wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::
     sizer->AddSpacer(page->FromDIP(zoomed(8)));
     text(ui::utf8("De fullständiga licenstexterna följer med programmet."), ui_font(10), 24, true);
     const auto licenses = path_text(resources / "licenses");
-    sizer->Add(ui::button(page, "Visa licenstexter",
-                          [licenses] {
-                              wxLaunchDefaultApplication(licenses);
-                          }),
-               0, wxLEFT | wxRIGHT | wxBOTTOM, pad);
+    auto* show_licenses = ui::button(page, "Visa licenstexter", [licenses] {
+        wxLaunchDefaultApplication(licenses);
+    });
+    show_licenses->SetToolTip(ui::utf8("Öppna mappen med licenstexterna"));
+    sizer->Add(show_licenses, 0, wxLEFT | wxRIGHT | wxBOTTOM, pad);
     auto* outer = new wxBoxSizer(wxVERTICAL);
     outer->Add(sizer, 0, wxALIGN_CENTER_HORIZONTAL);
     page->SetSizer(outer);

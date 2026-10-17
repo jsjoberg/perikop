@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import zipfile
 root=Path(__file__).resolve().parents[1]
 manifest=json.loads((root/'resources/manifest.json').read_text())
 checks=0
@@ -11,6 +12,10 @@ for asset in manifest['assets']:
     if not asset.get('path'): continue
     actual=hashlib.sha256((root/asset['path']).read_bytes()).hexdigest()
     if actual!=asset['sha256']: raise SystemExit(f'Hash mismatch: {asset["path"]}')
+    # A zipped upstream file also keeps the hash of the file as downloaded.
+    if asset.get('member'):
+        member=hashlib.sha256(zipfile.ZipFile(root/asset['path']).read(asset['member'])).hexdigest()
+        if member!=asset['member_sha256']: raise SystemExit(f'Hash mismatch: {asset["path"]}:{asset["member"]}')
     checks+=1
 
 def cmap(path):

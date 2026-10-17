@@ -8,7 +8,7 @@ The reader therefore aligns each edition explicitly. It never forces common coor
 
 ## Swedish sources
 
-The 66 canonical books come from Project Runeberg's 1917 e-text, `runeberg-bibeln-1917.html`.
+The 66 canonical books come from Project Runeberg's 1917 e-text, `runeberg-bibeln-1917.html`, kept in `resources/corpus/input/runeberg-bibeln-1917-html.zip`.
 `tools/corpus/runeberg1917.py` keeps the printed 1917 verse numbers.
 It removes chapter summaries, cross references, and translator footnotes.
 

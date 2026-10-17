@@ -4,7 +4,7 @@ The e-text keeps the 1917 verse numbers. Chapter headings follow older divisions
 so a verse can appear before or after the heading of the next chapter; its number
 decides where it belongs. Summaries, cross references and footnotes are not Scripture.
 """
-import html, re
+import html, re, zipfile
 # Runeberg book numbers 1-66 follow the 1917 order; Hebrews to Jude differ from the KJV order.
 CODES=['Gen','Exod','Lev','Num','Deut','Josh','Judg','Ruth','1Sam','2Sam','1Kgs','2Kgs','1Chr','2Chr','Ezra','Neh','Esth','Job','Ps','Prov','Eccl','Song','Isa','Jer','Lam','Ezek','Dan','Hos','Joel','Amos','Obad','Jonah','Micah','Nah','Hab','Zeph','Hag','Zech','Mal',
  'Matt','Mark','Luke','John','Acts','Rom','1Cor','2Cor','Gal','Eph','Phil','Col','1Thess','2Thess','1Tim','2Tim','Titus','Philemon','Heb','1Peter','2Peter','1John','2John','3John','James','Jude','Rev']
@@ -23,8 +23,8 @@ def chapter_number(name):
     return int(name)
 
 def read(path):
-    """Return {(code,chapter,verse): text} in 1917 coordinates."""
-    source=open(path,encoding='utf-8').read()
+    """Return {(code,chapter,verse): text} in 1917 coordinates, from the zip that holds the e-text."""
+    source=zipfile.ZipFile(path).read('runeberg-bibeln-1917.html').decode('utf-8')
     lines={}
     pages=re.findall(r'<a name="(\d\d)(?:_(\w\w\w?))?\.html"\s*>.*?<pre>(.*?)</pre>',source,flags=re.S)
     if len(pages)!=1189:raise ValueError('Expected 1189 Runeberg chapters, found %d'%len(pages))

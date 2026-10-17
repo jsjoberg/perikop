@@ -185,8 +185,10 @@ void PickerGrid::hover(std::optional<std::size_t> index) {
         return;
     hover_ = index;
     const auto* cell = index ? items_[*index].cell : nullptr;
-    if (cell && !cell->tip.empty())
-        SetToolTip(cell->tip);
+    const auto* action = index ? items_[*index].action : nullptr;
+    const auto tip = cell ? cell->tip : action ? action->tip : wxString{};
+    if (!tip.empty())
+        SetToolTip(tip);
     else
         UnsetToolTip();
     SetCursor(index ? wxCursor(wxCURSOR_HAND) : wxNullCursor);

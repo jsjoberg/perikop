@@ -16,8 +16,8 @@ struct ReadingPlan {
 const std::vector<ReadingPlan>& reading_plans();
 // The progress key of a part, counted from 1: "plan:nt:7".
 std::string plan_key(const ReadingPlan&, std::size_t part);
-// A part as the plan states it, such as "1 Mos 34–50 + 2 Mos 1–22".
-std::string plan_label(const CorpusDb&, const PlanPart&);
+// A part as the plan states it, such as "1 Mos 34–50 + 2 Mos 1–22", or with whole book names.
+std::string plan_label(const CorpusDb&, const PlanPart&, bool short_names = true);
 // The part as a reading in the left pane's language, with one section per range.
 Reading plan_reading(const CorpusDb&, const PlanPart&, const std::string& language);
 } // namespace ortho

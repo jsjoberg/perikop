@@ -279,7 +279,7 @@ void MainFrame::refresh_day() {
                     [this, reading, key, title] {
                         open_tracked(reading, {key, title});
                     },
-                    completed.contains(key)),
+                    completed.contains(key), title),
                 preview.ToStdString(wxConvUTF8));
     };
     // Epistles, then Gospels, then the other services, each in their own order.

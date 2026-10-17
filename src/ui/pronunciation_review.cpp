@@ -101,8 +101,10 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
     note->SetName(ui::utf8("Anteckning"));
     detail->Add(note, 0, wxEXPAND | wxBOTTOM, 10);
     auto* audio = new wxBoxSizer(wxHORIZONTAL);
-    auto add_button = [&](wxBoxSizer* row, const wxString& label, const std::function<void()>& action) {
+    auto add_button = [&](wxBoxSizer* row, const wxString& label, const char* tip,
+                          const std::function<void()>& action) {
         auto* control = new wxButton(&dialog, wxID_ANY, label);
+        control->SetToolTip(ui::utf8(tip));
         control->Bind(wxEVT_BUTTON, [action](wxCommandEvent&) {
             action();
         });
@@ -148,19 +150,23 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         speech.stop();
         speech.speak(make_utterance(text, "sv", entries));
     };
-    auto* original_word = add_button(audio, ui::utf8("Ord, nu"), [&] {
-        play(false, false);
-    });
-    auto* original_context = add_button(audio, ui::utf8("Vers, nu"), [&] {
-        play(false, true);
-    });
-    auto* proposed_word = add_button(audio, ui::utf8("Ord, förslag"), [&] {
-        play(true, false);
-    });
-    auto* proposed_context = add_button(audio, ui::utf8("Vers, förslag"), [&] {
-        play(true, true);
-    });
-    add_button(audio, "Stoppa", [&] {
+    auto* original_word =
+        add_button(audio, ui::utf8("Ord, nu"), "Spela ordet med det nuvarande uttalet", [&] {
+            play(false, false);
+        });
+    auto* original_context =
+        add_button(audio, ui::utf8("Vers, nu"), "Spela en vers med ordet och det nuvarande uttalet", [&] {
+            play(false, true);
+        });
+    auto* proposed_word =
+        add_button(audio, ui::utf8("Ord, förslag"), "Spela ordet med den föreslagna stavningen", [&] {
+            play(true, false);
+        });
+    auto* proposed_context = add_button(audio, ui::utf8("Vers, förslag"),
+                                        "Spela en vers med ordet och den föreslagna stavningen", [&] {
+                                            play(true, true);
+                                        });
+    add_button(audio, "Stoppa", "Stoppa uppspelningen", [&] {
         speech.stop();
     });
     detail->Add(audio, 0, wxBOTTOM, 10);
@@ -199,20 +205,23 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
             wxMessageBox(ui::utf8(e.what()), ui::utf8("Kunde inte spara"), wxOK | wxICON_ERROR, &dialog);
         }
     };
-    auto* approve = add_button(actions, ui::utf8("Godkänn nuvarande"), [&] {
-        save("approved");
-    });
-    auto* correct = add_button(actions, ui::utf8("Spara korrigering"), [&] {
-        save("corrected");
-    });
-    auto* defer = add_button(actions, ui::utf8("Granska senare"), [&] {
-        save("deferred");
-    });
+    auto* approve = add_button(actions, ui::utf8("Godkänn nuvarande"),
+                               "Behåll det nuvarande uttalet och markera ordet som granskat", [&] {
+                                   save("approved");
+                               });
+    auto* correct = add_button(actions, ui::utf8("Spara korrigering"),
+                               "Spara den föreslagna stavningen som ordets uttal", [&] {
+                                   save("corrected");
+                               });
+    auto* defer = add_button(actions, ui::utf8("Granska senare"),
+                             "Spara förslaget och markera ordet för senare granskning", [&] {
+                                 save("deferred");
+                             });
     detail->Add(actions, 0, wxBOTTOM, 10);
     split->Add(detail, 1, wxEXPAND);
     outer->Add(split, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 16);
     auto* bottom = new wxBoxSizer(wxHORIZONTAL);
-    add_button(bottom, ui::utf8("Exportera TSV…"), [&] {
+    add_button(bottom, ui::utf8("Exportera TSV…"), "Spara alla beslut som en TSV-fil", [&] {
         wxFileDialog file(&dialog, ui::utf8("Exportera granskning"), "", "sv1917-uttalsgranskning.tsv",
                           "TSV (*.tsv)|*.tsv", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
         if (file.ShowModal() != wxID_OK)
@@ -226,6 +235,7 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
     });
     bottom->AddStretchSpacer();
     auto* close = new wxButton(&dialog, wxID_CANCEL, ui::utf8("Stäng"));
+    close->SetToolTip(ui::utf8("Stäng uttalsgranskningen"));
     bottom->Add(close);
     outer->Add(bottom, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 16);
     select = [&](size_t row) {
@@ -264,10 +274,11 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
             for (const auto& choice : found->second.choices) {
                 const auto label = choice.phonemes + ", " + choice.label +
                                    (choice.phonemes == found->second.voice ? ", röstens val" : "");
-                add_button(choices, ui::utf8(label), [&, phonemes = choice.phonemes] {
-                    spoken->ChangeValue(ui::utf8("⟦" + phonemes + "⟧"));
-                    play(true, true);
-                });
+                add_button(choices, ui::utf8(label), "Använd detta uttal som förslag och spela versen",
+                           [&, phonemes = choice.phonemes] {
+                               spoken->ChangeValue(ui::utf8("⟦" + phonemes + "⟧"));
+                               play(true, true);
+                           });
             }
         for (auto* control : {original_word, proposed_word, approve, correct, defer})
             control->Enable();

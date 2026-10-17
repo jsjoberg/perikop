@@ -236,6 +236,11 @@ void ScriptureView::hover_return(bool hover) {
         return;
     return_hover_ = hover;
     SetCursor(hover ? wxCursor(wxCURSOR_HAND) : wxNullCursor);
+    if (!hover)
+        UnsetToolTip();
+    else
+        SetToolTip(return_always_ ? ui::utf8("Gå till raden som läses upp och följ uppläsningen igen")
+                                  : ui::utf8("Gå tillbaka till den föreskrivna läsningen"));
     request_repaint();
 }
 void ScriptureView::draw_return(wxDC& dc) {

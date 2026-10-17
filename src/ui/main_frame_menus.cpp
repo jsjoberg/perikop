@@ -15,6 +15,9 @@
 #endif
 #ifdef __WXGTK__
 #include <gtk/gtk.h>
+#ifdef GDK_WINDOWING_WAYLAND
+#include <gdk/gdkwayland.h>
+#endif
 #endif
 namespace ortho {
 namespace {
@@ -175,14 +178,7 @@ public:
         make_key_window(*this);
 #endif
         focus(0, 0);
-#ifdef __WXGTK__
-        // wxGTK grabs only the pointer for a popup, so keys would still go to the focused main window.
-        // wxGTK's ungrab on closing releases this grab too.
-        auto* widget = static_cast<GtkWidget*>(GetHandle());
-        gdk_seat_grab(gdk_display_get_default_seat(gtk_widget_get_display(widget)),
-                      gtk_widget_get_window(widget), GDK_SEAT_CAPABILITY_KEYBOARD, false, nullptr, nullptr,
-                      nullptr, nullptr);
-#endif
+        grab_keyboard();
     }
 
     // Builds the rows again at the current text size, with the focus on the same control.
@@ -211,7 +207,29 @@ private:
         rows_->AddSpacer(FromDIP(zoomed(6)));
         panel_->InvalidateBestSize();
         Fit();
-        SetPosition(button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y}));
+        const auto position =
+            button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y});
+#if defined(__WXGTK__) && defined(GDK_WINDOWING_WAYLAND)
+        // Wayland places a popup only as it is shown, so a shown one moves by showing it again.
+        if (IsShown() && position != GetPosition() && GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default())) {
+            Hide();
+            SetPosition(position);
+            Show();
+            grab_keyboard();
+            return;
+        }
+#endif
+        SetPosition(position);
+    }
+    void grab_keyboard() {
+#ifdef __WXGTK__
+        // wxGTK grabs only the pointer for a popup, so keys would still go to the focused main window.
+        // wxGTK's ungrab on hiding releases this grab too.
+        auto* widget = static_cast<GtkWidget*>(GetHandle());
+        gdk_seat_grab(gdk_display_get_default_seat(gtk_widget_get_display(widget)),
+                      gtk_widget_get_window(widget), GDK_SEAT_CAPABILITY_KEYBOARD, false, nullptr, nullptr,
+                      nullptr, nullptr);
+#endif
     }
     // That control if it is enabled, else the first enabled one.
     void focus(std::size_t line, std::size_t column) {
@@ -330,24 +348,27 @@ void MainFrame::make_menus() {
     // macOS moves this item to the application menu, where Settings belongs.
     view->Append(wxID_PREFERENCES, ui::utf8("Inställningar…\tCtrl+,"));
     auto* go = new wxMenu;
-    go->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"));
+    go->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"), ui::utf8("Visa den valda dagens läsningar"));
     go->Append(Today, "Idag\tCtrl+T");
     go->Append(Previous, ui::utf8("Föregående dag\tCtrl+["));
     go->Append(Next, ui::utf8("Nästa dag\tCtrl+]"));
-    go->Append(Pick, ui::utf8("Välj datum…\tCtrl+D"));
+    go->Append(Pick, ui::utf8("Välj datum…\tCtrl+D"), ui::utf8("Välj en dag i kalendern"));
     go->AppendSeparator();
-    go->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"));
-    go->Append(Plans, ui::utf8("Läsplaner"));
+    go->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"),
+               ui::utf8("Bläddra fram en bok, ett kapitel och verser"));
+    go->Append(Plans, ui::utf8("Läsplaner"), ui::utf8("Visa alla läsplaner och hur långt du har läst"));
     auto* reading = new wxMenu;
-    reading->Append(Play, "Lyssna\tCtrl+P");
-    reading->Append(Stop, "Stoppa\tCtrl+.");
+    reading->Append(Play, "Lyssna\tCtrl+P",
+                    ui::utf8("Läs upp den öppna läsningen, eller pausa och fortsätt"));
+    reading->Append(Stop, "Stoppa\tCtrl+.", ui::utf8("Avsluta uppläsningen"));
     reading->AppendSeparator();
     reading->Append(Faster, "Snabbare");
     reading->Append(Slower, ui::utf8("Långsammare"));
     reading->Append(NormalRate, "Normal hastighet");
     reading->AppendSeparator();
     reading->Append(Prepare, ui::utf8("Förbered ljud för vald dag"));
-    reading->Append(Review, ui::utf8("Granska svenskt uttal…"));
+    reading->Append(Review, ui::utf8("Granska svenskt uttal…"),
+                    ui::utf8("Lyssna på och rätta hur ord uttalas vid uppläsning"));
 #ifdef __WXOSX__
     // macOS moves this item to the application menu, where About belongs, and Hjälp would be empty.
     view->Append(wxID_ABOUT, "Om Perikop");
@@ -525,12 +546,13 @@ void MainFrame::show_menu() {
             item(id);
         popup.separator();
         // macOS keeps these two in the application menu, outside the bar's own menus.
-        popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES));
+        popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES),
+                   ui::utf8("Färgschema, tema, kalender, läsordning och röst"));
         item(Review);
-        popup.item("Om Perikop", {}, true, command(wxID_ABOUT));
+        popup.item("Om Perikop", {}, true, command(wxID_ABOUT), ui::utf8("Version, källor och licenser"));
         // Last, as in Chrome.
         popup.separator();
-        popup.item("Avsluta", shortcut_of("\tCtrl+Q"), true, command(wxID_EXIT));
+        popup.item("Avsluta", shortcut_of("\tCtrl+Q"), true, command(wxID_EXIT), "Avsluta Perikop");
     });
     popup->open();
 }

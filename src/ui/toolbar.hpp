@@ -69,8 +69,9 @@ private:
 // with a chevron, or a check once read. Without an action it only shows the text.
 class ReadingRow final : public wxControl {
 public:
+    // full is the text with whole book names, shown instead when it fits on one line.
     ReadingRow(wxWindow* parent, const wxString& label, const wxString& text, std::function<void()> action,
-               bool done = false);
+               bool done = false, const wxString& full = {});
     // Wraps the text to the width, after semicolons and plus signs where it can, and sets the height.
     void wrap(int width);
     void apply(const Palette&);
@@ -86,7 +87,7 @@ public:
 
 private:
     void paint(wxPaintEvent&);
-    wxString label_, text_;
+    wxString label_, text_, full_;
     std::vector<wxString> lines_;
     int label_height_ = 0, line_height_ = 0;
     std::function<void()> action_;

@@ -45,75 +45,99 @@
       "license": "MIT"
     },
     {
-      "path": "resources/corpus/provenance/grcbrent-copyright.html",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbrent-copyright.html",
       "url": "https://ebible.org/grcbrent/copyright.htm",
-      "sha256": "0d3b36faa218aa8ada2c9060d91bce405a1a3f54bd1c3de4c51bc377219093e1",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "0d3b36faa218aa8ada2c9060d91bce405a1a3f54bd1c3de4c51bc377219093e1",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-copyright.html",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-copyright.html",
       "url": "https://ebible.org/grcbyz/copyright.htm",
-      "sha256": "8296eccf16f4d72eec6d154f4da9a1bc8f56e1b46aa6773d2e9b889447ae7dba",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "8296eccf16f4d72eec6d154f4da9a1bc8f56e1b46aa6773d2e9b889447ae7dba",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbrent-PSA021.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbrent-PSA021.htm",
       "url": "https://ebible.org/grcbrent/PSA021.htm",
-      "sha256": "a129c337fac63aaea56990a5dc080aead98fc1a1d07a68da6ccc59e6978f1bed",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "a129c337fac63aaea56990a5dc080aead98fc1a1d07a68da6ccc59e6978f1bed",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbrent-PSA022.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbrent-PSA022.htm",
       "url": "https://ebible.org/grcbrent/PSA022.htm",
-      "sha256": "1b3aa4e2b8e83a63916d8b4f0cafd4887092aedbd778af97708a3b1bb03aab1d",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "1b3aa4e2b8e83a63916d8b4f0cafd4887092aedbd778af97708a3b1bb03aab1d",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbrent-PSA023.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbrent-PSA023.htm",
       "url": "https://ebible.org/grcbrent/PSA023.htm",
-      "sha256": "07805a3333e4584a7e489355f097f3baf634e7fbb72ef7a50ce9094e5b5ce6a8",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "07805a3333e4584a7e489355f097f3baf634e7fbb72ef7a50ce9094e5b5ce6a8",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbrent-PSA024.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbrent-PSA024.htm",
       "url": "https://ebible.org/grcbrent/PSA024.htm",
-      "sha256": "2c18e2ba8ca57ca30764ee90e5f78044fcb547a3592ecdfbdbe3bf55323508a8",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "2c18e2ba8ca57ca30764ee90e5f78044fcb547a3592ecdfbdbe3bf55323508a8",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-LUK05.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-LUK05.htm",
       "url": "https://ebible.org/grcbyz/LUK05.htm",
-      "sha256": "cef1672abfc6882050644b541d451f4c1b0379bcc8da36daafda7324a057e455",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "cef1672abfc6882050644b541d451f4c1b0379bcc8da36daafda7324a057e455",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-LUK06.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-LUK06.htm",
       "url": "https://ebible.org/grcbyz/LUK06.htm",
-      "sha256": "985790811409e4bf5531e8d1d17c1330cb04593cf88e4f9cff378b50216ab5ce",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "985790811409e4bf5531e8d1d17c1330cb04593cf88e4f9cff378b50216ab5ce",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-LUK07.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-LUK07.htm",
       "url": "https://ebible.org/grcbyz/LUK07.htm",
-      "sha256": "7185ae3861c7fcbf515afb00fef12d1d832a5c7f1d920d94d5bb465c931095f9",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "7185ae3861c7fcbf515afb00fef12d1d832a5c7f1d920d94d5bb465c931095f9",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-PHP01.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-PHP01.htm",
       "url": "https://ebible.org/grcbyz/PHP01.htm",
-      "sha256": "00b8a6dd0facf98c7bab241bcd59168b308dcd238248af33b1db5499541c7274",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "00b8a6dd0facf98c7bab241bcd59168b308dcd238248af33b1db5499541c7274",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-PHP02.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-PHP02.htm",
       "url": "https://ebible.org/grcbyz/PHP02.htm",
-      "sha256": "92bc49d1dd5a744b4d4e7488d1abd235b6046edb5816c42fad81ab828c9ccbcf",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "92bc49d1dd5a744b4d4e7488d1abd235b6046edb5816c42fad81ab828c9ccbcf",
       "license": "Public-Domain"
     },
     {
-      "path": "resources/corpus/provenance/grcbyz-PHP03.htm",
+      "path": "resources/corpus/provenance/ebible-pages.zip",
+      "member": "grcbyz-PHP03.htm",
       "url": "https://ebible.org/grcbyz/PHP03.htm",
-      "sha256": "3cc75c3a2b119b0bc39b5c50e737fdd202fc620259d7937fdc5dae0bd5c5169c",
+      "sha256": "142882327069eda7d239684b3b1b549c1b6ef6d153d1d04d5fa374ac4fb07c6f",
+      "member_sha256": "3cc75c3a2b119b0bc39b5c50e737fdd202fc620259d7937fdc5dae0bd5c5169c",
       "license": "Public-Domain"
     },
     {
@@ -406,9 +430,11 @@
       "rights_source": "https://ebible.org/eng-Brenton/copyright.htm"
     },
     {
-      "path": "resources/corpus/input/runeberg-bibeln-1917.html",
+      "path": "resources/corpus/input/runeberg-bibeln-1917-html.zip",
+      "member": "runeberg-bibeln-1917.html",
       "url": "https://runeberg.org/bibeln/index2.html",
-      "sha256": "faca4da7be96baef71efb484e3662deb0e4873c532edfe5312fe1bd38be77c4a",
+      "sha256": "40edd35fd8249eed5d350f88437de76e07e709b9fb6a8113099a04e8db94db10",
+      "member_sha256": "faca4da7be96baef71efb484e3662deb0e4873c532edfe5312fe1bd38be77c4a",
       "license": "Public-Domain Scripture",
       "retrieved": "2026-10-06",
       "role": "Project Runeberg e-text of the 1917 Bible (66 books), with 1917 verse numbering; imported by tools/corpus/runeberg1917.py"

@@ -126,26 +126,27 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     // Lägg till makes the selection the next part of one reading, as Del 1, Del 2 and so on.
     const bool selection = first_ && range_book_;
     std::vector<Block> drawer;
-    drawer.push_back({.kind = Block::Kind::Title,
-                      .text = ui::utf8(book.name),
-                      .actions = {{ui::utf8("Lägg till"),
-                                   [this] {
-                                       add_selection();
-                                   },
-                                   selection},
-                                  {"Rensa",
-                                   [this] {
-                                       clear_stack();
-                                   },
-                                   !stack_.empty()},
-                                  {ui::utf8("Öppna urval"),
-                                   [this] {
-                                       // Opening closes this page, so it waits for the click to end.
-                                       CallAfter([this] {
-                                           open_selection();
-                                       });
-                                   },
-                                   selection || !stack_.empty()}}});
+    drawer.push_back(
+        {.kind = Block::Kind::Title,
+         .text = ui::utf8(book.name),
+         .actions = {{ui::utf8("Lägg till"),
+                      [this] {
+                          add_selection();
+                      },
+                      selection, ui::utf8("Lägg till de markerade verserna som nästa del av läsningen")},
+                     {"Rensa",
+                      [this] {
+                          clear_stack();
+                      },
+                      !stack_.empty(), ui::utf8("Ta bort de tillagda delarna")},
+                     {ui::utf8("Öppna urval"),
+                      [this] {
+                          // Opening closes this page, so it waits for the click to end.
+                          CallAfter([this] {
+                              open_selection();
+                          });
+                      },
+                      selection || !stack_.empty(), ui::utf8("Läs de valda verserna")}}});
     Block chapters{.kind = Block::Kind::Cells};
     std::vector<VerseRef> in_chapter;
     int previous = -1;
