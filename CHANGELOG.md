@@ -18,6 +18,9 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 - Björn is the default read-aloud voice for new profiles. Profiles that already saved settings keep their voice.
 - The ⋮ menu ends with **Avsluta**, as in Chrome. On Windows and Linux, Ctrl+Q also quits.
+- Readings and the reading plan on the start page show whole book names, such as "Första Korintierbrevet 11:23–32", when they fit on one line. Longer references keep the short names.
+- Every button, link, and menu command has a tooltip, including **Alla läsplaner**, the Bible browser's buttons, and the word study panel.
+- The Project Runeberg 1917 e-text and the saved eBible pages are kept in zip files, like the other source texts. `resources/manifest.json` keeps the hash of each original file.
 - macOS downloads are separate Apple Silicon (`arm64`) and Intel (`x86_64`) DMGs instead of one universal app. CI checks and tests each architecture separately.
 - The ⋮ menu works like Chrome's: commands in one list, with **−** and **+** rows for text size and read-aloud speed. Arrow keys, Tab, Return, and Escape work in it.
 - Text size is one percentage, 75–200 %, for the whole program instead of the reading text only. Earlier text size settings reset to 100 %.
@@ -47,6 +50,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Fixed
 
+- On Wayland, the ⋮ menu stays under its button when the text size changes. It used to keep its old left edge and grow past the window.
 - Swedish read-aloud stresses Jordan as Jordán, no longer reads ai as ä in Betsaida and about 40 other names, stresses spetälsk and spetälska on the second syllable, and stresses välan on -an. Välsignen no longer sounds like "väl" (well) + signen. The modal "väl" (surely), as in "Kan väl en blind leda en blind?", has a short ä; "väl" meaning "well" keeps its long ä. About 100 other names follow the stress rules of the 1921 Church Bible, such as Rehábeam, Gámliel, Daríus, and Dekápolis. About 700 more names follow its general rules: Ébal and Ábdon, not Ebál and Abdón; Baésa and Jáeser no longer read ae as ä; Us and Kus are no longer spelled out.
 - Opening the book picker no longer crashes on Wayland when no pointer device is present.
 

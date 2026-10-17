@@ -398,10 +398,13 @@ void TextButton::paint(wxPaintEvent&) {
 }
 
 ReadingRow::ReadingRow(wxWindow* parent, const wxString& label, const wxString& text,
-                       std::function<void()> action, bool done)
+                       std::function<void()> action, bool done, const wxString& full)
     : wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS),
-      label_(label), text_(text), action_(std::move(action)), colors_(palette(Theme::System)), done_(done) {
-    SetLabel(label.empty() ? text : label + ", " + text + (done ? wxString::FromUTF8(", läst") : wxString{}));
+      label_(label), text_(text), full_(full), action_(std::move(action)), colors_(palette(Theme::System)),
+      done_(done) {
+    const auto& spoken = full.empty() ? text : full;
+    SetLabel(label.empty() ? spoken
+                           : label + ", " + spoken + (done ? wxString::FromUTF8(", läst") : wxString{}));
     SetName(GetLabel());
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     Bind(wxEVT_PAINT, &ReadingRow::paint, this);
@@ -432,35 +435,39 @@ void ReadingRow::wrap(int width) {
     };
     // Room for the left margin and the chevron, so the longest line never runs into it.
     const int available = std::max(FromDIP(zoomed(80)), width - FromDIP(zoomed(64)));
-    // References break after a semicolon or plus sign; one that is still too long breaks at its spaces.
-    std::vector<wxString> chunks;
-    wxString chunk;
-    for (size_t i = 0; i < text_.length(); ++i) {
-        if (text_[i] == ' ' && i && (text_[i - 1] == ';' || text_[i - 1] == '+')) {
-            chunks.push_back(chunk);
-            chunk.clear();
-        } else
-            chunk += text_[i];
-    }
-    chunks.push_back(chunk);
     lines_.clear();
-    wxString line;
-    const auto add = [&](const wxString& piece) {
-        const auto joined = line.empty() ? piece : line + " " + piece;
-        if (!line.empty() && measure(joined) > available) {
+    if (!full_.empty() && measure(full_) <= available)
+        lines_.push_back(full_);
+    else {
+        // References break after a semicolon or plus sign; one that is still too long breaks at its spaces.
+        std::vector<wxString> chunks;
+        wxString chunk;
+        for (size_t i = 0; i < text_.length(); ++i) {
+            if (text_[i] == ' ' && i && (text_[i - 1] == ';' || text_[i - 1] == '+')) {
+                chunks.push_back(chunk);
+                chunk.clear();
+            } else
+                chunk += text_[i];
+        }
+        chunks.push_back(chunk);
+        wxString line;
+        const auto add = [&](const wxString& piece) {
+            const auto joined = line.empty() ? piece : line + " " + piece;
+            if (!line.empty() && measure(joined) > available) {
+                lines_.push_back(line);
+                line = piece;
+            } else
+                line = joined;
+        };
+        for (const auto& piece : chunks)
+            if (measure(piece) > available)
+                for (const auto& word : wxSplit(piece, ' ', '\0'))
+                    add(word);
+            else
+                add(piece);
+        if (!line.empty())
             lines_.push_back(line);
-            line = piece;
-        } else
-            line = joined;
-    };
-    for (const auto& piece : chunks)
-        if (measure(piece) > available)
-            for (const auto& word : wxSplit(piece, ' ', '\0'))
-                add(word);
-        else
-            add(piece);
-    if (!line.empty())
-        lines_.push_back(line);
+    }
     const int height = FromDIP(zoomed(22)) + (label_.empty() ? 0 : label_height_ + FromDIP(zoomed(2))) +
                        int(lines_.size()) * line_height_;
     if (GetMinSize().y != height) {

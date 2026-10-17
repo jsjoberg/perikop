@@ -93,21 +93,25 @@ void MainFrame::add_next_plan() {
         std::size_t part = 0;
         while (completed.contains(plan_key(*plan, part)))
             ++part;
-        auto* row =
-            new ReadingRow(home_content_,
-                           ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
-                                    std::to_string(plan->parts.size())),
-                           ui::utf8(plan_label(corpus_, plan->parts[part])), [this, &plan = *plan, part] {
-                               open_plan_part(plan, part);
-                           });
+        auto* row = new ReadingRow(
+            home_content_,
+            ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
+                     std::to_string(plan->parts.size())),
+            ui::utf8(plan_label(corpus_, plan->parts[part])),
+            [this, &plan = *plan, part] {
+                open_plan_part(plan, part);
+            },
+            false, ui::utf8(plan_label(corpus_, plan->parts[part], false)));
         row->SetToolTip(ui::plan_parts_tooltip(corpus_, plan->parts[part]));
         add_row(row);
     }
-    add_row(new ReadingRow(home_content_, {}, ui::utf8("Alla läsplaner"), [this] {
+    auto* all = new ReadingRow(home_content_, {}, ui::utf8("Alla läsplaner"), [this] {
         CallAfter([this] {
             show_plans();
         });
-    }));
+    });
+    all->SetToolTip(ui::utf8("Visa alla läsplaner, se vad du har läst och välj en del att läsa"));
+    add_row(all);
     entries_->AddSpacer(FromDIP(zoomed(30)));
 }
 void MainFrame::show_plans() {

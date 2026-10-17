@@ -24,6 +24,7 @@ public:
         wxString label;
         std::function<void()> run;
         bool enabled = true;
+        wxString tip{};
     };
     struct Block {
         // A small capital heading; a title with actions beside it; or a grid of cells.

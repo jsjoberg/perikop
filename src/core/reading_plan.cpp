@@ -109,7 +109,7 @@ const std::vector<ReadingPlan>& reading_plans() {
 std::string plan_key(const ReadingPlan& plan, std::size_t part) {
     return "plan:" + plan.id + ":" + std::to_string(part + 1);
 }
-std::string plan_label(const CorpusDb& corpus, const PlanPart& part) {
+std::string plan_label(const CorpusDb& corpus, const PlanPart& part, bool short_names) {
     // Books of one chapter are named without a chapter number, as in "Filem".
     static const std::vector<std::string> single = {"Obad",  "Philemon", "2John", "3John", "Jude",
                                                     "PrMan", "EpJer",    "Sus",   "Bel"};
@@ -117,7 +117,7 @@ std::string plan_label(const CorpusDb& corpus, const PlanPart& part) {
     for (const auto& range : part) {
         if (!label.empty())
             label += " + ";
-        label += corpus.short_title(range.book);
+        label += short_names ? corpus.short_title(range.book) : corpus.title(range.book);
         if (std::find(single.begin(), single.end(), range.book) != single.end())
             continue;
         label += " " + std::to_string(range.first);

@@ -103,6 +103,7 @@ void StudyPanel::rebuild() {
         source->SetNormalColour(colors.accent);
         source->SetVisitedColour(colors.accent);
         source->SetHoverColour(colors.ink);
+        source->SetToolTip(url);
         sizer->Add(source, 0, wxLEFT, pad);
         sizer->AddSpacer(FromDIP(zoomed(5)));
     };
@@ -139,6 +140,7 @@ void StudyPanel::rebuild() {
                 speech_.stop();
                 speech_.speak(utterance);
             });
+            listen_->SetToolTip(ui::utf8("Lyssna på ordet"));
             listen_->Enable(listening_allowed_);
             sizer->Add(listen_, 0, wxLEFT | wxBOTTOM, pad);
         }
@@ -203,6 +205,8 @@ void StudyPanel::rebuild() {
                                            });
                                        });
                         more->SetFont(ui_font(10));
+                        more->SetToolTip(ui::utf8(expanded ? "Visa bara början av artikeln"
+                                                           : "Visa hela ordboksartikeln"));
                         sizer->Add(more, 0, wxLEFT, pad);
                         sizer->AddSpacer(FromDIP(zoomed(5)));
                     }
@@ -212,6 +216,7 @@ void StudyPanel::rebuild() {
                     source->SetNormalColour(colors.accent);
                     source->SetVisitedColour(colors.accent);
                     source->SetHoverColour(colors.ink);
+                    source->SetToolTip(ui::utf8(entry.url));
                     sizer->Add(source, 0, wxLEFT, pad);
                     sizer->AddSpacer(FromDIP(zoomed(12)));
                 }
