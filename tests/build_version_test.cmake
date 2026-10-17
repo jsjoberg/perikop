@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 include("${SOURCE_DIR}/cmake/build-version.cmake")
+# Nightly CI sets this for every build step; the computed versions are tested without it.
+unset(ENV{PERIKOP_BUILD_VERSION})
 file(MAKE_DIRECTORY "${WORK_DIR}")
 # A fresh fixture per run, without changing the application's tags or working tree.
 string(RANDOM LENGTH 12 fixture_id)
@@ -36,6 +38,26 @@ if(NOT header MATCHES "#define PERIKOP_VERSION \"0.1.0-alpha.2\""
         OR NOT header MATCHES "#define PERIKOP_VERSION_NUMBERS 0,1,0,0")
     message(FATAL_ERROR "Windows needs both the full string and four numeric fields: ${header}")
 endif()
+# A nightly's ordered version replaces the computed one, and the header still names the commit.
+set(ENV{PERIKOP_BUILD_VERSION} "0.1.1-nightly.20261018.412.1")
+perikop_get_version(actual "${fixture}" "0.1.0")
+execute_process(COMMAND "${CMAKE_COMMAND}" -DSOURCE_DIR=${fixture} -DVERSION=0.1.0
+    -DOUTPUT=${fixture}/perikop_version.hpp -P "${SOURCE_DIR}/cmake/version.cmake"
+    COMMAND_ERROR_IS_FATAL ANY)
+file(READ "${fixture}/perikop_version.hpp" header)
+if(NOT actual STREQUAL "0.1.1-nightly.20261018.412.1"
+        OR NOT header MATCHES "#define PERIKOP_VERSION \"0.1.1-nightly.20261018.412.1\""
+        OR NOT header MATCHES "#define PERIKOP_COMMIT \"${commit}\"")
+    message(FATAL_ERROR "Nightly version or its commit is missing: ${actual}, ${header}")
+endif()
+set(ENV{PERIKOP_BUILD_VERSION} "nightly-2026-10-18")
+execute_process(COMMAND "${CMAKE_COMMAND}" -DSOURCE_DIR=${fixture} -DVERSION=0.1.0
+    -DOUTPUT=${fixture}/rejected.hpp -P "${SOURCE_DIR}/cmake/version.cmake"
+    RESULT_VARIABLE rejected OUTPUT_QUIET ERROR_QUIET)
+if(NOT rejected)
+    message(FATAL_ERROR "A version that is not SemVer was accepted")
+endif()
+unset(ENV{PERIKOP_BUILD_VERSION})
 file(APPEND "${fixture}/reader.txt" "Changed\n")
 perikop_get_version(actual "${fixture}" "0.1.0")
 if(NOT actual STREQUAL "0.1.0-alpha.2-dirty")

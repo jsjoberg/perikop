@@ -193,7 +193,7 @@ def main():
     parser.add_argument("--package", action="store_true")
     parser.add_argument("--cross", action="store_true", help="Restore Windows sources and the Linux cross-build environment")
     parser.add_argument("--tools-only", action="store_true", help="Restore only NSIS for prebuilt Windows packaging")
-    parser.add_argument("--repository", default="jsjoberg/perikop")
+    parser.add_argument("--repository", default="jsjoberg/perikop-assets")
     parser.add_argument("--release")
     args = parser.parse_args()
     if args.command == "upstream":

@@ -16,6 +16,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
+- Nightly builds have versions that sort in order, such as `0.1.1-nightly.20261018.412.1`, for in-app updates. **Om Perikop** also shows the commit.
 - Björn is the default read-aloud voice for new profiles. Profiles that already saved settings keep their voice.
 - The ⋮ menu ends with **Avsluta**, as in Chrome. On Windows and Linux, Ctrl+Q also quits.
 - Readings and the reading plan on the start page show whole book names, such as "Första Korintierbrevet 11:23–32", when they fit on one line. Longer references keep the short names.
