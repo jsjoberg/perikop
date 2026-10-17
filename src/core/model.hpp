@@ -23,7 +23,7 @@ constexpr bool selectable_date(CivilDate date) {
 enum class CalendarStyle { New, Old };
 enum class Theme { System, Light, Dark };
 // Colour schemes; each has a light and a dark variant. Theme picks between them.
-enum class ColorScheme { Perikop, RosePine, Gruvbox, Nord, Everforest, Catppuccin, TokyoNight, Solarized };
+enum class ColorScheme { RosePine, Gruvbox, Nord, Everforest, Catppuccin, TokyoNight, Solarized };
 // Internal source orders. The interface groups Antiochian under Greek.
 enum class Tradition { Antiochian, Greek, Slavic };
 enum class ReadingKind {
@@ -178,7 +178,7 @@ struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
     Tradition tradition = Tradition::Greek;
     Theme theme = Theme::System;
-    ColorScheme color_scheme = ColorScheme::Perikop;
+    ColorScheme color_scheme = ColorScheme::RosePine;
     // Text size in percent, for every text in the program.
     int text_zoom = 100;
     // Right pane language, "el" or "en", or empty for one pane. The left pane is Swedish.
@@ -190,7 +190,7 @@ struct Settings {
     // Playback speed of read-aloud audio, in percent of the voice's own pace.
     int speech_rate = 100;
     // Swedish voice identity. The selected voice survives application restarts.
-    std::string speech_voice = "alice";
+    std::string speech_voice = "bjorn";
     // Selects the source for a user-initiated update check; never enables background networking.
     UpdateChannel update_channel = UpdateChannel::Releases;
 };
