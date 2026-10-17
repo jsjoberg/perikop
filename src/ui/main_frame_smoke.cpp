@@ -547,8 +547,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         if (!screenshot_path.empty()) {
             // The update controls are at the end of the page.
-            if (auto* page = dynamic_cast<wxScrolledWindow*>(current_page()))
-                page->Scroll(0, page->GetVirtualSize().y);
+            if (auto* page = dynamic_cast<wxScrolledWindow*>(current_page())) {
+                int unit_x = 0, unit_y = 0;
+                page->GetScrollPixelsPerUnit(&unit_x, &unit_y);
+                if (unit_y > 0)
+                    page->Scroll(0, (page->GetVirtualSize().y - page->GetClientSize().y) / unit_y + 1);
+            }
             Update();
             wxBitmap bitmap(GetClientSize());
             wxClientDC window(this);
