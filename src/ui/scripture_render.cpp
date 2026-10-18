@@ -30,17 +30,21 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
             dc.DrawText(title, (size.x - dc.GetTextExtent(title).x) / 2, y + FromDIP(zoomed(42)));
             dc.SetFont(ui_font(9));
             dc.SetTextForeground(colors.muted);
-            wxString labels;
-            for (const auto& language : shown_languages(index)) {
-                if (!labels.empty())
-                    labels += ui::utf8(", ");
-                const auto source = source_of(language);
-                labels += language == "sv" ? swedish_edition(index)
-                          : language == "en"
-                              ? wxString(source == "en-web" ? "WORLD ENGLISH BIBLE" : "LXX2012")
-                              : ui::utf8("ΕΛΛΗΝΙΚΑ");
+            const auto sources = shown_sources(index);
+            for (int pane = 0; pane < columns_count(); ++pane) {
+                const auto rectangle = source_selector_rect(index, std::size_t(pane));
+                const auto full =
+                    source_label(std::size_t(pane) < sources.size() ? sources[pane] : "", index);
+                const auto label =
+                    wxControl::Ellipsize(full, dc, wxELLIPSIZE_END, rectangle.width - FromDIP(zoomed(34))) +
+                    ui::utf8(" ▾");
+                dc.SetPen(*wxTRANSPARENT_PEN);
+                dc.SetBrush(wxBrush(colors.surface));
+                dc.DrawRoundedRectangle(rectangle, FromDIP(zoomed(5)));
+                const auto extent = dc.GetTextExtent(label);
+                dc.DrawText(label, rectangle.x + (rectangle.width - extent.x) / 2,
+                            rectangle.y + (rectangle.height - extent.y) / 2);
             }
-            dc.DrawText(labels, (size.x - dc.GetTextExtent(labels).x) / 2, y + FromDIP(zoomed(93)));
         } else {
             if (columns_count() > 1 && !stacked) {
                 dc.SetPen(wxPen(colors.rule, 1));
@@ -217,6 +221,7 @@ void ScriptureView::paint(wxPaintEvent&) {
     const auto begin = first_visible();
     draw(dc, GetClientSize(), begin, rows_.size(), positions_.empty() ? 0 : positions_[begin] - offset_);
     position_verse_links();
+    position_source_selectors();
     draw_return(dc);
     // The passage's last paragraph has been seen once its end is on screen.
     const double bottom = offset_ + GetClientSize().y;

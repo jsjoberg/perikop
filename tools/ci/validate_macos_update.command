@@ -7,16 +7,13 @@ if [ "${PERIKOP_MACOS_TEST_SANDBOX:-}" != 1 ]; then
         /usr/bin/env PERIKOP_MACOS_TEST_SANDBOX=1 /bin/bash "$0" "$@"
 fi
 architecture=$(cat "$kit/architecture.txt")
-case "$architecture" in arm64|x86_64) ;; *) echo "Invalid test architecture" >&2; exit 1 ;; esac
+[ "$architecture" = arm64 ] || { echo "Only Apple Silicon is supported" >&2; exit 1; }
 system=$(/usr/bin/sw_vers -productVersion)
-if [ "${1:-}" = --require-macos13 ]; then
-    case "$system" in
-        13.[0123]|13.[0123].*) echo "This package needs macOS 13.4 or later" >&2; exit 1 ;;
-        13.*) ;;
-        *) echo "The macOS 13 check requires macOS 13.4 or later in the 13 series; found $system" >&2; exit 1 ;;
-    esac
+[ "${system%%.*}" -ge 15 ] || { echo "This package needs macOS 15 or later" >&2; exit 1; }
+if [ "${1:-}" = --require-macos15 ]; then
+    [ "${system%%.*}" = 15 ] || { echo "The baseline check requires macOS 15; found $system" >&2; exit 1; }
 elif [ "$#" != 0 ]; then
-    echo "Usage: bash validate_macos_update.command [--require-macos13]" >&2
+    echo "Usage: bash validate_macos_update.command [--require-macos15]" >&2
     exit 1
 fi
 cd "$kit"
@@ -50,7 +47,7 @@ verify_bundle() {
             echo "Wrong architecture: $binary" >&2; return 1;
         }
     done
-    [ "$(/usr/libexec/PlistBuddy -c 'Print LSMinimumSystemVersion' "$app/Contents/Info.plist")" = 13.4 ]
+    [ "$(/usr/libexec/PlistBuddy -c 'Print LSMinimumSystemVersion' "$app/Contents/Info.plist")" = 15.0 ]
 }
 feed="$kit/feed"
 probe() {

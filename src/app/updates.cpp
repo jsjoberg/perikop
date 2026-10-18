@@ -16,10 +16,8 @@ const char* const repository = "https://github.com/jsjoberg/perikop";
 const char* const platform = "win-arm64";
 #elif defined(_WIN32)
 const char* const platform = "win-x64";
-#elif defined(__APPLE__) && defined(__aarch64__)
-const char* const platform = "osx-arm64";
 #elif defined(__APPLE__)
-const char* const platform = "osx-x64";
+const char* const platform = "osx-arm64";
 #elif defined(__aarch64__)
 const char* const platform = "linux-arm64";
 #else

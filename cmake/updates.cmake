@@ -1,5 +1,5 @@
 # In-app updates use Velopack's C/C++ SDK: linked statically on Linux and macOS, and as velopack_libc.dll on
-# Windows. Universal macOS builds report that updates are unavailable.
+# Windows. macOS builds target Apple Silicon only.
 set(perikop_updates FALSE)
 if(WIN32)
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(ARM64|aarch64)$")
@@ -8,9 +8,8 @@ if(WIN32)
         set(perikop_velopack_library win_x64_msvc)
     endif()
     set(perikop_updates TRUE)
-elseif(APPLE AND NOT perikop_macos_universal)
-    set(perikop_velopack_library "osx_${perikop_macos_architectures}_gnu")
-    string(REPLACE "x86_64" "x64" perikop_velopack_library "${perikop_velopack_library}")
+elseif(APPLE)
+    set(perikop_velopack_library osx_arm64_gnu)
     set(perikop_updates TRUE)
 elseif(UNIX AND NOT APPLE)
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64)$")

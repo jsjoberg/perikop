@@ -62,6 +62,21 @@ class UpdatePackagesTest(unittest.TestCase):
             self.fixture(source, with_base=False)
             updates.finish(source, CHANNEL, "1.0.0-test.2", source / "publication")
 
+    def test_new_publication_rejects_retired_intel_target(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            legacy, publication = root / "legacy", root / "updates"
+            legacy.mkdir()
+            publication.mkdir()
+            (legacy / "Perikop-1.0.0-macOS-x86_64.dmg").write_bytes(b"retired")
+            channel = "osx-x64-nightly"
+            entry = asset("1.0.0", channel=channel)
+            write_asset(publication, entry)
+            (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [entry]}))
+            with self.assertRaisesRegex(ValueError, "retired platform"):
+                updates.assemble(legacy, publication, root / "release", "1.0.0")
+            self.assertFalse((root / "release").exists())
+
     def test_existing_base_requires_a_delta(self):
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary)
@@ -202,6 +217,18 @@ class WindowsProbeTest(unittest.TestCase):
 
 
 class RetentionTest(unittest.TestCase):
+    def test_retired_intel_feeds_still_keep_their_referenced_packages(self):
+        releases, feeds, current = self.fixture()
+        channel = "osx-x64-nightly"
+        base = asset("1.0.0-nightly.2", channel=channel)
+        name = f"releases.{channel}.json"
+        releases[1]["assets"].append({"name": base["FileName"]})
+        releases[-1]["assets"].append({"name": name})
+        feeds[current, name] = {"Assets": [base]}
+        rescue, obsolete = updates.retention_plan(releases, feeds, current)
+        self.assertIn((releases[1]["tag_name"], base), rescue)
+        self.assertIn(releases[1]["tag_name"], obsolete)
+
     def fixture(self):
         releases, feeds = [], {}
         for number in range(1, 10):

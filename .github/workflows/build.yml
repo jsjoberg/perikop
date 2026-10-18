@@ -33,6 +33,9 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - name: Check for changes since the last successful nightly
         id: changes
         env:
@@ -44,8 +47,8 @@ jobs:
              [.[][] | select(.draft == false and .prerelease == true)
               | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7}(-[0-9]+(-[0-9]+)?)?)?$"))
               | select(((.body // "") | contains("<!-- perikop-nightly: partial -->")) | not)
-              | select([.assets[]? | select(.name | test("-(x86_64.AppImage|aarch64.AppImage|macOS-arm64.dmg|macOS-x86_64.dmg|windows-x64.exe)$"))] | length == 5)
-              | select([.assets[]? | select(.name | test("^releases\\.(linux-(x64|arm64)|win-x64|osx-(arm64|x64))-nightly\\.json$"))] | length == 5)]
+              | select([.assets[]? | select(.name | test("-(x86_64.AppImage|aarch64.AppImage|macOS-arm64.dmg|windows-x64.exe)$"))] | length == 4)
+              | select([.assets[]? | select(.name | test("^releases\\.(linux-(x64|arm64)|win-x64|osx-arm64)-nightly\\.json$"))] | length == 4)]
             | sort_by(.published_at, .tag_name) | last | .tag_name // empty
           ' releases.json)
           if [ -n "$latest" ]; then
@@ -81,15 +84,15 @@ jobs:
           # The Raspberry Pi 5 package, for 64-bit Raspberry Pi OS.
           - {os: ubuntu-24.04-arm, platform: Linux-arm64}
           - {os: macos-15, platform: macOS-arm64, dependencies: macOS, architecture: arm64}
-          # Build Intel separately and run its tests through Rosetta on the ARM runner.
-          - {os: macos-15, platform: macOS-x86_64, dependencies: macOS, architecture: x86_64}
     runs-on: ${{ matrix.os }}
     env:
       PLATFORM: ${{ matrix.platform }}
-      MACOS_ARCH: ${{ matrix.architecture }}
       PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - name: Cached dependency snapshots
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -124,11 +127,14 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           docker load --input "build/ci/downloads/$PLATFORM-environment.tar.gz"
-          docker run --rm --pull never --network none -v "$PWD:/work" -e PACKAGE -e NIGHTLY -e PERIKOP_BUILD_VERSION \
-            perikop-ci-linux:dependencies bash tools/ci/build-linux.sh
+          docker run --rm --pull never --network none -v "$PWD:/work" \
+            -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
+            -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/bin:/usr/bin:/bin" \
+            -e PACKAGE -e NIGHTLY -e PERIKOP_BUILD_VERSION \
+            perikop-ci-linux:dependencies python3 tools/ci/build.py linux
       - name: Build, analyze, test, and package macOS offline
         if: runner.os == 'macOS'
-        run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-macos.sh
+        run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py macos
       - name: Save compiler cache after build or check failure
         if: always() && !cancelled() && steps.compiler-cache.outputs.cache-primary-key != '' && steps.compiler-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -165,27 +171,17 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
-    outputs:
-      cross: ${{ steps.environment.outputs.cross }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Check for the pinned cross-build environment
-        id: environment
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-          from pathlib import Path
-          assets = json.loads(Path('ci/dependencies-lock.json').read_text())['assets']
-          print('cross=' + str('Windows-cross-environment.tar.gz' in assets).lower())
-          PY
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - name: Cached dependency snapshots
-        if: steps.environment.outputs.cross == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ci/downloads
           key: dependencies-Windows-cross-${{ hashFiles('ci/dependencies-lock.json') }}
       - name: Restore verified Windows sources and Linux toolchain
-        if: steps.environment.outputs.cross == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -193,7 +189,6 @@ jobs:
           if [ "$PACKAGE" = true ] || [ "$GITHUB_EVENT_NAME" = pull_request ]; then args+=(--package); fi
           python3 tools/ci/dependencies.py restore --platform Windows --cross "${args[@]}"
       - name: Compiler cache
-        if: steps.environment.outputs.cross == 'true'
         id: compiler-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -203,11 +198,13 @@ jobs:
             objects-Windows-cross-${{ hashFiles('ci/upstreams.json', 'ci/windows-cross.Dockerfile') }}-
             objects-Windows-cross-
       - name: Compile Windows x64 offline on Linux
-        if: steps.environment.outputs.cross == 'true'
         run: |
           docker load --input build/ci/downloads/Windows-cross-environment.tar.gz
-          docker run --rm --pull never --network none -v "$PWD:/work" -e PERIKOP_BUILD_VERSION \
-            perikop-ci-windows-cross:dependencies bash tools/ci/build-windows-cross.sh
+          docker run --rm --pull never --network none -v "$PWD:/work" \
+            -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
+            -e PATH="/opt/perikop-python/bin:/opt/llvm-mingw/bin:/usr/local/bin:/usr/bin:/bin" \
+            -e PERIKOP_BUILD_VERSION \
+            perikop-ci-windows-cross:dependencies python3 tools/ci/build.py windows
       - name: Save compiler cache after build failure
         if: always() && !cancelled() && steps.compiler-cache.outputs.cache-primary-key != '' && steps.compiler-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -215,7 +212,6 @@ jobs:
           path: build/ccache
           key: ${{ steps.compiler-cache.outputs.cache-primary-key }}
       - name: Transfer binaries to Windows
-        if: steps.environment.outputs.cross == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: windows-x64-build
@@ -228,14 +224,12 @@ jobs:
     if: ${{ !cancelled() && needs.windows-build.result == 'success' && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: windows-2025
     env:
-      WINDOWS_CROSS: ${{ needs.windows-build.outputs.cross }}
       PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
-      CCACHE_DIR: ${{ github.workspace }}/build/ccache
-      CCACHE_BASEDIR: ${{ github.workspace }}
-      CCACHE_COMPILERCHECK: content
-      CCACHE_MAXSIZE: 2G
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - name: Cached dependency snapshots
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -246,22 +240,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $options = @()
-          if ($env:WINDOWS_CROSS -eq 'true') {
-            $options += '--tools-only'
-          } elseif ($env:PACKAGE -eq 'true' -or $env:GITHUB_EVENT_NAME -eq 'pull_request') {
-            $options += '--package'
-          }
-          python tools/ci/dependencies.py restore --platform Windows @options
+          python tools/ci/dependencies.py restore --platform Windows --tools-only
           if ($LASTEXITCODE -ne 0) { throw 'Dependency snapshot restore failed' }
-          if ($env:WINDOWS_CROSS -ne 'true') {
-            $bin = Join-Path $PWD 'build/ci/tools/w64devkit/bin'
-            $gccVersion = & (Join-Path $bin 'g++.exe') -dumpfullversion -dumpversion
-            if ($LASTEXITCODE -ne 0 -or $gccVersion -ne '15.2.0') { throw "Expected GCC 15.2.0, got $gccVersion" }
-            $bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-            (Join-Path $PWD 'build/ci/tools/ccache') | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-            "ORTHO_TOOLCHAIN_BIN=$bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
           (Join-Path $PWD 'build/ci/tools/nsis') | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           "NSISDIR=$(Join-Path $PWD 'build/ci/tools/nsis')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Restore verified previous update package
@@ -269,24 +249,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python tools/ci/update_packages.py restore --platform Windows
-      - name: Compiler cache
-        if: needs.windows-build.outputs.cross != 'true'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: build/ccache
-          key: objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
-          restore-keys: |
-            objects-${{ runner.os }}-${{ hashFiles('ci/upstreams.json') }}-
-            objects-${{ runner.os }}-${{ hashFiles('ci/dependencies-lock.json') }}-
-            objects-${{ runner.os }}-
       - name: Download cross-built binaries
-        if: needs.windows-build.outputs.cross == 'true'
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: windows-x64-build
           path: build/cross
       - name: Restore cross-built binaries without recompiling
-        if: needs.windows-build.outputs.cross == 'true'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force build/cmake | Out-Null
@@ -299,16 +267,8 @@ jobs:
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
           $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
           if (-not $runtime) { throw 'Visual C++ runtime not found' }
-          if ($env:WINDOWS_CROSS -eq 'true') {
-            cmake -S cmake/windows-prebuilt -B build/cmake -G Ninja "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)"
-          } else {
-            cmake -S . -B build/cmake -G Ninja "-DPERIKOP_DEPENDENCY_DIR=$PWD/build/ci/sources" "-DCMAKE_C_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/gcc.exe" "-DCMAKE_CXX_COMPILER=$env:ORTHO_TOOLCHAIN_BIN/g++.exe" "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)" `
-              -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DwxBUILD_PRECOMP=OFF
-          }
+          cmake -S cmake/windows-prebuilt -B build/cmake -G Ninja "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)"
           if ($LASTEXITCODE -ne 0) { throw 'Windows configuration failed' }
-      - name: Compile on Windows until the cross-build snapshot is pinned
-        if: needs.windows-build.outputs.cross != 'true'
-        run: cmake --build build/cmake --parallel 4
       - name: Windows version and icon resources
         shell: pwsh
         run: |
@@ -393,6 +353,9 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - name: Cached dependency snapshots
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -404,13 +367,16 @@ jobs:
         run: python3 tools/ci/dependencies.py restore --platform macOS
       - name: Storage, speech, layout, and UI with ASan and UBSan
         timeout-minutes: 30
-        run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-sanitizers.sh
+        run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py sanitizers
   publication-check:
     needs: [unix, windows, sanitizers]
     if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && !inputs.nightly && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: perikop-*
@@ -436,6 +402,9 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: perikop-*
@@ -456,8 +425,8 @@ jobs:
             base=${version%%-*}
             shopt -s nullglob
             files=(packages/legacy/Perikop-"$base"-*)
-            if [ "${#files[@]}" != 5 ]; then
-              echo "::error::The five native packages must match $base in CMakeLists.txt."
+            if [ "${#files[@]}" != 4 ]; then
+              echo "::error::The four native packages must match $base in CMakeLists.txt."
               exit 1
             fi
             if [ "$version" != "$base" ]; then

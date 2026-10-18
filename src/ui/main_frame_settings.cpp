@@ -1,6 +1,8 @@
 #include "perikop_version.hpp"
+#include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include <algorithm>
 #include <wx/checkbox.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
@@ -10,6 +12,77 @@
 #include <wx/sizer.h>
 namespace ortho {
 namespace {
+class SourceStack final : public wxPanel {
+public:
+    SourceStack(wxWindow* parent, std::vector<SourcePreference>& preferences,
+                const std::vector<Source>& catalog, bool primary, std::function<void()> changed)
+        : wxPanel(parent), preferences_(preferences), catalog_(catalog), primary_(primary),
+          changed_(std::move(changed)) {
+        rebuild();
+    }
+
+private:
+    std::vector<SourcePreference>& preferences_;
+    std::vector<Source> catalog_;
+    bool primary_;
+    std::function<void()> changed_;
+    void rebuild() {
+        DestroyChildren();
+        auto* stack = new wxBoxSizer(wxVERTICAL);
+        const auto enabled = std::ranges::count(preferences_, true, &SourcePreference::enabled);
+        for (std::size_t i = 0; i < preferences_.size(); ++i) {
+            const auto& preference = preferences_[i];
+            const auto found = std::ranges::find(catalog_, preference.source, &Source::code);
+            const auto name = ui::utf8(found == catalog_.end() ? preference.source : found->name);
+            auto* row = new wxBoxSizer(wxHORIZONTAL);
+            auto* check = new wxCheckBox(this, wxID_ANY, name);
+            check->SetFont(ui_font());
+            check->SetValue(preference.enabled);
+            check->SetName(ui::utf8(primary_ ? "Huvudtext, " : "Andra texten, ") + name);
+            check->SetToolTip(ui::utf8("Aktivera eller inaktivera denna källa i prioriteringsordningen."));
+            check->Enable(found != catalog_.end() && (!primary_ || !preference.enabled || enabled > 1));
+            check->Bind(wxEVT_CHECKBOX, [this, i](wxCommandEvent& event) {
+                preferences_[i].enabled = event.IsChecked();
+                changed_();
+                CallAfter([this] {
+                    rebuild();
+                });
+            });
+            row->Add(check, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(12)));
+            for (const int direction : {-1, 1}) {
+                auto* move = ui::button(this, ui::utf8(direction < 0 ? "↑" : "↓"), [this, i, direction] {
+                    CallAfter([this, i, direction] {
+                        const auto destination = direction < 0 ? i - 1 : i + 1;
+                        std::swap(preferences_[i], preferences_[destination]);
+                        changed_();
+                        rebuild();
+                        if (auto* item = GetSizer()
+                                             ->GetItem(destination)
+                                             ->GetSizer()
+                                             ->GetItem(std::size_t{0})
+                                             ->GetWindow())
+                            item->SetFocus();
+                    });
+                });
+                const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
+                move->SetName(label);
+                move->SetToolTip(label);
+                move->Enable(direction < 0 ? i > 0 : i + 1 < preferences_.size());
+                row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(4)));
+            }
+            stack->Add(row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(5)));
+        }
+        SetSizer(stack, true);
+        SetMinSize(stack->GetMinSize());
+        Layout();
+        if (GetParent())
+            GetParent()->Layout();
+        for (auto* child : GetChildren()) {
+            child->SetBackgroundColour(GetBackgroundColour());
+            child->SetForegroundColour(GetForegroundColour());
+        }
+    }
+};
 // The chosen colour scheme's light and dark variants as small reader pages, so both can be judged at once.
 class SchemePreview final : public wxWindow {
 public:
@@ -109,6 +182,26 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     auto* content = new wxPanel(page);
     auto* entries = new wxBoxSizer(wxVERTICAL);
     content->SetSizer(entries);
+    const auto sources = corpus_.sources();
+    const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
+                                  bool primary) {
+        entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        entries->Add(new SourceStack(content, preferences, sources, primary,
+                                     [this, primary] {
+                                         if (primary)
+                                             stop_speech(false);
+                                         apply_settings();
+                                     }),
+                     0, wxEXPAND);
+        entries->AddSpacer(FromDIP(zoomed(14)));
+    };
+    source_stack("HUVUDTEXT – KÄLLOR I PRIORITETSORDNING", settings_.primary_sources, true);
+    source_stack("DELAD LÄSNING – ANDRA TEXTENS KÄLLOR", settings_.secondary_sources, false);
+    entries->Add(
+        ui::label(content, ui::utf8("Den första aktiverade källan med text i kapitlet används."), 10));
+    entries->Add(ui::label(
+        content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
+    entries->AddSpacer(FromDIP(zoomed(22)));
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
         entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));

@@ -10,7 +10,6 @@ PLATFORMS = {
     "x86_64.AppImage": "Linux x64",
     "aarch64.AppImage": "Linux ARM64",
     "macOS-arm64.dmg": "macOS Apple Silicon",
-    "macOS-x86_64.dmg": "macOS Intel",
     "windows-x64.exe": "Windows x64",
 }
 

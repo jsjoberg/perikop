@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Update a Velopack-installed Perikop from a local feed, as Inställningar does, and check the result.
 
-Run it on the glibc 2.34 baseline after tools/package_appimage.sh, with LD_PRELOAD naming a SQLite that
-reads STRICT tables (see tools/ci/build-linux.sh). It packs the same build as two nightly versions,
+Run it on the glibc 2.34 baseline after tools/package_appimage.sh, with the uv-managed Python
+used by tools/ci/build.py. It packs the same build as two nightly versions,
 installs the first, and lets the program update itself with --update-probe. It checks that:
 - the update applies and replaces the installed AppImage,
 - the profile stays as it was, and the new version reads it (its channel decides which feed is read),

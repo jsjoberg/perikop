@@ -1104,7 +1104,7 @@ int main(int argc, char** argv) {
             s.color_scheme = ColorScheme::TokyoNight;
             s.calendar = CalendarStyle::Old;
             s.tradition = Tradition::Slavic;
-            s.parallel = "en";
+            s.split_view = true;
             s.text_zoom = 125;
             s.speech_rate = 175;
             s.speech_voice = "alice";
@@ -1116,10 +1116,9 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::Dark && s.color_scheme == ColorScheme::TokyoNight &&
-                      s.calendar == CalendarStyle::Old && s.tradition == Tradition::Slavic &&
-                      s.parallel == "en" && s.text_zoom == 125 && s.speech_rate == 175 &&
-                      s.speech_voice == "alice" && s.speech_highlight &&
-                      s.update_channel == UpdateChannel::Nightly,
+                      s.calendar == CalendarStyle::Old && s.tradition == Tradition::Slavic && s.split_view &&
+                      s.text_zoom == 125 && s.speech_rate == 175 && s.speech_voice == "alice" &&
+                      s.speech_highlight && s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
             s.update_channel = UpdateChannel::Releases;
             user.save(s);

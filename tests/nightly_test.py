@@ -34,7 +34,7 @@ class NightlyTest(unittest.TestCase):
                 self.assertEqual((packages / ("Perikop-" + TAG + "-" + suffix)).read_bytes(), suffix.encode())
             notes = (packages / "NOTES.md").read_text()
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
-            self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64\n- macOS Intel", notes)
+            self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64", notes)
             self.assertIn("- macOS Apple Silicon", notes)
             self.assertIn("Sanitizers: **passed**", notes)
             for line in (packages / "SHA256SUMS.txt").read_text().splitlines():
@@ -59,7 +59,7 @@ class NightlyTest(unittest.TestCase):
             notes = (packages / "NOTES.md").read_text()
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
             self.assertIn("Sanitizers: **failure**", notes)
-            self.assertEqual(len(list(packages.glob("Perikop-*"))), 5)
+            self.assertEqual(len(list(packages.glob("Perikop-*"))), 4)
 
     def test_empty_nightly_does_not_create_a_release(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -71,7 +71,7 @@ class NightlyTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             packages = Path(temporary)
             self.fixtures(packages, ["windows-x64.exe"])
-            (packages / "Perikop-0.2.0-macOS-x86_64.dmg").write_bytes(b"fixture")
+            (packages / "Perikop-0.2.0-macOS-arm64.dmg").write_bytes(b"fixture")
             original = sorted(path.name for path in packages.iterdir())
             with self.assertRaisesRegex(ValueError, "different versions"):
                 self.prepare(packages)

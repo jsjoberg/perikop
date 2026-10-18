@@ -117,6 +117,7 @@ private:
     void stop_speech(bool reset = true);
     void save_reading_position();
     void restore_reading_position();
+    std::string reading_progress(const Reading&, const std::string& key) const;
     bool has_reading_position() const;
     bool active_playback() const;
     void speech_status(const std::string&);
@@ -198,7 +199,6 @@ private:
     SymbolButton* back_ = nullptr;
     SymbolButton* forward_ = nullptr;
     SymbolButton* play_ = nullptr;
-    SymbolButton* pause_ = nullptr;
     SymbolButton* stop_ = nullptr;
     AddressBar* address_ = nullptr;
     SymbolButton* menu_ = nullptr;
@@ -207,7 +207,7 @@ private:
     wxAcceleratorTable accelerators_;
     std::unique_ptr<wxEventFilter> alt_tap_;
     std::unique_ptr<wxEventFilter> navigation_input_;
-    // Right-column choices: "study" or a language code.
+    // Right-column choices: word study or the preferred secondary edition.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<wxString> parts_;
     size_t part_ = 0;

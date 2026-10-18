@@ -1,0 +1,32 @@
+name: Python tooling
+description: Prepare the same uv-managed interpreter for host and offline container checks
+outputs:
+  root:
+    description: Relocatable Python installation to mount in Linux containers
+    value: ${{ steps.environment.outputs.root }}
+runs:
+  using: composite
+  steps:
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+      with:
+        version: "0.13.1"
+        enable-cache: false
+    - name: Prepare the pinned Python interpreter
+      id: environment
+      shell: bash
+      run: |
+        uv python install
+        uv run --managed-python --locked python - <<'PY'
+        import os
+        from pathlib import Path
+        import sqlite3
+        import sys
+        assert sys.version_info[:2] == (3, 14), sys.version
+        assert sqlite3.sqlite_version_info >= (3, 37), sqlite3.sqlite_version
+        root = Path(sys.base_prefix)
+        binary = root if os.name == "nt" else root / "bin"
+        with open(os.environ["GITHUB_PATH"], "a") as output:
+            output.write(str(binary) + "\n")
+        with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+            output.write("root=" + str(root) + "\n")
+        PY

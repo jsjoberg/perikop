@@ -182,6 +182,11 @@ struct Pronunciation {
     int priority;
 };
 enum class UpdateChannel { Releases, Nightly };
+struct SourcePreference {
+    std::string source;
+    bool enabled = true;
+    bool operator==(const SourcePreference&) const = default;
+};
 struct Settings {
     CalendarStyle calendar = CalendarStyle::New;
     Tradition tradition = Tradition::Greek;
@@ -189,9 +194,19 @@ struct Settings {
     ColorScheme color_scheme = ColorScheme::RosePine;
     // Text size in percent, for every text in the program.
     int text_zoom = 100;
-    // Right pane language, "el" or "en", or empty for one pane. The left pane is Swedish.
-    std::string parallel;
-    // The right pane is the Ordstudium lookup panel. Excludes a parallel language.
+    bool split_view = false;
+    // First enabled edition containing the chapter wins. Greek is opt-in for the main text.
+    std::vector<SourcePreference> primary_sources{{"sv1917", true},
+                                                  {"en-lxx2012", true},
+                                                  {"en-web", true},
+                                                  {"grc-lxx", false},
+                                                  {"grc-patriarchal", false}};
+    std::vector<SourcePreference> secondary_sources{{"en-lxx2012", true},
+                                                    {"en-web", true},
+                                                    {"grc-lxx", true},
+                                                    {"grc-patriarchal", true},
+                                                    {"sv1917", true}};
+    // The right pane is the Ordstudium lookup panel. Excludes split view.
     bool word_study = false;
     // Read-aloud tints the line being read. The margin marker shows either way.
     bool speech_highlight = false;

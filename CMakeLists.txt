@@ -1,7 +1,18 @@
 cmake_minimum_required(VERSION 3.24)
 include(cmake/defaults.cmake)
-set(CMAKE_OSX_DEPLOYMENT_TARGET 13.4 CACHE STRING "Oldest supported macOS with portable speech")
+set(CMAKE_OSX_DEPLOYMENT_TARGET 15.0 CACHE STRING "Oldest supported macOS")
 project(perikop VERSION 0.1.0 LANGUAGES C CXX)
+if(APPLE)
+    if(CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS 15.0)
+        message(FATAL_ERROR "Perikop requires macOS 15 or later.")
+    endif()
+    if(NOT CMAKE_OSX_ARCHITECTURES)
+        set(CMAKE_OSX_ARCHITECTURES "${CMAKE_SYSTEM_PROCESSOR}")
+    endif()
+    if(NOT CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
+        message(FATAL_ERROR "Perikop supports Apple Silicon Macs (arm64) only.")
+    endif()
+endif()
 get_property(perikop_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(NOT perikop_multi_config AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE MinSizeRel CACHE STRING "Build type" FORCE)
@@ -64,6 +75,7 @@ add_library(ortho-core
     src/core/model.cpp
     src/core/navigation.cpp
     src/core/reading_position.cpp
+    src/core/source_preferences.cpp
     src/ui/reader_controls.cpp
     src/core/lectionary.cpp
     src/core/service_labels.cpp
@@ -99,6 +111,10 @@ if(BUILD_TESTING)
     add_executable(ortho-reader-state-tests tests/reader_state_test.cpp)
     target_link_libraries(ortho-reader-state-tests PRIVATE ortho-core)
     add_test(NAME reader-state COMMAND ortho-reader-state-tests)
+    add_executable(ortho-source-preferences-tests tests/source_preferences_test.cpp)
+    target_link_libraries(ortho-source-preferences-tests PRIVATE ortho-core)
+    add_test(NAME source-preferences COMMAND ortho-source-preferences-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
+        "${CMAKE_BINARY_DIR}/test-source-preferences.db")
     add_executable(ortho-reading-position-tests tests/reading_position_test.cpp)
     target_link_libraries(ortho-reading-position-tests PRIVATE ortho-core)
     add_test(NAME reading-position COMMAND ortho-reading-position-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
@@ -123,9 +139,6 @@ if(BUILD_TESTING)
 endif()
 if(ORTHO_BUILD_GUI)
     include(cmake/hyphenation.cmake)
-    if(APPLE AND CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS 13.4)
-        message(FATAL_ERROR "Portable speech requires macOS 13.4 or later. Reconfigure with -DCMAKE_OSX_DEPLOYMENT_TARGET=13.4.")
-    endif()
     include(cmake/speech.cmake)
     include(cmake/updates.cmake)
     if(ORTHO_SYSTEM_WX)
@@ -177,6 +190,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/picker_grid.cpp
         src/ui/month_calendar.cpp
         src/ui/scripture_view.cpp
+        src/ui/scripture_sources.cpp
         src/ui/scripture_layout.cpp
         src/ui/scripture_selection.cpp
         src/ui/scripture_links.cpp
@@ -340,10 +354,6 @@ if(ORTHO_BUILD_GUI)
         set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
         # Font shaping and native widgets take longer on hosted Windows runners.
         set(perikop_smoke_timeout 60)
-        if(APPLE AND "x86_64" IN_LIST perikop_macos_architectures)
-            # A fresh CI runner must translate the Intel app and Cocoa frameworks through Rosetta.
-            set(perikop_smoke_timeout 120)
-        endif()
         if(ORTHO_SANITIZERS)
             set(perikop_smoke_timeout 180)
         endif()

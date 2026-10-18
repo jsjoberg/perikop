@@ -6,7 +6,8 @@
 - Windows: w64devkit with MinGW-w64 GCC 15 or later.
 - Linux: GCC 15 or later and the GTK3 and Fontconfig development headers (`libgtk-3-dev libfontconfig1-dev` on Debian and Ubuntu).
   On RHEL or Rocky Linux 9: `sudo dnf install gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ gtk3-devel fontconfig-devel cmake make`, then `scl enable gcc-toolset-15 bash`.
-- macOS: Apple Clang 16 or later and the Xcode command-line tools.
+- macOS: Apple Silicon, macOS 15 or later, Apple Clang 16 or later, and the Xcode command-line tools.
+- Python tooling: uv; `.python-version` pins Python 3.14.6. `uv run --locked` prepares it automatically.
 
 ## Build
 
@@ -22,12 +23,11 @@ The default build type is MinSizeRel with link-time optimization. Useful options
 - `-DCMAKE_BUILD_TYPE=Debug`
 - `-DPERIKOP_LTO=OFF`
 - `-DORTHO_SYSTEM_WX=ON` to use an installed wxWidgets.
-- `-DCMAKE_OSX_ARCHITECTURES=arm64` for Apple Silicon, or `-DCMAKE_OSX_ARCHITECTURES=x86_64` for Intel. Use separate build directories for each architecture.
-  Check every bundled binary with `python3 tools/check_macos_arch.py build/cmake/bin/Perikop.app --architecture arm64` (or `x86_64`).
+- macOS builds target `arm64` only. Check the bundle with `uv run --locked tools/check_macos_arch.py build/cmake/bin/Perikop.app --architecture arm64`.
 
-CI builds and packages the two macOS architectures separately. Intel tests run through Rosetta on an Apple Silicon runner.
+CI builds Apple Silicon on macOS 15. Intel and universal Mac builds are rejected. macOS compilation, signing, and packaging stay native; there is no macOS cross-compilation migration to maintain.
 
-Linux is the preferred host for future build and packaging work. The [update migration plan](updating.md) covers Linux-hosted Velopack packaging and the longer-term move toward cross-compiling macOS on Linux.
+The shared `tools/ci/build.py` entry point runs `linux`, `macos`, `windows` (cross-build), or `sanitizers`. `.github/actions/python` installs uv 0.13.1 and the pinned Python before any network-denied build. Host checks use that interpreter; Linux containers mount its relocatable installation read-only. Its bundled SQLite reads STRICT tables without compiling or injecting a replacement library. This tooling bootstrap can download from upstream; application dependencies still come only from verified snapshots, and compilation/packaging run offline.
 
 To build offline from the same dependency snapshot as CI (`Linux`, `macOS`, or `Windows`):
 
@@ -38,11 +38,7 @@ cmake -S . -B build/offline -DPERIKOP_DEPENDENCY_DIR="$PWD/build/ci/sources"
 
 ## Windows cross-builds from Linux
 
-The Windows x64 build uses llvm-mingw on Linux after the dependency snapshot includes `Windows-cross-environment.tar.gz`.
-Until then, CI compiles on Windows.
-The manual dependency workflow prepares this environment with llvm-mingw 20260922 and checks the archive hash.
-To activate Linux compilation, run that workflow.
-Then commit its `dependencies-lock.json` as `ci/dependencies-lock.json`.
+The Windows x64 build uses the pinned llvm-mingw environment on Linux. CI has one compilation path; the native Windows compilation fallback has been removed. Local Windows builds still support w64devkit.
 
 Linux transfers the binaries and assembled resources to Windows.
 Linux also exports the CTest commands and strips the application executable.
@@ -50,7 +46,7 @@ Windows configures local test paths and the installer with a compiler-free CMake
 Windows still runs native tests and the speech probe, supplies the MSVC runtime, and creates the installer.
 ONNX Runtime and CRT distribution remain unchanged.
 
-After cross-build activation, Windows restores only NSIS from the dependency snapshot.
+Windows restores only NSIS and Velopack packaging tools from the dependency snapshot.
 Windows does not extract the source dependencies, voice pack, w64devkit, or ccache.
 The transferred resources already contain the voice pack for installer builds.
 Local Windows builds continue to use w64devkit.
@@ -69,10 +65,12 @@ Windows ARM64 CI is not part of this migration step.
 
 ## Read-aloud voices
 
+Voice export has its own locked Python 3.12 project in `tools/speech`; its ML dependencies are independent of build and release tooling.
+
 Without a voice pack, Perikop builds without read-aloud. Prepare the pack (about 180 MB) before the build:
 
 ```sh
-uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
+uv run --project tools/speech --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
 ```
 
 The build copies `build/kokoro-pack` into the app. Use `-DPERIKOP_VOICE_PACK=/path/to/pack` for another location.

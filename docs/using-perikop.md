@@ -12,10 +12,10 @@ Choose `Perikop-win-x64-releases-Setup.exe` for in-app updates, or the correspon
 The installer is unsigned. If Microsoft Defender SmartScreen blocks it, select *More info* → *Run anyway*.
 
 ### macOS
-Requires macOS 13.4 or later. Download `macOS-arm64.dmg` for Apple Silicon (M-series), or `macOS-x86_64.dmg` for Intel.
+Requires macOS 15 or later on an Apple Silicon Mac (M-series). Download `macOS-arm64.dmg`. Intel Macs are no longer supported.
 Open the DMG and drag Perikop to Applications. **About This Mac** shows whether your Mac has an Apple chip or an Intel processor.
 The app has an ad-hoc signature. If macOS blocks the app on first launch, go to *System Settings* → *Privacy & Security* and select *Open Anyway*.
-The `Perikop-osx-arm64-releases-Setup.pkg` and `Perikop-osx-x64-releases-Setup.pkg` downloads install a copy that supports in-app updates. They are unsigned and not notarized. The DMGs remain available. macOS 13 update compatibility is still [awaiting baseline validation](updating.md#phases); successful checks on newer macOS do not establish it.
+The `Perikop-osx-arm64-releases-Setup.pkg` download installs a copy that supports in-app updates. It is unsigned and not notarized. The DMG remains available. See [update validation](updating.md#packaging-and-validation) for the release checks.
 
 ### Linux
 Requires glibc 2.34 or later, x86-64. Download the `x86_64` AppImage file.
@@ -41,8 +41,10 @@ The day page shows the selected date's readings and three reading plans. Press *
 
 - **Tillbaka** and **Framåt** return through the views opened in this session, preserving the reading position and Bible-picker selection. Use Alt+Left/Right on Windows and Linux, ⌘[/⌘] on macOS, or the mouse's Back/Forward side buttons.
 - **Ctrl+L** opens the passage picker; **Ctrl+Shift+L** opens the selected day's readings. **Ctrl+PageUp/PageDown** changes the day, and **Ctrl+Shift+D** opens the calendar. Use ⌘ instead of Ctrl on macOS.
-- The left column is Swedish. The symbols right of the address field add Greek, English, or word study. Click a symbol again to close the column.
-- Click a verse to highlight it. In **Bara svenska**, buttons above the verse open it in online Swedish Bibles.
+- **Inställningar** has separate ordered source lists for the main text and the second pane. Enable editions with their checkboxes and move them with ↑/↓. The first enabled edition containing the chapter is used. Swedish comes first by default, then English; Greek is available but initially off for the main text.
+- The split-view button right of the address field opens one second pane using its source preferences. Click it again to return to one text. The word-study button opens Swedish word study instead.
+- Each chapter's source label is a dropdown. Choose a temporary edition independently for either pane, or **Automatiskt enligt Inställningar** to return to the saved priority. Overrides stay within the open passage and chapter; reopening the passage restores the saved preferences.
+- Click a verse to highlight it. In a single Swedish pane, buttons above the verse open it in online Swedish Bibles.
 - Click the address field to go to another passage, or to choose a part of a reading in several parts.
 - **⋮** opens the commands, as in Chrome. **−** and **+** in the menu change the text size and the read-aloud speed without closing it.
   On Windows and Linux, press Alt to show the menu bar.
@@ -74,7 +76,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Read-aloud
 
-- **Lyssna** reads Swedish aloud. Select the voice, Alice or Björn, in **Inställningar**.
+- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select the voice, Alice or Björn, in **Inställningar**.
 - **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
 - **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.
@@ -84,7 +86,9 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Word study and pronunciation
 
-- **Visa → Svenska och ordstudium**: click a Swedish word to see its pronunciation and dictionary entries.
+- **Visa → Ordstudium**: click a Swedish word to see its pronunciation and dictionary entries.
 - **Uppläsning → Granska svenskt uttal…**: listen to words and correct their pronunciation. Corrections change only the speech, not the text.
 
 **Om Perikop** lists every source with links. It is in the application menu on macOS and in **Hjälp** elsewhere.
+
+Daily readings and reading-plan parts show saved passage progress as a percentage. Completed readings show a checkmark instead. Progress uses the same saved verse position as automatic resume.

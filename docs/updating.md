@@ -1,139 +1,65 @@
-# In-app updates and build direction
+# In-app updates
 
-This is the implementation plan for the Velopack migration. The updater, platform packages, and feed publication are integrated. macOS 13 baseline validation remains pending. [Phases](#phases) lists the steps.
+The updater, platform packages, and feed publication are integrated. Supported release targets are Windows x64, Linux x64, Linux ARM64 for Raspberry Pi 5, and Apple Silicon Macs running macOS 15 or later. Intel Macs and macOS 13/14 are no longer release targets.
 
-## Linux as the primary build host
-
-Implement and validate the updater on Linux first. Keep the shared updater and UI portable across Windows, macOS, and Linux. Prefer Linux for compilation, packaging, feed generation, and release publication wherever the tools support it.
-
-| Target | Planned compilation and packaging | Native validation |
-| --- | --- | --- |
-| Linux x64 | Linux | Linux |
-| Linux ARM64 / Raspberry Pi 5 | Linux ARM64 | Linux ARM64 |
-| Windows x64 | Cross-compile and create the Velopack EXE on Linux | Windows |
-| macOS Apple Silicon | macOS initially; cross-compilation on Linux is the longer-term direction | macOS Apple Silicon |
-| macOS Intel | macOS initially; cross-compilation on Linux is the longer-term direction | macOS / Rosetta, with Intel hardware validation retained |
-
-[Velopack supports creating Windows and Linux packages on Linux](https://docs.velopack.io/packaging/cross-compiling). Its documented macOS packaging requires macOS tools, so moving Mac compilation to Linux does not by itself move final Mac packaging to Linux.
-
-Keep compilation, resource staging, signing, packaging, and native validation as separate steps. Native validation must consume the transferred binaries without rebuilding them, following the existing Windows handoff model. For Windows, account for the app-local MSVC runtime DLLs currently supplied by the Windows job when assembling the Linux packaging payload.
-
-The first compatibility prototype should run in the pinned Linux build environments and verify:
-
-- Native Velopack SDK support on both Linux architectures, including compatibility with the existing glibc 2.34 baseline.
-- Packaging the existing GTK AppDir without losing its bundled libraries, licence notices, or native Wayland behavior. Velopack accepts a staged directory ending in `.AppDir`; see [Linux packaging](https://docs.velopack.io/packaging/operating-systems/linux).
-- Updating from one locally prepared version to another, preserving the user profile, with startup networking and automatic application of downloaded updates disabled.
-- Producing a Windows EXE on Linux from the existing cross-built application and validating it on Windows.
-
-### Linux compatibility prototype
-
-The separate `Velopack Linux compatibility prototype` workflow is manual (`workflow_dispatch`) and runs on Linux x64 and ARM64. It does not publish releases or change Perikop's installers. It pins Velopack 1.2.161 and verifies the SDK, packaging tool, and licence hashes in `ci/velopack-prototype.json`.
-
-To run it on a Linux host with Docker and Python 3.12 or later:
-
-```sh
-python3 tools/ci/velopack_prototype.py prepare
-docker build --pull -f ci/velopack-prototype.Dockerfile -t perikop-velopack-prototype ci
-docker run --rm --pull never --network none --cap-add SYS_PTRACE -v "$PWD:/work" \
-    perikop-velopack-prototype python3.12 tools/ci/velopack_prototype.py run
-```
-
-Preparation downloads the explicitly pinned upstream inputs; the test environment installs its build tools during preparation. The compile/package/update test itself runs without networking on Rocky Linux 9 (glibc 2.34), using local update feeds. This research workflow is separate from ordinary offline CI; promote successful inputs into dependency snapshots before enabling production integration.
-
-The probe links the native SDK statically against the baseline system libraries and records whether the upstream shared SDK can load. It creates a small native AppImage, updates it from 1.0.0 to 1.0.1, switches to a newer nightly, and returns to the older release. It checks that a profile fixture outside the AppImage survives, and that starting with a staged update neither applies it nor attempts Internet networking. The production GUI and its existing profile databases are not part of this probe.
-
-Diagnostic logs, syscall traces, and `summary.json` are written under `build/velopack-prototype/run-<architecture>`. Each run rebuilds that architecture's prototype output. Windows cross-packaging, GTK AppDir integration, actual application upgrades, and native Mac/Windows validation remain subsequent steps.
-
-The [October 16 Linux ARM64 findings](reports/velopack-linux-2026-10-16.md) record the successful offline upgrade and channel-switch tests, static SDK compatibility with glibc 2.34, and the SDK's cleanup of cached downgrades at startup.
-
-Pin the SDK and packaging tools and prepare them through the dependency-snapshot workflow. Ordinary compilation and packaging remain offline. Signing, notarization, and publication are explicit release steps with their own network access where necessary.
-
-## macOS cross-compilation later
-
-[OSXCross](https://github.com/tpoechtrager/osxcross) supports targeting both `arm64` and `x86_64` from Linux. Before moving the production Mac compile jobs, prove that a pinned toolchain and macOS SDK can build Perikop's C++23 code, Objective-C++ Cocoa integration, wxWidgets, and both ONNX Runtime variants.
-
-Transfer each resulting app bundle to a Mac for GUI and speech tests, signing, notarization, and final packaging. Keep the existing native Mac builds until the cross-built versions pass the same checks. Evaluate moving final packaging and signing off macOS separately; do not assume that OSXCross makes Velopack's Mac packaging portable.
+The macOS 15 baseline must pass the native update checks on the macOS 15 runner before release. The pinned Velopack SDK still contains crypto objects built for macOS 26.5; raising the deployment target does not establish runtime compatibility. Local checks on a newer Mac establish behavior only on that system.
 
 ## User-controlled updates
 
-- GitHub Releases hosts the manifests and packages. No additional update server is planned.
-- Releases and Nightlies each have separate feeds for every supported OS and architecture. Application feeds exclude dependency snapshots and voice-pack releases.
-- The channel preference survives restarts. Changing it only saves the preference.
-- Only an explicit **Check for updates** action initiates the check. Downloading and installing require separate user actions.
+- GitHub Releases hosts the manifests and packages. No additional update server is used.
+- Releases and Nightlies have separate feeds for each supported OS and architecture. Application feeds exclude dependency snapshots and voice-pack releases.
+- Changing the channel only saves the preference. Only **Check for updates** initiates a check; downloading and installing require separate actions.
 - No startup checks, polling, background downloads, telemetry, or automatic application of staged updates.
-- Run requests off the UI thread and support cancellation. Offline operation and update failures must not disrupt reading or speech.
-- Give nightlies increasing versions, retaining the commit identity for display. Returning to an older release requires explicit confirmation and profile compatibility checks.
-- Keep settings and personal data outside replaceable application files, preserving the existing profile location.
+- Worker threads keep checking, downloading, and applying off the UI thread. Offline operation and update failures must not disrupt reading or speech.
+- Settings, completion marks, and passage positions stay in the existing profile outside replaceable application files.
+- Returning to an older release requires explicit confirmation and profile compatibility checks.
 
-The shared UI should expose checking, available-version details, downloading, and install/restart states. Platform-specific installation code sits behind that shared interface. Test real upgrades, interrupted downloads, channel changes, profile preservation, and the absence of unsolicited network requests on every target before replacing the current installers.
+Velopack 1.2.161's C API cannot cancel a download in progress. **Avbryt** stops waiting and discards its result; that user-started download may finish in the background. No new update step starts until it has finished. Startup may clean cached packages but never downloads or applies them.
+
+`src/core/updater.cpp` owns the shared state machine. `src/app/updates.cpp` implements the Velopack backend, retaining the selected package through check, download, and apply. The SDK runs its startup lifecycle only in a Velopack-installed copy. It is linked statically on Linux and macOS, and through its DLL on Windows.
 
 ## Versions and channels
 
-Nightlies have SemVer versions that Velopack can order. Release tags keep their versions, such as `0.1.0` or `0.2.0-alpha.1`.
+Release tags keep their SemVer versions, such as `0.1.0` or `0.2.0-alpha.1`. Nightlies use increasing versions:
 
-- Before the version in `CMakeLists.txt` is released, a nightly is a prerelease of it: `0.2.0-nightly.20261101.500.1`. It sorts above `0.2.0-alpha.1` and below `0.2.0`.
-- After that version is released, a nightly is a prerelease of the next patch: `0.1.1-nightly.20261018.412.1`. It sorts above `0.1.0`.
-- The numbers after `nightly` are the Stockholm date, the workflow run number, and the run attempt. Later nightlies, and retries of the same night, always sort higher.
+- Before the CMake version is released: `0.2.0-nightly.20261101.500.1`, above `0.2.0-alpha.1` and below `0.2.0`.
+- After it is released: `0.1.1-nightly.20261018.412.1`, above `0.1.0`.
+- The nightly suffix contains the Stockholm date, workflow run number, and attempt. About also shows the commit identity.
 
-The `nightly` job chooses the version with `tools/ci/nightly.py version` and passes it to every build job as `PERIKOP_BUILD_VERSION`. The build uses it instead of the computed version, and the version header records the commit as `PERIKOP_COMMIT`. **Om Perikop** shows a version such as `0.1.1-nightly.20261018.412.1 (b250eaa)`. Builds outside nightlies keep their computed versions. Nightly tags and download file names are unchanged.
-
-Each package belongs to one channel, named `<os>-<arch>-<track>`:
+Each channel is `<os>-<arch>-<track>`:
 
 | OS | Architectures | Tracks |
 | --- | --- | --- |
 | `win` | `x64` | `releases`, `nightly` |
 | `linux` | `x64`, `arm64` | `releases`, `nightly` |
-| `osx` | `arm64`, `x64` | `releases`, `nightly` |
+| `osx` | `arm64` | `releases`, `nightly` |
 
-For example, `linux-arm64-nightly` is the feed `releases.linux-arm64-nightly.json`. The update-channel setting chooses the track; the program knows its OS and architecture.
+For example, `linux-arm64-nightly` uses `releases.linux-arm64-nightly.json`. The application knows its platform; the preference chooses only the track.
 
-## Decisions
+The SDK's GitHub source sends no installation identifier. Its pinned implementation reads the ten newest releases and filters prereleases on the release track. Dependencies and voice packs therefore live in `jsjoberg/perikop-assets`, and cleanup keeps seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
 
-- **Signing:** packages stay unsigned for now, as today. The macOS installer meets Gatekeeper and the Windows Setup.exe meets SmartScreen, as the current DMG and NSIS installer do. Developer ID and Authenticode signing are a later, separate release step.
-- **Cancelling a download:** the Velopack 1.2.161 C API reports download progress but cannot cancel. **Avbryt** stops waiting and discards the result. A download the user started may finish in the background, and the SDK removes stale packages at the next start. A cancellable downloader would need our own HTTP code on every platform.
-- **Existing packages:** the plain AppImage, DMG, and NSIS installer stay in releases and nightlies until each platform's Velopack package passes its native checks. Windows users uninstall the NSIS version once by hand. The profile is outside the program files and stays.
-- **Delta updates:** enable them. Each full package is 170–215 MB, mostly the voice pack, which rarely changes. CI builds a delta from the previous package in the same channel.
+Historical Intel Mac feeds remain readable by nightly cleanup so their referenced packages survive while those older nightlies are retained. New publications contain only the four supported targets.
 
-### Feed source
+## Packaging and validation
 
-The program reads updates with the SDK's GitHub source (`vpkc_new_source_github`). It sends no identifier: one GitHub API request lists releases, then the program downloads the feeds and the chosen package.
+`tools/ci/build.py` runs the native checks and packaging for each target. Python tooling is prepared once per job through uv, then Linux containers and macOS sandboxed builds run with networking disabled. Windows compilation runs on Linux; Windows receives the binaries, runs native tests, supplies the Visual C++ runtime, and packages them without recompiling. See [building](building.md).
 
-The [pinned GitHub source](https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/src/lib-rust/src/sources/github.rs) reads only the 10 newest releases, and drops prereleases for the releases track. The newest version must therefore always be among the 10 newest releases:
+Full and delta update tests exercise the real application's `--update-probe` backend using local feeds. They verify replacement and profile preservation. The delta test omits the target full package, forcing actual reconstruction. Linux traces Internet sockets; macOS denies networking; Windows does not trace network calls.
 
-- Only versions and nightlies are released in this repository. CI dependency snapshots and voice packs are published in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets).
-- CI keeps at most seven nightlies, and never more than nine.
-- Drafts do not count; the API does not show them to unauthenticated requests.
+The macOS job packages only ARM64 and saves `macos-update-validation-arm64.zip`. Its self-contained kit requires only macOS tools. On an Apple Silicon Mac running macOS 15, run:
 
-The [HTTP source](https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/src/lib-rust/src/sources/http.rs) was rejected because it adds `localVersion`, the app ID, and a random per-installation `stagingId` to every feed request.
+```sh
+bash /path/to/validate_macos_update.command --require-macos15
+```
 
-## Phases
+The script verifies kit checksums, creates a private HOME/profile/installation, extracts the first PKG, applies a full update and then a delta, verifies architecture, signatures, deployment target, UI, and profile preservation, and removes the private application. It saves `result-arm64.txt` and retains diagnostic files on failure. A pass on a newer macOS is useful but does not establish the macOS 15 minimum. The check does not exercise Installer's privileged scripts, Gatekeeper, or HTTPS against a published feed.
 
-Each phase is its own pull request.
+Packages remain unsigned by Developer ID or Authenticode and are not notarized. The macOS bundle uses an ad-hoc signature. Original DMG, plain AppImage, and NSIS downloads remain alongside Velopack packages during migration. Windows users uninstall the NSIS version once by hand; their profile stays in place.
 
-1. Versions, channels, these decisions, and moving snapshots and voice packs to `jsjoberg/perikop-assets`. Done.
-2. Updater core and UI. Done; Windows followed in phase 4, and universal macOS builds explain that they do not update.
-   - `src/core/updater.cpp` runs each user step (check, download, apply) on a worker thread and reports to the UI thread. Avbryt stops waiting; no other step starts until the abandoned request finishes. `tests/updater_test.cpp` covers it with a fake backend.
-   - `src/app/updates.cpp` is the Velopack backend. It uses the GitHub source with the `<os>-<arch>-<track>` channel, lets the user confirm a downgrade, and keeps the selected package from check through apply.
-   - `VelopackApp` runs at startup only in a copy that Velopack installed, because it always opens a log file. Other copies write nothing and make no requests.
-   - The SDK is linked statically from the dependency snapshot. `resources/licenses/Velopack-crates.txt` holds the notices of the 385 Rust crates in it and in Velopack's updater programs.
-   - The pinned macOS static library contains crypto objects built for macOS 26.5. The program still targets macOS 13.4, and the linker warns. Check the update steps on macOS 13 before phase 5.
-3. Linux packages. Done; publishing them is phase 6.
-   - `tools/package_velopack.sh` packs the AppDir from `tools/package_appimage.sh` with `vpk` as `Perikop`, keeping linuxdeploy's AppDir with GTK. It first checks Velopack's updater, `UpdateNix`, against the glibc 2.34 baseline, because it ships inside the AppImage. Delta packages wait for phase 6.
-   - The Linux CI image has .NET 8, `squashfs-tools`, and `strace`; `vpk` 1.2.161 is in the Linux dependency inputs.
-   - `tools/ci/velopack_linux_test.py` runs wherever CI packages Linux. It packs the build as two nightly versions, installs the first, and lets the program update itself from a local feed with `--update-probe`, the same backend as Inställningar. It checks that the AppImage is replaced, that the profile is unchanged and read by the new version, and that neither version opens an Internet socket. It passed on Rocky Linux 9 ARM64 (glibc 2.34).
-   - The AppImage runtime that `vpk` embeds is credited in THIRD-PARTY-NOTICES, as are the Rust crates of Velopack's updater programs.
-4. Windows. Done; publishing is phase 6.
-   - llvm-mingw cannot link the SDK's static MSVC library: it asks for MSVC's CRT and compiler-runtime symbols such as `__chkstk` and `__security_cookie`. Perikop links Velopack's DLL through its import library instead and ships it beside `perikop.exe` as `velopack_libc.dll`, the name the import library uses. The DLL needs only Windows system DLLs, because it carries its own C runtime.
-   - The Windows job packs the installed files with `vpk` (Setup.exe, a portable zip, the update package, and the feed), using the runner's .NET. `vpk [win] pack` also works on Linux, but the Visual C++ runtime DLLs come from the Windows runner.
-   - `tools/ci/velopack_windows_test.py` runs in the Windows job, also for pull requests. It installs the first of two packed nightly versions silently, lets the installed program update itself with `--update-probe`, checks that the profile is kept and read by the new version, and uninstalls with `Update.exe --uninstall --silent`. Unlike the Linux test it does not trace network calls.
-   - A spike under Wine x64 on Linux installed a `vpk`-built Setup.exe silently, per user, in `%LOCALAPPDATA%`, and updated it from a local feed.
-5. macOS: pack each architecture with `vpk` on the Mac runners. Native packaging and update checks are implemented; **the macOS 13.4+ baseline check is pending**.
-   - `tools/package_velopack_macos.py` packages the staged `Perikop.app` as a PKG, portable ZIP, full update package, and feed. It preserves the bundle identifier and minimum macOS version, sets the package version in `Info.plist`, and thins `UpdateMac` to the package's architecture. `vpk` renews the ad-hoc signature after adding its metadata; Developer ID signing and notarization remain separate work.
-   - `tools/ci/velopack_macos_test.py` prepares two nightly versions and runs the real application's update probe for both architectures, including pull requests. Intel runs through Rosetta. The validation extracts the first PKG's payload into a private directory, updates it from a local feed, verifies architecture, signatures, version, UI, and profile preservation, and removes the private copy. It runs with networking denied; it does not exercise the Installer UI or privileged installation scripts.
-   - CI saves `macos-update-validation-arm64` and `macos-update-validation-x86_64` artifacts. Each ZIP is a self-contained kit requiring only macOS tools. Transfer it to a macOS 13.4+ machine in the 13 series and run `bash /path/to/validate_macos_update.command --require-macos13`. Keep its `result-<architecture>.txt` as evidence. A pass on newer macOS or Rosetta does not establish compatibility with macOS 13 or native Intel hardware.
-   - The SDK's crypto objects still carry macOS 26.5 build metadata. The deployment target stays 13.4. Do not mark baseline compatibility complete until the real update check passes on macOS 13; [the validation report](reports/velopack-macos-2026-10-18.md) records available evidence and the remaining check.
-6. Publishing: releases and nightlies upload per-platform feeds, full packages, and deltas, alongside the original downloads.
-   - `tools/ci/update_packages.py` restores and verifies the previous same-channel full package before offline packing, collects only the new packages and delta, checks feed/build versions and platform coverage, and writes SHA-256 checksums over the entire publication. The first package in a channel has no delta.
-   - Tag builds create drafts; nightlies publish successful platforms together with their feeds and report unavailable ones. A manual non-nightly workflow run only produces artifacts, so the complete packaging path can be checked without publishing.
-   - Native update checks now perform a full update and then a delta update with the target full package absent from the local feed. This verifies real SDK reconstruction rather than merely producing a delta file. Settings and reading progress must remain unchanged. The macOS kits include this check and still need to run on macOS 13.4+.
-   - Cleanup retains seven nightly releases. Before deleting older releases, it rescues and verifies any packages that retained feeds still reference, uploads them to the new nightly, and confirms their presence. Cleanup stops on missing bases, conflicting hashes, or a failed upload. Release discovery therefore stays within the SDK's ten-release window without stranding retained feeds. See [releasing](releasing.md) for details.
+`tools/ci/update_packages.py` verifies previous same-channel full packages before offline packing, collects the new full package and delta, validates feed versions and platform coverage, and checksums the complete publication. A channel's first package has no delta. Tag builds create drafts; nightlies publish successful platforms together with their feeds. Manual non-nightly workflow runs produce artifacts without publishing. See [releasing](releasing.md) for retention and publication details.
+
+## Earlier compatibility research
+
+The standalone [Linux ARM64 prototype](reports/velopack-linux-2026-10-16.md) established static SDK compatibility with glibc 2.34. The shared Linux SDK requires glibc 2.39, so production Linux builds use static linkage. The current native Linux image retains its glibc 2.34 baseline; changing that image and minimum is a separate migration, not a prerequisite for the Python cleanup. Alpine/musl is not a target.
+
+The [October 18 macOS report](reports/velopack-macos-2026-10-18.md) records earlier ARM64/Rosetta checks and the former macOS 13 validation gap. Those historical results do not establish the new macOS 15 baseline. macOS builds and packaging remain native; cross-compiling macOS from Linux is outside the release plan.

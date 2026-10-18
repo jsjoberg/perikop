@@ -1,4 +1,4 @@
-"""Analyze real macOS compiler commands without losing either build architecture."""
+"""Analyze real Apple Silicon compiler commands with the macOS SDK."""
 
 import json
 from pathlib import Path
@@ -18,38 +18,27 @@ class MacOSTidyTest(unittest.TestCase):
         result = subprocess.run(command, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
-    def test_universal_and_single_architecture_analysis(self):
-        cases = [(architectures, host) for architectures in ("arm64;x86_64", "x86_64;arm64")
-                 for host in ("arm64", "x86_64")]
-        cases += [("arm64", None), ("x86_64", None)]
-        for architectures, host in cases:
-            with self.subTest(architectures=architectures, host=host), tempfile.TemporaryDirectory() as temporary:
-                project = Path(temporary)
-                (project / "src").mkdir()
-                (project / "src/probe.cpp").write_text("int main() { return 0; }\n")
-                shutil.copyfile(ROOT / ".clang-tidy", project / ".clang-tidy")
-                (project / "CMakeLists.txt").write_text("\n".join([
-                    "cmake_minimum_required(VERSION 3.24)",
-                    "project(tidy_probe LANGUAGES C CXX)",
-                    "set(CMAKE_CXX_STANDARD 23)",
-                    f'include("{ROOT / "cmake/optimization.cmake"}")',
-                    # Exercise each analysis slice, including Intel selection on an ARM computer.
-                    f"set(CMAKE_HOST_SYSTEM_PROCESSOR {host})" if host else "",
-                    f'include("{ROOT / "cmake/tidy.cmake"}")',
-                    "add_executable(probe src/probe.cpp)",
-                ]) + "\n")
-                build = project / "build"
-                self.run_command(["cmake", "-S", str(project), "-B", str(build),
-                                  "-DCMAKE_BUILD_TYPE=MinSizeRel", "-DPERIKOP_LTO=OFF",
-                                  "-DCMAKE_OSX_ARCHITECTURES=" + architectures])
-                commands = json.loads((build / "compile_commands.json").read_text())
-                command = commands[0]["command"]
-                for architecture in architectures.split(";"):
-                    self.assertIn("-arch " + architecture, command)
-                if "x86_64" in architectures:
-                    self.assertIn("-Xarch_x86_64 -march=x86-64-v2", command)
-                    self.assertIn("-Xarch_x86_64 -mtune=generic", command)
-                self.run_command(["cmake", "--build", str(build), "--target", "tidy"])
+    def test_apple_silicon_analysis(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            project = Path(temporary)
+            (project / "src").mkdir()
+            (project / "src/probe.cpp").write_text("int main() { return 0; }\n")
+            shutil.copyfile(ROOT / ".clang-tidy", project / ".clang-tidy")
+            (project / "CMakeLists.txt").write_text("\n".join([
+                "cmake_minimum_required(VERSION 3.24)",
+                "project(tidy_probe LANGUAGES C CXX)",
+                "set(CMAKE_CXX_STANDARD 23)",
+                f'include("{ROOT / "cmake/optimization.cmake"}")',
+                f'include("{ROOT / "cmake/tidy.cmake"}")',
+                "add_executable(probe src/probe.cpp)",
+            ]) + "\n")
+            build = project / "build"
+            self.run_command(["cmake", "-S", str(project), "-B", str(build),
+                              "-DCMAKE_BUILD_TYPE=MinSizeRel", "-DPERIKOP_LTO=OFF",
+                              "-DCMAKE_OSX_ARCHITECTURES=arm64"])
+            commands = json.loads((build / "compile_commands.json").read_text())
+            self.assertIn("-arch arm64", commands[0]["command"])
+            self.run_command(["cmake", "--build", str(build), "--target", "tidy"])
 
 
 if __name__ == "__main__":

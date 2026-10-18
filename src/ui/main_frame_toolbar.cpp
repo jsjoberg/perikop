@@ -24,16 +24,11 @@ void MainFrame::create_toolbar() {
         forward();
     });
     bar->Add(forward_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
-    // Lyssna starts a reading or resumes a paused one; Pausa only pauses.
+    // One focusable control changes its face and action with playback state.
     play_ = new SymbolButton(bar_, Symbol::Play, "Lyssna", [this] {
         play_or_pause();
     });
     bar->Add(play_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
-    pause_ = new SymbolButton(bar_, Symbol::Pause, "Pausa", [this] {
-        play_or_pause();
-    });
-    pause_->SetToolTip(ui::utf8("Pausa, mellanslag"));
-    bar->Add(pause_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
     stop_ = new SymbolButton(bar_, Symbol::Stop, "Stoppa", [this] {
         stop_speech();
     });
@@ -43,14 +38,12 @@ void MainFrame::create_toolbar() {
         address_clicked();
     });
     bar->Add(address_, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(zoomed(10)));
-    // Symbols for the right column; pressing the chosen one again closes it.
-    const std::pair<std::string, std::variant<Symbol, wxString>> panes[] = {
-        {"study", Symbol::Study}, {"el", "GR"}, {"en", "EN"}};
-    const char* names[] = {"Svenska och ordstudium", "Svenska och grekiska", "Svenska och engelska"};
+    const std::pair<std::string, Symbol> panes[] = {{"study", Symbol::Study}, {"split", Symbol::Split}};
+    const char* names[] = {"Ordstudium", "Delad läsning"};
     for (std::size_t i = 0; i < std::size(panes); ++i) {
         const auto& [pane, face] = panes[i];
         auto* button = new SymbolButton(
-            bar_, face, names[i],
+            bar_, face, ui::utf8(names[i]),
             [this, pane = pane] {
                 toggle_pane(pane);
             },
@@ -112,9 +105,9 @@ void MainFrame::toggle_pane(const std::string& pane) {
     if (navigation_.auxiliary())
         return;
     const bool study = pane == "study";
-    const bool chosen = study ? settings_.word_study : settings_.parallel == pane;
+    const bool chosen = study ? settings_.word_study : settings_.split_view;
     settings_.word_study = study && !chosen;
-    settings_.parallel = study || chosen ? std::string{} : pane;
+    settings_.split_view = !study && !chosen;
     apply_settings();
 }
 ReaderControls MainFrame::controls() const {
@@ -125,16 +118,24 @@ ReaderControls MainFrame::controls() const {
                            std::ranges::any_of(day_.variants, [](const DayReadings::Variant& variant) {
                                return variant.reading && variant.reading->can_open();
                            });
-    auto result = reader_controls({.screen = navigation_.current().screen,
-                                   .playback = playback_.playback().state,
-                                   .preparing = preparing_day(),
-                                   .selection = navigation_.reader() && !scripture_->selections().empty(),
-                                   .several_parts = parts_.size() > 1,
-                                   .daily_readings = available,
-                                   .speakable = speakable_});
+    auto result =
+        reader_controls({.screen = navigation_.current().screen,
+                         .playback = playback_.playback().state,
+                         .preparing = preparing_day(),
+                         .selection = navigation_.reader() && scripture_->primary_language() == "sv" &&
+                                      !scripture_->selections().empty(),
+                         .several_parts = parts_.size() > 1,
+                         .daily_readings = available,
+                         .speakable = speakable_ && !scripture_->base_source().empty() &&
+                                      scripture_->primary_language() == "sv"});
+    if (navigation_.reader() &&
+        (scripture_->base_source().empty() || scripture_->primary_language() != "sv")) {
+        result.listen = result.pause = false;
+        result.playback_action = PlaybackAction::None;
+    }
     if (navigation_.reader() && !active_playback() && has_reading_position()) {
         result.stop = true;
-        if (scripture_->selections().empty()) {
+        if (result.playback_action != PlaybackAction::None && scripture_->selections().empty()) {
             result.listen_label = "Fortsätt";
             result.playback_label = "Fortsätt";
         }
@@ -146,7 +147,7 @@ void MainFrame::update_bar() {
     const bool auxiliary = navigation_.auxiliary(), reader = navigation_.reader(),
                active = playback_.active();
     const bool preparing = preparing_day();
-    const auto listen_label = ui::utf8(policy.listen_label);
+    const auto listen_label = ui::utf8(policy.playback_label);
     if (menu_bar_)
         sync_menu();
     const auto tooltip_of = [](wxWindow* control, const wxString& text) {
@@ -157,15 +158,10 @@ void MainFrame::update_bar() {
         play_->SetLabel(listen_label);
     tooltip_of(play_, reader && !active && !policy.listen ? ui::utf8("Ingen svensk text att läsa upp")
                                                           : listen_label + ui::utf8(", mellanslag"));
-    // When Lyssna and Pausa swap, the focus follows to the other one so Space toggles again;
-    // otherwise disabling the focused button would move it on to Stoppa.
-    const auto* focus = FindFocus();
-    play_->Enable(policy.listen);
-    pause_->Enable(policy.pause);
+    play_->face(policy.playback_action == PlaybackAction::Pause ? Symbol::Pause : Symbol::Play);
+    play_->SetName(listen_label);
+    play_->Enable(policy.playback_action != PlaybackAction::None);
     stop_->Enable(policy.stop);
-    if ((focus == play_ || focus == pause_) && (policy.listen || policy.pause))
-        if (auto* toggle = policy.listen ? play_ : pause_; toggle != focus)
-            toggle->SetFocus();
     study_->allow_listening(policy.word_audio);
     tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.")
                                 : ui::utf8("Stoppa och börja om, Ctrl+."));
@@ -182,7 +178,7 @@ void MainFrame::update_bar() {
         navigation_.current().screen == Screen::Bible ? static_cast<BiblePicker*>(current_page()) : nullptr;
     address_->Enable();
     for (auto& [pane, button] : panes_) {
-        button->checked(pane == "study" ? settings_.word_study : settings_.parallel == pane);
+        button->checked(pane == "study" ? settings_.word_study : settings_.split_view);
         button->Enable(policy.columns);
     }
     scripture_->return_button(

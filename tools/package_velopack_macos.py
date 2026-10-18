@@ -15,9 +15,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def pack(bundle, version, architecture, channel, output, vpk=None, delta="None"):
+    if architecture != "arm64":
+        raise ValueError("macOS packages support Apple Silicon (arm64) only")
     bundle, output = bundle.resolve(), output.resolve()
     vpk = Path(vpk or os.environ.get("PERIKOP_VPK", ROOT / "build/ci/tools/vpk")).resolve()
-    runtime = {"arm64": "arm64", "x86_64": "x64"}[architecture]
+    runtime = "arm64"
     if channel not in (f"osx-{runtime}-nightly", f"osx-{runtime}-releases"):
         raise ValueError("Channel must match the macOS architecture and track")
     check(bundle, {architecture})
@@ -53,7 +55,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("bundle", type=Path)
     parser.add_argument("version")
-    parser.add_argument("architecture", choices=("arm64", "x86_64"))
+    parser.add_argument("architecture", choices=("arm64",))
     parser.add_argument("channel")
     parser.add_argument("output", type=Path)
     parser.add_argument("--delta", choices=("None", "BestSpeed", "BestSize"), default="None")

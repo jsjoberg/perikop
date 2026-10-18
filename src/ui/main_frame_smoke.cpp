@@ -1,6 +1,7 @@
 #include "core/reading_display.hpp"
 #include "core/reading_plan.hpp"
 #include "core/reading_position.hpp"
+#include "core/source_preferences.hpp"
 #include "storage/sqlite.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/bible_picker.hpp"
@@ -19,6 +20,7 @@
 #include <set>
 #include <wx/access.h>
 #include <wx/app.h>
+#include <wx/checkbox.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include <wx/fontenum.h>
@@ -94,6 +96,13 @@ public:
 bool MainFrame::smoke_test(const wxString& screenshot_path) {
     std::cout << std::unitbuf; // Keep completed checks in CI logs even if a later check times out.
     const auto original = settings_;
+    const auto set_parallel = [this](const std::string& language) {
+        settings_.split_view = !language.empty();
+        settings_.secondary_sources = Settings{}.secondary_sources;
+        std::ranges::stable_sort(settings_.secondary_sources, {}, [&](const SourcePreference& source) {
+            return source_language(source.source) != language;
+        });
+    };
     const auto date = selected_.date();
     // Rendering fixtures use a fresh reading; resume behavior is exercised below.
     const auto open_fresh_psalm = [this] {
@@ -614,7 +623,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
     settings_.theme = Theme::Light;
-    settings_.parallel.clear();
+    set_parallel("");
     settings_.word_study = false;
     settings_.text_zoom = 100;
     apply_settings(false);
@@ -662,6 +671,48 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         save(image, "-reader" + suffix);
     });
     show_settings();
+    {
+        const auto preferences = settings_.primary_sources;
+        const std::function<wxWindow*(wxWindow*, const wxString&)> named =
+            [&](wxWindow* parent, const wxString& name) -> wxWindow* {
+            for (auto* child : parent->GetChildren()) {
+                if (child->GetName() == name)
+                    return child;
+                if (auto* found = named(child, name))
+                    return found;
+            }
+            return nullptr;
+        };
+        auto* web = named(current_page(), ui::utf8("Huvudtext, World English Bible Classic"));
+        auto* move =
+            web ? named(web->GetParent(), ui::utf8("Flytta upp World English Bible Classic")) : nullptr;
+        if (!web || !move || !move->IsEnabled())
+            fail(__LINE__);
+        else {
+            wxCommandEvent click(wxEVT_BUTTON, move->GetId());
+            move->GetEventHandler()->ProcessEvent(click);
+            wxTheApp->ProcessPendingEvents();
+            if (settings_.primary_sources[1].source != "en-web" ||
+                user_.load().primary_sources != settings_.primary_sources)
+                fail(__LINE__);
+        }
+        auto* greek = named(current_page(), ui::utf8("Huvudtext, Patriarkal grekiska 1904"));
+        if (!greek || !greek->IsEnabled())
+            fail(__LINE__);
+        else {
+            wxCommandEvent enable(wxEVT_CHECKBOX, greek->GetId());
+            enable.SetInt(1);
+            greek->GetEventHandler()->ProcessEvent(enable);
+            wxTheApp->ProcessPendingEvents();
+            const auto found =
+                std::ranges::find(settings_.primary_sources, "grc-patriarchal", &SourcePreference::source);
+            if (found == settings_.primary_sources.end() || !found->enabled)
+                fail(__LINE__);
+        }
+        settings_.primary_sources = preferences;
+        apply_settings(false);
+        fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+    }
     each_scheme([&](const wxString& suffix, const wxColour& paper) {
         if (!current_page() || current_page()->GetBackgroundColour() != paper)
             fail(__LINE__);
@@ -733,7 +784,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
     close_page();
-    settings_.parallel = "el";
+    set_parallel("el");
     apply_settings(false);
     scripture_->center_passage();
     const double start = scripture_->scroll_position();
@@ -785,7 +836,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (auto theme : {Theme::Light, Theme::Dark, Theme::System})
         for (auto mode : {"", "el", "en"}) {
             settings_.theme = theme;
-            settings_.parallel = mode;
+            set_parallel(mode);
             apply_settings(false);
             scripture_->center_passage();
             const auto size = scripture_->GetClientSize();
@@ -843,7 +894,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     SetSize(FromDIP(wxSize(520, 650)));
     Layout();
     root_->Layout();
-    settings_.parallel = "en";
+    set_parallel("en");
     settings_.theme = Theme::Dark;
     apply_settings(false);
     scripture_->center_passage();
@@ -873,7 +924,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (auto* control = dynamic_cast<TextButton*>(child);
             control && control->GetLabel().Contains("Lyssna"))
             fail(__LINE__);
-    if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
+    if (!bar_->IsShown() || play_->IsEnabled() || stop_->IsEnabled() ||
         back_->IsEnabled() != history_.can_back() || panes_.front().second->IsEnabled() ||
         address_->GetLabel() != ui::utf8("Dagens läsningar"))
         fail(__LINE__);
@@ -992,21 +1043,54 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         delete button;
     }
     // Right-column symbols toggle, and the Visa menu follows them.
-    toggle_pane("el");
-    if (settings_.parallel != "el" || settings_.word_study)
+    set_parallel("");
+    toggle_pane("split");
+    if (!settings_.split_view || settings_.word_study)
         fail(__LINE__);
     toggle_pane("study");
-    if (!settings_.parallel.empty() || !settings_.word_study ||
-        !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Svenska och ordstudium")))
+    if (settings_.split_view || !settings_.word_study ||
+        !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Ordstudium")))
         fail(__LINE__);
     toggle_pane("study");
-    if (settings_.word_study || !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "Bara svenska")))
+    if (settings_.word_study || !menu_bar_->IsChecked(menu_bar_->FindMenuItem("Visa", "En text")))
         fail(__LINE__);
-    // The left column is always Swedish, so no symbol offers Swedish beside it.
-    if (std::ranges::any_of(panes_, [](const auto& pane) {
-            return pane.first == "sv";
-        }))
+    if (panes_.size() != 2 || panes_[1].first != "split")
         fail(__LINE__);
+    // Preferences choose each pane; chapter choices do not change those saved lists.
+    {
+        const auto saved = settings_;
+        set_parallel("en");
+        apply_settings(false);
+        const Reading reading{ReadingKind::Gospel, {"John", {1, 1}, {2, 2}}};
+        open_reading(reading);
+        if (scripture_->chapter_source(1, 0) != "sv1917" || scripture_->chapter_source(1, 1) != "en-web")
+            fail(__LINE__);
+        scripture_->chapter_source(1, 0, "grc-patriarchal");
+        scripture_->chapter_source(1, 1, "sv1917");
+        if (scripture_->chapter_source(1, 0) != "grc-patriarchal" ||
+            scripture_->chapter_source(1, 1) != "sv1917" || scripture_->chapter_source(2, 0) != "sv1917" ||
+            play_->IsEnabled() || controls().playback_action != PlaybackAction::None ||
+            settings_.primary_sources != saved.primary_sources)
+            fail(__LINE__);
+        save(render(), "-chapter-sources");
+        scripture_->chapter_source(1, 0, "en-web");
+        if (scripture_->primary_language() != "en" || play_->IsEnabled())
+            fail(__LINE__);
+        open_reading(reading);
+        if (scripture_->chapter_source(1, 0) != "sv1917" || scripture_->chapter_source(1, 1) != "en-web")
+            fail(__LINE__);
+        settings_.primary_sources = decode_sources("en-web=1", settings_.primary_sources);
+        apply_settings(false);
+        if (scripture_->chapter_source(1, 0) != "en-web" || play_->IsEnabled())
+            fail(__LINE__);
+        settings_.primary_sources = decode_sources("grc-patriarchal=1", settings_.primary_sources);
+        apply_settings(false);
+        if (scripture_->chapter_source(1, 0) != "grc-patriarchal" || play_->IsEnabled())
+            fail(__LINE__);
+        settings_ = saved;
+        apply_settings(false);
+        open_fresh_psalm();
+    }
     // The text size steps like Chrome's zoom, reaches every page, and returns to its default.
     {
         const auto size = settings_.text_zoom;
@@ -1051,7 +1135,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         speech_->set_speed(rate / 100.0);
         apply_settings(false);
     }
-    settings_.parallel = "";
+    set_parallel("");
     apply_settings(false);
     for (const auto& reading :
          std::vector<Reading>{{ReadingKind::OldTestament, {"Gen", {31, 50, "a"}, {31, 50, "a"}}, {}, "el"},
@@ -1148,7 +1232,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (const auto theme : {Theme::Light, Theme::Dark})
         for (const auto mode : {"el", "en"}) {
             settings_.theme = theme;
-            settings_.parallel = mode;
+            set_parallel(mode);
             apply_settings(false);
             open_fresh_psalm();
             const auto plain = render();
@@ -1199,7 +1283,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
     // Single-pane Swedish retains mapped source links and follows the visible verse.
     for (const auto theme : {Theme::Light, Theme::Dark}) {
-        settings_.parallel.clear();
+        set_parallel("");
         settings_.theme = theme;
         apply_settings(false);
         open_fresh_psalm();
@@ -1232,11 +1316,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (!tools || !tools->IsShown())
             fail(__LINE__);
         // Changing panes hides and restores links without losing the verse highlight.
-        settings_.parallel = "el";
+        set_parallel("el");
         apply_settings(false);
         if (!scripture_->highlighted_verse() || (tools && tools->IsShown()))
             fail(__LINE__);
-        settings_.parallel.clear();
+        set_parallel("");
         apply_settings(false);
         if (!tools || !tools->IsShown() || !scripture_->highlighted_verse())
             fail(__LINE__);
@@ -1266,7 +1350,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
     // A Swedish merged verse highlights both Greek counterparts and toggles from either.
-    settings_.parallel = "el";
+    set_parallel("el");
     settings_.theme = Theme::Light;
     apply_settings(false);
     open_reading({ReadingKind::OldTestament, {"1Chr", {12, 4}, {12, 5}}});
@@ -1291,7 +1375,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     SetSize(original_size);
     Layout();
     root_->Layout();
-    settings_.parallel.clear();
+    set_parallel("");
     apply_settings(false);
     open_reading({ReadingKind::OldTestament, {"Tob", {1, 1}, {1, 1}}});
     click_text(verse_point({1, 1}, 0));
@@ -1303,7 +1387,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // Ordstudium replaces the right pane; a Swedish word shows Dalin and Nyström.
     settings_.word_study = true;
-    settings_.parallel.clear();
+    set_parallel("");
     apply_settings(false);
     open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
     if (!study_->IsShown() || scripture_->base_source() != "sv1917")
@@ -1513,7 +1597,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         else
             browse_bible();
         if (!current_page() || scripture_->IsShown() || study_->IsShown() || !back_->IsEnabled() ||
-            play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() || !address_->IsEnabled() ||
+            play_->IsEnabled() || stop_->IsEnabled() || !address_->IsEnabled() ||
             current_page()->GetClientSize().y < root_->GetClientSize().y - bar_->GetSize().y - FromDIP(4))
             fail(__LINE__);
         // Every command stays available from auxiliary pages; those for the day leave the page.
@@ -1764,6 +1848,49 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // The Liturgy's Epistle and Gospel come first.
     if (home_rows_.empty() || !home_rows_.front()->GetLabel().Contains("Epistel"))
+        fail(__LINE__);
+    // Daily rows show the same passage checkpoint as plans and resume, including other entry points.
+    const auto daily = std::ranges::find_if(day_.readings, [](const Reading& reading) {
+        return reading.can_open() && reading.service == "Epistle";
+    });
+    if (daily != day_.readings.end()) {
+        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization): refresh_day replaces day_.readings.
+        const auto reading = *daily;
+        const auto key = day_key(reading);
+        const auto shared = reading_key(corpus_, in_swedish(reading));
+        user_.position(shared, {0, reading.passage.book, "sv1917", reading.passage.first, 37});
+        refresh_day();
+        if (!home_rows_.front()->GetLabel().Contains(ui::utf8(" · 37 %")))
+            fail(__LINE__);
+        user_.position(key, {0, reading.passage.book, "sv1917", reading.passage.first, 62});
+        refresh_day();
+        if (!home_rows_.front()->GetLabel().Contains(ui::utf8(" · 62 %")))
+            fail(__LINE__);
+        if (!screenshot_path.empty()) {
+            readings_->Refresh();
+            readings_->Update();
+            Update();
+            wxBitmap bitmap;
+            bitmap.CreateWithLogicalSize(GetClientSize(), GetContentScaleFactor());
+            wxClientDC window(this);
+            {
+                wxMemoryDC image(bitmap);
+                image.Blit(0, 0, GetClientSize().x, GetClientSize().y, &window, 0, 0);
+            }
+            save(bitmap.ConvertToImage(), "-daily-progress");
+        }
+        user_.complete(key);
+        refresh_day();
+        if (home_rows_.front()->GetLabel().Contains("%") ||
+            !home_rows_.front()->GetLabel().EndsWith(ui::utf8(", läst")))
+            fail(__LINE__);
+        user_.forget(key);
+        user_.reset_position(key);
+        user_.reset_position(shared);
+        refresh_day();
+        if (home_rows_.front()->GetLabel().Contains("%"))
+            fail(__LINE__);
+    } else
         fail(__LINE__);
     ReadingRow* variant_row = nullptr;
     for (auto* row : home_rows_)
@@ -2070,15 +2197,16 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // Exercise playback presentation without model loading or audible output.
     open_fresh_psalm();
     settings_.theme = Theme::Light;
-    settings_.parallel = "el";
+    set_parallel("el");
     apply_settings(false);
-    // The focus follows from Lyssna to Pausa, so Space pauses what it started.
+    // The same focused control changes to Pause, so Space can toggle it again.
     play_->SetFocus();
     const bool focusable = FindFocus() == play_;
     display_playback({SpeechState::Loading, {}, 0, 0});
-    // Play, pause and stop stay in place; only what applies is enabled.
-    if (address_->GetLabel() != ui::utf8("Laddar rösten…") || play_->IsEnabled() || !pause_->IsEnabled() ||
-        !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown() || (focusable && FindFocus() != pause_))
+    // Play/Pause and Stop keep their positions during loading.
+    if (address_->GetLabel() != ui::utf8("Laddar rösten…") || !play_->IsEnabled() ||
+        play_->GetLabel() != "Pausa" || !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown() ||
+        (focusable && FindFocus() != play_))
         fail(__LINE__);
     // Playback starts on Scripture and immediately shows the first verse.
     const SpeechCue first_verse{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
@@ -2108,8 +2236,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     for (int i = 0; i < 30; ++i)
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() != held_marker || scripture_->scroll_position() != held_scroll ||
-        play_->GetLabel() != ui::utf8("Fortsätt") || !play_->IsEnabled() || pause_->IsEnabled() ||
-        !stop_->IsEnabled() || (focusable && FindFocus() != play_))
+        play_->GetLabel() != ui::utf8("Fortsätt") || !play_->IsEnabled() || !stop_->IsEnabled() ||
+        (focusable && FindFocus() != play_))
         fail(__LINE__);
     // Back must preserve the engine's paused state and position; toolbar actions are suspended.
     {
@@ -2124,7 +2252,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             else
                 browse_bible();
             display_playback(paused);
-            if (!current_page() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
+            if (!current_page() || play_->IsEnabled() || stop_->IsEnabled() ||
                 playback_.playback().state != SpeechState::Paused)
                 fail(__LINE__);
             play_or_pause();
@@ -2236,9 +2364,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     root_->Layout();
     display_playback(paused);
-    for (wxWindow* control : {static_cast<wxWindow*>(back_), static_cast<wxWindow*>(play_),
-                              static_cast<wxWindow*>(pause_), static_cast<wxWindow*>(stop_),
-                              static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
+    for (wxWindow* control :
+         {static_cast<wxWindow*>(back_), static_cast<wxWindow*>(play_), static_cast<wxWindow*>(stop_),
+          static_cast<wxWindow*>(address_), static_cast<wxWindow*>(panes_.back().second)})
         if (control->IsShown() && control->GetRect().GetRight() > bar_->GetClientSize().x)
             fail(__LINE__);
     save(render(), "-playing-narrow");
@@ -2261,7 +2389,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->advance_playback(0.016);
     if (scripture_->marker_position() ||
         play_->GetLabel() != (has_reading_position() ? ui::utf8("Fortsätt") : wxString("Lyssna")) ||
-        !play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() != has_reading_position())
+        !play_->IsEnabled() || stop_->IsEnabled() != has_reading_position())
         fail(__LINE__);
     // Following, section changes and browsing all use the reader's follow state.
     {
@@ -2325,7 +2453,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 show_plans();
             if (!engine->changed || engine->held.state != SpeechState::Paused ||
                 playback_.playback().state != SpeechState::Paused || playback_timer_.IsRunning() ||
-                play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
+                play_->IsEnabled() || stop_->IsEnabled())
                 fail(__LINE__);
             engine->changed = false;
             if (mode == 1)
@@ -2333,7 +2461,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             else
                 back();
             if (current_page() || engine->changed || engine->held.state != SpeechState::Paused ||
-                engine->held.progress != progress || !play_->IsEnabled() || pause_->IsEnabled())
+                engine->held.progress != progress || !play_->IsEnabled())
                 fail(__LINE__);
         }
         for (const auto state : {SpeechState::Loading, SpeechState::Buffering}) {
@@ -2345,21 +2473,20 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         engine->held.state = SpeechState::Playing;
         show_readings();
-        if (engine->held.state != SpeechState::Paused || play_->IsEnabled() || pause_->IsEnabled() ||
-            stop_->IsEnabled())
+        if (engine->held.state != SpeechState::Paused || play_->IsEnabled() || stop_->IsEnabled())
             fail(__LINE__);
         engine->changed = false;
         play_or_pause();
         address_clicked();
         address_clicked();
         if (engine->changed || current_page() || !readings_->IsShown() || scripture_->IsShown() ||
-            play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
+            play_->IsEnabled() || stop_->IsEnabled())
             fail(__LINE__);
         // Choosing a reading stops the previous session and restores its own saved position.
         open_reading(gospel);
         if (!engine->changed || engine->held.state != SpeechState::Stopped ||
             playback_.playback().state != SpeechState::Stopped || visible_reading_->passage.book != "John" ||
-            scripture_->marker_position() || !play_->IsEnabled() || pause_->IsEnabled() ||
+            scripture_->marker_position() || !play_->IsEnabled() ||
             stop_->IsEnabled() != has_reading_position() ||
             play_->GetLabel() != (has_reading_position() ? ui::utf8("Fortsätt") : wxString("Lyssna")))
             fail(__LINE__);

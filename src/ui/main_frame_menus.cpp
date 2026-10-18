@@ -90,9 +90,6 @@ wxString rate_label(int rate) {
         text.RemoveLast();
     return text + ui::utf8("×");
 }
-// The left column is Swedish. Beside it: nothing, Ordstudium, or one of these languages.
-const char* const parallel[] = {"el", "en"};
-const char* const parallel_names[] = {"Svenska och grekiska", "Svenska och engelska"};
 #ifndef __WXOSX__
 // Alt alone, as in browsers, shows or hides the menu bar. Alt with another key or a click does not.
 class AltTap final : public wxEventFilter {
@@ -351,10 +348,7 @@ void MainFrame::sync_menu() {
                                ". Välj morgondagens datum för att förbereda det i kväll.");
     if (bar.GetHelpString(Prepare) != help)
         bar.SetHelpString(Prepare, help);
-    int pane = settings_.word_study ? Study : Right;
-    for (int i = 0; i < 2; ++i)
-        if (!settings_.word_study && settings_.parallel == parallel[i])
-            pane = Parallel + i;
+    const int pane = settings_.word_study ? Study : settings_.split_view ? Parallel : Right;
     if (!bar.IsChecked(pane))
         bar.Check(pane, true);
     bar.Enable(Larger, step(zooms, settings_.text_zoom, 1) != settings_.text_zoom);
@@ -364,10 +358,9 @@ void MainFrame::sync_menu() {
 }
 void MainFrame::make_menus() {
     auto* view = new wxMenu;
-    view->AppendRadioItem(Right, "Bara svenska");
-    view->AppendRadioItem(Study, "Svenska och ordstudium");
-    for (int i = 0; i < 2; ++i)
-        view->AppendRadioItem(Parallel + i, parallel_names[i]);
+    view->AppendRadioItem(Right, "En text");
+    view->AppendRadioItem(Study, "Ordstudium");
+    view->AppendRadioItem(Parallel, ui::utf8("Delad läsning"));
     view->AppendSeparator();
     view->Append(Larger, ui::utf8("Större text\tCtrl++"));
     view->Append(Smaller, "Mindre text\tCtrl+-");
@@ -535,7 +528,7 @@ void MainFrame::make_menus() {
                 return;
             }
             settings_.word_study = id == Study;
-            settings_.parallel = id >= Parallel ? parallel[id - Parallel] : "";
+            settings_.split_view = id == Parallel;
             apply_settings();
         },
         Today, Review);

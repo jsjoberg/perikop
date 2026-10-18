@@ -48,7 +48,7 @@ def audit():
     """Keep ordinary developer builds and prepared CI sources on the same versions."""
     native = "".join((ROOT / name).read_text() for name in ("CMakeLists.txt", "cmake/speech.cmake", "cmake/updates.cmake"))
     for item in json.loads(UPSTREAMS.read_text()).values():
-        if item.get("source") not in (None, "voice") and item["sha256"] not in native:
+        if item.get("source") not in (None, "voice", "ortho_ort_x86_64") and item["sha256"] not in native:
             raise ValueError("Native dependency changed; update ci/upstreams.json: " + item["file"])
 
 
@@ -154,6 +154,9 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
         path = archives / item["file"]
         verify(path, item["sha256"])
         component = item.get("source")
+        if component == "ortho_ort_x86_64":
+            # Retired target retained in the immutable snapshot, never restored for builds.
+            continue
         if component == "voice":
             if package:
                 extract(path, ROOT / "build/kokoro-pack")

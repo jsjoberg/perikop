@@ -1,3 +1,4 @@
+#include "core/source_preferences.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
@@ -114,9 +115,19 @@ Settings UserDb::load() const {
         if (key == "tradition")
             // Retired Antiochian settings now select the Greek family, including its variants.
             result.tradition = value == "slavic" ? Tradition::Slavic : Tradition::Greek;
-        // The three-pane mode "el,en" is retired; it keeps its Greek pane.
-        if (key == "parallel" && (value.empty() || value == "el" || value == "en" || value == "el,en"))
-            result.parallel = value == "el,en" ? "el" : value;
+        // Older profiles retain their split-pane choice as a source priority.
+        if (key == "parallel" && !value.empty()) {
+            result.split_view = true;
+            if (value.starts_with("el"))
+                result.secondary_sources =
+                    decode_sources("grc-lxx=1,grc-patriarchal=1", result.secondary_sources);
+        }
+        if (key == "split_view")
+            result.split_view = value == "1";
+        if (key == "primary_sources")
+            result.primary_sources = decode_sources(value, result.primary_sources);
+        if (key == "secondary_sources")
+            result.secondary_sources = decode_sources(value, result.secondary_sources);
         // An unreadable number keeps the default.
         int number = 0;
         const bool numeric =
@@ -134,8 +145,10 @@ Settings UserDb::load() const {
         if (key == "speech_highlight")
             result.speech_highlight = value != "0";
     }
+    if (std::ranges::none_of(result.primary_sources, &SourcePreference::enabled))
+        result.primary_sources.front().enabled = true;
     if (result.word_study)
-        result.parallel.clear();
+        result.split_view = false;
     return result;
 }
 void UserDb::save(const Settings& settings) {
@@ -147,7 +160,10 @@ void UserDb::save(const Settings& settings) {
         {"color_scheme", color_schemes[int(settings.color_scheme)]},
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
         {"tradition", settings.tradition == Tradition::Slavic ? "slavic" : "greek"},
-        {"parallel", settings.parallel},
+        {"parallel", ""},
+        {"split_view", settings.split_view ? "1" : "0"},
+        {"primary_sources", encode_sources(settings.primary_sources)},
+        {"secondary_sources", encode_sources(settings.secondary_sources)},
         {"text_zoom", std::to_string(settings.text_zoom)},
         {"speech_rate", std::to_string(settings.speech_rate)},
         {"speech_voice", settings.speech_voice},

@@ -10,8 +10,7 @@
 #include <wx/utils.h>
 namespace ortho {
 void ScriptureView::rebuild_verse_links() {
-    if (!highlighted_verse_ || settings_.word_study || columns_count() != 1 ||
-        source_language(base_source_) != "sv") {
+    if (!highlighted_verse_ || settings_.word_study || columns_count() != 1 || primary_language() != "sv") {
         if (verse_links_) {
             if (verse_links_->IsDescendant(wxWindow::FindFocus()))
                 SetFocus();
@@ -70,8 +69,8 @@ void ScriptureView::rebuild_verse_links() {
 void ScriptureView::position_verse_links() {
     if (!verse_links_)
         return;
-    if (!highlighted_verse_ || settings_.word_study || columns_count() != 1 ||
-        source_language(base_source_) != "sv" || rows_.empty()) {
+    if (!highlighted_verse_ || settings_.word_study || columns_count() != 1 || primary_language() != "sv" ||
+        rows_.empty()) {
         verse_links_->Hide();
         return;
     }

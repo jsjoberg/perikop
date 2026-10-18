@@ -88,8 +88,8 @@ void MainFrame::add_next_plan() {
         std::size_t part = 0;
         while (completed.contains(plan_key(*plan, part)))
             ++part;
-        const auto position = user_.position(plan_key(*plan, part));
-        const auto progress = position ? " · " + std::to_string(position->percent) + " %" : "";
+        const auto progress =
+            reading_progress(plan_reading(corpus_, plan->parts[part], "sv"), plan_key(*plan, part));
         auto* row = new ReadingRow(
             home_content_,
             ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
@@ -165,7 +165,8 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
         });
         const bool partial =
             std::ranges::any_of(std::views::iota(std::size_t{0}, plan.parts.size()), [&](std::size_t i) {
-                return user_.position(plan_key(plan, i)).has_value();
+                return !reading_progress(plan_reading(corpus_, plan.parts[i], "sv"), plan_key(plan, i))
+                            .empty();
             });
         reset->Enable(done > 0 || partial);
         reset->SetToolTip(ui::utf8("Ta bort alla markeringar i planen"));
@@ -184,8 +185,8 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
-            const auto position = user_.position(plan_key(plan, i));
-            const auto progress = !read && position ? " · " + std::to_string(position->percent) + " %" : "";
+            const auto progress =
+                read ? "" : reading_progress(plan_reading(corpus_, plan.parts[i], "sv"), plan_key(plan, i));
             auto* tile =
                 new TextButton(content, read ? ui::utf8("✓ ") + number : number + ui::utf8(progress));
             tile->SetMinSize({std::max(FromDIP(zoomed(44)), tile->GetBestSize().x), FromDIP(zoomed(34))});
@@ -197,7 +198,7 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
             tile->SetToolTip(ui::plan_parts_tooltip(corpus_, plan.parts[i]));
             grid->Add(tile, 0, wxEXPAND);
         }
-        entries->Add(grid, 0, wxBOTTOM, FromDIP(zoomed(36)));
+        entries->Add(grid, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(36)));
     }
     ui::recolor(page, palette(settings_.theme));
     page->FitInside();

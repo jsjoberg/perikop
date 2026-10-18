@@ -1,5 +1,9 @@
 # macOS Velopack validation, October 18, 2026
 
+Historical report: release preparation subsequently retired Intel Macs and macOS 13/14. The current policy and macOS 15 validation requirement are in [in-app updates](../updating.md).
+
+Release-preparation follow-up: the ARM64 application was rebuilt with a macOS 15.0 deployment target. On macOS 26.6.2 it passed the GUI smoke test, all 11 non-GUI CTest checks, and a new local-feed full/delta update validation with networking denied. The target full package was absent for the delta step; signatures, UI, settings, and reading progress survived. Python 3.14 checks passed 93 tests, both uv lockfiles validated offline, and formatting, changed-source static analysis, and workflow validation passed. Local packaging used the installed .NET 10 runtime with `DOTNET_ROLL_FORWARD=Major`. These results do not establish the macOS 15 baseline; native CI remains required before release.
+
 Velopack 1.2.161 is pinned in the dependency snapshot. The application targets macOS 13.4, but its static SDK contains crypto objects built for macOS 26.5. Linker warnings remain visible. Deployment-target metadata alone cannot prove these objects run on macOS 13.
 
 ## Available checks

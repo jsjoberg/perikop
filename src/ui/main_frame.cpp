@@ -61,6 +61,10 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
                                                        show_update_status();
                                                    })),
       playback_timer_(this) {
+    for (const auto& source : corpus_.sources())
+        for (auto* preferences : {&settings_.primary_sources, &settings_.secondary_sources})
+            if (std::ranges::find(*preferences, source.code, &SourcePreference::source) == preferences->end())
+                preferences->push_back({source.code, false});
     text_zoom = settings_.text_zoom;
     color_scheme = settings_.color_scheme;
     SetMinSize(FromDIP(wxSize(520, 480)));
@@ -93,6 +97,14 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     make_menus();
     scripture_->on_release_follow([this] {
         refresh_speech();
+    });
+    scripture_->on_source_change([this](bool primary) {
+        if (primary && active_playback()) {
+            pause_for_navigation();
+            stop_speech(false);
+        }
+        study_->clear();
+        update_bar();
     });
     scripture_->on_selection([this] {
         update_bar();
@@ -289,12 +301,15 @@ void MainFrame::refresh_day() {
             preview += (preview.empty() ? wxString{} : "\n\n") + ui::utf8(tooltip);
         const auto title = ui::utf8(passage_label(corpus_, segments));
         const auto key = day_key(reading);
+        const bool read = completed.contains(key);
+        if (!read)
+            label += ui::utf8(reading_progress(reading, key));
         add_row(new ReadingRow(
                     home_content_, label, ui::utf8(passage_label(corpus_, segments, true)),
                     [this, reading, key, title] {
                         open_tracked(reading, {key, title});
                     },
-                    completed.contains(key), title),
+                    read, title),
                 preview.ToStdString(wxConvUTF8));
     };
     // Epistles, then Gospels, then the other services, each in their own order.
@@ -497,7 +512,7 @@ void MainFrame::apply_settings(bool persist) {
         row->apply(colors);
     if (month_)
         month_->apply(colors);
-    for (auto* button : {back_, forward_, play_, pause_, stop_, menu_})
+    for (auto* button : {back_, forward_, play_, stop_, menu_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)
         button->apply(colors);

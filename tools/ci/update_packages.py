@@ -13,7 +13,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
 PLATFORMS = {"Linux": "linux-x64", "Linux-arm64": "linux-arm64", "Windows": "win-x64",
-             "macOS-arm64": "osx-arm64", "macOS-x86_64": "osx-x64"}
+             "macOS-arm64": "osx-arm64"}
 NIGHTLY = re.compile(r"nightly-\d{4}-\d{2}-\d{2}(?:-[0-9a-f]{7}(?:-\d+(?:-\d+)?)?)?")
 SEMVER = re.compile(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z.-]+))?")
 
@@ -50,7 +50,8 @@ def channel_for(platform):
 
 
 def check_channel(channel):
-    if channel not in {platform + "-" + track for platform in PLATFORMS.values()
+    # Retained Intel feeds remain readable for cleanup; assemble rejects new Intel publications.
+    if channel not in {platform + "-" + track for platform in (*PLATFORMS.values(), "osx-x64")
                        for track in ("nightly", "releases")}:
         raise ValueError("Unknown update channel: " + channel)
 
@@ -194,11 +195,13 @@ def assemble(legacy, updates, output, version):
     if not files or not feeds:
         raise ValueError("Publication needs native packages and update feeds")
     expected = {"linux-x64": "x86_64.AppImage", "linux-arm64": "aarch64.AppImage", "win-x64": "windows-x64.exe",
-                "osx-arm64": "macOS-arm64.dmg", "osx-x64": "macOS-x86_64.dmg"}
+                "osx-arm64": "macOS-arm64.dmg"}
     present = set()
     for feed in feeds:
         channel = feed.name[len("releases."):-len(".json")]
         platform = channel.rsplit("-", 1)[0]
+        if platform not in expected:
+            raise ValueError("Publication contains a retired platform: " + platform)
         assets = feed_assets(json.loads(feed.read_text()), channel)
         if not any(asset["Type"] == "Full" and asset["Version"] == version for asset in assets):
             raise ValueError("Feed version does not match the build: " + feed.name)

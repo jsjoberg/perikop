@@ -74,6 +74,13 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
     };
     gc.SetBrush(wxBrush(ink));
     switch (symbol) {
+    case Symbol::Split: {
+        pen(1.5);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        gc.DrawRoundedRectangle(2, 3, 16, 14, 2);
+        gc.StrokeLine(10, 3, 10, 17);
+        break;
+    }
     case Symbol::Back:
     case Symbol::Next: {
         if (symbol == Symbol::Next) {

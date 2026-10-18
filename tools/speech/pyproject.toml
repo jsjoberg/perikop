@@ -1,0 +1,25 @@
+# Voice export retains its independently locked ML dependencies and Python version.
+[project]
+name = "orthodox-reader-preparation"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+voice-prep = [
+    "torch==2.14.1",
+    "kokoro==0.9.4",
+    "transformers==5.19.0",
+    "onnx==1.23.2",
+    "onnxruntime==1.30.0",
+    "huggingface-hub==2.1.1",
+    "num2words==0.5.14",
+    "soundfile==0.14.0",
+    "scipy==1.18.1",
+    "numpy==2.5.3",
+]
+
+[tool.uv]
+package = false
+default-groups = []
+required-version = ">=0.8.16"

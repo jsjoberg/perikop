@@ -48,6 +48,12 @@ bool MainFrame::has_reading_position() const {
     return visible_reading_ &&
            user_.position(reading_key(corpus_, in_swedish(*visible_reading_))).has_value();
 }
+std::string MainFrame::reading_progress(const Reading& reading, const std::string& key) const {
+    auto position = user_.position(key);
+    if (!position)
+        position = user_.position(reading_key(corpus_, in_swedish(reading)));
+    return position ? " · " + std::to_string(position->percent) + " %" : "";
+}
 void MainFrame::restore_reading_position() {
     if (!visible_reading_)
         return;
