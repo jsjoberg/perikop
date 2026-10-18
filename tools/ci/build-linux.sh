@@ -1,6 +1,9 @@
 #!/bin/bash
 # Runs inside the pinned image with Docker networking disabled.
 set -euo pipefail
+# Docker runs as root, but the mounted checkout belongs to the runner. CMake needs its Git
+# metadata for branch/tag versions and the commit shown in About. Trust only this checkout.
+git config --global --add safe.directory "$PWD"
 export CCACHE_DIR=/work/build/ccache CCACHE_BASEDIR=/work CCACHE_COMPILERCHECK=content CCACHE_MAXSIZE=2G
 export PERIKOP_OFFLINE=1 PERIKOP_APPIMAGE_TOOLS=/work/build/ci/tools/appimage
 compiler=/opt/rh/gcc-toolset-15/root/usr/bin
