@@ -40,8 +40,22 @@ def wait_for(condition, what, seconds=120):
     deadline = time.monotonic() + seconds
     while not condition():
         if time.monotonic() > deadline:
-            raise SystemExit("Timed out: " + what)
+            raise SystemExit("Timed out: " + (what() if callable(what) else what))
         time.sleep(2)
+
+
+def wait_for_probe(probe, version, installed_version):
+    last = {"code": None, "output": ""}
+
+    def ready():
+        # Update.exe can expose sq.version before the new copy starts successfully.
+        # Only launch after the target metadata appears, so a retry cannot apply the old update.
+        if installed_version() != version:
+            return False
+        last["code"], last["output"] = probe()
+        return last["code"] == 0 and f"VERSION {version}\n" in last["output"] and "NO_UPDATE\n" in last["output"]
+
+    wait_for(ready, lambda: f"{version} did not become ready ({last['code']}):\n{last['output']}")
 
 
 def main():
@@ -98,10 +112,7 @@ def main():
             except (OSError, ET.ParseError, StopIteration):
                 return ""
 
-        wait_for(lambda: installed_version() == SECOND, "the installed program was not replaced")
-        code, output = probe()
-        if code or f"VERSION {SECOND}\n" not in output or "NO_UPDATE\n" not in output:
-            raise SystemExit(f"The updated version failed ({code}):\n{output}")
+        wait_for_probe(probe, SECOND, installed_version)
         pack(THIRD, "BestSpeed")
         delta = feed / f"Perikop-{THIRD}-{CHANNEL}-delta.nupkg"
         if not delta.is_file():
@@ -112,10 +123,7 @@ def main():
         code, output = probe()
         if code or f"AVAILABLE {THIRD}\n" not in output or "APPLYING\n" not in output:
             raise SystemExit(f"The delta update failed ({code}):\n{output}")
-        wait_for(lambda: installed_version() == THIRD, "the delta update was not installed")
-        code, output = probe()
-        if code or f"VERSION {THIRD}\n" not in output or "NO_UPDATE\n" not in output:
-            raise SystemExit(f"The delta-updated version failed ({code}):\n{output}")
+        wait_for_probe(probe, THIRD, installed_version)
         if profile_contents(database) != before:
             raise SystemExit(f"The update changed the profile: {before} became {profile_contents(database)}")
 

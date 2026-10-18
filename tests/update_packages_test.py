@@ -7,13 +7,16 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("update_packages", ROOT / "tools/ci/update_packages.py")
 updates = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(updates)
 CHANNEL = "osx-arm64-nightly"
+windows_spec = importlib.util.spec_from_file_location("windows_update_test", ROOT / "tools/ci/velopack_windows_test.py")
+windows = importlib.util.module_from_spec(windows_spec)
+windows_spec.loader.exec_module(windows)
 
 
 def asset(version, kind="Full", channel=CHANNEL):
@@ -154,6 +157,28 @@ class UpdatePackagesTest(unittest.TestCase):
         for invalid in ("1.0", "1.0.0-01", "1.0.0-a..b", "01.0.0"):
             with self.assertRaises(ValueError):
                 updates.precedence(invalid)
+
+
+class WindowsProbeTest(unittest.TestCase):
+    def test_metadata_can_appear_before_the_new_executable_is_ready(self):
+        probe = Mock(side_effect=[(1, ""), (1, ""), (0, "VERSION 1.0.0-test.2\nNO_UPDATE\n")])
+        metadata = Mock(return_value="1.0.0-test.2")
+        with patch.object(windows.time, "sleep"):
+            windows.wait_for_probe(probe, "1.0.0-test.2", metadata)
+        self.assertEqual(probe.call_count, 3)
+
+    def test_old_copy_is_not_launched_during_replacement(self):
+        probe = Mock(return_value=(0, "VERSION 1.0.0-test.2\nNO_UPDATE\n"))
+        metadata = Mock(side_effect=["1.0.0-test.1", "", "1.0.0-test.2"])
+        with patch.object(windows.time, "sleep"):
+            windows.wait_for_probe(probe, "1.0.0-test.2", metadata)
+        probe.assert_called_once()
+
+    def test_readiness_timeout_reports_the_last_failure(self):
+        probe = Mock(return_value=(1, "SDK still locked"))
+        with patch.object(windows.time, "monotonic", side_effect=[0, 121]):
+            with self.assertRaisesRegex(SystemExit, "SDK still locked"):
+                windows.wait_for_probe(probe, "1.0.0-test.2", lambda: "1.0.0-test.2")
 
 
 class RetentionTest(unittest.TestCase):
