@@ -27,6 +27,8 @@
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
 #include <wx/menu.h>
+#include <wx/modalhook.h>
+#include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
 #include <wx/utils.h>
 #ifdef __WXMSW__
@@ -90,6 +92,20 @@ public:
     }
     void pronunciation_async(const std::string&, std::function<void(std::string)> deliver) override {
         lookups.push_back(std::move(deliver));
+    }
+};
+class BookmarkConfirmation final : public wxModalDialogHook {
+public:
+    int answer = wxID_NO;
+    int questions = 0;
+    bool safe_default = true;
+    int Enter(wxDialog* dialog) override {
+        auto* question = dynamic_cast<wxMessageDialog*>(dialog);
+        if (!question || question->GetTitle() != ui::utf8("Ta bort bokmärke"))
+            return wxID_CANCEL;
+        ++questions;
+        safe_default &= (question->GetMessageDialogStyle() & wxNO_DEFAULT) != 0;
+        return answer;
     }
 };
 } // namespace
@@ -1229,7 +1245,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::vector<TextButton*> buttons;
         if (parent)
             for (auto* child : parent->GetChildren())
-                if (auto* button = dynamic_cast<TextButton*>(child))
+                if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() != "Lyssna")
                     buttons.push_back(button);
         return buttons;
     };
@@ -1348,6 +1364,122 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         click_text(verse_point({22, 1}, 0));
         if (scripture_->highlighted_verse() || (tools && tools->IsShown()))
             fail(__LINE__);
+    }
+    // Selection actions save complete ranges, reopen them, and require confirmation for removal.
+    {
+        const auto data = data_ / "bookmarks";
+        UserDb profile(data / "user.db");
+        auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                     std::make_unique<SmokeUpdates>(), true);
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        candidate->speech_ = std::move(held);
+        candidate->Show();
+        candidate->open_reading({ReadingKind::Gospel, {"John", {1, 1}, {2, 3}}});
+        candidate->scripture_->select_verses({1, 2}, {1, 5});
+        const auto marked = candidate->scripture_->marked_reading();
+        if (!marked || marked->passage.first != VerseRef{1, 2} || marked->passage.last != VerseRef{1, 5})
+            fail(__LINE__);
+        wxWindow* tools = nullptr;
+        for (auto* child : candidate->scripture_->GetChildren())
+            if (child->GetName() == ui::utf8("Läs den markerade versen online"))
+                tools = child;
+        wxWindow* bookmark = nullptr;
+        TextButton* listen = nullptr;
+        if (tools)
+            for (auto* child : tools->GetChildren()) {
+                if (child->GetName() == ui::utf8("Lägg till bokmärke"))
+                    bookmark = child;
+                if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Lyssna")
+                    listen = button;
+            }
+        if (!tools || !tools->IsShown() || !bookmark || !listen)
+            fail(__LINE__);
+        if (!screenshot_path.empty()) {
+            candidate->Layout();
+            candidate->Update();
+            wxBitmap bitmap(candidate->GetClientSize());
+            wxClientDC window(candidate.get());
+            {
+                wxMemoryDC image(bitmap);
+                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+            }
+            save(bitmap.ConvertToImage(), "-selection-actions");
+        }
+        if (bookmark) {
+            for (const auto type : {wxEVT_KEY_DOWN, wxEVT_KEY_UP}) {
+                wxKeyEvent event(type);
+                event.m_keyCode = WXK_RETURN;
+                bookmark->GetEventHandler()->ProcessEvent(event);
+            }
+            wxTheApp->ProcessPendingEvents();
+        }
+        const auto marks = profile.bookmarks(corpus_);
+        if (marks.size() != 1 || marks.front().passage.last != VerseRef{1, 5})
+            fail(__LINE__);
+        if (listen) {
+            wxCommandEvent event(wxEVT_BUTTON, listen->GetId());
+            listen->GetEventHandler()->ProcessEvent(event);
+            wxTheApp->ProcessPendingEvents();
+            if (engine->spoken.empty() || !engine->spoken.front().cue ||
+                engine->spoken.front().cue->verse != VerseRef{1, 2} || !engine->spoken.back().cue ||
+                engine->spoken.back().cue->verse > VerseRef{1, 5} || candidate->speech_tracked_)
+                fail(__LINE__);
+        }
+        candidate->stop_speech(false);
+        if (marked)
+            candidate->add_bookmarks(*marked);
+        if (profile.bookmarks(corpus_).size() != 1)
+            fail(__LINE__);
+        if (!marks.empty()) {
+            candidate->open_reading({ReadingKind::OldTestament, {"Gen", {1, 1}, {1, 5}}});
+            candidate->open_bookmark(marks.front());
+            const auto selected = candidate->scripture_->selections();
+            if (!candidate->visible_reading_ || candidate->visible_reading_->passage.book != "John" ||
+                selected.size() != 1 || selected.front().first != VerseRef{1, 2} ||
+                selected.front().last != VerseRef{1, 5})
+                fail(__LINE__);
+            const int index = candidate->menu_bar_->FindMenu(ui::utf8("Bokmärken"));
+            const auto* menu =
+                index == wxNOT_FOUND ? nullptr : candidate->menu_bar_->GetMenu(std::size_t(index));
+            if (!menu ||
+                menu->FindItem(ui::utf8(passage_label(corpus_, {marks.front().passage}))) == wxNOT_FOUND ||
+                !menu->GetMenuItems().back()->GetSubMenu())
+                fail(__LINE__);
+            BookmarkConfirmation confirmation;
+            confirmation.Register();
+            candidate->remove_bookmark(marks.front());
+            if (profile.bookmarks(corpus_).size() != 1 || confirmation.questions != 1)
+                fail(__LINE__);
+            confirmation.answer = wxID_YES;
+            candidate->remove_bookmark(marks.front());
+            if (!profile.bookmarks(corpus_).empty() || confirmation.questions != 2 ||
+                !confirmation.safe_default)
+                fail(__LINE__);
+        }
+        candidate->scripture_->select_verses({1, 1}, {2, 3});
+        candidate->scripture_->show_verse({2, 2});
+        candidate->Update();
+        if (!tools || !tools->IsShown())
+            fail(__LINE__);
+        candidate->settings_.primary_sources =
+            decode_sources("en-web=1", candidate->settings_.primary_sources);
+        candidate->apply_settings(false);
+        candidate->open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
+        candidate->scripture_->select_verses({1, 2}, {1, 5});
+        const auto english = candidate->scripture_->marked_reading();
+        if (!english || english->base_language != "en")
+            fail(__LINE__);
+        bool has_bookmark = false;
+        for (auto* child : tools->GetChildren()) {
+            has_bookmark |= child->GetName() == ui::utf8("Lägg till bokmärke");
+            if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Lyssna")
+                fail(__LINE__);
+        }
+        if (!tools->IsShown() || !has_bookmark)
+            fail(__LINE__);
+        candidate->Hide();
+        open_fresh_psalm();
     }
     for (const auto& source :
          {corpus_.source_for_language("el", "John"), corpus_.source_for_language("en", "John")}) {

@@ -16,6 +16,7 @@
 class wxBoxSizer;
 class wxEventFilter;
 class wxMenuBar;
+class wxMenu;
 class wxPanel;
 class wxScrolledWindow;
 class wxStaticText;
@@ -50,6 +51,13 @@ private:
     // Brings the menu bar's labels and states up to date. The ⋮ menu shows its items.
     void sync_menu();
     void show_menu();
+    wxMenu* bookmark_menu();
+    void refresh_bookmarks();
+    void show_bookmarks();
+    void add_bookmarks(const Reading&);
+    void open_bookmark(const Bookmark&);
+    void remove_bookmark(const Bookmark&);
+    void listen_to_selection(const Reading&);
     // Windows and Linux hide the menu bar; Alt shows it. macOS always shows its own.
     void show_menu_bar(bool);
     void refresh_day();
@@ -107,7 +115,7 @@ private:
     void address_clicked();
     void select_part(size_t);
     void toggle_pane(const std::string&);
-    void play_speech(const std::vector<Reading>&);
+    void play_speech(const std::vector<Reading>&, bool resume = true);
     void prepare_day();
     bool preparing_day() const;
     void clear_preparation();

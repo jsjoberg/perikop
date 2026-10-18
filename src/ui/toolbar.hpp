@@ -7,7 +7,22 @@
 #include <wx/control.h>
 
 namespace ortho {
-enum class Symbol { Back, Next, Play, Pause, Stop, Split, Study, Search, Check, Menu, Chevron, Minus, Plus };
+enum class Symbol {
+    Back,
+    Next,
+    Play,
+    Pause,
+    Stop,
+    Split,
+    Study,
+    Search,
+    Bookmark,
+    Check,
+    Menu,
+    Chevron,
+    Minus,
+    Plus
+};
 // Hover and press state of a drawn button, which acts on release like a native one.
 struct PressState {
     bool hover = false, pressed = false;

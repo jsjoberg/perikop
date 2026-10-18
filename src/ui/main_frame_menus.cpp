@@ -1,3 +1,4 @@
+#include "core/reading_display.hpp"
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
@@ -8,6 +9,7 @@
 #include <span>
 #include <wx/eventfilter.h>
 #include <wx/menu.h>
+#include <wx/msgdlg.h>
 #include <wx/popupwin.h>
 #include <wx/sizer.h>
 #ifdef __APPLE__
@@ -67,7 +69,8 @@ enum {
     Faster,
     Slower,
     NormalRate,
-    Review
+    Review,
+    AddBookmark
 };
 // Text sizes and speeds in percent, as Chrome steps its zoom.
 const int zooms[] = {75, 80, 90, 100, 110, 125, 150, 175, 200};
@@ -332,6 +335,7 @@ wxString shortcut_of(const wxString& label) {
 void MainFrame::sync_menu() {
     auto& bar = *menu_bar_;
     const auto policy = controls();
+    bar.Enable(AddBookmark, navigation_.reader() && scripture_->marked_reading().has_value());
     const auto label = ui::utf8(policy.playback_label) + "\tCtrl+Shift+P";
     if (bar.GetLabel(Play) != label)
         bar.SetLabel(Play, label);
@@ -406,6 +410,7 @@ void MainFrame::make_menus() {
     auto* bar = new wxMenuBar;
     bar->Append(view, "Visa");
     bar->Append(go, ui::utf8("Gå"));
+    bar->Append(bookmark_menu(), ui::utf8("Bokmärken"));
     bar->Append(reading, ui::utf8("Uppläsning"));
 #ifndef __WXOSX__
     // macOS has its own Quit with ⌘Q in the application menu.
@@ -417,6 +422,14 @@ void MainFrame::make_menus() {
 #endif
     menu_bar_ = bar;
     SetMenuBar(bar);
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            if (navigation_.reader())
+                if (const auto reading = scripture_->marked_reading())
+                    add_bookmarks(*reading);
+        },
+        AddBookmark);
     Bind(
         wxEVT_MENU,
         [this](wxCommandEvent&) {
@@ -562,6 +575,12 @@ void MainFrame::show_menu() {
         };
         for (const int id : {Readings, Bible, Pick, Plans})
             item(id);
+        popup.item(
+            ui::utf8("Bokmärken"), {}, true,
+            [this] {
+                show_bookmarks();
+            },
+            ui::utf8("Öppna och ta bort sparade bokmärken"));
         popup.separator();
         popup.stepper(
             "Textstorlek", "Mindre text", ui::utf8("Större text"),
@@ -603,5 +622,93 @@ void MainFrame::show_menu() {
         popup.item("Avsluta", shortcut_of("\tCtrl+Q"), true, command(wxID_EXIT), "Avsluta Perikop");
     });
     popup->open();
+}
+wxMenu* MainFrame::bookmark_menu() {
+    auto* menu = new wxMenu;
+    menu->Append(AddBookmark, ui::utf8("Lägg till bokmärke"), ui::utf8("Spara den markerade texten"));
+    menu->Enable(AddBookmark, navigation_.reader() && scripture_->marked_reading().has_value());
+    menu->AppendSeparator();
+    const auto marks = user_.bookmarks(corpus_);
+    if (marks.empty()) {
+        menu->Append(wxID_ANY, ui::utf8("Inga bokmärken"))->Enable(false);
+        return menu;
+    }
+    auto* remove = new wxMenu;
+    for (const auto& mark : marks) {
+        const auto label = ui::utf8(passage_label(corpus_, {mark.passage}));
+        auto* entry = menu->Append(wxID_ANY, label, ui::utf8("Öppna det sparade bibelstället"));
+        menu->Bind(
+            wxEVT_MENU,
+            [this, mark](wxCommandEvent&) {
+                CallAfter([this, mark] {
+                    open_bookmark(mark);
+                });
+            },
+            entry->GetId());
+        auto* deletion = remove->Append(wxID_ANY, label, ui::utf8("Ta bort bokmärket efter bekräftelse"));
+        remove->Bind(
+            wxEVT_MENU,
+            [this, mark](wxCommandEvent&) {
+                CallAfter([this, mark] {
+                    remove_bookmark(mark);
+                });
+            },
+            deletion->GetId());
+    }
+    menu->AppendSeparator();
+    menu->AppendSubMenu(remove, ui::utf8("Ta bort bokmärke…"),
+                        ui::utf8("Välj vilket bokmärke som ska tas bort"));
+    return menu;
+}
+void MainFrame::refresh_bookmarks() {
+    const int index = menu_bar_->FindMenu(ui::utf8("Bokmärken"));
+    if (index != wxNOT_FOUND) {
+        delete menu_bar_->Replace(std::size_t(index), bookmark_menu(), ui::utf8("Bokmärken"));
+        menu_bar_->SetMenuLabel(std::size_t(index), ui::utf8("Bokmärken"));
+    }
+}
+void MainFrame::show_bookmarks() {
+    const std::unique_ptr<wxMenu> menu(bookmark_menu());
+    PopupMenu(menu.get(), ScreenToClient(menu_->ClientToScreen({0, menu_->GetSize().y})));
+}
+void MainFrame::add_bookmarks(const Reading& reading) {
+    try {
+        for (const auto& passage : reading.segments())
+            user_.bookmark(reading.reference, passage);
+        refresh_bookmarks();
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Bokmärket kunde inte sparas"), wxOK | wxICON_ERROR,
+                     this);
+    }
+}
+void MainFrame::open_bookmark(const Bookmark& bookmark) {
+    Reading reading{corpus_.new_testament_book(bookmark.passage.book) ? ReadingKind::Gospel
+                                                                      : ReadingKind::OldTestament,
+                    bookmark.passage};
+    reading.reference = bookmark.source;
+    open_reading(reading);
+    scripture_->open_section(0);
+    part_ = 0;
+    const auto& passage = scripture_->reading().passage;
+    scripture_->select_verses(passage.first, passage.last);
+    scripture_->center_passage();
+    update_bar();
+    save_navigation();
+}
+void MainFrame::remove_bookmark(const Bookmark& bookmark) {
+    wxMessageDialog question(this,
+                             ui::utf8("Vill du ta bort bokmärket för ") +
+                                 ui::utf8(passage_label(corpus_, {bookmark.passage})) + "?",
+                             ui::utf8("Ta bort bokmärke"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+    question.SetYesNoLabels(ui::utf8("Ta bort"), ui::utf8("Avbryt"));
+    if (question.ShowModal() != wxID_YES)
+        return;
+    try {
+        user_.remove_bookmark(bookmark.id);
+        refresh_bookmarks();
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Bokmärket kunde inte tas bort"), wxOK | wxICON_ERROR,
+                     this);
+    }
 }
 } // namespace ortho

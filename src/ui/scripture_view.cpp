@@ -116,9 +116,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
         press_point_ = e.GetPosition();
-        // Only the reading's own edition selects verses to read aloud, not English shown in its place.
+        // Mark passages in the main pane; read-aloud is offered only for Swedish.
         if (const auto found = hit(e.GetPosition()))
-            drag_selects_ = found->column_index == 0 && found->column->language == "sv";
+            drag_selects_ = found->column_index == 0;
         dragged_ = false;
         append_drag_ = e.CmdDown() || e.ControlDown();
         drag_ranges_ = selections_;

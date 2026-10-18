@@ -347,7 +347,7 @@ void ScriptureView::apply(const Settings& settings) {
         invalidate();
     else
         request_repaint();
-    if (highlighted_verse_)
+    if (highlighted_verse_ || !selections_.empty())
         rebuild_verse_links();
 }
 void ScriptureView::invalidate() {

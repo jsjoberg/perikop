@@ -74,6 +74,19 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
     };
     gc.SetBrush(wxBrush(ink));
     switch (symbol) {
+    case Symbol::Bookmark: {
+        pen(1.5);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        auto path = gc.CreatePath();
+        path.MoveToPoint(5, 3);
+        path.AddLineToPoint(15, 3);
+        path.AddLineToPoint(15, 17);
+        path.AddLineToPoint(10, 13);
+        path.AddLineToPoint(5, 17);
+        path.CloseSubpath();
+        gc.StrokePath(path);
+        break;
+    }
     case Symbol::Split: {
         pen(1.5);
         gc.SetBrush(*wxTRANSPARENT_BRUSH);

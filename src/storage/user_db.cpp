@@ -36,7 +36,53 @@ UserDb::UserDb(const std::filesystem::path& path) {
          "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
          "CREATE TABLE IF NOT EXISTS reading_position(key TEXT PRIMARY KEY NOT NULL,section INTEGER NOT NULL,"
          "book TEXT NOT NULL,source TEXT NOT NULL,chapter INTEGER NOT NULL,verse INTEGER NOT NULL,"
-         "suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT");
+         "suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT;"
+         "CREATE TABLE IF NOT EXISTS bookmark(id INTEGER PRIMARY KEY,source TEXT NOT NULL,"
+         "book TEXT NOT NULL,first_chapter INTEGER NOT NULL,first_verse INTEGER NOT NULL,"
+         "first_suffix TEXT NOT NULL,last_chapter INTEGER NOT NULL,last_verse INTEGER NOT NULL,"
+         "last_suffix TEXT NOT NULL,UNIQUE(source,book,first_chapter,first_verse,first_suffix,"
+         "last_chapter,last_verse,last_suffix)) STRICT");
+}
+void UserDb::bookmark(const std::string& source, const Passage& passage) {
+    if (source.empty() || passage.book.empty() || passage.first.chapter < 1 || passage.first.verse < 1 ||
+        passage.last.verse < 1 || passage.last < passage.first)
+        throw std::invalid_argument("Invalid bookmark passage");
+    Statement query(db_.get(), "INSERT INTO bookmark(source,book,first_chapter,first_verse,first_suffix,"
+                               "last_chapter,last_verse,last_suffix) VALUES(?,?,?,?,?,?,?,?) "
+                               "ON CONFLICT DO NOTHING");
+    query.text(1, source);
+    query.text(2, passage.book);
+    query.number(3, passage.first.chapter);
+    query.number(4, passage.first.verse);
+    query.text(5, passage.first.suffix);
+    query.number(6, passage.last.chapter);
+    query.number(7, passage.last.verse);
+    query.text(8, passage.last.suffix);
+    query.row();
+}
+void UserDb::remove_bookmark(int id) {
+    Statement query(db_.get(), "DELETE FROM bookmark WHERE id=?");
+    query.number(1, id);
+    query.row();
+}
+std::vector<Bookmark> UserDb::bookmarks(const CorpusDb& corpus) const {
+    std::vector<Bookmark> result;
+    Statement query(db_.get(), "SELECT id,source,book,first_chapter,first_verse,first_suffix,"
+                               "last_chapter,last_verse,last_suffix FROM bookmark");
+    while (query.row())
+        result.push_back({query.number(0),
+                          query.text(1),
+                          {query.text(2),
+                           {query.number(3), query.number(4), query.text(5)},
+                           {query.number(6), query.number(7), query.text(8)}}});
+    const auto order = [&corpus](const Bookmark& mark) {
+        const auto* book = corpus.canon_book(mark.passage.book, mark.passage.first.chapter);
+        const auto& canon = corpus.canon();
+        const auto index = book ? std::size_t(book - canon.data()) : canon.size();
+        return std::tuple{index, mark.passage.book, mark.passage.first, mark.passage.last, mark.source};
+    };
+    std::ranges::sort(result, {}, order);
+    return result;
 }
 std::optional<ReadingPosition> UserDb::position(const std::string& key) const {
     Statement query(

@@ -64,6 +64,13 @@ public:
     }
     // Verses marked by dragging in the left pane, as a passage in its edition.
     std::vector<Passage> selections() const;
+    std::optional<Reading> marked_reading() const;
+    void on_bookmark(std::function<void(const Reading&)> callback) {
+        bookmarked_ = std::move(callback);
+    }
+    void on_listen(std::function<void(const Reading&)> callback) {
+        listen_ = std::move(callback);
+    }
     bool verse_selected(VerseRef) const;
     // The left pane's edition, and the edition whose numbering frames the text.
     std::string base_source() const;
@@ -242,6 +249,7 @@ private:
     std::vector<Source> source_catalog_;
     Reading reading_{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
     Settings settings_;
+    std::function<void(const Reading&)> bookmarked_, listen_;
     Passage displayed_{"Ps", {23, 1}, {23, 6}};
     std::string base_source_ = "sv1917", frame_ = "grc-lxx";
     const CanonBook* canon_ = nullptr;

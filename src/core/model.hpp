@@ -58,6 +58,11 @@ struct ReadingPosition {
     int percent = 0;
     bool operator==(const ReadingPosition&) const = default;
 };
+struct Bookmark {
+    int id;
+    std::string source;
+    Passage passage;
+};
 struct Reading {
     ReadingKind kind;
     Passage passage;

@@ -109,6 +109,12 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
     scripture_->on_selection([this] {
         update_bar();
     });
+    scripture_->on_bookmark([this](const Reading& reading) {
+        add_bookmarks(reading);
+    });
+    scripture_->on_listen([this](const Reading& reading) {
+        listen_to_selection(reading);
+    });
     scripture_->on_return([this] {
         if (active_playback())
             follow_speech();

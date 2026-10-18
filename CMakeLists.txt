@@ -115,6 +115,10 @@ if(BUILD_TESTING)
     target_link_libraries(ortho-source-preferences-tests PRIVATE ortho-core)
     add_test(NAME source-preferences COMMAND ortho-source-preferences-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
         "${CMAKE_BINARY_DIR}/test-source-preferences.db")
+    add_executable(ortho-bookmark-tests tests/bookmark_test.cpp)
+    target_link_libraries(ortho-bookmark-tests PRIVATE ortho-core)
+    add_test(NAME bookmarks COMMAND ortho-bookmark-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
+        "${CMAKE_BINARY_DIR}/test-bookmarks.db")
     add_executable(ortho-reading-position-tests tests/reading_position_test.cpp)
     target_link_libraries(ortho-reading-position-tests PRIVATE ortho-core)
     add_test(NAME reading-position COMMAND ortho-reading-position-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
