@@ -8,6 +8,7 @@ two nightly versions with vpk, installs the first silently for the current user,
 - uninstalling removes the program and keeps the profile.
 """
 import argparse
+from contextlib import closing
 import os
 from pathlib import Path
 import shutil
@@ -29,7 +30,7 @@ def run(arguments, timeout=300):
 
 
 def settings(database):
-    with sqlite3.connect(database) as connection:
+    with closing(sqlite3.connect(database)) as connection:
         return sorted(connection.execute("SELECT key, value FROM settings"))
 
 
@@ -64,7 +65,8 @@ def main():
                 shutil.copyfile(feed / f"Perikop-{CHANNEL}-Setup.exe", setup)
         # The profile asks for nightlies; only the nightly feed exists, so a copy that ignored it would fail.
         database = profile / "user.db"
-        with sqlite3.connect(database) as connection:
+        # The connection context commits the fixture; closing releases the Windows file handle.
+        with closing(sqlite3.connect(database)) as connection, connection:
             connection.execute("CREATE TABLE settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT")
             connection.execute("CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT")
             connection.executemany("INSERT INTO settings VALUES(?,?)",
