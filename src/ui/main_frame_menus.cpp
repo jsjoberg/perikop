@@ -21,6 +21,32 @@
 #endif
 namespace ortho {
 namespace {
+// Mouse events do not bubble from child controls. Scope the filter to this frame,
+// excluding dialogs and other windows, and act only on button release.
+class NavigationInput final : public wxEventFilter {
+public:
+    NavigationInput(wxWindow* owner, std::function<void(bool)> navigate)
+        : owner_(owner), navigate_(std::move(navigate)) {
+        wxEvtHandler::AddFilter(this);
+    }
+    ~NavigationInput() override {
+        wxEvtHandler::RemoveFilter(this);
+    }
+    int FilterEvent(wxEvent& event) override {
+        const auto type = event.GetEventType();
+        if (type != wxEVT_AUX1_UP && type != wxEVT_AUX2_UP)
+            return Event_Skip;
+        auto* window = dynamic_cast<wxWindow*>(event.GetEventObject());
+        if (!window || owner_->IsBeingDeleted() || wxGetTopLevelParent(window) != owner_)
+            return Event_Skip;
+        navigate_(type == wxEVT_AUX2_UP);
+        return Event_Processed;
+    }
+
+private:
+    wxWindow* owner_;
+    std::function<void(bool)> navigate_;
+};
 enum {
     Today = wxID_HIGHEST + 1,
     Previous,
@@ -309,7 +335,7 @@ wxString shortcut_of(const wxString& label) {
 void MainFrame::sync_menu() {
     auto& bar = *menu_bar_;
     const auto policy = controls();
-    const auto label = ui::utf8(policy.playback_label) + "\tCtrl+P";
+    const auto label = ui::utf8(policy.playback_label) + "\tCtrl+Shift+P";
     if (bar.GetLabel(Play) != label)
         bar.SetLabel(Play, label);
     bar.Enable(Play, policy.playback_action != PlaybackAction::None);
@@ -319,6 +345,8 @@ void MainFrame::sync_menu() {
         bar.SetLabel(Stop, stop_label);
     bar.Enable(Stop, policy.stop);
     bar.Enable(Prepare, policy.prepare);
+    bar.Enable(wxID_BACKWARD, history_.can_back());
+    bar.Enable(wxID_FORWARD, history_.can_forward());
     const auto help = ui::utf8("Spara ljud för " + date_swedish(selected_.date()) +
                                ". Välj morgondagens datum för att förbereda det i kväll.");
     if (bar.GetHelpString(Prepare) != help)
@@ -348,17 +376,26 @@ void MainFrame::make_menus() {
     // macOS moves this item to the application menu, where Settings belongs.
     view->Append(wxID_PREFERENCES, ui::utf8("Inställningar…\tCtrl+,"));
     auto* go = new wxMenu;
-    go->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+L"), ui::utf8("Visa den valda dagens läsningar"));
-    go->Append(Today, "Idag\tCtrl+T");
-    go->Append(Previous, ui::utf8("Föregående dag\tCtrl+["));
-    go->Append(Next, ui::utf8("Nästa dag\tCtrl+]"));
-    go->Append(Pick, ui::utf8("Välj datum…\tCtrl+D"), ui::utf8("Välj en dag i kalendern"));
+#ifdef __WXOSX__
+    go->Append(wxID_BACKWARD, "Tillbaka\tCtrl+[");
+    go->Append(wxID_FORWARD, ui::utf8("Framåt\tCtrl+]"));
+#else
+    go->Append(wxID_BACKWARD, "Tillbaka\tAlt+Left");
+    go->Append(wxID_FORWARD, ui::utf8("Framåt\tAlt+Right"));
+#endif
     go->AppendSeparator();
-    go->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+G"),
+    go->Append(Readings, ui::utf8("Dagens läsningar\tCtrl+Shift+L"),
+               ui::utf8("Visa den valda dagens läsningar"));
+    go->Append(Today, "Idag\tCtrl+Shift+T");
+    go->Append(Previous, ui::utf8("Föregående dag\tCtrl+PageUp"));
+    go->Append(Next, ui::utf8("Nästa dag\tCtrl+PageDown"));
+    go->Append(Pick, ui::utf8("Välj datum…\tCtrl+Shift+D"), ui::utf8("Välj en dag i kalendern"));
+    go->AppendSeparator();
+    go->Append(Bible, ui::utf8("Gå till bibelställe…\tCtrl+L"),
                ui::utf8("Bläddra fram en bok, ett kapitel och verser"));
     go->Append(Plans, ui::utf8("Läsplaner"), ui::utf8("Visa alla läsplaner och hur långt du har läst"));
     auto* reading = new wxMenu;
-    reading->Append(Play, "Lyssna\tCtrl+P",
+    reading->Append(Play, "Lyssna\tCtrl+Shift+P",
                     ui::utf8("Läs upp den öppna läsningen, eller pausa och fortsätt"));
     reading->Append(Stop, "Stoppa\tCtrl+.", ui::utf8("Avsluta uppläsningen"));
     reading->AppendSeparator();
@@ -387,6 +424,24 @@ void MainFrame::make_menus() {
 #endif
     menu_bar_ = bar;
     SetMenuBar(bar);
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            back();
+        },
+        wxID_BACKWARD);
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            forward();
+        },
+        wxID_FORWARD);
+    navigation_input_ = std::make_unique<NavigationInput>(this, [this](bool ahead) {
+        if (ahead)
+            forward();
+        else
+            back();
+    });
     sync_menu();
 #ifndef __WXOSX__
     // The ⋮ menu holds the same commands, so Windows and Linux hide the bar, as browsers do.

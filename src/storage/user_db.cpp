@@ -32,7 +32,44 @@ UserDb::UserDb(const std::filesystem::path& path) {
     // No schema versions or migrations until Perikop has users: the tables are created as they are now.
     exec(db_.get(),
          "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
-         "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT");
+         "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
+         "CREATE TABLE IF NOT EXISTS reading_position(key TEXT PRIMARY KEY NOT NULL,section INTEGER NOT NULL,"
+         "book TEXT NOT NULL,source TEXT NOT NULL,chapter INTEGER NOT NULL,verse INTEGER NOT NULL,"
+         "suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT");
+}
+std::optional<ReadingPosition> UserDb::position(const std::string& key) const {
+    Statement query(
+        db_.get(),
+        "SELECT section,book,source,chapter,verse,suffix,percent FROM reading_position WHERE key=?");
+    query.text(1, key);
+    if (!query.row())
+        return {};
+    return ReadingPosition{std::size_t(query.number(0)),
+                           query.text(1),
+                           query.text(2),
+                           {query.number(3), query.number(4), query.text(5)},
+                           query.number(6)};
+}
+void UserDb::position(const std::string& key, const ReadingPosition& position) {
+    Statement query(
+        db_.get(),
+        "INSERT INTO reading_position VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(key) DO UPDATE SET "
+        "section=excluded.section,book=excluded.book,source=excluded.source,chapter=excluded.chapter,"
+        "verse=excluded.verse,suffix=excluded.suffix,percent=excluded.percent");
+    query.text(1, key);
+    query.number(2, int(position.section));
+    query.text(3, position.book);
+    query.text(4, position.source);
+    query.number(5, position.verse.chapter);
+    query.number(6, position.verse.verse);
+    query.text(7, position.verse.suffix);
+    query.number(8, std::clamp(position.percent, 0, 99));
+    query.row();
+}
+void UserDb::reset_position(const std::string& key) {
+    Statement query(db_.get(), "DELETE FROM reading_position WHERE key=?");
+    query.text(1, key);
+    query.row();
 }
 std::set<std::string> UserDb::completed() const {
     std::set<std::string> result;
@@ -56,6 +93,9 @@ void UserDb::forget(const std::string& prefix) {
     Statement query(db_.get(), "DELETE FROM progress WHERE substr(key,1,length(?1))=?1");
     query.text(1, prefix);
     query.row();
+    Statement positions(db_.get(), "DELETE FROM reading_position WHERE substr(key,1,length(?1))=?1");
+    positions.text(1, prefix);
+    positions.row();
     transaction.commit();
 }
 Settings UserDb::load() const {

@@ -113,6 +113,9 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
         playback_timer_.GetId());
     Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& event) {
         if (navigation_.auxiliary() && event.GetKeyCode() == WXK_ESCAPE) {
+            if (navigation_.current().screen == Screen::Bible &&
+                static_cast<BiblePicker*>(current_page())->back())
+                return;
             back();
             return;
         }
@@ -169,9 +172,13 @@ void MainFrame::select_day(CivilDate date) {
         return;
     if (date != selected_.date())
         clear_preparation();
+    save_navigation();
+    const bool changed = date != selected_.date() || navigation_.current().screen != Screen::Day;
     selected_.select(date);
-    show_readings();
+    show_readings(false);
     refresh_day();
+    if (changed)
+        record_navigation();
 }
 void MainFrame::navigate(int days) {
     try {
@@ -220,7 +227,7 @@ void MainFrame::refresh_day() {
         });
     date_label->SetFont(ui_font(13));
     date_label->SetName(ui::utf8("Välj datum, ") + ui::utf8(date_swedish(selected_.date())));
-    date_label->SetToolTip(ui::utf8("Välj datum, Ctrl+D"));
+    date_label->SetToolTip(ui::utf8("Välj datum, Ctrl+Shift+D"));
     date_row->Add(date_label, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, FromDIP(zoomed(6)));
     arrow(Symbol::Next, ui::utf8("Nästa dag"), 1);
     entries_->Add(date_row, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, FromDIP(zoomed(12)));
@@ -346,11 +353,16 @@ void MainFrame::open_psalm() {
     open_reading(psalm);
 }
 void MainFrame::open_reading(const Reading& selected) {
+    save_navigation();
+    pause_for_navigation();
     if (playback_.select_reading(*speech_)) {
         scripture_->follow_playback(false);
         refresh_speech();
     }
+    tracked_.reset();
     show_reading(selected);
+    restore_reading_position();
+    record_navigation();
 }
 void MainFrame::show_reading(const Reading& selected) {
     close_pages();
@@ -381,6 +393,7 @@ void MainFrame::show_reading(const Reading& selected) {
     part_ = 0;
     update_bar();
     scripture_->open(reading);
+    position_reset_ = false;
     scripture_->SetFocus();
 }
 Reading MainFrame::in_swedish(Reading reading) const {
@@ -484,7 +497,7 @@ void MainFrame::apply_settings(bool persist) {
         row->apply(colors);
     if (month_)
         month_->apply(colors);
-    for (auto* button : {back_, play_, pause_, stop_, menu_})
+    for (auto* button : {back_, forward_, play_, pause_, stop_, menu_})
         button->apply(colors);
     for (auto& [pane, button] : panes_)
         button->apply(colors);
@@ -504,9 +517,11 @@ void MainFrame::update_study() {
     root_->Layout();
 }
 MainFrame::~MainFrame() {
+    pause_for_navigation();
     // A download still running delivers nothing once the updater is gone.
     updater_.reset();
     alt_tap_.reset();
+    navigation_input_.reset();
     // A hidden menu bar is not the frame's to delete.
     if (GetMenuBar() != menu_bar_)
         delete menu_bar_;

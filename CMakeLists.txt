@@ -63,6 +63,7 @@ target_link_libraries(ortho-sqlite PUBLIC Threads::Threads ${CMAKE_DL_LIBS} PRIV
 add_library(ortho-core
     src/core/model.cpp
     src/core/navigation.cpp
+    src/core/reading_position.cpp
     src/ui/reader_controls.cpp
     src/core/lectionary.cpp
     src/core/service_labels.cpp
@@ -98,6 +99,10 @@ if(BUILD_TESTING)
     add_executable(ortho-reader-state-tests tests/reader_state_test.cpp)
     target_link_libraries(ortho-reader-state-tests PRIVATE ortho-core)
     add_test(NAME reader-state COMMAND ortho-reader-state-tests)
+    add_executable(ortho-reading-position-tests tests/reading_position_test.cpp)
+    target_link_libraries(ortho-reading-position-tests PRIVATE ortho-core)
+    add_test(NAME reading-position COMMAND ortho-reading-position-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
+        "${CMAKE_BINARY_DIR}/test-reading-position.db")
     add_executable(ortho-reading-speech-tests tests/reading_speech_test.cpp)
     target_link_libraries(ortho-reading-speech-tests PRIVATE ortho-core)
     add_test(NAME reading-speech COMMAND ortho-reading-speech-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")

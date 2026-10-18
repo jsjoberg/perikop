@@ -1,5 +1,6 @@
 #include "core/reading_display.hpp"
 #include "core/reading_plan.hpp"
+#include "core/reading_position.hpp"
 #include "storage/sqlite.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/bible_picker.hpp"
@@ -15,6 +16,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <set>
 #include <wx/access.h>
 #include <wx/app.h>
 #include <wx/dcclient.h>
@@ -25,6 +27,9 @@
 #include <wx/menu.h>
 #include <wx/scrolwin.h>
 #include <wx/utils.h>
+#ifdef __WXMSW__
+#include <wx/msw/wrapwin.h>
+#endif
 namespace ortho {
 namespace {
 // Offers a version without any network, so the smoke test can step through the update controls.
@@ -47,6 +52,12 @@ public:
     SpeechPlayback held;
     SpeechPreparation prepared;
     std::vector<SpeechUtterance> prepared_queue;
+    std::vector<SpeechUtterance> spoken;
+    void speak_batch(const std::vector<SpeechUtterance>& queue) override {
+        spoken = queue;
+        changed = true;
+        held = {SpeechState::Playing, queue.empty() ? std::optional<SpeechCue>{} : queue.front().cue, 0, 0};
+    }
     void prepare_batch(const std::vector<SpeechUtterance>& utterances) override {
         prepared_queue = utterances;
         prepared = {PreparationState::Running, 0, utterances.size(), "Förbereder ljud"};
@@ -84,7 +95,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     std::cout << std::unitbuf; // Keep completed checks in CI logs even if a later check times out.
     const auto original = settings_;
     const auto date = selected_.date();
-    open_psalm();
+    // Rendering fixtures use a fresh reading; resume behavior is exercised below.
+    const auto open_fresh_psalm = [this] {
+        open_psalm();
+        stop_speech();
+    };
+    open_fresh_psalm();
     Layout();
     bool ok = true;
     // Names the failed check, since the checks otherwise fail silently.
@@ -92,6 +108,155 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::cerr << "Smoke check failed: main_frame_smoke.cpp:" << line << '\n';
         ok = false;
     };
+    // Exercise the actual UI commands and SQLite profile without sound or model loading.
+    {
+        const auto data = data_ / "resume-navigation";
+        UserDb profile(data / "user.db");
+        const Reading reading{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}};
+        const auto key = reading_key(corpus_, reading);
+        {
+            auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                         std::make_unique<SmokeUpdates>(), true);
+            auto held = std::make_unique<NavigationSpeech>();
+            auto* engine = held.get();
+            candidate->speech_ = std::move(held);
+            std::set<std::pair<int, int>> shortcuts;
+            for (std::size_t i = 0; i < candidate->menu_bar_->GetMenuCount(); ++i)
+                for (auto* item : candidate->menu_bar_->GetMenu(i)->GetMenuItems())
+                    if (const std::unique_ptr<wxAcceleratorEntry> key{item->GetAccel()})
+                        if (!shortcuts.emplace(key->GetFlags(), key->GetKeyCode()).second)
+                            fail(__LINE__);
+            candidate->Show();
+            candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            candidate->Layout();
+            candidate->playback_.start({reading});
+            candidate->speech_tracked_ = candidate->tracked_;
+            engine->held = {SpeechState::Playing, SpeechCue{0, 0, "John", "sv1917", {1, 4}, {1, 4}}, 0.6,
+                            0.36};
+            candidate->display_playback(engine->held);
+            candidate->toggle_pause();
+            const auto saved = profile.position(key);
+            if (!saved || saved->verse != VerseRef{1, 4} || saved->percent != 30 ||
+                profile.position("plan:resume:0") != saved || !candidate->stop_->IsEnabled())
+                fail(__LINE__);
+            candidate->play_or_pause();
+            if (engine->spoken.size() != 7 || !engine->spoken.front().cue ||
+                engine->spoken.front().cue->verse != VerseRef{1, 4} || engine->held.verse_progress != 0 ||
+                candidate->scripture_->reading().passage.first != VerseRef{1, 1})
+                fail(__LINE__);
+            candidate->about();
+            engine->changed = false;
+#ifdef __WXMSW__
+            candidate->MSWWindowProc(WM_APPCOMMAND, 0,
+                                     MAKELPARAM(0, APPCOMMAND_BROWSER_BACKWARD | FAPPCOMMAND_MOUSE));
+            if (!candidate->navigation_.reader())
+                fail(__LINE__);
+            candidate->MSWWindowProc(WM_APPCOMMAND, 0,
+                                     MAKELPARAM(0, APPCOMMAND_BROWSER_FORWARD | FAPPCOMMAND_MOUSE));
+            if (candidate->navigation_.current().screen != Screen::About)
+                fail(__LINE__);
+#endif
+            wxMouseEvent back_button(wxEVT_AUX1_UP);
+            back_button.SetEventObject(candidate->scripture_);
+            candidate->scripture_->GetEventHandler()->ProcessEvent(back_button);
+            if (!candidate->navigation_.reader() || engine->changed || !candidate->forward_->IsEnabled())
+                fail(__LINE__);
+            wxMouseEvent forward_button(wxEVT_AUX2_UP);
+            forward_button.SetEventObject(candidate->address_);
+            candidate->address_->GetEventHandler()->ProcessEvent(forward_button);
+            if (candidate->navigation_.current().screen != Screen::About || engine->changed)
+                fail(__LINE__);
+            candidate->back();
+            candidate->show_settings();
+            if (candidate->history_.can_forward())
+                fail(__LINE__);
+            candidate->back();
+            candidate->open_reading({ReadingKind::Gospel, {"John", {2, 1}, {2, 5}}});
+            candidate->back();
+            if (!candidate->visible_reading_ ||
+                candidate->visible_reading_->passage.first != VerseRef{1, 1} || !candidate->tracked_ ||
+                candidate->tracked_->key != "plan:resume:0")
+                fail(__LINE__);
+            candidate->forward();
+            if (candidate->visible_reading_->passage.first != VerseRef{2, 1})
+                fail(__LINE__);
+            candidate->back();
+            candidate->stop_speech();
+            if (profile.position(key) || profile.position("plan:resume:0") || candidate->part_ != 0)
+                fail(__LINE__);
+            candidate->about();
+            candidate->back();
+            if (profile.position(key))
+                fail(__LINE__);
+            candidate->play_or_pause();
+            if (engine->spoken.size() != 10 || engine->spoken.front().cue->verse != VerseRef{1, 1})
+                fail(__LINE__);
+            candidate->stop_speech();
+            candidate->scripture_->select_verses({1, 4}, {1, 5});
+            candidate->play_or_pause();
+            engine->held.state = SpeechState::Completed;
+            candidate->display_playback(engine->held);
+            wxTheApp->ProcessPendingEvents();
+            if (candidate->tracked_ || profile.completed().contains("plan:resume:0") ||
+                engine->spoken.size() != 2)
+                fail(__LINE__);
+            candidate->back();
+            candidate->scripture_->show_verse({1, 10});
+            candidate->show_readings();
+            if (profile.completed().contains("plan:resume:0"))
+                fail(__LINE__);
+            candidate->back();
+            candidate->playback_.start({reading});
+            candidate->speech_tracked_ = candidate->tracked_;
+            engine->held = {SpeechState::Playing, SpeechCue{0, 0, "John", "sv1917", {1, 6}, {1, 6}}, 0.5,
+                            0.55};
+            candidate->display_playback(engine->held);
+            candidate->Hide();
+        }
+        if (!profile.position(key) || profile.position(key)->verse != VerseRef{1, 6})
+            fail(__LINE__);
+        {
+            auto reopened = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                        std::make_unique<SmokeUpdates>(), true);
+            auto held = std::make_unique<NavigationSpeech>();
+            auto* engine = held.get();
+            reopened->speech_ = std::move(held);
+            reopened->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            if (!reopened->stop_->IsEnabled() || reopened->play_->GetLabel() != ui::utf8("Fortsätt"))
+                fail(__LINE__);
+            reopened->play_or_pause();
+            if (engine->spoken.size() != 5 || engine->spoken.front().cue->verse != VerseRef{1, 6})
+                fail(__LINE__);
+            reopened->stop_speech();
+            const Reading split{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}, {{"John", {2, 1}, {2, 5}}}};
+            reopened->open_tracked(split, {"plan:resume:1", "Multiple sections"});
+            reopened->playback_.start({split});
+            reopened->speech_tracked_ = reopened->tracked_;
+            engine->held = {SpeechState::Playing, SpeechCue{0, 1, "John", "sv1917", {2, 3}, {2, 3}}, 0.6,
+                            0.8};
+            reopened->display_playback(engine->held);
+            reopened->toggle_pause();
+            if (profile.position("plan:resume:1")->percent != 80)
+                fail(__LINE__);
+            reopened->play_or_pause();
+            if (engine->spoken.size() != 3 || engine->spoken.front().cue->section != 1 ||
+                reopened->part_ != 1 || reopened->scripture_->reading().segments().size() != 2)
+                fail(__LINE__);
+            reopened->stop_speech();
+            if (reopened->part_ != 0 || profile.position("plan:resume:1"))
+                fail(__LINE__);
+            reopened->play_or_pause();
+            engine->held.state = SpeechState::Completed;
+            reopened->display_playback(engine->held);
+            wxTheApp->ProcessPendingEvents();
+            if (!profile.completed().contains("plan:resume:1") || profile.position("plan:resume:1"))
+                fail(__LINE__);
+            reopened->stop_speech();
+        }
+        if (profile.position(key))
+            fail(__LINE__);
+    }
+    std::cout << "Automatic verse resume, Stop/reset, mouse Back/Forward, and profile reopen.\n";
     // Optional pronunciation failures preserve the profile and leave reading usable.
     for (const bool future : {false, true}) {
         const auto data = data_ / (future ? "future-pronunciation" : "corrupt-pronunciation");
@@ -180,7 +345,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto first_reading = std::ranges::find_if(tomorrow_readings.readings, &Reading::can_open);
         if (first_reading == tomorrow_readings.readings.end())
             fail(__LINE__);
-        open_psalm();
+        open_fresh_psalm();
         auto* command = menu_bar_->FindItem(
             menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Förbered ljud för vald dag")));
         if (!command || !command->IsEnabled() ||
@@ -240,7 +405,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         speech_ = std::move(real_speech);
         select_day(date);
-        open_psalm();
+        open_fresh_psalm();
     }
     // Native drawing must use the same shaped widths as paragraph fitting.
     wxClientDC metrics(scripture_);
@@ -709,7 +874,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             control && control->GetLabel().Contains("Lyssna"))
             fail(__LINE__);
     if (!bar_->IsShown() || play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() ||
-        back_->IsEnabled() || panes_.front().second->IsEnabled() ||
+        back_->IsEnabled() != history_.can_back() || panes_.front().second->IsEnabled() ||
         address_->GetLabel() != ui::utf8("Dagens läsningar"))
         fail(__LINE__);
     // Repeated layout keeps long explanations wrapped in the centered column.
@@ -733,7 +898,24 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (current_page_title() != ui::utf8("Läsplaner") || plan_tiles().size() != 74 || readings_->IsShown())
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
+    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {10, 1}, 23});
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
+    if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %"))
+        fail(__LINE__);
+    if (!screenshot_path.empty()) {
+        root_->Layout();
+        current_page()->Refresh();
+        current_page()->Update();
+        Update();
+        wxBitmap bitmap;
+        bitmap.CreateWithLogicalSize(GetClientSize(), GetContentScaleFactor());
+        wxClientDC window(this);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, GetClientSize().x, GetClientSize().y, &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-plans-progress");
+    }
     if (plan_tiles().size() != 74 || !plan_tiles().front()->GetName().EndsWith(ui::utf8("läst")) ||
         plan_tiles()[1]->GetName().EndsWith(ui::utf8("läst")) ||
         plan_tiles().front()->GetToolTipText() != ui::utf8("Matt 1–9") ||
@@ -764,6 +946,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         wxTheApp->ProcessPendingEvents();
     }
     if (current_page() || !scripture_->IsShown() || !tracked_)
+        fail(__LINE__);
+    back();
+    if (navigation_.current().screen != Screen::Plans)
         fail(__LINE__);
     back();
     if (!readings_->IsShown())
@@ -894,7 +1079,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         save(image, "-end");
     }
     // Marked verses replace the reading as what Lyssna reads.
-    open_psalm();
+    open_fresh_psalm();
     scripture_->select_verses({23, 4}, {23, 2});
     const auto marked = scripture_->selections();
     if (marked.size() != 1 || marked.front().first != VerseRef{23, 2} ||
@@ -965,7 +1150,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             settings_.theme = theme;
             settings_.parallel = mode;
             apply_settings(false);
-            open_psalm();
+            open_fresh_psalm();
             const auto plain = render();
             const auto left = verse_point({22, 1}, 0), right = verse_point({22, 1}, 1);
             click_text(left);
@@ -1017,7 +1202,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_.parallel.clear();
         settings_.theme = theme;
         apply_settings(false);
-        open_psalm();
+        open_fresh_psalm();
         const auto point = verse_point({22, 1}, 0);
         click_text(point);
         auto* tools = verse_tools();
@@ -1095,7 +1280,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     SetSize(FromDIP(wxSize(520, 850)));
     Layout();
     root_->Layout();
-    open_psalm();
+    open_fresh_psalm();
     click_text(verse_point({22, 1}, 1, true));
     if (!scripture_->highlighted_verse())
         fail(__LINE__);
@@ -1437,7 +1622,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     picker->select_verse(john, {3, 5});
     if (picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
         fail(__LINE__);
-    back();
+    picker->back(); // Escape steps up inside the picker; history Back leaves the page.
+    update_bar();
     if (current_page() != picker || picker->first_ != VerseRef{3, 3} || picker->last_ != VerseRef{3, 5})
         fail(__LINE__);
     picker->select_chapter(john, 5);
@@ -1859,7 +2045,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     settings_.tradition = previous_tradition;
     settings_.calendar = previous_calendar;
     select_day(date);
-    open_psalm();
+    open_fresh_psalm();
     pick_date();
     if (!readings_->IsShown() || scripture_->IsShown() || !month_)
         fail(__LINE__);
@@ -1873,7 +2059,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     const auto home_scroll = readings_->GetViewStart();
     about();
     back();
-    if (!readings_->IsShown() || scripture_->IsShown() || back_->IsEnabled() ||
+    if (!readings_->IsShown() || scripture_->IsShown() || back_->IsEnabled() != history_.can_back() ||
         readings_->GetViewStart() != home_scroll)
         fail(__LINE__);
     std::cout << "Embedded pages: previous view, scroll, selection, study, parts, date controls.\n";
@@ -1882,7 +2068,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (study_->IsShown())
         fail(__LINE__);
     // Exercise playback presentation without model loading or audible output.
-    open_psalm();
+    open_fresh_psalm();
     settings_.theme = Theme::Light;
     settings_.parallel = "el";
     apply_settings(false);
@@ -2073,8 +2259,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     display_playback({SpeechState::Stopped, {}, 0, 0});
     for (int i = 0; i < 90; ++i)
         scripture_->advance_playback(0.016);
-    if (scripture_->marker_position() || play_->GetLabel() != "Lyssna" || !play_->IsEnabled() ||
-        pause_->IsEnabled() || stop_->IsEnabled())
+    if (scripture_->marker_position() ||
+        play_->GetLabel() != (has_reading_position() ? ui::utf8("Fortsätt") : wxString("Lyssna")) ||
+        !play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled() != has_reading_position())
         fail(__LINE__);
     // Following, section changes and browsing all use the reader's follow state.
     {
@@ -2168,12 +2355,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (engine->changed || current_page() || !readings_->IsShown() || scripture_->IsShown() ||
             play_->IsEnabled() || pause_->IsEnabled() || stop_->IsEnabled())
             fail(__LINE__);
-        // A manually chosen reading replaces a paused session and has fresh playback controls.
+        // Choosing a reading stops the previous session and restores its own saved position.
         open_reading(gospel);
         if (!engine->changed || engine->held.state != SpeechState::Stopped ||
             playback_.playback().state != SpeechState::Stopped || visible_reading_->passage.book != "John" ||
             scripture_->marker_position() || !play_->IsEnabled() || pause_->IsEnabled() ||
-            stop_->IsEnabled() || play_->GetLabel() != "Lyssna")
+            stop_->IsEnabled() != has_reading_position() ||
+            play_->GetLabel() != (has_reading_position() ? ui::utf8("Fortsätt") : wxString("Lyssna")))
             fail(__LINE__);
         engine->held = {SpeechState::Paused, SpeechCue{0, 0, "Ps", "sv1917", {23, 3}, {23, 3}}, 0.35, 0.4};
         follow_speech();
@@ -2200,7 +2388,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         display_playback({SpeechState::Stopped, {}, 0, 0});
     }
     std::cout << "Playback presentation: marker, pause, buffering, manual scroll, follow, stop.\n";
-    open_psalm();
+    open_fresh_psalm();
     settings_ = original;
     apply_settings(false);
     if (selected_.date() != date)
