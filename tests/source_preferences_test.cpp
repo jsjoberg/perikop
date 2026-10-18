@@ -30,6 +30,8 @@ int main(int argc, char** argv) {
         check(preferred_source(settings.primary_sources, john) == "sv1917", "Primary chapter is Swedish");
         check(preferred_source(settings.secondary_sources, john, "sv1917") == "en-web",
               "Secondary New Testament uses WEB, excluding the main edition");
+        check(preferred_source(settings.secondary_sources, {"sv1917"}).empty(),
+              "Swedish is initially disabled in the second pane");
         const auto esdras = chapter_sources(corpus, "grc-lxx", "1Esd", 1);
         check(preferred_source(settings.primary_sources, esdras) == "en-lxx2012",
               "A chapter without Swedish text falls back to enabled English");

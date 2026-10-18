@@ -10,7 +10,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Added
 
-- Ordered, enabled/disabled source preferences for the main text and the second pane. Swedish is first by default, English is the fallback, and Greek main-text editions are opt-in. Each chapter has source dropdowns for temporary independent pane overrides. Non-Swedish main text has no read-aloud.
+- Ordered, enabled/disabled source preferences for the main text and the second pane. Swedish is first by default, English is the fallback, and Greek main-text editions are opt-in. The second pane defaults to English, then Greek, with Swedish opt-in. Each chapter has source dropdowns for temporary independent pane overrides. Non-Swedish main text has no read-aloud.
 
 - Reading positions save automatically on pause, navigation, and close. Play resumes at the beginning of the saved verse, Stop resets the reading, and daily readings and reading-plan sections show the same passage progress percentages. Completed readings are marked without a confirmation dialog.
 - Back and Forward buttons, platform keyboard shortcuts, and mouse side-button navigation retain the current session's opened views and reading positions. A new destination clears Forward; navigation history is not persisted.
@@ -22,7 +22,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
-- One toolbar button switches between Play and Pause. One split-view button replaces the separate Greek and English buttons and follows the saved secondary-source priority.
+- One toolbar button switches between Play and Pause. One split-view button replaces the separate Greek and English buttons and follows the saved secondary-source priority. Word study uses a distinct text-and-magnifier icon.
 
 - All reading-plan button grids fill the same content width, with or without completion marks and percentages.
 - macOS releases require Apple Silicon and macOS 15 or later. Intel and universal builds are retired.

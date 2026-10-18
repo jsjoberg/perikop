@@ -205,7 +205,7 @@ struct Settings {
                                                     {"en-web", true},
                                                     {"grc-lxx", true},
                                                     {"grc-patriarchal", true},
-                                                    {"sv1917", true}};
+                                                    {"sv1917", false}};
     // The right pane is the Ordstudium lookup panel. Excludes split view.
     bool word_study = false;
     // Read-aloud tints the line being read. The margin marker shows either way.
