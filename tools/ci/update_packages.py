@@ -292,6 +292,7 @@ def cleanup(repository, current, keep):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser("version")
     restoring = commands.add_parser("restore")
     restoring.add_argument("--repository", default=os.environ.get("GITHUB_REPOSITORY"), required=False)
     restoring.add_argument("--platform", choices=PLATFORMS, required=True)
@@ -314,7 +315,9 @@ def main():
     cleaning.add_argument("--current", required=True)
     cleaning.add_argument("--keep", type=int, default=7)
     args = parser.parse_args()
-    if args.command == "restore":
+    if args.command == "version":
+        print(build_version())
+    elif args.command == "restore":
         if not args.repository:
             parser.error("restore needs --repository or GITHUB_REPOSITORY")
         restore(args.repository, args.platform, args.output, args.version or build_version())

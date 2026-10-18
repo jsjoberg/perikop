@@ -405,6 +405,28 @@ jobs:
       - name: Storage, speech, layout, and UI with ASan and UBSan
         timeout-minutes: 30
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' bash tools/ci/build-sanitizers.sh
+  publication-check:
+    needs: [unix, windows, sanitizers]
+    if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && !inputs.nightly && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: perikop-*
+          path: packages
+          merge-multiple: true
+      - name: Verify the complete unpublished release staging
+        run: |
+          version=$(python3 tools/ci/update_packages.py version)
+          python3 tools/ci/update_packages.py assemble packages/legacy packages/updates build/release-check "$version"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: publication-check
+          path: |
+            build/release-check/SHA256SUMS.txt
+            build/release-check/releases.*.json
+          if-no-files-found: error
   release:
     # Version tags require every check. Nightlies retain each successful platform package.
     if: ${{ !cancelled() && ((startsWith(github.ref, 'refs/tags/v') && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success') || (!startsWith(github.ref, 'refs/tags/v') && (github.event_name == 'schedule' || inputs.nightly == true) && needs.nightly.outputs.build == 'true')) }}
