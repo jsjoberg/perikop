@@ -18,5 +18,5 @@
   "appimage-runtime-arm64": {"file": "runtime-aarch64", "url": "https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-aarch64", "sha256": "b4ff0030242d0c3bb12ce40541828303cf167493f4793456f0436edd6255c39d", "platform": "Linux-arm64"},
   "ort-macos-x86_64": {"file": "ort-macos-x86_64.tgz", "url": "https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-osx-x86_64-1.23.2.tgz", "sha256": "d10359e16347b57d9959f7e80a225a5b4a66ed7d7e007274a15cae86836485a6", "source": "ortho_ort_x86_64", "platform": "macOS"},
   "velopack": {"file": "velopack_libc.zip", "url": "https://github.com/velopack/velopack/releases/download/1.2.161/velopack_libc_1.2.161.zip", "sha256": "31de8f2cf05a47bd5328a9f98b0c41aec1582156f6075f1058b26941f7f17c20", "source": "ortho_velopack", "platform": ["Linux", "Linux-arm64", "macOS", "Windows"]},
-  "vpk": {"file": "vpk.nupkg", "url": "https://github.com/velopack/velopack/releases/download/1.2.161/vpk.1.2.161.nupkg", "sha256": "2b56ce117f803fc70c103cb423bd040e395e40370f6ff6e10818e9ff9c26a323", "platform": ["Linux", "Linux-arm64", "Windows"]}
+  "vpk": {"file": "vpk.nupkg", "url": "https://github.com/velopack/velopack/releases/download/1.2.161/vpk.1.2.161.nupkg", "sha256": "2b56ce117f803fc70c103cb423bd040e395e40370f6ff6e10818e9ff9c26a323", "platform": ["Linux", "Linux-arm64", "macOS", "Windows"]}
 }
