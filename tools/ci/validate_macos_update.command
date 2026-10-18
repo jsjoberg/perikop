@@ -37,6 +37,7 @@ database="$work/profile/user.db"
 /usr/bin/sqlite3 "$database" <<'SQL'
 CREATE TABLE settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;
 CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;
+CREATE TABLE reading_position(key TEXT PRIMARY KEY NOT NULL,section INTEGER NOT NULL,book TEXT NOT NULL,source TEXT NOT NULL,chapter INTEGER NOT NULL,verse INTEGER NOT NULL,suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT;
 INSERT INTO settings VALUES('update_channel','nightly'),('theme','dark'),('color_scheme','nord');
 INSERT INTO progress VALUES('update-test','2026-10-18');
 SQL
