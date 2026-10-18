@@ -45,6 +45,19 @@
       "license": "MIT"
     },
     {
+      "path": "resources/licenses/Velopack-MIT.txt",
+      "url": "https://raw.githubusercontent.com/velopack/velopack/92d6a1c91716729d449034df5c50307dcce39493/LICENSE",
+      "sha256": "91845db83551c877ebbb1118e0fb92e4e527290d23b995c55dcd438b3293943f",
+      "license": "MIT"
+    },
+    {
+      "path": "resources/licenses/Velopack-crates.txt",
+      "url": "https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/Cargo.lock",
+      "sha256": "551e0a7ff1f6ca3c21eade311dd3f57ca86802ce671fd368886f3c2967baee51",
+      "license": "MIT AND Apache-2.0 AND ISC AND Unicode-3.0 AND BSD-3-Clause AND Zlib AND CDLA-Permissive-2.0",
+      "generated": "tools/velopack_notices.py"
+    },
+    {
       "path": "resources/corpus/provenance/ebible-pages.zip",
       "member": "grcbrent-copyright.html",
       "url": "https://ebible.org/grcbrent/copyright.htm",

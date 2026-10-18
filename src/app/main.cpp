@@ -1,3 +1,4 @@
+#include "app/updates.hpp"
 #include "speech/portable_speech.hpp"
 #include "storage/database.hpp"
 #include "typesetting/paragraph_layout.hpp"
@@ -25,6 +26,8 @@
 class ReaderApp final : public wxApp {
 public:
     bool OnInit() override {
+        // First, in case Velopack started the program to finish installing or updating it.
+        ortho::start_updates();
         // Swedish month and weekday names in date controls. This sets only
         // wxWidgets' UI locale; the C locale used for numbers is unchanged.
         wxUILocale::UseLocaleName("sv_SE");
@@ -152,8 +155,8 @@ public:
 #if wxCHECK_VERSION(3, 3, 0)
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
-            auto* frame =
-                new ortho::MainFrame(*corpus_, *user_, date, resources, data_path, smoke || benchmark);
+            auto* frame = new ortho::MainFrame(*corpus_, *user_, date, resources, data_path,
+                                               ortho::make_update_backend(), smoke || benchmark);
             wxIcon icon;
             icon.CopyFromBitmap(wxBitmap(ortho::app_icon_image()));
             if (icon.IsOk())

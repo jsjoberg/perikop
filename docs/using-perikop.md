@@ -48,7 +48,9 @@ The day page shows the selected date's readings and three reading plans. Press *
 ## Updates
 
 **Inställningar → Uppdateringskanal** saves your choice of **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds).
-Changing this setting makes no network requests. The in-app update checker is not yet connected; download updates from [the releases](https://github.com/jsjoberg/perikop/releases).
+Changing this setting makes no network requests.
+**Sök efter uppdateringar** checks the chosen channel on GitHub. Each step then waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
+No current download can update itself yet, so the button explains that and points to [the releases](https://github.com/jsjoberg/perikop/releases).
 
 ## Bible browser
 

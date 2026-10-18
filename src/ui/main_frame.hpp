@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/navigation.hpp"
+#include "core/updater.hpp"
 #include "speech/playback_controller.hpp"
 #include "ui/reader_controls.hpp"
 #include <filesystem>
@@ -10,6 +11,7 @@
 #include <wx/accel.h>
 #include <wx/frame.h>
 #include <wx/timer.h>
+#include <wx/weakref.h>
 
 class wxBoxSizer;
 class wxEventFilter;
@@ -31,7 +33,8 @@ struct ReadingPlan;
 class MainFrame final : public wxFrame {
 public:
     MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources,
-              const std::filesystem::path& data, bool diagnostic = false);
+              const std::filesystem::path& data, std::unique_ptr<UpdateBackend> updates,
+              bool diagnostic = false);
     ~MainFrame() override;
     void open_reading(const Reading&);
     void open_psalm();
@@ -80,6 +83,9 @@ private:
     // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);
+    // The update controls in Inställningar follow the updater's state.
+    void show_update_status();
+    void update_clicked();
     // The start page's plan section: the next part of the plan in progress, and all plans.
     void add_next_plan();
     void open_plan_part(const ReadingPlan&, std::size_t part);
@@ -129,6 +135,7 @@ private:
 
     std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
     std::unique_ptr<SpeechEngine> speech_;
+    std::unique_ptr<Updater> updater_;
     wxTimer playback_timer_;
     PlaybackController playback_;
 
@@ -175,5 +182,7 @@ private:
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
+    // Inställningar's update controls; they go when the page closes.
+    wxWeakRef<wxWindow> update_button_, update_cancel_, update_text_;
 };
 } // namespace ortho
