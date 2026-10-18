@@ -49,5 +49,9 @@ if [ "${PACKAGE:-false}" = true ]; then
     python3 tools/ci/update_packages.py finish "$output" "$channel" "$version" build/publish/updates
     mkdir -p build/publish/legacy
     cp build/package/Perikop-* build/publish/legacy/
+    # Both AppImages start with the pinned runtimes and carry the runtime licences (libfuse is LGPL-2.1).
+    python3 tools/appimage_runtime.py check build/cmake
+    # The runtimes' corresponding source ships beside the AppImages in every release.
+    python3 tools/appimage_runtime.py source --output build/publish/legacy
 fi
 ccache --show-stats

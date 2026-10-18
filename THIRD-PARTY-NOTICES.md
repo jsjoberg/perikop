@@ -47,10 +47,6 @@ Velopack's updater programs contain 385 Rust crates under permissive licenses su
 Apache 2.0, BSD, ISC, Zlib, and Unicode 3.0. `resources/licenses/Velopack-crates.txt` lists
 them with their licence texts; `tools/velopack_notices.py` generates it from Velopack's
 pinned `Cargo.lock`.
-
-Linux AppImages start through the AppImage type 2 runtime, under the MIT license in
-`resources/licenses/AppImage-type2-runtime-MIT.txt`. The runtime is a static program that
-also contains squashfuse and libfuse; see https://github.com/AppImage/type2-runtime.
 Source: https://github.com/velopack/velopack/tree/92d6a1c91716729d449034df5c50307dcce39493
 
 GNU builds include GCC's runtime libraries, under GPLv3 or later with the GCC Runtime Library Exception 3.1.
@@ -73,6 +69,42 @@ The Windows installer carries Microsoft's Visual C++ runtime, which ONNX Runtime
 `msvcp140.dll`, `msvcp140_1.dll`, `vcruntime140.dll`, and `vcruntime140_1.dll`.
 Microsoft permits their redistribution under the Visual Studio license terms.
 https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files
+
+## AppImage runtime
+
+Each Linux AppImage starts with the AppImage type 2 runtime, a small static program that
+mounts or extracts the rest of the file. It is not part of Perikop's own code. The runtime
+is under the MIT license. It is statically linked with these libraries:
+
+- libfuse 3.15.0, whose library (`include/`, `lib/`) is under the GNU Lesser General Public
+  License, version 2.1 (LGPL-2.1). The runtime uses libfuse with upstream's patch
+  `patches/libfuse/mount.c.diff`, which reads the path of `fusermount3` from `$FUSERMOUNT_PROG`.
+- squashfuse 0.5.2 (BSD-2-Clause), zstd 1.5.6 (BSD-3-Clause), zlib (zlib license),
+  mimalloc 2.1.7 (MIT), and musl libc 1.2.5 (MIT), from Alpine Linux 3.21.
+
+Two runtime builds ship:
+
+- `Perikop-<version>-<arch>.AppImage`, made with linuxdeploy, uses type2-runtime commit
+  `8f39b89e2ac31e1640b3d3f7e9a5108e6ce805fa`, pinned by SHA-256 in `ci/upstreams.json`.
+- The Velopack AppImages and their updates use the runtime vendored in vpk 1.2.161, commit
+  `3d17002ee2a519a288e28aeb7bc41af5f5adaf4e`, with zlib 1.3.1. It differs from the other only
+  in `src/runtime/runtime.c`.
+
+Each runtime names its commit (`--appimage-version`). The license texts are in
+`resources/licenses/`: `AppImage-type2-runtime-MIT.txt`, `libfuse-LGPL-2.1.txt` (the complete
+LGPL-2.1, from libfuse 3.15.0), `libfuse-LICENSE.txt`, `squashfuse-LICENSE.txt`,
+`zstd-LICENSE.txt`, `zlib-LICENSE.txt`, `mimalloc-LICENSE.txt`, and `musl-COPYRIGHT.txt`.
+
+The LGPL-2.1 lets you modify libfuse and relink the runtime with your version. Every release
+and nightly that carries AppImages also carries `AppImage-runtime-source-8f39b89-3d17002.tar.gz`,
+the corresponding source: both runtime revisions with their build scripts and the libfuse patch,
+the libfuse 3.15.0 release, and the sources of every other library linked into the runtimes. Its
+`README.md` explains how to rebuild the runtime, relink it with a modified libfuse, and put it in
+front of a Perikop AppImage. `tools/appimage_runtime.py` makes the archive from inputs pinned by
+SHA-256 in `ci/upstreams.json`. Upstream: https://github.com/AppImage/type2-runtime and
+https://github.com/libfuse/libfuse/releases/tag/fuse-3.15.0
+
+The LGPL-2.1 applies only to libfuse. Perikop remains under the MIT license.
 
 ## Complete Scripture editions
 

@@ -186,6 +186,10 @@ def finish(directory, channel, version, destination):
 
 def assemble(legacy, updates, output, version):
     files = list(legacy.glob("Perikop-*"))
+    # The AppImage runtime statically links libfuse (LGPL-2.1); its corresponding source ships beside the AppImages.
+    runtime_sources = list(legacy.glob("AppImage-runtime-source-*.tar.gz"))
+    if any(file.name.endswith(".AppImage") for file in files) and len(runtime_sources) != 1:
+        raise ValueError("AppImages need the corresponding source of their runtime; see tools/appimage_runtime.py")
     feeds = sorted(updates.glob("releases.*.json"))
     if not files or not feeds:
         raise ValueError("Publication needs native packages and update feeds")
@@ -211,7 +215,7 @@ def assemble(legacy, updates, output, version):
     output.mkdir(parents=True, exist_ok=True)
     if list(output.iterdir()):
         raise ValueError("Release staging directory must be empty")
-    for file in files + list(updates.iterdir()):
+    for file in files + runtime_sources + list(updates.iterdir()):
         if not file.is_file() or (output / file.name).exists():
             raise ValueError("Invalid or duplicate release file: " + file.name)
         shutil.copy2(file, output / file.name)

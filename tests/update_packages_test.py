@@ -115,6 +115,26 @@ class UpdatePackagesTest(unittest.TestCase):
                 digest, name = line.split("  ")
                 self.assertEqual(digest, hashlib.sha256((output / name).read_bytes()).hexdigest())
 
+    def test_assemble_ships_the_appimage_runtime_source_beside_appimages(self):
+        channel = "linux-x64-nightly"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            legacy, publication = root / "legacy", root / "updates"
+            legacy.mkdir()
+            publication.mkdir()
+            (legacy / "Perikop-0.1.0-x86_64.AppImage").write_bytes(b"appimage")
+            full = asset("1.0.0-test.2", channel=channel)
+            write_asset(publication, full)
+            (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [full]}))
+            # The runtime statically links libfuse (LGPL-2.1), so AppImages never ship without its source.
+            with self.assertRaisesRegex(ValueError, "corresponding source"):
+                updates.assemble(legacy, publication, root / "refused", "1.0.0-test.2")
+            (legacy / "AppImage-runtime-source-8f39b89-3d17002.tar.gz").write_bytes(b"source")
+            updates.assemble(legacy, publication, root / "release", "1.0.0-test.2")
+            checksums = (root / "release/SHA256SUMS.txt").read_text()
+            self.assertIn(hashlib.sha256(b"source").hexdigest() + "  AppImage-runtime-source-8f39b89-3d17002.tar.gz\n",
+                          checksums)
+
     def test_assemble_refuses_a_missing_platform_or_mismatched_version(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
