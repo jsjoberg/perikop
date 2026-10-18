@@ -1,6 +1,6 @@
 # In-app updates and build direction
 
-This is the implementation plan for the Velopack migration. The saved update-channel setting, separate macOS architecture packages, and ordered nightly versions exist; Velopack and the in-app update checker are not integrated yet. [Phases](#phases) lists the steps.
+This is the implementation plan for the Velopack migration. The updater and Linux and Windows packaging are integrated. macOS packaging is being validated; publication follows in phase 6. [Phases](#phases) lists the steps.
 
 ## Linux as the primary build host
 
@@ -127,5 +127,9 @@ Each phase is its own pull request.
    - The Windows job packs the installed files with `vpk` (Setup.exe, a portable zip, the update package, and the feed), using the runner's .NET. `vpk [win] pack` also works on Linux, but the Visual C++ runtime DLLs come from the Windows runner.
    - `tools/ci/velopack_windows_test.py` runs in the Windows job, also for pull requests. It installs the first of two packed nightly versions silently, lets the installed program update itself with `--update-probe`, checks that the profile is kept and read by the new version, and uninstalls with `Update.exe --uninstall --silent`. Unlike the Linux test it does not trace network calls.
    - A spike under Wine x64 on Linux installed a `vpk`-built Setup.exe silently, per user, in `%LOCALAPPDATA%`, and updated it from a local feed.
-5. macOS: pack each architecture with `vpk` on the Mac runners.
+5. macOS: pack each architecture with `vpk` on the Mac runners. Native packaging and update checks are implemented; **the macOS 13.4+ baseline check is pending**.
+   - `tools/package_velopack_macos.py` packages the staged `Perikop.app` as a PKG, portable ZIP, full update package, and feed. It preserves the bundle identifier and minimum macOS version, sets the package version in `Info.plist`, and thins `UpdateMac` to the package's architecture. `vpk` renews the ad-hoc signature after adding its metadata; Developer ID signing and notarization remain separate work.
+   - `tools/ci/velopack_macos_test.py` prepares two nightly versions and runs the real application's update probe for both architectures, including pull requests. Intel runs through Rosetta. The validation extracts the first PKG's payload into a private directory, updates it from a local feed, verifies architecture, signatures, version, UI, and profile preservation, and removes the private copy. It runs with networking denied; it does not exercise the Installer UI or privileged installation scripts.
+   - CI saves `macos-update-validation-arm64` and `macos-update-validation-x86_64` artifacts. Each ZIP is a self-contained kit requiring only macOS tools. Transfer it to a macOS 13.4+ machine in the 13 series and run `bash /path/to/validate_macos_update.command --require-macos13`. Keep its `result-<architecture>.txt` as evidence. A pass on newer macOS or Rosetta does not establish compatibility with macOS 13 or native Intel hardware.
+   - The SDK's crypto objects still carry macOS 26.5 build metadata. The deployment target stays 13.4. Do not mark baseline compatibility complete until the real update check passes on macOS 13; [the validation report](reports/velopack-macos-2026-10-18.md) records available evidence and the remaining check.
 6. Publishing: releases and nightlies upload feeds, full packages, and deltas, and nightly cleanup keeps the packages that deltas need.

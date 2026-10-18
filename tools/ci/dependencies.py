@@ -175,26 +175,26 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
         for name in APPIMAGE_TOOLS[platform]:
             shutil.copyfile(archives / name, target / name)
             (target / name).chmod(0o755)
-        # Velopack's packaging tool, a .NET program; zip extraction drops its helpers' executable bits.
-        if any(item["file"] == "vpk.nupkg" for item in selected(platform)):
-            vpk = output / "tools/vpk"
-            extract(archives / "vpk.nupkg", vpk)
-            for helper in (vpk / "vendor").iterdir():
-                if helper.is_file() and helper.read_bytes()[:4] == b"\x7fELF":
-                    helper.chmod(0o755)
     elif platform == "Windows":
         tools = output / "tools"
         tools.mkdir(parents=True, exist_ok=True)
         if not tools_only:
             subprocess.run(["7z", "x", str(archives / "w64devkit.7z.exe"), "-o" + str(tools), "-y"], check=True)
         unpack_root(archives / "nsis.zip", tools / "nsis")
-        # Velopack's packaging tool makes Setup.exe and the update packages.
-        if any(item["file"] == "vpk.nupkg" for item in selected(platform)):
-            extract(archives / "vpk.nupkg", tools / "vpk")
         if not tools_only:
             unpack_root(archives / "ccache-windows.zip", tools / "ccache")
     else:
         extract(downloads / names[1], output / "tools")
+    # Zip extraction drops executable bits on the native Linux and macOS helpers.
+    if not cross and any(item["file"] == "vpk.nupkg" for item in selected(platform)):
+        vpk = output / "tools/vpk"
+        extract(archives / "vpk.nupkg", vpk)
+        for helper in (vpk / "vendor").iterdir():
+            if helper.is_file():
+                with helper.open("rb") as stream:
+                    magic = stream.read(4)
+                if magic in (b"\x7fELF", b"\xca\xfe\xba\xbe", b"\xcf\xfa\xed\xfe"):
+                    helper.chmod(0o755)
     print("Restored verified {} inputs from {}/{}".format(platform, lock["repository"], lock["release"]))
 
 

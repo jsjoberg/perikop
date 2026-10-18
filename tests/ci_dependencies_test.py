@@ -45,6 +45,7 @@ class DependenciesTest(unittest.TestCase):
             with zipfile.ZipFile(root / "vpk.nupkg", "w") as archive:
                 archive.writestr("tools/net8.0/any/vpk.dll", "packaging tool")
                 archive.writestr("vendor/UpdateNix_x64", b"\x7fELF helper")
+                archive.writestr("vendor/UpdateMac", b"\xca\xfe\xba\xbe helper")
                 archive.writestr("vendor/DefaultApp.png", "icon")
             items["vpk"] = {"file": "vpk.nupkg", "sha256": dependencies.digest(root / "vpk.nupkg"),
                             "url": "https://upstream.invalid/vpk.nupkg", "platform": [platform]}
@@ -52,6 +53,9 @@ class DependenciesTest(unittest.TestCase):
         manifest.write_text(json.dumps(items))
         downloads = root / "build/ci/downloads"
         (downloads / (platform + "-environment.tar.gz")).write_bytes(b"pinned container")
+        if platform == "macOS":
+            with tarfile.open(downloads / "macOS-tools.tar.gz", "w:gz") as archive:
+                archive.add(root / "dependency.zip", arcname="fixture.zip")
         with tarfile.open(downloads / ("inputs-" + platform + ".tar.gz"), "w:gz") as archive:
             archive.add(manifest, arcname="upstreams.json")
             archive.add(root / "dependency.zip", arcname="dependency.zip")
@@ -102,6 +106,19 @@ class DependenciesTest(unittest.TestCase):
             vpk = root / "build/ci/tools/vpk"
             self.assertTrue((vpk / "tools/net8.0/any/vpk.dll").is_file())
             self.assertTrue(os.access(vpk / "vendor/UpdateNix_x64", os.X_OK))
+            self.assertFalse(os.access(vpk / "vendor/DefaultApp.png", os.X_OK))
+
+    def test_macos_restores_vpk_with_executable_updater(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest, lock, downloads = self.fixture(root, "macOS", vpk=True)
+            with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
+                    patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
+                dependencies.restore("macOS", root / "build/ci")
+                run.assert_not_called()
+            vpk = root / "build/ci/tools/vpk"
+            self.assertTrue((vpk / "tools/net8.0/any/vpk.dll").is_file())
+            self.assertTrue(os.access(vpk / "vendor/UpdateMac", os.X_OK))
             self.assertFalse(os.access(vpk / "vendor/DefaultApp.png", os.X_OK))
 
     def test_platform_lists_serve_each_named_platform(self):

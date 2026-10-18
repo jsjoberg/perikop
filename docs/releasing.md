@@ -47,6 +47,9 @@ On Linux, `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> 
 
 The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set to a `Microsoft.VC143.CRT` redistributable folder.
 The macOS DMGs are separate `macOS-arm64.dmg` (Apple Silicon) and `macOS-x86_64.dmg` (Intel) downloads.
+For Velopack, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
+`python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> <arm64|x86_64> osx-<arm64|x64>-<releases|nightly> <output>`.
+It needs .NET 8 and the restored `vpk`. Native CI also creates a [portable update validation kit](updating.md#phases) for each architecture; the macOS 13 baseline check remains pending. Publishing these feeds and packages is phase 6.
 The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.
 
 ## CI dependency snapshots

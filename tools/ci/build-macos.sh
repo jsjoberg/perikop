@@ -44,3 +44,19 @@ if [ "${PACKAGE:-false}" = true ]; then
     hdiutil detach "$mount"
     trap 'ccache --show-stats || true' EXIT
 fi
+if [ "${PACKAGE:-false}" = true ] || [ "${GITHUB_EVENT_NAME:-}" = pull_request ]; then
+    cmake --install build/cmake --prefix build/stage --strip
+    bundle="$PWD/build/stage/Perikop.app"
+    # Packing and the real update check run offline for both architectures, including PRs.
+    PERIKOP_MACOS_TEST_SANDBOX=1 python3 tools/ci/velopack_macos_test.py "$bundle" "$architecture" \
+        "build/macos-update-validation-$architecture"
+    if [ "${PACKAGE:-false}" = true ]; then
+        version=$(sed -n 's/^#define PERIKOP_VERSION "\([^"]*\)"/\1/p' build/cmake/generated/perikop_version.hpp)
+        runtime=$architecture
+        [ "$runtime" != x86_64 ] || runtime=x64
+        track=releases
+        [ "${NIGHTLY:-false}" != true ] || track=nightly
+        python3 tools/package_velopack_macos.py "$bundle" "$version" "$architecture" \
+            "osx-$runtime-$track" build/velopack
+    fi
+fi
