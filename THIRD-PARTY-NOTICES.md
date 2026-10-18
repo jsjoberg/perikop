@@ -39,10 +39,16 @@ amalgamation with loadable extensions disabled.
 Source: https://sqlite.org/copyright.html
 
 Velopack 1.2.161's C/C++ SDK is linked statically into the Linux and macOS programs for
-in-app updates. Velopack uses the MIT license, in `resources/licenses/Velopack-MIT.txt`.
-The SDK contains 115 Rust crates under permissive licenses such as MIT, Apache 2.0, ISC,
-and Unicode 3.0. `resources/licenses/Velopack-crates.txt` lists them with their licence
-texts; `tools/velopack_notices.py` generates it from Velopack's pinned `Cargo.lock`.
+in-app updates, and the Linux update packages carry its updater program, UpdateNix.
+Velopack uses the MIT license, in `resources/licenses/Velopack-MIT.txt`. The SDK and
+Velopack's updater programs contain 385 Rust crates under permissive licenses such as MIT,
+Apache 2.0, BSD, ISC, Zlib, and Unicode 3.0. `resources/licenses/Velopack-crates.txt` lists
+them with their licence texts; `tools/velopack_notices.py` generates it from Velopack's
+pinned `Cargo.lock`.
+
+Linux AppImages start through the AppImage type 2 runtime, under the MIT license in
+`resources/licenses/AppImage-type2-runtime-MIT.txt`. The runtime is a static program that
+also contains squashfuse and libfuse; see https://github.com/AppImage/type2-runtime.
 Source: https://github.com/velopack/velopack/tree/92d6a1c91716729d449034df5c50307dcce39493
 
 GNU builds include GCC's runtime libraries, under GPLv3 or later with the GCC Runtime Library Exception 3.1.

@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import tarfile
@@ -20,7 +21,7 @@ class DependenciesTest(unittest.TestCase):
     def test_native_versions_match_upstream_snapshot(self):
         dependencies.audit()
 
-    def fixture(self, root, platform="Linux"):
+    def fixture(self, root, platform="Linux", vpk=False):
         (root / "ci").mkdir()
         (root / "build/ci/downloads").mkdir(parents=True)
         (root / "CMakeLists.txt").write_text("")
@@ -38,14 +39,25 @@ class DependenciesTest(unittest.TestCase):
         sdk = {"file": "velopack.zip", "sha256": dependencies.digest(root / "velopack.zip"),
                "source": "ortho_velopack", "url": "https://upstream.invalid/velopack.zip", "platform": ["Linux"]}
         (root / "cmake/updates.cmake").write_text(sdk["sha256"])
+        items = {"sqlite": item, "velopack": sdk}
+        if vpk:
+            # Velopack's packaging tool: a .NET program with native Linux helpers.
+            with zipfile.ZipFile(root / "vpk.nupkg", "w") as archive:
+                archive.writestr("tools/net8.0/any/vpk.dll", "packaging tool")
+                archive.writestr("vendor/UpdateNix_x64", b"\x7fELF helper")
+                archive.writestr("vendor/DefaultApp.png", "icon")
+            items["vpk"] = {"file": "vpk.nupkg", "sha256": dependencies.digest(root / "vpk.nupkg"),
+                            "url": "https://upstream.invalid/vpk.nupkg", "platform": [platform]}
         manifest = root / "ci/upstreams.json"
-        manifest.write_text(json.dumps({"sqlite": item, "velopack": sdk}))
+        manifest.write_text(json.dumps(items))
         downloads = root / "build/ci/downloads"
         (downloads / (platform + "-environment.tar.gz")).write_bytes(b"pinned container")
         with tarfile.open(downloads / ("inputs-" + platform + ".tar.gz"), "w:gz") as archive:
             archive.add(manifest, arcname="upstreams.json")
             archive.add(root / "dependency.zip", arcname="dependency.zip")
             archive.add(root / "velopack.zip", arcname="velopack.zip")
+            if vpk:
+                archive.add(root / "vpk.nupkg", arcname="vpk.nupkg")
             for name in dependencies.APPIMAGE_TOOLS.get(platform, ()):
                 (root / name).write_bytes(b"fixture tool")
                 archive.add(root / name, arcname=name)
@@ -78,6 +90,19 @@ class DependenciesTest(unittest.TestCase):
                 run.assert_not_called()
             tools = sorted(path.name for path in (root / "build/ci/tools/appimage").iterdir())
             self.assertEqual(tools, sorted(dependencies.APPIMAGE_TOOLS["Linux-arm64"]))
+
+    def test_linux_restores_vpk_with_executable_helpers(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest, lock, downloads = self.fixture(root, vpk=True)
+            with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
+                    patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
+                dependencies.restore("Linux", root / "build/ci")
+                run.assert_not_called()
+            vpk = root / "build/ci/tools/vpk"
+            self.assertTrue((vpk / "tools/net8.0/any/vpk.dll").is_file())
+            self.assertTrue(os.access(vpk / "vendor/UpdateNix_x64", os.X_OK))
+            self.assertFalse(os.access(vpk / "vendor/DefaultApp.png", os.X_OK))
 
     def test_platform_lists_serve_each_named_platform(self):
         with tempfile.TemporaryDirectory() as temporary:

@@ -17,6 +17,10 @@ on:
         description: Update native inputs; reuse the pinned Linux environment and macOS tools
         type: boolean
         default: false
+      linux_environment_only:
+        description: Rebuild the Linux environments; reuse the pinned Windows cross-build environment and macOS tools
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -92,7 +96,7 @@ jobs:
           print('available=' + str('Windows-cross-environment.tar.gz' in assets).lower())
           PY
       - name: Prepare Linux toolchain for Windows x64
-        if: steps.environment.outputs.available != 'true' || (inputs.macos_tools_only != true && inputs.reuse_environments != true)
+        if: steps.environment.outputs.available != 'true' || (inputs.macos_tools_only != true && inputs.reuse_environments != true && inputs.linux_environment_only != true)
         run: |
           docker build --pull -f ci/windows-cross.Dockerfile -t perikop-ci-windows-cross:dependencies ci
           mkdir -p build/snapshot
@@ -100,7 +104,7 @@ jobs:
             bash -c 'x86_64-w64-mingw32-clang --version && cmake --version && ccache --version'
           docker save perikop-ci-windows-cross:dependencies | gzip -1 > build/snapshot/Windows-cross-environment.tar.gz
       - name: Reuse pinned cross-build environment
-        if: steps.environment.outputs.available == 'true' && (inputs.macos_tools_only == true || inputs.reuse_environments == true)
+        if: steps.environment.outputs.available == 'true' && (inputs.macos_tools_only == true || inputs.reuse_environments == true || inputs.linux_environment_only == true)
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/ci/dependencies.py reuse --platform Windows-cross --output build/snapshot
@@ -118,13 +122,13 @@ jobs:
           repository: jsjoberg/perikop
           ref: ${{ inputs.ref }}
       - name: Prepare macOS analysis tools
-        if: inputs.reuse_environments != true || inputs.macos_tools_only == true
+        if: (inputs.reuse_environments != true && inputs.linux_environment_only != true) || inputs.macos_tools_only == true
         run: |
           brew install llvm@23 ccache
           mkdir -p build/snapshot
           python3 tools/ci/macos_tools.py build/snapshot
       - name: Reuse pinned macOS tools
-        if: inputs.reuse_environments == true && inputs.macos_tools_only != true
+        if: (inputs.reuse_environments == true || inputs.linux_environment_only == true) && inputs.macos_tools_only != true
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/ci/dependencies.py reuse --platform macOS --output build/snapshot

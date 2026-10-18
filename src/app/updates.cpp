@@ -1,4 +1,5 @@
 #include "app/updates.hpp"
+#include <iostream>
 #include <stdexcept>
 #ifdef PERIKOP_UPDATES
 #include <Velopack.hpp>
@@ -33,9 +34,14 @@ bool installed() {
 
 class VelopackBackend final : public UpdateBackend {
 public:
-    VelopackBackend() {
+    // Where releases come from: GitHub for the program, a local directory for the update probe.
+    using Source = std::function<std::unique_ptr<Velopack::IUpdateSourcePointer>(bool nightly)>;
+    VelopackBackend(Source source, bool restart) : source_(std::move(source)), restart_(restart) {
         if (!installed())
             reason_ = not_installed;
+    }
+    std::string installed_version() const {
+        return manager_ ? manager_->GetCurrentVersion() : std::string();
     }
     std::string unavailable() const override {
         return reason_;
@@ -47,9 +53,7 @@ public:
         // Switching channel may offer an older version; the user confirms it before it downloads.
         options.AllowVersionDowngrade = true;
         options.MaximumDeltasBeforeFallback = 10;
-        // The GitHub source sends no identifier; nightlies are prereleases.
-        manager_ = std::make_unique<Velopack::UpdateManager>(
-            std::make_unique<Velopack::GithubSource>(repository, "", nightly), &options);
+        manager_ = std::make_unique<Velopack::UpdateManager>(source_(nightly), &options);
         update_ = manager_->CheckForUpdates();
         if (!update_)
             return std::nullopt;
@@ -74,10 +78,12 @@ public:
     void apply() override {
         if (!manager_ || !update_)
             throw std::runtime_error("Ingen version är vald");
-        manager_->WaitExitThenApplyUpdates(*update_, false, true);
+        manager_->WaitExitThenApplyUpdates(*update_, !restart_, restart_);
     }
 
 private:
+    Source source_;
+    bool restart_;
     std::string reason_;
     // The selected package stays with the manager that found it, from check through download and apply.
     std::unique_ptr<Velopack::UpdateManager> manager_;
@@ -107,9 +113,48 @@ void start_updates() {
 }
 std::unique_ptr<UpdateBackend> make_update_backend() {
 #ifdef PERIKOP_UPDATES
-    return std::make_unique<VelopackBackend>();
+    return std::make_unique<VelopackBackend>(
+        [](bool nightly) {
+            // The GitHub source sends no identifier; nightlies are prereleases.
+            return std::make_unique<Velopack::GithubSource>(repository, "", nightly);
+        },
+        true);
 #else
     return std::make_unique<UnavailableBackend>();
+#endif
+}
+int update_probe(const std::string& feed, UpdateChannel channel) {
+#ifdef PERIKOP_UPDATES
+    VelopackBackend backend(
+        [feed](bool) {
+            return std::make_unique<Velopack::FileSource>(feed);
+        },
+        false);
+    if (!backend.unavailable().empty()) {
+        std::cerr << backend.unavailable() << '\n';
+        return 1;
+    }
+    try {
+        const auto offer = backend.check(channel);
+        std::cout << "VERSION " << backend.installed_version() << '\n';
+        if (!offer) {
+            std::cout << "NO_UPDATE\n";
+            return 0;
+        }
+        std::cout << "AVAILABLE " << offer->version << '\n';
+        backend.download([](int) {});
+        backend.apply();
+        std::cout << "APPLYING\n";
+        return 0;
+    } catch (const std::exception& error) {
+        std::cerr << error.what() << '\n';
+        return 1;
+    }
+#else
+    (void)feed;
+    (void)channel;
+    std::cerr << not_installed << '\n';
+    return 1;
 #endif
 }
 } // namespace ortho

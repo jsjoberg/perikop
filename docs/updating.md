@@ -115,9 +115,13 @@ Each phase is its own pull request.
    - `src/core/updater.cpp` runs each user step (check, download, apply) on a worker thread and reports to the UI thread. Avbryt stops waiting; no other step starts until the abandoned request finishes. `tests/updater_test.cpp` covers it with a fake backend.
    - `src/app/updates.cpp` is the Velopack backend. It uses the GitHub source with the `<os>-<arch>-<track>` channel, lets the user confirm a downgrade, and keeps the selected package from check through apply.
    - `VelopackApp` runs at startup only in a copy that Velopack installed, because it always opens a log file. Other copies write nothing and make no requests.
-   - The SDK is linked statically from the dependency snapshot. `resources/licenses/Velopack-crates.txt` holds the notices of its 115 Rust crates.
+   - The SDK is linked statically from the dependency snapshot. `resources/licenses/Velopack-crates.txt` holds the notices of the 385 Rust crates in it and in Velopack's updater programs.
    - The pinned macOS static library contains crypto objects built for macOS 26.5. The program still targets macOS 13.4, and the linker warns. Check the update steps on macOS 13 before phase 5.
-3. Linux: pack the AppDir with `vpk` on x64 and ARM64, with the static SDK. Test a real upgrade and the profile offline on the glibc 2.34 baseline.
+3. Linux packages. Done; publishing them is phase 6.
+   - `tools/package_velopack.sh` packs the AppDir from `tools/package_appimage.sh` with `vpk` as `Perikop`, keeping linuxdeploy's AppDir with GTK. It first checks Velopack's updater, `UpdateNix`, against the glibc 2.34 baseline, because it ships inside the AppImage. Delta packages wait for phase 6.
+   - The Linux CI image has .NET 8, `squashfs-tools`, and `strace`; `vpk` 1.2.161 is in the Linux dependency inputs.
+   - `tools/ci/velopack_linux_test.py` runs wherever CI packages Linux. It packs the build as two nightly versions, installs the first, and lets the program update itself from a local feed with `--update-probe`, the same backend as Inställningar. It checks that the AppImage is replaced, that the profile is unchanged and read by the new version, and that neither version opens an Internet socket. It passed on Rocky Linux 9 ARM64 (glibc 2.34).
+   - The AppImage runtime that `vpk` embeds is credited in THIRD-PARTY-NOTICES, as are the Rust crates of Velopack's updater programs.
 4. Windows: pack Setup.exe on Linux and test install, update, and uninstall on a Windows runner. The SDK's Windows libraries are MSVC builds; with llvm-mingw, link its DLL through the C API.
 5. macOS: pack each architecture with `vpk` on the Mac runners.
 6. Publishing: releases and nightlies upload feeds, full packages, and deltas, and nightly cleanup keeps the packages that deltas need.
