@@ -20,11 +20,12 @@ elif [ "$#" != 0 ]; then
     exit 1
 fi
 cd "$kit"
+exec > >(tee "$kit/result-$architecture.txt") 2>&1
 /usr/bin/shasum -a 256 -c SHA256SUMS.txt
+cat SHA256SUMS.txt
 work=$(mktemp -d "${TMPDIR:-/tmp}/perikop-macos-update.XXXXXX")
 trap 'echo "Diagnostic files kept in $work"' EXIT
-exec > >(tee "$kit/result-$architecture.txt") 2>&1
-echo "macOS $system; target $architecture; networking denied"
+echo "macOS $system; host $(/usr/bin/uname -m); target $architecture; networking denied"
 # The SDK stores packages under HOME/Library/Caches/velopack. Keep all test state private.
 export HOME="$work/home"
 mkdir -p "$HOME" "$work/profile" "$work/installed"
@@ -43,7 +44,8 @@ before=$(/usr/bin/sqlite3 "$database" .dump)
 verify_bundle() {
     /usr/bin/codesign --verify --deep --strict "$app"
     for binary in "$program" "$app/Contents/MacOS/UpdateMac" "$app"/Contents/Frameworks/*.dylib; do
-        [ "$('/usr/bin/lipo' -archs "$binary")" = "$architecture" ] || {
+        description=$(/usr/bin/file -L -b "$binary")
+        [[ "$description" == "Mach-O 64-bit "* && "$description" == *" $architecture" ]] || {
             echo "Wrong architecture: $binary" >&2; return 1;
         }
     done
@@ -60,17 +62,22 @@ for line in 'VERSION 1.0.0-test.1' 'AVAILABLE 1.0.0-test.2' APPLYING; do
 done
 deadline=$((SECONDS + 120))
 while true; do
-    if probe > "$work/updated.log" 2>&1 && /usr/bin/grep -qx 'VERSION 1.0.0-test.2' "$work/updated.log"; then
+    # Poll the sealed bundle's metadata, without launching another copy that could apply the
+    # same update while UpdateMac is still replacing it (especially slow under Rosetta).
+    if [ "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$app/Contents/Info.plist" 2>/dev/null || true)" = 1.0.0-test.2 ] \
+            && /usr/bin/codesign --verify --deep --strict "$app" > "$work/replacement.log" 2>&1; then
         break
     fi
     if [ "$SECONDS" -ge "$deadline" ]; then
-        cat "$work/updated.log"
+        cat "$work/replacement.log" 2>/dev/null || true
         echo "Timed out waiting for UpdateMac to replace the bundle" >&2
         exit 1
     fi
     sleep 2
 done
+probe > "$work/updated.log" 2>&1
 cat "$work/updated.log"
+/usr/bin/grep -qx 'VERSION 1.0.0-test.2' "$work/updated.log"
 /usr/bin/grep -qx NO_UPDATE "$work/updated.log"
 verify_bundle
 [ "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$app/Contents/Info.plist")" = 1.0.0-test.2 ]

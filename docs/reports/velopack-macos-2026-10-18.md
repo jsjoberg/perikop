@@ -6,6 +6,8 @@ Velopack 1.2.161 is pinned in the dependency snapshot. The application targets m
 
 On macOS 26.6.2 Apple Silicon, the ARM64 application was built against the pinned SDK and packaged with `vpk`. The real application updated from 1.0.0-test.1 to 1.0.0-test.2 from a local feed with networking denied. The updated bundle passed strict signature verification and the UI smoke test, and settings and reading progress survived its replacement and removal. These results establish behavior on this system only.
 
+The same PKG-payload update, signature, architecture, profile, and UI checks passed for x86_64 through Rosetta on that Mac. Both architectures retain the macOS 13.4 deployment target. The application test suite also passed all 12 checks; GUI checks required permission to open windows outside the execution sandbox. The dependency preparation checks passed 18 tests, architecture checks passed 6, and Windows handoff checks passed 7.
+
 The packaging helper stages the existing bundle, preserves `LSMinimumSystemVersion` and `CFBundleIdentifier`, updates version metadata, and gives `vpk` a private copy of `UpdateMac` thinned to the selected architecture. Ad-hoc signing renews the bundle seal after the updater and `sq.version` are added. No Developer ID credentials, timestamp service, or notarization service are used.
 
 The automated check extracts a PKG payload into a temporary installation, runs the same backend as the update UI, and checks the replaced bundle and profile. It does not execute Apple's Installer UI, the PKG's privileged postinstall script, or Gatekeeper's handling of a downloaded unsigned installer. The original DMG remains available.
