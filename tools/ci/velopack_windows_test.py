@@ -16,10 +16,11 @@ import sqlite3
 import subprocess
 import tempfile
 import time
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 VPK = ROOT / "build/ci/tools/vpk/tools/net8.0/any/vpk.dll"
-FIRST, SECOND = "1.0.0-test.1", "1.0.0-test.2"
+FIRST, SECOND, THIRD = "1.0.0-test.1", "1.0.0-test.2", "1.0.0-test.3"
 CHANNEL = "win-x64-nightly"
 
 
@@ -29,9 +30,10 @@ def run(arguments, timeout=300):
     return result.returncode, result.stdout
 
 
-def settings(database):
+def profile_contents(database):
     with closing(sqlite3.connect(database)) as connection:
-        return sorted(connection.execute("SELECT key, value FROM settings"))
+        return (sorted(connection.execute("SELECT key, value FROM settings")),
+                sorted(connection.execute("SELECT key, completed FROM progress")))
 
 
 def wait_for(condition, what, seconds=120):
@@ -54,13 +56,15 @@ def main():
         feed, profile = work / "feed", work / "profile"
         profile.mkdir()
         setup = work / "Setup.exe"
-        for version in (FIRST, SECOND):
+        def pack(version, delta="None"):
             code, output = run(["dotnet", VPK, "pack", "--packId", "Perikop", "--packTitle", "Perikop",
                                 "--packVersion", version, "--packDir", args.bin, "--mainExe", "perikop.exe",
-                                "--runtime", "win-x64", "--channel", CHANNEL, "--delta", "None",
+                                "--runtime", "win-x64", "--channel", CHANNEL, "--delta", delta,
                                 "--outputDir", feed], 600)
             if code:
                 raise SystemExit(f"Packing {version} failed:\n{output}")
+        for version in (FIRST, SECOND):
+            pack(version)
             if version == FIRST:
                 shutil.copyfile(feed / f"Perikop-{CHANNEL}-Setup.exe", setup)
         # The profile asks for nightlies; only the nightly feed exists, so a copy that ignored it would fail.
@@ -69,9 +73,10 @@ def main():
         with closing(sqlite3.connect(database)) as connection, connection:
             connection.execute("CREATE TABLE settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT")
             connection.execute("CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT")
+            connection.execute("INSERT INTO progress VALUES('update-test','2026-10-18')")
             connection.executemany("INSERT INTO settings VALUES(?,?)",
                                    [("update_channel", "nightly"), ("theme", "dark"), ("color_scheme", "nord")])
-        before = settings(database)
+        before = profile_contents(database)
 
         code, output = run([setup, "--silent"], 600)
         program = installation / "current/perikop.exe"
@@ -86,25 +91,42 @@ def main():
                 or "APPLYING\n" not in output:
             raise SystemExit(f"The first version did not start the update ({code}):\n{output}")
         # Update.exe replaces the program once it has exited.
-        updated = {}
+        def installed_version():
+            try:
+                return next(element.text for element in ET.parse(installation / "current/sq.version").iter()
+                            if element.tag.rsplit("}", 1)[-1] == "version")
+            except (OSError, ET.ParseError, StopIteration):
+                return ""
 
-        def replaced():
-            updated["code"], updated["output"] = probe()
-            return updated["code"] == 0 and f"VERSION {SECOND}\n" in updated["output"]
-
-        wait_for(replaced, "the installed program was not replaced")
-        if "NO_UPDATE\n" not in updated["output"]:
-            raise SystemExit(f"The updated version was offered an update again:\n{updated['output']}")
-        if settings(database) != before:
-            raise SystemExit(f"The update changed the profile: {before} became {settings(database)}")
+        wait_for(lambda: installed_version() == SECOND, "the installed program was not replaced")
+        code, output = probe()
+        if code or f"VERSION {SECOND}\n" not in output or "NO_UPDATE\n" not in output:
+            raise SystemExit(f"The updated version failed ({code}):\n{output}")
+        pack(THIRD, "BestSpeed")
+        delta = feed / f"Perikop-{THIRD}-{CHANNEL}-delta.nupkg"
+        if not delta.is_file():
+            raise SystemExit("The third version has no delta package")
+        # The SDK cached SECOND during its full upgrade. Remove THIRD's full package from the
+        # feed so this step can succeed only by applying the delta to that cached base.
+        (feed / f"Perikop-{THIRD}-{CHANNEL}-full.nupkg").rename(work / "third-full.nupkg")
+        code, output = probe()
+        if code or f"AVAILABLE {THIRD}\n" not in output or "APPLYING\n" not in output:
+            raise SystemExit(f"The delta update failed ({code}):\n{output}")
+        wait_for(lambda: installed_version() == THIRD, "the delta update was not installed")
+        code, output = probe()
+        if code or f"VERSION {THIRD}\n" not in output or "NO_UPDATE\n" not in output:
+            raise SystemExit(f"The delta-updated version failed ({code}):\n{output}")
+        if profile_contents(database) != before:
+            raise SystemExit(f"The update changed the profile: {before} became {profile_contents(database)}")
 
         code, output = run([installation / "Update.exe", "--uninstall", "--silent"], 600)
         if code:
             raise SystemExit(f"Uninstalling failed ({code}):\n{output}")
         wait_for(lambda: not program.exists(), "uninstalling left the program in place")
-        if settings(database) != before:
+        if profile_contents(database) != before:
             raise SystemExit("Uninstalling changed the profile")
-    print(f"Installed {FIRST}, updated it to {SECOND} on {CHANNEL}, and uninstalled it; profile kept")
+    print(f"Installed {FIRST}, full-updated to {SECOND}, delta-updated to {THIRD} without its full package, "
+          f"and uninstalled it on {CHANNEL}; profile kept")
 
 
 if __name__ == "__main__":

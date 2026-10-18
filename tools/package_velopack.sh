@@ -23,4 +23,4 @@ ln -sfn AppDir "$build/Perikop.AppDir"
 mkdir -p "$output"
 dotnet "$vpk/tools/net8.0/any/vpk.dll" pack --packId Perikop --packTitle Perikop --packVersion "$version" \
     --packDir "$build/Perikop.AppDir" --mainExe perikop --runtime "$runtime" --channel "$channel" \
-    --delta None --outputDir "$output"
+    --delta "${PERIKOP_VELOPACK_DELTA:-None}" --outputDir "$output"

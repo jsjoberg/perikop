@@ -25,6 +25,7 @@ python3 tests/icon_test.py
 python3 tests/linux_abi_test.py
 python3 tests/ci_dependencies_test.py
 python3 tests/macos_arch_test.py
+python3 tests/update_packages_test.py
 if [ "${PACKAGE:-false}" = true ]; then
     for attempt in 1 2 3; do
         cpack --config build/cmake/CPackConfig.cmake -B build/package && break
@@ -56,7 +57,13 @@ if [ "${PACKAGE:-false}" = true ] || [ "${GITHUB_EVENT_NAME:-}" = pull_request ]
         [ "$runtime" != x86_64 ] || runtime=x64
         track=releases
         [ "${NIGHTLY:-false}" != true ] || track=nightly
+        channel="osx-$runtime-$track"
+        output="build/velopack/$channel"
+        python3 tools/ci/update_packages.py seed "build/update-base/$channel" "$output"
         python3 tools/package_velopack_macos.py "$bundle" "$version" "$architecture" \
-            "osx-$runtime-$track" build/velopack
+            "$channel" "$output" --delta BestSpeed
+        python3 tools/ci/update_packages.py finish "$output" "$channel" "$version" build/publish/updates
+        mkdir -p build/publish/legacy
+        cp build/package/Perikop-* build/publish/legacy/
     fi
 fi
