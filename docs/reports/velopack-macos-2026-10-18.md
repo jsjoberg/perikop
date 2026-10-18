@@ -12,6 +12,10 @@ The packaging helper stages the existing bundle, preserves `LSMinimumSystemVersi
 
 The automated check extracts a PKG payload into a temporary installation, runs the same backend as the update UI, and checks the replaced bundle and profile. It does not execute Apple's Installer UI, the PKG's privileged postinstall script, or Gatekeeper's handling of a downloaded unsigned installer. The original DMG remains available.
 
+## Delta validation
+
+Phase 6 extends the kit with a third version. The app first downloads a full update to 1.0.0-test.2, retaining that full package in its private cache. A second feed offers 1.0.0-test.3 and its delta, but deliberately omits the target full package. Both ARM64 and x86_64 through Rosetta successfully reconstructed and applied the third version, verified its renewed signature, passed the UI smoke test, and preserved settings and reading progress on macOS 26.6.2. This verifies SDK delta reconstruction without a successful full-package fallback. It does not establish macOS 13 compatibility.
+
 ## macOS 13 baseline: pending
 
 No macOS 13 machine or VM is available in this session. No macOS 13 compatibility claim has been made.

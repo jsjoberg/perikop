@@ -28,6 +28,17 @@ def prepare(bundle, architecture, kit):
         pack(bundle, version, architecture, channel, feed)
         if version == "1.0.0-test.1":
             shutil.copy2(feed / f"Perikop-{channel}-Setup.pkg", kit / "first.pkg")
+    second_feed = (feed / f"releases.{channel}.json").read_bytes()
+    pack(bundle, "1.0.0-test.3", architecture, channel, feed, delta="BestSpeed")
+    delta_feed = kit / "delta-feed"
+    delta_feed.mkdir()
+    shutil.copy2(feed / f"releases.{channel}.json", delta_feed)
+    shutil.copy2(feed / f"Perikop-1.0.0-test.3-{channel}-delta.nupkg", delta_feed)
+    # Deliberately omit THIRD's full package: its update can succeed only with the cached SECOND
+    # package and the delta. Keep the first feed at SECOND until that base has been downloaded.
+    (feed / f"releases.{channel}.json").write_bytes(second_feed)
+    for file in feed.glob("Perikop-1.0.0-test.3-*.nupkg"):
+        file.unlink()
     # Only the installed first version and the local update feed are needed on the test Mac.
     for file in feed.iterdir():
         if file.suffix not in (".nupkg", ".json") or file.name.startswith("assets."):
@@ -40,7 +51,7 @@ def prepare(bundle, architecture, kit):
         "  bash /path/to/validate_macos_update.command --require-macos13\n\n"
         "On a newer Mac, omit --require-macos13. Intel packages need Intel or Rosetta.\n"
         "No Python, .NET, compiler, network, or administrator access is needed.\n"
-        "The test extracts the PKG payload into a temporary directory, checks a real local-feed update,\n"
+        "The test extracts the PKG payload, applies a full update and then a delta without its full package,\n"
         "signatures, architecture, UI, and profile preservation, then removes the private copy.\n"
         "It saves result-<architecture>.txt beside this file. On failure it keeps diagnostic files.\n"
         "A pass on a newer macOS does not validate macOS 13 compatibility.\n")

@@ -1,6 +1,6 @@
 # Releases
 
-See the [update migration plan](updating.md) for the planned Linux-hosted Velopack packaging and user-controlled in-app updates. The commands below describe the current release pipeline.
+See the [update migration plan](updating.md) for platform validation and user-controlled in-app updates.
 
 ## Release
 
@@ -11,9 +11,10 @@ git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 ```
 
 CI builds, tests, and packages five targets: Windows x64, Linux x64, Linux ARM64, macOS Apple Silicon, and macOS Intel.
-It then creates a draft release with the packages and `SHA256SUMS.txt`.
+It then creates a draft release containing the existing five native downloads, Velopack installers/portable packages, a full update package and channel feed for each target, deltas where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file.
 A tag suffix such as `-alpha.2` goes into the file names. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
+The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.
 
 ## Nightly builds
 
@@ -28,11 +29,21 @@ Retries on the same day add the run ID and attempt number to the release tag.
 If all platforms fail, CI publishes no nightly.
 Version-tagged releases still require all five targets and sanitizers to pass.
 
+Every successful platform contributes its native download, Velopack download, full package, optional delta, and `releases.<channel>.json` feed together. A platform whose packaging or update test fails contributes neither a native download nor a feed. Full packages remain available for first upgrades, interrupted delta chains, and recovery.
+
+Before offline compilation/packaging, `tools/ci/update_packages.py restore` downloads the newest earlier full package in the same channel from published GitHub releases and verifies its SHA-256 and size against the feed. Packing uses that base with `--delta BestSpeed`. The first package in a channel has no delta. Restoring the base is an explicit network step; builds and packing remain offline. macOS packing also needs `zstd` on the runner.
+
+Each published feed includes the current full package, its new delta, and the previous full package's metadata. Previous full packages are not uploaded again by each build. Historical deltas are excluded from the new feed, because the pinned SDK combines feeds from multiple releases and would otherwise try the same patch twice.
+
+Cleanup reads every feed in the seven retained nightlies. If a referenced package exists only on an older release, it downloads and hash-checks that package, uploads it to the new nightly, updates `SHA256SUMS.txt`, and confirms every checksummed file is present before deleting old nightly releases and tags. Missing or conflicting feed/checksum data and failed package or checksum uploads stop cleanup before any release is deleted. An interrupted attempt that uploaded a base without its checksum is verified and repaired on retry. Cleanup does not delete version releases, drafts, or dependency snapshots. Keeping seven nightlies preserves room for release discovery within the SDK's ten-release API window.
+
 To start a nightly now:
 
 ```sh
 gh workflow run build.yml --ref main -f nightly=true
 ```
+
+For an unpublished packaging check on a branch, run `gh workflow run build.yml --ref <branch>` without `nightly=true`. It uploads CI artifacts and creates no GitHub release.
 
 ## Local packages
 
@@ -49,7 +60,7 @@ The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set 
 The macOS DMGs are separate `macOS-arm64.dmg` (Apple Silicon) and `macOS-x86_64.dmg` (Intel) downloads.
 For Velopack, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
 `python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> <arm64|x86_64> osx-<arm64|x64>-<releases|nightly> <output>`.
-It needs .NET 8 and the restored `vpk`. Native CI also creates a [portable update validation kit](updating.md#phases) for each architecture; the macOS 13 baseline check remains pending. Publishing these feeds and packages is phase 6.
+It needs .NET 8, `zstd` for deltas, and the restored `vpk`. Native CI also creates a [portable update validation kit](updating.md#phases) for each architecture; the macOS 13 baseline check remains pending. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
 The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.
 
 ## CI dependency snapshots

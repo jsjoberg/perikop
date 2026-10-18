@@ -27,8 +27,8 @@ work=$(mktemp -d "${TMPDIR:-/tmp}/perikop-macos-update.XXXXXX")
 trap 'echo "Diagnostic files kept in $work"' EXIT
 echo "macOS $system; host $(/usr/bin/uname -m); target $architecture; networking denied"
 # The SDK stores packages under HOME/Library/Caches/velopack. Keep all test state private.
-export HOME="$work/home"
-mkdir -p "$HOME" "$work/profile" "$work/installed"
+export HOME="$work/home" TMPDIR="$work/tmp/"
+mkdir -p "$HOME" "$TMPDIR" "$work/profile" "$work/installed"
 /usr/sbin/pkgutil --expand-full "$kit/first.pkg" "$work/expanded"
 /usr/bin/ditto "$work/expanded/1.pkg/Payload/Perikop.app" "$work/installed/Perikop.app"
 app="$work/installed/Perikop.app"
@@ -51,8 +51,25 @@ verify_bundle() {
     done
     [ "$(/usr/libexec/PlistBuddy -c 'Print LSMinimumSystemVersion' "$app/Contents/Info.plist")" = 13.4 ]
 }
+feed="$kit/feed"
 probe() {
-    /usr/bin/arch "-$architecture" "$program" --profile "$work/profile" --update-probe "$kit/feed"
+    /usr/bin/arch "-$architecture" "$program" --profile "$work/profile" --update-probe "$feed"
+}
+wait_for_version() {
+    deadline=$((SECONDS + 120))
+    while true; do
+        # Wait without starting another copy that could apply the same update again.
+        if [ "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$app/Contents/Info.plist" 2>/dev/null || true)" = "$1" ] \
+                && /usr/bin/codesign --verify --deep --strict "$app" > "$work/replacement.log" 2>&1; then
+            break
+        fi
+        if [ "$SECONDS" -ge "$deadline" ]; then
+            cat "$work/replacement.log" 2>/dev/null || true
+            echo "Timed out waiting for UpdateMac to replace the bundle" >&2
+            exit 1
+        fi
+        sleep 2
+    done
 }
 verify_bundle
 probe > "$work/first.log" 2>&1
@@ -60,31 +77,29 @@ cat "$work/first.log"
 for line in 'VERSION 1.0.0-test.1' 'AVAILABLE 1.0.0-test.2' APPLYING; do
     /usr/bin/grep -qx "$line" "$work/first.log"
 done
-deadline=$((SECONDS + 120))
-while true; do
-    # Poll the sealed bundle's metadata, without launching another copy that could apply the
-    # same update while UpdateMac is still replacing it (especially slow under Rosetta).
-    if [ "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$app/Contents/Info.plist" 2>/dev/null || true)" = 1.0.0-test.2 ] \
-            && /usr/bin/codesign --verify --deep --strict "$app" > "$work/replacement.log" 2>&1; then
-        break
-    fi
-    if [ "$SECONDS" -ge "$deadline" ]; then
-        cat "$work/replacement.log" 2>/dev/null || true
-        echo "Timed out waiting for UpdateMac to replace the bundle" >&2
-        exit 1
-    fi
-    sleep 2
-done
+wait_for_version 1.0.0-test.2
 probe > "$work/updated.log" 2>&1
 cat "$work/updated.log"
 /usr/bin/grep -qx 'VERSION 1.0.0-test.2' "$work/updated.log"
 /usr/bin/grep -qx NO_UPDATE "$work/updated.log"
 verify_bundle
 [ "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$app/Contents/Info.plist")" = 1.0.0-test.2 ]
+feed="$kit/delta-feed"
+probe > "$work/delta.log" 2>&1
+cat "$work/delta.log"
+for line in 'VERSION 1.0.0-test.2' 'AVAILABLE 1.0.0-test.3' APPLYING; do
+    /usr/bin/grep -qx "$line" "$work/delta.log"
+done
+wait_for_version 1.0.0-test.3
+probe > "$work/third.log" 2>&1
+cat "$work/third.log"
+/usr/bin/grep -qx 'VERSION 1.0.0-test.3' "$work/third.log"
+/usr/bin/grep -qx NO_UPDATE "$work/third.log"
+verify_bundle
 [ "$(/usr/bin/sqlite3 "$database" .dump)" = "$before" ]
 /usr/bin/arch "-$architecture" "$program" --smoke-test
 rm -rf "$app"
 [ "$(/usr/bin/sqlite3 "$database" .dump)" = "$before" ]
-echo "PASS: installed 1.0.0-test.1, updated to 1.0.0-test.2, verified signatures and UI, removed the app; profile kept"
+echo "PASS: full update to 1.0.0-test.2, delta update to 1.0.0-test.3 without its full package; signatures, UI and profile kept"
 trap - EXIT
 rm -rf "$work"

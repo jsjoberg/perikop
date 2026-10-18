@@ -10,9 +10,9 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Added
 
-- **Sök efter uppdateringar** in **Inställningar** checks the chosen update channel, downloads the update, and restarts Perikop to install it, each step only when you choose it. It needs a copy that Velopack installed; no current download is one yet, so the button explains this instead.
+- **Sök efter uppdateringar** in **Inställningar** checks the chosen update channel, downloads the update, and restarts Perikop to install it, each step only when you choose it. Velopack installers and AppImages support this; the original packages remain available for manual installation. Releases and nightlies publish separate platform feeds, full packages, and deltas, with checksums. macOS 13 update compatibility still awaits baseline validation.
 - Colour schemes in **Inställningar**: Rosé Pine (the default), Gruvbox, Nord, Everforest, Catppuccin, Tokyo Night, and Solarized. They replace the earlier Perikop colours, and a saved Perikop choice becomes Rosé Pine. Each has a light and a dark variant that follows the theme setting, and a preview shows both. Colours have roles: surfaces for fields and hovered controls, a selection colour, verse numbers in the scheme's red, and calendar colours.
-- A saved update-channel choice in **Inställningar**: releases by default, or experimental nightly builds. Changing it makes no network requests; the in-app update checker is not yet connected.
+- A saved update-channel choice in **Inställningar**: releases by default, or experimental nightly builds. Changing it makes no network requests.
 - An AppImage for the Raspberry Pi 5 with 64-bit Raspberry Pi OS. Other Raspberry Pi models and other ARM Linux systems are not supported.
 
 ### Changed

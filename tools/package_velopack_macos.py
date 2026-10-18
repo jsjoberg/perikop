@@ -14,7 +14,7 @@ from check_macos_arch import check
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def pack(bundle, version, architecture, channel, output, vpk=None):
+def pack(bundle, version, architecture, channel, output, vpk=None, delta="None"):
     bundle, output = bundle.resolve(), output.resolve()
     vpk = Path(vpk or os.environ.get("PERIKOP_VPK", ROOT / "build/ci/tools/vpk")).resolve()
     runtime = {"arm64": "arm64", "x86_64": "x64"}[architecture]
@@ -46,7 +46,7 @@ def pack(bundle, version, architecture, channel, output, vpk=None):
         subprocess.run(["dotnet", tool / "tools/net8.0/any/vpk.dll", "pack", "--packId", "Perikop",
                         "--packTitle", "Perikop", "--packVersion", version, "--packDir", staged,
                         "--mainExe", "Perikop", "--runtime", "osx-" + runtime, "--channel", channel,
-                        "--delta", "None", "--signAppIdentity", "-", "--outputDir", output], check=True)
+                        "--delta", delta, "--signAppIdentity", "-", "--outputDir", output], check=True)
 
 
 def main():
@@ -56,8 +56,9 @@ def main():
     parser.add_argument("architecture", choices=("arm64", "x86_64"))
     parser.add_argument("channel")
     parser.add_argument("output", type=Path)
+    parser.add_argument("--delta", choices=("None", "BestSpeed", "BestSize"), default="None")
     args = parser.parse_args()
-    pack(args.bundle, args.version, args.architecture, args.channel, args.output)
+    pack(args.bundle, args.version, args.architecture, args.channel, args.output, delta=args.delta)
 
 
 if __name__ == "__main__":

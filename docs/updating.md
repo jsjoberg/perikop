@@ -1,6 +1,6 @@
 # In-app updates and build direction
 
-This is the implementation plan for the Velopack migration. The updater and Linux and Windows packaging are integrated. macOS packaging is being validated; publication follows in phase 6. [Phases](#phases) lists the steps.
+This is the implementation plan for the Velopack migration. The updater, platform packages, and feed publication are integrated. macOS 13 baseline validation remains pending. [Phases](#phases) lists the steps.
 
 ## Linux as the primary build host
 
@@ -132,4 +132,8 @@ Each phase is its own pull request.
    - `tools/ci/velopack_macos_test.py` prepares two nightly versions and runs the real application's update probe for both architectures, including pull requests. Intel runs through Rosetta. The validation extracts the first PKG's payload into a private directory, updates it from a local feed, verifies architecture, signatures, version, UI, and profile preservation, and removes the private copy. It runs with networking denied; it does not exercise the Installer UI or privileged installation scripts.
    - CI saves `macos-update-validation-arm64` and `macos-update-validation-x86_64` artifacts. Each ZIP is a self-contained kit requiring only macOS tools. Transfer it to a macOS 13.4+ machine in the 13 series and run `bash /path/to/validate_macos_update.command --require-macos13`. Keep its `result-<architecture>.txt` as evidence. A pass on newer macOS or Rosetta does not establish compatibility with macOS 13 or native Intel hardware.
    - The SDK's crypto objects still carry macOS 26.5 build metadata. The deployment target stays 13.4. Do not mark baseline compatibility complete until the real update check passes on macOS 13; [the validation report](reports/velopack-macos-2026-10-18.md) records available evidence and the remaining check.
-6. Publishing: releases and nightlies upload feeds, full packages, and deltas, and nightly cleanup keeps the packages that deltas need.
+6. Publishing: releases and nightlies upload per-platform feeds, full packages, and deltas, alongside the original downloads.
+   - `tools/ci/update_packages.py` restores and verifies the previous same-channel full package before offline packing, collects only the new packages and delta, checks feed/build versions and platform coverage, and writes SHA-256 checksums over the entire publication. The first package in a channel has no delta.
+   - Tag builds create drafts; nightlies publish successful platforms together with their feeds and report unavailable ones. A manual non-nightly workflow run only produces artifacts, so the complete packaging path can be checked without publishing.
+   - Native update checks now perform a full update and then a delta update with the target full package absent from the local feed. This verifies real SDK reconstruction rather than merely producing a delta file. Settings and reading progress must remain unchanged. The macOS kits include this check and still need to run on macOS 13.4+.
+   - Cleanup retains seven nightly releases. Before deleting older releases, it rescues and verifies any packages that retained feeds still reference, uploads them to the new nightly, and confirms their presence. Cleanup stops on missing bases, conflicting hashes, or a failed upload. Release discovery therefore stays within the SDK's ten-release window without stranding retained feeds. See [releasing](releasing.md) for details.
