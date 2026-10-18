@@ -97,7 +97,7 @@ private:
     void add_next_plan();
     void open_plan_part(const ReadingPlan&, std::size_t part);
     void open_tracked(const Reading&, Tracked);
-    void offer_completion(const Tracked&, bool listened);
+    void complete_reading(const Tracked&);
     std::string day_key(const Reading&) const;
     std::vector<Pronunciation> speech_lexicon(const std::string&) const;
 

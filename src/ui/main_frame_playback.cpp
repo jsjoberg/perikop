@@ -110,6 +110,8 @@ void MainFrame::play_or_pause() {
     if (action == PlaybackAction::Pause || action == PlaybackAction::Resume)
         toggle_pause();
     else if (action == PlaybackAction::StartSelection) {
+        save_navigation();
+        save_reading_position();
         const auto marked = scripture_->selections();
         Reading reading{corpus_.new_testament_book(marked.front().book) ? ReadingKind::Gospel
                                                                         : ReadingKind::OldTestament,
@@ -117,7 +119,9 @@ void MainFrame::play_or_pause() {
                         {marked.begin() + 1, marked.end()},
                         "sv"};
         reading.reference = scripture_->frame();
+        tracked_.reset();
         play_speech({reading});
+        record_navigation();
     } else {
         play_speech({visible_reading_.value_or(scripture_->reading())});
         // Only listening to the whole start-page item marks it complete.
@@ -211,7 +215,7 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     if (playback.state == SpeechState::Completed && playback_.playback().state != SpeechState::Completed &&
         speech_tracked_)
         CallAfter([this, item = *speech_tracked_] {
-            offer_completion(item, true);
+            complete_reading(item);
         });
     if (playback.state != SpeechState::Completed && !speech_active(playback.state))
         speech_tracked_.reset();

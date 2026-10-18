@@ -34,8 +34,7 @@ void MainFrame::open_tracked(const Reading& reading, Tracked item) {
     restore_reading_position();
     save_navigation();
 }
-void MainFrame::offer_completion(const Tracked& item, bool listened) {
-    (void)listened;
+void MainFrame::complete_reading(const Tracked& item) {
     if (user_.completed().contains(item.key))
         return;
     try {

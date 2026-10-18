@@ -69,7 +69,7 @@ Select **Gå → Gå till bibelställe**, then a book, a chapter, and a verse. L
 - **Gamla testamentet**: the books of the Hebrew Bible, with Septuagint chapter numbers, in 30 parts.
 - **Septuagintas övriga böcker**: the other Septuagint books that Perikop has in Swedish, in 14 parts.
 
-Plans count parts, not days. A partly read section shows its percentage and reopens at the saved verse. Position is saved automatically when you pause, leave the reading, or close Perikop. While listening, the spoken verse is saved; while reading silently, the verse at the reading line is saved. A section is marked complete when its read-aloud finishes, or when you return to the day page after reaching its end.
+Plans count parts, not days. A partly read section shows its percentage and reopens at the saved verse. Position is saved automatically when you pause, leave the reading, or close Perikop. While listening, the spoken verse is saved; while reading silently, the verse at the reading line is saved. A section is marked complete when its read-aloud finishes. Merely scrolling to its end does not mark it complete.
 **Börja om** clears a plan's completed sections and saved positions.
 
 ## Read-aloud

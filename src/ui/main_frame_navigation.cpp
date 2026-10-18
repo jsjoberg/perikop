@@ -143,11 +143,6 @@ void MainFrame::show_readings(bool record) {
         save_navigation();
     pause_for_navigation();
     close_pages();
-    if (tracked_ && navigation_.reader() && part_ + 1 >= parts_.size() && scripture_->end_seen()) {
-        const auto item = *tracked_;
-        tracked_.reset();
-        offer_completion(item, false);
-    }
     tracked_.reset();
     scripture_->follow_playback(false);
     navigation_.show_root(Screen::Day);

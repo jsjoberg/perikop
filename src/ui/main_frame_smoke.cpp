@@ -191,6 +191,23 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             candidate->play_or_pause();
             if (engine->spoken.size() != 10 || engine->spoken.front().cue->verse != VerseRef{1, 1})
                 fail(__LINE__);
+            candidate->stop_speech();
+            candidate->scripture_->select_verses({1, 4}, {1, 5});
+            candidate->play_or_pause();
+            engine->held.state = SpeechState::Completed;
+            candidate->display_playback(engine->held);
+            wxTheApp->ProcessPendingEvents();
+            if (candidate->tracked_ || profile.completed().contains("plan:resume:0") ||
+                engine->spoken.size() != 2)
+                fail(__LINE__);
+            candidate->back();
+            candidate->scripture_->show_verse({1, 10});
+            candidate->show_readings();
+            if (profile.completed().contains("plan:resume:0"))
+                fail(__LINE__);
+            candidate->back();
+            candidate->playback_.start({reading});
+            candidate->speech_tracked_ = candidate->tracked_;
             engine->held = {SpeechState::Playing, SpeechCue{0, 0, "John", "sv1917", {1, 6}, {1, 6}}, 0.5,
                             0.55};
             candidate->display_playback(engine->held);
@@ -228,6 +245,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             reopened->stop_speech();
             if (reopened->part_ != 0 || profile.position("plan:resume:1"))
                 fail(__LINE__);
+            reopened->play_or_pause();
+            engine->held.state = SpeechState::Completed;
+            reopened->display_playback(engine->held);
+            wxTheApp->ProcessPendingEvents();
+            if (!profile.completed().contains("plan:resume:1") || profile.position("plan:resume:1"))
+                fail(__LINE__);
+            reopened->stop_speech();
         }
         if (profile.position(key))
             fail(__LINE__);
