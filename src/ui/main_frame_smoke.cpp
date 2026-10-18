@@ -900,7 +900,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     user_.complete(plan_key(reading_plans().front(), 0));
     user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {10, 1}, 23});
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
-    if (plan_tiles()[1]->GetLabel() != "2 · 23 %")
+    if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %"))
         fail(__LINE__);
     if (!screenshot_path.empty()) {
         root_->Layout();

@@ -172,7 +172,7 @@ void MainFrame::update_bar() {
     back_->Enable(history_.can_back());
     forward_->Enable(history_.can_forward());
 #ifdef __WXOSX__
-    tooltip_of(back_, "Tillbaka, ⌘[");
+    tooltip_of(back_, ui::utf8("Tillbaka, ⌘["));
     tooltip_of(forward_, ui::utf8("Framåt, ⌘]"));
 #else
     tooltip_of(back_, "Tillbaka, Alt+Left");
