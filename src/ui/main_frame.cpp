@@ -54,8 +54,8 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
       user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
       selected_(date), settings_(user.load()), updater_(std::make_unique<Updater>(
                                                    std::move(updates),
-                                                   [this](std::function<void()> function) {
-                                                       CallAfter(std::move(function));
+                                                   [this](const std::function<void()>& function) {
+                                                       CallAfter(function);
                                                    },
                                                    [this] {
                                                        show_update_status();

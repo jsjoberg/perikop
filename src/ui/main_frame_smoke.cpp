@@ -521,8 +521,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         // Each step waits for a click, and the controls follow it.
         updater_ = std::make_unique<Updater>(
             std::make_unique<SmokeUpdates>(),
-            [this](std::function<void()> function) {
-                CallAfter(std::move(function));
+            [this](const std::function<void()>& function) {
+                CallAfter(function);
             },
             [this] {
                 show_update_status();

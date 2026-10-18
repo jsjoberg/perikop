@@ -1,4 +1,5 @@
 #include "app/updates.hpp"
+#include <stdexcept>
 #ifdef PERIKOP_UPDATES
 #include <Velopack.hpp>
 #endif
@@ -61,6 +62,8 @@ public:
         return UpdateOffer{update_->TargetFullRelease.Version, size, update_->IsDowngrade};
     }
     void download(const std::function<void(int)>& progress) override {
+        if (!manager_ || !update_)
+            throw std::runtime_error("Ingen version är vald");
         manager_->DownloadUpdates(
             *update_,
             [](void* report, size_t percent) {
@@ -69,6 +72,8 @@ public:
             const_cast<std::function<void(int)>*>(&progress));
     }
     void apply() override {
+        if (!manager_ || !update_)
+            throw std::runtime_error("Ingen version är vald");
         manager_->WaitExitThenApplyUpdates(*update_, false, true);
     }
 
