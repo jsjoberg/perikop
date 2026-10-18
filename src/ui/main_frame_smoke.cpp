@@ -2661,6 +2661,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     apply_settings(false);
     if (selected_.date() != date)
         fail(__LINE__);
+    if (!smoke_menu())
+        fail(__LINE__);
     return ok;
 }
 } // namespace ortho

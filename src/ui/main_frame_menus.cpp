@@ -5,12 +5,16 @@
 #include "ui/scripture_view.hpp"
 #include "ui/toolbar.hpp"
 #include <algorithm>
+#include <iostream>
 #include <memory>
 #include <span>
+#include <wx/app.h>
+#include <wx/display.h>
 #include <wx/eventfilter.h>
 #include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/popupwin.h>
+#include <wx/scrolwin.h>
 #include <wx/sizer.h>
 #ifdef __APPLE__
 #include "ui/native_menu.hpp"
@@ -128,11 +132,18 @@ private:
 class MenuPopup final : public wxPopupTransientWindow {
 public:
     // fill adds the rows; it runs again when the rows are rebuilt.
-    MenuPopup(wxWindow* owner, wxWindow* button, const Palette& colors, std::function<void(MenuPopup&)> fill)
-        : wxPopupTransientWindow(owner, wxBORDER_NONE | wxPU_CONTAINS_CONTROLS), owner_(owner),
-          button_(button), colors_(colors), fill_(std::move(fill)) {
+    MenuPopup(wxWindow* owner, wxWindow* button, const Palette& colors, std::function<void(MenuPopup&)> fill,
+              MenuPopup* parent = nullptr)
+        : wxPopupTransientWindow(parent ? parent : owner, wxBORDER_NONE | wxPU_CONTAINS_CONTROLS),
+          owner_(owner), button_(button), colors_(colors), fill_(std::move(fill)), parent_(parent) {
         SetBackgroundColour(colors.rule);
-        panel_ = new wxPanel(this);
+        if (parent) {
+            auto* scroll = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                                                wxVSCROLL | wxBORDER_NONE);
+            scroll->SetScrollRate(0, FromDIP(zoomed(24)));
+            panel_ = scroll;
+        } else
+            panel_ = new wxPanel(this);
         panel_->SetBackgroundColour(colors.paper);
         panel_->SetForegroundColour(colors.ink);
         rows_ = new wxBoxSizer(wxVERTICAL);
@@ -154,6 +165,19 @@ public:
             row->SetToolTip(help);
         rows_->Add(row, 0, wxEXPAND);
         lines_.push_back({row});
+    }
+    void submenu(const wxString& label, std::unique_ptr<wxMenu> contents, const wxString& help) {
+        submenu(label, std::shared_ptr<wxMenu>(std::move(contents)), help);
+    }
+    void submenu(const wxString& label, const std::shared_ptr<wxMenu>& menu, const wxString& help) {
+        auto* row = new MenuRow(panel_, label, ui::utf8("›"), [this, menu] {
+            open_submenu(menu);
+        });
+        row->apply(colors_);
+        row->SetToolTip(help);
+        rows_->Add(row, 0, wxEXPAND);
+        lines_.push_back({row});
+        submenus_.emplace(row, menu);
     }
     void separator() {
         auto* rule = new wxPanel(panel_, wxID_ANY, wxDefaultPosition, FromDIP(wxSize(-1, 1)));
@@ -197,7 +221,11 @@ public:
         lines_.push_back({(*buttons)[0], (*buttons)[1]});
     }
     void open() {
-        build();
+        if (!built_) {
+            build();
+            built_ = true;
+        }
+        return_to_parent_ = false;
         // No control is handed to Popup(): on macOS and GTK it would hold a handler that a rebuild destroys.
         Popup();
 #ifdef __APPLE__
@@ -205,6 +233,17 @@ public:
 #endif
         focus(0, 0);
         grab_keyboard();
+    }
+    void Dismiss() override {
+        if (!submenu_open_)
+            wxPopupTransientWindow::Dismiss();
+    }
+    bool ProcessLeftDown(wxMouseEvent& event) override {
+        auto* window = dynamic_cast<wxWindow*>(event.GetEventObject());
+        if (parent_ && window)
+            return_to_parent_ =
+                parent_->GetScreenRect().Contains(window->ClientToScreen(event.GetPosition()));
+        return false;
     }
 
     // Builds the rows again at the current text size, with the focus on the same control.
@@ -217,14 +256,80 @@ public:
             }
         // The popup holds the focus while its controls are replaced, so it stays open.
         SetFocus();
+        for (const auto& [row, popup] : children_) {
+            (void)row;
+            popup->Destroy();
+        }
+        children_.clear();
         rows_->Clear(false);
         panel_->DestroyChildren();
         lines_.clear();
+        submenus_.clear();
         build();
         focus(line, column);
     }
 
 private:
+    void show_without_grab(bool show) {
+        // NOLINTNEXTLINE(bugprone-parent-virtual-call): only the deepest submenu owns input grabs.
+        wxPopupWindow::Show(show);
+    }
+    void finish(std::function<void()> action) {
+        submenu_open_ = false;
+        chosen_ = std::move(action);
+        DismissAndNotify();
+    }
+    void resume(wxWindow* row) {
+        CallAfter([this, row] {
+            show_without_grab(false);
+            Popup();
+#ifdef __APPLE__
+            make_key_window(*this);
+#endif
+            row->SetFocus();
+            grab_keyboard();
+            submenu_open_ = false;
+        });
+    }
+    void open_submenu(const std::shared_ptr<wxMenu>& contents) {
+        if (submenu_open_)
+            return;
+        const auto entry = std::ranges::find_if(submenus_, [&](const auto& item) {
+            return item.second == contents;
+        });
+        if (entry == submenus_.end())
+            return;
+        auto*& child = children_[entry->first];
+        if (!child)
+            child = new MenuPopup(
+                owner_, entry->first, colors_,
+                [contents, owner = owner_](MenuPopup& popup) {
+                    for (const auto* item : contents->GetMenuItems()) {
+                        if (item->IsSeparator()) {
+                            popup.separator();
+                        } else if (auto* nested = item->GetSubMenu()) {
+                            popup.submenu(item->GetItemLabelText(), std::shared_ptr<wxMenu>(contents, nested),
+                                          item->GetHelp());
+                        } else {
+                            popup.item(
+                                item->GetItemLabelText(), {}, item->IsEnabled(),
+                                [contents, owner, id = item->GetId()] {
+                                    wxMenu* handler = nullptr;
+                                    contents->FindItem(id, &handler);
+                                    wxCommandEvent event(wxEVT_MENU, id);
+                                    if (!handler || !handler->GetEventHandler()->ProcessEvent(event))
+                                        owner->GetEventHandler()->ProcessEvent(event);
+                                },
+                                item->GetHelp());
+                        }
+                    }
+                },
+                this);
+        Dismiss();
+        submenu_open_ = true;
+        show_without_grab(true);
+        child->open();
+    }
     // Opens with its right edge under the right edge of the button, as Chrome's does.
     void build() {
         panel_->SetFont(ui_font());
@@ -232,9 +337,29 @@ private:
         fill_(*this);
         rows_->AddSpacer(FromDIP(zoomed(6)));
         panel_->InvalidateBestSize();
+        if (parent_) {
+            const int display = wxDisplay::GetFromWindow(owner_);
+            const auto area = wxDisplay(display == wxNOT_FOUND ? 0U : unsigned(display)).GetClientArea();
+            auto size = rows_->CalcMin();
+            if (size.y > area.height - 2 * FromDIP(1)) {
+                size.x += FromDIP(16);
+                size.y = area.height - 2 * FromDIP(1);
+            }
+            panel_->SetMinSize(size);
+        }
         Fit();
-        const auto position =
-            button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y});
+        auto position = button_->ClientToScreen({button_->GetSize().x - GetSize().x, button_->GetSize().y});
+        if (parent_) {
+            const int display = wxDisplay::GetFromWindow(owner_);
+            const auto area = wxDisplay(display == wxNOT_FOUND ? 0U : unsigned(display)).GetClientArea();
+            static_cast<wxScrolledWindow*>(panel_)->FitInside();
+            const auto parent = parent_->GetScreenRect();
+            position = button_->ClientToScreen({button_->GetSize().x, 0});
+            position.x = parent.GetRight() + 1;
+            if (position.x + GetSize().x > area.GetRight())
+                position.x = std::max(area.x, parent.x - GetSize().x);
+            position.y = std::clamp(position.y, area.y, area.GetBottom() - GetSize().y + 1);
+        }
 #if defined(__WXGTK__) && defined(GDK_WINDOWING_WAYLAND)
         // Wayland places a popup only as it is shown, so a shown one moves by showing it again.
         if (IsShown() && position != GetPosition() && GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default())) {
@@ -271,8 +396,18 @@ private:
                 }
     }
     void OnDismiss() override {
+        if (submenu_open_)
+            return;
         // The chosen command runs once the menu is gone, so it can move the focus itself.
-        if (chosen_)
+        if (parent_) {
+            if (!chosen_ && return_to_parent_)
+                parent_->resume(button_);
+            else
+                parent_->finish(chosen_);
+            // Keep cancelled submenus for reuse until the root closes. Destroying
+            // a Cocoa key window here would steal focus back from the parent.
+            return;
+        } else if (chosen_)
             owner_->CallAfter(chosen_);
         else
             button_->SetFocus();
@@ -280,7 +415,8 @@ private:
     }
     void key(wxKeyEvent& e) {
         const int code = e.GetKeyCode();
-        if (code == WXK_ESCAPE) {
+        if (code == WXK_ESCAPE || (parent_ && code == WXK_LEFT)) {
+            return_to_parent_ = true;
             DismissAndNotify();
             return;
         }
@@ -290,6 +426,11 @@ private:
             return;
         }
         auto* focus = wxWindow::FindFocus();
+        if (code == WXK_RIGHT)
+            if (const auto submenu = submenus_.find(focus); submenu != submenus_.end()) {
+                open_submenu(submenu->second);
+                return;
+            }
         // The controls the key moves between, in order: one per row, those of this row, or all.
         std::vector<wxWindow*> order;
         for (const auto& line : lines_) {
@@ -321,7 +462,11 @@ private:
     wxBoxSizer* rows_;
     std::function<void(MenuPopup&)> fill_;
     std::vector<std::vector<wxWindow*>> lines_;
+    std::map<wxWindow*, std::shared_ptr<wxMenu>> submenus_;
+    std::map<wxWindow*, MenuPopup*> children_;
+    bool submenu_open_ = false, return_to_parent_ = false, built_ = false;
     std::function<void()> chosen_;
+    MenuPopup* parent_;
 };
 // A menu label's shortcut, as the ⋮ menu writes it.
 wxString shortcut_of(const wxString& label) {
@@ -575,12 +720,8 @@ void MainFrame::show_menu() {
         };
         for (const int id : {Readings, Bible, Pick, Plans})
             item(id);
-        popup.item(
-            ui::utf8("Bokmärken"), {}, true,
-            [this] {
-                show_bookmarks();
-            },
-            ui::utf8("Öppna och ta bort sparade bokmärken"));
+        popup.submenu(ui::utf8("Bokmärken"), std::unique_ptr<wxMenu>(bookmark_menu()),
+                      ui::utf8("Öppna och ta bort sparade bokmärken"));
         popup.separator();
         popup.stepper(
             "Textstorlek", "Mindre text", ui::utf8("Större text"),
@@ -622,6 +763,114 @@ void MainFrame::show_menu() {
         popup.item("Avsluta", shortcut_of("\tCtrl+Q"), true, command(wxID_EXIT), "Avsluta Perikop");
     });
     popup->open();
+}
+bool MainFrame::smoke_menu() {
+    int opened = 0, removed = 0;
+    auto contents = std::make_shared<wxMenu>();
+    auto* entry = contents->Append(wxID_ANY, "John 1:2–5");
+    contents->Bind(
+        wxEVT_MENU,
+        [&](wxCommandEvent&) {
+            ++opened;
+        },
+        entry->GetId());
+    auto* deletion = new wxMenu;
+    auto* remove = deletion->Append(wxID_ANY, "John 1:2–5");
+    deletion->Bind(
+        wxEVT_MENU,
+        [&](wxCommandEvent&) {
+            ++removed;
+        },
+        remove->GetId());
+    contents->AppendSubMenu(deletion, ui::utf8("Ta bort bokmärke…"));
+    wxWeakRef<MenuPopup> root =
+        new MenuPopup(this, menu_, palette(settings_.theme), [contents](MenuPopup& popup) {
+            popup.submenu(ui::utf8("Bokmärken"), contents, {});
+        });
+    const auto key = [](wxWindow* window, int code) {
+        wxKeyEvent event(wxEVT_CHAR_HOOK);
+        event.m_keyCode = code;
+        window->GetEventHandler()->ProcessEvent(event);
+    };
+    const auto child_of = [](wxWindow* window) -> MenuPopup* {
+        for (auto* child : window->GetChildren())
+            if (auto* popup = dynamic_cast<MenuPopup*>(child); popup && popup->IsShown())
+                return popup;
+        return nullptr;
+    };
+    root->open();
+    wxTheApp->Yield(true);
+    if (!root)
+        return false;
+    key(root.get(), WXK_RIGHT);
+    wxTheApp->Yield(true);
+    if (!root)
+        return false;
+    auto* child = child_of(root.get());
+    bool ok = true;
+    const auto check = [&](bool condition, const char* label) {
+        if (!condition) {
+            std::cerr << "Submenu check failed: " << label << '\n';
+            ok = false;
+        }
+    };
+    check(root->IsShown() && child && child->GetSize().x > FromDIP(100) &&
+              !root->GetScreenRect().Intersects(child->GetScreenRect()),
+          "parent and child visible beside each other");
+    if (!ok) {
+        std::cerr << "Root shown=" << root->IsShown() << " rect=" << root->GetPosition().x << ','
+                  << root->GetPosition().y << ',' << root->GetSize().x << ',' << root->GetSize().y << '\n';
+        if (child)
+            std::cerr << "Child rect=" << child->GetPosition().x << ',' << child->GetPosition().y << ','
+                      << child->GetSize().x << ',' << child->GetSize().y << '\n';
+    }
+    if (child) {
+        key(child, WXK_DOWN);
+        key(child, WXK_RIGHT);
+        wxTheApp->Yield(true);
+        if (!root)
+            return false;
+        auto* nested = child_of(child);
+        check(root->IsShown() && child->IsShown() && nested, "nested removal menu opens");
+        if (nested) {
+            key(nested, WXK_LEFT);
+            wxTheApp->Yield(true);
+            if (!root)
+                return false;
+            check(root->IsShown() && child->IsShown(), "Left returns to parent");
+        }
+        key(child, WXK_ESCAPE);
+        wxTheApp->Yield(true);
+        if (!root)
+            return false;
+        check(root->IsShown() && !child_of(root.get()), "Escape returns to main menu");
+    }
+    key(root.get(), WXK_RIGHT);
+    child = child_of(root.get());
+    if (child) {
+        MenuRow* first = nullptr;
+        for (auto* panel : child->GetChildren())
+            for (auto* control : panel->GetChildren())
+                if (auto* row = dynamic_cast<MenuRow*>(control); row && row->IsEnabled() && !first)
+                    first = row;
+        check(first != nullptr, "first bookmark row available");
+        if (first)
+            for (const auto type : {wxEVT_KEY_DOWN, wxEVT_KEY_UP}) {
+                wxKeyEvent event(type);
+                event.m_keyCode = WXK_RETURN;
+                first->GetEventHandler()->ProcessEvent(event);
+            }
+        wxTheApp->Yield(true);
+    } else {
+        ok = false;
+        key(root.get(), WXK_ESCAPE);
+    }
+    check(opened == 1 && removed == 0 && (!root || !root->IsShown()),
+          "selection closes all menus and dispatches once");
+    if (!ok)
+        std::cerr << "Opened=" << opened << " removed=" << removed
+                  << " root shown=" << bool(root && root->IsShown()) << '\n';
+    return ok;
 }
 wxMenu* MainFrame::bookmark_menu() {
     auto* menu = new wxMenu;
@@ -666,10 +915,6 @@ void MainFrame::refresh_bookmarks() {
         delete menu_bar_->Replace(std::size_t(index), bookmark_menu(), ui::utf8("Bokmärken"));
         menu_bar_->SetMenuLabel(std::size_t(index), ui::utf8("Bokmärken"));
     }
-}
-void MainFrame::show_bookmarks() {
-    const std::unique_ptr<wxMenu> menu(bookmark_menu());
-    PopupMenu(menu.get(), ScreenToClient(menu_->ClientToScreen({0, menu_->GetSize().y})));
 }
 void MainFrame::add_bookmarks(const Reading& reading) {
     try {

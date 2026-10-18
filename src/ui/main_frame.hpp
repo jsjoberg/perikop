@@ -51,9 +51,9 @@ private:
     // Brings the menu bar's labels and states up to date. The ⋮ menu shows its items.
     void sync_menu();
     void show_menu();
+    bool smoke_menu();
     wxMenu* bookmark_menu();
     void refresh_bookmarks();
-    void show_bookmarks();
     void add_bookmarks(const Reading&);
     void open_bookmark(const Bookmark&);
     void remove_bookmark(const Bookmark&);
