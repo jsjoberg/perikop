@@ -1065,6 +1065,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         open_reading(reading);
         if (scripture_->chapter_source(1, 0) != "sv1917" || scripture_->chapter_source(1, 1) != "en-web")
             fail(__LINE__);
+        // Explicit chapter choices remain selectable even when disabled in preferences or duplicated.
+        scripture_->chapter_source(1, 1, "sv1917");
+        if (scripture_->chapter_source(1, 0) != "sv1917" || scripture_->chapter_source(1, 1) != "sv1917" ||
+            scripture_->chapter_source(2, 1) != "en-web")
+            fail(__LINE__);
+        save(render(), "-chapter-same-source");
+        scripture_->chapter_source(1, 1, "");
+        if (scripture_->chapter_source(1, 1) != "en-web")
+            fail(__LINE__);
         scripture_->chapter_source(1, 0, "grc-patriarchal");
         scripture_->chapter_source(1, 1, "sv1917");
         if (scripture_->chapter_source(1, 0) != "grc-patriarchal" ||

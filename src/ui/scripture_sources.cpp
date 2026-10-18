@@ -106,7 +106,6 @@ void ScriptureView::source_menu(std::size_t heading, std::size_t pane, wxWindow*
         menu.AppendRadioItem(id, source_label(available[i], heading));
         if (overridden && pane < shown.size() && shown[pane] == available[i])
             menu.Check(id, true);
-        menu.Enable(id, pane == 0 || shown.front() != available[i]);
     }
     const int chosen = button->GetPopupMenuSelectionFromUser(menu, 0, button->GetSize().y);
     if (chosen == wxID_NONE)

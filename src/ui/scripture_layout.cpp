@@ -160,7 +160,7 @@ std::vector<std::string> ScriptureView::shown_sources(std::size_t row) const {
     std::vector<std::string> result{primary};
     if (columns_count() == 2) {
         auto secondary = overrides[1];
-        if (secondary.empty() || secondary == primary)
+        if (secondary.empty())
             secondary = preferred_source(settings_.secondary_sources, available, primary);
         if (!secondary.empty())
             result.push_back(secondary);
