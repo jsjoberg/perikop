@@ -32,5 +32,7 @@ if [ "${PACKAGE:-false}" = true ]; then
     tools/package_appimage.sh build/cmake
     xvfb-run -a -s '-screen 0 1600x1200x24' build/cmake/AppDir/usr/bin/perikop \
         --resources build/cmake/AppDir/usr/share/perikop/resources --speech-probe /work/build/voice-linux.wav
+    # Install the AppDir with Velopack and let the program update itself from a local feed.
+    LD_PRELOAD="$PWD/build/ci/libsqlite3.so" python3 tools/ci/velopack_linux_test.py build/cmake
 fi
 ccache --show-stats

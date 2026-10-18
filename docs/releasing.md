@@ -43,6 +43,8 @@ cpack --config build/cmake/CPackConfig.cmake -B build/package   # macOS, Windows
 tools/package_appimage.sh build/cmake                           # Linux
 ```
 
+On Linux, `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` then packs the same AppDir as a Velopack AppImage and update package. It needs .NET 8, `squashfs-tools`, and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
+
 The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set to a `Microsoft.VC143.CRT` redistributable folder.
 The macOS DMGs are separate `macOS-arm64.dmg` (Apple Silicon) and `macOS-x86_64.dmg` (Intel) downloads.
 The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.

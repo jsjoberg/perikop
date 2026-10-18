@@ -175,6 +175,13 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
         for name in APPIMAGE_TOOLS[platform]:
             shutil.copyfile(archives / name, target / name)
             (target / name).chmod(0o755)
+        # Velopack's packaging tool, a .NET program; zip extraction drops its helpers' executable bits.
+        if any(item["file"] == "vpk.nupkg" for item in selected(platform)):
+            vpk = output / "tools/vpk"
+            extract(archives / "vpk.nupkg", vpk)
+            for helper in (vpk / "vendor").iterdir():
+                if helper.is_file() and helper.read_bytes()[:4] == b"\x7fELF":
+                    helper.chmod(0o755)
     elif platform == "Windows":
         tools = output / "tools"
         tools.mkdir(parents=True, exist_ok=True)

@@ -53,9 +53,15 @@
     {
       "path": "resources/licenses/Velopack-crates.txt",
       "url": "https://github.com/velopack/velopack/blob/92d6a1c91716729d449034df5c50307dcce39493/Cargo.lock",
-      "sha256": "551e0a7ff1f6ca3c21eade311dd3f57ca86802ce671fd368886f3c2967baee51",
+      "sha256": "4fb6d43a741a0b0adf34736bf665063634bdbff788c952d4d135a9df04969224",
       "license": "MIT AND Apache-2.0 AND ISC AND Unicode-3.0 AND BSD-3-Clause AND Zlib AND CDLA-Permissive-2.0",
       "generated": "tools/velopack_notices.py"
+    },
+    {
+      "path": "resources/licenses/AppImage-type2-runtime-MIT.txt",
+      "url": "https://raw.githubusercontent.com/AppImage/type2-runtime/8f39b89e2ac31e1640b3d3f7e9a5108e6ce805fa/LICENSE",
+      "sha256": "aa154fc9070614bbe7921f89db11efd1dba7a1f3a41685958110e2230f9c0ca1",
+      "license": "MIT"
     },
     {
       "path": "resources/corpus/provenance/ebible-pages.zip",

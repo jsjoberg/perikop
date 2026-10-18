@@ -42,7 +42,7 @@ public:
         SetAppDisplayName("Perikop");
         wxInitAllImageHandlers();
         bool smoke = false, benchmark = false, reader = false, pronunciation_review = false;
-        wxString resource_override, profile_override, screenshot, speech_probe;
+        wxString resource_override, profile_override, screenshot, speech_probe, update_probe;
         auto date = ortho::local_civil_date();
         for (int i = 1; i < argc; ++i) {
             const wxString arg = argv[i];
@@ -55,7 +55,7 @@ public:
             else if (arg == "--pronunciation-review")
                 pronunciation_review = true;
             else if ((arg == "--resources" || arg == "--profile" || arg == "--date" ||
-                      arg == "--screenshot" || arg == "--speech-probe") &&
+                      arg == "--screenshot" || arg == "--speech-probe" || arg == "--update-probe") &&
                      i + 1 < argc) {
                 const wxString value = argv[++i];
                 if (arg == "--resources")
@@ -66,6 +66,8 @@ public:
                     screenshot = value;
                 if (arg == "--speech-probe")
                     speech_probe = value;
+                if (arg == "--update-probe")
+                    update_probe = value;
                 if (arg == "--date") {
                     auto parsed = ortho::parse_date(value.ToStdString());
                     if (!parsed) {
@@ -152,6 +154,13 @@ public:
                 data_path = test_path_;
             }
             user_ = std::make_unique<ortho::UserDb>(data_path / "user.db");
+            if (!update_probe.empty()) {
+                // The channel comes from the profile, so an updated copy shows that it reads the same
+                // profile.
+                smoke_exit_ =
+                    ortho::update_probe(update_probe.ToStdString(wxConvUTF8), user_->load().update_channel);
+                return true;
+            }
 #if wxCHECK_VERSION(3, 3, 0)
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
@@ -190,7 +199,7 @@ public:
             }
             return true;
         } catch (const std::exception& e) {
-            if (smoke || benchmark || !speech_probe.empty())
+            if (smoke || benchmark || !speech_probe.empty() || !update_probe.empty())
                 std::cerr << e.what() << '\n';
             else
                 wxMessageBox(wxString::FromUTF8(e.what()), "Perikop", wxOK | wxICON_ERROR);
