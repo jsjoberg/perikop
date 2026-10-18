@@ -149,7 +149,7 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
     extract(downloads / names[0], archives)
     verify(archives / "upstreams.json", lock["upstreams_sha256"])
     for item in selected(platform):
-        if tools_only and item["file"] != "nsis.zip":
+        if tools_only and item["file"] not in ("nsis.zip", "vpk.nupkg"):
             continue
         path = archives / item["file"]
         verify(path, item["sha256"])
@@ -188,6 +188,9 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
         if not tools_only:
             subprocess.run(["7z", "x", str(archives / "w64devkit.7z.exe"), "-o" + str(tools), "-y"], check=True)
         unpack_root(archives / "nsis.zip", tools / "nsis")
+        # Velopack's packaging tool makes Setup.exe and the update packages.
+        if any(item["file"] == "vpk.nupkg" for item in selected(platform)):
+            extract(archives / "vpk.nupkg", tools / "vpk")
         if not tools_only:
             unpack_root(archives / "ccache-windows.zip", tools / "ccache")
     else:
@@ -202,7 +205,7 @@ def main():
     parser.add_argument("--platform", choices=PLATFORMS + ("Windows-cross",))
     parser.add_argument("--package", action="store_true")
     parser.add_argument("--cross", action="store_true", help="Restore Windows sources and the Linux cross-build environment")
-    parser.add_argument("--tools-only", action="store_true", help="Restore only NSIS for prebuilt Windows packaging")
+    parser.add_argument("--tools-only", action="store_true", help="Restore only NSIS and vpk for prebuilt Windows packaging")
     parser.add_argument("--repository", default="jsjoberg/perikop-assets")
     parser.add_argument("--release")
     args = parser.parse_args()

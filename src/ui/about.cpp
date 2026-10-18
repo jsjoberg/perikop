@@ -127,7 +127,7 @@ const std::vector<Section>& sections() {
          {{"wxWidgets", "wxWindows Library Licence.", {"https://www.wxwidgets.org"}},
           {"SQLite", "Allmän egendom.", {"https://sqlite.org"}},
           {"Velopack",
-           "Uppdateringar i Linux- och macOS-versionerna. MIT, med Rust-bibliotek under fria licenser.",
+           "Uppdateringar inifrån programmet. MIT, med Rust-bibliotek under fria licenser.",
            {"https://velopack.io"}},
           {"libpng, zlib, PCRE2 och NanoSVG",
            "Ingår i wxWidgets, med egna fria licenser.",

@@ -273,6 +273,11 @@ if(ORTHO_BUILD_GUI)
         add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" "$<TARGET_FILE_DIR:perikop>/onnxruntime.dll")
         install(FILES "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" DESTINATION bin)
+        if(perikop_updates)
+            add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${perikop_velopack_dll}" "$<TARGET_FILE_DIR:perikop>/velopack_libc.dll")
+            install(FILES "${perikop_velopack_dll}" DESTINATION bin RENAME velopack_libc.dll)
+        endif()
         include(cmake/windows-runtime.cmake)
     else()
         set_target_properties(perikop PROPERTIES BUILD_RPATH "$ORIGIN" INSTALL_RPATH "$ORIGIN")
