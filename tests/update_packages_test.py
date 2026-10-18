@@ -193,7 +193,7 @@ class RetentionTest(unittest.TestCase):
             feeds[tag, name] = {"Assets": entries}
             releases.append({"tag_name": tag, "published_at": f"2026-10-{number:02d}T00:00:00Z",
                              "draft": False, "prerelease": True,
-                             "assets": [{"name": name}] + [{"name": entry["FileName"]} for entry in entries
+                             "assets": [{"name": name}, {"name": "SHA256SUMS.txt"}] + [{"name": entry["FileName"]} for entry in entries
                                                           if entry["Version"] == f"1.0.0-nightly.{number}"]})
         return releases, feeds, releases[-1]["tag_name"]
 
@@ -241,7 +241,13 @@ class RetentionTest(unittest.TestCase):
         calls = []
         def download(repository, tag, name, directory):
             path = directory / name
-            if name.endswith(".json"):
+            if name == "SHA256SUMS.txt":
+                entries = [entry for entry in feeds[current, f"releases.{CHANNEL}.json"]["Assets"]
+                           if entry["Version"] == "1.0.0-nightly.9"]
+                values = {entry["FileName"]: entry["SHA256"] for entry in entries}
+                values[f"releases.{CHANNEL}.json"] = "f" * 64
+                path.write_text(updates.checksum_text(values))
+            elif name.endswith(".json"):
                 path.write_text(json.dumps(feeds[tag, name]))
             else:
                 write_asset(directory, asset("1.0.0-nightly.2"))
@@ -256,6 +262,60 @@ class RetentionTest(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "Upload failed"):
                 updates.cleanup("owner/repo", current, 7)
         self.assertFalse(any(arguments[:2] == ("release", "delete") for arguments in calls))
+
+    def test_rescued_package_checksum_is_uploaded_before_any_release_is_deleted(self):
+        releases, feeds, current = self.fixture()
+        calls, uploaded = [], {}
+        def download(repository, tag, name, directory):
+            path = directory / name
+            if name == "SHA256SUMS.txt":
+                entries = [entry for entry in feeds[current, f"releases.{CHANNEL}.json"]["Assets"]
+                           if entry["Version"] == "1.0.0-nightly.9"]
+                values = {entry["FileName"]: entry["SHA256"] for entry in entries}
+                values[f"releases.{CHANNEL}.json"] = "f" * 64
+                path.write_text(updates.checksum_text(values))
+            elif name.endswith(".json"):
+                path.write_text(json.dumps(feeds[tag, name]))
+            else:
+                write_asset(directory, asset("1.0.0-nightly.2"))
+            return path
+        def gh(*arguments):
+            calls.append(arguments)
+            if arguments[:2] == ("release", "upload"):
+                uploaded[Path(arguments[3]).name] = Path(arguments[3]).read_bytes()
+                return ""
+            if arguments[:2] == ("release", "view"):
+                names = {item["name"] for item in releases[-1]["assets"]} | set(uploaded)
+                return json.dumps({"assets": [{"name": name} for name in names]})
+            if arguments[:2] == ("release", "delete"):
+                return ""
+            raise AssertionError(arguments)
+        with patch.object(updates, "releases", return_value=releases), \
+                patch.object(updates, "download", side_effect=download), patch.object(updates, "gh", side_effect=gh):
+            updates.cleanup("owner/repo", current, 7)
+        checksums = updates.read_checksums(uploaded["SHA256SUMS.txt"].decode())
+        rescued = asset("1.0.0-nightly.2")
+        self.assertEqual(checksums[rescued["FileName"]], rescued["SHA256"])
+        checksum_upload = next(index for index, call in enumerate(calls)
+                               if call[:2] == ("release", "upload") and Path(call[3]).name == "SHA256SUMS.txt")
+        first_deletion = next(index for index, call in enumerate(calls) if call[:2] == ("release", "delete"))
+        self.assertLess(checksum_upload, first_deletion)
+        calls.clear()
+        uploaded.clear()
+        def reject_checksum(*arguments):
+            if arguments[:2] == ("release", "upload") and Path(arguments[3]).name == "SHA256SUMS.txt":
+                raise RuntimeError("Checksum upload failed")
+            return gh(*arguments)
+        with patch.object(updates, "releases", return_value=releases), \
+                patch.object(updates, "download", side_effect=download), patch.object(updates, "gh", side_effect=reject_checksum):
+            with self.assertRaisesRegex(RuntimeError, "Checksum upload failed"):
+                updates.cleanup("owner/repo", current, 7)
+        self.assertFalse(any(call[:2] == ("release", "delete") for call in calls))
+
+    def test_invalid_checksum_records_are_rejected(self):
+        for text in ("", "invalid", "a" * 64 + "  ../escape\n", "a" * 64 + "  SHA256SUMS.txt\n"):
+            with self.assertRaises(ValueError):
+                updates.read_checksums(text)
 
 
 if __name__ == "__main__":

@@ -256,6 +256,22 @@ def retention_plan(all_releases, feeds, current, keep=7):
     return rescue, [release["tag_name"] for release in nightlies[keep:]]
 
 
+def read_checksums(text):
+    result = {}
+    for line in text.splitlines():
+        match = re.fullmatch(r"([0-9a-fA-F]{64})  (.+)", line)
+        if not match or Path(match[2]).name != match[2] or match[2] in result or match[2] == "SHA256SUMS.txt":
+            raise ValueError("Invalid release checksums")
+        result[match[2]] = match[1].lower()
+    if not result:
+        raise ValueError("Release checksums are empty")
+    return result
+
+
+def checksum_text(checksums):
+    return "".join(checksums[name] + "  " + name + "\n" for name in sorted(checksums))
+
+
 def cleanup(repository, current, keep):
     all_releases = releases(repository)
     nightlies = sorted((release for release in all_releases if release["prerelease"]
@@ -273,17 +289,42 @@ def cleanup(repository, current, keep):
                     feeds[(release["tag_name"], name)] = json.loads(
                         download(repository, release["tag_name"], name, directory).read_text())
         rescue, obsolete = retention_plan(all_releases, feeds, current, keep)
+        current_names = {item["name"] for release in all_releases if release["tag_name"] == current
+                         for item in release["assets"]}
+        checksum_dir = work / "checksums"
+        checksum_dir.mkdir()
+        checksum_file = download(repository, current, "SHA256SUMS.txt", checksum_dir)
+        original_checksums = checksum_file.read_text()
+        checksums = read_checksums(original_checksums)
+        references = {asset["FileName"]: asset for feed in feeds.values() for asset in feed["Assets"]}
+        for name in current_names - {"SHA256SUMS.txt"}:
+            if name in checksums:
+                if name in references and checksums[name] != references[name]["SHA256"].lower():
+                    raise ValueError("Release checksums disagree with its feeds")
+                continue
+            # Repair an attempt that uploaded a rescued base but failed before replacing the
+            # checksum list. Verify its bytes before adding its checksum.
+            if name not in references:
+                raise ValueError("An uploaded asset has no checksum or feed metadata: " + name)
+            path = download(repository, current, name, checksum_dir)
+            verify(path, references[name])
+            checksums[name] = references[name]["SHA256"].lower()
         rescue_dir = work / "rescue"
         rescue_dir.mkdir()
         for tag, asset in rescue:
             path = download(repository, tag, asset["FileName"], rescue_dir)
             verify(path, asset)
             gh("release", "upload", current, path, "--repo", repository)
+            checksums[asset["FileName"]] = asset["SHA256"].lower()
+        updated_checksums = checksum_text(checksums)
+        if updated_checksums != original_checksums:
+            checksum_file.write_text(updated_checksums)
+            gh("release", "upload", current, checksum_file, "--repo", repository, "--clobber")
         # Confirm every referenced rescue asset is present before deleting any old release/tag.
         names = {item["name"] for item in json.loads(gh("release", "view", current, "--repo", repository,
                                                        "--json", "assets"))["assets"]}
-        if any(asset["FileName"] not in names for _, asset in rescue):
-            raise ValueError("Rescued packages are missing; no nightly releases were deleted")
+        if "SHA256SUMS.txt" not in names or set(checksums) - names:
+            raise ValueError("Checksummed packages are missing; no nightly releases were deleted")
         for tag in obsolete:
             gh("release", "delete", tag, "--repo", repository, "--cleanup-tag", "--yes")
         print(f"Retained {min(keep, len(nightlies))} nightlies; rescued {len(rescue)} referenced packages")
