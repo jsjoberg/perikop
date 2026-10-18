@@ -12,6 +12,7 @@ git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 
 CI builds, tests, and packages five targets: Windows x64, Linux x64, Linux ARM64, macOS Apple Silicon, and macOS Intel.
 It then creates a draft release containing the existing five native downloads, Velopack installers/portable packages, a full update package and channel feed for each target, deltas where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file.
+Releases with AppImages also carry `AppImage-runtime-source-<commits>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
 A tag suffix such as `-alpha.2` goes into the file names. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
 The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.

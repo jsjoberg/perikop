@@ -64,6 +64,42 @@
       "license": "MIT"
     },
     {
+      "path": "resources/licenses/libfuse-LGPL-2.1.txt",
+      "url": "https://raw.githubusercontent.com/libfuse/libfuse/fuse-3.15.0/LGPL2.txt",
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+      "license": "LGPL-2.1-only"
+    },
+    {
+      "path": "resources/licenses/libfuse-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/libfuse/libfuse/fuse-3.15.0/LICENSE",
+      "sha256": "b8832d9caaa075bbbd2aef24efa09f8b7ab66a832812d88c602da0c7b4397fad",
+      "license": "LGPL-2.1-only AND GPL-2.0-only"
+    },
+    {
+      "path": "resources/licenses/squashfuse-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/vasi/squashfuse/0.5.2/LICENSE",
+      "sha256": "9e909cc8a8ba27b1a649c964cf9eda37de911f3138c2b64e6d2f01703904ac13",
+      "license": "BSD-2-Clause"
+    },
+    {
+      "path": "resources/licenses/zstd-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/facebook/zstd/v1.5.6/LICENSE",
+      "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "path": "resources/licenses/musl-COPYRIGHT.txt",
+      "url": "https://git.musl-libc.org/cgit/musl/plain/COPYRIGHT?h=v1.2.5",
+      "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af",
+      "license": "MIT"
+    },
+    {
+      "path": "resources/licenses/mimalloc-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/microsoft/mimalloc/v2.1.7/LICENSE",
+      "sha256": "19c99805e7a44a34b297a75d1edea9985e300066dfc024d5c99d4236d4573b5d",
+      "license": "MIT"
+    },
+    {
       "path": "resources/corpus/provenance/ebible-pages.zip",
       "member": "grcbrent-copyright.html",
       "url": "https://ebible.org/grcbrent/copyright.htm",
