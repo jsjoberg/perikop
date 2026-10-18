@@ -119,6 +119,9 @@ public:
     void complete(const std::string& key, bool done = true);
     // Forgets every mark whose key starts with the prefix, such as a whole plan.
     void forget(const std::string& prefix);
+    std::optional<ReadingPosition> position(const std::string& key) const;
+    void position(const std::string& key, const ReadingPosition&);
+    void reset_position(const std::string& key);
 
 private:
     DatabaseHandle db_;

@@ -1,8 +1,18 @@
 #include "speech/reading_speech.hpp"
 #include "storage/database.hpp"
+#include <algorithm>
 #include <map>
 #include <stdexcept>
 namespace ortho {
+void resume_speech(std::vector<SpeechUtterance>& queue, const ReadingPosition& position) {
+    const auto start = std::find_if(queue.begin(), queue.end(), [&](const auto& item) {
+        return item.cue && item.cue->reading == 0 && item.cue->section == position.section &&
+               item.cue->book == position.book && item.cue->source == position.source &&
+               item.cue->verse <= position.verse && position.verse <= item.cue->last;
+    });
+    if (start != queue.end())
+        queue.erase(queue.begin(), start);
+}
 std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::vector<Reading>& readings,
                                             const PronunciationLookup& lookup) {
     std::vector<SpeechUtterance> queue;

@@ -19,8 +19,11 @@ void MainFrame::create_toolbar() {
     back_ = new SymbolButton(bar_, Symbol::Back, "Tillbaka", [this] {
         back();
     });
-    back_->SetToolTip(ui::utf8("Tillbaka till dagens läsningar, Ctrl+L"));
     bar->Add(back_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
+    forward_ = new SymbolButton(bar_, Symbol::Next, ui::utf8("Framåt"), [this] {
+        forward();
+    });
+    bar->Add(forward_, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(2)));
     // Lyssna starts a reading or resumes a paused one; Pausa only pauses.
     play_ = new SymbolButton(bar_, Symbol::Play, "Lyssna", [this] {
         play_or_pause();
@@ -34,7 +37,7 @@ void MainFrame::create_toolbar() {
     stop_ = new SymbolButton(bar_, Symbol::Stop, "Stoppa", [this] {
         stop_speech();
     });
-    stop_->SetToolTip(ui::utf8("Avsluta uppläsningen, Escape"));
+    stop_->SetToolTip(ui::utf8("Stoppa och börja om, Ctrl+."));
     bar->Add(stop_, 0, wxALIGN_CENTER_VERTICAL);
     address_ = new AddressBar(bar_, [this] {
         address_clicked();
@@ -98,6 +101,7 @@ void MainFrame::address_clicked() {
         browse_bible();
 }
 void MainFrame::select_part(size_t part) {
+    pause_for_navigation();
     part_ = part;
     playback_.forget_location();
     scripture_->follow_playback(false);
@@ -121,13 +125,21 @@ ReaderControls MainFrame::controls() const {
                            std::ranges::any_of(day_.variants, [](const DayReadings::Variant& variant) {
                                return variant.reading && variant.reading->can_open();
                            });
-    return reader_controls({.screen = navigation_.current().screen,
-                            .playback = playback_.playback().state,
-                            .preparing = preparing_day(),
-                            .selection = navigation_.reader() && !scripture_->selections().empty(),
-                            .several_parts = parts_.size() > 1,
-                            .daily_readings = available,
-                            .speakable = speakable_});
+    auto result = reader_controls({.screen = navigation_.current().screen,
+                                   .playback = playback_.playback().state,
+                                   .preparing = preparing_day(),
+                                   .selection = navigation_.reader() && !scripture_->selections().empty(),
+                                   .several_parts = parts_.size() > 1,
+                                   .daily_readings = available,
+                                   .speakable = speakable_});
+    if (navigation_.reader() && !active_playback() && has_reading_position()) {
+        result.stop = true;
+        if (scripture_->selections().empty()) {
+            result.listen_label = "Fortsätt";
+            result.playback_label = "Fortsätt";
+        }
+    }
+    return result;
 }
 void MainFrame::update_bar() {
     const auto policy = controls();
@@ -155,10 +167,17 @@ void MainFrame::update_bar() {
         if (auto* toggle = policy.listen ? play_ : pause_; toggle != focus)
             toggle->SetFocus();
     study_->allow_listening(policy.word_audio);
-    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.") : ui::utf8("Stoppa, Ctrl+."));
-    back_->Enable(policy.back);
-    tooltip_of(back_,
-               auxiliary ? ui::utf8("Tillbaka, Escape") : ui::utf8("Tillbaka till dagens läsningar, Ctrl+L"));
+    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.")
+                                : ui::utf8("Stoppa och börja om, Ctrl+."));
+    back_->Enable(history_.can_back());
+    forward_->Enable(history_.can_forward());
+#ifdef __WXOSX__
+    tooltip_of(back_, "Tillbaka, ⌘[");
+    tooltip_of(forward_, ui::utf8("Framåt, ⌘]"));
+#else
+    tooltip_of(back_, "Tillbaka, Alt+Left");
+    tooltip_of(forward_, ui::utf8("Framåt, Alt+Right"));
+#endif
     const auto* picker =
         navigation_.current().screen == Screen::Bible ? static_cast<BiblePicker*>(current_page()) : nullptr;
     address_->Enable();
@@ -195,7 +214,7 @@ void MainFrame::update_bar() {
         title = dropdown ? parts_[std::min(part_, parts_.size() - 1)] : reading_title_;
     address_->show(title, dropdown);
     if (tooltip.empty())
-        tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe…, Ctrl+G");
+        tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe…, Ctrl+L");
     tooltip_of(address_, tooltip);
     const auto preparation = speech_ ? speech_->preparation() : SpeechPreparation{};
     address_->progress(preparing && preparation.total ? double(preparation.completed) / preparation.total

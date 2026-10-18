@@ -50,6 +50,14 @@ struct Passage {
         return first <= ref && ref <= last;
     }
 };
+// A resumable verse in the reading's framing edition, never a position inside a sentence.
+struct ReadingPosition {
+    std::size_t section = 0;
+    std::string book, source;
+    VerseRef verse;
+    int percent = 0;
+    bool operator==(const ReadingPosition&) const = default;
+};
 struct Reading {
     ReadingKind kind;
     Passage passage;

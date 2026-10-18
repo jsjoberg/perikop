@@ -246,6 +246,55 @@ void ScriptureView::center_passage() {
     set_position(position);
     target_ = offset_;
 }
+VerseRef ScriptureView::current_verse() const {
+    // The same reading line that spoken text follows. Look at text runs, not page pixels.
+    const double line_y = offset_ + GetClientSize().y * 0.38;
+    VerseRef result = displayed_.first;
+    for (std::size_t row = first_visible(); row < rows_.size(); ++row) {
+        if (rows_[row].heading)
+            continue;
+        const auto& columns = row_layout(row).columns;
+        if (columns.empty())
+            continue;
+        const auto& column = columns.front();
+        const double top = positions_[row] + FromDIP(zoomed(12)) +
+                           (stacked_columns() && columns.size() > 1 ? FromDIP(zoomed(24)) : 0);
+        for (std::size_t line = 0; line < column.text.lines.size(); ++line) {
+            for (const auto& run : column.text.lines[line].runs)
+                if (column.main_text(run.tag)) {
+                    const auto verse = column.verses[run.tag].first;
+                    if (top + (line + 1) * column.text.line_height >= line_y)
+                        return std::clamp(verse, displayed_.first, displayed_.last);
+                    result = verse;
+                }
+        }
+    }
+    return std::clamp(result, displayed_.first, displayed_.last);
+}
+void ScriptureView::show_verse(VerseRef verse) {
+    prepare_visible();
+    for (std::size_t row = 0; row < rows_.size(); ++row) {
+        if (rows_[row].heading || verse < rows_[row].ref || verse > rows_[row].last)
+            continue;
+        for (std::size_t i = row > 2 ? row - 2 : 0; i <= row; ++i)
+            heights_[i] = row_layout(i).height;
+        rebuild_positions();
+        const auto& columns = row_layout(row).columns;
+        if (columns.empty())
+            return;
+        const auto& column = columns.front();
+        for (std::size_t line = 0; line < column.text.lines.size(); ++line)
+            for (const auto& run : column.text.lines[line].runs)
+                if (column.main_text(run.tag) && column.verses[run.tag].first <= verse &&
+                    verse <= column.verses[run.tag].second) {
+                    restore_scroll(positions_[row] + FromDIP(zoomed(12)) +
+                                   (stacked_columns() && columns.size() > 1 ? FromDIP(zoomed(24)) : 0) +
+                                   line * column.text.line_height - GetClientSize().y * 0.38);
+                    return;
+                }
+        return;
+    }
+}
 bool ScriptureView::passage_in_view() const {
     // Rows at the very edges, or under the button, do not count as seen.
     const double top = offset_ + FromDIP(zoomed(40)),

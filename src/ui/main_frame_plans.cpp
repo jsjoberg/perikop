@@ -1,4 +1,5 @@
 #include "core/reading_plan.hpp"
+#include "core/reading_position.hpp"
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
@@ -30,20 +31,16 @@ std::string MainFrame::day_key(const Reading& reading) const {
 void MainFrame::open_tracked(const Reading& reading, Tracked item) {
     open_reading(reading);
     tracked_ = std::move(item);
+    restore_reading_position();
+    save_navigation();
 }
 void MainFrame::offer_completion(const Tracked& item, bool listened) {
+    (void)listened;
     if (user_.completed().contains(item.key))
-        return;
-    wxMessageDialog question(
-        this,
-        (listened ? ui::utf8("Du har lyssnat igenom ") : ui::utf8("Du har läst igenom ")) + item.title +
-            ui::utf8(". Vill du markera den som läst?"),
-        ui::utf8("Markera som läst"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
-    question.SetYesNoLabels(ui::utf8("Markera som läst"), ui::utf8("Inte nu"));
-    if (question.ShowModal() != wxID_YES)
         return;
     try {
         user_.complete(item.key);
+        user_.reset_position(item.key);
     } catch (const std::exception& e) {
         wxMessageBox(ui::utf8(e.what()), ui::utf8("Markeringen kunde inte sparas"), wxOK | wxICON_ERROR,
                      this);
@@ -57,9 +54,8 @@ void MainFrame::open_plan_part(const ReadingPlan& plan, std::size_t part) {
         Tracked item{plan_key(plan, part), "del " + std::to_string(part + 1) + ui::utf8(" i ") +
                                                ui::utf8(plan.title) + " (" +
                                                ui::utf8(plan_label(corpus_, plan.parts[part])) + ")"};
-        // Closing a plans page destroys the control that asked, so open the reading after its event.
+        // Finish the tile's event before changing views; Back retains the plans page.
         CallAfter([this, reading = std::move(reading), item = std::move(item)] {
-            close_pages();
             open_tracked(reading, item);
         });
     } catch (const std::exception& e) {
@@ -93,10 +89,12 @@ void MainFrame::add_next_plan() {
         std::size_t part = 0;
         while (completed.contains(plan_key(*plan, part)))
             ++part;
+        const auto position = user_.position(plan_key(*plan, part));
+        const auto progress = position ? " · " + std::to_string(position->percent) + " %" : "";
         auto* row = new ReadingRow(
             home_content_,
             ui::utf8(plan->title + ", del " + std::to_string(part + 1) + " av " +
-                     std::to_string(plan->parts.size())),
+                     std::to_string(plan->parts.size()) + progress),
             ui::utf8(plan_label(corpus_, plan->parts[part])),
             [this, &plan = *plan, part] {
                 open_plan_part(plan, part);
@@ -152,6 +150,8 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
                 return;
             try {
                 user_.forget("plan:" + plan.id + ":");
+                for (const auto& part : plan.parts)
+                    user_.reset_position(reading_key(corpus_, plan_reading(corpus_, part, "sv")));
             } catch (const std::exception& e) {
                 wxMessageBox(ui::utf8(e.what()), ui::utf8("Markeringarna kunde inte tas bort"),
                              wxOK | wxICON_ERROR, this);
@@ -164,7 +164,11 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
                     fill_plans(plans);
             });
         });
-        reset->Enable(done > 0);
+        const bool partial =
+            std::ranges::any_of(std::views::iota(std::size_t{0}, plan.parts.size()), [&](std::size_t i) {
+                return user_.position(plan_key(plan, i)).has_value();
+            });
+        reset->Enable(done > 0 || partial);
         reset->SetToolTip(ui::utf8("Ta bort alla markeringar i planen"));
         header->Add(reset, 0, wxALIGN_CENTER_VERTICAL);
         entries->Add(header, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(4)));
@@ -176,20 +180,23 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
         if (done == plan.parts.size())
             entries->Add(ui::label(content, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0, wxBOTTOM,
                          FromDIP(zoomed(10)));
-        auto* grid = new wxGridSizer(10, FromDIP(zoomed(6)), FromDIP(zoomed(6)));
+        auto* grid = new wxGridSizer(5, FromDIP(zoomed(6)), FromDIP(zoomed(6)));
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
             const auto label = ui::utf8(plan_label(corpus_, plan.parts[i]));
-            auto* tile = new TextButton(content, read ? ui::utf8("✓ ") + number : number);
-            tile->SetMinSize(FromDIP(zoomed(wxSize(44, 34))));
+            const auto position = user_.position(plan_key(plan, i));
+            const auto progress = !read && position ? " · " + std::to_string(position->percent) + " %" : "";
+            auto* tile =
+                new TextButton(content, read ? ui::utf8("✓ ") + number : number + ui::utf8(progress));
+            tile->SetMinSize({std::max(FromDIP(zoomed(44)), tile->GetBestSize().x), FromDIP(zoomed(34))});
             tile->SetName(ui::utf8(plan.title) + ", Del " + number + ", " + label +
-                          (read ? ui::utf8(", läst") : wxString{}));
+                          (read ? ui::utf8(", läst") : ui::utf8(progress)));
             tile->Bind(wxEVT_BUTTON, [this, &plan, i](wxCommandEvent&) {
                 open_plan_part(plan, i);
             });
             tile->SetToolTip(ui::plan_parts_tooltip(corpus_, plan.parts[i]));
-            grid->Add(tile);
+            grid->Add(tile, 0, wxEXPAND);
         }
         entries->Add(grid, 0, wxBOTTOM, FromDIP(zoomed(36)));
     }

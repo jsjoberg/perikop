@@ -42,6 +42,13 @@ public:
     double scroll_position() const {
         return offset_;
     }
+    void restore_scroll(double position) {
+        wheel_timer_.Stop();
+        set_position(position);
+        target_ = offset_;
+    }
+    VerseRef current_verse() const;
+    void show_verse(VerseRef);
     void playback(const SpeechPlayback&);
     void follow_playback(bool follow = true);
     bool follows_playback() const {

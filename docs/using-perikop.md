@@ -31,7 +31,7 @@ A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 The day page shows the selected date's readings and three reading plans. Press **Läs** to open a reading.
 
-- The arrows beside the date change the day. **Ctrl+T** goes to today.
+- The arrows beside the date change the day. **Ctrl+Shift+T** goes to today (⌘ instead of Ctrl on macOS).
 - Click the date for the month calendar. Click the month or year name for a grid of months or years.
 - Calendar markers: violet circle for Orthros, gold diamond for Vespers, green square for other services.
 - **Inställningar** (Ctrl+, or ⌘, on macOS) selects the Greek or Slavic reading order and the Revised Julian or Julian calendar.
@@ -39,6 +39,8 @@ The day page shows the selected date's readings and three reading plans. Press *
 
 ## Reader
 
+- **Tillbaka** and **Framåt** return through the views opened in this session, preserving the reading position and Bible-picker selection. Use Alt+Left/Right on Windows and Linux, ⌘[/⌘] on macOS, or the mouse's Back/Forward side buttons.
+- **Ctrl+L** opens the passage picker; **Ctrl+Shift+L** opens the selected day's readings. **Ctrl+PageUp/PageDown** changes the day, and **Ctrl+Shift+D** opens the calendar. Use ⌘ instead of Ctrl on macOS.
 - The left column is Swedish. The symbols right of the address field add Greek, English, or word study. Click a symbol again to close the column.
 - Click a verse to highlight it. In **Bara svenska**, buttons above the verse open it in online Swedish Bibles.
 - Click the address field to go to another passage, or to choose a part of a reading in several parts.
@@ -67,12 +69,14 @@ Select **Gå → Gå till bibelställe**, then a book, a chapter, and a verse. L
 - **Gamla testamentet**: the books of the Hebrew Bible, with Septuagint chapter numbers, in 30 parts.
 - **Septuagintas övriga böcker**: the other Septuagint books that Perikop has in Swedish, in 14 parts.
 
-Plans count parts, not days. Perikop asks whether to mark a part as read when the voice finishes it, or when you leave it after scrolling to its end.
-**Börja om** clears a plan.
+Plans count parts, not days. A partly read section shows its percentage and reopens at the saved verse. Position is saved automatically when you pause, leave the reading, or close Perikop. While listening, the spoken verse is saved; while reading silently, the verse at the reading line is saved. A section is marked complete when its read-aloud finishes, or when you return to the day page after reaching its end.
+**Börja om** clears a plan's completed sections and saved positions.
 
 ## Read-aloud
 
 - **Lyssna** reads Swedish aloud. Select the voice, Alice or Björn, in **Inställningar**.
+- **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
+- **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
 - **Inställningar → Markera texten som läses upp** highlights the spoken text.

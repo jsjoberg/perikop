@@ -43,6 +43,9 @@ public:
     bool render_benchmark();
 
 private:
+#ifdef __WXMSW__
+    WXLRESULT MSWWindowProc(WXUINT, WXWPARAM, WXLPARAM) override;
+#endif
     void make_menus();
     // Brings the menu bar's labels and states up to date. The ⋮ menu shows its items.
     void sync_menu();
@@ -51,7 +54,7 @@ private:
     void show_menu_bar(bool);
     void refresh_day();
     void layout_home();
-    void show_readings();
+    void show_readings(bool record = true);
     // Display a reading without replacing the playback session that requested it.
     void show_reading(const Reading&);
     void select_day(CivilDate);
@@ -60,6 +63,10 @@ private:
     void browse_bible();
     void about();
     void back();
+    void forward();
+    void save_navigation();
+    void record_navigation();
+    void restore_navigation();
     void show_page(wxWindow*, Screen, const wxString& title);
     wxWindow* current_page() const;
     wxString current_page_title() const;
@@ -107,7 +114,10 @@ private:
     void play_or_pause();
     void toggle_pause();
     void pause_for_navigation();
-    void stop_speech();
+    void stop_speech(bool reset = true);
+    void save_reading_position();
+    void restore_reading_position();
+    bool has_reading_position() const;
     bool active_playback() const;
     void speech_status(const std::string&);
     void refresh_speech();
@@ -131,6 +141,9 @@ private:
     bool speakable_ = true;
     // The open start-page item, and the one being read aloud from start to end.
     std::optional<Tracked> tracked_, speech_tracked_;
+    // Hold a restored verse or Stop reset until the reader moves or starts again.
+    bool position_reset_ = false;
+    double reset_scroll_ = 0;
     wxString reading_title_;
 
     std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
@@ -143,6 +156,20 @@ private:
     wxPanel* root_ = nullptr;
     wxBoxSizer* reader_sizer_ = nullptr;
     NavigationState navigation_;
+    NavigationHistory history_;
+    struct Visit {
+        NavigationState navigation;
+        CivilDate date;
+        std::optional<Reading> reading;
+        std::optional<Tracked> tracked;
+        std::size_t part = 0;
+        double scroll = 0;
+        wxPoint day_scroll;
+        bool month_open = false;
+        std::vector<Passage> selections;
+    };
+    std::map<NavigationHistory::Id, Visit> visits_;
+    bool restoring_navigation_ = false;
     struct PageWindow {
         wxWindow* window;
         wxString title;
@@ -169,6 +196,7 @@ private:
     wxBoxSizer* entries_ = nullptr;
     wxPanel* bar_ = nullptr;
     SymbolButton* back_ = nullptr;
+    SymbolButton* forward_ = nullptr;
     SymbolButton* play_ = nullptr;
     SymbolButton* pause_ = nullptr;
     SymbolButton* stop_ = nullptr;
@@ -178,6 +206,7 @@ private:
     wxMenuBar* menu_bar_ = nullptr;
     wxAcceleratorTable accelerators_;
     std::unique_ptr<wxEventFilter> alt_tap_;
+    std::unique_ptr<wxEventFilter> navigation_input_;
     // Right-column choices: "study" or a language code.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<wxString> parts_;
