@@ -12,7 +12,11 @@ const char* const not_installed = "Den här kopian uppdateras inte inifrån prog
 #ifdef PERIKOP_UPDATES
 const char* const repository = "https://github.com/jsjoberg/perikop";
 // Channels are <os>-<arch>-<track>; see docs/updating.md.
-#if defined(__APPLE__) && defined(__aarch64__)
+#if defined(_WIN32) && defined(__aarch64__)
+const char* const platform = "win-arm64";
+#elif defined(_WIN32)
+const char* const platform = "win-x64";
+#elif defined(__APPLE__) && defined(__aarch64__)
 const char* const platform = "osx-arm64";
 #elif defined(__APPLE__)
 const char* const platform = "osx-x64";

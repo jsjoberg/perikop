@@ -338,6 +338,11 @@ jobs:
           if (-not $installer -or $installer.VersionInfo.ProductVersion -ne $expected) {
             throw "Installer version does not match $expected"
           }
+          # Velopack: install the same files with Setup.exe, update them from a local feed, and uninstall.
+          cmake --install build/cmake --prefix build/stage
+          if ($LASTEXITCODE -ne 0) { throw 'Staging the installed files failed' }
+          python tools/ci/velopack_windows_test.py build/stage/bin
+          if ($LASTEXITCODE -ne 0) { throw 'Velopack install, update, and uninstall failed' }
       - name: Upload package
         if: env.PACKAGE == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

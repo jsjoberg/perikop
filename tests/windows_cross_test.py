@@ -39,6 +39,7 @@ add_test(NAME build-version COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=${REPOSITOR
         (build / "bin/resources").mkdir(parents=True)
         (build / "bin/resources/LICENSE").write_text("fixture license")
         (build / "bin/onnxruntime.dll").write_bytes(b"upstream runtime")
+        (build / "bin/velopack_libc.dll").write_bytes(b"update sdk")
         (build / "bin/perikop.exe").write_text("#!/bin/sh\nexit 0\n")
         binary = build / "bin/ortho-tests.exe"
         binary.write_text('''#!/bin/sh
@@ -98,7 +99,8 @@ test "$HANDOFF_ENV" = 'fixture value'
                 # macOS CPack adds AppleDouble records. Windows and Linux do not.
                 files = {member.name.split("/", 1)[1] for member in archive if member.isfile()
                          and (sys.platform != "darwin" or not Path(member.name).name.startswith("._"))}
-                self.assertEqual(files, {"bin/perikop.exe", "bin/onnxruntime.dll", "bin/resources/LICENSE",
+                self.assertEqual(files, {"bin/perikop.exe", "bin/onnxruntime.dll", "bin/velopack_libc.dll",
+                                         "bin/resources/LICENSE",
                                          "bin/msvcp140.dll", "bin/msvcp140_1.dll", "bin/vcruntime140.dll",
                                          "bin/vcruntime140_1.dll"})
                 runtime_member = next(member for member in archive if member.name.endswith("/bin/onnxruntime.dll"))
@@ -159,6 +161,7 @@ if [ "$1" = --build ]; then
     printf 'app' > build/cmake/bin/perikop.exe
     printf 'test' > build/cmake/bin/ortho-tests.exe
     printf 'runtime' > build/cmake/bin/onnxruntime.dll
+    printf 'update sdk' > build/cmake/bin/velopack_libc.dll
     printf 'resources' > build/cmake/bin/resources/fixture
     printf 'version' > build/cmake/generated/perikop_version.hpp
     printf 'linux paths' > build/cmake/CMakeCache.txt
@@ -182,7 +185,7 @@ fi
             self.assertEqual((root / "strip.log").read_text().strip(), "build/cmake/bin/perikop.exe")
             with tarfile.open(root / "build/windows-x64.tar.gz") as archive:
                 files = {member.name for member in archive if member.isfile()}
-            self.assertEqual(files, {"bin/perikop.exe", "bin/ortho-tests.exe", "bin/onnxruntime.dll",
+            self.assertEqual(files, {"bin/perikop.exe", "bin/ortho-tests.exe", "bin/onnxruntime.dll", "bin/velopack_libc.dll",
                                      "bin/resources/fixture", "generated/perikop_version.hpp", "windows-handoff.json"})
 
     def test_toolchain_rejects_unknown_architecture(self):

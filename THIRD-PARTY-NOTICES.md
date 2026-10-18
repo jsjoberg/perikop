@@ -38,8 +38,10 @@ SQLite 3.53.4 is dedicated to the public domain. It is built from the pinned
 amalgamation with loadable extensions disabled.
 Source: https://sqlite.org/copyright.html
 
-Velopack 1.2.161's C/C++ SDK is linked statically into the Linux and macOS programs for
-in-app updates, and the Linux update packages carry its updater program, UpdateNix.
+Velopack 1.2.161's C/C++ SDK is linked statically into the Linux and macOS programs and
+ships as `velopack_libc.dll` with the Windows program, for in-app updates. The update
+packages carry Velopack's updater programs: UpdateNix on Linux, and Setup.exe and Update.exe
+on Windows.
 Velopack uses the MIT license, in `resources/licenses/Velopack-MIT.txt`. The SDK and
 Velopack's updater programs contain 385 Rust crates under permissive licenses such as MIT,
 Apache 2.0, BSD, ISC, Zlib, and Unicode 3.0. `resources/licenses/Velopack-crates.txt` lists

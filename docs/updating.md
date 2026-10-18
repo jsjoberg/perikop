@@ -111,7 +111,7 @@ The [HTTP source](https://github.com/velopack/velopack/blob/92d6a1c91716729d4490
 Each phase is its own pull request.
 
 1. Versions, channels, these decisions, and moving snapshots and voice packs to `jsjoberg/perikop-assets`. Done.
-2. Updater core and UI. Done, for Linux and macOS; Windows and universal macOS builds explain that they do not update.
+2. Updater core and UI. Done; Windows followed in phase 4, and universal macOS builds explain that they do not update.
    - `src/core/updater.cpp` runs each user step (check, download, apply) on a worker thread and reports to the UI thread. Avbryt stops waiting; no other step starts until the abandoned request finishes. `tests/updater_test.cpp` covers it with a fake backend.
    - `src/app/updates.cpp` is the Velopack backend. It uses the GitHub source with the `<os>-<arch>-<track>` channel, lets the user confirm a downgrade, and keeps the selected package from check through apply.
    - `VelopackApp` runs at startup only in a copy that Velopack installed, because it always opens a log file. Other copies write nothing and make no requests.
@@ -122,6 +122,10 @@ Each phase is its own pull request.
    - The Linux CI image has .NET 8, `squashfs-tools`, and `strace`; `vpk` 1.2.161 is in the Linux dependency inputs.
    - `tools/ci/velopack_linux_test.py` runs wherever CI packages Linux. It packs the build as two nightly versions, installs the first, and lets the program update itself from a local feed with `--update-probe`, the same backend as Inställningar. It checks that the AppImage is replaced, that the profile is unchanged and read by the new version, and that neither version opens an Internet socket. It passed on Rocky Linux 9 ARM64 (glibc 2.34).
    - The AppImage runtime that `vpk` embeds is credited in THIRD-PARTY-NOTICES, as are the Rust crates of Velopack's updater programs.
-4. Windows: pack Setup.exe on Linux and test install, update, and uninstall on a Windows runner. The SDK's Windows libraries are MSVC builds; with llvm-mingw, link its DLL through the C API.
+4. Windows. Done; publishing is phase 6.
+   - llvm-mingw cannot link the SDK's static MSVC library: it asks for MSVC's CRT and compiler-runtime symbols such as `__chkstk` and `__security_cookie`. Perikop links Velopack's DLL through its import library instead and ships it beside `perikop.exe` as `velopack_libc.dll`, the name the import library uses. The DLL needs only Windows system DLLs, because it carries its own C runtime.
+   - The Windows job packs the installed files with `vpk` (Setup.exe, a portable zip, the update package, and the feed), using the runner's .NET. `vpk [win] pack` also works on Linux, but the Visual C++ runtime DLLs come from the Windows runner.
+   - `tools/ci/velopack_windows_test.py` runs in the Windows job, also for pull requests. It installs the first of two packed nightly versions silently, lets the installed program update itself with `--update-probe`, checks that the profile is kept and read by the new version, and uninstalls with `Update.exe --uninstall --silent`. Unlike the Linux test it does not trace network calls.
+   - A spike under Wine x64 on Linux installed a `vpk`-built Setup.exe silently, per user, in `%LOCALAPPDATA%`, and updated it from a local feed.
 5. macOS: pack each architecture with `vpk` on the Mac runners.
 6. Publishing: releases and nightlies upload feeds, full packages, and deltas, and nightly cleanup keeps the packages that deltas need.
