@@ -86,14 +86,14 @@ def select_words(entries, maximum):
     return selected, {"dictionary_pairs": original, "selected_words": len(selected), "uncovered_pairs": len(missing)}
 
 
-def aligned_phones(tokens, durations, symbols, sample_count):
+def aligned_phones(tokens, durations, symbols, sample_count, offset=0):
     total = sum(durations)
     if len(tokens) != len(durations) or not total or any(v <= 0 for v in durations):
         raise ValueError("Invalid teacher alignment.")
     result, cursor, stress, pending = [], 0, "", None
     scale = sample_count / total
     for token, duration in zip(tokens, durations):
-        begin, end = round(cursor * scale), round((cursor + duration) * scale)
+        begin, end = (max(0,min(sample_count,round(t*scale)+offset)) for t in (cursor,cursor+duration))
         cursor += duration
         symbol = symbols.get(token, "_") if token else "_"
         if symbol in STRESS:
@@ -127,6 +127,8 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("resources/voices/bjorn-lite-v1"))
     parser.add_argument("--work", type=Path, default=Path("build/bjorn-units"))
     parser.add_argument("--max-words", type=int, default=700)
+    parser.add_argument("--alignment-offset", type=int, default=0,
+                        help="Experimental acoustic correction in samples; default preserves existing pack")
     args = parser.parse_args()
     entries = dictionary(args.pack, Path("resources/corpus/pronunciation-sv.tsv"))
     vocab = json.loads((args.pack / "config.json").read_text())["vocab"]
@@ -167,7 +169,7 @@ def main():
         gain = min(1.0, 0.85 / max(peak, 1e-9))
         pcm *= gain
         durations = [int(value) for value in timing.read_text().split()]
-        aligned = aligned_phones([0] + tokens + [0], durations, symbols, len(pcm))
+        aligned = aligned_phones([0] + tokens + [0], durations, symbols, len(pcm), args.alignment_offset)
         for label, first, last in aligned:
             if label != "_":
                 lengths.setdefault(label, []).append(last - first)
@@ -213,6 +215,7 @@ def main():
     digest = hashlib.sha256(b"".join((args.output / name).read_bytes() for name in ("units.bin", "phones.tsv", "lexicon.tsv"))).hexdigest()
     (args.output / "revision.txt").write_text(digest + "\n")
     manifest = {"id": "bjorn-lite-v1", "revision": digest, "method": "reusable diphone/monophone waveform units; mu=255 companding",
+                "alignment_offset_samples":args.alignment_offset,
                 "teacher": json.loads((args.pack / "voice-pack.json").read_text()), "selection": selection,
                 "phonemes": len(labels), "units": len(units), "training": training,
                 "files": {name: {"bytes": (args.output / name).stat().st_size,

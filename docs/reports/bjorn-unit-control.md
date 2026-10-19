@@ -1,4 +1,4 @@
-> Updated user priorities: pleasant voice quality is non-negotiable. The 30 MB figure was an estimate, not a limit. Performance and startup delay of the existing neural voice on machines such as the ThinkPad X220i and Raspberry Pi 5 are the current problem. Replacement engines/models require license review. The Bas investigations below are historical diagnostic evidence, not a commitment to that architecture.
+> Current direction: improve the compact voice itself. These oracle controls are historical diagnostics. The [new compact candidate](compact-candidate.md) uses source recordings from other chapters and is a reusable-unit synthesis experiment.
 
 # Is Björn Bas a dead end? Diagnostic control, 2026-10-19
 

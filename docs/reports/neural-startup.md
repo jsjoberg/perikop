@@ -1,9 +1,13 @@
-# Working goal and neural startup investigation
+# Historical neural startup investigation
+
+The user subsequently clarified that the active task is making the compact voice
+sound good and run efficiently. This investigation is retained as evidence; it
+does not define the current direction. See [compact candidate](compact-candidate.md).
 
 ## Current user requirements
 
 - Pleasant, good speech is mandatory. Performance and size cannot justify an unacceptable voice.
-- The current problem is performance and startup delay, with ThinkPad X220i and Raspberry Pi 5 given as target examples.
+- Performance and startup delay matter on examples such as ThinkPad X220i and Raspberry Pi 5; improving compact voice quality is the immediate task.
 - Thirty MB was an estimate, not a requirement.
 - Neural inference is not excluded categorically; candidate components and models must meet the project’s license requirements. Specific acceptable licenses were not enumerated.
 - The agent-written starting prompt is not authoritative. Keep verified measurements and listening evidence; reassess architecture independently.

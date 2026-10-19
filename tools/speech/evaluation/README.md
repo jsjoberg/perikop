@@ -5,6 +5,10 @@ production dependency, voice pack, distribution, or runtime architecture.
 The fixed Bible corpus can still supply precomputed pronunciation and prosody.
 Large evaluation models belong on the development machine.
 
+The subsequent [compact synthesis experiment](unit-selection.md) corrects source
+timing, selects connected units offline and renders native speech without a neural
+runtime. It is separate from the original baseline evaluator described below.
+
 ## Setup and run
 
 Run from the repository root. Python 3.12+, NumPy 2.3.5, FFmpeg and

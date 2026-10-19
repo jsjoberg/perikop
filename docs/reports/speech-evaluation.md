@@ -1,12 +1,13 @@
-> Updated user priorities: pleasant voice quality is non-negotiable. The 30 MB figure was an estimate, not a limit. Performance and startup delay of the existing neural voice on machines such as the ThinkPad X220i and Raspberry Pi 5 are the current problem. Replacement engines/models require license review. The Bas investigations below are historical diagnostic evidence, not a commitment to that architecture.
+> Current direction: improve compact speech quality while keeping native playback fast. Pleasantness is mandatory; 30 MB was an estimate. The neural latency detour did not address the compact voice failure. See [the new compact candidate](compact-candidate.md).
 
 # Björn evaluation findings — 2026-10-19
 
 The evaluation distinguishes neural Björn, the earlier harmonic reconstructions,
 and the failed reusable-unit Bas voice. It also detects major controlled damage.
 It does **not** validate every acoustic metric as an intelligibility predictor,
-or establish which implementation defect caused the failure. No synthesizer,
-voice pack or product integration was changed.
+or establish which implementation defect caused the failure. This baseline run
+changed no synthesizer, voice pack or product integration. Subsequent candidate
+work is documented separately above.
 
 [Run instructions](../../tools/speech/evaluation/README.md) ·
 [Full machine-readable baseline](speech-evaluation/baseline.json) ·
