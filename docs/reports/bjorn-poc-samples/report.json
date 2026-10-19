@@ -1,0 +1,406 @@
+{
+  "audio": [
+    {
+      "sample": "psalm",
+      "file": "psalm-comparison.m4a",
+      "segments": [
+        {
+          "label": "Björn reference",
+          "start_seconds": 0.0
+        },
+        {
+          "label": "32 harmonics",
+          "start_seconds": 7.725
+        },
+        {
+          "label": "64 harmonics",
+          "start_seconds": 15.45
+        }
+      ],
+      "bytes": 404125,
+      "sha256": "29c3e9776e5e40f7da71f78a094d860d6b9723c41a1c3d8dd09c864ab45258a9"
+    },
+    {
+      "sample": "sjal",
+      "file": "sjal-comparison.m4a",
+      "segments": [
+        {
+          "label": "Björn reference",
+          "start_seconds": 0.0
+        },
+        {
+          "label": "32 harmonics",
+          "start_seconds": 7.6
+        },
+        {
+          "label": "64 harmonics",
+          "start_seconds": 15.2
+        }
+      ],
+      "bytes": 394219,
+      "sha256": "1241c62537a83903f35384fea8e6ee0b6d744e016f9ca5fb40c2466b370b2254"
+    },
+    {
+      "sample": "namn",
+      "file": "namn-comparison.m4a",
+      "segments": [
+        {
+          "label": "Björn reference",
+          "start_seconds": 0.0
+        },
+        {
+          "label": "32 harmonics",
+          "start_seconds": 7.925
+        },
+        {
+          "label": "64 harmonics",
+          "start_seconds": 15.85
+        }
+      ],
+      "bytes": 411821,
+      "sha256": "a141d1dc940487ba5ff5a445012a86c66d46bc733b4f4e8d91d5def8a33d3e21"
+    }
+  ],
+  "experiment": {
+    "method": "per-utterance optimized harmonic least squares + sixteen residual noise bands",
+    "format": "BJP2",
+    "sample_rate": 24000,
+    "hop_samples": 240,
+    "window_samples": 960,
+    "renderer_compiler": "Apple clang version 17.0.0 (clang-1700.6.3.2)",
+    "renderer_bytes": 50992,
+    "analysis_numpy": "2.3.5",
+    "samples": [
+      {
+        "name": "psalm",
+        "text": "Herren är min herde, mig skall intet fattas. Han låter mig vila på gröna ängar.",
+        "reference": "psalm-reference.wav",
+        "seconds": 6.975,
+        "control_fit_wall_seconds": 5.247507542022504,
+        "provenance": {
+          "voice": "bjorn",
+          "pack": {
+            "id": "kokoro-sv-alice-bjorn-2c7968d-v3",
+            "licence": "Apache-2.0",
+            "sources": {
+              "voices": "2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+              "g2p": "a5aac876ccb2bf7480a129774c7e89cf3bbeac01",
+              "code": "42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f",
+              "corpus": "c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47"
+            },
+            "files": {
+              "custom_lexicon.tsv": {
+                "size": 1893,
+                "sha256": "2b7997c6d544c372cc3833107e853be37a57eb18038f21eb48a5c1edd59269b3"
+              },
+              "bjorn.bin": {
+                "size": 522240,
+                "sha256": "ae4dd233fa2d0859e88e792a47791abc0fc7a84291037f1655a2740adfa07f4a"
+              },
+              "config.json": {
+                "size": 2351,
+                "sha256": "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f"
+              },
+              "alice.bin": {
+                "size": 522240,
+                "sha256": "65bfb8edda97fbde4e1909d2aa5df25093a5b17c134cb02c38c6e08acfd06834"
+              },
+              "g2p-corpus.tsv": {
+                "size": 206341,
+                "sha256": "f60746bff22d2d51e720e7dd88d8bb8c77db01b367c46864c34af4d00bd6596a"
+              },
+              "g2p-decoder.onnx": {
+                "size": 6458826,
+                "sha256": "07d9c48021c589dc66124b02aaba01546d0ea5e7e14cd411190a7ef819de1fd6"
+              },
+              "lexicon.tsv": {
+                "size": 658249,
+                "sha256": "9c89c4940aad585b402ef97df934655772bf5123a985339fddf0c9221e1f9323"
+              },
+              "kokoro.onnx": {
+                "size": 166237948,
+                "sha256": "d71de206f02aaa10cf934985ea4e16dc4cffddac11e24df46e31c25f0fe069b6"
+              },
+              "g2p-config.json": {
+                "size": 1116,
+                "sha256": "f00e8e9bf52907f09b0be01ccd8f5b7091bc4a3ed8e71ef6081b290ca180c5ab"
+              },
+              "g2p-encoder.onnx": {
+                "size": 4833494,
+                "sha256": "58abddf828db99dfd1dec66fc960b2ba2e7bb3ddeb4e5aa910de8c7b71d48904"
+              },
+              "LICENSE-Kokoro-Swedish.txt": {
+                "size": 12319,
+                "sha256": "cd743a0b5ce54ea4a41d650e0ff3e45ecd67ca213db137cedd47d76b54b1f84a"
+              }
+            }
+          },
+          "probe_timing": "load_seconds=1.61212, generation_seconds=6.01381, audio_seconds=6.975",
+          "raw_sha256": "13eb71799c222283d72013ea35092e6150c1dfad33639be6e9fe2930950ec633"
+        },
+        "variants": [
+          {
+            "harmonics": 32,
+            "wav": "psalm-32.wav",
+            "track": "psalm-32.bjp",
+            "track_bytes": 58744,
+            "pcm_to_track_ratio": 5.69930546098325,
+            "fit_wall_seconds": 0.7238026249688119,
+            "voiced_frame_fraction": 0.4721030042918455,
+            "median_f0_hz": 123.6328125,
+            "harmonic_fit_energy_fraction": 0.6049471365593428,
+            "render_cpu_seconds": 0.281554,
+            "audio_seconds": 6.975,
+            "peak": 0.637815,
+            "clipped_samples": 0,
+            "spectral_convergence_256": 0.5221550010755646,
+            "mean_spectral_error_db_256": 4.1892392427767025,
+            "spectral_convergence_1024": 0.6216611732742762,
+            "mean_spectral_error_db_1024": 4.519816191805341,
+            "rms_ratio": 1.0290872439201244
+          },
+          {
+            "harmonics": 64,
+            "wav": "psalm-64.wav",
+            "track": "psalm-64.bjp",
+            "track_bytes": 103480,
+            "pcm_to_track_ratio": 3.23540780827213,
+            "fit_wall_seconds": 1.224428000045009,
+            "voiced_frame_fraction": 0.4721030042918455,
+            "median_f0_hz": 123.6328125,
+            "harmonic_fit_energy_fraction": 0.6050775508362698,
+            "render_cpu_seconds": 0.368771,
+            "audio_seconds": 6.975,
+            "peak": 0.638609,
+            "clipped_samples": 0,
+            "spectral_convergence_256": 0.5221228827748029,
+            "mean_spectral_error_db_256": 4.156452773910061,
+            "spectral_convergence_1024": 0.6216260690065543,
+            "mean_spectral_error_db_1024": 4.482606206160483,
+            "rms_ratio": 1.029055872003981
+          }
+        ]
+      },
+      {
+        "name": "sjal",
+        "text": "Han vederkvicker min själ; han leder mig på rätta vägar, för sitt namns skull.",
+        "reference": "sjal-reference.wav",
+        "seconds": 6.85,
+        "control_fit_wall_seconds": 4.7655946660088375,
+        "provenance": {
+          "voice": "bjorn",
+          "pack": {
+            "id": "kokoro-sv-alice-bjorn-2c7968d-v3",
+            "licence": "Apache-2.0",
+            "sources": {
+              "voices": "2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+              "g2p": "a5aac876ccb2bf7480a129774c7e89cf3bbeac01",
+              "code": "42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f",
+              "corpus": "c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47"
+            },
+            "files": {
+              "custom_lexicon.tsv": {
+                "size": 1893,
+                "sha256": "2b7997c6d544c372cc3833107e853be37a57eb18038f21eb48a5c1edd59269b3"
+              },
+              "bjorn.bin": {
+                "size": 522240,
+                "sha256": "ae4dd233fa2d0859e88e792a47791abc0fc7a84291037f1655a2740adfa07f4a"
+              },
+              "config.json": {
+                "size": 2351,
+                "sha256": "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f"
+              },
+              "alice.bin": {
+                "size": 522240,
+                "sha256": "65bfb8edda97fbde4e1909d2aa5df25093a5b17c134cb02c38c6e08acfd06834"
+              },
+              "g2p-corpus.tsv": {
+                "size": 206341,
+                "sha256": "f60746bff22d2d51e720e7dd88d8bb8c77db01b367c46864c34af4d00bd6596a"
+              },
+              "g2p-decoder.onnx": {
+                "size": 6458826,
+                "sha256": "07d9c48021c589dc66124b02aaba01546d0ea5e7e14cd411190a7ef819de1fd6"
+              },
+              "lexicon.tsv": {
+                "size": 658249,
+                "sha256": "9c89c4940aad585b402ef97df934655772bf5123a985339fddf0c9221e1f9323"
+              },
+              "kokoro.onnx": {
+                "size": 166237948,
+                "sha256": "d71de206f02aaa10cf934985ea4e16dc4cffddac11e24df46e31c25f0fe069b6"
+              },
+              "g2p-config.json": {
+                "size": 1116,
+                "sha256": "f00e8e9bf52907f09b0be01ccd8f5b7091bc4a3ed8e71ef6081b290ca180c5ab"
+              },
+              "g2p-encoder.onnx": {
+                "size": 4833494,
+                "sha256": "58abddf828db99dfd1dec66fc960b2ba2e7bb3ddeb4e5aa910de8c7b71d48904"
+              },
+              "LICENSE-Kokoro-Swedish.txt": {
+                "size": 12319,
+                "sha256": "cd743a0b5ce54ea4a41d650e0ff3e45ecd67ca213db137cedd47d76b54b1f84a"
+              }
+            }
+          },
+          "probe_timing": "load_seconds=1.4985, generation_seconds=5.89565, audio_seconds=6.85",
+          "raw_sha256": "61a72811bb8feb95b67e0e9f36501a34b255f34a23f4b5563a834f586347168f"
+        },
+        "variants": [
+          {
+            "harmonics": 32,
+            "wav": "sjal-32.wav",
+            "track": "sjal-32.bjp",
+            "track_bytes": 57652,
+            "pcm_to_track_ratio": 5.703184624991327,
+            "fit_wall_seconds": 0.6804571670945734,
+            "voiced_frame_fraction": 0.4402332361516035,
+            "median_f0_hz": 125.8359375,
+            "harmonic_fit_energy_fraction": 0.5813743398055868,
+            "render_cpu_seconds": 0.260332,
+            "audio_seconds": 6.85,
+            "peak": 0.600222,
+            "clipped_samples": 0,
+            "spectral_convergence_256": 0.5307897479114746,
+            "mean_spectral_error_db_256": 4.071448273774576,
+            "spectral_convergence_1024": 0.6357752199172103,
+            "mean_spectral_error_db_1024": 4.5466002575590725,
+            "rms_ratio": 1.0407918412512494
+          },
+          {
+            "harmonics": 64,
+            "wav": "sjal-64.wav",
+            "track": "sjal-64.bjp",
+            "track_bytes": 101556,
+            "pcm_to_track_ratio": 3.2376225924613022,
+            "fit_wall_seconds": 1.1498396249953657,
+            "voiced_frame_fraction": 0.4402332361516035,
+            "median_f0_hz": 125.8359375,
+            "harmonic_fit_energy_fraction": 0.5814922913362193,
+            "render_cpu_seconds": 0.34821,
+            "audio_seconds": 6.85,
+            "peak": 0.600255,
+            "clipped_samples": 0,
+            "spectral_convergence_256": 0.5307476789562594,
+            "mean_spectral_error_db_256": 4.037762238525806,
+            "spectral_convergence_1024": 0.6357322929219278,
+            "mean_spectral_error_db_1024": 4.5082694618158135,
+            "rms_ratio": 1.0407575484775398
+          }
+        ]
+      },
+      {
+        "name": "namn",
+        "text": "Abraham, Isak och Jakob. Jerusalem och Betlehem. Mose och Aron.",
+        "reference": "namn-reference.wav",
+        "seconds": 7.175,
+        "control_fit_wall_seconds": 4.719555791001767,
+        "provenance": {
+          "voice": "bjorn",
+          "pack": {
+            "id": "kokoro-sv-alice-bjorn-2c7968d-v3",
+            "licence": "Apache-2.0",
+            "sources": {
+              "voices": "2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+              "g2p": "a5aac876ccb2bf7480a129774c7e89cf3bbeac01",
+              "code": "42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f",
+              "corpus": "c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47"
+            },
+            "files": {
+              "custom_lexicon.tsv": {
+                "size": 1893,
+                "sha256": "2b7997c6d544c372cc3833107e853be37a57eb18038f21eb48a5c1edd59269b3"
+              },
+              "bjorn.bin": {
+                "size": 522240,
+                "sha256": "ae4dd233fa2d0859e88e792a47791abc0fc7a84291037f1655a2740adfa07f4a"
+              },
+              "config.json": {
+                "size": 2351,
+                "sha256": "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f"
+              },
+              "alice.bin": {
+                "size": 522240,
+                "sha256": "65bfb8edda97fbde4e1909d2aa5df25093a5b17c134cb02c38c6e08acfd06834"
+              },
+              "g2p-corpus.tsv": {
+                "size": 206341,
+                "sha256": "f60746bff22d2d51e720e7dd88d8bb8c77db01b367c46864c34af4d00bd6596a"
+              },
+              "g2p-decoder.onnx": {
+                "size": 6458826,
+                "sha256": "07d9c48021c589dc66124b02aaba01546d0ea5e7e14cd411190a7ef819de1fd6"
+              },
+              "lexicon.tsv": {
+                "size": 658249,
+                "sha256": "9c89c4940aad585b402ef97df934655772bf5123a985339fddf0c9221e1f9323"
+              },
+              "kokoro.onnx": {
+                "size": 166237948,
+                "sha256": "d71de206f02aaa10cf934985ea4e16dc4cffddac11e24df46e31c25f0fe069b6"
+              },
+              "g2p-config.json": {
+                "size": 1116,
+                "sha256": "f00e8e9bf52907f09b0be01ccd8f5b7091bc4a3ed8e71ef6081b290ca180c5ab"
+              },
+              "g2p-encoder.onnx": {
+                "size": 4833494,
+                "sha256": "58abddf828db99dfd1dec66fc960b2ba2e7bb3ddeb4e5aa910de8c7b71d48904"
+              },
+              "LICENSE-Kokoro-Swedish.txt": {
+                "size": 12319,
+                "sha256": "cd743a0b5ce54ea4a41d650e0ff3e45ecd67ca213db137cedd47d76b54b1f84a"
+              }
+            }
+          },
+          "probe_timing": "load_seconds=1.49857, generation_seconds=5.90211, audio_seconds=7.175",
+          "raw_sha256": "19d04c3154a4293fecb33d2d9443666207d8782d319338c2f8911a879177aada"
+        },
+        "variants": [
+          {
+            "harmonics": 32,
+            "wav": "namn-32.wav",
+            "track": "namn-32.bjp",
+            "track_bytes": 60424,
+            "pcm_to_track_ratio": 5.6997219647822055,
+            "fit_wall_seconds": 0.6928000829648226,
+            "voiced_frame_fraction": 0.41168289290681503,
+            "median_f0_hz": 125.2734375,
+            "harmonic_fit_energy_fraction": 0.5854726881530925,
+            "render_cpu_seconds": 0.266102,
+            "audio_seconds": 7.175,
+            "peak": 0.759737,
+            "clipped_samples": 0,
+            "spectral_convergence_256": 0.5129942969949378,
+            "mean_spectral_error_db_256": 4.489293508117901,
+            "spectral_convergence_1024": 0.6297415075983415,
+            "mean_spectral_error_db_1024": 4.796953509689183,
+            "rms_ratio": 1.027281569440059
+          },
+          {
+            "harmonics": 64,
+            "wav": "namn-64.wav",
+            "track": "namn-64.bjp",
+            "track_bytes": 106440,
+            "pcm_to_track_ratio": 3.2356257046223225,
+            "fit_wall_seconds": 1.149070666055195,
+            "voiced_frame_fraction": 0.41168289290681503,
+            "median_f0_hz": 125.2734375,
+            "harmonic_fit_energy_fraction": 0.5856090722272744,
+            "render_cpu_seconds": 0.348368,
+            "audio_seconds": 7.175,
+            "peak": 0.759559,
+            "clipped_samples": 0,
+            "spectral_convergence_256": 0.5129455209833386,
+            "mean_spectral_error_db_256": 4.450715989698591,
+            "spectral_convergence_1024": 0.629703371762076,
+            "mean_spectral_error_db_1024": 4.758551707428124,
+            "rms_ratio": 1.0272457482083655
+          }
+        ]
+      }
+    ]
+  }
+}
