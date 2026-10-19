@@ -48,7 +48,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 - **Bokmärken**, in the menu bar and as a submenu of the ⋮ menu, lists saved passages in Bible book order, then chapter and verse. Click the submenu row or press Right to open it beside the main menu. Cancelling the submenu returns to the main menu. Opening a bookmark selects that passage as a reading. **Ta bort bokmärke…** lets you choose a bookmark to remove and asks for confirmation; **Avbryt** keeps it. Bookmarks are saved in the local profile and survive restarting the app. Separate selected ranges become separate bookmarks; adding the same range again keeps one copy.
 - Click the address field to go to another passage, or to choose a part of a reading in several parts.
 - **⋮** opens the commands, as in Chrome. **−** and **+** in the menu change the text size and the read-aloud speed without closing it.
-  On Windows and Linux, press Alt to show the menu bar.
+  Windows and Linux use the ⋮ menu and keyboard shortcuts; macOS also has its native menu bar.
 - The text size applies to the whole program. Ctrl++ and Ctrl+- (⌘ on macOS) change it, and Ctrl+0 resets it.
 - **Inställningar** holds the colour scheme and theme, the calendar, the reading order, and the voice.
 - Tab moves through the toolbar, the page, and the word study column in that order. Shift+Tab moves back.
@@ -57,7 +57,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 
 **Inställningar → Uppdateringskanal** saves your choice of **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds).
 Changing this setting makes no network requests.
-**Sök efter uppdateringar** checks the chosen channel on GitHub. Each step then waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
+**⋮ → Sök efter uppdateringar…**, just before **Granska svenskt uttal…**, opens an update dialog and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
 In-app updates require a Velopack download listed above. Plain DMG, NSIS, and older AppImage copies explain that they need a manual download instead. The feed becomes available when its GitHub release is published.
 The updater uses deltas when a suitable cached base exists, and otherwise downloads the full package. Updating or removing the application keeps your settings and reading progress. No check, download, or installation starts automatically.
 

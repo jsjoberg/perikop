@@ -182,6 +182,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_playback.cpp
         src/ui/main_frame_toolbar.cpp
         src/ui/main_frame_plans.cpp
+        src/ui/main_frame_updates.cpp
         src/ui/main_frame_settings.cpp
         src/ui/main_frame_smoke.cpp
         src/ui/main_frame_benchmark.cpp

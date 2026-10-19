@@ -3,6 +3,8 @@
 from contextlib import chdir
 import importlib.util
 import os
+import re
+import sqlite3
 from pathlib import Path
 import subprocess
 import tempfile
@@ -16,6 +18,24 @@ spec.loader.exec_module(build)
 
 
 class BuildTest(unittest.TestCase):
+    def test_update_profile_comparison_preserves_values_and_allows_new_tables(self):
+        script = (ROOT / "tools/ci/validate_macos_update.command").read_text()
+        fixture = re.search(r'"\$database" <<\'SQL\'\n(.*?)\nSQL', script, re.S).group(1)
+        snapshot = re.search(r'profile_snapshot\(\) \{.*?<<\'SQL\'\n(.*?)\nSQL', script, re.S).group(1)
+        with sqlite3.connect(":memory:") as database:
+            database.executescript(fixture)
+            def saved_values():
+                return [database.execute(query).fetchall()
+                        for query in snapshot.split(";") if query.strip()]
+            before = saved_values()
+            database.execute("CREATE TABLE future_feature(value TEXT)")
+            self.assertEqual(saved_values(), before)
+            database.execute("UPDATE bookmark SET last_verse=5")
+            self.assertNotEqual(saved_values(), before)
+            database.execute("UPDATE bookmark SET last_verse=6")
+            database.execute("DELETE FROM reading_position")
+            self.assertNotEqual(saved_values(), before)
+
     def test_failed_linux_tests_prevent_packaging(self):
         calls = []
         def run(*arguments, **kwargs):

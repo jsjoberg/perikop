@@ -1,4 +1,3 @@
-#include "perikop_version.hpp"
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
@@ -6,7 +5,6 @@
 #include <wx/checkbox.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
-#include <wx/msgdlg.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
@@ -282,117 +280,11 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 updater_->reset();
             });
     entries->Add(ui::label(content, ui::utf8("Valet startar ingen sökning eller hämtning.")));
-    // Each step waits for the user: check, then download, then restart to install.
-    auto* update_row = new wxBoxSizer(wxHORIZONTAL);
-    auto* update_button = ui::button(content, ui::utf8("Sök efter uppdateringar"), [this] {
-        update_clicked();
-    });
-    auto* cancel = ui::button(content, "Avbryt", [this] {
-        updater_->cancel();
-    });
-    cancel->SetToolTip(ui::utf8("Sluta vänta. En påbörjad hämtning avslutas först."));
-    update_row->Add(update_button, 0, wxRIGHT, FromDIP(zoomed(8)));
-    update_row->Add(cancel);
-    entries->Add(update_row, 0, wxTOP, FromDIP(zoomed(12)));
-    auto* update_text = ui::label(content, {}, 10);
-    entries->Add(update_text, 0, wxTOP, FromDIP(zoomed(8)));
-    update_button_ = update_button;
-    update_cancel_ = cancel;
-    update_text_ = update_text;
-    show_update_status();
     auto* outer = new wxBoxSizer(wxVERTICAL);
     outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
     page->FitInside();
     page->Layout();
-}
-void MainFrame::show_update_status() {
-    auto* button = update_button_.get();
-    auto* cancel = update_cancel_.get();
-    auto* text = static_cast<wxStaticText*>(update_text_.get());
-    if (!button || !cancel || !text)
-        return;
-    using State = UpdateStatus::State;
-    const auto& status = updater_->status();
-    const auto version = ui::utf8(status.offer.version);
-    auto label = ui::utf8("Sök efter uppdateringar");
-    wxString line;
-    bool enabled = true;
-    switch (status.state) {
-    case State::Unavailable:
-        enabled = false;
-        line = ui::utf8(status.message);
-        break;
-    case State::Idle:
-        line = ui::utf8("Den här versionen: ") + PERIKOP_VERSION;
-        break;
-    case State::Checking:
-        label = ui::utf8("Söker…");
-        enabled = false;
-        line = ui::utf8("Söker efter uppdateringar på GitHub.");
-        break;
-    case State::Current:
-        line = ui::utf8("Du har den senaste versionen, ") + PERIKOP_VERSION + ".";
-        break;
-    case State::Available:
-        label = ui::utf8("Hämta version ") + version;
-        line = ui::utf8("Version ") + version + ui::utf8(" finns att hämta");
-        if (status.offer.size)
-            line += ", " + std::to_string((status.offer.size + 999'999) / 1'000'000) + " MB";
-        line += status.offer.downgrade ? ui::utf8(". Den är äldre än den du har.") : wxString(".");
-        break;
-    case State::Downloading:
-        label = ui::utf8("Hämtar…");
-        enabled = false;
-        line = ui::utf8("Hämtar version ") + version + ": " + std::to_string(status.progress) + " %";
-        break;
-    case State::Cancelling:
-        label = ui::utf8("Avbryter…");
-        enabled = false;
-        line = ui::utf8("Avbryter. Det som redan har börjat hämtas avslutas först.");
-        break;
-    case State::Ready:
-        label = ui::utf8("Starta om och installera");
-        line =
-            ui::utf8("Version ") + version + ui::utf8(" är hämtad. Perikop startar om när den installeras.");
-        break;
-    case State::Failed:
-        label = ui::utf8("Försök igen");
-        line = ui::utf8("Det gick inte: ") + ui::utf8(status.message);
-        break;
-    }
-    if (button->GetLabel() != label) {
-        button->SetLabel(label);
-        button->InvalidateBestSize();
-    }
-    button->Enable(enabled);
-    cancel->Show(status.state == State::Checking || status.state == State::Downloading);
-    if (text->GetLabel() != line) {
-        text->SetLabelText(line);
-        text->Wrap(FromDIP(zoomed(440)));
-    }
-    if (auto* page = text->GetParent()->GetParent()) {
-        page->Layout();
-        if (auto* scrolled = dynamic_cast<wxScrolledWindow*>(page))
-            scrolled->FitInside();
-    }
-}
-void MainFrame::update_clicked() {
-    using State = UpdateStatus::State;
-    const auto& status = updater_->status();
-    if (status.state == State::Available) {
-        if (status.offer.downgrade &&
-            wxMessageBox(ui::utf8("Version " + status.offer.version +
-                                  " är äldre än den du har. Vill du byta till den?"),
-                         ui::utf8("Äldre version"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION, this) != wxYES)
-            return;
-        updater_->download();
-    } else if (status.state == State::Ready) {
-        // Velopack installs once the program has closed, then starts it again.
-        if (updater_->apply())
-            Close();
-    } else
-        updater_->check(settings_.update_channel);
 }
 } // namespace ortho

@@ -23,6 +23,7 @@
 #include <wx/checkbox.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
+#include <wx/dialog.h>
 #include <wx/fontenum.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
@@ -320,15 +321,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     if (!corpus_.read_only())
         fail(__LINE__);
-    // The ⋮ menu is always there. Windows and Linux hide the menu bar until Alt; the checks below use it.
+    // Windows/Linux use only the overflow menu and accelerators. macOS keeps its native bar.
     if (!menu_ || !menu_->IsShown() || !menu_bar_)
         fail(__LINE__);
-#ifndef __WXOSX__
-    if (GetMenuBar())
-        fail(__LINE__);
-    show_menu_bar(true);
-#endif
+#ifdef __WXOSX__
     if (GetMenuBar() != menu_bar_)
+#else
+    if (GetMenuBar())
+#endif
         fail(__LINE__);
     // GetIcon() needs an exact system-size match on some ports. Check the stored artwork.
     if (GetIcons().IsEmpty() || !GetIcons().GetIconByIndex(0).IsOk())
@@ -744,7 +744,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         save(bitmap.ConvertToImage(), "-settings" + suffix);
     });
     {
-        // An uninstalled build explains why it cannot update and offers no step.
+        // Updates are an action in the menu, outside Settings.
+        const int update =
+            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Sök efter uppdateringar…"));
+        wxCommandEvent command(wxEVT_MENU, update);
+        ProcessWindowEvent(command);
         auto* button = update_button_.get();
         const auto* text = static_cast<wxStaticText*>(update_text_.get());
         if (!button || !text ||
@@ -769,7 +773,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         };
         if (!button->IsEnabled() || update_cancel_->IsShown())
             fail(__LINE__);
-        update_clicked();
+        // Opening the action starts a check; it does not need a second click in Settings.
+        update_dialog_->Close();
+        wxTheApp->Yield(true);
+        ProcessWindowEvent(command);
+        button = update_button_.get();
+        text = static_cast<wxStaticText*>(update_text_.get());
         if (!reaches(UpdateStatus::State::Available) ||
             button->GetLabel() != ui::utf8("Hämta version 9.9.9") || !text->GetLabel().Contains("2 MB"))
             fail(__LINE__);
@@ -778,16 +787,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             button->GetLabel() != ui::utf8("Starta om och installera"))
             fail(__LINE__);
         if (!screenshot_path.empty()) {
-            // The update controls are at the end of the page.
-            if (auto* page = dynamic_cast<wxScrolledWindow*>(current_page())) {
-                int unit_x = 0, unit_y = 0;
-                page->GetScrollPixelsPerUnit(&unit_x, &unit_y);
-                if (unit_y > 0)
-                    page->Scroll(0, (page->GetVirtualSize().y - page->GetClientSize().y) / unit_y + 1);
-            }
-            Update();
-            wxBitmap bitmap(GetClientSize());
-            wxClientDC window(this);
+            auto* dialog = update_dialog_.get();
+            dialog->Update();
+            wxBitmap bitmap(dialog->GetClientSize());
+            wxClientDC window(dialog);
             {
                 wxMemoryDC image(bitmap);
                 image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
@@ -798,6 +801,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (updater_->status().state != UpdateStatus::State::Idle ||
             button->GetLabel() != ui::utf8("Sök efter uppdateringar"))
             fail(__LINE__);
+        if (auto* dialog = update_dialog_.get())
+            dialog->Close();
+        wxTheApp->Yield(true);
     }
     close_page();
     set_parallel("el");
@@ -1743,11 +1749,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         // Every command stays available from auxiliary pages; those for the day leave the page.
         const auto enabled = [this](const char* menu, const char* label) {
-            return GetMenuBar()->IsEnabled(GetMenuBar()->FindMenuItem(ui::utf8(menu), ui::utf8(label)));
+            return menu_bar_->IsEnabled(menu_bar_->FindMenuItem(ui::utf8(menu), ui::utf8(label)));
         };
         if (!enabled("Gå", "Idag") || !enabled("Gå", "Välj datum…") || !enabled("Gå", "Läsplaner") ||
-            !enabled("Visa", "Större text") || !GetMenuBar()->IsEnabled(wxID_PREFERENCES) ||
-            !GetMenuBar()->IsEnabled(wxID_ABOUT))
+            !enabled("Visa", "Större text") || !menu_bar_->IsEnabled(wxID_PREFERENCES) ||
+            !menu_bar_->IsEnabled(wxID_ABOUT))
             fail(__LINE__);
         if (mode == 1) {
             auto* browser = dynamic_cast<BiblePicker*>(current_page());
@@ -1756,8 +1762,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             address_clicked();
         } else
             back();
-        for (size_t i = 0; i < GetMenuBar()->GetMenuCount(); ++i)
-            if (!GetMenuBar()->IsEnabledTop(i))
+        for (size_t i = 0; i < menu_bar_->GetMenuCount(); ++i)
+            if (!menu_bar_->IsEnabledTop(i))
                 fail(__LINE__);
         const auto restored = scripture_->selections();
         if (current_page() || !scripture_->IsShown() || !study_->IsShown() ||

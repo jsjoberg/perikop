@@ -541,7 +541,6 @@ MainFrame::~MainFrame() {
     pause_for_navigation();
     // A download still running delivers nothing once the updater is gone.
     updater_.reset();
-    alt_tap_.reset();
     navigation_input_.reset();
     // A hidden menu bar is not the frame's to delete.
     if (GetMenuBar() != menu_bar_)

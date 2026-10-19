@@ -74,6 +74,7 @@ enum {
     Slower,
     NormalRate,
     Review,
+    CheckUpdates,
     AddBookmark
 };
 // Text sizes and speeds in percent, as Chrome steps its zoom.
@@ -97,36 +98,6 @@ wxString rate_label(int rate) {
         text.RemoveLast();
     return text + ui::utf8("×");
 }
-#ifndef __WXOSX__
-// Alt alone, as in browsers, shows or hides the menu bar. Alt with another key or a click does not.
-class AltTap final : public wxEventFilter {
-public:
-    explicit AltTap(std::function<void()> toggle) : toggle_(std::move(toggle)) {
-        wxEvtHandler::AddFilter(this);
-    }
-    ~AltTap() override {
-        wxEvtHandler::RemoveFilter(this);
-    }
-    int FilterEvent(wxEvent& event) override {
-        const auto type = event.GetEventType();
-        if (type == wxEVT_KEY_DOWN) {
-            // Windows reports AltGr, which Swedish keyboards use for @ and {, as Ctrl+Alt.
-            const auto& key = static_cast<wxKeyEvent&>(event);
-            tap_ = key.GetKeyCode() == WXK_ALT && !key.ControlDown();
-        } else if (type == wxEVT_KEY_UP && static_cast<wxKeyEvent&>(event).GetKeyCode() == WXK_ALT) {
-            if (tap_)
-                toggle_();
-            tap_ = false;
-        } else if (type == wxEVT_LEFT_DOWN || type == wxEVT_RIGHT_DOWN)
-            tap_ = false;
-        return Event_Skip;
-    }
-
-private:
-    std::function<void()> toggle_;
-    bool tap_ = false;
-};
-#endif
 // Chrome's ⋮ menu: rows of commands, and rows with − and + that keep the menu open.
 // Up and Down move between rows, Left and Right within one, Tab through every control.
 class MenuPopup final : public wxPopupTransientWindow {
@@ -160,6 +131,7 @@ public:
             DismissAndNotify();
         });
         row->apply(colors_);
+        track_focus(row);
         row->Enable(enabled);
         if (!help.empty())
             row->SetToolTip(help);
@@ -174,6 +146,7 @@ public:
             open_submenu(menu);
         });
         row->apply(colors_);
+        track_focus(row);
         row->SetToolTip(help);
         rows_->Add(row, 0, wxEXPAND);
         lines_.push_back({row});
@@ -211,6 +184,7 @@ public:
             });
             button->SetToolTip(i ? more : less);
             button->apply(colors_);
+            track_focus(button);
             button->Enable(can(i ? 1 : -1));
             (*buttons)[i] = button;
         }
@@ -226,6 +200,7 @@ public:
             built_ = true;
         }
         return_to_parent_ = false;
+        dismissed_ = false;
         // No control is handed to Popup(): on macOS and GTK it would hold a handler that a rebuild destroys.
         Popup();
 #ifdef __APPLE__
@@ -263,6 +238,7 @@ public:
         children_.clear();
         rows_->Clear(false);
         panel_->DestroyChildren();
+        focused_ = nullptr;
         lines_.clear();
         submenus_.clear();
         build();
@@ -270,22 +246,37 @@ public:
     }
 
 private:
+    void track_focus(wxWindow* control) {
+        control->Bind(wxEVT_SET_FOCUS, [this, control](wxFocusEvent& event) {
+            focused_ = control;
+            event.Skip();
+        });
+        control->Bind(wxEVT_ENTER_WINDOW, [this, control](wxMouseEvent& event) {
+            focused_ = control;
+            event.Skip();
+        });
+    }
     void show_without_grab(bool show) {
         // NOLINTNEXTLINE(bugprone-parent-virtual-call): only the deepest submenu owns input grabs.
         wxPopupWindow::Show(show);
     }
     void finish(std::function<void()> action) {
+        if (dismissed_)
+            return;
         submenu_open_ = false;
         chosen_ = std::move(action);
         DismissAndNotify();
     }
     void resume(wxWindow* row) {
         CallAfter([this, row] {
+            if (dismissed_)
+                return;
             show_without_grab(false);
             Popup();
 #ifdef __APPLE__
             make_key_window(*this);
 #endif
+            focused_ = row;
             row->SetFocus();
             grab_keyboard();
             submenu_open_ = false;
@@ -385,19 +376,22 @@ private:
     // That control if it is enabled, else the first enabled one.
     void focus(std::size_t line, std::size_t column) {
         if (line < lines_.size() && column < lines_[line].size() && lines_[line][column]->IsEnabled()) {
+            focused_ = lines_[line][column];
             lines_[line][column]->SetFocus();
             return;
         }
         for (const auto& controls : lines_)
             for (auto* control : controls)
                 if (control->IsEnabled()) {
+                    focused_ = control;
                     control->SetFocus();
                     return;
                 }
     }
     void OnDismiss() override {
-        if (submenu_open_)
+        if (submenu_open_ || dismissed_)
             return;
+        dismissed_ = true;
         // The chosen command runs once the menu is gone, so it can move the focus itself.
         if (parent_) {
             if (!chosen_ && return_to_parent_)
@@ -426,6 +420,10 @@ private:
             return;
         }
         auto* focus = wxWindow::FindFocus();
+        if (!std::ranges::any_of(lines_, [focus](const auto& line) {
+                return std::ranges::find(line, focus) != line.end();
+            }))
+            focus = focused_;
         if (code == WXK_RIGHT)
             if (const auto submenu = submenus_.find(focus); submenu != submenus_.end()) {
                 open_submenu(submenu->second);
@@ -453,6 +451,7 @@ private:
         std::size_t index =
             at == order.end() ? (forward ? order.size() - 1 : 0) : std::size_t(at - order.begin());
         index = (index + (forward ? 1 : order.size() - 1)) % order.size();
+        focused_ = order[index];
         order[index]->SetFocus();
     }
     wxWindow* owner_;
@@ -464,7 +463,8 @@ private:
     std::vector<std::vector<wxWindow*>> lines_;
     std::map<wxWindow*, std::shared_ptr<wxMenu>> submenus_;
     std::map<wxWindow*, MenuPopup*> children_;
-    bool submenu_open_ = false, return_to_parent_ = false, built_ = false;
+    wxWindow* focused_ = nullptr;
+    bool submenu_open_ = false, return_to_parent_ = false, built_ = false, dismissed_ = false;
     std::function<void()> chosen_;
     MenuPopup* parent_;
 };
@@ -546,6 +546,8 @@ void MainFrame::make_menus() {
     reading->Append(NormalRate, "Normal hastighet");
     reading->AppendSeparator();
     reading->Append(Prepare, ui::utf8("Förbered ljud för vald dag"));
+    reading->Append(CheckUpdates, ui::utf8("Sök efter uppdateringar…"),
+                    ui::utf8("Sök på den valda uppdateringskanalen"));
     reading->Append(Review, ui::utf8("Granska svenskt uttal…"),
                     ui::utf8("Lyssna på och rätta hur ord uttalas vid uppläsning"));
 #ifdef __WXOSX__
@@ -566,7 +568,15 @@ void MainFrame::make_menus() {
     bar->Append(help, ui::utf8("Hjälp"));
 #endif
     menu_bar_ = bar;
+#ifdef __WXOSX__
     SetMenuBar(bar);
+#endif
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            show_updates();
+        },
+        CheckUpdates);
     Bind(
         wxEVT_MENU,
         [this](wxCommandEvent&) {
@@ -595,18 +605,13 @@ void MainFrame::make_menus() {
     });
     sync_menu();
 #ifndef __WXOSX__
-    // The ⋮ menu holds the same commands, so Windows and Linux hide the bar, as browsers do.
-    // Shortcuts then come from an accelerator table instead of the bar.
+    // Windows and Linux use the overflow menu and shortcuts without attaching a native bar.
     std::vector<wxAcceleratorEntry> entries;
     for (size_t i = 0; i < bar->GetMenuCount(); ++i)
         for (auto* item : bar->GetMenu(i)->GetMenuItems())
             if (const std::unique_ptr<wxAcceleratorEntry> accel{item->GetAccel()})
                 entries.emplace_back(accel->GetFlags(), accel->GetKeyCode(), item->GetId());
-    accelerators_ = wxAcceleratorTable(int(entries.size()), entries.data());
-    show_menu_bar(false);
-    alt_tap_ = std::make_unique<AltTap>([this] {
-        show_menu_bar(GetMenuBar() == nullptr);
-    });
+    SetAcceleratorTable(wxAcceleratorTable(int(entries.size()), entries.data()));
 #endif
     Bind(
         wxEVT_MENU,
@@ -691,19 +696,6 @@ void MainFrame::make_menus() {
         },
         Today, Review);
 }
-void MainFrame::show_menu_bar(bool shown) {
-#ifdef __WXOSX__
-    (void)shown;
-#else
-    if ((GetMenuBar() != nullptr) == shown)
-        return;
-    // Detaching keeps the bar; the frame owns it again when it is shown.
-    SetMenuBar(shown ? menu_bar_ : nullptr);
-    SetAcceleratorTable(shown ? wxNullAcceleratorTable : accelerators_);
-    if (shown)
-        update_bar();
-#endif
-}
 void MainFrame::show_menu() {
     sync_menu();
     const auto command = [this](int id) {
@@ -756,6 +748,7 @@ void MainFrame::show_menu() {
         // macOS keeps these two in the application menu, outside the bar's own menus.
         popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES),
                    ui::utf8("Färgschema, tema, kalender, läsordning och röst"));
+        item(CheckUpdates);
         item(Review);
         popup.item("Om Perikop", {}, true, command(wxID_ABOUT), ui::utf8("Version, källor och licenser"));
         // Last, as in Chrome.
@@ -798,6 +791,8 @@ bool MainFrame::smoke_menu() {
                 return popup;
         return nullptr;
     };
+    // Finish closing any modeless dialogs before testing popup focus.
+    wxTheApp->Yield(true);
     root->open();
     wxTheApp->Yield(true);
     if (!root)

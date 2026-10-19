@@ -17,13 +17,14 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 - Reading positions save automatically on pause, navigation, and close. Play resumes at the beginning of the saved verse, Stop resets the reading, and daily readings and reading-plan sections show the same passage progress percentages. Completed readings are marked without a confirmation dialog.
 - Back and Forward buttons, platform keyboard shortcuts, and mouse side-button navigation retain the current session's opened views and reading positions. A new destination clears Forward; navigation history is not persisted.
 - Linux releases and nightlies carry the corresponding source of the AppImage runtime, which statically links libfuse under the LGPL-2.1, so it can be rebuilt and relinked. The AppImages include the complete LGPL-2.1 text and the licences of every library in the runtime.
-- **Sök efter uppdateringar** in **Inställningar** checks the chosen update channel, downloads the update, and restarts Perikop to install it, each step only when you choose it. Velopack installers and AppImages support this; the original packages remain available for manual installation. Releases and nightlies publish separate platform feeds, full packages, and deltas, with checksums. macOS 15 update compatibility must pass baseline validation before release.
+- **Sök efter uppdateringar…** in the ⋮ menu, just before pronunciation review, opens an update dialog and checks the chosen channel. Downloading and restarting to install each wait for you to choose them. The update-channel preference remains in **Inställningar**. Velopack installers and AppImages support this; the original packages remain available for manual installation. Releases and nightlies publish separate platform feeds, full packages, and deltas, with checksums. macOS 15 update compatibility must pass baseline validation before release.
 - Colour schemes in **Inställningar**: Rosé Pine (the default), Gruvbox, Nord, Everforest, Catppuccin, Tokyo Night, and Solarized. They replace the earlier Perikop colours, and a saved Perikop choice becomes Rosé Pine. Each has a light and a dark variant that follows the theme setting, and a preview shows both. Colours have roles: surfaces for fields and hovered controls, a selection colour, verse numbers in the scheme's red, and calendar colours.
 - A saved update-channel choice in **Inställningar**: releases by default, or experimental nightly builds. Changing it makes no network requests.
 - An AppImage for the Raspberry Pi 5 with 64-bit Raspberry Pi OS. Other Raspberry Pi models and other ARM Linux systems are not supported.
 
 ### Changed
 
+- Windows and Linux use the ⋮ menu and keyboard shortcuts; the Alt menu-bar toggle has been removed.
 - One toolbar button switches between Play and Pause. One split-view button replaces the separate Greek and English buttons and follows the saved secondary-source priority. Word study uses a distinct text-and-magnifier icon.
 
 - All reading-plan button grids fill the same content width, with or without completion marks and percentages.

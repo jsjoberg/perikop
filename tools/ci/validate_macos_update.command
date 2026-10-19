@@ -37,8 +37,23 @@ CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STR
 CREATE TABLE reading_position(key TEXT PRIMARY KEY NOT NULL,section INTEGER NOT NULL,book TEXT NOT NULL,source TEXT NOT NULL,chapter INTEGER NOT NULL,verse INTEGER NOT NULL,suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT;
 INSERT INTO settings VALUES('update_channel','nightly'),('theme','dark'),('color_scheme','nord');
 INSERT INTO progress VALUES('update-test','2026-10-18');
+INSERT INTO reading_position VALUES('update-test',0,'John','sv1917',1,3,'',25);
+CREATE TABLE bookmark(id INTEGER PRIMARY KEY,source TEXT NOT NULL,book TEXT NOT NULL,
+first_chapter INTEGER NOT NULL,first_verse INTEGER NOT NULL,first_suffix TEXT NOT NULL,
+last_chapter INTEGER NOT NULL,last_verse INTEGER NOT NULL,last_suffix TEXT NOT NULL,
+UNIQUE(source,book,first_chapter,first_verse,first_suffix,last_chapter,last_verse,last_suffix)) STRICT;
+INSERT INTO bookmark VALUES(1,'grc-lxx','Ps',22,1,'',22,6,'');
 SQL
-before=$(/usr/bin/sqlite3 "$database" .dump)
+# Compare saved values, allowing the application to add tables or schema objects.
+profile_snapshot() {
+    /usr/bin/sqlite3 -bail -quote "$database" <<'SQL'
+SELECT key,value FROM settings ORDER BY key;
+SELECT key,completed FROM progress ORDER BY key;
+SELECT key,section,book,source,chapter,verse,suffix,percent FROM reading_position ORDER BY key;
+SELECT id,source,book,first_chapter,first_verse,first_suffix,last_chapter,last_verse,last_suffix FROM bookmark ORDER BY id;
+SQL
+}
+before=$(profile_snapshot)
 verify_bundle() {
     /usr/bin/codesign --verify --deep --strict "$app"
     for binary in "$program" "$app/Contents/MacOS/UpdateMac" "$app"/Contents/Frameworks/*.dylib; do
@@ -94,10 +109,10 @@ cat "$work/third.log"
 /usr/bin/grep -qx 'VERSION 1.0.0-test.3' "$work/third.log"
 /usr/bin/grep -qx NO_UPDATE "$work/third.log"
 verify_bundle
-[ "$(/usr/bin/sqlite3 "$database" .dump)" = "$before" ]
+[ "$(profile_snapshot)" = "$before" ] || { echo "Saved profile data changed during update" >&2; exit 1; }
 /usr/bin/arch "-$architecture" "$program" --smoke-test
 rm -rf "$app"
-[ "$(/usr/bin/sqlite3 "$database" .dump)" = "$before" ]
+[ "$(profile_snapshot)" = "$before" ] || { echo "Saved profile data changed during removal" >&2; exit 1; }
 echo "PASS: full update to 1.0.0-test.2, delta update to 1.0.0-test.3 without its full package; signatures, UI and profile kept"
 trap - EXIT
 rm -rf "$work"
