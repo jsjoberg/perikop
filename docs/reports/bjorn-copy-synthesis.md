@@ -1,13 +1,64 @@
-> Experiment as of 2026-10-19. Listening review is still required.
+> Listening review, 2026-10-19: **failed — largely unintelligible and unusable**.
+> The names sample was the best of the three, but did not establish usable quality.
+> Automatic reader fallback has been removed. Keep this PR as research only.
 
 # Fitting a small synthesizer to Björn
+
+## Listening result and revised direction
+
+The listener reported: "It is basically incomprehensible. The names one is best."
+The playback integration and signal tests passed, but those checks establish
+execution, data validity and isolated join behavior. They do not establish
+intelligibility or acceptable read-aloud quality. The previous description of
+this as a usable low-end fallback was premature.
+
+Code inspection identifies substantial missing acoustic modeling:
+
+- Preparation keeps one candidate per diphone, selecting mainly by duration.
+  It does not select candidates for the target sentence's context, pitch,
+  energy or spectral continuity. Longer units are not available.
+- Boundaries use the teacher's predicted token durations, treating stress and
+  length symbols specially. Those cuts have not been independently checked
+  against the actual sound boundaries. Kokoro predicts token durations and
+  conditions a contextual waveform decoder on them; that does not verify the
+  cut points used here. See the [upstream model](https://github.com/hexgrad/kokoro/blob/main/kokoro/model.py).
+- Runtime carries source pitch and timing from unrelated words. There is no
+  target sentence-level duration, pitch or energy model; word boundaries are
+  discarded when phone sequences are combined between punctuation pauses.
+- The three clips have zero spelled words and just one missing-diphone backoff
+  each. These counters rule out unknown-word spelling or widespread missing
+  transitions as a sufficient explanation for the reported failure. They do
+  not verify that the chosen waveforms actually realize the intended phones.
+
+These are plausible contributors, not a proven root cause. Shorter phrases and
+more pauses may help explain the relative success of the names clip; the
+listener's report alone does not establish that mechanism.
+
+The next acoustic experiment should first separate boundary errors from context
+and prosody errors: audit a small set of teacher utterances, compare intact
+audio with reconstruction from its own units, then synthesize held-out
+sentences from other utterances. Reconstruction from the same utterance is a
+diagnostic control, not evidence of generalization.
+
+A substantially different reusable system needs either multiple context-aware
+unit candidates with explicit join/target costs, or a small acoustic predictor
+trained from Björn to produce continuous spectral-envelope, pitch, voicing and
+duration controls for a lightweight synthesizer. Neither is implemented or
+proven by this experiment. Further crossfade tuning alone is not a credible
+quality plan.
+
+Before further product integration, evaluate held-out Swedish sentences without
+showing listeners their text, record transcription errors, and check names,
+numbers and ordinary connected speech separately. Fast rendering, waveform
+similarity and successful CI remain supporting checks, not the quality gate.
 
 ## Current: a reusable voice in the reader
 
 **Björn Bas (experimentell)** now performs real Swedish text-to-speech. Select it
 in Settings → Röst för uppläsning. The existing playback worker provides caching,
-pause/resume, stop, tempo changes and verse cues. If the neural pack is absent,
-read-aloud automatically uses Björn Bas. The application's speech probe also
+pause/resume, stop, tempo changes and verse cues. It requires explicit selection
+and is unsuitable for normal listening. Missing neural weights never trigger
+automatic selection of this experiment. The application's speech probe also
 works with source resources containing only this voice.
 
 The committed pack occupies 6,293,055 bytes: a 5.5 MB waveform bank, a roughly
@@ -42,15 +93,15 @@ coarticulation and approximate model-derived boundaries remain limitations.
 - Native tests cover new sentence combinations, numbers, word fixes, unknown
   words, exact phonemes, cancellation, deterministic finite audio, phase joins,
   malformed UTF-8 and truncated voice data.
-- The production speech worker is tested with the neural pack removed: automatic
-  fallback, actual synthesis and cache persistence, voice preferences, pause,
+- The production speech worker is tested with the neural pack removed: rejection
+  of implicit fallback, explicit experimental selection, synthesis and cache persistence, voice preferences, pause,
   changed playback speed, verse-cue advancement and completion all pass.
 - Existing core/storage, neural cache-recovery, GUI smoke and profile-isolation
   checks pass. The source-resource app speech probe is checked separately.
 - Resource hashes and targeted clang-tidy/static-analyzer checks pass.
 
-The main application still links ONNX Runtime for Alice/Björn. This change adds
-the experimental fallback and permits omitting their weights; it does not add
+The main application still links ONNX Runtime for Alice/Björn. This change retains
+an explicitly selected research voice; normal listening still requires their weights. It does not add
 an in-app voice downloader or change the default voice. The original MIT C11
 harmonic experiment remains available for comparison. No eSpeak or GPL speech
 implementation was introduced; teacher data retains its original notices.

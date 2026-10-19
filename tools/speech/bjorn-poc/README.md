@@ -2,10 +2,15 @@
 
 ## Current: Björn Bas text-to-speech
 
+**Failed listening review (2026-10-19): largely unintelligible and unsuitable for
+use as a fallback.** The names clip was relatively better. Signal and playback
+tests do not establish intelligibility. See the [failure analysis and revised
+experiment](../../../docs/reports/bjorn-copy-synthesis.md#listening-result-and-revised-direction).
+
 The reader now includes **Björn Bas (experimentell)** in Settings → Röst för
 uppläsning. It converts new Swedish text to speech using an approximately 6 MB
-lexicon and reusable waveform bank. It also supplies read-aloud automatically
-when the neural voice pack is absent. The existing playback worker provides
+lexicon and reusable waveform bank. It requires explicit selection and is never
+substituted for a missing normal voice. The existing playback worker provides
 pause/resume, stop, tempo, verse cues and caching.
 
 The bank was prepared offline from 700 words, not complete readings. It contains
@@ -45,8 +50,7 @@ teacher model, preparation tools or network access for this voice.
 The corpus lexicon, shared Swedish number normalization and exact `⟦IPA⟧`
 pronunciation overrides work in the native runtime. Unknown words outside the
 lexicon are spelled as letter names. Source pitch/duration and limited context
-selection can still make delivery uneven; this is an experimental voice needing
-listening review. The main app still links ONNX Runtime for Alice/Björn, although
+selection did not preserve intelligibility in listening review. The main app still links ONNX Runtime for Alice/Björn, although
 Björn Bas never loads their models. Optional in-app voice downloads are separate
 work.
 

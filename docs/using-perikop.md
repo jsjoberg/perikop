@@ -24,7 +24,7 @@ The `Perikop-linux-x64-releases.AppImage` download supports in-app updates. Use 
 
 ### Raspberry Pi 5
 Requires 64-bit Raspberry Pi OS with its desktop. Use the `aarch64` AppImage the same way. Older Pi models are not supported.
-With Alice or Björn, speech can be only about as fast as playback, so select **Uppläsning → Förbered ljud för vald dag** before you listen. **Björn Bas (experimentell)** in **Inställningar** is a smaller, faster voice for simpler computers.
+With Alice or Björn, speech can be only about as fast as playback, so select **Uppläsning → Förbered ljud för vald dag** before you listen. **Björn Bas (experimentell)** is a research experiment that failed intelligibility review and is unsuitable for normal listening.
 A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 ## Day page and calendar
@@ -77,7 +77,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Read-aloud
 
-- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select Alice, Björn, or **Björn Bas (experimentell)** in **Inställningar**. Björn Bas uses less memory and is used automatically when the high-quality voice pack is absent. Its delivery is simpler, and unfamiliar words outside its lexicon are spelled out.
+- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select Alice or Björn in **Inställningar**. **Björn Bas (experimentell)** remains available for explicit research testing only; it is largely unintelligible and is never selected automatically when a normal voice pack is missing.
 - **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
 - **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.

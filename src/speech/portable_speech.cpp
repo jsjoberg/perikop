@@ -210,9 +210,6 @@ class PortableSpeech final : public SpeechEngine {
                     return;
                 generation = generation_.load();
                 voice = voice_;
-                if (voice != "bjorn-lite" && !voice_file(pack_ / "kokoro.onnx") &&
-                    voice_file(compact_pack_ / "units.bin"))
-                    voice = "bjorn-lite";
                 preparing = preparing_;
                 batch.swap(queue_);
                 active_ = true;
@@ -508,8 +505,10 @@ class PortableSpeech final : public SpeechEngine {
                 throw std::runtime_error("Uppläsning finns bara på svenska.");
         {
             std::lock_guard lock(mutex_);
-            if ((voice_ == "bjorn-lite" || !voice_file(pack_ / "kokoro.onnx")) &&
-                !voice_file(compact_pack_ / "units.bin"))
+            // The compact experiment failed listening review. Never substitute
+            // it automatically for a selected, missing neural voice.
+            if (!(voice_ == "bjorn-lite" ? voice_file(compact_pack_ / "units.bin")
+                                         : voice_file(pack_ / "kokoro.onnx")))
                 throw std::runtime_error("Röstpaketet för uppläsning saknas.");
             if (prepare || preparing_) {
                 ++generation_;
@@ -621,7 +620,7 @@ public:
         bool lightweight;
         {
             std::lock_guard lock(mutex_);
-            lightweight = voice_ == "bjorn-lite" || !voice_file(pack_ / "kokoro.onnx");
+            lightweight = voice_ == "bjorn-lite";
         }
         std::lock_guard lock(lookup_mutex_);
         try {

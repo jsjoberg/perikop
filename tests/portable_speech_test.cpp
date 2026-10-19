@@ -398,12 +398,21 @@ int main(int argc, char** argv) {
             std::lock_guard lock(audio_mutex);
             before_devices = devices_opened;
         }
+        bool missing_voice_rejected = false;
+        try {
+            engine->prepare_batch({{"", compact_text, "sv", first}});
+        } catch (const std::exception&) {
+            missing_voice_rejected = true;
+        }
+        check(missing_voice_rejected && engine->pronunciation(compact_text).empty(),
+              "Missing neural voices must not silently select an unintelligible experimental voice");
+        engine->set_voice("bjorn-lite");
         engine->prepare_batch({{"", compact_text, "sv", first}});
         wait_for(
             [] {
                 return status == "Ljudet är förberett, Björn Bas";
             },
-            "Missing neural packs must automatically use the compact voice for preparation");
+            "The compact experiment must require explicit voice selection");
         {
             std::lock_guard lock(audio_mutex);
             check(devices_opened == before_devices, "Compact preparation must not open a device");

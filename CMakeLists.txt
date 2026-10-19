@@ -263,7 +263,7 @@ if(ORTHO_BUILD_GUI)
         set(perikop_voice_copy COMMAND ${CMAKE_COMMAND} -E copy_directory "${PERIKOP_VOICE_PACK}"
             "${resource_destination}/voices/${perikop_voice_id}")
     else()
-        message(STATUS "No neural voice pack at ${PERIKOP_VOICE_PACK}; bundled Björn Bas supplies read-aloud.")
+        message(STATUS "No neural voice pack at ${PERIKOP_VOICE_PACK}; normal read-aloud requires the voice pack. Björn Bas is an explicit experiment only.")
     endif()
     add_custom_target(ortho-resources ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}"

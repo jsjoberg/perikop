@@ -67,7 +67,8 @@ def main():
         rows.append(f'- [{clip["sample"]} comparison]({clip["file"]}): {times}.')
     order = "Björn reference → first harmonic prototype → Björn Bas text-to-speech" if args.compact_probe else "Björn reference → 32 harmonics → 64 harmonics"
     scope = ("The last segment is synthesized from text using reusable units, not fitted to the complete recording. "
-             "Its duration can differ from the reference. Voice quality still needs listening review.") if args.compact_probe else (
+             "Its duration can differ from the reference. Listening review on 2026-10-19 found it largely unintelligible; "
+             "the names clip was relatively better. This is a failed research experiment, unsuitable as a fallback.") if args.compact_probe else (
              "These are complete-utterance reconstructions, not a reusable text-to-speech voice. The samples have not been approved by listening.")
     (args.output / "README.md").write_text("""# Björn listening samples
 
