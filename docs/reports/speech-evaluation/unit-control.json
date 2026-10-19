@@ -1,0 +1,3089 @@
+{
+  "scope": "Oracle same-sentence extraction control; no production changes; not a generalization result",
+  "renderer_sha256": "2ed7843e2993117dcb54009c2fbf47704d6a12db6bec5aeaaa0215d16ffa1908",
+  "asr_identity": "b26503d6520ec8d5e4c62614d67cf42c6a21b2f9237fe1c8e5e22bb4b04bb889",
+  "source_pack_sha256": "ebb59512449d109dab563b33b6dfaef5c38a205d90b0d48e7057c5169be0f216",
+  "compact_pack_sha256": "571e453b127251aebc0e4902b3410fb3d8ebec1e174f4c30da92b6a92935ddfd",
+  "samples": [
+    {
+      "name": "genesis",
+      "text": "I begynnelsen skapade Gud himmel och jord.",
+      "ipa": "ˈiː bəjˈynəlsən skˈɑːpadə ɡˈɨːd hˈɪməl ˈɔk jˈuːɖ",
+      "aligned": [
+        [
+          "_",
+          0,
+          21600
+        ],
+        [
+          "ˈiː",
+          21600,
+          25800
+        ],
+        [
+          "b",
+          25800,
+          27000
+        ],
+        [
+          "ə",
+          27000,
+          28800
+        ],
+        [
+          "j",
+          28800,
+          30000
+        ],
+        [
+          "ˈy",
+          30000,
+          33000
+        ],
+        [
+          "n",
+          33000,
+          34800
+        ],
+        [
+          "ə",
+          34800,
+          36600
+        ],
+        [
+          "l",
+          36600,
+          38400
+        ],
+        [
+          "s",
+          38400,
+          40200
+        ],
+        [
+          "ə",
+          40200,
+          42000
+        ],
+        [
+          "n",
+          42000,
+          45000
+        ],
+        [
+          "s",
+          45000,
+          46800
+        ],
+        [
+          "k",
+          46800,
+          48000
+        ],
+        [
+          "ˈɑː",
+          48000,
+          53400
+        ],
+        [
+          "p",
+          53400,
+          55200
+        ],
+        [
+          "a",
+          55200,
+          56400
+        ],
+        [
+          "d",
+          56400,
+          57600
+        ],
+        [
+          "ə",
+          57600,
+          60000
+        ],
+        [
+          "ɡ",
+          60000,
+          61200
+        ],
+        [
+          "ˈɨː",
+          61200,
+          65400
+        ],
+        [
+          "d",
+          65400,
+          67800
+        ],
+        [
+          "h",
+          67800,
+          68400
+        ],
+        [
+          "ˈɪ",
+          68400,
+          71400
+        ],
+        [
+          "m",
+          71400,
+          73200
+        ],
+        [
+          "ə",
+          73200,
+          75000
+        ],
+        [
+          "l",
+          75000,
+          78000
+        ],
+        [
+          "ˈɔ",
+          78000,
+          80400
+        ],
+        [
+          "k",
+          80400,
+          82200
+        ],
+        [
+          "j",
+          82200,
+          83400
+        ],
+        [
+          "ˈuː",
+          83400,
+          87600
+        ],
+        [
+          "ɖ",
+          87600,
+          100200
+        ],
+        [
+          "_",
+          100200,
+          115800
+        ]
+      ],
+      "gain": 1.0,
+      "unit_provenance": {
+        "replaced_units": 50,
+        "selected_source_spans": {
+          "(65535, 46)": {
+            "first_sample": 21600,
+            "last_sample": 25800,
+            "key": [
+              65535,
+              46
+            ]
+          },
+          "(65535, 1)": {
+            "first_sample": 25800,
+            "last_sample": 27000,
+            "key": [
+              65535,
+              1
+            ]
+          },
+          "(65535, 30)": {
+            "first_sample": 57600,
+            "last_sample": 60000,
+            "key": [
+              65535,
+              30
+            ]
+          },
+          "(65535, 8)": {
+            "first_sample": 28800,
+            "last_sample": 30000,
+            "key": [
+              65535,
+              8
+            ]
+          },
+          "(65535, 50)": {
+            "first_sample": 30000,
+            "last_sample": 33000,
+            "key": [
+              65535,
+              50
+            ]
+          },
+          "(65535, 12)": {
+            "first_sample": 42000,
+            "last_sample": 45000,
+            "key": [
+              65535,
+              12
+            ]
+          },
+          "(65535, 10)": {
+            "first_sample": 75000,
+            "last_sample": 78000,
+            "key": [
+              65535,
+              10
+            ]
+          },
+          "(65535, 17)": {
+            "first_sample": 38400,
+            "last_sample": 40200,
+            "key": [
+              65535,
+              17
+            ]
+          },
+          "(65535, 9)": {
+            "first_sample": 80400,
+            "last_sample": 82200,
+            "key": [
+              65535,
+              9
+            ]
+          },
+          "(65535, 54)": {
+            "first_sample": 48000,
+            "last_sample": 53400,
+            "key": [
+              65535,
+              54
+            ]
+          },
+          "(65535, 15)": {
+            "first_sample": 53400,
+            "last_sample": 55200,
+            "key": [
+              65535,
+              15
+            ]
+          },
+          "(65535, 0)": {
+            "first_sample": 55200,
+            "last_sample": 56400,
+            "key": [
+              65535,
+              0
+            ]
+          },
+          "(65535, 2)": {
+            "first_sample": 65400,
+            "last_sample": 67800,
+            "key": [
+              65535,
+              2
+            ]
+          },
+          "(65535, 34)": {
+            "first_sample": 60000,
+            "last_sample": 61200,
+            "key": [
+              65535,
+              34
+            ]
+          },
+          "(65535, 60)": {
+            "first_sample": 61200,
+            "last_sample": 65400,
+            "key": [
+              65535,
+              60
+            ]
+          },
+          "(65535, 5)": {
+            "first_sample": 67800,
+            "last_sample": 68400,
+            "key": [
+              65535,
+              5
+            ]
+          },
+          "(65535, 61)": {
+            "first_sample": 68400,
+            "last_sample": 71400,
+            "key": [
+              65535,
+              61
+            ]
+          },
+          "(65535, 11)": {
+            "first_sample": 71400,
+            "last_sample": 73200,
+            "key": [
+              65535,
+              11
+            ]
+          },
+          "(65535, 55)": {
+            "first_sample": 78000,
+            "last_sample": 80400,
+            "key": [
+              65535,
+              55
+            ]
+          },
+          "(65535, 49)": {
+            "first_sample": 83400,
+            "last_sample": 87600,
+            "key": [
+              65535,
+              49
+            ]
+          },
+          "(65535, 29)": {
+            "first_sample": 87600,
+            "last_sample": 100200,
+            "key": [
+              65535,
+              29
+            ]
+          },
+          "(46, 1)": {
+            "first_sample": 23700,
+            "last_sample": 26400,
+            "key": [
+              46,
+              1
+            ]
+          },
+          "(1, 30)": {
+            "first_sample": 26400,
+            "last_sample": 27900,
+            "key": [
+              1,
+              30
+            ]
+          },
+          "(30, 8)": {
+            "first_sample": 27900,
+            "last_sample": 29400,
+            "key": [
+              30,
+              8
+            ]
+          },
+          "(8, 50)": {
+            "first_sample": 29400,
+            "last_sample": 31500,
+            "key": [
+              8,
+              50
+            ]
+          },
+          "(50, 12)": {
+            "first_sample": 31500,
+            "last_sample": 33900,
+            "key": [
+              50,
+              12
+            ]
+          },
+          "(12, 30)": {
+            "first_sample": 33900,
+            "last_sample": 35700,
+            "key": [
+              12,
+              30
+            ]
+          },
+          "(30, 10)": {
+            "first_sample": 74100,
+            "last_sample": 76500,
+            "key": [
+              30,
+              10
+            ]
+          },
+          "(10, 17)": {
+            "first_sample": 37500,
+            "last_sample": 39300,
+            "key": [
+              10,
+              17
+            ]
+          },
+          "(17, 30)": {
+            "first_sample": 39300,
+            "last_sample": 41100,
+            "key": [
+              17,
+              30
+            ]
+          },
+          "(30, 12)": {
+            "first_sample": 41100,
+            "last_sample": 43500,
+            "key": [
+              30,
+              12
+            ]
+          },
+          "(12, 17)": {
+            "first_sample": 43500,
+            "last_sample": 45900,
+            "key": [
+              12,
+              17
+            ]
+          },
+          "(17, 9)": {
+            "first_sample": 45900,
+            "last_sample": 47400,
+            "key": [
+              17,
+              9
+            ]
+          },
+          "(9, 54)": {
+            "first_sample": 47400,
+            "last_sample": 50700,
+            "key": [
+              9,
+              54
+            ]
+          },
+          "(54, 15)": {
+            "first_sample": 50700,
+            "last_sample": 54300,
+            "key": [
+              54,
+              15
+            ]
+          },
+          "(15, 0)": {
+            "first_sample": 54300,
+            "last_sample": 55800,
+            "key": [
+              15,
+              0
+            ]
+          },
+          "(0, 2)": {
+            "first_sample": 55800,
+            "last_sample": 57000,
+            "key": [
+              0,
+              2
+            ]
+          },
+          "(2, 30)": {
+            "first_sample": 57000,
+            "last_sample": 58800,
+            "key": [
+              2,
+              30
+            ]
+          },
+          "(30, 34)": {
+            "first_sample": 58800,
+            "last_sample": 60600,
+            "key": [
+              30,
+              34
+            ]
+          },
+          "(34, 60)": {
+            "first_sample": 60600,
+            "last_sample": 63300,
+            "key": [
+              34,
+              60
+            ]
+          },
+          "(60, 2)": {
+            "first_sample": 63300,
+            "last_sample": 66600,
+            "key": [
+              60,
+              2
+            ]
+          },
+          "(2, 5)": {
+            "first_sample": 66600,
+            "last_sample": 68100,
+            "key": [
+              2,
+              5
+            ]
+          },
+          "(5, 61)": {
+            "first_sample": 68100,
+            "last_sample": 69900,
+            "key": [
+              5,
+              61
+            ]
+          },
+          "(61, 11)": {
+            "first_sample": 69900,
+            "last_sample": 72300,
+            "key": [
+              61,
+              11
+            ]
+          },
+          "(11, 30)": {
+            "first_sample": 72300,
+            "last_sample": 74100,
+            "key": [
+              11,
+              30
+            ]
+          },
+          "(10, 55)": {
+            "first_sample": 76500,
+            "last_sample": 79200,
+            "key": [
+              10,
+              55
+            ]
+          },
+          "(55, 9)": {
+            "first_sample": 79200,
+            "last_sample": 81300,
+            "key": [
+              55,
+              9
+            ]
+          },
+          "(9, 8)": {
+            "first_sample": 81300,
+            "last_sample": 82800,
+            "key": [
+              9,
+              8
+            ]
+          },
+          "(8, 49)": {
+            "first_sample": 82800,
+            "last_sample": 85500,
+            "key": [
+              8,
+              49
+            ]
+          },
+          "(49, 29)": {
+            "first_sample": 85500,
+            "last_sample": 93900,
+            "key": [
+              49,
+              29
+            ]
+          }
+        },
+        "duplicate_phone_pairs": 1
+      },
+      "results": [
+        {
+          "voice": "neural-source",
+          "wav": "genesis/neural-source.wav",
+          "sha256": "7993860ef83dc509b1730acfc3be872d900b3173e7d9c4c42e9f4978d8993395",
+          "recognition": {
+            "key": "6ddfa9dac500931a1c31814cf8f68cd0362442248c36001cca7fd9c8f27c8186",
+            "status": "ok",
+            "text": "I begynnelsen skapade Gud himmel och jord.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:04,460"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 4460
+                  },
+                  "text": " I begynnelsen skapade Gud himmel och jord."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 7,
+            "char_errors": 0,
+            "reference_chars": 35,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "i begynnelsen skapade gud himmel och jord",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 4.825,
+            "peak": 0.645751953125,
+            "rms_dbfs": -22.347580108872812,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.38509316770186336,
+            "max_internal_silence_seconds": 0.01,
+            "internal_silences": [],
+            "voiced_fraction": 0.37888198757763975,
+            "f0_hz": {
+              "p05": 109.58904109589041,
+              "median": 130.43478260869566,
+              "p95": 148.97630549804464
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.17487807395709856,
+              "p95": 0.6538948025007838
+            },
+            "pitch_jump_candidates_per_second": 0.0,
+            "pitch_jump_candidate_times": [],
+            "periodicity": {
+              "p05": 0.16444182139526475,
+              "median": 0.8288602243124632,
+              "p95": 0.9922736529302885
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.12,
+              "p95": 0.4139999999999998
+            },
+            "voicing_transitions_per_second": 5.38860103626943,
+            "spectral_centroid_hz": {
+              "p05": 142.34884604198072,
+              "median": 281.0068162066649,
+              "p95": 4087.2477432134556
+            },
+            "spectral_flux": {
+              "p05": 0.0033403753752029534,
+              "median": 0.0645005257099448,
+              "p95": 0.1902795547734979
+            },
+            "spectral_jump_candidates_per_second": 0.20725388601036268,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": null
+        },
+        {
+          "voice": "companding-only",
+          "wav": "genesis/companding-only.wav",
+          "sha256": "0da33e3461b7912da47c2b06214bd2a503fb1fa834237837c8a0821b0f5789e9",
+          "recognition": {
+            "key": "bb6c875bfb5428c62c288a216d2ef0be404a10d62d9c727ca4864985a2a6dbe1",
+            "status": "ok",
+            "text": "I begynnelsen skapade Gud himmel och jord.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:04,920"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 4920
+                  },
+                  "text": " I begynnelsen skapade Gud himmel och jord."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 7,
+            "char_errors": 0,
+            "reference_chars": 35,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "i begynnelsen skapade gud himmel och jord",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 4.825,
+            "peak": 0.645904541015625,
+            "rms_dbfs": -22.344688477223688,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.38509316770186336,
+            "max_internal_silence_seconds": 0.01,
+            "internal_silences": [],
+            "voiced_fraction": 0.37888198757763975,
+            "f0_hz": {
+              "p05": 109.58904109589041,
+              "median": 130.43478260869566,
+              "p95": 148.97630549804464
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.17487807395709856,
+              "p95": 0.6510716268145883
+            },
+            "pitch_jump_candidates_per_second": 0.0,
+            "pitch_jump_candidate_times": [],
+            "periodicity": {
+              "p05": 0.16544898653423842,
+              "median": 0.8288110582847544,
+              "p95": 0.9919893944688735
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.12,
+              "p95": 0.4139999999999998
+            },
+            "voicing_transitions_per_second": 5.38860103626943,
+            "spectral_centroid_hz": {
+              "p05": 144.413528639498,
+              "median": 282.1021691785286,
+              "p95": 4088.2485931933084
+            },
+            "spectral_flux": {
+              "p05": 0.003421494419657434,
+              "median": 0.06465978203699085,
+              "p95": 0.19021265940250623
+            },
+            "spectral_jump_candidates_per_second": 0.20725388601036268,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": null
+        },
+        {
+          "voice": "shipped-units",
+          "wav": "genesis/shipped-units.wav",
+          "sha256": "24eda7f92bb35035bb7a3a3c932fbf85a7bf78ccea88cecb5bb81e47332f198e",
+          "recognition": {
+            "key": "2c3be9572c69a1b244e15e58272b2df47eb9c8056ed1e848166ebee98a3bf3a5",
+            "status": "ok",
+            "text": "<|nospeech|>",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:02,920"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 2920
+                  },
+                  "text": " <|nospeech|>"
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 1.0,
+            "cer": 1.0,
+            "word_errors": 7,
+            "reference_words": 7,
+            "char_errors": 35,
+            "reference_chars": 35,
+            "substitutions": 0,
+            "deletions": 7,
+            "insertions": 0,
+            "empty_transcript": true,
+            "normalized_hypothesis": "",
+            "categories": {},
+            "errors": [
+              {
+                "op": "delete",
+                "expected": "i",
+                "recognized": null
+              },
+              {
+                "op": "delete",
+                "expected": "begynnelsen",
+                "recognized": null
+              },
+              {
+                "op": "delete",
+                "expected": "skapade",
+                "recognized": null
+              },
+              {
+                "op": "delete",
+                "expected": "gud",
+                "recognized": null
+              },
+              {
+                "op": "delete",
+                "expected": "himmel",
+                "recognized": null
+              },
+              {
+                "op": "delete",
+                "expected": "och",
+                "recognized": null
+              },
+              {
+                "op": "delete",
+                "expected": "jord",
+                "recognized": null
+              }
+            ]
+          },
+          "acoustic": {
+            "duration_seconds": 2.9145833333333333,
+            "peak": 0.4354248046875,
+            "rms_dbfs": -22.215838002843252,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.0136986301369863,
+            "max_internal_silence_seconds": 0.03,
+            "internal_silences": [],
+            "voiced_fraction": 0.6335616438356164,
+            "f0_hz": {
+              "p05": 116.6185176414871,
+              "median": 136.36363636363637,
+              "p95": 155.84415584415584
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.20549194300244156,
+              "p95": 0.7675231596070301
+            },
+            "pitch_jump_candidates_per_second": 0.3431022158684775,
+            "pitch_jump_candidate_times": [
+              1.6300000000000001
+            ],
+            "periodicity": {
+              "p05": 0.19291322671375347,
+              "median": 0.7902759772602379,
+              "p95": 0.9862718381827749
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.06,
+              "p95": 0.15599999999999994
+            },
+            "voicing_transitions_per_second": 16.812008577555396,
+            "spectral_centroid_hz": {
+              "p05": 112.34077559232912,
+              "median": 267.47531941142984,
+              "p95": 3189.4001675883214
+            },
+            "spectral_flux": {
+              "p05": 0.0064184816142068835,
+              "median": 0.06628271551583864,
+              "p95": 0.31905805354708106
+            },
+            "spectral_jump_candidates_per_second": 3.4310221586847747,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": {
+            "load_seconds": 0.00534358,
+            "render_seconds": 0.000555333,
+            "audio_seconds": 2.91458,
+            "words": 1,
+            "spelled_words": 0,
+            "diphones": 30,
+            "backoffs": 0,
+            "peak": 0.435443
+          }
+        },
+        {
+          "voice": "same-sentence-units",
+          "wav": "genesis/same-sentence-units.wav",
+          "sha256": "0356cebc86c75af394f2105b721debb69a26e32d70a579efbebeb830a1a4dad2",
+          "recognition": {
+            "key": "40254a59ab078772d38d556521a3fdc7ace74616cbe375b7141ed2ea51f65791",
+            "status": "ok",
+            "text": "I begynnelsen skapade Gud himmel och jord.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:03,300"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 3300
+                  },
+                  "text": " I begynnelsen skapade Gud himmel och jord."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 7,
+            "char_errors": 0,
+            "reference_chars": 35,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "i begynnelsen skapade gud himmel och jord",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 3.3198333333333334,
+            "peak": 0.645904541015625,
+            "rms_dbfs": -20.744124697006377,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.10843373493975904,
+            "max_internal_silence_seconds": 0.01,
+            "internal_silences": [],
+            "voiced_fraction": 0.5542168674698795,
+            "f0_hz": {
+              "p05": 109.58904109589041,
+              "median": 129.72972972972974,
+              "p95": 148.14814814814815
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.16808229592655077,
+              "p95": 0.647792284307957
+            },
+            "pitch_jump_candidates_per_second": 0.0,
+            "pitch_jump_candidate_times": [],
+            "periodicity": {
+              "p05": 0.15359863730750933,
+              "median": 0.8158233412220758,
+              "p95": 0.9919864975498621
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.08499999999999999,
+              "p95": 0.3675
+            },
+            "voicing_transitions_per_second": 9.337818163562428,
+            "spectral_centroid_hz": {
+              "p05": 133.9301029021439,
+              "median": 276.14023169641797,
+              "p95": 2033.434268159982
+            },
+            "spectral_flux": {
+              "p05": 0.003467699112918643,
+              "median": 0.0680670756583045,
+              "p95": 0.21463655370064225
+            },
+            "spectral_jump_candidates_per_second": 0.6024398815201566,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": {
+            "load_seconds": 0.00531196,
+            "render_seconds": 0.000534042,
+            "audio_seconds": 3.31983,
+            "words": 1,
+            "spelled_words": 0,
+            "diphones": 30,
+            "backoffs": 0,
+            "peak": 0.645936
+          }
+        }
+      ]
+    },
+    {
+      "name": "angar",
+      "text": "Han låter mig vila på gröna ängar.",
+      "ipa": "hˈɑːn lˈoːtər mˈɛj vˈiːla pˈoː ɡrˈøːna ˈɛŋar",
+      "aligned": [
+        [
+          "_",
+          0,
+          21000
+        ],
+        [
+          "h",
+          21000,
+          21600
+        ],
+        [
+          "ˈɑː",
+          21600,
+          24600
+        ],
+        [
+          "n",
+          24600,
+          27000
+        ],
+        [
+          "l",
+          27000,
+          28200
+        ],
+        [
+          "ˈoː",
+          28200,
+          33000
+        ],
+        [
+          "t",
+          33000,
+          34800
+        ],
+        [
+          "ə",
+          34800,
+          36000
+        ],
+        [
+          "r",
+          36000,
+          37800
+        ],
+        [
+          "m",
+          37800,
+          39000
+        ],
+        [
+          "ˈɛ",
+          39000,
+          41400
+        ],
+        [
+          "j",
+          41400,
+          43800
+        ],
+        [
+          "v",
+          43800,
+          45000
+        ],
+        [
+          "ˈiː",
+          45000,
+          49200
+        ],
+        [
+          "l",
+          49200,
+          51000
+        ],
+        [
+          "a",
+          51000,
+          54000
+        ],
+        [
+          "p",
+          54000,
+          55200
+        ],
+        [
+          "ˈoː",
+          55200,
+          58200
+        ],
+        [
+          "ɡ",
+          58200,
+          59400
+        ],
+        [
+          "r",
+          59400,
+          60600
+        ],
+        [
+          "ˈøː",
+          60600,
+          64800
+        ],
+        [
+          "n",
+          64800,
+          67200
+        ],
+        [
+          "a",
+          67200,
+          70200
+        ],
+        [
+          "ˈɛ",
+          70200,
+          73800
+        ],
+        [
+          "ŋ",
+          73800,
+          76800
+        ],
+        [
+          "a",
+          76800,
+          79800
+        ],
+        [
+          "r",
+          79800,
+          97200
+        ],
+        [
+          "_",
+          97200,
+          106800
+        ]
+      ],
+      "gain": 1.0,
+      "unit_provenance": {
+        "replaced_units": 43,
+        "selected_source_spans": {
+          "(65535, 5)": {
+            "first_sample": 21000,
+            "last_sample": 21600,
+            "key": [
+              65535,
+              5
+            ]
+          },
+          "(65535, 54)": {
+            "first_sample": 21600,
+            "last_sample": 24600,
+            "key": [
+              65535,
+              54
+            ]
+          },
+          "(65535, 12)": {
+            "first_sample": 24600,
+            "last_sample": 27000,
+            "key": [
+              65535,
+              12
+            ]
+          },
+          "(65535, 10)": {
+            "first_sample": 49200,
+            "last_sample": 51000,
+            "key": [
+              65535,
+              10
+            ]
+          },
+          "(65535, 47)": {
+            "first_sample": 55200,
+            "last_sample": 58200,
+            "key": [
+              65535,
+              47
+            ]
+          },
+          "(65535, 18)": {
+            "first_sample": 33000,
+            "last_sample": 34800,
+            "key": [
+              65535,
+              18
+            ]
+          },
+          "(65535, 30)": {
+            "first_sample": 34800,
+            "last_sample": 36000,
+            "key": [
+              65535,
+              30
+            ]
+          },
+          "(65535, 16)": {
+            "first_sample": 36000,
+            "last_sample": 37800,
+            "key": [
+              65535,
+              16
+            ]
+          },
+          "(65535, 11)": {
+            "first_sample": 37800,
+            "last_sample": 39000,
+            "key": [
+              65535,
+              11
+            ]
+          },
+          "(65535, 56)": {
+            "first_sample": 39000,
+            "last_sample": 41400,
+            "key": [
+              65535,
+              56
+            ]
+          },
+          "(65535, 8)": {
+            "first_sample": 41400,
+            "last_sample": 43800,
+            "key": [
+              65535,
+              8
+            ]
+          },
+          "(65535, 20)": {
+            "first_sample": 43800,
+            "last_sample": 45000,
+            "key": [
+              65535,
+              20
+            ]
+          },
+          "(65535, 46)": {
+            "first_sample": 45000,
+            "last_sample": 49200,
+            "key": [
+              65535,
+              46
+            ]
+          },
+          "(65535, 0)": {
+            "first_sample": 51000,
+            "last_sample": 54000,
+            "key": [
+              65535,
+              0
+            ]
+          },
+          "(65535, 15)": {
+            "first_sample": 54000,
+            "last_sample": 55200,
+            "key": [
+              65535,
+              15
+            ]
+          },
+          "(65535, 34)": {
+            "first_sample": 58200,
+            "last_sample": 59400,
+            "key": [
+              65535,
+              34
+            ]
+          },
+          "(65535, 52)": {
+            "first_sample": 60600,
+            "last_sample": 64800,
+            "key": [
+              65535,
+              52
+            ]
+          },
+          "(65535, 24)": {
+            "first_sample": 73800,
+            "last_sample": 76800,
+            "key": [
+              65535,
+              24
+            ]
+          },
+          "(5, 54)": {
+            "first_sample": 21300,
+            "last_sample": 23100,
+            "key": [
+              5,
+              54
+            ]
+          },
+          "(54, 12)": {
+            "first_sample": 23100,
+            "last_sample": 25800,
+            "key": [
+              54,
+              12
+            ]
+          },
+          "(12, 10)": {
+            "first_sample": 25800,
+            "last_sample": 27600,
+            "key": [
+              12,
+              10
+            ]
+          },
+          "(10, 47)": {
+            "first_sample": 27600,
+            "last_sample": 30600,
+            "key": [
+              10,
+              47
+            ]
+          },
+          "(47, 18)": {
+            "first_sample": 30600,
+            "last_sample": 33900,
+            "key": [
+              47,
+              18
+            ]
+          },
+          "(18, 30)": {
+            "first_sample": 33900,
+            "last_sample": 35400,
+            "key": [
+              18,
+              30
+            ]
+          },
+          "(30, 16)": {
+            "first_sample": 35400,
+            "last_sample": 36900,
+            "key": [
+              30,
+              16
+            ]
+          },
+          "(16, 11)": {
+            "first_sample": 36900,
+            "last_sample": 38400,
+            "key": [
+              16,
+              11
+            ]
+          },
+          "(11, 56)": {
+            "first_sample": 38400,
+            "last_sample": 40200,
+            "key": [
+              11,
+              56
+            ]
+          },
+          "(56, 8)": {
+            "first_sample": 40200,
+            "last_sample": 42600,
+            "key": [
+              56,
+              8
+            ]
+          },
+          "(8, 20)": {
+            "first_sample": 42600,
+            "last_sample": 44400,
+            "key": [
+              8,
+              20
+            ]
+          },
+          "(20, 46)": {
+            "first_sample": 44400,
+            "last_sample": 47100,
+            "key": [
+              20,
+              46
+            ]
+          },
+          "(46, 10)": {
+            "first_sample": 47100,
+            "last_sample": 50100,
+            "key": [
+              46,
+              10
+            ]
+          },
+          "(10, 0)": {
+            "first_sample": 50100,
+            "last_sample": 52500,
+            "key": [
+              10,
+              0
+            ]
+          },
+          "(0, 15)": {
+            "first_sample": 52500,
+            "last_sample": 54600,
+            "key": [
+              0,
+              15
+            ]
+          },
+          "(15, 47)": {
+            "first_sample": 54600,
+            "last_sample": 56700,
+            "key": [
+              15,
+              47
+            ]
+          },
+          "(47, 34)": {
+            "first_sample": 56700,
+            "last_sample": 58800,
+            "key": [
+              47,
+              34
+            ]
+          },
+          "(34, 16)": {
+            "first_sample": 58800,
+            "last_sample": 60000,
+            "key": [
+              34,
+              16
+            ]
+          },
+          "(16, 52)": {
+            "first_sample": 60000,
+            "last_sample": 62700,
+            "key": [
+              16,
+              52
+            ]
+          },
+          "(52, 12)": {
+            "first_sample": 62700,
+            "last_sample": 66000,
+            "key": [
+              52,
+              12
+            ]
+          },
+          "(12, 0)": {
+            "first_sample": 66000,
+            "last_sample": 68700,
+            "key": [
+              12,
+              0
+            ]
+          },
+          "(0, 56)": {
+            "first_sample": 68700,
+            "last_sample": 72000,
+            "key": [
+              0,
+              56
+            ]
+          },
+          "(56, 24)": {
+            "first_sample": 72000,
+            "last_sample": 75300,
+            "key": [
+              56,
+              24
+            ]
+          },
+          "(24, 0)": {
+            "first_sample": 75300,
+            "last_sample": 78300,
+            "key": [
+              24,
+              0
+            ]
+          },
+          "(0, 16)": {
+            "first_sample": 78300,
+            "last_sample": 88500,
+            "key": [
+              0,
+              16
+            ]
+          }
+        },
+        "duplicate_phone_pairs": 0
+      },
+      "results": [
+        {
+          "voice": "neural-source",
+          "wav": "angar/neural-source.wav",
+          "sha256": "afb5561c0f96c76f67266e38763639a34356728806f8da6ddf19feca4240ae9d",
+          "recognition": {
+            "key": "6941d34fec1b81e6d5ab331c4e1a74249fb29019e9b035ad560326049e90984e",
+            "status": "ok",
+            "text": "Han låter mig vila på gröna ängar.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:04,100"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 4100
+                  },
+                  "text": " Han låter mig vila på gröna ängar."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 7,
+            "char_errors": 0,
+            "reference_chars": 27,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "han låter mig vila på gröna ängar",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 4.45,
+            "peak": 0.434967041015625,
+            "rms_dbfs": -22.36319775796384,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.40898876404494383,
+            "max_internal_silence_seconds": 0.01,
+            "internal_silences": [],
+            "voiced_fraction": 0.43595505617977526,
+            "f0_hz": {
+              "p05": 94.03921568627453,
+              "median": 125.98511986773215,
+              "p95": 143.7125748502994
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.1573859974830973,
+              "p95": 0.5665594142912322
+            },
+            "pitch_jump_candidates_per_second": 0.6741573033707865,
+            "pitch_jump_candidate_times": [
+              3.3000000000000003,
+              3.31,
+              3.3200000000000003
+            ],
+            "periodicity": {
+              "p05": 0.20211392122036217,
+              "median": 0.9046627226230408,
+              "p95": 0.9951039136778339
+            },
+            "voiced_run_seconds": {
+              "p05": 0.026000000000000002,
+              "median": 0.12,
+              "p95": 0.5259999999999999
+            },
+            "voicing_transitions_per_second": 4.044943820224719,
+            "spectral_centroid_hz": {
+              "p05": 129.91954883906487,
+              "median": 280.1654429171563,
+              "p95": 514.4159362524458
+            },
+            "spectral_flux": {
+              "p05": 0.0023085569000954598,
+              "median": 0.029301389171613956,
+              "p95": 0.1762482902817104
+            },
+            "spectral_jump_candidates_per_second": 0.2247191011235955,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": null
+        },
+        {
+          "voice": "companding-only",
+          "wav": "angar/companding-only.wav",
+          "sha256": "4f1ff7abe4610a7eac1da4aab0de3b3592cf57f0524bb6e1a25f7a952abe1135",
+          "recognition": {
+            "key": "eaa551d149fc7003651ec434b0f396b7b47396d79f085e074a79b7a41a623e8e",
+            "status": "ok",
+            "text": "Han låter mig vila på gröna ängar.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:04,220"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 4220
+                  },
+                  "text": " Han låter mig vila på gröna ängar."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 7,
+            "char_errors": 0,
+            "reference_chars": 27,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "han låter mig vila på gröna ängar",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 4.45,
+            "peak": 0.4354248046875,
+            "rms_dbfs": -22.361419692753458,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.40898876404494383,
+            "max_internal_silence_seconds": 0.01,
+            "internal_silences": [],
+            "voiced_fraction": 0.43595505617977526,
+            "f0_hz": {
+              "p05": 94.03921568627453,
+              "median": 125.98511986773215,
+              "p95": 143.7125748502994
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.1573859974830973,
+              "p95": 0.5665594142912322
+            },
+            "pitch_jump_candidates_per_second": 0.6741573033707865,
+            "pitch_jump_candidate_times": [
+              3.3000000000000003,
+              3.31,
+              3.3200000000000003
+            ],
+            "periodicity": {
+              "p05": 0.20255246782804376,
+              "median": 0.9043406326070231,
+              "p95": 0.9947689847747664
+            },
+            "voiced_run_seconds": {
+              "p05": 0.026000000000000002,
+              "median": 0.12,
+              "p95": 0.5259999999999999
+            },
+            "voicing_transitions_per_second": 4.044943820224719,
+            "spectral_centroid_hz": {
+              "p05": 134.68991185350458,
+              "median": 283.3317004113357,
+              "p95": 516.4234951249439
+            },
+            "spectral_flux": {
+              "p05": 0.002352403912685097,
+              "median": 0.029366561816055903,
+              "p95": 0.17627374147812536
+            },
+            "spectral_jump_candidates_per_second": 0.2247191011235955,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": null
+        },
+        {
+          "voice": "shipped-units",
+          "wav": "angar/shipped-units.wav",
+          "sha256": "c95d91d099a3cbb594de5aba5988d80960bf5c25c0e51017209e128d61df694d",
+          "recognition": {
+            "key": "649f981d794b0471d0de8c5847dd82d5483687d3a658480ef8f4f104b1eb7f49",
+            "status": "ok",
+            "text": "med lov att smälja en bil och bara kväva ögonen",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:02,500"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 2500
+                  },
+                  "text": " med lov att smälja en bil och bara kväva ögonen "
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 1.4285714285714286,
+            "cer": 1.1111111111111112,
+            "word_errors": 10,
+            "reference_words": 7,
+            "char_errors": 30,
+            "reference_chars": 27,
+            "substitutions": 7,
+            "deletions": 0,
+            "insertions": 3,
+            "empty_transcript": false,
+            "normalized_hypothesis": "med lov att smälja en bil och bara kväva ögonen",
+            "categories": {},
+            "errors": [
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "med"
+              },
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "lov"
+              },
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "att"
+              },
+              {
+                "op": "substitute",
+                "expected": "han",
+                "recognized": "smälja"
+              },
+              {
+                "op": "substitute",
+                "expected": "låter",
+                "recognized": "en"
+              },
+              {
+                "op": "substitute",
+                "expected": "mig",
+                "recognized": "bil"
+              },
+              {
+                "op": "substitute",
+                "expected": "vila",
+                "recognized": "och"
+              },
+              {
+                "op": "substitute",
+                "expected": "på",
+                "recognized": "bara"
+              },
+              {
+                "op": "substitute",
+                "expected": "gröna",
+                "recognized": "kväva"
+              },
+              {
+                "op": "substitute",
+                "expected": "ängar",
+                "recognized": "ögonen"
+              }
+            ]
+          },
+          "acoustic": {
+            "duration_seconds": 2.6395,
+            "peak": 0.618255615234375,
+            "rms_dbfs": -20.41875824164204,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.056818181818181816,
+            "max_internal_silence_seconds": 0.06,
+            "internal_silences": [],
+            "voiced_fraction": 0.625,
+            "f0_hz": {
+              "p05": 117.6470588235294,
+              "median": 131.86813186813185,
+              "p95": 181.8181818181818
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.17665806848118687,
+              "p95": 0.6665361609919291
+            },
+            "pitch_jump_candidates_per_second": 0.37885963250615645,
+            "pitch_jump_candidate_times": [
+              0.8300000000000001
+            ],
+            "periodicity": {
+              "p05": 0.19484129216600893,
+              "median": 0.7936604918365174,
+              "p95": 0.9888772982609468
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.08,
+              "p95": 0.14699999999999996
+            },
+            "voicing_transitions_per_second": 17.048683462777042,
+            "spectral_centroid_hz": {
+              "p05": 141.00485420867986,
+              "median": 317.36210032320486,
+              "p95": 1326.2207811770443
+            },
+            "spectral_flux": {
+              "p05": 0.005664765135356898,
+              "median": 0.0623580567447265,
+              "p95": 0.24879429896468422
+            },
+            "spectral_jump_candidates_per_second": 2.273157795036939,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": {
+            "load_seconds": 0.00567779,
+            "render_seconds": 0.000837125,
+            "audio_seconds": 2.6395,
+            "words": 1,
+            "spelled_words": 0,
+            "diphones": 24,
+            "backoffs": 1,
+            "peak": 0.618279
+          }
+        },
+        {
+          "voice": "same-sentence-units",
+          "wav": "angar/same-sentence-units.wav",
+          "sha256": "87ca5e3d5bcc5b9586a54fc75901ea502b1c7d663a49c812be1ea85ca6a271c6",
+          "recognition": {
+            "key": "4b62857834392237672b180ca82b94217c9067f55b4acb9b1fcd2de47a4e574d",
+            "status": "ok",
+            "text": "Han låter mig vila på gröna ängar.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:02,860"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 2860
+                  },
+                  "text": " Han låter mig vila på gröna ängar."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 7,
+            "char_errors": 0,
+            "reference_chars": 27,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "han låter mig vila på gröna ängar",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 2.863916666666667,
+            "peak": 0.4354248046875,
+            "rms_dbfs": -20.381665345041817,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.08013937282229965,
+            "max_internal_silence_seconds": 0.22,
+            "internal_silences": [
+              {
+                "start": 2.58,
+                "seconds": 0.22
+              }
+            ],
+            "voiced_fraction": 0.686411149825784,
+            "f0_hz": {
+              "p05": 107.14285714285714,
+              "median": 126.3157894736842,
+              "p95": 144.57831325301206
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.10460660521330895,
+              "p95": 0.6297655753943473
+            },
+            "pitch_jump_candidates_per_second": 1.047516512933919,
+            "pitch_jump_candidate_times": [
+              2.34,
+              2.35,
+              2.43
+            ],
+            "periodicity": {
+              "p05": 0.18300020628294233,
+              "median": 0.9170587994250754,
+              "p95": 0.9950582458156697
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.095,
+              "p95": 0.5154999999999997
+            },
+            "voicing_transitions_per_second": 6.98344341955946,
+            "spectral_centroid_hz": {
+              "p05": 113.59885199541695,
+              "median": 270.37481662894857,
+              "p95": 484.29761542017724
+            },
+            "spectral_flux": {
+              "p05": 0.0024999301124912776,
+              "median": 0.03103311836022926,
+              "p95": 0.17442700472747175
+            },
+            "spectral_jump_candidates_per_second": 0.34917217097797304,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": {
+            "load_seconds": 0.00494779,
+            "render_seconds": 0.0005265,
+            "audio_seconds": 2.86392,
+            "words": 1,
+            "spelled_words": 0,
+            "diphones": 25,
+            "backoffs": 0,
+            "peak": 0.435443
+          }
+        }
+      ]
+    },
+    {
+      "name": "sjal",
+      "text": "Han vederkvicker min själ.",
+      "ipa": "hˈɑːn vˈeːdərkvˌɪkər mˈiːn ʂˈɛːl",
+      "aligned": [
+        [
+          "_",
+          0,
+          21000
+        ],
+        [
+          "h",
+          21000,
+          22200
+        ],
+        [
+          "ˈɑː",
+          22200,
+          25800
+        ],
+        [
+          "n",
+          25800,
+          28800
+        ],
+        [
+          "v",
+          28800,
+          30000
+        ],
+        [
+          "ˈeː",
+          30000,
+          34200
+        ],
+        [
+          "d",
+          34200,
+          36000
+        ],
+        [
+          "ə",
+          36000,
+          37200
+        ],
+        [
+          "r",
+          37200,
+          39000
+        ],
+        [
+          "k",
+          39000,
+          40800
+        ],
+        [
+          "v",
+          40800,
+          42000
+        ],
+        [
+          "ˌɪ",
+          42000,
+          45600
+        ],
+        [
+          "k",
+          45600,
+          47400
+        ],
+        [
+          "ə",
+          47400,
+          48600
+        ],
+        [
+          "r",
+          48600,
+          51000
+        ],
+        [
+          "m",
+          51000,
+          52200
+        ],
+        [
+          "ˈiː",
+          52200,
+          55800
+        ],
+        [
+          "n",
+          55800,
+          58800
+        ],
+        [
+          "ʂ",
+          58800,
+          60000
+        ],
+        [
+          "ˈɛː",
+          60000,
+          66000
+        ],
+        [
+          "l",
+          66000,
+          82800
+        ],
+        [
+          "_",
+          82800,
+          93000
+        ]
+      ],
+      "gain": 1.0,
+      "unit_provenance": {
+        "replaced_units": 33,
+        "selected_source_spans": {
+          "(65535, 5)": {
+            "first_sample": 21000,
+            "last_sample": 22200,
+            "key": [
+              65535,
+              5
+            ]
+          },
+          "(65535, 54)": {
+            "first_sample": 22200,
+            "last_sample": 25800,
+            "key": [
+              65535,
+              54
+            ]
+          },
+          "(65535, 12)": {
+            "first_sample": 25800,
+            "last_sample": 28800,
+            "key": [
+              65535,
+              12
+            ]
+          },
+          "(65535, 20)": {
+            "first_sample": 28800,
+            "last_sample": 30000,
+            "key": [
+              65535,
+              20
+            ]
+          },
+          "(65535, 45)": {
+            "first_sample": 30000,
+            "last_sample": 34200,
+            "key": [
+              65535,
+              45
+            ]
+          },
+          "(65535, 2)": {
+            "first_sample": 34200,
+            "last_sample": 36000,
+            "key": [
+              65535,
+              2
+            ]
+          },
+          "(65535, 30)": {
+            "first_sample": 36000,
+            "last_sample": 37200,
+            "key": [
+              65535,
+              30
+            ]
+          },
+          "(65535, 16)": {
+            "first_sample": 48600,
+            "last_sample": 51000,
+            "key": [
+              65535,
+              16
+            ]
+          },
+          "(65535, 9)": {
+            "first_sample": 39000,
+            "last_sample": 40800,
+            "key": [
+              65535,
+              9
+            ]
+          },
+          "(65535, 83)": {
+            "first_sample": 42000,
+            "last_sample": 45600,
+            "key": [
+              65535,
+              83
+            ]
+          },
+          "(65535, 11)": {
+            "first_sample": 51000,
+            "last_sample": 52200,
+            "key": [
+              65535,
+              11
+            ]
+          },
+          "(65535, 46)": {
+            "first_sample": 52200,
+            "last_sample": 55800,
+            "key": [
+              65535,
+              46
+            ]
+          },
+          "(65535, 39)": {
+            "first_sample": 58800,
+            "last_sample": 60000,
+            "key": [
+              65535,
+              39
+            ]
+          },
+          "(65535, 57)": {
+            "first_sample": 60000,
+            "last_sample": 66000,
+            "key": [
+              65535,
+              57
+            ]
+          },
+          "(65535, 10)": {
+            "first_sample": 66000,
+            "last_sample": 82800,
+            "key": [
+              65535,
+              10
+            ]
+          },
+          "(5, 54)": {
+            "first_sample": 21600,
+            "last_sample": 24000,
+            "key": [
+              5,
+              54
+            ]
+          },
+          "(54, 12)": {
+            "first_sample": 24000,
+            "last_sample": 27300,
+            "key": [
+              54,
+              12
+            ]
+          },
+          "(12, 20)": {
+            "first_sample": 27300,
+            "last_sample": 29400,
+            "key": [
+              12,
+              20
+            ]
+          },
+          "(20, 45)": {
+            "first_sample": 29400,
+            "last_sample": 32100,
+            "key": [
+              20,
+              45
+            ]
+          },
+          "(45, 2)": {
+            "first_sample": 32100,
+            "last_sample": 35100,
+            "key": [
+              45,
+              2
+            ]
+          },
+          "(2, 30)": {
+            "first_sample": 35100,
+            "last_sample": 36600,
+            "key": [
+              2,
+              30
+            ]
+          },
+          "(30, 16)": {
+            "first_sample": 48000,
+            "last_sample": 49800,
+            "key": [
+              30,
+              16
+            ]
+          },
+          "(16, 9)": {
+            "first_sample": 38100,
+            "last_sample": 39900,
+            "key": [
+              16,
+              9
+            ]
+          },
+          "(9, 20)": {
+            "first_sample": 39900,
+            "last_sample": 41400,
+            "key": [
+              9,
+              20
+            ]
+          },
+          "(20, 83)": {
+            "first_sample": 41400,
+            "last_sample": 43800,
+            "key": [
+              20,
+              83
+            ]
+          },
+          "(83, 9)": {
+            "first_sample": 43800,
+            "last_sample": 46500,
+            "key": [
+              83,
+              9
+            ]
+          },
+          "(9, 30)": {
+            "first_sample": 46500,
+            "last_sample": 48000,
+            "key": [
+              9,
+              30
+            ]
+          },
+          "(16, 11)": {
+            "first_sample": 49800,
+            "last_sample": 51600,
+            "key": [
+              16,
+              11
+            ]
+          },
+          "(11, 46)": {
+            "first_sample": 51600,
+            "last_sample": 54000,
+            "key": [
+              11,
+              46
+            ]
+          },
+          "(46, 12)": {
+            "first_sample": 54000,
+            "last_sample": 57300,
+            "key": [
+              46,
+              12
+            ]
+          },
+          "(12, 39)": {
+            "first_sample": 57300,
+            "last_sample": 59400,
+            "key": [
+              12,
+              39
+            ]
+          },
+          "(39, 57)": {
+            "first_sample": 59400,
+            "last_sample": 63000,
+            "key": [
+              39,
+              57
+            ]
+          },
+          "(57, 10)": {
+            "first_sample": 63000,
+            "last_sample": 74400,
+            "key": [
+              57,
+              10
+            ]
+          }
+        },
+        "duplicate_phone_pairs": 1
+      },
+      "results": [
+        {
+          "voice": "neural-source",
+          "wav": "sjal/neural-source.wav",
+          "sha256": "af006529b33064995d677a7c844151e0a15417f0cf548326a52db63dbbbf8ee6",
+          "recognition": {
+            "key": "6153245543c856a3ea75334302ef2ea06df1d8c9b7a9062693337547629179d0",
+            "status": "ok",
+            "text": "Han vederkvicker min själ.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:03,520"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 3520
+                  },
+                  "text": " Han vederkvicker min själ."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.0,
+            "cer": 0.0,
+            "word_errors": 0,
+            "reference_words": 4,
+            "char_errors": 0,
+            "reference_chars": 22,
+            "substitutions": 0,
+            "deletions": 0,
+            "insertions": 0,
+            "empty_transcript": false,
+            "normalized_hypothesis": "han vederkvicker min själ",
+            "categories": {},
+            "errors": []
+          },
+          "acoustic": {
+            "duration_seconds": 3.875,
+            "peak": 0.479766845703125,
+            "rms_dbfs": -22.769775114300618,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.44587628865979384,
+            "max_internal_silence_seconds": 0.02,
+            "internal_silences": [],
+            "voiced_fraction": 0.3324742268041237,
+            "f0_hz": {
+              "p05": 111.01060979530597,
+              "median": 125.6544502617801,
+              "p95": 150.9433962264151
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.1685002396688623,
+              "p95": 0.5479842610388533
+            },
+            "pitch_jump_candidates_per_second": 0.0,
+            "pitch_jump_candidate_times": [],
+            "periodicity": {
+              "p05": 0.006643282463880551,
+              "median": 0.7860688614184739,
+              "p95": 0.9945284241840006
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.04,
+              "p95": 0.5459999999999999
+            },
+            "voicing_transitions_per_second": 4.645161290322581,
+            "spectral_centroid_hz": {
+              "p05": 132.50432687493958,
+              "median": 286.8899062666527,
+              "p95": 1134.1897192393237
+            },
+            "spectral_flux": {
+              "p05": 0.0028535383037616878,
+              "median": 0.05531146844335855,
+              "p95": 0.22109060611420395
+            },
+            "spectral_jump_candidates_per_second": 0.25806451612903225,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": null
+        },
+        {
+          "voice": "companding-only",
+          "wav": "sjal/companding-only.wav",
+          "sha256": "c991c7ffb0c842da3f763132cf1b594384df1768f7c7cfc13728daef300bd65a",
+          "recognition": {
+            "key": "57529a646ce7593d57b455ed0e29af08b5868f780a4a4dea5d39466783e3e324",
+            "status": "ok",
+            "text": "Han vederkvick är min själ.",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:04,000"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 4000
+                  },
+                  "text": " Han vederkvick är min själ."
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.5,
+            "cer": 0.045454545454545456,
+            "word_errors": 2,
+            "reference_words": 4,
+            "char_errors": 1,
+            "reference_chars": 22,
+            "substitutions": 1,
+            "deletions": 0,
+            "insertions": 1,
+            "empty_transcript": false,
+            "normalized_hypothesis": "han vederkvick är min själ",
+            "categories": {},
+            "errors": [
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "vederkvick"
+              },
+              {
+                "op": "substitute",
+                "expected": "vederkvicker",
+                "recognized": "är"
+              }
+            ]
+          },
+          "acoustic": {
+            "duration_seconds": 3.875,
+            "peak": 0.475341796875,
+            "rms_dbfs": -22.768984720283022,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.44587628865979384,
+            "max_internal_silence_seconds": 0.02,
+            "internal_silences": [],
+            "voiced_fraction": 0.3324742268041237,
+            "f0_hz": {
+              "p05": 111.01060979530597,
+              "median": 125.6544502617801,
+              "p95": 150.9433962264151
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.1709968517840383,
+              "p95": 0.5479842610388533
+            },
+            "pitch_jump_candidates_per_second": 0.0,
+            "pitch_jump_candidate_times": [],
+            "periodicity": {
+              "p05": 0.008250557375260053,
+              "median": 0.7831030417342378,
+              "p95": 0.9942723202256205
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.04,
+              "p95": 0.5459999999999999
+            },
+            "voicing_transitions_per_second": 4.645161290322581,
+            "spectral_centroid_hz": {
+              "p05": 136.4872776835633,
+              "median": 287.88792527223046,
+              "p95": 1134.9361502554812
+            },
+            "spectral_flux": {
+              "p05": 0.0029172231213206003,
+              "median": 0.055093078354445046,
+              "p95": 0.2211822698011723
+            },
+            "spectral_jump_candidates_per_second": 0.25806451612903225,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": null
+        },
+        {
+          "voice": "shipped-units",
+          "wav": "sjal/shipped-units.wav",
+          "sha256": "b6d4627f0a1a9d18b463cfcf48bd002e6ec8d1ced6466743d5c4da8021598a06",
+          "recognition": {
+            "key": "c6c331a82521a4afa37b3e8523a3f996e40068ac9fa0e666def019e38c6c5ae7",
+            "status": "ok",
+            "text": "vad är det nu ska det finnas inskäl",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:01,940"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 1940
+                  },
+                  "text": " vad är det nu ska det finnas inskäl"
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 2.0,
+            "cer": 0.8636363636363636,
+            "word_errors": 8,
+            "reference_words": 4,
+            "char_errors": 19,
+            "reference_chars": 22,
+            "substitutions": 4,
+            "deletions": 0,
+            "insertions": 4,
+            "empty_transcript": false,
+            "normalized_hypothesis": "vad är det nu ska det finnas inskäl",
+            "categories": {},
+            "errors": [
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "vad"
+              },
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "är"
+              },
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "det"
+              },
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "nu"
+              },
+              {
+                "op": "substitute",
+                "expected": "han",
+                "recognized": "ska"
+              },
+              {
+                "op": "substitute",
+                "expected": "vederkvicker",
+                "recognized": "det"
+              },
+              {
+                "op": "substitute",
+                "expected": "min",
+                "recognized": "finnas"
+              },
+              {
+                "op": "substitute",
+                "expected": "själ",
+                "recognized": "inskäl"
+              }
+            ]
+          },
+          "acoustic": {
+            "duration_seconds": 1.9650833333333333,
+            "peak": 0.618255615234375,
+            "rms_dbfs": -20.960619655125413,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.0,
+            "max_internal_silence_seconds": 0,
+            "internal_silences": [],
+            "voiced_fraction": 0.6345177664974619,
+            "f0_hz": {
+              "p05": 72.81596452328161,
+              "median": 132.59668508287294,
+              "p95": 163.26530612244898
+            },
+            "pitch_step_semitones": {
+              "p05": 0.08643953145571608,
+              "median": 0.2061017256975862,
+              "p95": 1.0256677892710793
+            },
+            "pitch_jump_candidates_per_second": 1.5266528137059496,
+            "pitch_jump_candidate_times": [
+              0.31,
+              0.59,
+              0.65
+            ],
+            "periodicity": {
+              "p05": 0.17513747371292437,
+              "median": 0.7426461057071726,
+              "p95": 0.9819977932726506
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.035,
+              "p95": 0.20899999999999994
+            },
+            "voicing_transitions_per_second": 17.302065222000763,
+            "spectral_centroid_hz": {
+              "p05": 190.45740840170618,
+              "median": 319.1574071019158,
+              "p95": 4679.446150435909
+            },
+            "spectral_flux": {
+              "p05": 0.0073916406893357045,
+              "median": 0.07193038660866252,
+              "p95": 0.25244847320292296
+            },
+            "spectral_jump_candidates_per_second": 1.017768542470633,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": {
+            "load_seconds": 0.00533158,
+            "render_seconds": 0.000416667,
+            "audio_seconds": 1.96508,
+            "words": 1,
+            "spelled_words": 0,
+            "diphones": 19,
+            "backoffs": 0,
+            "peak": 0.618279
+          }
+        },
+        {
+          "voice": "same-sentence-units",
+          "wav": "sjal/same-sentence-units.wav",
+          "sha256": "850d206802ecbd10f649b8faa0c5b08d52c05bf8a2cc3d9050442785797ce18e",
+          "recognition": {
+            "key": "ec2b040a45625e8ea5b56434f51ba9179e9ee87efa1d6c3b7392eb0bbad21c80",
+            "status": "ok",
+            "text": "Han vederkvick är min själ",
+            "raw": {
+              "systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+              "model": {
+                "type": "small",
+                "multilingual": true,
+                "vocab": 51865,
+                "audio": {
+                  "ctx": 1500,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "text": {
+                  "ctx": 448,
+                  "state": 768,
+                  "head": 12,
+                  "layer": 12
+                },
+                "mels": 80,
+                "ftype": 1
+              },
+              "params": {
+                "model": "/Users/johan/Documents/Codex/2026-10-19/files-pasted-by-the-user-perikop/work/kb-whisper-small.bin",
+                "language": "sv",
+                "translate": false
+              },
+              "result": {
+                "language": "sv"
+              },
+              "transcription": [
+                {
+                  "timestamps": {
+                    "from": "00:00:00,000",
+                    "to": "00:00:02,600"
+                  },
+                  "offsets": {
+                    "from": 0,
+                    "to": 2600
+                  },
+                  "text": " Han vederkvick är min själ"
+                }
+              ]
+            }
+          },
+          "score": {
+            "wer": 0.5,
+            "cer": 0.045454545454545456,
+            "word_errors": 2,
+            "reference_words": 4,
+            "char_errors": 1,
+            "reference_chars": 22,
+            "substitutions": 1,
+            "deletions": 0,
+            "insertions": 1,
+            "empty_transcript": false,
+            "normalized_hypothesis": "han vederkvick är min själ",
+            "categories": {},
+            "errors": [
+              {
+                "op": "insert",
+                "expected": null,
+                "recognized": "vederkvick"
+              },
+              {
+                "op": "substitute",
+                "expected": "vederkvicker",
+                "recognized": "är"
+              }
+            ]
+          },
+          "acoustic": {
+            "duration_seconds": 2.6054166666666667,
+            "peak": 0.475341796875,
+            "rms_dbfs": -20.849753188344376,
+            "clipped_fraction": 0.0,
+            "silence_fraction": 0.18773946360153257,
+            "max_internal_silence_seconds": 0.02,
+            "internal_silences": [],
+            "voiced_fraction": 0.5325670498084292,
+            "f0_hz": {
+              "p05": 111.99448727335371,
+              "median": 125.6544502617801,
+              "p95": 150.9433962264151
+            },
+            "pitch_step_semitones": {
+              "p05": 0.0,
+              "median": 0.16646609497869105,
+              "p95": 0.6418807694868495
+            },
+            "pitch_jump_candidates_per_second": 0.0,
+            "pitch_jump_candidate_times": [],
+            "periodicity": {
+              "p05": 0.0,
+              "median": 0.8200542112055208,
+              "p95": 0.9941123534934622
+            },
+            "voiced_run_seconds": {
+              "p05": 0.01,
+              "median": 0.05,
+              "p95": 0.472
+            },
+            "voicing_transitions_per_second": 6.908683831760754,
+            "spectral_centroid_hz": {
+              "p05": 117.43090189423481,
+              "median": 269.22099051690145,
+              "p95": 1053.731866416913
+            },
+            "spectral_flux": {
+              "p05": 0.003015269284939798,
+              "median": 0.055090710755324734,
+              "p95": 0.20605854781795876
+            },
+            "spectral_jump_candidates_per_second": 0.7676315368623061,
+            "wave_jump_candidates_per_second": 0.0,
+            "wave_jump_candidate_times": []
+          },
+          "renderer_stats": {
+            "load_seconds": 0.005049,
+            "render_seconds": 0.000413583,
+            "audio_seconds": 2.60542,
+            "words": 1,
+            "spelled_words": 0,
+            "diphones": 19,
+            "backoffs": 0,
+            "peak": 0.475371
+          }
+        }
+      ]
+    }
+  ]
+}
