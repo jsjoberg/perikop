@@ -1,0 +1,3136 @@
+{
+  "scope": "V4 bounded whole-word timing correction, three inspected development passages. Listener acceptance pending. All output waveform samples derive from reusable compact v2; no teacher waveform samples are rendered.",
+  "prior_v3_human_feedback": {
+    "primary_quality_requirement": "failed",
+    "relative_to_v2": "worse",
+    "rhythm": "Too uneven; listener described it as Norwegian rather than Swedish",
+    "a_b_difference": "Almost undetectable",
+    "answer": "the rythem is strange and it is over all worse then before but i think it might be the right idea still. the diffrence between a and b is bascilly undetectable to me. but the rythem is way to uneaven, it feels almost norwegian and not swedish",
+    "samples": [
+      "compact-v3-rhythm-12sec.wav",
+      "compact-v3-intonation-12sec.wav"
+    ],
+    "interpretation": "Listener description, not a verified accent diagnosis. Improved ASR does not establish pleasantness."
+  },
+  "human_feedback": {
+    "primary_quality_requirement": "pending",
+    "samples": [
+      "compact-v4-word-rhythm-12sec.wav"
+    ]
+  },
+  "verification": {
+    "regression_tests_passed": 20,
+    "native_pcm_matches_python_bit_for_bit": true,
+    "scope": "Actual epoch scheduler identity, duration/gap bounds, native rendering and error handling. These checks do not prove naturalness."
+  },
+  "previous_v2_subset": {
+    "n": 3,
+    "wer": 0.13812154696132597,
+    "cer": 0.06265356265356266,
+    "word_errors": 25,
+    "reference_words": 181,
+    "empty_transcripts": 0,
+    "failed_passages": [],
+    "acoustic": {
+      "duration_seconds": {
+        "p05": 19.288533333333334,
+        "median": 22.780833333333334,
+        "p95": 23.631408333333333
+      },
+      "clipped_fraction": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      },
+      "silence_fraction": {
+        "p05": 0.15801253941565443,
+        "median": 0.15844922039612305,
+        "p95": 0.19003847042670907
+      },
+      "max_internal_silence_seconds": {
+        "p05": 0.52,
+        "median": 0.61,
+        "p95": 0.79
+      },
+      "voiced_fraction": {
+        "p05": 0.5574228772163656,
+        "median": 0.5673541026766126,
+        "p95": 0.5850539943384576
+      },
+      "voicing_transitions_per_second": {
+        "p05": 8.907675254142951,
+        "median": 10.03122464534212,
+        "p95": 11.828011808646586
+      },
+      "pitch_jump_candidates_per_second": {
+        "p05": 0.21575995318375002,
+        "median": 0.25288801626912905,
+        "p95": 0.3018370695421925
+      },
+      "spectral_jump_candidates_per_second": {
+        "p05": 1.5401938434470641,
+        "median": 1.7459855559376736,
+        "p95": 2.110436431000725
+      },
+      "wave_jump_candidates_per_second": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      }
+    }
+  },
+  "new_guardrail": {
+    "n": 3,
+    "wer": 0.13259668508287292,
+    "cer": 0.04914004914004914,
+    "word_errors": 24,
+    "reference_words": 181,
+    "empty_transcripts": 0,
+    "failed_passages": [],
+    "acoustic": {
+      "duration_seconds": {
+        "p05": 18.760029166666666,
+        "median": 22.348666666666666,
+        "p95": 23.066491666666664
+      },
+      "clipped_fraction": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      },
+      "silence_fraction": {
+        "p05": 0.15836597233295163,
+        "median": 0.16465324384787472,
+        "p95": 0.19332977729714457
+      },
+      "max_internal_silence_seconds": {
+        "p05": 0.525,
+        "median": 0.5700000000000001,
+        "p95": 0.714
+      },
+      "voiced_fraction": {
+        "p05": 0.5503542518379958,
+        "median": 0.5552572706935123,
+        "p95": 0.5885278868965651
+      },
+      "voicing_transitions_per_second": {
+        "p05": 9.323444063022828,
+        "median": 10.887292758006158,
+        "p95": 12.364569743539183
+      },
+      "pitch_jump_candidates_per_second": {
+        "p05": 0.27640257631580795,
+        "median": 0.31321779077051576,
+        "p95": 0.34238728644865607
+      },
+      "spectral_jump_candidates_per_second": {
+        "p05": 1.2186795254769751,
+        "median": 1.6883343809780993,
+        "p95": 2.2226472375787636
+      },
+      "wave_jump_candidates_per_second": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      }
+    }
+  },
+  "comparison_limitations": "Only three previously inspected development passages; no heldout evaluation or proof of naturalness. New recognition uses CPU; prior v2 measurements are historical and may use Metal, so small ASR differences are not a controlled causal estimate.",
+  "evaluation": {
+    "scope": "Development only. ASR improvement does not establish pleasant voice quality.",
+    "selection_sha256": "9e6f047067e7cb70386bd1f7ce1737ce389d45048559e4710ee115073b4ba49e",
+    "asr_identity": "b26503d6520ec8d5e4c62614d67cf42c6a21b2f9237fe1c8e5e22bb4b04bb889",
+    "rows": [
+      {
+        "id": "1sam-003-009-010-word-rhythm",
+        "original_id": "1sam-003-009-010",
+        "split": "dev",
+        "text": "Därför sade Eli till Samuel: »Gå och lägg dig; och om han vidare ropar på dig, så säg: 'Tala, HERRE; din tjänare hör.» Och Samuel gick och lade sig på sin plats. Då kom HERREN och ställde sig där och ropade såsom de förra gångerna: »Samuel! Samuel!» Samuel svarade: »Tala, din tjänare hör.»",
+        "variant": "word-rhythm",
+        "audio": "1sam-003-009-010/word-rhythm.native.wav",
+        "audio_sha256": "347699973f0e933fb58b158b86599ad8ac3ac2295dbeaf0dc6cdea05e48ce2c0",
+        "native_stats": {
+          "load_seconds": 0.000834208,
+          "render_seconds": 0.00119254,
+          "audio_seconds": 18.3613,
+          "grains": 2216,
+          "uncovered_samples": 0
+        },
+        "native_maximum_pcm_unit_difference": 0.0,
+        "recognition": "Därför sade Eli till Samuel: \"Gå och lägg dig.\n Och om han vidare ropar på dig, så säger talaren:\n Din tjänare, hörare, Samuel, gick och lade sig på sin plats.\n Och då kom Herren och ställde sig där och ropade så som det var förra gångerna.\n Samuel, Samuel, Samuel svarade talaren: Din tjänare, hörare.",
+        "intelligibility": {
+          "wer": 0.22641509433962265,
+          "cer": 0.10138248847926268,
+          "word_errors": 12,
+          "reference_words": 53,
+          "char_errors": 22,
+          "reference_chars": 217,
+          "substitutions": 7,
+          "deletions": 2,
+          "insertions": 3,
+          "empty_transcript": false,
+          "normalized_hypothesis": "därför sade eli till samuel gå och lägg dig och om han vidare ropar på dig så säger talaren din tjänare hörare samuel gick och lade sig på sin plats och då kom herren och ställde sig där och ropade så som det var förra gångerna samuel samuel samuel svarade talaren din tjänare hörare",
+          "categories": {},
+          "errors": [
+            {
+              "op": "delete",
+              "expected": "säg",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "tala",
+              "recognized": "säger"
+            },
+            {
+              "op": "substitute",
+              "expected": "herre",
+              "recognized": "talaren"
+            },
+            {
+              "op": "delete",
+              "expected": "hör",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "och",
+              "recognized": "hörare"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "och"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "så"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "som"
+            },
+            {
+              "op": "substitute",
+              "expected": "såsom",
+              "recognized": "det"
+            },
+            {
+              "op": "substitute",
+              "expected": "de",
+              "recognized": "var"
+            },
+            {
+              "op": "substitute",
+              "expected": "tala",
+              "recognized": "talaren"
+            },
+            {
+              "op": "substitute",
+              "expected": "hör",
+              "recognized": "hörare"
+            }
+          ]
+        },
+        "audio_seconds": 18.361291666666666,
+        "acoustic": {
+          "duration_seconds": 18.361291666666666,
+          "peak": 0.803741455078125,
+          "rms_dbfs": -20.697639553933097,
+          "clipped_fraction": 0.0,
+          "silence_fraction": 0.19651605879150788,
+          "max_internal_silence_seconds": 0.73,
+          "internal_silences": [
+            {
+              "start": 6.68,
+              "seconds": 0.28
+            },
+            {
+              "start": 9.26,
+              "seconds": 0.54
+            },
+            {
+              "start": 13.15,
+              "seconds": 0.73
+            },
+            {
+              "start": 14.44,
+              "seconds": 0.29
+            },
+            {
+              "start": 15.280000000000001,
+              "seconds": 0.29
+            }
+          ],
+          "voiced_fraction": 0.5498094719651606,
+          "f0_hz": {
+            "p05": 114.28571428571429,
+            "median": 129.03225806451613,
+            "p95": 167.83216783216784
+          },
+          "pitch_step_semitones": {
+            "p05": 0.0,
+            "median": 0.1794040975916583,
+            "p95": 0.6572499318338192
+          },
+          "pitch_jump_candidates_per_second": 0.2723119969319515,
+          "pitch_jump_candidate_times": [
+            0.93,
+            2.72,
+            2.75,
+            10.44,
+            13.05
+          ],
+          "periodicity": {
+            "p05": 0.19370149331816128,
+            "median": 0.8463117919640248,
+            "p95": 0.9883592071311662
+          },
+          "voiced_run_seconds": {
+            "p05": 0.01,
+            "median": 0.07,
+            "p95": 0.42
+          },
+          "voicing_transitions_per_second": 9.14968309691357,
+          "spectral_centroid_hz": {
+            "p05": 152.20289902865693,
+            "median": 340.8720602351982,
+            "p95": 4820.7864762557365
+          },
+          "spectral_flux": {
+            "p05": 0.004722820321864357,
+            "median": 0.05955546968917924,
+            "p95": 0.24207655089602104
+          },
+          "spectral_jump_candidates_per_second": 1.6883343809780993,
+          "wave_jump_candidates_per_second": 0.0,
+          "wave_jump_candidate_times": []
+        },
+        "baseline": []
+      },
+      {
+        "id": "1kgs-019-011-012-word-rhythm",
+        "original_id": "1kgs-019-011-012",
+        "split": "dev",
+        "text": "Han sade: »Gå ut och ställ dig på berget inför HERREN.» Då gick HERREN fram där, och en stor och stark storm, som ryckte loss berg och bröt sönder klippor, gick före HERREN; men icke var HERREN i stormen. Efter stormen kom en jordbävning; men icke var HERREN i jordbävningen. Efter jordbävningen kom en eld; men icke var HERREN i elden. Efter elden kom ljudet av en sakta susning.",
+        "variant": "word-rhythm",
+        "audio": "1kgs-019-011-012/word-rhythm.native.wav",
+        "audio_sha256": "9938f122b7e1a6653e46cc357bb741cff07af5472a3550e7c065bd4b752d28fe",
+        "native_stats": {
+          "load_seconds": 0.00101233,
+          "render_seconds": 0.00119104,
+          "audio_seconds": 23.1462,
+          "grains": 2746,
+          "uncovered_samples": 0
+        },
+        "native_maximum_pcm_unit_difference": 0.0,
+        "recognition": "Han sade: \"Gå ut och ställ dig på berget inför Herren.\"\n Då gick Herren fram där, och en stor av stark storm\n som ryckte loss berg och bröt sönder klippor\n gick före Herrens meniker, var Herren i stormen\n för efter stormen kom en jordbävning meniker\n var Herren i jordbävningen, efter jordbävningen kom en eld.\n Meniker, var Herren i elden och efter elden\n kom ljudet av en sakta susning:",
+        "intelligibility": {
+          "wer": 0.14492753623188406,
+          "cer": 0.053691275167785234,
+          "word_errors": 10,
+          "reference_words": 69,
+          "char_errors": 16,
+          "reference_chars": 298,
+          "substitutions": 5,
+          "deletions": 3,
+          "insertions": 2,
+          "empty_transcript": false,
+          "normalized_hypothesis": "han sade gå ut och ställ dig på berget inför herren då gick herren fram där och en stor av stark storm som ryckte loss berg och bröt sönder klippor gick före herrens meniker var herren i stormen för efter stormen kom en jordbävning meniker var herren i jordbävningen efter jordbävningen kom en eld meniker var herren i elden och efter elden kom ljudet av en sakta susning",
+          "categories": {},
+          "errors": [
+            {
+              "op": "substitute",
+              "expected": "och",
+              "recognized": "av"
+            },
+            {
+              "op": "delete",
+              "expected": "herren",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "men",
+              "recognized": "herrens"
+            },
+            {
+              "op": "substitute",
+              "expected": "icke",
+              "recognized": "meniker"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "för"
+            },
+            {
+              "op": "delete",
+              "expected": "men",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "icke",
+              "recognized": "meniker"
+            },
+            {
+              "op": "delete",
+              "expected": "men",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "icke",
+              "recognized": "meniker"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "och"
+            }
+          ]
+        },
+        "audio_seconds": 23.14625,
+        "acoustic": {
+          "duration_seconds": 23.14625,
+          "peak": 0.56640625,
+          "rms_dbfs": -21.536506412921653,
+          "clipped_fraction": 0.0,
+          "silence_fraction": 0.15766738660907129,
+          "max_internal_silence_seconds": 0.5700000000000001,
+          "internal_silences": [
+            {
+              "start": 0.58,
+              "seconds": 0.27
+            },
+            {
+              "start": 3.45,
+              "seconds": 0.33
+            },
+            {
+              "start": 11.58,
+              "seconds": 0.3
+            },
+            {
+              "start": 15.72,
+              "seconds": 0.29
+            },
+            {
+              "start": 18.04,
+              "seconds": 0.5700000000000001
+            },
+            {
+              "start": 20.03,
+              "seconds": 0.28
+            }
+          ],
+          "voiced_fraction": 0.5922246220302376,
+          "f0_hz": {
+            "p05": 113.20754716981132,
+            "median": 125.6544502617801,
+            "p95": 166.66666666666666
+          },
+          "pitch_step_semitones": {
+            "p05": 0.0,
+            "median": 0.17576131157281513,
+            "p95": 0.6722221095151855
+          },
+          "pitch_jump_candidates_per_second": 0.345628341524005,
+          "pitch_jump_candidate_times": [
+            0.49,
+            1.29,
+            2.25,
+            9.06,
+            10.040000000000001,
+            17.3,
+            17.87,
+            21.57
+          ],
+          "periodicity": {
+            "p05": 0.22489783592994939,
+            "median": 0.8596211012068975,
+            "p95": 0.9901911768495409
+          },
+          "voiced_run_seconds": {
+            "p05": 0.01,
+            "median": 0.065,
+            "p95": 0.3375
+          },
+          "voicing_transitions_per_second": 10.887292758006158,
+          "spectral_centroid_hz": {
+            "p05": 149.31771655629692,
+            "median": 289.32584581973856,
+            "p95": 2930.3594780793433
+          },
+          "spectral_flux": {
+            "p05": 0.003770606627459317,
+            "median": 0.04944399116076392,
+            "p95": 0.23460055671596547
+          },
+          "spectral_jump_candidates_per_second": 1.1664956526435168,
+          "wave_jump_candidates_per_second": 0.0,
+          "wave_jump_candidate_times": []
+        },
+        "baseline": []
+      },
+      {
+        "id": "1cor-013-004-007-word-rhythm",
+        "original_id": "1cor-013-004-007",
+        "split": "dev",
+        "text": "Kärleken är tålig och mild. Kärleken avundas icke, kärleken förhäver sig icke, den uppblåses icke. Den skickar sig icke ohöviskt, den söker icke sitt, den förtörnas icke, den hyser icke agg för en oförrätts skull. Den gläder sig icke över orättfärdigheten, men har sin glädje i sanningen. Den fördrager allting, den tror allting, den hoppas allting, den uthärdar allting.",
+        "variant": "word-rhythm",
+        "audio": "1cor-013-004-007/word-rhythm.native.wav",
+        "audio_sha256": "6ad2a2d629e42e2cbe719234c1ba2cd7ddefe9c7c951093d4deda94e1f956ecf",
+        "native_stats": {
+          "load_seconds": 0.000965208,
+          "render_seconds": 0.00113021,
+          "audio_seconds": 22.3487,
+          "grains": 2644,
+          "uncovered_samples": 0
+        },
+        "native_maximum_pcm_unit_difference": 0.0,
+        "recognition": "Kärleken är tålig och mild.\n Kärleken avundas icke.\n Kärleken förhäver sig icke.\n Den uppblåses icke.\n Den skickar sig icke ohöviskt.\n Den söker icke sitt.\n Den förtörnas icke.\n Den hyser icke agg för en oförrätt skull.\n Den gläder sig icke över orättfärdigheten\n men har sin glädje i sanningen.\n Den fördragar allting.\n Den tror allting.\n Den hoppas allting.\n Den uthärdar allting.",
+        "intelligibility": {
+          "wer": 0.03389830508474576,
+          "cer": 0.006688963210702341,
+          "word_errors": 2,
+          "reference_words": 59,
+          "char_errors": 2,
+          "reference_chars": 299,
+          "substitutions": 2,
+          "deletions": 0,
+          "insertions": 0,
+          "empty_transcript": false,
+          "normalized_hypothesis": "kärleken är tålig och mild kärleken avundas icke kärleken förhäver sig icke den uppblåses icke den skickar sig icke ohöviskt den söker icke sitt den förtörnas icke den hyser icke agg för en oförrätt skull den gläder sig icke över orättfärdigheten men har sin glädje i sanningen den fördragar allting den tror allting den hoppas allting den uthärdar allting",
+          "categories": {},
+          "errors": [
+            {
+              "op": "substitute",
+              "expected": "oförrätts",
+              "recognized": "oförrätt"
+            },
+            {
+              "op": "substitute",
+              "expected": "fördrager",
+              "recognized": "fördragar"
+            }
+          ]
+        },
+        "audio_seconds": 22.348666666666666,
+        "acoustic": {
+          "duration_seconds": 22.348666666666666,
+          "peak": 0.6458740234375,
+          "rms_dbfs": -21.79098537925895,
+          "clipped_fraction": 0.0,
+          "silence_fraction": 0.16465324384787472,
+          "max_internal_silence_seconds": 0.52,
+          "internal_silences": [
+            {
+              "start": 1.61,
+              "seconds": 0.29
+            },
+            {
+              "start": 6.04,
+              "seconds": 0.29
+            },
+            {
+              "start": 12.42,
+              "seconds": 0.52
+            },
+            {
+              "start": 16.81,
+              "seconds": 0.39
+            }
+          ],
+          "voiced_fraction": 0.5552572706935123,
+          "f0_hz": {
+            "p05": 112.67605633802818,
+            "median": 129.03225806451613,
+            "p95": 160.0
+          },
+          "pitch_step_semitones": {
+            "p05": 0.0,
+            "median": 0.1784793177783626,
+            "p95": 0.7948043808010403
+          },
+          "pitch_jump_candidates_per_second": 0.31321779077051576,
+          "pitch_jump_candidate_times": [
+            3.0300000000000002,
+            4.87,
+            5.78,
+            9.88,
+            12.34,
+            12.35,
+            16.71
+          ],
+          "periodicity": {
+            "p05": 0.20759272491310993,
+            "median": 0.8003255190606431,
+            "p95": 0.9890553553365212
+          },
+          "voiced_run_seconds": {
+            "p05": 0.01,
+            "median": 0.05,
+            "p95": 0.27049999999999985
+          },
+          "voicing_transitions_per_second": 12.52871163082063,
+          "spectral_centroid_hz": {
+            "p05": 154.03941484670523,
+            "median": 298.02787921797716,
+            "p95": 4184.696411114346
+          },
+          "spectral_flux": {
+            "p05": 0.005161178173541181,
+            "median": 0.06344234952457539,
+            "p95": 0.267863493132878
+          },
+          "spectral_jump_candidates_per_second": 2.282015332756615,
+          "wave_jump_candidates_per_second": 0.0,
+          "wave_jump_candidate_times": []
+        },
+        "baseline": []
+      }
+    ],
+    "aggregate": {
+      "n": 3,
+      "wer": 0.13259668508287292,
+      "cer": 0.04914004914004914,
+      "word_errors": 24,
+      "reference_words": 181,
+      "empty_transcripts": 0,
+      "failed_passages": [],
+      "acoustic": {
+        "duration_seconds": {
+          "p05": 18.760029166666666,
+          "median": 22.348666666666666,
+          "p95": 23.066491666666664
+        },
+        "clipped_fraction": {
+          "p05": 0.0,
+          "median": 0.0,
+          "p95": 0.0
+        },
+        "silence_fraction": {
+          "p05": 0.15836597233295163,
+          "median": 0.16465324384787472,
+          "p95": 0.19332977729714457
+        },
+        "max_internal_silence_seconds": {
+          "p05": 0.525,
+          "median": 0.5700000000000001,
+          "p95": 0.714
+        },
+        "voiced_fraction": {
+          "p05": 0.5503542518379958,
+          "median": 0.5552572706935123,
+          "p95": 0.5885278868965651
+        },
+        "voicing_transitions_per_second": {
+          "p05": 9.323444063022828,
+          "median": 10.887292758006158,
+          "p95": 12.364569743539183
+        },
+        "pitch_jump_candidates_per_second": {
+          "p05": 0.27640257631580795,
+          "median": 0.31321779077051576,
+          "p95": 0.34238728644865607
+        },
+        "spectral_jump_candidates_per_second": {
+          "p05": 1.2186795254769751,
+          "median": 1.6883343809780993,
+          "p95": 2.2226472375787636
+        },
+        "wave_jump_candidates_per_second": {
+          "p05": 0.0,
+          "median": 0.0,
+          "p95": 0.0
+        }
+      }
+    }
+  },
+  "timing_experiment": {
+    "scope": "Controlled TD-PSOLA experiment on the rejected compact candidate (MIT).\n\nSound comes exclusively from the compact waveform. Teacher audio supplies\noffline pitch and predicted timing controls, never waveform samples.\nREAPER is an offline analysis dependency only. This is not an accepted voice.\n",
+    "code_sha256": "c1cdc9795c0e995adb161691d9d705868fdf961df2618c1abe8d25bb408e54e7",
+    "reaper_sha256": "cfe0feaf0632ccaac5570d52c7a50ed94adcff67423e723c5cc063f7095cd1b5",
+    "renderer_sha256": "428d063577d81374477ab696f897c18e3cd2b60e03f1b35a62fe798cb092a22d",
+    "passages": [
+      {
+        "id": "1sam-003-009-010",
+        "text": "Därför sade Eli till Samuel: »Gå och lägg dig; och om han vidare ropar på dig, så säg: 'Tala, HERRE; din tjänare hör.» Och Samuel gick och lade sig på sin plats. Då kom HERREN och ställde sig där och ropade såsom de förra gångerna: »Samuel! Samuel!» Samuel svarade: »Tala, din tjänare hör.»",
+        "source_sha256": "bc7eb102999c6735a705ff86a9cccb4b54757ef94d866fb58a44bbac4b42bb72",
+        "teacher_control_source_sha256": "b1184ad4570f7120254b04a74a2b03731efb1fcc845b88cc5a99c13d038326d7",
+        "scope": "All waveform samples come from rejected compact v2. Target audio supplies only offline pitch and predicted timing controls; source voicing is retained.",
+        "identity_maximum_float_error": 1.1102230246251565e-16,
+        "identity_uncovered_samples": 0,
+        "identity_native_pcm_unit_difference": 0.0,
+        "identity_native_stats": {
+          "load_seconds": 0.0008675,
+          "render_seconds": 0.00106971,
+          "audio_seconds": 18.9005,
+          "grains": 2286,
+          "uncovered_samples": 0
+        },
+        "timing_policy": "bounded-word",
+        "timing_audit": {
+          "maximum_word_change": 0.1,
+          "words": [
+            {
+              "phones": "dˈɛːrfœr",
+              "source_samples": 10800,
+              "suggested_samples": 10200,
+              "output_samples": 10200,
+              "ratio": 0.9444444444444444
+            },
+            {
+              "phones": "sˈɑːdə",
+              "source_samples": 7147,
+              "suggested_samples": 6600,
+              "output_samples": 6600,
+              "ratio": 0.923464390653421
+            },
+            {
+              "phones": "ˈeːlɪ",
+              "source_samples": 9638,
+              "suggested_samples": 6000,
+              "output_samples": 8674,
+              "ratio": 0.8999792488068064
+            },
+            {
+              "phones": "tˈɪl",
+              "source_samples": 3605,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9986130374479889
+            },
+            {
+              "phones": "sˈɑːmɜəl",
+              "source_samples": 11400,
+              "suggested_samples": 14400,
+              "output_samples": 12540,
+              "ratio": 1.1
+            },
+            {
+              "phones": "ɡˈoː",
+              "source_samples": 3796,
+              "suggested_samples": 4200,
+              "output_samples": 4176,
+              "ratio": 1.100105374077977
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 3116,
+              "suggested_samples": 2400,
+              "output_samples": 2804,
+              "ratio": 0.8998716302952503
+            },
+            {
+              "phones": "lˈɛɡ",
+              "source_samples": 5320,
+              "suggested_samples": 6000,
+              "output_samples": 5852,
+              "ratio": 1.1
+            },
+            {
+              "phones": "dˈɛj",
+              "source_samples": 2880,
+              "suggested_samples": 6000,
+              "output_samples": 3168,
+              "ratio": 1.1
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 4202,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 0.9995240361732508
+            },
+            {
+              "phones": "ˈɔm",
+              "source_samples": 3629,
+              "suggested_samples": 2400,
+              "output_samples": 3266,
+              "ratio": 0.899972444199504
+            },
+            {
+              "phones": "hˈɑːn",
+              "source_samples": 4025,
+              "suggested_samples": 3600,
+              "output_samples": 3622,
+              "ratio": 0.8998757763975155
+            },
+            {
+              "phones": "vˈiːdarə",
+              "source_samples": 10543,
+              "suggested_samples": 9000,
+              "output_samples": 9489,
+              "ratio": 0.9000284548989851
+            },
+            {
+              "phones": "rˈuːpar",
+              "source_samples": 9974,
+              "suggested_samples": 9600,
+              "output_samples": 9600,
+              "ratio": 0.962502506516944
+            },
+            {
+              "phones": "pˈoː",
+              "source_samples": 3021,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 0.9930486593843099
+            },
+            {
+              "phones": "dˈɛj",
+              "source_samples": 5400,
+              "suggested_samples": 4800,
+              "output_samples": 4860,
+              "ratio": 0.9
+            },
+            {
+              "phones": "sˈoː",
+              "source_samples": 4200,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 1.0
+            },
+            {
+              "phones": "sˈɛj",
+              "source_samples": 4800,
+              "suggested_samples": 6000,
+              "output_samples": 5280,
+              "ratio": 1.1
+            },
+            {
+              "phones": "tˈɑːla",
+              "source_samples": 7800,
+              "suggested_samples": 6600,
+              "output_samples": 7020,
+              "ratio": 0.9
+            },
+            {
+              "phones": "hˈɛrə",
+              "source_samples": 5400,
+              "suggested_samples": 6600,
+              "output_samples": 5940,
+              "ratio": 1.1
+            },
+            {
+              "phones": "dˈiːn",
+              "source_samples": 5940,
+              "suggested_samples": 4200,
+              "output_samples": 5346,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ɕˈɛːnarə",
+              "source_samples": 12008,
+              "suggested_samples": 10200,
+              "output_samples": 10807,
+              "ratio": 0.899983344437042
+            },
+            {
+              "phones": "hˈøːr",
+              "source_samples": 4792,
+              "suggested_samples": 10200,
+              "output_samples": 5271,
+              "ratio": 1.099958263772955
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 3000,
+              "suggested_samples": 3600,
+              "output_samples": 3300,
+              "ratio": 1.1
+            },
+            {
+              "phones": "sˈɑːmɜəl",
+              "source_samples": 13022,
+              "suggested_samples": 10200,
+              "output_samples": 11720,
+              "ratio": 0.9000153586238673
+            },
+            {
+              "phones": "jˈɪk",
+              "source_samples": 5096,
+              "suggested_samples": 5400,
+              "output_samples": 5400,
+              "ratio": 1.0596546310832025
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 2400,
+              "suggested_samples": 2400,
+              "output_samples": 2400,
+              "ratio": 1.0
+            },
+            {
+              "phones": "lˈɑːdə",
+              "source_samples": 7138,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 1.0086859064163631
+            },
+            {
+              "phones": "sˈɛj",
+              "source_samples": 5496,
+              "suggested_samples": 4800,
+              "output_samples": 4946,
+              "ratio": 0.8999272197962155
+            },
+            {
+              "phones": "pˈoː",
+              "source_samples": 3796,
+              "suggested_samples": 3000,
+              "output_samples": 3416,
+              "ratio": 0.8998946259220232
+            },
+            {
+              "phones": "sˈɪn",
+              "source_samples": 5220,
+              "suggested_samples": 4800,
+              "output_samples": 4800,
+              "ratio": 0.9195402298850575
+            },
+            {
+              "phones": "plˈats",
+              "source_samples": 18000,
+              "suggested_samples": 17400,
+              "output_samples": 17400,
+              "ratio": 0.9666666666666667
+            },
+            {
+              "phones": "dˈoː",
+              "source_samples": 3716,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9687836383207751
+            },
+            {
+              "phones": "kˈɔm",
+              "source_samples": 4716,
+              "suggested_samples": 4200,
+              "output_samples": 4244,
+              "ratio": 0.8999151823579304
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 7970,
+              "suggested_samples": 7800,
+              "output_samples": 7800,
+              "ratio": 0.9786700125470514
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 2808,
+              "suggested_samples": 2400,
+              "output_samples": 2808,
+              "ratio": 1.0
+            },
+            {
+              "phones": "stˈɛldə",
+              "source_samples": 10680,
+              "suggested_samples": 9000,
+              "output_samples": 9612,
+              "ratio": 0.9
+            },
+            {
+              "phones": "sˈɛj",
+              "source_samples": 4600,
+              "suggested_samples": 3600,
+              "output_samples": 4140,
+              "ratio": 0.9
+            },
+            {
+              "phones": "dˈɛːr",
+              "source_samples": 5728,
+              "suggested_samples": 4200,
+              "output_samples": 5155,
+              "ratio": 0.8999650837988827
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 2550,
+              "suggested_samples": 2400,
+              "output_samples": 2550,
+              "ratio": 1.0
+            },
+            {
+              "phones": "rˈuːpadə",
+              "source_samples": 11430,
+              "suggested_samples": 10800,
+              "output_samples": 10800,
+              "ratio": 0.9448818897637795
+            },
+            {
+              "phones": "sˈoːsɔm",
+              "source_samples": 8832,
+              "suggested_samples": 7800,
+              "output_samples": 7949,
+              "ratio": 0.9000226449275363
+            },
+            {
+              "phones": "dˈɛ",
+              "source_samples": 3002,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 0.9993337774816788
+            },
+            {
+              "phones": "fˈœra",
+              "source_samples": 7090,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 1.0155148095909732
+            },
+            {
+              "phones": "ɡˈɔŋəɳa",
+              "source_samples": 28506,
+              "suggested_samples": 10800,
+              "output_samples": 25655,
+              "ratio": 0.899985967866414
+            },
+            {
+              "phones": "sˈɑːmɜəl",
+              "source_samples": 11400,
+              "suggested_samples": 13200,
+              "output_samples": 12540,
+              "ratio": 1.1
+            },
+            {
+              "phones": "sˈɑːmɜəl",
+              "source_samples": 11400,
+              "suggested_samples": 16200,
+              "output_samples": 12540,
+              "ratio": 1.1
+            },
+            {
+              "phones": "sˈɑːmɜəl",
+              "source_samples": 12000,
+              "suggested_samples": 10200,
+              "output_samples": 10800,
+              "ratio": 0.9
+            },
+            {
+              "phones": "svˈɑːradə",
+              "source_samples": 11400,
+              "suggested_samples": 11400,
+              "output_samples": 11400,
+              "ratio": 1.0
+            },
+            {
+              "phones": "tˈɑːla",
+              "source_samples": 7800,
+              "suggested_samples": 9600,
+              "output_samples": 8580,
+              "ratio": 1.1
+            },
+            {
+              "phones": "dˈiːn",
+              "source_samples": 6100,
+              "suggested_samples": 5400,
+              "output_samples": 5490,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ɕˈɛːnarə",
+              "source_samples": 11848,
+              "suggested_samples": 10800,
+              "output_samples": 10800,
+              "ratio": 0.9115462525320729
+            },
+            {
+              "phones": "hˈøːr",
+              "source_samples": 4792,
+              "suggested_samples": 13200,
+              "output_samples": 5271,
+              "ratio": 1.099958263772955
+            }
+          ],
+          "pauses": [
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            }
+          ],
+          "within_word_timing": "Uniform scaling; no individual-phone targets",
+          "pitch": "Original epoch intervals",
+          "identity_scheduler_maximum_float_error": 1.1102230246251565e-16
+        },
+        "timing_anchors": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            10200.0,
+            10800.0
+          ],
+          [
+            16800.0,
+            17947.0
+          ],
+          [
+            25474.0,
+            27585.0
+          ],
+          [
+            29074.0,
+            31190.0
+          ],
+          [
+            41614.0,
+            42590.0
+          ],
+          [
+            44974.0,
+            45950.0
+          ],
+          [
+            49150.0,
+            49746.0
+          ],
+          [
+            51954.0,
+            52862.0
+          ],
+          [
+            57806.0,
+            58182.0
+          ],
+          [
+            60974.0,
+            61062.0
+          ],
+          [
+            64334.0,
+            64422.0
+          ],
+          [
+            68534.0,
+            68624.0
+          ],
+          [
+            71800.0,
+            72253.0
+          ],
+          [
+            75422.0,
+            76278.0
+          ],
+          [
+            84911.0,
+            86821.0
+          ],
+          [
+            94511.0,
+            96795.0
+          ],
+          [
+            97511.0,
+            99816.0
+          ],
+          [
+            102371.0,
+            105216.0
+          ],
+          [
+            105731.0,
+            108576.0
+          ],
+          [
+            109931.0,
+            112776.0
+          ],
+          [
+            115211.0,
+            117576.0
+          ],
+          [
+            118571.0,
+            120936.0
+          ],
+          [
+            125591.0,
+            128736.0
+          ],
+          [
+            128951.0,
+            132096.0
+          ],
+          [
+            134891.0,
+            137496.0
+          ],
+          [
+            138251.0,
+            140856.0
+          ],
+          [
+            143597.0,
+            146796.0
+          ],
+          [
+            154404.0,
+            158804.0
+          ],
+          [
+            159675.0,
+            163596.0
+          ],
+          [
+            167355.0,
+            171276.0
+          ],
+          [
+            170655.0,
+            174276.0
+          ],
+          [
+            182375.0,
+            187298.0
+          ],
+          [
+            187775.0,
+            192394.0
+          ],
+          [
+            190175.0,
+            194794.0
+          ],
+          [
+            197375.0,
+            201932.0
+          ],
+          [
+            202321.0,
+            207428.0
+          ],
+          [
+            205737.0,
+            211224.0
+          ],
+          [
+            210537.0,
+            216444.0
+          ],
+          [
+            227937.0,
+            234444.0
+          ],
+          [
+            235617.0,
+            242124.0
+          ],
+          [
+            239217.0,
+            245840.0
+          ],
+          [
+            243461.0,
+            250556.0
+          ],
+          [
+            251261.0,
+            258526.0
+          ],
+          [
+            254069.0,
+            261334.0
+          ],
+          [
+            263681.0,
+            272014.0
+          ],
+          [
+            267821.0,
+            276614.0
+          ],
+          [
+            272976.0,
+            282342.0
+          ],
+          [
+            275526.0,
+            284892.0
+          ],
+          [
+            286326.0,
+            296322.0
+          ],
+          [
+            294275.0,
+            305154.0
+          ],
+          [
+            297275.0,
+            308156.0
+          ],
+          [
+            304475.0,
+            315246.0
+          ],
+          [
+            330130.0,
+            343752.0
+          ],
+          [
+            333490.0,
+            347112.0
+          ],
+          [
+            346030.0,
+            358512.0
+          ],
+          [
+            353710.0,
+            366192.0
+          ],
+          [
+            366250.0,
+            377592.0
+          ],
+          [
+            373930.0,
+            385272.0
+          ],
+          [
+            384730.0,
+            397272.0
+          ],
+          [
+            396130.0,
+            408672.0
+          ],
+          [
+            399490.0,
+            412032.0
+          ],
+          [
+            408070.0,
+            419832.0
+          ],
+          [
+            411430.0,
+            423192.0
+          ],
+          [
+            416920.0,
+            429292.0
+          ],
+          [
+            427720.0,
+            441140.0
+          ],
+          [
+            432991.0,
+            445932.0
+          ],
+          [
+            440671.0,
+            453612.0
+          ]
+        ],
+        "variants": [
+          {
+            "variant": "word-rhythm",
+            "wav": "1sam-003-009-010/word-rhythm.wav",
+            "sha256": "347699973f0e933fb58b158b86599ad8ac3ac2295dbeaf0dc6cdea05e48ce2c0",
+            "grains": 2216,
+            "uncovered_samples": 0,
+            "native_audio_sha256": "347699973f0e933fb58b158b86599ad8ac3ac2295dbeaf0dc6cdea05e48ce2c0",
+            "native_stats": {
+              "load_seconds": 0.000834208,
+              "render_seconds": 0.00119254,
+              "audio_seconds": 18.3613,
+              "grains": 2216,
+              "uncovered_samples": 0
+            },
+            "seconds": 18.361291666666666
+          }
+        ]
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "text": "Han sade: »Gå ut och ställ dig på berget inför HERREN.» Då gick HERREN fram där, och en stor och stark storm, som ryckte loss berg och bröt sönder klippor, gick före HERREN; men icke var HERREN i stormen. Efter stormen kom en jordbävning; men icke var HERREN i jordbävningen. Efter jordbävningen kom en eld; men icke var HERREN i elden. Efter elden kom ljudet av en sakta susning.",
+        "source_sha256": "3c06d2f8deb500409ef4f04f5d8e58f9c93b627880b81d2693fca680bbceda07",
+        "teacher_control_source_sha256": "16b044e7831c25962a20fbfcf5cccb402bff4923af0f376291028249a8fa0c08",
+        "scope": "All waveform samples come from rejected compact v2. Target audio supplies only offline pitch and predicted timing controls; source voicing is retained.",
+        "identity_maximum_float_error": 1.1102230246251565e-16,
+        "identity_uncovered_samples": 0,
+        "identity_native_pcm_unit_difference": 0.0,
+        "identity_native_stats": {
+          "load_seconds": 0.00100183,
+          "render_seconds": 0.00122075,
+          "audio_seconds": 23.7259,
+          "grains": 2814,
+          "uncovered_samples": 0
+        },
+        "timing_policy": "bounded-word",
+        "timing_audit": {
+          "maximum_word_change": 0.1,
+          "words": [
+            {
+              "phones": "hˈɑːn",
+              "source_samples": 4519,
+              "suggested_samples": 5400,
+              "output_samples": 4971,
+              "ratio": 1.1000221287895553
+            },
+            {
+              "phones": "sˈɑːdə",
+              "source_samples": 13629,
+              "suggested_samples": 9600,
+              "output_samples": 12266,
+              "ratio": 0.8999926627045272
+            },
+            {
+              "phones": "ɡˈoː",
+              "source_samples": 3880,
+              "suggested_samples": 4800,
+              "output_samples": 4268,
+              "ratio": 1.1
+            },
+            {
+              "phones": "ˈɨːt",
+              "source_samples": 4950,
+              "suggested_samples": 6000,
+              "output_samples": 5445,
+              "ratio": 1.1
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 2850,
+              "suggested_samples": 2400,
+              "output_samples": 2850,
+              "ratio": 1.0
+            },
+            {
+              "phones": "stˈɛl",
+              "source_samples": 7350,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 0.9795918367346939
+            },
+            {
+              "phones": "dˈɛj",
+              "source_samples": 3714,
+              "suggested_samples": 5400,
+              "output_samples": 4085,
+              "ratio": 1.0998922994076468
+            },
+            {
+              "phones": "pˈoː",
+              "source_samples": 3790,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9498680738786279
+            },
+            {
+              "phones": "bˈɛrjət",
+              "source_samples": 19014,
+              "suggested_samples": 10200,
+              "output_samples": 17113,
+              "ratio": 0.9000210371305354
+            },
+            {
+              "phones": "ɪnfˈøːr",
+              "source_samples": 7600,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 0.9473684210526315
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 9000,
+              "suggested_samples": 21000,
+              "output_samples": 9900,
+              "ratio": 1.1
+            },
+            {
+              "phones": "dˈoː",
+              "source_samples": 3540,
+              "suggested_samples": 3000,
+              "output_samples": 3186,
+              "ratio": 0.9
+            },
+            {
+              "phones": "jˈɪk",
+              "source_samples": 4860,
+              "suggested_samples": 3600,
+              "output_samples": 4374,
+              "ratio": 0.9
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 7122,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 1.0109519797809603
+            },
+            {
+              "phones": "frˈam",
+              "source_samples": 6525,
+              "suggested_samples": 6000,
+              "output_samples": 6000,
+              "ratio": 0.9195402298850575
+            },
+            {
+              "phones": "dˈɛːr",
+              "source_samples": 6075,
+              "suggested_samples": 6600,
+              "output_samples": 6600,
+              "ratio": 1.0864197530864197
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 3600,
+              "suggested_samples": 3000,
+              "output_samples": 3240,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ˈɛn",
+              "source_samples": 3000,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 1.0
+            },
+            {
+              "phones": "stˈuːr",
+              "source_samples": 6280,
+              "suggested_samples": 6000,
+              "output_samples": 6000,
+              "ratio": 0.9554140127388535
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 3090,
+              "suggested_samples": 2400,
+              "output_samples": 2781,
+              "ratio": 0.9
+            },
+            {
+              "phones": "stˈark",
+              "source_samples": 8950,
+              "suggested_samples": 9000,
+              "output_samples": 9000,
+              "ratio": 1.005586592178771
+            },
+            {
+              "phones": "stˈɔrm",
+              "source_samples": 8300,
+              "suggested_samples": 9000,
+              "output_samples": 9000,
+              "ratio": 1.0843373493975903
+            },
+            {
+              "phones": "sˈɔm",
+              "source_samples": 5064,
+              "suggested_samples": 4200,
+              "output_samples": 4558,
+              "ratio": 0.9000789889415481
+            },
+            {
+              "phones": "rˈyktə",
+              "source_samples": 8405,
+              "suggested_samples": 7200,
+              "output_samples": 7564,
+              "ratio": 0.8999405116002379
+            },
+            {
+              "phones": "lˈɔs",
+              "source_samples": 6117,
+              "suggested_samples": 6600,
+              "output_samples": 6600,
+              "ratio": 1.0789602746444336
+            },
+            {
+              "phones": "bˈɛrj",
+              "source_samples": 9461,
+              "suggested_samples": 7200,
+              "output_samples": 8515,
+              "ratio": 0.9000105697072192
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 3481,
+              "suggested_samples": 3000,
+              "output_samples": 3133,
+              "ratio": 0.9000287273771904
+            },
+            {
+              "phones": "brˈøːt",
+              "source_samples": 7900,
+              "suggested_samples": 6600,
+              "output_samples": 7110,
+              "ratio": 0.9
+            },
+            {
+              "phones": "sˈœndər",
+              "source_samples": 10100,
+              "suggested_samples": 8400,
+              "output_samples": 9090,
+              "ratio": 0.9
+            },
+            {
+              "phones": "klˈɪpʊr",
+              "source_samples": 11058,
+              "suggested_samples": 10800,
+              "output_samples": 10800,
+              "ratio": 0.9766684753119913
+            },
+            {
+              "phones": "jˈɪk",
+              "source_samples": 5200,
+              "suggested_samples": 4800,
+              "output_samples": 4800,
+              "ratio": 0.9230769230769231
+            },
+            {
+              "phones": "fˈøːrə",
+              "source_samples": 7142,
+              "suggested_samples": 6600,
+              "output_samples": 6600,
+              "ratio": 0.9241108933071969
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 7884,
+              "suggested_samples": 10200,
+              "output_samples": 8672,
+              "ratio": 1.099949264332826
+            },
+            {
+              "phones": "mˈɛn",
+              "source_samples": 6398,
+              "suggested_samples": 3000,
+              "output_samples": 5758,
+              "ratio": 0.8999687402313223
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 6300,
+              "suggested_samples": 4200,
+              "output_samples": 5670,
+              "ratio": 0.9
+            },
+            {
+              "phones": "vˈɑːr",
+              "source_samples": 4024,
+              "suggested_samples": 3600,
+              "output_samples": 3622,
+              "ratio": 0.9000994035785288
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 7320,
+              "suggested_samples": 6600,
+              "output_samples": 6600,
+              "ratio": 0.9016393442622951
+            },
+            {
+              "phones": "ˈiː",
+              "source_samples": 2800,
+              "suggested_samples": 2400,
+              "output_samples": 2800,
+              "ratio": 1.0
+            },
+            {
+              "phones": "stˈɔrmən",
+              "source_samples": 10900,
+              "suggested_samples": 23400,
+              "output_samples": 11990,
+              "ratio": 1.1
+            },
+            {
+              "phones": "ˈɛftər",
+              "source_samples": 7650,
+              "suggested_samples": 6600,
+              "output_samples": 6885,
+              "ratio": 0.9
+            },
+            {
+              "phones": "stˈɔrmən",
+              "source_samples": 11098,
+              "suggested_samples": 10800,
+              "output_samples": 10800,
+              "ratio": 0.9731483150117138
+            },
+            {
+              "phones": "kˈɔm",
+              "source_samples": 3836,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9384775808133472
+            },
+            {
+              "phones": "ˈɛn",
+              "source_samples": 3118,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 0.9621552277100706
+            },
+            {
+              "phones": "jˈuːɖbˌɛːvnɪŋ",
+              "source_samples": 16640,
+              "suggested_samples": 18600,
+              "output_samples": 18304,
+              "ratio": 1.1
+            },
+            {
+              "phones": "mˈɛn",
+              "source_samples": 6398,
+              "suggested_samples": 3000,
+              "output_samples": 5758,
+              "ratio": 0.8999687402313223
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 6300,
+              "suggested_samples": 4200,
+              "output_samples": 5670,
+              "ratio": 0.9
+            },
+            {
+              "phones": "vˈɑːr",
+              "source_samples": 4024,
+              "suggested_samples": 3600,
+              "output_samples": 3622,
+              "ratio": 0.9000994035785288
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 7340,
+              "suggested_samples": 6600,
+              "output_samples": 6606,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ˈiː",
+              "source_samples": 3166,
+              "suggested_samples": 2400,
+              "output_samples": 2849,
+              "ratio": 0.8998736576121289
+            },
+            {
+              "phones": "jˈuːɖbˌɛːvnɪŋən",
+              "source_samples": 19246,
+              "suggested_samples": 27600,
+              "output_samples": 21171,
+              "ratio": 1.1000207835394367
+            },
+            {
+              "phones": "ˈɛftər",
+              "source_samples": 7419,
+              "suggested_samples": 7800,
+              "output_samples": 7800,
+              "ratio": 1.0513546300040437
+            },
+            {
+              "phones": "jˈuːɖbˌɛːvnɪŋən",
+              "source_samples": 19497,
+              "suggested_samples": 16800,
+              "output_samples": 17547,
+              "ratio": 0.8999846130173873
+            },
+            {
+              "phones": "kˈɔm",
+              "source_samples": 11880,
+              "suggested_samples": 3600,
+              "output_samples": 10692,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ˈɛn",
+              "source_samples": 3577,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 1.0064299692479732
+            },
+            {
+              "phones": "ˈɛld",
+              "source_samples": 21433,
+              "suggested_samples": 7800,
+              "output_samples": 19290,
+              "ratio": 0.9000139971072645
+            },
+            {
+              "phones": "mˈɛn",
+              "source_samples": 6279,
+              "suggested_samples": 3600,
+              "output_samples": 5651,
+              "ratio": 0.8999840738971173
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 6419,
+              "suggested_samples": 4800,
+              "output_samples": 5777,
+              "ratio": 0.8999844212494158
+            },
+            {
+              "phones": "vˈɑːr",
+              "source_samples": 4024,
+              "suggested_samples": 3600,
+              "output_samples": 3622,
+              "ratio": 0.9000994035785288
+            },
+            {
+              "phones": "hˈɛrən",
+              "source_samples": 7335,
+              "suggested_samples": 6600,
+              "output_samples": 6602,
+              "ratio": 0.9000681663258351
+            },
+            {
+              "phones": "ˈiː",
+              "source_samples": 2234,
+              "suggested_samples": 2400,
+              "output_samples": 2234,
+              "ratio": 1.0
+            },
+            {
+              "phones": "ˈɛldən",
+              "source_samples": 8465,
+              "suggested_samples": 18600,
+              "output_samples": 9312,
+              "ratio": 1.1000590667454224
+            },
+            {
+              "phones": "ˈɛftər",
+              "source_samples": 6329,
+              "suggested_samples": 7800,
+              "output_samples": 6962,
+              "ratio": 1.1000158002844052
+            },
+            {
+              "phones": "ˈɛldən",
+              "source_samples": 9137,
+              "suggested_samples": 9600,
+              "output_samples": 9600,
+              "ratio": 1.0506730874466454
+            },
+            {
+              "phones": "kˈɔm",
+              "source_samples": 5792,
+              "suggested_samples": 5400,
+              "output_samples": 5400,
+              "ratio": 0.9323204419889503
+            },
+            {
+              "phones": "jˈɨːdət",
+              "source_samples": 9653,
+              "suggested_samples": 9600,
+              "output_samples": 9600,
+              "ratio": 0.994509478918471
+            },
+            {
+              "phones": "ˈɑːv",
+              "source_samples": 2889,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 1.0384215991692627
+            },
+            {
+              "phones": "ˈɛn",
+              "source_samples": 3100,
+              "suggested_samples": 3600,
+              "output_samples": 3410,
+              "ratio": 1.1
+            },
+            {
+              "phones": "sˈakta",
+              "source_samples": 10850,
+              "suggested_samples": 9600,
+              "output_samples": 9765,
+              "ratio": 0.9
+            },
+            {
+              "phones": "sˈɨːsnɪŋ",
+              "source_samples": 11182,
+              "suggested_samples": 28200,
+              "output_samples": 12300,
+              "ratio": 1.0999821141119657
+            }
+          ],
+          "pauses": [
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            }
+          ],
+          "within_word_timing": "Uniform scaling; no individual-phone targets",
+          "pitch": "Original epoch intervals",
+          "identity_scheduler_maximum_float_error": 1.1102230246251565e-16
+        },
+        "timing_anchors": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            4971.0,
+            4519.0
+          ],
+          [
+            17237.0,
+            18148.0
+          ],
+          [
+            20597.0,
+            21508.0
+          ],
+          [
+            24865.0,
+            25388.0
+          ],
+          [
+            30310.0,
+            30338.0
+          ],
+          [
+            33160.0,
+            33188.0
+          ],
+          [
+            40360.0,
+            40538.0
+          ],
+          [
+            44445.0,
+            44252.0
+          ],
+          [
+            48045.0,
+            48042.0
+          ],
+          [
+            65158.0,
+            67056.0
+          ],
+          [
+            72358.0,
+            74656.0
+          ],
+          [
+            82258.0,
+            83656.0
+          ],
+          [
+            89938.0,
+            91336.0
+          ],
+          [
+            93124.0,
+            94876.0
+          ],
+          [
+            97498.0,
+            99736.0
+          ],
+          [
+            104698.0,
+            106858.0
+          ],
+          [
+            110698.0,
+            113383.0
+          ],
+          [
+            117298.0,
+            119458.0
+          ],
+          [
+            120658.0,
+            122818.0
+          ],
+          [
+            123898.0,
+            126418.0
+          ],
+          [
+            126898.0,
+            129418.0
+          ],
+          [
+            132898.0,
+            135698.0
+          ],
+          [
+            135679.0,
+            138788.0
+          ],
+          [
+            144679.0,
+            147738.0
+          ],
+          [
+            153679.0,
+            156038.0
+          ],
+          [
+            157039.0,
+            159398.0
+          ],
+          [
+            161597.0,
+            164462.0
+          ],
+          [
+            169161.0,
+            172867.0
+          ],
+          [
+            175761.0,
+            178984.0
+          ],
+          [
+            184276.0,
+            188445.0
+          ],
+          [
+            187409.0,
+            191926.0
+          ],
+          [
+            194519.0,
+            199826.0
+          ],
+          [
+            203609.0,
+            209926.0
+          ],
+          [
+            214409.0,
+            220984.0
+          ],
+          [
+            217769.0,
+            224344.0
+          ],
+          [
+            222569.0,
+            229544.0
+          ],
+          [
+            229169.0,
+            236686.0
+          ],
+          [
+            237841.0,
+            244570.0
+          ],
+          [
+            241201.0,
+            247930.0
+          ],
+          [
+            246959.0,
+            254328.0
+          ],
+          [
+            252629.0,
+            260628.0
+          ],
+          [
+            256251.0,
+            264652.0
+          ],
+          [
+            262851.0,
+            271972.0
+          ],
+          [
+            265651.0,
+            274772.0
+          ],
+          [
+            277641.0,
+            285672.0
+          ],
+          [
+            285321.0,
+            293352.0
+          ],
+          [
+            292206.0,
+            301002.0
+          ],
+          [
+            303006.0,
+            312100.0
+          ],
+          [
+            306606.0,
+            315936.0
+          ],
+          [
+            309606.0,
+            319054.0
+          ],
+          [
+            327910.0,
+            335694.0
+          ],
+          [
+            331270.0,
+            339054.0
+          ],
+          [
+            337028.0,
+            345452.0
+          ],
+          [
+            342698.0,
+            351752.0
+          ],
+          [
+            346320.0,
+            355776.0
+          ],
+          [
+            352926.0,
+            363116.0
+          ],
+          [
+            355775.0,
+            366282.0
+          ],
+          [
+            376946.0,
+            385528.0
+          ],
+          [
+            384626.0,
+            393208.0
+          ],
+          [
+            392426.0,
+            400627.0
+          ],
+          [
+            409973.0,
+            420124.0
+          ],
+          [
+            420665.0,
+            432004.0
+          ],
+          [
+            424265.0,
+            435581.0
+          ],
+          [
+            443555.0,
+            457014.0
+          ],
+          [
+            446915.0,
+            460374.0
+          ],
+          [
+            452566.0,
+            466653.0
+          ],
+          [
+            458343.0,
+            473072.0
+          ],
+          [
+            461965.0,
+            477096.0
+          ],
+          [
+            468567.0,
+            484431.0
+          ],
+          [
+            470801.0,
+            486665.0
+          ],
+          [
+            480113.0,
+            495130.0
+          ],
+          [
+            487793.0,
+            502810.0
+          ],
+          [
+            494755.0,
+            509139.0
+          ],
+          [
+            504355.0,
+            518276.0
+          ],
+          [
+            509755.0,
+            524068.0
+          ],
+          [
+            519355.0,
+            533721.0
+          ],
+          [
+            522355.0,
+            536610.0
+          ],
+          [
+            525765.0,
+            539710.0
+          ],
+          [
+            535530.0,
+            550560.0
+          ],
+          [
+            547830.0,
+            561742.0
+          ],
+          [
+            555510.0,
+            569422.0
+          ]
+        ],
+        "variants": [
+          {
+            "variant": "word-rhythm",
+            "wav": "1kgs-019-011-012/word-rhythm.wav",
+            "sha256": "9938f122b7e1a6653e46cc357bb741cff07af5472a3550e7c065bd4b752d28fe",
+            "grains": 2746,
+            "uncovered_samples": 0,
+            "native_audio_sha256": "9938f122b7e1a6653e46cc357bb741cff07af5472a3550e7c065bd4b752d28fe",
+            "native_stats": {
+              "load_seconds": 0.00101233,
+              "render_seconds": 0.00119104,
+              "audio_seconds": 23.1462,
+              "grains": 2746,
+              "uncovered_samples": 0
+            },
+            "seconds": 23.14625
+          }
+        ]
+      },
+      {
+        "id": "1cor-013-004-007",
+        "text": "Kärleken är tålig och mild. Kärleken avundas icke, kärleken förhäver sig icke, den uppblåses icke. Den skickar sig icke ohöviskt, den söker icke sitt, den förtörnas icke, den hyser icke agg för en oförrätts skull. Den gläder sig icke över orättfärdigheten, men har sin glädje i sanningen. Den fördrager allting, den tror allting, den hoppas allting, den uthärdar allting.",
+        "source_sha256": "dc80ee87fa5effea2c3a8049448a4646d8eafb738954d6740a69e3e8ffd248a0",
+        "teacher_control_source_sha256": "22daae066c53a192169d47bdf7e015e8cb57592e1f6715132250a596c83b94d7",
+        "scope": "All waveform samples come from rejected compact v2. Target audio supplies only offline pitch and predicted timing controls; source voicing is retained.",
+        "identity_maximum_float_error": 1.1102230246251565e-16,
+        "identity_uncovered_samples": 0,
+        "identity_native_pcm_unit_difference": 0.0,
+        "identity_native_stats": {
+          "load_seconds": 0.000975416,
+          "render_seconds": 0.00116025,
+          "audio_seconds": 22.7808,
+          "grains": 2701,
+          "uncovered_samples": 0
+        },
+        "timing_policy": "bounded-word",
+        "timing_audit": {
+          "maximum_word_change": 0.1,
+          "words": [
+            {
+              "phones": "ɕˈɛːlˌeːkən",
+              "source_samples": 16228,
+              "suggested_samples": 13800,
+              "output_samples": 14605,
+              "ratio": 0.899987675622381
+            },
+            {
+              "phones": "ˈɛːr",
+              "source_samples": 3770,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9549071618037135
+            },
+            {
+              "phones": "tˈoːlɪɡ",
+              "source_samples": 8364,
+              "suggested_samples": 9000,
+              "output_samples": 9000,
+              "ratio": 1.0760401721664274
+            },
+            {
+              "phones": "ˈɔk",
+              "source_samples": 3120,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 0.9615384615384616
+            },
+            {
+              "phones": "mˈɪld",
+              "source_samples": 7276,
+              "suggested_samples": 15000,
+              "output_samples": 8004,
+              "ratio": 1.1000549752611324
+            },
+            {
+              "phones": "ɕˈɛːlˌeːkən",
+              "source_samples": 15333,
+              "suggested_samples": 12000,
+              "output_samples": 13800,
+              "ratio": 0.9000195656427313
+            },
+            {
+              "phones": "ˈɑːvɜndas",
+              "source_samples": 13277,
+              "suggested_samples": 10800,
+              "output_samples": 11949,
+              "ratio": 0.8999774045341569
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 6800,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 1.0588235294117647
+            },
+            {
+              "phones": "ɕˈɛːlˌeːkən",
+              "source_samples": 16192,
+              "suggested_samples": 13200,
+              "output_samples": 14573,
+              "ratio": 0.9000123517786561
+            },
+            {
+              "phones": "fœrhˈɛːvər",
+              "source_samples": 11644,
+              "suggested_samples": 10200,
+              "output_samples": 10480,
+              "ratio": 0.9000343524562007
+            },
+            {
+              "phones": "sˈɛj",
+              "source_samples": 3630,
+              "suggested_samples": 3000,
+              "output_samples": 3267,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 5814,
+              "suggested_samples": 7200,
+              "output_samples": 6395,
+              "ratio": 1.0999312005503956
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 3686,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9766684753119913
+            },
+            {
+              "phones": "ˈɜpblˌoːsəs",
+              "source_samples": 14710,
+              "suggested_samples": 13800,
+              "output_samples": 13800,
+              "ratio": 0.938137321549966
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 6200,
+              "suggested_samples": 15600,
+              "output_samples": 6820,
+              "ratio": 1.1
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 5461,
+              "suggested_samples": 4200,
+              "output_samples": 4915,
+              "ratio": 0.9000183116645303
+            },
+            {
+              "phones": "ʂˈɪkar",
+              "source_samples": 9522,
+              "suggested_samples": 9000,
+              "output_samples": 9000,
+              "ratio": 0.945179584120983
+            },
+            {
+              "phones": "sˈɛj",
+              "source_samples": 3627,
+              "suggested_samples": 3000,
+              "output_samples": 3264,
+              "ratio": 0.8999172870140613
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 5837,
+              "suggested_samples": 4800,
+              "output_samples": 5253,
+              "ratio": 0.8999486037347952
+            },
+            {
+              "phones": "ˈuːhˌøːvɪskt",
+              "source_samples": 13633,
+              "suggested_samples": 15000,
+              "output_samples": 14996,
+              "ratio": 1.0999779945719945
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 5880,
+              "suggested_samples": 4200,
+              "output_samples": 5292,
+              "ratio": 0.9
+            },
+            {
+              "phones": "sˈøːkər",
+              "source_samples": 8020,
+              "suggested_samples": 7200,
+              "output_samples": 7218,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 5872,
+              "suggested_samples": 5400,
+              "output_samples": 5400,
+              "ratio": 0.9196185286103542
+            },
+            {
+              "phones": "sˈɪt",
+              "source_samples": 4800,
+              "suggested_samples": 6000,
+              "output_samples": 5280,
+              "ratio": 1.1
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 4200,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 1.0
+            },
+            {
+              "phones": "fœʈˈøːɳas",
+              "source_samples": 12868,
+              "suggested_samples": 12000,
+              "output_samples": 12000,
+              "ratio": 0.9325458501709667
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 6800,
+              "suggested_samples": 7200,
+              "output_samples": 7200,
+              "ratio": 1.0588235294117647
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 4200,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 1.0
+            },
+            {
+              "phones": "hˈyːsər",
+              "source_samples": 8394,
+              "suggested_samples": 7800,
+              "output_samples": 7800,
+              "ratio": 0.9292351679771265
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 4765,
+              "suggested_samples": 4800,
+              "output_samples": 4800,
+              "ratio": 1.0073452256033577
+            },
+            {
+              "phones": "ˈaɡ",
+              "source_samples": 4313,
+              "suggested_samples": 3000,
+              "output_samples": 3882,
+              "ratio": 0.9000695571527939
+            },
+            {
+              "phones": "fˈøːr",
+              "source_samples": 3824,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9414225941422594
+            },
+            {
+              "phones": "ˈɛn",
+              "source_samples": 2654,
+              "suggested_samples": 2400,
+              "output_samples": 2654,
+              "ratio": 1.0
+            },
+            {
+              "phones": "ˈuːfœrrˌɛts",
+              "source_samples": 15474,
+              "suggested_samples": 14400,
+              "output_samples": 14400,
+              "ratio": 0.9305932531989143
+            },
+            {
+              "phones": "skˈɜl",
+              "source_samples": 14000,
+              "suggested_samples": 14400,
+              "output_samples": 14400,
+              "ratio": 1.0285714285714285
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 4261,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 0.985684111710866
+            },
+            {
+              "phones": "ɡlˈɛːdər",
+              "source_samples": 9986,
+              "suggested_samples": 8400,
+              "output_samples": 8987,
+              "ratio": 0.89995994392149
+            },
+            {
+              "phones": "sˈɛj",
+              "source_samples": 3936,
+              "suggested_samples": 3000,
+              "output_samples": 3542,
+              "ratio": 0.8998983739837398
+            },
+            {
+              "phones": "ˈɪkə",
+              "source_samples": 5343,
+              "suggested_samples": 4200,
+              "output_samples": 4809,
+              "ratio": 0.9000561482313307
+            },
+            {
+              "phones": "ˈøːvər",
+              "source_samples": 5970,
+              "suggested_samples": 5400,
+              "output_samples": 5400,
+              "ratio": 0.9045226130653267
+            },
+            {
+              "phones": "ˈuːrɛtfɛːɖɪɡhˌeːtən",
+              "source_samples": 21806,
+              "suggested_samples": 26400,
+              "output_samples": 23987,
+              "ratio": 1.1000183435751627
+            },
+            {
+              "phones": "mˈɛn",
+              "source_samples": 3000,
+              "suggested_samples": 3000,
+              "output_samples": 3000,
+              "ratio": 1.0
+            },
+            {
+              "phones": "hˈɑːr",
+              "source_samples": 3786,
+              "suggested_samples": 3600,
+              "output_samples": 3600,
+              "ratio": 0.9508716323296355
+            },
+            {
+              "phones": "sˈɪn",
+              "source_samples": 4850,
+              "suggested_samples": 4200,
+              "output_samples": 4365,
+              "ratio": 0.9
+            },
+            {
+              "phones": "ɡlˈɛːdjə",
+              "source_samples": 9312,
+              "suggested_samples": 9000,
+              "output_samples": 9000,
+              "ratio": 0.9664948453608248
+            },
+            {
+              "phones": "ˈiː",
+              "source_samples": 2544,
+              "suggested_samples": 3000,
+              "output_samples": 2544,
+              "ratio": 1.0
+            },
+            {
+              "phones": "sˈanɪŋən",
+              "source_samples": 17314,
+              "suggested_samples": 22200,
+              "output_samples": 19045,
+              "ratio": 1.0999768973085364
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 4200,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 1.0
+            },
+            {
+              "phones": "fœɖrˈɑːɡər",
+              "source_samples": 12670,
+              "suggested_samples": 12000,
+              "output_samples": 12000,
+              "ratio": 0.9471191791633781
+            },
+            {
+              "phones": "ˈaltˌɪŋ",
+              "source_samples": 11626,
+              "suggested_samples": 11400,
+              "output_samples": 11400,
+              "ratio": 0.9805608119731636
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 4200,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 1.0
+            },
+            {
+              "phones": "trˈuːr",
+              "source_samples": 6516,
+              "suggested_samples": 6000,
+              "output_samples": 6000,
+              "ratio": 0.9208103130755064
+            },
+            {
+              "phones": "ˈaltˌɪŋ",
+              "source_samples": 11144,
+              "suggested_samples": 10800,
+              "output_samples": 10800,
+              "ratio": 0.9691313711414213
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 4193,
+              "suggested_samples": 4200,
+              "output_samples": 4200,
+              "ratio": 1.001669449081803
+            },
+            {
+              "phones": "hˈɔpas",
+              "source_samples": 8464,
+              "suggested_samples": 10800,
+              "output_samples": 9310,
+              "ratio": 1.0999527410207939
+            },
+            {
+              "phones": "ˈaltˌɪŋ",
+              "source_samples": 11541,
+              "suggested_samples": 11400,
+              "output_samples": 11400,
+              "ratio": 0.9877826878086821
+            },
+            {
+              "phones": "dˈeːn",
+              "source_samples": 5445,
+              "suggested_samples": 3600,
+              "output_samples": 4900,
+              "ratio": 0.8999081726354453
+            },
+            {
+              "phones": "ˈɨːthˌɛːɖar",
+              "source_samples": 13812,
+              "suggested_samples": 13800,
+              "output_samples": 13800,
+              "ratio": 0.9991311902693311
+            },
+            {
+              "phones": "ˈaltˌɪŋ",
+              "source_samples": 11993,
+              "suggested_samples": 23400,
+              "output_samples": 13192,
+              "ratio": 1.0999749854081549
+            }
+          ],
+          "pauses": [
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 3360,
+              "output_samples": 3360
+            },
+            {
+              "source_samples": 7680,
+              "output_samples": 7680
+            }
+          ],
+          "within_word_timing": "Uniform scaling; no individual-phone targets",
+          "pitch": "Original epoch intervals",
+          "identity_scheduler_maximum_float_error": 1.1102230246251565e-16
+        },
+        "timing_anchors": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            14605.0,
+            16228.0
+          ],
+          [
+            18205.0,
+            19998.0
+          ],
+          [
+            27205.0,
+            28362.0
+          ],
+          [
+            30205.0,
+            31482.0
+          ],
+          [
+            38209.0,
+            38758.0
+          ],
+          [
+            45889.0,
+            46438.0
+          ],
+          [
+            59689.0,
+            61771.0
+          ],
+          [
+            71638.0,
+            75048.0
+          ],
+          [
+            78838.0,
+            81848.0
+          ],
+          [
+            82198.0,
+            85208.0
+          ],
+          [
+            96771.0,
+            101400.0
+          ],
+          [
+            107251.0,
+            113044.0
+          ],
+          [
+            110518.0,
+            116674.0
+          ],
+          [
+            116913.0,
+            122488.0
+          ],
+          [
+            120273.0,
+            125848.0
+          ],
+          [
+            123873.0,
+            129534.0
+          ],
+          [
+            137673.0,
+            144244.0
+          ],
+          [
+            144493.0,
+            150444.0
+          ],
+          [
+            152173.0,
+            158124.0
+          ],
+          [
+            157088.0,
+            163585.0
+          ],
+          [
+            166088.0,
+            173107.0
+          ],
+          [
+            169352.0,
+            176734.0
+          ],
+          [
+            174605.0,
+            182571.0
+          ],
+          [
+            189601.0,
+            196204.0
+          ],
+          [
+            192961.0,
+            199564.0
+          ],
+          [
+            198253.0,
+            205444.0
+          ],
+          [
+            205471.0,
+            213464.0
+          ],
+          [
+            210871.0,
+            219336.0
+          ],
+          [
+            216151.0,
+            224136.0
+          ],
+          [
+            219511.0,
+            227496.0
+          ],
+          [
+            223711.0,
+            231696.0
+          ],
+          [
+            235711.0,
+            244564.0
+          ],
+          [
+            242911.0,
+            251364.0
+          ],
+          [
+            246271.0,
+            254724.0
+          ],
+          [
+            250471.0,
+            258924.0
+          ],
+          [
+            258271.0,
+            267318.0
+          ],
+          [
+            263071.0,
+            272083.0
+          ],
+          [
+            266953.0,
+            276396.0
+          ],
+          [
+            270553.0,
+            280220.0
+          ],
+          [
+            273207.0,
+            282874.0
+          ],
+          [
+            287607.0,
+            298348.0
+          ],
+          [
+            302007.0,
+            312348.0
+          ],
+          [
+            309687.0,
+            320028.0
+          ],
+          [
+            313887.0,
+            324289.0
+          ],
+          [
+            322874.0,
+            334275.0
+          ],
+          [
+            326416.0,
+            338211.0
+          ],
+          [
+            331225.0,
+            343554.0
+          ],
+          [
+            336625.0,
+            349524.0
+          ],
+          [
+            360612.0,
+            371330.0
+          ],
+          [
+            363972.0,
+            374690.0
+          ],
+          [
+            366972.0,
+            377690.0
+          ],
+          [
+            370572.0,
+            381476.0
+          ],
+          [
+            374937.0,
+            386326.0
+          ],
+          [
+            383937.0,
+            395638.0
+          ],
+          [
+            386481.0,
+            398182.0
+          ],
+          [
+            405526.0,
+            415496.0
+          ],
+          [
+            413206.0,
+            423176.0
+          ],
+          [
+            417406.0,
+            427376.0
+          ],
+          [
+            429406.0,
+            440046.0
+          ],
+          [
+            440806.0,
+            451672.0
+          ],
+          [
+            444166.0,
+            455032.0
+          ],
+          [
+            448366.0,
+            459232.0
+          ],
+          [
+            454366.0,
+            465748.0
+          ],
+          [
+            465166.0,
+            476892.0
+          ],
+          [
+            468526.0,
+            480252.0
+          ],
+          [
+            472726.0,
+            484445.0
+          ],
+          [
+            482036.0,
+            492909.0
+          ],
+          [
+            493436.0,
+            504450.0
+          ],
+          [
+            496796.0,
+            507810.0
+          ],
+          [
+            501696.0,
+            513255.0
+          ],
+          [
+            515496.0,
+            527067.0
+          ],
+          [
+            528688.0,
+            539060.0
+          ],
+          [
+            536368.0,
+            546740.0
+          ]
+        ],
+        "variants": [
+          {
+            "variant": "word-rhythm",
+            "wav": "1cor-013-004-007/word-rhythm.wav",
+            "sha256": "6ad2a2d629e42e2cbe719234c1ba2cd7ddefe9c7c951093d4deda94e1f956ecf",
+            "grains": 2644,
+            "uncovered_samples": 0,
+            "native_audio_sha256": "6ad2a2d629e42e2cbe719234c1ba2cd7ddefe9c7c951093d4deda94e1f956ecf",
+            "native_stats": {
+              "load_seconds": 0.000965208,
+              "render_seconds": 0.00113021,
+              "audio_seconds": 22.3487,
+              "grains": 2644,
+              "uncovered_samples": 0
+            },
+            "seconds": 22.348666666666666
+          }
+        ]
+      }
+    ],
+    "anchor_report_sha256": "0d027e5d174dcb75f2e04806052256b2cb096e5b651886f5e9711466ea18d535"
+  },
+  "audio_sha256": {
+    "compact-v4-word-rhythm-1sam-3-9-10.wav": "347699973f0e933fb58b158b86599ad8ac3ac2295dbeaf0dc6cdea05e48ce2c0",
+    "compact-v4-word-rhythm-1cor-13-4-7.wav": "6ad2a2d629e42e2cbe719234c1ba2cd7ddefe9c7c951093d4deda94e1f956ecf",
+    "compact-v4-word-rhythm-12sec.wav": "7a31db20a4736eb16160c9db3b3e5eb2822e0740938756660d6e9dd4d595118c",
+    "compact-v4-word-rhythm-1kgs-19-11-12.wav": "9938f122b7e1a6653e46cc357bb741cff07af5472a3550e7c065bd4b752d28fe"
+  }
+}

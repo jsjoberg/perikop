@@ -32,7 +32,7 @@ class TimingTests(unittest.TestCase):
 
 
 class NativeRendererTests(unittest.TestCase):
-    renderer=ROOT/'build/unit-render'
+    renderer=ROOT/'build/unit-selection/bjorn-unit-render'
 
     def setUp(self):
         if not self.renderer.exists():self.skipTest('Compile unit_render.cpp first')
@@ -59,11 +59,11 @@ class NativeRendererTests(unittest.TestCase):
         self.assertEqual(json.loads(result.stdout)['joins'],1)
 
     def test_rejects_span_past_bank_end_and_trailing_bytes(self):
-        self.assertNotEqual(self.render([(1999,2,0)]).returncode,0)
-        self.assertNotEqual(self.render([(0,100,0)],b'x').returncode,0)
+        self.assertEqual(self.render([(1999,2,0)]).returncode,1)
+        self.assertEqual(self.render([(0,100,0)],b'x').returncode,1)
 
     def test_rejects_overlap_across_pause_boundary(self):
-        self.assertNotEqual(self.render([(0,100,0),(2**64-1,100,0),(1000,100,50)]).returncode,0)
+        self.assertEqual(self.render([(0,100,0),(2**64-1,100,0),(1000,100,50)]).returncode,1)
 
 
 if __name__=='__main__':unittest.main()

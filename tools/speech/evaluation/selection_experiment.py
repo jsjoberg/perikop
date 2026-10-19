@@ -393,7 +393,7 @@ def main():
     parser.add_argument('--word-boundary-cost',type=float,default=0)
     parser.add_argument('--phase-align',action='store_true')
     parser.add_argument('--asr-model',type=Path)
-    parser.add_argument('--renderer',type=Path,default=ROOT/'build/unit-render')
+    parser.add_argument('--renderer',type=Path,default=ROOT/'build/unit-selection/bjorn-unit-render')
     parser.add_argument('--cpu',action='store_true')
     parser.add_argument('--dataset',type=Path,default=ROOT/'tools/speech/evaluation/dataset.json')
     args = parser.parse_args()

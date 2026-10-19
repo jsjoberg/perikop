@@ -14,7 +14,7 @@ import numpy as np
 
 from run import ROOT,digest,dump,execute
 from metrics import read_audio,write_audio
-from selection_experiment import prep
+from selection_experiment import prep,phone_flags
 
 
 def track(path):
@@ -92,6 +92,75 @@ def anchors_for(row,selection,teacher,neural_pack,output):
     return points,target[0][1],min(chunk['samples'],target[-1][2]+2400)
 
 
+def bounded_word_map(dense,teacher,neural_pack,input_length,max_change=.10):
+    """Preserve within-word timing and pauses; bound whole-word duration changes."""
+    if not 0<=max_change<=.25:raise ValueError('Word duration bound must be between 0 and 25%')
+    chunk=teacher['metadata']['chunks'][0]
+    symbols={v:k for k,v in json.loads((neural_pack/'config.json').read_text())['vocab'].items()}
+    ipa=''.join(symbols[t] for t in chunk['tokens'])
+    flags=phone_flags(ipa)
+    phones=[p for p in prep.aligned_phones([0]+chunk['tokens']+[0],chunk['predicted_token_durations'],
+                                          symbols,chunk['samples'],-1500) if p[0]!='_']
+    if [f[0] for f in flags]!=[p[0] for p in phones]:raise ValueError('Word and phone plan mismatch')
+    intervals=[];first=None
+    for index,(_,start,end) in enumerate(flags):
+        if start:first=index
+        if end:
+            if first is None:raise ValueError('Missing word start')
+            a,b=phones[first][1],phones[index][2]
+            source_begin,source_end=np.rint(np.interp([a,b],dense[:,0],dense[:,1])).astype(int)
+            intervals.append((int(source_begin),int(source_end),b-a,''.join(p[0] for p in phones[first:index+1])))
+            first=None
+    return word_map_from_intervals(intervals,input_length,max_change)
+
+
+def word_map_from_intervals(intervals,input_length,max_change):
+    if not 0<=max_change<=.25:raise ValueError('Word duration bound must be between 0 and 25%')
+    if input_length<=1:raise ValueError('Input must contain at least two samples')
+    points=[(0.,0.)];words=[];pauses=[];source_cursor=0;target_cursor=0
+    for begin,end,desired,label in intervals:
+        if not source_cursor<=begin<end<=input_length:raise ValueError('Invalid source word extents')
+        if begin>source_cursor:
+            count=begin-source_cursor
+            pauses.append({'source_samples':count,'output_samples':count})
+            target_cursor+=count;points.append((float(target_cursor),float(begin)))
+        source_count=end-begin
+        # Very short words/particles are particularly sensitive to boundary errors.
+        scale=float(np.clip(desired/source_count,1-max_change,1+max_change)) if source_count>=2880 else 1.
+        count=int(round(source_count*scale))
+        words.append({'phones':label,'source_samples':source_count,'suggested_samples':desired,
+                      'output_samples':count,'ratio':count/source_count})
+        target_cursor+=count;points.append((float(target_cursor),float(end)));source_cursor=end
+    if source_cursor<input_length:
+        count=input_length-source_cursor
+        pauses.append({'source_samples':count,'output_samples':count})
+        target_cursor+=count;points.append((float(target_cursor),float(input_length)))
+    return np.array(points),0,target_cursor,{'maximum_word_change':max_change,'words':words,'pauses':pauses,
+           'within_word_timing':'Uniform scaling; no individual-phone targets','pitch':'Original epoch intervals'}
+
+
+def duration_marks(source_pm,points,length):
+    """Use original epoch periods, duplicating/skipping epochs for duration changes.
+
+    Unlike an F0-driven oscillator, this is exactly the original epoch schedule
+    when the timing map is identity, including irregular natural pitch periods.
+    """
+    centers=np.rint(source_pm[:,0]*24000).astype(int)
+    marks=[(0.,0.)];positions=[float(points[0,1])]
+    t=float(np.interp(centers[0],points[:,1],points[:,0]))
+    while t<length-1:
+        where=float(np.interp(t,points[:,0],points[:,1]))
+        index=int(np.argmin(np.abs(centers-where)))
+        voiced=source_pm[index,1]>0
+        if t>marks[-1][0]:
+            marks.append((t,float(voiced)))
+            positions.append(float(centers[index]) if voiced else where)
+        step=int(centers[index+1]-centers[index]) if index+1<len(centers) else int(centers[-1]-centers[-2])
+        t+=max(1,step)
+    marks.append((float(length-1),0.));positions.append(float(points[-1,1]-1))
+    return np.array(marks),np.array(positions)
+
+
 def make_grains(pcm,source_pm,target_marks,source_positions):
     source_centers=np.rint(source_pm[:,0]*24000).astype(int)
     voiced=np.flatnonzero(source_pm[:,1]>0)
@@ -156,11 +225,20 @@ def main():
     p.add_argument('--renderer',type=Path,default=ROOT/'build/unit-selection/bjorn-grain-render')
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--ids',nargs='+',default=['1cor-013-004-007'])
+    p.add_argument('--timing-policy',choices=['phoneme','bounded-word'],default='phoneme',
+                   help='phoneme reproduces the rejected v3 experiment; bounded-word is the subsequent test')
+    p.add_argument('--max-word-change',type=float,default=.10)
+    p.add_argument('--anchor-report',type=Path,
+                   help='Reuse verified v3 timing anchors for a bounded-word experiment')
     args=p.parse_args();args.output.mkdir(parents=True,exist_ok=True)
+    if args.anchor_report and args.timing_policy!='bounded-word':
+        raise ValueError('Cached anchors are supported only for bounded-word timing')
+    cached_anchors={r['id']:r for r in json.loads(args.anchor_report.read_text())['passages']} if args.anchor_report else {}
     data=json.loads((args.candidate/'selection.json').read_text())
     if not set(args.ids)<={r['id'] for r in data['passages']}:raise ValueError('Unknown compact passage ID')
     report={'scope':__doc__,'code_sha256':digest(Path(__file__)),'reaper_sha256':digest(args.reaper),
             'renderer_sha256':digest(args.renderer),'passages':[]}
+    if args.anchor_report:report['anchor_report_sha256']=digest(args.anchor_report)
     native_rows=[]
     for row in [r for r in data['passages'] if r['id'] in args.ids]:
         folder=args.output/row['id'];folder.mkdir(exist_ok=True)
@@ -169,8 +247,15 @@ def main():
         source_pm,source_f0=analyze(args.reaper,source,folder/'source')
         teacher_pm,teacher_f0=analyze(args.reaper,reference,folder/'teacher')
         metadata=json.loads(reference.with_suffix('.generation.json').read_text())
-        points,begin,end=anchors_for(row,data,metadata,args.neural_pack,args.candidate)
-        variants=[]
+        if args.anchor_report:
+            cached=cached_anchors[row['id']]
+            if (cached.get('timing_policy','phoneme')!='phoneme' or
+                cached['source_sha256']!=digest(source) or cached['teacher_control_source_sha256']!=digest(reference)):
+                raise ValueError('Stale or incompatible timing anchors')
+            points=np.array(cached['timing_anchors']);begin,end=0,len(pcm)
+        else:
+            points,begin,end=anchors_for(row,data,metadata,args.neural_pack,args.candidate)
+        variants=[];timing_audit=None
         # Identity controls detect grain/normalization defects before modifying prosody.
         marks=np.c_[source_pm[:,0]*24000,source_pm[:,1]]
         marks=np.vstack([[[0.,0.]],marks,[[len(pcm)-1.,0.]]])
@@ -182,22 +267,33 @@ def main():
         write_audio(folder/'identity.wav',wave,24000)
         save_plan(folder/'identity.grains',len(pcm),identity_grains)
         _,identity_timing,identity_difference=verify_native(args.renderer,source,folder,'identity')
+        if args.timing_policy=='bounded-word':
+            points,begin,end,timing_audit=bounded_word_map(points,metadata,args.neural_pack,len(pcm),args.max_word_change)
+            control_marks,control_positions=duration_marks(source_pm,np.array([[0.,0.],[len(pcm),len(pcm)]]),len(pcm))
+            control_grains=make_grains(pcm,source_pm,control_marks,control_positions)
+            control_wave,control_norm=render(pcm,len(pcm),control_grains)
+            scheduler_error=float(np.max(np.abs(control_wave-pcm)))
+            if scheduler_error>1e-10 or np.any(control_norm<=1e-8):
+                raise ValueError(f'Identity duration schedule failed: {scheduler_error}')
+            timing_audit['identity_scheduler_maximum_float_error']=scheduler_error
         teacher_voiced=teacher_f0[:,2]>0
-        for name in ['rhythm','rhythm-and-pitch']:
-            times=[];t=float(begin)
-            while t<end:
-                where=float(np.interp(t,points[:,0],points[:,1]))
-                frame=min(len(source_f0)-1,max(0,round(where/120)))
-                source_pitch=source_f0[frame,2]
-                f0=source_pitch
-                if name=='rhythm-and-pitch' and source_pitch>0:
-                    f0=float(np.interp(t,teacher_f0[teacher_voiced,0]*24000,teacher_f0[teacher_voiced,2]))
-                # Keep source phonetic voicing; transfer pitch rather than making
-                # an alignment error turn a vowel into an unvoiced interval.
-                times.append((t-begin,float(source_pitch>0)))
-                t+=24000/f0 if 65<f0<400 else 240
-            target_marks=np.array(times)
-            positions=np.interp(target_marks[:,0]+begin,points[:,0],points[:,1])
+        modes=['word-rhythm'] if args.timing_policy=='bounded-word' else ['rhythm','rhythm-and-pitch']
+        for name in modes:
+            if name=='word-rhythm':
+                target_marks,positions=duration_marks(source_pm,points,end)
+            else:
+                times=[];t=float(begin)
+                while t<end:
+                    where=float(np.interp(t,points[:,0],points[:,1]))
+                    frame=min(len(source_f0)-1,max(0,round(where/120)))
+                    source_pitch=source_f0[frame,2]
+                    f0=source_pitch
+                    if name=='rhythm-and-pitch' and source_pitch>0:
+                        f0=float(np.interp(t,teacher_f0[teacher_voiced,0]*24000,teacher_f0[teacher_voiced,2]))
+                    times.append((t-begin,float(source_pitch>0)))
+                    t+=24000/f0 if 65<f0<400 else 240
+                target_marks=np.array(times)
+                positions=np.interp(target_marks[:,0]+begin,points[:,0],points[:,1])
             grains=make_grains(pcm,source_pm,target_marks,positions)
             wave,norm=render(pcm,end-begin,grains)
             write_audio(folder/(name+'.wav'),wave,24000)
@@ -216,6 +312,7 @@ def main():
              'teacher_control_source_sha256':digest(reference),'scope':'All waveform samples come from rejected compact v2. Target audio supplies only offline pitch and predicted timing controls; source voicing is retained.',
              'identity_maximum_float_error':identity_error,'identity_uncovered_samples':int(np.sum(~mask)),
              'identity_native_pcm_unit_difference':identity_difference,'identity_native_stats':identity_timing,
+             'timing_policy':args.timing_policy,'timing_audit':timing_audit,
              'timing_anchors':points.tolist(),'variants':variants})
         dump(args.output/'report.json',report)
         dump(args.output/'selection.json',{'scope':__doc__,'passages':native_rows})

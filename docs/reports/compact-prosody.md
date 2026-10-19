@@ -5,8 +5,10 @@ does not satisfy the primary requirement. That listening result is a failure,
 not an acceptance conditional on size or speed. The production voice is unchanged.
 
 This experiment adds explicit timing and pitch control with time-domain
-pitch-synchronous overlap-add. These are naturalness candidates; neither has
-been accepted by a listener. Intelligibility measurements are guardrails only.
+pitch-synchronous overlap-add. The listener rejected both v3 variants as worse
+than v2: rhythm was too uneven and felt Norwegian rather than Swedish; the A/B
+difference was almost undetectable. This is a naturalness regression despite
+improved recognition scores. Intelligibility measurements are guardrails only.
 
 ## Audio provenance
 
@@ -16,7 +18,8 @@ renderer. The existing neural reference is analyzed offline to provide predicted
 phone timing and, for the second variant, pitch targets. This is teacher-derived
 prosody for a known corpus, not an independent general-purpose prosody model.
 
-- **A, rhythm:** target phone durations and pauses, retaining local source pitch.
+- **A, rhythm:** target phone durations and pauses, deriving a new pulse clock
+  from smoothed source F0. This did not preserve the original pulse intervals.
 - **B, rhythm and pitch:** the same timing, with pitch targets from the reference.
 
 Source voicing is retained in both variants, to avoid making timing-alignment
@@ -43,12 +46,14 @@ of naturalness or an unbiased unseen-corpus estimate.
 
 For 1 Corinthians 13:4–7, v2 WER is 15.25%, A 5.08%, B 10.17%. For 1 Kings
 19:11–12, both new variants yield 1.45%. The recognizer cannot choose the pleasant
-voice from these values. Both variants are supplied for actual listening.
+voice from these values. Subsequent listening rejected both variants.
 
-The identity control reconstructs the entire compact input waveform, including
+The original identity control reconstructs the entire compact input waveform, including
 boundaries, within floating-point roundoff before PCM encoding. Boundary grains
 are explicitly included so that the pitch track's omitted endpoints cannot
 silently discard the start of speech. Modified renders have no uncovered samples.
+That control used the source epochs directly; it did not exercise the smoothed
+F0 clock used for A. It therefore missed a scheduling defect in the modified path.
 Native results match the independent Python implementation within one PCM unit.
 The tests also verify a 100-to-120 Hz pitch change without changing duration and
 reject invalid native grain extents. Eighteen regression tests pass.
@@ -98,3 +103,53 @@ experimental driver yet. Residual wrong phones and source timbre are inherited
 from v2. Improving timing and pitch does not guarantee that those defects vanish.
 
 [Measurements and provenance](speech-evaluation/compact-prosody.json)
+
+## Bounded word-duration correction after v3 rejection
+
+The v3 dense timing maps allowed local source/output time ratios from 0.125 to
+8.25 across the three original problem passages. These intervals include pauses,
+not just speech: fixed compact punctuation pauses were being mapped to very
+short predicted teacher punctuation durations. Teacher token durations are not
+reliable acoustic phone boundaries. V3 also synthesized a new pulse clock from
+smoothed F0 even in its source-pitch variant. Its direct-epoch identity control
+could not catch that modified-path discrepancy.
+
+The next experiment, v4, uses the same compact input with these narrower rules:
+
+- One uniform duration scale per approximate word; no per-phone timing targets.
+- At most 10% duration change, rounded to the nearest sample. Words shorter than
+  120 ms stay unchanged, as do the time-map gaps between words and clauses.
+- The pulse scheduler uses actual source epoch intervals, repeating or skipping
+  epochs as duration changes require. It does not use smoothed F0 or teacher
+  pitch targets.
+
+Word extents still come from approximate predicted timing, mapped into the
+compact input. They are not forced-aligned boundaries. Source timbre, phonetic
+errors and abrupt changes between selected units remain possible. Preserving
+source pitch does not establish a Swedish accent or pleasantness.
+
+On the three development passages, the actual scheduler's identity map
+reconstructs every source sample within 1.12e-16 float error. All new renders
+have zero uncovered samples and native output is bit-identical to the Python
+reference PCM. Twenty tests pass, including irregular-epoch scheduler identity,
+bounded whole-word duration, unchanged gaps, native equivalence and explicit
+error return codes for malformed plans. Native unit tests now use the CMake
+output path; a stale legacy binary was being killed and could falsely satisfy
+tests that previously accepted any nonzero error code.
+
+Generate the new controls without changing the frozen v3 results:
+
+```sh
+python tools/speech/evaluation/prosody_experiment.py \
+  --candidate build/compact-candidate-final \
+  --teacher build/speech-eval/baseline-v4/audio/neural \
+  --neural-pack PACK --reaper REAPER_EXECUTABLE \
+  --output build/prosody-word-control --timing-policy bounded-word \
+  --anchor-report build/prosody-control/report.json \
+  --ids 1cor-013-004-007 1kgs-019-011-012 1sam-003-009-010
+```
+
+The optional anchor cache validates both input audio hashes and records the
+cache's own hash. Without it the anchors are recomputed from the frozen selection
+sources. Playback still uses the same native grain renderer with prepared
+controls. This is a new listening candidate; acceptance remains pending.

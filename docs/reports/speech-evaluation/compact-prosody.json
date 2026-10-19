@@ -1,5 +1,14 @@
 {
-  "scope": "Development naturalness experiment. Neither new variant has listener acceptance. Teacher audio supplies offline pitch and predicted timing only; all samples come from rejected compact v2.",
+  "scope": "Rejected v3 development naturalness experiment. Both variants were judged worse than v2. Teacher audio supplies offline pitch and predicted timing only; all samples come from rejected compact v2.",
+  "human_feedback": {
+    "primary_quality_requirement": "failed",
+    "relative_to_v2": "worse",
+    "rhythm": "Too uneven; listener described it as Norwegian rather than Swedish",
+    "a_b_difference": "Almost undetectable",
+    "answer": "the rythem is strange and it is over all worse then before but i think it might be the right idea still. the diffrence between a and b is bascilly undetectable to me. but the rythem is way to uneaven, it feels almost norwegian and not swedish",
+    "samples": ["compact-v3-rhythm-12sec.wav", "compact-v3-intonation-12sec.wav"],
+    "interpretation": "Listener description, not a verified accent diagnosis. Improved ASR does not establish pleasantness."
+  },
   "prior_human_feedback": {
     "answer": "Understandable, but still unpleasant",
     "primary_quality_requirement": "failed",
