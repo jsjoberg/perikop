@@ -1,5 +1,5 @@
 {
-  "scope": "New native compact speech candidate. Development evaluation only; listener acceptance pending; not integrated in Perikop; held-out candidate evaluation not performed.",
+  "scope": "New native compact speech candidate. Development evaluation only; listener rejected as unpleasant; not integrated in Perikop; held-out candidate evaluation not performed.",
   "candidate": {
     "method": "Viterbi diphone selection with context and spectral join cost; contiguous spans preserved",
     "connected_source_verses": 267,
@@ -43740,5 +43740,11 @@
     "code": "Existing project MIT; original implementation",
     "teacher_attribution_file": "resources/voices/bjorn-lite-v1/LICENSE-Kokoro-Swedish.txt",
     "teacher_model_license": "Apache-2.0; existing model, no additional third-party engine imported"
+  },
+  "human_feedback": {
+    "answer": "Understandable, but still unpleasant",
+    "primary_quality_requirement": "failed",
+    "sample": "compact-v2-1cor-13-4-7.wav",
+    "sample_sha256": "dc80ee87fa5effea2c3a8049448a4646d8eafb738954d6740a69e3e8ffd248a0"
   }
 }

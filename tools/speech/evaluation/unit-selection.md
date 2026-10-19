@@ -6,8 +6,8 @@ to select, time or render the candidate. Target phonetic transcriptions are
 prepared with the existing frontend. Selection runs offline; playback needs only
 the bank, a span plan, and the C++ standard library.
 
-It is an experimental candidate, not yet integrated into Perikop or accepted by
-a listener. The bank and plans cover the evaluated passages. A complete corpus
+It is an experimental candidate, not integrated into Perikop. The listener found
+it understandable but still unpleasant. The bank and plans cover the evaluated passages. A complete corpus
 plan index and Alice remain to be built after the voice quality is acceptable.
 
 ## What changed

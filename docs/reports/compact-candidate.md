@@ -5,7 +5,8 @@ On the 40 development passages, WER falls from 118.20% to 17.03% and CER from
 102.83% to 8.30%. The neural reference remains better (5.27% WER, 1.77% CER).
 No candidate passage has WER at or above 50%; all 40 baseline passages did.
 
-This does not establish a pleasant voice. Listener acceptance is pending. The
+The user's listening result is **understandable, but still unpleasant**. This
+candidate fails the primary voice-quality requirement. The
 candidate is not enabled in Perikop; corpus-wide instruction packaging and Alice
 are unfinished. The ten held-out passages have not been used for candidate
 selection or evaluation.
@@ -74,8 +75,8 @@ warnings treated as errors on this Mac.
 Residual pronunciation errors, rhythm and pitch discontinuities remain. The
 system preserves source prosody rather than predicting a coherent target contour.
 More source data alone does not prove that these problems will disappear. A
-listener must assess the actual candidate before product integration or further
-size optimization. The next quality work should follow that listening evidence.
+next quality work targets naturalness, with the rejected candidate retained as
+the comparison. Product integration and size optimization are premature.
 
 The code is original MIT code and uses the existing voice model's source speech,
 with its Apache-2.0 license and attribution retained. No third-party synthesis
