@@ -22,9 +22,11 @@ template <class Call> void rejects(Call&& call, const char* message) {
 }
 void phase_fixture(const std::filesystem::path& pack, int second_pitch = 120) {
     std::filesystem::create_directories(pack);
-    std::ofstream(pack / "revision.txt") << std::string(64, 'a') << '\n';
-    std::ofstream(pack / "phones.tsv") << "0\ta\t2400\n";
-    std::ofstream(pack / "lexicon.tsv") << "a\ta\n";
+    // Pack text is byte-preserved on disk, including on Windows. Text-mode
+    // fixture streams would introduce CRLF unlike the committed voice pack.
+    std::ofstream(pack / "revision.txt", std::ios::binary) << std::string(64, 'a') << '\n';
+    std::ofstream(pack / "phones.tsv", std::ios::binary) << "0\ta\t2400\n";
+    std::ofstream(pack / "lexicon.tsv", std::ios::binary) << "a\ta\n";
     std::ofstream output(pack / "units.bin", std::ios::binary);
     const auto put = [&](uint32_t value, unsigned bytes) {
         for (unsigned i = 0; i < bytes; ++i)
@@ -113,8 +115,10 @@ int main(int argc, char** argv) {
             double minimum = 1, maximum = 0;
             for (size_t at = 800; at + 1000 < sine.size(); at += 100) {
                 double energy = 0;
-                for (size_t i = 0; i < 400; ++i)
-                    energy += sine[at + i] * sine[at + i];
+                for (size_t i = 0; i < 400; ++i) {
+                    const double sample = sine[at + i];
+                    energy += sample * sample;
+                }
                 const double rms = std::sqrt(energy / 400);
                 minimum = std::min(minimum, rms);
                 maximum = std::max(maximum, rms);

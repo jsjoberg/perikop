@@ -16,6 +16,9 @@ jobs:
         with:
           version: '0.13.1'
       - name: Check evaluation implementation (no ASR quality claim)
-        run: >-
-          uv run --no-project --python 3.12 --with numpy==2.3.5 python -m unittest
-          discover -s tools/speech/evaluation -p '*_test.py' -v
+        # Build first so the native conformance tests run instead of skipping.
+        # Neither target needs the speech models or the application dependencies.
+        run: |
+          cmake -S tools/speech/evaluation -B build/unit-selection -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/unit-selection --parallel 2
+          uv run --no-project --python 3.12 --with numpy==2.3.5 python -m unittest discover -s tools/speech/evaluation -p '*_test.py' -v

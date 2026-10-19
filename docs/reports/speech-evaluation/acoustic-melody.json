@@ -1,0 +1,768 @@
+{
+  "scope": "Development experiment only; no accepted new voice or production voice replacement.",
+  "reference": "Original 327216523-byte FP32 Björn checkpoint; compact waveform bank still derives from the earlier compressed teacher.",
+  "trial": "Replace v5 token-aligned compressed-teacher F0 targets with acoustically aligned FP32 master F0. Preserve all v5 timing anchors and durations.",
+  "signals": {
+    "compact-v4": {
+      "n": 3,
+      "alignment_or_audio_failures": 0,
+      "signals": {
+        "mel_spectral_convergence": {
+          "n": 3,
+          "mean": 0.6089538799802857,
+          "median": 0.6316493998867613
+        },
+        "stft_spectral_convergence": {
+          "n": 3,
+          "mean": 1.0186154087290398,
+          "median": 1.0288677279137055
+        },
+        "logmel_mae_db": {
+          "n": 3,
+          "mean": 7.5759109382986916,
+          "median": 8.029402531538373
+        },
+        "cepstral_envelope_distance_db": {
+          "n": 3,
+          "mean": 6.424781996919278,
+          "median": 6.657625293656966
+        },
+        "log_spectrum_mae_db": {
+          "n": 3,
+          "mean": 8.143600330372395,
+          "median": 8.357734771522473
+        },
+        "spectral_motion_mae_db": {
+          "n": 3,
+          "mean": 4.679332423759116,
+          "median": 4.698332663259137
+        },
+        "energy_envelope_rmse_db": {
+          "n": 3,
+          "mean": 17.725202701469268,
+          "median": 16.15864470707262
+        },
+        "f0_rmse_semitones": {
+          "n": 3,
+          "mean": 4.322196836724809,
+          "median": 4.856380612660808
+        },
+        "f0_contour_correlation": {
+          "n": 3,
+          "mean": 0.23625795287456672,
+          "median": 0.2500241732681149
+        },
+        "voicing_disagreement_fraction": {
+          "n": 3,
+          "mean": 0.13120911745747055,
+          "median": 0.1339031339031339
+        },
+        "active_span_abs_log_error": {
+          "n": 3,
+          "mean": 0.06572220193831371,
+          "median": 0.0558200700976901
+        },
+        "local_timing_deviation_log_p90": {
+          "n": 3,
+          "mean": 0.3233561663930456,
+          "median": 0.324688442920008
+        }
+      },
+      "quiet_missing_total": 3,
+      "quiet_extra_total": 23
+    },
+    "compact-v5": {
+      "n": 3,
+      "alignment_or_audio_failures": 0,
+      "signals": {
+        "mel_spectral_convergence": {
+          "n": 3,
+          "mean": 0.46449110668770466,
+          "median": 0.47596340285566074
+        },
+        "stft_spectral_convergence": {
+          "n": 3,
+          "mean": 0.888041354034522,
+          "median": 0.8932487427304117
+        },
+        "logmel_mae_db": {
+          "n": 3,
+          "mean": 6.354745802939597,
+          "median": 6.70642313505837
+        },
+        "cepstral_envelope_distance_db": {
+          "n": 3,
+          "mean": 5.739548484119105,
+          "median": 5.8854962937779165
+        },
+        "log_spectrum_mae_db": {
+          "n": 3,
+          "mean": 7.512332741675064,
+          "median": 7.5629159240471155
+        },
+        "spectral_motion_mae_db": {
+          "n": 3,
+          "mean": 4.446507924259261,
+          "median": 4.438057365853375
+        },
+        "energy_envelope_rmse_db": {
+          "n": 3,
+          "mean": 8.180683285350433,
+          "median": 7.988225677629373
+        },
+        "f0_rmse_semitones": {
+          "n": 3,
+          "mean": 3.371811354690095,
+          "median": 3.6433643767720563
+        },
+        "f0_contour_correlation": {
+          "n": 3,
+          "mean": 0.4797363712753035,
+          "median": 0.4293257108779022
+        },
+        "voicing_disagreement_fraction": {
+          "n": 3,
+          "mean": 0.09764817449472664,
+          "median": 0.10271317829457365
+        },
+        "active_span_abs_log_error": {
+          "n": 3,
+          "mean": 0.03193727723061629,
+          "median": 0.03855899360368308
+        },
+        "local_timing_deviation_log_p90": {
+          "n": 3,
+          "mean": 0.34209093772046595,
+          "median": 0.3669061145044778
+        }
+      },
+      "quiet_missing_total": 7,
+      "quiet_extra_total": 8
+    },
+    "compact-v6": {
+      "n": 3,
+      "alignment_or_audio_failures": 0,
+      "signals": {
+        "mel_spectral_convergence": {
+          "n": 3,
+          "mean": 0.4611312805965116,
+          "median": 0.4788914270939321
+        },
+        "stft_spectral_convergence": {
+          "n": 3,
+          "mean": 0.8873806736717809,
+          "median": 0.8895450586151564
+        },
+        "logmel_mae_db": {
+          "n": 3,
+          "mean": 6.336753707881857,
+          "median": 6.684489792690311
+        },
+        "cepstral_envelope_distance_db": {
+          "n": 3,
+          "mean": 5.709855353119335,
+          "median": 5.843267765224876
+        },
+        "log_spectrum_mae_db": {
+          "n": 3,
+          "mean": 7.387544527762653,
+          "median": 7.422789773015803
+        },
+        "spectral_motion_mae_db": {
+          "n": 3,
+          "mean": 4.439705526670415,
+          "median": 4.3921340681609715
+        },
+        "energy_envelope_rmse_db": {
+          "n": 3,
+          "mean": 8.097060920818121,
+          "median": 7.863785184319999
+        },
+        "f0_rmse_semitones": {
+          "n": 3,
+          "mean": 3.0815100086052425,
+          "median": 3.7414494639161493
+        },
+        "f0_contour_correlation": {
+          "n": 3,
+          "mean": 0.5478603777512564,
+          "median": 0.4714853029180222
+        },
+        "voicing_disagreement_fraction": {
+          "n": 3,
+          "mean": 0.09998690168525685,
+          "median": 0.10495626822157435
+        },
+        "active_span_abs_log_error": {
+          "n": 3,
+          "mean": 0.03193727723061629,
+          "median": 0.03855899360368308
+        },
+        "local_timing_deviation_log_p90": {
+          "n": 3,
+          "mean": 0.330790420495239,
+          "median": 0.3330045628287969
+        }
+      },
+      "quiet_missing_total": 7,
+      "quiet_extra_total": 8
+    },
+    "master-repeat-seed43": {
+      "n": 3,
+      "alignment_or_audio_failures": 0,
+      "signals": {
+        "mel_spectral_convergence": {
+          "n": 3,
+          "mean": 0.033608707611671125,
+          "median": 0.03284425676667177
+        },
+        "stft_spectral_convergence": {
+          "n": 3,
+          "mean": 0.06264762888056176,
+          "median": 0.06253354476098916
+        },
+        "logmel_mae_db": {
+          "n": 3,
+          "mean": 0.37578446430339524,
+          "median": 0.378765139240361
+        },
+        "cepstral_envelope_distance_db": {
+          "n": 3,
+          "mean": 0.3429907234264438,
+          "median": 0.34807807171491545
+        },
+        "log_spectrum_mae_db": {
+          "n": 3,
+          "mean": 0.9069695396358389,
+          "median": 0.9139013492585607
+        },
+        "spectral_motion_mae_db": {
+          "n": 3,
+          "mean": 0.4901156366808408,
+          "median": 0.48813162308190833
+        },
+        "energy_envelope_rmse_db": {
+          "n": 3,
+          "mean": 0.16476997876788826,
+          "median": 0.1645840054677611
+        },
+        "f0_rmse_semitones": {
+          "n": 3,
+          "mean": 1.0582996366496638,
+          "median": 0.6952224032983484
+        },
+        "f0_contour_correlation": {
+          "n": 3,
+          "mean": 0.8730393736213177,
+          "median": 0.9706103382942083
+        },
+        "voicing_disagreement_fraction": {
+          "n": 3,
+          "mean": 0.02024766998528933,
+          "median": 0.020277481323372464
+        },
+        "active_span_abs_log_error": {
+          "n": 3,
+          "mean": 0.0004097521515765814,
+          "median": 0.0
+        },
+        "local_timing_deviation_log_p90": {
+          "n": 3,
+          "mean": 0.0004097521515818901,
+          "median": 5.329070518200737e-15
+        }
+      },
+      "quiet_missing_total": 1,
+      "quiet_extra_total": 0
+    }
+  },
+  "review": {
+    "scope": "Empirical signal review only; never an acceptance of voice pleasantness.",
+    "before": "compact-v5",
+    "after": "compact-v6",
+    "paired_passages": 3,
+    "repeat_calibration_passages": 3,
+    "minimum_passages_policy": 5,
+    "automatic_promotion": "hold",
+    "reasons": [
+      "Local spectral regressions beyond provisional repeat variation",
+      "Mean paired ASR word error worsened",
+      "Too few paired passages for automatic promotion",
+      "No signal improvement established beyond repeat variation"
+    ],
+    "failed_passages": [],
+    "signals": {
+      "mel_spectral_convergence": {
+        "n": 3,
+        "mean_after_minus_before": -0.003359826091193008,
+        "passage_bootstrap_ci95": [
+          -0.007036736917090558,
+          0.002928024238271376
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.03492025233851343,
+        "signal_decision": "uncertain"
+      },
+      "stft_spectral_convergence": {
+        "n": 3,
+        "mean_after_minus_before": -0.0006606803627411765,
+        "passage_bootstrap_ci95": [
+          -0.00494430168410831,
+          0.006665944711140015
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.06634737286750214,
+        "signal_decision": "uncertain"
+      },
+      "logmel_mae_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.017992095057740503,
+        "passage_bootstrap_ci95": [
+          -0.032222471293501975,
+          0.00017952848833946433
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.3939640018648012,
+        "signal_decision": "uncertain"
+      },
+      "cepstral_envelope_distance_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.02969313099976952,
+        "passage_bootstrap_ci95": [
+          -0.07203350803540953,
+          0.02518264358914113
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.3509463665062111,
+        "signal_decision": "uncertain"
+      },
+      "log_spectrum_mae_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.12478821391241131,
+        "passage_bootstrap_ci95": [
+          -0.2241802676162914,
+          -0.010058223089630225
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.9739689561152095,
+        "signal_decision": "uncertain"
+      },
+      "spectral_motion_mae_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.006802397588846117,
+        "passage_bootstrap_ci95": [
+          -0.04592329769240333,
+          0.024662240250477474
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.5031408469166125,
+        "signal_decision": "uncertain"
+      },
+      "energy_envelope_rmse_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.08362236453231316,
+        "passage_bootstrap_ci95": [
+          -0.1545304412081272,
+          0.028103840920561396
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.17440439993979057,
+        "signal_decision": "uncertain"
+      },
+      "f0_rmse_semitones": {
+        "n": 3,
+        "mean_after_minus_before": -0.2903013460848524,
+        "passage_bootstrap_ci95": [
+          -0.7810874306067115,
+          0.09808508714409303
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 1.7919234986490606,
+        "signal_decision": "uncertain"
+      },
+      "f0_contour_correlation": {
+        "n": 3,
+        "mean_after_minus_before": 0.06812400647595301,
+        "passage_bootstrap_ci95": [
+          -0.02946327498874607,
+          0.19167570237648512
+        ],
+        "better_direction": "higher",
+        "repeat_variation_allowance": 0.29936089150134554,
+        "signal_decision": "uncertain"
+      },
+      "voicing_disagreement_fraction": {
+        "n": 3,
+        "mean_after_minus_before": 0.0023387271905302015,
+        "passage_bootstrap_ci95": [
+          -0.0009208103130755041,
+          0.0056939019576654065
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.026091919255331896,
+        "signal_decision": "uncertain"
+      },
+      "active_span_abs_log_error": {
+        "n": 3,
+        "mean_after_minus_before": 0.0,
+        "passage_bootstrap_ci95": [
+          0.0,
+          0.0
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.0011063308092567697,
+        "signal_decision": "uncertain"
+      },
+      "local_timing_deviation_log_p90": {
+        "n": 3,
+        "mean_after_minus_before": -0.011300517225226958,
+        "passage_bootstrap_ci95": [
+          -0.033901551675680874,
+          0.0
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.0011063308092620439,
+        "signal_decision": "uncertain"
+      }
+    },
+    "asr_paired_passages": 3,
+    "asr_mean_passage_wer_delta": 0.0022771899414326495,
+    "local_repeat_variation_allowance_db": 0.45666613571800735,
+    "local_regression_count": 1,
+    "worst_local_spectral_regressions": [
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 7,
+        "candidate_start_seconds": 6.16,
+        "candidate_end_seconds": 6.86,
+        "logmel_mae_db": 7.657038202765146,
+        "f0_mae_semitones": 0.9539529167185997,
+        "voicing_disagreement_fraction": 0.2777777777777778,
+        "previous_logmel_mae_db": 6.967377466257804,
+        "spectral_error_increase_db": 0.6896607365073422
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 2,
+        "candidate_start_seconds": 1.12,
+        "candidate_end_seconds": 1.86,
+        "logmel_mae_db": 6.626607529732268,
+        "f0_mae_semitones": 0.7769799923095817,
+        "voicing_disagreement_fraction": 0.11764705882352941,
+        "previous_logmel_mae_db": 6.225752314961593,
+        "spectral_error_increase_db": 0.400855214770675
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 22,
+        "candidate_start_seconds": 21.34,
+        "candidate_end_seconds": 21.36,
+        "logmel_mae_db": 7.796024727511241,
+        "f0_mae_semitones": null,
+        "voicing_disagreement_fraction": 0.0,
+        "previous_logmel_mae_db": 7.473007124146228,
+        "spectral_error_increase_db": 0.3230176033650123
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 10,
+        "candidate_start_seconds": 9.06,
+        "candidate_end_seconds": 10.04,
+        "logmel_mae_db": 6.129062636024667,
+        "f0_mae_semitones": 1.268866391224223,
+        "voicing_disagreement_fraction": 0.28,
+        "previous_logmel_mae_db": 5.861992523987645,
+        "spectral_error_increase_db": 0.2670701120370218
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 18,
+        "candidate_start_seconds": 18.16,
+        "candidate_end_seconds": 19.38,
+        "logmel_mae_db": 6.483032652101403,
+        "f0_mae_semitones": 1.1164809380698315,
+        "voicing_disagreement_fraction": 0.16129032258064516,
+        "previous_logmel_mae_db": 6.236659749071141,
+        "spectral_error_increase_db": 0.24637290303026216
+      },
+      {
+        "id": "1sam-003-009-010",
+        "reference_start_seconds": 13,
+        "candidate_start_seconds": 12.62,
+        "candidate_end_seconds": 14.0,
+        "logmel_mae_db": 14.71043295816729,
+        "f0_mae_semitones": 9.065475563672543,
+        "voicing_disagreement_fraction": 0.14492753623188406,
+        "previous_logmel_mae_db": 14.481694508400206,
+        "spectral_error_increase_db": 0.2287384497670839
+      },
+      {
+        "id": "1sam-003-009-010",
+        "reference_start_seconds": 7,
+        "candidate_start_seconds": 6.04,
+        "candidate_end_seconds": 7.02,
+        "logmel_mae_db": 7.202388551713061,
+        "f0_mae_semitones": 0.5217942877198553,
+        "voicing_disagreement_fraction": 0.08108108108108109,
+        "previous_logmel_mae_db": 7.049159347470849,
+        "spectral_error_increase_db": 0.1532292042422121
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 11,
+        "candidate_start_seconds": 10.48,
+        "candidate_end_seconds": 11.22,
+        "logmel_mae_db": 6.323834919366759,
+        "f0_mae_semitones": 0.4182557677520319,
+        "voicing_disagreement_fraction": 0.1111111111111111,
+        "previous_logmel_mae_db": 6.177046516732408,
+        "spectral_error_increase_db": 0.14678840263435156
+      },
+      {
+        "id": "1sam-003-009-010",
+        "reference_start_seconds": 15,
+        "candidate_start_seconds": 14.92,
+        "candidate_end_seconds": 15.82,
+        "logmel_mae_db": 5.015498404000373,
+        "f0_mae_semitones": 0.758348430886247,
+        "voicing_disagreement_fraction": 0.02127659574468085,
+        "previous_logmel_mae_db": 4.870523621352909,
+        "spectral_error_increase_db": 0.14497478264746366
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 13,
+        "candidate_start_seconds": 12.32,
+        "candidate_end_seconds": 13.3,
+        "logmel_mae_db": 5.9444005682534025,
+        "f0_mae_semitones": 0.42268192534121085,
+        "voicing_disagreement_fraction": 0.0,
+        "previous_logmel_mae_db": 5.821874491710712,
+        "spectral_error_increase_db": 0.1225260765426901
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 6,
+        "candidate_start_seconds": 5.26,
+        "candidate_end_seconds": 6.24,
+        "logmel_mae_db": 5.316794334708941,
+        "f0_mae_semitones": 0.4272398259810563,
+        "voicing_disagreement_fraction": 0.038461538461538464,
+        "previous_logmel_mae_db": 5.2241622020861405,
+        "spectral_error_increase_db": 0.09263213262280079
+      },
+      {
+        "id": "1sam-003-009-010",
+        "reference_start_seconds": 0,
+        "candidate_start_seconds": 0.02,
+        "candidate_end_seconds": 0.08,
+        "logmel_mae_db": 10.479575882110675,
+        "f0_mae_semitones": 1.121311612469973,
+        "voicing_disagreement_fraction": 0.0,
+        "previous_logmel_mae_db": 10.391657130315098,
+        "spectral_error_increase_db": 0.08791875179557707
+      }
+    ],
+    "limits": "Three repeat renders give a provisional noise allowance, not a validated perceptual threshold. Five passages is a workflow minimum, not a statistical power guarantee. Inspect local regressions even when utterance means improve.",
+    "comparison_sha256": "22f5cd41759218c1638e899fa6f9b93cd71f8a49632a16931b09f7e9748102f3"
+  },
+  "size": {
+    "scope": "MIT. Measure prototype assets and extrapolate voice assets to the fixed corpus.\n\nEstimates exclude the application, corpus database, evaluation models and masters.\nAlice is an explicit equal-density projection; no Alice compact bank exists yet.\n",
+    "code_sha256": "7af8961ec66df3855d8e8d61fe3294653ee360efde2625b2bbea2901261cdf6c",
+    "corpus_sha256": "170aeba1ce87a36ae930a861660af2614532ddfc960f1075937e4fbc1c62a996",
+    "corpus_verses": 35515,
+    "corpus_whitespace_words": 839666,
+    "measurements": {
+      "bank_bytes": 90715200,
+      "bank_zlib9_bytes": 52855210,
+      "span_sample_passages": 40,
+      "span_sample_words": 1878,
+      "span_sample_bytes": 43904,
+      "span_sample_zlib9_bytes": 20549,
+      "grain_sample_passages": 3,
+      "grain_sample_words": 181,
+      "grain_sample_bytes": 118608,
+      "grain_sample_zlib9_bytes": 58308
+    },
+    "estimated_audio_hours": 81.29265475979173,
+    "literal_prototype_projection": {
+      "span_bytes_per_voice": 19770810,
+      "grain_bytes_per_voice": 550572665,
+      "one_voice_installed_bytes": 661058675,
+      "one_voice_download_bytes": 339638868,
+      "two_voice_installed_bytes": 1322117349,
+      "two_voice_download_bytes": 679277737,
+      "planning_range_multiplier": [
+        0.7,
+        1.3
+      ]
+    },
+    "unimplemented_parameter_controls_budget": {
+      "scope": "Engineering budget only. No format, renderer equivalence, audio quality or compression is validated.",
+      "pitch_encoding_assumption": "One log-F0/voicing byte per 20 ms; reconstruct grains at playback.",
+      "pitch_bytes_per_voice": 14632678,
+      "word_timing_bytes_per_voice": 1679332,
+      "source_epoch_budget_bytes_per_voice": 2000000,
+      "one_voice_installed_bytes": 128798019
+    },
+    "limits": [
+      "Three Björn passages supply grain density; all 40 development passages supply span density and duration.",
+      "Extrapolation by whitespace word count; no full-corpus package was built.",
+      "Alice density, pitch rate, bank size and quality are unmeasured; doubling is not an Alice measurement.",
+      "Shorter per-verse streams may compress worse. Real archive overhead and pronunciation revisions vary.",
+      "Better units may require a larger bank. These are asset estimates, not release-size or quality commitments."
+    ]
+  },
+  "tests": {
+    "tests_run": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "asr": {
+    "compact-v5": {
+      "aggregate": {
+        "n": 3,
+        "wer": 0.09944751381215469,
+        "cer": 0.036855036855036855,
+        "word_errors": 18,
+        "reference_words": 181,
+        "empty_transcripts": 0,
+        "failed_passages": [],
+        "acoustic": {
+          "duration_seconds": {
+            "p05": 17.693029166666665,
+            "median": 21.668666666666667,
+            "p95": 22.854491666666664
+          },
+          "clipped_fraction": {
+            "p05": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "silence_fraction": {
+            "p05": 0.14085773059604165,
+            "median": 0.14600231749710313,
+            "p95": 0.15122485114944934
+          },
+          "max_internal_silence_seconds": {
+            "p05": 0.47600000000000003,
+            "median": 0.53,
+            "p95": 0.629
+          },
+          "voiced_fraction": {
+            "p05": 0.5853075282294569,
+            "median": 0.5909617612977984,
+            "p95": 0.6102923483785836
+          },
+          "voicing_transitions_per_second": {
+            "p05": 9.643417570709945,
+            "median": 9.831964761542228,
+            "p95": 12.03140741052951
+          },
+          "pitch_jump_candidates_per_second": {
+            "p05": 0.09676751841830429,
+            "median": 0.18459834476817524,
+            "p95": 0.2271398608516542
+          },
+          "spectral_jump_candidates_per_second": {
+            "p05": 1.4384162998414207,
+            "median": 1.854933567776326,
+            "p95": 2.1791554802739252
+          },
+          "wave_jump_candidates_per_second": {
+            "p05": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          }
+        }
+      },
+      "passages": [
+        {
+          "id": "1cor-013-004-007-phrase-flow",
+          "wer": 0.01694915254237288
+        },
+        {
+          "id": "1kgs-019-011-012-phrase-flow",
+          "wer": 0.10144927536231885
+        },
+        {
+          "id": "1sam-003-009-010-phrase-flow",
+          "wer": 0.18867924528301888
+        }
+      ]
+    },
+    "compact-v6": {
+      "aggregate": {
+        "n": 3,
+        "wer": 0.09944751381215469,
+        "cer": 0.03562653562653563,
+        "word_errors": 18,
+        "reference_words": 181,
+        "empty_transcripts": 0,
+        "failed_passages": [],
+        "acoustic": {
+          "duration_seconds": {
+            "p05": 17.693029166666665,
+            "median": 21.668666666666667,
+            "p95": 22.854491666666664
+          },
+          "clipped_fraction": {
+            "p05": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "silence_fraction": {
+            "p05": 0.14085773059604165,
+            "median": 0.14600231749710313,
+            "p95": 0.1516163257036033
+          },
+          "max_internal_silence_seconds": {
+            "p05": 0.47600000000000003,
+            "median": 0.53,
+            "p95": 0.629
+          },
+          "voiced_fraction": {
+            "p05": 0.5882032134916306,
+            "median": 0.6033057851239669,
+            "p95": 0.6057535217337177
+          },
+          "voicing_transitions_per_second": {
+            "p05": 8.852131501999082,
+            "median": 9.222904997552886,
+            "p95": 11.638224413547862
+          },
+          "pitch_jump_candidates_per_second": {
+            "p05": 0.05299871782835652,
+            "median": 0.13844875857613143,
+            "p95": 0.3268649154198681
+          },
+          "spectral_jump_candidates_per_second": {
+            "p05": 1.0860317221047302,
+            "median": 1.854933567776326,
+            "p95": 2.3037593629924435
+          },
+          "wave_jump_candidates_per_second": {
+            "p05": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          }
+        }
+      },
+      "passages": [
+        {
+          "id": "1cor-013-004-007-acoustic-melody",
+          "wer": 0.03389830508474576
+        },
+        {
+          "id": "1kgs-019-011-012-acoustic-melody",
+          "wer": 0.07246376811594203
+        },
+        {
+          "id": "1sam-003-009-010-acoustic-melody",
+          "wer": 0.20754716981132076
+        }
+      ]
+    }
+  }
+}
