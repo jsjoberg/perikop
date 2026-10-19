@@ -1,5 +1,5 @@
 {
-  "scope": "V5 phrase flow and reference-derived melody. Three inspected development passages, same waveform bank and v4 spoken-word timing. Listening acceptance pending; ASR and signal tests do not prove pleasantness.",
+  "scope": "V5 phrase-flow experiment, listener reports a mixed result: partly better but partly harder to hear. Not accepted. Blind synthesis tweaks paused in favour of full-reference numerical comparison.",
   "prior_v4_human_feedback": {
     "primary_quality_requirement": "not_accepted",
     "relative_to_v3": "better",
@@ -11,8 +11,11 @@
     "sample_sha256": "7a31db20a4736eb16160c9db3b3e5eb2822e0740938756660d6e9dd4d595118c"
   },
   "human_feedback": {
-    "primary_quality_requirement": "pending",
-    "sample": "compact-v5-phrase-flow-12sec.wav"
+    "primary_quality_requirement": "not_accepted",
+    "relative_to_v4": "mixed",
+    "answer": "in a way better but sadly also partaly harder to hear. fundamentaly this is not aproductive method to take a swing in the dark, you need a method to compare numerically how close we are and the m aster should me the uncompressed models arund somwehre under 400 mb (and prefeably not the compressed ones at around half of that). what you need is are signals so you can itterate",
+    "sample": "compact-v5-phrase-flow-1cor-13-4-7.wav",
+    "sample_sha256": "a22fb17413415a46db8619967cc151084bc1897b1c9b2ac871b7b00f0f4f4fed"
   },
   "previous_v4_guardrail": {
     "n": 3,

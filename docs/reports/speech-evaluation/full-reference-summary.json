@@ -1,0 +1,699 @@
+{
+  "scope": "Separate acoustic error signals, not an overall human-quality score.",
+  "reference_passages": 40,
+  "experiment_pairs": 151,
+  "control_pairs": 70,
+  "validation": {
+    "scope": "Functional and controlled-signal sensitivity only. Does not establish human pleasantness ranking.",
+    "comparison_sha256": "9216fbbff7e628af4f13509f58e6203fd6e3af799fb922c130f7ef1331703f65",
+    "passed": true,
+    "checks": [
+      {
+        "name": "Identity: logmel_mae_db",
+        "passed": true,
+        "observed": 0.0
+      },
+      {
+        "name": "Identity: f0_rmse_semitones",
+        "passed": true,
+        "observed": 0.0
+      },
+      {
+        "name": "Identity: energy_envelope_rmse_db",
+        "passed": true,
+        "observed": 0.0
+      },
+      {
+        "name": "Identity: active_span_abs_log_error",
+        "passed": true,
+        "observed": 0.0
+      },
+      {
+        "name": "Polarity inversion acoustically invariant",
+        "passed": true,
+        "observed": 2.982963228222298e-06
+      },
+      {
+        "name": "Global gain does not masquerade as timbre",
+        "passed": true,
+        "observed": 0.022320191677121595
+      },
+      {
+        "name": "Increasing noise increases spectral error",
+        "passed": true,
+        "observed": {
+          "snr15": 16.60502926240047,
+          "snr30": 9.496664338858453
+        }
+      },
+      {
+        "name": "Stronger lowpass increases spectral error",
+        "passed": true,
+        "observed": {
+          "lowpass1500": 8.812348902537874,
+          "lowpass3500": 3.2835593964745184
+        }
+      },
+      {
+        "name": "Actual three-semitone signal shift is recovered",
+        "passed": true,
+        "observed": 3.372123889472712
+      },
+      {
+        "name": "Time alignment does not erase inserted gap duration",
+        "passed": true,
+        "observed": 0.04368907369464257
+      },
+      {
+        "name": "Extra staccato gaps remain visible after alignment",
+        "passed": true,
+        "observed": 2
+      },
+      {
+        "name": "Muted active span changes voicing signal",
+        "passed": true,
+        "observed": 0.024368634904982003
+      },
+      {
+        "name": "Silence fails explicitly instead of receiving a good distance",
+        "passed": true,
+        "observed": [
+          "candidate_no_active_audio",
+          "candidate_no_active_audio",
+          "candidate_no_active_audio",
+          "candidate_no_active_audio",
+          "candidate_no_active_audio"
+        ]
+      },
+      {
+        "name": "Different text cannot match by speaker timbre alone",
+        "passed": true,
+        "observed": {
+          "alignment_failures": 3,
+          "spectral_db": [
+            10.483866011080153,
+            9.43761732245509
+          ]
+        }
+      }
+    ]
+  },
+  "tests": {
+    "scope": "Same source and byte-identical native binaries; executed from temporary directory after intermittent host SIGKILL at workspace binary paths.",
+    "tests_run": 32,
+    "failures": 0,
+    "errors": 0,
+    "native_sha256": {
+      "bjorn-unit-render": "abb3a9219158d69eb3f4545157b2aa83f6fb7235216909f317e610fdc257a795",
+      "bjorn-grain-render": "428d063577d81374477ab696f897c18e3cd2b60e03f1b35a62fe798cb092a22d"
+    }
+  },
+  "master_provenance": {
+    "kind": "Original unquantized FP32 PyTorch master; complex ISTFT enabled; CPU; no autocast",
+    "checkpoint_sha256": "c3447596e1b333eac063b8f15ab242c541392fac1f8974f0429ba473222db660",
+    "checkpoint_bytes": 327216523,
+    "checkpoint_dtypes": {
+      "torch.float32": 548
+    },
+    "source_revision": "2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+    "config_sha256": "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f",
+    "voice_sha256": "ce04503d369f4089831361812d61be3631a7b64fa6a2c22cc6c1cca92ba76210",
+    "voice_name": "Björn",
+    "code_sha256": "d0412da3623a728095b133bfa88667004bbd82dddd39d28694cbddc0617883c5",
+    "torch": "2.8.0",
+    "kokoro": "0.9.4",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "seed": 42,
+    "postprocess": "Upstream production iirnotch Q35 + filtfilt at 2400/4800/7200/9600 Hz. Raw float32 also retained.",
+    "tokens": "Exact existing token sequences, not re-predicted pronunciation or compressed acoustic output"
+  },
+  "master_asr": {
+    "n": 40,
+    "wer": 0.054284193720063864,
+    "cer": 0.019525267993874426,
+    "word_errors": 102,
+    "reference_words": 1879,
+    "empty_transcripts": 0,
+    "failed_passages": [],
+    "acoustic": {
+      "duration_seconds": {
+        "p05": 9.182500000000001,
+        "median": 15.5375,
+        "p95": 25.73999999999999
+      },
+      "clipped_fraction": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      },
+      "silence_fraction": {
+        "p05": 0.191561596578701,
+        "median": 0.23616242975916002,
+        "p95": 0.3053012156982851
+      },
+      "max_internal_silence_seconds": {
+        "p05": 0.1775,
+        "median": 0.53,
+        "p95": 0.8894999999999972
+      },
+      "voiced_fraction": {
+        "p05": 0.45577130278489225,
+        "median": 0.5211064425770309,
+        "p95": 0.5712950519591954
+      },
+      "voicing_transitions_per_second": {
+        "p05": 6.71152998000334,
+        "median": 8.280961416824795,
+        "p95": 9.588645214183234
+      },
+      "pitch_jump_candidates_per_second": {
+        "p05": 0.20175242475539518,
+        "median": 0.4728823660880578,
+        "p95": 0.714788732394366
+      },
+      "spectral_jump_candidates_per_second": {
+        "p05": 0.6188993815811465,
+        "median": 1.1510523374930155,
+        "p95": 1.7284076277969165
+      },
+      "wave_jump_candidates_per_second": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      }
+    }
+  },
+  "matched_three_passage_values": {
+    "master-repeat-seed43": {
+      "mel_spectral_convergence": [
+        0.03283094755517911,
+        0.0351509185131625,
+        0.03284425676667177
+      ],
+      "logmel_mae_db": [
+        0.378765139240361,
+        0.3956527643786279,
+        0.3529354892911969
+      ],
+      "f0_rmse_semitones": [
+        1.913779175910251,
+        0.6952224032983484,
+        0.5658973307403917
+      ],
+      "voicing_disagreement_fraction": [
+        0.026737967914438502,
+        0.013727560718057022,
+        0.020277481323372464
+      ],
+      "local_timing_deviation_log_p90": [
+        0.0012292564547350122,
+        5.329070518200737e-15,
+        5.329070518200737e-15
+      ]
+    },
+    "compressed-neural": {
+      "mel_spectral_convergence": [
+        0.14475315134055255,
+        0.15240096819508483,
+        0.15082448035237456
+      ],
+      "logmel_mae_db": [
+        2.839489097031911,
+        3.554488538718822,
+        3.0931291326420696
+      ],
+      "f0_rmse_semitones": [
+        1.5889121544764098,
+        1.3027516860842148,
+        2.054734334154927
+      ],
+      "voicing_disagreement_fraction": [
+        0.03343782654127482,
+        0.022916666666666665,
+        0.027522935779816515
+      ],
+      "local_timing_deviation_log_p90": [
+        0.001886793012580204,
+        0.0018501392881649255,
+        5.329070518200737e-15
+      ]
+    },
+    "shipped-compact": {
+      "mel_spectral_convergence": [
+        0.745240296621358,
+        0.7640963832555673,
+        0.7500581221705273
+      ],
+      "logmel_mae_db": [
+        9.535537115896298,
+        9.483857337237005,
+        9.767805455505124
+      ],
+      "f0_rmse_semitones": [
+        4.265571364444839,
+        4.475679464760763,
+        4.733969591146413
+      ],
+      "voicing_disagreement_fraction": [
+        0.23723723723723725,
+        0.15834522111269614,
+        0.20634920634920634
+      ],
+      "local_timing_deviation_log_p90": [
+        0.37373558867785917,
+        0.33423303011678956,
+        0.3772240286071224
+      ]
+    },
+    "compact-v2": {
+      "mel_spectral_convergence": [
+        0.6496354723918855,
+        0.6367201990136719,
+        0.5479772737765851
+      ],
+      "logmel_mae_db": [
+        8.000143523459876,
+        8.011917679017206,
+        6.34420377008246
+      ],
+      "f0_rmse_semitones": [
+        3.0942996362027984,
+        3.674382640166402,
+        3.0775835003791663
+      ],
+      "voicing_disagreement_fraction": [
+        0.13112884834663627,
+        0.14135206321334504,
+        0.12708719851576994
+      ],
+      "local_timing_deviation_log_p90": [
+        0.3542149180978692,
+        0.43757198741818504,
+        0.3458964232559369
+      ]
+    },
+    "v3-rhythm": {
+      "mel_spectral_convergence": [
+        0.6134626706686938,
+        0.6113032394238919,
+        0.5579821239413355
+      ],
+      "logmel_mae_db": [
+        6.658712315979724,
+        7.333887744325355,
+        6.266612470218199
+      ],
+      "f0_rmse_semitones": [
+        2.759194523989465,
+        3.032405438172205,
+        2.9967910409810026
+      ],
+      "voicing_disagreement_fraction": [
+        0.10224438902743142,
+        0.15483870967741936,
+        0.13001912045889102
+      ],
+      "local_timing_deviation_log_p90": [
+        0.1199949231762656,
+        0.13455967035009025,
+        0.12314292152536396
+      ]
+    },
+    "v3-rhythm-and-pitch": {
+      "mel_spectral_convergence": [
+        0.4703500971457892,
+        0.48281979998618046,
+        0.4465057976097413
+      ],
+      "logmel_mae_db": [
+        6.323193322431076,
+        7.039092123696989,
+        5.974022188219822
+      ],
+      "f0_rmse_semitones": [
+        1.954623337181605,
+        2.1002499997316213,
+        2.274010547423851
+      ],
+      "voicing_disagreement_fraction": [
+        0.10861423220973783,
+        0.15285451197053407,
+        0.12333965844402277
+      ],
+      "local_timing_deviation_log_p90": [
+        0.1199949231762656,
+        0.13455967035009025,
+        0.164539150926412
+      ]
+    },
+    "compact-v4": {
+      "mel_spectral_convergence": [
+        0.6462809544280107,
+        0.6316493998867613,
+        0.5489312856260851
+      ],
+      "logmel_mae_db": [
+        8.084673591554271,
+        8.029402531538373,
+        6.613656691803431
+      ],
+      "f0_rmse_semitones": [
+        4.856380612660808,
+        5.11673558614136,
+        2.993474311372261
+      ],
+      "voicing_disagreement_fraction": [
+        0.11570247933884298,
+        0.14402173913043478,
+        0.1339031339031339
+      ],
+      "local_timing_deviation_log_p90": [
+        0.324688442920008,
+        0.382434860833461,
+        0.26294519542566774
+      ]
+    },
+    "compact-v5": {
+      "mel_spectral_convergence": [
+        0.4204649234834689,
+        0.47596340285566074,
+        0.49704499372398414
+      ],
+      "logmel_mae_db": [
+        5.582913328581757,
+        6.774900945178663,
+        6.70642313505837
+      ],
+      "f0_rmse_semitones": [
+        2.4584250257492375,
+        3.6433643767720563,
+        4.013644661548991
+      ],
+      "voicing_disagreement_fraction": [
+        0.10271317829457365,
+        0.11602209944751381,
+        0.07420924574209246
+      ],
+      "local_timing_deviation_log_p90": [
+        0.2539015905487565,
+        0.4054651081081636,
+        0.3669061145044778
+      ]
+    }
+  },
+  "v4_v5_review": {
+    "scope": "Empirical signal review only; never an acceptance of voice pleasantness.",
+    "before": "compact-v4",
+    "after": "compact-v5",
+    "paired_passages": 3,
+    "repeat_calibration_passages": 3,
+    "minimum_passages_policy": 5,
+    "automatic_promotion": "hold",
+    "reasons": [
+      "Local spectral regressions beyond provisional repeat variation",
+      "Too few paired passages for automatic promotion"
+    ],
+    "failed_passages": [],
+    "signals": {
+      "mel_spectral_convergence": {
+        "n": 3,
+        "mean_after_minus_before": -0.1444627732925811,
+        "passage_bootstrap_ci95": [
+          -0.15568599703110053,
+          -0.12846636214261614
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.03492025233851343,
+        "signal_decision": "improved"
+      },
+      "stft_spectral_convergence": {
+        "n": 3,
+        "mean_after_minus_before": -0.1305740546945178,
+        "passage_bootstrap_ci95": [
+          -0.13825811535620747,
+          -0.11784506354405211
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.06634737286750214,
+        "signal_decision": "improved"
+      },
+      "logmel_mae_db": {
+        "n": 3,
+        "mean_after_minus_before": -1.2211651353590953,
+        "passage_bootstrap_ci95": [
+          -1.378250456495901,
+          -1.0307433632216743
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.3939640018648012,
+        "signal_decision": "improved"
+      },
+      "cepstral_envelope_distance_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.6852335128001735,
+        "passage_bootstrap_ci95": [
+          -0.8626150501690448,
+          -0.5960508894723393
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.3509463665062111,
+        "signal_decision": "improved"
+      },
+      "log_spectrum_mae_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.6312675886973306,
+        "passage_bootstrap_ci95": [
+          -0.7948188474753577,
+          -0.49150896332133964
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.9739689561152095,
+        "signal_decision": "uncertain"
+      },
+      "spectral_motion_mae_db": {
+        "n": 3,
+        "mean_after_minus_before": -0.23282449949985531,
+        "passage_bootstrap_ci95": [
+          -0.32566768513291233,
+          -0.1270440923781182
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.5031408469166125,
+        "signal_decision": "uncertain"
+      },
+      "energy_envelope_rmse_db": {
+        "n": 3,
+        "mean_after_minus_before": -9.544519416118836,
+        "passage_bootstrap_ci95": [
+          -10.762868732172569,
+          -7.8922069918558435
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.17440439993979057,
+        "signal_decision": "improved"
+      },
+      "f0_rmse_semitones": {
+        "n": 3,
+        "mean_after_minus_before": -0.9503854820347146,
+        "passage_bootstrap_ci95": [
+          -1.4733712093693034,
+          -0.5350492856230233
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 1.7919234986490606,
+        "signal_decision": "uncertain"
+      },
+      "f0_contour_correlation": {
+        "n": 3,
+        "mean_after_minus_before": 0.24347841840073672,
+        "passage_bootstrap_ci95": [
+          0.17930153760978737,
+          0.3576049334690768
+        ],
+        "better_direction": "higher",
+        "repeat_variation_allowance": 0.29936089150134554,
+        "signal_decision": "uncertain"
+      },
+      "voicing_disagreement_fraction": {
+        "n": 3,
+        "mean_after_minus_before": -0.033560942962743916,
+        "passage_bootstrap_ci95": [
+          -0.041493233596750514,
+          -0.027999639682920976
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.026091919255331896,
+        "signal_decision": "improved"
+      },
+      "active_span_abs_log_error": {
+        "n": 3,
+        "mean_after_minus_before": -0.03378492470769742,
+        "passage_bootstrap_ci95": [
+          -0.0629858980021146,
+          -0.00702990592825805
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.0011063308092567697,
+        "signal_decision": "improved"
+      },
+      "local_timing_deviation_log_p90": {
+        "n": 3,
+        "mean_after_minus_before": 0.01873477132742039,
+        "passage_bootstrap_ci95": [
+          -0.009043604876911249,
+          0.04221767158446982
+        ],
+        "better_direction": "lower",
+        "repeat_variation_allowance": 0.0011063308092620439,
+        "signal_decision": "uncertain"
+      }
+    },
+    "asr_paired_passages": 3,
+    "asr_mean_passage_wer_delta": -0.03272108748951395,
+    "local_repeat_variation_allowance_db": 0.45666613571800735,
+    "local_regression_count": 3,
+    "worst_local_spectral_regressions": [
+      {
+        "id": "1sam-003-009-010",
+        "reference_start_seconds": 0,
+        "candidate_start_seconds": 0.02,
+        "candidate_end_seconds": 0.08,
+        "logmel_mae_db": 10.391657130315098,
+        "f0_mae_semitones": 0.7946244665103526,
+        "voicing_disagreement_fraction": 0.0,
+        "previous_logmel_mae_db": 6.0523952458630195,
+        "spectral_error_increase_db": 4.339261884452078
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 17,
+        "candidate_start_seconds": 16.54,
+        "candidate_end_seconds": 18.14,
+        "logmel_mae_db": 10.90538731312064,
+        "f0_mae_semitones": 4.142875378162617,
+        "voicing_disagreement_fraction": 0.19753086419753085,
+        "previous_logmel_mae_db": 8.715546068934154,
+        "spectral_error_increase_db": 2.1898412441864856
+      },
+      {
+        "id": "1sam-003-009-010",
+        "reference_start_seconds": 17,
+        "candidate_start_seconds": 16.82,
+        "candidate_end_seconds": 16.94,
+        "logmel_mae_db": 11.618306125361089,
+        "f0_mae_semitones": 4.72839625914337,
+        "voicing_disagreement_fraction": 0.45454545454545453,
+        "previous_logmel_mae_db": 10.466894388754673,
+        "spectral_error_increase_db": 1.1514117366064163
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 0,
+        "candidate_start_seconds": 0.0,
+        "candidate_end_seconds": 0.1,
+        "logmel_mae_db": 7.980087400310001,
+        "f0_mae_semitones": 1.1951852151822866,
+        "voicing_disagreement_fraction": 0.16666666666666666,
+        "previous_logmel_mae_db": 7.740520983586069,
+        "spectral_error_increase_db": 0.23956641672393264
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 2,
+        "candidate_start_seconds": 1.16,
+        "candidate_end_seconds": 2.14,
+        "logmel_mae_db": 6.204599562388585,
+        "f0_mae_semitones": 0.8484163523413256,
+        "voicing_disagreement_fraction": 0.038461538461538464,
+        "previous_logmel_mae_db": 6.023577839806752,
+        "spectral_error_increase_db": 0.1810217225818329
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 0,
+        "candidate_start_seconds": 0.0,
+        "candidate_end_seconds": 0.06,
+        "logmel_mae_db": 7.738130588019859,
+        "f0_mae_semitones": null,
+        "voicing_disagreement_fraction": 0.2857142857142857,
+        "previous_logmel_mae_db": 7.678959096631837,
+        "spectral_error_increase_db": 0.0591714913880228
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 6,
+        "candidate_start_seconds": 5.0,
+        "candidate_end_seconds": 5.76,
+        "logmel_mae_db": 5.238486434300882,
+        "f0_mae_semitones": 1.6328932464462644,
+        "voicing_disagreement_fraction": 0.17391304347826086,
+        "previous_logmel_mae_db": 5.208072979006509,
+        "spectral_error_increase_db": 0.030413455294373115
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 10,
+        "candidate_start_seconds": 9.4,
+        "candidate_end_seconds": 10.46,
+        "logmel_mae_db": 6.635150243871108,
+        "f0_mae_semitones": 0.8129051969403421,
+        "voicing_disagreement_fraction": 0.08620689655172414,
+        "previous_logmel_mae_db": 6.606939835437161,
+        "spectral_error_increase_db": 0.028210408433946732
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 17,
+        "candidate_start_seconds": 16.22,
+        "candidate_end_seconds": 17.3,
+        "logmel_mae_db": 4.9543713097469055,
+        "f0_mae_semitones": 1.1114207330025858,
+        "voicing_disagreement_fraction": 0.0625,
+        "previous_logmel_mae_db": 4.970430057284267,
+        "spectral_error_increase_db": -0.01605874753736103
+      },
+      {
+        "id": "1cor-013-004-007",
+        "reference_start_seconds": 9,
+        "candidate_start_seconds": 8.04,
+        "candidate_end_seconds": 9.04,
+        "logmel_mae_db": 5.963107179677581,
+        "f0_mae_semitones": 1.128688230478635,
+        "voicing_disagreement_fraction": 0.10204081632653061,
+        "previous_logmel_mae_db": 6.058720134693479,
+        "spectral_error_increase_db": -0.0956129550158975
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 21,
+        "candidate_start_seconds": 21.24,
+        "candidate_end_seconds": 22.24,
+        "logmel_mae_db": 5.097062951391962,
+        "f0_mae_semitones": 2.733244881959284,
+        "voicing_disagreement_fraction": 0.3148148148148148,
+        "previous_logmel_mae_db": 5.270179603541955,
+        "spectral_error_increase_db": -0.17311665214999294
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "reference_start_seconds": 12,
+        "candidate_start_seconds": 11.66,
+        "candidate_end_seconds": 12.3,
+        "logmel_mae_db": 6.206040204355662,
+        "f0_mae_semitones": 0.4447647742424002,
+        "voicing_disagreement_fraction": 0.11764705882352941,
+        "previous_logmel_mae_db": 6.382550201339117,
+        "spectral_error_increase_db": -0.17650999698345515
+      }
+    ],
+    "limits": "Three repeat renders give a provisional noise allowance, not a validated perceptual threshold. Five passages is a workflow minimum, not a statistical power guarantee. Inspect local regressions even when utterance means improve.",
+    "comparison_sha256": "1ee5f4da316fb2273dd5dd9847afc158400bd881f8009f8f39f29d9efec877dc"
+  },
+  "experiment_report_sha256": "1ee5f4da316fb2273dd5dd9847afc158400bd881f8009f8f39f29d9efec877dc",
+  "human_preference_audit": {
+    "known_disagreement": "Several average distances favour rejected v3 over v4, although the listener preferred v4.",
+    "interpretation": "This profile measures selected physical errors; it is not validated as an overall naturalness ranking.",
+    "v5_interpretation": "Average spectral distances improve, while three local spectral windows regress. The timing decision excludes outer silence; raw total duration is descriptive only. This is not proof of the cause of the listener complaint."
+  }
+}

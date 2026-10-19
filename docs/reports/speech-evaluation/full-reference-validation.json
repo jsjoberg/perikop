@@ -1,0 +1,95 @@
+{
+  "scope": "Functional and controlled-signal sensitivity only. Does not establish human pleasantness ranking.",
+  "comparison_sha256": "9216fbbff7e628af4f13509f58e6203fd6e3af799fb922c130f7ef1331703f65",
+  "passed": true,
+  "checks": [
+    {
+      "name": "Identity: logmel_mae_db",
+      "passed": true,
+      "observed": 0.0
+    },
+    {
+      "name": "Identity: f0_rmse_semitones",
+      "passed": true,
+      "observed": 0.0
+    },
+    {
+      "name": "Identity: energy_envelope_rmse_db",
+      "passed": true,
+      "observed": 0.0
+    },
+    {
+      "name": "Identity: active_span_abs_log_error",
+      "passed": true,
+      "observed": 0.0
+    },
+    {
+      "name": "Polarity inversion acoustically invariant",
+      "passed": true,
+      "observed": 2.982963228222298e-06
+    },
+    {
+      "name": "Global gain does not masquerade as timbre",
+      "passed": true,
+      "observed": 0.022320191677121595
+    },
+    {
+      "name": "Increasing noise increases spectral error",
+      "passed": true,
+      "observed": {
+        "snr15": 16.60502926240047,
+        "snr30": 9.496664338858453
+      }
+    },
+    {
+      "name": "Stronger lowpass increases spectral error",
+      "passed": true,
+      "observed": {
+        "lowpass1500": 8.812348902537874,
+        "lowpass3500": 3.2835593964745184
+      }
+    },
+    {
+      "name": "Actual three-semitone signal shift is recovered",
+      "passed": true,
+      "observed": 3.372123889472712
+    },
+    {
+      "name": "Time alignment does not erase inserted gap duration",
+      "passed": true,
+      "observed": 0.04368907369464257
+    },
+    {
+      "name": "Extra staccato gaps remain visible after alignment",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "name": "Muted active span changes voicing signal",
+      "passed": true,
+      "observed": 0.024368634904982003
+    },
+    {
+      "name": "Silence fails explicitly instead of receiving a good distance",
+      "passed": true,
+      "observed": [
+        "candidate_no_active_audio",
+        "candidate_no_active_audio",
+        "candidate_no_active_audio",
+        "candidate_no_active_audio",
+        "candidate_no_active_audio"
+      ]
+    },
+    {
+      "name": "Different text cannot match by speaker timbre alone",
+      "passed": true,
+      "observed": {
+        "alignment_failures": 3,
+        "spectral_db": [
+          10.483866011080153,
+          9.43761732245509
+        ]
+      }
+    }
+  ]
+}

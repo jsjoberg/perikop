@@ -52,7 +52,7 @@ the requested contour. This verifies signal control, not naturalness.
 
 The existing unit joins, approximate alignment, pronunciation errors and timbre
 remain potential limitations. Pitch shaping cannot restore missing coarticulation.
-Listening acceptance of this new candidate is pending. Held-out passages are
+The listener found v5 partly better, but partly harder to hear. It is not accepted. The next step is full-reference numerical evaluation, rather than another blind synthesis change. Held-out passages are
 unused; recognition results are intelligibility guardrails only.
 
 On the same three passages and CPU recognizer settings, v5 has 18 word errors
