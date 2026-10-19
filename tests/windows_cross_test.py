@@ -1,5 +1,6 @@
 """Check the cross-build handoff without a Windows host or a downloaded compiler."""
 
+from contextlib import chdir
 import importlib.util
 import json
 import os
@@ -17,6 +18,9 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("windows_handoff", ROOT / "tools/ci/windows_handoff.py")
 handoff = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(handoff)
+build_spec = importlib.util.spec_from_file_location("ci_build", ROOT / "tools/ci/build.py")
+builder = importlib.util.module_from_spec(build_spec)
+build_spec.loader.exec_module(builder)
 
 
 class WindowsCrossTest(unittest.TestCase):
@@ -170,17 +174,21 @@ if [ "$1" = --build ]; then
 fi
 ''')
             (tools / "ccache").write_text("#!/bin/bash\nexit 0\n")
-            (tools / "python3").write_text("#!/bin/bash\nprintf 'manifest' > build/cmake/windows-handoff.json\n")
             (tools / "llvm-strip").write_text('#!/bin/bash\necho "$*" >> strip.log\n')
             for tool in tools.iterdir():
                 tool.chmod(0o755)
             env = dict(os.environ, PATH=str(tools) + os.pathsep + os.environ["PATH"])
-            subprocess.run(["bash", str(ROOT / "tools/ci/build-windows-cross.sh")],
-                           cwd=root, env=env, check=True, capture_output=True, text=True)
+            def handoff_probe(*arguments):
+                (root / "build/cmake/windows-handoff.json").write_text("manifest")
+            with chdir(root), patch.dict(os.environ, env), patch.object(builder, "ROOT", root), \
+                    patch.object(builder, "SOURCES", root / "build/ci/sources"), \
+                    patch.object(builder, "python", side_effect=handoff_probe) as probe:
+                builder.windows()
+                probe.assert_called_once_with("tools/ci/windows_handoff.py", "--source", ".", "--build", Path("build/cmake"))
             commands = (root / "commands.log").read_text().splitlines()
             self.assertEqual(len(commands), 2)
             self.assertIn("--toolchain cmake/llvm-mingw.cmake", commands[0])
-            self.assertIn("-DPERIKOP_DEPENDENCY_DIR=/work/build/ci/sources", commands[0])
+            self.assertIn(f"-DPERIKOP_DEPENDENCY_DIR={root}/build/ci/sources", commands[0])
             self.assertEqual(commands[1], "--build build/cmake --parallel 4")
             self.assertEqual((root / "strip.log").read_text().strip(), "build/cmake/bin/perikop.exe")
             with tarfile.open(root / "build/windows-x64.tar.gz") as archive:

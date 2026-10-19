@@ -61,7 +61,7 @@ After a change to the inputs or alignment rules, run `tools/corpus/align_edition
 Python is a corpus development tool.
 The native build, packaged application, and application startup do not need Python or `uv`.
 `pyproject.toml` and `uv.lock` define the preparation environment.
-Voice export uses the separate `voice-prep` dependency group.
+Voice export uses its own Python 3.12 project and `voice-prep` dependency group in `tools/speech`.
 Normal resource tools use only the Python standard library.
 
 Check the resource hashes and complete corpus glyph coverage:

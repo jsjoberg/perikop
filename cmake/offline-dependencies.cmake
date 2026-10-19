@@ -9,13 +9,6 @@ if(PERIKOP_DEPENDENCY_DIR)
             message(FATAL_ERROR "Offline dependency is missing: ${entry}. Restore the pinned CI snapshot; no upstream download is allowed.")
         endif()
     endforeach()
-    if(APPLE AND (CMAKE_OSX_ARCHITECTURES MATCHES "x86_64" OR
-            (NOT CMAKE_OSX_ARCHITECTURES AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")))
-        if(NOT EXISTS "${PERIKOP_DEPENDENCY_DIR}/ortho_ort_x86_64/include/onnxruntime_c_api.h")
-            message(FATAL_ERROR "Offline Intel speech runtime is missing. Restore the pinned macOS snapshot; no upstream download is allowed.")
-        endif()
-        set(FETCHCONTENT_SOURCE_DIR_ORTHO_ORT_X86_64 "${PERIKOP_DEPENDENCY_DIR}/ortho_ort_x86_64" CACHE PATH "" FORCE)
-    endif()
     # In-app updates; see cmake/updates.cmake.
     if(NOT EXISTS "${PERIKOP_DEPENDENCY_DIR}/ortho_velopack/include/Velopack.hpp")
         message(FATAL_ERROR "Offline update SDK is missing. Restore the pinned CI snapshot; no upstream download is allowed.")

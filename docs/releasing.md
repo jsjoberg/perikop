@@ -10,8 +10,8 @@ Set the version in `project()` in `CMakeLists.txt`, then push a matching tag:
 git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 ```
 
-CI builds, tests, and packages five targets: Windows x64, Linux x64, Linux ARM64, macOS Apple Silicon, and macOS Intel.
-It then creates a draft release containing the existing five native downloads, Velopack installers/portable packages, a full update package and channel feed for each target, deltas where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file.
+CI builds, tests, and packages four targets: Windows x64, Linux x64, Linux ARM64, and macOS Apple Silicon (macOS 15+).
+It then creates a draft release containing the four native downloads, Velopack installers/portable packages, a full update package and channel feed for each target, deltas where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file.
 Releases with AppImages also carry `AppImage-runtime-source-<commits>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
 A tag suffix such as `-alpha.2` goes into the file names. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
@@ -28,7 +28,7 @@ Failed jobs still fail the workflow, but do not discard successful packages from
 Incomplete nightlies do not prevent another scheduled attempt for the same commit.
 Retries on the same day add the run ID and attempt number to the release tag.
 If all platforms fail, CI publishes no nightly.
-Version-tagged releases still require all five targets and sanitizers to pass.
+Version-tagged releases still require all four targets and sanitizers to pass.
 
 Every successful platform contributes its native download, Velopack download, full package, optional delta, and `releases.<channel>.json` feed together. A platform whose packaging or update test fails contributes neither a native download nor a feed. Full packages remain available for first upgrades, interrupted delta chains, and recovery.
 
@@ -58,15 +58,16 @@ tools/package_appimage.sh build/cmake                           # Linux
 On Linux, `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` then packs the same AppDir as a Velopack AppImage and update package. It needs .NET 8, `squashfs-tools`, and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
 
 The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set to a `Microsoft.VC143.CRT` redistributable folder.
-The macOS DMGs are separate `macOS-arm64.dmg` (Apple Silicon) and `macOS-x86_64.dmg` (Intel) downloads.
+The macOS DMG is `macOS-arm64.dmg`, for Apple Silicon on macOS 15 or later.
 For Velopack, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
-`python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> <arm64|x86_64> osx-<arm64|x64>-<releases|nightly> <output>`.
-It needs .NET 8, `zstd` for deltas, and the restored `vpk`. Native CI also creates a [portable update validation kit](updating.md#phases) for each architecture; the macOS 13 baseline check remains pending. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
+`python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> arm64 osx-arm64-<releases|nightly> <output>`.
+It needs .NET 8, `zstd` for deltas, and the restored `vpk`. Native CI creates an ARM64 [portable update validation kit](updating.md#packaging-and-validation). The macOS 15 baseline update check must pass on the macOS 15 runner before release; results from newer macOS do not establish the minimum. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
 The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.
 
 ## CI dependency snapshots
 
-CI never downloads from upstream servers. It uses snapshot archives published as `ci-dependencies-<commit>` prereleases in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets) and pinned in `ci/dependencies-lock.json`.
+Application dependencies never fall back to upstream servers during ordinary CI. They use snapshot archives published as `ci-dependencies-<commit>` prereleases in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets) and pinned in `ci/dependencies-lock.json`.
+The separate Python tooling bootstrap downloads pinned uv/Python before the offline build. Voice export keeps its own Python 3.12 lock. The existing snapshot retains the retired Intel ONNX input, but restore skips it and no build links it; remove it when preparing the next source snapshot.
 Snapshots and voice packs are kept out of this repository's releases because the in-app updater reads only the newest releases here.
 To update a dependency:
 

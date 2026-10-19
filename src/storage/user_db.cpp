@@ -1,3 +1,4 @@
+#include "core/source_preferences.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
@@ -35,7 +36,53 @@ UserDb::UserDb(const std::filesystem::path& path) {
          "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
          "CREATE TABLE IF NOT EXISTS reading_position(key TEXT PRIMARY KEY NOT NULL,section INTEGER NOT NULL,"
          "book TEXT NOT NULL,source TEXT NOT NULL,chapter INTEGER NOT NULL,verse INTEGER NOT NULL,"
-         "suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT");
+         "suffix TEXT NOT NULL,percent INTEGER NOT NULL) STRICT;"
+         "CREATE TABLE IF NOT EXISTS bookmark(id INTEGER PRIMARY KEY,source TEXT NOT NULL,"
+         "book TEXT NOT NULL,first_chapter INTEGER NOT NULL,first_verse INTEGER NOT NULL,"
+         "first_suffix TEXT NOT NULL,last_chapter INTEGER NOT NULL,last_verse INTEGER NOT NULL,"
+         "last_suffix TEXT NOT NULL,UNIQUE(source,book,first_chapter,first_verse,first_suffix,"
+         "last_chapter,last_verse,last_suffix)) STRICT");
+}
+void UserDb::bookmark(const std::string& source, const Passage& passage) {
+    if (source.empty() || passage.book.empty() || passage.first.chapter < 1 || passage.first.verse < 1 ||
+        passage.last.verse < 1 || passage.last < passage.first)
+        throw std::invalid_argument("Invalid bookmark passage");
+    Statement query(db_.get(), "INSERT INTO bookmark(source,book,first_chapter,first_verse,first_suffix,"
+                               "last_chapter,last_verse,last_suffix) VALUES(?,?,?,?,?,?,?,?) "
+                               "ON CONFLICT DO NOTHING");
+    query.text(1, source);
+    query.text(2, passage.book);
+    query.number(3, passage.first.chapter);
+    query.number(4, passage.first.verse);
+    query.text(5, passage.first.suffix);
+    query.number(6, passage.last.chapter);
+    query.number(7, passage.last.verse);
+    query.text(8, passage.last.suffix);
+    query.row();
+}
+void UserDb::remove_bookmark(int id) {
+    Statement query(db_.get(), "DELETE FROM bookmark WHERE id=?");
+    query.number(1, id);
+    query.row();
+}
+std::vector<Bookmark> UserDb::bookmarks(const CorpusDb& corpus) const {
+    std::vector<Bookmark> result;
+    Statement query(db_.get(), "SELECT id,source,book,first_chapter,first_verse,first_suffix,"
+                               "last_chapter,last_verse,last_suffix FROM bookmark");
+    while (query.row())
+        result.push_back({query.number(0),
+                          query.text(1),
+                          {query.text(2),
+                           {query.number(3), query.number(4), query.text(5)},
+                           {query.number(6), query.number(7), query.text(8)}}});
+    const auto order = [&corpus](const Bookmark& mark) {
+        const auto* book = corpus.canon_book(mark.passage.book, mark.passage.first.chapter);
+        const auto& canon = corpus.canon();
+        const auto index = book ? std::size_t(book - canon.data()) : canon.size();
+        return std::tuple{index, mark.passage.book, mark.passage.first, mark.passage.last, mark.source};
+    };
+    std::ranges::sort(result, {}, order);
+    return result;
 }
 std::optional<ReadingPosition> UserDb::position(const std::string& key) const {
     Statement query(
@@ -114,9 +161,19 @@ Settings UserDb::load() const {
         if (key == "tradition")
             // Retired Antiochian settings now select the Greek family, including its variants.
             result.tradition = value == "slavic" ? Tradition::Slavic : Tradition::Greek;
-        // The three-pane mode "el,en" is retired; it keeps its Greek pane.
-        if (key == "parallel" && (value.empty() || value == "el" || value == "en" || value == "el,en"))
-            result.parallel = value == "el,en" ? "el" : value;
+        // Older profiles retain their split-pane choice as a source priority.
+        if (key == "parallel" && !value.empty()) {
+            result.split_view = true;
+            if (value.starts_with("el"))
+                result.secondary_sources =
+                    decode_sources("grc-lxx=1,grc-patriarchal=1", result.secondary_sources);
+        }
+        if (key == "split_view")
+            result.split_view = value == "1";
+        if (key == "primary_sources")
+            result.primary_sources = decode_sources(value, result.primary_sources);
+        if (key == "secondary_sources")
+            result.secondary_sources = decode_sources(value, result.secondary_sources);
         // An unreadable number keeps the default.
         int number = 0;
         const bool numeric =
@@ -134,8 +191,10 @@ Settings UserDb::load() const {
         if (key == "speech_highlight")
             result.speech_highlight = value != "0";
     }
+    if (std::ranges::none_of(result.primary_sources, &SourcePreference::enabled))
+        result.primary_sources.front().enabled = true;
     if (result.word_study)
-        result.parallel.clear();
+        result.split_view = false;
     return result;
 }
 void UserDb::save(const Settings& settings) {
@@ -147,7 +206,10 @@ void UserDb::save(const Settings& settings) {
         {"color_scheme", color_schemes[int(settings.color_scheme)]},
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
         {"tradition", settings.tradition == Tradition::Slavic ? "slavic" : "greek"},
-        {"parallel", settings.parallel},
+        {"parallel", ""},
+        {"split_view", settings.split_view ? "1" : "0"},
+        {"primary_sources", encode_sources(settings.primary_sources)},
+        {"secondary_sources", encode_sources(settings.secondary_sources)},
         {"text_zoom", std::to_string(settings.text_zoom)},
         {"speech_rate", std::to_string(settings.speech_rate)},
         {"speech_voice", settings.speech_voice},

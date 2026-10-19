@@ -74,6 +74,26 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
     };
     gc.SetBrush(wxBrush(ink));
     switch (symbol) {
+    case Symbol::Bookmark: {
+        pen(1.5);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        auto path = gc.CreatePath();
+        path.MoveToPoint(5, 3);
+        path.AddLineToPoint(15, 3);
+        path.AddLineToPoint(15, 17);
+        path.AddLineToPoint(10, 13);
+        path.AddLineToPoint(5, 17);
+        path.CloseSubpath();
+        gc.StrokePath(path);
+        break;
+    }
+    case Symbol::Split: {
+        pen(1.5);
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        gc.DrawRoundedRectangle(2, 3, 16, 14, 2);
+        gc.StrokeLine(10, 3, 10, 17);
+        break;
+    }
     case Symbol::Back:
     case Symbol::Next: {
         if (symbol == Symbol::Next) {
@@ -150,19 +170,15 @@ void draw_symbol(wxGraphicsContext& gc, Symbol symbol, const wxColour& ink) {
             gc.DrawEllipse(8.4, y - 1.6, 3.2, 3.2);
         break;
     case Symbol::Study: {
-        // An open book.
+        // Text with a magnifying glass for word lookup.
         pen(1.5);
         gc.SetBrush(*wxTRANSPARENT_BRUSH);
-        auto path = gc.CreatePath();
-        path.MoveToPoint(10, 6.3);
-        path.AddCurveToPoint(8, 4.8, 5, 4.4, 2.5, 4.9);
-        path.AddLineToPoint(2.5, 15);
-        path.AddCurveToPoint(5, 14.5, 8, 14.9, 10, 16.4);
-        path.AddCurveToPoint(12, 14.9, 15, 14.5, 17.5, 15);
-        path.AddLineToPoint(17.5, 4.9);
-        path.AddCurveToPoint(15, 4.4, 12, 4.8, 10, 6.3);
-        path.AddLineToPoint(10, 16.4);
-        gc.StrokePath(path);
+        gc.StrokeLine(3, 3.5, 16, 3.5);
+        gc.StrokeLine(3, 7, 8, 7);
+        gc.StrokeLine(3, 10.5, 5.5, 10.5);
+        gc.StrokeLine(3, 14, 5.5, 14);
+        gc.DrawEllipse(8, 8, 7, 7);
+        gc.StrokeLine(14, 14, 17, 17);
         break;
     }
     }

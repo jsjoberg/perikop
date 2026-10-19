@@ -2,15 +2,6 @@
 if(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
     if(APPLE)
         add_link_options("$<$<CONFIG:Release,MinSizeRel>:-Wl,-dead_strip>")
-        set(perikop_target_architectures "${CMAKE_OSX_ARCHITECTURES}")
-        if(NOT perikop_target_architectures)
-            set(perikop_target_architectures "${CMAKE_SYSTEM_PROCESSOR}")
-        endif()
-        if("x86_64" IN_LIST perikop_target_architectures)
-            # Scope x86 flags to the Intel slice of a universal app.
-            add_compile_options("SHELL:-Xarch_x86_64 -march=x86-64-v2"
-                "SHELL:-Xarch_x86_64 -mtune=generic")
-        endif()
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|amd64)$" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
         # SSE4.2 and POPCNT fit X220-era CPUs without requiring AVX or AVX2.
         add_compile_options(-march=x86-64-v2 -mtune=generic)

@@ -3,6 +3,7 @@
 #include "storage/database.hpp"
 #include "typesetting/paragraph_layout.hpp"
 #include "ui/theme.hpp"
+#include <array>
 #include <chrono>
 #include <list>
 #include <map>
@@ -63,10 +64,23 @@ public:
     }
     // Verses marked by dragging in the left pane, as a passage in its edition.
     std::vector<Passage> selections() const;
+    std::optional<Reading> marked_reading() const;
+    void on_bookmark(std::function<void(const Reading&)> callback) {
+        bookmarked_ = std::move(callback);
+    }
+    void on_listen(std::function<void(const Reading&)> callback) {
+        listen_ = std::move(callback);
+    }
     bool verse_selected(VerseRef) const;
     // The left pane's edition, and the edition whose numbering frames the text.
-    const std::string& base_source() const {
-        return base_source_;
+    std::string base_source() const;
+    std::string primary_language() const;
+    std::vector<std::string> sources_for_chapter(int chapter) const;
+    // Overrides belong only to this open passage and chapter, never to saved preferences.
+    void chapter_source(int chapter, std::size_t pane, const std::string& source);
+    std::string chapter_source(int chapter, std::size_t pane) const;
+    void on_source_change(std::function<void(bool primary)> callback) {
+        source_changed_ = std::move(callback);
     }
     const std::string& frame() const {
         return frame_;
@@ -213,7 +227,6 @@ private:
     bool dragged_ = false, append_drag_ = false;
     wxTimer follow_timer_;
     std::chrono::steady_clock::time_point animation_tick_;
-    std::vector<std::string> languages() const;
     int columns_count() const;
     int outside_margin() const;
     int column_width() const;
@@ -233,15 +246,26 @@ private:
     wxTimer layout_timer_;
     void* native_scroll_ = nullptr;
     const CorpusDb& corpus_;
+    std::vector<Source> source_catalog_;
     Reading reading_{ReadingKind::MorningPsalm, {"Ps", {23, 1}, {23, 6}}};
     Settings settings_;
+    std::function<void(const Reading&)> bookmarked_, listen_;
     Passage displayed_{"Ps", {23, 1}, {23, 6}};
     std::string base_source_ = "sv1917", frame_ = "grc-lxx";
     const CanonBook* canon_ = nullptr;
     std::string canon_code() const {
         return canon_ ? canon_->code : displayed_.book;
     }
-    std::string source_of(const std::string& language) const;
+    std::vector<std::string> shown_sources(std::size_t row) const;
+    wxString source_label(const std::string&, std::size_t heading) const;
+    std::string language_of(const std::string&) const;
+    wxRect source_selector_rect(std::size_t heading, std::size_t pane) const;
+    void position_source_selectors();
+    void source_menu(std::size_t heading, std::size_t pane, wxWindow* button);
+    std::function<void(bool)> source_changed_;
+    mutable std::map<int, std::vector<std::string>> available_sources_;
+    std::map<std::pair<std::string, int>, std::array<std::string, 2>> chapter_overrides_;
+    std::map<std::pair<std::size_t, std::size_t>, wxWindow*> source_selectors_;
     // Verses of an edition without a Septuagint counterpart, after the framing verse they follow.
     using Orphans = std::map<VerseRef, std::vector<std::pair<std::string, VerseRef>>>;
     const Orphans& orphans(const std::string& source) const;
@@ -249,8 +273,6 @@ private:
     // The Swedish edition of the chapter a heading row opens: the 1917 Bible, the 1921 apocrypha, or both.
     // Empty where the chapter has no Swedish text.
     wxString swedish_edition(std::size_t heading) const;
-    // The languages of a row's columns. A chapter without Swedish text shows the English one in its place.
-    std::vector<std::string> shown_languages(std::size_t row) const;
     mutable std::map<std::size_t, wxString> swedish_editions_;
     std::vector<Row> rows_;
     mutable std::map<std::size_t, Layout> cache_;

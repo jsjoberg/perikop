@@ -1,6 +1,7 @@
 #include "core/online_bibles.hpp"
 #include "ui/controls.hpp"
 #include "ui/scripture_view.hpp"
+#include "ui/toolbar.hpp"
 #include <algorithm>
 #include <wx/file.h>
 #include <wx/filename.h>
@@ -10,8 +11,8 @@
 #include <wx/utils.h>
 namespace ortho {
 void ScriptureView::rebuild_verse_links() {
-    if (!highlighted_verse_ || settings_.word_study || columns_count() != 1 ||
-        source_language(base_source_) != "sv") {
+    const auto marked = marked_reading();
+    if (!marked || settings_.word_study || (selections_.empty() && primary_language() != "sv")) {
         if (verse_links_) {
             if (verse_links_->IsDescendant(wxWindow::FindFocus()))
                 SetFocus();
@@ -25,8 +26,34 @@ void ScriptureView::rebuild_verse_links() {
     }
     verse_links_->Hide();
     verse_links_->DestroyChildren();
-    auto* sizer = new wxBoxSizer(wxHORIZONTAL);
-    const auto links = online_bible_links(corpus_, frame_, displayed_.book, highlighted_verse_->first);
+    auto* sizer = new wxBoxSizer(wxVERTICAL);
+    auto* actions = new wxBoxSizer(wxHORIZONTAL);
+    auto* bookmark = new SymbolButton(verse_links_, Symbol::Bookmark, ui::utf8("Lägg till bokmärke"),
+                                      [this, reading = *marked] {
+                                          CallAfter([this, reading] {
+                                              if (bookmarked_)
+                                                  bookmarked_(reading);
+                                          });
+                                      });
+    bookmark->SetToolTip(ui::utf8("Spara den markerade texten som bokmärke"));
+    bookmark->apply(palette(settings_.theme));
+    actions->Add(bookmark, 0, wxALIGN_CENTER_VERTICAL | wxALL, FromDIP(zoomed(3)));
+    if (primary_language() == "sv") {
+        auto* listen = ui::button(verse_links_, "Lyssna", [this, reading = *marked] {
+            CallAfter([this, reading] {
+                if (listen_)
+                    listen_(reading);
+            });
+        });
+        listen->SetFont(ui_font(10));
+        listen->SetToolTip(ui::utf8("Läs upp den markerade texten"));
+        actions->Add(listen, 0, wxALIGN_CENTER_VERTICAL | wxALL, FromDIP(zoomed(3)));
+    }
+    sizer->Add(actions, 0);
+    auto* resources = new wxBoxSizer(wxHORIZONTAL);
+    const auto links = primary_language() == "sv"
+                           ? online_bible_links(corpus_, frame_, displayed_.book, marked->passage.first)
+                           : std::vector<OnlineBibleLink>{};
     for (const auto& link : links) {
         auto* button = ui::button(verse_links_, ui::utf8(link.label), [link] {
             if (link.url.empty())
@@ -59,8 +86,12 @@ void ScriptureView::rebuild_verse_links() {
         button->SetToolTip(
             ui::utf8(link.url.empty() ? "Ingen verifierad verslänk för detta bibelställe."
                                       : "Öppna " + link.reference + " i " + link.label + " i webbläsaren."));
-        sizer->Add(button, 0, wxALL, FromDIP(zoomed(3)));
+        resources->Add(button, 0, wxALL, FromDIP(zoomed(3)));
     }
+    if (links.empty())
+        delete resources;
+    else
+        sizer->Add(resources, 0);
     verse_links_->SetSizerAndFit(sizer);
     // Rebuilding at the same size does not send a size event to lay out new children.
     verse_links_->Layout();
@@ -70,15 +101,19 @@ void ScriptureView::rebuild_verse_links() {
 void ScriptureView::position_verse_links() {
     if (!verse_links_)
         return;
-    if (!highlighted_verse_ || settings_.word_study || columns_count() != 1 ||
-        source_language(base_source_) != "sv" || rows_.empty()) {
+    const auto marked = marked_reading();
+    if (!marked || settings_.word_study || rows_.empty() ||
+        (selections_.empty() && primary_language() != "sv")) {
         verse_links_->Hide();
         return;
     }
-    const auto range = *highlighted_verse_;
-    const auto row = std::find_if(rows_.begin(), rows_.end(), [&](const auto& row) {
-        return !row.heading && row.ref <= range.second && range.first <= row.last;
-    });
+    const auto passages = marked->segments();
+    const auto row =
+        std::find_if(rows_.begin() + std::ptrdiff_t(first_visible()), rows_.end(), [&](const auto& row) {
+            return !row.heading && std::ranges::any_of(passages, [&](const Passage& passage) {
+                return row.ref <= passage.last && passage.first <= row.last;
+            });
+        });
     if (row == rows_.end()) {
         verse_links_->Hide();
         return;
@@ -93,7 +128,7 @@ void ScriptureView::position_verse_links() {
         verse_links_->Hide();
         return;
     }
-    const auto c = std::min(highlighted_column_, layout.columns.size() - 1);
+    const auto c = selections_.empty() ? std::min(highlighted_column_, layout.columns.size() - 1) : 0;
     const auto& column = layout.columns[c];
     double top = positions_[index] - offset_ + FromDIP(zoomed(12));
     const bool stacked = stacked_columns();
@@ -104,8 +139,10 @@ void ScriptureView::position_verse_links() {
     }
     for (std::size_t line = 0; line < column.text.lines.size(); ++line)
         for (const auto& run : column.text.lines[line].runs) {
-            if (!column.main_text(run.tag) || column.verses[run.tag].first > range.second ||
-                column.verses[run.tag].second < range.first)
+            if (!column.main_text(run.tag) || !std::ranges::any_of(passages, [&](const Passage& passage) {
+                    return column.verses[run.tag].first <= passage.last &&
+                           passage.first <= column.verses[run.tag].second;
+                }))
                 continue;
             const double verse_top = top + line * column.text.line_height;
             if (verse_top + column.text.line_height <= 0)

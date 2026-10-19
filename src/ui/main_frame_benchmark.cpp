@@ -16,7 +16,11 @@ bool MainFrame::render_benchmark() {
     settings_.word_study = false;
     std::cout << std::fixed << std::setprecision(3);
     for (const auto* parallel : {"", "el", "en"}) {
-        settings_.parallel = parallel;
+        settings_.split_view = *parallel != '\0';
+        settings_.secondary_sources = Settings{}.secondary_sources;
+        std::ranges::stable_sort(settings_.secondary_sources, {}, [&](const SourcePreference& source) {
+            return source_language(source.source) != parallel;
+        });
         apply_settings(false);
         const auto open_begin = Clock::now();
         open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 18}}});
@@ -75,7 +79,10 @@ bool MainFrame::render_benchmark() {
             ok = false;
     }
     // Old Testament openings include whole-book verse mapping and Hebrew-only text discovery.
-    settings_.parallel = "el";
+    settings_.split_view = true;
+    std::ranges::stable_sort(settings_.secondary_sources, {}, [](const SourcePreference& source) {
+        return source_language(source.source) != "el";
+    });
     apply_settings(false);
     for (const auto* book : {"Ps", "Jer", "Isa"}) {
         const auto before = scripture_->render_stats();

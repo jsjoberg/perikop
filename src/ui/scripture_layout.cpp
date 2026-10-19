@@ -1,21 +1,12 @@
+#include "core/source_preferences.hpp"
 #include "ui/controls.hpp"
 #include "ui/scripture_view.hpp"
 #include <algorithm>
 #include <set>
 #include <wx/dcclient.h>
 namespace ortho {
-std::vector<std::string> ScriptureView::languages() const {
-    std::vector<std::string> result{source_language(base_source_)};
-    const auto add = [&](const std::string& language) {
-        if (std::find(result.begin(), result.end(), language) == result.end())
-            result.push_back(language);
-    };
-    if (!settings_.parallel.empty())
-        add(settings_.parallel);
-    return result;
-}
 int ScriptureView::columns_count() const {
-    return int(languages().size());
+    return settings_.split_view && !settings_.word_study ? 2 : 1;
 }
 double ScriptureView::alphabet_width() const {
     wxClientDC dc(const_cast<ScriptureView*>(this));
@@ -41,7 +32,8 @@ int ScriptureView::column_stride() const {
     return (usable - gap * (columns_count() - 1)) / columns_count() + gap;
 }
 int ScriptureView::estimated_height(const Row& row) const {
-    return row.heading ? FromDIP(zoomed(124)) : FromDIP(zoomed(150));
+    return row.heading ? FromDIP(zoomed(stacked_columns() && columns_count() == 2 ? 158 : 130))
+                       : FromDIP(zoomed(150));
 }
 int ScriptureView::column_width() const {
     const int usable = std::max(FromDIP(zoomed(120)), GetClientSize().x - 2 * outside_margin());
@@ -51,6 +43,7 @@ int ScriptureView::column_width() const {
 }
 void ScriptureView::open(const Reading& reading) {
     reading_ = reading;
+    chapter_overrides_.clear();
     open_section(0);
 }
 void ScriptureView::open_section(std::size_t index) {
@@ -70,6 +63,12 @@ void ScriptureView::open_section(std::size_t index) {
     guide_alpha_ = 0;
     orphans_.clear();
     swedish_editions_.clear();
+    available_sources_.clear();
+    for (auto& [key, selector] : source_selectors_) {
+        (void)key;
+        selector->Destroy();
+    }
+    source_selectors_.clear();
     if (!selections_.empty()) {
         selections_.clear();
         if (selection_changed_)
@@ -87,9 +86,10 @@ void ScriptureView::open_section(std::size_t index) {
             }
         }
     canon_ = corpus_.canon_book(displayed_.book, displayed_.first.chapter);
-    base_source_ = reading_.source_override.empty()
-                       ? corpus_.source_for_language(reading_.base_language, canon_code())
-                       : reading_.source_override;
+    base_source_ =
+        reading_.source_override.empty()
+            ? preferred_source(settings_.primary_sources, sources_for_chapter(displayed_.first.chapter))
+            : reading_.source_override;
     // Paragraphs follow the left pane's edition, placed at its framing verses.
     std::set<VerseRef> boundaries;
     if (base_source_ == frame_) {
@@ -136,9 +136,36 @@ void ScriptureView::open_section(std::size_t index) {
     schedule_prefetch();
     request_repaint();
 }
-std::string ScriptureView::source_of(const std::string& language) const {
-    return language == languages().front() ? base_source_
-                                           : corpus_.source_for_language(language, canon_code());
+std::string ScriptureView::base_source() const {
+    if (rows_.empty())
+        return base_source_;
+    const auto sources = shown_sources(first_visible());
+    return sources.empty() ? std::string{} : sources.front();
+}
+std::vector<std::string> ScriptureView::sources_for_chapter(int chapter) const {
+    if (auto found = available_sources_.find(chapter); found != available_sources_.end())
+        return found->second;
+    return available_sources_[chapter] = chapter_sources(corpus_, frame_, displayed_.book, chapter);
+}
+std::vector<std::string> ScriptureView::shown_sources(std::size_t row) const {
+    const int chapter = rows_[row].ref.chapter;
+    const auto available = sources_for_chapter(chapter);
+    const auto found = chapter_overrides_.find({displayed_.book, chapter});
+    const std::array<std::string, 2> overrides =
+        found == chapter_overrides_.end() ? std::array<std::string, 2>{} : found->second;
+    auto primary = overrides[0];
+    if (primary.empty())
+        primary = reading_.source_override.empty() ? preferred_source(settings_.primary_sources, available)
+                                                   : reading_.source_override;
+    std::vector<std::string> result{primary};
+    if (columns_count() == 2) {
+        auto secondary = overrides[1];
+        if (secondary.empty())
+            secondary = preferred_source(settings_.secondary_sources, available, primary);
+        if (!secondary.empty())
+            result.push_back(secondary);
+    }
+    return result;
 }
 wxString ScriptureView::swedish_edition(std::size_t heading) const {
     if (auto it = swedish_editions_.find(heading); it != swedish_editions_.end())
@@ -147,8 +174,7 @@ wxString ScriptureView::swedish_edition(std::size_t heading) const {
     bool bible = false, apocrypha = false;
     for (auto index = heading + 1; index < rows_.size() && !rows_[index].heading; ++index)
         for (const auto& ref : rows_[index].verses)
-            for (const auto& [book, target] :
-                 corpus_.counterparts(frame_, source_of("sv"), displayed_.book, ref)) {
+            for (const auto& [book, target] : corpus_.counterparts(frame_, "sv1917", displayed_.book, ref)) {
                 (void)target;
                 (corpus_.deuterocanonical_book(book) ? apocrypha : bible) = true;
             }
@@ -156,16 +182,6 @@ wxString ScriptureView::swedish_edition(std::size_t heading) const {
                                         : apocrypha        ? ui::utf8("SVENSKA 1921")
                                         : bible            ? ui::utf8("SVENSKA 1917")
                                                            : wxString{};
-}
-std::vector<std::string> ScriptureView::shown_languages(std::size_t row) const {
-    while (row > 0 && !rows_[row].heading)
-        --row;
-    auto result = languages();
-    if (result.front() == "sv" && swedish_edition(row).empty()) {
-        result.front() = "en";
-        result.erase(std::unique(result.begin(), result.end()), result.end());
-    }
-    return result;
 }
 const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) const {
     if (auto it = orphans_.find(source); it != orphans_.end())
@@ -306,8 +322,13 @@ bool ScriptureView::passage_in_view() const {
     return false;
 }
 void ScriptureView::apply(const Settings& settings) {
-    const bool metrics_changed =
-        settings_.text_zoom != settings.text_zoom || settings_.parallel != settings.parallel;
+    if (settings_.primary_sources != settings.primary_sources ||
+        settings_.secondary_sources != settings.secondary_sources)
+        chapter_overrides_.clear();
+    const bool metrics_changed = settings_.text_zoom != settings.text_zoom ||
+                                 settings_.split_view != settings.split_view ||
+                                 settings_.primary_sources != settings.primary_sources ||
+                                 settings_.secondary_sources != settings.secondary_sources;
     if (settings_.word_study != settings.word_study) {
         highlighted_.reset();
         highlighted_verse_.reset();
@@ -326,7 +347,7 @@ void ScriptureView::apply(const Settings& settings) {
         invalidate();
     else
         request_repaint();
-    if (highlighted_verse_)
+    if (highlighted_verse_ || !selections_.empty())
         rebuild_verse_links();
 }
 void ScriptureView::invalidate() {
@@ -374,15 +395,15 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     if (rows_[index].heading)
         layout.height = estimated_height(rows_[index]);
     else {
-        const auto selected_languages = shown_languages(index);
+        const auto selected_sources = shown_sources(index);
         const bool stacked = stacked_columns();
         const bool stanza = corpus_.stanza_book(displayed_.book);
         const int offset = canon_ ? canon_->offset() : 0;
         const auto segments = reading_.segments();
         int height = 0;
-        for (const auto& language : selected_languages) {
+        for (const auto& source : selected_sources) {
+            const auto language = language_of(source);
             const auto fetch_begin = std::chrono::steady_clock::now();
-            const auto source = source_of(language);
             Column column;
             column.language = language;
             column.source = source;
@@ -402,7 +423,9 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
             for (const auto& ref : rows_[index].verses) {
                 const auto framing = corpus_.verse(frame_, displayed_.book, ref);
                 const auto last = framing ? framing->last.value_or(ref) : ref;
-                auto verse = corpus_.parallel_verse(frame_, source, displayed_.book, ref);
+                auto verse = source.empty() ? std::expected<Verse, std::string>{std::unexpected(
+                                                  "Ingen aktiverad källa för kapitlet")}
+                                            : corpus_.parallel_verse(frame_, source, displayed_.book, ref);
                 // One verse of this edition can span several framing verses.
                 if ((verse && previous && verse->ref == *previous) ||
                     (!verse && verse.error() == merged_verse && !column.verses.empty())) {
@@ -450,7 +473,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                 std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - typeset_begin)
                     .count();
             const int h =
-                column.text.height() + (stacked && selected_languages.size() > 1 ? FromDIP(zoomed(24)) : 0);
+                column.text.height() + (stacked && selected_sources.size() > 1 ? FromDIP(zoomed(24)) : 0);
             height = stacked ? height + h : std::max(height, h);
             layout.columns.push_back(std::move(column));
         }

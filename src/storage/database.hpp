@@ -122,6 +122,9 @@ public:
     std::optional<ReadingPosition> position(const std::string& key) const;
     void position(const std::string& key, const ReadingPosition&);
     void reset_position(const std::string& key);
+    std::vector<Bookmark> bookmarks(const CorpusDb&) const;
+    void bookmark(const std::string& source, const Passage&);
+    void remove_bookmark(int id);
 
 private:
     DatabaseHandle db_;

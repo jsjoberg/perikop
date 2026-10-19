@@ -26,7 +26,7 @@ Text in `⟦…⟧` gives exact phonemes from a pronunciation entry. See [the pr
 The preparation script pins the source weights and their revisions. It checks the large source files with SHA-256.
 
 ```sh
-uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
+uv run --project tools/speech --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
 ```
 
 The build bundles the prepared pack in the application's resources, under `voices/` and the pack identifier.
@@ -48,7 +48,7 @@ For a comparison with the upstream pronunciation engine, use its pinned checkout
 ```sh
 git clone https://github.com/joakimeriksson/kokoro-sv.git build/kokoro-sv-source
 git -C build/kokoro-sv-source checkout 42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f
-uv run --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack --reference-source build/kokoro-sv-source
+uv run --project tools/speech --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack --reference-source build/kokoro-sv-source
 ```
 
 This command writes samples and timing results into `build/kokoro-audition`.

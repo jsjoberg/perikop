@@ -1,15 +1,86 @@
-#include "perikop_version.hpp"
+#include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include <algorithm>
 #include <wx/checkbox.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
-#include <wx/msgdlg.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
 namespace ortho {
 namespace {
+class SourceStack final : public wxPanel {
+public:
+    SourceStack(wxWindow* parent, std::vector<SourcePreference>& preferences,
+                const std::vector<Source>& catalog, bool primary, std::function<void()> changed)
+        : wxPanel(parent), preferences_(preferences), catalog_(catalog), primary_(primary),
+          changed_(std::move(changed)) {
+        rebuild();
+    }
+
+private:
+    std::vector<SourcePreference>& preferences_;
+    std::vector<Source> catalog_;
+    bool primary_;
+    std::function<void()> changed_;
+    void rebuild() {
+        DestroyChildren();
+        auto* stack = new wxBoxSizer(wxVERTICAL);
+        const auto enabled = std::ranges::count(preferences_, true, &SourcePreference::enabled);
+        for (std::size_t i = 0; i < preferences_.size(); ++i) {
+            const auto& preference = preferences_[i];
+            const auto found = std::ranges::find(catalog_, preference.source, &Source::code);
+            const auto name = ui::utf8(found == catalog_.end() ? preference.source : found->name);
+            auto* row = new wxBoxSizer(wxHORIZONTAL);
+            auto* check = new wxCheckBox(this, wxID_ANY, name);
+            check->SetFont(ui_font());
+            check->SetValue(preference.enabled);
+            check->SetName(ui::utf8(primary_ ? "Huvudtext, " : "Andra texten, ") + name);
+            check->SetToolTip(ui::utf8("Aktivera eller inaktivera denna källa i prioriteringsordningen."));
+            check->Enable(found != catalog_.end() && (!primary_ || !preference.enabled || enabled > 1));
+            check->Bind(wxEVT_CHECKBOX, [this, i](wxCommandEvent& event) {
+                preferences_[i].enabled = event.IsChecked();
+                changed_();
+                CallAfter([this] {
+                    rebuild();
+                });
+            });
+            row->Add(check, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(12)));
+            for (const int direction : {-1, 1}) {
+                auto* move = ui::button(this, ui::utf8(direction < 0 ? "↑" : "↓"), [this, i, direction] {
+                    CallAfter([this, i, direction] {
+                        const auto destination = direction < 0 ? i - 1 : i + 1;
+                        std::swap(preferences_[i], preferences_[destination]);
+                        changed_();
+                        rebuild();
+                        if (auto* item = GetSizer()
+                                             ->GetItem(destination)
+                                             ->GetSizer()
+                                             ->GetItem(std::size_t{0})
+                                             ->GetWindow())
+                            item->SetFocus();
+                    });
+                });
+                const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
+                move->SetName(label);
+                move->SetToolTip(label);
+                move->Enable(direction < 0 ? i > 0 : i + 1 < preferences_.size());
+                row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(4)));
+            }
+            stack->Add(row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(5)));
+        }
+        SetSizer(stack, true);
+        SetMinSize(stack->GetMinSize());
+        Layout();
+        if (GetParent())
+            GetParent()->Layout();
+        for (auto* child : GetChildren()) {
+            child->SetBackgroundColour(GetBackgroundColour());
+            child->SetForegroundColour(GetForegroundColour());
+        }
+    }
+};
 // The chosen colour scheme's light and dark variants as small reader pages, so both can be judged at once.
 class SchemePreview final : public wxWindow {
 public:
@@ -109,6 +180,26 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     auto* content = new wxPanel(page);
     auto* entries = new wxBoxSizer(wxVERTICAL);
     content->SetSizer(entries);
+    const auto sources = corpus_.sources();
+    const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
+                                  bool primary) {
+        entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        entries->Add(new SourceStack(content, preferences, sources, primary,
+                                     [this, primary] {
+                                         if (primary)
+                                             stop_speech(false);
+                                         apply_settings();
+                                     }),
+                     0, wxEXPAND);
+        entries->AddSpacer(FromDIP(zoomed(14)));
+    };
+    source_stack("HUVUDTEXT – KÄLLOR I PRIORITETSORDNING", settings_.primary_sources, true);
+    source_stack("DELAD LÄSNING – ANDRA TEXTENS KÄLLOR", settings_.secondary_sources, false);
+    entries->Add(
+        ui::label(content, ui::utf8("Den första aktiverade källan med text i kapitlet används."), 10));
+    entries->Add(ui::label(
+        content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
+    entries->AddSpacer(FromDIP(zoomed(22)));
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
         entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
@@ -189,117 +280,11 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 updater_->reset();
             });
     entries->Add(ui::label(content, ui::utf8("Valet startar ingen sökning eller hämtning.")));
-    // Each step waits for the user: check, then download, then restart to install.
-    auto* update_row = new wxBoxSizer(wxHORIZONTAL);
-    auto* update_button = ui::button(content, ui::utf8("Sök efter uppdateringar"), [this] {
-        update_clicked();
-    });
-    auto* cancel = ui::button(content, "Avbryt", [this] {
-        updater_->cancel();
-    });
-    cancel->SetToolTip(ui::utf8("Sluta vänta. En påbörjad hämtning avslutas först."));
-    update_row->Add(update_button, 0, wxRIGHT, FromDIP(zoomed(8)));
-    update_row->Add(cancel);
-    entries->Add(update_row, 0, wxTOP, FromDIP(zoomed(12)));
-    auto* update_text = ui::label(content, {}, 10);
-    entries->Add(update_text, 0, wxTOP, FromDIP(zoomed(8)));
-    update_button_ = update_button;
-    update_cancel_ = cancel;
-    update_text_ = update_text;
-    show_update_status();
     auto* outer = new wxBoxSizer(wxVERTICAL);
     outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
     page->FitInside();
     page->Layout();
-}
-void MainFrame::show_update_status() {
-    auto* button = update_button_.get();
-    auto* cancel = update_cancel_.get();
-    auto* text = static_cast<wxStaticText*>(update_text_.get());
-    if (!button || !cancel || !text)
-        return;
-    using State = UpdateStatus::State;
-    const auto& status = updater_->status();
-    const auto version = ui::utf8(status.offer.version);
-    auto label = ui::utf8("Sök efter uppdateringar");
-    wxString line;
-    bool enabled = true;
-    switch (status.state) {
-    case State::Unavailable:
-        enabled = false;
-        line = ui::utf8(status.message);
-        break;
-    case State::Idle:
-        line = ui::utf8("Den här versionen: ") + PERIKOP_VERSION;
-        break;
-    case State::Checking:
-        label = ui::utf8("Söker…");
-        enabled = false;
-        line = ui::utf8("Söker efter uppdateringar på GitHub.");
-        break;
-    case State::Current:
-        line = ui::utf8("Du har den senaste versionen, ") + PERIKOP_VERSION + ".";
-        break;
-    case State::Available:
-        label = ui::utf8("Hämta version ") + version;
-        line = ui::utf8("Version ") + version + ui::utf8(" finns att hämta");
-        if (status.offer.size)
-            line += ", " + std::to_string((status.offer.size + 999'999) / 1'000'000) + " MB";
-        line += status.offer.downgrade ? ui::utf8(". Den är äldre än den du har.") : wxString(".");
-        break;
-    case State::Downloading:
-        label = ui::utf8("Hämtar…");
-        enabled = false;
-        line = ui::utf8("Hämtar version ") + version + ": " + std::to_string(status.progress) + " %";
-        break;
-    case State::Cancelling:
-        label = ui::utf8("Avbryter…");
-        enabled = false;
-        line = ui::utf8("Avbryter. Det som redan har börjat hämtas avslutas först.");
-        break;
-    case State::Ready:
-        label = ui::utf8("Starta om och installera");
-        line =
-            ui::utf8("Version ") + version + ui::utf8(" är hämtad. Perikop startar om när den installeras.");
-        break;
-    case State::Failed:
-        label = ui::utf8("Försök igen");
-        line = ui::utf8("Det gick inte: ") + ui::utf8(status.message);
-        break;
-    }
-    if (button->GetLabel() != label) {
-        button->SetLabel(label);
-        button->InvalidateBestSize();
-    }
-    button->Enable(enabled);
-    cancel->Show(status.state == State::Checking || status.state == State::Downloading);
-    if (text->GetLabel() != line) {
-        text->SetLabelText(line);
-        text->Wrap(FromDIP(zoomed(440)));
-    }
-    if (auto* page = text->GetParent()->GetParent()) {
-        page->Layout();
-        if (auto* scrolled = dynamic_cast<wxScrolledWindow*>(page))
-            scrolled->FitInside();
-    }
-}
-void MainFrame::update_clicked() {
-    using State = UpdateStatus::State;
-    const auto& status = updater_->status();
-    if (status.state == State::Available) {
-        if (status.offer.downgrade &&
-            wxMessageBox(ui::utf8("Version " + status.offer.version +
-                                  " är äldre än den du har. Vill du byta till den?"),
-                         ui::utf8("Äldre version"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION, this) != wxYES)
-            return;
-        updater_->download();
-    } else if (status.state == State::Ready) {
-        // Velopack installs once the program has closed, then starts it again.
-        if (updater_->apply())
-            Close();
-    } else
-        updater_->check(settings_.update_channel);
 }
 } // namespace ortho

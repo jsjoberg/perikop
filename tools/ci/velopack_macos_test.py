@@ -2,7 +2,7 @@
 """Prepare a self-contained macOS update validation kit, then run it without networking.
 
 The kit needs only macOS tools on the test machine, with neither Python, .NET, nor a compiler.
-Use --prepare-only when transferring it to a macOS 13.4+ machine for the baseline check.
+Use --prepare-only when transferring it to a macOS 15 machine for the baseline check.
 """
 
 import argparse
@@ -21,7 +21,7 @@ def prepare(bundle, architecture, kit):
     if kit.exists():
         raise ValueError("Validation directory already exists: " + str(kit))
     kit.mkdir(parents=True)
-    runtime = {"arm64": "arm64", "x86_64": "x64"}[architecture]
+    runtime = "arm64"
     channel = f"osx-{runtime}-nightly"
     feed = kit / "feed"
     for version in ("1.0.0-test.1", "1.0.0-test.2"):
@@ -47,14 +47,14 @@ def prepare(bundle, architecture, kit):
     (kit / "architecture.txt").write_text(architecture + "\n")
     (kit / "README.txt").write_text(
         "Perikop macOS update validation\n\n"
-        "On a Mac with macOS 13.4 or later in the 13 series, open Terminal and run:\n"
-        "  bash /path/to/validate_macos_update.command --require-macos13\n\n"
-        "On a newer Mac, omit --require-macos13. Intel packages need Intel or Rosetta.\n"
+        "On a Mac with macOS 15, open Terminal and run:\n"
+        "  bash /path/to/validate_macos_update.command --require-macos15\n\n"
+        "On a newer Mac, omit --require-macos15.\n"
         "No Python, .NET, compiler, network, or administrator access is needed.\n"
         "The test extracts the PKG payload, applies a full update and then a delta without its full package,\n"
         "signatures, architecture, UI, and profile preservation, then removes the private copy.\n"
         "It saves result-<architecture>.txt beside this file. On failure it keeps diagnostic files.\n"
-        "A pass on a newer macOS does not validate macOS 13 compatibility.\n")
+        "A pass on a newer macOS does not validate macOS 15 compatibility.\n")
     files = sorted(file for file in kit.rglob("*") if file.is_file())
     with (kit / "SHA256SUMS.txt").open("w") as checksums:
         for file in files:
@@ -66,7 +66,7 @@ def prepare(bundle, architecture, kit):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("bundle", type=Path)
-    parser.add_argument("architecture", choices=("arm64", "x86_64"))
+    parser.add_argument("architecture", choices=("arm64",))
     parser.add_argument("kit", type=Path)
     parser.add_argument("--prepare-only", action="store_true")
     args = parser.parse_args()

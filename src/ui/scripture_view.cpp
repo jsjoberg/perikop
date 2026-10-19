@@ -7,7 +7,8 @@
 namespace ortho {
 ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS | wxVSCROLL),
-      follow_timer_(this), wheel_timer_(this), layout_timer_(this), corpus_(corpus) {
+      follow_timer_(this), wheel_timer_(this), layout_timer_(this), corpus_(corpus),
+      source_catalog_(corpus.sources()) {
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetName(wxString::FromUTF8("Kontinuerlig skriftläsare"));
     Bind(wxEVT_PAINT, &ScriptureView::paint, this);
@@ -115,9 +116,9 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
         press_point_ = e.GetPosition();
-        // Only the reading's own edition selects verses to read aloud, not English shown in its place.
+        // Mark passages in the main pane; read-aloud is offered only for Swedish.
         if (const auto found = hit(e.GetPosition()))
-            drag_selects_ = found->column_index == 0 && found->column->source == base_source_;
+            drag_selects_ = found->column_index == 0;
         dragged_ = false;
         append_drag_ = e.CmdDown() || e.ControlDown();
         drag_ranges_ = selections_;

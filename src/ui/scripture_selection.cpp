@@ -3,6 +3,21 @@
 #include <algorithm>
 #include <limits>
 namespace ortho {
+std::optional<Reading> ScriptureView::marked_reading() const {
+    auto passages = selections();
+    if (passages.empty()) {
+        if (!highlighted_verse_ || settings_.word_study || columns_count() != 1)
+            return {};
+        passages.push_back({displayed_.book, highlighted_verse_->first, highlighted_verse_->second});
+    }
+    Reading reading{corpus_.new_testament_book(displayed_.book) ? ReadingKind::Gospel
+                                                                : ReadingKind::OldTestament,
+                    passages.front(),
+                    {passages.begin() + 1, passages.end()},
+                    primary_language()};
+    reading.reference = frame_;
+    return reading;
+}
 std::vector<Passage> ScriptureView::selections() const {
     std::vector<Passage> result;
     for (const auto& [first, end] : selections_) {
@@ -44,6 +59,7 @@ void ScriptureView::select_verses(VerseRef first, VerseRef last, bool append) {
     Refresh(false);
     if (selection_changed_)
         selection_changed_();
+    rebuild_verse_links();
 }
 void ScriptureView::clear_selection() {
     if (selections_.empty())
@@ -52,6 +68,7 @@ void ScriptureView::clear_selection() {
     Refresh(false);
     if (selection_changed_)
         selection_changed_();
+    rebuild_verse_links();
 }
 std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
     const auto found = hit(point);
@@ -116,7 +133,7 @@ ScriptureView::word_of(const Column& column, int tag, std::size_t line, int run)
 }
 std::optional<ScriptureView::Word> ScriptureView::word_at(wxPoint point) const {
     const auto found = hit(point);
-    if (!found || found->column_index != 0 || found->column->source != base_source_ || found->run < 0 ||
+    if (!found || found->column_index != 0 || found->column->language != "sv" || found->run < 0 ||
         found->distance > FromDIP(zoomed(4)))
         return std::nullopt;
     const auto& column = *found->column;

@@ -48,6 +48,12 @@ bool MainFrame::has_reading_position() const {
     return visible_reading_ &&
            user_.position(reading_key(corpus_, in_swedish(*visible_reading_))).has_value();
 }
+std::string MainFrame::reading_progress(const Reading& reading, const std::string& key) const {
+    auto position = user_.position(key);
+    if (!position)
+        position = user_.position(reading_key(corpus_, in_swedish(reading)));
+    return position ? " · " + std::to_string(position->percent) + " %" : "";
+}
 void MainFrame::restore_reading_position() {
     if (!visible_reading_)
         return;
@@ -127,6 +133,16 @@ void MainFrame::play_or_pause() {
         // Only listening to the whole start-page item marks it complete.
         speech_tracked_ = tracked_;
     }
+}
+void MainFrame::listen_to_selection(const Reading& reading) {
+    if (reading.base_language != "sv")
+        return;
+    save_navigation();
+    save_reading_position();
+    tracked_.reset();
+    // A direct selection action always starts at the beginning of the selected passage.
+    play_speech({reading}, false);
+    record_navigation();
 }
 void MainFrame::speech_status(const std::string& status) {
     if (playback_.playback().state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
@@ -232,7 +248,7 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         scripture_->playback(playback);
     update_bar();
 }
-void MainFrame::play_speech(const std::vector<Reading>& readings) {
+void MainFrame::play_speech(const std::vector<Reading>& readings, bool resume) {
     stop_speech(false);
     playback_.forget_location();
     try {
@@ -243,7 +259,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings) {
         auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
             return speech_lexicon(language);
         });
-        if (!primary_readings.empty())
+        if (resume && !primary_readings.empty())
             if (const auto position = user_.position(reading_key(corpus_, primary_readings.front())))
                 resume_speech(queue, *position);
         playback_.start(readings);

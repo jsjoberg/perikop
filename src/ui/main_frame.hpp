@@ -16,6 +16,8 @@
 class wxBoxSizer;
 class wxEventFilter;
 class wxMenuBar;
+class wxDialog;
+class wxMenu;
 class wxPanel;
 class wxScrolledWindow;
 class wxStaticText;
@@ -50,8 +52,13 @@ private:
     // Brings the menu bar's labels and states up to date. The ⋮ menu shows its items.
     void sync_menu();
     void show_menu();
-    // Windows and Linux hide the menu bar; Alt shows it. macOS always shows its own.
-    void show_menu_bar(bool);
+    bool smoke_menu();
+    wxMenu* bookmark_menu();
+    void refresh_bookmarks();
+    void add_bookmarks(const Reading&);
+    void open_bookmark(const Bookmark&);
+    void remove_bookmark(const Bookmark&);
+    void listen_to_selection(const Reading&);
     void refresh_day();
     void layout_home();
     void show_readings(bool record = true);
@@ -90,7 +97,8 @@ private:
     // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);
-    // The update controls in Inställningar follow the updater's state.
+    void show_updates();
+    // The update dialog follows the updater's state.
     void show_update_status();
     void update_clicked();
     // The start page's plan section: the next part of the plan in progress, and all plans.
@@ -107,7 +115,7 @@ private:
     void address_clicked();
     void select_part(size_t);
     void toggle_pane(const std::string&);
-    void play_speech(const std::vector<Reading>&);
+    void play_speech(const std::vector<Reading>&, bool resume = true);
     void prepare_day();
     bool preparing_day() const;
     void clear_preparation();
@@ -117,6 +125,7 @@ private:
     void stop_speech(bool reset = true);
     void save_reading_position();
     void restore_reading_position();
+    std::string reading_progress(const Reading&, const std::string& key) const;
     bool has_reading_position() const;
     bool active_playback() const;
     void speech_status(const std::string&);
@@ -198,20 +207,18 @@ private:
     SymbolButton* back_ = nullptr;
     SymbolButton* forward_ = nullptr;
     SymbolButton* play_ = nullptr;
-    SymbolButton* pause_ = nullptr;
     SymbolButton* stop_ = nullptr;
     AddressBar* address_ = nullptr;
     SymbolButton* menu_ = nullptr;
-    // The menu bar, also while it is hidden and so not owned by the frame.
+    // Command definitions for the overflow menu and shortcuts; macOS also attaches this bar.
     wxMenuBar* menu_bar_ = nullptr;
-    wxAcceleratorTable accelerators_;
-    std::unique_ptr<wxEventFilter> alt_tap_;
     std::unique_ptr<wxEventFilter> navigation_input_;
-    // Right-column choices: "study" or a language code.
+    // Right-column choices: word study or the preferred secondary edition.
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
-    // Inställningar's update controls; they go when the page closes.
+    // Update action dialog; controls go when it closes.
+    wxWeakRef<wxDialog> update_dialog_;
     wxWeakRef<wxWindow> update_button_, update_cancel_, update_text_;
 };
 } // namespace ortho
