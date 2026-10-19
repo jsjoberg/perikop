@@ -1,0 +1,166 @@
+{
+  "runs": [
+    {
+      "log_sha256": "c08c59b3eacd155b9926bdc5afd64479535eb191edabf0b840677c87a3de90bc",
+      "configuration": {
+        "event": "configuration",
+        "threads": 4,
+        "audio_hardware": false,
+        "speed": 1,
+        "case_1": "cold_model_empty_cache",
+        "case_2": "warm_model_new_text",
+        "case_3": "cached_replay"
+      },
+      "rows": [
+        {
+          "scenario": 1,
+          "name": "cold_model_empty_cache",
+          "model_load_seconds": 0.45050775,
+          "generate_seconds": 0.883748419,
+          "cache_save_seconds": 0.0012391999999998848,
+          "first_append_seconds": 1.33792217,
+          "first_gate_release_seconds": 1.33793588,
+          "first_nonzero_seconds": 1.54201479,
+          "first_active_rms_seconds": 2.19061337,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        },
+        {
+          "scenario": 2,
+          "name": "warm_model_new_text",
+          "model_load_seconds": null,
+          "generate_seconds": 0.81388675,
+          "cache_save_seconds": 0.001575833000000082,
+          "first_append_seconds": 0.815879916,
+          "first_gate_release_seconds": 0.815892958,
+          "first_nonzero_seconds": 1.01971275,
+          "first_active_rms_seconds": 1.62927362,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        },
+        {
+          "scenario": 3,
+          "name": "cached_replay",
+          "model_load_seconds": null,
+          "generate_seconds": null,
+          "cache_save_seconds": null,
+          "first_append_seconds": 0.001909583,
+          "first_gate_release_seconds": 0.001975875,
+          "first_nonzero_seconds": 0.210147625,
+          "first_active_rms_seconds": 0.858455125,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        }
+      ],
+      "cached_replay_bit_identical": true
+    },
+    {
+      "log_sha256": "a551eb77b90bbd75ae3f29a51e5c2fb7628341e485524bd502ff7733cdfa7c9a",
+      "configuration": {
+        "event": "configuration",
+        "threads": 2,
+        "audio_hardware": false,
+        "speed": 1,
+        "case_1": "cold_model_empty_cache",
+        "case_2": "warm_model_new_text",
+        "case_3": "cached_replay"
+      },
+      "rows": [
+        {
+          "scenario": 1,
+          "name": "cold_model_empty_cache",
+          "model_load_seconds": 0.40846312500000004,
+          "generate_seconds": 1.392253543,
+          "cache_save_seconds": 0.0010846599999998485,
+          "first_append_seconds": 1.82114921,
+          "first_gate_release_seconds": 1.82116454,
+          "first_nonzero_seconds": 2.02104487,
+          "first_active_rms_seconds": 2.67200192,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        },
+        {
+          "scenario": 2,
+          "name": "warm_model_new_text",
+          "model_load_seconds": null,
+          "generate_seconds": 1.367271997,
+          "cache_save_seconds": 0.0013141699999998924,
+          "first_append_seconds": 1.36919396,
+          "first_gate_release_seconds": 1.36921679,
+          "first_nonzero_seconds": 1.57630371,
+          "first_active_rms_seconds": 2.18560675,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        },
+        {
+          "scenario": 3,
+          "name": "cached_replay",
+          "model_load_seconds": null,
+          "generate_seconds": null,
+          "cache_save_seconds": null,
+          "first_append_seconds": 0.001923958,
+          "first_gate_release_seconds": 0.001989958,
+          "first_nonzero_seconds": 0.21039025,
+          "first_active_rms_seconds": 0.860562208,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        }
+      ],
+      "cached_replay_bit_identical": true
+    },
+    {
+      "log_sha256": "ad717a82ab2b6bcaf57a613e880cb6ee94b698f527a983caaee0ba73c646e5ee",
+      "configuration": {
+        "event": "configuration",
+        "threads": 1,
+        "audio_hardware": false,
+        "speed": 1,
+        "case_1": "cold_model_empty_cache",
+        "case_2": "warm_model_new_text",
+        "case_3": "cached_replay"
+      },
+      "rows": [
+        {
+          "scenario": 1,
+          "name": "cold_model_empty_cache",
+          "model_load_seconds": 0.34885574999999996,
+          "generate_seconds": 2.5654900009999997,
+          "cache_save_seconds": 0.00104791999999998,
+          "first_append_seconds": 2.91898046,
+          "first_gate_release_seconds": 2.91899304,
+          "first_nonzero_seconds": 3.12215596,
+          "first_active_rms_seconds": 3.77194667,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        },
+        {
+          "scenario": 2,
+          "name": "warm_model_new_text",
+          "model_load_seconds": null,
+          "generate_seconds": 2.3707318749999997,
+          "cache_save_seconds": 0.0011941300000000155,
+          "first_append_seconds": 2.37243767,
+          "first_gate_release_seconds": 2.37245,
+          "first_nonzero_seconds": 2.57176008,
+          "first_active_rms_seconds": 3.18312158,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        },
+        {
+          "scenario": 3,
+          "name": "cached_replay",
+          "model_load_seconds": null,
+          "generate_seconds": null,
+          "cache_save_seconds": null,
+          "first_append_seconds": 0.001269958,
+          "first_gate_release_seconds": 0.001306166,
+          "first_nonzero_seconds": 0.208241458,
+          "first_active_rms_seconds": 0.858667958,
+          "note": "Signal thresholds in a simulated 24 kHz clock; excludes physical device, driver and UI delays."
+        }
+      ],
+      "cached_replay_bit_identical": true
+    }
+  ],
+  "scope": "Local Apple M4 headless worker measurements; not X220i/Pi 5 measurements and not physical click-to-speaker latency.",
+  "provenance": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "worker_sha256": "aadec14180aea89e6a2b102c12ac32ca310c6ce107412ae4b0a2e9d883be501a",
+    "acoustic_source_sha256": "6ff2313aa219c43f77b40e0149da3d0c073155e66494cbd6931e88e3054220c0",
+    "model_sha256": "d71de206f02aaa10cf934985ea4e16dc4cffddac11e24df46e31c25f0fe069b6",
+    "probe_sha256": "0ba3ed01fb437e04b93b182172b7cfa2cf14ef139a501f04f137f220e549af36"
+  }
+}

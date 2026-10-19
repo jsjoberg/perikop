@@ -1,3 +1,5 @@
+> Updated user priorities: pleasant voice quality is non-negotiable. The 30 MB figure was an estimate, not a limit. Performance and startup delay of the existing neural voice on machines such as the ThinkPad X220i and Raspberry Pi 5 are the current problem. Replacement engines/models require license review. The Bas investigations below are historical diagnostic evidence, not a commitment to that architecture.
+
 # Is Björn Bas a dead end? Diagnostic control, 2026-10-19
 
 Observed result: the unchanged native Bas renderer recognizes much better with units extracted from the exact sentence being rendered. This is an oracle reconstruction control, not a general-purpose or reusable voice improvement. No production synthesizer or resource was changed.

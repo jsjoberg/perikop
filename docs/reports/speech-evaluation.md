@@ -1,3 +1,5 @@
+> Updated user priorities: pleasant voice quality is non-negotiable. The 30 MB figure was an estimate, not a limit. Performance and startup delay of the existing neural voice on machines such as the ThinkPad X220i and Raspberry Pi 5 are the current problem. Replacement engines/models require license review. The Bas investigations below are historical diagnostic evidence, not a commitment to that architecture.
+
 # Björn evaluation findings — 2026-10-19
 
 The evaluation distinguishes neural Björn, the earlier harmonic reconstructions,
