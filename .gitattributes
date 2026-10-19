@@ -12,3 +12,5 @@ resources/corpus/provenance/** -text
 resources/licenses/** -text
 resources/voices/** -text
 resources/voices/**/lexicon.tsv linguist-generated=true
+# Reproducible evaluation evidence; inspect via the findings report.
+docs/reports/speech-evaluation/*.json linguist-generated=true

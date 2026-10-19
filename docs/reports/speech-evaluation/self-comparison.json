@@ -1,0 +1,315 @@
+{
+  "status": "compatible",
+  "splits": {
+    "dev": {
+      "verdict": "uncertain",
+      "wer": {
+        "n": 40,
+        "clusters": 35,
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "seed": 1917,
+        "bootstrap_repetitions": 4000,
+        "unit": "chapter cluster when reference metadata exists; otherwise passage"
+      },
+      "cer": {
+        "n": 40,
+        "clusters": 35,
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "seed": 1917,
+        "bootstrap_repetitions": 4000,
+        "unit": "chapter cluster when reference metadata exists; otherwise passage"
+      },
+      "per_passage": [
+        {
+          "id": "1cor-013-004-007",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "1kgs-019-011-012",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "1sam-003-009-010",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "2sam-022-002-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "acts-002-008-011",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "dan-003-016-018",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "deut-006-004-005",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "eccl-003-001-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "exod-003-004-006",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "exod-020-012-013",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ezek-037-003-005",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-001-001-001",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-001-002-002",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-001-003-005",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-003-009-010",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-012-001-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-022-001-002",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "isa-009-006-006",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "isa-040-028-029",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "jer-001-006-008",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "job-019-025-027",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "john-001-001-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "john-003-016-017",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "jonah-002-002-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "luke-002-001-004",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "luke-002-008-011",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "mark-004-039-040",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "matt-005-003-006",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "matt-006-009-013",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "micah-006-008-008",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "num-006-024-026",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "prov-003-005-006",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ps-023-001-002",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ps-023-003-004",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ps-023-005-006",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ps-046-002-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ps-139-013-014",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "rom-008-038-039",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ruth-001-016-017",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "song-002-011-012",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        }
+      ]
+    },
+    "heldout": {
+      "verdict": "uncertain",
+      "wer": {
+        "n": 10,
+        "clusters": 10,
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "seed": 1917,
+        "bootstrap_repetitions": 4000,
+        "unit": "chapter cluster when reference metadata exists; otherwise passage"
+      },
+      "cer": {
+        "n": 10,
+        "clusters": 10,
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "seed": 1917,
+        "bootstrap_repetitions": 4000,
+        "unit": "chapter cluster when reference metadata exists; otherwise passage"
+      },
+      "per_passage": [
+        {
+          "id": "acts-017-022-025",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "eph-006-010-013",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "exod-014-021-022",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "gen-011-001-003",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "isa-055-010-011",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "james-003-003-005",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "luke-015-011-014",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "matt-013-003-006",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "ps-121-001-004",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        },
+        {
+          "id": "rev-021-003-005",
+          "wer_delta": 0.0,
+          "cer_delta": 0.0
+        }
+      ]
+    }
+  },
+  "primary": "dev; heldout is confirmation, never a tuning target",
+  "rule": "95% chapter-cluster-bootstrap WER interval beyond +/-0.02 and CER interval agrees; otherwise uncertain"
+}

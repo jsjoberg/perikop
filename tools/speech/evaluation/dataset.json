@@ -1,0 +1,856 @@
+{
+  "schema": 1,
+  "source": {
+    "code": "sv1917",
+    "name": "Svenska 1917 med apokryfer",
+    "license_id": "Public-Domain",
+    "attribution": "Swedish 1917 and 1921 apocrypha; Project Runeberg e-text and facsimile"
+  },
+  "corpus_sha256": "170aeba1ce87a36ae930a861660af2614532ddfc960f1075937e4fbc1c62a996",
+  "selection": "Fixed curated passages; 40 development, 10 chapter-disjoint heldout; legacy clips separate.",
+  "word_categories": {
+    "names": [
+      "abraham",
+      "abrahams",
+      "isak",
+      "jakob",
+      "jakobs",
+      "mose",
+      "moses",
+      "aron",
+      "davids",
+      "david",
+      "israel",
+      "israels",
+      "jerusalem",
+      "betlehem",
+      "josef",
+      "maria",
+      "jesus",
+      "kristus",
+      "herre",
+      "herren",
+      "herrens",
+      "sedrak",
+      "mesak",
+      "abed",
+      "nego",
+      "elia",
+      "samuel",
+      "daniel",
+      "rut",
+      "noomi",
+      "judéen",
+      "galileen",
+      "nasaret",
+      "augustus",
+      "kvirinius",
+      "pontus",
+      "asien",
+      "frygien",
+      "pamfylien",
+      "egypten",
+      "rom",
+      "frygier",
+      "parter",
+      "meder",
+      "elamiter",
+      "mesopotamien"
+    ],
+    "archaic": [
+      "ock",
+      "intet",
+      "skola",
+      "skall",
+      "eder",
+      "edert",
+      "edra",
+      "huru",
+      "varda",
+      "varde",
+      "voro",
+      "äro",
+      "hava",
+      "hade",
+      "mig",
+      "dig",
+      "sig",
+      "icke",
+      "allenast",
+      "evinnerligen",
+      "vederkvicker",
+      "trösta",
+      "ty",
+      "eder",
+      "ären",
+      "haven",
+      "giva",
+      "giver",
+      "bliven",
+      "bliver",
+      "förrän",
+      "såsom",
+      "vart",
+      "därpå",
+      "hären"
+    ]
+  },
+  "passages": [
+    {
+      "id": "gen-001-001-001",
+      "split": "dev",
+      "reference": "Gen 1:1-1",
+      "text": "I begynnelsen skapade Gud himmel och jord.",
+      "tags": [
+        "short",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels"
+      ]
+    },
+    {
+      "id": "gen-001-002-002",
+      "split": "dev",
+      "reference": "Gen 1:2-2",
+      "text": "Och jorden var öde och tom, och mörker var över djupet, och Guds Ande svävade över vattnet.",
+      "tags": [
+        "medium",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "gen-001-003-005",
+      "split": "dev",
+      "reference": "Gen 1:3-5",
+      "text": "Och Gud sade: »Varde ljus»; och det vart ljus. Och Gud såg att ljuset var gott; och Gud skilde ljuset från mörkret. Och Gud kallade ljuset dag, och mörkret kallade han natt. Och det vart afton, och det vart morgon, den första dagen.",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "gen-003-009-010",
+      "split": "dev",
+      "reference": "Gen 3:9-10",
+      "text": "Men HERREN Gud kallade på mannen och sade till honom: »Var är du?» Han svarade: »Jag hörde dig i lustgården; då blev jag förskräckt, eftersom jag är naken; därför gömde jag mig.»",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "question",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "gen-012-001-003",
+      "split": "dev",
+      "reference": "Gen 12:1-3",
+      "text": "Och HERREN sade till Abram: »Gå ut ur ditt land och från din släkt och från din faders hus, bort till det land som jag skall visa dig. Så skall jag göra dig till ett stort folk; jag skall välsigna dig och göra ditt namn stort, och du skall bliva en välsignelse. Och jag skall välsigna dem som välsigna dig, och den som förbannar dig skall jag förbanna, och i dig skola alla släkter på jorden varda välsignade.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "gen-022-001-002",
+      "split": "dev",
+      "reference": "Gen 22:1-2",
+      "text": "En tid härefter hände sig att Gud satte Abraham på prov. Han sade till honom: »Abraham!» Han svarade: »Här är jag.» Då sade han: »Tag din son Isak, din ende son, som du har kär, och gå bort till Moria land, och offra honom där såsom brännoffer, på ett berg som jag skall säga dig.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "exod-003-004-006",
+      "split": "dev",
+      "reference": "Exod 3:4-6",
+      "text": "När då HERREN såg att han gick åstad för att se, ropade Gud till honom ur busken och sade: »Mose! Mose!» Han svarade: »Här är jag.» Då sade han: »Träd icke hit; drag dina skor av dina fötter, ty platsen där du står är helig mark.» Och han sade ytterligare: »Jag är din faders Gud, Abrahams Gud, Isaks Gud och Jakobs Gud.» Då skylde Mose sitt ansikte, ty han fruktade för att se på Gud.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "exod-020-012-013",
+      "split": "dev",
+      "reference": "Exod 20:12-13",
+      "text": "Hedra din fader och din moder, för att du må länge leva i det land som HERREN, din Gud, vill giva dig. Du skall icke dräpa.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "rounded_vowels"
+      ]
+    },
+    {
+      "id": "num-006-024-026",
+      "split": "dev",
+      "reference": "Num 6:24-26",
+      "text": "HERREN välsigne dig och bevare dig. HERREN låte sitt ansikte lysa över dig och vare dig nådig. HERREN vände sitt ansikte till dig och give dig frid.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "rounded_vowels"
+      ]
+    },
+    {
+      "id": "deut-006-004-005",
+      "split": "dev",
+      "reference": "Deut 6:4-5",
+      "text": "Hör, Israel! HERREN, vår gud, HERREN är en. Och du skall älska HERREN, din Gud, av allt ditt hjärta och av all din själ och av all din kraft.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "ruth-001-016-017",
+      "split": "dev",
+      "reference": "Ruth 1:16-17",
+      "text": "Men Rut svarade: »Sök icke intala mig att övergiva dig och vända tillbaka ifrån dig. Ty dit du går vill ock jag gå, och där du stannar vill ock jag stanna. Ditt folk är mitt folk, och din Gud är min Gud. Där du dör vill ock jag dö, och där vill jag bliva begraven. HERREN straffe mig nu och framgent, om något annat än döden kommer att skilja mig från dig.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "1sam-003-009-010",
+      "split": "dev",
+      "reference": "1Sam 3:9-10",
+      "text": "Därför sade Eli till Samuel: »Gå och lägg dig; och om han vidare ropar på dig, så säg: 'Tala, HERRE; din tjänare hör.» Och Samuel gick och lade sig på sin plats. Då kom HERREN och ställde sig där och ropade såsom de förra gångerna: »Samuel! Samuel!» Samuel svarade: »Tala, din tjänare hör.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "2sam-022-002-003",
+      "split": "dev",
+      "reference": "2Sam 22:2-3",
+      "text": "Han sade: HERRE, du mitt bergfäste, min borg och min räddare, Gud, du min klippa, till vilken jag tager min tillflykt, min sköld och min frälsnings horn, mitt värn och min tillflykt, min frälsare, du som frälsar mig från våldet!",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "1kgs-019-011-012",
+      "split": "dev",
+      "reference": "1Kgs 19:11-12",
+      "text": "Han sade: »Gå ut och ställ dig på berget inför HERREN.» Då gick HERREN fram där, och en stor och stark storm, som ryckte loss berg och bröt sönder klippor, gick före HERREN; men icke var HERREN i stormen. Efter stormen kom en jordbävning; men icke var HERREN i jordbävningen. Efter jordbävningen kom en eld; men icke var HERREN i elden. Efter elden kom ljudet av en sakta susning.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "job-019-025-027",
+      "split": "dev",
+      "reference": "Job 19:25-27",
+      "text": "Dock, jag vet att min förlossare lever, och att han till slut skall stå fram över stoftet. Och sedan denna min sargade hud är borta, skall jag fri ifrån mitt kött få skåda Gud. Ja, honom skall jag få skåda, mig till hjälp, för mina ögon skall jag se honom, ej såsom en främling; därefter trånar jag i mitt innersta.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "ps-023-001-002",
+      "split": "dev",
+      "reference": "Ps 23:1-2",
+      "text": "En psalm av David. HERREN är min herde, mig skall intet fattas, han låter mig vila på gröna ängar; han för mig till vatten där jag finner ro,",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels"
+      ]
+    },
+    {
+      "id": "ps-023-003-004",
+      "split": "dev",
+      "reference": "Ps 23:3-4",
+      "text": "han vederkvicker min själ; han leder mig på rätta vägar, för sitt namns skull. Om jag ock vandrar i dödsskuggans dal, fruktar jag intet ont, ty du är med mig; din käpp och stav, de trösta mig.",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "ps-023-005-006",
+      "split": "dev",
+      "reference": "Ps 23:5-6",
+      "text": "Du bereder för mig ett bord i mina ovänners åsyn; du smörjer mitt huvud med olja och låter min bägare flöda över. Godhet allenast och nåd skola följa mig i alla mina livsdagar, och jag skall åter få bo i HERRENS hus, evinnerligen.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "ps-046-002-003",
+      "split": "dev",
+      "reference": "Ps 46:2-3",
+      "text": "Gud är vår tillflykt och vår starkhet, en hjälp i nöden, väl beprövad. Därför skulle vi icke frukta, om än jorden omvälvdes och bergen vacklade ned i havsdjupet;",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "ps-139-013-014",
+      "split": "dev",
+      "reference": "Ps 139:13-14",
+      "text": "Ty du har skapat mina njurar, du sammanvävde mig i min moders liv. Jag tackar dig för att jag är danad så övermåttan underbart; ja, underbara äro dina verk, min själ vet det väl.",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels"
+      ]
+    },
+    {
+      "id": "prov-003-005-006",
+      "split": "dev",
+      "reference": "Prov 3:5-6",
+      "text": "Förtrösta på HERREN av allt ditt hjärta, och förlita dig icke på ditt förstånd. På alla dina vägar må du akta på honom, så skall han göra dina stigar jämna.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "eccl-003-001-003",
+      "split": "dev",
+      "reference": "Eccl 3:1-3",
+      "text": "Allting har sin tid, och vart företag under himmelen har sin stund. Födas har sin tid, och dö har sin tid. Plantera har sin tid, och rycka upp det planterade har sin tid. Dräpa har sin tid, och läka har sin tid. Bryta ned har sin tid, och bygga upp har sin tid.",
+      "tags": [
+        "long",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "song-002-011-012",
+      "split": "dev",
+      "reference": "Song 2:11-12",
+      "text": "Ty se, vintern är förbi, regntiden är förliden och har gått sin kos. Blommorna visa sig på marken, tiden har kommit, då vinträden skäras, och turturduvan låter höra sin röst i vårt land.",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "isa-009-006-006",
+      "split": "dev",
+      "reference": "Isa 9:6-6",
+      "text": "Ty ett barn varder oss fött, en son bliver oss given, och på hans skuldror skall herradömet vila; och hans namn skall vara: Underbar i råd, Väldig Gud, Evig fader, Fridsfurste.",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "isa-040-028-029",
+      "split": "dev",
+      "reference": "Isa 40:28-29",
+      "text": "Vet du då icke, har du ej hört det, att HERREN är en evig Gud, han som har skapat jordens ändar? Han bliver ej trött och uppgives icke, hans förstånd är outrannsakligt. Han giver den trötte kraft och förökar den maktlöses styrka.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "question"
+      ]
+    },
+    {
+      "id": "jer-001-006-008",
+      "split": "dev",
+      "reference": "Jer 1:6-8",
+      "text": "Men jag svarade: »Ack Herre HERRE! Se, jag förstår icke att tala, ty jag är för ung. Då sade HERREN till mig: »Säg icke: 'Jag är för ung', utan gå åstad vart jag än sänder dig, och tala vad jag än bjuder dig. Frukta icke för dem; ty jag är med dig och vill hjälpa dig, säger HERREN.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "ezek-037-003-005",
+      "split": "dev",
+      "reference": "Ezek 37:3-5",
+      "text": "Och han sade till mig: »Du människobarn, kunna väl dessa ben åter bliva levande?» Jag svarade: »Herre, HERRE, du vet det.» Då sade han till mig: »Profetera över dessa ben och säg till dem: I förtorkade ben, hören HERRENS ord; Så säger Herren, HERREN till dessa ben: Se, jag skall låta ande komma in i eder, så att I åter bliven levande.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "question",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "dan-003-016-018",
+      "split": "dev",
+      "reference": "Dan 3:16-18",
+      "text": "Då svarade Sadrak, Mesak och Abed-Nego och sade till konungen: »O Nebukadnessar, vi behöva icke giva dig något svar på detta. Om vår Gud, den som vi dyrka, förmår rädda oss, så skall han ock rädda oss ur den brinnande ugnen och ur din hand, o konung. Men om han icke vill det, så må du veta, o konung, att vi ändå icke dyrka dina gudar, och att vi icke vilja tillbedja den gyllene bildstod som du har låtit ställa upp.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "jonah-002-002-003",
+      "split": "dev",
+      "reference": "Jonah 2:2-3",
+      "text": "Och Jona bad till HERREN, sin Gud, i fiskens buk. Han sade: »Jag åkallade HERREN i min nöd, och han svarade mig; från dödsrikets buk ropade jag, och du hörde min röst.",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "micah-006-008-008",
+      "split": "dev",
+      "reference": "Micah 6:8-8",
+      "text": "Nej, vad gott är har han kungjort för dig, o människa. Ty vad annat begär HERREN av dig, än att du gör vad rätt är och vinnlägger dig om kärlek och vandrar i ödmjukhet inför din Gud?",
+      "tags": [
+        "medium",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "question"
+      ]
+    },
+    {
+      "id": "matt-005-003-006",
+      "split": "dev",
+      "reference": "Matt 5:3-6",
+      "text": "»Saliga äro de som äro fattiga i anden, ty dem hör himmelriket till. Saliga äro de som sörja, ty de skola bliva tröstade. Saliga äro de saktmodiga, ty de skola besitta jorden. Saliga äro de som hungra och törsta efter rättfärdighet, ty de skola bliva mättade.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "matt-006-009-013",
+      "split": "dev",
+      "reference": "Matt 6:9-13",
+      "text": "I skolen alltså bedja sålunda: 'Fader vår, som är i himmelen! Helgat varde ditt namn; tillkomme ditt rike; ske din vilja, såsom i himmelen, så ock på jorden; vårt dagliga bröd giv oss i dag; och förlåt oss våra skulder, såsom ock vi förlåta dem oss skyldiga äro; och inled oss icke i frestelse, utan fräls oss ifrån ondo.'",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "mark-004-039-040",
+      "split": "dev",
+      "reference": "Mark 4:39-40",
+      "text": "När han så hade vaknat, näpste han vinden och sade till sjön: »Tig, var stilla.» Och vinden lade sig, och det blev alldeles lugnt. Därefter sade han till dem: »Varför rädens I? Haven I ännu ingen tro?»",
+      "tags": [
+        "medium",
+        "archaic",
+        "sje_tje",
+        "rounded_vowels",
+        "clusters",
+        "question",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "luke-002-001-004",
+      "split": "dev",
+      "reference": "Luke 2:1-4",
+      "text": "Och det hände sig vid den tiden att från kejsar Augustus utgick ett påbud att hela världen skulle skattskrivas. Detta var den första skattskrivningen, och den hölls, när Kvirinius var landshövding över Syrien. Då färdades alla var och en till sin stad, för att låta skattskriva sig. Så gjorde ock Josef; och eftersom han var av Davids hus och släkt, for han från staden Nasaret i Galileen upp till Davids stad, som heter Betlehem, i Judeen,",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "luke-002-008-011",
+      "split": "dev",
+      "reference": "Luke 2:8-11",
+      "text": "I samma nejd voro då några herdar ute på marken och höllo vakt om natten över sin hjord. Då stod en Herrens ängel framför dem, och Herrens härlighet kringstrålade dem; och de blevo mycket förskräckta. Men ängeln sade till dem: »Varen icke förskräckta. Se, jag bådar eder en stor glädje, som skall vederfaras allt folket. Ty i dag har en Frälsare blivit född åt eder i Davids stad, och han är Messias, Herren.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "john-001-001-003",
+      "split": "dev",
+      "reference": "John 1:1-3",
+      "text": "I begynnelsen var Ordet, och Ordet var hos Gud, och Ordet var Gud. Detta var i begynnelsen hos Gud. Genom det har allt blivit till, och utan det har intet blivit till, som är till.",
+      "tags": [
+        "medium",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "john-003-016-017",
+      "split": "dev",
+      "reference": "John 3:16-17",
+      "text": "Ty så älskade Gud världen, att han utgav sin enfödde Son, på det att var och en som tror på honom skall icke förgås, utan hava evigt liv. Ty icke sände Gud sin Son i världen för att döma världen, utan för att världen skulle bliva frälst genom honom.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "acts-002-008-011",
+      "split": "dev",
+      "reference": "Acts 2:8-11",
+      "text": "Huru kommer det då till, att var och en av oss hör sitt eget modersmål talas? Vi må vara parter eller meder eller elamiter, vi må hava vårt hem i Mesopotamien eller Judeen eller Kappadocien, i Pontus eller provinsen Asien, i Frygien eller Pamfylien, i Egypten eller i Libyens bygder, åt Cyrene till, eller vara hitflyttade främlingar från Rom, vi må vara judar eller proselyter, kretenser eller araber, alla höra vi dem på våra egna tungomål tala om Guds väldiga gärningar.»",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "question",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "rom-008-038-039",
+      "split": "dev",
+      "reference": "Rom 8:38-39",
+      "text": "Ty jag är viss om att varken död eller liv, varken änglar eller andefurstar, varken något som nu är eller något som skall komma, varken någon makt i höjden eller någon makt i djupet, ej heller något annat skapat skall kunna skilja oss från Guds kärlek i Kristus Jesus, vår Herre.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "1cor-013-004-007",
+      "split": "dev",
+      "reference": "1Cor 13:4-7",
+      "text": "Kärleken är tålig och mild. Kärleken avundas icke, kärleken förhäver sig icke, den uppblåses icke. Den skickar sig icke ohöviskt, den söker icke sitt, den förtörnas icke, den hyser icke agg för en oförrätts skull. Den gläder sig icke över orättfärdigheten, men har sin glädje i sanningen. Den fördrager allting, den tror allting, den hoppas allting, den uthärdar allting.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "gen-011-001-003",
+      "split": "heldout",
+      "reference": "Gen 11:1-3",
+      "text": "Och hela jorden hade enahanda tungomål och talade på enahanda sätt. Men när de bröto upp och drogo österut, funno de en lågslätt i Sinears land och bosatte sig där. Och de sade till varandra: »Kom, låt oss slå tegel och bränna det.» Och teglet begagnade de såsom sten, och såsom murbruk begagnade de jordbeck.",
+      "tags": [
+        "long",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "exod-014-021-022",
+      "split": "heldout",
+      "reference": "Exod 14:21-22",
+      "text": "Och Mose räckte ut sin hand över havet; då drev HERREN undan havet genom en stark östanvind som blåste hela natten, och han gjorde så havet till torrt land; och vattnet klövs itu. Och Israels barn gingo mitt igenom havet på torr mark, under det att vattnet stod såsom en mur till höger och till vänster om dem.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "ps-121-001-004",
+      "split": "heldout",
+      "reference": "Ps 121:1-4",
+      "text": "En vallfartssång. Jag lyfter mina ögon upp till bergen: varifrån skall min hjälp komma? Min hjälp kommer från HERREN, som har gjort himmel och jord. Icke skall han låta din fot vackla, icke slumrar han som bevarar dig! Nej, han som bevarar Israel, han slumrar icke, han sover icke.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "question"
+      ]
+    },
+    {
+      "id": "isa-055-010-011",
+      "split": "heldout",
+      "reference": "Isa 55:10-11",
+      "text": "Ty likasom regnet och snön faller ifrån himmelen och icke vänder tillbaka dit igen, förrän det har vattnat jorden och gjort den fruktsam och bärande, så att den giver säd till att så och bröd till att äta, så skall det ock vara med ordet som utgår ur min mun; det skall icke vända tillbaka till mig fåfängt utan att hava verkat, vad jag vill, och utfört det, vartill jag hade sänt ut det.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "matt-013-003-006",
+      "split": "heldout",
+      "reference": "Matt 13:3-6",
+      "text": "Och han talade till dem mycket i liknelser; han sade: »En såningsman gick ut för att så. Och när han sådde, föll somt vid vägen, och fåglarna kommo och åto upp det. Och somt föll på stengrund, där det icke hade mycket jord, och det kom strax upp, eftersom det icke hade djup jord; men när solen hade gått upp, förbrändes det, och eftersom det icke hade någon rot, torkade det bort.",
+      "tags": [
+        "long",
+        "archaic",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "luke-015-011-014",
+      "split": "heldout",
+      "reference": "Luke 15:11-14",
+      "text": "Ytterligare sade han: »En man hade två söner. Och den yngre av dem sade till fadern: 'Fader, giv mig den del av förmögenheten, som faller på min lott.' Då skiftade han sina ägodelar mellan dem. Och icke lång tid därefter lade den yngre sonen allt sitt tillhopa och for långt bort till ett främmande land. Där levde han i utsvävningar och förfor så sin förmögenhet. Men sedan han hade slösat bort allt, kom en svär hungersnöd över det landet, och han begynte lida nöd.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "acts-017-022-025",
+      "split": "heldout",
+      "reference": "Acts 17:22-25",
+      "text": "Då trädde Paulus fram mitt på Areopagen och sade: »Atenare, jag ser av allting att I ären mycket ivriga gudsdyrkare. Ty medan jag har gått omkring och betraktat edra helgedomar, har jag ock funnit ett altare med den inskriften: 'Åt en okänd Gud.' Om just detta väsende, som I sålunda dyrken utan att känna det, är det jag nu kommer med budskap till eder. Den Gud som har gjort världen och allt vad däri är, han som är Herre över himmel och jord, han bor icke i tempel som äro gjorda med händer, ej heller låter han betjäna sig av människohänder, såsom vore han i behov av något, han som själv åt alla giver liv, anda och allt.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    },
+    {
+      "id": "eph-006-010-013",
+      "split": "heldout",
+      "reference": "Eph 6:10-13",
+      "text": "För övrigt, bliven allt starkare i Herren och i hans väldiga kraft. Ikläden eder hela Guds vapenrustning, så att I kunnen hålla stånd emot djävulens listiga angrepp. Ty den kamp vi hava att utkämpa är en kamp icke mot kött och blod, utan mot furstar och väldigheter och världshärskare, som råda här i mörkret, mot ondskans andemakter i himlarymderna. Tagen alltså på eder hela Guds vapenrustning, så att I kunnen stå emot på den onda dagen och, sedan I haven fullgjort allt, behålla fältet.",
+      "tags": [
+        "long",
+        "names",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "james-003-003-005",
+      "split": "heldout",
+      "reference": "James 3:3-5",
+      "text": "När vi lägga betsel i hästarnas mun, för att de skola lyda oss, då kunna vi därmed styra också hela deras övriga kropp. Ja, till och med skeppen, som äro så stora, och som drivas av starka vindar, styras av ett helt litet roder åt det håll dit styrmannen vill. Så är ock tungan en liten lem och kan likväl berömma sig av stora ting. Betänken huru en liten eld kan antända en stor skog.",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters"
+      ]
+    },
+    {
+      "id": "rev-021-003-005",
+      "split": "heldout",
+      "reference": "Rev 21:3-5",
+      "text": "Och jag hörde en stark röst från tronen säga: »Se, nu står Guds tabernakel bland människorna, och han skall bo ibland dem, och de skola vara hans folk; ja, Gud själv skall vara hos dem och skall avtorka alla tårar från deras ögon. Och döden skall icke mer vara till, och ingen sorg eller klagan eller plåga skall vara mer; ty det som förr var är nu förgånget.» Och han som satt på tronen sade: »Se, jag gör allting nytt.» Ytterligare sade han: »Skriv: ty dessa ord äro visa och sanna.»",
+      "tags": [
+        "long",
+        "archaic",
+        "sje_tje",
+        "retroflex",
+        "rounded_vowels",
+        "clusters",
+        "dialogue"
+      ]
+    }
+  ],
+  "legacy": [
+    {
+      "id": "psalm",
+      "text": "Herren är min herde, mig skall intet fattas. Han låter mig vila på gröna ängar.",
+      "split": "diagnostic",
+      "tags": [
+        "legacy"
+      ]
+    },
+    {
+      "id": "sjal",
+      "text": "Han vederkvicker min själ; han leder mig på rätta vägar, för sitt namns skull.",
+      "split": "diagnostic",
+      "tags": [
+        "legacy"
+      ]
+    },
+    {
+      "id": "namn",
+      "text": "Abraham, Isak och Jakob. Jerusalem och Betlehem. Mose och Aron.",
+      "split": "diagnostic",
+      "tags": [
+        "legacy"
+      ]
+    }
+  ]
+}
