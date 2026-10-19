@@ -263,7 +263,7 @@ if(ORTHO_BUILD_GUI)
         set(perikop_voice_copy COMMAND ${CMAKE_COMMAND} -E copy_directory "${PERIKOP_VOICE_PACK}"
             "${resource_destination}/voices/${perikop_voice_id}")
     else()
-        message(WARNING "No voice pack at ${PERIKOP_VOICE_PACK}. Perikop is built without read-aloud.")
+        message(STATUS "No neural voice pack at ${PERIKOP_VOICE_PACK}; bundled Björn Bas supplies read-aloud.")
     endif()
     add_custom_target(ortho-resources ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}"
@@ -352,6 +352,9 @@ if(ORTHO_BUILD_GUI)
             set_tests_properties(speech-cache-recovery PROPERTIES TIMEOUT 300)
         endif()
         add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
+        # Source resources include Björn Bas and no neural voice pack.
+        add_test(NAME compact-only-speech-probe COMMAND perikop --resources "${CMAKE_SOURCE_DIR}/resources"
+            --speech-probe "${CMAKE_BINARY_DIR}/test-compact-probe.wav")
         add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
             "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"
             "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"

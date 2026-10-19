@@ -1,4 +1,5 @@
 #pragma once
+#include "speech/swedish_numbers.hpp"
 #include <cstdint>
 #include <filesystem>
 #include <memory>
@@ -13,7 +14,6 @@ namespace ortho {
 // load the neural model. Two additions:
 // "⟦phonemes⟧" in the text gives one word's exact phonemes, and a capitalized
 // name's genitive -s reuses the lexicon stem.
-std::string swedish_numbers(const std::string& text);
 class KokoroText {
     struct Impl;
     std::unique_ptr<Impl> impl_;

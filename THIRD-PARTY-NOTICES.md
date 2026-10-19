@@ -200,6 +200,11 @@ This software is based in part on the work of the Independent JPEG Group.
 Swedish speech uses the Alice and Björn voices and the Swedish Kokoro weights from `Joakim/kokoro-sv-voices`, under Apache-2.0.
 The pronunciation model and NST-derived lexicon come from `Joakim/kokoro-sv-g2p`, under Apache-2.0.
 The prepared pack includes `LICENSE-Kokoro-Swedish.txt`.
+The experimental Björn Bas voice uses reusable waveform units generated offline
+from the same Björn model, together with its corpus pronunciation lexicon.
+Its pack in `resources/voices/bjorn-lite-v1` includes the original Apache-2.0 notices,
+source revisions, training inputs and checksums. The native unit renderer is
+original Perikop MIT code and uses no eSpeak or GPL speech code.
 https://huggingface.co/Joakim/kokoro-sv-voices
 
 The native Swedish front end in `src/speech/kokoro_text.cpp` reproduces the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0.

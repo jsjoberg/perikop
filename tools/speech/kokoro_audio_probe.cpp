@@ -26,8 +26,9 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("Cannot write filter output.");
             return 0;
         }
-        if (argc != 5)
-            throw std::runtime_error("Usage: kokoro-audio-probe PACK TOKEN-FILE alice|bjorn OUTPUT-FLOAT32");
+        if (argc != 5 && argc != 6)
+            throw std::runtime_error(
+                "Usage: kokoro-audio-probe PACK TOKEN-FILE alice|bjorn OUTPUT-FLOAT32 [DURATIONS]");
         std::ifstream source(path(argv[2]));
         if (!source)
             throw std::runtime_error("Cannot read input tokens.");
@@ -38,12 +39,20 @@ int main(int argc, char** argv) {
         const auto start = std::chrono::steady_clock::now();
         ortho::KokoroAudio model(path(argv[1]));
         const auto loaded = std::chrono::steady_clock::now();
-        const auto pcm = model.generate(tokens, argv[3]);
+        std::vector<int64_t> durations;
+        const auto pcm = model.generate(tokens, argv[3], argc == 6 ? &durations : nullptr);
         const auto finished = std::chrono::steady_clock::now();
         std::ofstream output(path(argv[4]), std::ios::binary);
         output.write(reinterpret_cast<const char*>(pcm.data()), pcm.size() * sizeof(float));
         if (!output)
             throw std::runtime_error("Cannot write probe audio.");
+        if (argc == 6) {
+            std::ofstream timing(path(argv[5]));
+            for (auto duration : durations)
+                timing << duration << '\n';
+            if (!timing)
+                throw std::runtime_error("Cannot write probe durations.");
+        }
         std::cout << "load_seconds=" << std::chrono::duration<double>(loaded - start).count()
                   << ", generation_seconds=" << std::chrono::duration<double>(finished - loaded).count()
                   << ", audio_seconds=" << pcm.size() / 24000.0 << '\n';

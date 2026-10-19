@@ -81,7 +81,8 @@ struct KokoroAudio::Impl {
 };
 KokoroAudio::KokoroAudio(const std::filesystem::path& pack) : impl_(std::make_unique<Impl>(pack)) {}
 KokoroAudio::~KokoroAudio() = default;
-std::vector<float> KokoroAudio::generate(const std::vector<int64_t>& phones, const std::string& voice) {
+std::vector<float> KokoroAudio::generate(const std::vector<int64_t>& phones, const std::string& voice,
+                                         std::vector<int64_t>* durations) {
     if (phones.empty() || phones.size() > 510)
         throw std::runtime_error("Kokoro phoneme sequence exceeds the voice context.");
     if (voice != "alice" && voice != "bjorn")
@@ -105,9 +106,17 @@ std::vector<float> KokoroAudio::generate(const std::vector<int64_t>& phones, con
                                                      style_shape.data(), style_shape.size());
     std::array<Ort::Value, 2> inputs = {std::move(input), std::move(reference)};
     const char* names[] = {"input_ids", "ref_s"};
-    const char* output_names[] = {"audio"};
-    auto result =
-        impl_->session.Run(Ort::RunOptions{nullptr}, names, inputs.data(), inputs.size(), output_names, 1);
+    const char* output_names[] = {"audio", "pred_dur"};
+    auto result = impl_->session.Run(Ort::RunOptions{nullptr}, names, inputs.data(), inputs.size(),
+                                     output_names, durations ? 2 : 1);
+    if (durations) {
+        const auto info = result[1].GetTensorTypeAndShapeInfo();
+        if (info.GetElementType() != ONNX_TENSOR_ELEMENT_DATA_TYPE_INT64 ||
+            info.GetElementCount() != tokens.size())
+            throw std::runtime_error("Invalid Kokoro duration output.");
+        const auto* values = result[1].GetTensorData<int64_t>();
+        durations->assign(values, values + tokens.size());
+    }
     const auto count = result[0].GetTensorTypeAndShapeInfo().GetElementCount();
     const auto* samples = result[0].GetTensorData<float>();
     if (count < 1000 || count > size_t{24000} * 120 || std::any_of(samples, samples + count, [](float value) {

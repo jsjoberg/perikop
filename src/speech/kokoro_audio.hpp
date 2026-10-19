@@ -15,6 +15,8 @@ class KokoroAudio {
 public:
     explicit KokoroAudio(const std::filesystem::path& pack);
     ~KokoroAudio();
-    std::vector<float> generate(const std::vector<int64_t>& phones, const std::string& voice);
+    // Durations are exported only by offline voice preparation; ordinary playback requests audio alone.
+    std::vector<float> generate(const std::vector<int64_t>& phones, const std::string& voice,
+                                std::vector<int64_t>* durations = nullptr);
 };
 } // namespace ortho

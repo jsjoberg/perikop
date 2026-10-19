@@ -1,4 +1,63 @@
-# Björn copy-synthesis proof of concept
+# Björn speech experiments
+
+## Current: Björn Bas text-to-speech
+
+The reader now includes **Björn Bas (experimentell)** in Settings → Röst för
+uppläsning. It converts new Swedish text to speech using an approximately 6 MB
+lexicon and reusable waveform bank. It also supplies read-aloud automatically
+when the neural voice pack is absent. The existing playback worker provides
+pause/resume, stop, tempo, verse cues and caching.
+
+The bank was prepared offline from 700 words, not complete readings. It contains
+2,139 reusable diphone/monophone units and 85 stress/length phoneme variants.
+Joins align voiced waveforms by correlation and shorten overlaps when their
+pitches differ, avoiding a long blend of incompatible periodic waves. Missing
+transitions use monophone halves. The renderer performs no neural inference.
+
+Build and run text-to-WAV without the GUI, ONNX, Python or any external library:
+
+```sh
+cmake -S tools/speech/bjorn-poc -B build/bjorn-standalone -DCMAKE_BUILD_TYPE=Release
+cmake --build build/bjorn-standalone --target bjorn-say bjorn-compact-tests
+build/bjorn-standalone/bjorn-say resources/voices/bjorn-lite-v1 build/new-reading.wav 'Mose såg en stjärna.'
+ctest --test-dir build/bjorn-standalone --output-on-failure
+```
+
+The root application build also provides `ortho-compact-voice-probe` with the
+same arguments. Text can instead be supplied on stdin. The probe reports load,
+render and audio duration, diphone backoffs, and words spelled as letters.
+
+Prepare the reusable bank after building the existing neural probes:
+
+```sh
+cmake --build build/cmake --target ortho-kokoro-audio-probe
+uv run --script tools/speech/bjorn-poc/prepare_voice.py
+```
+
+The script greedily selects words for transition coverage and uses the master's
+predicted durations to extract waveform units. These alignments are approximate.
+`build/bjorn-units/` caches reference PCM and durations with input/model hashes.
+The output pack records source revisions, training inputs, gain adjustments and
+file hashes. Preparing the default resource folder also updates its entries in
+the resource manifest. A prepared pack is committed, so normal builds need no
+teacher model, preparation tools or network access for this voice.
+
+The corpus lexicon, shared Swedish number normalization and exact `⟦IPA⟧`
+pronunciation overrides work in the native runtime. Unknown words outside the
+lexicon are spelled as letter names. Source pitch/duration and limited context
+selection can still make delivery uneven; this is an experimental voice needing
+listening review. The main app still links ONNX Runtime for Alice/Björn, although
+Björn Bas never loads their models. Optional in-app voice downloads are separate
+work.
+
+[Current listening comparisons](../../../docs/reports/bjorn-poc-samples/README.md)
+contain **reference → first harmonic prototype → Björn Bas from text**. Regenerate:
+
+```sh
+python3 tools/speech/bjorn-poc/package_samples.py --compact-probe build/cmake/bin/ortho-compact-voice-probe
+```
+
+## Original: complete-utterance harmonic fitting
 
 Fits a small, original native synthesizer to Björn's output. The fitting work
 happens offline. Playback needs only the fitted trajectory and a C11 executable

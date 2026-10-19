@@ -755,6 +755,48 @@
       "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
       "license": "CC0-1.0",
       "role": "Creative Commons Attribution 4.0 International legal text for bundled CC BY datasets"
+    },
+    {
+      "path": "resources/voices/bjorn-lite-v1/LICENSE-Kokoro-Swedish.txt",
+      "url": "https://huggingface.co/Joakim/kokoro-sv-voices/tree/2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+      "sha256": "cd743a0b5ce54ea4a41d650e0ff3e45ecd67ca213db137cedd47d76b54b1f84a",
+      "license": "Apache-2.0",
+      "role": "Generated Björn Bas waveform voice; preparation and provenance in voice-pack.json"
+    },
+    {
+      "path": "resources/voices/bjorn-lite-v1/lexicon.tsv",
+      "url": "https://huggingface.co/Joakim/kokoro-sv-voices/tree/2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+      "sha256": "25ea97d67f87273cdf624ccdbeceb8e918a6e5d58cd4a4721edf0347db3bff5f",
+      "license": "Apache-2.0",
+      "role": "Generated Björn Bas waveform voice; preparation and provenance in voice-pack.json"
+    },
+    {
+      "path": "resources/voices/bjorn-lite-v1/phones.tsv",
+      "url": "https://huggingface.co/Joakim/kokoro-sv-voices/tree/2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+      "sha256": "cddc4c3ea448d7134ab522041c7b40b37e398ab460040236bfe6c7c767e10fd3",
+      "license": "Apache-2.0",
+      "role": "Generated Björn Bas waveform voice; preparation and provenance in voice-pack.json"
+    },
+    {
+      "path": "resources/voices/bjorn-lite-v1/revision.txt",
+      "url": "https://huggingface.co/Joakim/kokoro-sv-voices/tree/2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+      "sha256": "611be6fba1110905fe1c7b5a7e003c2e83b70c759831b604e7d055f59a4290af",
+      "license": "Apache-2.0",
+      "role": "Generated Björn Bas waveform voice; preparation and provenance in voice-pack.json"
+    },
+    {
+      "path": "resources/voices/bjorn-lite-v1/units.bin",
+      "url": "https://huggingface.co/Joakim/kokoro-sv-voices/tree/2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+      "sha256": "571e453b127251aebc0e4902b3410fb3d8ebec1e174f4c30da92b6a92935ddfd",
+      "license": "Apache-2.0",
+      "role": "Generated Björn Bas waveform voice; preparation and provenance in voice-pack.json"
+    },
+    {
+      "path": "resources/voices/bjorn-lite-v1/voice-pack.json",
+      "url": "https://huggingface.co/Joakim/kokoro-sv-voices/tree/2c7968d59c2fda1667e9e3ff0dd9967150a53f74",
+      "sha256": "c0dd8281cb62d3228f8ff4d0d7eda5d5126d7f551e7f133aed7de91fd228d14d",
+      "license": "Apache-2.0",
+      "role": "Generated Björn Bas waveform voice; preparation and provenance in voice-pack.json"
     }
   ],
   "build_dependencies": [

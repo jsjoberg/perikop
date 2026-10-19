@@ -1,4 +1,5 @@
 #include "speech/portable_speech.hpp"
+#include "speech/compact_voice.hpp"
 #include "speech/kokoro_audio.hpp"
 #include "speech/kokoro_text.hpp"
 #include "speech/pcm_output.hpp"
@@ -19,8 +20,12 @@
 namespace ortho {
 namespace {
 using namespace std::chrono_literals;
+bool voice_file(const std::filesystem::path& path) {
+    std::error_code error;
+    return std::filesystem::is_regular_file(path, error);
+}
 std::string voice_name(const std::string& voice) {
-    return voice == "bjorn" ? "Björn" : "Alice";
+    return voice == "bjorn-lite" ? "Björn Bas" : voice == "bjorn" ? "Björn" : "Alice";
 }
 // 16-bit mono PCM WAV at 24 kHz, for the speech probe.
 void write_wav(const std::filesystem::path& path, const std::vector<float>& samples) {
@@ -93,7 +98,7 @@ public:
 };
 class PortableSpeech final : public SpeechEngine {
     // The bundled voice pack, and the user data folder that holds the speech cache.
-    std::filesystem::path pack_, data_;
+    std::filesystem::path pack_, compact_pack_, data_;
     SpeechStatus callback_;
     mutable std::mutex mutex_;
     std::condition_variable condition_;
@@ -114,6 +119,7 @@ class PortableSpeech final : public SpeechEngine {
     // Word lookups use their own front end, so they never wait for synthesis.
     std::mutex lookup_mutex_;
     std::unique_ptr<KokoroText> lookup_;
+    std::unique_ptr<CompactVoice> compact_lookup_;
     struct Lookup {
         std::string text;
         std::function<void(std::string)> deliver;
@@ -183,11 +189,13 @@ class PortableSpeech final : public SpeechEngine {
     }
     void run() {
         std::unique_ptr<Kokoro> kokoro;
+        std::unique_ptr<CompactVoice> compact;
         std::unique_ptr<SpeechCache> cache;
         bool cache_attempted = false;
         // Measured synthesis speed for this session. Until the model has run,
         // assume it is slower than real time, as on the reference hardware.
         double model_seconds = 0, model_audio = 0;
+        std::string measured_voice;
         while (true) {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
@@ -202,6 +210,9 @@ class PortableSpeech final : public SpeechEngine {
                     return;
                 generation = generation_.load();
                 voice = voice_;
+                if (voice != "bjorn-lite" && !voice_file(pack_ / "kokoro.onnx") &&
+                    voice_file(compact_pack_ / "units.bin"))
+                    voice = "bjorn-lite";
                 preparing = preparing_;
                 batch.swap(queue_);
                 active_ = true;
@@ -212,6 +223,14 @@ class PortableSpeech final : public SpeechEngine {
             const auto cancelled = [this, generation] {
                 return generation_.load() != generation;
             };
+            if (measured_voice != voice) {
+                model_seconds = model_audio = 0;
+                measured_voice = voice;
+            }
+            if (voice == "bjorn-lite")
+                kokoro.reset(); // A compact reading must not retain a previously loaded neural voice.
+            else
+                compact.reset();
             const auto cache_error = [&](const std::exception& error) {
                 cache.reset();
                 std::cerr << "Speech cache disabled; speech continues without it: " << error.what() << '\n';
@@ -254,7 +273,9 @@ class PortableSpeech final : public SpeechEngine {
                     double from, to, weight;
                     bool cached;
                 };
-                const auto revision = std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
+                const auto revision = voice == "bjorn-lite"
+                                          ? compact_revision(compact_pack_) + "/join-v1"
+                                          : std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
                 std::vector<Part> parts;
                 for (const auto& utterance : batch) {
                     auto chunks = speech_chunks(utterance.speech_text);
@@ -348,7 +369,10 @@ class PortableSpeech final : public SpeechEngine {
                         samples = store.load(revision, language, text);
                     });
                     if (!samples) {
-                        if (!kokoro) {
+                        if (voice == "bjorn-lite" && !compact) {
+                            report(generation, "Förbereder rösten, " + name, SpeechState::Loading);
+                            compact = std::make_unique<CompactVoice>(compact_pack_);
+                        } else if (voice != "bjorn-lite" && !kokoro) {
                             report(generation, "Förbereder röstmodellen, " + name, SpeechState::Loading);
                             kokoro = std::make_unique<Kokoro>(pack_);
                         }
@@ -356,7 +380,8 @@ class PortableSpeech final : public SpeechEngine {
                                            : i       ? "Läser med " + name + ", förbereder del " + progress
                                                      : "Förbereder läsningen, " + progress);
                         const auto begin = std::chrono::steady_clock::now();
-                        samples = kokoro->generate(text, voice, cancelled);
+                        samples = voice == "bjorn-lite" ? compact->generate(text, cancelled)
+                                                        : kokoro->generate(text, voice, cancelled);
                         if (cancelled())
                             break;
                         model_seconds +=
@@ -481,10 +506,11 @@ class PortableSpeech final : public SpeechEngine {
         for (const auto& utterance : utterances)
             if (utterance.language != "sv")
                 throw std::runtime_error("Uppläsning finns bara på svenska.");
-        if (!std::filesystem::exists(pack_ / "kokoro.onnx"))
-            throw std::runtime_error("Den här versionen av Perikop byggdes utan rösterna Alice och Björn.");
         {
             std::lock_guard lock(mutex_);
+            if ((voice_ == "bjorn-lite" || !voice_file(pack_ / "kokoro.onnx")) &&
+                !voice_file(compact_pack_ / "units.bin"))
+                throw std::runtime_error("Röstpaketet för uppläsning saknas.");
             if (prepare || preparing_) {
                 ++generation_;
                 queue_.clear();
@@ -510,7 +536,8 @@ class PortableSpeech final : public SpeechEngine {
 
 public:
     PortableSpeech(const std::filesystem::path& voices, std::filesystem::path data, SpeechStatus status)
-        : pack_(voices / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)) {
+        : pack_(voices / kokoro_pack_id), compact_pack_(voices / compact_pack_id), data_(std::move(data)),
+          callback_(std::move(status)) {
         // Also join the first worker if starting the second one fails.
         try {
             lookup_worker_ = std::thread([this] {
@@ -586,11 +613,24 @@ public:
     }
     void set_voice(const std::string& voice) override {
         std::lock_guard lock(mutex_);
+        if (voice != "alice" && voice != "bjorn" && voice != "bjorn-lite")
+            throw std::runtime_error("Okänd röst för uppläsning.");
         voice_ = voice;
     }
     std::string pronunciation(const std::string& text) override {
+        bool lightweight;
+        {
+            std::lock_guard lock(mutex_);
+            lightweight = voice_ == "bjorn-lite" || !voice_file(pack_ / "kokoro.onnx");
+        }
         std::lock_guard lock(lookup_mutex_);
         try {
+            if (lightweight) {
+                lookup_.reset();
+                if (!compact_lookup_)
+                    compact_lookup_ = std::make_unique<CompactVoice>(compact_pack_);
+                return compact_lookup_->ipa(text);
+            }
             if (!lookup_)
                 lookup_ = std::make_unique<KokoroText>(pack_);
             return lookup_->ipa(text);
@@ -630,6 +670,26 @@ std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path
 }
 bool render_speech_probe(const std::filesystem::path& voices, const std::filesystem::path& output) {
     const auto begin = std::chrono::steady_clock::now();
+    if (!voice_file(voices / kokoro_pack_id / "kokoro.onnx")) {
+        CompactVoice voice(voices / compact_pack_id);
+        const auto loaded = std::chrono::steady_clock::now();
+        CompactVoiceStats stats;
+        const auto samples =
+            voice.generate("Herren är min herde, mig skall intet fattas. Mose såg en stjärna.", {}, &stats);
+        if (samples.size() < 2400 || stats.spelled_words ||
+            std::none_of(samples.begin(), samples.end(), [](float value) {
+                return std::abs(value) > 0.01f;
+            }))
+            throw std::runtime_error("Compact speech probe generated invalid audio.");
+        write_wav(output, samples);
+        std::cout << "Speech probe: pack=" << compact_pack_id
+                  << ", audio_seconds=" << samples.size() / 24000.0
+                  << ", load_seconds=" << std::chrono::duration<double>(loaded - begin).count()
+                  << ", generation_seconds="
+                  << std::chrono::duration<double>(std::chrono::steady_clock::now() - loaded).count()
+                  << ", neural_model=none\n";
+        return true;
+    }
     Kokoro model(voices / kokoro_pack_id);
     const auto loaded = std::chrono::steady_clock::now();
 #if defined(__aarch64__) || defined(_M_ARM64)

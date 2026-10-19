@@ -182,7 +182,7 @@ Settings UserDb::load() const {
             result.text_zoom = std::clamp(number, 75, 200);
         if (key == "speech_rate" && numeric)
             result.speech_rate = std::clamp(number, 25, 200);
-        if (key == "speech_voice" && (value == "alice" || value == "bjorn"))
+        if (key == "speech_voice" && (value == "alice" || value == "bjorn" || value == "bjorn-lite"))
             result.speech_voice = value;
         if (key == "update_channel")
             result.update_channel = value == "nightly" ? UpdateChannel::Nightly : UpdateChannel::Releases;

@@ -9,16 +9,26 @@
           "start_seconds": 0.0
         },
         {
-          "label": "32 harmonics",
+          "label": "First harmonic prototype",
           "start_seconds": 7.725
         },
         {
-          "label": "64 harmonics",
+          "label": "Björn Bas: text-to-speech",
           "start_seconds": 15.45
         }
       ],
-      "bytes": 404125,
-      "sha256": "29c3e9776e5e40f7da71f78a094d860d6b9723c41a1c3d8dd09c864ab45258a9"
+      "bytes": 414647,
+      "sha256": "5cd5c5c23c499913b8617a893b8318956f6f08ce6976cd0d2c63fc6570028708",
+      "compact_render": {
+        "load_seconds": 0.00935663,
+        "render_seconds": 0.00156608,
+        "audio_seconds": 6.53767,
+        "words": 15,
+        "spelled_words": 0,
+        "diphones": 53,
+        "backoffs": 1,
+        "peak": 0.566445
+      }
     },
     {
       "sample": "sjal",
@@ -29,16 +39,26 @@
           "start_seconds": 0.0
         },
         {
-          "label": "32 harmonics",
+          "label": "First harmonic prototype",
           "start_seconds": 7.6
         },
         {
-          "label": "64 harmonics",
+          "label": "Björn Bas: text-to-speech",
           "start_seconds": 15.2
         }
       ],
-      "bytes": 394219,
-      "sha256": "1241c62537a83903f35384fea8e6ee0b6d744e016f9ca5fb40c2466b370b2254"
+      "bytes": 412197,
+      "sha256": "213b0d027351f54bea7285aafea727ffe44494104feec1a50de9e588aac7c5ae",
+      "compact_render": {
+        "load_seconds": 0.00516267,
+        "render_seconds": 0.00118937,
+        "audio_seconds": 6.30583,
+        "words": 14,
+        "spelled_words": 0,
+        "diphones": 53,
+        "backoffs": 1,
+        "peak": 0.475371
+      }
     },
     {
       "sample": "namn",
@@ -49,16 +69,26 @@
           "start_seconds": 0.0
         },
         {
-          "label": "32 harmonics",
+          "label": "First harmonic prototype",
           "start_seconds": 7.925
         },
         {
-          "label": "64 harmonics",
+          "label": "Björn Bas: text-to-speech",
           "start_seconds": 15.85
         }
       ],
-      "bytes": 411821,
-      "sha256": "a141d1dc940487ba5ff5a445012a86c66d46bc733b4f4e8d91d5def8a33d3e21"
+      "bytes": 388538,
+      "sha256": "418ce903210635225f0dfa69f8a6a7fe15bb672f0ebf6553ec681c7301a63158",
+      "compact_render": {
+        "load_seconds": 0.00498783,
+        "render_seconds": 0.0009325,
+        "audio_seconds": 5.73117,
+        "words": 10,
+        "spelled_words": 0,
+        "diphones": 42,
+        "backoffs": 1,
+        "peak": 0.454973
+      }
     }
   ],
   "experiment": {
@@ -402,5 +432,29 @@
         ]
       }
     ]
+  },
+  "compact_voice": {
+    "revision": "c4e3e41b06ae09117eaf043c536b3b0a71e9eec1d9b994e248da11c3d2afce44",
+    "phonemes": 85,
+    "units": 2139,
+    "files": {
+      "units.bin": {
+        "bytes": 5542504,
+        "sha256": "571e453b127251aebc0e4902b3410fb3d8ebec1e174f4c30da92b6a92935ddfd"
+      },
+      "phones.tsv": {
+        "bytes": 1019,
+        "sha256": "cddc4c3ea448d7134ab522041c7b40b37e398ab460040236bfe6c7c767e10fd3"
+      },
+      "lexicon.tsv": {
+        "bytes": 712121,
+        "sha256": "25ea97d67f87273cdf624ccdbeceb8e918a6e5d58cd4a4721edf0347db3bff5f"
+      }
+    },
+    "selection": {
+      "dictionary_pairs": 2289,
+      "selected_words": 700,
+      "uncovered_pairs": 192
+    }
   }
 }

@@ -60,60 +60,6 @@ void replace_all(std::string& text, const std::string& from, const std::string& 
         text.replace(at, from.size(), to);
 }
 
-// --- Numbers -----------------------------------------------------------------
-// The upstream spells digits as Swedish words before phonemization.
-std::string cardinal(uint64_t value) {
-    static const char* ones[] = {"noll",    "ett",    "två",    "tre",     "fyra",  "fem",   "sex",
-                                 "sju",     "åtta",   "nio",    "tio",     "elva",  "tolv",  "tretton",
-                                 "fjorton", "femton", "sexton", "sjutton", "arton", "nitton"};
-    static const char* tens[] = {"",       "",       "tjugo",   "trettio", "fyrtio",
-                                 "femtio", "sextio", "sjuttio", "åttio",   "nittio"};
-    const auto rest = [](uint64_t part) {
-        return part ? cardinal(part) : std::string();
-    };
-    if (value < 20)
-        return ones[value];
-    if (value < 100)
-        return tens[value / 10] + rest(value % 10);
-    if (value < 1000)
-        return cardinal(value / 100) + "hundra" + rest(value % 100);
-    if (value < 1000000) {
-        auto result = cardinal(value / 1000) + "tusen";
-        replace_all(result, "etttusen", "ettusen");
-        return result + rest(value % 1000);
-    }
-    const auto large = [&](uint64_t unit, const char* one, const char* many) {
-        const auto count = value / unit;
-        return (count == 1 ? std::string(one) : cardinal(count) + " " + many) +
-               (value % unit ? " " + cardinal(value % unit) : "");
-    };
-    if (value < 1000000000)
-        return large(1000000, "en miljon", "miljoner");
-    return large(1000000000, "en miljard", "miljarder");
-}
-std::string cardinal(std::string_view digits) {
-    while (digits.size() > 1 && digits.front() == '0')
-        digits.remove_prefix(1);
-    // Longer digit strings, such as identifiers, read digit by digit.
-    if (digits.size() > 12) {
-        std::string result;
-        for (char digit : digits)
-            result += (result.empty() ? "" : " ") + cardinal(uint64_t(digit - '0'));
-        return result;
-    }
-    uint64_t value = 0;
-    for (char digit : digits)
-        value = value * 10 + uint64_t(digit - '0');
-    return cardinal(value);
-}
-bool sv_letter(char32_t c) {
-    return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == U'Å' || c == U'Ä' || c == U'Ö' ||
-           c == U'å' || c == U'ä' || c == U'ö';
-}
-bool digit(char32_t c) {
-    return c >= '0' && c <= '9';
-}
-
 // --- Lexicon -----------------------------------------------------------------
 // lexicon.tsv: "word\tp h o n e s", byte-sorted with unique words. Binary
 // search over line offsets keeps the file without a per-entry heap node.
@@ -249,42 +195,6 @@ std::map<std::u32string, int64_t> json_ids(const std::string& json, const std::s
     }
 }
 } // namespace
-
-std::string swedish_numbers(const std::string& text) {
-    const auto source = decode(text);
-    std::u32string spaced;
-    for (size_t i = 0; i < source.size(); ++i) {
-        if (i && ((digit(source[i]) && sv_letter(source[i - 1])) ||
-                  (sv_letter(source[i]) && digit(source[i - 1]))))
-            spaced += U' ';
-        spaced += source[i];
-    }
-    std::string result;
-    for (size_t i = 0; i < spaced.size();) {
-        if (!digit(spaced[i])) {
-            result += encode(spaced.substr(i, 1));
-            ++i;
-            continue;
-        }
-        auto end = i;
-        while (end < spaced.size() && digit(spaced[end]))
-            ++end;
-        const auto whole = encode(spaced.substr(i, end - i));
-        if (end + 1 < spaced.size() && (spaced[end] == ',' || spaced[end] == '.') && digit(spaced[end + 1])) {
-            auto last = end + 1;
-            while (last < spaced.size() && digit(spaced[last]))
-                ++last;
-            result += cardinal(whole) + " komma";
-            for (auto at = end + 1; at < last; ++at)
-                result += " " + cardinal(uint64_t(spaced[at] - '0'));
-            i = last;
-        } else {
-            result += cardinal(whole);
-            i = end;
-        }
-    }
-    return result;
-}
 
 struct KokoroText::Impl {
     Lexicon lexicon;

@@ -1,3 +1,4 @@
+#include "speech/compact_voice.hpp"
 #include "speech/kokoro_audio.hpp"
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
@@ -22,6 +23,7 @@ ortho::TempoStretch stretch;
 ortho::PcmProgress delivered;
 float speed = 1;
 size_t appended = 0;
+size_t devices_opened = 0;
 bool paused = false, released = false, completed = false;
 bool first_chunk_released = false;
 bool hold_device = false, device_entered = false;
@@ -52,6 +54,7 @@ namespace ortho {
 struct PcmOutput::Impl {};
 PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {
     std::unique_lock lock(audio_mutex);
+    ++devices_opened;
     device_entered = true;
     changed.notify_all();
     changed.wait(lock, [] {
@@ -123,7 +126,7 @@ PcmProgress PcmOutput::progress() const {
 int main(int argc, char** argv) {
     try {
         using namespace ortho;
-        check(argc == 2, "Usage: ortho-portable-speech-tests TEST-DIRECTORY");
+        check(argc == 3, "Usage: ortho-portable-speech-tests TEST-DIRECTORY COMPACT-PACK");
         const std::filesystem::path data(argv[1]);
         std::filesystem::remove_all(data);
         const auto voice = data / "voices" / kokoro_pack_id;
@@ -379,6 +382,75 @@ int main(int argc, char** argv) {
             check(appended == 1 && !released && !stream,
                   "Playback must wait for enough audio, and errors must stop playback");
         }
+        engine.reset();
+        // Exercise the production pipeline with the reusable voice and no neural pack.
+        std::filesystem::remove_all(voice);
+        std::filesystem::copy(std::filesystem::path(argv[2]), data / "voices" / compact_pack_id,
+                              std::filesystem::copy_options::recursive);
+        const std::string compact_text = "Herren är min herde.";
+        engine = create_portable_speech(data / "voices", data, [](const SpeechUpdate& update) {
+            std::lock_guard lock(audio_mutex);
+            status = update.text;
+            changed.notify_all();
+        });
+        size_t before_devices;
+        {
+            std::lock_guard lock(audio_mutex);
+            before_devices = devices_opened;
+        }
+        engine->prepare_batch({{"", compact_text, "sv", first}});
+        wait_for(
+            [] {
+                return status == "Ljudet är förberett, Björn Bas";
+            },
+            "Missing neural packs must automatically use the compact voice for preparation");
+        {
+            std::lock_guard lock(audio_mutex);
+            check(devices_opened == before_devices, "Compact preparation must not open a device");
+        }
+        {
+            SpeechCache saved(data / "speech-cache.db");
+            const auto audio = saved.load(compact_revision(data / "voices" / compact_pack_id) + "/join-v1",
+                                          "sv", compact_text);
+            check(audio && !audio->empty(),
+                  "The compact voice must cache its actual generated audio under its own revision");
+            UserDb preferences(data / "compact-user.db");
+            auto settings = preferences.load();
+            settings.speech_voice = "bjorn-lite";
+            preferences.save(settings);
+            check(preferences.load().speech_voice == "bjorn-lite",
+                  "Compact voice selection must survive a profile round trip");
+        }
+        engine->set_voice("bjorn-lite");
+        engine->speak_batch(
+            {{"", compact_text, "sv", first}, {"", "Mose såg en stjärna.", "sv", reading[2].cue}});
+        wait_for(
+            [] {
+                return stream && appended == 2 && released;
+            },
+            "Compact speech must reach the real playback worker");
+        engine->pause();
+        const auto compact_held = engine->playback();
+        check(drain().empty() && engine->playback().progress == compact_held.progress,
+              "Pause must freeze compact audio and its verse marker");
+        engine->set_speed(1.25);
+        engine->resume();
+        bool saw_second = false, finished = false;
+        for (int block = 0; block < 1000; ++block) {
+            drain(2400);
+            const auto position = engine->playback();
+            saw_second = saw_second || (position.cue && position.cue->reading == 1);
+            if (position.state == SpeechState::Completed) {
+                finished = true;
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        check(finished && saw_second,
+              "Compact audio must finish at changed speed and advance real verse cues");
+        engine->stop();
+        check(!engine->playback().cue && engine->playback().state == SpeechState::Stopped,
+              "Stopping compact playback must clear its cue");
         engine.reset();
         std::filesystem::remove_all(data);
         std::cout << "Portable speech streaming checks passed\n";

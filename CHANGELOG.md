@@ -10,6 +10,8 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Added
 
+- Experimental **Björn Bas** Swedish read-aloud in Settings, using a small reusable voice prepared from Björn. It reads new text without neural inference and supplies read-aloud when the high-quality voice pack is absent. Existing pause, speed, verse tracking and audio preparation work with it.
+
 - Passage-selection actions for bookmarks and Swedish read-aloud alongside the online Bible links. Bookmarks use a ribbon icon, persist in the local profile, and appear in Bible book order in **Bokmärken**, including a submenu beside the main ⋮ menu. Opening a bookmark selects its saved passage; removing one requires confirmation.
 
 - Ordered, enabled/disabled source preferences for the main text and the second pane. Swedish is first by default, English is the fallback, and Greek main-text editions are opt-in. The second pane defaults to English, then Greek, with Swedish opt-in. Each chapter has source dropdowns for temporary independent pane overrides. Non-Swedish main text has no read-aloud.

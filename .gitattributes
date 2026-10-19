@@ -10,3 +10,5 @@
 # Pinned upstream files keep their exact bytes; resources/manifest.json records their hashes.
 resources/corpus/provenance/** -text
 resources/licenses/** -text
+resources/voices/** -text
+resources/voices/**/lexicon.tsv linguist-generated=true

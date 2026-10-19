@@ -1,4 +1,4 @@
-# One CPU inference path on every supported platform. No system voice or cloud fallback.
+# Kokoro CPU inference and the small native Björn Bas voice. No system or cloud voices.
 set(ortho_ort_version 1.23.2)
 if(APPLE)
     set(ortho_ort_platform osx-arm64)
@@ -39,9 +39,14 @@ elseif(WIN32)
 else()
     set(ortho_ort_library "${ortho_ort_SOURCE_DIR}/lib/libonnxruntime.so.${ortho_ort_version}")
 endif()
+add_library(ortho-compact STATIC src/speech/compact_voice.cpp src/speech/swedish_numbers.cpp)
+target_include_directories(ortho-compact PUBLIC src)
+target_link_libraries(ortho-compact PUBLIC ortho-sanitizers)
+add_executable(ortho-compact-voice-probe tools/speech/compact_voice_probe.cpp)
+target_link_libraries(ortho-compact-voice-probe PRIVATE ortho-compact)
 add_library(ortho-kokoro STATIC src/speech/kokoro_audio.cpp src/speech/kokoro_text.cpp)
 target_include_directories(ortho-kokoro PUBLIC src PRIVATE "${ortho_ort_SOURCE_DIR}/include")
-target_link_libraries(ortho-kokoro PUBLIC ortho-sanitizers PRIVATE "${ortho_ort_library}")
+target_link_libraries(ortho-kokoro PUBLIC ortho-sanitizers ortho-compact PRIVATE "${ortho_ort_library}")
 if(MINGW AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     # The ONNX Runtime headers use _stdcall, which GCC defines only outside strict ISO mode.
     target_compile_definitions(ortho-kokoro PRIVATE _stdcall=__stdcall)
@@ -54,11 +59,16 @@ add_library(ortho-speech STATIC src/speech/portable_speech.cpp src/speech/pcm_ou
 target_include_directories(ortho-speech PRIVATE "${ortho_audio_SOURCE_DIR}" "${ortho_sonic_SOURCE_DIR}")
 target_link_libraries(ortho-speech PUBLIC ortho-core PRIVATE ortho-kokoro ${CMAKE_DL_LIBS})
 if(BUILD_TESTING)
+    add_executable(ortho-compact-voice-tests tests/compact_voice_test.cpp)
+    target_link_libraries(ortho-compact-voice-tests PRIVATE ortho-compact)
+    add_test(NAME compact-voice COMMAND ortho-compact-voice-tests
+        "${CMAKE_SOURCE_DIR}/resources/voices/bjorn-lite-v1" "${CMAKE_BINARY_DIR}/test-compact-fixture")
     add_executable(ortho-portable-speech-tests tests/portable_speech_test.cpp src/speech/portable_speech.cpp
         src/speech/tempo.cpp "${ortho_sonic_SOURCE_DIR}/sonic.c")
     target_include_directories(ortho-portable-speech-tests PRIVATE "${ortho_sonic_SOURCE_DIR}")
     target_link_libraries(ortho-portable-speech-tests PRIVATE ortho-core ortho-kokoro Threads::Threads)
-    add_test(NAME portable-speech-streaming COMMAND ortho-portable-speech-tests "${CMAKE_BINARY_DIR}/test-stream-speech")
+    add_test(NAME portable-speech-streaming COMMAND ortho-portable-speech-tests "${CMAKE_BINARY_DIR}/test-stream-speech"
+        "${CMAKE_SOURCE_DIR}/resources/voices/bjorn-lite-v1")
     add_executable(ortho-tempo-tests tests/tempo_test.cpp src/speech/tempo.cpp "${ortho_sonic_SOURCE_DIR}/sonic.c")
     target_include_directories(ortho-tempo-tests PRIVATE src "${ortho_sonic_SOURCE_DIR}")
     target_link_libraries(ortho-tempo-tests PRIVATE ortho-sanitizers)

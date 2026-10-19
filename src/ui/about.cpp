@@ -103,7 +103,7 @@ const std::vector<Section>& sections() {
            "Nasjonalbiblioteket, Språkbanken. CC0 1.0.",
            {"https://www.nb.no/sprakbanken/"}}}},
         {"Uppläsning",
-         {{"Kokoro, svenska rösterna Alice och Björn",
+         {{"Kokoro, svenska rösterna Alice, Björn och Björn Bas",
            "Svenska Kokoro-vikter, röster och uttalsmodell från kokoro-sv. Apache 2.0.",
            {"https://huggingface.co/Joakim/kokoro-sv-voices", "https://github.com/joakimeriksson/kokoro-sv"}},
           {"kokoro-sv-g2p",
