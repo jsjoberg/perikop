@@ -16,6 +16,9 @@
 #include <wx/popupwin.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
+#ifdef __WXMSW__
+#include <wx/msw/wrapwin.h>
+#endif
 #ifdef __APPLE__
 #include "ui/native_menu.hpp"
 #endif
@@ -220,6 +223,26 @@ public:
                 parent_->GetScreenRect().Contains(window->ClientToScreen(event.GetPosition()));
         return false;
     }
+#ifdef __WXMSW__
+    bool MSWHandleMessage(WXLRESULT* result, WXUINT message, WXWPARAM wParam, WXLPARAM lParam) override {
+        if (message == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE) {
+            // wxMSW defers dismissal, but a submenu can restore this popup before
+            // that callback runs. Recheck activation instead of closing a reopened menu.
+            CallAfter([this] {
+                auto* active = wxGetActiveWindow();
+                if (dismissed_ || submenu_open_ || !IsShown() || active == this ||
+                    (active && IsDescendant(active)))
+                    return;
+                DismissAndNotify();
+                if (auto* owner = MSWGetOwner(); owner && wxGetActiveWindow() != owner)
+                    ::SendMessage(static_cast<HWND>(owner->GetHandle()), WM_NCACTIVATE, FALSE, 0);
+            });
+            // NOLINTNEXTLINE(bugprone-parent-virtual-call): replace only the transient deactivation handler.
+            return wxPopupWindow::MSWHandleMessage(result, message, wParam, lParam);
+        }
+        return wxPopupTransientWindow::MSWHandleMessage(result, message, wParam, lParam);
+    }
+#endif
 
     // Builds the rows again at the current text size, with the focus on the same control.
     void rebuild() {
@@ -791,15 +814,21 @@ bool MainFrame::smoke_menu() {
                 return popup;
         return nullptr;
     };
+    const auto alive = [&](const char* stage) {
+        if (root)
+            return true;
+        std::cerr << "Submenu check failed: main menu closed " << stage << '\n';
+        return false;
+    };
     // Finish closing any modeless dialogs before testing popup focus.
     wxTheApp->Yield(true);
     root->open();
     wxTheApp->Yield(true);
-    if (!root)
+    if (!alive("on opening"))
         return false;
     key(root.get(), WXK_RIGHT);
     wxTheApp->Yield(true);
-    if (!root)
+    if (!alive("on opening Bookmarks"))
         return false;
     auto* child = child_of(root.get());
     bool ok = true;
@@ -823,20 +852,20 @@ bool MainFrame::smoke_menu() {
         key(child, WXK_DOWN);
         key(child, WXK_RIGHT);
         wxTheApp->Yield(true);
-        if (!root)
+        if (!alive("on opening removal submenu"))
             return false;
         auto* nested = child_of(child);
         check(root->IsShown() && child->IsShown() && nested, "nested removal menu opens");
         if (nested) {
             key(nested, WXK_LEFT);
             wxTheApp->Yield(true);
-            if (!root)
+            if (!alive("on returning from removal submenu"))
                 return false;
             check(root->IsShown() && child->IsShown(), "Left returns to parent");
         }
         key(child, WXK_ESCAPE);
         wxTheApp->Yield(true);
-        if (!root)
+        if (!alive("on returning to main menu"))
             return false;
         check(root->IsShown() && !child_of(root.get()), "Escape returns to main menu");
     }

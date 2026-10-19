@@ -751,8 +751,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         ProcessWindowEvent(command);
         auto* button = update_button_.get();
         const auto* text = static_cast<wxStaticText*>(update_text_.get());
-        if (!button || !text ||
-            button->IsEnabled() != (updater_->status().state != UpdateStatus::State::Unavailable))
+        const auto initial = updater_->status().state;
+        const bool checking = initial == UpdateStatus::State::Checking;
+        if (!update_dialog_ || !button || !text ||
+            button->IsEnabled() != (!checking && initial != UpdateStatus::State::Unavailable) ||
+            update_cancel_->IsShown() != checking)
             fail(__LINE__);
         // Each step waits for a click, and the controls follow it.
         updater_ = std::make_unique<Updater>(
