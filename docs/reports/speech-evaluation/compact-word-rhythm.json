@@ -1,5 +1,5 @@
 {
-  "scope": "V4 bounded whole-word timing correction, three inspected development passages. Listener acceptance pending. All output waveform samples derive from reusable compact v2; no teacher waveform samples are rendered.",
+  "scope": "V4 bounded whole-word timing correction, three inspected development passages. Listener reports improvement but still staccato, requesting more melodic Swedish. Voice quality is not accepted. All waveform material derives from reusable compact v2.",
   "prior_v3_human_feedback": {
     "primary_quality_requirement": "failed",
     "relative_to_v2": "worse",
@@ -13,10 +13,14 @@
     "interpretation": "Listener description, not a verified accent diagnosis. Improved ASR does not establish pleasantness."
   },
   "human_feedback": {
-    "primary_quality_requirement": "pending",
+    "primary_quality_requirement": "not_accepted",
+    "relative_to_v3": "better",
+    "remaining_problem": "Staccato; listener wants more melodic Swedish",
+    "answer": "better i say! sounds staccato, swedish is over all more melodic",
     "samples": [
       "compact-v4-word-rhythm-12sec.wav"
-    ]
+    ],
+    "sample_sha256": "7a31db20a4736eb16160c9db3b3e5eb2822e0740938756660d6e9dd4d595118c"
   },
   "verification": {
     "regression_tests_passed": 20,

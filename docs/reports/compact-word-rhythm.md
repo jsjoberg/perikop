@@ -31,7 +31,7 @@ predicted timing. The native grain renderer performs no inference at playback.
   worsen and Corinthians improves. The new run uses CPU; the historical run may
   use Metal. Treat this as a rough intelligibility guardrail, not a controlled
   improvement claim.
-- No held-out passages were used. Listening acceptance remains pending.
+- No held-out passages were used. The listener reports improvement over v3, but still hears staccato phrasing and wants more melodic Swedish. Voice quality is not accepted.
 
 The 12-second listening sample is the beginning of 1 Corinthians 13:4–7 from
 the native compact render, without normalization or substituted neural audio.

@@ -1,0 +1,2024 @@
+{
+  "scope": "V5 phrase flow and reference-derived melody. Three inspected development passages, same waveform bank and v4 spoken-word timing. Listening acceptance pending; ASR and signal tests do not prove pleasantness.",
+  "prior_v4_human_feedback": {
+    "primary_quality_requirement": "not_accepted",
+    "relative_to_v3": "better",
+    "remaining_problem": "Staccato; listener wants more melodic Swedish",
+    "answer": "better i say! sounds staccato, swedish is over all more melodic",
+    "samples": [
+      "compact-v4-word-rhythm-12sec.wav"
+    ],
+    "sample_sha256": "7a31db20a4736eb16160c9db3b3e5eb2822e0740938756660d6e9dd4d595118c"
+  },
+  "human_feedback": {
+    "primary_quality_requirement": "pending",
+    "sample": "compact-v5-phrase-flow-12sec.wav"
+  },
+  "previous_v4_guardrail": {
+    "n": 3,
+    "wer": 0.13259668508287292,
+    "cer": 0.04914004914004914,
+    "word_errors": 24,
+    "reference_words": 181,
+    "empty_transcripts": 0,
+    "failed_passages": [],
+    "acoustic": {
+      "duration_seconds": {
+        "p05": 18.760029166666666,
+        "median": 22.348666666666666,
+        "p95": 23.066491666666664
+      },
+      "clipped_fraction": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      },
+      "silence_fraction": {
+        "p05": 0.15836597233295163,
+        "median": 0.16465324384787472,
+        "p95": 0.19332977729714457
+      },
+      "max_internal_silence_seconds": {
+        "p05": 0.525,
+        "median": 0.5700000000000001,
+        "p95": 0.714
+      },
+      "voiced_fraction": {
+        "p05": 0.5503542518379958,
+        "median": 0.5552572706935123,
+        "p95": 0.5885278868965651
+      },
+      "voicing_transitions_per_second": {
+        "p05": 9.323444063022828,
+        "median": 10.887292758006158,
+        "p95": 12.364569743539183
+      },
+      "pitch_jump_candidates_per_second": {
+        "p05": 0.27640257631580795,
+        "median": 0.31321779077051576,
+        "p95": 0.34238728644865607
+      },
+      "spectral_jump_candidates_per_second": {
+        "p05": 1.2186795254769751,
+        "median": 1.6883343809780993,
+        "p95": 2.2226472375787636
+      },
+      "wave_jump_candidates_per_second": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      }
+    }
+  },
+  "new_guardrail": {
+    "n": 3,
+    "wer": 0.09944751381215469,
+    "cer": 0.036855036855036855,
+    "word_errors": 18,
+    "reference_words": 181,
+    "empty_transcripts": 0,
+    "failed_passages": [],
+    "acoustic": {
+      "duration_seconds": {
+        "p05": 17.693029166666665,
+        "median": 21.668666666666667,
+        "p95": 22.854491666666664
+      },
+      "clipped_fraction": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      },
+      "silence_fraction": {
+        "p05": 0.14085773059604165,
+        "median": 0.14600231749710313,
+        "p95": 0.15122485114944934
+      },
+      "max_internal_silence_seconds": {
+        "p05": 0.47600000000000003,
+        "median": 0.53,
+        "p95": 0.629
+      },
+      "voiced_fraction": {
+        "p05": 0.5853075282294569,
+        "median": 0.5909617612977984,
+        "p95": 0.6102923483785836
+      },
+      "voicing_transitions_per_second": {
+        "p05": 9.643417570709945,
+        "median": 9.831964761542228,
+        "p95": 12.03140741052951
+      },
+      "pitch_jump_candidates_per_second": {
+        "p05": 0.09676751841830429,
+        "median": 0.18459834476817524,
+        "p95": 0.2271398608516542
+      },
+      "spectral_jump_candidates_per_second": {
+        "p05": 1.4384162998414207,
+        "median": 1.854933567776326,
+        "p95": 2.1791554802739252
+      },
+      "wave_jump_candidates_per_second": {
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      }
+    }
+  },
+  "verification": {
+    "regression_tests_passed": 24,
+    "native_pcm_matches_python_bit_for_bit": true,
+    "maximum_spoken_timing_segment_difference_samples": 0,
+    "rendered_pitch_check": {
+      "scope": "Signal control check; REAPER voiced frames only. Not a naturalness metric.",
+      "median_absolute_semitones": 0.17426142311038006,
+      "p90_absolute_semitones": 1.5522824893928588
+    }
+  },
+  "reference_prosody_readings": [
+    "https://www.isca-archive.org/tal_2004/fant04_tal.html",
+    "https://www.isca-archive.org/ssw_1990/bruce90_ssw.html"
+  ],
+  "timing_experiment": {
+    "scope": "MIT. Phrase flow/intonation experiment retaining the v4 word durations.\n\nAll waveform material is compact v2. The neural reference supplies only offline\npitch and pause controls. This is a listening candidate, not an accepted voice.\n",
+    "code_sha256": "95d0fda82d482779ce51bd1838b7621a5e0ad9d112119d6c6f680728d5308446",
+    "word_report_sha256": "1de9bd4d346c8c493f29cd5f5634c9d95fed20ed6d3a0ce4a2c3973796a325fd",
+    "phone_report_sha256": "0d027e5d174dcb75f2e04806052256b2cb096e5b651886f5e9711466ea18d535",
+    "renderer_sha256": "428d063577d81374477ab696f897c18e3cd2b60e03f1b35a62fe798cb092a22d",
+    "passages": [
+      {
+        "id": "1cor-013-004-007",
+        "source_sha256": "dc80ee87fa5effea2c3a8049448a4646d8eafb738954d6740a69e3e8ffd248a0",
+        "teacher_control_source_sha256": "22daae066c53a192169d47bdf7e015e8cb57592e1f6715132250a596c83b94d7",
+        "timing_anchors": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            14605.0,
+            16228.0
+          ],
+          [
+            18205.0,
+            19998.0
+          ],
+          [
+            27205.0,
+            28362.0
+          ],
+          [
+            30205.0,
+            31482.0
+          ],
+          [
+            38209.0,
+            38758.0
+          ],
+          [
+            43969.0,
+            46438.0
+          ],
+          [
+            57769.0,
+            61771.0
+          ],
+          [
+            69718.0,
+            75048.0
+          ],
+          [
+            76918.0,
+            81848.0
+          ],
+          [
+            77878.0,
+            85208.0
+          ],
+          [
+            92451.0,
+            101400.0
+          ],
+          [
+            102931.0,
+            113044.0
+          ],
+          [
+            106198.0,
+            116674.0
+          ],
+          [
+            112593.0,
+            122488.0
+          ],
+          [
+            113553.0,
+            125848.0
+          ],
+          [
+            117153.0,
+            129534.0
+          ],
+          [
+            130953.0,
+            144244.0
+          ],
+          [
+            137773.0,
+            150444.0
+          ],
+          [
+            148093.0,
+            158124.0
+          ],
+          [
+            153008.0,
+            163585.0
+          ],
+          [
+            162008.0,
+            173107.0
+          ],
+          [
+            165272.0,
+            176734.0
+          ],
+          [
+            170525.0,
+            182571.0
+          ],
+          [
+            185521.0,
+            196204.0
+          ],
+          [
+            187681.0,
+            199564.0
+          ],
+          [
+            192973.0,
+            205444.0
+          ],
+          [
+            200191.0,
+            213464.0
+          ],
+          [
+            205591.0,
+            219336.0
+          ],
+          [
+            210871.0,
+            224136.0
+          ],
+          [
+            213271.0,
+            227496.0
+          ],
+          [
+            217471.0,
+            231696.0
+          ],
+          [
+            229471.0,
+            244564.0
+          ],
+          [
+            236671.0,
+            251364.0
+          ],
+          [
+            237631.0,
+            254724.0
+          ],
+          [
+            241831.0,
+            258924.0
+          ],
+          [
+            249631.0,
+            267318.0
+          ],
+          [
+            254431.0,
+            272083.0
+          ],
+          [
+            258313.0,
+            276396.0
+          ],
+          [
+            261913.0,
+            280220.0
+          ],
+          [
+            264567.0,
+            282874.0
+          ],
+          [
+            278967.0,
+            298348.0
+          ],
+          [
+            293367.0,
+            312348.0
+          ],
+          [
+            299607.0,
+            320028.0
+          ],
+          [
+            303807.0,
+            324289.0
+          ],
+          [
+            312794.0,
+            334275.0
+          ],
+          [
+            316336.0,
+            338211.0
+          ],
+          [
+            321145.0,
+            343554.0
+          ],
+          [
+            326545.0,
+            349524.0
+          ],
+          [
+            350532.0,
+            371330.0
+          ],
+          [
+            351492.0,
+            374690.0
+          ],
+          [
+            354492.0,
+            377690.0
+          ],
+          [
+            358092.0,
+            381476.0
+          ],
+          [
+            362457.0,
+            386326.0
+          ],
+          [
+            371457.0,
+            395638.0
+          ],
+          [
+            374001.0,
+            398182.0
+          ],
+          [
+            393046.0,
+            415496.0
+          ],
+          [
+            404086.0,
+            423176.0
+          ],
+          [
+            408286.0,
+            427376.0
+          ],
+          [
+            420286.0,
+            440046.0
+          ],
+          [
+            431686.0,
+            451672.0
+          ],
+          [
+            432646.0,
+            455032.0
+          ],
+          [
+            436846.0,
+            459232.0
+          ],
+          [
+            442846.0,
+            465748.0
+          ],
+          [
+            453646.0,
+            476892.0
+          ],
+          [
+            454606.0,
+            480252.0
+          ],
+          [
+            458806.0,
+            484445.0
+          ],
+          [
+            468116.0,
+            492909.0
+          ],
+          [
+            479516.0,
+            504450.0
+          ],
+          [
+            480476.0,
+            507810.0
+          ],
+          [
+            485376.0,
+            513255.0
+          ],
+          [
+            499176.0,
+            527067.0
+          ],
+          [
+            512368.0,
+            539060.0
+          ],
+          [
+            520048.0,
+            546740.0
+          ]
+        ],
+        "pauses": [
+          {
+            "begin": 38758,
+            "end": 46438,
+            "source_samples": 7680,
+            "output_samples": 5760,
+            "reference_quiet_samples": 5760,
+            "reference_search_center": 68700.0,
+            "reference_quiet_interval": [
+              64080,
+              69840
+            ]
+          },
+          {
+            "begin": 81848,
+            "end": 85208,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 102000.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 122488,
+            "end": 125848,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 137100.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 150444,
+            "end": 158124,
+            "source_samples": 7680,
+            "output_samples": 10320,
+            "reference_quiet_samples": 10320,
+            "reference_search_center": 173100.0,
+            "reference_quiet_interval": [
+              166080,
+              176400
+            ]
+          },
+          {
+            "begin": 196204,
+            "end": 199564,
+            "source_samples": 3360,
+            "output_samples": 2160,
+            "reference_quiet_samples": 2160,
+            "reference_search_center": 211800.0,
+            "reference_quiet_interval": [
+              210480,
+              212640
+            ]
+          },
+          {
+            "begin": 224136,
+            "end": 227496,
+            "source_samples": 3360,
+            "output_samples": 2400,
+            "reference_quiet_samples": 2400,
+            "reference_search_center": 235200.0,
+            "reference_quiet_interval": [
+              233760,
+              236160
+            ]
+          },
+          {
+            "begin": 251364,
+            "end": 254724,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 259500.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 312348,
+            "end": 320028,
+            "source_samples": 7680,
+            "output_samples": 6240,
+            "reference_quiet_samples": 6240,
+            "reference_search_center": 316800.0,
+            "reference_quiet_interval": [
+              313680,
+              319920
+            ]
+          },
+          {
+            "begin": 371330,
+            "end": 374690,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 960,
+            "reference_search_center": 371400.0,
+            "reference_quiet_interval": [
+              371280,
+              372240
+            ]
+          },
+          {
+            "begin": 415496,
+            "end": 423176,
+            "source_samples": 7680,
+            "output_samples": 11040,
+            "reference_quiet_samples": 11040,
+            "reference_search_center": 418800.0,
+            "reference_quiet_interval": [
+              410160,
+              421200
+            ]
+          },
+          {
+            "begin": 451672,
+            "end": 455032,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 448500.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 476892,
+            "end": 480252,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 470400.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 504450,
+            "end": 507810,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 497700.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 539060,
+            "end": 546740,
+            "source_samples": 7680,
+            "output_samples": 7680,
+            "reference_quiet_samples": 25320,
+            "reference_search_center": 540300.0,
+            "reference_quiet_interval": [
+              530880,
+              556200
+            ]
+          }
+        ],
+        "pitch_control": {
+          "strength": 1.0,
+          "maximum_semitones": 6.0,
+          "clamped_epochs": 95,
+          "voiced_epochs": 1826,
+          "applied_shift_semitones_p10_p50_p90": [
+            -2.318883183592103,
+            0.03520591485275304,
+            3.7168016135649147
+          ]
+        },
+        "seconds": 21.668666666666667,
+        "uncovered_samples": 0,
+        "native_maximum_pcm_unit_difference": 0.0,
+        "native_stats": {
+          "load_seconds": 1.79875,
+          "render_seconds": 0.00351508,
+          "audio_seconds": 21.6687,
+          "grains": 2595,
+          "uncovered_samples": 0
+        },
+        "audio_sha256": "a22fb17413415a46db8619967cc151084bc1897b1c9b2ac871b7b00f0f4f4fed"
+      },
+      {
+        "id": "1kgs-019-011-012",
+        "source_sha256": "3c06d2f8deb500409ef4f04f5d8e58f9c93b627880b81d2693fca680bbceda07",
+        "teacher_control_source_sha256": "16b044e7831c25962a20fbfcf5cccb402bff4923af0f376291028249a8fa0c08",
+        "timing_anchors": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            4971.0,
+            4519.0
+          ],
+          [
+            17237.0,
+            18148.0
+          ],
+          [
+            18197.0,
+            21508.0
+          ],
+          [
+            22465.0,
+            25388.0
+          ],
+          [
+            27910.0,
+            30338.0
+          ],
+          [
+            30760.0,
+            33188.0
+          ],
+          [
+            37960.0,
+            40538.0
+          ],
+          [
+            42045.0,
+            44252.0
+          ],
+          [
+            45645.0,
+            48042.0
+          ],
+          [
+            62758.0,
+            67056.0
+          ],
+          [
+            69958.0,
+            74656.0
+          ],
+          [
+            79858.0,
+            83656.0
+          ],
+          [
+            90898.0,
+            91336.0
+          ],
+          [
+            94084.0,
+            94876.0
+          ],
+          [
+            98458.0,
+            99736.0
+          ],
+          [
+            105658.0,
+            106858.0
+          ],
+          [
+            111658.0,
+            113383.0
+          ],
+          [
+            118258.0,
+            119458.0
+          ],
+          [
+            119218.0,
+            122818.0
+          ],
+          [
+            122458.0,
+            126418.0
+          ],
+          [
+            125458.0,
+            129418.0
+          ],
+          [
+            131458.0,
+            135698.0
+          ],
+          [
+            134239.0,
+            138788.0
+          ],
+          [
+            143239.0,
+            147738.0
+          ],
+          [
+            152239.0,
+            156038.0
+          ],
+          [
+            153199.0,
+            159398.0
+          ],
+          [
+            157757.0,
+            164462.0
+          ],
+          [
+            165321.0,
+            172867.0
+          ],
+          [
+            171921.0,
+            178984.0
+          ],
+          [
+            180436.0,
+            188445.0
+          ],
+          [
+            183569.0,
+            191926.0
+          ],
+          [
+            190679.0,
+            199826.0
+          ],
+          [
+            199769.0,
+            209926.0
+          ],
+          [
+            210569.0,
+            220984.0
+          ],
+          [
+            211529.0,
+            224344.0
+          ],
+          [
+            216329.0,
+            229544.0
+          ],
+          [
+            222929.0,
+            236686.0
+          ],
+          [
+            231601.0,
+            244570.0
+          ],
+          [
+            232561.0,
+            247930.0
+          ],
+          [
+            238319.0,
+            254328.0
+          ],
+          [
+            243989.0,
+            260628.0
+          ],
+          [
+            247611.0,
+            264652.0
+          ],
+          [
+            254211.0,
+            271972.0
+          ],
+          [
+            257011.0,
+            274772.0
+          ],
+          [
+            269001.0,
+            285672.0
+          ],
+          [
+            280041.0,
+            293352.0
+          ],
+          [
+            286926.0,
+            301002.0
+          ],
+          [
+            297726.0,
+            312100.0
+          ],
+          [
+            301326.0,
+            315936.0
+          ],
+          [
+            304326.0,
+            319054.0
+          ],
+          [
+            322630.0,
+            335694.0
+          ],
+          [
+            323590.0,
+            339054.0
+          ],
+          [
+            329348.0,
+            345452.0
+          ],
+          [
+            335018.0,
+            351752.0
+          ],
+          [
+            338640.0,
+            355776.0
+          ],
+          [
+            345246.0,
+            363116.0
+          ],
+          [
+            348095.0,
+            366282.0
+          ],
+          [
+            369266.0,
+            385528.0
+          ],
+          [
+            379826.0,
+            393208.0
+          ],
+          [
+            387626.0,
+            400627.0
+          ],
+          [
+            405173.0,
+            420124.0
+          ],
+          [
+            415865.0,
+            432004.0
+          ],
+          [
+            419465.0,
+            435581.0
+          ],
+          [
+            438755.0,
+            457014.0
+          ],
+          [
+            439715.0,
+            460374.0
+          ],
+          [
+            445366.0,
+            466653.0
+          ],
+          [
+            451143.0,
+            473072.0
+          ],
+          [
+            454765.0,
+            477096.0
+          ],
+          [
+            461367.0,
+            484431.0
+          ],
+          [
+            463601.0,
+            486665.0
+          ],
+          [
+            472913.0,
+            495130.0
+          ],
+          [
+            483953.0,
+            502810.0
+          ],
+          [
+            490915.0,
+            509139.0
+          ],
+          [
+            500515.0,
+            518276.0
+          ],
+          [
+            505915.0,
+            524068.0
+          ],
+          [
+            515515.0,
+            533721.0
+          ],
+          [
+            518515.0,
+            536610.0
+          ],
+          [
+            521925.0,
+            539710.0
+          ],
+          [
+            531690.0,
+            550560.0
+          ],
+          [
+            543990.0,
+            561742.0
+          ],
+          [
+            551670.0,
+            569422.0
+          ]
+        ],
+        "pauses": [
+          {
+            "begin": 18148,
+            "end": 21508,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 36600.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 83656,
+            "end": 91336,
+            "source_samples": 7680,
+            "output_samples": 11040,
+            "reference_quiet_samples": 16080,
+            "reference_search_center": 107400.0,
+            "reference_quiet_interval": [
+              94560,
+              110640
+            ]
+          },
+          {
+            "begin": 119458,
+            "end": 122818,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 136500.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 156038,
+            "end": 159398,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 170100.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 220984,
+            "end": 224344,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 225300.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 244570,
+            "end": 247930,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 248400.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 285672,
+            "end": 293352,
+            "source_samples": 7680,
+            "output_samples": 11040,
+            "reference_quiet_samples": 15120,
+            "reference_search_center": 294600.0,
+            "reference_quiet_interval": [
+              282240,
+              297360
+            ]
+          },
+          {
+            "begin": 335694,
+            "end": 339054,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 339900.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 385528,
+            "end": 393208,
+            "source_samples": 7680,
+            "output_samples": 10560,
+            "reference_quiet_samples": 10560,
+            "reference_search_center": 389700.0,
+            "reference_quiet_interval": [
+              381360,
+              391920
+            ]
+          },
+          {
+            "begin": 457014,
+            "end": 460374,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 432000.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 495130,
+            "end": 502810,
+            "source_samples": 7680,
+            "output_samples": 11040,
+            "reference_quiet_samples": 11760,
+            "reference_search_center": 474900.0,
+            "reference_quiet_interval": [
+              465840,
+              477600
+            ]
+          },
+          {
+            "begin": 561742,
+            "end": 569422,
+            "source_samples": 7680,
+            "output_samples": 7680,
+            "reference_quiet_samples": 24240,
+            "reference_search_center": 555300.0,
+            "reference_quiet_interval": [
+              542160,
+              566400
+            ]
+          }
+        ],
+        "pitch_control": {
+          "strength": 1.0,
+          "maximum_semitones": 6.0,
+          "clamped_epochs": 91,
+          "voiced_epochs": 1949,
+          "applied_shift_semitones_p10_p50_p90": [
+            -2.5516050131621966,
+            0.20373896259239999,
+            3.6829265492631125
+          ]
+        },
+        "seconds": 22.98625,
+        "uncovered_samples": 0,
+        "native_maximum_pcm_unit_difference": 0.0,
+        "native_stats": {
+          "load_seconds": 0.00101558,
+          "render_seconds": 0.00121392,
+          "audio_seconds": 22.9862,
+          "grains": 2738,
+          "uncovered_samples": 0
+        },
+        "audio_sha256": "f639bf1ba88d5756aaa9381b76b6c41c677e1ddcac14e2701d2478ee68aed8df"
+      },
+      {
+        "id": "1sam-003-009-010",
+        "source_sha256": "bc7eb102999c6735a705ff86a9cccb4b54757ef94d866fb58a44bbac4b42bb72",
+        "teacher_control_source_sha256": "b1184ad4570f7120254b04a74a2b03731efb1fcc845b88cc5a99c13d038326d7",
+        "timing_anchors": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            10200.0,
+            10800.0
+          ],
+          [
+            16800.0,
+            17947.0
+          ],
+          [
+            25474.0,
+            27585.0
+          ],
+          [
+            29074.0,
+            31190.0
+          ],
+          [
+            41614.0,
+            42590.0
+          ],
+          [
+            42574.0,
+            45950.0
+          ],
+          [
+            46750.0,
+            49746.0
+          ],
+          [
+            49554.0,
+            52862.0
+          ],
+          [
+            55406.0,
+            58182.0
+          ],
+          [
+            58574.0,
+            61062.0
+          ],
+          [
+            59534.0,
+            64422.0
+          ],
+          [
+            63734.0,
+            68624.0
+          ],
+          [
+            67000.0,
+            72253.0
+          ],
+          [
+            70622.0,
+            76278.0
+          ],
+          [
+            80111.0,
+            86821.0
+          ],
+          [
+            89711.0,
+            96795.0
+          ],
+          [
+            92711.0,
+            99816.0
+          ],
+          [
+            97571.0,
+            105216.0
+          ],
+          [
+            98531.0,
+            108576.0
+          ],
+          [
+            102731.0,
+            112776.0
+          ],
+          [
+            108011.0,
+            117576.0
+          ],
+          [
+            108971.0,
+            120936.0
+          ],
+          [
+            115991.0,
+            128736.0
+          ],
+          [
+            116951.0,
+            132096.0
+          ],
+          [
+            122891.0,
+            137496.0
+          ],
+          [
+            123851.0,
+            140856.0
+          ],
+          [
+            129197.0,
+            146796.0
+          ],
+          [
+            140004.0,
+            158804.0
+          ],
+          [
+            145275.0,
+            163596.0
+          ],
+          [
+            153915.0,
+            171276.0
+          ],
+          [
+            157215.0,
+            174276.0
+          ],
+          [
+            168935.0,
+            187298.0
+          ],
+          [
+            174335.0,
+            192394.0
+          ],
+          [
+            176735.0,
+            194794.0
+          ],
+          [
+            183935.0,
+            201932.0
+          ],
+          [
+            188881.0,
+            207428.0
+          ],
+          [
+            192297.0,
+            211224.0
+          ],
+          [
+            197097.0,
+            216444.0
+          ],
+          [
+            214497.0,
+            234444.0
+          ],
+          [
+            223857.0,
+            242124.0
+          ],
+          [
+            227457.0,
+            245840.0
+          ],
+          [
+            231701.0,
+            250556.0
+          ],
+          [
+            239501.0,
+            258526.0
+          ],
+          [
+            242309.0,
+            261334.0
+          ],
+          [
+            251921.0,
+            272014.0
+          ],
+          [
+            256061.0,
+            276614.0
+          ],
+          [
+            261216.0,
+            282342.0
+          ],
+          [
+            263766.0,
+            284892.0
+          ],
+          [
+            274566.0,
+            296322.0
+          ],
+          [
+            282515.0,
+            305154.0
+          ],
+          [
+            285515.0,
+            308156.0
+          ],
+          [
+            292715.0,
+            315246.0
+          ],
+          [
+            318370.0,
+            343752.0
+          ],
+          [
+            319330.0,
+            347112.0
+          ],
+          [
+            331870.0,
+            358512.0
+          ],
+          [
+            335710.0,
+            366192.0
+          ],
+          [
+            348250.0,
+            377592.0
+          ],
+          [
+            352090.0,
+            385272.0
+          ],
+          [
+            362890.0,
+            397272.0
+          ],
+          [
+            374290.0,
+            408672.0
+          ],
+          [
+            375250.0,
+            412032.0
+          ],
+          [
+            383830.0,
+            419832.0
+          ],
+          [
+            384790.0,
+            423192.0
+          ],
+          [
+            390280.0,
+            429292.0
+          ],
+          [
+            401080.0,
+            441140.0
+          ],
+          [
+            406351.0,
+            445932.0
+          ],
+          [
+            414031.0,
+            453612.0
+          ]
+        ],
+        "pauses": [
+          {
+            "begin": 42590,
+            "end": 45950,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 63000.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 61062,
+            "end": 64422,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 83100.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 105216,
+            "end": 108576,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 120900.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 117576,
+            "end": 120936,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 960,
+            "reference_search_center": 132300.0,
+            "reference_quiet_interval": [
+              132480,
+              133440
+            ]
+          },
+          {
+            "begin": 128736,
+            "end": 132096,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 140100.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 137496,
+            "end": 140856,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 147900.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 163596,
+            "end": 171276,
+            "source_samples": 7680,
+            "output_samples": 8640,
+            "reference_quiet_samples": 8640,
+            "reference_search_center": 175500.0,
+            "reference_quiet_interval": [
+              170160,
+              178800
+            ]
+          },
+          {
+            "begin": 234444,
+            "end": 242124,
+            "source_samples": 7680,
+            "output_samples": 9360,
+            "reference_quiet_samples": 9360,
+            "reference_search_center": 238800.0,
+            "reference_quiet_interval": [
+              232560,
+              241920
+            ]
+          },
+          {
+            "begin": 343752,
+            "end": 347112,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 318600.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 358512,
+            "end": 366192,
+            "source_samples": 7680,
+            "output_samples": 3840,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 334200.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 377592,
+            "end": 385272,
+            "source_samples": 7680,
+            "output_samples": 3840,
+            "reference_quiet_samples": 1440,
+            "reference_search_center": 353400.0,
+            "reference_quiet_interval": [
+              352080,
+              353520
+            ]
+          },
+          {
+            "begin": 408672,
+            "end": 412032,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 960,
+            "reference_search_center": 377400.0,
+            "reference_quiet_interval": [
+              377760,
+              378720
+            ]
+          },
+          {
+            "begin": 419832,
+            "end": 423192,
+            "source_samples": 3360,
+            "output_samples": 960,
+            "reference_quiet_samples": 0,
+            "reference_search_center": 388500.0,
+            "reference_quiet_interval": null
+          },
+          {
+            "begin": 445932,
+            "end": 453612,
+            "source_samples": 7680,
+            "output_samples": 7680,
+            "reference_quiet_samples": 24240,
+            "reference_search_center": 419700.0,
+            "reference_quiet_interval": [
+              413760,
+              438000
+            ]
+          }
+        ],
+        "pitch_control": {
+          "strength": 1.0,
+          "maximum_semitones": 6.0,
+          "clamped_epochs": 65,
+          "voiced_epochs": 1479,
+          "applied_shift_semitones_p10_p50_p90": [
+            -3.899204341280337,
+            -0.022580684791073224,
+            3.002221837203494
+          ]
+        },
+        "seconds": 17.251291666666667,
+        "uncovered_samples": 0,
+        "native_maximum_pcm_unit_difference": 0.0,
+        "native_stats": {
+          "load_seconds": 0.000738834,
+          "render_seconds": 0.000887791,
+          "audio_seconds": 17.2513,
+          "grains": 2078,
+          "uncovered_samples": 0
+        },
+        "audio_sha256": "af52307d197bbe509b34821b941e12481022a4ab7b1555e3a61ef4b4315022c8"
+      }
+    ]
+  },
+  "evaluation": {
+    "scope": "Development only. ASR improvement does not establish pleasant voice quality.",
+    "selection_sha256": "e0c62b285294d6d45749f293eefbb69ee4d95f08e9dc7695b9e1f1e46f71b472",
+    "asr_identity": "b26503d6520ec8d5e4c62614d67cf42c6a21b2f9237fe1c8e5e22bb4b04bb889",
+    "rows": [
+      {
+        "id": "1cor-013-004-007-phrase-flow",
+        "original_id": "1cor-013-004-007",
+        "split": "dev",
+        "text": "Kärleken är tålig och mild. Kärleken avundas icke, kärleken förhäver sig icke, den uppblåses icke. Den skickar sig icke ohöviskt, den söker icke sitt, den förtörnas icke, den hyser icke agg för en oförrätts skull. Den gläder sig icke över orättfärdigheten, men har sin glädje i sanningen. Den fördrager allting, den tror allting, den hoppas allting, den uthärdar allting.",
+        "variant": "phrase-flow",
+        "audio": "1cor-013-004-007/phrase-flow.native.wav",
+        "audio_sha256": "a22fb17413415a46db8619967cc151084bc1897b1c9b2ac871b7b00f0f4f4fed",
+        "native_stats": {
+          "load_seconds": 1.79875,
+          "render_seconds": 0.00351508,
+          "audio_seconds": 21.6687,
+          "grains": 2595,
+          "uncovered_samples": 0
+        },
+        "recognition": "Kärleken är tålig och mild.\n Kärleken avundas icke.\n Kärleken förhäver sig icke.\n Den uppblåses icke.\n Den skickar sig icke ohöviskt.\n Den söker icke sitt.\n Den förtörnas icke.\n Den hyser icke-agg för en oförrätts skull.\n Den gläder sig icke över orättfärdigheten\n men har sin glädje i sanningen.\n Den fördragar allting.\n Den tror allting.\n Den hoppas allting.\n Den uthärdar allting.",
+        "intelligibility": {
+          "wer": 0.01694915254237288,
+          "cer": 0.0033444816053511705,
+          "word_errors": 1,
+          "reference_words": 59,
+          "char_errors": 1,
+          "reference_chars": 299,
+          "substitutions": 1,
+          "deletions": 0,
+          "insertions": 0,
+          "empty_transcript": false,
+          "normalized_hypothesis": "kärleken är tålig och mild kärleken avundas icke kärleken förhäver sig icke den uppblåses icke den skickar sig icke ohöviskt den söker icke sitt den förtörnas icke den hyser icke agg för en oförrätts skull den gläder sig icke över orättfärdigheten men har sin glädje i sanningen den fördragar allting den tror allting den hoppas allting den uthärdar allting",
+          "categories": {},
+          "errors": [
+            {
+              "op": "substitute",
+              "expected": "fördrager",
+              "recognized": "fördragar"
+            }
+          ]
+        },
+        "audio_seconds": 21.668666666666667,
+        "acoustic": {
+          "duration_seconds": 21.668666666666667,
+          "peak": 0.637115478515625,
+          "rms_dbfs": -21.977132931998877,
+          "clipped_fraction": 0.0,
+          "silence_fraction": 0.14028610982925704,
+          "max_internal_silence_seconds": 0.53,
+          "internal_silences": [
+            {
+              "start": 1.61,
+              "seconds": 0.21
+            },
+            {
+              "start": 5.76,
+              "seconds": 0.4
+            },
+            {
+              "start": 12.06,
+              "seconds": 0.46
+            },
+            {
+              "start": 16.29,
+              "seconds": 0.53
+            }
+          ],
+          "voiced_fraction": 0.5846792801107522,
+          "f0_hz": {
+            "p05": 112.14953271028037,
+            "median": 128.3422459893048,
+            "p95": 166.32183908045982
+          },
+          "pitch_step_semitones": {
+            "p05": 0.0,
+            "median": 0.17665806848118745,
+            "p95": 0.8195695236217432
+          },
+          "pitch_jump_candidates_per_second": 0.18459834476817524,
+          "pitch_jump_candidate_times": [
+            12.0,
+            14.58,
+            17.990000000000002,
+            21.35
+          ],
+          "periodicity": {
+            "p05": 0.2069219146212475,
+            "median": 0.8176041149708727,
+            "p95": 0.9858704521283194
+          },
+          "voiced_run_seconds": {
+            "p05": 0.01,
+            "median": 0.04,
+            "p95": 0.33799999999999986
+          },
+          "voicing_transitions_per_second": 12.275789927083654,
+          "spectral_centroid_hz": {
+            "p05": 141.16909426776365,
+            "median": 289.30912142656734,
+            "p95": 4203.059670488595
+          },
+          "spectral_flux": {
+            "p05": 0.0058106169602469065,
+            "median": 0.0612296020338029,
+            "p95": 0.27536945010517366
+          },
+          "spectral_jump_candidates_per_second": 2.215180137218103,
+          "wave_jump_candidates_per_second": 0.0,
+          "wave_jump_candidate_times": []
+        },
+        "baseline": []
+      },
+      {
+        "id": "1kgs-019-011-012-phrase-flow",
+        "original_id": "1kgs-019-011-012",
+        "split": "dev",
+        "text": "Han sade: »Gå ut och ställ dig på berget inför HERREN.» Då gick HERREN fram där, och en stor och stark storm, som ryckte loss berg och bröt sönder klippor, gick före HERREN; men icke var HERREN i stormen. Efter stormen kom en jordbävning; men icke var HERREN i jordbävningen. Efter jordbävningen kom en eld; men icke var HERREN i elden. Efter elden kom ljudet av en sakta susning.",
+        "variant": "phrase-flow",
+        "audio": "1kgs-019-011-012/phrase-flow.native.wav",
+        "audio_sha256": "f639bf1ba88d5756aaa9381b76b6c41c677e1ddcac14e2701d2478ee68aed8df",
+        "native_stats": {
+          "load_seconds": 0.00101558,
+          "render_seconds": 0.00121392,
+          "audio_seconds": 22.9862,
+          "grains": 2738,
+          "uncovered_samples": 0
+        },
+        "recognition": "Han sade: \"Gå ut och ställ dig på berget inför Herren.\"\n Då gick Herren fram där, och en stor och stark storm\n som ryckte loss berg och bröt sönder klippor gick före Herren.\n Menica var Herren i stormen.\n Efter stormen kom en jordbävning.\n Menica var Herren i jordbävningen.\n Efter jordbävningen kom en eld.\n Menica var Herren i elden.\n Och efter elden kom ljudet av en sakta susning.",
+        "intelligibility": {
+          "wer": 0.10144927536231885,
+          "cer": 0.030201342281879196,
+          "word_errors": 7,
+          "reference_words": 69,
+          "char_errors": 9,
+          "reference_chars": 298,
+          "substitutions": 3,
+          "deletions": 3,
+          "insertions": 1,
+          "empty_transcript": false,
+          "normalized_hypothesis": "han sade gå ut och ställ dig på berget inför herren då gick herren fram där och en stor och stark storm som ryckte loss berg och bröt sönder klippor gick före herren menica var herren i stormen efter stormen kom en jordbävning menica var herren i jordbävningen efter jordbävningen kom en eld menica var herren i elden och efter elden kom ljudet av en sakta susning",
+          "categories": {},
+          "errors": [
+            {
+              "op": "delete",
+              "expected": "men",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "icke",
+              "recognized": "menica"
+            },
+            {
+              "op": "delete",
+              "expected": "men",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "icke",
+              "recognized": "menica"
+            },
+            {
+              "op": "delete",
+              "expected": "men",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "icke",
+              "recognized": "menica"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "och"
+            }
+          ]
+        },
+        "audio_seconds": 22.98625,
+        "acoustic": {
+          "duration_seconds": 22.98625,
+          "peak": 0.514404296875,
+          "rms_dbfs": -21.927445138615518,
+          "clipped_fraction": 0.0,
+          "silence_fraction": 0.15180513266637669,
+          "max_internal_silence_seconds": 0.47000000000000003,
+          "internal_silences": [
+            {
+              "start": 3.35,
+              "seconds": 0.47000000000000003
+            },
+            {
+              "start": 11.22,
+              "seconds": 0.44
+            },
+            {
+              "start": 15.4,
+              "seconds": 0.41000000000000003
+            },
+            {
+              "start": 17.84,
+              "seconds": 0.47000000000000003
+            },
+            {
+              "start": 19.73,
+              "seconds": 0.42
+            }
+          ],
+          "voiced_fraction": 0.6124401913875598,
+          "f0_hz": {
+            "p05": 111.62790697674419,
+            "median": 126.3157894736842,
+            "p95": 163.26530612244898
+          },
+          "pitch_step_semitones": {
+            "p05": 0.0,
+            "median": 0.1784793177783626,
+            "p95": 0.6869548800151433
+          },
+          "pitch_jump_candidates_per_second": 0.08700853771276307,
+          "pitch_jump_candidate_times": [
+            10.01,
+            11.69
+          ],
+          "periodicity": {
+            "p05": 0.2264169731558441,
+            "median": 0.865201347890533,
+            "p95": 0.9849455790492875
+          },
+          "voiced_run_seconds": {
+            "p05": 0.01,
+            "median": 0.06,
+            "p95": 0.43
+          },
+          "voicing_transitions_per_second": 9.831964761542228,
+          "spectral_centroid_hz": {
+            "p05": 143.11363577710125,
+            "median": 279.1083137259293,
+            "p95": 2897.1857085464017
+          },
+          "spectral_flux": {
+            "p05": 0.00474754548972367,
+            "median": 0.046813731627145416,
+            "p95": 0.23986163725665144
+          },
+          "spectral_jump_candidates_per_second": 1.392136603404209,
+          "wave_jump_candidates_per_second": 0.0,
+          "wave_jump_candidate_times": []
+        },
+        "baseline": []
+      },
+      {
+        "id": "1sam-003-009-010-phrase-flow",
+        "original_id": "1sam-003-009-010",
+        "split": "dev",
+        "text": "Därför sade Eli till Samuel: »Gå och lägg dig; och om han vidare ropar på dig, så säg: 'Tala, HERRE; din tjänare hör.» Och Samuel gick och lade sig på sin plats. Då kom HERREN och ställde sig där och ropade såsom de förra gångerna: »Samuel! Samuel!» Samuel svarade: »Tala, din tjänare hör.»",
+        "variant": "phrase-flow",
+        "audio": "1sam-003-009-010/phrase-flow.native.wav",
+        "audio_sha256": "af52307d197bbe509b34821b941e12481022a4ab7b1555e3a61ef4b4315022c8",
+        "native_stats": {
+          "load_seconds": 0.000738834,
+          "render_seconds": 0.000887791,
+          "audio_seconds": 17.2513,
+          "grains": 2078,
+          "uncovered_samples": 0
+        },
+        "recognition": "Därför sade Eli till Samuel: \"Gå och lägg dig.\"\n Och om han vidare ropade på dig, så säger talalären:\n \"Din tjänare hör...\"\n Och Samuel gick och lade sig på sin plats.\n Och då kom Herren och ställde sig där och ropade så som det var förra gångerna.\n Samuel, Samuel, Samuel svarade talalären: \"Din tjänare hör...\"",
+        "intelligibility": {
+          "wer": 0.18867924528301888,
+          "cer": 0.09216589861751152,
+          "word_errors": 10,
+          "reference_words": 53,
+          "char_errors": 20,
+          "reference_chars": 217,
+          "substitutions": 6,
+          "deletions": 1,
+          "insertions": 3,
+          "empty_transcript": false,
+          "normalized_hypothesis": "därför sade eli till samuel gå och lägg dig och om han vidare ropade på dig så säger talalären din tjänare hör och samuel gick och lade sig på sin plats och då kom herren och ställde sig där och ropade så som det var förra gångerna samuel samuel samuel svarade talalären din tjänare hör",
+          "categories": {},
+          "errors": [
+            {
+              "op": "substitute",
+              "expected": "ropar",
+              "recognized": "ropade"
+            },
+            {
+              "op": "delete",
+              "expected": "säg",
+              "recognized": null
+            },
+            {
+              "op": "substitute",
+              "expected": "tala",
+              "recognized": "säger"
+            },
+            {
+              "op": "substitute",
+              "expected": "herre",
+              "recognized": "talalären"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "och"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "så"
+            },
+            {
+              "op": "insert",
+              "expected": null,
+              "recognized": "som"
+            },
+            {
+              "op": "substitute",
+              "expected": "såsom",
+              "recognized": "det"
+            },
+            {
+              "op": "substitute",
+              "expected": "de",
+              "recognized": "var"
+            },
+            {
+              "op": "substitute",
+              "expected": "tala",
+              "recognized": "talalären"
+            }
+          ]
+        },
+        "audio_seconds": 17.251291666666667,
+        "acoustic": {
+          "duration_seconds": 17.251291666666667,
+          "peak": 0.793853759765625,
+          "rms_dbfs": -20.90293026166107,
+          "clipped_fraction": 0.0,
+          "silence_fraction": 0.14600231749710313,
+          "max_internal_silence_seconds": 0.64,
+          "internal_silences": [
+            {
+              "start": 6.08,
+              "seconds": 0.32
+            },
+            {
+              "start": 8.700000000000001,
+              "seconds": 0.61
+            },
+            {
+              "start": 12.66,
+              "seconds": 0.64
+            }
+          ],
+          "voiced_fraction": 0.5909617612977984,
+          "f0_hz": {
+            "p05": 114.28571428571429,
+            "median": 126.98412698412699,
+            "p95": 160.05369127516772
+          },
+          "pitch_step_semitones": {
+            "p05": 0.0,
+            "median": 0.17487361304727161,
+            "p95": 0.7384388696824888
+          },
+          "pitch_jump_candidates_per_second": 0.23186669597204074,
+          "pitch_jump_candidate_times": [
+            0.93,
+            10.02,
+            10.700000000000001,
+            10.72
+          ],
+          "periodicity": {
+            "p05": 0.20142883713593124,
+            "median": 0.8423136729693923,
+            "p95": 0.9832133748839572
+          },
+          "voiced_run_seconds": {
+            "p05": 0.01,
+            "median": 0.06,
+            "p95": 0.4489999999999999
+          },
+          "voicing_transitions_per_second": 9.622467882839691,
+          "spectral_centroid_hz": {
+            "p05": 147.2705655133429,
+            "median": 332.2893725588401,
+            "p95": 4881.021034218834
+          },
+          "spectral_flux": {
+            "p05": 0.00603743305425633,
+            "median": 0.05742071452628433,
+            "p95": 0.23856480306297556
+          },
+          "spectral_jump_candidates_per_second": 1.854933567776326,
+          "wave_jump_candidates_per_second": 0.0,
+          "wave_jump_candidate_times": []
+        },
+        "baseline": []
+      }
+    ],
+    "aggregate": {
+      "n": 3,
+      "wer": 0.09944751381215469,
+      "cer": 0.036855036855036855,
+      "word_errors": 18,
+      "reference_words": 181,
+      "empty_transcripts": 0,
+      "failed_passages": [],
+      "acoustic": {
+        "duration_seconds": {
+          "p05": 17.693029166666665,
+          "median": 21.668666666666667,
+          "p95": 22.854491666666664
+        },
+        "clipped_fraction": {
+          "p05": 0.0,
+          "median": 0.0,
+          "p95": 0.0
+        },
+        "silence_fraction": {
+          "p05": 0.14085773059604165,
+          "median": 0.14600231749710313,
+          "p95": 0.15122485114944934
+        },
+        "max_internal_silence_seconds": {
+          "p05": 0.47600000000000003,
+          "median": 0.53,
+          "p95": 0.629
+        },
+        "voiced_fraction": {
+          "p05": 0.5853075282294569,
+          "median": 0.5909617612977984,
+          "p95": 0.6102923483785836
+        },
+        "voicing_transitions_per_second": {
+          "p05": 9.643417570709945,
+          "median": 9.831964761542228,
+          "p95": 12.03140741052951
+        },
+        "pitch_jump_candidates_per_second": {
+          "p05": 0.09676751841830429,
+          "median": 0.18459834476817524,
+          "p95": 0.2271398608516542
+        },
+        "spectral_jump_candidates_per_second": {
+          "p05": 1.4384162998414207,
+          "median": 1.854933567776326,
+          "p95": 2.1791554802739252
+        },
+        "wave_jump_candidates_per_second": {
+          "p05": 0.0,
+          "median": 0.0,
+          "p95": 0.0
+        }
+      }
+    }
+  },
+  "audio_sha256": {
+    "compact-v5-phrase-flow-1kgs-19-11-12.wav": "f639bf1ba88d5756aaa9381b76b6c41c677e1ddcac14e2701d2478ee68aed8df",
+    "compact-v5-phrase-flow-12sec.wav": "b8c28229e61e2e7f5da492a498e2673803480cf167280c97e8fd2d4491337902",
+    "compact-v5-phrase-flow-1cor-13-4-7.wav": "a22fb17413415a46db8619967cc151084bc1897b1c9b2ac871b7b00f0f4f4fed",
+    "compact-v5-phrase-flow-1sam-3-9-10.wav": "af52307d197bbe509b34821b941e12481022a4ab7b1555e3a61ef4b4315022c8"
+  }
+}

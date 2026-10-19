@@ -152,4 +152,6 @@ python tools/speech/evaluation/prosody_experiment.py \
 The optional anchor cache validates both input audio hashes and records the
 cache's own hash. Without it the anchors are recomputed from the frozen selection
 sources. Playback still uses the same native grain renderer with prepared
-controls. This is a new listening candidate; acceptance remains pending.
+controls. Subsequent listening found v4 better than v3, but still staccato and
+insufficiently melodic. The follow-up is described in
+[the phrase-flow experiment](compact-phrase-flow.md).
