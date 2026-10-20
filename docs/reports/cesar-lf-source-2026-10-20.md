@@ -46,3 +46,33 @@ On the development Mac, both compact-melody listening files measure −21.0 LUFS
 Native tests cover cycle endpoints, continuity at closure, normalized closure excitation, nonnegative integrated flow returning to zero, invalid shape rejection, deterministic rendering, finite bounded speech, and preservation of sound timing and pitch controls. The original baseline/reference benchmark still reproduces its stored listening recordings within PCM rounding tolerance.
 
 The motivation is supported by [Cabral et al. (2007)](https://www.isca-archive.org/ssw_2007/cabral07_ssw.html), who studied LF excitation as an alternative to a pulse train. Cesar's existing polynomial already has a shaped source, so their listening result does not predict the outcome of this particular comparison. Acceptance depends on native listening, especially whether less buzz comes at the expense of vowel clarity, Swedish character, or consonant audibility.
+
+## Listening follow-up: muffling and clicks
+
+The native listener's first response was “better but very muffled and clicku”. This is an improvement direction, not acceptance of the LF timbre. The initial LF shape and the app's default source remain unchanged so this feedback can be reproduced.
+
+The follow-up comparison adds two independently inspectable variants:
+
+- `lf-bright`: retain Tp=0.40 and Te=0.65, but shorten Ta from 0.04 to 0.008. This restores upper harmonics at the source without post-render EQ.
+- `lf-clear`: the same shorter return, plus sample-wise interpolation of articulation targets between the existing 2.5 ms updates. Voicing and breath amplitudes follow those interpolated targets instead of updating only at pulse boundaries. Breath noise receives a sine-squared window over the LF open phase; noise modulation uses the same continuous window, with its depth fading continuously with voicing. Unvoiced frication retains full modulation gain.
+
+The second variant therefore changes articulation envelopes and noise coupling as well as the periodic waveform. It retains the sound sequence and allocated durations, formant target tables, pitch clock, flutter and exact pitch controls. Interpolation takes the preceding control target to the current target over 2.5 ms: this rounds edges within the existing timeline rather than moving sound boundaries or time-stretching audio. These are provisional controls, not fitted Björn parameters.
+
+```sh
+uv run --locked tools/speech/cesar_source_comparison.py --refine --output build/cesar-source-refined
+```
+
+The output includes the original `current` and `lf` controls, plus `lf-bright` and `lf-clear`, each matched to −21 LUFS. The original two raw float renders remain bit-identical to the first source experiment on this machine. Every variant has 347,160 samples and byte-identical sound-duration/pause and pitch traces. None reaches the synthesizer limiter. The native probe also exposes `--lf-shape TP TE TA` and `--smooth-controls` for explicit reproduction.
+
+As a spectral diagnostic, isolate the middle half of each vowel's allocated samples from the timing trace, filter the complete raw render through fourth-order Butterworth bandpasses at 24 kHz, then compare band energy in that mask to full-band vowel energy. This measures spectral balance, not perceived quality:
+
+| Source | 500–1500 Hz | 1500–3000 Hz | 3000–6000 Hz |
+| --- | ---: | ---: | ---: |
+| Legacy polynomial | −6.4 dB | −21.4 dB | −31.4 dB |
+| Initial LF | −14.0 dB | −38.3 dB | −54.0 dB |
+| Shorter LF return | −9.6 dB | −27.5 dB | −40.8 dB |
+| Shorter return + smooth controls | −9.6 dB | −27.4 dB | −40.8 dB |
+
+The initial LF has substantially less vowel presence energy; shortening the return recovers about 11–13 dB in the upper two bands. This supports addressing the reported muffling at the excitation stage. It does not establish naturalness or an optimal setting.
+
+The largest adjacent-sample steps in the first LF and legacy renders occur at the same /k/ burst and /s/ locations and have almost identical raw magnitudes. They are not evidence of a new discontinuity unique to LF. LF cycle continuity is also covered separately by native tests. Smoothing addresses abrupt control/noise gating as a plausible additional source of audible roughness, but it does not reduce the passage's maximum sample step. Consonant bursts and the listener's reported clicks still require listening review; this follow-up makes no claim that clicks are eliminated.

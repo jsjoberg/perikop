@@ -128,13 +128,18 @@ class Synthesizer {
     uint32_t seed = 5;
     double seconds = 0;
     std::optional<LfPulse> lf;
-    // Voicing parameters change pitch-synchronously, at the start of a glottal period.
+    bool smooth_controls = false;
+    float lf_open = 0;
+    // The legacy path changes voicing parameters at the start of a glottal period;
+    // the smooth experiment updates amplitudes at every output sample instead.
     void next_period() {
         if (f0 > 0) {
             period = std::max(oversampling, static_cast<int>(std::lround(oversampling * rate / f0)));
-            voice_amplitude = linear(voicing_db);
+            if (!smooth_controls)
+                voice_amplitude = linear(voicing_db);
             modulation = voicing_db > 0 ? period / 2 : period;
-            breath_amplitude = linear(parameters[klatt_avc]) * 0.1f;
+            if (!smooth_controls)
+                breath_amplitude = linear(parameters[klatt_avc]) * 0.1f;
             open = std::clamp(static_cast<int>(open_quotient * period), 40, std::max(40, period - 2));
             // Derivative of a k1 t^2 - k2 t^3 flow pulse; its peak stays constant as `open` changes.
             pulse_b = 1920000.0f / (static_cast<float>(open) * open);
@@ -145,8 +150,7 @@ class Synthesizer {
         }
     }
     float natural_source() {
-        // Both sources use exactly the same pitch-period counter. Keep noise
-        // modulation, filtering and the old source path unchanged in this experiment.
+        // Both sources use exactly the same pitch-period counter.
         if (lf) {
             // The legacy polynomial's closure peak approaches -8960. Normalize
             // the LF closure excitation to that scale; listening copies are loudness matched.
@@ -161,27 +165,12 @@ class Synthesizer {
         wave += pulse_a;
         return wave * 0.028f;
     }
-
-public:
-    explicit Synthesizer(const VoiceSourceOptions& source) {
-        if (source.kind == VoiceSource::LiljencrantsFant)
-            lf.emplace(source.lf);
-        // Smooths the oversampled source; set relative to the output rate as in rsynth.
-        source_lowpass.set(0.095f * rate, 0.063f * rate);
-        // A two-pole low-pass at 0 Hz; rsynth's bandwidth of the full rate put its 3 dB point at
-        // 12 kHz here, leaving hiss above 8 kHz that natural recordings of this voice lack.
-        output_lowpass.set(0, 0.75f * rate, linear(59));
-        nasal_pole.set(270, 100);
-        decay = rescaled(0.033f * tilt_db);
-    }
-    void render(float pitch, const std::array<float, klatt_parameters>& values, std::vector<float>& output) {
-        parameters = values;
-        seconds += subframe_samples / rate;
-        const auto t = static_cast<float>(seconds);
-        f0 = pitch * (1 + flutter / 50 / 100 *
-                              (std::sin(2 * pi * 12.7f * t) + std::sin(2 * pi * 7.1f * t) +
-                               std::sin(2 * pi * 4.7f * t)));
+    void controls(const std::array<float, klatt_parameters>& values) {
         voicing_db = std::max(0.0f, values[klatt_av] - 7);
+        if (smooth_controls) {
+            voice_amplitude = f0 > 0 ? linear(voicing_db) : 0;
+            breath_amplitude = f0 > 0 ? linear(values[klatt_avc]) * 0.1f : 0;
+        }
         aspiration = linear(values[klatt_asp]) * 0.05f;
         frication = linear(values[klatt_af]) * 0.25f;
         const auto& gains = klatt_branch_gains;
@@ -195,13 +184,55 @@ public:
                             gains[i] * linear(adjust + values[klatt_a1 + i]));
         bypass = linear(adjust + values[klatt_ab]) * 0.05f;
         nasal_zero.set_anti(values[klatt_fn], 100);
+    }
+
+public:
+    explicit Synthesizer(const VoiceSourceOptions& source) : smooth_controls(source.smooth_controls) {
+        if (source.kind == VoiceSource::LiljencrantsFant) {
+            lf.emplace(source.lf);
+            lf_open = source.lf.te;
+        }
+        // Smooths the oversampled source; set relative to the output rate as in rsynth.
+        source_lowpass.set(0.095f * rate, 0.063f * rate);
+        // A two-pole low-pass at 0 Hz; rsynth's bandwidth of the full rate put its 3 dB point at
+        // 12 kHz here, leaving hiss above 8 kHz that natural recordings of this voice lack.
+        output_lowpass.set(0, 0.75f * rate, linear(59));
+        nasal_pole.set(270, 100);
+        decay = rescaled(0.033f * tilt_db);
+    }
+    void render(float pitch, const std::array<float, klatt_parameters>& values, std::vector<float>& output) {
+        const auto previous = parameters;
+        parameters = values;
+        seconds += subframe_samples / rate;
+        const auto t = static_cast<float>(seconds);
+        f0 = pitch * (1 + flutter / 50 / 100 *
+                              (std::sin(2 * pi * 12.7f * t) + std::sin(2 * pi * 7.1f * t) +
+                               std::sin(2 * pi * 4.7f * t)));
+        if (!smooth_controls)
+            controls(values);
         for (int n = 0; n < subframe_samples; ++n) {
+            if (smooth_controls) {
+                // Interpolate physical targets rather than stepping gains/poles every 2.5 ms.
+                // Recomputing coefficients keeps every intermediate resonator stable.
+                std::array<float, klatt_parameters> interpolated;
+                const float fraction = (n + 1.0f) / subframe_samples;
+                for (int p = 0; p < klatt_parameters; ++p)
+                    interpolated[p] = previous[p] + fraction * (values[p] - previous[p]);
+                controls(interpolated);
+            }
             seed = seed * 1664525 + 1;
             const auto random = static_cast<float>(static_cast<int32_t>(seed) >> 18);
             float noise = random + noise_decay * noise_last;
             noise_last = noise;
             // Less noise in the second half of a voiced period.
-            if (position > modulation)
+            float breath_window = position < open ? 1.0f : 0.0f;
+            if (smooth_controls && lf) {
+                const float phase = static_cast<float>(position) / period;
+                const float sine = phase < lf_open ? std::sin(pi * phase / lf_open) : 0;
+                breath_window = sine * sine;
+                const float voiced_weight = std::clamp(voicing_db / 20, 0.0f, 1.0f);
+                noise *= 1 - 0.5f * voiced_weight * (1 - breath_window);
+            } else if (position > modulation)
                 noise *= 0.5f;
             float source = frication * noise;
             // Averaging the oversampled source, rather than keeping every fourth value as rsynth
@@ -218,7 +249,9 @@ public:
             }
             voice = voice * (1 - decay) + voice_last * decay;
             voice_last = voice;
-            if (position < open)
+            if (smooth_controls && lf)
+                voice += breath_window * breath_amplitude * random;
+            else if (position < open)
                 voice += breath_amplitude * random;
             // rsynth feeds the source through the nasal resonators, then F1 on its own.
             const float glottal =

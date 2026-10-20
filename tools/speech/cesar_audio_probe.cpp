@@ -47,6 +47,7 @@ int main(int argc, char** argv) {
         if (argc < 4)
             throw std::runtime_error("Usage: cesar-audio-probe PACK INPUT OUTPUT.wav [--ipa] "
                                      "[--pitch CONTOUR|--compact] [--source klatt|lf] "
+                                     "[--lf-shape TP TE TA] [--smooth-controls] "
                                      "[--trace PREFIX] [--raw OUTPUT.f32]");
         ortho::CesarOptions options;
         std::vector<ortho::PitchPoint> reference;
@@ -58,6 +59,18 @@ int main(int argc, char** argv) {
                 ipa = true;
             } else if (option == "--compact") {
                 options.compact_melody = true;
+            } else if (option == "--smooth-controls") {
+                options.source.smooth_controls = true;
+            } else if (option == "--lf-shape" && i + 3 < argc) {
+                const auto number = [&]() {
+                    const std::string value = argv[++i];
+                    size_t consumed = 0;
+                    const float result = std::stof(value, &consumed);
+                    if (consumed != value.size())
+                        throw std::runtime_error("Invalid LF shape number.");
+                    return result;
+                };
+                options.source.lf = {number(), number(), number()};
             } else if (option == "--source" && i + 1 < argc) {
                 const std::string source = argv[++i];
                 if (source == "lf")

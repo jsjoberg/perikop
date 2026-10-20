@@ -38,6 +38,8 @@ def main():
     parser.add_argument('--target-lufs', type=float, default=-21)
     parser.add_argument('--reference-melody', action='store_true',
                         help='Use the earlier accepted reference contour instead of the compact milestone')
+    parser.add_argument('--refine', action='store_true',
+                        help='Also render shorter LF return, with and without smooth articulation controls')
     args = parser.parse_args()
     if not args.ffmpeg or not math.isfinite(args.target_lufs) or not -40 <= args.target_lufs <= -10:
         parser.error('ffmpeg and a finite loudness target between -40 and -10 LUFS are required')
@@ -49,7 +51,11 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     melody = ['--pitch', str(fixtures / 'psalm.pitch.tsv')] if args.reference_melody else ['--compact']
     audio, gains, measurements, timing, pitch = {}, {}, {}, {}, {}
-    for name, switches in [('current', ['--source', 'klatt']), ('lf', ['--source', 'lf'])]:
+    variants = [('current', ['--source', 'klatt']), ('lf', ['--source', 'lf'])]
+    if args.refine:
+        brighter = ['--source', 'lf', '--lf-shape', '0.40', '0.65', '0.008']
+        variants += [('lf-bright', brighter), ('lf-clear', [*brighter, '--smooth-controls'])]
+    for name, switches in variants:
         prefix = args.output / name
         started = time.perf_counter()
         subprocess.run([str(args.probe), '-', str(fixtures / 'psalm.ipa.txt'), str(prefix.with_suffix('.raw.wav')),
@@ -93,8 +99,11 @@ def main():
               'melody': 'accepted-reference' if args.reference_melody else 'compact-milestone',
               'identical_sound_timing_pauses_and_pitch': True, 'pauses': pauses,
               'lf_parameters': {'tp': 0.40, 'te': 0.65, 'ta': 0.04},
-              'fixed_controls': ['pitch clock and flutter', 'formant targets and transitions',
-                                 'breath/aspiration/frication noise and modulation', 'filters',
+              'lf_refinement': ({'tp': 0.40, 'te': 0.65, 'ta': 0.008,
+                                 'lf-bright': 'LF return change only',
+                                 'lf-clear': 'shorter return plus sample-wise articulation controls and tapered breath/noise modulation'}
+                                if args.refine else None),
+              'fixed_controls': ['pitch clock and flutter', 'formant target tables',
                                  'sound sequence, durations and pauses'],
               'normalization': 'EBU R128 integrated loudness, constant gain only',
               'measurements': measurements, 'listening_status': 'unreviewed experiment',

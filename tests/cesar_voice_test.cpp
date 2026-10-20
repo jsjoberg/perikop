@@ -61,26 +61,35 @@ int main(int argc, char** argv) {
             while (contour >> seconds >> hz)
                 points.push_back({seconds, hz});
             check(contour.eof() && !points.empty(), "benchmark contour is valid");
-            ortho::CesarTrace baseline, reference, compact, lf_trace;
+            ortho::CesarTrace baseline, reference, compact, lf_trace, clear_trace;
             const auto before = ortho::cesar_speech(ipa, {}, &baseline);
             const auto after = ortho::cesar_speech(ipa, {.reference_pitch = points}, &reference);
             const auto candidate = ortho::cesar_speech(ipa, {.compact_melody = true}, &compact);
             const auto lf = ortho::cesar_speech(
                 ipa, {.compact_melody = true, .source = {ortho::VoiceSource::LiljencrantsFant}}, &lf_trace);
+            const ortho::CesarOptions clear_options{
+                .compact_melody = true,
+                .source = {ortho::VoiceSource::LiljencrantsFant, {0.40f, 0.65f, 0.008f}, true}};
+            const auto clear = ortho::cesar_speech(ipa, clear_options, &clear_trace);
             check(before.size() == 347160 && after.size() == before.size() &&
-                      candidate.size() == before.size() && lf.size() == before.size(),
+                      candidate.size() == before.size() && lf.size() == before.size() &&
+                      clear.size() == before.size(),
                   "melody changes preserve the reviewed 14.465-second reading");
             check(before != after && before != candidate, "melody controls affect synthesized audio");
             check(lf != candidate, "LF source changes timbre");
-            check(lf_trace.pitch.size() == compact.pitch.size(), "same number of pitch controls");
-            for (size_t i = 0; i < compact.pitch.size(); ++i)
-                check(lf_trace.pitch[i].seconds == compact.pitch[i].seconds &&
-                          lf_trace.pitch[i].hz == compact.pitch[i].hz,
-                      "source changes preserve every pitch control");
+            for (const auto* trace : {&lf_trace, &clear_trace}) {
+                check(trace->pitch.size() == compact.pitch.size(), "same number of pitch controls");
+                for (size_t i = 0; i < compact.pitch.size(); ++i)
+                    check(trace->pitch[i].seconds == compact.pitch[i].seconds &&
+                              trace->pitch[i].hz == compact.pitch[i].hz,
+                          "source changes preserve every pitch control");
+            }
             check(lf == ortho::cesar_speech(
                             ipa, {.compact_melody = true, .source = {ortho::VoiceSource::LiljencrantsFant}}),
                   "LF rendering is deterministic");
-            for (const auto* trace : {&reference, &compact, &lf_trace}) {
+            check(clear != lf && clear == ortho::cesar_speech(ipa, clear_options),
+                  "refined source is distinct and deterministic");
+            for (const auto* trace : {&reference, &compact, &lf_trace, &clear_trace}) {
                 check(trace->sounds.size() == baseline.sounds.size(), "same sound sequence");
                 size_t offset = 0;
                 for (size_t i = 0; i < trace->sounds.size(); ++i) {
@@ -93,7 +102,7 @@ int main(int argc, char** argv) {
                 }
                 check(offset == before.size(), "trace accounts for every rendered sample");
             }
-            for (const auto* audio : {&after, &candidate, &lf})
+            for (const auto* audio : {&after, &candidate, &lf, &clear})
                 check(std::all_of(audio->begin(), audio->end(),
                                   [](float value) {
                                       return std::isfinite(value) && std::abs(value) <= 1;
@@ -114,7 +123,7 @@ int main(int argc, char** argv) {
         // integrated flow cannot become negative or accumulate a baseline offset.
         for (const ortho::LfParameters shape :
              {ortho::LfParameters{}, ortho::LfParameters{0.35f, 0.60f, 0.02f},
-              ortho::LfParameters{0.42f, 0.70f, 0.08f}}) {
+              ortho::LfParameters{0.40f, 0.65f, 0.008f}, ortho::LfParameters{0.42f, 0.70f, 0.08f}}) {
             const ortho::LfPulse pulse(shape);
             double flow = 0, minimum = 0, peak_flow = 0;
             constexpr int steps = 20000;
