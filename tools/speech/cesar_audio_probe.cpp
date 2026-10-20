@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
         if (argc < 4)
             throw std::runtime_error("Usage: cesar-audio-probe PACK INPUT OUTPUT.wav [--ipa] "
                                      "[--pitch CONTOUR|--compact] [--source klatt|lf] "
-                                     "[--lf-shape TP TE TA] [--smooth-controls] "
+                                     "[--lf-shape TP TE TA] [--smooth-controls] [--smooth-closure] "
                                      "[--trace PREFIX] [--raw OUTPUT.f32]");
         ortho::CesarOptions options;
         std::vector<ortho::PitchPoint> reference;
@@ -61,6 +61,8 @@ int main(int argc, char** argv) {
                 options.compact_melody = true;
             } else if (option == "--smooth-controls") {
                 options.source.smooth_controls = true;
+            } else if (option == "--smooth-closure") {
+                options.source.smooth_closure = true;
             } else if (option == "--lf-shape" && i + 3 < argc) {
                 const auto number = [&]() {
                     const std::string value = argv[++i];

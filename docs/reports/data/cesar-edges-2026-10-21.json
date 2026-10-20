@@ -1,0 +1,433 @@
+{
+  "source": "original polynomial, all variants",
+  "reference_roles": {
+    "alice_bjorn": "sound quality",
+    "espeak_sv": "clarity and absence of clicks"
+  },
+  "suite_sha256": "1433a2f4bdb79f49e3840d7ea16515bc6e50732188d66d242990b353136af16a",
+  "changes": {
+    "original": [],
+    "closure-only": [
+      "--smooth-closure"
+    ],
+    "controls-only": [
+      "--smooth-controls"
+    ],
+    "edges": [
+      "--smooth-controls",
+      "--smooth-closure"
+    ]
+  },
+  "cases": {
+    "psalm": {
+      "text": "En psalm av David. Herren är min herde, mig skall intet fattas, han låter mig vila på gröna ängar; han för mig till vatten där jag finner ro, han vederkvicker min själ; han leder mig på rätta vägar, för sitt namns skull.",
+      "ipa": "ˈɛn sˈalm ˈɑːv dˈɑːvɪd. hˈɛrən ˈɛːr mˈiːn hˈeːɖə,mˈɛj skˈal ˈɪntət fˈatas,hˈɑːn lˈoːtər mˈɛj vˈiːla pˈoː ɡrˈøːna ˈɛŋar;hˈɑːn fˈøːr mˈɛj tˈɪl vˈatən dˈɛːr jˈɑːɡ fˈɪnər rˈuː,hˈɑːn vˈeːdərkvˌɪkər mˈiːn ɧˈɛːl;hˈɑːn lˈeːdər mˈɛj pˈoː rˈɛta vˈɛːɡar,fˈøːr sˈɪt nˈamns skˈɵl.",
+      "samples": 347160,
+      "seconds": 14.465,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.3794596493244171,
+          "render_process_wall_seconds": 0.3447264170026756,
+          "raw_sha256": "034c009a55810c7802fd6a050e1740863de17c06dcdca7e2111a8d8910a36f78",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "1090493ead551d0f8654809384b38d426bde124f165b570043e2a5c33956e479"
+        },
+        "closure-only": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.3772975504398346,
+          "render_process_wall_seconds": 0.01916854100272758,
+          "raw_sha256": "c54c4ef5d33b3fc7f088febbb8a72909535469d001a0dbdeeb1eb781c0fe9647",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "b05508ba33da4709c1bb77497124a02fffc99e1b8d22dbed96fc9350121cabe3"
+        },
+        "controls-only": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.379373162984848,
+          "render_process_wall_seconds": 0.03104837499995483,
+          "raw_sha256": "e04eb7e3f53d86f502feb08c536c0fb8dcda9c90c65d5da24a6c9946f777a6dc",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "3b356e959ef297fcb0a8de4c29638bb6a14358e4f4d0559e766258f788540b36"
+        },
+        "edges": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.37720954418182373,
+          "render_process_wall_seconds": 0.034229040997161064,
+          "raw_sha256": "8e56291299bc1543cd54c07eb6ee3d94e52cec5824a4f2574b60b85bfdd6df7d",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "cc072184a5bd9aaa88fd4c9e387323dc61f1e080513cfcfb439cee87d36176fe"
+        }
+      }
+    },
+    "prose": {
+      "text": "När morgonen kom hade regnet upphört. Vid den röda stugan stod fyra barn och väntade på bussen. Varför dröjer den?",
+      "ipa": "nˈɛːr mˈɔrɡɔnən kˈɔm hˈadə rˈɛŋnət ˈɵphˌøːʈ. vˈiːd dˈeːn rˈøːda stˈʉːɡan stˈuːd fˈyːra bˈɑːɳ ˈɔk vˈɛntadə pˈoː bˈɵsən. vˈarfœr drˈœjər dˈeːn?",
+      "samples": 208260,
+      "seconds": 8.6775,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -22.6,
+          "raw_peak": 0.42021670937538147,
+          "render_process_wall_seconds": 0.014906917000189424,
+          "raw_sha256": "36baedc2af559f2193c2b7f8eec061031a48d32786b2cb38db2276d961a17ee8",
+          "listening_lufs": -21.0,
+          "gain": 1.2022644346174132,
+          "listening_sha256": "504ad0522a686aee6b5f49a8d6db9113b2fa7c4178c48f392bb150623a98e427"
+        },
+        "closure-only": {
+          "raw_lufs": -22.6,
+          "raw_peak": 0.3763985335826874,
+          "render_process_wall_seconds": 0.014444624997850042,
+          "raw_sha256": "18e3a45260ad79ce1645859863e87725a109a3b52e253108a5795ebe2b333f95",
+          "listening_lufs": -21.0,
+          "gain": 1.2022644346174132,
+          "listening_sha256": "69312842cb55484bcfc77bbfb03f205bc4815af51f6796872e6ad972d4974d16"
+        },
+        "controls-only": {
+          "raw_lufs": -22.6,
+          "raw_peak": 0.373494416475296,
+          "render_process_wall_seconds": 0.020753459000843577,
+          "raw_sha256": "a75115dc4f5a69a7822184d95bac59f31b5a2565c71e54f035e155c7f6baa7e9",
+          "listening_lufs": -21.0,
+          "gain": 1.2022644346174132,
+          "listening_sha256": "e1c5840c66367eeb1c7a9d8ca8ea0c12dad32ed0cf3174b1df4e1299b4140874"
+        },
+        "edges": {
+          "raw_lufs": -22.6,
+          "raw_peak": 0.3699202239513397,
+          "render_process_wall_seconds": 0.021339332997740712,
+          "raw_sha256": "7d83654ae7e31062925b3687a4b36d036077ffbf01139832bed605e3f4592ec8",
+          "listening_lufs": -21.0,
+          "gain": 1.2022644346174132,
+          "listening_sha256": "bb353d8b3dd2653c70569a5e608800203a073529b2669084467c5cadc8065b40"
+        }
+      }
+    },
+    "quantity": {
+      "text": "Tak, tack. Vila, villa. Glas, glass. Väg, vägg.",
+      "ipa": "tˈɑːk,tˈak. vˈiːla,vˈɪla. ɡlˈɑːs,ɡlˈas. vˈɛːɡ,vˈɛɡ.",
+      "samples": 124860,
+      "seconds": 5.2025,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -23.3,
+          "raw_peak": 0.3788953125476837,
+          "render_process_wall_seconds": 0.010195499999099411,
+          "raw_sha256": "b901e433b8ab81ddb727d56701980146d71d05d28a9a4ffe8c2eb46334dadf6a",
+          "listening_lufs": -21.0,
+          "gain": 1.3031667784522996,
+          "listening_sha256": "c1a650d00b77950ff58e7a8678142c62af38f1c04e5f4ae09066e124cb49ec99"
+        },
+        "closure-only": {
+          "raw_lufs": -23.4,
+          "raw_peak": 0.37698906660079956,
+          "render_process_wall_seconds": 0.010260957998980302,
+          "raw_sha256": "9f701270c23e09ce7dbc73bf1d649fb087f9b784176716f2c85ecdfcc95ba7d2",
+          "listening_lufs": -21.0,
+          "gain": 1.3182567385564068,
+          "listening_sha256": "a89f58179543534b6d39fc38670387aac98d6180a81e2ae7c51990cb004ebe79"
+        },
+        "controls-only": {
+          "raw_lufs": -23.4,
+          "raw_peak": 0.3788018524646759,
+          "render_process_wall_seconds": 0.013256042002467439,
+          "raw_sha256": "0663517a2385c1f07c5c8998d9fc46f010df15d6129759cf4a3ae940cb5f62e7",
+          "listening_lufs": -21.0,
+          "gain": 1.3182567385564068,
+          "listening_sha256": "1325161d558bfa5378ee239f77ebfab166f473ef541ede694b640ef7933823ef"
+        },
+        "edges": {
+          "raw_lufs": -23.4,
+          "raw_peak": 0.3768952786922455,
+          "render_process_wall_seconds": 0.013453958003083244,
+          "raw_sha256": "66fa2d18dce4f34d497bc65a75a36f570add617e0b033a864127a89ec6f3a7bd",
+          "listening_lufs": -21.0,
+          "gain": 1.3182567385564068,
+          "listening_sha256": "fb515f94f8f8e5902d935eba037d4a55c5ed5c1ad690dd44d1539db32c0ba249"
+        }
+      }
+    },
+    "swedish-sounds": {
+      "text": "Sil, syl, sul. Föl, ful, full. Själ, kär. Barn, bord, hörn, pärla.",
+      "ipa": "sˈiːl,sˈyːl,sˈʉːl. fˈøːl,fˈʉːl,fˈɵl. ɧˈɛːl,ɕˈɛːr. bˈɑːɳ,bˈuːɖ,hˈøːɳ,pˈɛːɭa.",
+      "samples": 161580,
+      "seconds": 6.7325,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -23.3,
+          "raw_peak": 0.38103312253952026,
+          "render_process_wall_seconds": 0.011309833003906533,
+          "raw_sha256": "93e3af6c73e020154c4259fede0985d10f51d08152e18f5555b32ce57631da18",
+          "listening_lufs": -21.0,
+          "gain": 1.3031667784522996,
+          "listening_sha256": "89843c2b9122eb2904877095cf3669f508ab514d7fed1e748d575c54e8de71e3"
+        },
+        "closure-only": {
+          "raw_lufs": -23.3,
+          "raw_peak": 0.37886130809783936,
+          "render_process_wall_seconds": 0.011556500001461245,
+          "raw_sha256": "606dcc2905a75ff0ed7f98d40b455e61be00eb4b3a3aea5e1eb1960bd9444bab",
+          "listening_lufs": -21.0,
+          "gain": 1.3031667784522996,
+          "listening_sha256": "ed9e963736a987e20e923eaad1cacfc4bc9b3c876c7f2b94c6c22a2e296b10e4"
+        },
+        "controls-only": {
+          "raw_lufs": -23.2,
+          "raw_peak": 0.38101375102996826,
+          "render_process_wall_seconds": 0.016396875005739275,
+          "raw_sha256": "275a1349206e8c6daf8fac9b8c66acb5f95c275cee38841be4c17a218f6fb68d",
+          "listening_lufs": -21.0,
+          "gain": 1.2882495516931338,
+          "listening_sha256": "963294a31cf27ea3dc52adcf893bf85dc2905b9791a04bd827bc48cee1a0bd9a"
+        },
+        "edges": {
+          "raw_lufs": -23.2,
+          "raw_peak": 0.378841370344162,
+          "render_process_wall_seconds": 0.01674420799827203,
+          "raw_sha256": "7843c8a02c0b76deb92d15ae78b6663f36253a52a15efd8de0c5d9f4467f2b3d",
+          "listening_lufs": -21.0,
+          "gain": 1.2882495516931338,
+          "listening_sha256": "588d31ce623720c64368891bc9380ebbe2580df2bddf97a6ea7db5977dfe32d7"
+        }
+      }
+    },
+    "accent": {
+      "text": "Anden simmar i dammen. Anden i flaskan. Tomten arbetar i trädgården. Tomten kommer till jul.",
+      "ipa": "ˈandən sˈɪmar ˈiː dˈamən. ˈandən ˈiː flˈaskan. tˈɔmtən ˈarbeːtar ˈiː trˈɛɡoːɖən. tˈɔmtən kˈɔmər tˈɪl jˈʉːl.",
+      "samples": 184320,
+      "seconds": 7.68,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -23.1,
+          "raw_peak": 0.3644847273826599,
+          "render_process_wall_seconds": 0.012315459003730211,
+          "raw_sha256": "e121928081a7bac7fb8e08214746fd17016704aa6e9c501c904c356263349fb6",
+          "listening_lufs": -21.0,
+          "gain": 1.2735030810166619,
+          "listening_sha256": "5b7cfc0ed7f7c47432a826e27eef7141bb07bff2409f025bf61d8bd362a80a82"
+        },
+        "closure-only": {
+          "raw_lufs": -23.1,
+          "raw_peak": 0.3625543713569641,
+          "render_process_wall_seconds": 0.01257400000031339,
+          "raw_sha256": "37fc8f59e1568da2bfadcc059d3494df07b83557e9b08c2b42d56ec3702b0e49",
+          "listening_lufs": -21.0,
+          "gain": 1.2735030810166619,
+          "listening_sha256": "90482977d48dfefc53f59f4122bc40b2f6e9b1254054f095641ad420d2232c1c"
+        },
+        "controls-only": {
+          "raw_lufs": -23.2,
+          "raw_peak": 0.37467244267463684,
+          "render_process_wall_seconds": 0.017649957997491583,
+          "raw_sha256": "e083bf1eaf82a304c43da42539e1a24b5ef187b1544e0dacb3af26f8d960bbf7",
+          "listening_lufs": -21.0,
+          "gain": 1.2882495516931338,
+          "listening_sha256": "358a4d02277e881053c74b9918b8b6e4c56318d1c4ec11223b518d71a8252e96"
+        },
+        "edges": {
+          "raw_lufs": -23.2,
+          "raw_peak": 0.3727257549762726,
+          "render_process_wall_seconds": 0.01837912500195671,
+          "raw_sha256": "d4d48469c9df72b4b5fe52ca559339640046d1b39ad2b605d8efe92df2d65a9d",
+          "listening_lufs": -21.0,
+          "gain": 1.2882495516931338,
+          "listening_sha256": "aeaa3d7d1752217d141b7795fa5e863a2f638e2d28da872e91f568ec87f8d365"
+        }
+      }
+    },
+    "names": {
+      "text": "Melkisedek mötte Abraham. Serubbabel, Nebukadnessar och Habackuk nämns också.",
+      "ipa": "mˈɛlkɪsədˌeːk mˈœtə ˈɑːbraham. sərʉːbˈɑːbəl,nəbʉːkadnˈɛsar ˈɔk habˈakɵk nˈɛmns ˈɔksɔ.",
+      "samples": 141300,
+      "seconds": 5.8875,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -22.7,
+          "raw_peak": 0.3684350550174713,
+          "render_process_wall_seconds": 0.010995208001986612,
+          "raw_sha256": "f565599ec6dd11d4590af19299ba564b1df3c09b1344981c91c0cf735e56648c",
+          "listening_lufs": -21.0,
+          "gain": 1.2161860006463678,
+          "listening_sha256": "9237f4e549619d0df6768c6ccb73bc04540e267ea9784fc1737395be84ebbda5"
+        },
+        "closure-only": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.3673626482486725,
+          "render_process_wall_seconds": 0.012006458004179876,
+          "raw_sha256": "6472d798667ae977056eb106201acaba2009bb5bc2ca4a2122e3cf845493de9a",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "f123d4a95855471f6db036e4ceb5709f6e6962cef1445cead06eafcebbcd4abd"
+        },
+        "controls-only": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.3693116009235382,
+          "render_process_wall_seconds": 0.015533833000517916,
+          "raw_sha256": "e4df34e59797b0221fa6e94bda0bacc226d5de2f87ec9083d1d58bd0d6127485",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "ea377e5f7ec3fe27c4e80436de42649bf23a5ea26b5f8d266892b30c438c2f35"
+        },
+        "edges": {
+          "raw_lufs": -22.8,
+          "raw_peak": 0.3675052523612976,
+          "render_process_wall_seconds": 0.01610537500528153,
+          "raw_sha256": "0da85800e180bd8455eb7a69b77524beb20cfcfe2b645a7b4a89b2e1dab66530",
+          "listening_lufs": -21.0,
+          "gain": 1.2302687708123816,
+          "listening_sha256": "294c376a75d454667c334f0645208b2ddb2819bfc7f515916c4c6c87c1aac2cb"
+        }
+      }
+    },
+    "forced-phone": {
+      "text": "⟦kˈat⟧. ⟦hˈɵnd⟧.",
+      "ipa": "kˈat. hˈɵnd.",
+      "samples": 43140,
+      "seconds": 1.7975,
+      "identical_pitch_duration_and_pause_traces": true,
+      "variants": {
+        "original": {
+          "raw_lufs": -25.6,
+          "raw_peak": 0.34102705121040344,
+          "render_process_wall_seconds": 0.006605834001675248,
+          "raw_sha256": "03805b0352ed6d4e3575ac7ffe47602922694bd1dccc46363efec9c36263fe39",
+          "listening_lufs": -21.0,
+          "gain": 1.6982436524617446,
+          "listening_sha256": "48d990709ef781e67f00a86a8e01197f99d7b811c24a9179bc19beb8f6f36680"
+        },
+        "closure-only": {
+          "raw_lufs": -25.6,
+          "raw_peak": 0.3399742543697357,
+          "render_process_wall_seconds": 0.006527416000608355,
+          "raw_sha256": "8f9ab15f00e9a112f1df502ae99348be19deb69184dc4b1b773b3fea6a5c6ecd",
+          "listening_lufs": -21.0,
+          "gain": 1.6982436524617446,
+          "listening_sha256": "20cd82511189b859b45b16a6a62cf2c766d28df8a8908a93d527abeb0a804c3b"
+        },
+        "controls-only": {
+          "raw_lufs": -25.5,
+          "raw_peak": 0.3410455882549286,
+          "render_process_wall_seconds": 0.007548042005510069,
+          "raw_sha256": "af16ffa72daba1f6d14e5e7d163067350ba156fdd4e5a74c23a7d70e45a043db",
+          "listening_lufs": -21.0,
+          "gain": 1.6788040181225603,
+          "listening_sha256": "b3987c243bc711182d7cb5306107145070f352f75c1b1240e706e85840bf8028"
+        },
+        "edges": {
+          "raw_lufs": -25.5,
+          "raw_peak": 0.3399932086467743,
+          "render_process_wall_seconds": 0.00752604100125609,
+          "raw_sha256": "2a173ab5bb904febe09e00b9b3c9756360346b52ce6ce10d67c908073f8e5d7e",
+          "listening_lufs": -21.0,
+          "gain": 1.6788040181225603,
+          "listening_sha256": "4cfbc1f37b891ae4d422b8f2eb617b2f18b6dadf58511aaeb00ce295d9bf1e5e"
+        }
+      }
+    }
+  },
+  "listening_status": "unreviewed edge experiment",
+  "default_app_voice_changed": false,
+  "date": "2026-10-21",
+  "native_feedback_before_experiment": "Alice/Bjorn have better sound quality than Piper. Swedish eSpeak has better clarity than Cesar and lacks the clicking heard in Cesar.",
+  "spectral_diagnostic": {
+    "method": "Fourth-order Butterworth bandpasses applied to the complete render; energy in middle half of allocated vowel intervals relative to full-band energy in that mask. Diagnostic only, not naturalness or click detection.",
+    "bands_hz": [
+      [
+        500,
+        1500
+      ],
+      [
+        1500,
+        3000
+      ],
+      [
+        3000,
+        6000
+      ]
+    ],
+    "relative_db": {
+      "psalm": {
+        "original": {
+          "bands_db": [
+            -6.4168677871757485,
+            -21.371119641098907,
+            -31.43495294488983
+          ],
+          "maximum_sample_step": 0.09639936685562134
+        },
+        "closure-only": {
+          "bands_db": [
+            -6.4283536892021464,
+            -21.53505070203868,
+            -32.10541937965422
+          ],
+          "maximum_sample_step": 0.09639935940504074
+        },
+        "controls-only": {
+          "bands_db": [
+            -6.413735120558672,
+            -21.337930123838756,
+            -31.431423302107405
+          ],
+          "maximum_sample_step": 0.10058406740427017
+        },
+        "edges": {
+          "bands_db": [
+            -6.423746321766846,
+            -21.502416553481126,
+            -32.103024998423635
+          ],
+          "maximum_sample_step": 0.10058403015136719
+        }
+      },
+      "prose": {
+        "original": {
+          "bands_db": [
+            -7.979677960705094,
+            -22.609086212896745,
+            -31.49279701692575
+          ],
+          "maximum_sample_step": 0.1145889088511467
+        },
+        "closure-only": {
+          "bands_db": [
+            -7.991265652720065,
+            -22.775209506292,
+            -32.16819806615731
+          ],
+          "maximum_sample_step": 0.1145889014005661
+        },
+        "controls-only": {
+          "bands_db": [
+            -7.961808466188444,
+            -22.53703915362477,
+            -31.478693091374627
+          ],
+          "maximum_sample_step": 0.10379306972026825
+        },
+        "edges": {
+          "bands_db": [
+            -7.973749412330493,
+            -22.698115730406393,
+            -32.1535494991023
+          ],
+          "maximum_sample_step": 0.10379301011562347
+        }
+      }
+    }
+  },
+  "preservation_checks": {
+    "compact_original_raw_unchanged": true,
+    "all_four_prior_source_controls_raw_unchanged": true
+  }
+}

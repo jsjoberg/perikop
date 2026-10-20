@@ -14,6 +14,8 @@ struct VoiceSourceOptions {
     LfParameters lf;
     // Experimental sample-wise articulation controls and tapered LF breath noise.
     bool smooth_controls = false;
+    // Experimental polynomial-source closure correction over one output sample.
+    bool smooth_closure = false;
 };
 // A periodic LF flow derivative with Ee=1. Alpha and epsilon are solved from
 // continuity and zero net flow; a small table avoids per-sample transcendental

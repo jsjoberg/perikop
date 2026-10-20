@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <numbers>
 #include <optional>
+#include <stdexcept>
 namespace ortho {
 namespace {
 constexpr float pi = std::numbers::pi_v<float>;
@@ -31,6 +32,19 @@ float linear(float db) {
 }
 float rescaled(float coefficient) {
     return std::pow(coefficient, tuned_rate / rate);
+}
+// Polynomial BLEP residual for a unit step, centered on the wrap at phase=0.
+// The two halves have opposite area: correct an edge without adding cycle DC.
+float step_residual(float phase, float width) {
+    if (phase < width) {
+        const float t = phase / width;
+        return 2 * t - t * t - 1;
+    }
+    if (phase > 1 - width) {
+        const float t = (phase - 1) / width;
+        return t * t + 2 * t + 1;
+    }
+    return 0;
 }
 struct Resonator {
     float a = 0, b = 0, c = 0, p1 = 0, p2 = 0;
@@ -129,6 +143,7 @@ class Synthesizer {
     double seconds = 0;
     std::optional<LfPulse> lf;
     bool smooth_controls = false;
+    bool smooth_closure = false;
     float lf_open = 0;
     // The legacy path changes voicing parameters at the start of a glottal period;
     // the smooth experiment updates amplitudes at every output sample instead.
@@ -157,13 +172,27 @@ class Synthesizer {
             constexpr float closure_peak = 8960;
             return closure_peak * lf->sample(static_cast<float>(position) / period);
         }
+        float value = 0;
         if (position >= open) {
             wave = 0;
-            return 0;
+        } else {
+            pulse_a -= pulse_b;
+            wave += pulse_a;
+            value = wave * 0.028f;
         }
-        pulse_a -= pulse_b;
-        wave += pulse_a;
-        return wave * 0.028f;
+        if (smooth_closure && open > oversampling && period - open > oversampling) {
+            // Legacy recurrence ends at -(8960 + 26880/open), then jumps to zero.
+            // Compensate that jump over +/- one output sample on the existing
+            // oversampled clock; keep the original pulse away from this edge.
+            // Center between the last open and first closed samples so the
+            // discrete correction has equal positive/negative area as well.
+            float phase = (position - open + 0.5f) / period;
+            if (phase < 0)
+                phase += 1;
+            const float jump = 8960 + 26880.0f / open;
+            value += 0.5f * jump * step_residual(phase, static_cast<float>(oversampling) / period);
+        }
+        return value;
     }
     void controls(const std::array<float, klatt_parameters>& values) {
         voicing_db = std::max(0.0f, values[klatt_av] - 7);
@@ -187,7 +216,10 @@ class Synthesizer {
     }
 
 public:
-    explicit Synthesizer(const VoiceSourceOptions& source) : smooth_controls(source.smooth_controls) {
+    explicit Synthesizer(const VoiceSourceOptions& source)
+        : smooth_controls(source.smooth_controls), smooth_closure(source.smooth_closure) {
+        if (source.kind != VoiceSource::Klatt && smooth_closure)
+            throw std::invalid_argument("Closure correction requires the polynomial source.");
         if (source.kind == VoiceSource::LiljencrantsFant) {
             lf.emplace(source.lf);
             lf_open = source.lf.te;
@@ -226,9 +258,10 @@ public:
             noise_last = noise;
             // Less noise in the second half of a voiced period.
             float breath_window = position < open ? 1.0f : 0.0f;
-            if (smooth_controls && lf) {
+            if (smooth_controls) {
                 const float phase = static_cast<float>(position) / period;
-                const float sine = phase < lf_open ? std::sin(pi * phase / lf_open) : 0;
+                const float open_phase = lf ? lf_open : static_cast<float>(open) / period;
+                const float sine = phase < open_phase ? std::sin(pi * phase / open_phase) : 0;
                 breath_window = sine * sine;
                 const float voiced_weight = std::clamp(voicing_db / 20, 0.0f, 1.0f);
                 noise *= 1 - 0.5f * voiced_weight * (1 - breath_window);
@@ -249,7 +282,7 @@ public:
             }
             voice = voice * (1 - decay) + voice_last * decay;
             voice_last = voice;
-            if (smooth_controls && lf)
+            if (smooth_controls)
                 voice += breath_window * breath_amplitude * random;
             else if (position < open)
                 voice += breath_amplitude * random;

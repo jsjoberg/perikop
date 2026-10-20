@@ -125,3 +125,5 @@ Before another broad timbre change, inspect recognizable Swedish phones and thei
 - Quantity, word accent and prominence must remain separate. A nicer whole-sentence melody cannot repair an unrecognizable vowel or consonant, and our current dictionary stress does not fully specify Swedish lexical accent.
 
 These are inspectable hypotheses from the current implementation, not established diagnoses of the listener's difficulty. Use the short quantity/Swedish-sound probes and unfamiliar words to identify actual confusions, then change one acoustic or transition mechanism at a time. Do not infer a new Swedish voice from an English demo or promise eSpeak-level intelligibility before that comparison succeeds.
+
+Further native feedback confirms that Swedish eSpeak is clearer and lacks the clicks heard in Cesar; Alice/Björn remain the stronger sound-quality references. The [pulse/control-edge experiment](cesar-edges-2026-10-21.md) now tests localized changes to the original clear source, with prosody held fixed. It does not claim that those mechanisms have been established as the cause.

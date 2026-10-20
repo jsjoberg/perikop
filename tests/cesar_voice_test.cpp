@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
             while (contour >> seconds >> hz)
                 points.push_back({seconds, hz});
             check(contour.eof() && !points.empty(), "benchmark contour is valid");
-            ortho::CesarTrace baseline, reference, compact, lf_trace, clear_trace;
+            ortho::CesarTrace baseline, reference, compact, lf_trace, clear_trace, edges_trace;
             const auto before = ortho::cesar_speech(ipa, {}, &baseline);
             const auto after = ortho::cesar_speech(ipa, {.reference_pitch = points}, &reference);
             const auto candidate = ortho::cesar_speech(ipa, {.compact_melody = true}, &compact);
@@ -71,13 +71,16 @@ int main(int argc, char** argv) {
                 .compact_melody = true,
                 .source = {ortho::VoiceSource::LiljencrantsFant, {0.40f, 0.65f, 0.008f}, true}};
             const auto clear = ortho::cesar_speech(ipa, clear_options, &clear_trace);
+            const ortho::CesarOptions edges_options{
+                .compact_melody = true, .source = {.smooth_controls = true, .smooth_closure = true}};
+            const auto edges = ortho::cesar_speech(ipa, edges_options, &edges_trace);
             check(before.size() == 347160 && after.size() == before.size() &&
                       candidate.size() == before.size() && lf.size() == before.size() &&
-                      clear.size() == before.size(),
+                      clear.size() == before.size() && edges.size() == before.size(),
                   "melody changes preserve the reviewed 14.465-second reading");
             check(before != after && before != candidate, "melody controls affect synthesized audio");
             check(lf != candidate, "LF source changes timbre");
-            for (const auto* trace : {&lf_trace, &clear_trace}) {
+            for (const auto* trace : {&lf_trace, &clear_trace, &edges_trace}) {
                 check(trace->pitch.size() == compact.pitch.size(), "same number of pitch controls");
                 for (size_t i = 0; i < compact.pitch.size(); ++i)
                     check(trace->pitch[i].seconds == compact.pitch[i].seconds &&
@@ -89,7 +92,9 @@ int main(int argc, char** argv) {
                   "LF rendering is deterministic");
             check(clear != lf && clear == ortho::cesar_speech(ipa, clear_options),
                   "refined source is distinct and deterministic");
-            for (const auto* trace : {&reference, &compact, &lf_trace, &clear_trace}) {
+            check(edges != candidate && edges == ortho::cesar_speech(ipa, edges_options),
+                  "polynomial edge experiment is distinct and deterministic");
+            for (const auto* trace : {&reference, &compact, &lf_trace, &clear_trace, &edges_trace}) {
                 check(trace->sounds.size() == baseline.sounds.size(), "same sound sequence");
                 size_t offset = 0;
                 for (size_t i = 0; i < trace->sounds.size(); ++i) {
@@ -102,7 +107,7 @@ int main(int argc, char** argv) {
                 }
                 check(offset == before.size(), "trace accounts for every rendered sample");
             }
-            for (const auto* audio : {&after, &candidate, &lf, &clear})
+            for (const auto* audio : {&after, &candidate, &lf, &clear, &edges})
                 check(std::all_of(audio->begin(), audio->end(),
                                   [](float value) {
                                       return std::isfinite(value) && std::abs(value) <= 1;
@@ -149,6 +154,14 @@ int main(int argc, char** argv) {
             invalid_shape = true;
         }
         check(invalid_shape, "LF return time must fit within the period");
+        bool wrong_source = false;
+        try {
+            ortho::cesar_speech(
+                "a", {.source = {.kind = ortho::VoiceSource::LiljencrantsFant, .smooth_closure = true}});
+        } catch (const std::invalid_argument&) {
+            wrong_source = true;
+        }
+        check(wrong_source, "polynomial closure correction cannot silently apply to LF");
         // Identical two-syllable input, explicitly different lexical accents. Syllable
         // count must not decide accent identity; the second peak follows its label.
         const std::vector<ortho::ProsodySyllable> syllables{{0, 0.1f, 0.25f, 3}, {0, 0.35f, 0.5f, 0}};
