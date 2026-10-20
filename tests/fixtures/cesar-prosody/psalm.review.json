@@ -1,0 +1,20 @@
+{
+  "review_date": "2026-10-20",
+  "baseline_commit": "bd6ae3cfcd9507a4797f3f38062247be7f6fb30a",
+  "sample_rate": 24000,
+  "samples": 347160,
+  "seconds": 14.465,
+  "accepted": "Pitch-only reference transfer, with every production sound duration and pause unchanged.",
+  "review": "Native listener: that is better and worthy to be pushed.",
+  "rejected": "Combined timing/pitch transfer: rushed, missing perceptible pauses, fattas heard as faat-tass and skull as skullllll.",
+  "source": "Pitch measured from Björn in kokoro-sv-alice-bjorn-2c7968d-v3; aligned using predicted token timings. This alignment is approximate and must not be used as ground-truth acoustic phone boundaries.",
+  "normalization": "Both listening WAVs have utterance RMS 0.09, with shared peak headroom.",
+  "runtime_requirement": "Replaying this contour needs no neural model. Generating a reference contour for arbitrary new text does; it is a listening benchmark, not a general prosody model.",
+  "sha256": {
+    "psalm.accepted.wav": "cbd63b44818e92512503d7748064285ea3b46102c77057c14024fcf90700b1c6",
+    "psalm.txt": "1b62ff5dc0f4c05057941fb52e8f30678be6ae4e090df5eff4174967b1cbfbda",
+    "psalm.pitch.tsv": "ec0daa19803c3b6d75b8a9b054d82e9c9534237d39a54ce911307208bb926144",
+    "psalm.ipa.txt": "c68a6379583e26116c535a8d098f4f305004f02941f57263eb2df72e063b76f9",
+    "psalm.baseline.wav": "492dd182dfc2d23976d77d596bb22b0cf070dd622fe34c0aab7467832ef6746e"
+  }
+}

@@ -1233,6 +1233,7 @@ struct Unit {
     bool vowel = false;
     char pause = 0; // '.', ',', '?', or 'e' at the end of the text
     bool accent2 = false;
+    size_t source = 0, word = 0;
 };
 struct Phrase {
     float begin, end;
@@ -1247,6 +1248,8 @@ std::vector<Unit> units(const std::string& ipa) {
     std::vector<Unit> result;
     int stress = 0;
     bool after_short_stressed = false;
+    size_t word = 0;
+    bool in_word = false;
     const auto symbols = split(ipa);
     // True when no other vowel follows before the word ends.
     const auto last_syllable = [&](size_t at) {
@@ -1257,6 +1260,10 @@ std::vector<Unit> units(const std::string& ipa) {
     };
     for (size_t at = 0; at < symbols.size(); ++at) {
         const auto& symbol = symbols[at];
+        const auto first = result.size();
+        const bool boundary = silent(symbol) && symbol != "ˈ" && symbol != "ˌ";
+        if (!boundary)
+            in_word = true;
         if (symbol == "ˈ" || symbol == "ˌ") {
             stress = symbol == "ˈ" ? 3 : 2;
         } else if (symbol == " ") {
@@ -1286,11 +1293,27 @@ std::vector<Unit> units(const std::string& ipa) {
                 }
             after_short_stressed = false;
         }
+        for (size_t i = first; i < result.size(); ++i) {
+            result[i].source = at;
+            result[i].word = word;
+        }
+        if (boundary && in_word) {
+            ++word;
+            in_word = false;
+        }
     }
     return result;
 }
 } // namespace
 std::vector<float> cesar_speech(const std::string& ipa) {
+    return cesar_speech(ipa, {});
+}
+std::vector<float> cesar_speech(const std::string& ipa, const CesarOptions& options, CesarTrace* trace) {
+    if (options.compact_melody && !options.reference_pitch.empty())
+        throw std::invalid_argument("Choose either compact or reference melody.");
+    validate_pitch(options.reference_pitch);
+    if (trace)
+        *trace = {};
     auto sounds = units(ipa);
     // Text without speakable phones reads as a short pause, as with the neural voices.
     if (std::none_of(sounds.begin(), sounds.end(), [](const Unit& unit) {
@@ -1312,9 +1335,18 @@ std::vector<float> cesar_speech(const std::string& ipa) {
     std::vector<KlattSegment> segments;
     std::vector<Phrase> phrases;
     std::vector<Accent> accents;
+    std::vector<ProsodySyllable> syllables;
+    std::vector<ProsodyPhrase> prosody_phrases;
     float now = 0, phrase_begin = 0;
     bool accent2_pending = false;
     for (const auto& unit : sounds) {
+        if (trace)
+            trace->sounds.push_back(
+                {unit.element->name, unit.frames, unit.source, unit.word,
+                 unit.frames <= 0 ? 0 : std::max(1, int(std::lround(unit.frames * 4))) * 60, unit.stress,
+                 unit.vowel, unit.pause});
+        if (unit.vowel)
+            syllables.push_back({unit.word, now / 100, (now + unit.frames) / 100, unit.stress});
         if (unit.pause) {
             if (now > phrase_begin)
                 phrases.push_back({phrase_begin, now, unit.pause});
@@ -1331,6 +1363,47 @@ std::vector<float> cesar_speech(const std::string& ipa) {
         now += unit.frames;
         if (unit.pause)
             phrase_begin = now;
+    }
+    std::vector<PitchPoint> compact_pitch;
+    if (options.compact_melody) {
+        std::vector<std::string> spellings;
+        std::string word;
+        for (const auto& symbol : split(ipa)) {
+            if (symbol == "ˈ" || symbol == "ˌ")
+                continue;
+            if (silent(symbol)) {
+                if (!word.empty()) {
+                    spellings.push_back(std::move(word));
+                    word.clear();
+                }
+            } else {
+                word += symbol;
+            }
+        }
+        if (!word.empty())
+            spellings.push_back(std::move(word));
+        std::vector<SwedishWordProsody> words(spellings.size());
+        for (size_t i = 0; i < words.size(); ++i) {
+            // A small, inspectable weak-word fallback. Text syntax, lexical accent
+            // labels and contextual prominence must ultimately come from the front end.
+            for (const char* weak :
+                 {"ɔ",   "ɔk",  "at",   "ɪ",    "iː",   "poː", "ɛn",  "ɛt",   "ɑːv", "fœr", "føːr", "tɪl",
+                  "mɛj", "mɪɡ", "miːn", "siːn", "hɑːn", "han", "hɔn", "deːt", "dɛn", "sɔm", "skal", "ɛːr"})
+                words[i].weak = words[i].weak || spellings[i] == weak;
+            const auto count = std::count_if(syllables.begin(), syllables.end(), [i](const auto& syllable) {
+                return syllable.word == i;
+            });
+            if (count == 1)
+                words[i].accent = SwedishAccent::Accent1;
+        }
+        if (!options.words.empty()) {
+            if (options.words.size() != words.size())
+                throw std::invalid_argument("Prosody word labels do not match the pronunciation.");
+            words.assign(options.words.begin(), options.words.end());
+        }
+        for (const auto& phrase : phrases)
+            prosody_phrases.push_back({phrase.begin / 100, phrase.end / 100, phrase.ending});
+        compact_pitch = swedish_melody(syllables, words, prosody_phrases, now / 100);
     }
     // Each phrase starts high and declines; stressed syllables add a peak; the phrase ends with a
     // fall (sentence), a slight rise (clause) or a clear rise (question).
@@ -1356,7 +1429,14 @@ std::vector<float> cesar_speech(const std::string& ipa) {
             f0 += ending * (1 - to_end / 20);
         return std::max(lowest, f0);
     };
-    auto samples = klatt_synthesize(segments, pitch);
+    const auto contour = options.reference_pitch.empty() ? std::span<const PitchPoint>(compact_pitch)
+                                                         : options.reference_pitch;
+    auto samples = klatt_synthesize(segments, [&](float t) {
+        const float hz = contour.empty() ? pitch(t) : pitch_at(contour, t / 100);
+        if (trace)
+            trace->pitch.push_back({t / 100, hz});
+        return hz;
+    });
     for (auto& sample : samples)
         sample = std::clamp(sample * level, -1.0f, 1.0f);
     return samples;
