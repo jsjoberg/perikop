@@ -257,12 +257,17 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 day_changed();
             });
     // Read-aloud is Swedish only.
-    choices("RÖST FÖR UPPLÄSNING", {"Alice", "Björn"}, settings_.speech_voice == "bjorn", [this](int i) {
-        clear_preparation();
-        settings_.speech_voice = i ? "bjorn" : "alice";
-        speech_->set_voice(settings_.speech_voice);
-        apply_settings();
-    });
+    static constexpr const char* voices[] = {"alice", "bjorn", "enkel"};
+    choices("RÖST FÖR UPPLÄSNING", {"Alice", "Björn", "Enkel röst (robotlik, snabb)"},
+            settings_.speech_voice == "bjorn"   ? 1
+            : settings_.speech_voice == "enkel" ? 2
+                                                : 0,
+            [this](int i) {
+                clear_preparation();
+                settings_.speech_voice = voices[i];
+                speech_->set_voice(settings_.speech_voice);
+                apply_settings();
+            });
     auto* highlight = new wxCheckBox(content, wxID_ANY, ui::utf8("Markera texten som läses upp"));
     highlight->SetFont(ui_font());
     highlight->SetValue(settings_.speech_highlight);

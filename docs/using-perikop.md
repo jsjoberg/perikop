@@ -77,7 +77,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Read-aloud
 
-- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select the voice, Alice or Björn, in **Inställningar**.
+- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select the voice, Alice, Björn or **Enkel röst**, in **Inställningar**. Enkel röst is a robotic but intelligible voice that needs no voice model and runs fast on any computer.
 - **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
 - **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.

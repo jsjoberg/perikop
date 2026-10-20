@@ -249,5 +249,8 @@ https://github.com/mackron/miniaudio/tree/0.11.22
 Sonic, commit `b93885dcb70aae50c6f76b0fe4e0868f029a077e`, changes playback speed without changing pitch, under Apache-2.0.
 https://github.com/waywardgeek/sonic
 
+`speech.h` by Mattias Gustavsson, commit `64b57a7275fc060a001a01c4ac2b450c17135e80`, is the formant synthesizer of the simple Swedish voice. It is based on SoLoud's speech code by Jari Komppa and on rsynth by Nick Ing-Simmons, and is public domain (CC0). It is vendored unmodified as `third_party/speech/speech.h`, SHA-256 `9368a13b44b50bbcfd5ec10e82bf0472fafecc74f6c07740abfa702d7bd3f726`. Its English text rules are not used; Perikop supplies Swedish pronunciations and tables.
+https://github.com/mattiasgustavsson/libs/blob/64b57a7275fc060a001a01c4ac2b450c17135e80/speech.h
+
 The build copies these complete speech dependency notices into the application resources.
 The application does not include macOS, Windows, or Linux system speech voices.
