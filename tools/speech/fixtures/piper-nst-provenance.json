@@ -1,0 +1,22 @@
+{
+  "repo": "rhasspy/piper-voices",
+  "revision": "5041a7a49ae5b3a0f30e6837769eb03fdbb231bd",
+  "repository_license": "mit",
+  "files": {
+    "MODEL_CARD": {
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/5041a7a49ae5b3a0f30e6837769eb03fdbb231bd/sv/sv_SE/nst/medium/MODEL_CARD",
+      "bytes": 306,
+      "sha256": "c85d3e26e47d93e9d9b8572d3c89537c3f8ff212595cb9a3fbd2e07c19432317"
+    },
+    "sv_SE-nst-medium.onnx": {
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/5041a7a49ae5b3a0f30e6837769eb03fdbb231bd/sv/sv_SE/nst/medium/sv_SE-nst-medium.onnx",
+      "bytes": 63104526,
+      "sha256": "df011f56825a59dd1efc080c38a65a1ef70407e60f63050e9246f43a3d7e471e"
+    },
+    "sv_SE-nst-medium.onnx.json": {
+      "url": "https://huggingface.co/rhasspy/piper-voices/resolve/5041a7a49ae5b3a0f30e6837769eb03fdbb231bd/sv/sv_SE/nst/medium/sv_SE-nst-medium.onnx.json",
+      "bytes": 4157,
+      "sha256": "d45dd74cbb4eca58694bf04a97e243044092476f28a55ae26424f0653086980a"
+    }
+  }
+}

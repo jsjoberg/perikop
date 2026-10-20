@@ -2,6 +2,8 @@
 
 2026-10-21. Pause further source-shape tuning while evaluating existing synthesis systems. No replacement engine has been selected or integrated.
 
+Follow-up: [Small Swedish voice comparison](compact-swedish-comparison-2026-10-21.md) now measures Cesar, Swedish Piper NST and Björn with our phonetic input, including Swedish qualification probes. It also checks KBLab's source checkpoint terms. That comparison supersedes the preliminary recommendation to prioritize Flite before an available Swedish-trained model.
+
 ## Listening checkpoint
 
 The listener preferred the original PR voice's clarity to the LF experiments, while preferring the later compact melody. Combining those is exactly B from the milestone comparison: the original polynomial source with compact prosody. The subsequent peak-controlled version was described as “maybe best so far” with the explicit qualification that the difference was hard to hear.

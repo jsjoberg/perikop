@@ -1,0 +1,37 @@
+{
+  "purpose": "Diagnostic of symbol conventions, not a replacement phonemizer or product dependency",
+  "espeak_version": "eSpeak NG text-to-speech: 1.52.0  Data at: /opt/homebrew/Cellar/espeak-ng/1.52.0/share/espeak-ng-data",
+  "warning": "Installed eSpeak NG is not established as the 2023 training version; line breaks/punctuation also differ. No automatic adapter is inferred from this.",
+  "cases": [
+    {
+      "id": "psalm",
+      "our_ipa": "ˈɛn sˈalm ˈɑːv dˈɑːvɪd. hˈɛrən ˈɛːr mˈiːn hˈeːɖə,mˈɛj skˈal ˈɪntət fˈatas,hˈɑːn lˈoːtər mˈɛj vˈiːla pˈoː ɡrˈøːna ˈɛŋar;hˈɑːn fˈøːr mˈɛj tˈɪl vˈatən dˈɛːr jˈɑːɡ fˈɪnər rˈuː,hˈɑːn vˈeːdərkvˌɪkər mˈiːn ɧˈɛːl;hˈɑːn lˈeːdər mˈɛj pˈoː rˈɛta vˈɛːɡar,fˈøːr sˈɪt nˈamns skˈɵl.",
+      "espeak_ipa": "ɛn psˈalm ɑːv dˈɑːviːd\nhˈɛrən ɛːr mɪn hˈɛrdə\nmˈɛj skˈal ˈɪntət fˈatːas\nhan lˈoːtər mˈɛj vˈiːla poː ɡrˈøːna ˈɛŋar\nhan føːr mˈɛj tɪl vˈatːən dˈɛːr jɑːɡ fˈɪnər rˈuː\nhan vˈeːdərkvˌɪkːər mɪn sxˈɛːl\nhan lˈeːdər mˈɛj poː rˈɛtːa vˈɛːɡar\nføːr sɪt nˈamns skˈɵl"
+    },
+    {
+      "id": "prose",
+      "our_ipa": "nˈɛːr mˈɔrɡɔnən kˈɔm hˈadə rˈɛŋnət ˈɵphˌøːʈ. vˈiːd dˈeːn rˈøːda stˈʉːɡan stˈuːd fˈyːra bˈɑːɳ ˈɔk vˈɛntadə pˈoː bˈɵsən. vˈarfœr drˈœjər dˈeːn?",
+      "espeak_ipa": "nˈɛːr mˈɔrɡɔnən kˈɔm hˌadɛ rəŋnˈeːt ɵphˈœt\nviːd dɛn rˈøːda stˈʉɡan stˈuːd fˈyːra bˈɑːrn ɔk vˈɛntadə poː bˈɵsən\nvˈarføːr drˈøːjər dɛn"
+    },
+    {
+      "id": "quantity",
+      "our_ipa": "tˈɑːk,tˈak. vˈiːla,vˈɪla. ɡlˈɑːs,ɡlˈas. vˈɛːɡ,vˈɛɡ.",
+      "espeak_ipa": "tˈɑːk\ntˈak\nvˈiːla\nvˈɪla\nɡlˈɑːs\nɡlˈas\nvˈɛːɡ\nvˈɛɡɡ"
+    },
+    {
+      "id": "swedish-sounds",
+      "our_ipa": "sˈiːl,sˈyːl,sˈʉːl. fˈøːl,fˈʉːl,fˈɵl. ɧˈɛːl,ɕˈɛːr. bˈɑːɳ,bˈuːɖ,hˈøːɳ,pˈɛːɭa.",
+      "espeak_ipa": "sˈiːl\nsˈyːl\nsˈʉl\nfˈøːl\nfˈʉl\nfˈɵl\nsxˈɛːl\nɕˈɛːr\nbˈɑːrn\nbˈuːrd\nhˈœrn\npˈɛrla"
+    },
+    {
+      "id": "accent",
+      "our_ipa": "ˈandən sˈɪmar ˈiː dˈamən. ˈandən ˈiː flˈaskan. tˈɔmtən ˈarbeːtar ˈiː trˈɛɡoːɖən. tˈɔmtən kˈɔmər tˈɪl jˈʉːl.",
+      "espeak_ipa": "ˈandən sˈɪmar iː dˈamən\nˈandən iː flˈaskan\ntˈɔmtən ˈarbeːtˌar iː trˈɛːdɡoːrdən\ntˈɔmtən kˈɔmər tɪl jˈʉl"
+    },
+    {
+      "id": "names",
+      "our_ipa": "mˈɛlkɪsədˌeːk mˈœtə ˈɑːbraham. sərʉːbˈɑːbəl,nəbʉːkadnˈɛsar ˈɔk habˈakɵk nˈɛmns ˈɔksɔ.",
+      "espeak_ipa": "mˈɛlkiːsədək mˈœtːə ˈabrahˌam\nsˈeːrɵbˌabəl\nnˈeːbʉkˌadnəsˌar ɔk hˈɑːbakːˌʉk nˈɛmns ˈɔksoː"
+    }
+  ]
+}
