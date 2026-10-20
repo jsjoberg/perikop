@@ -4,6 +4,8 @@
 
 ## Result
 
+Native listening follow-up: Piper had a nicer melody, but the listener found it about as difficult to understand as Cesar and was not impressed by it. Its measured size/CPU advantages over Björn therefore do not justify selecting it. The product direction is a tiny, non-neural Swedish voice with intelligibility comparable to eSpeak or the clarity associated with Microsoft Sam. The earlier recommendation below records what the measurements suggested before that listening feedback; Piper is now parked as a comparison, not the preferred development path.
+
 Piper NST is the strongest **available Swedish-trained candidate to qualify**, rather than a demonstrated listening winner. Its measured CPU cost is about one-eighth of Björn's and its acoustic model is substantially smaller. It remains much larger and more memory-hungry than Cesar. Flite/FestVox and HTS have appropriate engine architectures and permissive runtimes, but a verified, redistributable Swedish voice compatible with our input is still missing from this comparison. Their English voices do not establish suitability.
 
 The next decision depends on native listening to the Swedish probes below. Symbol coverage and benchmark speed cannot establish correct Swedish realization, quantity, accent or flow.
@@ -106,3 +108,20 @@ The runner builds its research-only native bridge, runs each profile in isolatio
 All 42 listening renders have checked finite output, headroom, hashes and matched EBU R128 integrated loudness within each case. Constant gain only: no EQ, peak limiting, resampling or time stretch. Most cases measure −21 LUFS; prose uses a common lower −21.7 LUFS to accommodate Björn's transient without clipping. Neural output varies; the listening sample is the final measured run, not a rendition chosen by listening. The JSON stores individual timing/duration runs. These artifacts are **unreviewed Swedish listening candidates**.
 
 The committed [measurement record](data/compact-voices-2026-10-21.json) includes all cases, medians, raw runs, memory observations, model provenance and listening-file hashes. No app, default voice, cache version or dependency set changes in this comparison.
+
+## Classical intelligibility target
+
+The listener's target is clearly understandable synthetic Swedish, rather than human-like timbre. Preserve the original clear Cesar source with compact melody as the working baseline. Park the LF source variants and the Piper replacement direction. Keep the pronunciation data authoritative; validate both its intended transcription and the acoustic realization. Native listening decides intelligibility; ASR, pitch correlation, a smooth waveform or extra high-frequency energy cannot substitute for it.
+
+An installed eSpeak NG 1.52.0 Swedish voice now supplies an external, deterministic reference for the unfamiliar prose, quantity pairs and Swedish sound contrasts. Each pair is matched in integrated loudness with constant gain only, retaining its native rate and timing. These recordings use the **same text but different front ends**: eSpeak supplies its Swedish transcription, while Cesar uses our existing IPA. They compare complete outputs and do not isolate the acoustic engine. This distinction matters given the pronunciation differences already documented above.
+
+The listening files are under `build/classical-swedish-reference/{prose,quantity,swedish-sounds}/{espeak,cesar}.wav`. The [reference record](data/classical-swedish-reference-2026-10-21.json) preserves commands, transcriptions, levels, lengths and hashes. eSpeak remains an external research tool; no GPL implementation or phoneme/formant tables are copied into the app.
+
+Before another broad timbre change, inspect recognizable Swedish phones and their joins. Specific current modelling choices worth testing independently include:
+
+- Vowels inherit donor-element gains, bandwidths and transition behaviour while only their formant targets are changed; the resulting Swedish identities and distinctions need listening verification.
+- The current /r/ is a short, shallow /l/-derived element. It has not been established that this produces a recognizable Swedish tap in context.
+- Stop closure, release and aspiration and consonant-to-vowel transitions need to preserve word identity. Their timing currently combines rsynth element proportions with approximate neural-derived duration averages.
+- Quantity, word accent and prominence must remain separate. A nicer whole-sentence melody cannot repair an unrecognizable vowel or consonant, and our current dictionary stress does not fully specify Swedish lexical accent.
+
+These are inspectable hypotheses from the current implementation, not established diagnoses of the listener's difficulty. Use the short quantity/Swedish-sound probes and unfamiliar words to identify actual confusions, then change one acoustic or transition mechanism at a time. Do not infer a new Swedish voice from an English demo or promise eSpeak-level intelligibility before that comparison succeeds.

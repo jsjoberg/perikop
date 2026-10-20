@@ -1,0 +1,88 @@
+{
+  "purpose": "External classical Swedish intelligibility reference; no app dependency or borrowed implementation/data tables",
+  "espeak_version": "eSpeak NG text-to-speech: 1.52.0  Data at: /opt/homebrew/Cellar/espeak-ng/1.52.0/share/espeak-ng-data",
+  "controls": [
+    "same displayed text",
+    "constant gain to match integrated loudness within each pair",
+    "native timing and sample rates",
+    "no EQ or limiting"
+  ],
+  "confound": "eSpeak uses its own Swedish text front end; pronunciation/stress differ from our IPA, so these are end-to-end references, not an isolated acoustic-engine comparison",
+  "cases": {
+    "prose": {
+      "text": "När morgonen kom hade regnet upphört. Vid den röda stugan stod fyra barn och väntade på bussen. Varför dröjer den?",
+      "same_text": true,
+      "same_phonetic_input": false,
+      "our_ipa": "nˈɛːr mˈɔrɡɔnən kˈɔm hˈadə rˈɛŋnət ˈɵphˌøːʈ. vˈiːd dˈeːn rˈøːda stˈʉːɡan stˈuːd fˈyːra bˈɑːɳ ˈɔk vˈɛntadə pˈoː bˈɵsən. vˈarfœr drˈœjər dˈeːn?",
+      "espeak_ipa": "nˈɛːr mˈɔrɡɔnən kˈɔm hˌadɛ rəŋnˈeːt ɵphˈœt\nviːd dɛn rˈøːda stˈʉɡan stˈuːd fˈyːra bˈɑːrn ɔk vˈɛntadə poː bˈɵsən\nvˈarføːr drˈøːjər dɛn",
+      "audio": {
+        "espeak": {
+          "seconds": 7.6236281179138325,
+          "lufs": -21.1,
+          "peak": 0.9500000000000002,
+          "sha256": "eabcc1608377a28f95d0cab87b930d3e292125a68cec3c5ba8115b4a4b5bb58d"
+        },
+        "cesar": {
+          "seconds": 8.6775,
+          "lufs": -21.1,
+          "peak": 0.499991316184871,
+          "sha256": "703af03137ecc80593e43f2e9202804253786b594acd91223d16bc823e03f02b"
+        }
+      }
+    },
+    "quantity": {
+      "text": "Tak, tack. Vila, villa. Glas, glass. Väg, vägg.",
+      "same_text": true,
+      "same_phonetic_input": false,
+      "our_ipa": "tˈɑːk,tˈak. vˈiːla,vˈɪla. ɡlˈɑːs,ɡlˈas. vˈɛːɡ,vˈɛɡ.",
+      "espeak_ipa": "tˈɑːk\ntˈak\nvˈiːla\nvˈɪla\nɡlˈɑːs\nɡlˈas\nvˈɛːɡ\nvˈɛɡɡ",
+      "audio": {
+        "espeak": {
+          "seconds": 4.730068027210884,
+          "lufs": -21.0,
+          "peak": 0.9045217716504478,
+          "sha256": "476e137b3ee7c8d2e78e4be049746e70dd030ce9e774f29b30d89d67ba182371"
+        },
+        "cesar": {
+          "seconds": 5.2025,
+          "lufs": -21.0,
+          "peak": 0.49376378382344216,
+          "sha256": "79870e15ca33eba772a9f2b178b1b5673adfaa5bb05038816a9dfda83dbf4b9e"
+        }
+      }
+    },
+    "swedish-sounds": {
+      "text": "Sil, syl, sul. Föl, ful, full. Själ, kär. Barn, bord, hörn, pärla.",
+      "same_text": true,
+      "same_phonetic_input": false,
+      "our_ipa": "sˈiːl,sˈyːl,sˈʉːl. fˈøːl,fˈʉːl,fˈɵl. ɧˈɛːl,ɕˈɛːr. bˈɑːɳ,bˈuːɖ,hˈøːɳ,pˈɛːɭa.",
+      "espeak_ipa": "sˈiːl\nsˈyːl\nsˈʉl\nfˈøːl\nfˈʉl\nfˈɵl\nsxˈɛːl\nɕˈɛːr\nbˈɑːrn\nbˈuːrd\nhˈœrn\npˈɛrla",
+      "audio": {
+        "espeak": {
+          "seconds": 7.1321995464852606,
+          "lufs": -21.0,
+          "peak": 0.9483425462919314,
+          "sha256": "9b44790be47c7bf7d7d35e6d6c1b854de16501ca821b2bf755bc9ee4da07f861"
+        },
+        "cesar": {
+          "seconds": 6.7325,
+          "lufs": -21.0,
+          "peak": 0.4965497067834469,
+          "sha256": "0b0e85c4c76dec1816f3d4a213d5401507725ecd0191ab8016095b73685e67f0"
+        }
+      }
+    }
+  },
+  "date": "2026-10-21",
+  "command": [
+    "espeak-ng",
+    "-D",
+    "-v",
+    "sv",
+    "-s",
+    "175",
+    "-w",
+    "OUTPUT.wav",
+    "TEXT"
+  ]
+}
