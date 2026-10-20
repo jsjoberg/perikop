@@ -58,3 +58,5 @@ Next work:
 4. Introduce quantity, coarticulation, intensity and voice-source changes only with acoustic evidence and matched listening. Preserve the failed transfer as a caution against interpreting token times as phone durations.
 
 Speech-recognition accuracy and pitch correlation are diagnostics, not optimization targets for Swedishness. Native judgments decide acceptance.
+
+The next isolated timbre experiment is recorded in [Cesar: controlled LF source experiment](cesar-lf-source-2026-10-20.md). It preserves these timing and melody controls while changing only the periodic excitation waveform.

@@ -51,7 +51,7 @@ target_link_libraries(ortho-kokoro-audio-probe PRIVATE ortho-kokoro)
 add_executable(ortho-kokoro-text-probe tools/speech/kokoro_text_probe.cpp)
 target_link_libraries(ortho-kokoro-text-probe PRIVATE ortho-kokoro)
 # Cesar, the simple Swedish voice: a Klatt formant synthesizer ported from rsynth (public domain).
-add_library(ortho-cesar STATIC src/speech/klatt.cpp src/speech/cesar_voice.cpp src/speech/swedish_prosody.cpp)
+add_library(ortho-cesar STATIC src/speech/klatt.cpp src/speech/cesar_voice.cpp src/speech/swedish_prosody.cpp src/speech/lf_source.cpp)
 target_include_directories(ortho-cesar PUBLIC src)
 target_link_libraries(ortho-cesar PUBLIC ortho-sanitizers)
 add_executable(ortho-cesar-audio-probe tools/speech/cesar_audio_probe.cpp)

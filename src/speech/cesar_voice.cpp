@@ -1431,12 +1431,15 @@ std::vector<float> cesar_speech(const std::string& ipa, const CesarOptions& opti
     };
     const auto contour = options.reference_pitch.empty() ? std::span<const PitchPoint>(compact_pitch)
                                                          : options.reference_pitch;
-    auto samples = klatt_synthesize(segments, [&](float t) {
-        const float hz = contour.empty() ? pitch(t) : pitch_at(contour, t / 100);
-        if (trace)
-            trace->pitch.push_back({t / 100, hz});
-        return hz;
-    });
+    auto samples = klatt_synthesize(
+        segments,
+        [&](float t) {
+            const float hz = contour.empty() ? pitch(t) : pitch_at(contour, t / 100);
+            if (trace)
+                trace->pitch.push_back({t / 100, hz});
+            return hz;
+        },
+        options.source);
     for (auto& sample : samples)
         sample = std::clamp(sample * level, -1.0f, 1.0f);
     return samples;

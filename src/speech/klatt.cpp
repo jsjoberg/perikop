@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdint>
 #include <numbers>
+#include <optional>
 namespace ortho {
 namespace {
 constexpr float pi = std::numbers::pi_v<float>;
@@ -126,6 +127,7 @@ class Synthesizer {
     const float noise_decay = rescaled(0.75f);
     uint32_t seed = 5;
     double seconds = 0;
+    std::optional<LfPulse> lf;
     // Voicing parameters change pitch-synchronously, at the start of a glottal period.
     void next_period() {
         if (f0 > 0) {
@@ -143,6 +145,14 @@ class Synthesizer {
         }
     }
     float natural_source() {
+        // Both sources use exactly the same pitch-period counter. Keep noise
+        // modulation, filtering and the old source path unchanged in this experiment.
+        if (lf) {
+            // The legacy polynomial's closure peak approaches -8960. Normalize
+            // the LF closure excitation to that scale; listening copies are loudness matched.
+            constexpr float closure_peak = 8960;
+            return closure_peak * lf->sample(static_cast<float>(position) / period);
+        }
         if (position >= open) {
             wave = 0;
             return 0;
@@ -153,7 +163,9 @@ class Synthesizer {
     }
 
 public:
-    Synthesizer() {
+    explicit Synthesizer(const VoiceSourceOptions& source) {
+        if (source.kind == VoiceSource::LiljencrantsFant)
+            lf.emplace(source.lf);
         // Smooths the oversampled source; set relative to the output rate as in rsynth.
         source_lowpass.set(0.095f * rate, 0.063f * rate);
         // A two-pole low-pass at 0 Hz; rsynth's bandwidth of the full rate put its 3 dB point at
@@ -225,8 +237,9 @@ public:
 };
 } // namespace
 std::vector<float> klatt_synthesize(std::span<const KlattSegment> segments,
-                                    const std::function<float(float)>& pitch) {
-    Synthesizer synthesizer;
+                                    const std::function<float(float)>& pitch,
+                                    const VoiceSourceOptions& source) {
+    Synthesizer synthesizer(source);
     std::vector<float> output;
     std::array<float, klatt_parameters> values{};
     float elapsed = 0;

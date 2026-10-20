@@ -61,15 +61,26 @@ int main(int argc, char** argv) {
             while (contour >> seconds >> hz)
                 points.push_back({seconds, hz});
             check(contour.eof() && !points.empty(), "benchmark contour is valid");
-            ortho::CesarTrace baseline, reference, compact;
+            ortho::CesarTrace baseline, reference, compact, lf_trace;
             const auto before = ortho::cesar_speech(ipa, {}, &baseline);
             const auto after = ortho::cesar_speech(ipa, {.reference_pitch = points}, &reference);
             const auto candidate = ortho::cesar_speech(ipa, {.compact_melody = true}, &compact);
+            const auto lf = ortho::cesar_speech(
+                ipa, {.compact_melody = true, .source = {ortho::VoiceSource::LiljencrantsFant}}, &lf_trace);
             check(before.size() == 347160 && after.size() == before.size() &&
-                      candidate.size() == before.size(),
+                      candidate.size() == before.size() && lf.size() == before.size(),
                   "melody changes preserve the reviewed 14.465-second reading");
             check(before != after && before != candidate, "melody controls affect synthesized audio");
-            for (const auto* trace : {&reference, &compact}) {
+            check(lf != candidate, "LF source changes timbre");
+            check(lf_trace.pitch.size() == compact.pitch.size(), "same number of pitch controls");
+            for (size_t i = 0; i < compact.pitch.size(); ++i)
+                check(lf_trace.pitch[i].seconds == compact.pitch[i].seconds &&
+                          lf_trace.pitch[i].hz == compact.pitch[i].hz,
+                      "source changes preserve every pitch control");
+            check(lf == ortho::cesar_speech(
+                            ipa, {.compact_melody = true, .source = {ortho::VoiceSource::LiljencrantsFant}}),
+                  "LF rendering is deterministic");
+            for (const auto* trace : {&reference, &compact, &lf_trace}) {
                 check(trace->sounds.size() == baseline.sounds.size(), "same sound sequence");
                 size_t offset = 0;
                 for (size_t i = 0; i < trace->sounds.size(); ++i) {
@@ -82,7 +93,7 @@ int main(int argc, char** argv) {
                 }
                 check(offset == before.size(), "trace accounts for every rendered sample");
             }
-            for (const auto* audio : {&after, &candidate})
+            for (const auto* audio : {&after, &candidate, &lf})
                 check(std::all_of(audio->begin(), audio->end(),
                                   [](float value) {
                                       return std::isfinite(value) && std::abs(value) <= 1;
@@ -99,6 +110,36 @@ int main(int argc, char** argv) {
             }
             check(rejected, "invalid reference pitch is rejected");
         }
+        // A glottal flow derivative must integrate to zero over each cycle; its
+        // integrated flow cannot become negative or accumulate a baseline offset.
+        for (const ortho::LfParameters shape :
+             {ortho::LfParameters{}, ortho::LfParameters{0.35f, 0.60f, 0.02f},
+              ortho::LfParameters{0.42f, 0.70f, 0.08f}}) {
+            const ortho::LfPulse pulse(shape);
+            double flow = 0, minimum = 0, peak_flow = 0;
+            constexpr int steps = 20000;
+            for (int i = 0; i < steps; ++i) {
+                const auto value = pulse.sample((i + 0.5f) / steps);
+                check(std::isfinite(value), "finite LF cycle");
+                flow += value / steps;
+                minimum = std::min(minimum, flow);
+                peak_flow = std::max(peak_flow, flow);
+            }
+            check(std::abs(flow) < 1e-5 && minimum > -1e-5 && peak_flow > 0.01,
+                  "LF flow rises and returns to zero without DC accumulation");
+            check(pulse.sample(0) == 0 && pulse.sample(1) == 0, "LF cycle endpoints are zero");
+            check(std::abs(pulse.sample(shape.te) + 1) < 0.01,
+                  "LF closure excitation is normalized independently of shape");
+            check(std::abs(pulse.sample(shape.te - 1e-5f) - pulse.sample(shape.te + 1e-5f)) < 0.01,
+                  "LF open and return phases meet continuously");
+        }
+        bool invalid_shape = false;
+        try {
+            const ortho::LfPulse invalid({0.4f, 0.65f, 0.5f});
+        } catch (const std::invalid_argument&) {
+            invalid_shape = true;
+        }
+        check(invalid_shape, "LF return time must fit within the period");
         // Identical two-syllable input, explicitly different lexical accents. Syllable
         // count must not decide accent identity; the second peak follows its label.
         const std::vector<ortho::ProsodySyllable> syllables{{0, 0.1f, 0.25f, 3}, {0, 0.35f, 0.5f, 0}};

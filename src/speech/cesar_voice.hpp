@@ -1,4 +1,5 @@
 #pragma once
+#include "speech/lf_source.hpp"
 #include "speech/swedish_prosody.hpp"
 #include <span>
 #include <string>
@@ -16,6 +17,7 @@ struct CesarOptions {
     std::span<const PitchPoint> reference_pitch;
     bool compact_melody = false;
     std::span<const SwedishWordProsody> words;
+    VoiceSourceOptions source;
 };
 struct CesarSound {
     const char* name;

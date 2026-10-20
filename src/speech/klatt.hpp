@@ -1,4 +1,5 @@
 #pragma once
+#include "speech/lf_source.hpp"
 #include <array>
 #include <functional>
 #include <span>
@@ -55,5 +56,6 @@ struct KlattSegment {
 // SoLoud and speech.h, all public domain. `pitch` gives the voice's pitch in Hz at a time in
 // 10 ms frames from the start. Returns mono samples at klatt_sample_rate in [-1, 1].
 std::vector<float> klatt_synthesize(std::span<const KlattSegment> segments,
-                                    const std::function<float(float)>& pitch);
+                                    const std::function<float(float)>& pitch,
+                                    const VoiceSourceOptions& source = {});
 } // namespace ortho

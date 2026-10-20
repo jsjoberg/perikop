@@ -46,7 +46,8 @@ int main(int argc, char** argv) {
     try {
         if (argc < 4)
             throw std::runtime_error("Usage: cesar-audio-probe PACK INPUT OUTPUT.wav [--ipa] "
-                                     "[--pitch CONTOUR|--compact] [--trace PREFIX] [--raw OUTPUT.f32]");
+                                     "[--pitch CONTOUR|--compact] [--source klatt|lf] "
+                                     "[--trace PREFIX] [--raw OUTPUT.f32]");
         ortho::CesarOptions options;
         std::vector<ortho::PitchPoint> reference;
         bool ipa = false;
@@ -57,6 +58,14 @@ int main(int argc, char** argv) {
                 ipa = true;
             } else if (option == "--compact") {
                 options.compact_melody = true;
+            } else if (option == "--source" && i + 1 < argc) {
+                const std::string source = argv[++i];
+                if (source == "lf")
+                    options.source.kind = ortho::VoiceSource::LiljencrantsFant;
+                else if (source == "klatt")
+                    options.source.kind = ortho::VoiceSource::Klatt;
+                else
+                    throw std::runtime_error("Unknown voice source.");
             } else if (option == "--pitch" && i + 1 < argc) {
                 std::ifstream input(path(argv[++i]));
                 if (!input)
