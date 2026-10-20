@@ -6,6 +6,8 @@ Follow-up: [Small Swedish voice comparison](compact-swedish-comparison-2026-10-2
 
 Native follow-up to that comparison: Piper's nicer melody did not produce a meaningful intelligibility win. The listener prefers pursuing a tiny, non-neural Swedish system, with eSpeak/Microsoft Sam as an intelligibility target. Piper is retained as a measured comparison; it is no longer the preferred next development direction. The linked report now includes an external Swedish eSpeak listening reference and specific classical-synthesizer hypotheses to test.
 
+Latest follow-up: the pulse/control-edge experiment also produced only a very small perceived difference. The [upstream reset investigation](cesar-upstream-2026-10-21.md) reconstructs unmodified speech.h at its native rate and compares existing upstream Swedish eSpeak with both its default and Klatt backends. No permissively licensed Swedish pack for the speech.h lineage has been verified.
+
 ## Listening checkpoint
 
 The listener preferred the original PR voice's clarity to the LF experiments, while preferring the later compact melody. Combining those is exactly B from the milestone comparison: the original polynomial source with compact prosody. The subsequent peak-controlled version was described as “maybe best so far” with the explicit qualification that the difference was hard to hear.

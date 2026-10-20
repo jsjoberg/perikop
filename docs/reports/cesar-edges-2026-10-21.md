@@ -4,6 +4,8 @@
 
 The earlier peak limiter changed maximum amplitude but did not establish a clear audible benefit. Lower peaks are not a substitute for removing artifacts within speech. This experiment retains the clear original polynomial source and compact Swedish melody and tests two specific edge mechanisms, rather than returning to the muffled LF timbre.
 
+Native follow-up: the listener found the difference very small. This experiment has not established a useful improvement in clarity or clicking. The next investigation is an [upstream engine reset and existing Swedish support](cesar-upstream-2026-10-21.md), rather than further local edge tuning.
+
 ## Inspectable mechanisms
 
 The polynomial source recurrence ends its open phase at approximately `-(8960 + 26880/open)`, then resets to zero. That is an actual discontinuity in the excitation. The experimental `smooth_closure` option adds a small polynomial step residual around that closure, centered between adjacent oversampled samples. It extends one output sample on each side of the edge. The correction has opposing positive/negative area; the original source waveform away from closure is retained.

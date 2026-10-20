@@ -1,0 +1,239 @@
+{
+  "archived_revision": "eda1b01",
+  "speech_h_sha256": "9368a13b44b50bbcfd5ec10e82bf0472fafecc74f6c07740abfa702d7bd3f726",
+  "verified_upstream_revision": "bc03ac2268db88d1fadfbe4cee5ec1d55f715edc",
+  "suite_sha256": "1433a2f4bdb79f49e3840d7ea16515bc6e50732188d66d242990b353136af16a",
+  "espeak_version": "eSpeak NG text-to-speech: 1.52.0  Data at: /opt/homebrew/Cellar/espeak-ng/1.52.0/share/espeak-ng-data",
+  "frontend": {
+    "cesar": "frozen project IPA, compact melody",
+    "upstream": "same IPA, archived project Swedish bridge, upstream engine at 11025 Hz",
+    "espeak": "text, upstream Swedish frontend, default backend",
+    "espeak-klatt": "text, same upstream Swedish frontend, Klatt backend"
+  },
+  "limitations": [
+    "Not a controlled source-only experiment: timing and melody differ.",
+    "Upstream speech.h has no Swedish voice in this experiment.",
+    "eSpeak references do not use our phonetic data.",
+    "No time stretch, resampling, EQ, compression or limiting."
+  ],
+  "default_app_voice_changed": false,
+  "listening_status": "unreviewed",
+  "cases": {
+    "psalm": {
+      "text": "En psalm av David. Herren är min herde, mig skall intet fattas, han låter mig vila på gröna ängar; han för mig till vatten där jag finner ro, han vederkvicker min själ; han leder mig på rätta vägar, för sitt namns skull.",
+      "ipa": "ˈɛn sˈalm ˈɑːv dˈɑːvɪd. hˈɛrən ˈɛːr mˈiːn hˈeːɖə,mˈɛj skˈal ˈɪntət fˈatas,hˈɑːn lˈoːtər mˈɛj vˈiːla pˈoː ɡrˈøːna ˈɛŋar;hˈɑːn fˈøːr mˈɛj tˈɪl vˈatən dˈɛːr jˈɑːɡ fˈɪnər rˈuː,hˈɑːn vˈeːdərkvˌɪkər mˈiːn ɧˈɛːl;hˈɑːn lˈeːdər mˈɛj pˈoː rˈɛta vˈɛːɡar,fˈøːr sˈɪt nˈamns skˈɵl.",
+      "variants": {
+        "cesar": {
+          "sample_rate": 24000,
+          "samples": 347160,
+          "seconds": 14.465,
+          "raw_lufs": -22.8,
+          "raw_rail_samples": 0,
+          "raw_sha256": "e50d49d28dc239ee66e2ce0ed11fc0f6829435cdc4cf8390e8deeac87f722953",
+          "gain": 1.2302687708123816,
+          "peak": 0.37945556640625,
+          "listening_lufs": -23.3,
+          "listening_sha256": "f36d6b4e57bae5ed10d9d45e0d2a6282b55b9107dbe7665e001b0b26e3497709"
+        },
+        "upstream": {
+          "sample_rate": 11025,
+          "samples": 188540,
+          "seconds": 17.101133786848074,
+          "raw_lufs": -23.5,
+          "raw_rail_samples": 0,
+          "raw_sha256": "540d5065c0bf4be842226a5618560d4f4dbbab42f9345324aa2da57b1eefd9b4",
+          "gain": 1.333521432163324,
+          "peak": 0.413330078125,
+          "listening_lufs": -23.4,
+          "listening_sha256": "ff4673adb21a7d5196cc2cc81c72f7fe12c49678de161ac15590789598f27056"
+        },
+        "espeak": {
+          "sample_rate": 22050,
+          "samples": 314692,
+          "seconds": 14.271746031746032,
+          "raw_lufs": -20.8,
+          "raw_rail_samples": 0,
+          "raw_sha256": "86c0138e014533c74a27aa3223b578617073c009c8ec8a74065a4aa77bccf8fd",
+          "gain": 0.9772372209558108,
+          "peak": 0.87823486328125,
+          "listening_lufs": -23.4,
+          "listening_sha256": "8f7760d53b0162902e593b043922e535af63e4724c4a0015e00de16fe088e08b"
+        },
+        "espeak-klatt": {
+          "sample_rate": 22050,
+          "samples": 318192,
+          "seconds": 14.43047619047619,
+          "raw_lufs": -28.4,
+          "raw_rail_samples": 0,
+          "raw_sha256": "21e7dc8c9b833a93808d9c28b17d4e2ec2a30b428742ca223f810ab91e026501",
+          "gain": 2.344228815319922,
+          "peak": 0.53106689453125,
+          "listening_lufs": -23.4,
+          "listening_sha256": "cc34ce07706cd239209b6ce9a54c0a1ceac8773b204e789b31c7e4a0a65b21dd"
+        }
+      }
+    },
+    "prose": {
+      "text": "När morgonen kom hade regnet upphört. Vid den röda stugan stod fyra barn och väntade på bussen. Varför dröjer den?",
+      "ipa": "nˈɛːr mˈɔrɡɔnən kˈɔm hˈadə rˈɛŋnət ˈɵphˌøːʈ. vˈiːd dˈeːn rˈøːda stˈʉːɡan stˈuːd fˈyːra bˈɑːɳ ˈɔk vˈɛntadə pˈoː bˈɵsən. vˈarfœr drˈœjər dˈeːn?",
+      "variants": {
+        "cesar": {
+          "sample_rate": 24000,
+          "samples": 208260,
+          "seconds": 8.6775,
+          "raw_lufs": -22.6,
+          "raw_rail_samples": 0,
+          "raw_sha256": "e742c00481cb7ac9440a5f85d6a43771c45714819361aef9e5b2579bdf1a860a",
+          "gain": 1.2022644346174132,
+          "peak": 0.420196533203125,
+          "listening_lufs": -26.1,
+          "listening_sha256": "402b57394759a2a02e4e451b2b517a5e10d131f7fc181f174b732d821426501c"
+        },
+        "upstream": {
+          "sample_rate": 11025,
+          "samples": 106590,
+          "seconds": 9.668027210884354,
+          "raw_lufs": -22.8,
+          "raw_rail_samples": 0,
+          "raw_sha256": "297f66baf44e0956b591e7341d0dcb4ef29d1b536b2f8f317a6fa241ebc3d926",
+          "gain": 1.2302687708123816,
+          "peak": 0.422515869140625,
+          "listening_lufs": -26.1,
+          "listening_sha256": "c2246725278b6f29b3f61723ba8f80a9ed8725743917bc01d17a2c828b54ea86"
+        },
+        "espeak": {
+          "sample_rate": 22050,
+          "samples": 168101,
+          "seconds": 7.6236281179138325,
+          "raw_lufs": -20.7,
+          "raw_rail_samples": 0,
+          "raw_sha256": "0e894bdd6be94933a78f17ae589eacda9b061a01e31c2aa64126932042764832",
+          "gain": 0.9660508789898133,
+          "peak": 0.99365234375,
+          "listening_lufs": -26.0,
+          "listening_sha256": "feaac88292fe2e9389d461823cea7ad1d86721243f675934992564b757cae6b9"
+        },
+        "espeak-klatt": {
+          "sample_rate": 22050,
+          "samples": 168173,
+          "seconds": 7.626893424036282,
+          "raw_lufs": -29.6,
+          "raw_rail_samples": 0,
+          "raw_sha256": "0fde0039b80ab1ad18a49888247c0dc77f1b29c666b907edd7914b94da73d9c6",
+          "gain": 2.691534803926916,
+          "peak": 0.6334228515625,
+          "listening_lufs": -26.1,
+          "listening_sha256": "c9c62c3d76d7015e92de04fabe10f02a6723fffc3dffe6af6363db3d47e8a00d"
+        }
+      }
+    },
+    "quantity": {
+      "text": "Tak, tack. Vila, villa. Glas, glass. Väg, vägg.",
+      "ipa": "tˈɑːk,tˈak. vˈiːla,vˈɪla. ɡlˈɑːs,ɡlˈas. vˈɛːɡ,vˈɛɡ.",
+      "variants": {
+        "cesar": {
+          "sample_rate": 24000,
+          "samples": 124860,
+          "seconds": 5.2025,
+          "raw_lufs": -23.3,
+          "raw_rail_samples": 0,
+          "raw_sha256": "509ed340dd2d7f21fe7ee933348a14165131a94d29bd0dfc4459724d51a0fe6f",
+          "gain": 1.3031667784522996,
+          "peak": 0.378875732421875,
+          "listening_lufs": -23.0,
+          "listening_sha256": "c0cdb5d9fe69213879954ddb734c471701c4deb22a5de6ceaf6265150caaea62"
+        },
+        "upstream": {
+          "sample_rate": 11025,
+          "samples": 58520,
+          "seconds": 5.307936507936508,
+          "raw_lufs": -24.8,
+          "raw_rail_samples": 0,
+          "raw_sha256": "d1c5e172570c14ef17524d22bcb6279d88272dd86e1b576a4b76f331f700c378",
+          "gain": 1.5488166189124815,
+          "peak": 0.39349365234375,
+          "listening_lufs": -23.0,
+          "listening_sha256": "cf3592f3959b9640ecc35cf9fbba11feead64360ef79bcad79758c225f1e1746"
+        },
+        "espeak": {
+          "sample_rate": 22050,
+          "samples": 104298,
+          "seconds": 4.730068027210884,
+          "raw_lufs": -21.9,
+          "raw_rail_samples": 0,
+          "raw_sha256": "71585a62f4e707bccaae186cb4fc14691e7c223a0691218de210eef2b9771079",
+          "gain": 1.1091748152624008,
+          "peak": 0.81549072265625,
+          "listening_lufs": -23.0,
+          "listening_sha256": "845e636149d268ffa2bc358b79d6efd185ff8504f25f0528d6762d3369762f42"
+        },
+        "espeak-klatt": {
+          "sample_rate": 22050,
+          "samples": 102881,
+          "seconds": 4.665804988662131,
+          "raw_lufs": -28.7,
+          "raw_rail_samples": 0,
+          "raw_sha256": "82885360b7fc9980943a5053c0d65d08302f405b562b979326e5cfefb16c0d9e",
+          "gain": 2.4266100950824154,
+          "peak": 0.489532470703125,
+          "listening_lufs": -22.9,
+          "listening_sha256": "1bd8bcbaea0308812261d9fdef409479e34cc5cda0bd410f920ea2db06971109"
+        }
+      }
+    },
+    "swedish-sounds": {
+      "text": "Sil, syl, sul. Föl, ful, full. Själ, kär. Barn, bord, hörn, pärla.",
+      "ipa": "sˈiːl,sˈyːl,sˈʉːl. fˈøːl,fˈʉːl,fˈɵl. ɧˈɛːl,ɕˈɛːr. bˈɑːɳ,bˈuːɖ,hˈøːɳ,pˈɛːɭa.",
+      "variants": {
+        "cesar": {
+          "sample_rate": 24000,
+          "samples": 161580,
+          "seconds": 6.7325,
+          "raw_lufs": -23.3,
+          "raw_rail_samples": 0,
+          "raw_sha256": "a77ed12cea0a6746f90fb7f12e8b484d1e6a16a9b3d203f7d826b16b95c47d87",
+          "gain": 1.3031667784522996,
+          "peak": 0.381011962890625,
+          "listening_lufs": -24.4,
+          "listening_sha256": "2ba2c5a044e7aedbbdb947ab1873049f29082938f3f2c6f3d5ead51cc4994f84"
+        },
+        "upstream": {
+          "sample_rate": 11025,
+          "samples": 76340,
+          "seconds": 6.9242630385487525,
+          "raw_lufs": -23.5,
+          "raw_rail_samples": 0,
+          "raw_sha256": "181169b606759b8cfbc5c07a11c025a0f660a3f8be61f7f66ca8b91e3976868e",
+          "gain": 1.333521432163324,
+          "peak": 0.382232666015625,
+          "listening_lufs": -24.4,
+          "listening_sha256": "14e2449c53cd9c3d5463ddb96ad722ee0e17192e83299fbc79cfb12a3fdacabd"
+        },
+        "espeak": {
+          "sample_rate": 22050,
+          "samples": 157265,
+          "seconds": 7.1321995464852606,
+          "raw_lufs": -21.8,
+          "raw_rail_samples": 0,
+          "raw_sha256": "6e30751d2a2f8980e60ca3f3f9a8338f2bb4dc474a38bcbdccfd253b25726276",
+          "gain": 1.096478196143185,
+          "peak": 0.864898681640625,
+          "listening_lufs": -24.5,
+          "listening_sha256": "e22199a46afd9f7b4c1cf5b841a81ea7dcd6ff6f47e8e255a15254ed45c1a452"
+        },
+        "espeak-klatt": {
+          "sample_rate": 22050,
+          "samples": 155324,
+          "seconds": 7.044172335600907,
+          "raw_lufs": -30.1,
+          "raw_rail_samples": 0,
+          "raw_sha256": "81b3774228477e8ef06b9619fffd4d141e395b3fd2d45aefbb0f734f3daf1eee",
+          "gain": 2.85101826750391,
+          "peak": 0.49468994140625,
+          "listening_lufs": -24.5,
+          "listening_sha256": "12fdd4ef02f60f01c6560e355eb0bc0762f5c5824fd03062822e6d3c9cbb7534"
+        }
+      }
+    }
+  }
+}
