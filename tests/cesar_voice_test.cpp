@@ -1,4 +1,4 @@
-#include "speech/formant_voice.hpp"
+#include "speech/cesar_voice.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -14,16 +14,22 @@ int main() {
         // Every phone in the voice pack's lexicon.tsv, g2p-corpus.tsv and custom_lexicon.tsv,
         // with length marks attached. A phone without a mapping would be silently skipped.
         const auto unknown =
-            ortho::formant_unknown_phones("a b d e eː f h i iː j k l m n o oː p r s t uː v y yː øː ŋ œ ɑː ɔ "
-                                          "ɕ ɖ ə ɛ ɛː ɡ ɧ ɨː ɪ ɭ ɳ ɵ ʂ ʈ ʉː ʊ ʏ ʧ");
+            ortho::cesar_unknown_phones("a b d e eː f h i iː j k l m n o oː p r s t uː v y yː øː ŋ œ ɑː ɔ "
+                                        "ɕ ɖ ə ɛ ɛː ɡ ɧ ɨː ɪ ɭ ɳ ɵ ʂ ʈ ʉː ʊ ʏ ʧ");
         for (const auto& phone : unknown)
-            std::cerr << "No formant mapping for " << phone << '\n';
-        check(unknown.empty(), "every lexicon phone has a formant mapping");
-        check(ortho::formant_unknown_phones("ˈa Q") == std::vector<std::string>{"Q"},
+            std::cerr << "Cesar has no sound for " << phone << '\n';
+        check(unknown.empty(), "every lexicon phone has a Cesar sound");
+        // Saying every phone looks up every sound element; a missing one throws.
+        const auto all = ortho::cesar_speech("a b d e eː f h i iː j k l m n o oː p r s t uː v y yː øː ŋ œ ɑː "
+                                             "ɔ ɕ ɖ ə ɛ ɛː ɡ ɧ ɨː ɪ ɭ ɳ ɵ ʂ ʈ ʉː ʊ ʏ ʧ.");
+        check(all == ortho::cesar_speech("a b d e eː f h i iː j k l m n o oː p r s t uː v y yː øː ŋ œ ɑː ɔ ɕ "
+                                         "ɖ ə ɛ ɛː ɡ ɧ ɨː ɪ ɭ ɳ ɵ ʂ ʈ ʉː ʊ ʏ ʧ."),
+              "the same text always gives the same audio");
+        check(ortho::cesar_unknown_phones("ˈa Q") == std::vector<std::string>{"Q"},
               "unknown symbols are reported");
 
         // KokoroText::ipa() for "Herren är min herde, mig skall intet fattas."
-        const auto speech = ortho::formant_speech("hˈɛrən ˈɛːr mˈiːn hˈeːɖə, mˈɛj skˈal ˈɪntət fˈatas.");
+        const auto speech = ortho::cesar_speech("hˈɛrən ˈɛːr mˈiːn hˈeːɖə, mˈɛj skˈal ˈɪntət fˈatas.");
         const double seconds = speech.size() / 24000.0;
         double peak = 0, energy = 0;
         for (float sample : speech) {
@@ -35,7 +41,7 @@ int main() {
         check(peak > 0.1 && peak <= 1 && std::sqrt(energy / speech.size()) > 0.01,
               "audible without clipping");
 
-        const auto pause = ortho::formant_speech(", .");
+        const auto pause = ortho::cesar_speech(", .");
         check(pause.size() == 4800 && std::all_of(pause.begin(), pause.end(),
                                                   [](float s) {
                                                       return s == 0;

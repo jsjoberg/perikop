@@ -257,10 +257,10 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 day_changed();
             });
     // Read-aloud is Swedish only.
-    static constexpr const char* voices[] = {"alice", "bjorn", "enkel"};
-    choices("RÖST FÖR UPPLÄSNING", {"Alice", "Björn", "Enkel röst (robotlik, snabb)"},
+    static constexpr const char* voices[] = {"alice", "bjorn", "cesar"};
+    choices("RÖST FÖR UPPLÄSNING", {"Alice", "Björn", "Cesar (robotlik, snabb)"},
             settings_.speech_voice == "bjorn"   ? 1
-            : settings_.speech_voice == "enkel" ? 2
+            : settings_.speech_voice == "cesar" ? 2
                                                 : 0,
             [this](int i) {
                 clear_preparation();

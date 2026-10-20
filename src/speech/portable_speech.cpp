@@ -1,5 +1,5 @@
 #include "speech/portable_speech.hpp"
-#include "speech/formant_voice.hpp"
+#include "speech/cesar_voice.hpp"
 #include "speech/kokoro_audio.hpp"
 #include "speech/kokoro_text.hpp"
 #include "speech/pcm_output.hpp"
@@ -21,7 +21,7 @@ namespace ortho {
 namespace {
 using namespace std::chrono_literals;
 std::string voice_name(const std::string& voice) {
-    return voice == "bjorn" ? "Björn" : voice == formant_voice_id ? "Enkel röst" : "Alice";
+    return voice == "bjorn" ? "Björn" : voice == cesar_voice_id ? "Cesar" : "Alice";
 }
 // 16-bit mono PCM WAV at 24 kHz, for the speech probe.
 void write_wav(const std::filesystem::path& path, const std::vector<float>& samples) {
@@ -184,12 +184,12 @@ class PortableSpeech final : public SpeechEngine {
     }
     void run() {
         std::unique_ptr<Kokoro> kokoro;
-        std::unique_ptr<KokoroText> formant_text;
+        std::unique_ptr<KokoroText> cesar_text;
         std::unique_ptr<SpeechCache> cache;
         bool cache_attempted = false;
         // Measured synthesis speed for this session, per engine. Until the model has run,
         // assume it is slower than real time, as on the reference hardware.
-        double model_seconds = 0, model_audio = 0, formant_seconds = 0, formant_audio = 0;
+        double model_seconds = 0, model_audio = 0, cesar_seconds = 0, cesar_audio = 0;
         while (true) {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
@@ -256,13 +256,13 @@ class PortableSpeech final : public SpeechEngine {
                     double from, to, weight;
                     bool cached;
                 };
-                const bool formant = voice == formant_voice_id;
-                // The simple voice's audio changes with its tables, not with the neural pack.
-                const auto revision = formant ? std::string("formant-sv/v1")
-                                              : std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
-                // The simple voice is far faster than the neural one; its timing must not hide the model's.
-                auto& engine_seconds = formant ? formant_seconds : model_seconds;
-                auto& engine_audio = formant ? formant_audio : model_audio;
+                const bool cesar = voice == cesar_voice_id;
+                // Cesar's audio changes with its own tables, not with the neural pack.
+                const auto revision = cesar ? std::string("cesar/v1")
+                                            : std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
+                // Cesar is far faster than the neural voices; its timing must not hide the model's.
+                auto& engine_seconds = cesar ? cesar_seconds : model_seconds;
+                auto& engine_audio = cesar ? cesar_audio : model_audio;
                 std::vector<Part> parts;
                 for (const auto& utterance : batch) {
                     auto chunks = speech_chunks(utterance.speech_text);
@@ -356,10 +356,10 @@ class PortableSpeech final : public SpeechEngine {
                         samples = store.load(revision, language, text);
                     });
                     if (!samples) {
-                        if (formant) {
+                        if (cesar) {
                             // Only the pack's pronunciations are needed, not its neural voices.
-                            if (!formant_text)
-                                formant_text = std::make_unique<KokoroText>(pack_);
+                            if (!cesar_text)
+                                cesar_text = std::make_unique<KokoroText>(pack_);
                         } else if (!kokoro) {
                             report(generation, "Förbereder röstmodellen, " + name, SpeechState::Loading);
                             kokoro = std::make_unique<Kokoro>(pack_);
@@ -368,8 +368,8 @@ class PortableSpeech final : public SpeechEngine {
                                            : i       ? "Läser med " + name + ", förbereder del " + progress
                                                      : "Förbereder läsningen, " + progress);
                         const auto begin = std::chrono::steady_clock::now();
-                        samples = formant ? formant_speech(formant_text->ipa(text))
-                                          : kokoro->generate(text, voice, cancelled);
+                        samples = cesar ? cesar_speech(cesar_text->ipa(text))
+                                        : kokoro->generate(text, voice, cancelled);
                         if (cancelled())
                             break;
                         engine_seconds +=

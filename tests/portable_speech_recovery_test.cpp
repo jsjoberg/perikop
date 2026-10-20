@@ -1,4 +1,4 @@
-#include "speech/formant_voice.hpp"
+#include "speech/cesar_voice.hpp"
 #include "speech/kokoro_audio.hpp"
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
@@ -147,7 +147,7 @@ int main(int argc, char** argv) {
             }
         }
         {
-            // The simple voice needs only the pack's pronunciations, never the neural acoustic model.
+            // Cesar needs only the pack's pronunciations, never the neural acoustic model.
             const auto data = root / "simple", simple_voices = data / "voices";
             std::filesystem::create_directories(simple_voices / kokoro_pack_id);
             for (const char* file :
@@ -157,7 +157,7 @@ int main(int argc, char** argv) {
             std::ofstream(simple_voices / kokoro_pack_id / "kokoro.onnx") << "";
             const std::string text = "Herren är min herde, mig skall intet fattas.";
             auto engine = create_portable_speech(simple_voices, data, {});
-            engine->set_voice(formant_voice_id);
+            engine->set_voice(cesar_voice_id);
             engine->speak({"", text, "sv"});
             bool heard = false, done = false;
             const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
@@ -171,8 +171,7 @@ int main(int argc, char** argv) {
                             heard = heard || std::abs(samples[i]) > 1e-5f;
                     }
                 }
-                check(engine->playback().state != SpeechState::Error,
-                      "The simple voice never loads the neural model");
+                check(engine->playback().state != SpeechState::Error, "Cesar never loads the neural model");
                 if (engine->playback().state == SpeechState::Completed) {
                     done = true;
                     break;
@@ -184,9 +183,9 @@ int main(int argc, char** argv) {
                 std::lock_guard guard(audio_mutex);
                 stream.reset();
             }
-            check(done && heard, "The simple voice reads aloud with only the pack's pronunciations");
-            check(SpeechCache(data / "speech-cache.db").contains("formant-sv/v1", "sv", text),
-                  "The simple voice caches its audio under its own revision");
+            check(done && heard, "Cesar reads aloud with only the pack's pronunciations");
+            check(SpeechCache(data / "speech-cache.db").contains("cesar/v1", "sv", text),
+                  "Cesar caches its audio under its own revision");
         }
         for (const auto* failure : {"corrupt", "future", "read", "write", "lock", "directory"}) {
             const auto data = root / failure, path = data / "speech-cache.db";
