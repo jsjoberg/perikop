@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-21",
+  "synthesis_commit": "1b4aac4",
+  "input_ipa": "psalm.ipa.txt",
+  "options": {
+    "compact_melody": true,
+    "source": "Klatt",
+    "smooth_controls": false
+  },
+  "samples": 347160,
+  "sample_rate": 24000,
+  "seconds": 14.465,
+  "listening_lufs": -21.0,
+  "clear_render": {
+    "file": "psalm.compact-clear.wav",
+    "description": "A original source with C compact melody; exactly B in the milestone comparison",
+    "raw_sha256": "034c009a55810c7802fd6a050e1740863de17c06dcdca7e2111a8d8910a36f78",
+    "normalization_gain": 1.2302687708123816
+  },
+  "peak_control": {
+    "input": "psalm.compact-clear.wav",
+    "file": "psalm.compact-peak-controlled.wav",
+    "ffmpeg_filter": "alimiter=limit=0.22:attack=5:release=50:level=false:latency=true",
+    "normalization_gain_after_filter": 1.4791083881682072,
+    "ffmpeg_version": "ffmpeg version 8.1.1 Copyright (c) 2000-2026 the FFmpeg developers",
+    "before_peak": 0.466827392578125,
+    "after_peak": 0.325408935546875,
+    "peak_reduction_db": 3.1345371495985708,
+    "input_or_output_full_scale_clipping": false
+  },
+  "native_feedback": [
+    "A is clearer; its rhythm is worse than C",
+    "Original source combined with compact melody: good",
+    "Peak-controlled combined version: maybe best so far, but hard to tell any difference"
+  ],
+  "status": "Listening checkpoint; tentative preference, no claim of substantial benefit from limiting; not the default app voice",
+  "sha256": {
+    "psalm.compact-clear.wav": "1090493ead551d0f8654809384b38d426bde124f165b570043e2a5c33956e479",
+    "psalm.compact-peak-controlled.wav": "7da845a6eca6b6500c8c686f743dd5c60a59e69c8119a0b736b932379b689a0b"
+  }
+}
