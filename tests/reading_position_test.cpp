@@ -57,16 +57,16 @@ int main(int argc, char** argv) {
             return std::vector<Pronunciation>{};
         });
         const auto full_verse = queue[3];
-        resume_speech(queue, *position);
-        check(queue.size() == 7 && queue.front().cue->verse == VerseRef{1, 4} &&
+        check(resume_speech(queue, *position) == 0.3 && queue.size() == 7 &&
+                  queue.front().cue->verse == VerseRef{1, 4} &&
                   queue.front().speech_text == full_verse.speech_text && queue.front().cue->section == 0,
               "Resume starts at the whole current verse and keeps its original cue");
         std::vector<SpeechUtterance> merged{{"earlier verse", "earlier verse", "sv",
                                              SpeechCue{0, 0, "John", position->source, {1, 1}, {1, 1}}},
                                             {"whole merged verse", "whole merged verse", "sv",
                                              SpeechCue{0, 1, "John", position->source, {2, 1}, {2, 2}}}};
-        resume_speech(merged, ReadingPosition{1, "John", position->source, {2, 2}});
-        check(merged.size() == 1 && merged.front().cue->verse == VerseRef{2, 1},
+        check(resume_speech(merged, ReadingPosition{1, "John", position->source, {2, 2}}) == 0.5 &&
+                  merged.size() == 1 && merged.front().cue->verse == VerseRef{2, 1},
               "Merged verses resume from their complete spoken verse");
         const std::filesystem::path path(argv[2]);
         std::filesystem::remove(path);
