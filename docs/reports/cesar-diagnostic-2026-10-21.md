@@ -56,3 +56,7 @@ Björn coped with all of these, but they affect Cesar's melody and stress rules:
 ## Limits
 
 One listener, one session, 22 items. Categories were mostly given as notes rather than ticks, so the patterns above come from comparing what was typed with the text. No code change was made in response yet.
+
+## Round 2 (stopped)
+
+The opt-in tapped r and 65 ms aspiration (`CesarOptions::tapped_r`, `long_aspiration`) were tested on fresh texts. The listener rated the new Cesar **worse** than production on both rated sentences. They stopped after three items: "Rika kor dricker torra päron" was heard as "inak ceket själlon". Further Cesar consonant tuning has been stopped. Both options stay off; production Cesar is unchanged.
