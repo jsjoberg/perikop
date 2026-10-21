@@ -134,7 +134,8 @@ int main(int argc, char** argv) {
             if (!timing || !pitch)
                 throw std::runtime_error("Cannot write probe traces.");
         }
-        std::cout << "samples=" << audio.size() << ", seconds=" << audio.size() / 24000.0 << '\n';
+        std::cout << "samples=" << audio.size() << ", seconds=" << audio.size() / 24000.0
+                  << "\nipa=" << pronunciation << '\n';
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';
         return 1;

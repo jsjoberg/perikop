@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cesar listening test</title>
+<style>
+:root { --bg: #fafaf8; --card: #fff; --ink: #1c1c1a; --muted: #6b6b66; --line: #ddddd6; --accent: #2f5d8a; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #161615; --card: #20201e; --ink: #ecece6; --muted: #a3a39b; --line: #3a3a36; --accent: #8db8e3; }
+}
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.5rem; margin: 0 0 8px; }
+p, li { color: var(--muted); }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; color: var(--muted); }
+dt { color: var(--ink); font-weight: 600; }
+section.item { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin: 16px 0; }
+section.item h2 { font-size: 1rem; margin: 0 0 8px; }
+audio { width: 100%; margin: 4px 0; }
+input[type=text], textarea { width: 100%; box-sizing: border-box; font: inherit; padding: 6px 8px;
+  background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; }
+button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent);
+  background: var(--accent); color: var(--bg); cursor: pointer; }
+.reveal[hidden] { display: none; }
+.text { font-size: 1.15rem; color: var(--ink); margin: 12px 0 0; }
+.meta { font-size: .9rem; }
+fieldset { border: 0; padding: 0; margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+label { white-space: nowrap; }
+.done h2::after { content: " ✓"; color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+<h1>Cesar listening test</h1>
+<p>Play Cesar, then type what you heard <em>before</em> you show the text. The first four sentences are deliberately nonsense, so context can't help.
+After you show the text, mark every kind of problem you hear. The Björn reference uses the same pronunciation instructions: if Björn also says it wrong, the problem is in our pronunciation data, not in Cesar's sound.</p>
+<dl>
+<dt>Sound</dt><dd>a sound is wrong or unrecognizable (which one? use the note)</dd>
+<dt>Length</dt><dd>long/short is wrong (tak sounds like tack)</dd>
+<dt>Stress</dt><dd>wrong syllable is emphasized</dd>
+<dt>Accent</dt><dd>word melody wrong (anden the duck vs anden the spirit)</dd>
+<dt>Transition</dt><dd>sounds smear or mumble into each other</dd>
+<dt>Click</dt><dd>clicks, buzz, crackle or other noise</dd>
+<dt>Rhythm</dt><dd>sentence timing or melody feels wrong</dd>
+</dl>
+<div id="items"></div>
+<h2>Results</h2>
+<p>Saved in this browser as you go. When finished, tell Claude you're done; or copy this text into the chat.</p>
+<textarea id="results" rows="6" readonly></textarea>
+<p><button id="copy" type="button">Copy results</button></p>
+</main>
+<script>
+const ITEMS = /*ITEMS*/[];
+const CATEGORIES = ['ok', 'sound', 'length', 'stress', 'accent', 'transition', 'click', 'rhythm', 'other'];
+const KEY = 'cesar-diagnostic-v1';
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+const save = () => {
+  window.results = state;
+  document.getElementById('results').value = JSON.stringify(state);
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+};
+const container = document.getElementById('items');
+ITEMS.forEach((item, index) => {
+  const answer = state[item.id] ||= { heard: '', revealed: false, problems: [], bjorn_wrong: false, note: '' };
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.innerHTML = `
+    <h2>${index + 1}. <span class="focus"></span></h2>
+    <audio controls preload="none" src="${item.cesar}" aria-label="Cesar"></audio>
+    <label for="heard-${item.id}">What did you hear?</label>
+    <input type="text" id="heard-${item.id}">
+    <p><button type="button" class="show">Show text</button></p>
+    <div class="reveal" hidden>
+      <p class="text"></p>
+      <p class="meta">Testing: <span class="topic"></span> · instructions: <code class="ipa"></code></p>
+      <div class="meta">Björn reference</div>
+      <audio controls preload="none" src="${item.bjorn}" aria-label="Björn"></audio>
+      <fieldset aria-label="Problems in Cesar">${CATEGORIES.map(c =>
+        `<label><input type="checkbox" value="${c}"> ${c}</label>`).join('')}</fieldset>
+      <label><input type="checkbox" class="bjorn"> Björn also says it wrong</label>
+      <textarea rows="2" class="note" placeholder="Note: which sound, what it sounded like"></textarea>
+    </div>`;
+  const reveal = section.querySelector('.reveal');
+  const show = () => {
+    reveal.hidden = false;
+    section.querySelector('.show').hidden = true;
+    section.querySelector('.focus').textContent = item.focus;
+  };
+  section.querySelector('.text').textContent = item.text;
+  section.querySelector('.topic').textContent = item.focus;
+  section.querySelector('.ipa').textContent = item.ipa;
+  const heard = section.querySelector('input[type=text]');
+  heard.value = answer.heard;
+  heard.oninput = () => { answer.heard = heard.value; save(); };
+  section.querySelector('.show').onclick = () => { answer.revealed = true; show(); save(); };
+  if (answer.revealed) show();
+  section.querySelectorAll('fieldset input').forEach(box => {
+    box.checked = answer.problems.includes(box.value);
+    box.onchange = () => {
+      answer.problems = [...section.querySelectorAll('fieldset input:checked')].map(b => b.value);
+      section.classList.toggle('done', answer.problems.length > 0);
+      save();
+    };
+  });
+  section.classList.toggle('done', answer.problems.length > 0);
+  const bjorn = section.querySelector('.bjorn');
+  bjorn.checked = answer.bjorn_wrong;
+  bjorn.onchange = () => { answer.bjorn_wrong = bjorn.checked; save(); };
+  const note = section.querySelector('.note');
+  note.value = answer.note;
+  note.oninput = () => { answer.note = note.value; save(); };
+  container.append(section);
+});
+document.getElementById('copy').onclick = () => {
+  const box = document.getElementById('results');
+  box.select();
+  navigator.clipboard?.writeText(box.value).catch(() => document.execCommand('copy'));
+};
+save();
+</script>
+</body>
+</html>
