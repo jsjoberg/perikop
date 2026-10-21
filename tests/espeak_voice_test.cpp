@@ -3,10 +3,19 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 namespace {
 void check(bool value, const char* message) {
     if (!value)
         throw std::runtime_error(message);
+}
+// Sign changes per sample. Repeated renders differ sample by sample (eSpeak varies its voice source
+// at random) but keep this within about 0.1 %; another voice, such as sv+f2, differs by about 20 %.
+double crossings(const std::vector<float>& audio) {
+    size_t count = 0;
+    for (size_t i = 1; i < audio.size(); ++i)
+        count += (audio[i - 1] < 0) != (audio[i] < 0);
+    return double(count) / double(std::max<size_t>(1, audio.size()));
 }
 } // namespace
 int main() {
@@ -68,8 +77,12 @@ int main() {
         check(!voices.empty(), "installed Swedish voices are discovered before synthesis starts");
         const auto during = ortho::Espeak::voices();
         check(during.size() == voices.size(), "discovery also works while a speech engine is open");
-        const auto after = espeak->speak(ipa, {}).size();
-        check(std::max(after, male.size()) - std::min(after, male.size()) < 240,
+        const auto after = espeak->speak(ipa, {});
+        check(std::max(after.size(), male.size()) - std::min(after.size(), male.size()) < 240,
+              "discovery keeps the playback timing");
+        const auto reference = crossings(male);
+        check(std::abs(crossings(after) - reference) < 0.02 * reference &&
+                  std::abs(crossings(espeak->speak(ipa, {.voice = "sv+f2"})) - reference) > 0.1 * reference,
               "discovery does not replace the playback voice");
         std::vector<std::string> ids;
         for (const auto& voice : voices) {
