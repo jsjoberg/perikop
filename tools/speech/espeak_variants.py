@@ -18,18 +18,17 @@ from espeak_swedish import to_espeak
 
 TEXTS = ['Herren är min herde, mig skall intet fattas.',
          'Saliga äro de som hungra och törsta efter rättfärdighet, ty de skola varda mättade.']
-# (label, voice, extra arguments, unstress function words[, low-pass Hz]). Round 1 picked klatt6,
-# 150 words/min and f2; round 2 found 140 too slow; round 3 picked consonants 110 with a hint of
-# melody, but the listener heard Cesar-like clicks in klatt6 (eSpeak's SpeechPlayer source).
+# (label, voice, extra arguments, unstress function words[, low-pass Hz]). Round 4 picked the
+# default synthesizer; the listener then chose stock voices and documented API settings only.
+# -s and -P are the command-line forms of espeakRATE and espeakRANGE.
 SETTINGS = [
-    ('Round 3 row 3: klatt6, consonants 110, hint of melody', 'sv+perikop-k6', ['-s', '150'], True),
-    ('Same settings on eSpeak\'s default synthesizer', 'sv+perikop-default', ['-s', '150'], True),
-    ('Same settings on klatt 3 (recorded natural glottal pulse)', 'sv+perikop-k3', ['-s', '150'], True),
-    ('Row 1 with a gentle low-pass filter (5 kHz)', 'sv+perikop-k6', ['-s', '150'], True, 5000),
-    ('Female, round 3 row 6: f2 on klatt6', 'sv+perikop-f2-k6', ['-s', '150'], True),
-    ('Female on eSpeak\'s default synthesizer', 'sv+perikop-f2-default', ['-s', '150'], True),
-    ('Female on klatt 3', 'sv+perikop-f2-k3', ['-s', '150'], True),
-    ('Female row 5 with the low-pass filter', 'sv+perikop-f2-k6', ['-s', '150'], True, 5000),
+    ('Round 4 row 2 (custom voice file: consonants 110, pitch 80-125)', 'sv+perikop-default', ['-s', '150'], True),
+    ('Stock sv, rate 150', 'sv', ['-s', '150'], True),
+    ('Stock sv, rate 150, pitch range 60', 'sv', ['-s', '150', '-P', '60'], True),
+    ('Stock sv, rate 150, pitch range 70', 'sv', ['-s', '150', '-P', '70'], True),
+    ('Round 4 row 6 (custom female voice file)', 'sv+perikop-f2-default', ['-s', '150'], True),
+    ('Stock sv+f2, rate 150', 'sv+f2', ['-s', '150'], True),
+    ('Stock sv+f2, rate 150, pitch range 60', 'sv+f2', ['-s', '150', '-P', '60'], True),
 ]
 # Our own voice files (klatt ignores breath, tone, roughness and flutter). eSpeak only finds
 # variants inside its data folder, so a folder of links to the installed data is built with these.
@@ -87,7 +86,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--pack', type=Path, default=root / 'build/kokoro-pack')
     parser.add_argument('--probe', type=Path, default=root / 'build/cmake/bin/ortho-cesar-audio-probe')
-    parser.add_argument('--output', type=Path, default=root / 'build/espeak-variants/round4')
+    parser.add_argument('--output', type=Path, default=root / 'build/espeak-variants/round5')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     rows = []
