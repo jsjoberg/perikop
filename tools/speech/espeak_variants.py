@@ -6,6 +6,7 @@ Writes loudness-matched WAVs and a page listing them, for choosing settings by e
 import argparse
 from array import array
 import html
+import math
 from pathlib import Path
 import subprocess
 import sys
@@ -17,15 +18,18 @@ from espeak_swedish import to_espeak
 
 TEXTS = ['Herren är min herde, mig skall intet fattas.',
          'Saliga äro de som hungra och törsta efter rättfärdighet, ty de skola varda mättade.']
-# (label, voice, extra arguments, unstress function words). Round 1 picked klatt6, 150 words/min
-# and f2; round 2 picked klatt6 at 150, plain or with consonants 120, and found 140 too slow.
+# (label, voice, extra arguments, unstress function words[, low-pass Hz]). Round 1 picked klatt6,
+# 150 words/min and f2; round 2 found 140 too slow; round 3 picked consonants 110 with a hint of
+# melody, but the listener heard Cesar-like clicks in klatt6 (eSpeak's SpeechPlayer source).
 SETTINGS = [
-    ('Round 2 row 1: klatt6', 'sv+klatt6', ['-s', '150'], True),
-    ('Round 2 row 5: klatt6, consonants 120', 'sv+perikop-c120', ['-s', '150'], True),
-    ('Between: consonants 110, hint of melody (pitch 80-125)', 'sv+perikop-c110-hint', ['-s', '150'], True),
-    ('Between: consonants 110, a bit more melody (pitch 78-132)', 'sv+perikop-c110-more', ['-s', '150'], True),
-    ('Female: f2 on klatt6 (consonants 125)', 'sv+perikop-f2', ['-s', '150'], True),
-    ('Female: f2 on klatt6, consonants 110, hint of melody', 'sv+perikop-f2-hint', ['-s', '150'], True),
+    ('Round 3 row 3: klatt6, consonants 110, hint of melody', 'sv+perikop-k6', ['-s', '150'], True),
+    ('Same settings on eSpeak\'s default synthesizer', 'sv+perikop-default', ['-s', '150'], True),
+    ('Same settings on klatt 3 (recorded natural glottal pulse)', 'sv+perikop-k3', ['-s', '150'], True),
+    ('Row 1 with a gentle low-pass filter (5 kHz)', 'sv+perikop-k6', ['-s', '150'], True, 5000),
+    ('Female, round 3 row 6: f2 on klatt6', 'sv+perikop-f2-k6', ['-s', '150'], True),
+    ('Female on eSpeak\'s default synthesizer', 'sv+perikop-f2-default', ['-s', '150'], True),
+    ('Female on klatt 3', 'sv+perikop-f2-k3', ['-s', '150'], True),
+    ('Female row 5 with the low-pass filter', 'sv+perikop-f2-k6', ['-s', '150'], True, 5000),
 ]
 # Our own voice files (klatt ignores breath, tone, roughness and flutter). eSpeak only finds
 # variants inside its data folder, so a folder of links to the installed data is built with these.
@@ -33,14 +37,26 @@ SETTINGS = [
 F2 = ('formant 0 105 80 150\nformant 1 110 80 160\nformant 2 110 70 150\nformant 3 110 70 150\n'
       'formant 4 115 80 150\nformant 5 115 80 150\nformant 6 110 70 150\nformant 7 110 70 150\n'
       'formant 8 110 70 150\nstressAdd 0 0 -10 -10 0 0 10 40\necho 140 10\n')
-CUSTOM = {
-    'perikop-c120': 'klatt 6\nconsonants 120 120\n',
-    'perikop-c110-hint': 'klatt 6\nconsonants 110 110\npitch 80 125\n',
-    'perikop-c110-more': 'klatt 6\nconsonants 110 110\npitch 78 132\n',
-    'perikop-f2': 'klatt 6\ngender female\npitch 142 220\nconsonants 125 125\n' + F2,
-    'perikop-f2-hint': 'klatt 6\ngender female\npitch 140 230\nconsonants 110 110\n' + F2,
-}
+MALE = 'consonants 110 110\npitch 80 125\n'
+FEMALE = 'gender female\npitch 140 230\nconsonants 110 110\n' + F2
+CUSTOM = {f'perikop-{who}{synth}': settings + klatt
+          for who, settings in [('', MALE), ('f2-', FEMALE)]
+          for synth, klatt in [('k6', 'klatt 6\n'), ('default', ''), ('k3', 'klatt 3\n')]}
 TARGET_RMS = 0.08
+
+
+def lowpass(values, rate, cutoff):
+    """Second-order Butterworth low-pass (RBJ biquad)."""
+    w = 2 * math.pi * cutoff / rate
+    alpha = math.sin(w) / math.sqrt(2)
+    b0 = b2 = (1 - math.cos(w)) / 2
+    b1, a0, a1, a2 = 1 - math.cos(w), 1 + alpha, -2 * math.cos(w), 1 - alpha
+    out, x1, x2, y1, y2 = [], 0, 0, 0, 0
+    for x in values:
+        y = (b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2) / a0
+        out.append(y)
+        x1, x2, y1, y2 = x, x1, y, y1
+    return out
 
 
 def linked_data(folder):
@@ -57,7 +73,7 @@ def linked_data(folder):
         for item in source.iterdir():
             if not (target / item.name).exists():
                 (target / item.name).symlink_to(item)
-    for _, voice, _, _ in SETTINGS:
+    for _, voice, *_ in SETTINGS:
         shipped = installed / 'voices/!v' / voice.partition('+')[2]
         if shipped.is_file() and not (variants / shipped.name).exists():
             (variants / shipped.name).symlink_to(shipped)
@@ -71,7 +87,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--pack', type=Path, default=root / 'build/kokoro-pack')
     parser.add_argument('--probe', type=Path, default=root / 'build/cmake/bin/ortho-cesar-audio-probe')
-    parser.add_argument('--output', type=Path, default=root / 'build/espeak-variants/round3')
+    parser.add_argument('--output', type=Path, default=root / 'build/espeak-variants/round4')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     rows = []
@@ -84,7 +100,7 @@ def main():
             out = subprocess.run([str(args.probe), str(args.pack), str(scratch / 'text.txt'), str(scratch / 'x.wav')],
                                  check=True, capture_output=True, text=True).stdout
             ipas.append(next(line[4:] for line in out.splitlines() if line.startswith('ipa=')))
-        for index, (label, voice, extra, unstress) in enumerate(SETTINGS):
+        for index, (label, voice, extra, unstress, *cutoff) in enumerate(SETTINGS):
             frames, rate = array('h'), None
             for ipa in ipas:
                 subprocess.run(['espeak-ng', f'--path={data}', '-v', voice, *extra, '-w', str(scratch / 'part.wav'),
@@ -95,6 +111,8 @@ def main():
             if sys.byteorder != 'little':
                 frames.byteswap()
             values = [x / 32768 for x in frames]
+            if cutoff:
+                values = lowpass(values, rate, cutoff[0])
             gain = min(TARGET_RMS / rms(values), 0.98 / max(abs(x) for x in values))
             pcm = array('h', (round(x * gain * 32767) for x in values))
             if sys.byteorder != 'little':
