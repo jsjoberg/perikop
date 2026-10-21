@@ -18,6 +18,10 @@ struct CesarOptions {
     bool compact_melody = false;
     std::span<const SwedishWordProsody> words;
     VoiceSourceOptions source;
+    // Swedish consonant candidates under listening review: aspirated p t k before a stressed vowel,
+    // and r as a real tap (trilled when long).
+    bool long_aspiration = false;
+    bool tapped_r = false;
 };
 struct CesarSound {
     const char* name;

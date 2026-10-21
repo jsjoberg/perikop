@@ -178,6 +178,30 @@ int main(int argc, char** argv) {
         const auto weak = ortho::swedish_melody(syllables, words, phrases, 0.75f);
         check(ortho::pitch_at(accent2, 0.43f) > ortho::pitch_at(weak, 0.43f),
               "prominence is independent of lexical accent and can be suppressed");
+        // Consonant candidates: aspirated p t k before a stressed vowel but not after s; r as a
+        // tap, trilled when long between vowels. Production stays unchanged without the options.
+        const auto sounds = [](const char* ipa, const ortho::CesarOptions& options) {
+            ortho::CesarTrace trace;
+            ortho::cesar_speech(ipa, options, &trace);
+            return trace.sounds;
+        };
+        const auto frames = [&](const char* ipa, const ortho::CesarOptions& options, const char* name) {
+            for (const auto& sound : sounds(ipa, options))
+                if (std::string(sound.name) == name)
+                    return sound.frames;
+            throw std::runtime_error("sound not found");
+        };
+        const ortho::CesarOptions aspirated{.long_aspiration = true}, tapped{.tapped_r = true};
+        check(frames("tˈak", aspirated, "TZ") > 2 * frames("tˈak", {}, "TZ"), "stressed t is aspirated");
+        check(frames("stˈuːl", aspirated, "TZ") == frames("stˈuːl", {}, "TZ"), "s blocks aspiration");
+        const auto closures = [&](const char* ipa, const ortho::CesarOptions& options) {
+            return std::ranges::count_if(sounds(ipa, options), [](const ortho::CesarSound& sound) {
+                return std::string(sound.name) == "closure";
+            });
+        };
+        check(closures("hˈɛrən", tapped) == 2 && closures("ɡrˈøːna", tapped) == 1 &&
+                  closures("hˈɛrən", {}) == 0,
+              "r taps once, trills when long, and is unchanged by default");
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';
         return 1;

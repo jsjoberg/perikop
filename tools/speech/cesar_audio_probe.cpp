@@ -45,10 +45,11 @@ void wav(const std::filesystem::path& file, const std::vector<float>& samples) {
 int main(int argc, char** argv) {
     try {
         if (argc < 4)
-            throw std::runtime_error("Usage: cesar-audio-probe PACK INPUT OUTPUT.wav [--ipa] "
-                                     "[--pitch CONTOUR|--compact] [--source klatt|lf] "
-                                     "[--lf-shape TP TE TA] [--smooth-controls] [--smooth-closure] "
-                                     "[--trace PREFIX] [--raw OUTPUT.f32]");
+            throw std::runtime_error(
+                "Usage: cesar-audio-probe PACK INPUT OUTPUT.wav [--ipa] "
+                "[--pitch CONTOUR|--compact] [--source klatt|lf] [--aspiration] [--tapped-r] "
+                "[--lf-shape TP TE TA] [--smooth-controls] [--smooth-closure] "
+                "[--trace PREFIX] [--raw OUTPUT.f32]");
         ortho::CesarOptions options;
         std::vector<ortho::PitchPoint> reference;
         bool ipa = false;
@@ -59,6 +60,10 @@ int main(int argc, char** argv) {
                 ipa = true;
             } else if (option == "--compact") {
                 options.compact_melody = true;
+            } else if (option == "--aspiration") {
+                options.long_aspiration = true;
+            } else if (option == "--tapped-r") {
+                options.tapped_r = true;
             } else if (option == "--smooth-controls") {
                 options.source.smooth_controls = true;
             } else if (option == "--smooth-closure") {

@@ -51,9 +51,11 @@ After you show the text, mark every kind of problem you hear. The Björn referen
 <p><button id="copy" type="button">Copy results</button></p>
 </main>
 <script>
+const ROUND = /*ROUND*/1;
 const ITEMS = /*ITEMS*/[];
 const CATEGORIES = ['ok', 'sound', 'length', 'stress', 'accent', 'transition', 'click', 'rhythm', 'other'];
-const KEY = 'cesar-diagnostic-v1';
+const KEY = 'cesar-diagnostic-round' + ROUND;
+document.querySelector('h1').textContent += ROUND > 1 ? ` (round ${ROUND})` : '';
 let state = {};
 try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
 const save = () => {
@@ -77,6 +79,11 @@ ITEMS.forEach((item, index) => {
       <p class="meta">Testing: <span class="topic"></span> · instructions: <code class="ipa"></code></p>
       <div class="meta">Björn reference</div>
       <audio controls preload="none" src="${item.bjorn}" aria-label="Björn"></audio>
+      ${item.baseline ? `<div class="meta">Old Cesar, for comparison</div>
+      <audio controls preload="none" src="${item.baseline}" aria-label="Old Cesar"></audio>
+      <fieldset class="compare" aria-label="New Cesar compared with old">New Cesar is:
+        ${['better', 'same', 'worse'].map(c =>
+          `<label><input type="radio" name="compare-${item.id}" value="${c}"> ${c}</label>`).join('')}</fieldset>` : ''}
       <fieldset aria-label="Problems in Cesar">${CATEGORIES.map(c =>
         `<label><input type="checkbox" value="${c}"> ${c}</label>`).join('')}</fieldset>
       <label><input type="checkbox" class="bjorn"> Björn also says it wrong</label>
@@ -96,10 +103,14 @@ ITEMS.forEach((item, index) => {
   heard.oninput = () => { answer.heard = heard.value; save(); };
   section.querySelector('.show').onclick = () => { answer.revealed = true; show(); save(); };
   if (answer.revealed) show();
-  section.querySelectorAll('fieldset input').forEach(box => {
+  section.querySelectorAll('.compare input').forEach(radio => {
+    radio.checked = answer.compare === radio.value;
+    radio.onchange = () => { answer.compare = radio.value; save(); };
+  });
+  section.querySelectorAll('fieldset:not(.compare) input').forEach(box => {
     box.checked = answer.problems.includes(box.value);
     box.onchange = () => {
-      answer.problems = [...section.querySelectorAll('fieldset input:checked')].map(b => b.value);
+      answer.problems = [...section.querySelectorAll('fieldset:not(.compare) input:checked')].map(b => b.value);
       section.classList.toggle('done', answer.problems.length > 0);
       save();
     };

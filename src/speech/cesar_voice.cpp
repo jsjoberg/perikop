@@ -1149,6 +1149,13 @@ public:
             target.internal = std::min(target.internal, 1);
         }
         elements_.insert_or_assign("tap", tap);
+        // The tongue's brief contact in a real tap: only a low voice bar sounds through.
+        auto closure = tap;
+        closure.targets[klatt_a1].steady -= 18;
+        for (int a = klatt_a2; a <= klatt_a4; ++a)
+            set(closure, a, -30, 0);
+        closure.name = "closure";
+        elements_.insert_or_assign("closure", closure);
         // A Swedish l is clear (high F2), not the dark English l of rsynth.
         set(elements_.at("L"), klatt_f2, 1800, 900);
         // The branch gains are retuned for vowels; consonants keep the spectra they had at rsynth's.
@@ -1243,7 +1250,11 @@ struct Accent {
     float center, height;
 };
 // Phones to sounds with Björn's timing; pauses keep their place.
-std::vector<Unit> units(const std::string& ipa) {
+// Swedish p t k before a stressed vowel: 56 ms of voice onset time in fast and 75 ms in slow speech
+// (Beckman, Helgason, McMurray & Ringen 2011). A tap's closure is about 25 ms (cross-language
+// figure; no Swedish measurement found yet).
+constexpr float aspirated_vot_ms = 65, tap_ms = 25;
+std::vector<Unit> units(const std::string& ipa, const CesarOptions& options) {
     const auto& sounds = inventory();
     std::vector<Unit> result;
     int stress = 0;
@@ -1278,6 +1289,17 @@ std::vector<Unit> units(const std::string& ipa) {
                               true, 0, stress == 3 && !last_syllable(at)});
             after_short_stressed = stress && v->length == short_vowel;
             stress = 0;
+        } else if (options.tapped_r && symbol == "r") {
+            // A long r between vowels is trilled: two taps around a brief opening.
+            const bool trill = after_short_stressed && at + 1 < symbols.size() && vowel(symbols[at + 1]);
+            result.push_back({&sounds.at("closure"), tap_ms / 10});
+            if (trill) {
+                result.push_back({&sounds.at("tap"), tap_ms / 10});
+                result.push_back({&sounds.at("closure"), tap_ms / 10});
+            }
+            // A brief release, so word-end lengthening never stretches the closure into a d.
+            result.push_back({&sounds.at("tap"), 1});
+            after_short_stressed = false;
         } else if (const auto* c = consonant(symbol)) {
             // The parts (closure, burst, aspiration…) share the consonant's time as rsynth proportions them.
             float own = 0;
@@ -1291,6 +1313,14 @@ std::vector<Unit> units(const std::string& ipa) {
                     const float share = (element.stressed_frames + element.unstressed_frames) / 2.0f;
                     result.push_back({&element, own > 0 ? total * share / own : 0});
                 }
+            // The last part of p t k is the aspiration after the burst; s before them suppresses it.
+            const bool stressed_next =
+                at + 2 < symbols.size() && symbols[at + 1] == "ˈ" && vowel(symbols[at + 2]);
+            if (options.long_aspiration && (symbol == "p" || symbol == "t" || symbol == "k") &&
+                stressed_next && (at == 0 || symbols[at - 1] != "s")) {
+                const float burst = result[result.size() - 2].frames;
+                result.back().frames = std::max(result.back().frames, aspirated_vot_ms / 10 - burst);
+            }
             after_short_stressed = false;
         }
         for (size_t i = first; i < result.size(); ++i) {
@@ -1314,7 +1344,7 @@ std::vector<float> cesar_speech(const std::string& ipa, const CesarOptions& opti
     validate_pitch(options.reference_pitch);
     if (trace)
         *trace = {};
-    auto sounds = units(ipa);
+    auto sounds = units(ipa, options);
     // Text without speakable phones reads as a short pause, as with the neural voices.
     if (std::none_of(sounds.begin(), sounds.end(), [](const Unit& unit) {
             return !unit.pause;
