@@ -21,13 +21,12 @@ namespace ortho {
 namespace {
 using namespace std::chrono_literals;
 std::string voice_name(const std::string& voice) {
-    return voice == "bjorn"            ? "Björn"
-           : voice == espeak_male_id   ? "eSpeak (man)"
-           : voice == espeak_female_id ? "eSpeak (kvinna)"
-                                       : "Alice";
+    if (const auto native = espeak_voice_name(voice); !native.empty())
+        return "eSpeak (" + native + ")";
+    return voice == "bjorn" ? "Björn" : "Alice";
 }
 bool espeak_voice(const std::string& voice) {
-    return voice == espeak_male_id || voice == espeak_female_id;
+    return !espeak_voice_name(voice).empty();
 }
 // 16-bit mono PCM WAV at 24 kHz, for the speech probe.
 void write_wav(const std::filesystem::path& path, const std::vector<float>& samples) {
@@ -249,7 +248,7 @@ class PortableSpeech final : public SpeechEngine {
                     bool cached;
                 };
                 const bool espeaking = espeak_voice(voice);
-                const Espeak::Settings espeak_settings{.voice = voice == espeak_female_id ? "sv+f2" : "sv"};
+                const Espeak::Settings espeak_settings{.voice = espeak_voice_name(voice)};
                 if (espeaking && !espeak)
                     espeak = std::make_unique<Espeak>();
                 // eSpeak's audio changes with the installed eSpeak, not with the neural pack.

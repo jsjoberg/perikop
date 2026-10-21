@@ -58,7 +58,7 @@ public:
     }
     // Playback speed; 1 is the voice's own pace. Applies to audio already generated.
     virtual void set_speed(double) {}
-    // Swedish voice: "alice", "bjorn", "espeak" or "espeak-f2". Applies from the next reading.
+    // Swedish voice identity, including installed eSpeak selectors. Applies from the next reading.
     virtual void set_voice(const std::string&) {}
     // IPA the Swedish voice uses for speech text; empty when it is unavailable.
     virtual std::string pronunciation(const std::string&) {

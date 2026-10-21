@@ -138,8 +138,13 @@ int main(int argc, char** argv) {
                 std::filesystem::copy_file(voices / kokoro_pack_id / file,
                                            phonetic_voices / kokoro_pack_id / file);
             const std::string text = "Herren är min herde, mig skall intet fattas.";
+            const auto catalog = Espeak::voices();
+            const auto variant = std::ranges::find_if(catalog, [](const auto& voice) {
+                return voice.id.starts_with("espeak:");
+            });
+            const auto voice = variant == catalog.end() ? std::string(espeak_male_id) : variant->id;
             auto engine = create_portable_speech(phonetic_voices, data, {});
-            engine->set_voice(espeak_male_id);
+            engine->set_voice(voice);
             engine->speak({"", text, "sv"});
             bool heard = false, done = false;
             const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
@@ -167,7 +172,8 @@ int main(int argc, char** argv) {
             }
             check(done && heard, "eSpeak reads aloud with only the pack's pronunciations");
             check(SpeechCache(data / "speech-cache.db")
-                      .contains("espeak/" + Espeak().version() + "/sv/150/v1", "sv", text),
+                      .contains("espeak/" + Espeak().version() + "/" + espeak_voice_name(voice) + "/150/v1",
+                                "sv", text),
                   "eSpeak caches its audio under its own revision");
         }
         for (const auto* failure : {"corrupt", "future", "read", "write", "lock", "directory"}) {

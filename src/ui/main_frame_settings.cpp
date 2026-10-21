@@ -4,6 +4,7 @@
 #include "ui/main_frame.hpp"
 #include <algorithm>
 #include <wx/checkbox.h>
+#include <wx/choice.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
@@ -258,21 +259,40 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 day_changed();
             });
     // Read-aloud is Swedish only.
-    static constexpr const char* voices[] = {"alice", "bjorn", espeak_male_id, espeak_female_id};
-    choices(
-        "RÖST FÖR UPPLÄSNING", {"Alice", "Björn", "eSpeak, manlig röst", "eSpeak, kvinnlig röst"},
-        int(std::find(std::begin(voices), std::end(voices), settings_.speech_voice) - std::begin(voices)) %
-            int(std::size(voices)), // an unknown value shows Alice
-        [this](int i) {
-            settings_.speech_voice = voices[i];
-            speech_->set_voice(settings_.speech_voice);
-            apply_settings();
-        });
+    std::vector<EspeakVoice> voices{{"alice", "Alice"}, {"bjorn", "Björn"}};
+    std::string voice_error;
+    try {
+        auto installed = Espeak::voices();
+        voices.insert(voices.end(), installed.begin(), installed.end());
+        if (installed.empty())
+            voice_error = "Inga svenska eSpeak-röster hittades.";
+    } catch (const std::exception& error) {
+        voice_error = error.what();
+    }
+    auto chosen = std::ranges::find(voices, settings_.speech_voice, &EspeakVoice::id);
+    if (chosen == voices.end()) {
+        // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
+        voices.push_back({settings_.speech_voice, settings_.speech_voice + " (inte tillgänglig)"});
+        chosen = std::prev(voices.end());
+    }
+    entries->Add(ui::label(content, ui::utf8("RÖST FÖR UPPLÄSNING"), 10), 0, wxTOP | wxBOTTOM,
+                 FromDIP(zoomed(8)));
+    auto* voice_choice = new wxChoice(content, wxID_ANY);
+    voice_choice->SetFont(ui_font());
+    voice_choice->SetName(ui::utf8("Röst för uppläsning"));
+    for (const auto& voice : voices)
+        voice_choice->Append(ui::utf8(voice.name));
+    voice_choice->SetSelection(int(chosen - voices.begin()));
+    voice_choice->Bind(wxEVT_CHOICE, [this, voices](wxCommandEvent& event) {
+        settings_.speech_voice = voices.at(std::size_t(event.GetSelection())).id;
+        speech_->set_voice(settings_.speech_voice);
+        apply_settings();
+    });
+    entries->Add(voice_choice, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
     // eSpeak NG is the user's own installation; Perikop never ships it.
     wxHyperlinkCtrl* espeak_link = nullptr;
-    if (!espeak_installed()) {
-        entries->Add(
-            ui::label(content, ui::utf8("eSpeak-rösterna kräver eSpeak NG, som inte är installerat."), 10));
+    if (!voice_error.empty()) {
+        entries->Add(ui::label(content, ui::utf8(voice_error), 10));
 #if defined(__APPLE__)
         const wxString guide = "https://formulae.brew.sh/formula/espeak-ng";
 #else

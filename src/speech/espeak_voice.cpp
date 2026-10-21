@@ -74,6 +74,13 @@ using Initialize = int (*)(int output, int buffer_ms, const char* path, int opti
 using Callback = int (*)(short* samples, int count, void* events);
 using SetSynthCallback = void (*)(Callback);
 using SetVoiceByName = int (*)(const char* name);
+struct Voice {
+    const char *name, *languages, *identifier;
+    unsigned char gender, age, variant, reserved;
+    int score;
+    void* spare;
+};
+using ListVoices = const Voice** (*)(Voice*);
 using SetParameter = int (*)(int parameter, int value, int relative);
 using Synth = int (*)(const void* text, size_t size, unsigned position, int position_type, unsigned end,
                       unsigned flags, unsigned* identifier, void* user_data);
@@ -211,12 +218,14 @@ bool espeak_installed() {
 }
 
 struct Espeak::Impl {
+    inline static Impl* active = nullptr; // guarded by engine
     Library library = nullptr;
     int rate = 0;
     std::string voice;
     Initialize initialize = nullptr;
     SetSynthCallback set_callback = nullptr;
     SetVoiceByName set_voice = nullptr;
+    ListVoices list_voices = nullptr;
     SetParameter set_parameter = nullptr;
     Synth synth = nullptr;
     Info info = nullptr;
@@ -230,8 +239,67 @@ struct Espeak::Impl {
         if (!function)
             throw std::runtime_error("Den installerade eSpeak NG saknar " + std::string(name) + ".");
     }
-    void close() {
-        close_library(library);
+    void open() {
+        library = open_library();
+        if (!library)
+            throw std::runtime_error("eSpeak NG är inte installerat. Anvisningar finns under Inställningar.");
+        bind(initialize, "espeak_Initialize");
+        bind(set_callback, "espeak_SetSynthCallback");
+        bind(set_voice, "espeak_SetVoiceByName");
+        bind(list_voices, "espeak_ListVoices");
+        bind(set_parameter, "espeak_SetParameter");
+        bind(synth, "espeak_Synth");
+        bind(info, "espeak_Info");
+        bind(terminate, "espeak_Terminate");
+        // Without DONT_EXIT, eSpeak ends the whole process when its data is missing.
+        rate = initialize(audio_output_synchronous, 0, nullptr, initialize_dont_exit);
+        if (rate <= 0)
+            throw std::runtime_error("eSpeak NG kunde inte starta; dess språkdata saknas kanske.");
+    }
+    ~Impl() {
+        if (rate > 0) {
+            set_callback(nullptr);
+            terminate();
+        }
+        if (library)
+            close_library(library);
+    }
+    std::vector<EspeakVoice> catalog() {
+        const auto definitions = [&](const char* language) {
+            std::vector<std::pair<std::string, std::string>> result;
+            Voice specification{};
+            specification.languages = language;
+            if (const auto rows = list_voices(&specification))
+                for (auto row = rows; *row; ++row)
+                    if ((*row)->name && (*row)->identifier)
+                        result.emplace_back((*row)->identifier, (*row)->name);
+            return result;
+        };
+        // ListVoices invalidates the previous result, so copy each list before the next call.
+        const auto languages = definitions("sv"), variants = definitions("variant");
+        std::vector<EspeakVoice> result;
+        // Probing changes global voice state. Force the next synthesis to select its voice again.
+        voice.clear();
+        const auto add = [&](const std::string& native, const std::string& name) {
+            if (set_voice(native.c_str()) != ee_ok)
+                return false;
+            const auto id = native == "sv"      ? std::string(espeak_male_id)
+                            : native == "sv+f2" ? std::string(espeak_female_id)
+                                                : "espeak:" + native;
+            if (std::ranges::find(result, id, &EspeakVoice::id) == result.end())
+                result.push_back({id, "eSpeak – " + name});
+            return true;
+        };
+        for (const auto& [identifier, name] : languages) {
+            const auto native =
+                identifier == "gmq/sv" || identifier == "europe/sv" ? std::string("sv") : identifier;
+            if (!add(native, name))
+                continue; // e.g. an MBROLA definition whose external voice data is absent
+            for (const auto& [variant, variant_name] : variants)
+                if (variant.starts_with("!v/"))
+                    add(native + "+" + variant.substr(3), name + " – " + variant_name);
+        }
+        return result;
     }
 };
 
@@ -239,35 +307,34 @@ Espeak::Espeak() : impl_(std::make_unique<Impl>()) {
     std::lock_guard lock(engine);
     if (engine_open)
         throw std::logic_error("eSpeak NG is already open.");
-    impl_->library = open_library();
-    if (!impl_->library)
-        throw std::runtime_error("eSpeak NG är inte installerat. Anvisningar finns under Inställningar.");
-    try {
-        impl_->bind(impl_->initialize, "espeak_Initialize");
-        impl_->bind(impl_->set_callback, "espeak_SetSynthCallback");
-        impl_->bind(impl_->set_voice, "espeak_SetVoiceByName");
-        impl_->bind(impl_->set_parameter, "espeak_SetParameter");
-        impl_->bind(impl_->synth, "espeak_Synth");
-        impl_->bind(impl_->info, "espeak_Info");
-        impl_->bind(impl_->terminate, "espeak_Terminate");
-        // Without DONT_EXIT, eSpeak ends the whole process when its data is missing.
-        impl_->rate = impl_->initialize(audio_output_synchronous, 0, nullptr, initialize_dont_exit);
-        if (impl_->rate <= 0)
-            throw std::runtime_error("eSpeak NG kunde inte starta; dess språkdata saknas kanske.");
-    } catch (...) {
-        impl_->close();
-        throw;
-    }
+    impl_->open();
     impl_->set_callback(receive);
+    Impl::active = impl_.get();
     engine_open = true;
 }
 
 Espeak::~Espeak() {
     std::lock_guard lock(engine);
-    impl_->set_callback(nullptr);
-    impl_->terminate();
-    impl_->close();
+    Impl::active = nullptr;
+    impl_.reset();
     engine_open = false;
+}
+
+std::string espeak_voice_name(const std::string& id) {
+    if (id == espeak_male_id)
+        return "sv";
+    if (id == espeak_female_id)
+        return "sv+f2";
+    return id.starts_with("espeak:") ? id.substr(7) : "";
+}
+
+std::vector<EspeakVoice> Espeak::voices() {
+    std::lock_guard lock(engine);
+    if (Impl::active)
+        return Impl::active->catalog();
+    Impl probe;
+    probe.open();
+    return probe.catalog();
 }
 
 std::string Espeak::version() const {

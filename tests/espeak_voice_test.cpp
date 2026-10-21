@@ -30,10 +30,17 @@ int main() {
         for (const auto& phone : unknown)
             std::cerr << "eSpeak has no code for " << phone << '\n';
         check(unknown.empty(), "every lexicon phone has an eSpeak code");
+        check(ortho::espeak_voice_name("espeak") == "sv" &&
+                  ortho::espeak_voice_name("espeak-f2") == "sv+f2" &&
+                  ortho::espeak_voice_name("espeak:sv+adam") == "sv+adam" &&
+                  ortho::espeak_voice_name("alice").empty(),
+              "installed voice selectors and legacy identities");
 
         // The library is the user's own installation; without it only the conversion is tested.
         std::unique_ptr<ortho::Espeak> espeak;
+        std::vector<ortho::EspeakVoice> voices;
         try {
+            voices = ortho::Espeak::voices();
             espeak = std::make_unique<ortho::Espeak>();
         } catch (const std::runtime_error& error) {
             std::cout << "eSpeak NG synthesis skipped: " << error.what() << '\n';
@@ -58,6 +65,24 @@ int main() {
         const auto again = espeak->speak(ipa, {}).size();
         check(std::max(again, male.size()) - std::min(again, male.size()) < 240,
               "the same input keeps its timing");
+        check(!voices.empty(), "installed Swedish voices are discovered before synthesis starts");
+        const auto during = ortho::Espeak::voices();
+        check(during.size() == voices.size(), "discovery also works while a speech engine is open");
+        const auto after = espeak->speak(ipa, {}).size();
+        check(std::max(after, male.size()) - std::min(after, male.size()) < 240,
+              "discovery does not replace the playback voice");
+        std::vector<std::string> ids;
+        for (const auto& voice : voices) {
+            check(!voice.name.empty() && std::ranges::find(ids, voice.id) == ids.end(),
+                  "discovered choices have names and unique identities");
+            ids.push_back(voice.id);
+            const auto native = ortho::espeak_voice_name(voice.id);
+            check(!native.empty(), "every discovered identity has a native selector");
+            espeak->speak(ipa, {.voice = native}, [] {
+                return true;
+            });
+        }
+        std::cout << voices.size() << " installed Swedish voice choices\n";
         check(espeak->speak(ipa, {.voice = "sv+f2"}) != male, "the female variant sounds different");
         check(espeak->speak(ipa, {.rate = 200}).size() < male.size(), "a faster rate is shorter");
         check(espeak
