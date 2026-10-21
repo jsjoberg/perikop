@@ -75,7 +75,6 @@ void MainFrame::import_content() {
         for (auto* preferences : {&settings_.primary_sources, &settings_.secondary_sources})
             if (std::ranges::find(*preferences, srb_source, &SourcePreference::source) == preferences->end())
                 preferences->push_back({srb_source, false});
-        clear_preparation();
         apply_settings();
         if (navigation_.current().screen == Screen::Settings)
             fill_settings(static_cast<wxScrolledWindow*>(current_page()));
