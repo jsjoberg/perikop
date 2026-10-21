@@ -88,6 +88,7 @@ add_library(ortho-core
     src/storage/corpus_db.cpp
     src/storage/study_db.cpp
     src/storage/user_db.cpp
+    src/storage/reading_plan_migration.cpp
     src/storage/speech_cache.cpp
     src/storage/pronunciation_review_db.cpp
     src/speech/speech.cpp
@@ -123,6 +124,10 @@ if(BUILD_TESTING)
     target_link_libraries(ortho-reading-position-tests PRIVATE ortho-core)
     add_test(NAME reading-position COMMAND ortho-reading-position-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
         "${CMAKE_BINARY_DIR}/test-reading-position.db")
+    add_executable(ortho-reading-plan-tests tests/reading_plan_test.cpp)
+    target_link_libraries(ortho-reading-plan-tests PRIVATE ortho-core)
+    add_test(NAME reading-plans COMMAND ortho-reading-plan-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
+        "${CMAKE_BINARY_DIR}/test-reading-plans")
     add_executable(ortho-reading-speech-tests tests/reading_speech_test.cpp)
     target_link_libraries(ortho-reading-speech-tests PRIVATE ortho-core)
     add_test(NAME reading-speech COMMAND ortho-reading-speech-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")

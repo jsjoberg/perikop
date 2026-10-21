@@ -30,7 +30,7 @@ UserDb::UserDb(const std::filesystem::path& path) {
 #ifdef __APPLE__
     exec(db_.get(), "PRAGMA fullfsync=ON; PRAGMA checkpoint_fullfsync=ON");
 #endif
-    // No schema versions or migrations until Perikop has users: the tables are created as they are now.
+    // Additive tables preserve existing profiles. Plan-layout migration runs separately with the corpus.
     exec(db_.get(),
          "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
          "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"

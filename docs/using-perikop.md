@@ -68,9 +68,13 @@ Select **Gå → Gå till bibelställe**, then a book, a chapter, and a verse. L
 
 ## Reading plans
 
-- **Nya testamentet**: 30 parts.
-- **Gamla testamentet**: the books of the Hebrew Bible, with Septuagint chapter numbers, in 30 parts.
-- **Septuagintas övriga böcker**: the other Septuagint books that Perikop has in Swedish, in 14 parts.
+- **Nya testamentet**: 60 parts.
+- **Gamla testamentet**: the books of the Hebrew Bible, with Septuagint chapter numbers, in 180 parts.
+- **Septuagintas övriga böcker**: the other Septuagint books that Perikop has in Swedish, in 31 parts.
+
+Parts are about 3,000 Swedish words long, with some variation to finish at chapter and book boundaries. Matthew, Mark, Luke, John, Acts, and Revelation each start and end in their own parts. Short letters and books stay whole and may share a part with other complete short books; longer ones split at chapter boundaries.
+
+Progress from the original plans transfers automatically on first launch. New parts wholly covered by previously read text are marked complete; partly covered parts resume at the first unread verse. Original progress is retained as recovery data. A boundary part can contain some text you have read before, but the conversion never marks unread text complete.
 
 Plans count parts, not days. A partly read section shows its percentage and reopens at the saved verse. Position is saved automatically when you pause, leave the reading, or close Perikop. While listening, the spoken verse is saved; while reading silently, the verse at the reading line is saved. A section is marked complete when its read-aloud finishes. Merely scrolling to its end does not mark it complete.
 **Börja om** clears a plan's completed sections and saved positions.
