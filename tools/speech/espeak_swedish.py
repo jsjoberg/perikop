@@ -6,6 +6,7 @@ Codes come from eSpeak NG 1.52.0's ph_swedish and base1 tables. Retroflex stops 
 there, so they are written r + dental, as eSpeak's own Swedish rules write "kort" and "bord".
 Run directly to check that eSpeak parses every converted symbol back unchanged.
 """
+import re
 import subprocess
 import sys
 
@@ -20,6 +21,14 @@ CODES = {
     'ˈ': "'", 'ˌ': ',', ' ': ' ',
 }
 PUNCTUATION = ',.?!;:'
+# The front end stresses every word. These function words (i, och, ett, en, det, den, de, att,
+# som, på, av, för, till, med, om, är, var, har, hade, han, hon, honom, henne, hans, hennes, jag,
+# du, vi, ni, dem, mig, dig, sig, sin, sitt, sina, min, mitt, mina, din, ditt, dina, vår, er, så,
+# men, när, då, ty, ej, skall, ska, kan, vill, må, vid, mot, hos, åt, från, ur) are normally
+# unstressed in running speech; listed as the front end transcribes them.
+UNSTRESSED = set('''iː ɔk ɛt ɛn deːt deːn dɛ at sɔm poː ɑːv føːr tɪl meːd ɔm ɛːr vɑːr hɑːr hadə hɑːn
+    huːn hɔnɔm hɛnə hɑːns hɛnəs jɑːɡ dyː viː niː dɔm mɛj dɛj sɛj sɪn sɪt siːna miːn mɪt miːna diːn dɪt
+    diːna voːr eːr soː mɛn nɛːr doː tyː ɛj skal skɑː kɑːn vɪl moː viːd muːt huːs oːt froːn ʉːr'''.split())
 
 
 def symbols(ipa):
@@ -32,8 +41,11 @@ def symbols(ipa):
     return result
 
 
-def to_espeak(ipa):
+def to_espeak(ipa, unstress_function_words=True):
     """eSpeak input text: phoneme codes in [[...]], with the IPA's punctuation kept outside."""
+    if unstress_function_words:
+        words = re.split(f'([ {re.escape(PUNCTUATION)}])', ipa)
+        ipa = ''.join(w.replace('ˈ', '') if w.replace('ˈ', '') in UNSTRESSED else w for w in words)
     out, word = [], []
     for symbol in symbols(ipa):
         if symbol in PUNCTUATION:
