@@ -92,13 +92,14 @@ std::vector<std::filesystem::path> library_candidates() {
     if (RegGetValueW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\eSpeak NG", L"Path", RRF_RT_REG_SZ, nullptr, folder,
                      &size) == ERROR_SUCCESS)
         result.push_back(std::filesystem::path(folder) / "libespeak-ng.dll");
-    result.push_back("libespeak-ng.dll");
+    // No bare name: the DLL search order includes the working directory and PATH.
     return result;
 #elif defined(__APPLE__)
-    // Applications do not see the shell's library path; look where Homebrew and MacPorts install.
+    // Only where Homebrew and MacPorts install; a bare name would also search the working directory.
     return {"/opt/homebrew/lib/libespeak-ng.1.dylib", "/usr/local/lib/libespeak-ng.1.dylib",
-            "/opt/local/lib/libespeak-ng.1.dylib", "libespeak-ng.1.dylib"};
+            "/opt/local/lib/libespeak-ng.1.dylib"};
 #else
+    // The soname resolves as any linked library does: ld.so.cache and system directories.
     return {"libespeak-ng.so.1"};
 #endif
 }
@@ -110,9 +111,7 @@ using Library = void*;
 Library open_library() {
     for (const auto& candidate : library_candidates()) {
 #if defined(_WIN32)
-        const auto library = candidate.is_absolute()
-                                 ? LoadLibraryExW(candidate.c_str(), nullptr, LOAD_WITH_ALTERED_SEARCH_PATH)
-                                 : LoadLibraryW(candidate.c_str());
+        const auto library = LoadLibraryExW(candidate.c_str(), nullptr, LOAD_WITH_ALTERED_SEARCH_PATH);
 #else
         const auto library = dlopen(candidate.c_str(), RTLD_NOW | RTLD_LOCAL);
 #endif
@@ -134,7 +133,7 @@ bool engine_open = false;
 std::vector<short>* capture = nullptr;
 const std::function<bool()>* capture_cancelled = nullptr;
 int receive(short* samples, int count, void*) {
-    if (samples && count > 0)
+    if (capture && samples && count > 0)
         capture->insert(capture->end(), samples, samples + count);
     return capture_cancelled && *capture_cancelled && (*capture_cancelled)() ? 1 : 0;
 }
@@ -265,13 +264,15 @@ Espeak::Espeak() : impl_(std::make_unique<Impl>()) {
 
 Espeak::~Espeak() {
     std::lock_guard lock(engine);
+    impl_->set_callback(nullptr);
     impl_->terminate();
     impl_->close();
     engine_open = false;
 }
 
 std::string Espeak::version() const {
-    return impl_->info(nullptr);
+    const char* version = impl_->info(nullptr);
+    return version ? version : "";
 }
 
 std::vector<float> Espeak::speak(const std::string& ipa, const Settings& settings,
