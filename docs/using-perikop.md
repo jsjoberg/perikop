@@ -98,3 +98,10 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 **Om Perikop** lists every source with links. It is in the application menu on macOS and in **Hjälp** elsewhere.
 
 Daily readings and reading-plan parts show saved passage progress as a percentage. Completed readings show a checkmark instead. Progress uses the same saved verse position as automatic resume.
+
+## Lägg till Reformationsbibeln 2026
+
+Öppna Inställningar och följ länkarna under Lokalt bibelinnehåll. Hämta både Gamla
+och Nya testamentets PDF från bibel.se och välj sedan Importera båda PDF-filerna.
+Efter importen aktiverar du Reformationsbibeln 2026 i källorna och väljer dess prioritet.
+Texten sparas i din profil. Fotnoter och korshänvisningar importeras inte.

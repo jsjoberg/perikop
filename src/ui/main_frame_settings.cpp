@@ -237,6 +237,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     entries->Add(ui::label(
         content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
     entries->AddSpacer(FromDIP(zoomed(22)));
+    add_content_loader(content, entries);
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
         entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));

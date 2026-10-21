@@ -67,6 +67,10 @@ FetchContent_Declare(sqlite
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
 FetchContent_MakeAvailable(sqlite)
 add_library(ortho-sqlite STATIC "${sqlite_SOURCE_DIR}/sqlite3.c")
+add_library(ortho-content-codecs STATIC third_party/content/aes/aes.c third_party/content/miniz/miniz_tinfl.c)
+target_include_directories(ortho-content-codecs SYSTEM PUBLIC third_party/content/aes third_party/content/miniz third_party/content/sha)
+target_compile_definitions(ortho-content-codecs PUBLIC MINIZ_NO_STDIO MINIZ_NO_TIME)
+target_link_libraries(ortho-content-codecs PRIVATE ortho-sanitizers)
 target_include_directories(ortho-sqlite PUBLIC "${sqlite_SOURCE_DIR}")
 target_compile_definitions(ortho-sqlite PRIVATE SQLITE_THREADSAFE=1 SQLITE_OMIT_LOAD_EXTENSION)
 find_package(Threads REQUIRED)
@@ -86,6 +90,7 @@ add_library(ortho-core
     src/core/updater.cpp
     src/storage/sqlite.cpp
     src/storage/corpus_db.cpp
+    src/storage/content_import.cpp
     src/storage/study_db.cpp
     src/storage/user_db.cpp
     src/storage/reading_plan_migration.cpp
@@ -96,7 +101,7 @@ add_library(ortho-core
     src/speech/playback_controller.cpp
     src/speech/pronunciation_review.cpp)
 target_include_directories(ortho-core PUBLIC src)
-target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers Threads::Threads)
+target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers Threads::Threads PRIVATE ortho-content-codecs)
 if(MSVC)
     target_compile_options(ortho-core PUBLIC /W4 /utf-8)
 else()
@@ -106,6 +111,10 @@ if(MINGW)
     add_link_options(-static)
 endif()
 if(BUILD_TESTING)
+    add_executable(ortho-content-import-tests tests/content_import_test.cpp)
+    target_link_libraries(ortho-content-import-tests PRIVATE ortho-core ortho-content-codecs)
+    add_test(NAME content-import COMMAND ortho-content-import-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
+        "${CMAKE_SOURCE_DIR}/resources/content/srb2026.recipe" "${CMAKE_BINARY_DIR}/test-content-import")
     add_test(NAME build-version COMMAND "${CMAKE_COMMAND}"
         -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DWORK_DIR=${CMAKE_BINARY_DIR}/test-build-version
         -P "${CMAKE_SOURCE_DIR}/tests/build_version_test.cmake")
@@ -189,6 +198,7 @@ if(ORTHO_BUILD_GUI)
         src/ui/main_frame_plans.cpp
         src/ui/main_frame_updates.cpp
         src/ui/main_frame_settings.cpp
+        src/ui/main_frame_content.cpp
         src/ui/main_frame_smoke.cpp
         src/ui/main_frame_benchmark.cpp
         src/ui/controls.cpp
@@ -285,6 +295,7 @@ if(ORTHO_BUILD_GUI)
             "${resource_destination}/corpus/books.tsv" "${resource_destination}/corpus/canon.tsv"
             "${resource_destination}/corpus/pronunciation-sv.tsv"
             "${resource_destination}/lexicon/sv1917-forms.tsv" "${resource_destination}/lexicon/sv1917-biblical-forms.tsv"
+            "${resource_destination}/content/pronunciation-aliases.tsv" "${resource_destination}/content/srb2026-chapters.tsv"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"

@@ -254,3 +254,21 @@ https://github.com/espeak-ng/espeak-ng
 
 The build copies these complete speech dependency notices into the application resources.
 The application does not include macOS, Windows, or Linux system speech voices.
+
+## Local content importer
+
+The importer compiles small, unmodified helpers from these pinned sources:
+
+- tiny-AES-c, The Unlicense, commit `23856752fbd139da0b8ca6e471a13d5bcc99a08d`:
+  https://github.com/kokke/tiny-AES-c. License: `resources/licenses/tiny-AES-Unlicense.txt`.
+- PicoSHA2, MIT, commit `161cb3fc4170fa7a3eca9e582cebd27cc4d1fe29`:
+  https://github.com/okdshin/PicoSHA2. License: `resources/licenses/PicoSHA2-MIT.txt`.
+- miniz's independent inflater, MIT, commit `2948eebafc5b9f1c69bebed80333e403a09bd62d`:
+  https://github.com/richgel999/miniz. License: `resources/licenses/miniz-MIT.txt`.
+  Perikop supplies two small wrapper headers instead of the unused ZIP and compression APIs.
+
+Reformationsbibeln 2026 is **not bundled**. Users obtain its Old and New Testament
+PDFs from Svenska Reformationsbibelsällskapet (https://bibel.se/) and import them
+locally. The distribution contains a structural extraction recipe, coordinate
+mappings, and separate word-study data from the existing licensed dictionary sources;
+it contains neither PDF nor extracted Bible passages. See `docs/local-bible-content.md`.

@@ -32,6 +32,11 @@ struct ModernWordEntry {
 class CorpusDb {
 public:
     explicit CorpusDb(const std::filesystem::path& path);
+    // Optional, locally imported Scripture. The bundled corpus stays read-only.
+    void load_imported(const std::filesystem::path&);
+    bool has_imported() const {
+        return bool(imported_);
+    }
     std::vector<Source> sources() const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,
                                             VerseRef ref) const;
@@ -95,6 +100,9 @@ private:
     const std::vector<Alignment>& book_alignment(const std::string& from, const std::string& to,
                                                  const std::string& book) const;
     DatabaseHandle db_;
+    DatabaseHandle imported_;
+    DatabaseHandle study_;
+    sqlite3* study_database(const char* table, const std::string& form) const;
     // Loaded books are never changed or removed, so references to them stay valid.
     mutable std::mutex cache_mutex_;
     mutable std::map<std::pair<std::string, std::string>, BookText> texts_;

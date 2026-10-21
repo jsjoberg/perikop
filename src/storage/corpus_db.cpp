@@ -1,4 +1,5 @@
 #include "speech/speech.hpp"
+#include "storage/content_import.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
@@ -15,6 +16,14 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
     if (pragma_number(db_.get(), "PRAGMA user_version") != 10 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
+    const auto supplement = path.parent_path().parent_path() / "content/swedish-study.db";
+    if (std::filesystem::exists(supplement)) {
+        study_ = open(supplement, SQLITE_OPEN_READONLY);
+        exec(study_.get(), "PRAGMA query_only=ON");
+        if (pragma_number(study_.get(), "PRAGMA user_version") != 1 ||
+            pragma_number(study_.get(), "PRAGMA application_id") != 1330795603)
+            throw std::runtime_error("Unsupported Swedish dictionary supplement");
+    }
     for (const auto& source : sources())
         versification_.emplace(source.code, source.versification);
     Statement books(db_.get(), "SELECT code,abbreviation_sv,new_testament,deuterocanonical,stanzas,"
@@ -79,6 +88,33 @@ std::string CorpusDb::frame_source(const std::string& language, const std::strin
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
 }
+void CorpusDb::load_imported(const std::filesystem::path& path) {
+    if (!std::filesystem::exists(path))
+        return;
+    auto candidate = open(path, SQLITE_OPEN_READONLY);
+    exec(candidate.get(), "PRAGMA query_only=ON");
+    Statement schema(candidate.get(),
+                     "SELECT 1 FROM sqlite_master WHERE type='table' AND name='content_metadata'");
+    if (!schema.row())
+        return;
+    Statement valid(candidate.get(), "SELECT value FROM content_metadata WHERE key='srb2026'");
+    if (!valid.row())
+        return; // An interrupted first import has no committed installation.
+    if (valid.text(0).size() != 64)
+        throw std::runtime_error("Ogiltigt lokalt bibelinnehåll. Importera PDF-filerna igen.");
+    Statement count(candidate.get(), "SELECT count(*),count(DISTINCT book) FROM imported_verse");
+    if (!count.row() || count.number(0) != 31171 || count.number(1) != 66)
+        throw std::runtime_error("Det lokala bibelinnehållet är ofullständigt. Importera PDF-filerna igen.");
+    std::lock_guard lock(cache_mutex_);
+    imported_ = std::move(candidate);
+    versification_[srb_source] = "SRB2026";
+    std::erase_if(texts_, [](const auto& entry) {
+        return entry.first.first == srb_source;
+    });
+    std::erase_if(alignments_, [](const auto& entry) {
+        return std::get<0>(entry.first) == srb_source || std::get<1>(entry.first) == srb_source;
+    });
+}
 std::vector<WordExample> CorpusDb::word_examples(const std::string& word, int limit) const {
     Statement q(db_.get(), "SELECT book.code,chapter,verse,verse_suffix,text FROM verse JOIN book ON "
                            "book.id=book_id JOIN source ON source.id=source_id WHERE source.code='sv1917' "
@@ -97,6 +133,8 @@ std::vector<Source> CorpusDb::sources() const {
     std::vector<Source> result;
     while (query.row())
         result.push_back({query.number(0), query.text(1), query.text(2), query.text(3), query.text(4)});
+    if (imported_)
+        result.push_back({100, srb_source, "sv", "Reformationsbibeln 2026", "SRB2026"});
     return result;
 }
 const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const std::string& book) const {
@@ -104,6 +142,20 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
     auto [entry, added] = texts_.try_emplace({source, book});
     if (!added)
         return entry->second;
+    if (source == srb_source) {
+        if (imported_) {
+            Statement query(
+                imported_.get(),
+                "SELECT chapter,verse,text FROM imported_verse WHERE book=? ORDER BY chapter,verse");
+            query.text(1, book);
+            while (query.row()) {
+                entry->second.coordinates.push_back({query.number(0), query.number(1)});
+                entry->second.last_verses.push_back(query.number(1));
+                entry->second.texts.push_back(query.text(2));
+            }
+        }
+        return entry->second;
+    }
     Statement query(db_.get(),
                     "SELECT chapter,verse,verse_suffix,last_verse,text FROM verse JOIN source ON "
                     "source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? "
@@ -139,6 +191,13 @@ const std::vector<VerseRef>& CorpusDb::coordinates(const std::string& source, co
     return book_text(source, book).coordinates;
 }
 std::vector<VerseRef> CorpusDb::paragraph_starts(const std::string& source, const std::string& book) const {
+    if (source == srb_source) {
+        std::vector<VerseRef> result;
+        for (const auto& ref : coordinates(source, book))
+            if (ref.verse == 1 || stanza_book(book))
+                result.push_back(ref);
+        return result;
+    }
     Statement query(
         db_.get(),
         "SELECT chapter,verse,verse_suffix FROM paragraph JOIN source ON source.id=source_id JOIN book ON "
@@ -156,6 +215,26 @@ const std::vector<Alignment>& CorpusDb::book_alignment(const std::string& from, 
     auto [entry, added] = alignments_.try_emplace({from, to, book});
     if (!added)
         return entry->second;
+    if (from == srb_source || to == srb_source) {
+        if (imported_) {
+            Statement query(
+                imported_.get(),
+                "SELECT kind,fc,fv,fs,lc,lv,ls,tbook,tfc,tfv,tfs,tlc,tlv,tls "
+                "FROM imported_alignment WHERE source=? AND target=? AND book=? ORDER BY fc,fv,fs");
+            query.text(1, from);
+            query.text(2, to);
+            query.text(3, book);
+            while (query.row())
+                entry->second.push_back({static_cast<AlignmentKind>(query.number(0)),
+                                         {book,
+                                          {query.number(1), query.number(2), query.text(3)},
+                                          {query.number(4), query.number(5), query.text(6)}},
+                                         {query.text(7),
+                                          {query.number(8), query.number(9), query.text(10)},
+                                          {query.number(11), query.number(12), query.text(13)}}});
+        }
+        return entry->second;
+    }
     Statement query(
         db_.get(),
         "SELECT "
@@ -339,6 +418,14 @@ std::vector<Pronunciation> CorpusDb::pronunciations(const std::string& language)
     std::vector<Pronunciation> result;
     while (query.row())
         result.push_back({query.text(0), query.text(1), query.text(2), query.text(3), query.number(4)});
+    if (study_) {
+        Statement extra(
+            study_.get(),
+            "SELECT language,source,spoken,phonemes,priority FROM pronunciation WHERE language=?");
+        extra.text(1, language);
+        while (extra.row())
+            result.push_back({extra.text(0), extra.text(1), extra.text(2), extra.text(3), extra.number(4)});
+    }
     return result;
 }
 std::string CorpusDb::book_name(const std::string& book, const std::string& language) const {

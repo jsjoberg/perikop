@@ -322,6 +322,7 @@ bool ScriptureView::passage_in_view() const {
     return false;
 }
 void ScriptureView::apply(const Settings& settings) {
+    source_catalog_ = corpus_.sources();
     if (settings_.primary_sources != settings.primary_sources ||
         settings_.secondary_sources != settings.secondary_sources)
         chapter_overrides_.clear();

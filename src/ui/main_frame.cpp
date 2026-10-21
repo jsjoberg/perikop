@@ -47,9 +47,9 @@ wxString kind_label(ReadingKind kind) {
     return {};
 }
 } // namespace
-MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
-                     const std::filesystem::path& resources, const std::filesystem::path& data,
-                     std::unique_ptr<UpdateBackend> updates, bool diagnostic)
+MainFrame::MainFrame(CorpusDb& corpus, UserDb& user, CivilDate date, const std::filesystem::path& resources,
+                     const std::filesystem::path& data, std::unique_ptr<UpdateBackend> updates,
+                     bool diagnostic)
     : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
       user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
       selected_(date), settings_(user.load()), updater_(std::make_unique<Updater>(
