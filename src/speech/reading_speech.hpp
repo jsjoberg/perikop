@@ -11,5 +11,6 @@ using PronunciationLookup = std::function<std::vector<Pronunciation>(const std::
 std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::vector<Reading>& readings,
                                             const PronunciationLookup& lexicon);
 // Keep original cues and the complete current verse, including merged verses.
-void resume_speech(std::vector<SpeechUtterance>&, const ReadingPosition&);
+// Returns the share of the queue skipped, where the progress bar resumes.
+double resume_speech(std::vector<SpeechUtterance>&, const ReadingPosition&);
 } // namespace ortho
