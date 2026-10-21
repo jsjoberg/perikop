@@ -2,8 +2,9 @@
 #include "core/reading_display.hpp"
 
 namespace ortho {
-void PlaybackController::start(std::vector<Reading> readings) {
+void PlaybackController::start(std::vector<Reading> readings, double skipped) {
     readings_ = std::move(readings);
+    skipped_ = skipped;
 }
 bool PlaybackController::select_reading(SpeechEngine& engine) {
     if (!active() && !speech_active(engine.playback().state))
@@ -33,6 +34,7 @@ void PlaybackController::update(const SpeechPlayback& playback, Clock::time_poin
     } else if (playback.state != SpeechState::Buffering)
         debounce_buffering_ = false;
     playback_ = playback;
+    playback_.progress = skipped_ + (1 - skipped_) * playback.progress;
     // The view freezes tracking immediately, but the status does not flash buffering
     // text for a brief gap between audio callbacks. Startup feedback remains immediate.
     feedback_ = playback.state == SpeechState::Buffering && debounce_buffering_ &&

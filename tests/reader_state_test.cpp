@@ -124,6 +124,17 @@ void playback_test() {
         check(playback.polling() && engine.state.state == SpeechState::Playing,
               "Explicit Resume must continue the retained playback session");
     }
+    check(playback.playback().progress == 0.4, "A reading from its start must report the engine's progress");
+    playback.start({reading}, 0.5);
+    for (auto [played, shown] : {std::pair{0.0, 0.5}, {0.5, 0.75}, {1.0, 1.0}}) {
+        engine.state.progress = played;
+        playback.update(engine.playback());
+        check(playback.playback().progress == shown,
+              "A resumed reading must continue its progress from the skipped share to the end");
+    }
+    playback.start({reading});
+    playback.update(engine.playback());
+    check(playback.playback().progress == 1, "Starting from the beginning must not keep an earlier resume");
     playback.location({0, 0});
     check(!playback.needs_location({0, 0}, true) && playback.needs_location({0, 0}, false) &&
               playback.needs_location({0, 1}, true),

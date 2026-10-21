@@ -13,8 +13,9 @@ public:
         std::string title;
         std::string tooltip = {};
     };
-    // Readings as opened, retained for playback navigation.
-    void start(std::vector<Reading> readings);
+    // Readings as opened, retained for playback navigation. Progress continues from
+    // the share a resumed reading skipped.
+    void start(std::vector<Reading> readings, double skipped = 0);
     bool select_reading(SpeechEngine&);
     void leave_reader(SpeechEngine&);
     void toggle_pause(SpeechEngine&);
@@ -58,6 +59,7 @@ public:
 private:
     std::vector<Reading> readings_;
     std::optional<Location> location_;
+    double skipped_ = 0;
     SpeechPlayback playback_;
     SpeechState feedback_ = SpeechState::Idle;
     Clock::time_point buffering_since_;
