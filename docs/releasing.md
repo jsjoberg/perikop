@@ -57,7 +57,7 @@ tools/package_appimage.sh build/cmake                           # Linux
 
 On Linux, `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` then packs the same AppDir as a Velopack AppImage and update package. It needs .NET 8, `squashfs-tools`, and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
 
-The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set to a `Microsoft.VC143.CRT` redistributable folder.
+The Windows installer needs NSIS on the `PATH`.
 The macOS DMG is `macOS-arm64.dmg`, for Apple Silicon on macOS 15 or later.
 For Velopack, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
 `python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> arm64 osx-arm64-<releases|nightly> <output>`.

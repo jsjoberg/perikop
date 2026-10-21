@@ -30,10 +30,9 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 - All reading-plan button grids fill the same content width, with or without completion marks and percentages.
 - macOS releases require Apple Silicon and macOS 15 or later. Intel and universal builds are retired.
-- CI uses uv-managed Python 3.14 and one Python build entry point. Windows builds always compile on Linux and run native checks on Windows; the migration fallback has been removed. Voice export retains its separate Python 3.12 environment.
+- CI uses uv-managed Python 3.14 and one Python build entry point. Windows builds always compile on Linux and run native checks on Windows; the migration fallback has been removed.
 - Passage selection uses Ctrl/⌘+L, daily readings Ctrl/⌘+Shift+L, Today Ctrl/⌘+Shift+T, date selection Ctrl/⌘+Shift+D, and playback Ctrl/⌘+Shift+P. Previous/next day use Ctrl/⌘+PageUp/PageDown, leaving the macOS bracket shortcuts for Back/Forward.
 - Nightly builds have versions that sort in order, such as `0.1.1-nightly.20261018.412.1`, for in-app updates. **Om Perikop** also shows the commit.
-- Björn is the default read-aloud voice for new profiles. Profiles that already saved settings keep their voice.
 - The ⋮ menu ends with **Avsluta**, as in Chrome. On Windows and Linux, Ctrl+Q also quits.
 - Readings and the reading plan on the start page show whole book names, such as "Första Korintierbrevet 11:23–32", when they fit on one line. Longer references keep the short names.
 - Every button, link, and menu command has a tooltip, including **Alla läsplaner**, the Bible browser's buttons, and the word study panel.
@@ -56,8 +55,8 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 - The reading-cycle day and week heading stays visible, centered with the date controls and month calendar.
 - The separate Idag button beside the date is removed. The menu action and keyboard shortcut remain available.
 - Native builds and CI default to size optimization, with link-time optimization when supported.
-- x86-64 builds target `x86-64-v2` for X220-era CPUs. Speech kernels select newer CPU instructions at runtime.
-- Release packages strip executable symbols and the bundled macOS ONNX Runtime. Build binaries keep their symbols for debugging.
+- x86-64 builds target `x86-64-v2` for X220-era CPUs.
+- Release packages strip executable symbols. Build binaries keep their symbols for debugging.
 - Hyphenation patterns compile into C++ data. Installed resources no longer contain TeX files.
 
 ### Removed
