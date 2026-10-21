@@ -28,7 +28,7 @@
   - Retroflex stops are written `Rt`/`Rd`, as eSpeak's own rules write them.
   - An unknown code inside `[[...]]` silently drops the rest of the word, so a test requires a code for every lexicon phone.
 - Portable speech uses only the voice pack's pronunciation files for eSpeak, never the neural model. Audio is cached under `espeak/<version>/<voice>/<rate>/v1`.
-- Settings list "eSpeak, manlig röst" and "eSpeak, kvinnlig röst". When no library loads, they show an installation link: Homebrew's formula on macOS, eSpeak NG's guide elsewhere.
+- Settings list every installed, loadable Swedish eSpeak voice and variant ("eSpeak – <name>"); a saved voice that is no longer installed stays selected and is marked unavailable. MBROLA voices are left out, since they change eSpeak's sample rate. When no library loads, Settings show an installation link: Homebrew's formula on macOS, eSpeak NG's guide elsewhere.
 
 ## Measurements (Apple Silicon, Homebrew eSpeak NG 1.52.0)
 

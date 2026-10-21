@@ -78,6 +78,7 @@ int main() {
             ids.push_back(voice.id);
             const auto native = ortho::espeak_voice_name(voice.id);
             check(!native.empty(), "every discovered identity has a native selector");
+            check(!native.starts_with("mb/"), "MBROLA voices, with their own sample rate, are not offered");
             espeak->speak(ipa, {.voice = native}, [] {
                 return true;
             });

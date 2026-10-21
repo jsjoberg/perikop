@@ -114,7 +114,10 @@ void MainFrame::listen_to_selection(const Reading& reading) {
 void MainFrame::speech_status(const std::string& status) {
     if (playback_.playback().state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
         return;
-    const bool preview_error = voice_preview_ && speech_->playback().state == SpeechState::Error;
+    // A playback poll may already have ended the preview before its error status arrives.
+    const bool preview_error =
+        (voice_preview_ || voice_preview_failed_) && speech_->playback().state == SpeechState::Error;
+    voice_preview_failed_ = false;
     playback_.report(status);
     refresh_speech();
     if (preview_error)
@@ -211,6 +214,7 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     const bool active = speech_active(playback.state);
     if (voice_preview_ && !active) {
         voice_preview_ = false;
+        voice_preview_failed_ = playback.state == SpeechState::Error;
         if (voice_preview_button_) {
             voice_preview_button_->SetLabel(ui::utf8("Prova rösten"));
             voice_preview_button_->SetName(voice_preview_button_->GetLabel());

@@ -160,6 +160,8 @@ private:
     wxTimer playback_timer_;
     PlaybackController playback_;
     bool voice_preview_ = false;
+    // A preview that ended in an error, kept until its queued status shows the error.
+    bool voice_preview_failed_ = false;
     wxWeakRef<wxWindow> voice_preview_button_;
 
     // wxWidgets owns child windows. These pointers are non-owning handles.

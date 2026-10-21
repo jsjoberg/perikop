@@ -291,10 +291,13 @@ struct Espeak::Impl {
             return true;
         };
         for (const auto& [identifier, name] : languages) {
+            // MBROLA voices switch eSpeak to their own sample rate, which speak() does not follow.
+            if (identifier.starts_with("mb/"))
+                continue;
             const auto native =
                 identifier == "gmq/sv" || identifier == "europe/sv" ? std::string("sv") : identifier;
             if (!add(native, name))
-                continue; // e.g. an MBROLA definition whose external voice data is absent
+                continue; // e.g. a definition whose voice data is absent
             for (const auto& [variant, variant_name] : variants)
                 if (variant.starts_with("!v/"))
                     add(native + "+" + variant.substr(3), name + " – " + variant_name);
