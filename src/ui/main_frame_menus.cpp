@@ -72,7 +72,6 @@ enum {
     Normal,
     Play,
     Stop,
-    Prepare,
     Faster,
     Slower,
     NormalRate,
@@ -508,18 +507,9 @@ void MainFrame::sync_menu() {
     if (bar.GetLabel(Play) != label)
         bar.SetLabel(Play, label);
     bar.Enable(Play, policy.playback_action != PlaybackAction::None);
-    const auto stop_label =
-        (preparing_day() ? ui::utf8("Avbryt förberedelsen") : wxString("Stoppa")) + "\tCtrl+.";
-    if (bar.GetLabel(Stop) != stop_label)
-        bar.SetLabel(Stop, stop_label);
     bar.Enable(Stop, policy.stop);
-    bar.Enable(Prepare, policy.prepare);
     bar.Enable(wxID_BACKWARD, history_.can_back());
     bar.Enable(wxID_FORWARD, history_.can_forward());
-    const auto help = ui::utf8("Spara ljud för " + date_swedish(selected_.date()) +
-                               ". Välj morgondagens datum för att förbereda det i kväll.");
-    if (bar.GetHelpString(Prepare) != help)
-        bar.SetHelpString(Prepare, help);
     const int pane = settings_.word_study ? Study : settings_.split_view ? Parallel : Right;
     if (!bar.IsChecked(pane))
         bar.Check(pane, true);
@@ -568,7 +558,6 @@ void MainFrame::make_menus() {
     reading->Append(Slower, ui::utf8("Långsammare"));
     reading->Append(NormalRate, "Normal hastighet");
     reading->AppendSeparator();
-    reading->Append(Prepare, ui::utf8("Förbered ljud för vald dag"));
     reading->Append(CheckUpdates, ui::utf8("Sök efter uppdateringar…"),
                     ui::utf8("Sök på den valda uppdateringskanalen"));
     reading->Append(Review, ui::utf8("Granska svenskt uttal…"),
@@ -705,10 +694,6 @@ void MainFrame::make_menus() {
                     stop_speech();
                 return;
             }
-            if (id == Prepare) {
-                prepare_day();
-                return;
-            }
             if (id == Review) {
                 review_pronunciation();
                 return;
@@ -765,7 +750,7 @@ void MainFrame::show_menu() {
                 command(direction > 0 ? Faster : Slower)();
             });
         popup.separator();
-        for (const int id : {Play, Stop, Prepare})
+        for (const int id : {Play, Stop})
             item(id);
         popup.separator();
         // macOS keeps these two in the application menu, outside the bar's own menus.

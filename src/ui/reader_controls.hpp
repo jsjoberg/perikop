@@ -8,13 +8,13 @@ enum class PlaybackAction { None, StartReading, StartSelection, Pause, Resume };
 struct ReaderContext {
     Screen screen;
     SpeechState playback;
-    bool preparing = false, selection = false, several_parts = false, daily_readings = false;
+    bool selection = false, several_parts = false;
     // Whether the open reading has Swedish text to read aloud.
     bool speakable = true;
 };
 // One policy supplies the toolbar, menus, and command guards. It has no native UI dependencies.
 struct ReaderControls {
-    bool listen, pause, stop, prepare, back, columns, word_audio, address_dropdown;
+    bool listen, pause, stop, back, columns, word_audio, address_dropdown;
     PlaybackAction playback_action;
     AddressAction address_action;
     std::string listen_label, playback_label;

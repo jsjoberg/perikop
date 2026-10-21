@@ -98,6 +98,7 @@ private:
     // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);
+    void preview_voice();
     void show_updates();
     // The update dialog follows the updater's state.
     void show_update_status();
@@ -117,9 +118,6 @@ private:
     void select_part(size_t);
     void toggle_pane(const std::string&);
     void play_speech(const std::vector<Reading>&, bool resume = true);
-    void prepare_day();
-    bool preparing_day() const;
-    void clear_preparation();
     void play_or_pause();
     void toggle_pause();
     void pause_for_navigation();
@@ -161,6 +159,10 @@ private:
     std::unique_ptr<Updater> updater_;
     wxTimer playback_timer_;
     PlaybackController playback_;
+    bool voice_preview_ = false;
+    // A preview that ended in an error, kept until its queued status shows the error.
+    bool voice_preview_failed_ = false;
+    wxWeakRef<wxWindow> voice_preview_button_;
 
     // wxWidgets owns child windows. These pointers are non-owning handles.
     wxPanel* root_ = nullptr;

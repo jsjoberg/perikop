@@ -1,4 +1,5 @@
 #include "speech/portable_speech.hpp"
+#include "speech/espeak_voice.hpp"
 #include "speech/kokoro_audio.hpp"
 #include "speech/kokoro_text.hpp"
 #include "speech/pcm_output.hpp"
@@ -20,7 +21,12 @@ namespace ortho {
 namespace {
 using namespace std::chrono_literals;
 std::string voice_name(const std::string& voice) {
+    if (const auto native = espeak_voice_name(voice); !native.empty())
+        return "eSpeak (" + native + ")";
     return voice == "bjorn" ? "Björn" : "Alice";
+}
+bool espeak_voice(const std::string& voice) {
+    return !espeak_voice_name(voice).empty();
 }
 // 16-bit mono PCM WAV at 24 kHz, for the speech probe.
 void write_wav(const std::filesystem::path& path, const std::vector<float>& samples) {
@@ -102,8 +108,6 @@ class PortableSpeech final : public SpeechEngine {
     uint64_t status_sequence_ = 0;
     bool shutdown_ = false, paused_ = false, active_ = false;
     bool output_started_ = false;
-    bool preparing_ = false;
-    SpeechPreparation preparation_;
     SpeechState state_ = SpeechState::Idle;
     double ready_ = 0, speed_ = 1;
     std::string voice_ = "alice";
@@ -169,30 +173,25 @@ class PortableSpeech final : public SpeechEngine {
         std::lock_guard lock(mutex_);
         if (shutdown_ || generation != generation_.load())
             return;
-        stage_ = status + (!preparing_ && cache_unavailable_ ? ", utan ljudcache" : "");
-        if (preparing_) {
-            preparation_.status = stage_;
-            if (state == SpeechState::Completed)
-                preparation_.state = PreparationState::Ready;
-            else if (state == SpeechState::Error)
-                preparation_.state = PreparationState::Error;
-        } else
-            state_ = state;
+        stage_ = status + (cache_unavailable_ ? ", utan ljudcache" : "");
+        state_ = state;
         if (callback_)
             callback_({++status_sequence_, paused_ ? "Pausad" : stage_});
     }
     void run() {
         std::unique_ptr<Kokoro> kokoro;
+        // eSpeak uses only the pack's pronunciations, not its neural voices.
+        std::unique_ptr<KokoroText> phonetic_text;
+        std::unique_ptr<Espeak> espeak;
         std::unique_ptr<SpeechCache> cache;
         bool cache_attempted = false;
         // Measured synthesis speed for this session. Until the model has run,
         // assume it is slower than real time, as on the reference hardware.
-        double model_seconds = 0, model_audio = 0;
+        double model_seconds = 0, model_audio = 0, espeak_seconds = 0, espeak_audio = 0;
         while (true) {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
             std::string voice;
-            bool preparing;
             {
                 std::unique_lock lock(mutex_);
                 condition_.wait(lock, [this] {
@@ -202,11 +201,10 @@ class PortableSpeech final : public SpeechEngine {
                     return;
                 generation = generation_.load();
                 voice = voice_;
-                preparing = preparing_;
                 batch.swap(queue_);
                 active_ = true;
                 output_started_ = false;
-                state_ = preparing ? SpeechState::Stopped : SpeechState::Buffering;
+                state_ = SpeechState::Buffering;
                 ready_ = 0;
             }
             const auto cancelled = [this, generation] {
@@ -224,8 +222,6 @@ class PortableSpeech final : public SpeechEngine {
                         operation(*cache);
                     } catch (const std::exception& error) {
                         cache_error(error);
-                        if (preparing)
-                            throw;
                     }
             };
             try {
@@ -237,9 +233,6 @@ class PortableSpeech final : public SpeechEngine {
                         cache_error(error);
                     }
                 }
-                if (preparing && !cache)
-                    throw std::runtime_error(
-                        "Ljudcachen är inte tillgänglig. Ljudet kan inte sparas inför uppläsningen.");
                 {
                     std::lock_guard lock(mutex_);
                     if (cancelled())
@@ -254,7 +247,18 @@ class PortableSpeech final : public SpeechEngine {
                     double from, to, weight;
                     bool cached;
                 };
-                const auto revision = std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
+                const bool espeaking = espeak_voice(voice);
+                const Espeak::Settings espeak_settings{.voice = espeak_voice_name(voice)};
+                if (espeaking && !espeak)
+                    espeak = std::make_unique<Espeak>();
+                // eSpeak's audio changes with the installed eSpeak, not with the neural pack.
+                const auto revision = espeaking
+                                          ? "espeak/" + espeak->version() + "/" + espeak_settings.voice +
+                                                "/" + std::to_string(espeak_settings.rate) + "/v1"
+                                          : std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
+                // eSpeak is far faster than the neural voices; its timing must not hide the model's.
+                auto& engine_seconds = espeaking ? espeak_seconds : model_seconds;
+                auto& engine_audio = espeaking ? espeak_audio : model_audio;
                 std::vector<Part> parts;
                 for (const auto& utterance : batch) {
                     auto chunks = speech_chunks(utterance.speech_text);
@@ -280,8 +284,6 @@ class PortableSpeech final : public SpeechEngine {
                     if (cancelled())
                         continue;
                     timeline_.reset(parts.size());
-                    if (preparing)
-                        preparation_.total = parts.size();
                 }
                 double remaining_weight = 0, produced_weight = 0, produced_seconds = 0;
                 double next_weight = 0;
@@ -290,14 +292,14 @@ class PortableSpeech final : public SpeechEngine {
                     if (!part.cached)
                         remaining_weight += part.weight;
                 // Keep a rolling lead; slower models can prepare up to ten minutes.
-                // Pause suspends preparation between chunks as well as audio playback.
+                // Pause suspends synthesis between chunks as well as audio playback.
                 const auto estimated_remaining = [&] {
                     // Cached parts are disk reads, not future model inference.
                     return std::max(0.0, remaining_weight) * produced_seconds /
                            std::max(1e-9, produced_weight);
                 };
                 const auto realtime_factor = [&] {
-                    return (model_audio > 0 ? model_seconds / model_audio : 2.5) * speed_;
+                    return (engine_audio > 0 ? engine_seconds / engine_audio : 2.5) * speed_;
                 };
                 const auto estimated_next = [&] {
                     return next_weight * produced_seconds / std::max(1e-9, produced_weight);
@@ -321,7 +323,7 @@ class PortableSpeech final : public SpeechEngine {
                 for (size_t i = 0; i < parts.size(); ++i) {
                     {
                         std::unique_lock lock(mutex_);
-                        while (!cancelled() && (paused_ || (!preparing && i && full()))) {
+                        while (!cancelled() && (paused_ || (i && full()))) {
                             if (paused_)
                                 condition_.wait(lock, [&] {
                                     return cancelled() || !paused_;
@@ -340,43 +342,34 @@ class PortableSpeech final : public SpeechEngine {
                     const auto progress = std::to_string(i + 1) + "/" + std::to_string(parts.size());
                     const auto name = voice_name(voice);
                     playing = "Läser med " + name;
-                    report(generation, preparing ? "Förbereder ljud med " + name + ", " + progress
-                                       : i       ? "Läser med " + name + ", förbereder del " + progress
-                                                 : "Förbereder läsningen, " + progress);
+                    report(generation, i ? "Läser med " + name + ", förbereder del " + progress
+                                         : "Förbereder läsningen, " + progress);
                     std::optional<std::vector<float>> samples;
                     with_cache([&](SpeechCache& store) {
                         samples = store.load(revision, language, text);
                     });
                     if (!samples) {
-                        if (!kokoro) {
+                        if (espeaking) {
+                            if (!phonetic_text)
+                                phonetic_text = std::make_unique<KokoroText>(pack_);
+                        } else if (!kokoro) {
                             report(generation, "Förbereder röstmodellen, " + name, SpeechState::Loading);
                             kokoro = std::make_unique<Kokoro>(pack_);
                         }
-                        report(generation, preparing ? "Förbereder ljud med " + name + ", " + progress
-                                           : i       ? "Läser med " + name + ", förbereder del " + progress
-                                                     : "Förbereder läsningen, " + progress);
+                        report(generation, i ? "Läser med " + name + ", förbereder del " + progress
+                                             : "Förbereder läsningen, " + progress);
                         const auto begin = std::chrono::steady_clock::now();
-                        samples = kokoro->generate(text, voice, cancelled);
+                        samples = espeaking
+                                      ? espeak->speak(phonetic_text->ipa(text), espeak_settings, cancelled)
+                                      : kokoro->generate(text, voice, cancelled);
                         if (cancelled())
                             break;
-                        model_seconds +=
+                        engine_seconds +=
                             std::chrono::duration<double>(std::chrono::steady_clock::now() - begin).count();
-                        model_audio += samples->size() / 24000.0;
+                        engine_audio += samples->size() / 24000.0;
                         with_cache([&](SpeechCache& store) {
                             store.save(revision, language, text, *samples);
                         });
-                    }
-                    if (preparing) {
-                        if (!cache)
-                            throw std::runtime_error("Ljudcachen kunde inte spara det förberedda ljudet.");
-                        {
-                            std::lock_guard lock(mutex_);
-                            if (cancelled())
-                                break;
-                            preparation_.completed = i + 1;
-                        }
-                        report(generation, "Förbereder ljud med " + name + ", " + progress);
-                        continue;
                     }
                     if (i)
                         samples->insert(samples->begin(), 4800, 0.0f);
@@ -419,25 +412,6 @@ class PortableSpeech final : public SpeechEngine {
                     if (parts.empty())
                         throw std::runtime_error("Ingen text finns att läsa upp.");
                 }
-                if (preparing) {
-                    // A long day's audio may exceed the bounded cache. Never promise that
-                    // the entire day is ready if earlier chunks were evicted during synthesis.
-                    for (const auto& part : parts) {
-                        if (cancelled())
-                            break;
-                        if (!cache->contains(revision, part.language, part.text))
-                            throw std::runtime_error("Allt ljud fick inte plats i ljudcachen. Sparade delar "
-                                                     "kan fortfarande användas.");
-                    }
-                    {
-                        std::lock_guard lock(mutex_);
-                        if (cancelled())
-                            continue;
-                        active_ = false;
-                    }
-                    report(generation, "Ljudet är förberett, " + voice_name(voice), SpeechState::Completed);
-                    continue;
-                }
                 {
                     std::lock_guard lock(mutex_);
                     if (cancelled())
@@ -470,37 +444,28 @@ class PortableSpeech final : public SpeechEngine {
                     if (output_)
                         output_->stop();
                 }
-                report(generation, std::string(preparing ? "Förberedelse: " : "Uppläsning: ") + error.what(),
-                       SpeechState::Error);
+                report(generation, std::string("Uppläsning: ") + error.what(), SpeechState::Error);
             }
         }
     }
-    void submit(const std::vector<SpeechUtterance>& utterances, bool prepare) {
+    void submit(const std::vector<SpeechUtterance>& utterances) {
         if (utterances.empty())
             throw std::runtime_error("Ingen text finns att läsa upp.");
         for (const auto& utterance : utterances)
             if (utterance.language != "sv")
                 throw std::runtime_error("Uppläsning finns bara på svenska.");
-        if (!std::filesystem::exists(pack_ / "kokoro.onnx"))
+        bool neural;
+        {
+            std::lock_guard lock(mutex_);
+            neural = !espeak_voice(voice_);
+        }
+        if (neural && !std::filesystem::exists(pack_ / "kokoro.onnx"))
             throw std::runtime_error("Den här versionen av Perikop byggdes utan rösterna Alice och Björn.");
         {
             std::lock_guard lock(mutex_);
-            if (prepare || preparing_) {
-                ++generation_;
-                queue_.clear();
-                active_ = paused_ = output_started_ = false;
-                if (output_)
-                    output_->stop();
-            }
-            preparing_ = prepare;
-            preparation_ = {};
-            if (prepare) {
-                preparation_.state = PreparationState::Running;
-                preparation_.status = "Förbereder ljud";
-            }
             queue_.insert(queue_.end(), utterances.begin(), utterances.end());
             if (!active_) {
-                state_ = prepare ? SpeechState::Stopped : SpeechState::Buffering;
+                state_ = SpeechState::Buffering;
                 output_started_ = false;
             }
             active_ = true;
@@ -531,14 +496,7 @@ public:
         speak_batch({utterance});
     }
     void speak_batch(const std::vector<SpeechUtterance>& utterances) override {
-        submit(utterances, false);
-    }
-    void prepare_batch(const std::vector<SpeechUtterance>& utterances) override {
-        submit(utterances, true);
-    }
-    SpeechPreparation preparation() const override {
-        std::lock_guard lock(mutex_);
-        return preparation_;
+        submit(utterances);
     }
     void pause() override {
         std::lock_guard lock(mutex_);
@@ -566,8 +524,6 @@ public:
         ++generation_;
         queue_.clear();
         active_ = false;
-        preparing_ = false;
-        preparation_ = {};
         paused_ = false;
         output_started_ = false;
         state_ = SpeechState::Stopped;

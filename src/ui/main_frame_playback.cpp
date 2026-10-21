@@ -76,39 +76,6 @@ void MainFrame::restore_reading_position() {
 bool MainFrame::active_playback() const {
     return playback_.active();
 }
-bool MainFrame::preparing_day() const {
-    return speech_ && playback_.preparing(*speech_);
-}
-void MainFrame::clear_preparation() {
-    playback_.clear_preparation(*speech_);
-}
-void MainFrame::prepare_day() {
-    if (!controls().prepare)
-        return;
-    const auto date = selected_.date();
-    stop_speech(false);
-    try {
-        const auto day = lectionary_.readings_with_variants(date, settings_.calendar, settings_.tradition);
-        std::vector<Reading> readings;
-        const auto add = [&](const Reading& reading) {
-            if (reading.can_open())
-                readings.push_back(in_swedish(reading));
-        };
-        for (const auto& reading : day.readings)
-            add(reading);
-        for (const auto& variant : day.variants)
-            if (variant.reading)
-                add(*variant.reading);
-        const auto queue = reading_speech(corpus_, readings, [this](const std::string& language) {
-            return speech_lexicon(language);
-        });
-        playback_.prepare(*speech_, queue, date);
-        refresh_speech();
-    } catch (const std::exception& error) {
-        wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered ljud för vald dag"),
-                     wxOK | wxICON_INFORMATION, this);
-    }
-}
 void MainFrame::play_or_pause() {
     const auto action = controls().playback_action;
     if (action == PlaybackAction::None)
@@ -147,11 +114,14 @@ void MainFrame::listen_to_selection(const Reading& reading) {
 void MainFrame::speech_status(const std::string& status) {
     if (playback_.playback().state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
         return;
-    // A stop that bypassed stop_speech, such as a word played in the study panel, ended the preparation.
-    playback_.observe_preparation(*speech_);
-    if (!playback_.prepared_day())
-        playback_.report(status);
+    // A playback poll may already have ended the preview before its error status arrives.
+    const bool preview_error =
+        (voice_preview_ || voice_preview_failed_) && speech_->playback().state == SpeechState::Error;
+    voice_preview_failed_ = false;
+    playback_.report(status);
     refresh_speech();
+    if (preview_error)
+        wxMessageBox(ui::utf8(status), ui::utf8("Prova rösten"), wxOK | wxICON_INFORMATION, this);
 }
 void MainFrame::toggle_pause() {
     const auto state = speech_->playback();
@@ -171,6 +141,10 @@ void MainFrame::toggle_pause() {
         playback_timer_.Start(30);
 }
 void MainFrame::pause_for_navigation() {
+    if (voice_preview_) {
+        stop_speech(false);
+        return;
+    }
     if (speech_) {
         playback_.leave_reader(*speech_);
         save_reading_position();
@@ -222,14 +196,15 @@ void MainFrame::refresh_speech() {
         display_playback(speech_->playback());
 }
 void MainFrame::display_playback(const SpeechPlayback& playback) {
-    if (playback.state == SpeechState::Completed && playback_.playback().state != SpeechState::Completed) {
+    if (!voice_preview_ && playback.state == SpeechState::Completed &&
+        playback_.playback().state != SpeechState::Completed) {
         for (const auto& reading : playback_.readings())
             user_.reset_position(reading_key(corpus_, in_swedish(reading)));
         position_reset_ = true;
         reset_scroll_ = scripture_->scroll_position();
     }
-    if (playback.state == SpeechState::Completed && playback_.playback().state != SpeechState::Completed &&
-        speech_tracked_)
+    if (!voice_preview_ && playback.state == SpeechState::Completed &&
+        playback_.playback().state != SpeechState::Completed && speech_tracked_)
         CallAfter([this, item = *speech_tracked_] {
             complete_reading(item);
         });
@@ -237,6 +212,15 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         speech_tracked_.reset();
     playback_.update(playback);
     const bool active = speech_active(playback.state);
+    if (voice_preview_ && !active) {
+        voice_preview_ = false;
+        voice_preview_failed_ = playback.state == SpeechState::Error;
+        if (voice_preview_button_) {
+            voice_preview_button_->SetLabel(ui::utf8("Prova rösten"));
+            voice_preview_button_->SetName(voice_preview_button_->GetLabel());
+            voice_preview_button_->Refresh();
+        }
+    }
     if (!navigation_.auxiliary() && active && scripture_->follows_playback() && playback.cue)
         open_speech_location(playback.cue->reading, playback.cue->section);
     if (!active) {

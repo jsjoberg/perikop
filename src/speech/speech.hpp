@@ -2,7 +2,6 @@
 #include "core/model.hpp"
 #include <functional>
 #include <memory>
-#include <stdexcept>
 #include <utility>
 namespace ortho {
 enum class SpeechState { Idle, Loading, Buffering, Playing, Paused, Stopped, Completed, Error };
@@ -26,12 +25,6 @@ struct SpeechPlayback {
 struct SpeechUtterance {
     std::string display_text, speech_text, language;
     std::optional<SpeechCue> cue = {};
-};
-enum class PreparationState { Idle, Running, Ready, Error };
-struct SpeechPreparation {
-    PreparationState state = PreparationState::Idle;
-    size_t completed = 0, total = 0;
-    std::string status;
 };
 // Compile pronunciation phrases once and reuse them for every verse in a batch.
 class PronunciationMatcher {
@@ -57,13 +50,6 @@ public:
         for (const auto& utterance : utterances)
             speak(utterance);
     }
-    // Generate reusable cached audio without opening an audio device or starting playback.
-    virtual void prepare_batch(const std::vector<SpeechUtterance>&) {
-        throw std::runtime_error("Den här röstmotorn kan inte förbereda ljud.");
-    }
-    virtual SpeechPreparation preparation() const {
-        return {};
-    }
     virtual void pause() = 0;
     virtual void resume() = 0;
     virtual void stop() = 0;
@@ -72,7 +58,7 @@ public:
     }
     // Playback speed; 1 is the voice's own pace. Applies to audio already generated.
     virtual void set_speed(double) {}
-    // Swedish voice: "alice" or "bjorn". Applies from the next reading.
+    // Swedish voice identity, including installed eSpeak selectors. Applies from the next reading.
     virtual void set_voice(const std::string&) {}
     // IPA the Swedish voice uses for speech text; empty when it is unavailable.
     virtual std::string pronunciation(const std::string&) {

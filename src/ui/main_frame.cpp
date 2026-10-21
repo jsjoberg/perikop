@@ -188,8 +188,6 @@ MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
 void MainFrame::select_day(CivilDate date) {
     if (!selectable_date(date))
         return;
-    if (date != selected_.date())
-        clear_preparation();
     save_navigation();
     const bool changed = date != selected_.date() || navigation_.current().screen != Screen::Day;
     selected_.select(date);

@@ -1120,6 +1120,7 @@ int main(int argc, char** argv) {
                       s.speech_highlight && s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
             s.update_channel = UpdateChannel::Releases;
+            s.speech_voice = "espeak:sv+adam";
             user.save(s);
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");
@@ -1131,6 +1132,8 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             check(user.load().update_channel == UpdateChannel::Releases,
                   "switching back to releases survives reopening the profile");
+            check(user.load().speech_voice == "espeak:sv+adam",
+                  "an installed eSpeak voice selection survives reopening the profile");
             sqlite3* inspect = nullptr;
             check(sqlite3_open(user_path.string().c_str(), &inspect) == SQLITE_OK,
                   "open update channel fallback fixture");

@@ -55,20 +55,15 @@ public:
 class NavigationSpeech final : public SpeechEngine {
 public:
     SpeechPlayback held;
-    SpeechPreparation prepared;
-    std::vector<SpeechUtterance> prepared_queue;
     std::vector<SpeechUtterance> spoken;
+    std::string voice;
+    void set_voice(const std::string& selected) override {
+        voice = selected;
+    }
     void speak_batch(const std::vector<SpeechUtterance>& queue) override {
         spoken = queue;
         changed = true;
         held = {SpeechState::Playing, queue.empty() ? std::optional<SpeechCue>{} : queue.front().cue, 0, 0};
-    }
-    void prepare_batch(const std::vector<SpeechUtterance>& utterances) override {
-        prepared_queue = utterances;
-        prepared = {PreparationState::Running, 0, utterances.size(), "Förbereder ljud"};
-    }
-    SpeechPreparation preparation() const override {
-        return prepared;
     }
     bool changed = false;
     std::vector<std::function<void(std::string)>> lookups;
@@ -85,7 +80,6 @@ public:
     }
     void stop() override {
         changed = true;
-        prepared = {};
         held = {SpeechState::Stopped, {}, 0, 0};
     }
     SpeechPlayback playback() const override {
@@ -356,82 +350,6 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (!screenshot_path.empty())
             ok = image.SaveFile(screenshot_path.BeforeLast('.') + suffix + ".png", wxBITMAP_TYPE_PNG) && ok;
     };
-    // Preparation targets the selected day, independent of the passage currently open.
-    {
-        auto real_speech = std::move(speech_);
-        auto fake = std::make_unique<NavigationSpeech>();
-        auto* preparing = fake.get();
-        speech_ = std::move(fake);
-        const auto completed = user_.completed();
-        const auto tomorrow = shift_date(local_civil_date(), 1);
-        select_day(tomorrow);
-        const auto tomorrow_readings =
-            lectionary_.readings_with_variants(tomorrow, settings_.calendar, settings_.tradition);
-        const auto first_reading = std::ranges::find_if(tomorrow_readings.readings, &Reading::can_open);
-        if (first_reading == tomorrow_readings.readings.end())
-            fail(__LINE__);
-        open_fresh_psalm();
-        auto* command = menu_bar_->FindItem(
-            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Förbered ljud för vald dag")));
-        if (!command || !command->IsEnabled() ||
-            !command->GetHelp().Contains(ui::utf8(date_swedish(tomorrow))))
-            fail(__LINE__);
-        if (command) {
-            wxCommandEvent event(wxEVT_MENU, command->GetId());
-            GetEventHandler()->ProcessEvent(event);
-        }
-        if (!preparing_day() || playback_.prepared_day() != tomorrow || preparing->prepared_queue.empty() ||
-            active_playback() || !stop_->IsEnabled() ||
-            !address_->GetLabel().Contains(ui::utf8("Förbereder")) ||
-            !address_->GetLabel().Contains(ui::utf8(date_swedish(tomorrow))) ||
-            (command && command->IsEnabled()))
-            fail(__LINE__);
-        if (std::any_of(preparing->prepared_queue.begin(), preparing->prepared_queue.end(),
-                        [](const auto& utterance) {
-                            return utterance.language != "sv" || !utterance.cue ||
-                                   utterance.cue->book == "Ps";
-                        }))
-            fail(__LINE__);
-        if (first_reading != tomorrow_readings.readings.end() && !preparing->prepared_queue.empty()) {
-            const auto expected = corpus_.localize(in_swedish(*first_reading)).passage;
-            const auto& cue = preparing->prepared_queue.front().cue;
-            if (!cue || cue->book != expected.book || !expected.contains(cue->verse))
-                fail(__LINE__); // Queue content comes from tomorrow, not the wall-clock day.
-        }
-        if (!screenshot_path.empty()) {
-            Layout();
-            Update();
-            wxBitmap bitmap(GetClientSize());
-            wxClientDC window(this);
-            {
-                wxMemoryDC image(bitmap);
-                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
-            }
-            save(bitmap.ConvertToImage(), "-preparation");
-        }
-        if (scripture_->reading().passage.book != "Ps")
-            fail(__LINE__); // Preparation never opens or follows a reading.
-        preparing->prepared = {PreparationState::Ready, 1, 1, "Ljudet är förberett, Alice"};
-        refresh_speech();
-        show_readings();
-        if (preparing_day() || active_playback() || stop_->IsEnabled() ||
-            !address_->GetLabel().Contains(ui::utf8("förberett")) || user_.completed() != completed ||
-            (command && !command->IsEnabled()))
-            fail(__LINE__);
-        // A stop outside stop_speech, such as a word played in the study panel, ends the preparation too.
-        speech_->stop();
-        speech_status("Stoppad");
-        if (playback_.prepared_day() || address_->GetLabel() != ui::utf8("Dagens läsningar"))
-            fail(__LINE__);
-        prepare_day();
-        select_day(shift_date(tomorrow, 1));
-        if (preparing_day() || playback_.prepared_day() ||
-            preparing->prepared.state != PreparationState::Idle)
-            fail(__LINE__);
-        speech_ = std::move(real_speech);
-        select_day(date);
-        open_fresh_psalm();
-    }
     // Native drawing must use the same shaped widths as paragraph fitting.
     wxClientDC metrics(scripture_);
     metrics.SetFont(body_font(19));
@@ -728,6 +646,56 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_.primary_sources = preferences;
         apply_settings(false);
         fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+    }
+    {
+        auto real_speech = std::move(speech_);
+        const auto previous_playback = playback_;
+        const auto previous_voice = settings_.speech_voice;
+        const auto previous_tracked = speech_tracked_;
+        const Reading retained{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}, {}, "sv"};
+        const auto key = reading_key(corpus_, retained);
+        const auto previous_position = user_.position(key);
+        const auto completed = user_.completed();
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        engine->held = {SpeechState::Paused, SpeechCue{0, 0, "John", "sv1917", {1, 4}, {1, 4}}, 0, 0.3};
+        speech_ = std::move(held);
+        playback_.start({retained});
+        settings_.speech_voice = "espeak:sv+adam";
+        speech_tracked_ = Tracked{"voice-preview-test", "Preview"};
+        auto* settings_page = current_page();
+        preview_voice();
+        const auto saved_position = user_.position(key);
+        const auto sample = corpus_.verse("sv1917", "John", {3, 16});
+        if (!voice_preview_ || !sample || engine->spoken.size() != 1 ||
+            engine->spoken.front().display_text != sample->text || engine->spoken.front().cue ||
+            engine->voice != settings_.speech_voice || !playback_.readings().empty() || speech_tracked_ ||
+            !saved_position || saved_position->verse != VerseRef{1, 4} || current_page() != settings_page)
+            fail(__LINE__);
+        preview_voice();
+        if (voice_preview_ || engine->held.state != SpeechState::Stopped)
+            fail(__LINE__);
+        preview_voice();
+        engine->held.state = SpeechState::Completed;
+        refresh_speech();
+        wxTheApp->ProcessPendingEvents();
+        if (voice_preview_ || user_.position(key) != saved_position || user_.completed() != completed ||
+            current_page() != settings_page ||
+            (voice_preview_button_ && voice_preview_button_->GetLabel() != ui::utf8("Prova rösten")))
+            fail(__LINE__);
+        preview_voice();
+        pause_for_navigation();
+        if (voice_preview_ || engine->held.state != SpeechState::Stopped)
+            fail(__LINE__);
+        if (previous_position)
+            user_.position(key, *previous_position);
+        else
+            user_.reset_position(key);
+        settings_.speech_voice = previous_voice;
+        speech_ = std::move(real_speech);
+        playback_ = previous_playback;
+        speech_tracked_ = previous_tracked;
+        refresh_speech();
     }
     each_scheme([&](const wxString& suffix, const wxColour& paper) {
         if (!current_page() || current_page()->GetBackgroundColour() != paper)

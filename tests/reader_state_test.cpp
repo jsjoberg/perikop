@@ -13,7 +13,6 @@ void check(bool condition, const char* message) {
 class HeldSpeech final : public SpeechEngine {
 public:
     SpeechPlayback state;
-    SpeechPreparation preparation_state;
     int pauses = 0, resumes = 0, stops = 0;
     void speak(const SpeechUtterance&) override {}
     void pause() override {
@@ -27,16 +26,9 @@ public:
     void stop() override {
         ++stops;
         state = {SpeechState::Stopped, {}, 0, 0};
-        preparation_state = {};
     }
     SpeechPlayback playback() const override {
         return state;
-    }
-    void prepare_batch(const std::vector<SpeechUtterance>& queue) override {
-        preparation_state = {PreparationState::Running, 0, queue.size(), "Preparing"};
-    }
-    SpeechPreparation preparation() const override {
-        return preparation_state;
     }
 };
 void navigation_test() {
@@ -74,21 +66,20 @@ void controls_test() {
         for (auto state :
              {SpeechState::Idle, SpeechState::Loading, SpeechState::Buffering, SpeechState::Playing,
               SpeechState::Paused, SpeechState::Stopped, SpeechState::Completed, SpeechState::Error})
-            for (bool preparing : {false, true})
-                for (bool selection : {false, true}) {
-                    const auto policy = reader_controls({screen, state, preparing, selection, true, true});
-                    check(!(policy.listen && policy.pause), "Listen and Pause must not both be enabled");
-                    if (screen != Screen::Reader)
-                        check(!policy.listen && !policy.pause && !policy.columns &&
-                                  policy.playback_action == PlaybackAction::None,
-                              "Playback actions and reader columns must be unavailable outside the reader");
-                    if (auxiliary_screen(screen))
-                        check(!policy.stop && !policy.prepare && policy.back,
-                              "Auxiliary pages must suspend playback while keeping Back available");
-                    if (screen == Screen::Bible)
-                        check(policy.address_action == AddressAction::CloseBrowse && !policy.address_dropdown,
-                              "The address field must close Browse even when parts are selected");
-                }
+            for (bool selection : {false, true}) {
+                const auto policy = reader_controls({screen, state, selection, true});
+                check(!(policy.listen && policy.pause), "Listen and Pause must not both be enabled");
+                if (screen != Screen::Reader)
+                    check(!policy.listen && !policy.pause && !policy.columns &&
+                              policy.playback_action == PlaybackAction::None,
+                          "Playback actions and reader columns must be unavailable outside the reader");
+                if (auxiliary_screen(screen))
+                    check(!policy.stop && policy.back,
+                          "Auxiliary pages must suspend playback while keeping Back available");
+                if (screen == Screen::Bible)
+                    check(policy.address_action == AddressAction::CloseBrowse && !policy.address_dropdown,
+                          "The address field must close Browse even when parts are selected");
+            }
     const auto paused = reader_controls({Screen::Reader, SpeechState::Paused});
     check(paused.listen && !paused.pause && paused.stop && paused.playback_action == PlaybackAction::Resume &&
               paused.listen_label == "Fortsätt",
@@ -96,7 +87,7 @@ void controls_test() {
     const auto loading = reader_controls({Screen::Reader, SpeechState::Loading});
     check(!loading.listen && loading.pause && loading.playback_action == PlaybackAction::Pause,
           "Loading must be pausable without allowing a second playback start");
-    const auto selected = reader_controls({Screen::Reader, SpeechState::Stopped, false, true});
+    const auto selected = reader_controls({Screen::Reader, SpeechState::Stopped, true});
     check(selected.listen && selected.playback_action == PlaybackAction::StartSelection &&
               selected.playback_label == "Läs markering",
           "A stopped reader must offer its selected verses");
@@ -110,9 +101,6 @@ void controls_test() {
           "Playback started elsewhere must stay resumable over a reading without Swedish text");
     const auto home = reader_controls({Screen::Day, SpeechState::Paused});
     check(!home.stop && !home.listen && !home.pause, "A paused day page must disable all playback controls");
-    const auto preparing = reader_controls({Screen::Day, SpeechState::Stopped, true, false, false, true});
-    check(preparing.stop && !preparing.prepare && !preparing.listen,
-          "Audio preparation must remain cancellable without enabling playback on the day page");
 }
 void playback_test() {
     PlaybackController playback;
@@ -161,18 +149,6 @@ void playback_test() {
     engine.state.state = SpeechState::Playing;
     check(playback.select_reading(engine),
           "A selection must stop playback before its first UI status arrives");
-    const auto date = parse_date("2026-10-14").value();
-    playback.prepare(engine, {SpeechUtterance{"text", "text", "sv"}}, date);
-    check(playback.preparing(engine) && playback.prepared_day() == date, "Preparation must retain its day");
-    playback.clear_preparation(engine);
-    check(!playback.prepared_day() && engine.preparation().state == PreparationState::Idle,
-          "Changing the day must cancel unfinished preparation");
-    playback.prepare(engine, {SpeechUtterance{"text", "text", "sv"}}, date);
-    engine.preparation_state.state = PreparationState::Ready;
-    const int ready_stops = engine.stops;
-    playback.clear_preparation(engine);
-    check(engine.stops == ready_stops && !playback.prepared_day(),
-          "Clearing a completed preparation must retain reusable cached audio");
 }
 } // namespace
 int main() {

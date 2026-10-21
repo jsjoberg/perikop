@@ -1,10 +1,16 @@
+#include "speech/espeak_voice.hpp"
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
+#include <stdexcept>
+#include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/choice.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
+#include <wx/hyperlink.h>
+#include <wx/msgdlg.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
@@ -174,6 +180,37 @@ void MainFrame::show_settings() {
     fill_settings(page);
     show_page(page, Screen::Settings, ui::utf8("Inställningar"));
 }
+void MainFrame::preview_voice() {
+    if (voice_preview_) {
+        stop_speech(false);
+        return;
+    }
+    if (espeak_voice_name(settings_.speech_voice).empty())
+        return;
+    try {
+        const auto verse = corpus_.verse("sv1917", "John", {3, 16});
+        if (!verse)
+            throw std::runtime_error("Provtexten Johannes 3:16 kunde inte läsas.");
+        save_reading_position();
+        stop_speech(false);
+        // A preview has no reading cues or completion tracking and stays on the settings page.
+        playback_.start({});
+        speech_tracked_.reset();
+        speech_->set_voice(settings_.speech_voice);
+        voice_preview_ = true;
+        if (voice_preview_button_) {
+            voice_preview_button_->SetLabel(ui::utf8("Stoppa provet"));
+            voice_preview_button_->SetName(voice_preview_button_->GetLabel());
+            voice_preview_button_->Refresh();
+        }
+        speech_->speak_batch({make_utterance(verse->text, "sv", speech_lexicon("sv"))});
+        playback_timer_.Start(30);
+        refresh_speech();
+    } catch (const std::exception& error) {
+        stop_speech(false);
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Prova rösten"), wxOK | wxICON_INFORMATION, this);
+    }
+}
 void MainFrame::fill_settings(wxScrolledWindow* page) {
     // Native radio buttons and a check box, so screen readers and arrow keys work as everywhere else.
     page->DestroyChildren();
@@ -242,7 +279,6 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         apply_settings();
     });
     const auto day_changed = [this] {
-        clear_preparation();
         refresh_day();
         apply_settings();
     };
@@ -257,12 +293,73 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 day_changed();
             });
     // Read-aloud is Swedish only.
-    choices("RÖST FÖR UPPLÄSNING", {"Alice", "Björn"}, settings_.speech_voice == "bjorn", [this](int i) {
-        clear_preparation();
-        settings_.speech_voice = i ? "bjorn" : "alice";
+    std::vector<EspeakVoice> voices{{"alice", "Alice"}, {"bjorn", "Björn"}};
+    std::string voice_error;
+    try {
+        auto installed = Espeak::voices();
+        voices.insert(voices.end(), installed.begin(), installed.end());
+        if (installed.empty())
+            voice_error = "Inga svenska eSpeak-röster hittades.";
+    } catch (const std::exception& error) {
+        voice_error = error.what();
+    }
+    auto chosen = std::ranges::find(voices, settings_.speech_voice, &EspeakVoice::id);
+    const auto available_count = voices.size();
+    if (chosen == voices.end()) {
+        // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
+        voices.push_back({settings_.speech_voice, settings_.speech_voice + " (inte tillgänglig)"});
+        chosen = std::prev(voices.end());
+    }
+    entries->Add(ui::label(content, ui::utf8("RÖST FÖR UPPLÄSNING"), 10), 0, wxTOP | wxBOTTOM,
+                 FromDIP(zoomed(8)));
+    auto* voice_choice = new wxChoice(content, wxID_ANY);
+    voice_choice->SetFont(ui_font());
+    voice_choice->SetName(ui::utf8("Röst för uppläsning"));
+    for (const auto& voice : voices)
+        voice_choice->Append(ui::utf8(voice.name));
+    voice_choice->SetSelection(int(chosen - voices.begin()));
+    auto* voice_try =
+        new wxButton(content, wxID_ANY, ui::utf8(voice_preview_ ? "Stoppa provet" : "Prova rösten"));
+    voice_try->SetFont(ui_font());
+    voice_try->Bind(wxEVT_BUTTON, [this](wxCommandEvent&) {
+        preview_voice();
+    });
+    const auto button_size = voice_try->GetBestSize();
+    voice_try->SetMinSize(
+        {std::max(button_size.x, voice_try->GetTextExtent(ui::utf8("Stoppa provet")).x + FromDIP(zoomed(28))),
+         button_size.y});
+    voice_try->SetToolTip(ui::utf8("Läs Johannes 3:16 med den valda eSpeak-rösten."));
+    voice_try->Enable(std::size_t(voice_choice->GetSelection()) < available_count &&
+                      !espeak_voice_name(settings_.speech_voice).empty());
+    voice_preview_button_ = voice_try;
+    voice_choice->Bind(wxEVT_CHOICE, [this, voices, available_count, voice_try](wxCommandEvent& event) {
+        if (voice_preview_)
+            stop_speech(false);
+        settings_.speech_voice = voices.at(std::size_t(event.GetSelection())).id;
         speech_->set_voice(settings_.speech_voice);
+        voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
+                          !espeak_voice_name(settings_.speech_voice).empty());
         apply_settings();
     });
+    auto* voice_row = new wxBoxSizer(wxHORIZONTAL);
+    voice_row->Add(voice_choice, 1, wxALIGN_CENTER_VERTICAL);
+    voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
+    entries->Add(voice_row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
+    // eSpeak NG is the user's own installation; Perikop never ships it.
+    wxHyperlinkCtrl* espeak_link = nullptr;
+    if (!voice_error.empty()) {
+        entries->Add(ui::label(content, ui::utf8(voice_error), 10));
+#if defined(__APPLE__)
+        const wxString guide = "https://formulae.brew.sh/formula/espeak-ng";
+#else
+        const wxString guide =
+            "https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md#installation";
+#endif
+        espeak_link = new wxHyperlinkCtrl(content, wxID_ANY, ui::utf8("Så installerar du eSpeak NG"), guide);
+        espeak_link->SetFont(ui_font(10));
+        espeak_link->SetToolTip(guide);
+        entries->Add(espeak_link, 0, wxBOTTOM, FromDIP(zoomed(18)));
+    }
     auto* highlight = new wxCheckBox(content, wxID_ANY, ui::utf8("Markera texten som läses upp"));
     highlight->SetFont(ui_font());
     highlight->SetValue(settings_.speech_highlight);
@@ -284,6 +381,11 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
+    if (espeak_link) {
+        espeak_link->SetNormalColour(palette(settings_.theme).accent);
+        espeak_link->SetVisitedColour(palette(settings_.theme).accent);
+        espeak_link->SetHoverColour(palette(settings_.theme).ink);
+    }
     page->FitInside();
     page->Layout();
 }
