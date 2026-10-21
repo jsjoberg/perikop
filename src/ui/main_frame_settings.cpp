@@ -1,3 +1,4 @@
+#include "speech/espeak_voice.hpp"
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
@@ -5,6 +6,7 @@
 #include <wx/checkbox.h>
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
+#include <wx/hyperlink.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
@@ -200,6 +202,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     entries->Add(ui::label(
         content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
     entries->AddSpacer(FromDIP(zoomed(22)));
+    wxHyperlinkCtrl* espeak_link = nullptr;
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
         entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
@@ -257,17 +260,34 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 day_changed();
             });
     // Read-aloud is Swedish only.
-    static constexpr const char* voices[] = {"alice", "bjorn", "cesar"};
-    choices("RÖST FÖR UPPLÄSNING", {"Alice", "Björn", "Cesar (robotlik, snabb)"},
-            settings_.speech_voice == "bjorn"   ? 1
-            : settings_.speech_voice == "cesar" ? 2
-                                                : 0,
-            [this](int i) {
-                clear_preparation();
-                settings_.speech_voice = voices[i];
-                speech_->set_voice(settings_.speech_voice);
-                apply_settings();
-            });
+    static constexpr const char* voices[] = {"alice", "bjorn", "cesar", espeak_male_id, espeak_female_id};
+    choices(
+        "RÖST FÖR UPPLÄSNING",
+        {"Alice", "Björn", "Cesar (robotlik, snabb)", "eSpeak, manlig röst", "eSpeak, kvinnlig röst"},
+        int(std::find(std::begin(voices), std::end(voices), settings_.speech_voice) - std::begin(voices)) %
+            int(std::size(voices)), // an unknown value shows Alice
+        [this](int i) {
+            clear_preparation();
+            settings_.speech_voice = voices[i];
+            speech_->set_voice(settings_.speech_voice);
+            apply_settings();
+        });
+    // eSpeak NG is the user's own installation; Perikop never ships it.
+    if (!espeak_installed()) {
+        entries->Add(
+            ui::label(content, ui::utf8("eSpeak-rösterna kräver eSpeak NG, som inte är installerat."), 10));
+#if defined(__APPLE__)
+        const wxString guide = "https://formulae.brew.sh/formula/espeak-ng";
+#else
+        const wxString guide =
+            "https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md#installation";
+#endif
+        auto* link = new wxHyperlinkCtrl(content, wxID_ANY, ui::utf8("Så installerar du eSpeak NG"), guide);
+        link->SetFont(ui_font(10));
+        link->SetToolTip(guide);
+        espeak_link = link;
+        entries->Add(link, 0, wxBOTTOM, FromDIP(zoomed(18)));
+    }
     auto* highlight = new wxCheckBox(content, wxID_ANY, ui::utf8("Markera texten som läses upp"));
     highlight->SetFont(ui_font());
     highlight->SetValue(settings_.speech_highlight);
@@ -289,6 +309,11 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
+    if (espeak_link) {
+        espeak_link->SetNormalColour(palette(settings_.theme).accent);
+        espeak_link->SetVisitedColour(palette(settings_.theme).accent);
+        espeak_link->SetHoverColour(palette(settings_.theme).ink);
+    }
     page->FitInside();
     page->Layout();
 }

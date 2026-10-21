@@ -58,8 +58,19 @@ Verified on macOS with Homebrew eSpeak NG 1.52.0:
 
 macOS builds are signed ad hoc without the hardened runtime, so they may load the Homebrew library. A Developer ID build with the hardened runtime would need the `com.apple.security.cs.disable-library-validation` entitlement for this.
 
+## In the app
+
+- Settings list two new voices, "eSpeak, manlig röst" (`sv`) and "eSpeak, kvinnlig röst" (`sv+f2`), both at 150 words/min.
+- When no eSpeak library loads, settings show a hint and an installation link: Homebrew's formula on macOS, eSpeak NG's installation guide elsewhere. Starting an eSpeak reading without eSpeak reports "eSpeak NG är inte installerat. Anvisningar finns under Inställningar."
+- Both voices use the Alice/Björn pack's pronunciations, as Cesar does, but never its neural model.
+- Cached audio is stored under `espeak/<version>/<voice>/<rate>/v1`, so an eSpeak upgrade does not reuse older audio.
+- `speech-cache-recovery` plays the male voice end to end with only the pack's pronunciation files, where eSpeak is installed.
+- In the real app (scratch profile), choosing the voice and starting a reading cached 10.2 s of eSpeak audio for Colossians 1.
+
 ## Not done
 
-- No voices in the app yet: not in `portable_speech.cpp`, no settings UI or power-user field, no install hint, no packaging changes.
+- The power-user field for documented eSpeak settings.
+- The missing-eSpeak hint has not been seen on screen; this Mac has eSpeak installed.
 - Windows (`libespeak-ng.dll` name, registry key) and Linux loading are unverified, and so are older distribution versions (1.50, 1.51).
 - The stock-voice round (round 5) still awaits listening.
+- The pronunciation files still come from the Alice/Björn pack.

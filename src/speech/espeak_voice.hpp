@@ -9,6 +9,11 @@ namespace ortho {
 std::string espeak_phonemes(const std::string& ipa);
 // The phones in ipa that have no eSpeak code, for tests.
 std::vector<std::string> espeak_unknown_phones(const std::string& ipa);
+// Settings values of the two eSpeak voices: eSpeak's stock "sv" and "sv+f2".
+inline constexpr char espeak_male_id[] = "espeak";
+inline constexpr char espeak_female_id[] = "espeak-f2";
+// Whether an eSpeak NG library can be loaded, without starting it.
+bool espeak_installed();
 // eSpeak NG (GPL), loaded at run time from the user's own installation through its documented
 // API. Perikop ships no eSpeak code or data. eSpeak keeps global state: use one instance at a time.
 class Espeak {

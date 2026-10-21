@@ -252,5 +252,8 @@ https://github.com/waywardgeek/sonic
 Cesar, the simple Swedish voice, uses a Klatt formant synthesizer ported and modified from `speech.h` by Mattias Gustavsson, commit `64b57a7275fc060a001a01c4ac2b450c17135e80`. That file is based on SoLoud's speech code by Jari Komppa (public domain, CC0) and on rsynth by Nick Ing-Simmons et al., which its author described as public domain. Its English text rules are not used.
 https://github.com/mattiasgustavsson/libs/blob/64b57a7275fc060a001a01c4ac2b450c17135e80/speech.h
 
+The two eSpeak voices use eSpeak NG (GPL-3.0-or-later) only when the user has installed it separately. Perikop includes no eSpeak NG code or data; it loads the installed library at run time through eSpeak's documented interface.
+https://github.com/espeak-ng/espeak-ng
+
 The build copies these complete speech dependency notices into the application resources.
 The application does not include macOS, Windows, or Linux system speech voices.

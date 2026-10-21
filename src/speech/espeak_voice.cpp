@@ -102,6 +102,32 @@ std::vector<std::filesystem::path> library_candidates() {
     return {"libespeak-ng.so.1"};
 #endif
 }
+#if defined(_WIN32)
+using Library = HMODULE;
+#else
+using Library = void*;
+#endif
+Library open_library() {
+    for (const auto& candidate : library_candidates()) {
+#if defined(_WIN32)
+        const auto library = candidate.is_absolute()
+                                 ? LoadLibraryExW(candidate.c_str(), nullptr, LOAD_WITH_ALTERED_SEARCH_PATH)
+                                 : LoadLibraryW(candidate.c_str());
+#else
+        const auto library = dlopen(candidate.c_str(), RTLD_NOW | RTLD_LOCAL);
+#endif
+        if (library)
+            return library;
+    }
+    return nullptr;
+}
+void close_library(Library library) {
+#if defined(_WIN32)
+    FreeLibrary(library);
+#else
+    dlclose(library);
+#endif
+}
 // Audio arrives through a plain C callback; eSpeak's state is global, so ours is too.
 std::mutex engine;
 bool engine_open = false;
@@ -178,12 +204,15 @@ std::vector<std::string> espeak_unknown_phones(const std::string& ipa) {
     return result;
 }
 
+bool espeak_installed() {
+    const auto library = open_library();
+    if (library)
+        close_library(library);
+    return library != nullptr;
+}
+
 struct Espeak::Impl {
-#if defined(_WIN32)
-    HMODULE library = nullptr;
-#else
-    void* library = nullptr;
-#endif
+    Library library = nullptr;
     int rate = 0;
     std::string voice;
     Initialize initialize = nullptr;
@@ -203,11 +232,7 @@ struct Espeak::Impl {
             throw std::runtime_error("Den installerade eSpeak NG saknar " + std::string(name) + ".");
     }
     void close() {
-#if defined(_WIN32)
-        FreeLibrary(library);
-#else
-        dlclose(library);
-#endif
+        close_library(library);
     }
 };
 
@@ -215,19 +240,9 @@ Espeak::Espeak() : impl_(std::make_unique<Impl>()) {
     std::lock_guard lock(engine);
     if (engine_open)
         throw std::logic_error("eSpeak NG is already open.");
-    for (const auto& candidate : library_candidates()) {
-#if defined(_WIN32)
-        impl_->library = candidate.is_absolute()
-                             ? LoadLibraryExW(candidate.c_str(), nullptr, LOAD_WITH_ALTERED_SEARCH_PATH)
-                             : LoadLibraryW(candidate.c_str());
-#else
-        impl_->library = dlopen(candidate.c_str(), RTLD_NOW | RTLD_LOCAL);
-#endif
-        if (impl_->library)
-            break;
-    }
+    impl_->library = open_library();
     if (!impl_->library)
-        throw std::runtime_error("eSpeak NG är inte installerat.");
+        throw std::runtime_error("eSpeak NG är inte installerat. Anvisningar finns under Inställningar.");
     try {
         impl_->bind(impl_->initialize, "espeak_Initialize");
         impl_->bind(impl_->set_callback, "espeak_SetSynthCallback");
@@ -280,6 +295,9 @@ std::vector<float> Espeak::speak(const std::string& ipa, const Settings& setting
         return {};
     if (result != ee_ok)
         throw std::runtime_error("eSpeak NG kunde inte läsa texten.");
+    // Text without speakable phones reads as a short pause, as with the other voices.
+    if (samples.empty())
+        return std::vector<float>(output_rate / 5, 0.0f);
     return resample(samples, impl_->rate);
 }
 } // namespace ortho
