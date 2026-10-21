@@ -17,29 +17,28 @@ from espeak_swedish import to_espeak
 
 TEXTS = ['Herren är min herde, mig skall intet fattas.',
          'Saliga äro de som hungra och törsta efter rättfärdighet, ty de skola varda mättade.']
-# (label, voice, extra arguments, unstress function words). Round 1 compared eSpeak's shipped
-# variants; the listener preferred klatt6, 150 words/min, and f2 as a female option.
+# (label, voice, extra arguments, unstress function words). Round 1 picked klatt6, 150 words/min
+# and f2; round 2 picked klatt6 at 150, plain or with consonants 120, and found 140 too slow.
 SETTINGS = [
-    ('klatt6, 150 words/min', 'sv+klatt6', ['-s', '150'], True),
-    ('klatt6, 140 words/min', 'sv+klatt6', ['-s', '140'], True),
-    ('klatt6 + slight room echo, 150', 'sv+perikop-echo', ['-s', '150'], True),
-    ('klatt6 + livelier melody (wider pitch range), 150', 'sv+perikop-melody', ['-s', '150'], True),
-    ('klatt6 + stronger consonants, 150', 'sv+perikop-consonants', ['-s', '150'], True),
-    ('f2, 150', 'sv+f2', ['-s', '150'], True),
-    ('f2 on klatt6, 150', 'sv+perikop-f2', ['-s', '150'], True),
-    ('f2 on klatt6, 140', 'sv+perikop-f2', ['-s', '140'], True),
+    ('Round 2 row 1: klatt6', 'sv+klatt6', ['-s', '150'], True),
+    ('Round 2 row 5: klatt6, consonants 120', 'sv+perikop-c120', ['-s', '150'], True),
+    ('Between: consonants 110, hint of melody (pitch 80-125)', 'sv+perikop-c110-hint', ['-s', '150'], True),
+    ('Between: consonants 110, a bit more melody (pitch 78-132)', 'sv+perikop-c110-more', ['-s', '150'], True),
+    ('Female: f2 on klatt6 (consonants 125)', 'sv+perikop-f2', ['-s', '150'], True),
+    ('Female: f2 on klatt6, consonants 110, hint of melody', 'sv+perikop-f2-hint', ['-s', '150'], True),
 ]
 # Our own voice files (klatt ignores breath, tone, roughness and flutter). eSpeak only finds
 # variants inside its data folder, so a folder of links to the installed data is built with these.
+# The f2 rows reuse eSpeak's f2 numbers for research; a shipped female voice needs its own values.
+F2 = ('formant 0 105 80 150\nformant 1 110 80 160\nformant 2 110 70 150\nformant 3 110 70 150\n'
+      'formant 4 115 80 150\nformant 5 115 80 150\nformant 6 110 70 150\nformant 7 110 70 150\n'
+      'formant 8 110 70 150\nstressAdd 0 0 -10 -10 0 0 10 40\necho 140 10\n')
 CUSTOM = {
-    'perikop-echo': 'klatt 6\necho 140 10\n',
-    'perikop-melody': 'klatt 6\npitch 75 140\n',
-    'perikop-consonants': 'klatt 6\nconsonants 120 120\n',
-    'perikop-f2': ('klatt 6\ngender female\npitch 142 220\n'
-                   'formant 0 105 80 150\nformant 1 110 80 160\nformant 2 110 70 150\nformant 3 110 70 150\n'
-                   'formant 4 115 80 150\nformant 5 115 80 150\nformant 6 110 70 150\nformant 7 110 70 150\n'
-                   'formant 8 110 70 150\nstressAdd 0 0 -10 -10 0 0 10 40\n'
-                   'echo 140 10\nconsonants 125 125\n'),
+    'perikop-c120': 'klatt 6\nconsonants 120 120\n',
+    'perikop-c110-hint': 'klatt 6\nconsonants 110 110\npitch 80 125\n',
+    'perikop-c110-more': 'klatt 6\nconsonants 110 110\npitch 78 132\n',
+    'perikop-f2': 'klatt 6\ngender female\npitch 142 220\nconsonants 125 125\n' + F2,
+    'perikop-f2-hint': 'klatt 6\ngender female\npitch 140 230\nconsonants 110 110\n' + F2,
 }
 TARGET_RMS = 0.08
 
@@ -72,7 +71,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--pack', type=Path, default=root / 'build/kokoro-pack')
     parser.add_argument('--probe', type=Path, default=root / 'build/cmake/bin/ortho-cesar-audio-probe')
-    parser.add_argument('--output', type=Path, default=root / 'build/espeak-variants/round2')
+    parser.add_argument('--output', type=Path, default=root / 'build/espeak-variants/round3')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     rows = []
