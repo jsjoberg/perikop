@@ -117,6 +117,10 @@ void MainFrame::show_plans() {
     auto* page =
         new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
     page->SetScrollRate(0, FromDIP(zoomed(12)));
+    page->Bind(wxEVT_SIZE, [this, page](wxSizeEvent& event) {
+        layout_plans(page);
+        event.Skip();
+    });
     fill_plans(page);
     show_page(page, Screen::Plans, plans_title());
 }
@@ -180,7 +184,7 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
         if (done == plan.parts.size())
             entries->Add(ui::label(content, ui::utf8("🎉 ✨ Hela planen är läst! 🕊️ 🎊"), 16), 0, wxBOTTOM,
                          FromDIP(zoomed(10)));
-        auto* grid = new wxGridSizer(5, FromDIP(zoomed(6)), FromDIP(zoomed(6)));
+        auto* grid = new wxGridSizer(1, FromDIP(zoomed(6)), FromDIP(zoomed(6)));
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
             const bool read = completed.contains(plan_key(plan, i));
             const wxString number = std::to_string(i + 1);
@@ -201,6 +205,30 @@ void MainFrame::fill_plans(wxScrolledWindow* page) {
         entries->Add(grid, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(36)));
     }
     ui::recolor(page, palette(settings_.theme));
+    layout_plans(page);
+}
+void MainFrame::layout_plans(wxScrolledWindow* page) {
+    if (page->GetChildren().empty())
+        return;
+    auto* content = page->GetChildren().front();
+    // Include saved-progress labels when measuring the space each column needs.
+    int cell_width = FromDIP(zoomed(44));
+    std::vector<wxGridSizer*> grids;
+    for (auto* item : content->GetSizer()->GetChildren())
+        if (auto* grid = dynamic_cast<wxGridSizer*>(item->GetSizer())) {
+            grids.push_back(grid);
+            for (auto* cell : grid->GetChildren())
+                cell_width = std::max(cell_width, cell->GetMinSize().x);
+        }
+    const int gap = FromDIP(zoomed(6));
+    const int available = std::max(1, page->GetClientSize().x - FromDIP(zoomed(64)));
+    const int columns = std::clamp((available + gap) / (cell_width + gap), 1, 10);
+    for (auto* grid : grids)
+        grid->SetCols(columns);
+    const int width = std::min(available, std::max(FromDIP(zoomed(400)), 10 * (cell_width + gap) - gap));
+    content->SetMinSize({width, -1});
+    content->SetSize({width, content->GetSize().y});
+    content->InvalidateBestSize();
     page->FitInside();
     page->Layout();
 }

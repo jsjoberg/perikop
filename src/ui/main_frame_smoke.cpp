@@ -982,6 +982,44 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
     if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %"))
         fail(__LINE__);
+    // Wide windows show ten parts per row; narrow windows wrap without clipping labels.
+    const auto plans_size = GetSize();
+    const auto plan_columns = [&] {
+        const auto tiles = plan_tiles();
+        return std::ranges::count_if(tiles, [&](auto* tile) {
+            return tile->GetPosition().y == tiles.front()->GetPosition().y;
+        });
+    };
+    const auto check_plan_fit = [&] {
+        for (auto* tile : plan_tiles()) {
+            auto* panel = tile->GetParent();
+            if (tile->GetSize().x < tile->GetBestSize().x ||
+                tile->GetRect().GetRight() >= panel->GetClientSize().x ||
+                panel->GetRect().GetRight() >= current_page()->GetClientSize().x)
+                fail(__LINE__);
+        }
+    };
+    SetSize(FromDIP(wxSize(1200, 800)));
+    Layout();
+    root_->Layout();
+    if (plan_columns() != 10)
+        fail(__LINE__);
+    check_plan_fit();
+    SetSize(FromDIP(wxSize(520, 650)));
+    Layout();
+    root_->Layout();
+    if (plan_columns() < 1 || plan_columns() >= 10)
+        fail(__LINE__);
+    check_plan_fit();
+    const auto plans_zoom = settings_.text_zoom;
+    settings_.text_zoom = 200;
+    apply_settings(false);
+    check_plan_fit();
+    settings_.text_zoom = plans_zoom;
+    apply_settings(false);
+    SetSize(plans_size);
+    Layout();
+    root_->Layout();
     if (!screenshot_path.empty()) {
         root_->Layout();
         current_page()->Refresh();
