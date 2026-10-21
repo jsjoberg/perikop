@@ -24,25 +24,7 @@ void PlaybackController::toggle_pause(SpeechEngine& engine) {
 }
 void PlaybackController::stop(SpeechEngine& engine) {
     engine.stop();
-    preparation_day_.reset();
     location_.reset();
-}
-bool PlaybackController::preparing(const SpeechEngine& engine) const {
-    return preparation_day_ && engine.preparation().state == PreparationState::Running;
-}
-void PlaybackController::prepare(SpeechEngine& engine, const std::vector<SpeechUtterance>& utterances,
-                                 CivilDate date) {
-    engine.prepare_batch(utterances);
-    preparation_day_ = date;
-}
-void PlaybackController::clear_preparation(SpeechEngine& engine) {
-    if (preparing(engine))
-        engine.stop();
-    preparation_day_.reset();
-}
-void PlaybackController::observe_preparation(const SpeechEngine& engine) {
-    if (preparation_day_ && engine.preparation().state == PreparationState::Idle)
-        preparation_day_.reset();
 }
 void PlaybackController::update(const SpeechPlayback& playback, Clock::time_point now) {
     if (playback.state == SpeechState::Buffering && playback_.state != SpeechState::Buffering) {

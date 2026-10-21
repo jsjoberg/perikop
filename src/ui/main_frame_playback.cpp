@@ -76,39 +76,6 @@ void MainFrame::restore_reading_position() {
 bool MainFrame::active_playback() const {
     return playback_.active();
 }
-bool MainFrame::preparing_day() const {
-    return speech_ && playback_.preparing(*speech_);
-}
-void MainFrame::clear_preparation() {
-    playback_.clear_preparation(*speech_);
-}
-void MainFrame::prepare_day() {
-    if (!controls().prepare)
-        return;
-    const auto date = selected_.date();
-    stop_speech(false);
-    try {
-        const auto day = lectionary_.readings_with_variants(date, settings_.calendar, settings_.tradition);
-        std::vector<Reading> readings;
-        const auto add = [&](const Reading& reading) {
-            if (reading.can_open())
-                readings.push_back(in_swedish(reading));
-        };
-        for (const auto& reading : day.readings)
-            add(reading);
-        for (const auto& variant : day.variants)
-            if (variant.reading)
-                add(*variant.reading);
-        const auto queue = reading_speech(corpus_, readings, [this](const std::string& language) {
-            return speech_lexicon(language);
-        });
-        playback_.prepare(*speech_, queue, date);
-        refresh_speech();
-    } catch (const std::exception& error) {
-        wxMessageBox(ui::utf8(error.what()), ui::utf8("Förbered ljud för vald dag"),
-                     wxOK | wxICON_INFORMATION, this);
-    }
-}
 void MainFrame::play_or_pause() {
     const auto action = controls().playback_action;
     if (action == PlaybackAction::None)
@@ -147,10 +114,7 @@ void MainFrame::listen_to_selection(const Reading& reading) {
 void MainFrame::speech_status(const std::string& status) {
     if (playback_.playback().state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
         return;
-    // A stop that bypassed stop_speech, such as a word played in the study panel, ended the preparation.
-    playback_.observe_preparation(*speech_);
-    if (!playback_.prepared_day())
-        playback_.report(status);
+    playback_.report(status);
     refresh_speech();
 }
 void MainFrame::toggle_pause() {

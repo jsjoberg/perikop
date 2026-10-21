@@ -4,7 +4,7 @@
 #include <chrono>
 
 namespace ortho {
-// Playback commands, queue, preparation, and progress. Native windows and timers stay in the UI.
+// Playback commands, queue, and progress. Native windows and timers stay in the UI.
 class PlaybackController {
 public:
     using Clock = std::chrono::steady_clock;
@@ -19,13 +19,6 @@ public:
     void leave_reader(SpeechEngine&);
     void toggle_pause(SpeechEngine&);
     void stop(SpeechEngine&);
-    void prepare(SpeechEngine&, const std::vector<SpeechUtterance>&, CivilDate);
-    void clear_preparation(SpeechEngine&);
-    void observe_preparation(const SpeechEngine&);
-    bool preparing(const SpeechEngine&) const;
-    const std::optional<CivilDate>& prepared_day() const {
-        return preparation_day_;
-    }
     const std::optional<Location>& location() const {
         return location_;
     }
@@ -65,7 +58,6 @@ public:
 private:
     std::vector<Reading> readings_;
     std::optional<Location> location_;
-    std::optional<CivilDate> preparation_day_;
     SpeechPlayback playback_;
     SpeechState feedback_ = SpeechState::Idle;
     Clock::time_point buffering_since_;

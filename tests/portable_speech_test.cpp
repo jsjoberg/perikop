@@ -159,36 +159,6 @@ int main(int argc, char** argv) {
             {"", "Första.", "sv", first},
             {"", "Andra.", "sv", SpeechCue{0, 0, "Ps", "sv1917", {23, 2}, {23, 2}}},
             {"", "Tredje.", "sv", SpeechCue{1, 1, "John", "sv1917", {1, 1}, {1, 1}}}};
-        engine->prepare_batch(reading);
-        wait_for(
-            [] {
-                return status == "Ljudet är förberett, Alice";
-            },
-            "Cached preparation must finish without playback");
-        const auto prepared = engine->preparation();
-        check(prepared.state == PreparationState::Ready && prepared.completed == 3 && prepared.total == 3 &&
-                  !speech_active(engine->playback().state) && !engine->playback().cue,
-              "Preparation reports its own progress without completing a reading");
-        {
-            std::lock_guard lock(audio_mutex);
-            check(!device_entered && !stream, "Preparation must never open an audio device");
-        }
-        engine->set_voice("bjorn");
-        engine->prepare_batch(reading);
-        wait_for(
-            [] {
-                return status.starts_with("Förberedelse:");
-            },
-            "Another voice cannot reuse Alice's cached audio");
-        check(engine->preparation().state == PreparationState::Error &&
-                  engine->playback().state != SpeechState::Error,
-              "Preparation failures remain separate from playback failures");
-        engine->set_voice("alice");
-        // Cancel a queued preparation and immediately replace it with playback.
-        engine->prepare_batch(std::vector<SpeechUtterance>(10000, reading.front()));
-        engine->stop();
-        check(engine->preparation().state == PreparationState::Idle,
-              "Stop clears preparation and its queued work");
         {
             std::lock_guard lock(audio_mutex);
             hold_device = true;

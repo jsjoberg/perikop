@@ -116,9 +116,6 @@ private:
     void select_part(size_t);
     void toggle_pane(const std::string&);
     void play_speech(const std::vector<Reading>&, bool resume = true);
-    void prepare_day();
-    bool preparing_day() const;
-    void clear_preparation();
     void play_or_pause();
     void toggle_pause();
     void pause_for_navigation();

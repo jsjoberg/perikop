@@ -24,7 +24,7 @@ The `Perikop-linux-x64-releases.AppImage` download supports in-app updates. Use 
 
 ### Raspberry Pi 5
 Requires 64-bit Raspberry Pi OS with its desktop. Use the `aarch64` AppImage the same way. Older Pi models are not supported.
-Speech is only about as fast as playback, so select **Uppläsning → Förbered ljud för vald dag** before you listen.
+Alice and Björn are only about as fast as playback here; the eSpeak voices are much lighter.
 A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 ## Day page and calendar
@@ -77,13 +77,13 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Read-aloud
 
-- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select the voice, Alice or Björn, in **Inställningar**.
+- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select the voice in **Inställningar**: Alice, Björn, or the male or female eSpeak voice.
 - **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
 - **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
 - **Inställningar → Markera texten som läses upp** highlights the spoken text.
-- **Uppläsning → Förbered ljud för vald dag** prepares the selected day's audio in advance, for example the evening before.
+- The eSpeak voices need eSpeak NG, which you install separately; **Inställningar** links to installation instructions when it is missing. They read with Perikop's own Swedish pronunciations and use very little CPU.
 
 ## Word study and pronunciation
 

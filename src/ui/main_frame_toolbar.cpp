@@ -111,21 +111,12 @@ void MainFrame::toggle_pane(const std::string& pane) {
     apply_settings();
 }
 ReaderControls MainFrame::controls() const {
-    const bool available = std::ranges::any_of(day_.readings,
-                                               [](const Reading& reading) {
-                                                   return reading.can_open();
-                                               }) ||
-                           std::ranges::any_of(day_.variants, [](const DayReadings::Variant& variant) {
-                               return variant.reading && variant.reading->can_open();
-                           });
     auto result =
         reader_controls({.screen = navigation_.current().screen,
                          .playback = playback_.playback().state,
-                         .preparing = preparing_day(),
                          .selection = navigation_.reader() && scripture_->primary_language() == "sv" &&
                                       !scripture_->selections().empty(),
                          .several_parts = parts_.size() > 1,
-                         .daily_readings = available,
                          .speakable = speakable_ && !scripture_->base_source().empty() &&
                                       scripture_->primary_language() == "sv"});
     if (navigation_.reader() &&
@@ -146,7 +137,6 @@ void MainFrame::update_bar() {
     const auto policy = controls();
     const bool auxiliary = navigation_.auxiliary(), reader = navigation_.reader(),
                active = playback_.active();
-    const bool preparing = preparing_day();
     const auto listen_label = ui::utf8(policy.playback_label);
     if (menu_bar_)
         sync_menu();
@@ -163,8 +153,7 @@ void MainFrame::update_bar() {
     play_->Enable(policy.playback_action != PlaybackAction::None);
     stop_->Enable(policy.stop);
     study_->allow_listening(policy.word_audio);
-    tooltip_of(stop_, preparing ? ui::utf8("Avbryt förberedelsen, Ctrl+.")
-                                : ui::utf8("Stoppa och börja om, Ctrl+."));
+    tooltip_of(stop_, ui::utf8("Stoppa och börja om, Ctrl+."));
     back_->Enable(history_.can_back());
     forward_->Enable(history_.can_forward());
 #ifdef __WXOSX__
@@ -195,13 +184,7 @@ void MainFrame::update_bar() {
         tooltip = ui::utf8("Stäng bibelbläddraren och gå tillbaka");
     } else if (auxiliary)
         title = current_page_title();
-    else if (playback_.prepared_day() && (preparing || !reader)) {
-        const auto preparation = speech_->preparation();
-        title = ui::utf8(preparation.status + ", " + date_swedish(*playback_.prepared_day()));
-        tooltip = ui::utf8(preparation.status +
-                           "\n\nFörbereder den valda dagens svenska läsningar och alternativ med den valda "
-                           "rösten. Sparat ljud återanvänds vid uppläsning.");
-    } else if (!reader)
+    else if (!reader)
         title = ui::utf8("Dagens läsningar");
     else if (const auto status = playback_.status(corpus_)) {
         title = ui::utf8(status->title);
@@ -212,9 +195,6 @@ void MainFrame::update_bar() {
     if (tooltip.empty())
         tooltip = ui::utf8(dropdown ? "Välj del av läsningen" : "Gå till bibelställe…, Ctrl+L");
     tooltip_of(address_, tooltip);
-    const auto preparation = speech_ ? speech_->preparation() : SpeechPreparation{};
-    address_->progress(preparing && preparation.total ? double(preparation.completed) / preparation.total
-                       : reader && active             ? playback_.playback().progress
-                                                      : 0);
+    address_->progress(reader && active ? playback_.playback().progress : 0);
 }
 } // namespace ortho

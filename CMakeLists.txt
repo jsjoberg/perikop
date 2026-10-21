@@ -345,7 +345,7 @@ if(ORTHO_BUILD_GUI)
     if(BUILD_TESTING)
         if(EXISTS "${PERIKOP_VOICE_PACK}/voice-pack.json")
             add_executable(ortho-speech-recovery-tests tests/portable_speech_recovery_test.cpp src/speech/portable_speech.cpp)
-            target_link_libraries(ortho-speech-recovery-tests PRIVATE ortho-core ortho-kokoro Threads::Threads)
+            target_link_libraries(ortho-speech-recovery-tests PRIVATE ortho-core ortho-kokoro ortho-espeak Threads::Threads)
             add_dependencies(ortho-speech-recovery-tests ortho-resources)
             add_test(NAME speech-cache-recovery COMMAND ortho-speech-recovery-tests
                 "${resource_destination}/voices" "${CMAKE_BINARY_DIR}/test-cache-recovery")

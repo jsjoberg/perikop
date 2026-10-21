@@ -249,5 +249,8 @@ https://github.com/mackron/miniaudio/tree/0.11.22
 Sonic, commit `b93885dcb70aae50c6f76b0fe4e0868f029a077e`, changes playback speed without changing pitch, under Apache-2.0.
 https://github.com/waywardgeek/sonic
 
+The two eSpeak voices use eSpeak NG (GPL-3.0-or-later) only when the user has installed it separately. Perikop includes no eSpeak NG code or data; it loads the installed library at run time through eSpeak's documented interface.
+https://github.com/espeak-ng/espeak-ng
+
 The build copies these complete speech dependency notices into the application resources.
 The application does not include macOS, Windows, or Linux system speech voices.

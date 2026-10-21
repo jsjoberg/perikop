@@ -217,7 +217,8 @@ struct Settings {
     bool speech_highlight = false;
     // Playback speed of read-aloud audio, in percent of the voice's own pace.
     int speech_rate = 100;
-    // Swedish voice identity. The selected voice survives application restarts.
+    // Swedish voice identity: "alice", "bjorn", or "espeak" / "espeak-f2" (the user's installed
+    // eSpeak NG). The selected voice survives application restarts.
     std::string speech_voice = "bjorn";
     // Selects the source for a user-initiated update check; never enables background networking.
     UpdateChannel update_channel = UpdateChannel::Releases;

@@ -108,8 +108,6 @@ void MainFrame::restore_navigation() {
     const bool changed_month = month_open_ != saved.month_open;
     selected_.select(saved.date);
     month_open_ = saved.month_open;
-    if (changed_day)
-        clear_preparation();
     if (changed_day || changed_month || saved.navigation.current().screen == Screen::Day)
         refresh_day();
     navigation_.restore(saved.navigation);
