@@ -17,7 +17,6 @@ namespace {
 std::mutex audio_mutex;
 std::shared_ptr<ortho::PcmStream> stream;
 bool paused = false;
-size_t devices_opened = 0;
 void check(bool value, const char* message) {
     if (!value)
         throw std::runtime_error(message);
@@ -30,10 +29,7 @@ std::string contents(const std::filesystem::path& path) {
 namespace ortho {
 // Real inference and cache operations, with a device drained by the test thread.
 struct PcmOutput::Impl {};
-PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {
-    std::lock_guard lock(audio_mutex);
-    ++devices_opened;
-}
+PcmOutput::PcmOutput() : impl_(std::make_unique<Impl>()) {}
 PcmOutput::~PcmOutput() = default;
 void PcmOutput::start(bool pause) {
     std::lock_guard lock(audio_mutex);
