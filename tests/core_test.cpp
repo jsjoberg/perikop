@@ -656,8 +656,8 @@ int main(int argc, char** argv) {
         {
             // Every part opens and can be read aloud in Swedish, and no chapter is in two parts.
             const auto& plans = reading_plans();
-            check(plans.size() == 3 && plans[0].parts.size() == 30 && plans[1].parts.size() == 30 &&
-                      plans[2].parts.size() == 14,
+            check(plans.size() == 3 && plans[0].parts.size() == 60 && plans[1].parts.size() == 180 &&
+                      plans[2].parts.size() == 31,
                   "three reading plans");
             const auto no_lexicon = [](const std::string&) {
                 return std::vector<Pronunciation>{};
@@ -675,9 +675,8 @@ int main(int argc, char** argv) {
                             check(covered[range.book].insert(chapter).second,
                                   "chapter in two plan parts: " + range.book);
                 }
-            check(plan_label(corpus, plans[0].parts[22]) == "2 Tim 4 + Tit 1–3 + Filem + Hebr 1–4",
-                  "plan part label");
-            check(plan_key(plans[1], 6) == "plan:ot:7", "plan part key");
+            check(plan_label(corpus, plans[0].parts[50]) == "2 Tim 1–4 + Tit 1–3 + Filem", "plan part label");
+            check(plan_key(plans[1], 6) == "plan:ot:v2:7", "versioned plan part key");
             // Together the plans cover the Septuagint canon and the New Testament, except the books
             // that have no Swedish text yet.
             std::vector<std::string> missing;

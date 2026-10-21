@@ -970,11 +970,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                         tiles.push_back(tile);
         return tiles;
     };
+    std::size_t plan_parts = 0;
+    for (const auto& plan : reading_plans())
+        plan_parts += plan.parts.size();
     show_plans();
-    if (current_page_title() != ui::utf8("Läsplaner") || plan_tiles().size() != 74 || readings_->IsShown())
+    if (current_page_title() != ui::utf8("Läsplaner") || plan_tiles().size() != plan_parts ||
+        readings_->IsShown())
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
-    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {10, 1}, 23});
+    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {7, 1}, 23});
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
     if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %"))
         fail(__LINE__);
@@ -992,10 +996,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         }
         save(bitmap.ConvertToImage(), "-plans-progress");
     }
-    if (plan_tiles().size() != 74 || !plan_tiles().front()->GetName().EndsWith(ui::utf8("läst")) ||
+    if (plan_tiles().size() != plan_parts || !plan_tiles().front()->GetName().EndsWith(ui::utf8("läst")) ||
         plan_tiles()[1]->GetName().EndsWith(ui::utf8("läst")) ||
-        plan_tiles().front()->GetToolTipText() != ui::utf8("Matt 1–9") ||
-        plan_tiles()[4]->GetToolTipText() != ui::utf8("Mark 10–16\nLuk 1–2"))
+        plan_tiles().front()->GetToolTipText() != ui::utf8("Matt 1–5") ||
+        plan_tiles()[4]->GetToolTipText() != ui::utf8("Matt 16–19"))
         fail(__LINE__);
     user_.forget("plan:");
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
