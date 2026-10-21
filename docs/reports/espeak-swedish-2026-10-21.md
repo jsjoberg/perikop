@@ -37,8 +37,29 @@ One call per verse gives verse boundaries without markers. SSML `<mark>` events 
 
 All bundled Bible text resolves through `lexicon.tsv`, `custom_lexicon.tsv` and `g2p-corpus.tsv`, about 0.9 MB. The pack's neural G2P loads only for words outside the corpus. An eSpeak-only installation could fall back to eSpeak's own rules for those words.
 
+## In-app loader and converter
+
+[`src/speech/espeak_voice.cpp`](../../src/speech/espeak_voice.cpp) is the in-app eSpeak layer. No eSpeak header is used.
+
+- It loads the installed library at run time:
+  - macOS: Homebrew, `/usr/local` or MacPorts.
+  - Linux: `libespeak-ng.so.1`.
+  - Windows: the folder the eSpeak NG installer records under `HKLM\SOFTWARE\eSpeak NG\Path`.
+- It uses only documented calls. `espeakINITIALIZE_DONT_EXIT` is required: without it, eSpeak ends the whole process when its data is missing.
+- It converts the front end's IPA as the Python tool does.
+- It resamples eSpeak's 22,050 Hz to the player's 24 kHz (windowed sinc).
+
+Verified on macOS with Homebrew eSpeak NG 1.52.0:
+
+- The C++ and Python conversions are identical for Psalm 23:1–3.
+- In-process audio lasts exactly as long as `espeak-ng -z` (15.770 s). Band energies match within 0.03 dB, and the resampler leaves −56 dB above 11.1 kHz.
+- eSpeak varies its voice source slightly at random, moving an utterance's end by about 0.5 ms. Output is therefore not bit-identical.
+- `tests/espeak_voice_test.cpp` checks conversions and lexicon phone coverage everywhere. It checks synthesis when eSpeak is installed and skips that part otherwise.
+
+macOS builds are signed ad hoc without the hardened runtime, so they may load the Homebrew library. A Developer ID build with the hardened runtime would need the `com.apple.security.cs.disable-library-validation` entitlement for this.
+
 ## Not done
 
-- No in-app integration yet: no library loader, no C++ converter, no settings UI, no packaging changes.
-- Library names and paths are unverified on Windows and Linux, and so are older distribution versions (1.50, 1.51).
+- No voices in the app yet: not in `portable_speech.cpp`, no settings UI or power-user field, no install hint, no packaging changes.
+- Windows (`libespeak-ng.dll` name, registry key) and Linux loading are unverified, and so are older distribution versions (1.50, 1.51).
 - The stock-voice round (round 5) still awaits listening.
