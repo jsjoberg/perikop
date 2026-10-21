@@ -84,6 +84,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
 - **Inställningar → Markera texten som läses upp** highlights the spoken text.
 - The eSpeak voices need eSpeak NG, which you install separately; **Inställningar** links to installation instructions when it is missing. They read with Perikop's own Swedish pronunciations and use very little CPU.
+- Beside the voice picker, **Prova rösten** reads John 3:16 with the selected eSpeak voice. **Stoppa provet** stops the sample; choosing another voice or leaving settings also stops it. Trying a voice preserves your reading position.
 
 ## Word study and pronunciation
 

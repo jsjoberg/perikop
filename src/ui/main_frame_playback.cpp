@@ -114,8 +114,11 @@ void MainFrame::listen_to_selection(const Reading& reading) {
 void MainFrame::speech_status(const std::string& status) {
     if (playback_.playback().state == SpeechState::Error && speech_->playback().state == SpeechState::Stopped)
         return;
+    const bool preview_error = voice_preview_ && speech_->playback().state == SpeechState::Error;
     playback_.report(status);
     refresh_speech();
+    if (preview_error)
+        wxMessageBox(ui::utf8(status), ui::utf8("Prova rösten"), wxOK | wxICON_INFORMATION, this);
 }
 void MainFrame::toggle_pause() {
     const auto state = speech_->playback();
@@ -135,6 +138,10 @@ void MainFrame::toggle_pause() {
         playback_timer_.Start(30);
 }
 void MainFrame::pause_for_navigation() {
+    if (voice_preview_) {
+        stop_speech(false);
+        return;
+    }
     if (speech_) {
         playback_.leave_reader(*speech_);
         save_reading_position();
@@ -186,14 +193,15 @@ void MainFrame::refresh_speech() {
         display_playback(speech_->playback());
 }
 void MainFrame::display_playback(const SpeechPlayback& playback) {
-    if (playback.state == SpeechState::Completed && playback_.playback().state != SpeechState::Completed) {
+    if (!voice_preview_ && playback.state == SpeechState::Completed &&
+        playback_.playback().state != SpeechState::Completed) {
         for (const auto& reading : playback_.readings())
             user_.reset_position(reading_key(corpus_, in_swedish(reading)));
         position_reset_ = true;
         reset_scroll_ = scripture_->scroll_position();
     }
-    if (playback.state == SpeechState::Completed && playback_.playback().state != SpeechState::Completed &&
-        speech_tracked_)
+    if (!voice_preview_ && playback.state == SpeechState::Completed &&
+        playback_.playback().state != SpeechState::Completed && speech_tracked_)
         CallAfter([this, item = *speech_tracked_] {
             complete_reading(item);
         });
@@ -201,6 +209,14 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         speech_tracked_.reset();
     playback_.update(playback);
     const bool active = speech_active(playback.state);
+    if (voice_preview_ && !active) {
+        voice_preview_ = false;
+        if (voice_preview_button_) {
+            voice_preview_button_->SetLabel(ui::utf8("Prova rösten"));
+            voice_preview_button_->SetName(voice_preview_button_->GetLabel());
+            voice_preview_button_->Refresh();
+        }
+    }
     if (!navigation_.auxiliary() && active && scripture_->follows_playback() && playback.cue)
         open_speech_location(playback.cue->reading, playback.cue->section);
     if (!active) {

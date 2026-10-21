@@ -56,6 +56,10 @@ class NavigationSpeech final : public SpeechEngine {
 public:
     SpeechPlayback held;
     std::vector<SpeechUtterance> spoken;
+    std::string voice;
+    void set_voice(const std::string& selected) override {
+        voice = selected;
+    }
     void speak_batch(const std::vector<SpeechUtterance>& queue) override {
         spoken = queue;
         changed = true;
@@ -642,6 +646,56 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_.primary_sources = preferences;
         apply_settings(false);
         fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+    }
+    {
+        auto real_speech = std::move(speech_);
+        const auto previous_playback = playback_;
+        const auto previous_voice = settings_.speech_voice;
+        const auto previous_tracked = speech_tracked_;
+        const Reading retained{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}, {}, "sv"};
+        const auto key = reading_key(corpus_, retained);
+        const auto previous_position = user_.position(key);
+        const auto completed = user_.completed();
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        engine->held = {SpeechState::Paused, SpeechCue{0, 0, "John", "sv1917", {1, 4}, {1, 4}}, 0, 0.3};
+        speech_ = std::move(held);
+        playback_.start({retained});
+        settings_.speech_voice = "espeak:sv+adam";
+        speech_tracked_ = Tracked{"voice-preview-test", "Preview"};
+        auto* settings_page = current_page();
+        preview_voice();
+        const auto saved_position = user_.position(key);
+        const auto sample = corpus_.verse("sv1917", "John", {3, 16});
+        if (!voice_preview_ || !sample || engine->spoken.size() != 1 ||
+            engine->spoken.front().display_text != sample->text || engine->spoken.front().cue ||
+            engine->voice != settings_.speech_voice || !playback_.readings().empty() || speech_tracked_ ||
+            !saved_position || saved_position->verse != VerseRef{1, 4} || current_page() != settings_page)
+            fail(__LINE__);
+        preview_voice();
+        if (voice_preview_ || engine->held.state != SpeechState::Stopped)
+            fail(__LINE__);
+        preview_voice();
+        engine->held.state = SpeechState::Completed;
+        refresh_speech();
+        wxTheApp->ProcessPendingEvents();
+        if (voice_preview_ || user_.position(key) != saved_position || user_.completed() != completed ||
+            current_page() != settings_page ||
+            (voice_preview_button_ && voice_preview_button_->GetLabel() != ui::utf8("Prova rösten")))
+            fail(__LINE__);
+        preview_voice();
+        pause_for_navigation();
+        if (voice_preview_ || engine->held.state != SpeechState::Stopped)
+            fail(__LINE__);
+        if (previous_position)
+            user_.position(key, *previous_position);
+        else
+            user_.reset_position(key);
+        settings_.speech_voice = previous_voice;
+        speech_ = std::move(real_speech);
+        playback_ = previous_playback;
+        speech_tracked_ = previous_tracked;
+        refresh_speech();
     }
     each_scheme([&](const wxString& suffix, const wxColour& paper) {
         if (!current_page() || current_page()->GetBackgroundColour() != paper)
