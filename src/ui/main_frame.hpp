@@ -94,6 +94,7 @@ private:
     // The reading plans have their own page, opened from the start page and the Bibel menu.
     void show_plans();
     void fill_plans(wxScrolledWindow*);
+    void layout_plans(wxScrolledWindow*);
     // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);

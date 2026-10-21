@@ -114,7 +114,7 @@ public:
     explicit UserDb(const std::filesystem::path& path);
     Settings load() const;
     void save(const Settings&);
-    // Keys of what the reader has marked as read, such as "plan:nt:7".
+    // Keys of what the reader has marked as read, such as "plan:nt:v2:7".
     std::set<std::string> completed() const;
     void complete(const std::string& key, bool done = true);
     // Forgets every mark whose key starts with the prefix, such as a whole plan.
@@ -122,6 +122,8 @@ public:
     std::optional<ReadingPosition> position(const std::string& key) const;
     void position(const std::string& key, const ReadingPosition&);
     void reset_position(const std::string& key);
+    // One-time transfer from the original plan ranges; retains the legacy rows.
+    void migrate_reading_plans(const CorpusDb&);
     std::vector<Bookmark> bookmarks(const CorpusDb&) const;
     void bookmark(const std::string& source, const Passage&);
     void remove_bookmark(int id);
