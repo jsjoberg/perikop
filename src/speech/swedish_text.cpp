@@ -1,13 +1,11 @@
-#include "speech/kokoro_text.hpp"
+#include "speech/swedish_text.hpp"
 #include <algorithm>
-#include <array>
 #include <fstream>
-#include <map>
-#include <onnxruntime_cxx_api.h>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 namespace ortho {
 namespace {
 std::u32string decode(const std::string& text) {
@@ -49,7 +47,7 @@ std::string read_file(const std::filesystem::path& path) {
     std::ifstream input(path, std::ios::binary);
     const auto name = path.filename().u8string();
     if (!input)
-        throw std::runtime_error("Kokoro pronunciation file is missing: " +
+        throw std::runtime_error("Swedish pronunciation file is missing: " +
                                  std::string(reinterpret_cast<const char*>(name.data()), name.size()));
     std::ostringstream buffer;
     buffer << input.rdbuf();
@@ -142,13 +140,13 @@ public:
                 end = data_.size();
             const auto tab = data_.find('\t', begin);
             if (tab >= end || data_.find('\t', tab + 1) < end)
-                throw std::runtime_error("Invalid Kokoro lexicon row.");
+                throw std::runtime_error("Invalid Swedish lexicon row.");
             lines_.push_back(static_cast<uint32_t>(begin));
             begin = end + 1;
         }
         for (size_t i = 1; i < lines_.size(); ++i)
             if (!(word(lines_[i - 1]) < word(lines_[i])))
-                throw std::runtime_error("Kokoro lexicon is not sorted.");
+                throw std::runtime_error("Swedish lexicon is not sorted.");
         // Custom overrides win over the NST lexicon. Their words are lowercased.
         std::istringstream input(read_file(custom));
         for (std::string line; std::getline(input, line);) {
@@ -156,7 +154,7 @@ public:
                 continue;
             const auto tab = line.find('\t');
             if (tab == std::string::npos || line.find('\t', tab + 1) != std::string::npos)
-                throw std::runtime_error("Invalid Kokoro custom lexicon row.");
+                throw std::runtime_error("Invalid Swedish custom lexicon row.");
             auto text = decode(line.substr(0, tab));
             for (auto& c : text)
                 if ((c >= 'A' && c <= 'Z') || (c >= 0xc0 && c <= 0xde && c != 0xd7))
@@ -183,71 +181,6 @@ public:
 };
 
 // Flat JSON objects of string keys and integer values, such as {"a": 3}.
-std::map<std::u32string, int64_t> json_ids(const std::string& json, const std::string& name) {
-    const auto key = json.find("\"" + name + "\"");
-    if (key == std::string::npos)
-        throw std::runtime_error("Kokoro vocabulary is missing: " + name);
-    size_t i = json.find('{', key);
-    if (i == std::string::npos)
-        throw std::runtime_error("Invalid Kokoro vocabulary: " + name);
-    const auto space = [&] {
-        while (i < json.size() && (json[i] == ' ' || json[i] == '\n' || json[i] == '\r' || json[i] == '\t'))
-            ++i;
-    };
-    const auto hex = [&](size_t at) {
-        if (at + 4 > json.size())
-            throw std::runtime_error("Invalid Kokoro vocabulary escape.");
-        return static_cast<char32_t>(std::stoul(json.substr(at, 4), nullptr, 16));
-    };
-    std::map<std::u32string, int64_t> result;
-    ++i;
-    while (true) {
-        space();
-        if (i < json.size() && json[i] == '}')
-            return result;
-        if (i >= json.size() || json[i] != '"')
-            throw std::runtime_error("Invalid Kokoro vocabulary: " + name);
-        std::u32string text;
-        std::string raw;
-        for (++i; i < json.size() && json[i] != '"'; ++i) {
-            if (json[i] != '\\') {
-                raw += json[i];
-                continue;
-            }
-            text += decode(raw);
-            raw.clear();
-            const char e = json[++i];
-            if (e == 'u') {
-                char32_t c = hex(i + 1);
-                i += 4;
-                if (c >= 0xd800 && c < 0xdc00 && json.compare(i + 1, 2, "\\u") == 0) {
-                    c = 0x10000 + ((c - 0xd800) << 10) + (hex(i + 3) - 0xdc00);
-                    i += 6;
-                }
-                text += c;
-            } else
-                text += e == 'n'   ? U'\n'
-                        : e == 't' ? U'\t'
-                        : e == 'r' ? U'\r'
-                        : e == 'b' ? U'\b'
-                        : e == 'f' ? U'\f'
-                                   : char32_t(e);
-        }
-        text += decode(raw);
-        ++i;
-        space();
-        if (i >= json.size() || json[i] != ':')
-            throw std::runtime_error("Invalid Kokoro vocabulary: " + name);
-        ++i;
-        space();
-        size_t used = 0;
-        result[text] = std::stoll(json.substr(i, 24), &used);
-        i += used;
-        space();
-        if (i < json.size() && json[i] == ',')
-            ++i;
-    }
-}
 } // namespace
 
 std::string swedish_numbers(const std::string& text) {
@@ -286,95 +219,30 @@ std::string swedish_numbers(const std::string& text) {
     return result;
 }
 
-struct KokoroText::Impl {
+struct SwedishText::Impl {
     Lexicon lexicon;
-    std::map<std::u32string, int64_t> letters, vocabulary;
-    std::vector<std::string> phones;
-    std::unordered_map<std::string, std::string> neural_cache;
-    Ort::Env env{ORT_LOGGING_LEVEL_WARNING, "orthodox-reader-kokoro-text"};
-    Ort::SessionOptions options;
-    Ort::Session encoder{nullptr}, decoder{nullptr};
-    std::filesystem::path pack;
-    explicit Impl(const std::filesystem::path& pack)
-        : lexicon(pack / "lexicon.tsv", pack / "custom_lexicon.tsv"), pack(pack) {
-        const auto g2p = read_file(pack / "g2p-config.json");
-        letters = json_ids(g2p, "char2id");
-        for (const auto& [phone, id] : json_ids(g2p, "phon2id")) {
-            if (id < 0 || id >= 1024)
-                throw std::runtime_error("Invalid Kokoro pronunciation vocabulary.");
-            if (phones.size() <= size_t(id))
-                phones.resize(size_t(id) + 1);
-            phones[size_t(id)] = encode(phone);
-        }
-        vocabulary = json_ids(read_file(pack / "config.json"), "vocab");
-        env.DisableTelemetryEvents();
-        options.SetIntraOpNumThreads(1);
-        options.SetInterOpNumThreads(1);
-        options.AddConfigEntry("session.force_spinning_stop", "1");
-        options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
-        // The pack holds the model's output for every corpus word that the lexicon lacks.
-        std::istringstream corpus(read_file(pack / "g2p-corpus.tsv"));
-        for (std::string line; std::getline(corpus, line);) {
+    // Pronunciations of the corpus words the lexicon lacks, from the kokoro-sv neural G2P.
+    std::unordered_map<std::string, std::string> corpus;
+    explicit Impl(const std::filesystem::path& data)
+        : lexicon(data / "lexicon.tsv", data / "custom_lexicon.tsv") {
+        std::istringstream rows(read_file(data / "g2p-corpus.tsv"));
+        for (std::string line; std::getline(rows, line);) {
             const auto tab = line.find('\t');
             if (tab == std::string::npos || line.find('\t', tab + 1) != std::string::npos)
-                throw std::runtime_error("Invalid Kokoro corpus pronunciation row.");
-            neural_cache[line.substr(0, tab)] = line.substr(tab + 1);
+                throw std::runtime_error("Invalid corpus pronunciation row.");
+            corpus[line.substr(0, tab)] = line.substr(tab + 1);
         }
     }
-    // model.G2PTransformer.greedy_decode for one word: BOS letters EOS in,
-    // up to max_len=64 phones out, stopping at EOS.
-    std::string neural(const std::string& word) {
-        if (const auto cached = neural_cache.find(word); cached != neural_cache.end())
-            return cached->second;
-        // Other text, such as a speech spelling, loads the model on first use.
-        if (!decoder) {
-            encoder = Ort::Session(env, (pack / "g2p-encoder.onnx").native().c_str(), options);
-            decoder = Ort::Session(env, (pack / "g2p-decoder.onnx").native().c_str(), options);
-        }
-        constexpr int64_t pad = 0, bos = 1, eos = 2, max_len = 64;
-        std::vector<int64_t> source{bos};
-        for (char32_t c : decode(word))
-            if (const auto id = letters.find(std::u32string(1, c)); id != letters.end())
-                source.push_back(id->second);
-        // The positional table holds 64 positions.
-        if (source.size() > max_len - 1)
-            source.resize(max_len - 1);
-        source.push_back(eos);
-        const auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
-        const std::array<int64_t, 2> source_shape = {1, int64_t(source.size())};
-        auto source_tensor = Ort::Value::CreateTensor<int64_t>(memory_info, source.data(), source.size(),
-                                                               source_shape.data(), source_shape.size());
-        const char* encoder_in[] = {"src"};
-        const char* encoder_out[] = {"memory"};
-        auto memory = encoder.Run(Ort::RunOptions{nullptr}, encoder_in, &source_tensor, 1, encoder_out, 1);
-        std::vector<int64_t> target{bos};
-        std::string result;
-        for (int64_t step = 0; step < max_len; ++step) {
-            const std::array<int64_t, 2> target_shape = {1, int64_t(target.size())};
-            std::array<Ort::Value, 2> inputs = {
-                Ort::Value::CreateTensor<int64_t>(memory_info, target.data(), target.size(),
-                                                  target_shape.data(), target_shape.size()),
-                std::move(memory[0])};
-            const char* decoder_in[] = {"tgt", "memory"};
-            const char* decoder_out[] = {"logits"};
-            auto logits = decoder.Run(Ort::RunOptions{nullptr}, decoder_in, inputs.data(), inputs.size(),
-                                      decoder_out, 1);
-            memory[0] = std::move(inputs[1]);
-            const auto count = logits[0].GetTensorTypeAndShapeInfo().GetElementCount();
-            const auto* values = logits[0].GetTensorData<float>();
-            const auto next = int64_t(std::max_element(values, values + count) - values);
-            if (next == eos)
-                break;
-            target.push_back(next);
-            if (next != pad && next != bos && size_t(next) < phones.size())
-                result += phones[size_t(next)];
-        }
-        return neural_cache[word] = result;
+    // Other words keep their spelling as ⟨word⟩, for the voice's own rules.
+    std::string unknown(const std::string& word) const {
+        if (const auto found = corpus.find(word); found != corpus.end())
+            return found->second;
+        return "⟨" + word + "⟩";
     }
 };
 
-KokoroText::KokoroText(const std::filesystem::path& pack) : impl_(std::make_unique<Impl>(pack)) {}
-KokoroText::~KokoroText() = default;
+SwedishText::SwedishText(const std::filesystem::path& data) : impl_(std::make_unique<Impl>(data)) {}
+SwedishText::~SwedishText() = default;
 
 namespace {
 std::string single_spaces(const std::string& text) {
@@ -387,7 +255,7 @@ std::string single_spaces(const std::string& text) {
     return result;
 }
 } // namespace
-std::string KokoroText::ipa(const std::string& input) {
+std::string SwedishText::ipa(const std::string& input) {
     // g2p_infer.SwedishG2P.phonemize: sentences match [^.!?]+[.!?]?; tokens
     // are runs of the letters below or one of ,.!?;:- and all else is dropped.
     static const std::u32string word_letters =
@@ -447,7 +315,7 @@ std::string KokoroText::ipa(const std::string& input) {
                     if (auto stem = impl_->lexicon.find(key.substr(0, key.size() - 1)); !stem.empty())
                         ipa = stem + "s";
                 if (ipa.empty())
-                    ipa = impl_->neural(key);
+                    ipa = impl_->unknown(key);
                 if (previous_word)
                     sentence += ' ';
                 sentence += ipa;
@@ -465,24 +333,9 @@ std::string KokoroText::ipa(const std::string& input) {
             result += (result.empty() ? "" : " ") + sentence;
         i = end;
     }
-    // g2p_sv: NEURAL_FIXES, then (in phonemes) KOKORO_REMAP, then single spaces.
+    // g2p_sv: NEURAL_FIXES, then single spaces.
     replace_all(result, "ˈuːɕˌɛj", "ˈuːkɛj");
     replace_all(result, "uːəsˈɛs", "ˈɔs");
     return single_spaces(result);
-}
-std::string KokoroText::phonemes(const std::string& input) {
-    auto result = ipa(input);
-    for (const auto& [from, to] : std::initializer_list<std::pair<const char*, const char*>>{
-             {"ʏ", "y"}, {"ʉ", "ɨ"}, {"ɵ", "ɜ"}, {"ɧ", "ʂ"}, {"ɭ", "l"}, {"-", ""}, {"\xcc\x83", ""}})
-        replace_all(result, from, to);
-    return single_spaces(result);
-}
-
-std::vector<int64_t> KokoroText::tokens(const std::string& text) {
-    std::vector<int64_t> result;
-    for (char32_t c : decode(phonemes(text)))
-        if (const auto id = impl_->vocabulary.find(std::u32string(1, c)); id != impl_->vocabulary.end())
-            result.push_back(id->second);
-    return result;
 }
 } // namespace ortho

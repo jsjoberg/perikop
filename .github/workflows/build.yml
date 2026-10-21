@@ -102,12 +102,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          args=()
-          if [ "$PACKAGE" = true ] || { [ "$RUNNER_OS" = macOS ] && [ "$GITHUB_EVENT_NAME" = pull_request ]; }; then
-            args+=(--package)
-          fi
-          python3 tools/ci/dependencies.py restore --platform "${{ matrix.dependencies || matrix.platform }}" "${args[@]}"
+        run: python3 tools/ci/dependencies.py restore --platform "${{ matrix.dependencies || matrix.platform }}"
       - name: Restore verified previous update package
         if: env.PACKAGE == 'true'
         env:
@@ -184,10 +179,7 @@ jobs:
       - name: Restore verified Windows sources and Linux toolchain
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          args=()
-          if [ "$PACKAGE" = true ] || [ "$GITHUB_EVENT_NAME" = pull_request ]; then args+=(--package); fi
-          python3 tools/ci/dependencies.py restore --platform Windows --cross "${args[@]}"
+        run: python3 tools/ci/dependencies.py restore --platform Windows --cross
       - name: Compiler cache
         id: compiler-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -263,11 +255,8 @@ jobs:
       - name: Configure native test paths and installer
         shell: pwsh
         run: |
-          # Keep the current CRT source. The prebuilt project needs no compiler or native sources.
-          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
-          $runtime = & $vswhere -latest -find 'VC\Redist\MSVC\*\x64\Microsoft.VC*.CRT\vcruntime140_1.dll' | Sort-Object | Select-Object -Last 1
-          if (-not $runtime) { throw 'Visual C++ runtime not found' }
-          cmake -S cmake/windows-prebuilt -B build/cmake -G Ninja "-DPERIKOP_MSVC_RUNTIME=$(Split-Path $runtime)"
+          # The prebuilt project needs no compiler or native sources.
+          cmake -S cmake/windows-prebuilt -B build/cmake -G Ninja
           if ($LASTEXITCODE -ne 0) { throw 'Windows configuration failed' }
       - name: Windows version and icon resources
         shell: pwsh
@@ -303,8 +292,6 @@ jobs:
         if: env.PACKAGE == 'true' || github.event_name == 'pull_request'
         shell: pwsh
         run: |
-          & build/cmake/bin/perikop.exe --resources build/cmake/bin/resources --speech-probe "$PWD/build/voice-windows.wav" | Out-Host
-          if ($LASTEXITCODE -ne 0) { throw 'Bundled Alice/Bjorn inference failed' }
           cpack --config build/cmake/CPackConfig.cmake -B build/package
           if ($LASTEXITCODE -ne 0) { throw 'Windows packaging failed' }
           $script = Get-Content build/package/_CPack_Packages/windows-x64/NSIS/project.nsi -Raw

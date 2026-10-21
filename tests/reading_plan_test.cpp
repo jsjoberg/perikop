@@ -91,7 +91,7 @@ void prefix_test(const CorpusDb& corpus, const std::filesystem::path& path) {
     const auto& nt = reading_plans().front();
     UserDb user(path);
     auto settings = user.load();
-    settings.speech_voice = "alice";
+    settings.speech_voice = "espeak-f2";
     user.save(settings);
     user.complete("plan:nt:1"); // Matt 1–9
     user.complete("plan:nt:2"); // Matt 10–18
@@ -121,7 +121,7 @@ void prefix_test(const CorpusDb& corpus, const std::filesystem::path& path) {
           "A boundary part resumes at its first unread chapter");
     check(date_of(path, plan_key(nt, 0)) == "2026-10-01" && user.position("plan:nt:3") == saved &&
               done.contains("plan:nt:1") && done.contains("day:preserved") &&
-              user.load().speech_voice == "alice" && user.bookmarks(corpus).size() == 1,
+              user.load().speech_voice == "espeak-f2" && user.bookmarks(corpus).size() == 1,
           "Migration preserves legacy dates, recovery data, settings, bookmarks, and day progress");
     user.migrate_reading_plans(corpus);
     check(user.completed() == done && user.position(plan_key(nt, current)) == expected,

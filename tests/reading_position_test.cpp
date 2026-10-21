@@ -75,13 +75,13 @@ int main(int argc, char** argv) {
             storage::exec(
                 old.get(),
                 "CREATE TABLE settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
-                "INSERT INTO settings VALUES('speech_voice','alice');"
+                "INSERT INTO settings VALUES('speech_voice','espeak-f2');"
                 "CREATE TABLE progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
                 "INSERT INTO progress VALUES('plan:nt:1','2026-10-18')");
         }
         {
             UserDb user(path);
-            check(user.load().speech_voice == "alice" && user.completed().contains("plan:nt:1"),
+            check(user.load().speech_voice == "espeak-f2" && user.completed().contains("plan:nt:1"),
                   "Adding resume storage preserves existing preferences and completed readings");
             user.position(reading_key(corpus, reading), *position);
             user.position("plan:nt:2", *position);

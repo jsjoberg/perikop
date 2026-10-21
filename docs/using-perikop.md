@@ -24,7 +24,6 @@ The `Perikop-linux-x64-releases.AppImage` download supports in-app updates. Use 
 
 ### Raspberry Pi 5
 Requires 64-bit Raspberry Pi OS with its desktop. Use the `aarch64` AppImage the same way. Older Pi models are not supported.
-Alice and Björn are only about as fast as playback here; the eSpeak voices are much lighter.
 A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 ## Day page and calendar
@@ -81,13 +80,13 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Read-aloud
 
-- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Select the voice in **Inställningar**: Alice, Björn, or one of the Swedish voices and variants available in your installed eSpeak NG.
+- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Read-aloud needs eSpeak NG, which you install separately; **Inställningar** links to instructions when it is missing. Choose one of the Swedish voices and variants of your installed eSpeak NG there.
 - **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
 - **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
 - **Inställningar → Markera texten som läses upp** highlights the spoken text.
-- The eSpeak voices need eSpeak NG, which you install separately; **Inställningar** links to installation instructions when it is missing. They read with Perikop's own Swedish pronunciations and use very little CPU.
+- eSpeak reads with Perikop's own Swedish pronunciations and uses very little CPU. **Snabbare** and **Långsammare** change its speaking rate; during reading, the current verse starts again at the new speed.
 - Beside the voice picker, **Prova rösten** reads John 3:16 with the selected eSpeak voice. **Stoppa provet** stops the sample; choosing another voice or leaving settings also stops it. Trying a voice preserves your reading position.
 
 ## Word study and pronunciation

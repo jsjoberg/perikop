@@ -32,7 +32,10 @@ int main() {
               "secondary stress and a question");
         check(ortho::espeak_phonemes("") == "" && ortho::espeak_phonemes(", .") == ", .",
               "empty text and bare punctuation");
-        // Every phone in the voice pack's lexicons, as in cesar_voice_test.cpp.
+        check(ortho::espeak_phonemes("ˈɔk ⟨xyzzy⟩ hˈɑːn.") == "[[Ok]] xyzzy [[hA:n]].",
+              "a word without known phonemes is read by eSpeak's own rules");
+        check(ortho::espeak_unknown_phones("⟨qwz⟩ ˈa").empty(), "spelled words have no phones to check");
+        // Every phone in the bundled lexicons.
         const auto unknown =
             ortho::espeak_unknown_phones("a b d e eː f h i iː j k l m n o oː p r s t uː v y yː "
                                          "øː ŋ œ ɑː ɔ ɕ ɖ ə ɛ ɛː ɡ ɧ ɨː ɪ ɭ ɳ ɵ ʂ ʈ ʉː ʊ ʏ ʧ");

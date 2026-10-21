@@ -293,12 +293,11 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 day_changed();
             });
     // Read-aloud is Swedish only.
-    std::vector<EspeakVoice> voices{{"alice", "Alice"}, {"bjorn", "Björn"}};
+    std::vector<EspeakVoice> voices;
     std::string voice_error;
     try {
-        auto installed = Espeak::voices();
-        voices.insert(voices.end(), installed.begin(), installed.end());
-        if (installed.empty())
+        voices = Espeak::voices();
+        if (voices.empty())
             voice_error = "Inga svenska eSpeak-röster hittades.";
     } catch (const std::exception& error) {
         voice_error = error.what();

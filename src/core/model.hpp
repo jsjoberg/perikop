@@ -215,11 +215,11 @@ struct Settings {
     bool word_study = false;
     // Read-aloud tints the line being read. The margin marker shows either way.
     bool speech_highlight = false;
-    // Playback speed of read-aloud audio, in percent of the voice's own pace.
+    // Read-aloud speed, in percent of the voice's own pace (eSpeak: 150 words per minute).
     int speech_rate = 100;
-    // Swedish voice identity: "alice", "bjorn", legacy "espeak" / "espeak-f2", or an installed
-    // "espeak:<selector>". The selected voice survives application restarts.
-    std::string speech_voice = "bjorn";
+    // Swedish voice: legacy "espeak" / "espeak-f2" or an installed "espeak:<selector>", from the
+    // user's own eSpeak NG. The selected voice survives application restarts.
+    std::string speech_voice = "espeak";
     // Selects the source for a user-initiated update check; never enables background networking.
     UpdateChannel update_channel = UpdateChannel::Releases;
 };

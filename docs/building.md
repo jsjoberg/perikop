@@ -43,12 +43,10 @@ The Windows x64 build uses the pinned llvm-mingw environment on Linux. CI has on
 Linux transfers the binaries and assembled resources to Windows.
 Linux also exports the CTest commands and strips the application executable.
 Windows configures local test paths and the installer with a compiler-free CMake project.
-Windows still runs native tests and the speech probe, supplies the MSVC runtime, and creates the installer.
-ONNX Runtime and CRT distribution remain unchanged.
+Windows still runs native tests and creates the installer.
 
 Windows restores only NSIS and Velopack packaging tools from the dependency snapshot.
-Windows does not extract the source dependencies, voice pack, w64devkit, or ccache.
-The transferred resources already contain the voice pack for installer builds.
+Windows does not extract the source dependencies, w64devkit, or ccache.
 Local Windows builds continue to use w64devkit.
 
 With llvm-mingw on the Linux `PATH`, the same offline cross-build is:
@@ -63,17 +61,9 @@ cmake --build build/win-x64 --parallel
 The restore command also downloads the pinned environment archive for container builds.
 Windows ARM64 CI is not part of this migration step.
 
-## Read-aloud voices
+## Read-aloud
 
-Voice export has its own locked Python 3.12 project in `tools/speech`; its ML dependencies are independent of build and release tooling.
-
-Without a voice pack, Perikop builds without read-aloud. Prepare the pack (about 180 MB) before the build:
-
-```sh
-uv run --project tools/speech --locked --group voice-prep tools/speech/prepare_kokoro.py --output build/kokoro-pack
-```
-
-The build copies `build/kokoro-pack` into the app. Use `-DPERIKOP_VOICE_PACK=/path/to/pack` for another location.
+Read-aloud uses the user's own eSpeak NG installation, loaded at run time; Perikop bundles only its Swedish pronunciation data in `resources/speech`. No preparation step is needed. Tests that synthesize speech run where eSpeak NG is installed (for example `brew install espeak-ng`) and skip that part otherwise.
 
 ## Run
 

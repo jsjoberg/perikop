@@ -24,6 +24,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
+- Read-aloud uses eSpeak NG, which you install separately, with Perikop's own Swedish pronunciations, in any installed Swedish eSpeak voice or variant. It runs hundreds of times faster than real time and needs no bundled voice model, so the app is about 200 MB smaller. **Inställningar** links to installation instructions when eSpeak NG is missing. Speed changes eSpeak's speaking rate; during reading, the current verse starts again at the new speed.
 - Windows and Linux use the ⋮ menu and keyboard shortcuts; the Alt menu-bar toggle has been removed.
 - One toolbar button switches between Play and Pause. One split-view button replaces the separate Greek and English buttons and follows the saved secondary-source priority. Word study uses a distinct text-and-magnifier icon.
 
@@ -61,6 +62,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Removed
 
+- The Alice and Björn voices, with ONNX Runtime, the Visual C++ runtime on Windows, the speech audio cache and **Förbered ljud för vald dag**.
 - Akademisk ordlista from word study. SALDO already shows the same headwords and word classes for almost every word it matched, and some of its matches were wrong.
 
 ### Fixed

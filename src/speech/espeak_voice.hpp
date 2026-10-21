@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 namespace ortho {
-// KokoroText::ipa() as eSpeak NG Swedish phoneme input: codes in [[...]], punctuation outside,
-// function words unstressed. Symbols without a code are skipped.
+// SwedishText::ipa() as eSpeak NG Swedish input: phoneme codes in [[...]], punctuation and ⟨spelled⟩
+// words outside as text, function words unstressed. Symbols without a code are skipped.
 std::string espeak_phonemes(const std::string& ipa);
 // The phones in ipa that have no eSpeak code, for tests.
 std::vector<std::string> espeak_unknown_phones(const std::string& ipa);
@@ -40,7 +40,7 @@ public:
     std::string version() const;
     // Installed, loadable Swedish voices and variants. Safe during playback; throws if unavailable.
     static std::vector<EspeakVoice> voices();
-    // 24 kHz mono samples for KokoroText::ipa() output; stops early when cancelled() is true.
+    // 24 kHz mono samples for SwedishText::ipa() output; stops early when cancelled() is true.
     std::vector<float> speak(const std::string& ipa, const Settings& settings,
                              const std::function<bool()>& cancelled = {});
 };

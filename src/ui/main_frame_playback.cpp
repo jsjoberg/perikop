@@ -287,8 +287,8 @@ void MainFrame::initialize_speech() {
                              wxOK | wxICON_INFORMATION, this);
             });
     }
-    speech_ = create_portable_speech(
-        resources_ / "voices", data_, [weak, latest_speech](const SpeechUpdate& update) {
+    speech_ =
+        create_portable_speech(resources_ / "speech", [weak, latest_speech](const SpeechUpdate& update) {
             auto known = latest_speech->load();
             while (known < update.sequence && !latest_speech->compare_exchange_weak(known, update.sequence)) {
             }
