@@ -10,7 +10,9 @@ Do not use system speech voices or a cloud service.
 
 Update, October 7, 2026: the reader now reads aloud with the Swedish Kokoro voices Alice and Björn only.
 Chatterbox and Greek and English read-aloud were removed, because the synthesis delay made them a poor experience.
-See [the Kokoro voice guide](kokoro-voices.md). The rest of this record documents the original selection.
+The Kokoro voice guide was removed with the voices; it remains in the git history. The rest of this record documents the original selection.
+
+Update, October 22, 2026: Alice and Björn were removed. Read-aloud now uses the user's installed eSpeak NG with Perikop's own Swedish pronunciations; see [espeak-swedish-2026-10-21.md](espeak-swedish-2026-10-21.md). miniaudio output and the rule against system or cloud voices still hold.
 
 Chatterbox Multilingual v2 was the original voice candidate.
 Its MIT license permits use, modification, and redistribution of both code and weights.
