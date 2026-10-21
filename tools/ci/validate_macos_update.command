@@ -56,7 +56,11 @@ SQL
 before=$(profile_snapshot)
 verify_bundle() {
     /usr/bin/codesign --verify --deep --strict "$app"
-    for binary in "$program" "$app/Contents/MacOS/UpdateMac" "$app"/Contents/Frameworks/*.dylib; do
+    # The bundle may carry no frameworks; an unmatched pattern must not be checked as a file.
+    shopt -s nullglob
+    local binaries=("$program" "$app/Contents/MacOS/UpdateMac" "$app"/Contents/Frameworks/*.dylib)
+    shopt -u nullglob
+    for binary in "${binaries[@]}"; do
         description=$(/usr/bin/file -L -b "$binary")
         [[ "$description" == "Mach-O 64-bit "* && "$description" == *" $architecture" ]] || {
             echo "Wrong architecture: $binary" >&2; return 1;
