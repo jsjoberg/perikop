@@ -1,6 +1,5 @@
-"""Nightlies retain successful platform packages without hiding failed checks."""
+"""Nightlies publish their successful platforms without hiding failed checks."""
 
-import hashlib
 import importlib.util
 from pathlib import Path
 import tempfile
@@ -15,89 +14,84 @@ TAG = "nightly-2026-10-16-aaaaaaa"
 
 
 class NightlyTest(unittest.TestCase):
-    def fixtures(self, packages, suffixes):
-        for suffix in suffixes:
-            (packages / ("Perikop-0.1.0-" + suffix)).write_bytes(suffix.encode())
+    def fixtures(self, updates, platforms):
+        for platform in platforms:
+            (updates / f"releases.{platform}-nightly.json").write_text("{}")
 
-    def prepare(self, packages, sanitizers="success", tag=TAG):
-        return nightly.prepare(packages, "owner/project", COMMIT, "1234", tag, sanitizers)
+    def prepare(self, updates, sanitizers="success", tag=TAG, version=None):
+        return nightly.prepare(updates, updates.parent / "notes.md", "owner/project", COMMIT, "1234", tag,
+                               sanitizers, version)
 
-    def test_partial_nightly_keeps_successful_packages_and_lists_missing_platforms(self):
+    def notes(self, updates):
+        return (updates.parent / "notes.md").read_text()
+
+    def directory(self, temporary):
+        updates = Path(temporary) / "updates"
+        updates.mkdir()
+        return updates
+
+    def test_partial_nightly_lists_available_and_missing_platforms(self):
         with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            suffixes = ["macOS-arm64.dmg", "windows-x64.exe"]
-            self.fixtures(packages, suffixes)
-            self.assertEqual(self.prepare(packages), TAG)
-            self.assertEqual(sorted(path.name for path in packages.glob("Perikop-*")),
-                             sorted("Perikop-" + TAG + "-" + suffix for suffix in suffixes))
-            for suffix in suffixes:
-                self.assertEqual((packages / ("Perikop-" + TAG + "-" + suffix)).read_bytes(), suffix.encode())
-            notes = (packages / "NOTES.md").read_text()
+            updates = self.directory(temporary)
+            self.fixtures(updates, ["osx-arm64", "win-x64"])
+            self.assertEqual(self.prepare(updates), TAG)
+            notes = self.notes(updates)
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
+            self.assertIn("Available platforms:\n- macOS Apple Silicon\n- Windows x64", notes)
             self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64", notes)
-            self.assertIn("- macOS Apple Silicon", notes)
             self.assertIn("Sanitizers: **passed**", notes)
-            for line in (packages / "SHA256SUMS.txt").read_text().splitlines():
-                checksum, name = line.split("  ", 1)
-                self.assertEqual(checksum, hashlib.sha256((packages / name).read_bytes()).hexdigest())
+            # The notes stay outside the publication, which ships every file in it.
+            self.assertEqual(sorted(path.name for path in updates.iterdir()),
+                             ["releases.osx-arm64-nightly.json", "releases.win-x64-nightly.json"])
 
     def test_all_platforms_and_sanitizers_mark_a_complete_nightly(self):
         with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            self.fixtures(packages, nightly.PLATFORMS)
-            self.prepare(packages)
-            notes = (packages / "NOTES.md").read_text()
+            updates = self.directory(temporary)
+            self.fixtures(updates, nightly.PLATFORMS)
+            self.prepare(updates)
+            notes = self.notes(updates)
             self.assertIn("<!-- perikop-nightly: complete -->", notes)
             self.assertNotIn("Unavailable platforms", notes)
             self.assertNotIn("Incomplete nightly", notes)
 
     def test_sanitizer_failure_remains_visible_even_with_all_platforms(self):
         with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            self.fixtures(packages, nightly.PLATFORMS)
-            self.prepare(packages, sanitizers="failure")
-            notes = (packages / "NOTES.md").read_text()
+            updates = self.directory(temporary)
+            self.fixtures(updates, nightly.PLATFORMS)
+            self.prepare(updates, sanitizers="failure")
+            notes = self.notes(updates)
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
             self.assertIn("Sanitizers: **failure**", notes)
-            self.assertEqual(len(list(packages.glob("Perikop-*"))), 4)
 
     def test_empty_nightly_does_not_create_a_release(self):
         with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            self.assertIsNone(self.prepare(packages))
-            self.assertEqual(list(packages.iterdir()), [])
+            updates = self.directory(temporary)
+            self.assertIsNone(self.prepare(updates))
+            self.assertFalse((updates.parent / "notes.md").exists())
 
-    def test_different_versions_fail_before_any_package_is_renamed(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            self.fixtures(packages, ["windows-x64.exe"])
-            (packages / "Perikop-0.2.0-macOS-arm64.dmg").write_bytes(b"fixture")
-            original = sorted(path.name for path in packages.iterdir())
-            with self.assertRaisesRegex(ValueError, "different versions"):
-                self.prepare(packages)
-            self.assertEqual(sorted(path.name for path in packages.iterdir()), original)
-
-    def test_unknown_platform_is_rejected(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            (packages / "Perikop-0.1.0-unknown.zip").write_bytes(b"fixture")
-            with self.assertRaisesRegex(ValueError, "Unknown nightly package"):
-                self.prepare(packages)
+    def test_unknown_or_release_feeds_are_rejected(self):
+        for name in ("releases.osx-x64-nightly.json", "releases.win-x64-releases.json"):
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                updates = self.directory(temporary)
+                (updates / name).write_text("{}")
+                with self.assertRaisesRegex(ValueError, "Unknown nightly feed"):
+                    self.prepare(updates)
 
     def test_retry_tag_retains_the_commit_and_unique_run_attempt(self):
         with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            self.fixtures(packages, ["windows-x64.exe"])
+            updates = self.directory(temporary)
+            self.fixtures(updates, ["win-x64"])
             retry = TAG + "-1234-2"
-            self.assertEqual(self.prepare(packages, tag=retry), retry)
-            self.assertTrue((packages / ("Perikop-" + retry + "-windows-x64.exe")).is_file())
+            self.assertEqual(self.prepare(updates, tag=retry), retry)
+            with self.assertRaisesRegex(ValueError, "does not match the commit"):
+                self.prepare(updates, tag="nightly-2026-10-16-bbbbbbb")
 
     def test_notes_name_the_build_version(self):
         with tempfile.TemporaryDirectory() as temporary:
-            packages = Path(temporary)
-            self.fixtures(packages, ["windows-x64.exe"])
-            nightly.prepare(packages, "owner/project", COMMIT, "1234", TAG, "success", "0.1.1-nightly.20261016.7.1")
-            self.assertIn("Version `0.1.1-nightly.20261016.7.1`.", (packages / "NOTES.md").read_text())
+            updates = self.directory(temporary)
+            self.fixtures(updates, ["win-x64"])
+            self.prepare(updates, version="0.1.1-nightly.20261016.7.1")
+            self.assertIn("Version `0.1.1-nightly.20261016.7.1`.", self.notes(updates))
 
 
 def precedence(version):

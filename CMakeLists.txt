@@ -356,8 +356,4 @@ if(ORTHO_BUILD_GUI)
         endif()
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
     endif()
-    # Release packages: a DMG on macOS and an installer on Windows. Linux uses tools/package_appimage.sh.
-    if(APPLE OR WIN32)
-        include(cmake/package.cmake)
-    endif()
 endif()
