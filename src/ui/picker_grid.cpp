@@ -1,5 +1,7 @@
 #include "ui/picker_grid.hpp"
 #include <algorithm>
+#include <cstdlib>
+#include <limits>
 #include <memory>
 #include <utility>
 #include <wx/dcbuffer.h>
@@ -46,14 +48,37 @@ PickerGrid::PickerGrid(wxWindow* parent, Theme theme)
 void PickerGrid::set(std::vector<Block> blocks) {
     // The chosen cell sits above anything it unfolds, so its position identifies it again.
     const auto focused = focus_ ? std::optional(items_[*focus_].rect.GetTopLeft()) : std::nullopt;
+    const auto label = focus_ && items_[*focus_].cell ? items_[*focus_].cell->label : wxString();
     blocks_ = std::move(blocks);
     layout();
     focus_.reset();
     for (std::size_t i = 0; focused && i < items_.size(); ++i)
         if (items_[i].rect.GetTopLeft() == *focused && active(i))
             focus_ = i;
+    // A drawer above it may have closed and moved it up: then the cell with the same label,
+    // preferring the one now open, nearest its old place.
+    if (!focus_ && focused && !label.empty()) {
+        // (not open, distance): the lowest wins; every real cell beats the starting rank.
+        std::pair best{true, std::numeric_limits<int>::max()};
+        for (std::size_t i = 0; i < items_.size(); ++i) {
+            const auto& item = items_[i];
+            if (!active(i) || !item.cell || item.cell->label != label)
+                continue;
+            const bool open = item.block->open && &item.block->cells[*item.block->open] == item.cell;
+            const std::pair rank{!open, std::abs(item.rect.y - focused->y)};
+            if (rank < best) {
+                best = rank;
+                focus_ = i;
+            }
+        }
+    }
+    refresh_hover();
+}
+
+void PickerGrid::refresh_hover() {
     hover_.reset();
     UnsetToolTip();
+    SetCursor(wxNullCursor);
     // Wayland gives no global pointer position, and GTK crashes asking without a pointer device,
     // so use the last position this window saw.
     hover(pointer_ ? item_at(*pointer_) : std::nullopt);
@@ -71,7 +96,7 @@ void PickerGrid::set_width(int width) {
         if (items_[i].block == focused->block && items_[i].cell == focused->cell &&
             items_[i].action == focused->action)
             focus_ = i;
-    hover_.reset();
+    refresh_hover();
 }
 
 wxRect PickerGrid::unfolded(int depth) const {
