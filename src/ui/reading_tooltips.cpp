@@ -32,9 +32,8 @@ wxString text_preview(const std::string& text, bool continues) {
 }
 wxString verse_tooltip(const CorpusDb& corpus, const std::string& frame, const std::string& book,
                        VerseRef ref, bool preview, bool continues) {
-    const auto* canon = corpus.canon_book(book, ref.chapter);
     for (const auto* language : {"sv", "en", "el"}) {
-        const auto source = corpus.source_for_language(language, canon ? canon->code : book);
+        const auto source = corpus.source_for_language(language, book);
         if (source.empty())
             continue;
         auto verse = corpus.parallel_verse(frame, source, book, ref);
@@ -57,7 +56,7 @@ wxString reading_tooltip(const CorpusDb& corpus, const Reading& reading) {
     const auto passages = reading.segments();
     for (std::size_t i = 0; i < passages.size(); ++i) {
         const auto& passage = passages[i];
-        const auto frame = corpus.frame_source(reading.base_language, passage.book);
+        const std::string frame = osb_reference;
         const auto& refs = corpus.coordinates(frame, passage.book);
         for (const auto& ref : refs) {
             if (!corpus.contains(frame, passage, ref))

@@ -37,12 +37,10 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
             const auto& passage = passages[s];
             // Walk the framing verses and read the left pane's text for each,
             // so Hebrew-only verses are not read and merged verses are read once.
-            auto frame = corpus.frame_source(reading.base_language, passage.book);
-            const auto* canon = corpus.canon_book(passage.book, passage.first.chapter);
-            auto source =
-                reading.source_override.empty()
-                    ? corpus.source_for_language(reading.base_language, canon ? canon->code : passage.book)
-                    : reading.source_override;
+            std::string frame = osb_reference;
+            auto source = reading.source_override.empty()
+                              ? corpus.source_for_language(reading.base_language, passage.book)
+                              : reading.source_override;
             if (corpus.coordinates(frame, passage.book).empty())
                 frame = source;
             const auto language = source_language(source);
