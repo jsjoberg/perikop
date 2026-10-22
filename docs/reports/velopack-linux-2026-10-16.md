@@ -6,7 +6,7 @@ Standalone research on October 16, 2026. Perikop's production updater and releas
 
 - Linux ARM64 in a local Podman VM; Rocky Linux 9 container with glibc 2.34.
 - A small C++17 program using Velopack's native C++ SDK. Perikop's GUI and C++23 build were not part of this test.
-- Velopack SDK and packaging tool 1.2.161, verified against the SHA-256 pins in `ci/velopack-prototype.json`.
+- Velopack SDK and packaging tool 1.2.161, verified against the SHA-256 pins in `ci/velopack-prototype.json` at commit `3000465`.
 - .NET 8 for packaging only. The test application links the native SDK statically.
 - Test execution uses `--network none`, local update feeds, and AppImage extraction mode rather than FUSE.
 
@@ -36,6 +36,6 @@ The pending-restart helper also excludes older releases. The successful probe ho
 
 ## Reproduction and remaining work
 
-Run the commands in [the migration plan](../updating.md#linux-compatibility-prototype). The manual `velopack-prototype.yml` workflow covers native Linux x64 and ARM64 runners, but has not been dispatched on GitHub. The local runtime evidence covers ARM64 only. Logs, ABI checks, four startup syscall traces, and `summary.json` are under `build/velopack-prototype/run-arm64`.
+The prototype was removed once Velopack shipped; check out commit `3000465` to rerun it, following the migration plan in `docs/updating.md` there. The manual `velopack-prototype.yml` workflow covers native Linux x64 and ARM64 runners, but has not been dispatched on GitHub. The local runtime evidence covers ARM64 only. Logs, ABI checks, four startup syscall traces, and `summary.json` are under `build/velopack-prototype/run-arm64`.
 
 Still required before production integration: native Linux x64 verification, GTK AppDir/Wayland/library staging, real Perikop profile and upgrade checks, explicit restart and interruption behavior, shared GUI integration, GitHub feed discovery, Windows packaging from Linux and native validation, and macOS integration/signing. The prototype validates full packages; delta updates were disabled. Promote the chosen SDK and packaging tools into dependency snapshots before using them in ordinary builds.

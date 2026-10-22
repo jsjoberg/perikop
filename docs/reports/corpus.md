@@ -27,7 +27,7 @@ The Greek Psalms retain LXX numbering.
 An explicit alignment links Swedish, Greek, and English verses across their numbering systems.
 LXX2012 translates the Greek text, but follows English chapter divisions in places, such as Joel 3 and Malachi 4.
 Verses without a counterpart show a message.
-See the [versification guide](versification.md) for source corrections, alignment rules, and displayed coordinates.
+The [OSB reference](../osb-reference.md) now defines the displayed coordinates.
 Word-level MT/LXX alignment remains open.
 
 ## Storage
@@ -79,4 +79,3 @@ Prose uses bundled USFM paragraph boundaries.
 Swedish uses WEB boundaries as editorial display metadata where coordinates agree.
 LXX2012 marks only chapters and poetry, so it takes the Greek boundaries through the alignment.
 Poetry retains verse stanzas. Paragraph breaks inside a single verse are not yet retained.
-The [architecture guide](architecture.md) describes native paragraph layout and its cache.
