@@ -176,6 +176,7 @@ struct Verse {
     VerseRef ref;
     std::string text;
     std::optional<VerseRef> last;
+    std::string book = "";
 };
 enum class AlignmentKind { Same, Renumbered, Split, Merged, Moved, LxxOnly, MtOnly };
 struct Alignment {
@@ -225,8 +226,8 @@ struct Settings {
 };
 // The language of an edition, such as "el" for grc-lxx: "sv", "el" or "en".
 std::string source_language(const std::string& source);
-// A book as the reader presents it. Old Testament books are numbered by the
-// Septuagint (grc-lxx); some occupy only a chapter range of a Greek book.
+// A book or named section in the OSB reference authority. Legacy canon entries
+// retain their former source chapter ranges for progress conversion.
 struct CanonBook {
     std::string code;       // name and picker identity, e.g. "Neh"
     std::string frame_book; // the book in the framing edition, e.g. "Ezra"

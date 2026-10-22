@@ -75,7 +75,7 @@ void ScriptureView::locate_playback() {
         }
         speech_range_ = {first, last};
         for (size_t i = 0; i < rows_.size(); ++i)
-            if (!rows_[i].heading && rows_[i].ref <= last && first <= rows_[i].last) {
+            if (!rows_[i].heading && overlap_refs(rows_[i].ref, rows_[i].last, first, last)) {
                 speech_row_ = i;
                 break;
             }
@@ -137,7 +137,7 @@ void ScriptureView::locate_playback() {
                     if (!column.main_text(run.tag))
                         continue;
                     const auto& [first, last] = column.verses[run.tag];
-                    if (speech_range_.first > last || speech_range_.second < first)
+                    if (!overlap_refs(speech_range_.first, speech_range_.second, first, last))
                         continue;
                     span.first = std::min(span.first, run.x);
                     span.last = std::max(span.last, run.x + run.width);

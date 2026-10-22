@@ -236,6 +236,14 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         ui::label(content, ui::utf8("Den första aktiverade källan med text i kapitlet används."), 10));
     entries->Add(ui::label(
         content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
+    auto* authority =
+        ui::label(content,
+                  ui::utf8("Bokordning och referenser följer Orthodox Study Bible (OSB). "
+                           "Översättningens egna versnummer visas inom parentes där de skiljer sig. "
+                           "Text utan känd OSB-referens märks särskilt och ingår inte i uppläsningen."),
+                  10);
+    authority->Wrap(FromDIP(zoomed(440)));
+    entries->Add(authority, 0, wxTOP, FromDIP(zoomed(8)));
     entries->AddSpacer(FromDIP(zoomed(22)));
     add_content_loader(content, entries);
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,

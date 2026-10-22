@@ -4,11 +4,14 @@
 #include <map>
 #include <stdexcept>
 namespace ortho {
-double resume_speech(std::vector<SpeechUtterance>& queue, const ReadingPosition& position) {
+double resume_speech(std::vector<SpeechUtterance>& queue, const ReadingPosition& position,
+                     const CorpusDb* corpus) {
     const auto start = std::find_if(queue.begin(), queue.end(), [&](const auto& item) {
         return item.cue && item.cue->reading == 0 && item.cue->section == position.section &&
                item.cue->book == position.book && item.cue->source == position.source &&
-               item.cue->verse <= position.verse && position.verse <= item.cue->last;
+               (corpus ? corpus->contains(item.cue->source, {item.cue->book, item.cue->verse, item.cue->last},
+                                          position.verse)
+                       : item.cue->verse <= position.verse && position.verse <= item.cue->last);
     });
     if (start == queue.end())
         return 0;
@@ -34,9 +37,7 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
             const auto& passage = passages[s];
             // Walk the framing verses and read the left pane's text for each,
             // so Hebrew-only verses are not read and merged verses are read once.
-            auto frame = reading.source_override.empty()
-                             ? corpus.frame_source(reading.base_language, passage.book)
-                             : reading.source_override;
+            auto frame = corpus.frame_source(reading.base_language, passage.book);
             const auto* canon = corpus.canon_book(passage.book, passage.first.chapter);
             auto source =
                 reading.source_override.empty()
@@ -46,23 +47,29 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                 frame = source;
             const auto language = source_language(source);
             bool found = false;
-            std::optional<VerseRef> previous;
+            std::optional<std::pair<std::string, VerseRef>> previous;
             for (auto ref : corpus.coordinates(frame, passage.book)) {
-                if (ref > passage.last)
-                    break;
-                if (ref < passage.first)
+                if (!corpus.contains(frame, passage, ref))
                     continue;
                 auto verse = corpus.parallel_verse(frame, source, passage.book, ref);
-                const bool continues = (verse && previous && verse->ref == *previous) ||
-                                       (!verse && verse.error() == merged_verse);
+                // A selection may begin inside one indivisible translation verse.
+                // Read that complete source verse rather than dropping the selected OSB point.
+                if (!verse && verse.error() == merged_verse && !found)
+                    if (const auto group = corpus.alignment(frame, source, {passage.book, ref, ref}))
+                        verse = corpus.parallel_verse(frame, source, passage.book, group->from.first);
+                const bool continues =
+                    (verse && previous && std::pair{verse->book, verse->ref} == *previous) ||
+                    (!verse && verse.error() == merged_verse);
                 if (continues && found) {
                     // NOLINTNEXTLINE(bugprone-unchecked-optional-access): queued verses have cues.
                     queue.back().cue->last = ref;
                     continue;
                 }
-                if (!verse)
+                if (!verse) {
+                    previous.reset();
                     continue;
-                previous = verse->ref;
+                }
+                previous = std::pair{verse->book, verse->ref};
                 auto utterance = prepare(verse->text, language);
                 utterance.cue = SpeechCue{r, s, passage.book, frame, ref, ref};
                 queue.push_back(std::move(utterance));

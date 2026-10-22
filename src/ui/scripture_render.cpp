@@ -87,8 +87,8 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                         };
                         for (const auto& run : column.text.lines[line].runs) {
                             if (!column.main_text(run.tag) || column.faint[run.tag] ||
-                                column.verses[run.tag].first > highlighted_verse_->second ||
-                                column.verses[run.tag].second < highlighted_verse_->first) {
+                                !overlap_refs(column.verses[run.tag].first, column.verses[run.tag].second,
+                                              highlighted_verse_->first, highlighted_verse_->second)) {
                                 flush();
                                 continue;
                             }
@@ -226,7 +226,7 @@ void ScriptureView::paint(wxPaintEvent&) {
     // The passage's last paragraph has been seen once its end is on screen.
     const double bottom = offset_ + GetClientSize().y;
     for (auto i = begin; !end_seen_ && i < rows_.size() && positions_[i] < bottom; ++i)
-        if (!rows_[i].heading && rows_[i].ref <= displayed_.last && displayed_.last <= rows_[i].last)
+        if (!rows_[i].heading && within_refs(displayed_.last, rows_[i].ref, rows_[i].last))
             end_seen_ = positions_[i + 1] <= bottom;
 }
 void ScriptureView::return_button(const wxString& label, bool always) {

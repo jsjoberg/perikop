@@ -90,10 +90,12 @@ add_library(ortho-core
     src/core/updater.cpp
     src/storage/sqlite.cpp
     src/storage/corpus_db.cpp
+    src/storage/reference_db.cpp
     src/storage/content_import.cpp
     src/storage/study_db.cpp
     src/storage/user_db.cpp
     src/storage/reading_plan_migration.cpp
+    src/storage/osb_migration.cpp
     src/storage/speech_cache.cpp
     src/storage/pronunciation_review_db.cpp
     src/speech/speech.cpp
@@ -111,6 +113,10 @@ if(MINGW)
     add_link_options(-static)
 endif()
 if(BUILD_TESTING)
+    add_executable(ortho-osb-reference-tests tests/osb_reference_test.cpp)
+    target_link_libraries(ortho-osb-reference-tests PRIVATE ortho-core)
+    add_test(NAME osb-reference COMMAND ortho-osb-reference-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
+        "${CMAKE_BINARY_DIR}/test-osb-reference.db")
     add_executable(ortho-content-import-tests tests/content_import_test.cpp)
     target_link_libraries(ortho-content-import-tests PRIVATE ortho-core ortho-content-codecs)
     add_test(NAME content-import COMMAND ortho-content-import-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
@@ -294,6 +300,8 @@ if(ORTHO_BUILD_GUI)
             "${resource_destination}/corpus/schema.sql" "${resource_destination}/corpus/alignment.tsv"
             "${resource_destination}/corpus/books.tsv" "${resource_destination}/corpus/canon.tsv"
             "${resource_destination}/corpus/pronunciation-sv.tsv"
+            "${resource_destination}/corpus/osb-reviewed.tsv" "${resource_destination}/corpus/osb-provenance.json"
+            "${resource_destination}/corpus/osb-frame.tsv"
             "${resource_destination}/lexicon/sv1917-forms.tsv" "${resource_destination}/lexicon/sv1917-biblical-forms.tsv"
             "${resource_destination}/content/pronunciation-aliases.tsv" "${resource_destination}/content/srb2026-chapters.tsv"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"

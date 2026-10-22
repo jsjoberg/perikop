@@ -50,12 +50,11 @@ provide AES, SHA-256 and Flate inflation. Their pins and licenses are in
 
 ## Numbering
 
-The product's reference authority is the **Orthodox Study Bible (OSB)**. Its book
-structure and chapter/verse references must frame every source, including this
-import. The current application only approximates that through Brenton's Greek
-Old Testament and language-specific New Testament frames. Importing SRB does not
-resolve that existing limitation. See [OSB reference alignment](osb-reference.md)
-for the audit and the remaining work before this feature is ready to merge.
+The product's reference authority is the **Orthodox Study Bible (OSB)**. All
+sources use the same book structure and chapter/verse references, including this
+import. The source-specific mappings below feed the OSB crosswalk; the selected
+translation does not define the reader's numbering. See
+[OSB reference alignment](osb-reference.md).
 
 SRB uses mostly Swedish 1917 coordinates in the Old Testament and mostly KJV
 coordinates in the New Testament. These choices are explicit in

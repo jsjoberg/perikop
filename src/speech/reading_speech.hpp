@@ -12,5 +12,5 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                                             const PronunciationLookup& lexicon);
 // Keep original cues and the complete current verse, including merged verses.
 // Returns the share of the queue skipped, where the progress bar resumes.
-double resume_speech(std::vector<SpeechUtterance>&, const ReadingPosition&);
+double resume_speech(std::vector<SpeechUtterance>&, const ReadingPosition&, const CorpusDb* corpus = nullptr);
 } // namespace ortho

@@ -111,7 +111,7 @@ void ScriptureView::position_verse_links() {
     const auto row =
         std::find_if(rows_.begin() + std::ptrdiff_t(first_visible()), rows_.end(), [&](const auto& row) {
             return !row.heading && std::ranges::any_of(passages, [&](const Passage& passage) {
-                return row.ref <= passage.last && passage.first <= row.last;
+                return overlap_refs(row.ref, row.last, passage.first, passage.last);
             });
         });
     if (row == rows_.end()) {
@@ -140,8 +140,8 @@ void ScriptureView::position_verse_links() {
     for (std::size_t line = 0; line < column.text.lines.size(); ++line)
         for (const auto& run : column.text.lines[line].runs) {
             if (!column.main_text(run.tag) || !std::ranges::any_of(passages, [&](const Passage& passage) {
-                    return column.verses[run.tag].first <= passage.last &&
-                           passage.first <= column.verses[run.tag].second;
+                    return overlap_refs(column.verses[run.tag].first, column.verses[run.tag].second,
+                                        passage.first, passage.last);
                 }))
                 continue;
             const double verse_top = top + line * column.text.line_height;

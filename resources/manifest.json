@@ -797,6 +797,30 @@
       "sha256": "68d098aea71029ae6c4b2c34c578476900721d6b415cca78545755811c3a1485",
       "license": "MIT",
       "generated": "reviewed structural inventory for tools/content/build_srb_recipe.py"
+    },
+    {
+      "path": "resources/corpus/osb-reference.db",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "36e0b515795f227c6ed45f08ce72d48c6652eb48e7763c264059f77410da64ec"
+    },
+    {
+      "path": "resources/corpus/osb-provenance.json",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "c1ec764832be92f955bd26874662266075f1d2ed2e47660104e197a815f3fc73"
+    },
+    {
+      "path": "resources/corpus/osb-reviewed.tsv",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "8d70b99b9f5c8cae398c097340c535ca6b9e7f2b4e931fabdf8207251cc1dac6"
+    },
+    {
+      "path": "resources/corpus/osb-frame.tsv",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "76ec7bdcd897bf8aaa26f8e532df2dc4b2a9381e327e89376bb653dae19e2256"
     }
   ],
   "build_dependencies": [

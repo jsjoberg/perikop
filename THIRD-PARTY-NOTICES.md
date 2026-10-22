@@ -1,5 +1,14 @@
 # Third-party notices
 
+## OSB reference metadata
+
+`resources/corpus/osb-reference.db` contains coordinate metadata and translation
+crosswalks compiled under this project's MIT license. The reference authority is
+the Orthodox Study Bible, Thomas Nelson 2008, ISBN 9781418578633. Its Bible wording,
+study notes and articles are not included. The local comparison uses the pinned
+public-domain KJV and Brenton witnesses and the existing source mappings. See
+`docs/osb-reference.md` for provenance and regeneration instructions.
+
 The application code uses the MIT license. These resources have their own terms.
 
 ## Fonts

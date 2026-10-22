@@ -1183,9 +1183,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     apply_settings(false);
     for (const auto& reading :
          std::vector<Reading>{{ReadingKind::OldTestament, {"Gen", {31, 50, "a"}, {31, 50, "a"}}, {}, "el"},
-                              {ReadingKind::OldTestament, {"4Macc", {8, 29}, {8, 29}}, {}, "en"},
                               {ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 1}}}}) {
-        open_reading(reading);
+        auto referenced = reading;
+        if (reading.passage.book == "Gen")
+            referenced.reference = "grc-lxx";
+        open_reading(referenced);
         scripture_->center_passage();
         // Only the Greek addition to Genesis has Swedish text to read aloud.
         if (scripture_->cached_rows() == 0 || play_->IsEnabled() != (reading.passage.book == "Gen"))

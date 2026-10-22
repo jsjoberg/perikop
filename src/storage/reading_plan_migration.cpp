@@ -17,6 +17,12 @@ const std::vector<ReadingPlan>& legacy_plans() {
     };
     return plans;
 }
+const std::vector<ReadingPlan>& v2_plans() {
+    static const std::vector<ReadingPlan> plans{
+#include "storage/reading_plan_v2_parts.inc"
+    };
+    return plans;
+}
 using VerseIdentity = std::tuple<std::string, std::string, VerseRef>; // source, frame book, verse
 struct FramedVerse {
     std::size_t section;
@@ -27,16 +33,26 @@ std::vector<FramedVerse> framed_verses(const CorpusDb& corpus, const Reading& re
     const auto passages = reading.segments();
     for (std::size_t section = 0; section < passages.size(); ++section) {
         const auto& passage = passages[section];
-        const auto source = corpus.frame_source("sv", passage.book);
+        const auto source = corpus.legacy_frame_source("sv", passage.book);
         for (const auto& verse : corpus.coordinates(source, passage.book))
             if (passage.contains(verse))
                 result.push_back({section, {source, passage.book, verse}});
     }
     return result;
 }
+std::optional<ReadingPosition> legacy_position(const CorpusDb& corpus, const Reading& reading,
+                                               std::size_t section, VerseRef ref) {
+    const auto verses = framed_verses(corpus, reading);
+    for (std::size_t i = 0; i < verses.size(); ++i) {
+        const auto& [source, book, verse] = verses[i].identity;
+        if (verses[i].section == section && verse == ref)
+            return ReadingPosition{section, book, source, ref, int(100 * i / verses.size())};
+    }
+    return {};
+}
 } // namespace
 
-void UserDb::migrate_reading_plans(const CorpusDb& corpus) {
+void UserDb::migrate_legacy_plans(const CorpusDb& corpus) {
     using storage::Statement;
     storage::Transaction transaction(db_.get());
     {
@@ -61,14 +77,14 @@ void UserDb::migrate_reading_plans(const CorpusDb& corpus) {
     for (const auto& plan : legacy_plans())
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
             const auto key = "plan:" + plan.id + ":" + std::to_string(i + 1);
-            const auto reading = plan_reading(corpus, plan.parts[i], "sv");
+            const auto reading = legacy_plan_reading(corpus, plan.parts[i], "sv");
             const auto verses = framed_verses(corpus, reading);
             const auto done = completed.find(key);
             auto end = verses.end();
             if (done == completed.end()) {
                 auto saved = position(key);
                 if (!saved)
-                    saved = position(reading_key(corpus, reading));
+                    saved = position(legacy_reading_key(reading));
                 if (!saved)
                     continue;
                 end = std::ranges::find_if(verses, [&](const FramedVerse& verse) {
@@ -84,12 +100,12 @@ void UserDb::migrate_reading_plans(const CorpusDb& corpus) {
                 read[verse->identity] = std::max(read[verse->identity], date);
         }
     Statement mark(db_.get(), "INSERT INTO progress(key,completed) VALUES(?,?) ON CONFLICT DO NOTHING");
-    for (const auto& plan : reading_plans())
+    for (const auto& plan : v2_plans())
         for (std::size_t i = 0; i < plan.parts.size(); ++i) {
-            const auto key = plan_key(plan, i);
+            const auto key = "plan:" + plan.id + ":v2:" + std::to_string(i + 1);
             if (completed.contains(key) || position(key))
                 continue; // Never overwrite progress already saved in the new layout.
-            const auto reading = plan_reading(corpus, plan.parts[i], "sv");
+            const auto reading = legacy_plan_reading(corpus, plan.parts[i], "sv");
             const auto verses = framed_verses(corpus, reading);
             const auto unread = std::ranges::find_if(verses, [&](const FramedVerse& verse) {
                 return !read.contains(verse.identity);
@@ -106,10 +122,10 @@ void UserDb::migrate_reading_plans(const CorpusDb& corpus) {
                            return read.contains(verse.identity) || checkpoints.contains(verse.identity);
                        })) {
                 const auto& [source, book, verse] = unread->identity;
-                const auto checkpoint = reading_position(corpus, reading, unread->section, verse);
+                const auto checkpoint = legacy_position(corpus, reading, unread->section, verse);
                 if (checkpoint && checkpoint->source == source && checkpoint->book == book) {
                     position(key, *checkpoint);
-                    const auto plain = reading_key(corpus, reading);
+                    const auto plain = legacy_reading_key(reading);
                     if (!position(plain))
                         position(plain, *checkpoint);
                 }

@@ -74,9 +74,8 @@ void ScriptureView::open_section(std::size_t index) {
         if (selection_changed_)
             selection_changed_();
     }
-    // The Septuagint frames the Old Testament: its books, order and numbers.
-    frame_ = reading_.source_override.empty() ? corpus_.frame_source(reading_.base_language, displayed_.book)
-                                              : reading_.source_override;
+    // OSB defines the shared book order and printed coordinates for every edition.
+    frame_ = corpus_.frame_source(reading_.base_language, displayed_.book);
     if (corpus_.coordinates(frame_, displayed_.book).empty())
         for (const std::string language : {"sv", "el", "en"}) {
             const auto source = corpus_.source_for_language(language, displayed_.book);
@@ -95,19 +94,28 @@ void ScriptureView::open_section(std::size_t index) {
     if (base_source_ == frame_) {
         for (auto ref : corpus_.paragraph_starts(frame_, displayed_.book))
             boundaries.insert(ref);
-    } else
-        for (auto ref : corpus_.paragraph_starts(base_source_, canon_code()))
-            for (const auto& [book, target] : corpus_.counterparts(base_source_, frame_, canon_code(), ref))
-                if (book == displayed_.book) {
-                    boundaries.insert(target);
-                    break;
-                }
-    // A book without Swedish text keeps the Septuagint's paragraphs.
+    } else {
+        std::set<std::string> source_books;
+        for (const auto& ref : corpus_.coordinates(frame_, displayed_.book))
+            for (const auto& [book, target] :
+                 corpus_.counterparts(frame_, base_source_, displayed_.book, ref)) {
+                (void)target;
+                source_books.insert(book);
+            }
+        for (const auto& source_book : source_books)
+            for (auto ref : corpus_.paragraph_starts(base_source_, source_book))
+                for (const auto& [book, target] :
+                     corpus_.counterparts(base_source_, frame_, source_book, ref))
+                    if (book == displayed_.book) {
+                        boundaries.insert(target);
+                        break;
+                    }
+    }
+    // A book without source paragraph metadata starts each OSB chapter separately.
     if (boundaries.empty())
         for (auto ref : corpus_.paragraph_starts(frame_, displayed_.book))
             boundaries.insert(ref);
     int chapter = 0;
-    const bool stanza = corpus_.stanza_book(displayed_.book);
     for (auto ref : corpus_.coordinates(frame_, displayed_.book)) {
         if (canon_ && (ref.chapter < canon_->first_chapter || ref.chapter > canon_->last_chapter))
             continue;
@@ -116,7 +124,7 @@ void ScriptureView::open_section(std::size_t index) {
             chapter = ref.chapter;
             rows_.push_back({ref, true, {}, ref});
         }
-        if (new_chapter || stanza || boundaries.contains(ref))
+        if (new_chapter || corpus_.stanza_book(displayed_.book, ref.chapter) || boundaries.contains(ref))
             rows_.push_back({ref, false, {}, ref});
         rows_.back().verses.push_back(ref);
         const auto verse = corpus_.verse(frame_, displayed_.book, ref);
@@ -187,22 +195,29 @@ const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) 
     if (auto it = orphans_.find(source); it != orphans_.end())
         return it->second;
     auto& result = orphans_[source];
-    if (source == frame_ || frame_ != "grc-lxx")
+    if (source == frame_ || frame_ != osb_reference)
         return result;
     // The edition's books that this framing book draws on, such as Swedish Nehemiah.
-    std::set<std::string> books;
+    std::map<std::string, std::pair<VerseRef, VerseRef>> books;
     for (const auto& row : rows_)
         if (!row.heading)
             for (const auto& ref : row.verses)
                 for (const auto& [book, target] :
                      corpus_.counterparts(frame_, source, displayed_.book, ref)) {
-                    (void)target;
-                    books.insert(book);
+                    auto [it, added] = books.try_emplace(book, std::pair{target, target});
+                    if (!added) {
+                        it->second.first = std::min(it->second.first, target);
+                        it->second.second = std::max(it->second.second, target);
+                    }
                 }
-    for (const auto& book : books) {
+    for (const auto& [book, bounds] : books) {
         std::optional<VerseRef> anchor;
         std::vector<VerseRef> pending;
         for (const auto& ref : corpus_.coordinates(source, book)) {
+            // Combined source books, such as Greek Ezra/Nehemiah, must not leak another
+            // OSB book's unmapped material into this book's margins.
+            if (ref < bounds.first || ref > bounds.second)
+                continue;
             const auto targets = corpus_.counterparts(source, frame_, book, ref);
             if (targets.empty()) {
                 if (anchor)
@@ -229,7 +244,7 @@ const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) 
 void ScriptureView::center_passage() {
     prepare_visible();
     auto it = std::find_if(rows_.begin(), rows_.end(), [this](auto& r) {
-        return !r.heading && r.ref <= displayed_.first && displayed_.first <= r.last;
+        return !r.heading && within_refs(displayed_.first, r.ref, r.last);
     });
     if (it == rows_.end())
         return;
@@ -245,7 +260,7 @@ void ScriptureView::center_passage() {
     const auto& paragraph = row_layout(index);
     const auto verse_it = std::find_if(rows_[index].verses.begin(), rows_[index].verses.end(), [&](auto ref) {
         auto v = corpus_.verse(frame_, displayed_.book, ref);
-        return ref <= displayed_.first && v && displayed_.first <= v->last.value_or(ref);
+        return within_refs(displayed_.first, ref, v ? v->last.value_or(ref) : ref);
     });
     const int tag = int(verse_it - rows_[index].verses.begin());
     if (!paragraph.columns.empty()) {
@@ -290,7 +305,7 @@ VerseRef ScriptureView::current_verse() const {
 void ScriptureView::show_verse(VerseRef verse) {
     prepare_visible();
     for (std::size_t row = 0; row < rows_.size(); ++row) {
-        if (rows_[row].heading || verse < rows_[row].ref || verse > rows_[row].last)
+        if (rows_[row].heading || !within_refs(verse, rows_[row].ref, rows_[row].last))
             continue;
         for (std::size_t i = row > 2 ? row - 2 : 0; i <= row; ++i)
             heights_[i] = row_layout(i).height;
@@ -301,8 +316,8 @@ void ScriptureView::show_verse(VerseRef verse) {
         const auto& column = columns.front();
         for (std::size_t line = 0; line < column.text.lines.size(); ++line)
             for (const auto& run : column.text.lines[line].runs)
-                if (column.main_text(run.tag) && column.verses[run.tag].first <= verse &&
-                    verse <= column.verses[run.tag].second) {
+                if (column.main_text(run.tag) &&
+                    within_refs(verse, column.verses[run.tag].first, column.verses[run.tag].second)) {
                     restore_scroll(positions_[row] + FromDIP(zoomed(12)) +
                                    (stacked_columns() && columns.size() > 1 ? FromDIP(zoomed(24)) : 0) +
                                    line * column.text.line_height - GetClientSize().y * 0.38);
@@ -316,8 +331,8 @@ bool ScriptureView::passage_in_view() const {
     const double top = offset_ + FromDIP(zoomed(40)),
                  bottom = offset_ + GetClientSize().y - FromDIP(zoomed(90));
     for (auto i = first_visible(); i < rows_.size() && positions_[i] < bottom; ++i)
-        if (positions_[i + 1] > top && !rows_[i].heading && rows_[i].ref <= displayed_.last &&
-            displayed_.first <= rows_[i].last)
+        if (positions_[i + 1] > top && !rows_[i].heading &&
+            overlap_refs(rows_[i].ref, rows_[i].last, displayed_.first, displayed_.last))
             return true;
     return false;
 }
@@ -398,7 +413,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
     else {
         const auto selected_sources = shown_sources(index);
         const bool stacked = stacked_columns();
-        const bool stanza = corpus_.stanza_book(displayed_.book);
+        const bool stanza = corpus_.stanza_book(displayed_.book, rows_[index].ref.chapter);
         const int offset = canon_ ? canon_->offset() : 0;
         const auto segments = reading_.segments();
         int height = 0;
@@ -409,7 +424,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
             column.language = language;
             column.source = source;
             std::vector<TextFragment> fragments;
-            std::optional<VerseRef> previous;
+            std::optional<std::pair<std::string, VerseRef>> previous;
             const auto add = [&](const wxString& text, const wxString& label, VerseRef first, VerseRef last,
                                  bool faint, bool hebrew) {
                 column.verses.emplace_back(first, last);
@@ -417,7 +432,7 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                 column.hebrew.push_back(hebrew);
                 column.prescribed.push_back(
                     !hebrew && std::any_of(segments.begin(), segments.end(), [&](const auto& p) {
-                        return p.book == displayed_.book && p.first <= last && first <= p.last;
+                        return p.book == displayed_.book && overlap_refs(first, last, p.first, p.last);
                     }));
                 fragments.push_back({text, label, int(column.verses.size() - 1)});
             };
@@ -428,25 +443,34 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                                                   "Ingen aktiverad källa för kapitlet")}
                                             : corpus_.parallel_verse(frame_, source, displayed_.book, ref);
                 // One verse of this edition can span several framing verses.
-                if ((verse && previous && verse->ref == *previous) ||
+                if ((verse && previous && std::pair{verse->book, verse->ref} == *previous) ||
                     (!verse && verse.error() == merged_verse && !column.verses.empty())) {
                     column.verses.back().second = last;
                     continue;
                 }
                 if (verse)
-                    previous = verse->ref;
+                    previous = std::pair{verse->book, verse->ref};
+                else
+                    previous.reset();
                 // The Septuagint's number, and this edition's own where it differs.
                 wxString number = wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix);
                 if (verse && source != frame_) {
                     const auto& own = verse->ref;
-                    if (own.chapter != ref.chapter - offset || own.verse != ref.verse ||
-                        own.suffix != ref.suffix) {
+                    if (verse->book != displayed_.book || own.chapter != ref.chapter - offset ||
+                        own.verse != ref.verse || own.suffix != ref.suffix) {
                         wxString mark =
+                            (verse->book != displayed_.book
+                                 ? ui::utf8(corpus_.book_abbreviation(verse->book)) + " "
+                                 : wxString()) +
                             (own.chapter != ref.chapter - offset ? wxString::Format("%d:", own.chapter)
                                                                  : wxString()) +
                             wxString::Format("%d", own.verse) + ui::utf8(own.suffix);
                         if (verse->last)
-                            mark += ui::utf8("–") + wxString::Format("%d", verse->last->verse) +
+                            mark += ui::utf8("–") +
+                                    (verse->last->chapter != own.chapter
+                                         ? wxString::Format("%d:", verse->last->chapter)
+                                         : wxString()) +
+                                    wxString::Format("%d", verse->last->verse) +
                                     ui::utf8(verse->last->suffix);
                         number += " (" + mark + ")";
                     }
@@ -457,7 +481,8 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                         for (const auto& [book, own] : extra->second)
                             if (const auto text = corpus_.verse(source, book, own))
                                 add(ui::utf8(text->text),
-                                    wxString::Format("hebr. %d:%d", own.chapter, own.verse) +
+                                    ui::utf8("Utan OSB-ref · " + corpus_.book_abbreviation(book) + " ") +
+                                        wxString::Format("%d:%d", own.chapter, own.verse) +
                                         ui::utf8(own.suffix),
                                     ref, ref, true, true);
             }

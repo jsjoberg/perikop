@@ -64,17 +64,21 @@ The updater uses deltas when a suitable cached base exists, and otherwise downlo
 ## Bible browser
 
 Select **Gå → Gå till bibelställe**, then a book, a chapter, and a verse. Later selections set the end of the range.
+Book order and references follow the Orthodox Study Bible (OSB) in every language.
+Book tooltips also show OSB's English names, including 1–4 Kingdoms and 1–2 Ezra.
+Translations show their own verse numbers in parentheses where they differ. Text
+without a mapped OSB reference is labelled **Utan OSB-ref** and is not read aloud.
 **Lägg till** adds the range as a part, so you can read several passages as one reading. **Öppna urval** opens the selection.
 
 ## Reading plans
 
 - **Nya testamentet**: 60 parts.
-- **Gamla testamentet**: the books of the Hebrew Bible, with Septuagint chapter numbers, in 180 parts.
-- **Septuagintas övriga böcker**: the other Septuagint books that Perikop has in Swedish, in 31 parts.
+- **Gamla testamentet**: the Hebrew Bible's books in their OSB form, including Manasseh at 2 Chronicles 37 and Psalm 151, in 182 parts.
+- **Septuagintas övriga böcker**: the other OSB books and named Daniel sections, including 1 Ezra and 3 Maccabees, in 36 parts. Books without Swedish text use an enabled English or Greek source.
 
 Parts are about 3,000 Swedish words long, with some variation to finish at chapter and book boundaries. Matthew, Mark, Luke, John, Acts, and Revelation each start and end in their own parts. Short letters and books stay whole and may share a part with other complete short books; longer ones split at chapter boundaries.
 
-Progress from the original plans transfers automatically on first launch. New parts wholly covered by previously read text are marked complete; partly covered parts resume at the first unread verse. Original progress is retained as recovery data. A boundary part can contain some text you have read before, but the conversion never marks unread text complete.
+Progress from the original and previous plans transfers automatically on first launch. New parts wholly covered by previously read text are marked complete; partly covered parts resume at the first unread verse. Original progress is retained as recovery data. A boundary part can contain some text you have read before, but the conversion never marks unread text complete.
 
 Plans count parts, not days. A partly read section shows its percentage and reopens at the saved verse. Position is saved automatically when you pause, leave the reading, or close Perikop. While listening, the spoken verse is saved; while reading silently, the verse at the reading line is saved. A section is marked complete when its read-aloud finishes. Merely scrolling to its end does not mark it complete.
 **Börja om** clears a plan's completed sections and saved positions.

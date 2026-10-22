@@ -16,6 +16,7 @@ struct SqliteCloser {
 using DatabaseHandle = std::unique_ptr<sqlite3, SqliteCloser>;
 // parallel_verse's error for a verse that the edition's previous verse already includes.
 inline constexpr const char* merged_verse = "Ingår i föregående vers";
+inline constexpr const char* osb_reference = "osb-v1";
 struct WordExample {
     std::string book;
     Verse verse;
@@ -41,6 +42,9 @@ public:
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,
                                             VerseRef ref) const;
     const std::vector<VerseRef>& coordinates(const std::string& source, const std::string& book) const;
+    // Printed order can differ from numeric order: Esther 1a–1r precede 1:1 in OSB.
+    int compare(const std::string& source, const std::string& book, VerseRef, VerseRef) const;
+    bool contains(const std::string& source, const Passage&, VerseRef) const;
     std::vector<VerseRef> paragraph_starts(const std::string& source, const std::string& book) const;
     std::optional<Alignment> alignment(const std::string& from, const std::string& to, const Passage&) const;
     std::expected<Verse, std::string> parallel_verse(const std::string& from, const std::string& to,
@@ -50,7 +54,7 @@ public:
                                                                const std::string& book, VerseRef) const;
     // Passages in another edition's numbering, joined where the target verses are adjacent.
     std::vector<Passage> map_passage(const std::string& from, const std::string& to, const Passage&) const;
-    // The reading in its framing numbering: the Septuagint's for the Old Testament.
+    // Restate any supported source references in the shared OSB authority.
     Reading localize(Reading) const;
     std::vector<Pronunciation> pronunciations(const std::string& language) const;
     std::vector<WordExample> word_examples(const std::string& word, int limit = 3) const;
@@ -60,23 +64,26 @@ public:
     bool new_testament_book(const std::string& book) const;
     bool deuterocanonical_book(const std::string& book) const;
     // Whether each verse starts its own paragraph, as in the Psalms.
-    bool stanza_book(const std::string& book) const;
+    bool stanza_book(const std::string& book, int chapter = 0) const;
     // Short Swedish name of a book, such as "1 Mos", for grids and plan parts.
     std::string book_abbreviation(const std::string& book) const;
-    // Books in the order of the Orthodox Study Bible, from canon.tsv.
+    // Books and named Daniel sections in the OSB reference metadata.
     const std::vector<CanonBook>& canon() const {
         return canon_;
     }
+    const std::vector<CanonBook>& legacy_canon() const {
+        return legacy_canon_;
+    }
     const CanonBook* canon_book(const std::string& frame_book, int chapter) const;
-    // The reader's Swedish names of a canon book, such as "Ester enligt den grekiska texten".
-    // Other books keep their own names.
+    // Familiar Swedish names; reference_name gives the corresponding OSB English name.
     std::string title(const std::string& book) const;
     std::string short_title(const std::string& book) const;
+    std::string reference_name(const std::string& book) const;
     // The edition a pane shows for a language; empty for an unknown language.
     std::string source_for_language(const std::string& language, const std::string& book) const;
-    // The edition whose numbering frames a book: the Septuagint for the Old
-    // Testament, so every pane shows Old Testament text in LXX order and numbers.
+    // OSB is the reference authority for every language and testament.
     std::string frame_source(const std::string& language, const std::string& book) const;
+    std::string legacy_frame_source(const std::string& language, const std::string& book) const;
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
@@ -94,6 +101,7 @@ private:
         std::vector<VerseRef> coordinates;
         std::vector<int> last_verses;
         std::vector<std::string> texts;
+        std::map<VerseRef, std::size_t> order;
     };
     const BookText& book_text(const std::string& source, const std::string& book) const;
     // The alignment rows from one edition to another for a book, ordered by their first verse.
@@ -102,11 +110,18 @@ private:
     DatabaseHandle db_;
     DatabaseHandle imported_;
     DatabaseHandle study_;
+    DatabaseHandle reference_;
+    void load_reference(const std::filesystem::path&);
+    using ReferenceTargets = std::vector<std::pair<std::string, VerseRef>>;
+    using ReferenceLinks = std::map<VerseRef, ReferenceTargets>;
+    const ReferenceLinks& reference_links(const std::string& from, const std::string& to,
+                                          const std::string& book) const;
     sqlite3* study_database(const char* table, const std::string& form) const;
     // Loaded books are never changed or removed, so references to them stay valid.
     mutable std::mutex cache_mutex_;
     mutable std::map<std::pair<std::string, std::string>, BookText> texts_;
     mutable std::map<std::tuple<std::string, std::string, std::string>, std::vector<Alignment>> alignments_;
+    mutable std::map<std::tuple<std::string, std::string, std::string>, ReferenceLinks> reference_links_;
     // Each edition's versification system, by source code. The corpus is read-only.
     std::map<std::string, std::string> versification_;
     struct BookInfo {
@@ -116,13 +131,14 @@ private:
     };
     std::map<std::string, BookInfo> books_;
     std::vector<CanonBook> canon_;
+    std::vector<CanonBook> legacy_canon_;
 };
 class UserDb {
 public:
     explicit UserDb(const std::filesystem::path& path);
     Settings load() const;
     void save(const Settings&);
-    // Keys of what the reader has marked as read, such as "plan:nt:v2:7".
+    // Keys of what the reader has marked as read, such as "plan:nt:v3:7".
     std::set<std::string> completed() const;
     void complete(const std::string& key, bool done = true);
     // Forgets every mark whose key starts with the prefix, such as a whole plan.
@@ -137,6 +153,8 @@ public:
     void remove_bookmark(int id);
 
 private:
+    void migrate_legacy_plans(const CorpusDb&);
+    void migrate_osb(const CorpusDb&);
     DatabaseHandle db_;
 };
 // Speech audio has its own bounded database. It never changes Scripture or preferences.

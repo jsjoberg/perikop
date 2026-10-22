@@ -246,7 +246,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings, bool resume) {
         double skipped = 0;
         if (resume && !primary_readings.empty())
             if (const auto position = user_.position(reading_key(corpus_, primary_readings.front())))
-                skipped = resume_speech(queue, *position);
+                skipped = resume_speech(queue, *position, &corpus_);
         playback_.start(readings, skipped);
         if (!readings.empty()) {
             show_reading(readings.front());

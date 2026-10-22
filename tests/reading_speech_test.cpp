@@ -34,7 +34,8 @@ int main(int argc, char** argv) {
               "User pronunciation overrides must affect speech only");
         for (std::size_t i = 0; i < spoken.size(); ++i) {
             check(spoken[i].language == "sv" &&
-                      spoken[i].cue == SpeechCue{0, 0, "Ps", "grc-lxx", {22, int(i + 1)}, {22, int(i + 1)}},
+                      spoken[i].cue ==
+                          SpeechCue{0, 0, "Ps", osb_reference, {22, int(i + 1)}, {22, int(i + 1)}},
                   "Spoken verses must follow the framing order and cue source");
         }
 
@@ -43,17 +44,17 @@ int main(int argc, char** argv) {
         const auto merged_speech = reading_speech(corpus, {merged}, lexicon);
         check(merged_speech.size() == 1, "A merged Swedish verse must be read only once");
         check(merged_speech[0].display_text == corpus.verse("sv1917", "1Chr", {12, 4})->text &&
-                  merged_speech[0].cue == SpeechCue{0, 0, "1Chr", "grc-lxx", {12, 4}, {12, 5}},
+                  merged_speech[0].cue == SpeechCue{0, 0, "1Chr", osb_reference, {12, 4}, {12, 5}},
               "One utterance must cover both framing verses in a merged passage");
 
         Reading nehemiah{ReadingKind::OldTestament, {"Neh", {1, 1}, {1, 2}}};
         nehemiah.reference = "sv1917";
         const auto nehemiah_speech = reading_speech(corpus, {nehemiah}, lexicon);
         check(nehemiah_speech.size() == 2, "Nehemiah playback must contain only the selected verses");
-        check(nehemiah_speech[0].cue == SpeechCue{0, 0, "Ezra", "grc-lxx", {11, 1}, {11, 1}} &&
+        check(nehemiah_speech[0].cue == SpeechCue{0, 0, "Neh", osb_reference, {1, 1}, {1, 1}} &&
                   nehemiah_speech[0].display_text == corpus.verse("sv1917", "Neh", {1, 1})->text,
               "Nehemiah must retain its framing cue and its Swedish text");
-        check(passage_label(corpus, {{"Ezra", {11, 1}, {11, 2}}, {"Ezra", {11, 4}, {11, 4}}}) ==
+        check(passage_label(corpus, {{"Neh", {1, 1}, {1, 2}}, {"Neh", {1, 4}, {1, 4}}}) ==
                   "Nehemja 1:1–2; 1:4",
               "Passage labels must apply canon offsets and omit repeated book names");
 
@@ -71,7 +72,7 @@ int main(int argc, char** argv) {
                   "Reusing pronunciation rules must preserve speech and playback coordinates");
         check(batch.size() == 9 && batch[0].cue->reading == 0 && batch[0].cue->section == 0 &&
                   batch[1].cue->section == 1 && batch[2].cue->section == 1 &&
-                  batch[3].cue == SpeechCue{1, 0, "Ps", "grc-lxx", {22, 1}, {22, 1}},
+                  batch[3].cue == SpeechCue{1, 0, "Ps", osb_reference, {22, 1}, {22, 1}},
               "Multiple readings and sections must move directly between Scripture verses");
 
         // A picker selection can mix LXX and New Testament coordinates without renumbering either.
@@ -87,9 +88,9 @@ int main(int argc, char** argv) {
         check(custom_speech.size() == 5 &&
                   custom_speech[0].display_text == corpus.verse("sv1917", "Ps", {23, 1})->text &&
                   custom_speech[1].cue->verse == VerseRef{22, 2} &&
-                  custom_speech[2].cue == SpeechCue{0, 1, "John", "sv1917", {1, 3}, {1, 3}} &&
+                  custom_speech[2].cue == SpeechCue{0, 1, "John", osb_reference, {1, 3}, {1, 3}} &&
                   custom_speech[3].cue->verse == VerseRef{1, 4} &&
-                  custom_speech[4].cue == SpeechCue{0, 2, "Ps", "grc-lxx", {22, 6}, {22, 6}},
+                  custom_speech[4].cue == SpeechCue{0, 2, "Ps", osb_reference, {22, 6}, {22, 6}},
               "Custom playback must skip unselected gaps and follow the chosen range order across books");
         check(batch[0].display_text == corpus.verse("sv1917", "John", {1, 1})->text &&
                   batch[3].display_text == spoken[0].display_text,
@@ -99,7 +100,7 @@ int main(int argc, char** argv) {
         english.source_override = "en-lxx2012";
         const auto explicit_edition = reading_speech(corpus, {english}, lexicon);
         check(explicit_edition.size() == 2 && explicit_edition[0].language == "en" &&
-                  explicit_edition[0].cue == SpeechCue{0, 0, "Ps", "en-lxx2012", {23, 1}, {23, 1}} &&
+                  explicit_edition[0].cue == SpeechCue{0, 0, "Ps", osb_reference, {23, 1}, {23, 1}} &&
                   explicit_edition[0].display_text == corpus.verse("en-lxx2012", "Ps", {23, 1})->text,
               "An explicit edition must start with its first verse and retain its own coordinates");
 

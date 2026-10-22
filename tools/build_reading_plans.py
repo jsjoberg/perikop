@@ -1,5 +1,5 @@
 #!/usr/bin/env -S uv run --locked
-"""Generate the frozen v2 reading-plan ranges from Swedish text lengths.
+"""Generate OSB v3 reading-plan ranges from Swedish text lengths and fallback text.
 
 Use --check to verify the committed data, or --write to regenerate it. A change
 to published ranges requires a new plan version and progress migration.
@@ -18,46 +18,68 @@ from mapping import Mapper
 
 OUTPUT = ROOT / "src/core/reading_plan_parts.inc"
 PLANS = [
-    ("nt", "Nya testamentet", "", "Matt Mark Luke John Acts Rom 1Cor 2Cor Gal Eph Phil Col "
-     "1Thess 2Thess 1Tim 2Tim Titus Philemon Heb James 1Peter 2Peter 1John 2John 3John Jude Rev"),
-    ("ot", "Gamla testamentet", "Den hebreiska bibelns böcker.",
-     "Gen Exod Lev Num Deut Josh Judg Ruth 1Sam 2Sam 1Kgs 2Kgs 1Chr 2Chr Ezra Neh Esth Job Ps "
-     "Prov Eccl Song Isa Jer Lam Ezek Dan Hos Joel Amos Obad Jonah Micah Nah Hab Zeph Hag Zech Mal"),
-    ("lxx", "Septuagintas övriga böcker", "Böckerna utanför den hebreiska bibeln.",
-     "PrMan Tob Jdt Wis Sir Baruch EpJer Sus Bel 1Macc 2Macc"),
+    (
+        "nt",
+        "Nya testamentet",
+        "",
+        "Matt Mark Luke John Acts Rom 1Cor 2Cor Gal Eph Phil Col "
+        "1Thess 2Thess 1Tim 2Tim Titus Philemon Heb James 1Peter 2Peter 1John 2John 3John Jude Rev",
+    ),
+    (
+        "ot",
+        "Gamla testamentet",
+        "Den hebreiska bibelns böcker.",
+        "Gen Exod Lev Num Deut Josh Judg Ruth 1Sam 2Sam 1Kgs 2Kgs 1Chr 2Chr Ezra Neh Esth Ps Job "
+        "Prov Eccl Song Hos Amos Micah Joel Obad Jonah Nah Hab Zeph Hag Zech Mal Isa Jer Lam Ezek Dan",
+    ),
+    (
+        "lxx",
+        "Septuagintas övriga böcker",
+        "Böckerna utanför den hebreiska bibeln.",
+        "1Esd Tob Jdt 1Macc 2Macc 3Macc Wis Sir Baruch EpJer Sus Bel",
+    ),
 ]
 SEPARATE = {"Matt", "Mark", "Luke", "John", "Acts", "Rev"}
 LETTERS = set(PLANS[0][3].split()) - SEPARATE
 
 
 def chapter_words(db, books, testament):
-    """Count each Swedish counterpart once, using the reader's LXX framing."""
-    mapper = Mapper(db)
-    texts = {(book, c, v, suffix): text for book, c, v, suffix, text in db.execute(
-        "SELECT book.code,chapter,verse,verse_suffix,text FROM verse "
-        "JOIN source ON source.id=source_id JOIN book ON book.id=book_id WHERE source.code='sv1917'")}
-    canon = {book: (frame, first, last) for book, frame, first, last in db.execute(
-        "SELECT book,frame_book,first_chapter,last_chapter FROM canon")}
+    """Count contiguous source units once in OSB order, with English fallback."""
+    reference = sqlite3.connect(
+        f"file:{ROOT/'resources/corpus/osb-reference.db'}?mode=ro", uri=True
+    )
+    mapper = Mapper(db, reference)
+    texts = {
+        (source, book, c, v, suffix): text
+        for source, book, c, v, suffix, text in db.execute(
+            "SELECT source.code,book.code,chapter,verse,verse_suffix,text FROM verse "
+            "JOIN source ON source.id=source_id JOIN book ON book.id=book_id"
+        )
+    }
     rows = []
     for book in books.split():
-        frame, first, last = canon[book]
-        source = "sv1917" if testament == "nt" else "grc-lxx"
+        frame, source = book, "osb-v1"
         counts = Counter()
-        seen = set()
+        previous = None
         for ref in mapper.coordinates(source, frame):
-            if ref[0] < first or (last and ref[0] > last) or (book == "Ps" and ref[0] > 150):
-                continue
-            chapter = ref[0] - first + 1
+            chapter = ref[0]
             counts.setdefault(chapter, 0)
-            targets = [(frame, ref)] if source == "sv1917" else mapper.counterparts(source, "sv1917", frame, ref)
-            for target_book, target in targets:
-                identity = (target_book, *target)
-                if identity not in seen:
-                    counts[chapter] += len(texts.get(identity, "").split())
-                    seen.add(identity)
+            chosen = "sv1917"
+            targets = mapper.counterparts(source, chosen, frame, ref)
+            if not targets:
+                chosen = "en-web" if testament == "nt" else "en-lxx2012"
+                targets = mapper.counterparts(source, chosen, frame, ref)
+            unit = (chosen, tuple(targets))
+            if targets and unit != previous:
+                for target_book, target in targets:
+                    counts[chapter] += len(
+                        texts.get((chosen, target_book, *target), "").split()
+                    )
+            previous = unit
         if not counts or not sum(counts.values()):
             raise ValueError(f"No Swedish text for {book}")
         rows.extend((book, chapter, counts[chapter]) for chapter in sorted(counts))
+    reference.close()
     return rows
 
 
@@ -88,10 +110,14 @@ def partition(rows, target, count=None):
                     continue
                 if any(rows[i][0] in SEPARATE for i in range(begin, end)):
                     continue
-            elif totals[first] <= 1.6 * target and (begin != starts[first] or end != ends[first]):
+            elif totals[first] <= 1.6 * target and (
+                begin != starts[first] or end != ends[first]
+            ):
                 continue
             cut_cost = 0 if end == ends[last] else 0.35 if last in LETTERS else 0.05
-            candidates[end].append((begin, ((words - target) / target) ** 2 + cut_cost + 0.05))
+            candidates[end].append(
+                (begin, ((words - target) / target) ** 2 + cut_cost + 0.05)
+            )
     previous = [math.inf] * (n + 1)
     previous[0] = 0
     paths = {}
@@ -115,7 +141,8 @@ def partition(rows, target, count=None):
         for end in range(1, n + 1):
             previous[end], paths[end] = min(
                 ((previous[begin] + cost, begin) for begin, cost in candidates[end]),
-                default=(math.inf, -1))
+                default=(math.inf, -1),
+            )
         if not math.isfinite(previous[n]):
             raise ValueError("Cannot split the plan")
         end, bounds = n, []
@@ -127,11 +154,15 @@ def partition(rows, target, count=None):
 
 
 def generate():
-    with sqlite3.connect(f"file:{ROOT / 'resources/corpus/corpus.db'}?mode=ro", uri=True) as db:
+    with sqlite3.connect(
+        f"file:{ROOT / 'resources/corpus/corpus.db'}?mode=ro", uri=True
+    ) as db:
         chapters = [chapter_words(db, books, ident) for ident, _, _, books in PLANS]
     target = sum(row[2] for row in chapters[0]) / 60
-    lines = ["// Generated by tools/build_reading_plans.py; frozen plan version 2.",
-             "// Published range changes require a new version and migration."]
+    lines = [
+        "// Generated by tools/build_reading_plans.py; frozen OSB plan version 3.",
+        "// Published range changes require a new version and migration.",
+    ]
     for (ident, title, description, _), rows in zip(PLANS, chapters):
         bounds = partition(rows, target, 60 if ident == "nt" else None)
         lines.extend([f'{{"{ident}", "{title}", "{description}", {{'])
@@ -143,11 +174,19 @@ def generate():
                     ranges[-1][2] = chapter
                 else:
                     ranges.append([book, chapter, chapter])
-            lines.append("    {" + ", ".join(f'{{"{book}", {first}, {last}}}' for book, first, last in ranges) + "},")
+            lines.append(
+                "    {"
+                + ", ".join(
+                    f'{{"{book}", {first}, {last}}}' for book, first, last in ranges
+                )
+                + "},"
+            )
             weights.append(sum(row[2] for row in rows[begin:end]))
         lines.append("}},")
-        print(f"{ident}: {len(bounds)} parts; {min(weights)}–{max(weights)} words, "
-              f"mean {sum(weights) / len(weights):.0f}")
+        print(
+            f"{ident}: {len(bounds)} parts; {min(weights)}–{max(weights)} words, "
+            f"mean {sum(weights) / len(weights):.0f}"
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -161,4 +200,6 @@ if __name__ == "__main__":
     if arguments.write:
         OUTPUT.write_text(data, encoding="utf-8")
     elif OUTPUT.read_text(encoding="utf-8") != data:
-        raise SystemExit("Reading-plan data differs; review versioning before regenerating it")
+        raise SystemExit(
+            "Reading-plan data differs; review versioning before regenerating it"
+        )

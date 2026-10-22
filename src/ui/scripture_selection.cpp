@@ -27,21 +27,24 @@ std::vector<Passage> ScriptureView::selections() const {
     return result;
 }
 bool ScriptureView::verse_selected(VerseRef ref) const {
-    return std::any_of(selections_.begin(), selections_.end(), [ref](const auto& range) {
-        return range.first <= ref && ref <= range.second;
+    return std::any_of(selections_.begin(), selections_.end(), [this, ref](const auto& range) {
+        return within_refs(ref, range.first, range.second);
     });
 }
 void ScriptureView::select_verses(VerseRef first, VerseRef last, bool append) {
-    if (last < first)
+    if (compare_refs(last, first) < 0)
         std::swap(first, last);
     auto ranges =
         append ? (drag_anchor_ ? drag_ranges_ : selections_) : std::vector<std::pair<VerseRef, VerseRef>>{};
     ranges.emplace_back(first, last);
-    std::sort(ranges.begin(), ranges.end());
+    std::ranges::sort(ranges, [this](const auto& a, const auto& b) {
+        return compare_refs(a.first, b.first) < 0;
+    });
     std::vector<std::pair<VerseRef, VerseRef>> merged;
     for (const auto& range : ranges) {
-        if (!merged.empty() && range.first <= merged.back().second)
-            merged.back().second = std::max(merged.back().second, range.second);
+        if (!merged.empty() && compare_refs(range.first, merged.back().second) <= 0)
+            merged.back().second =
+                compare_refs(merged.back().second, range.second) < 0 ? range.second : merged.back().second;
         else
             merged.push_back(range);
     }
@@ -171,8 +174,8 @@ void ScriptureView::click_text(wxPoint point) {
     const auto range = column.verses[column.text.lines[found->line].runs[found->run].tag];
     // A merged verse in one edition can cover several verses in the other.
     // Clicking any of those counterparts closes the same highlight.
-    if (highlighted_verse_ && range.first <= highlighted_verse_->second &&
-        highlighted_verse_->first <= range.second)
+    if (highlighted_verse_ &&
+        overlap_refs(range.first, range.second, highlighted_verse_->first, highlighted_verse_->second))
         highlighted_verse_.reset();
     else
         highlighted_verse_ = range;

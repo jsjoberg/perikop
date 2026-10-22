@@ -85,6 +85,15 @@ public:
     const std::string& frame() const {
         return frame_;
     }
+    int compare_refs(VerseRef a, VerseRef b) const {
+        return corpus_.compare(frame_, displayed_.book, a, b);
+    }
+    bool within_refs(VerseRef ref, VerseRef first, VerseRef last) const {
+        return compare_refs(first, ref) <= 0 && compare_refs(ref, last) <= 0;
+    }
+    bool overlap_refs(VerseRef first, VerseRef last, VerseRef other_first, VerseRef other_last) const {
+        return compare_refs(first, other_last) <= 0 && compare_refs(other_first, last) <= 0;
+    }
     void clear_selection();
     void select_verses(VerseRef first, VerseRef last, bool append = false);
     void on_selection(std::function<void()> callback) {

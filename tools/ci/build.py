@@ -73,7 +73,7 @@ def linux(package):
         raise
     # uv's standalone Python carries modern SQLite; no LD_PRELOAD or custom SQLite build is needed.
     python("tools/check_resources.py")
-    checks("modern_lexicon", "icon", "linux_abi", "ci_dependencies", "ci_build", "windows_cross",
+    checks("osb_metadata", "modern_lexicon", "icon", "linux_abi", "ci_dependencies", "ci_build", "windows_cross",
            "appimage_licenses", "nightly", "update_packages")
     if package:
         run("tools/package_appimage.sh", BUILD)
@@ -99,7 +99,7 @@ def macos(package):
     run("ctest", "--test-dir", BUILD, "--output-on-failure")
     run("cmake", "--build", BUILD, "--target", "tidy")
     python("tools/check_resources.py")
-    checks("icon", "linux_abi", "ci_dependencies", "ci_build", "macos_arch", "nightly", "update_packages")
+    checks("osb_metadata", "icon", "linux_abi", "ci_dependencies", "ci_build", "macos_arch", "nightly", "update_packages")
     if package:
         for attempt in range(3):
             try:
