@@ -28,8 +28,6 @@ UPSTREAMS = ROOT / "ci/upstreams.json"
 RUNTIME = {"commit": "3d17002ee2a519a288e28aeb7bc41af5f5adaf4e",
            "x86_64": "a2419dce47568395ae79c01ffa9a5a341dd339581352ff104d073527543177e5",
            "aarch64": "7f27a8c15bf20a2e46342ea4a977047a69d8b4d64a123fe0b5e23b20fd290c85"}
-# Pinned for linuxdeploy's runtime, which no longer ships; they leave ci/upstreams.json with the next snapshot.
-RETIRED_SOURCES = ("type2-runtime-8f39b89e2ac3.tar.gz", "zlib-1.3.2.tar.gz")
 # Licences of everything linked into the runtime; each also ships inside the AppImages.
 LICENCES = ("AppImage-type2-runtime-MIT.txt", "libfuse-LGPL-2.1.txt", "libfuse-LICENSE.txt", "squashfuse-LICENSE.txt",
             "zstd-LICENSE.txt", "zlib-LICENSE.txt", "musl-COPYRIGHT.txt", "mimalloc-LICENSE.txt")
@@ -44,8 +42,7 @@ def digest(path):
 
 def inputs():
     """The pinned source archives from ci/upstreams.json."""
-    return [item for item in json.loads(UPSTREAMS.read_text()).values()
-            if item.get("appimage_runtime_source") and item["file"] not in RETIRED_SOURCES]
+    return [item for item in json.loads(UPSTREAMS.read_text()).values() if item.get("appimage_runtime_source")]
 
 
 def name():

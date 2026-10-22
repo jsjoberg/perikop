@@ -81,5 +81,3 @@ To update a dependency:
    gh release download ci-dependencies-<commit> --repo jsjoberg/perikop-assets --pattern dependencies-lock.json --dir ci --clobber
    ```
 
-Releases no longer use NSIS or linuxdeploy's AppImage runtime. The snapshot still carries `nsis`, `appimage-runtime`, `appimage-runtime-arm64`, `runtime-source-8f39b89` and `runtime-zlib` (1.3.2, which only that runtime used); remove them from `ci/upstreams.json` with the next snapshot, and `RETIRED_SOURCES` from `tools/appimage_runtime.py` and the runtime from `APPIMAGE_TOOLS` in `tools/ci/dependencies.py` with them.
-

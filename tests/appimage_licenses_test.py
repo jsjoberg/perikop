@@ -121,8 +121,6 @@ class AppImageRuntimeLgplTest(unittest.TestCase):
         archives = [item for item in sources.values() if item["file"].startswith("type2-runtime-")]
         self.assertEqual([item["file"] for item in archives], ["type2-runtime-" + commit[:12] + ".tar.gz"])
         self.assertTrue(archives[0]["url"].endswith(commit))
-        # The sources pinned only for linuxdeploy's former runtime stay out of the archive.
-        self.assertFalse(set(runtime.RETIRED_SOURCES) & set(sources))
         # The same libfuse and squashfuse hashes as upstream's scripts/common/install-dependencies.sh.
         self.assertEqual(sources["fuse-3.15.0.tar.xz"]["sha256"],
                          "70589cfd5e1cff7ccd6ac91c86c01be340b227285c5e200baa284e401eea2ca0")

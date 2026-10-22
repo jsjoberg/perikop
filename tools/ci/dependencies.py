@@ -18,8 +18,8 @@ PLATFORMS = ("Linux", "Linux-arm64", "macOS", "Windows")
 CROSS_ENVIRONMENT = "Windows-cross-environment.tar.gz"
 # The AppImage tools for each Linux platform, named for the processor they run on.
 APPIMAGE_TOOLS = {
-    "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"),
-    "Linux-arm64": ("linuxdeploy-aarch64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-aarch64"),
+    "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh"),
+    "Linux-arm64": ("linuxdeploy-aarch64.AppImage", "linuxdeploy-plugin-gtk.sh"),
 }
 
 
