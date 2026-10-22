@@ -80,8 +80,13 @@ public:
     // Returns the number of frames copied; the rest is silence.
     size_t render(float* output, size_t frames) {
         std::fill_n(output, frames, 0.0f);
-        if (held())
-            return 0;
+        if (held()) {
+            // Only a later append releases a hold. An underrun can be marked just after the producer's
+            // last release; once the ring is full or the stream complete, no release follows, so play.
+            if (!complete_.load(std::memory_order_acquire) && buffered() < capacity)
+                return 0;
+            held_.store(false, std::memory_order_release);
+        }
         size_t copied = 0;
         auto read = read_.load(std::memory_order_relaxed);
         while (copied < frames && read < written_.load(std::memory_order_acquire)) {
