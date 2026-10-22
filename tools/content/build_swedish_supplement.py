@@ -34,7 +34,7 @@ def write_pronunciations():
         "CREATE TABLE pronunciation(language TEXT,source TEXT,spoken TEXT,phonemes TEXT,priority INTEGER,PRIMARY KEY(language,source)) STRICT, WITHOUT ROWID"
     )
     for line in (
-        (ROOT / "resources/content/pronunciation-aliases.tsv").read_text().splitlines()
+        (ROOT / "resources/content/pronunciation-aliases.tsv").read_text(encoding="utf-8").splitlines()
     ):
         if not line or line.startswith("#"):
             continue
@@ -56,11 +56,13 @@ def write_pronunciations():
 
 def record_hash():
     manifest_path = ROOT / "resources/manifest.json"
-    manifest = json.loads(manifest_path.read_text())
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     for asset in manifest["assets"]:
         if asset["path"] == "resources/content/swedish-study.db":
             asset["sha256"] = hashlib.sha256(out.read_bytes()).hexdigest()
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    manifest_path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
 
 
 if args.pronunciations_only:
@@ -69,7 +71,7 @@ if args.pronunciations_only:
     sys.exit()
 words = collections.Counter(
     w
-    for *_, text in json.loads(args.local_verses.read_text())
+    for *_, text in json.loads(args.local_verses.read_text(encoding="utf-8"))
     for w in re.findall(r"[^\W\d_]+", text.lower())
 )
 db = sqlite3.connect(ROOT / "build/srb/study-work.db")
@@ -80,7 +82,7 @@ build(db, words)
 db.commit()
 out.unlink(missing_ok=True)
 dest = sqlite3.connect(out)
-schema = (ROOT / "resources/corpus/schema.sql").read_text()
+schema = (ROOT / "resources/corpus/schema.sql").read_text(encoding="utf-8")
 for table in ("dalin", "sv_word", "biblical", "sv_biblical", "saldo", "sv_saldo"):
     statement = re.search(r"CREATE TABLE " + table + r"\s*\(.*?;", schema, re.S)[0]
     dest.execute(statement)

@@ -89,12 +89,12 @@ with out.open('w',encoding='utf-8',newline='\n') as f:
     f.write('# form\toccurrences\tvoice\talternatives\n')
     for row in rows:f.write('\t'.join(map(str,row))+'\n')
 manifest=root/'resources/manifest.json'
-metadata=json.loads(manifest.read_text())
+metadata=json.loads(manifest.read_text(encoding='utf-8'))
 asset={"path":"resources/lexicon/sv1917-homographs.tsv",
        "url":json.loads((Path(__file__).parent/'inputs.json').read_text())["nst"]["url"],
        "sha256":hashlib.sha256(out.read_bytes()).hexdigest(),"license":"CC0-1.0 (NST); public-domain corpus word counts",
        "role":"Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"}
 metadata['assets']=[value for value in metadata['assets'] if value.get('path')!=asset['path']]+[asset]
-manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
+manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 print(f'{len(rows)} words with several pronunciations, {sum(r[1] for r in rows)} occurrences; '
       f'{sum(not r[2] for r in rows)} without a voice entry')
