@@ -17,6 +17,13 @@ A tag suffix such as `-alpha.2` goes into the file names. CI stops if the tag do
 Write the release notes on GitHub, then publish the draft.
 The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.
 
+## After 0.2.0
+
+These conversions keep profiles from 0.1.x working. Remove them once 0.2.0 has shipped, and say in that release's notes that 0.1.x installations should upgrade through 0.2.0:
+
+- Reading-plan progress from the original and v2 plan layouts and from the Septuagint frame: `src/storage/legacy_reading_plan_parts.inc`, `src/storage/reading_plan_migration.cpp`, the progress transfer in `src/storage/osb_migration.cpp`, and the legacy canon and frame helpers they use.
+- Retired settings that `UserDb::load()` still converts: `parallel` and the Antiochian `tradition` values.
+
 ## Nightly builds
 
 Nightlies run at 03:15 Stockholm time when the default branch has changed since the last successful nightly.
