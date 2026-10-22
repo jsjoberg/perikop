@@ -75,7 +75,7 @@ void ScriptureView::open_section(std::size_t index) {
             selection_changed_();
     }
     // OSB defines the shared book order and printed coordinates for every edition.
-    frame_ = corpus_.frame_source(reading_.base_language, displayed_.book);
+    frame_ = osb_reference;
     if (corpus_.coordinates(frame_, displayed_.book).empty())
         for (const std::string language : {"sv", "el", "en"}) {
             const auto source = corpus_.source_for_language(language, displayed_.book);
@@ -84,7 +84,6 @@ void ScriptureView::open_section(std::size_t index) {
                 break;
             }
         }
-    canon_ = corpus_.canon_book(displayed_.book, displayed_.first.chapter);
     base_source_ =
         reading_.source_override.empty()
             ? preferred_source(settings_.primary_sources, sources_for_chapter(displayed_.first.chapter))
@@ -117,8 +116,6 @@ void ScriptureView::open_section(std::size_t index) {
             boundaries.insert(ref);
     int chapter = 0;
     for (auto ref : corpus_.coordinates(frame_, displayed_.book)) {
-        if (canon_ && (ref.chapter < canon_->first_chapter || ref.chapter > canon_->last_chapter))
-            continue;
         const bool new_chapter = ref.chapter != chapter;
         if (new_chapter) {
             chapter = ref.chapter;
@@ -227,9 +224,7 @@ const ScriptureView::Orphans& ScriptureView::orphans(const std::string& source) 
                 continue;
             }
             const auto here = std::find_if(targets.begin(), targets.end(), [&](const auto& target) {
-                return target.first == displayed_.book &&
-                       (!canon_ || (canon_->first_chapter <= target.second.chapter &&
-                                    target.second.chapter <= canon_->last_chapter));
+                return target.first == displayed_.book;
             });
             if (here == targets.end())
                 continue;
@@ -422,7 +417,6 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
         const auto selected_sources = shown_sources(index);
         const bool stacked = stacked_columns();
         const bool stanza = corpus_.stanza_book(displayed_.book, rows_[index].ref.chapter);
-        const int offset = canon_ ? canon_->offset() : 0;
         const auto segments = reading_.segments();
         int height = 0;
         for (const auto& source : selected_sources) {
@@ -464,14 +458,13 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                 wxString number = wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix);
                 if (verse && source != frame_) {
                     const auto& own = verse->ref;
-                    if (verse->book != displayed_.book || own.chapter != ref.chapter - offset ||
+                    if (verse->book != displayed_.book || own.chapter != ref.chapter ||
                         own.verse != ref.verse || own.suffix != ref.suffix) {
                         wxString mark =
                             (verse->book != displayed_.book
                                  ? ui::utf8(corpus_.book_abbreviation(verse->book)) + " "
                                  : wxString()) +
-                            (own.chapter != ref.chapter - offset ? wxString::Format("%d:", own.chapter)
-                                                                 : wxString()) +
+                            (own.chapter != ref.chapter ? wxString::Format("%d:", own.chapter) : wxString()) +
                             wxString::Format("%d", own.verse) + ui::utf8(own.suffix);
                         if (verse->last)
                             mark += ui::utf8("–") +

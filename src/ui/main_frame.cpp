@@ -423,23 +423,9 @@ void MainFrame::show_reading(const Reading& selected) {
     scripture_->SetFocus();
 }
 Reading MainFrame::in_swedish(Reading reading) const {
-    if (reading.source_override.empty()) {
-        if (reading.reference.empty() && reading.base_language != "sv") {
-            std::vector<Passage> parts;
-            for (const auto& segment : reading.segments()) {
-                const auto mapped =
-                    corpus_.map_passage(corpus_.frame_source(reading.base_language, segment.book),
-                                        corpus_.frame_source("sv", segment.book), segment);
-                if (mapped.empty())
-                    parts.push_back(segment);
-                else
-                    parts.insert(parts.end(), mapped.begin(), mapped.end());
-            }
-            reading.passage = parts.front();
-            reading.additional.assign(parts.begin() + 1, parts.end());
-        }
+    // Every language shares OSB coordinates, so only the language changes.
+    if (reading.source_override.empty())
         reading.base_language = "sv";
-    }
     return reading;
 }
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {

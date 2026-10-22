@@ -261,10 +261,6 @@ private:
     std::function<void(const Reading&)> bookmarked_, listen_;
     Passage displayed_{"Ps", {23, 1}, {23, 6}};
     std::string base_source_ = "sv1917", frame_ = "grc-lxx";
-    const CanonBook* canon_ = nullptr;
-    std::string canon_code() const {
-        return canon_ ? canon_->code : displayed_.book;
-    }
     std::vector<std::string> shown_sources(std::size_t row) const;
     wxString source_label(const std::string&, std::size_t heading) const;
     std::string language_of(const std::string&) const;

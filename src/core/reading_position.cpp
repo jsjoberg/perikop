@@ -25,7 +25,7 @@ std::optional<ReadingPosition> reading_position(const CorpusDb& corpus, const Re
     std::optional<ReadingPosition> result;
     for (std::size_t i = 0; i < parts.size(); ++i) {
         const auto& part = parts[i];
-        auto source = corpus.frame_source(reading.base_language, part.book);
+        std::string source = osb_reference;
         if (corpus.coordinates(source, part.book).empty())
             source = corpus.source_for_language(reading.base_language, part.book);
         for (const auto& ref : corpus.coordinates(source, part.book)) {

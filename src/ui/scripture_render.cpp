@@ -21,12 +21,12 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
         if (row.heading) {
             dc.SetTextForeground(colors.muted);
             dc.SetFont(ui_font(11));
-            auto name = ui::utf8(corpus_.title(canon_code())).Upper();
+            auto name = ui::utf8(corpus_.title(displayed_.book)).Upper();
             const auto extent = dc.GetTextExtent(name);
             dc.DrawText(name, (size.x - extent.x) / 2, y + FromDIP(zoomed(15)));
             dc.SetFont(body_font(28));
             dc.SetTextForeground(colors.ink);
-            const wxString title = wxString::Format("%d", row.ref.chapter - (canon_ ? canon_->offset() : 0));
+            const wxString title = wxString::Format("%d", row.ref.chapter);
             dc.DrawText(title, (size.x - dc.GetTextExtent(title).x) / 2, y + FromDIP(zoomed(42)));
             dc.SetFont(ui_font(9));
             dc.SetTextForeground(colors.muted);

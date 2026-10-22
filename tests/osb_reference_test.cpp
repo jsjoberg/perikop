@@ -36,9 +36,6 @@ int main(int argc, char** argv) {
         check(!corpus.verse(osb_reference, "John", {3, 16}), "OSB wording must not be bundled as Bible text");
         std::size_t nt = 0;
         for (const auto& book : corpus.canon()) {
-            for (const char* language : {"sv", "en", "el"})
-                check(corpus.frame_source(language, book.code) == osb_reference,
-                      "Language changes cannot change reference authority");
             if (book.new_testament)
                 nt += corpus.coordinates(osb_reference, book.code).size();
         }

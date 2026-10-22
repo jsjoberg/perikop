@@ -86,11 +86,6 @@ std::string CorpusDb::source_for_language(const std::string& language, const std
         return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
     return {};
 }
-std::string CorpusDb::frame_source(const std::string& language, const std::string& book) const {
-    (void)language;
-    (void)book;
-    return osb_reference;
-}
 std::string CorpusDb::legacy_frame_source(const std::string& language, const std::string& book) const {
     return new_testament_book(book) ? source_for_language(language, book) : "grc-lxx";
 }
@@ -504,7 +499,7 @@ Reading CorpusDb::localize(Reading reading) const {
                 std::ranges::find(refs, segment.last) == refs.end())
                 throw std::runtime_error("Referensen finns inte i OSB.");
         }
-        const auto mapped = map_passage(from, frame_source(reading.base_language, segment.book), segment);
+        const auto mapped = map_passage(from, osb_reference, segment);
         if (mapped.empty())
             throw std::runtime_error("Ingen belagd OSB-mappning för detta avsnitt.");
         parts.insert(parts.end(), mapped.begin(), mapped.end());
