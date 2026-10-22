@@ -226,18 +226,12 @@ struct Settings {
 };
 // The language of an edition, such as "el" for grc-lxx: "sv", "el" or "en".
 std::string source_language(const std::string& source);
-// A book or named section in the OSB reference authority. OSB entries frame
-// themselves from chapter 1. Only the legacy canon, kept for converting old
-// progress, places a book in another framing book's chapter range.
+// A book or named section in the OSB reference authority.
 struct CanonBook {
-    std::string code;       // name and picker identity, e.g. "Neh"
-    std::string frame_book; // the book in the framing edition; legacy "Neh" is "Ezra"
+    std::string code; // name, picker identity and OSB book code, e.g. "Neh"
     // Swedish names as the reader shows the book, e.g. "Ester enligt den grekiska texten".
     std::string name, abbreviation;
-    int first_chapter = 1, last_chapter = 999;
+    int last_chapter = 999;
     bool new_testament = false;
-    int offset() const {
-        return first_chapter - 1;
-    }
 };
 } // namespace ortho

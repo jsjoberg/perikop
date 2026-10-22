@@ -2,14 +2,6 @@
 #include "storage/database.hpp"
 
 namespace ortho {
-std::string legacy_reading_key(const Reading& reading) {
-    std::string key = "reading:" + reading.base_language + ":" + reading.source_override;
-    for (const auto& part : reading.segments())
-        key += ":" + part.book + " " + std::to_string(part.first.chapter) + ":" +
-               std::to_string(part.first.verse) + part.first.suffix + "-" +
-               std::to_string(part.last.chapter) + ":" + std::to_string(part.last.verse) + part.last.suffix;
-    return key;
-}
 std::string reading_key(const CorpusDb& corpus, const Reading& reading) {
     std::string key = "reading:osb-v1:" + reading.base_language + ":" + reading.source_override;
     for (const auto& part : corpus.localize(reading).segments())
