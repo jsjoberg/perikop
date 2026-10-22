@@ -82,7 +82,7 @@ void ScriptureView::clear_selection() {
 }
 std::string ScriptureView::selected_text() const {
     auto passages = selections();
-    const auto pane = passages.empty() ? highlighted_column_ : 0;
+    const auto pane = passages.empty() ? std::min(highlighted_column_, std::size_t(columns_count() - 1)) : 0;
     if (passages.empty() && highlighted_verse_ && !settings_.word_study)
         passages.push_back({displayed_.book, highlighted_verse_->first, highlighted_verse_->second});
     std::vector<std::pair<std::string, Passage>> parts;

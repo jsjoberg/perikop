@@ -349,18 +349,19 @@ if(ORTHO_BUILD_GUI)
         install(DIRECTORY "${resource_destination}/" DESTINATION share/perikop/resources)
     endif()
     if(BUILD_TESTING)
-        add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
-        add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
-            "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"
-            "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
-            -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
-        set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
-        # Font shaping and native widgets take longer on hosted Windows runners, where the smoke
-        # test runs close to a minute.
+        # Keep nested profile-isolation runs within the same per-process budget as ui-smoke.
         set(perikop_smoke_timeout 60)
         if(ORTHO_SANITIZERS OR WIN32)
             set(perikop_smoke_timeout 180)
         endif()
+        add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
+        add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
+            "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"
+            "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
+            "-DPROCESS_TIMEOUT=${perikop_smoke_timeout}"
+            -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
+        math(EXPR perikop_profile_timeout "2 * ${perikop_smoke_timeout} + 30")
+        set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT "${perikop_profile_timeout}")
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
     endif()
 endif()

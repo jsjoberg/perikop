@@ -49,8 +49,8 @@ private:
     WXLRESULT MSWWindowProc(WXUINT, WXWPARAM, WXLPARAM) override;
 #endif
     void make_menus();
-    bool edit_enabled(int command) const;
-    void edit(int command);
+    bool edit_enabled(int command, wxWindow* focus = wxWindow::FindFocus()) const;
+    void edit(int command, wxWindow* focus = wxWindow::FindFocus());
     void restore_window_placement();
     void save_window_placement();
     // Kept while maximized, minimized, or in full screen so reopening preserves the normal size.

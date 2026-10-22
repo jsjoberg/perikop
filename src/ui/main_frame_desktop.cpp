@@ -6,8 +6,7 @@
 #include <wx/log.h>
 #include <wx/textentry.h>
 namespace ortho {
-bool MainFrame::edit_enabled(int command) const {
-    auto* focus = wxWindow::FindFocus();
+bool MainFrame::edit_enabled(int command, wxWindow* focus) const {
     if (!focus || !focus->IsEnabled())
         return false;
     if (const auto* text = dynamic_cast<const wxTextEntryBase*>(focus)) {
@@ -32,10 +31,10 @@ bool MainFrame::edit_enabled(int command) const {
            (focus == scripture_ || scripture_->IsDescendant(focus)) &&
            (!scripture_->selections().empty() || scripture_->highlighted_verse().has_value());
 }
-void MainFrame::edit(int command) {
-    if (!edit_enabled(command))
+void MainFrame::edit(int command, wxWindow* focus) {
+    if (!edit_enabled(command, focus))
         return;
-    if (auto* text = dynamic_cast<wxTextEntryBase*>(wxWindow::FindFocus())) {
+    if (auto* text = dynamic_cast<wxTextEntryBase*>(focus)) {
         switch (command) {
         case wxID_UNDO:
             text->Undo();
@@ -55,6 +54,8 @@ void MainFrame::edit(int command) {
         case wxID_SELECTALL:
             text->SelectAll();
             break;
+        default:
+            break;
         }
     } else if (command == wxID_COPY)
         scripture_->copy_selection();
@@ -63,7 +64,9 @@ void MainFrame::restore_window_placement() {
     const auto saved = user_.window_placement();
     if (!saved)
         return;
-    int display = wxDisplay::GetFromPoint({saved->x, saved->y});
+    // A snapped window's invisible border can put its top-left corner on another monitor.
+    int display = wxDisplay::GetFromRect(
+        wxRect(wxPoint(saved->x, saved->y), FromDIP(wxSize(saved->width, saved->height))));
     if (display == wxNOT_FOUND)
         display = 0;
     const auto work = wxDisplay(unsigned(display)).GetClientArea();

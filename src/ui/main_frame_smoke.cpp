@@ -36,9 +36,6 @@
 #include <wx/scrolwin.h>
 #include <wx/textctrl.h>
 #include <wx/utils.h>
-#ifdef __APPLE__
-#include "ui/native_menu.hpp"
-#endif
 #ifdef __WXMSW__
 #include <wx/msw/wrapwin.h>
 #endif
@@ -339,33 +336,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                                                      std::make_unique<SmokeUpdates>(), true);
         candidate->Show();
         candidate->Raise();
-#ifdef __APPLE__
-        make_key_window(*candidate, true);
-#endif
         wxTheApp->Yield(true);
         candidate->open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
         candidate->scripture_->select_verses({1, 1}, {1, 2});
-        const auto focus = [&](wxWindow* window) {
-            for (int attempt = 0; attempt < 50; ++attempt) {
-                window->SetFocus();
-                wxTheApp->Yield(true);
-                auto* focused = wxWindow::FindFocus();
-                if (focused &&
-                    (focused == window || (window == candidate->scripture_ && window->IsDescendant(focused))))
-                    return;
-                wxMilliSleep(10);
-            }
-            fail(__LINE__);
+        // Exercise native editing without requiring the runner to grant OS keyboard focus.
+        wxWindow* edit_focus = candidate->scripture_;
+        const auto enabled = [&](int id) {
+            return candidate->edit_enabled(id, edit_focus);
         };
-        focus(candidate->scripture_);
-        candidate->sync_menu();
-        if (candidate->menu_bar_->FindMenu("Redigera") == wxNOT_FOUND ||
-            !candidate->menu_bar_->IsEnabled(wxID_COPY) || candidate->menu_bar_->IsEnabled(wxID_CUT) ||
-            candidate->menu_bar_->IsEnabled(wxID_PASTE) || candidate->menu_bar_->IsEnabled(wxID_SELECTALL))
+        if (candidate->menu_bar_->FindMenu("Redigera") == wxNOT_FOUND || !enabled(wxID_COPY) ||
+            enabled(wxID_CUT) || enabled(wxID_PASTE) || enabled(wxID_SELECTALL))
             fail(__LINE__);
         const auto command = [&](int id) {
-            wxCommandEvent event(wxEVT_MENU, id);
-            candidate->ProcessWindowEvent(event);
+            candidate->edit(id, edit_focus);
         };
         const auto clipboard_text = [&] {
             wxTextDataObject text;
@@ -381,14 +364,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         command(wxID_COPY);
         if (clipboard_text() != ui::utf8(candidate->scripture_->selected_text()))
             fail(__LINE__);
-        auto* field = new wxTextCtrl(candidate->root_, wxID_ANY, "before after");
-        focus(field);
+        // A multiline control owns its native selection; macOS single-line fields share a
+        // field editor that is unavailable when the test application cannot become active.
+        auto* field = new wxTextCtrl(candidate->root_, wxID_ANY, "before after", wxDefaultPosition,
+                                     wxDefaultSize, wxTE_MULTILINE);
+        edit_focus = field;
         field->SetSelection(0, 6);
-        candidate->sync_menu();
-        if (!candidate->menu_bar_->IsEnabled(wxID_COPY) || !candidate->menu_bar_->IsEnabled(wxID_CUT) ||
-            !candidate->menu_bar_->IsEnabled(wxID_SELECTALL) ||
-            candidate->menu_bar_->IsEnabled(wxID_UNDO) != field->CanUndo() ||
-            candidate->menu_bar_->IsEnabled(wxID_REDO) != field->CanRedo())
+        if (!enabled(wxID_COPY) || !enabled(wxID_CUT) || !enabled(wxID_SELECTALL) ||
+            enabled(wxID_UNDO) != field->CanUndo() || enabled(wxID_REDO) != field->CanRedo())
             fail(__LINE__);
         command(wxID_COPY);
         if (clipboard_text() != "before")
@@ -403,12 +386,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (field->GetStringSelection() != field->GetValue())
             fail(__LINE__);
         field->SetEditable(false);
-        candidate->sync_menu();
-        if (!candidate->menu_bar_->IsEnabled(wxID_COPY) || candidate->menu_bar_->IsEnabled(wxID_CUT) ||
-            candidate->menu_bar_->IsEnabled(wxID_PASTE))
+        if (!enabled(wxID_COPY) || enabled(wxID_CUT) || enabled(wxID_PASTE))
             fail(__LINE__);
         field->Destroy();
-        focus(candidate->scripture_);
+        edit_focus = candidate->scripture_;
         command(wxID_SELECTALL);
         const auto selected = candidate->scripture_->selections();
         if (selected.size() != 1 || selected.front().last != VerseRef{1, 2})
@@ -423,18 +404,25 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             candidate->ToDIP(candidate->GetSize()) != wxSize(normal->width, normal->height))
             fail(__LINE__);
         candidate->Maximize();
+        // A bare Xvfb server has no window manager to honor a maximize request.
+        for (int attempt = 0; attempt < 50 && !candidate->IsMaximized(); ++attempt) {
+            wxTheApp->Yield(true);
+            wxMilliSleep(10);
+        }
         wxTheApp->Yield(true);
+        const bool can_maximize = candidate->IsMaximized();
         candidate->save_window_placement();
         const auto maximized = profile.window_placement();
-        if (!maximized || !maximized->maximized || !normal || maximized->width != normal->width ||
-            maximized->height != normal->height || maximized->x != normal->x || maximized->y != normal->y)
+        if (!maximized || maximized->maximized != can_maximize || !normal ||
+            maximized->width != normal->width || maximized->height != normal->height ||
+            maximized->x != normal->x || maximized->y != normal->y)
             fail(__LINE__);
         candidate->Maximize(false);
         wxTheApp->Yield(true);
         candidate->SetSize(work.x, work.y, 600, 500);
         candidate->restore_window_placement();
         wxTheApp->Yield(true);
-        if (!candidate->IsMaximized() ||
+        if (candidate->IsMaximized() != can_maximize ||
             (normal && candidate->normal_window_size_dip_ != wxSize(normal->width, normal->height)))
             fail(__LINE__);
         candidate->Maximize(false);
@@ -1393,18 +1381,26 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         return result;
     };
     // Shift extends from the original click even when the endpoint moves backwards.
+    const auto selection_test_size = GetSize();
+    SetSize(FromDIP(wxSize(800, 600)));
+    Layout();
+    root_->Layout();
+    const auto click_verse = [&](VerseRef ref, int modifiers = wxMOD_NONE) {
+        scripture_->show_verse(ref);
+        render();
+        click_text(verse_point(ref, 0), modifiers);
+    };
     open_fresh_psalm();
-    render();
-    click_text(verse_point({22, 3}, 0));
-    click_text(verse_point({22, 5}, 0), wxMOD_SHIFT);
+    click_verse({22, 3});
+    click_verse({22, 5}, wxMOD_SHIFT);
     auto shifted = scripture_->selections();
     if (shifted.size() != 1 || shifted[0].first != VerseRef{22, 3} || shifted[0].last != VerseRef{22, 5})
         fail(__LINE__);
-    click_text(verse_point({22, 2}, 0), wxMOD_SHIFT);
+    click_verse({22, 2}, wxMOD_SHIFT);
     shifted = scripture_->selections();
     if (shifted.size() != 1 || shifted[0].first != VerseRef{22, 2} || shifted[0].last != VerseRef{22, 3})
         fail(__LINE__);
-    click_text(verse_point({22, 6}, 0), wxMOD_ALT);
+    click_verse({22, 6}, wxMOD_ALT);
     shifted = scripture_->selections();
     if (shifted.size() != 2 || scripture_->verse_selected({22, 4}) || !scripture_->verse_selected({22, 6}))
         fail(__LINE__);
@@ -1423,6 +1419,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // An added drag that retreats must discard the old endpoint, keeping earlier ranges.
     scripture_->select_verses({22, 2}, {22, 2});
+    scripture_->show_verse({22, 4});
+    render();
     for (const auto& [type, ref] : std::vector<std::pair<wxEventType, VerseRef>>{{wxEVT_LEFT_DOWN, {22, 4}},
                                                                                  {wxEVT_MOTION, {22, 6}},
                                                                                  {wxEVT_MOTION, {22, 5}},
@@ -1444,11 +1442,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     // Opening another passage discards the old Shift-click anchor.
     open_fresh_psalm();
-    render();
-    click_text(verse_point({22, 2}, 0), wxMOD_SHIFT);
+    click_verse({22, 2}, wxMOD_SHIFT);
     if (!scripture_->selections().empty())
         fail(__LINE__);
     scripture_->clear_selection();
+    SetSize(selection_test_size);
+    Layout();
+    root_->Layout();
     const auto verse_tools = [&]() -> wxWindow* {
         for (auto* child : scripture_->GetChildren())
             if (child->GetName() == ui::utf8("Läs den markerade versen online"))
@@ -1527,6 +1527,18 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             if (scripture_->highlighted_verse())
                 fail(__LINE__);
         }
+    // A retained highlight uses the visible edition after its original pane closes.
+    set_parallel("el");
+    apply_settings(false);
+    open_fresh_psalm();
+    render();
+    click_text(verse_point({22, 1}, 1));
+    set_parallel("");
+    apply_settings(false);
+    if (!scripture_->highlighted_verse() ||
+        !scripture_->selected_text().starts_with(corpus_.verse("sv1917", "Ps", {23, 1})->text) ||
+        !scripture_->copy_selection())
+        fail(__LINE__);
     // Single-pane Swedish retains mapped source links and follows the visible verse.
     for (const auto theme : {Theme::Light, Theme::Dark}) {
         set_parallel("");
