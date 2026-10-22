@@ -15,7 +15,7 @@ spec.loader.exec_module(macos_arch)
 class MacOSArchitectureTest(unittest.TestCase):
     def fixture(self, root):
         executable = root / "Contents/MacOS/Perikop"
-        library = root / "Contents/Frameworks/libonnxruntime.dylib"
+        library = root / "Contents/Frameworks/libbundled.dylib"
         for path in (executable, library):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(bytes.fromhex("cafebabe"))
@@ -30,14 +30,14 @@ class MacOSArchitectureTest(unittest.TestCase):
                 macos_arch.check(root)
                 self.assertEqual(lipo.call_count, 2)
 
-    def test_single_architecture_speech_library_fails(self):
+    def test_single_architecture_library_fails(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             executable, library = self.fixture(root)
             def architectures(command, **kwargs):
                 return "arm64\n" if command[-1] == str(library) else "arm64 x86_64\n"
             with patch.object(macos_arch.subprocess, "check_output", side_effect=architectures):
-                with self.assertRaisesRegex(ValueError, "libonnxruntime.dylib: expected"):
+                with self.assertRaisesRegex(ValueError, "libbundled.dylib: expected"):
                     macos_arch.check(root)
 
     def test_separate_architecture_bundles(self):
@@ -48,7 +48,7 @@ class MacOSArchitectureTest(unittest.TestCase):
                 with patch.object(macos_arch.subprocess, "check_output", return_value=architecture + "\n"):
                     macos_arch.check(root, {architecture})
 
-    def test_wrong_architecture_speech_library_fails(self):
+    def test_wrong_architecture_library_fails(self):
         for architecture, other in (("arm64", "x86_64"), ("x86_64", "arm64")):
             with self.subTest(architecture=architecture), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
@@ -56,7 +56,7 @@ class MacOSArchitectureTest(unittest.TestCase):
                 def architectures(command, **kwargs):
                     return other if command[-1] == str(library) else architecture
                 with patch.object(macos_arch.subprocess, "check_output", side_effect=architectures):
-                    with self.assertRaisesRegex(ValueError, "libonnxruntime.dylib: expected " + architecture):
+                    with self.assertRaisesRegex(ValueError, "libbundled.dylib: expected " + architecture):
                         macos_arch.check(root, {architecture})
 
     def test_universal_binary_in_single_architecture_package_fails(self):

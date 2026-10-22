@@ -7,7 +7,7 @@ struct PcmProgress {
     uint64_t played = 0;
     bool waiting = true, finished = false;
 };
-// The platform supplies an audio device only. Voice inference stays in common C++.
+// The platform supplies an audio device only. Speech synthesis stays in common C++.
 class PcmOutput {
 public:
     PcmOutput();
@@ -19,7 +19,6 @@ public:
     uint64_t buffered_frames() const;
     void release();
     void pause(bool);
-    void set_speed(double);
     void stop();
     bool finished() const;
     PcmProgress progress() const;

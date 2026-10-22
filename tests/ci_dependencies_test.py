@@ -195,7 +195,7 @@ class DependenciesTest(unittest.TestCase):
             self.assertEqual([path.name for path in (root / "build/ci/tools").iterdir()], ["nsis"])
 
     def test_tools_only_restore_rejects_incompatible_modes(self):
-        for platform, options in (("Linux", {}), ("Windows", {"cross": True}), ("Windows", {"package": True})):
+        for platform, options in (("Linux", {}), ("Windows", {"cross": True})):
             with self.subTest(platform=platform, options=options):
                 with self.assertRaisesRegex(ValueError, "Tools-only restore requires Windows"):
                     dependencies.restore(platform, Path("unused"), tools_only=True, **options)
@@ -269,8 +269,7 @@ class DependenciesTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             sources = root / "sources"
-            for name in ("sqlite/sqlite3.h", "wxwidgets/CMakeLists.txt", "ortho_sonic/sonic.h",
-                         "ortho_audio/miniaudio.h", "ortho_ort/include/onnxruntime_c_api.h",
+            for name in ("sqlite/sqlite3.h", "wxwidgets/CMakeLists.txt", "ortho_audio/miniaudio.h",
                          "ortho_velopack/include/Velopack.hpp"):
                 file = sources / name
                 file.parent.mkdir(parents=True, exist_ok=True)

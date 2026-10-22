@@ -77,8 +77,6 @@ def linux(package):
            "appimage_licenses", "nightly", "update_packages")
     if package:
         run("tools/package_appimage.sh", BUILD)
-        run(*display, BUILD / "AppDir/usr/bin/perikop", "--resources",
-            BUILD / "AppDir/usr/share/perikop/resources", "--speech-probe", ROOT / "build/voice-linux.wav")
         python("tools/ci/velopack_linux_test.py", BUILD)
         runtime = {"x86_64": "x64", "aarch64": "arm64"}[platform.machine()]
         os.environ["PERIKOP_VELOPACK_DELTA"] = "BestSpeed"
@@ -119,8 +117,6 @@ def macos(package):
             run("codesign", "--verify", "--deep", "--strict", bundle)
             program = bundle / "Contents/MacOS/Perikop"
             run(program, "--smoke-test", "--resources", bundle / "Contents/Resources")
-            run(program, "--speech-probe", ROOT / "build/voice-arm64.wav",
-                "--resources", bundle / "Contents/Resources")
         finally:
             run("hdiutil", "detach", mount)
     if package or os.environ.get("GITHUB_EVENT_NAME") == "pull_request":

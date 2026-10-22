@@ -518,7 +518,31 @@
       "path": "resources/corpus/pronunciation-sv.tsv",
       "sha256": "14222eef2f8f2502a90130a7993b599db999cc6bbd3fb9dbfc04c2607507198f",
       "license": "MIT",
-      "role": "Curated Swedish name phonemes for the Kokoro voices; first-pass drafts pending listening review"
+      "role": "Curated Swedish name phonemes for read-aloud; first-pass drafts pending listening review"
+    },
+    {
+      "path": "resources/speech/lexicon.tsv",
+      "sha256": "9c89c4940aad585b402ef97df934655772bf5123a985339fddf0c9221e1f9323",
+      "license": "Apache-2.0",
+      "role": "NST-derived Swedish pronunciation lexicon from Joakim/kokoro-sv-g2p revision a5aac876ccb2bf7480a129774c7e89cf3bbeac01, copied unchanged from voice pack kokoro-sv-alice-bjorn-2c7968d-v3"
+    },
+    {
+      "path": "resources/speech/custom_lexicon.tsv",
+      "sha256": "2b7997c6d544c372cc3833107e853be37a57eb18038f21eb48a5c1edd59269b3",
+      "license": "Apache-2.0",
+      "role": "kokoro-sv custom pronunciation overrides, copied unchanged from voice pack kokoro-sv-alice-bjorn-2c7968d-v3"
+    },
+    {
+      "path": "resources/speech/g2p-corpus.tsv",
+      "sha256": "f60746bff22d2d51e720e7dd88d8bb8c77db01b367c46864c34af4d00bd6596a",
+      "license": "Apache-2.0",
+      "role": "kokoro-sv-g2p neural pronunciations for the corpus words the lexicon lacks, precomputed for corpus c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47 in voice pack kokoro-sv-alice-bjorn-2c7968d-v3"
+    },
+    {
+      "path": "resources/speech/LICENSE-Kokoro-Swedish.txt",
+      "sha256": "cd743a0b5ce54ea4a41d650e0ff3e45ecd67ca213db137cedd47d76b54b1f84a",
+      "license": "Apache-2.0",
+      "role": "Apache-2.0 licence and attribution for the kokoro-sv pronunciation data and text code"
     },
     {
       "path": "resources/corpus/books.tsv",

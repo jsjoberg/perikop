@@ -42,7 +42,7 @@ public:
         SetAppDisplayName("Perikop");
         wxInitAllImageHandlers();
         bool smoke = false, benchmark = false, reader = false, pronunciation_review = false;
-        wxString resource_override, profile_override, screenshot, speech_probe, update_probe;
+        wxString resource_override, profile_override, screenshot, update_probe;
         auto date = ortho::local_civil_date();
         for (int i = 1; i < argc; ++i) {
             const wxString arg = argv[i];
@@ -55,7 +55,7 @@ public:
             else if (arg == "--pronunciation-review")
                 pronunciation_review = true;
             else if ((arg == "--resources" || arg == "--profile" || arg == "--date" ||
-                      arg == "--screenshot" || arg == "--speech-probe" || arg == "--update-probe") &&
+                      arg == "--screenshot" || arg == "--update-probe") &&
                      i + 1 < argc) {
                 const wxString value = argv[++i];
                 if (arg == "--resources")
@@ -64,8 +64,6 @@ public:
                     profile_override = value;
                 if (arg == "--screenshot")
                     screenshot = value;
-                if (arg == "--speech-probe")
-                    speech_probe = value;
                 if (arg == "--update-probe")
                     update_probe = value;
                 if (arg == "--date") {
@@ -107,13 +105,6 @@ public:
                 }
             if (resources.empty())
                 throw std::runtime_error("Bundled resources missing. Rebuild or use --resources PATH.");
-            if (!speech_probe.empty()) {
-                smoke_exit_ =
-                    ortho::render_speech_probe(resources / "voices", ortho::ui::filesystem_path(speech_probe))
-                        ? 0
-                        : 1;
-                return true;
-            }
             for (const auto* file : {"Literata-Regular.ttf", "Literata-Italic.ttf", "IBMPlexSans-Regular.ttf",
                                      "IBMPlexSans-Medium.ttf", "NotoSerifHebrew-Regular.ttf"}) {
                 const auto file_path = (resources / "fonts" / file).u8string();
@@ -206,7 +197,7 @@ public:
             }
             return true;
         } catch (const std::exception& e) {
-            if (smoke || benchmark || !speech_probe.empty() || !update_probe.empty())
+            if (smoke || benchmark || !update_probe.empty())
                 std::cerr << e.what() << '\n';
             else
                 wxMessageBox(wxString::FromUTF8(e.what()), "Perikop", wxOK | wxICON_ERROR);

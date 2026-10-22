@@ -124,7 +124,7 @@ SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
                         break;
                     }
                 }
-                // Phonemes go to the Swedish Kokoro front end as one ⟦…⟧ word.
+                // Phonemes go to the Swedish front end as one ⟦…⟧ word.
                 if (match) {
                     const auto& entry = impl_->ordered[candidate.entry];
                     count = phrase.size();

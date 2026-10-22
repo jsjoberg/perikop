@@ -74,11 +74,6 @@ Their source packages are available from Rocky Linux at the address above.
 The repository supplies upstream's BSD-2-Clause license for LZ4 when its RPM license file is absent.
 Source: https://github.com/lz4/lz4/blob/v1.9.3/lib/LICENSE
 
-The Windows installer carries Microsoft's Visual C++ runtime, which ONNX Runtime needs:
-`msvcp140.dll`, `msvcp140_1.dll`, `vcruntime140.dll`, and `vcruntime140_1.dll`.
-Microsoft permits their redistribution under the Visual Studio license terms.
-https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files
-
 ## AppImage runtime
 
 Each Linux AppImage starts with the AppImage type 2 runtime, a small static program that
@@ -206,12 +201,11 @@ wxWidgets also links its bundled libpng, IJG libjpeg, zlib, PCRE2, and NanoSVG l
 Their complete notices are in `resources/licenses/`.
 This software is based in part on the work of the Independent JPEG Group.
 
-Swedish speech uses the Alice and Björn voices and the Swedish Kokoro weights from `Joakim/kokoro-sv-voices`, under Apache-2.0.
-The pronunciation model and NST-derived lexicon come from `Joakim/kokoro-sv-g2p`, under Apache-2.0.
-The prepared pack includes `LICENSE-Kokoro-Swedish.txt`.
-https://huggingface.co/Joakim/kokoro-sv-voices
+Swedish read-aloud pronunciations in `resources/speech` come from `Joakim/kokoro-sv-g2p`, under Apache-2.0: the NST-derived lexicon, its custom overrides, and the pronunciation model's output for the corpus words the lexicon lacks.
+The licence and attribution are in `resources/speech/LICENSE-Kokoro-Swedish.txt`.
+https://huggingface.co/Joakim/kokoro-sv-g2p
 
-The native Swedish front end in `src/speech/kokoro_text.cpp` reproduces the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0.
+The native Swedish front end in `src/speech/swedish_text.cpp` reproduces the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0.
 https://github.com/joakimeriksson/kokoro-sv
 
 Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, University of Gothenburg, under CC BY 4.0.
@@ -249,16 +243,10 @@ https://runeberg.org/authors/nystreri.html
 The curated lookup aliases in `resources/lexicon/sv1917-biblical-forms.tsv` use MIT.
 
 
-ONNX Runtime 1.23.2 uses MIT and includes its dependency notices.
-https://github.com/microsoft/onnxruntime/releases/tag/v1.23.2
-
 miniaudio 0.11.22 uses its public-domain option for PCM output.
 https://github.com/mackron/miniaudio/tree/0.11.22
 
-Sonic, commit `b93885dcb70aae50c6f76b0fe4e0868f029a077e`, changes playback speed without changing pitch, under Apache-2.0.
-https://github.com/waywardgeek/sonic
-
-The eSpeak voices use eSpeak NG (GPL-3.0-or-later) only when the user has installed it separately. Perikop includes no eSpeak NG code or data; it loads the installed library at run time through eSpeak's documented interface.
+Read-aloud uses eSpeak NG (GPL-3.0-or-later) only when the user has installed it separately. Perikop includes no eSpeak NG code or data; it loads the installed library at run time through eSpeak's documented interface.
 https://github.com/espeak-ng/espeak-ng
 
 The build copies these complete speech dependency notices into the application resources.

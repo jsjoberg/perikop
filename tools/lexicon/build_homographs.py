@@ -3,23 +3,23 @@
 
 Writes resources/lexicon/sv1917-homographs.tsv: form, occurrences, voice,
 alternatives. The form is lowercase, as the voice looks words up. The voice
-column is what the prepared voice pack says without bundled corrections.
+column is what the bundled pronunciation data says without bundled corrections.
 Alternatives are "phonemes=label" pairs separated by "|", in the voice's
 phoneme symbols; a label names the parts of speech and adds "böjd form" when
 NST lists the pronunciation only as an inflection of another word, such as
 "kors" from "ko". The pronunciation review offers these as choices.
 
-Needs the voice pack from tools/speech/prepare_kokoro.py (default build/kokoro-pack).
+Reads the pronunciation data in resources/speech.
 """
 import argparse, collections, hashlib, json, re, sqlite3, tarfile
 from pathlib import Path
 from fetch import fetch
 root=Path(__file__).resolve().parents[2]
 parser=argparse.ArgumentParser()
-parser.add_argument('--pack',type=Path,default=root/'build/kokoro-pack')
+parser.add_argument('--pack',type=Path,default=root/'resources/speech')
 args=parser.parse_args()
 
-# NST SAMPA to the voice pack's NST-derived IPA. The mapping reproduces every
+# NST SAMPA to the bundled NST-derived IPA. The mapping reproduces every
 # corpus word the pack's lexicon shares with NST.
 SYMBOLS=sorted({'x\\':'ɧ',"s'":'ɕ','s`':'ʂ','n`':'ɳ','l`':'ɭ','t`':'ʈ','d`':'ɖ','u0':'ɵ','}':'ʉ','2':'ø','9':'œ',
                 'E':'ɛ','O':'ɔ','U':'ʊ','I':'ɪ','Y':'ʏ','N':'ŋ','A':'ɑ','{':'æ','@':'ə',':':'ː','g':'ɡ',
@@ -68,7 +68,7 @@ with tarfile.open(fetch('nst')) as archive:
         entry[1]|='LEX' in fields[5]
 
 # The voice's own choice: upstream overrides, then the lexicon, then the
-# precomputed neural fallback, with KokoroText::ipa's fixed replacements.
+# precomputed corpus pronunciations, with SwedishText::ipa's fixed replacements.
 def table(name):
     path=args.pack/name
     return dict(line.split('\t') for line in path.read_text(encoding='utf-8').splitlines() if line and not line.startswith('#'))

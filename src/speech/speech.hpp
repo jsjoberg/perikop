@@ -56,9 +56,9 @@ public:
     virtual SpeechPlayback playback() const {
         return {};
     }
-    // Playback speed; 1 is the voice's own pace. Applies to audio already generated.
+    // Speaking speed; 1 is the voice's own pace. Applies to text read after the change.
     virtual void set_speed(double) {}
-    // Swedish voice identity, including installed eSpeak selectors. Applies from the next reading.
+    // Swedish voice identity: an installed eSpeak selector. Applies from the next reading.
     virtual void set_voice(const std::string&) {}
     // IPA the Swedish voice uses for speech text; empty when it is unavailable.
     virtual std::string pronunciation(const std::string&) {

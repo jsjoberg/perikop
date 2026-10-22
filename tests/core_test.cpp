@@ -9,7 +9,6 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <limits>
 #include <map>
 #include <set>
 #include <sqlite3.h>
@@ -1077,7 +1076,7 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::System && s.color_scheme == ColorScheme::RosePine &&
-                      s.speech_voice == "bjorn" && !s.speech_highlight && s.tradition == Tradition::Greek &&
+                      s.speech_voice == "espeak" && !s.speech_highlight && s.tradition == Tradition::Greek &&
                       s.update_channel == UpdateChannel::Releases,
                   "default theme, voice, reading order, releases channel, and disabled read-aloud highlight");
             sqlite3* legacy = nullptr;
@@ -1095,7 +1094,7 @@ int main(int argc, char** argv) {
             s.split_view = true;
             s.text_zoom = 125;
             s.speech_rate = 175;
-            s.speech_voice = "alice";
+            s.speech_voice = "espeak-f2";
             s.speech_highlight = true;
             s.update_channel = UpdateChannel::Nightly;
             user.save(s);
@@ -1105,7 +1104,7 @@ int main(int argc, char** argv) {
             auto s = user.load();
             check(s.theme == Theme::Dark && s.color_scheme == ColorScheme::TokyoNight &&
                       s.calendar == CalendarStyle::Old && s.tradition == Tradition::Slavic && s.split_view &&
-                      s.text_zoom == 125 && s.speech_rate == 175 && s.speech_voice == "alice" &&
+                      s.text_zoom == 125 && s.speech_rate == 175 && s.speech_voice == "espeak-f2" &&
                       s.speech_highlight && s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
             s.update_channel = UpdateChannel::Releases;
@@ -1176,44 +1175,6 @@ int main(int argc, char** argv) {
                   "failed save must roll back every preference");
         }
         std::filesystem::remove(user_path);
-        const auto cache_path = user_path.parent_path() / std::filesystem::path(u8"test-speech-Å.db");
-        std::filesystem::remove(cache_path);
-        const std::vector<float> pcm = {0.0f, 0.125f, -0.75f, 1.0f, -1.0f};
-        {
-            SpeechCache cache(cache_path);
-            check(!cache.load("voice-a", "sv", "Herren"), "empty speech cache");
-            cache.save("voice-a", "sv", "Herren", pcm);
-            check(cache.load("voice-a", "sv", "Herren") == pcm, "speech PCM round trip");
-            check(!cache.load("voice-b", "sv", "Herren") && !cache.load("voice-a", "el", "Herren") &&
-                      !cache.load("voice-a", "sv", "Ordet"),
-                  "speech cache must isolate model, language, and text");
-            bool invalid = false;
-            try {
-                cache.save("voice-a", "sv", "Herren", {std::numeric_limits<float>::quiet_NaN()});
-            } catch (const std::exception&) {
-                invalid = true;
-            }
-            check(invalid && cache.load("voice-a", "sv", "Herren") == pcm,
-                  "invalid audio must not replace a valid cache entry");
-        }
-        {
-            SpeechCache cache(cache_path);
-            check(cache.load("voice-a", "sv", "Herren") == pcm,
-                  "speech cache persists across process restarts");
-        }
-        const auto cache_utf8 = cache_path.u8string();
-        sqlite3* future_cache = nullptr;
-        sqlite3_open(reinterpret_cast<const char*>(cache_utf8.c_str()), &future_cache);
-        sqlite3_exec(future_cache, "PRAGMA user_version=99", nullptr, nullptr, nullptr);
-        sqlite3_close(future_cache);
-        bool future_rejected = false;
-        try {
-            SpeechCache cache(cache_path);
-        } catch (const std::exception&) {
-            future_rejected = true;
-        }
-        check(future_rejected, "unknown future speech cache schema must not be overwritten");
-        std::filesystem::remove(cache_path);
         std::cout << checks << " checks passed.\n";
         return 0;
     } catch (const std::exception& e) {

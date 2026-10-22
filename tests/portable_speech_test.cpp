@@ -1,29 +1,26 @@
-#include "speech/kokoro_audio.hpp"
+#include "speech/espeak_voice.hpp"
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
 #include "speech/portable_speech.hpp"
-#include "speech/tempo.hpp"
-#include "storage/database.hpp"
 #include <chrono>
+#include <cmath>
 #include <condition_variable>
-#include <fstream>
 #include <future>
 #include <iostream>
+#include <map>
 #include <mutex>
 #include <stdexcept>
 #include <thread>
 namespace {
-// A manually drained audio device lets the real speech worker run without
-// sound, model inference, or timing assumptions about physical playback.
+// A manually drained audio device and a scripted synthesizer let the real speech worker run
+// without sound, eSpeak, or timing assumptions about physical playback.
 std::mutex audio_mutex;
 std::condition_variable changed;
 std::shared_ptr<ortho::PcmStream> stream;
-ortho::TempoStretch stretch;
 ortho::PcmProgress delivered;
-float speed = 1;
 size_t appended = 0;
+double synthesized_speed = 0;
 bool paused = false, released = false, completed = false;
-bool first_chunk_released = false;
 bool hold_device = false, device_entered = false;
 std::string status;
 void check(bool value, const char* message) {
@@ -39,8 +36,8 @@ std::vector<float> drain(size_t frames = 6000) {
     {
         std::lock_guard lock(audio_mutex);
         if (stream && !paused) {
-            stretch.render(*stream, samples.data(), samples.size(), speed);
-            delivered = {stretch.played(), stretch.waiting(), stretch.finished()};
+            stream->render(samples.data(), samples.size());
+            delivered = {stream->played(), stream->waiting(), stream->finished()};
         }
     }
     changed.notify_all();
@@ -96,10 +93,6 @@ void PcmOutput::release() {
         stream->release();
     changed.notify_all();
 }
-void PcmOutput::set_speed(double value) {
-    std::lock_guard lock(audio_mutex);
-    speed = float(value);
-}
 void PcmOutput::pause(bool pause) {
     std::lock_guard lock(audio_mutex);
     paused = pause;
@@ -123,37 +116,35 @@ PcmProgress PcmOutput::progress() const {
 int main(int argc, char** argv) {
     try {
         using namespace ortho;
-        check(argc == 2, "Usage: ortho-portable-speech-tests TEST-DIRECTORY");
-        const std::filesystem::path data(argv[1]);
-        std::filesystem::remove_all(data);
-        const auto voice = data / "voices" / kokoro_pack_id;
-        std::filesystem::create_directories(voice);
-        std::ofstream(voice / "kokoro.onnx") << "";
-        // Cache-only tests: any accidental upfront inference fails because
-        // the remaining model files deliberately do not exist.
-        const std::string revision = std::string(kokoro_pack_id) + "/ort1.23.2/alice/v1";
-        {
-            SpeechCache cache(data / "speech-cache.db");
-            cache.save(revision, "sv", "Första.", {1, 2, 3});
-            cache.save(revision, "sv", "Andra.", {4, 5, 6});
-            cache.save(revision, "sv", "Tredje.", {7, 8, 9});
-            cache.save(revision, "sv", "Ny läsning.", {10, 11, 12});
-            cache.save(revision, "sv", "Start.", std::vector<float>(24000, 1.0f));
-            cache.save(revision, "sv", "Slutet.", std::vector<float>(2400, 0.5f));
-            cache.save(revision, "sv", "En längre fortsättning som redan finns i ljudcachen.",
-                       std::vector<float>(size_t{24000} * 30, 2.0f));
-            check(cache.contains(revision, "sv", "Start.") && !cache.contains(revision, "sv", "Ej cachad.") &&
-                      !cache.contains(revision, "en", "Start.") &&
-                      !cache.contains(revision + "-other", "sv", "Start."),
-                  "Cache availability must match the exact text, language, model and voice");
-        }
-        auto engine = create_portable_speech(data / "voices", data, [](const SpeechUpdate& update) {
-            std::lock_guard lock(audio_mutex);
-            status = update.text;
-            if (appended == 1 && status == "Läser med Alice")
-                first_chunk_released = released;
-            changed.notify_all();
-        });
+        check(argc == 2, "Usage: ortho-portable-speech-tests SPEECH-DATA");
+        const std::filesystem::path speech_data(argv[1]);
+        // Known audio per text; any other text fails synthesis deterministically.
+        const std::map<std::string, std::vector<float>> audio = {
+            {"Första.", {1, 2, 3}},
+            {"Andra.", {4, 5, 6}},
+            {"Tredje.", {7, 8, 9}},
+            {"Ny läsning.", {10, 11, 12}},
+            {"Start.", std::vector<float>(24000, 1.0f)},
+            {"En längre fortsättning.", std::vector<float>(size_t{24000} * 30, 2.0f)}};
+        const auto synthesis = [&audio](const std::string& text, const std::string&, double speed,
+                                        const std::function<bool()>&) {
+            {
+                std::lock_guard lock(audio_mutex);
+                synthesized_speed = speed;
+            }
+            const auto found = audio.find(text);
+            if (found == audio.end())
+                throw std::runtime_error("No scripted audio for " + text);
+            return found->second;
+        };
+        auto engine = create_portable_speech(
+            speech_data,
+            [](const SpeechUpdate& update) {
+                std::lock_guard lock(audio_mutex);
+                status = update.text;
+                changed.notify_all();
+            },
+            synthesis);
         const SpeechCue first{0, 0, "Ps", "sv1917", {23, 1}, {23, 1}};
         const std::vector<SpeechUtterance> reading = {
             {"", "Första.", "sv", first},
@@ -193,14 +184,14 @@ int main(int argc, char** argv) {
                                     [] {
                                         return appended > 1;
                                     }),
-                  "Pause must suspend preparation of later chunks");
+                  "Pause must suspend synthesis of later chunks");
         }
         engine->resume();
         wait_for(
             [] {
                 return appended == 3;
             },
-            "Resume must wake speech preparation");
+            "Resume must wake speech synthesis");
         engine->stop();
 
         // The lookup worker must deliver results without holding up its caller.
@@ -284,61 +275,28 @@ int main(int argc, char** argv) {
             },
             "The replacement reading must complete");
 
-        engine->speak_batch(
-            {{"", "Start.", "sv"}, {"", "En längre fortsättning som redan finns i ljudcachen.", "sv"}});
+        engine->speak_batch({{"", "Start.", "sv"}, {"", "En längre fortsättning.", "sv"}});
         wait_for(
             [] {
                 return appended == 2 && stream && !stream->waiting();
             },
-            "Cached audio must start without waiting for the whole reading");
-        {
-            std::lock_guard lock(audio_mutex);
-            check(first_chunk_released,
-                  "A cached reading must release the first chunk before loading later audio");
-        }
+            "Fast synthesis must start without waiting for the whole reading");
         engine->stop();
 
-        engine->set_speed(0.25);
-        engine->speak({"", "Slutet.", "sv", first});
+        // Speed reaches the synthesizer for text read after the change.
+        engine->set_speed(1.5);
+        engine->speak({"", "Ny läsning.", "sv"});
         wait_for(
             [] {
-                return appended == 1 && stream && !stream->waiting();
+                return appended == 1 && synthesized_speed == 1.5;
             },
-            "Tail test prepares cached audio");
-        bool pending_tail = false;
-        for (int block = 0; block < 100; ++block) {
-            drain(256);
-            std::lock_guard lock(audio_mutex);
-            if (stream->finished() && !delivered.finished) {
-                pending_tail = true;
-                break;
-            }
-        }
-        check(pending_tail, "Worker must retain the quarter-speed tail after source consumption");
-        const auto before_pause = engine->playback();
-        check(before_pause.state == SpeechState::Playing && before_pause.progress < 1,
-              "Completion and final cue must wait for audible output");
-        engine->pause();
-        check(drain(256).empty() && engine->playback().progress == before_pause.progress,
-              "Pause preserves the pending tail and its progress");
-        engine->set_speed(2);
-        engine->resume();
-        bool complete = false;
-        for (int block = 0; block < 100; ++block) {
-            drain(256);
-            if (engine->playback().state == SpeechState::Completed) {
-                complete = true;
-                break;
-            }
-        }
-        check(complete && engine->playback().progress == 1,
-              "Resume and a speed change near the end drain audio before completion");
+            "A speed change must apply to the next synthesis");
         engine->stop();
         engine->set_speed(1);
 
-        // A cached first chunk must not start playback that later, slower
-        // synthesis would stall. The model then fails validation deterministically.
-        engine->speak_batch({{"", "Start.", "sv"}, {"", "Ej cachad.", "sv"}});
+        // A short first chunk must not start playback before enough audio exists;
+        // the second text then fails synthesis deterministically.
+        engine->speak_batch({{"", "Start.", "sv"}, {"", "Ej skriptad.", "sv"}});
         wait_for(
             [] {
                 return status.starts_with("Uppläsning:");
@@ -350,7 +308,35 @@ int main(int argc, char** argv) {
                   "Playback must wait for enough audio, and errors must stop playback");
         }
         engine.reset();
-        std::filesystem::remove_all(data);
+
+        // The real eSpeak voice, where the user has installed it, with only the bundled pronunciations.
+        if (!espeak_installed()) {
+            std::cout << "eSpeak NG playback skipped: not installed\n";
+        } else {
+            {
+                std::lock_guard lock(audio_mutex);
+                status.clear();
+            }
+            auto voice = create_portable_speech(speech_data, [](const SpeechUpdate& update) {
+                std::lock_guard lock(audio_mutex);
+                status = update.text;
+                changed.notify_all();
+            });
+            voice->set_voice(espeak_female_id);
+            voice->speak({"", "Herren är min herde, mig skall intet fattas.", "sv"});
+            wait_for(
+                [] {
+                    return stream && appended == 1 && !stream->waiting();
+                },
+                "eSpeak must read with the bundled pronunciations");
+            const auto spoken = drain(24000);
+            check(std::ranges::any_of(spoken,
+                                      [](float sample) {
+                                          return std::abs(sample) > 0.01f;
+                                      }),
+                  "eSpeak audio is audible");
+            voice.reset();
+        }
         std::cout << "Portable speech streaming checks passed\n";
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

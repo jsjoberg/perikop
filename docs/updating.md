@@ -7,7 +7,7 @@ The macOS 15 baseline must pass the native update checks on the macOS 15 runner 
 ## User-controlled updates
 
 - GitHub Releases hosts the manifests and packages. No additional update server is used.
-- Releases and Nightlies have separate feeds for each supported OS and architecture. Application feeds exclude dependency snapshots and voice-pack releases.
+- Releases and Nightlies have separate feeds for each supported OS and architecture. Application feeds exclude dependency snapshots.
 - Changing the channel only saves the preference. Only **Check for updates** initiates a check; downloading and installing require separate actions.
 - No startup checks, polling, background downloads, telemetry, or automatic application of staged updates.
 - Worker threads keep checking, downloading, and applying off the UI thread. Offline operation and update failures must not disrupt reading or speech.
@@ -36,13 +36,13 @@ Each channel is `<os>-<arch>-<track>`:
 
 For example, `linux-arm64-nightly` uses `releases.linux-arm64-nightly.json`. The application knows its platform; the preference chooses only the track.
 
-The SDK's GitHub source sends no installation identifier. Its pinned implementation reads the ten newest releases and filters prereleases on the release track. Dependencies and voice packs therefore live in `jsjoberg/perikop-assets`, and cleanup keeps seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
+The SDK's GitHub source sends no installation identifier. Its pinned implementation reads the ten newest releases and filters prereleases on the release track. Dependency snapshots therefore live in `jsjoberg/perikop-assets`, and cleanup keeps seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
 
 Historical Intel Mac feeds remain readable by nightly cleanup so their referenced packages survive while those older nightlies are retained. New publications contain only the four supported targets.
 
 ## Packaging and validation
 
-`tools/ci/build.py` runs the native checks and packaging for each target. Python tooling is prepared once per job through uv, then Linux containers and macOS sandboxed builds run with networking disabled. Windows compilation runs on Linux; Windows receives the binaries, runs native tests, supplies the Visual C++ runtime, and packages them without recompiling. See [building](building.md).
+`tools/ci/build.py` runs the native checks and packaging for each target. Python tooling is prepared once per job through uv, then Linux containers and macOS sandboxed builds run with networking disabled. Windows compilation runs on Linux; Windows receives the binaries, runs native tests, and packages them without recompiling. See [building](building.md).
 
 Full and delta update tests exercise the real application's `--update-probe` backend using local feeds. They verify replacement and profile preservation. The delta test omits the target full package, forcing actual reconstruction. Linux traces Internet sockets; macOS denies networking; Windows does not trace network calls.
 

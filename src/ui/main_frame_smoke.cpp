@@ -282,7 +282,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto data = data_ / (future ? "future-pronunciation" : "corrupt-pronunciation");
         UserDb profile(data / "user.db");
         auto settings = profile.load();
-        settings.speech_voice = "alice";
+        settings.speech_voice = "espeak-f2";
         profile.save(settings);
         profile.complete("preserved-progress");
         const auto path = data / "pronunciation-review.db";
@@ -309,7 +309,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 candidate->speech_lexicon("sv").size() != corpus_.pronunciations("sv").size())
                 fail(__LINE__);
         }
-        if (contents() != before || profile.load().speech_voice != "alice" ||
+        if (contents() != before || profile.load().speech_voice != "espeak-f2" ||
             !profile.completed().contains("preserved-progress"))
             fail(__LINE__);
     }
@@ -1166,10 +1166,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             wxCommandEvent event(wxEVT_MENU, menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), label));
             ProcessWindowEvent(event);
         };
-        settings_.speech_rate = 175;
+        settings_.speech_rate = 250;
         command("Snabbare");
         command("Snabbare");
-        if (settings_.speech_rate != 200)
+        if (settings_.speech_rate != 300)
             fail(__LINE__);
         command(ui::utf8("Normal hastighet"));
         command(ui::utf8("Långsammare"));

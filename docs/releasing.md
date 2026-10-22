@@ -48,7 +48,7 @@ For an unpublished packaging check on a branch, run `gh workflow run build.yml -
 
 ## Local packages
 
-[Build](building.md) with a voice pack, then:
+[Build](building.md), then:
 
 ```sh
 cpack --config build/cmake/CPackConfig.cmake -B build/package   # macOS, Windows
@@ -57,7 +57,7 @@ tools/package_appimage.sh build/cmake                           # Linux
 
 On Linux, `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` then packs the same AppDir as a Velopack AppImage and update package. It needs .NET 8, `squashfs-tools`, and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
 
-The Windows installer needs NSIS on the `PATH` and `-DPERIKOP_MSVC_RUNTIME` set to a `Microsoft.VC143.CRT` redistributable folder.
+The Windows installer needs NSIS on the `PATH`.
 The macOS DMG is `macOS-arm64.dmg`, for Apple Silicon on macOS 15 or later.
 For Velopack, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
 `python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> arm64 osx-arm64-<releases|nightly> <output>`.
@@ -67,8 +67,8 @@ The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in t
 ## CI dependency snapshots
 
 Application dependencies never fall back to upstream servers during ordinary CI. They use snapshot archives published as `ci-dependencies-<commit>` prereleases in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets) and pinned in `ci/dependencies-lock.json`.
-The separate Python tooling bootstrap downloads pinned uv/Python before the offline build. Voice export keeps its own Python 3.12 lock. The existing snapshot retains the retired Intel ONNX input, but restore skips it and no build links it; remove it when preparing the next source snapshot.
-Snapshots and voice packs are kept out of this repository's releases because the in-app updater reads only the newest releases here.
+The separate Python tooling bootstrap downloads pinned uv/Python before the offline build. The existing snapshot retains the retired ONNX Runtime, Sonic and Alice/Björn voice-pack inputs, but restore skips them (`RETIRED` in `tools/ci/dependencies.py`) and no build uses them; remove them from `ci/upstreams.json` when preparing the next source snapshot.
+Snapshots are kept out of this repository's releases because the in-app updater reads only the newest releases here.
 To update a dependency:
 
 1. Edit `ci/upstreams.json` and the native dependency declaration, or `ci/linux.Dockerfile`. Commit and push.
@@ -85,15 +85,3 @@ To update a dependency:
    gh release download ci-dependencies-<commit> --repo jsjoberg/perikop-assets --pattern dependencies-lock.json --dir ci --clobber
    ```
 
-### Voice pack
-
-Set `id` to the `id` in the pack's `voice-pack.json`, then upload it on macOS:
-
-```sh
-id=kokoro-sv-alice-bjorn-2c7968d-v3
-COPYFILE_DISABLE=1 tar --no-mac-metadata -czf "build/$id.tar.gz" -C build/kokoro-pack .
-gh release create "$id" "build/$id.tar.gz" --repo jsjoberg/perikop-assets --prerelease --title "Voice pack $id" --notes "Prepared Alice and Björn voice pack."
-cmake -E sha256sum "build/$id.tar.gz"
-```
-
-Then update the `voice` entry in `ci/upstreams.json` and prepare a new dependency snapshot.

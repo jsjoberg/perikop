@@ -15,11 +15,9 @@ Diagnostic modes of the app (on Windows and Linux, use `build/cmake/bin/perikop`
 ```sh
 build/cmake/bin/Perikop.app/Contents/MacOS/Perikop --smoke-test --screenshot /absolute/path/reader.png
 build/cmake/bin/Perikop.app/Contents/MacOS/Perikop --render-benchmark
-build/cmake/bin/Perikop.app/Contents/MacOS/Perikop --speech-probe /absolute/path/voice.wav
 ```
 
 The benchmark reports frame preparation and reading-open times. Compare them only on the same computer and build.
-The speech probe needs the voice pack and writes WAV files for both voices.
 
 Python checks:
 

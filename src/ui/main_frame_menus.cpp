@@ -81,7 +81,8 @@ enum {
 };
 // Text sizes and speeds in percent, as Chrome steps its zoom.
 const int zooms[] = {75, 80, 90, 100, 110, 125, 150, 175, 200};
-const int rates[] = {25, 50, 75, 100, 125, 150, 175, 200};
+// eSpeak speaks 80–450 words per minute, around its normal 150.
+const int rates[] = {60, 75, 100, 125, 150, 175, 200, 250, 300};
 // The next step up or down from a value, or the value itself at either end.
 int step(std::span<const int> steps, int value, int direction) {
     if (direction > 0) {
@@ -661,6 +662,11 @@ void MainFrame::make_menus() {
                                             : step(rates, settings_.speech_rate, id == Faster ? 1 : -1);
                 speech_->set_speed(settings_.speech_rate / 100.0);
                 apply_settings();
+                // Reading on restarts the current verse at the new speed, as Pause and Fortsätt do.
+                if (speech_->playback().state == SpeechState::Playing) {
+                    toggle_pause();
+                    toggle_pause();
+                }
                 return;
             }
             if (id == Today) {

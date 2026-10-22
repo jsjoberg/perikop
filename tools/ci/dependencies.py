@@ -16,6 +16,9 @@ UPSTREAMS = ROOT / "ci/upstreams.json"
 LOCK = ROOT / "ci/dependencies-lock.json"
 PLATFORMS = ("Linux", "Linux-arm64", "macOS", "Windows")
 CROSS_ENVIRONMENT = "Windows-cross-environment.tar.gz"
+# Inputs the application no longer uses. The immutable snapshot keeps them; restore skips them.
+# Remove them from ci/upstreams.json when preparing the next snapshot.
+RETIRED = ("ortho_ort", "ortho_ort_x86_64", "ortho_sonic", "voice")
 # The AppImage tools for each Linux platform, named for the processor they run on.
 APPIMAGE_TOOLS = {
     "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"),
@@ -48,7 +51,7 @@ def audit():
     """Keep ordinary developer builds and prepared CI sources on the same versions."""
     native = "".join((ROOT / name).read_text() for name in ("CMakeLists.txt", "cmake/speech.cmake", "cmake/updates.cmake"))
     for item in json.loads(UPSTREAMS.read_text()).values():
-        if item.get("source") not in (None, "voice", "ortho_ort_x86_64") and item["sha256"] not in native:
+        if item.get("source") not in (None, *RETIRED) and item["sha256"] not in native:
             raise ValueError("Native dependency changed; update ci/upstreams.json: " + item["file"])
 
 
@@ -131,11 +134,11 @@ def fetch_snapshot(names, downloads, validate_upstreams=True):
     return lock
 
 
-def restore(platform, output, package=False, cross=False, tools_only=False):
+def restore(platform, output, cross=False, tools_only=False):
     if cross and platform != "Windows":
         raise ValueError("Cross-build inputs require --platform Windows")
-    if tools_only and (platform != "Windows" or cross or package):
-        raise ValueError("Tools-only restore requires Windows without --cross or --package")
+    if tools_only and (platform != "Windows" or cross):
+        raise ValueError("Tools-only restore requires Windows without --cross")
     names = ["inputs-" + platform + ".tar.gz"]
     if cross:
         names.append(CROSS_ENVIRONMENT)
@@ -154,13 +157,9 @@ def restore(platform, output, package=False, cross=False, tools_only=False):
         path = archives / item["file"]
         verify(path, item["sha256"])
         component = item.get("source")
-        if component == "ortho_ort_x86_64":
-            # Retired target retained in the immutable snapshot, never restored for builds.
+        if component in RETIRED:
             continue
-        if component == "voice":
-            if package:
-                extract(path, ROOT / "build/kokoro-pack")
-        elif component == "ortho_velopack":
+        if component == "ortho_velopack":
             # The SDK archive holds include/, lib/, and lib-static/ side by side.
             extract(path, output / "sources" / component)
         elif component == "ortho_audio":
@@ -206,7 +205,6 @@ def main():
     parser.add_argument("command", choices=["upstream", "lock", "restore", "reuse", "audit"])
     parser.add_argument("--output", type=Path, default=ROOT / "build/ci")
     parser.add_argument("--platform", choices=PLATFORMS + ("Windows-cross",))
-    parser.add_argument("--package", action="store_true")
     parser.add_argument("--cross", action="store_true", help="Restore Windows sources and the Linux cross-build environment")
     parser.add_argument("--tools-only", action="store_true", help="Restore only NSIS and vpk for prebuilt Windows packaging")
     parser.add_argument("--repository", default="jsjoberg/perikop-assets")
@@ -221,7 +219,7 @@ def main():
     elif args.command == "restore":
         if args.platform not in PLATFORMS:
             parser.error("restore requires --platform Linux, Linux-arm64, macOS, or Windows")
-        restore(args.platform, args.output, args.package, args.cross, args.tools_only)
+        restore(args.platform, args.output, args.cross, args.tools_only)
     elif args.command == "reuse":
         if args.platform in APPIMAGE_TOOLS:
             names = [args.platform + "-environment.tar.gz"]
