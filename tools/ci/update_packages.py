@@ -14,6 +14,9 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 PLATFORMS = {"Linux": "linux-x64", "Linux-arm64": "linux-arm64", "Windows": "win-x64",
              "macOS-arm64": "osx-arm64"}
+# What Velopack makes for people to install from, as Perikop-<channel><suffix>, beside each feed.
+INSTALLERS = {"linux-x64": ".AppImage", "linux-arm64": ".AppImage", "win-x64": "-Setup.exe",
+              "osx-arm64": "-Setup.pkg"}
 NIGHTLY = re.compile(r"nightly-\d{4}-\d{2}-\d{2}(?:-[0-9a-f]{7}(?:-\d+(?:-\d+)?)?)?")
 SEMVER = re.compile(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z.-]+))?")
 
@@ -185,22 +188,15 @@ def finish(directory, channel, version, destination):
     (destination / f"releases.{channel}.json").write_text(json.dumps(feed) + "\n")
 
 
-def assemble(legacy, updates, output, version):
-    files = list(legacy.glob("Perikop-*"))
-    # The AppImage runtime statically links libfuse (LGPL-2.1); its corresponding source ships beside the AppImages.
-    runtime_sources = list(legacy.glob("AppImage-runtime-source-*.tar.gz"))
-    if any(file.name.endswith(".AppImage") for file in files) and len(runtime_sources) != 1:
-        raise ValueError("AppImages need the corresponding source of their runtime; see tools/appimage_runtime.py")
+def assemble(updates, output, version, complete=False):
     feeds = sorted(updates.glob("releases.*.json"))
-    if not files or not feeds:
-        raise ValueError("Publication needs native packages and update feeds")
-    expected = {"linux-x64": "x86_64.AppImage", "linux-arm64": "aarch64.AppImage", "win-x64": "windows-x64.exe",
-                "osx-arm64": "macOS-arm64.dmg"}
+    if not feeds:
+        raise ValueError("Publication needs update feeds")
     present = set()
     for feed in feeds:
         channel = feed.name[len("releases."):-len(".json")]
         platform = channel.rsplit("-", 1)[0]
-        if platform not in expected:
+        if platform not in INSTALLERS:
             raise ValueError("Publication contains a retired platform: " + platform)
         assets = feed_assets(json.loads(feed.read_text()), channel)
         if not any(asset["Type"] == "Full" and asset["Version"] == version for asset in assets):
@@ -208,19 +204,24 @@ def assemble(legacy, updates, output, version):
         if platform in present:
             raise ValueError("Duplicate platform feeds")
         present.add(platform)
-        if not any(file.name.endswith("-" + expected[platform]) for file in files):
-            raise ValueError("Update feed lacks its native platform package")
+        if not (updates / f"Perikop-{channel}{INSTALLERS[platform]}").is_file():
+            raise ValueError("Update feed lacks its installer: " + channel)
         for asset in assets:
             if asset["Version"] == version:
                 verify(updates / asset["FileName"], asset)
-    if len(files) != len(present):
-        raise ValueError("Native packages and update feeds cover different platforms")
+    if complete and present != set(INSTALLERS):
+        raise ValueError("A release needs every platform; missing " + ", ".join(sorted(set(INSTALLERS) - present)))
+    files = sorted(updates.iterdir())
+    # The AppImage runtime statically links libfuse (LGPL-2.1); its corresponding source ships beside the AppImages.
+    runtime_sources = [file for file in files if file.name.startswith("AppImage-runtime-source-")]
+    if any(file.name.endswith(".AppImage") for file in files) and len(runtime_sources) != 1:
+        raise ValueError("AppImages need the corresponding source of their runtime; see tools/appimage_runtime.py")
     output.mkdir(parents=True, exist_ok=True)
     if list(output.iterdir()):
         raise ValueError("Release staging directory must be empty")
-    for file in files + runtime_sources + list(updates.iterdir()):
-        if not file.is_file() or (output / file.name).exists():
-            raise ValueError("Invalid or duplicate release file: " + file.name)
+    for file in files:
+        if not file.is_file():
+            raise ValueError("Invalid release file: " + file.name)
         shutil.copy2(file, output / file.name)
     checksums = []
     for file in sorted(output.iterdir()):
@@ -355,9 +356,10 @@ def main():
     finishing.add_argument("version")
     finishing.add_argument("destination", type=Path)
     staging = commands.add_parser("assemble")
-    for argument in ("legacy", "updates", "output"):
+    for argument in ("updates", "output"):
         staging.add_argument(argument, type=Path)
     staging.add_argument("version")
+    staging.add_argument("--complete", action="store_true", help="Require every platform, as a release does")
     cleaning = commands.add_parser("cleanup")
     cleaning.add_argument("--repository", required=True)
     cleaning.add_argument("--current", required=True)
@@ -374,7 +376,7 @@ def main():
     elif args.command == "finish":
         finish(args.directory, args.channel, args.version, args.destination)
     elif args.command == "assemble":
-        assemble(args.legacy, args.updates, args.output, args.version)
+        assemble(args.updates, args.output, args.version, args.complete)
     else:
         cleanup(args.repository, args.current, args.keep)
 

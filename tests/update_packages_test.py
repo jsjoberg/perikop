@@ -65,16 +65,15 @@ class UpdatePackagesTest(unittest.TestCase):
     def test_new_publication_rejects_retired_intel_target(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            legacy, publication = root / "legacy", root / "updates"
-            legacy.mkdir()
+            publication = root / "updates"
             publication.mkdir()
-            (legacy / "Perikop-1.0.0-macOS-x86_64.dmg").write_bytes(b"retired")
             channel = "osx-x64-nightly"
             entry = asset("1.0.0", channel=channel)
             write_asset(publication, entry)
             (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [entry]}))
+            (publication / f"Perikop-{channel}-Setup.pkg").write_bytes(b"retired")
             with self.assertRaisesRegex(ValueError, "retired platform"):
-                updates.assemble(legacy, publication, root / "release", "1.0.0")
+                updates.assemble(publication, root / "release", "1.0.0")
             self.assertFalse((root / "release").exists())
 
     def test_existing_base_requires_a_delta(self):
@@ -114,16 +113,18 @@ class UpdatePackagesTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     updates.feed_assets({"Assets": [entry]}, CHANNEL)
 
-    def test_assemble_checksums_cover_native_packages_feeds_and_update_packages(self):
+    def test_assemble_checksums_cover_installers_feeds_and_update_packages(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            legacy, publication = root / "legacy", root / "updates"
-            legacy.mkdir()
-            (legacy / "Perikop-nightly-2026-10-18-aaaaaaa-macOS-arm64.dmg").write_bytes(b"native")
-            entries = self.fixture(root, with_base=False)
+            publication = root / "updates"
+            self.fixture(root, with_base=False)
             updates.finish(root, CHANNEL, "1.0.0-test.2", publication)
+            # Each feed ships beside the installer people download.
+            with self.assertRaisesRegex(ValueError, "lacks its installer"):
+                updates.assemble(publication, root / "refused", "1.0.0-test.2")
+            (publication / f"Perikop-{CHANNEL}-Setup.pkg").write_bytes(b"installer")
             output = root / "release"
-            updates.assemble(legacy, publication, output, "1.0.0-test.2")
+            updates.assemble(publication, output, "1.0.0-test.2")
             lines = (output / "SHA256SUMS.txt").read_text().splitlines()
             self.assertEqual(len(lines), 3)
             for line in lines:
@@ -134,33 +135,32 @@ class UpdatePackagesTest(unittest.TestCase):
         channel = "linux-x64-nightly"
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            legacy, publication = root / "legacy", root / "updates"
-            legacy.mkdir()
+            publication = root / "updates"
             publication.mkdir()
-            (legacy / "Perikop-0.1.0-x86_64.AppImage").write_bytes(b"appimage")
+            (publication / f"Perikop-{channel}.AppImage").write_bytes(b"appimage")
             full = asset("1.0.0-test.2", channel=channel)
             write_asset(publication, full)
             (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [full]}))
             # The runtime statically links libfuse (LGPL-2.1), so AppImages never ship without its source.
             with self.assertRaisesRegex(ValueError, "corresponding source"):
-                updates.assemble(legacy, publication, root / "refused", "1.0.0-test.2")
-            (legacy / "AppImage-runtime-source-8f39b89-3d17002.tar.gz").write_bytes(b"source")
-            updates.assemble(legacy, publication, root / "release", "1.0.0-test.2")
+                updates.assemble(publication, root / "refused", "1.0.0-test.2")
+            (publication / "AppImage-runtime-source-3d17002.tar.gz").write_bytes(b"source")
+            updates.assemble(publication, root / "release", "1.0.0-test.2")
             checksums = (root / "release/SHA256SUMS.txt").read_text()
-            self.assertIn(hashlib.sha256(b"source").hexdigest() + "  AppImage-runtime-source-8f39b89-3d17002.tar.gz\n",
+            self.assertIn(hashlib.sha256(b"source").hexdigest() + "  AppImage-runtime-source-3d17002.tar.gz\n",
                           checksums)
 
     def test_assemble_refuses_a_missing_platform_or_mismatched_version(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            legacy = root / "legacy"
-            legacy.mkdir()
-            (legacy / "Perikop-0.1.0-windows-x64.exe").write_bytes(b"wrong platform")
             self.fixture(root, with_base=False)
             updates.finish(root, CHANNEL, "1.0.0-test.2", root / "updates")
-            for version in ("1.0.0-test.2", "1.0.0-test.3"):
-                with self.subTest(version=version), self.assertRaises(ValueError):
-                    updates.assemble(legacy, root / "updates", root / "release", version)
+            (root / "updates" / f"Perikop-{CHANNEL}-Setup.pkg").write_bytes(b"installer")
+            with self.assertRaisesRegex(ValueError, "does not match"):
+                updates.assemble(root / "updates", root / "release", "1.0.0-test.3")
+            # A nightly may lack platforms; a release needs all four.
+            with self.assertRaisesRegex(ValueError, "linux-arm64, linux-x64, win-x64"):
+                updates.assemble(root / "updates", root / "release", "1.0.0-test.2", complete=True)
             self.assertFalse((root / "release").exists())
 
     def test_restore_chooses_a_verified_older_base_and_never_fetches_the_target(self):

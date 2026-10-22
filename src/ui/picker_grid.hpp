@@ -69,6 +69,8 @@ private:
     std::optional<std::size_t> item_at(wxPoint) const;
     bool active(std::size_t) const;
     void hover(std::optional<std::size_t>);
+    // Recomputes the hovered item, its tooltip and cursor after the items change.
+    void refresh_hover();
     void activate(std::size_t);
     Theme theme_;
     std::vector<Block> blocks_;

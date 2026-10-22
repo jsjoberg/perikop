@@ -130,10 +130,11 @@ int main(int argc, char** argv) {
             check(sqlite3_open_v2(argv[1], &corpus_db, SQLITE_OPEN_READONLY, nullptr) == SQLITE_OK,
                   "open corpus for occasions");
             sqlite3_stmt* occasions = nullptr;
-            sqlite3_prepare_v2(corpus_db,
-                               "SELECT DISTINCT description FROM reading_rule "
-                               "WHERE description<>'' AND description<>'Composite'",
-                               -1, &occasions, nullptr);
+            check(sqlite3_prepare_v2(corpus_db,
+                                     "SELECT DISTINCT description FROM reading_rule "
+                                     "WHERE description<>'' AND description<>'Composite'",
+                                     -1, &occasions, nullptr) == SQLITE_OK,
+                  "prepare occasion query");
             std::string missing;
             while (sqlite3_step(occasions) == SQLITE_ROW) {
                 const std::string occasion = reinterpret_cast<const char*>(sqlite3_column_text(occasions, 0));

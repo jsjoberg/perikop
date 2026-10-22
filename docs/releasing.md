@@ -11,9 +11,9 @@ git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
 ```
 
 CI builds, tests, and packages four targets: Windows x64, Linux x64, Linux ARM64, and macOS Apple Silicon (macOS 15+).
-It then creates a draft release containing the four native downloads, Velopack installers/portable packages, a full update package and channel feed for each target, deltas where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file.
-Releases with AppImages also carry `AppImage-runtime-source-<commits>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
-A tag suffix such as `-alpha.2` goes into the file names. CI stops if the tag does not match `CMakeLists.txt`.
+It then creates a draft release containing, for each target, the Velopack download (`Perikop-<channel>-Setup.exe`, `Perikop-<channel>-Setup.pkg` or `Perikop-<channel>.AppImage`), portable packages where Velopack makes them, a full update package and channel feed, a delta where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file. A release needs all four targets; `update_packages.py assemble --complete` refuses one without them.
+Releases with AppImages also carry `AppImage-runtime-source-<commit>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
+The tag's version, such as `0.1.0-alpha.2`, goes into the update packages. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
 The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.
 
@@ -30,7 +30,7 @@ Retries on the same day add the run ID and attempt number to the release tag.
 If all platforms fail, CI publishes no nightly.
 Version-tagged releases still require all four targets and sanitizers to pass.
 
-Every successful platform contributes its native download, Velopack download, full package, optional delta, and `releases.<channel>.json` feed together. A platform whose packaging or update test fails contributes neither a native download nor a feed. Full packages remain available for first upgrades, interrupted delta chains, and recovery.
+Every successful platform contributes its Velopack download, full package, optional delta, and `releases.<channel>.json` feed together. A platform whose packaging or update test fails contributes none of them. Full packages remain available for first upgrades, interrupted delta chains, and recovery.
 
 Before offline compilation/packaging, `tools/ci/update_packages.py restore` downloads the newest earlier full package in the same channel from published GitHub releases and verifies its SHA-256 and size against the feed. Packing uses that base with `--delta BestSpeed`. The first package in a channel has no delta. Restoring the base is an explicit network step; builds and packing remain offline. macOS packing also needs `zstd` on the runner.
 
@@ -50,18 +50,14 @@ For an unpublished packaging check on a branch, run `gh workflow run build.yml -
 
 [Build](building.md), then:
 
-```sh
-cpack --config build/cmake/CPackConfig.cmake -B build/package   # macOS, Windows
-tools/package_appimage.sh build/cmake                           # Linux
-```
+Every package is a Velopack package. They need .NET 8 and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
 
-On Linux, `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` then packs the same AppDir as a Velopack AppImage and update package. It needs .NET 8, `squashfs-tools`, and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
+On Linux, `tools/prepare_appdir.sh build/cmake` prepares the AppDir, and `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` packs it as the AppImage and update package. Packing also needs `squashfs-tools`.
 
-The Windows installer needs NSIS on the `PATH`.
-The macOS DMG is `macOS-arm64.dmg`, for Apple Silicon on macOS 15 or later.
-For Velopack, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
+On Windows, stage with `cmake --install build/cmake --prefix build/stage`, then run `vpk pack` as the Windows job in `.github/workflows/build.yml` does.
+On macOS, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
 `python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> arm64 osx-arm64-<releases|nightly> <output>`.
-It needs .NET 8, `zstd` for deltas, and the restored `vpk`. Native CI creates an ARM64 [portable update validation kit](updating.md#packaging-and-validation). The macOS 15 baseline update check must pass on the macOS 15 runner before release; results from newer macOS do not establish the minimum. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
+It needs `zstd` for deltas. Native CI creates an ARM64 [portable update validation kit](updating.md#packaging-and-validation). The macOS 15 baseline update check must pass on the macOS 15 runner before release; results from newer macOS do not establish the minimum. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
 The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.
 
 ## CI dependency snapshots
@@ -84,4 +80,6 @@ To update a dependency:
    ```sh
    gh release download ci-dependencies-<commit> --repo jsjoberg/perikop-assets --pattern dependencies-lock.json --dir ci --clobber
    ```
+
+Releases no longer use NSIS or linuxdeploy's AppImage runtime. The snapshot still carries `nsis`, `appimage-runtime`, `appimage-runtime-arm64`, `runtime-source-8f39b89` and `runtime-zlib` (1.3.2, which only that runtime used); remove them from `ci/upstreams.json` with the next snapshot, and `RETIRED_SOURCES` from `tools/appimage_runtime.py` and the runtime from `APPIMAGE_TOOLS` in `tools/ci/dependencies.py` with them.
 
