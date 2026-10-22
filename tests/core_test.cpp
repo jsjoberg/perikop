@@ -1071,6 +1071,22 @@ int main(int argc, char** argv) {
         const auto sentence = std::string(230, 'a') + " då jag är frånvarande.";
         check(speech_chunks(sentence + " Nästa mening.")[0] == sentence,
               "A nearby sentence ending must take precedence over a split inside its last phrase");
+        // eSpeak codes use . and ; as letters; a long verse must not split inside an override.
+        for (const std::size_t lead : {225, 233, 238, 241, 300}) {
+            const auto text = std::string(lead, 'a') + " ⟦S;'Is.ta⟧ " + std::string(400, 'b') + " slut.";
+            const auto chunks = speech_chunks(text);
+            check(chunks.size() > 1 &&
+                      std::ranges::all_of(chunks,
+                                          [](const std::string& chunk) {
+                                              const auto open = chunk.find("⟦");
+                                              return open == std::string::npos
+                                                         ? chunk.find("⟧") == std::string::npos
+                                                         : chunk.find("⟧", open) != std::string::npos;
+                                          }),
+                  "chunks keep each ⟦…⟧ override whole");
+        }
+        check(speech_text_weight("⟦S;'Os.⟧") == 8 && speech_text_weight("s.") == 5,
+              "punctuation inside an override weighs as a letter");
         const std::filesystem::path user_path(argv[2]);
         std::filesystem::remove(user_path);
         {
