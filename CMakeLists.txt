@@ -349,9 +349,10 @@ if(ORTHO_BUILD_GUI)
             "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
             -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
         set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
-        # Font shaping and native widgets take longer on hosted Windows runners.
+        # Font shaping and native widgets take longer on hosted Windows runners, where the smoke
+        # test runs close to a minute.
         set(perikop_smoke_timeout 60)
-        if(ORTHO_SANITIZERS)
+        if(ORTHO_SANITIZERS OR WIN32)
             set(perikop_smoke_timeout 180)
         endif()
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
