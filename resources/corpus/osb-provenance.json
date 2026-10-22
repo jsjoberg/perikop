@@ -12,7 +12,7 @@
     "resources/corpus/input/eng-Brenton_usfm.zip": "5813078f2213e472a3d4946ccf468a6e17cf145f7b0f7afd154dced36203c6d3",
     "resources/corpus/osb-reviewed.tsv": "8d70b99b9f5c8cae398c097340c535ca6b9e7f2b4e931fabdf8207251cc1dac6",
     "resources/content/srb2026-chapters.tsv": "68d098aea71029ae6c4b2c34c578476900721d6b415cca78545755811c3a1485",
-    "tools/corpus/build_osb_reference.py": "dd8da9532da29bd4f488ff1e93e9fff64026e6b3df33262903ecf9975431eb9b",
+    "tools/corpus/build_osb_reference.py": "6810fdce3a2cd6857bdb871873d84015c66d944d668c651528f5ef92ef34caa4",
     "tools/corpus/align_editions.py": "40bf7e296de1362d01abcb1cb9ffe19dfa4884e8a3bb9c522dc72bea5ef310a4",
     "tools/corpus/align_rules.py": "3ea4eba58b3ae9072c6b1031dd3c2edca96618a3baf215722e8e901b9529aeaf",
     "tools/corpus/mapping.py": "d39939d37f552213297ad5094903f1b1258d875c990853a56f10cc109fe31fb9",

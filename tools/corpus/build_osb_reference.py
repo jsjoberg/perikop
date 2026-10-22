@@ -254,7 +254,7 @@ def export_reference(db, osb, matches, output):
             [
                 (
                     "authority",
-                    "Orthodox Study Bible, Thomas Nelson 2008",
+                    "Orthodox Study Bible, Thomas Nelson 2008, printed edition",
                 ),
                 ("schema", "osb-v1"),
                 ("inputs", json.dumps(fingerprints, sort_keys=True)),

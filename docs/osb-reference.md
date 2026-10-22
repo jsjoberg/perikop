@@ -11,9 +11,10 @@ are distributed. The user does not need an OSB file at runtime.
 
 ## Edition and inventory
 
-The reference is the Orthodox Study Bible, Thomas Nelson 2008. Its NT is the NKJV
-and its OT the St. Athanasius Academy Septuagint. KJV is a numbering witness for
-the NT, not the OT's reference authority.
+The reference object is the printed Orthodox Study Bible, Thomas Nelson 2008. Its NT
+is the NKJV and its OT the St. Athanasius Academy Septuagint. Where the repository's
+data and the printed book disagree, the printed book is right. KJV is a numbering
+witness for the NT, not the OT's reference authority.
 
 `resources/corpus/osb-reference.db` contains 36,089 printed verse coordinates and
 bidirectional crosswalks to all five bundled editions and locally imported SRB.
@@ -41,9 +42,11 @@ Important differences from the old reference frames include:
 
 ## Building the crosswalks
 
-`resources/corpus/osb-frame.tsv` is the source of the reference: OSB's printed
-coordinate order, with each coordinate's numbering witness (KJV for the NT, the
-Greek Septuagint for the OT) as readable text and no Bible wording.
+`resources/corpus/osb-frame.tsv` holds OSB's printed coordinate order, with each
+coordinate's numbering witness (KJV for the NT, the Greek Septuagint for the OT) as
+readable text and no Bible wording. The frame was extracted once from the
+publisher's digital edition as a practical starting point; that file is not kept or
+used again. From here on the frame is maintained by hand against the printed book.
 `build_osb_reference.py` composes those witness links with the existing reviewed
 source crosswalks into links for every bundled edition. It uses only public
 repository inputs, and the provenance JSON and database record their hashes.
