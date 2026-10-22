@@ -280,6 +280,14 @@ void ScriptureView::center_passage() {
 VerseRef ScriptureView::current_verse() const {
     // The same reading line that spoken text follows. Look at text runs, not page pixels.
     const double line_y = offset_ + GetClientSize().y * 0.38;
+    // Clamp in printed order: OSB Esther 1:1a–1:1r precede 1:1.
+    const auto clamp = [this](const VerseRef& verse) {
+        if (compare_refs(verse, displayed_.first) < 0)
+            return displayed_.first;
+        if (compare_refs(displayed_.last, verse) < 0)
+            return displayed_.last;
+        return verse;
+    };
     VerseRef result = displayed_.first;
     for (std::size_t row = first_visible(); row < rows_.size(); ++row) {
         if (rows_[row].heading)
@@ -295,12 +303,12 @@ VerseRef ScriptureView::current_verse() const {
                 if (column.main_text(run.tag)) {
                     const auto verse = column.verses[run.tag].first;
                     if (top + (line + 1) * column.text.line_height >= line_y)
-                        return std::clamp(verse, displayed_.first, displayed_.last);
+                        return clamp(verse);
                     result = verse;
                 }
         }
     }
-    return std::clamp(result, displayed_.first, displayed_.last);
+    return clamp(result);
 }
 void ScriptureView::show_verse(VerseRef verse) {
     prepare_visible();

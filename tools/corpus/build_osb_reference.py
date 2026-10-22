@@ -312,7 +312,12 @@ def export_reference(db, osb, matches, output):
         "coordinates": len(osb),
         "picker_entries": len(books),
         "nt_coordinates": sum(r[0] in NT for r in osb),
-        "reviewed_points": 106,
+        "reviewed_points": sum(
+            bool(line) and not line.startswith("#")
+            for line in (ROOT / "resources/corpus/osb-reviewed.tsv")
+            .read_text()
+            .splitlines()
+        ),
         "inputs": fingerprints,
         "source_coverage": {
             source: sum(bool(targets) for targets in table.values())
