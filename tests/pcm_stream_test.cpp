@@ -105,6 +105,15 @@ int main() {
         timeline.reset(1);
         check(!timeline.at(5, ortho::SpeechState::Buffering).cue, "Restart discards old verse cues");
 
+        // An underrun can be marked just after the producer's last release. A full ring gets
+        // no further append, so nothing would release it again: it must play.
+        ortho::PcmStream stale;
+        for (size_t i = 0; i < ortho::PcmStream::capacity; ++i)
+            check(stale.append({1}), "The ring accepts a chunk per slot");
+        check(!stale.append({1}) && stale.held(), "A full ring rejects more audio while still held");
+        stale.render(output, 1);
+        check(output[0] == 1 && !stale.held(), "A full ring plays despite a stale hold");
+
         // Exercise publication and slot reuse with actual concurrent producer
         // and consumer threads, including partial and multi-chunk callbacks.
         ortho::PcmStream concurrent;
