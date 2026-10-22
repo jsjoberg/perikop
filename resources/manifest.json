@@ -826,13 +826,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "2c5c2d0e0f9f7f87d28ca64c49f608cf91dd30ae49560eff770557a6adf308a1"
+      "sha256": "8954d33c560116612115a6ec924906ffedb4023f0ef1eabcd8a255c5f1bc062e"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "968b36d979d2250abc1be87678677977e01b976a9038b615b9a418ac79cabd72"
+      "sha256": "a9b617cdfd8f86ff35451733b8f0155444a5dd0f6c7a43de3bb4101e015603a1"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

@@ -1,4 +1,4 @@
-"""Validate shipped OSB metadata without access to the copyrighted reference EPUB."""
+"""Validate the shipped OSB metadata and its rebuild from the coordinate frame."""
 
 import json
 import hashlib
@@ -131,14 +131,13 @@ class MetadataTest(unittest.TestCase):
                 expected, hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), path
             )
 
-    def test_rebuild_requires_no_osb_epub(self):
+    def test_rebuild_from_frame(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "osb-reference.db"
             result = subprocess.run(
                 [
                     sys.executable,
                     str(ROOT / "tools/corpus/build_osb_reference.py"),
-                    "--from-metadata",
                     "--output",
                     str(output),
                 ],

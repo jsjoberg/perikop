@@ -9,12 +9,11 @@ The authority is metadata, not a selectable Bible translation. The reader render
 and speaks the chosen source's actual words. No OSB Bible wording, notes or articles
 are distributed. The user does not need an OSB file at runtime.
 
-## Pinned edition and inventory
+## Edition and inventory
 
-The reference is the user-supplied Thomas Nelson 2008 EPUB, ISBN 9781418578633,
-SHA-256 `3c15e77c4496a60507b3b5fa5fef72ad9d58de2a4cfeb2848000ee7ddf8470d4`.
-Its introduction identifies the NT as NKJV and the OT as the St. Athanasius Academy
-Septuagint. KJV is a numbering witness for the NT, not the OT's reference authority.
+The reference is the Orthodox Study Bible, Thomas Nelson 2008. Its NT is the NKJV
+and its OT the St. Athanasius Academy Septuagint. KJV is a numbering witness for
+the NT, not the OT's reference authority.
 
 `resources/corpus/osb-reference.db` contains 36,089 printed verse coordinates and
 bidirectional crosswalks to all five bundled editions and locally imported SRB.
@@ -42,22 +41,18 @@ Important differences from the old reference frames include:
 
 ## Building the crosswalks
 
-`tools/corpus/osb_epub.py` reads the exact EPUB locally. It preserves lettered
-Esther additions and ignores study notes, variant markers, headings and articles.
-`build_osb_reference.py` compares the wording with pinned public-domain English
-witnesses, using explicit sequence rules for Proverbs and Sirach. It excludes
-Brenton English additions absent from the Greek and Sirach's unnumbered OSB prologue.
+`resources/corpus/osb-frame.tsv` is the source of the reference: OSB's printed
+coordinate order, with each coordinate's numbering witness (KJV for the NT, the
+Greek Septuagint for the OT) as readable text and no Bible wording.
+`build_osb_reference.py` composes those witness links with the existing reviewed
+source crosswalks into links for every bundled edition. It uses only public
+repository inputs, and the provenance JSON and database record their hashes.
 
 The Maccabees retain their verse divisions, with two reviewed combined endings.
-`osb-reviewed.tsv` records 106 further coordinate corrections checked against the
-local text. The remaining links use English lexical alignment and the existing
-reviewed source crosswalks. This is a reproducible alignment process, not a claim
-that every translation has identical wording or that every link was manually read.
-
-`osb-frame.tsv` freezes the printed coordinate order and witness links as readable
-text, with no Bible wording. Rebuilding the runtime database from this factual
-bridge requires only public repository inputs; it does not require the EPUB.
-The provenance JSON and database record hashes of their inputs.
+`osb-reviewed.tsv` records 106 reviewed coordinate corrections; a build writes them
+back into the frame. Not every link has been checked by hand. Mismatches found by
+reading alongside the printed OSB are corrected in `osb-reviewed.tsv` or the frame,
+followed by a rebuild.
 
 Adjacent OSB verses sharing an indivisible source verse form one unit. The source
 text displays and speaks once, with a cue spanning those OSB verses. A repeated
@@ -89,10 +84,10 @@ Reset clears all versions of a plan, and migration markers prevent resurrection.
 
 ## Reproduce and verify
 
-Rebuild from the shipped metadata, and run the normal checks:
+Rebuild from the frame, and run the normal checks:
 
 ```sh
-python tools/corpus/build_osb_reference.py --from-metadata
+python tools/corpus/build_osb_reference.py
 python tools/build_reading_plans.py --check
 cmake --build build/cmake --parallel 2
 ctest --test-dir build/cmake --output-on-failure
@@ -100,13 +95,9 @@ python tools/check_resources.py
 python tests/osb_metadata_test.py
 ```
 
-To repeat the lexical audit, run `python tools/corpus/build_osb_reference.py
-"$OSB_EPUB" --diagnostics build/osb` with the private local EPUB. The builder
-rejects any other EPUB hash. Diagnostics containing OSB wording never
-belong in resources or tests. The installed reference database has coordinate and
-link tables only. Regression tests cover the reviewed exceptions, all generated
+The installed reference database has coordinate and link tables only. Regression tests cover the reviewed exceptions, all generated
 inverse links to bundled text, every lectionary assignment, mixed/merged speech,
 bookmarks, v1/v2 resume conversion, rollback, reset and existing-progress precedence.
-The metadata tests also rebuild the complete database without an EPUB and compare
+The metadata tests also rebuild the complete database from the frame and compare
 all relational data, verify every NT coordinate against KJV, and check that the
 shipped schema has no Bible-text fields.

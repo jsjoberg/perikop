@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
-"""Build text-free OSB references and crosswalks from a private local EPUB.
+"""Build text-free OSB references and crosswalks from the frozen coordinate frame.
 
-OSB wording is used only for local comparison with pinned public-domain witnesses.
-Diagnostics containing words must remain under build/, never resources/.
+osb-frame.tsv records OSB's printed verse order and each coordinate's numbering
+witness; osb-reviewed.tsv holds the reviewed Greek counterparts. Neither has Bible wording.
 """
 
 import argparse
-from collections import Counter, defaultdict
+from collections import defaultdict
 import hashlib
 import json
-import math
 from pathlib import Path
 import re
 import sqlite3
 import sys
 import zipfile
 
-from audit_osb import NT
-from osb_epub import read
-from align_editions import words, load, names
+from align_editions import load
 from align_rules import CANON
 from mapping import Mapper
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCES = ["sv1917", "grc-lxx", "grc-patriarchal", "en-lxx2012", "en-web"]
-OSB_SHA256 = "3c15e77c4496a60507b3b5fa5fef72ad9d58de2a4cfeb2848000ee7ddf8470d4"
 FRAME = ROOT / "resources/corpus/osb-frame.tsv"
+NT = (
+    "Matt Mark Luke John Acts Rom 1Cor 2Cor Gal Eph Phil Col 1Thess 2Thess "
+    "1Tim 2Tim Titus Philemon Heb James 1Peter 2Peter 1John 2John 3John Jude Rev"
+).split()
 
 
 def input_hashes():
@@ -38,8 +38,6 @@ def input_hashes():
         "resources/corpus/osb-reviewed.tsv",
         "resources/content/srb2026-chapters.tsv",
         "tools/corpus/build_osb_reference.py",
-        "tools/corpus/osb_epub.py",
-        "tools/corpus/audit_osb.py",
         "tools/corpus/align_editions.py",
         "tools/corpus/align_rules.py",
         "tools/corpus/mapping.py",
@@ -90,7 +88,7 @@ def export_reference(db, osb, matches, output):
             if target[1:] not in Mapper(db).coordinates("grc-lxx", target[0]):
                 raise ValueError(("Reviewed Greek coordinate absent", target))
         matches[ref[0]][ref] = targets
-    # Freeze the reviewed factual bridge as text so future rebuilds need no private EPUB.
+    # Write the reviewed counterparts back into the frame, so it stays the one complete record.
     lines = [
         "# OSB printed order and reviewed witness coordinates. No Bible wording.",
         "# book\tchapter\tverse\tsuffix\twitness\tcounterparts",
@@ -256,9 +254,8 @@ def export_reference(db, osb, matches, output):
             [
                 (
                     "authority",
-                    "Orthodox Study Bible, Thomas Nelson 2008, ISBN 9781418578633",
+                    "Orthodox Study Bible, Thomas Nelson 2008",
                 ),
-                ("epub_sha256", OSB_SHA256),
                 ("schema", "osb-v1"),
                 ("inputs", json.dumps(fingerprints, sort_keys=True)),
             ],
@@ -308,7 +305,6 @@ def export_reference(db, osb, matches, output):
     temp.replace(output)
     provenance = {
         "authority": "osb-v1",
-        "epub_sha256": OSB_SHA256,
         "coordinates": len(osb),
         "picker_entries": len(books),
         "nt_coordinates": sum(r[0] in NT for r in osb),
@@ -441,306 +437,41 @@ def witnesses(db):
         )
 
 
-def align_english(source, target):
-    """Lexical sequence alignment; retain confidence for every non-empty link."""
-    if not target:
-        return {}, []
-    replacements = {
-        "saith": "says",
-        "spake": "spoke",
-        "begat": "begot",
-        "shew": "show",
-        "sheweth": "shows",
-        "shewed": "showed",
-        "henceforth": "now",
-        "judgement": "judgment",
-        "an": "a",
-        "amongst": "among",
-    }
-
-    def tokens(text):
-        return {replacements.get(w, w) for w in words(text)} | {
-            "@" + name for name in names(text)
-        }
-
-    variants_s = [[tokens(v) for v in t.split("\x1e")] for _, t in source]
-    variants_t = [[tokens(v) for v in t.split("\x1e")] for _, t in target]
-    ss = [set().union(*variants) for variants in variants_s]
-    tt = [set().union(*variants) for variants in variants_t]
-    frequency = Counter(w for sentence in ss + tt for w in sentence)
-    idf = {
-        w: max(0.15, math.log((len(ss) + len(tt)) / count))
-        * (0.7 if w.startswith("@") else 1)
-        for w, count in frequency.items()
-    }
-
-    def groups(sentences, variants):
-        result = {}
-        for end in range(1, len(sentences) + 1):
-            for size in range(1, min(3, end) + 1):
-                options = []
-                for index in range(max(len(v) for v in variants)):
-                    group = set().union(
-                        *(v[min(index, len(v) - 1)] for v in variants[end - size : end])
-                    )
-                    options.append((group, sum(idf[w] for w in group)))
-                result[end, size] = options
-        return result
-
-    gs, gt = groups(ss, variants_s), groups(tt, variants_t)
-    n, m = len(ss), len(tt)
-    band = max(80, abs(n - m) + 30)
-    paths = {}
-    scores = {0: {0: 0.0}}
-    beads = [(1, 1), (1, 2), (2, 1), (1, 3), (3, 1), (1, 0), (0, 1)]
-
-    def similarity(i, di, j, dj):
-        return max(
-            2 * sum(idf[w] for w in s & t) / (sw + tw or 1)
-            for s, sw in gs[i, di]
-            for t, tw in gt[j, dj]
-        )
-
-    for i in range(n + 1):
-        row = scores.setdefault(i, {})
-        centre = i * m / max(n, 1)
-        for j in range(max(0, int(centre - band)), min(m, int(centre + band)) + 1):
-            if not i and not j:
-                continue
-            best = (math.inf, None)
-            for di, dj in beads:
-                old = scores.get(i - di, {}).get(j - dj)
-                if old is None:
-                    continue
-                cost = (
-                    2.5
-                    if not di or not dj
-                    else 4 * (1 - similarity(i, di, j, dj)) + 1.15 * (di + dj - 2)
-                )
-                if di == dj == 1 and source[i - 1][0][1:] == target[j - 1][0][1:]:
-                    cost -= 0.15
-                candidate = (old + cost, (di, dj))
-                if candidate[0] < best[0]:
-                    best = candidate
-            if best[1] is not None:
-                row[j] = best[0]
-                paths[i, j] = best[1]
-        scores.pop(i - 3, None)
-    if (n, m) not in paths:
-        raise ValueError("OSB alignment band exhausted")
-    links = defaultdict(set)
-    review = []
-    i, j = n, m
-    while i or j:
-        di, dj = paths[i, j]
-        score = similarity(i, di, j, dj) if di and dj else 0
-        sr = [r for r, _ in source[i - di : i]]
-        tr = [r for r, _ in target[j - dj : j]]
-        # Low-confidence wording is kept in diagnostics, never guessed at runtime.
-        if score >= 0.20:
-            for r in sr:
-                links[r].update(tr)
-        if score < 0.4 or di != 1 or dj != 1 or (sr and tr and sr[0][1:] != tr[0][1:]):
-            review.append((sr, tr, round(score, 3)))
-        i -= di
-        j -= dj
-    return links, list(reversed(review))
-
-
-def generate(epub, diagnostics, output, reuse=False, from_metadata=False):
-    if (
-        not from_metadata
-        and hashlib.sha256(epub.read_bytes()).hexdigest() != OSB_SHA256
-    ):
-        raise ValueError("Unexpected OSB reference edition")
-    osb = read(epub) if not from_metadata else {}
+def generate(output):
     db = sqlite3.connect(":memory:")
     base = sqlite3.connect(ROOT / "resources/corpus/corpus.db")
     base.backup(db)
     base.close()
     witnesses(db)
-    if from_metadata:
-        matches = defaultdict(dict)
-        for line in FRAME.read_text().splitlines():
-            if not line or line.startswith("#"):
-                continue
-            b, c, v, s, witness, targets = line.split("\t")
-            ref = (b, int(c), int(v), s)
-            if ref in osb:
-                raise ValueError(("Duplicate frozen coordinate", ref))
-            osb[ref] = ""
-            if b in NT:
-                if witness != "en-kjv" or targets != f"{b} {c}:{v}{s}":
-                    raise ValueError("Invalid NT witness")
-            else:
-                if witness != "grc-lxx":
-                    raise ValueError("Invalid OT witness")
-                parsed = set()
-                for value in targets.split(";") if targets != "-" else []:
-                    m = re.fullmatch(r"(\w+) (\d+):(\d+)([a-z]?)", value)
-                    if not m:
-                        raise ValueError(("Invalid frozen witness reference", value))
-                    parsed.add((m[1], int(m[2]), int(m[3]), m[4]))
-                matches[b][ref] = parsed
-        export_reference(db, osb, matches, output)
-        return
-    if reuse:
-        cache = diagnostics / "comparison-inputs.json"
-        if not cache.exists() or json.loads(cache.read_text()) != input_hashes():
-            raise ValueError(
-                "Comparison inputs changed; run a full comparison instead of reusing diagnostics"
-            )
-        matches = defaultdict(dict)
-        for *ref, targets in json.loads(
-            (diagnostics / "brenton-links.json").read_text()
-        ):
-            matches[ref[0]][tuple(ref)] = set(map(tuple, targets))
-        export_reference(db, osb, matches, output)
-        return
-    mapper = Mapper(db)
-    text_cache = {
-        (s, b, c, v, suffix): t
-        for s, b, c, v, suffix, t in db.execute(
-            "SELECT source.code,book.code,chapter,verse,verse_suffix,text FROM verse JOIN source ON source.id=source_id JOIN book ON book.id=book_id"
-        )
-    }
-
-    def enrich(ref, text):
-        variants = [text]
-        for witness in ("en-kjv", "en-lxx2012"):
-            counterparts = mapper.counterparts("grc-lxx", witness, ref[0], ref[1:])
-            wording = " ".join(
-                text_cache.get((witness, b, *r), "") for b, r in counterparts
-            ).strip()
-            variants.append(wording or text)
-        return ref, "\x1e".join(variants)
-
-    bybook = defaultdict(list)
-    for ref, text in osb.items():
-        bybook[ref[0]].append((ref, text))
-    matches = {}
-    reviews = {}
-    for book, verses in bybook.items():
-        if book in NT:
+    osb = {}
+    matches = defaultdict(dict)
+    for line in FRAME.read_text().splitlines():
+        if not line or line.startswith("#"):
             continue
-        other = "EsthGr" if book == "Esth" else "Ezra" if book == "Neh" else book
-        target = load(db, "en-brenton", other)
-        target = [
-            (r, t) for r, t in target if r[1:] in mapper.coordinates("grc-lxx", r[0])
-        ]
-        if book == "Sir":
-            # OSB retains the Latin chapter order in 30–36; Brenton follows the Greek order.
-            def sir_order(row):
-                _, c, v, s = row[0]
-                if c == 1 and v == 1 and s < "h":
-                    return (-1, 0, 0)
-                if c < 30 or c == 30 and v <= 24:
-                    return (0, c, v)
-                if c == 33 and v == 12:
-                    return (1, 0, 0)
-                if c in (34, 35):
-                    return (2, c, v)
-                if c == 36 and v <= 16:
-                    return (3, 0, v)
-                if c == 30:
-                    return (4, 0, v)
-                if c in (31, 32):
-                    return (5, c, v)
-                if c == 33:
-                    return (6, 0, v)
-                if c == 36:
-                    return (7, 0, v)
-                return (8, c, v)
-
-            target = [row for row in target if sir_order(row)[0] >= 0]
-            target.sort(key=sir_order)
-        if book == "Prov":
-            # OSB gives Agur and Lemuel their own chapters 30 and 31.
-            def prov_order(row):
-                _, c, v, s = row[0]
-                if c < 24 or c == 24 and (v < 22 or v == 22 and s <= "e"):
-                    return (0, c, v, s)
-                if c == 24 and 23 <= v <= 34:
-                    return (1, c, v, s)
-                if 25 <= c <= 29:
-                    return (2, c, v, s)
-                if c == 24 and v == 22:
-                    return (3, c, v, s)
-                if c == 24 and 35 <= v <= 53:
-                    return (4, c, v, s)
-                if c == 24 and v >= 54:
-                    return (5, c, v, s)
-                return (6, c, v, s)
-
-            target.sort(key=prov_order)
-        if book in ("Ezra", "Neh"):
-            target = [(r, t) for r, t in target if (r[1] <= 10) == (book == "Ezra")]
-        if book == "2Chr":
-            target += load(db, "en-brenton", "PrMan")
-        target = [enrich(r, t) for r, t in target]
-        matches[book], reviews[book] = align_english(verses, target)
-        missing = [(r, t) for r, t in verses if not matches[book].get(r)]
-        print(book, len(verses), "Brenton unlinked", len(missing), flush=True)
-    diagnostics.mkdir(parents=True, exist_ok=True)
-    (diagnostics / "unlinked.json").write_text(
-        json.dumps(
-            [
-                [*r, t]
-                for b, verses in bybook.items()
-                if b not in NT
-                for r, t in verses
-                if not matches[b].get(r)
-            ],
-            ensure_ascii=False,
-            indent=1,
-        )
-    )
-    (diagnostics / "brenton-links.json").write_text(
-        json.dumps(
-            [
-                [*r, sorted(targets)]
-                for b in matches
-                for r, targets in matches[b].items()
-            ],
-            ensure_ascii=False,
-        )
-    )
-    (diagnostics / "review.json").write_text(
-        json.dumps(reviews, ensure_ascii=False, indent=1)
-    )
-    (diagnostics / "osb-local.json").write_text(
-        json.dumps([[*r, t] for r, t in osb.items()], ensure_ascii=False)
-    )
-    db.commit()
-    disk = sqlite3.connect(diagnostics / "witnesses.db")
-    db.backup(disk)
-    disk.close()
+        b, c, v, s, witness, targets = line.split("\t")
+        ref = (b, int(c), int(v), s)
+        if ref in osb:
+            raise ValueError(("Duplicate frozen coordinate", ref))
+        osb[ref] = ""
+        if b in NT:
+            if witness != "en-kjv" or targets != f"{b} {c}:{v}{s}":
+                raise ValueError("Invalid NT witness")
+        else:
+            if witness != "grc-lxx":
+                raise ValueError("Invalid OT witness")
+            parsed = set()
+            for value in targets.split(";") if targets != "-" else []:
+                m = re.fullmatch(r"(\w+) (\d+):(\d+)([a-z]?)", value)
+                if not m:
+                    raise ValueError(("Invalid frozen witness reference", value))
+                parsed.add((m[1], int(m[2]), int(m[3]), m[4]))
+            matches[b][ref] = parsed
     export_reference(db, osb, matches, output)
-    (diagnostics / "comparison-inputs.json").write_text(
-        json.dumps(input_hashes(), sort_keys=True)
-    )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("epub", type=Path, nargs="?")
-    parser.add_argument("--diagnostics", type=Path, default=ROOT / "build/osb")
     parser.add_argument(
         "--output", type=Path, default=ROOT / "resources/corpus/osb-reference.db"
     )
-    parser.add_argument("--reuse-comparison", action="store_true")
-    parser.add_argument(
-        "--from-metadata",
-        action="store_true",
-        help="Rebuild from the shipped factual frame without an OSB EPUB",
-    )
-    args = parser.parse_args()
-    if (args.epub is None) != args.from_metadata:
-        parser.error("Provide either a local EPUB or --from-metadata")
-    generate(
-        args.epub,
-        args.diagnostics,
-        args.output,
-        args.reuse_comparison,
-        args.from_metadata,
-    )
+    generate(parser.parse_args().output)
