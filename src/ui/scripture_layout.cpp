@@ -258,16 +258,16 @@ void ScriptureView::center_passage() {
     const auto start = fits ? begin : (index && rows_[index - 1].heading ? index - 1 : index);
     double position = positions_[start];
     const auto& paragraph = row_layout(index);
-    const auto verse_it = std::find_if(rows_[index].verses.begin(), rows_[index].verses.end(), [&](auto ref) {
-        auto v = corpus_.verse(frame_, displayed_.book, ref);
-        return within_refs(displayed_.first, ref, v ? v->last.value_or(ref) : ref);
-    });
-    const int tag = int(verse_it - rows_[index].verses.begin());
     if (!paragraph.columns.empty()) {
-        const auto& text = paragraph.columns.front().text;
+        // Run tags index the column's fragments, which merged and source-only verses offset from
+        // the row's verses; find the passage's first verse among them, as show_verse() does.
+        const auto& column = paragraph.columns.front();
+        const auto& text = column.text;
         for (std::size_t line = 0; line < text.lines.size(); ++line)
             if (std::any_of(text.lines[line].runs.begin(), text.lines[line].runs.end(), [&](const auto& run) {
-                    return run.tag == tag;
+                    return column.main_text(run.tag) &&
+                           within_refs(displayed_.first, column.verses[run.tag].first,
+                                       column.verses[run.tag].second);
                 })) {
                 if (line > 2)
                     position = positions_[index] + (line - 2) * text.line_height;

@@ -57,6 +57,12 @@ void Updater::start(State during, State cancelled, Work work) {
                 status.state = State::Failed;
                 status.message = message.empty() ? "Okänt fel" : message;
             };
+        } catch (...) {
+            // Anything else would end the program from this detached thread and leave busy_ set.
+            result = [](UpdateStatus& status) {
+                status.state = State::Failed;
+                status.message = "Okänt fel";
+            };
         }
         deliver(shared, [this, generation, result = std::move(result)] {
             busy_ = false;

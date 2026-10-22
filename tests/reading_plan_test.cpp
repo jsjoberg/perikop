@@ -114,6 +114,7 @@ void migration_tests(const CorpusDb& corpus, const std::filesystem::path& root) 
         const auto key = plan_key(nt, part_at(nt, "Matt", 12));
         const auto reading = plan_reading(corpus, nt.parts[part_at(nt, "Matt", 12)], "sv");
         const auto expected = reading_position(corpus, reading, 0, {12, 5});
+        check(expected.has_value(), "Matthew 12:5 resolves in its OSB plan part");
         check(user.completed().contains(plan_key(nt, 0)) && user.completed().contains(plan_key(nt, 1)),
               "Frozen v1 completion transfers through v2 to the OSB layout");
         check(user.position(key) == expected, "Legacy checkpoint resumes at the same words in OSB");
@@ -163,6 +164,7 @@ void migration_tests(const CorpusDb& corpus, const std::filesystem::path& root) 
         UserDb user(root / "priority.db");
         user.complete("plan:nt:v2:1");
         const auto current = reading_position(corpus, plan_reading(corpus, nt.parts[0], "sv"), 0, {3, 5});
+        check(current.has_value(), "Matthew 3:5 resolves in the first OSB part");
         user.position(plan_key(nt, 0), *current);
         user.migrate_reading_plans(corpus);
         check(user.position(plan_key(nt, 0)) == current && !user.completed().contains(plan_key(nt, 0)),

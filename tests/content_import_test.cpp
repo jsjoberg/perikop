@@ -109,6 +109,11 @@ int main(int argc, char** argv) {
             reopened.load_imported(destination);
             const auto preserved = reopened.verse(ortho::srb_source, "John", {3, 16});
             check(preserved && preserved->text == john->text, "Failed import lost the existing edition");
+            {
+                // Without the failing trigger, so that only the swapped files can reject the import.
+                auto db = ortho::storage::open(destination, SQLITE_OPEN_READWRITE);
+                ortho::storage::exec(db.get(), "DROP TRIGGER fail_replacement");
+            }
             rejected([&] {
                 ortho::import_reformationsbibeln(nt, gt, recipe, destination);
             });
