@@ -104,4 +104,4 @@ CI runs `tidy` in the Linux x64 job with Rocky Linux 9's clang-tidy 21. The macO
 `-DORTHO_SANITIZERS=ON` builds Perikop's code with AddressSanitizer and UndefinedBehaviorSanitizer. CI runs the full CTest suite with them in two jobs:
 
 - `sanitizers` on macOS 15 with Apple Clang.
-- `linux-sanitizers` in the Rocky Linux container with GCC 15, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and GTK's accessibility bridge. Do not add suppressions for Perikop's own code.
+- `linux-sanitizers` in the Rocky Linux container with GCC 15, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and librsvg, and `NO_AT_BRIDGE=1` keeps GTK from opening an accessibility bus connection. Do not add suppressions for Perikop's own code.

@@ -138,8 +138,9 @@ def sanitizers(*options, display=()):
 
 def linux_sanitizers():
     run("git", "config", "--global", "--add", "safe.directory", ROOT)
-    # LeakSanitizer is part of AddressSanitizer on Linux.
-    os.environ["LSAN_OPTIONS"] = f"suppressions={ROOT / 'ci/lsan.supp'}"
+    # LeakSanitizer is part of AddressSanitizer on Linux. The offline container has no
+    # accessibility bus, and GTK's bridge to it keeps its connection for the process.
+    os.environ.update(LSAN_OPTIONS=f"suppressions={ROOT / 'ci/lsan.supp'}", NO_AT_BRIDGE="1")
     sanitizers(display=DISPLAY)
 
 
