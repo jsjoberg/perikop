@@ -1,3 +1,0 @@
-# The tests check optional values with check() before using them.
-InheritParentConfig: true
-Checks: -bugprone-unchecked-optional-access
