@@ -1,5 +1,5 @@
 #!/bin/sh
-# Packs the AppDir that tools/package_appimage.sh made into Velopack's AppImage and update package:
+# Packs the AppDir that tools/prepare_appdir.sh made into Velopack's AppImage and update package:
 #   tools/package_velopack.sh <build dir> <version> <channel> <output dir>
 # The channel is <os>-<arch>-<track>, such as linux-x64-nightly; see docs/updating.md.
 set -eu
