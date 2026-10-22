@@ -6,7 +6,7 @@ Standalone research on October 16, 2026. Perikop's production updater and releas
 
 - Linux ARM64 in a local Podman VM; Rocky Linux 9 container with glibc 2.34.
 - A small C++17 program using Velopack's native C++ SDK. Perikop's GUI and C++23 build were not part of this test.
-- Velopack SDK and packaging tool 1.2.161, verified against the SHA-256 pins in `ci/velopack-prototype.json`.
+- Velopack SDK and packaging tool 1.2.161, verified against the SHA-256 pins in `ci/velopack-prototype.json` at commit `3000465`.
 - .NET 8 for packaging only. The test application links the native SDK statically.
 - Test execution uses `--network none`, local update feeds, and AppImage extraction mode rather than FUSE.
 
