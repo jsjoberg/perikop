@@ -272,7 +272,20 @@ std::vector<SpeechToken> SwedishText::tokens(const std::string& input) {
     const auto is_letter = [](char32_t c) {
         return word_letters.find(c) != std::u32string::npos;
     };
-    const auto text = decode(swedish_numbers(input));
+    // Digits are spelled as words outside ⟦…⟧ only: inside, 8 is the eSpeak code for ɵ.
+    const auto raw = decode(input);
+    std::u32string text;
+    for (size_t at = 0; at < raw.size();) {
+        const auto open = raw.find(U'⟦', at);
+        const auto close = open == std::u32string::npos ? open : raw.find(U'⟧', open);
+        if (close == std::u32string::npos) {
+            text += decode(swedish_numbers(encode(raw.substr(at))));
+            break;
+        }
+        text += decode(swedish_numbers(encode(raw.substr(at, open - at))));
+        text += raw.substr(open, close + 1 - open);
+        at = close + 1;
+    }
     std::vector<SpeechToken> result;
     for (size_t at = 0; at < text.size();) {
         // ⟦…⟧ holds one word's exact phonemes, from a pronunciation entry.

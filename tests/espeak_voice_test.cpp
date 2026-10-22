@@ -36,6 +36,8 @@ int main(int argc, char** argv) {
               "given codes keep their dots instead of ending a sentence");
         check(front.phonemes("Ja?! Xyzzy, 3.") == "j'A:? ⟨xyzzy⟩, tR'e:.",
               "repeated end marks, spelled words and numbers");
+        check(front.phonemes("en ⟦kR'8ba⟧ och 3 år") == "En kR'8ba Ok tR'e: 'o:R",
+              "the eSpeak code 8 inside an override is not a number");
         using Kind = ortho::SpeechToken::Kind;
         const auto words = [](std::initializer_list<ortho::SpeechToken> tokens) {
             return std::vector<ortho::SpeechToken>(tokens);
