@@ -145,6 +145,12 @@ public:
                 data_path = test_path_;
             }
             user_ = std::make_unique<ortho::UserDb>(data_path / "user.db");
+            try {
+                corpus_->load_imported(data_path / "content/srb2026.db");
+            } catch (const std::exception& e) {
+                if (!smoke && !benchmark)
+                    wxMessageBox(wxString::FromUTF8(e.what()), "Lokalt bibelinnehåll", wxOK | wxICON_WARNING);
+            }
             if (!update_probe.empty()) {
                 // The channel comes from the profile, so an updated copy shows that it reads the same
                 // profile.

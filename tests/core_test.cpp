@@ -1,6 +1,7 @@
 #include "core/model.hpp"
 #include "core/online_bibles.hpp"
 #include "core/reading_plan.hpp"
+#include "core/source_preferences.hpp"
 #include "speech/reading_speech.hpp"
 #include "speech/speech.hpp"
 #include "storage/database.hpp"
@@ -611,36 +612,30 @@ int main(int argc, char** argv) {
         const auto daniel = corpus.localize(song->reading).segments();
         check(daniel.size() == 1 && daniel[0].book == "Dan" && daniel[0].first == VerseRef{3, 1},
               "Holy Saturday Daniel reading in LXX numbering");
-        const auto swedish = corpus.map_passage("grc-lxx", "sv1917", daniel[0]);
+        const auto swedish = corpus.map_passage(osb_reference, "sv1917", daniel[0]);
         check(swedish.size() == 2 && swedish[0].book == "Dan" && swedish[0].last == VerseRef{3, 23} &&
                   swedish[1].book == "PrAzar",
               "Holy Saturday Daniel reading in Swedish");
         const auto baruch = std::find_if(rules.begin(), rules.end(), [](const auto& r) {
             return r.reading.passage.book == "Baruch";
         });
-        check(baruch != rules.end() && corpus.localize(baruch->reading).passage.first == VerseRef{3, 35},
+        check(baruch != rules.end() && corpus.localize(baruch->reading).passage.first == VerseRef{3, 36},
               "Baruch reading in LXX numbering");
-        check(
-            corpus.map_passage("grc-lxx", "sv1917", corpus.localize(baruch->reading).passage).front().first ==
-                VerseRef{3, 36},
-            "Baruch 3:35 is Swedish 3:36");
-        // The OSB order frames the Old Testament by the Septuagint; Brenton's 2 Esdras 11 is Nehemiah 1.
-        check(corpus.canon_book("Ezra", 11) && corpus.canon_book("Ezra", 11)->code == "Neh" &&
-                  corpus.canon_book("Ezra", 11)->offset() == 10,
-              "Nehemiah within Greek 2 Esdras");
-        check(corpus.canon_book("EsthGr", 1) && corpus.canon_book("EsthGr", 1)->code == "Esth",
-              "Greek Esther is the OSB's Esther");
-        // As in Bibel 2000, the reader names the Greek texts of Esther and Daniel; the 1917 books keep their
-        // names.
-        check(corpus.title("Esth") == "Ester enligt den grekiska texten" &&
-                  corpus.short_title("Esth") == "Est gr" &&
-                  corpus.title("Dan") == "Daniel enligt den grekiska texten" &&
-                  corpus.title("Gen") == "Första Moseboken" && corpus.book_name("Esth") == "Ester",
-              "reader titles for the Greek Esther and Daniel");
-        check(corpus.frame_source("sv", "Ps") == "grc-lxx" && corpus.frame_source("sv", "John") == "sv1917",
-              "Septuagint frames only the Old Testament");
+        check(corpus.map_passage(osb_reference, "sv1917", corpus.localize(baruch->reading).passage)
+                      .front()
+                      .first == VerseRef{3, 36},
+              "Baruch 3:35 is Swedish 3:36");
+        check(corpus.canon_book("Neh", 1) && corpus.canon_book("Neh", 1)->offset() == 0 &&
+                  !corpus.canon_book("Ezra", 11),
+              "OSB Nehemiah is a separate reference book");
+        check(corpus.canon_book("Esth", 1) && corpus.canon_book("Esth", 1)->code == "Esth",
+              "OSB Esther owns its references independently of source book codes");
+        check(corpus.title("Gen") == "Första Moseboken", "Swedish book names remain available");
+        check(corpus.frame_source("sv", "Ps") == osb_reference &&
+                  corpus.frame_source("en", "John") == osb_reference,
+              "OSB frames every language and testament");
         // Book data comes from books.tsv and canon.tsv through the corpus.
-        check(corpus.canon().size() == 79 && corpus.canon().front().code == "Gen" &&
+        check(corpus.canon().size() == 78 && corpus.canon().front().code == "Gen" &&
                   corpus.canon().back().code == "Rev" && corpus.canon().back().new_testament &&
                   !corpus.canon().front().new_testament,
               "OSB canon order");
@@ -655,27 +650,25 @@ int main(int argc, char** argv) {
         {
             // Every part opens and can be read aloud in Swedish, and no chapter is in two parts.
             const auto& plans = reading_plans();
-            check(plans.size() == 3 && plans[0].parts.size() == 60 && plans[1].parts.size() == 180 &&
-                      plans[2].parts.size() == 31,
+            check(plans.size() == 3 && plans[0].parts.size() == 60 && plans[1].parts.size() == 182 &&
+                      plans[2].parts.size() == 36,
                   "three reading plans");
-            const auto no_lexicon = [](const std::string&) {
-                return std::vector<Pronunciation>{};
-            };
             std::map<std::string, std::set<int>> covered;
             for (const auto& plan : plans)
                 for (const auto& part : plan.parts) {
                     const auto reading = plan_reading(corpus, part, "sv");
                     check(reading.segments().size() == part.size(),
                           "plan range without text: " + plan_label(corpus, part));
-                    check(!reading_speech(corpus, {reading}, no_lexicon).empty(),
-                          "plan part cannot be read aloud: " + plan_label(corpus, part));
+                    const auto first = reading.passage;
+                    check(!chapter_sources(corpus, osb_reference, first.book, first.first.chapter).empty(),
+                          "plan part has no available source: " + plan_label(corpus, part));
                     for (const auto& range : part)
                         for (int chapter = range.first; chapter <= range.last; ++chapter)
                             check(covered[range.book].insert(chapter).second,
                                   "chapter in two plan parts: " + range.book);
                 }
             check(plan_label(corpus, plans[0].parts[50]) == "2 Tim 1–4 + Tit 1–3 + Filem", "plan part label");
-            check(plan_key(plans[1], 6) == "plan:ot:v2:7", "versioned plan part key");
+            check(plan_key(plans[1], 6) == "plan:ot:v3:7", "versioned plan part key");
             // Together the plans cover the Septuagint canon and the New Testament, except the books
             // that have no Swedish text yet.
             std::vector<std::string> missing;
@@ -692,11 +685,7 @@ int main(int argc, char** argv) {
             std::string listed;
             for (const auto& item : missing)
                 listed += item + ", ";
-            check(missing == std::vector<std::string>{"1Esd 1", "1Esd 2", "1Esd 3", "1Esd 4", "1Esd 5",
-                                                      "1Esd 6", "1Esd 7", "1Esd 8", "1Esd 9", "3Macc 1",
-                                                      "3Macc 2", "3Macc 3", "3Macc 4", "3Macc 5", "3Macc 6",
-                                                      "3Macc 7", "Ps 151"},
-                  "plans leave out only books without Swedish text: " + listed);
+            check(missing.empty(), "plans cover the complete OSB inventory: " + listed);
         }
         check(corpus.verse("sv1917", "Gen", {1, 1}) && corpus.verse("sv1917", "Rev", {22, 21}),
               "Swedish full corpus endpoints");

@@ -57,14 +57,13 @@ wxString reading_tooltip(const CorpusDb& corpus, const Reading& reading) {
     const auto passages = reading.segments();
     for (std::size_t i = 0; i < passages.size(); ++i) {
         const auto& passage = passages[i];
-        const auto frame = reading.source_override.empty()
-                               ? corpus.frame_source(reading.base_language, passage.book)
-                               : reading.source_override;
+        const auto frame = corpus.frame_source(reading.base_language, passage.book);
         const auto& refs = corpus.coordinates(frame, passage.book);
-        for (auto ref = std::lower_bound(refs.begin(), refs.end(), passage.first);
-             ref != refs.end() && *ref <= passage.last; ++ref) {
-            const auto text = verse_tooltip(corpus, frame, passage.book, *ref, true,
-                                            *ref < passage.last || i + 1 < passages.size());
+        for (const auto& ref : refs) {
+            if (!corpus.contains(frame, passage, ref))
+                continue;
+            const auto text = verse_tooltip(corpus, frame, passage.book, ref, true,
+                                            ref != passage.last || i + 1 < passages.size());
             if (!text.empty())
                 return text;
         }

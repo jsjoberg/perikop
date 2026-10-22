@@ -13,7 +13,7 @@ from biblobok import articles, resolve_forms
 from modern import saldo_entries, morphology, resolve as resolve_modern, associations
 root=Path(__file__).resolve().parents[2]
 
-def build(db):
+def build(db, additional_words=None):
     """Resolve the Swedish 1917 words in db's verse table and write the word-study tables."""
     # --- Dalin entries and forms --------------------------------------------------
     entries={}  # lemgram -> (headword, gram, definition)
@@ -86,6 +86,8 @@ def build(db):
     counts={}
     for (text,) in db.execute("SELECT text FROM verse JOIN source ON source.id=source_id WHERE source.code='sv1917'"):
         for word in re.findall(r"[^\W\d_]+",text):counts[word.lower()]=counts.get(word.lower(),0)+1
+    for word,count in (additional_words or {}).items():
+        counts[word]=counts.get(word,0)+count
     resolved={word:resolve(word) for word in counts}
     biblical_entries=articles()
     biblical_forms=resolve_forms(biblical_entries,counts,spellings)

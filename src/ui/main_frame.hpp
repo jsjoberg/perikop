@@ -34,7 +34,7 @@ class ReadingRow;
 struct ReadingPlan;
 class MainFrame final : public wxFrame {
 public:
-    MainFrame(const CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources,
+    MainFrame(CorpusDb&, UserDb&, CivilDate date, const std::filesystem::path& resources,
               const std::filesystem::path& data, std::unique_ptr<UpdateBackend> updates,
               bool diagnostic = false);
     ~MainFrame() override;
@@ -99,6 +99,8 @@ private:
     void show_settings();
     void fill_settings(wxScrolledWindow*);
     void preview_voice();
+    void add_content_loader(wxWindow*, wxBoxSizer*);
+    void import_content();
     void show_updates();
     // The update dialog follows the updater's state.
     void show_update_status();
@@ -134,7 +136,7 @@ private:
     void follow_speech();
     void update_bar();
 
-    const CorpusDb& corpus_;
+    CorpusDb& corpus_;
     UserDb& user_;
     const std::filesystem::path resources_;
     const std::filesystem::path data_;

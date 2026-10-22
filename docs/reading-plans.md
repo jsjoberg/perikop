@@ -1,14 +1,18 @@
 # Reading-plan ranges and compatibility
 
-The three plans use fixed version-2 ranges. They preserve the previous book order and coverage, including Septuagint chapter numbering and the omission of books without Swedish text. The word counts below are the generator's estimates from the bundled Swedish text.
+The fixed version-3 plans use the [OSB reference authority](osb-reference.md).
+Book order and chapter divisions follow OSB, independently of the preferred text.
+Word estimates use Swedish 1917 where available and English for missing material.
 
-| Plan | Parts | Mean Swedish words | Range |
+| Plan | Parts | Mean words | Range |
 | --- | ---: | ---: | ---: |
-| New Testament | 60 | 3,016 | 2,131–4,139 |
-| Old Testament | 180 | 3,057 | 1,728–3,890 |
-| Other Septuagint books | 31 | 3,294 | 384–4,400 |
+| New Testament | 60 | 3,019 | 2,131–4,139 |
+| Old Testament | 182 | 3,070 | 1,390–4,543 |
+| Other Septuagint books | 36 | 3,336 | 2,124–4,392 |
 
-The 384-word exception is the complete Prayer of Manasseh. Giving it its own part avoids attaching it to only the beginning of Tobit.
+The OT plan includes Manasseh at 2 Chronicles 37 and Psalm 151. The other plan now
+includes 1 Ezra and 3 Maccabees. Books lacking Swedish text open with an enabled
+English or Greek source; those passages have no Swedish read-aloud.
 
 | NT section | Parts |
 | --- | --- |
@@ -20,26 +24,49 @@ The 384-word exception is the complete Prayer of Manasseh. Giving it its own par
 | Letters | 37–56 |
 | Revelation | 57–60 |
 
-Every part ends at a chapter boundary. Parts containing more than one book contain those books in full. Books that fit within 1.6 times the NT target length stay whole. Larger books split into chapter ranges; an extra cost for cuts inside letters favors fewer, slightly longer parts. Romans, 1–2 Corinthians, and Hebrews need splits; the shorter NT letters remain whole.
+Every part ends at a chapter boundary. A part containing several books contains
+those books in full. Gospels, Acts and Revelation never share a part with another
+book. Short letters remain whole; Romans, 1–2 Corinthians and Hebrews need splits.
+Whole chapters explain unavoidable variation: OSB 1 Kingdoms 1 has about 1,390
+words, while its expanded chapter 2 has about 4,543, so they cannot share one part.
 
-`tools/build_reading_plans.py` counts the bundled Swedish text, using the reader's Septuagint-to-Swedish mappings and counting merged counterparts once. It minimizes variation from the NT's mean length, with exactly 60 NT parts and freely chosen counts for the other plans. The generated ranges are compiled from `src/core/reading_plan_parts.inc`; the application never recalculates them from the user's chosen edition.
+`tools/build_reading_plans.py` counts each contiguous translation unit once.
+Repeated material at separate OSB locations counts at each occurrence. It minimizes
+variation around the NT mean, with exactly 60 NT parts and freely chosen counts for
+the other plans. Generated ranges compile from `src/core/reading_plan_parts.inc`;
+changing the user's edition never recalculates them.
 
 ```sh
-uv run --locked tools/build_reading_plans.py --check
+python tools/build_reading_plans.py --check
 ```
 
-Use `--write` only when deliberately editing the layout. Moving published boundaries requires a new progress-key version and a migration, even when the part count is unchanged.
+Use `--write` only when deliberately editing the layout. Published boundary changes
+require another key version and migration, even when the number of parts is unchanged.
 
-## Migration from the original 30/30/14-part plans
+## Compatibility
 
-Normal application startup calls `UserDb::migrate_reading_plans` once per profile. A single SQLite transaction transfers progress and records the `reading_plans_v2_migrated` marker. Failures roll back both the new rows and the marker, so the next launch can retry.
+Startup calls `UserDb::migrate_reading_plans`. The original 30/30/14-part layout is
+frozen in `legacy_reading_plan_parts.inc`; the previous 60/180/31-part layout is
+frozen in `reading_plan_v2_parts.inc`. The old source canon and frames remain
+available only for conversion. Neither frozen layout is regenerated from OSB data.
 
-- New keys such as `plan:nt:v2:7` cannot be confused with old keys such as `plan:nt:7`.
-- Completed old parts contribute all their framed verses. A valid checkpoint contributes the verses before the saved current verse, which is read again when resuming. If no plan checkpoint exists, the old reading's ordinary checkpoint is used.
-- A new part is complete only when all its verses are covered. Its date is the latest contributing completion date; text inferred from a checkpoint uses the migration date.
-- An incomplete part with known progress resumes at its first unread verse, with its section and percentage recalculated for the new range. This also handles Nehemiah's offset within Greek Ezra and Greek Esther's separate frame book.
-- Nonconsecutive old completions are handled independently. At a new boundary, already-read text after an unread gap may be shown again; the migration never skips the gap or marks unread text complete.
-- Existing v2 progress takes precedence. Legacy completion rows and checkpoints remain as recovery data, while unrelated settings, bookmarks, and day progress stay intact.
-- **Börja om** clears both old and new plan keys. The migration marker stays, so an intentional reset cannot be undone by a later launch.
+1. `reading_plan_migration.cpp` transfers v1 coverage into v2 keys in its own SQLite
+   transaction, with the `reading_plans_v2_migrated` marker.
+2. `osb_migration.cpp` transfers v2 coverage and ordinary reading checkpoints into
+   OSB v3 keys and `reading:osb-v1:...` keys in a second transaction, with the
+   `osb_v1_migrated` marker.
 
-The compatibility code is isolated in `src/storage/reading_plan_migration.cpp` and its frozen `legacy_reading_plan_parts.inc`. To retire support for the original layout, remove that code, its startup call, declaration, migration-specific tests, and CMake source entry. Keep the v2 key format and fixed ranges: old profiles will then start these plans without converted progress, rather than applying old ordinal numbers to new readings.
+Completed old parts contribute their original framed verses. A valid checkpoint
+contributes only verses before its current verse, which is read again on resume.
+A new verse is covered only when all its old source counterparts are covered.
+New OSB material without old coverage remains unread. Nonconsecutive completions
+are handled independently; the first unread gap determines the new checkpoint.
+
+Completion dates use the latest contributing date. Existing OSB completion or
+checkpoint rows take precedence. Original progress and positions remain as recovery
+data; settings, bookmarks and unrelated day progress are retained. Each phase rolls
+back its writes and marker on failure and can retry on the next launch.
+
+**Börja om** clears the plan's old and new keys. Both migration markers remain,
+so reset cannot resurrect cleared progress. The old converters and frozen tables
+can eventually be retired, but the v3 key format and published ranges must remain.

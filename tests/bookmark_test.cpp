@@ -24,15 +24,15 @@ int main(int argc, char** argv) {
             user.bookmark("en-web", john);
             user.bookmark("grc-lxx", {"Ps", {22, 1}, {22, 6}});
             user.bookmark("grc-lxx", {"Gen", {1, 1}, {1, 5}});
-            user.bookmark("en-web", {"John", {1, 1, "a"}, {1, 1, "b"}});
+            user.bookmark(osb_reference, {"Esth", {1, 1, "a"}, {1, 1, "b"}});
             user.bookmark("grc-lxx", {"Ezra", {11, 1}, {11, 3}});
             user.bookmark("grc-lxx", {"Ezra", {1, 1}, {1, 3}});
             const auto marks = user.bookmarks(corpus);
             check(marks.size() == 6, "Adding the same bookmark twice creates one entry");
             check(marks[0].passage.book == "Gen" && marks[1].passage.book == "Ezra" &&
                       marks[1].passage.first.chapter == 1 && marks[2].passage.first.chapter == 11 &&
-                      marks[3].passage.book == "Ps" && marks[4].passage.book == "John" &&
-                      marks[4].passage.first.suffix == "a" && marks[5].passage.first == john.first,
+                      marks[3].passage.book == "Esth" && marks[4].passage.book == "Ps" &&
+                      marks[3].passage.first.suffix == "a" && marks[5].passage.first == john.first,
                   "Bookmarks follow canon order, including framed canon books, then verse order");
         }
         {

@@ -1,4 +1,5 @@
 #include "ui/pronunciation_review.hpp"
+#include "core/reading_display.hpp"
 #include "speech/pronunciation_review.hpp"
 #include "ui/controls.hpp"
 #include "ui/theme.hpp"
@@ -252,9 +253,15 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
                                             : ui::utf8("NST SAMPA: " + word.sampa));
         examples = corpus.word_examples(word.form);
         contexts->Clear();
-        for (const auto& example : examples)
-            contexts->Append(ui::utf8(corpus.book_name(example.book)) +
-                             wxString::Format(" %d:%d", example.verse.ref.chapter, example.verse.ref.verse));
+        for (const auto& example : examples) {
+            const auto mapped = corpus.map_passage(
+                "sv1917", osb_reference,
+                {example.book, example.verse.ref, example.verse.last.value_or(example.verse.ref)});
+            contexts->Append(mapped.empty() ? ui::utf8("SV1917 · " + corpus.book_name(example.book)) +
+                                                  wxString::Format(" %d:%d", example.verse.ref.chapter,
+                                                                   example.verse.ref.verse)
+                                            : ui::utf8(passage_label(corpus, mapped)));
+        }
         if (!examples.empty()) {
             contexts->SetSelection(0);
             verse->ChangeValue(ui::utf8(examples[0].verse.text));

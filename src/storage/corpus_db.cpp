@@ -1,4 +1,5 @@
 #include "speech/speech.hpp"
+#include "storage/content_import.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
@@ -15,6 +16,14 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
     if (pragma_number(db_.get(), "PRAGMA user_version") != 10 ||
         pragma_number(db_.get(), "PRAGMA application_id") != 0x4f525443)
         throw std::runtime_error("Unsupported corpus schema");
+    const auto supplement = path.parent_path().parent_path() / "content/swedish-study.db";
+    if (std::filesystem::exists(supplement)) {
+        study_ = open(supplement, SQLITE_OPEN_READONLY);
+        exec(study_.get(), "PRAGMA query_only=ON");
+        if (pragma_number(study_.get(), "PRAGMA user_version") != 1 ||
+            pragma_number(study_.get(), "PRAGMA application_id") != 1330795603)
+            throw std::runtime_error("Unsupported Swedish dictionary supplement");
+    }
     for (const auto& source : sources())
         versification_.emplace(source.code, source.versification);
     Statement books(db_.get(), "SELECT code,abbreviation_sv,new_testament,deuterocanonical,stanzas,"
@@ -32,6 +41,8 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
     while (canon.row())
         canon_.push_back({canon.text(0), canon.text(1), canon.text(2), canon.text(3), canon.number(4),
                           canon.number(5), new_testament_book(canon.text(0))});
+    legacy_canon_ = canon_;
+    load_reference(path.parent_path() / "osb-reference.db");
 }
 bool CorpusDb::new_testament_book(const std::string& book) const {
     const auto it = books_.find(book);
@@ -41,7 +52,9 @@ bool CorpusDb::deuterocanonical_book(const std::string& book) const {
     const auto it = books_.find(book);
     return it != books_.end() && it->second.deuterocanonical;
 }
-bool CorpusDb::stanza_book(const std::string& book) const {
+bool CorpusDb::stanza_book(const std::string& book, int chapter) const {
+    if (book == "2Chr" && chapter == 37)
+        return true;
     const auto it = books_.find(book);
     return it != books_.end() && it->second.stanzas;
 }
@@ -74,10 +87,42 @@ std::string CorpusDb::source_for_language(const std::string& language, const std
     return {};
 }
 std::string CorpusDb::frame_source(const std::string& language, const std::string& book) const {
+    (void)language;
+    (void)book;
+    return osb_reference;
+}
+std::string CorpusDb::legacy_frame_source(const std::string& language, const std::string& book) const {
     return new_testament_book(book) ? source_for_language(language, book) : "grc-lxx";
 }
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
+}
+void CorpusDb::load_imported(const std::filesystem::path& path) {
+    if (!std::filesystem::exists(path))
+        return;
+    auto candidate = open(path, SQLITE_OPEN_READONLY);
+    exec(candidate.get(), "PRAGMA query_only=ON");
+    Statement schema(candidate.get(),
+                     "SELECT 1 FROM sqlite_master WHERE type='table' AND name='content_metadata'");
+    if (!schema.row())
+        return;
+    Statement valid(candidate.get(), "SELECT value FROM content_metadata WHERE key='srb2026'");
+    if (!valid.row())
+        return; // An interrupted first import has no committed installation.
+    if (valid.text(0).size() != 64)
+        throw std::runtime_error("Ogiltigt lokalt bibelinnehåll. Importera PDF-filerna igen.");
+    Statement count(candidate.get(), "SELECT count(*),count(DISTINCT book) FROM imported_verse");
+    if (!count.row() || count.number(0) != 31171 || count.number(1) != 66)
+        throw std::runtime_error("Det lokala bibelinnehållet är ofullständigt. Importera PDF-filerna igen.");
+    std::lock_guard lock(cache_mutex_);
+    imported_ = std::move(candidate);
+    versification_[srb_source] = "SRB2026";
+    std::erase_if(texts_, [](const auto& entry) {
+        return entry.first.first == srb_source;
+    });
+    std::erase_if(alignments_, [](const auto& entry) {
+        return std::get<0>(entry.first) == srb_source || std::get<1>(entry.first) == srb_source;
+    });
 }
 std::vector<WordExample> CorpusDb::word_examples(const std::string& word, int limit) const {
     Statement q(db_.get(), "SELECT book.code,chapter,verse,verse_suffix,text FROM verse JOIN book ON "
@@ -97,6 +142,8 @@ std::vector<Source> CorpusDb::sources() const {
     std::vector<Source> result;
     while (query.row())
         result.push_back({query.number(0), query.text(1), query.text(2), query.text(3), query.text(4)});
+    if (imported_)
+        result.push_back({100, srb_source, "sv", "Reformationsbibeln 2026", "SRB2026"});
     return result;
 }
 const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const std::string& book) const {
@@ -104,6 +151,32 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
     auto [entry, added] = texts_.try_emplace({source, book});
     if (!added)
         return entry->second;
+    if (source == osb_reference) {
+        Statement query(reference_.get(),
+                        "SELECT chapter,verse,suffix FROM coordinate WHERE book=? ORDER BY ordinal");
+        query.text(1, book);
+        auto& text = entry->second;
+        while (query.row()) {
+            const VerseRef ref{query.number(0), query.number(1), query.text(2)};
+            text.order.emplace(ref, text.coordinates.size());
+            text.coordinates.push_back(ref);
+        }
+        return text;
+    }
+    if (source == srb_source) {
+        if (imported_) {
+            Statement query(
+                imported_.get(),
+                "SELECT chapter,verse,text FROM imported_verse WHERE book=? ORDER BY chapter,verse");
+            query.text(1, book);
+            while (query.row()) {
+                entry->second.coordinates.push_back({query.number(0), query.number(1)});
+                entry->second.last_verses.push_back(query.number(1));
+                entry->second.texts.push_back(query.text(2));
+            }
+        }
+        return entry->second;
+    }
     Statement query(db_.get(),
                     "SELECT chapter,verse,verse_suffix,last_verse,text FROM verse JOIN source ON "
                     "source.id=verse.source_id JOIN book ON book.id=verse.book_id WHERE source.code=? "
@@ -120,6 +193,8 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
 }
 std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, const std::string& book,
                                                   VerseRef ref) const {
+    if (source == osb_reference)
+        return std::unexpected("OSB är referensramen, inte en installerad bibeltext");
     // The verse row that covers the number: the last one in the chapter that starts at or before it.
     const auto& text = book_text(source, book);
     const auto& refs = text.coordinates;
@@ -131,14 +206,42 @@ std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, con
             return Verse{*at, text.texts[i],
                          text.last_verses[i] == at->verse
                              ? std::nullopt
-                             : std::optional<VerseRef>{{ref.chapter, text.last_verses[i]}}};
+                             : std::optional<VerseRef>{{ref.chapter, text.last_verses[i]}},
+                         book};
     }
     return std::unexpected("Text saknas i denna utgåva");
 }
 const std::vector<VerseRef>& CorpusDb::coordinates(const std::string& source, const std::string& book) const {
     return book_text(source, book).coordinates;
 }
+int CorpusDb::compare(const std::string& source, const std::string& book, VerseRef a, VerseRef b) const {
+    if (source == osb_reference) {
+        const auto& order = book_text(source, book).order;
+        const auto ai = order.find(a), bi = order.find(b);
+        if (ai != order.end() && bi != order.end())
+            return ai->second < bi->second ? -1 : ai->second > bi->second ? 1 : 0;
+    }
+    return a < b ? -1 : a > b ? 1 : 0;
+}
+bool CorpusDb::contains(const std::string& source, const Passage& passage, VerseRef ref) const {
+    return compare(source, passage.book, passage.first, ref) <= 0 &&
+           compare(source, passage.book, ref, passage.last) <= 0;
+}
 std::vector<VerseRef> CorpusDb::paragraph_starts(const std::string& source, const std::string& book) const {
+    if (source == osb_reference) {
+        std::vector<VerseRef> result;
+        for (const auto& ref : coordinates(source, book))
+            if (ref.verse == 1 || stanza_book(book, ref.chapter))
+                result.push_back(ref);
+        return result;
+    }
+    if (source == srb_source) {
+        std::vector<VerseRef> result;
+        for (const auto& ref : coordinates(source, book))
+            if (ref.verse == 1 || stanza_book(book))
+                result.push_back(ref);
+        return result;
+    }
     Statement query(
         db_.get(),
         "SELECT chapter,verse,verse_suffix FROM paragraph JOIN source ON source.id=source_id JOIN book ON "
@@ -156,6 +259,26 @@ const std::vector<Alignment>& CorpusDb::book_alignment(const std::string& from, 
     auto [entry, added] = alignments_.try_emplace({from, to, book});
     if (!added)
         return entry->second;
+    if (from == srb_source || to == srb_source) {
+        if (imported_) {
+            Statement query(
+                imported_.get(),
+                "SELECT kind,fc,fv,fs,lc,lv,ls,tbook,tfc,tfv,tfs,tlc,tlv,tls "
+                "FROM imported_alignment WHERE source=? AND target=? AND book=? ORDER BY fc,fv,fs");
+            query.text(1, from);
+            query.text(2, to);
+            query.text(3, book);
+            while (query.row())
+                entry->second.push_back({static_cast<AlignmentKind>(query.number(0)),
+                                         {book,
+                                          {query.number(1), query.number(2), query.text(3)},
+                                          {query.number(4), query.number(5), query.text(6)}},
+                                         {query.text(7),
+                                          {query.number(8), query.number(9), query.text(10)},
+                                          {query.number(11), query.number(12), query.text(13)}}});
+        }
+        return entry->second;
+    }
     Statement query(
         db_.get(),
         "SELECT "
@@ -182,6 +305,41 @@ const std::vector<Alignment>& CorpusDb::book_alignment(const std::string& from, 
 }
 std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std::string& to,
                                              const Passage& passage) const {
+    if (from == osb_reference || to == osb_reference) {
+        if (passage.first != passage.last)
+            return {};
+        const auto& links = reference_links(from, to, passage.book);
+        const auto found = links.find(passage.first);
+        if (found == links.end() || found->second.empty())
+            return Alignment{AlignmentKind::LxxOnly, passage, {"", {0, 0}, {0, 0}}};
+        const auto& targets = found->second;
+        if (std::ranges::any_of(targets, [&](const auto& target) {
+                return target.first != targets.front().first;
+            }))
+            return {};
+        const auto& refs = coordinates(from, passage.book);
+        auto first = std::find(refs.begin(), refs.end(), passage.first), last = first;
+        while (first != refs.begin() && first != refs.end()) {
+            const auto previous = links.find(*(first - 1));
+            if (previous == links.end() || previous->second != targets)
+                break;
+            --first;
+        }
+        while (last != refs.end() && last + 1 != refs.end()) {
+            const auto next = links.find(*(last + 1));
+            if (next == links.end() || next->second != targets)
+                break;
+            ++last;
+        }
+        const Passage span{passage.book, first == refs.end() ? passage.first : *first,
+                           last == refs.end() ? passage.last : *last};
+        const auto kind = span.first != span.last ? AlignmentKind::Merged
+                          : targets.size() > 1    ? AlignmentKind::Split
+                          : targets.front() == std::pair{passage.book, passage.first}
+                              ? AlignmentKind::Same
+                              : AlignmentKind::Renumbered;
+        return Alignment{kind, span, {targets.front().first, targets.front().second, targets.back().second}};
+    }
     // The row with the latest start at or before the passage that also reaches its end.
     const auto& rows = book_alignment(from, to, passage.book);
     auto at = std::upper_bound(rows.begin(), rows.end(), passage.first,
@@ -196,6 +354,8 @@ std::optional<Alignment> CorpusDb::alignment(const std::string& from, const std:
     return {};
 }
 bool CorpusDb::same_numbering(const std::string& from, const std::string& to, const std::string& book) const {
+    if (from == osb_reference || to == osb_reference)
+        return false;
     const auto f = versification_.find(from), t = versification_.find(to);
     return f != versification_.end() && t != versification_.end() &&
            (f->second == t->second || new_testament_book(book));
@@ -204,6 +364,13 @@ std::vector<std::pair<std::string, VerseRef>> CorpusDb::counterparts(const std::
                                                                      const std::string& to,
                                                                      const std::string& book,
                                                                      VerseRef ref) const {
+    if (from == to)
+        return {{book, ref}};
+    if (from == osb_reference || to == osb_reference) {
+        const auto& links = reference_links(from, to, book);
+        const auto it = links.find(ref);
+        return it == links.end() ? ReferenceTargets{} : it->second;
+    }
     const auto map = alignment(from, to, {book, ref, ref});
     if (!map) {
         // Same-coordinate lookup is only safe inside matching versification systems.
@@ -216,7 +383,7 @@ std::vector<std::pair<std::string, VerseRef>> CorpusDb::counterparts(const std::
     std::vector<std::pair<std::string, VerseRef>> result;
     if (map->from.first == map->from.last || map->kind == AlignmentKind::Merged) {
         for (auto target : coordinates(to, map->to.book))
-            if (map->to.contains(target))
+            if (contains(to, map->to, target))
                 result.emplace_back(map->to.book, target);
         return result;
     }
@@ -229,19 +396,28 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
                                                            const std::string& book, VerseRef ref) const {
     if (from == to)
         return verse(to, book, ref);
+    const bool reference_mapping = from == osb_reference || to == osb_reference;
     const auto map = alignment(from, to, {book, ref, ref});
     if (map && map->to.book.empty())
         return std::unexpected(to == "grc-lxx" ? "Saknas i Septuaginta" : "Saknas i denna utgåva");
     if (map && map->kind == AlignmentKind::Merged && ref != map->from.first)
         return std::unexpected(merged_verse);
-    if (!map && !same_numbering(from, to, book))
+    if (!map && !reference_mapping && !same_numbering(from, to, book))
         return std::unexpected(coordinates(to, book).empty() ? "Saknas i denna utgåva"
                                                              : "Ingen belagd textmappning");
     const auto targets = counterparts(from, to, book, ref);
     if (targets.empty())
-        return std::unexpected("Text saknas i denna utgåva");
+        return std::unexpected(reference_mapping ? "Ingen belagd motsvarighet i denna utgåva"
+                                                 : "Text saknas i denna utgåva");
+    if (reference_mapping && !map) {
+        const auto& refs = coordinates(from, book);
+        const auto at = std::find(refs.begin(), refs.end(), ref);
+        if (at != refs.begin() && at != refs.end() && counterparts(from, to, book, *(at - 1)) == targets)
+            return std::unexpected(merged_verse);
+    }
     Verse result{targets.front().second, "",
-                 targets.size() > 1 ? std::optional<VerseRef>{targets.back().second} : std::nullopt};
+                 targets.size() > 1 ? std::optional<VerseRef>{targets.back().second} : std::nullopt,
+                 targets.front().first};
     for (const auto& [target_book, target] : targets) {
         auto part = verse(to, target_book, target);
         if (!part)
@@ -260,7 +436,7 @@ std::vector<Passage> CorpusDb::map_passage(const std::string& from, const std::s
         return {passage};
     std::vector<std::pair<std::string, VerseRef>> found;
     for (auto ref : coordinates(from, passage.book))
-        if (passage.contains(ref))
+        if (contains(from, passage, ref))
             for (const auto& target : counterparts(from, to, passage.book, ref))
                 if (std::find(found.begin(), found.end(), target) == found.end())
                     found.push_back(target);
@@ -316,20 +492,28 @@ std::vector<Passage> CorpusDb::map_passage(const std::string& from, const std::s
     return result;
 }
 Reading CorpusDb::localize(Reading reading) const {
-    if (!reading.source_override.empty())
-        return reading;
     std::vector<Passage> parts;
     for (const auto& segment : reading.segments()) {
-        const auto mapped = map_passage(
-            reading.reference.empty() ? frame_source(reading.base_language, segment.book) : reading.reference,
-            frame_source(reading.base_language, segment.book), segment);
-        // An edition without the book keeps the reference coordinates; the reader falls back to another
-        // edition.
-        const auto chosen = mapped.empty() ? std::vector<Passage>{segment} : mapped;
-        parts.insert(parts.end(), chosen.begin(), chosen.end());
+        const auto from =
+            reading.reference.empty()
+                ? (reading.source_override.empty() ? std::string(osb_reference) : reading.source_override)
+                : reading.reference;
+        if (from == osb_reference) {
+            const auto& refs = coordinates(osb_reference, segment.book);
+            if (std::ranges::find(refs, segment.first) == refs.end() ||
+                std::ranges::find(refs, segment.last) == refs.end())
+                throw std::runtime_error("Referensen finns inte i OSB.");
+        }
+        const auto mapped = map_passage(from, frame_source(reading.base_language, segment.book), segment);
+        if (mapped.empty())
+            throw std::runtime_error("Ingen belagd OSB-mappning för detta avsnitt.");
+        parts.insert(parts.end(), mapped.begin(), mapped.end());
     }
+    if (parts.empty())
+        throw std::runtime_error("Ingen belagd OSB-mappning för detta avsnitt.");
     reading.passage = parts.front();
     reading.additional.assign(parts.begin() + 1, parts.end());
+    reading.reference = osb_reference;
     return reading;
 }
 std::vector<Pronunciation> CorpusDb::pronunciations(const std::string& language) const {
@@ -339,6 +523,14 @@ std::vector<Pronunciation> CorpusDb::pronunciations(const std::string& language)
     std::vector<Pronunciation> result;
     while (query.row())
         result.push_back({query.text(0), query.text(1), query.text(2), query.text(3), query.number(4)});
+    if (study_) {
+        Statement extra(
+            study_.get(),
+            "SELECT language,source,spoken,phonemes,priority FROM pronunciation WHERE language=?");
+        extra.text(1, language);
+        while (extra.row())
+            result.push_back({extra.text(0), extra.text(1), extra.text(2), extra.text(3), extra.number(4)});
+    }
     return result;
 }
 std::string CorpusDb::book_name(const std::string& book, const std::string& language) const {

@@ -1,3 +1,4 @@
+#include "core/reading_display.hpp"
 #include "core/source_preferences.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
@@ -44,8 +45,12 @@ UserDb::UserDb(const std::filesystem::path& path) {
          "last_chapter,last_verse,last_suffix)) STRICT");
 }
 void UserDb::bookmark(const std::string& source, const Passage& passage) {
+    const bool esther_prelude = source == osb_reference && passage.book == "Esth" &&
+                                passage.first.chapter == 1 && passage.first.verse == 1 &&
+                                passage.first.suffix.size() == 1 && passage.first.suffix[0] >= 'a' &&
+                                passage.first.suffix[0] <= 'r' && passage.last == VerseRef{1, 1};
     if (source.empty() || passage.book.empty() || passage.first.chapter < 1 || passage.first.verse < 1 ||
-        passage.last.verse < 1 || passage.last < passage.first)
+        passage.last.verse < 1 || (passage.last < passage.first && !esther_prelude))
         throw std::invalid_argument("Invalid bookmark passage");
     Statement query(db_.get(), "INSERT INTO bookmark(source,book,first_chapter,first_verse,first_suffix,"
                                "last_chapter,last_verse,last_suffix) VALUES(?,?,?,?,?,?,?,?) "
@@ -76,10 +81,14 @@ std::vector<Bookmark> UserDb::bookmarks(const CorpusDb& corpus) const {
                            {query.number(3), query.number(4), query.text(5)},
                            {query.number(6), query.number(7), query.text(8)}}});
     const auto order = [&corpus](const Bookmark& mark) {
-        const auto* book = corpus.canon_book(mark.passage.book, mark.passage.first.chapter);
+        const auto mapped = bookmark_passages(corpus, mark);
+        const auto passage = mapped.empty() ? mark.passage : mapped.front();
+        const auto* book = corpus.canon_book(passage.book, passage.first.chapter);
         const auto& canon = corpus.canon();
         const auto index = book ? std::size_t(book - canon.data()) : canon.size();
-        return std::tuple{index, mark.passage.book, mark.passage.first, mark.passage.last, mark.source};
+        const auto& refs = corpus.coordinates(osb_reference, passage.book);
+        const auto at = std::find(refs.begin(), refs.end(), passage.first) - refs.begin();
+        return std::tuple{index, at, mark.id};
     };
     std::ranges::sort(result, {}, order);
     return result;

@@ -1,6 +1,23 @@
 #include "core/reading_display.hpp"
 #include "storage/database.hpp"
 namespace ortho {
+std::vector<Passage> bookmark_passages(const CorpusDb& corpus, const Bookmark& mark) {
+    Reading reading{ReadingKind::OldTestament, mark.passage};
+    reading.reference = mark.source;
+    try {
+        return corpus.localize(reading).segments();
+    } catch (const std::exception&) {
+        return {};
+    }
+}
+std::string bookmark_label(const CorpusDb& corpus, const Bookmark& mark) {
+    const auto parts = bookmark_passages(corpus, mark);
+    if (!parts.empty())
+        return passage_label(corpus, parts);
+    return "OSB-mappning saknas · " + mark.source + " · " + mark.passage.book + " " +
+           std::to_string(mark.passage.first.chapter) + ":" + std::to_string(mark.passage.first.verse) +
+           mark.passage.first.suffix;
+}
 Passage displayed_passage(const CorpusDb& corpus, Passage passage) {
     // A framing passage in the book and chapter numbers the reader shows.
     if (const auto* canon = corpus.canon_book(passage.book, passage.first.chapter)) {

@@ -779,6 +779,72 @@
       "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
       "license": "CC0-1.0",
       "role": "Creative Commons Attribution 4.0 International legal text for bundled CC BY datasets"
+    },
+    {
+      "path": "resources/content/srb2026.recipe",
+      "sha256": "164c8fdc9b674c150caae3aa7bb04a771d15e7ca9f6c6d03852204d2814c93ca",
+      "license": "MIT",
+      "generated": "tools/content/build_srb_recipe.py"
+    },
+    {
+      "path": "resources/content/swedish-study.db",
+      "sha256": "6188caa768faac60d63acb647ecf472ae788d2a3ec8167eb8291ae598e4b3c37",
+      "license": "CC-BY-4.0 AND Public-Domain",
+      "generated": "tools/content/build_swedish_supplement.py"
+    },
+    {
+      "path": "resources/content/pronunciation-aliases.tsv",
+      "sha256": "ec8442e35c30fcd81250f2965810ea5b09321467c18aab5989908f235d9f3c2b",
+      "license": "MIT",
+      "generated": "manually curated"
+    },
+    {
+      "path": "resources/licenses/tiny-AES-Unlicense.txt",
+      "sha256": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+      "license": "Unlicense",
+      "url": "https://github.com/kokke/tiny-AES-c"
+    },
+    {
+      "path": "resources/licenses/miniz-MIT.txt",
+      "sha256": "0115478d567121238cf6cc1c0c361926cf07a49d9e4c9e66da97fac6a01646b3",
+      "license": "MIT",
+      "url": "https://github.com/richgel999/miniz"
+    },
+    {
+      "path": "resources/licenses/PicoSHA2-MIT.txt",
+      "sha256": "6c30eb1f37554ec4199cb82a8c86d9e7a852da78a757832bebb03ac9ddc44ff1",
+      "license": "MIT",
+      "url": "https://github.com/okdshin/PicoSHA2"
+    },
+    {
+      "path": "resources/content/srb2026-chapters.tsv",
+      "sha256": "68d098aea71029ae6c4b2c34c578476900721d6b415cca78545755811c3a1485",
+      "license": "MIT",
+      "generated": "reviewed structural inventory for tools/content/build_srb_recipe.py"
+    },
+    {
+      "path": "resources/corpus/osb-reference.db",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "f32a75ec081b4fac8780baaf67791d8b60482ea8b2f0ba241d1544549e9dee95"
+    },
+    {
+      "path": "resources/corpus/osb-provenance.json",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "4290bf55c2f0980683da04cef0308ffc78c71d235aa5027633679dc29c3f52cb"
+    },
+    {
+      "path": "resources/corpus/osb-reviewed.tsv",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "8d70b99b9f5c8cae398c097340c535ca6b9e7f2b4e931fabdf8207251cc1dac6"
+    },
+    {
+      "path": "resources/corpus/osb-frame.tsv",
+      "license": "MIT",
+      "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
+      "sha256": "76ec7bdcd897bf8aaa26f8e532df2dc4b2a9381e327e89376bb653dae19e2256"
     }
   ],
   "build_dependencies": [

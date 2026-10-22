@@ -11,7 +11,7 @@ const std::vector<ReadingPlan>& reading_plans() {
     return plans;
 }
 std::string plan_key(const ReadingPlan& plan, std::size_t part) {
-    return "plan:" + plan.id + ":v2:" + std::to_string(part + 1);
+    return "plan:" + plan.id + ":v3:" + std::to_string(part + 1);
 }
 std::string plan_label(const CorpusDb& corpus, const PlanPart& part, bool short_names) {
     // Books of one chapter are named without a chapter number, as in "Filem".
@@ -30,18 +30,21 @@ std::string plan_label(const CorpusDb& corpus, const PlanPart& part, bool short_
     }
     return label;
 }
-Reading plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::string& language) {
+namespace {
+Reading make_plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::string& language,
+                          bool legacy) {
     std::vector<Passage> passages;
     std::string reference;
     bool new_testament = false;
     for (const auto& range : part) {
-        const auto& canon = corpus.canon();
+        const auto& canon = legacy ? corpus.legacy_canon() : corpus.canon();
         const auto book = std::find_if(canon.begin(), canon.end(), [&](const CanonBook& candidate) {
             return candidate.code == range.book;
         });
         if (book == canon.end())
             throw std::logic_error("Okänd bok i läsplanen: " + range.book);
-        const auto frame = corpus.frame_source(language, book->frame_book);
+        const auto frame = legacy ? corpus.legacy_frame_source(language, book->frame_book)
+                                  : corpus.frame_source(language, book->frame_book);
         const int first = range.first + book->offset(), last = range.last + book->offset();
         std::optional<VerseRef> begin, end;
         for (const auto& ref : corpus.coordinates(frame, book->frame_book))
@@ -64,5 +67,12 @@ Reading plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::st
                     language};
     reading.reference = reference;
     return reading;
+}
+} // namespace
+Reading plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::string& language) {
+    return make_plan_reading(corpus, part, language, false);
+}
+Reading legacy_plan_reading(const CorpusDb& corpus, const PlanPart& part, const std::string& language) {
+    return make_plan_reading(corpus, part, language, true);
 }
 } // namespace ortho

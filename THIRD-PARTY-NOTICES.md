@@ -1,5 +1,14 @@
 # Third-party notices
 
+## OSB reference metadata
+
+`resources/corpus/osb-reference.db` contains coordinate metadata and translation
+crosswalks compiled under this project's MIT license. The reference authority is
+the Orthodox Study Bible, Thomas Nelson 2008, ISBN 9781418578633. Its Bible wording,
+study notes and articles are not included. The local comparison uses the pinned
+public-domain KJV and Brenton witnesses and the existing source mappings. See
+`docs/osb-reference.md` for provenance and regeneration instructions.
+
 The application code uses the MIT license. These resources have their own terms.
 
 ## Fonts
@@ -242,3 +251,21 @@ https://github.com/espeak-ng/espeak-ng
 
 The build copies these complete speech dependency notices into the application resources.
 The application does not include macOS, Windows, or Linux system speech voices.
+
+## Local content importer
+
+The importer compiles small, unmodified helpers from these pinned sources:
+
+- tiny-AES-c, The Unlicense, commit `23856752fbd139da0b8ca6e471a13d5bcc99a08d`:
+  https://github.com/kokke/tiny-AES-c. License: `resources/licenses/tiny-AES-Unlicense.txt`.
+- PicoSHA2, MIT, commit `161cb3fc4170fa7a3eca9e582cebd27cc4d1fe29`:
+  https://github.com/okdshin/PicoSHA2. License: `resources/licenses/PicoSHA2-MIT.txt`.
+- miniz's independent inflater, MIT, commit `2948eebafc5b9f1c69bebed80333e403a09bd62d`:
+  https://github.com/richgel999/miniz. License: `resources/licenses/miniz-MIT.txt`.
+  Perikop supplies two small wrapper headers instead of the unused ZIP and compression APIs.
+
+Reformationsbibeln 2026 is **not bundled**. Users obtain its Old and New Testament
+PDFs from Svenska Reformationsbibelsällskapet (https://bibel.se/) and import them
+locally. The distribution contains a structural extraction recipe, coordinate
+mappings, and separate word-study data from the existing licensed dictionary sources;
+it contains neither PDF nor extracted Bible passages. See `docs/local-bible-content.md`.

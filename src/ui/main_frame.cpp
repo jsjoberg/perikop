@@ -47,9 +47,9 @@ wxString kind_label(ReadingKind kind) {
     return {};
 }
 } // namespace
-MainFrame::MainFrame(const CorpusDb& corpus, UserDb& user, CivilDate date,
-                     const std::filesystem::path& resources, const std::filesystem::path& data,
-                     std::unique_ptr<UpdateBackend> updates, bool diagnostic)
+MainFrame::MainFrame(CorpusDb& corpus, UserDb& user, CivilDate date, const std::filesystem::path& resources,
+                     const std::filesystem::path& data, std::unique_ptr<UpdateBackend> updates,
+                     bool diagnostic)
     : wxFrame(nullptr, wxID_ANY, "Perikop", wxDefaultPosition, wxSize(1120, 900)), corpus_(corpus),
       user_(user), resources_(resources), data_(data), diagnostic_(diagnostic), lectionary_(corpus),
       selected_(date), settings_(user.load()), updater_(std::make_unique<Updater>(
@@ -372,6 +372,13 @@ void MainFrame::open_psalm() {
     open_reading(psalm);
 }
 void MainFrame::open_reading(const Reading& selected) {
+    try {
+        corpus_.localize(in_swedish(selected));
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Referensen kunde inte öppnas"),
+                     wxOK | wxICON_INFORMATION, this);
+        return;
+    }
     save_navigation();
     pause_for_navigation();
     if (playback_.select_reading(*speech_)) {
@@ -384,6 +391,7 @@ void MainFrame::open_reading(const Reading& selected) {
     record_navigation();
 }
 void MainFrame::show_reading(const Reading& selected) {
+    const auto reading = corpus_.localize(in_swedish(selected));
     close_pages();
     visible_reading_ = selected;
     // Lyssna is offered only where playback would find Swedish verses to read.
@@ -398,7 +406,6 @@ void MainFrame::show_reading(const Reading& selected) {
     playback_.forget_location();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
-    const auto reading = corpus_.localize(in_swedish(selected));
     navigation_.show_root(Screen::Reader);
     present_navigation();
     study_->clear();

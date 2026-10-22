@@ -100,15 +100,15 @@ void BiblePicker::rebuild() {
                 books.drawer = book_drawer(book);
             }
             // Books without Swedish text open too, for their Greek and English text.
-            books.cells.push_back(
-                {ui::utf8(book.abbreviation),
-                 ui::utf8(book.name) + (available(book) ? wxString{} : ui::utf8(", Svenska saknas")), true,
-                 open ? State::Selected : State::Plain, [this, book, open] {
-                     if (open)
-                         show_books();
-                     else
-                         select_book(book);
-                 }});
+            books.cells.push_back({ui::utf8(book.abbreviation),
+                                   ui::utf8(book.name + " · OSB: " + corpus_.reference_name(book.code)) +
+                                       (available(book) ? wxString{} : ui::utf8(", Svenska saknas")),
+                                   true, open ? State::Selected : State::Plain, [this, book, open] {
+                                       if (open)
+                                           show_books();
+                                       else
+                                           select_book(book);
+                                   }});
         }
         blocks.push_back(std::move(books));
     }
@@ -121,8 +121,8 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     using State = PickerGrid::State;
     const auto verses = verses_of(book);
     const bool pending = first_ && range_book_ && range_book_->code == book.code;
-    const auto low = pending ? std::min(*first_, last_.value_or(*first_)) : VerseRef{};
-    const auto high = pending ? std::max(*first_, last_.value_or(*first_)) : VerseRef{};
+    const auto low = pending ? *first_ : VerseRef{};
+    const auto high = pending ? last_.value_or(*first_) : VerseRef{};
     // Lägg till makes the selection the next part of one reading, as Del 1, Del 2 and so on.
     const bool selection = first_ && range_book_;
     std::vector<Block> drawer;
@@ -185,15 +185,15 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
         // Shade the selected range and mark its ends.
         Block numbers{.kind = Block::Kind::Cells};
         for (const auto& ref : in_chapter)
-            numbers.cells.push_back({wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
-                                     ui::verse_tooltip(corpus_, frame(book), book.frame_book, ref, false),
-                                     true,
-                                     !pending || ref < low || high < ref ? State::Plain
-                                     : ref == low || ref == high         ? State::Selected
-                                                                         : State::Marked,
-                                     [this, book, ref] {
-                                         select_verse(book, ref);
-                                     }});
+            numbers.cells.push_back(
+                {wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
+                 ui::verse_tooltip(corpus_, frame(book), book.frame_book, ref, false), true,
+                 !pending || !corpus_.contains(frame(book), {book.frame_book, low, high}, ref) ? State::Plain
+                 : ref == low || ref == high ? State::Selected
+                                             : State::Marked,
+                 [this, book, ref] {
+                     select_verse(book, ref);
+                 }});
         verse_drawer.push_back(std::move(numbers));
     }
     drawer.push_back(std::move(chapters));
@@ -266,8 +266,9 @@ void BiblePicker::select_single_range(const CanonBook& book, VerseRef first, Ver
         anchor_unit_ = unit;
     }
     range_book_ = book;
-    first_ = std::min(anchor_->first, first);
-    last_ = std::max(anchor_->last, last);
+    first_ =
+        corpus_.compare(frame(book), book.frame_book, anchor_->first, first) < 0 ? anchor_->first : first;
+    last_ = corpus_.compare(frame(book), book.frame_book, anchor_->last, last) > 0 ? anchor_->last : last;
     update_selection();
 }
 void BiblePicker::select_verse(CanonBook book, VerseRef ref) {
@@ -327,7 +328,7 @@ void BiblePicker::open_passages(const std::vector<Passage>& passages) {
                     passages.front(),
                     {passages.begin() + 1, passages.end()},
                     "sv"};
-    reading.reference.clear();
+    reading.reference = osb_reference;
     auto chosen = chosen_; // The callback can destroy this page.
     chosen(std::move(reading));
 }

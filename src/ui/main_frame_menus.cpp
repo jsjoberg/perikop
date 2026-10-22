@@ -129,6 +129,7 @@ public:
     }
     void item(const wxString& label, const wxString& shortcut, bool enabled, std::function<void()> action,
               const wxString& help = {}) {
+        // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks): wx owns this child and its callback.
         auto* row = new MenuRow(panel_, label, shortcut, [this, action = std::move(action)] {
             chosen_ = action;
             DismissAndNotify();
@@ -182,6 +183,7 @@ public:
                 (*buttons)[direction < 0]->SetFocus();
         };
         for (int i = 0; i < 2; ++i) {
+            // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks): wx owns this child and its callback.
             auto* button = new SymbolButton(panel_, i ? Symbol::Plus : Symbol::Minus, i ? more : less, [=] {
                 press(i ? 1 : -1);
             });
@@ -899,7 +901,7 @@ wxMenu* MainFrame::bookmark_menu() {
     }
     auto* remove = new wxMenu;
     for (const auto& mark : marks) {
-        const auto label = ui::utf8(passage_label(corpus_, {mark.passage}));
+        const auto label = ui::utf8(bookmark_label(corpus_, mark));
         auto* entry = menu->Append(wxID_ANY, label, ui::utf8("Öppna det sparade bibelstället"));
         menu->Bind(
             wxEVT_MENU,
@@ -946,6 +948,13 @@ void MainFrame::open_bookmark(const Bookmark& bookmark) {
                                                                       : ReadingKind::OldTestament,
                     bookmark.passage};
     reading.reference = bookmark.source;
+    try {
+        corpus_.localize(reading);
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Bokmärket saknar OSB-mappning"),
+                     wxOK | wxICON_INFORMATION, this);
+        return;
+    }
     open_reading(reading);
     scripture_->open_section(0);
     part_ = 0;
@@ -956,10 +965,9 @@ void MainFrame::open_bookmark(const Bookmark& bookmark) {
     save_navigation();
 }
 void MainFrame::remove_bookmark(const Bookmark& bookmark) {
-    wxMessageDialog question(this,
-                             ui::utf8("Vill du ta bort bokmärket för ") +
-                                 ui::utf8(passage_label(corpus_, {bookmark.passage})) + "?",
-                             ui::utf8("Ta bort bokmärke"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+    wxMessageDialog question(
+        this, ui::utf8("Vill du ta bort bokmärket för ") + ui::utf8(bookmark_label(corpus_, bookmark)) + "?",
+        ui::utf8("Ta bort bokmärke"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
     question.SetYesNoLabels(ui::utf8("Ta bort"), ui::utf8("Avbryt"));
     if (question.ShowModal() != wxID_YES)
         return;
