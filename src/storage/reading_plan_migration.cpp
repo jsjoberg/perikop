@@ -1,6 +1,7 @@
 #include "core/reading_plan.hpp"
 #include "core/reading_position.hpp"
 #include "storage/database.hpp"
+#include "storage/legacy_progress.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
 #include <map>
@@ -33,7 +34,7 @@ std::vector<FramedVerse> framed_verses(const CorpusDb& corpus, const Reading& re
     const auto passages = reading.segments();
     for (std::size_t section = 0; section < passages.size(); ++section) {
         const auto& passage = passages[section];
-        const auto source = corpus.legacy_frame_source("sv", passage.book);
+        const auto source = legacy_frame_source(corpus, "sv", passage.book);
         for (const auto& verse : corpus.coordinates(source, passage.book))
             if (passage.contains(verse))
                 result.push_back({section, {source, passage.book, verse}});
