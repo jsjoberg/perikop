@@ -30,17 +30,17 @@ for form,count in counts.items():
 rows.sort(key=lambda r:(-r[1],r[0]))
 out=root/'resources/lexicon/sv1917-words.tsv'
 out.parent.mkdir(parents=True,exist_ok=True)
-with out.open('w',encoding='utf-8') as f:
+with out.open('w',encoding='utf-8',newline='\n') as f:
     f.write('# form\toccurrences\tkind\tnst_sampa\n')
     for row in rows:f.write('\t'.join(map(str,row))+'\n')
 manifest=root/'resources/manifest.json'
-metadata=json.loads(manifest.read_text())
+metadata=json.loads(manifest.read_text(encoding='utf-8'))
 asset={"path":"resources/lexicon/sv1917-words.tsv",
        "url":json.loads((Path(__file__).parent/'inputs.json').read_text())["nst"]["url"],
        "sha256":hashlib.sha256(out.read_bytes()).hexdigest(),"license":"CC0-1.0 (NST); public-domain corpus word counts",
        "role":"Generated Swedish 1917 word forms with NST SAMPA references"}
 metadata['assets']=[value for value in metadata['assets'] if value.get('path')!=asset['path']]+[asset]
-manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
+manifest.write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 missing=[r for r in rows if not r[3]]
 print(f'{len(rows)} forms, {sum(r[2]=="name" for r in rows)} names; NST covers {len(rows)-len(missing)}; '
       f'missing {len(missing)} ({sum(r[2]=="name" for r in missing)} names, {sum(r[1] for r in missing)} occurrences)')
