@@ -12,6 +12,7 @@ from mapping import Mapper
 root=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(root/'tools/lexicon'))
 import build_study
+from phonemes import CODES
 inputs=root/'resources/corpus/input'
 WORK=root/'build/corpus/work.db'
 # OSIS codes preserve the existing public API; USFM identifies Greek inputs.
@@ -122,22 +123,23 @@ with sqlite3.connect(temp) as db:
    if ref in mapper.coordinates('en-lxx2012',target):db.execute('INSERT OR IGNORE INTO paragraph VALUES(4,?,?,?,?,?)',(ids[target],*ref,'Greek USFM'))
  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100)])
  # Swedish phonemes. Names also get a genitive -s; word-only corrections do not.
- phones=set('abdefhijklmnoprstuvyøŋœɑɔɕɖəɛɡɧɪɭɳɵʂʈʉʊʏˈˌː')
+ # eSpeak NG Swedish codes, read longest first, with exactly one primary stress.
+ codes='|'.join(re.escape(c) for c in sorted(set(CODES.values()),key=len,reverse=True))
  for line in (root/'resources/corpus/pronunciation-sv.tsv').read_text().splitlines():
   if not line or line.startswith('#'):continue
   fields=line.split('\t')
   if len(fields) not in (2,3) or (len(fields)==3 and fields[2]!='word-only'):raise SystemExit('Invalid pronunciation row: '+line)
-  word,ipa=fields[:2]
-  if not set(ipa)<=phones or ipa.count('ˈ')!=1:raise SystemExit('Invalid phonemes for '+word+': '+ipa)
+  word,phones=fields[:2]
+  if not re.fullmatch(f'(?:{codes})+',phones) or phones.count("'")!=1:raise SystemExit('Invalid phonemes for '+word+': '+phones)
   # A phrase gives its bracketed word one sense. It outranks review corrections (1000) and previews (2000).
   if '[' in word:
    if len(fields)!=2:raise SystemExit('A phrase cannot have a word-only flag: '+word)
    m=re.fullmatch(r'([^\[\]]*)\[([^\[\]\s]+)\]([^\[\]]*)',word)
    if not m or not (m[1]+m[3]).strip():raise SystemExit('A phrase needs one [word] and context: '+word)
-   db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',m[1]+m[2]+m[3],m[1]+'⟦'+ipa+'⟧'+m[3],'',3000))
+   db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',m[1]+m[2]+m[3],m[1]+'⟦'+phones+'⟧'+m[3],'',3000))
    continue
-  db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word,'',ipa,50))
-  if len(fields)==2:db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word+'s','',ipa+'s',50))
+  db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word,'',phones,50))
+  if len(fields)==2:db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word+'s','',phones+'s',50))
  # Import recurring and dated references, never third-party Scripture wording.
  # Rows are tagged common, greek or slavic; antiochian.json adds the Antiochian
  # Archdiocese's own readings in the same format, each in the slot it replaces.

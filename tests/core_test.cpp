@@ -832,40 +832,41 @@ int main(int argc, char** argv) {
               "phrase and Swedish token matching");
         check(make_utterance("Melkisedek", "en", lexicon).speech_text == "Melkisedek", "language isolation");
         check(make_utterance("Manasse och Manasses söner", "sv", lexicon).speech_text ==
-                  "⟦manˈasə⟧ och ⟦manˈasəs⟧ söner",
+                  "⟦man'asE-⟧ och ⟦man'asE-s⟧ söner",
               "bundled name phonemes and genitive");
         const std::string joses = "Joses, Joses' moder; Joses’ moder. Josef och Josefs.";
         const auto joses_utterance = make_utterance(joses, "sv", lexicon);
         check(joses_utterance.display_text == joses,
               "Joses and possessive punctuation remain in display text");
         check(joses_utterance.speech_text ==
-                  "⟦jˈuːsəs⟧, ⟦jˈuːsəs⟧' moder; ⟦jˈuːsəs⟧’ moder. Josef och Josefs.",
+                  "⟦j'u:sE-s⟧, ⟦j'u:sE-s⟧' moder; ⟦j'u:sE-s⟧’ moder. Josef och Josefs.",
               "Joses and its possessive keep the Swedish j instead of Spanish Jose's pronunciation");
         check(make_utterance("Han bar sitt kors, och hans ben", "sv", lexicon).speech_text ==
-                  "⟦hˈan⟧ bar sitt ⟦kˈɔʂ⟧, och ⟦hˈans⟧ ⟦bˈeːn⟧",
+                  "⟦h'an⟧ bar sitt ⟦k'Os.⟧, och ⟦h'ans⟧ ⟦b'e:n⟧",
               "bundled homographs take the sense of this Bible, not a name's or another word's");
         check(make_utterance("en ko, sin kos och Kos.", "sv", lexicon).speech_text ==
-                  "en ⟦kˈuː⟧, sin kos och Kos.",
+                  "en ⟦k'u:⟧, sin kos och Kos.",
               "word-only corrections do not turn the place Kos or sin kos into a cow's genitive");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
-                    .speech_text == "Och ⟦fˈøːɭˌoːtən⟧ i templet rämnade. Vilkens överträdelse är förlåten.",
+                    .speech_text ==
+                "Och ⟦f'Y:l.,o:tE-n⟧ i templet rämnade. Vilkens överträdelse är förlåten.",
             "the veil is a phrase; forgiven is the voice's reading");
         check(make_utterance("Han hov upp sin röst i ditt hov.", "sv", lexicon).speech_text ==
-                  "⟦hˈan⟧ ⟦hˈuːv⟧ upp sin röst i ditt ⟦hˈoːv⟧.",
+                  "⟦h'an⟧ ⟦h'u:v⟧ upp sin röst i ditt ⟦h'o:v⟧.",
               "hov is häva's past tense, except a court");
         check(make_utterance("Intet bete för sina får; han skulle bete sig vanvettigt.", "sv", lexicon)
-                      .speech_text == "Intet bete för sina får; ⟦hˈan⟧ skulle ⟦bətˈeː⟧ sig vanvettigt.",
+                      .speech_text == "Intet bete för sina får; ⟦h'an⟧ skulle ⟦bE-t'e:⟧ sig vanvettigt.",
               "bete is pasture, except the verb bete sig");
         check(make_utterance("Av Dans stam, under sång och dans.", "sv", lexicon).speech_text ==
-                  "Av ⟦dˈɑːns⟧ stam, under sång och ⟦dˈans⟧.",
+                  "Av ⟦d'A:ns⟧ stam, under sång och ⟦d'ans⟧.",
               "Dans is the tribe before its noun, otherwise a dance");
         {
             // A review preview or correction of the word applies outside the phrases.
             auto preview = lexicon;
             preview.push_back({"sv", "förlåten", "förlåtet", "", 2000});
             check(make_utterance("förlåten i templet, innanför förlåten; förlåten", "sv", preview)
-                          .speech_text == "⟦fˈøːɭˌoːtən⟧ i templet, innanför ⟦fˈøːɭˌoːtən⟧; förlåtet",
+                          .speech_text == "⟦f'Y:l.,o:tE-n⟧ i templet, innanför ⟦f'Y:l.,o:tE-n⟧; förlåtet",
                   "phrases outrank per-word corrections");
         }
         {
@@ -877,7 +878,7 @@ int main(int argc, char** argv) {
                 // Verses with both readings: how many take the first.
                 std::map<std::string, int> mixed = {};
             };
-            const std::string veil = "⟦fˈøːɭˌoːtən⟧";
+            const std::string veil = "⟦f'Y:l.,o:tE-n⟧";
             const std::vector<Homograph> homographs{
                 {"förlåten",
                  "förlåten",
@@ -886,67 +887,67 @@ int main(int argc, char** argv) {
                  {"Luke 6:37", "2Cor 2:10", "Acts 8:22", "Col 3:13", "Deut 21:8", "Eph 4:32", "Isa 33:24",
                   "John 20:23", "Lev 19:22", "Mark 11:25", "Matt 12:31", "Matt 18:35", "Matt 6:14",
                   "Matt 6:15", "Ps 32:1"}},
-                {"hov", "⟦hˈoːv⟧", "⟦hˈuːv⟧", 24, {"Dan 2:49", "Ps 45:10"}},
-                {"bete", "⟦bətˈeː⟧", "bete", 17, {"1Sam 1:14", "1Sam 21:15", "2Kgs 7:9", "Hos 3:3"}},
+                {"hov", "⟦h'o:v⟧", "⟦h'u:v⟧", 24, {"Dan 2:49", "Ps 45:10"}},
+                {"bete", "⟦bE-t'e:⟧", "bete", 17, {"1Sam 1:14", "1Sam 21:15", "2Kgs 7:9", "Hos 3:3"}},
                 {"dans",
-                 "⟦dˈans⟧",
-                 "⟦dˈɑːns⟧",
+                 "⟦d'ans⟧",
+                 "⟦d'A:ns⟧",
                  48,
                  {"1Sam 18:6", "Exod 15:20", "Jdt 15:12", "Jdt 15:13", "Jdt 3:7", "Jer 31:13", "Jer 31:4",
                   "Judg 11:34", "Lam 5:15", "Luke 15:25", "Ps 149:3", "Ps 150:4", "Ps 87:7"}},
-                {"hos", "", "⟦hˈʊs⟧", 760, {}},
-                {"vikt", "", "⟦vˈɪkt⟧", 61, {}},
-                {"vänt", "", "⟦vˈɛnt⟧", 44, {}},
-                {"rest", "", "⟦rˈeːst⟧", 17, {}},
-                {"tomt", "", "⟦tˈʊmt⟧", 14, {}},
-                {"predikat", "", "⟦prədˈiːkat⟧", 13, {}},
-                {"förleder", "", "⟦fœɭˈeːdər⟧", 5, {}},
-                {"förena", "", "⟦fœrˈeːna⟧", 4, {}},
-                {"kista", "", "⟦ɕˈɪsta⟧", 4, {}},
-                {"ko", "", "⟦kˈuː⟧", 4, {}},
-                {"svans", "", "⟦svˈans⟧", 4, {}},
-                {"duken", "", "⟦dˈʉːkən⟧", 3, {}},
-                {"kosta", "", "⟦kˈɔsta⟧", 3, {}},
-                {"logen", "", "⟦lˈuːɡən⟧", 3, {}},
-                {"rene", "", "⟦rˈeːnə⟧", 3, {}},
-                {"saks", "", "⟦sˈɑːks⟧", 3, {}},
-                {"synts", "", "⟦sˈyːnts⟧", 3, {}},
-                {"ton", "", "⟦tˈuːn⟧", 3, {}},
-                {"eggen", "", "⟦ˈɛɡən⟧", 2, {}},
-                {"klor", "", "⟦klˈoːr⟧", 2, {}},
-                {"menat", "", "⟦mˈeːnat⟧", 2, {}},
-                {"demon", "", "⟦dəmˈoːn⟧", 1, {}},
-                {"korsar", "", "⟦kˈɔʂar⟧", 1, {}},
-                {"makes", "", "⟦mˈɑːkəs⟧", 1, {}},
-                {"mats", "", "⟦mˈɑːts⟧", 1, {}},
-                {"murat", "", "⟦mˈʉːrat⟧", 1, {}},
-                {"ron", "", "⟦rˈuːn⟧", 1, {}},
-                {"tima", "", "⟦tˈiːma⟧", 1, {}},
-                {"timat", "", "⟦tˈiːmat⟧", 1, {}},
-                {"trumpet", "", "⟦trɵmpˈeːt⟧", 1, {}},
-                {"van", "", "⟦vˈɑːn⟧", 1, {}},
-                {"åse", "", "⟦ˈoːsˌeː⟧", 1, {}},
-                {"öst", "", "⟦ˈøːst⟧", 1, {}},
-                {"skylt", "", "⟦ɧˈyːlt⟧", 3, {}},
-                {"fördraget", "", "⟦fœɖrˈɑːɡət⟧", 4, {}},
-                {"joses", "", "⟦jˈuːsəs⟧", 4, {}},
-                {"krubba", "", "⟦krˈɵba⟧", 4, {}},
-                {"krubban", "", "⟦krˈɵban⟧", 3, {}},
-                {"jordan", "", "⟦jʊɖˈɑːn⟧", 187, {}},
-                {"jordans", "", "⟦jʊɖˈɑːns⟧", 12, {}},
-                {"betsaida", "", "⟦bɛtsˈajda⟧", 7, {}},
-                {"tattenai", "", "⟦tatɛnˈɑːɪ⟧", 4, {}},
-                {"sefarvaims", "", "⟦sɛfarvˈɑːɪms⟧", 5, {}},
-                {"spetälsk", "", "⟦spətˈɛlsk⟧", 12, {}},
-                {"spetälska", "", "⟦spətˈɛlska⟧", 48, {}},
-                {"spetälskan", "", "⟦spətˈɛlskan⟧", 5, {}},
-                {"välan", "", "⟦vɛlˈan⟧", 36, {}},
-                {"välsignen", "", "⟦vɛlsˈɪŋnən⟧", 9, {}},
-                {"jerobeam", "", "⟦jɛrˈuːbɛam⟧", 55, {}},
-                {"rehabeam", "", "⟦rɛhˈɑːbɛam⟧", 47, {}},
+                {"hos", "", "⟦h'Us⟧", 760, {}},
+                {"vikt", "", "⟦v'Ikt⟧", 61, {}},
+                {"vänt", "", "⟦v'Ent⟧", 44, {}},
+                {"rest", "", "⟦R'e:st⟧", 17, {}},
+                {"tomt", "", "⟦t'Umt⟧", 14, {}},
+                {"predikat", "", "⟦pRE-d'i:kat⟧", 13, {}},
+                {"förleder", "", "⟦fWl.'e:dE-R⟧", 5, {}},
+                {"förena", "", "⟦fWR'e:na⟧", 4, {}},
+                {"kista", "", "⟦S;'Ista⟧", 4, {}},
+                {"ko", "", "⟦k'u:⟧", 4, {}},
+                {"svans", "", "⟦sv'ans⟧", 4, {}},
+                {"duken", "", "⟦d'u-kE-n⟧", 3, {}},
+                {"kosta", "", "⟦k'Osta⟧", 3, {}},
+                {"logen", "", "⟦l'u:gE-n⟧", 3, {}},
+                {"rene", "", "⟦R'e:nE-⟧", 3, {}},
+                {"saks", "", "⟦s'A:ks⟧", 3, {}},
+                {"synts", "", "⟦s'y:nts⟧", 3, {}},
+                {"ton", "", "⟦t'u:n⟧", 3, {}},
+                {"eggen", "", "⟦'EgE-n⟧", 2, {}},
+                {"klor", "", "⟦kl'o:R⟧", 2, {}},
+                {"menat", "", "⟦m'e:nat⟧", 2, {}},
+                {"demon", "", "⟦dE-m'o:n⟧", 1, {}},
+                {"korsar", "", "⟦k'Os.aR⟧", 1, {}},
+                {"makes", "", "⟦m'A:kE-s⟧", 1, {}},
+                {"mats", "", "⟦m'A:ts⟧", 1, {}},
+                {"murat", "", "⟦m'u-Rat⟧", 1, {}},
+                {"ron", "", "⟦R'u:n⟧", 1, {}},
+                {"tima", "", "⟦t'i:ma⟧", 1, {}},
+                {"timat", "", "⟦t'i:mat⟧", 1, {}},
+                {"trumpet", "", "⟦tR8mp'e:t⟧", 1, {}},
+                {"van", "", "⟦v'A:n⟧", 1, {}},
+                {"åse", "", "⟦'o:s,e:⟧", 1, {}},
+                {"öst", "", "⟦'Y:st⟧", 1, {}},
+                {"skylt", "", "⟦sx'y:lt⟧", 3, {}},
+                {"fördraget", "", "⟦fWRdR'A:gE-t⟧", 4, {}},
+                {"joses", "", "⟦j'u:sE-s⟧", 4, {}},
+                {"krubba", "", "⟦kR'8ba⟧", 4, {}},
+                {"krubban", "", "⟦kR'8ban⟧", 3, {}},
+                {"jordan", "", "⟦jURd'A:n⟧", 187, {}},
+                {"jordans", "", "⟦jURd'A:ns⟧", 12, {}},
+                {"betsaida", "", "⟦bEts'ajda⟧", 7, {}},
+                {"tattenai", "", "⟦tatEn'A:I⟧", 4, {}},
+                {"sefarvaims", "", "⟦sEfaRv'A:Ims⟧", 5, {}},
+                {"spetälsk", "", "⟦spE-t'Elsk⟧", 12, {}},
+                {"spetälska", "", "⟦spE-t'Elska⟧", 48, {}},
+                {"spetälskan", "", "⟦spE-t'Elskan⟧", 5, {}},
+                {"välan", "", "⟦vEl'an⟧", 36, {}},
+                {"välsignen", "", "⟦vEls'INnE-n⟧", 9, {}},
+                {"jerobeam", "", "⟦jER'u:bEam⟧", 55, {}},
+                {"rehabeam", "", "⟦REh'A:bEam⟧", 47, {}},
                 {"väl",
-                 "⟦vˈɛːl⟧",
-                 "⟦vˈɛl⟧",
+                 "⟦v'E:l⟧",
+                 "⟦v'El⟧",
                  645,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
@@ -992,12 +993,12 @@ int main(int argc, char** argv) {
                   "Tob 12:11",   "Tob 12:7",    "Tob 14:9",    "Tob 4:14",    "Tob 7:4",     "Tob 7:5",
                   "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1"},
                  {{"Ezek 33:32", 1}}},
-                {"gibea", "", "⟦ɡɪbˈeːa⟧", 41, {}},
-                {"ahabs", "", "⟦ˈɑːhabs⟧", 35, {}},
-                {"baesa", "", "⟦baˈeːsa⟧", 22, {}},
-                {"us", "", "⟦ˈʉːs⟧", 8, {}},
-                {"ana", "⟦ˈɑːna⟧", "ana", 9, {"2Macc 8:11"}},
-                {"förband", "⟦fˈøːrbˌand⟧", "förband", 5, {"Ezek 30:21"}},
+                {"gibea", "", "⟦gIb'e:a⟧", 41, {}},
+                {"ahabs", "", "⟦'A:habs⟧", 35, {}},
+                {"baesa", "", "⟦ba'e:sa⟧", 22, {}},
+                {"us", "", "⟦'u-s⟧", 8, {}},
+                {"ana", "⟦'A:na⟧", "ana", 9, {"2Macc 8:11"}},
+                {"förband", "⟦f'Y:Rb,and⟧", "förband", 5, {"Ezek 30:21"}},
             };
             const PronunciationMatcher matcher("sv", lexicon);
             const auto count = [](const std::string& text, const std::string& word) {

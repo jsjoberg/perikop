@@ -1,4 +1,5 @@
 #include "speech/espeak_voice.hpp"
+#include "speech/swedish_text.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -18,30 +19,48 @@ double crossings(const std::vector<float>& audio) {
     return double(count) / double(std::max<size_t>(1, audio.size()));
 }
 } // namespace
-int main() {
+int main(int argc, char** argv) {
     try {
-        // Reference conversions from tools/speech/espeak_swedish.py.
-        check(ortho::espeak_phonemes("hˈɛrən ˈɛːr mˈiːn hˈeːɖə,mˈɛj skˈal ˈɪntət fˈatas.") ==
-                  "[[h'ERE-n E:R mi:n h'e:RdE-]], [[mEj skal 'IntE-t f'atas]].",
-              "psalm phrase with unstressed function words");
-        check(ortho::espeak_phonemes("ɧˈøː ɕˈʏrka bˈɑːɳ bˈuːɖ fˈɔʂ kˈɑːʈa ɡrˈøːna") ==
-                  "[[sx'Y: S;'yRka b'A:n. b'u:Rd f'Os. k'A:Rta gR'Y:na]]",
-              "Swedish sounds, retroflexes and r");
-        check(ortho::espeak_phonemes("ˈɔk dˈeːt rˈɛːknadəs hˈɔnɔm tˈɪl rˈɛtfɛːɖɪɡhˌeːt?") ==
-                  "[[Ok de:t R'E:knadE-s hOnOm tIl R'EtfE:RdIgh,e:t]]?",
-              "secondary stress and a question");
-        check(ortho::espeak_phonemes("") == "" && ortho::espeak_phonemes(", .") == ", .",
+        check(argc == 2, "Expected the bundled speech data directory");
+        ortho::SwedishText front(argv[1]);
+        using Token = ortho::SpeechToken;
+        check(front.tokens("Kors män") ==
+                  std::vector<Token>{{Token::Kind::Phonemes, "k'u:s."}, {Token::Kind::Phonemes, "m'En"}},
+              "the bundled data is read as eSpeak codes");
+        check(front.tokens("Han ja")[0].text == "hA:n" && front.tokens("han")[0].text == "hA:n",
+              "function words are unstressed by their spelling, in any case");
+        check(front.phonemes("män och ja") == "m'En Ok j'A:",
+              "a content word that sounds like a function word keeps its stress");
+        check(front.tokens("⟦f'Os.⟧ ja") ==
+                  std::vector<Token>{{Token::Kind::Phonemes, "f'Os."}, {Token::Kind::Phonemes, "j'A:"}},
+              "given codes keep their dots instead of ending a sentence");
+        check(front.phonemes("Ja?! Xyzzy, 3.") == "j'A:? ⟨xyzzy⟩, tR'e:.",
+              "repeated end marks, spelled words and numbers");
+        using Kind = ortho::SpeechToken::Kind;
+        const auto words = [](std::initializer_list<ortho::SpeechToken> tokens) {
+            return std::vector<ortho::SpeechToken>(tokens);
+        };
+        const auto phrase = words({{Kind::Phonemes, "h'ERE-n"},
+                                   {Kind::Phonemes, "E:R"},
+                                   {Kind::Phonemes, "mi:n"},
+                                   {Kind::Phonemes, "h'e:RdE-"},
+                                   {Kind::Punctuation, ","},
+                                   {Kind::Phonemes, "mEj"},
+                                   {Kind::Phonemes, "skal"},
+                                   {Kind::Phonemes, "'IntE-t"},
+                                   {Kind::Phonemes, "f'atas"},
+                                   {Kind::Punctuation, "."}});
+        check(ortho::espeak_phonemes(phrase) == "[[h'ERE-n E:R mi:n h'e:RdE-]], [[mEj skal 'IntE-t f'atas]].",
+              "adjacent words share one phoneme group, punctuation stays outside");
+        check(ortho::espeak_phonemes({}) == "" &&
+                  ortho::espeak_phonemes(words({{Kind::Punctuation, ","}, {Kind::Punctuation, "."}})) ==
+                      ", .",
               "empty text and bare punctuation");
-        check(ortho::espeak_phonemes("ˈɔk ⟨xyzzy⟩ hˈɑːn.") == "[[Ok]] xyzzy [[hA:n]].",
+        check(ortho::espeak_phonemes(words({{Kind::Phonemes, "Ok"},
+                                            {Kind::Spelled, "xyzzy"},
+                                            {Kind::Phonemes, "hA:n"},
+                                            {Kind::Punctuation, "."}})) == "[[Ok]] xyzzy [[hA:n]].",
               "a word without known phonemes is read by eSpeak's own rules");
-        check(ortho::espeak_unknown_phones("⟨qwz⟩ ˈa").empty(), "spelled words have no phones to check");
-        // Every phone in the bundled lexicons.
-        const auto unknown =
-            ortho::espeak_unknown_phones("a b d e eː f h i iː j k l m n o oː p r s t uː v y yː "
-                                         "øː ŋ œ ɑː ɔ ɕ ɖ ə ɛ ɛː ɡ ɧ ɨː ɪ ɭ ɳ ɵ ʂ ʈ ʉː ʊ ʏ ʧ");
-        for (const auto& phone : unknown)
-            std::cerr << "eSpeak has no code for " << phone << '\n';
-        check(unknown.empty(), "every lexicon phone has an eSpeak code");
         check(ortho::espeak_voice_name("espeak") == "sv" &&
                   ortho::espeak_voice_name("espeak-f2") == "sv+f2" &&
                   ortho::espeak_voice_name("espeak:sv+adam") == "sv+adam" &&
@@ -59,8 +78,8 @@ int main() {
             return 0;
         }
         std::cout << "eSpeak NG " << espeak->version() << '\n';
-        const std::string ipa = "hˈɛrən ˈɛːr mˈiːn hˈeːɖə,mˈɛj skˈal ˈɪntət fˈatas.";
-        const auto male = espeak->speak(ipa, {});
+        const auto& tokens = phrase;
+        const auto male = espeak->speak(tokens, {});
         const double seconds = male.size() / 24000.0;
         check(seconds > 2 && seconds < 6, "a psalm phrase lasts a few seconds at 150 words per minute");
         check(std::ranges::all_of(male,
@@ -74,18 +93,19 @@ int main() {
                                   }),
               "audible speech");
         // eSpeak varies its voice source slightly at random, which moves the end by a pitch period.
-        const auto again = espeak->speak(ipa, {}).size();
+        const auto again = espeak->speak(tokens, {}).size();
         check(std::max(again, male.size()) - std::min(again, male.size()) < 240,
               "the same input keeps its timing");
         check(!voices.empty(), "installed Swedish voices are discovered before synthesis starts");
         const auto during = ortho::Espeak::voices();
         check(during.size() == voices.size(), "discovery also works while a speech engine is open");
-        const auto after = espeak->speak(ipa, {});
+        const auto after = espeak->speak(tokens, {});
         check(std::max(after.size(), male.size()) - std::min(after.size(), male.size()) < 240,
               "discovery keeps the playback timing");
         const auto reference = crossings(male);
         check(std::abs(crossings(after) - reference) < 0.02 * reference &&
-                  std::abs(crossings(espeak->speak(ipa, {.voice = "sv+f2"})) - reference) > 0.1 * reference,
+                  std::abs(crossings(espeak->speak(tokens, {.voice = "sv+f2"})) - reference) >
+                      0.1 * reference,
               "discovery does not replace the playback voice");
         std::vector<std::string> ids;
         for (const auto& voice : voices) {
@@ -95,15 +115,15 @@ int main() {
             const auto native = ortho::espeak_voice_name(voice.id);
             check(!native.empty(), "every discovered identity has a native selector");
             check(!native.starts_with("mb/"), "MBROLA voices, with their own sample rate, are not offered");
-            espeak->speak(ipa, {.voice = native}, [] {
+            espeak->speak(tokens, {.voice = native}, [] {
                 return true;
             });
         }
         std::cout << voices.size() << " installed Swedish voice choices\n";
-        check(espeak->speak(ipa, {.voice = "sv+f2"}) != male, "the female variant sounds different");
-        check(espeak->speak(ipa, {.rate = 200}).size() < male.size(), "a faster rate is shorter");
+        check(espeak->speak(tokens, {.voice = "sv+f2"}) != male, "the female variant sounds different");
+        check(espeak->speak(tokens, {.rate = 200}).size() < male.size(), "a faster rate is shorter");
         check(espeak
-                  ->speak(ipa, {},
+                  ->speak(tokens, {},
                           [] {
                               return true;
                           })
@@ -111,7 +131,7 @@ int main() {
               "cancelling returns no audio");
         bool missing = false;
         try {
-            espeak->speak(ipa, {.voice = "no-such-voice"});
+            espeak->speak(tokens, {.voice = "no-such-voice"});
         } catch (const std::runtime_error&) {
             missing = true;
         }

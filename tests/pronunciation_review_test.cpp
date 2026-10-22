@@ -1,8 +1,10 @@
 #include "speech/pronunciation_review.hpp"
 #include "speech/speech.hpp"
 #include "storage/database.hpp"
+#include "storage/sqlite.hpp"
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <stdexcept>
 namespace {
 void check(bool value, const char* message) {
@@ -23,9 +25,9 @@ int main(int argc, char** argv) {
         check(words.size() == 28487, "prepared word list coverage");
         const auto homographs = load_homographs(resources / "lexicon/sv1917-homographs.tsv");
         const auto cross = homographs.find("kors");
-        check(homographs.size() == 303 && cross != homographs.end() && cross->second.voice == "kˈuːʂ" &&
-                  cross->second.choices.size() == 2 && cross->second.choices[1].phonemes == "kˈɔʂ" &&
-                  cross->second.choices[0].label == "substantiv, böjd form",
+        check(homographs.size() == 302 && cross != homographs.end() && cross->second.voice == "k'u:s." &&
+                  cross->second.choices.size() == 2 && cross->second.choices[0].phonemes == "k'Os." &&
+                  cross->second.choices[1].label == "substantiv, böjd form",
               "homographs list the voice's choice and each NST alternative");
         check(pronunciation_key("ÄR Å Ö") == "är å ö", "Swedish case folding");
         check(contains_speech_word("Saul, och SAULS söner.", "saul"), "word with punctuation");
@@ -56,6 +58,35 @@ int main(int argc, char** argv) {
         std::ifstream exported(directory / "export.tsv");
         std::string text((std::istreambuf_iterator<char>(exported)), {});
         check(text.find("first second third") != std::string::npos, "TSV escapes multiline notes");
+        {
+            // Version 1 saved ⟦…⟧ corrections in IPA; opening converts them to eSpeak codes once.
+            const auto legacy = directory / "legacy.db";
+            std::filesystem::remove(legacy);
+            {
+                auto db = storage::open(legacy, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+                storage::exec(
+                    db.get(),
+                    "CREATE TABLE review(key TEXT PRIMARY KEY NOT NULL,form TEXT NOT NULL,status TEXT "
+                    "NOT NULL,spoken TEXT NOT NULL,note TEXT NOT NULL,updated INTEGER NOT NULL) STRICT; "
+                    "INSERT INTO review VALUES('kors','kors','corrected','⟦kˈɔʂ⟧','',0),"
+                    "('fyrtio','fyrtio','corrected','fyr-⟦tˈi ːu⟧ x ⟦ʔa⟧','',0),"
+                    "('åsna','Åsna','corrected','å-sna','',0); "
+                    "PRAGMA application_id=1330795600; PRAGMA user_version=1");
+            }
+            const auto spoken = [](const PronunciationReviewDb& review) {
+                std::map<std::string, std::string> result;
+                for (const auto& decision : review.decisions())
+                    result[decision.form] = decision.spoken;
+                return result;
+            };
+            const std::map<std::string, std::string> expected{
+                {"kors", "⟦k'Os.⟧"}, {"fyrtio", "fyr-⟦t'i:u⟧ x ⟦a⟧"}, {"Åsna", "å-sna"}};
+            check(spoken(PronunciationReviewDb(legacy)) == expected,
+                  "saved IPA corrections become eSpeak codes; other text is kept");
+            check(spoken(PronunciationReviewDb(legacy)) == expected, "the conversion runs once");
+            auto db = storage::open(legacy, SQLITE_OPEN_READONLY);
+            check(storage::pragma_number(db.get(), "PRAGMA user_version") == 2, "migrated to version 2");
+        }
         CorpusDb corpus(resources / "corpus/corpus.db");
         const auto examples = corpus.word_examples("Mose");
         check(examples.size() == 3, "three corpus examples");

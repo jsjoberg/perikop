@@ -15,55 +15,6 @@
 #endif
 namespace ortho {
 namespace {
-// eSpeak NG 1.52 Swedish codes (ph_swedish and base1). eSpeak's r is English; Swedish r is R.
-// Retroflex stops have no code, so they are written r + dental, as eSpeak's own rules do.
-constexpr std::pair<std::string_view, std::string_view> codes[] = {
-    {"iː", "i:"}, {"i", "i"},   {"ɪ", "I"},  {"eː", "e:"}, {"e", "e"},   {"ɛː", "E:"}, {"ɛ", "E"},
-    {"ə", "E-"},  {"yː", "y:"}, {"y", "y"},  {"ʏ", "y"},   {"ʉː", "u-"}, {"ʉ", "u-"},  {"ɨː", "u-"},
-    {"ɵ", "8"},   {"øː", "Y:"}, {"ø", "Y:"}, {"œː", "W"},  {"œ", "W"},   {"æː", "&:"}, {"æ", "&"},
-    {"ɑː", "A:"}, {"ɑ", "A:"},  {"a", "a"},  {"oː", "o:"}, {"o", "o"},   {"ɔ", "O"},   {"uː", "u:"},
-    {"u", "u"},   {"ʊ", "U"},   {"p", "p"},  {"b", "b"},   {"t", "t"},   {"d", "d"},   {"k", "k"},
-    {"ɡ", "g"},   {"m", "m"},   {"n", "n"},  {"ŋ", "N"},   {"f", "f"},   {"v", "v"},   {"s", "s"},
-    {"h", "h"},   {"l", "l"},   {"j", "j"},  {"r", "R"},   {"ɕ", "S;"},  {"ɧ", "sx"},  {"ʂ", "s."},
-    {"ʈ", "Rt"},  {"ɖ", "Rd"},  {"ɳ", "n."}, {"ɭ", "l."},  {"ʧ", "tS"},  {"ˈ", "'"},   {"ˌ", ","},
-    {" ", " "},   {"-", " "},
-};
-// The front end stresses every word. These function words (i, och, ett, en, det, den, de, att, som,
-// på, av, för, till, med, om, är, var, har, hade, han, hon, honom, henne, hans, hennes, jag, du, vi,
-// ni, dem, mig, dig, sig, sin, sitt, sina, min, mitt, mina, din, ditt, dina, vår, er, så, men, när,
-// då, ty, ej, skall, ska, kan, vill, må, vid, mot, hos, åt, från, ur) are unstressed in running
-// speech; listed as the front end transcribes them.
-constexpr std::string_view unstressed[] = {
-    "iː",   "ɔk",    "ɛt",    "ɛn",   "deːt",  "deːn",  "dɛ",   "at",   "sɔm",   "poː",  "ɑːv",
-    "føːr", "tɪl",   "meːd",  "ɔm",   "ɛːr",   "vɑːr",  "hɑːr", "hadə", "hɑːn",  "huːn", "hɔnɔm",
-    "hɛnə", "hɑːns", "hɛnəs", "jɑːɡ", "dyː",   "viː",   "niː",  "dɔm",  "mɛj",   "dɛj",  "sɛj",
-    "sɪn",  "sɪt",   "siːna", "miːn", "mɪt",   "miːna", "diːn", "dɪt",  "diːna", "voːr", "eːr",
-    "soː",  "mɛn",   "nɛːr",  "doː",  "tyː",   "ɛj",    "skal", "skɑː", "kɑːn",  "vɪl",  "moː",
-    "viːd", "muːt",  "huːs",  "oːt",  "froːn", "ʉːr"};
-bool punctuation(std::string_view symbol) {
-    return symbol.size() == 1 && std::strchr(",.?!;:", symbol[0]);
-}
-// One UTF-8 symbol per phone, with a following length mark attached.
-std::vector<std::string> split(const std::string& ipa) {
-    std::vector<std::string> result;
-    for (size_t at = 0; at < ipa.size();) {
-        const auto lead = static_cast<unsigned char>(ipa[at]);
-        const size_t size = lead < 0x80 ? 1 : lead < 0xe0 ? 2 : lead < 0xf0 ? 3 : 4;
-        auto symbol = ipa.substr(at, size);
-        at += size;
-        if (symbol == "ː" && !result.empty())
-            result.back() += symbol;
-        else
-            result.push_back(std::move(symbol));
-    }
-    return result;
-}
-const std::string_view* code(std::string_view symbol) {
-    for (const auto& [ipa, espeak] : codes)
-        if (symbol == ipa)
-            return &espeak;
-    return nullptr;
-}
 std::string trim(const std::string& text) {
     const auto begin = text.find_first_not_of(' ');
     return begin == std::string::npos ? "" : text.substr(begin, text.find_last_not_of(' ') - begin + 1);
@@ -168,64 +119,30 @@ std::vector<float> resample(const std::vector<short>& input, int rate) {
 }
 } // namespace
 
-std::string espeak_phonemes(const std::string& ipa) {
-    auto symbols = split(ipa);
-    // Function words lose their stress mark.
-    for (size_t begin = 0; begin < symbols.size();) {
-        size_t end = begin;
-        std::string word;
-        while (end < symbols.size() && symbols[end] != " " && !punctuation(symbols[end])) {
-            if (symbols[end] != "ˈ")
-                word += symbols[end];
-            ++end;
+std::string espeak_phonemes(const std::vector<SpeechToken>& tokens) {
+    std::string out, word;
+    const auto flush = [&](const char* after) {
+        if (!word.empty())
+            out += "[[" + word + "]]" + after;
+        word.clear();
+    };
+    for (const auto& token : tokens)
+        switch (token.kind) {
+        case SpeechToken::Kind::Phonemes:
+            word += (word.empty() ? "" : " ") + token.text;
+            break;
+        // A word without known phonemes goes to eSpeak as text, for its own Swedish rules.
+        case SpeechToken::Kind::Spelled:
+            flush(" ");
+            out += token.text + " ";
+            break;
+        case SpeechToken::Kind::Punctuation:
+            flush("");
+            out += token.text + " ";
+            break;
         }
-        if (std::ranges::find(unstressed, word) != std::end(unstressed))
-            for (size_t i = begin; i < end; ++i)
-                if (symbols[i] == "ˈ")
-                    symbols[i].clear();
-        begin = end + 1;
-    }
-    std::string out, word, spelled;
-    bool spelling = false;
-    // A ⟨word⟩ without known phonemes goes to eSpeak as text, for its own Swedish rules.
-    for (const auto& symbol : symbols) {
-        if (symbol == "⟨") {
-            if (const auto phones = trim(word); !phones.empty())
-                out += "[[" + phones + "]] ";
-            word.clear();
-            spelled.clear();
-            spelling = true;
-        } else if (spelling) {
-            if (symbol == "⟩") {
-                out += spelled + " ";
-                spelling = false;
-            } else
-                spelled += symbol;
-        } else if (punctuation(symbol)) {
-            if (const auto phones = trim(word); !phones.empty())
-                out += "[[" + phones + "]]";
-            out += symbol + " ";
-            word.clear();
-        } else if (const auto* espeak = code(symbol)) {
-            word += *espeak;
-        }
-    }
-    if (const auto phones = trim(word); !phones.empty())
-        out += "[[" + phones + "]]";
+    flush("");
     return trim(out);
-}
-
-std::vector<std::string> espeak_unknown_phones(const std::string& ipa) {
-    std::vector<std::string> result;
-    bool spelling = false;
-    for (const auto& symbol : split(ipa)) {
-        if (symbol == "⟨" || symbol == "⟩")
-            spelling = symbol == "⟨";
-        else if (!spelling && !punctuation(symbol) && !code(symbol) &&
-                 std::find(result.begin(), result.end(), symbol) == result.end())
-            result.push_back(symbol);
-    }
-    return result;
 }
 
 bool espeak_installed() {
@@ -363,7 +280,7 @@ std::string Espeak::version() const {
     return version ? version : "";
 }
 
-std::vector<float> Espeak::speak(const std::string& ipa, const Settings& settings,
+std::vector<float> Espeak::speak(const std::vector<SpeechToken>& tokens, const Settings& settings,
                                  const std::function<bool()>& cancelled) {
     std::lock_guard lock(engine);
     if (settings.voice != impl_->voice) {
@@ -372,7 +289,7 @@ std::vector<float> Espeak::speak(const std::string& ipa, const Settings& setting
         impl_->voice = settings.voice;
     }
     impl_->set_parameter(parameter_rate, settings.rate, 0);
-    const auto text = espeak_phonemes(ipa);
+    const auto text = espeak_phonemes(tokens);
     std::vector<short> samples;
     capture = &samples;
     capture_cancelled = &cancelled;

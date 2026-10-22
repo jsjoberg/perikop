@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "170aeba1ce87a36ae930a861660af2614532ddfc960f1075937e4fbc1c62a996",
+      "sha256": "eb5b1eca8a22fbaa7362f84d0bcc5a0c82e4646b1949964809f08570115d9234",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -516,27 +516,27 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "14222eef2f8f2502a90130a7993b599db999cc6bbd3fb9dbfc04c2607507198f",
+      "sha256": "72382df1d4462dc1b1da6fc06a0311ade338f60c49633ce1155770aee54a7ac5",
       "license": "MIT",
       "role": "Curated Swedish name phonemes for read-aloud; first-pass drafts pending listening review"
     },
     {
       "path": "resources/speech/lexicon.tsv",
-      "sha256": "9c89c4940aad585b402ef97df934655772bf5123a985339fddf0c9221e1f9323",
+      "sha256": "01486be6be73e33a283e202775f46431508ee034d9c656e7aad400639feec520",
       "license": "Apache-2.0",
-      "role": "NST-derived Swedish pronunciation lexicon from Joakim/kokoro-sv-g2p revision a5aac876ccb2bf7480a129774c7e89cf3bbeac01, copied unchanged from voice pack kokoro-sv-alice-bjorn-2c7968d-v3"
+      "role": "NST-derived Swedish pronunciation lexicon from Joakim/kokoro-sv-g2p revision a5aac876ccb2bf7480a129774c7e89cf3bbeac01, from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes, with the spelled-out oss replaced by the pronoun"
     },
     {
       "path": "resources/speech/custom_lexicon.tsv",
-      "sha256": "2b7997c6d544c372cc3833107e853be37a57eb18038f21eb48a5c1edd59269b3",
+      "sha256": "67f0b39b88e6e381fe686d46e5ba27a447dfe491abfbb74c04806583d74d25fb",
       "license": "Apache-2.0",
-      "role": "kokoro-sv custom pronunciation overrides, copied unchanged from voice pack kokoro-sv-alice-bjorn-2c7968d-v3"
+      "role": "kokoro-sv custom pronunciation overrides from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes"
     },
     {
       "path": "resources/speech/g2p-corpus.tsv",
-      "sha256": "f60746bff22d2d51e720e7dd88d8bb8c77db01b367c46864c34af4d00bd6596a",
+      "sha256": "1d53c952beee93cfc014edae08ce1ea9ee691a50b4b8a84c8e5c437d3c8b509c",
       "license": "Apache-2.0",
-      "role": "kokoro-sv-g2p neural pronunciations for the corpus words the lexicon lacks, precomputed for corpus c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47 in voice pack kokoro-sv-alice-bjorn-2c7968d-v3"
+      "role": "kokoro-sv-g2p neural pronunciations for the corpus words the lexicon lacks, precomputed for corpus c611c3aa95c1e2f7beb523859a27817f8ea55cd15a5f4f9fa39f615ea559dd47 in voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes"
     },
     {
       "path": "resources/speech/LICENSE-Kokoro-Swedish.txt",
@@ -770,7 +770,7 @@
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "e3f03102c7862ae2939fad4bbc1af5203db3539ec531c822252ef61878ab4a92",
+      "sha256": "a07bb52c86a90223af5951f6667898fd873e2d7631c24e91382526f46dc5fb60",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     },
@@ -788,7 +788,7 @@
     },
     {
       "path": "resources/content/swedish-study.db",
-      "sha256": "6188caa768faac60d63acb647ecf472ae788d2a3ec8167eb8291ae598e4b3c37",
+      "sha256": "de531f7347098a8ec939c76dcf3e8dac85341f4570e7b6b62925f762d16ae1bb",
       "license": "CC-BY-4.0 AND Public-Domain",
       "generated": "tools/content/build_swedish_supplement.py"
     },
@@ -826,13 +826,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "f32a75ec081b4fac8780baaf67791d8b60482ea8b2f0ba241d1544549e9dee95"
+      "sha256": "27265acb2b50d83d2c4f1470785791af3b3c97b4558f7cae4215175ac1d1a617"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "4290bf55c2f0980683da04cef0308ffc78c71d235aa5027633679dc29c3f52cb"
+      "sha256": "9a5efcd3bb9046fa8fcfd4e5a0cf20dff5d480cf1ee62d6b138cc5ffd481d6d1"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

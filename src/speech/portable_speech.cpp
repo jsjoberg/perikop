@@ -37,7 +37,7 @@ public:
             espeak_ = std::make_unique<Espeak>();
         // Speed scales eSpeak's own rate, around the chosen 150 words per minute.
         const int rate = std::clamp(int(std::lround(150 * speed)), 80, 450);
-        return espeak_->speak(text_->ipa(text), {espeak_voice_name(voice), rate}, cancelled);
+        return espeak_->speak(text_->tokens(text), {espeak_voice_name(voice), rate}, cancelled);
     }
 };
 class PortableSpeech final : public SpeechEngine {
@@ -422,7 +422,7 @@ public:
         try {
             if (!lookup_)
                 lookup_ = std::make_unique<SwedishText>(data_);
-            return lookup_->ipa(text);
+            return lookup_->phonemes(text);
         } catch (const std::exception&) {
             return {};
         }
