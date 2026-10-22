@@ -30,7 +30,6 @@ public:
 
 private:
     friend class MainFrame;
-    std::string frame(const CanonBook&) const;
     std::vector<VerseRef> verses_of(const CanonBook&) const;
     bool available(const CanonBook&) const;
     void rebuild();

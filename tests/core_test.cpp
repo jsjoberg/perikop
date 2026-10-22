@@ -626,16 +626,13 @@ int main(int argc, char** argv) {
                       .front()
                       .first == VerseRef{3, 36},
               "Baruch 3:35 is Swedish 3:36");
-        check(corpus.canon_book("Neh", 1) && corpus.canon_book("Neh", 1)->offset() == 0 &&
+        check(corpus.canon_book("Neh", 1) && corpus.canon_book("Neh", 13) && !corpus.canon_book("Neh", 14) &&
                   !corpus.canon_book("Ezra", 11),
               "OSB Nehemiah is a separate reference book");
         check(corpus.canon_book("Esth", 1) && corpus.canon_book("Esth", 1)->code == "Esth",
               "OSB Esther owns its references independently of source book codes");
         check(corpus.title("Gen") == "Första Moseboken", "Swedish book names remain available");
-        check(corpus.frame_source("sv", "Ps") == osb_reference &&
-                  corpus.frame_source("en", "John") == osb_reference,
-              "OSB frames every language and testament");
-        // Book data comes from books.tsv and canon.tsv through the corpus.
+        // Book order comes from the OSB reference metadata, book data from books.tsv.
         check(corpus.canon().size() == 78 && corpus.canon().front().code == "Gen" &&
                   corpus.canon().back().code == "Rev" && corpus.canon().back().new_testament &&
                   !corpus.canon().front().new_testament,
@@ -674,11 +671,10 @@ int main(int argc, char** argv) {
             // that have no Swedish text yet.
             std::vector<std::string> missing;
             for (const auto& book : corpus.canon()) {
-                const auto frame = corpus.frame_source("sv", book.frame_book);
                 std::set<int> chapters;
-                for (const auto& ref : corpus.coordinates(frame, book.frame_book))
-                    if (book.first_chapter <= ref.chapter && ref.chapter <= book.last_chapter)
-                        chapters.insert(ref.chapter - book.offset());
+                for (const auto& ref : corpus.coordinates(osb_reference, book.code))
+                    if (ref.chapter <= book.last_chapter)
+                        chapters.insert(ref.chapter);
                 for (int chapter : chapters)
                     if (!covered[book.code].contains(chapter))
                         missing.push_back(book.code + " " + std::to_string(chapter));

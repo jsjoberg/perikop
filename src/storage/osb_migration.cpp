@@ -1,6 +1,7 @@
 #include "core/reading_plan.hpp"
 #include "core/reading_position.hpp"
 #include "storage/database.hpp"
+#include "storage/legacy_progress.hpp"
 #include "storage/sqlite.hpp"
 #include <algorithm>
 #include <map>
@@ -27,7 +28,7 @@ std::vector<Point> points(const CorpusDb& corpus, const Reading& reading, bool l
     const auto parts = reading.segments();
     for (std::size_t i = 0; i < parts.size(); ++i) {
         const auto source =
-            legacy ? corpus.legacy_frame_source("sv", parts[i].book) : std::string(osb_reference);
+            legacy ? legacy_frame_source(corpus, "sv", parts[i].book) : std::string(osb_reference);
         for (const auto& ref : corpus.coordinates(source, parts[i].book))
             if (corpus.contains(source, parts[i], ref))
                 result.push_back({i, parts[i].book, ref});
@@ -72,7 +73,7 @@ std::optional<ConvertedReading> old_reading(const CorpusDb& corpus, const std::s
             Passage p{
                 m[1], {std::stoi(m[2]), std::stoi(m[3]), m[4]}, {std::stoi(m[5]), std::stoi(m[6]), m[7]}};
             const auto mapped = corpus.map_passage(
-                override_source.empty() ? corpus.legacy_frame_source(language, p.book) : override_source,
+                override_source.empty() ? legacy_frame_source(corpus, language, p.book) : override_source,
                 osb_reference, p);
             if (mapped.empty())
                 return {};
@@ -134,7 +135,7 @@ void UserDb::migrate_osb(const CorpusDb& corpus) {
                 stop = std::ranges::find_if(verses, [&](const Point& point) {
                     return point.section == saved->section && point.book == saved->book &&
                            point.ref == saved->verse &&
-                           saved->source == corpus.legacy_frame_source("sv", point.book);
+                           saved->source == legacy_frame_source(corpus, "sv", point.book);
                 });
                 if (stop == verses.end())
                     continue;
@@ -143,7 +144,7 @@ void UserDb::migrate_osb(const CorpusDb& corpus) {
                     checkpoints.insert(target);
             }
             for (auto it = verses.begin(); it != stop; ++it) {
-                const Identity id{corpus.legacy_frame_source("sv", it->book), it->book, it->ref};
+                const Identity id{legacy_frame_source(corpus, "sv", it->book), it->book, it->ref};
                 read[id] = std::max(read[id], done == complete_dates.end() ? today : done->second);
             }
         }
@@ -159,7 +160,7 @@ void UserDb::migrate_osb(const CorpusDb& corpus) {
             bool known = false;
             std::string date;
             for (const auto& point : verses) {
-                const auto source = corpus.legacy_frame_source("sv", point.book);
+                const auto source = legacy_frame_source(corpus, "sv", point.book);
                 const auto required = corpus.counterparts(osb_reference, source, point.book, point.ref);
                 bool covered = !required.empty();
                 for (const auto& [book, ref] : required) {

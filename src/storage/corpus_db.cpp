@@ -34,14 +34,6 @@ CorpusDb::CorpusDb(const std::filesystem::path& path) : db_(open(path, SQLITE_OP
                                                books.number(3) == 1,
                                                books.number(4) == 1,
                                                {books.text(5), books.text(6), books.text(7)}});
-    Statement canon(db_.get(), "SELECT book,frame_book,coalesce(canon.name_sv,book.name_sv),"
-                               "coalesce(canon.abbreviation_sv,book.abbreviation_sv),first_chapter,"
-                               "coalesce(last_chapter,999) FROM canon JOIN book ON book.code=canon.book "
-                               "ORDER BY position");
-    while (canon.row())
-        canon_.push_back({canon.text(0), canon.text(1), canon.text(2), canon.text(3), canon.number(4),
-                          canon.number(5), new_testament_book(canon.text(0))});
-    legacy_canon_ = canon_;
     load_reference(path.parent_path() / "osb-reference.db");
 }
 bool CorpusDb::new_testament_book(const std::string& book) const {
@@ -62,11 +54,9 @@ std::string CorpusDb::book_abbreviation(const std::string& book) const {
     const auto it = books_.find(book);
     return it == books_.end() ? book : it->second.abbreviation;
 }
-const CanonBook* CorpusDb::canon_book(const std::string& frame_book, int chapter) const {
-    for (const auto& book : canon_)
-        if (book.frame_book == frame_book && book.first_chapter <= chapter && chapter <= book.last_chapter)
-            return &book;
-    return nullptr;
+const CanonBook* CorpusDb::canon_book(const std::string& book, int chapter) const {
+    const auto it = std::ranges::find(canon_, book, &CanonBook::code);
+    return it != canon_.end() && 1 <= chapter && chapter <= it->last_chapter ? &*it : nullptr;
 }
 std::string CorpusDb::title(const std::string& book) const {
     const auto it = std::ranges::find(canon_, book, &CanonBook::code);
@@ -85,14 +75,6 @@ std::string CorpusDb::source_for_language(const std::string& language, const std
     if (language == "el")
         return new_testament_book(book) ? "grc-patriarchal" : "grc-lxx";
     return {};
-}
-std::string CorpusDb::frame_source(const std::string& language, const std::string& book) const {
-    (void)language;
-    (void)book;
-    return osb_reference;
-}
-std::string CorpusDb::legacy_frame_source(const std::string& language, const std::string& book) const {
-    return new_testament_book(book) ? source_for_language(language, book) : "grc-lxx";
 }
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
@@ -504,7 +486,7 @@ Reading CorpusDb::localize(Reading reading) const {
                 std::ranges::find(refs, segment.last) == refs.end())
                 throw std::runtime_error("Referensen finns inte i OSB.");
         }
-        const auto mapped = map_passage(from, frame_source(reading.base_language, segment.book), segment);
+        const auto mapped = map_passage(from, osb_reference, segment);
         if (mapped.empty())
             throw std::runtime_error("Ingen belagd OSB-mappning för detta avsnitt.");
         parts.insert(parts.end(), mapped.begin(), mapped.end());

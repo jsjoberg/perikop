@@ -70,7 +70,7 @@ The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in t
 ## CI dependency snapshots
 
 Application dependencies never fall back to upstream servers during ordinary CI. They use snapshot archives published as `ci-dependencies-<commit>` prereleases in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets) and pinned in `ci/dependencies-lock.json`.
-The separate Python tooling bootstrap downloads pinned uv/Python before the offline build. The existing snapshot retains the retired ONNX Runtime, Sonic and Alice/Björn voice-pack inputs, but restore skips them (`RETIRED` in `tools/ci/dependencies.py`) and no build uses them; remove them from `ci/upstreams.json` when preparing the next source snapshot.
+The separate Python tooling bootstrap downloads pinned uv/Python before the offline build.
 Snapshots are kept out of this repository's releases because the in-app updater reads only the newest releases here.
 To update a dependency:
 
@@ -87,6 +87,4 @@ To update a dependency:
    ```sh
    gh release download ci-dependencies-<commit> --repo jsjoberg/perikop-assets --pattern dependencies-lock.json --dir ci --clobber
    ```
-
-Releases no longer use NSIS or linuxdeploy's AppImage runtime. The snapshot still carries `nsis`, `appimage-runtime`, `appimage-runtime-arm64`, `runtime-source-8f39b89` and `runtime-zlib` (1.3.2, which only that runtime used); remove them from `ci/upstreams.json` with the next snapshot, and `RETIRED_SOURCES` from `tools/appimage_runtime.py` and the runtime from `APPIMAGE_TOOLS` in `tools/ci/dependencies.py` with them.
 

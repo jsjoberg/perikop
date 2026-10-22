@@ -71,19 +71,13 @@ public:
     const std::vector<CanonBook>& canon() const {
         return canon_;
     }
-    const std::vector<CanonBook>& legacy_canon() const {
-        return legacy_canon_;
-    }
-    const CanonBook* canon_book(const std::string& frame_book, int chapter) const;
+    const CanonBook* canon_book(const std::string& book, int chapter) const;
     // Familiar Swedish names; reference_name gives the corresponding OSB English name.
     std::string title(const std::string& book) const;
     std::string short_title(const std::string& book) const;
     std::string reference_name(const std::string& book) const;
     // The edition a pane shows for a language; empty for an unknown language.
     std::string source_for_language(const std::string& language, const std::string& book) const;
-    // OSB is the reference authority for every language and testament.
-    std::string frame_source(const std::string& language, const std::string& book) const;
-    std::string legacy_frame_source(const std::string& language, const std::string& book) const;
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
@@ -131,7 +125,6 @@ private:
     };
     std::map<std::string, BookInfo> books_;
     std::vector<CanonBook> canon_;
-    std::vector<CanonBook> legacy_canon_;
 };
 class UserDb {
 public:

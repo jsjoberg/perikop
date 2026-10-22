@@ -59,13 +59,10 @@ BiblePicker::~BiblePicker() {
     remove_native_scroll(native_scroll_);
 #endif
 }
-std::string BiblePicker::frame(const CanonBook& book) const {
-    return corpus_.frame_source("sv", book.frame_book);
-}
 std::vector<VerseRef> BiblePicker::verses_of(const CanonBook& book) const {
     std::vector<VerseRef> result;
-    for (const auto& ref : corpus_.coordinates(frame(book), book.frame_book))
-        if (book.first_chapter <= ref.chapter && ref.chapter <= book.last_chapter)
+    for (const auto& ref : corpus_.coordinates(osb_reference, book.code))
+        if (ref.chapter <= book.last_chapter)
             result.push_back(ref);
     return result;
 }
@@ -76,7 +73,7 @@ bool BiblePicker::available(const CanonBook& book) const {
     const auto source = corpus_.source_for_language("sv", book.code);
     const bool found =
         std::any_of(verses.begin(), verses.begin() + std::min<size_t>(verses.size(), 50), [&](VerseRef ref) {
-            return bool(corpus_.parallel_verse(frame(book), source, book.frame_book, ref));
+            return bool(corpus_.parallel_verse(osb_reference, source, book.code, ref));
         });
     availability_[book.code] = found;
     return found;
@@ -161,8 +158,8 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
         if (open)
             chapters.open = chapters.cells.size();
         chapters.cells.push_back(
-            {wxString::Format("%d", ref.chapter - book.offset()),
-             ui::verse_tooltip(corpus_, frame(book), book.frame_book, ref, true,
+            {wxString::Format("%d", ref.chapter),
+             ui::verse_tooltip(corpus_, osb_reference, book.code, ref, true,
                                i + 1 < verses.size() && verses[i + 1].chapter == ref.chapter),
              true,
              pending && low.chapter <= ref.chapter && ref.chapter <= high.chapter
@@ -180,20 +177,19 @@ std::vector<PickerGrid::Block> BiblePicker::book_drawer(const CanonBook& book) {
     if (chapters.open && chapter_) {
         auto& verse_drawer = chapters.drawer;
         verse_drawer.push_back(
-            {.kind = Block::Kind::Title,
-             .text = ui::utf8("Kapitel ") + wxString::Format("%d", *chapter_ - book.offset())});
+            {.kind = Block::Kind::Title, .text = ui::utf8("Kapitel ") + wxString::Format("%d", *chapter_)});
         // Shade the selected range and mark its ends.
         Block numbers{.kind = Block::Kind::Cells};
         for (const auto& ref : in_chapter)
-            numbers.cells.push_back(
-                {wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
-                 ui::verse_tooltip(corpus_, frame(book), book.frame_book, ref, false), true,
-                 !pending || !corpus_.contains(frame(book), {book.frame_book, low, high}, ref) ? State::Plain
-                 : ref == low || ref == high ? State::Selected
-                                             : State::Marked,
-                 [this, book, ref] {
-                     select_verse(book, ref);
-                 }});
+            numbers.cells.push_back({wxString::Format("%d", ref.verse) + ui::utf8(ref.suffix),
+                                     ui::verse_tooltip(corpus_, osb_reference, book.code, ref, false), true,
+                                     !pending || !corpus_.contains(osb_reference, {book.code, low, high}, ref)
+                                         ? State::Plain
+                                     : ref == low || ref == high ? State::Selected
+                                                                 : State::Marked,
+                                     [this, book, ref] {
+                                         select_verse(book, ref);
+                                     }});
         verse_drawer.push_back(std::move(numbers));
     }
     drawer.push_back(std::move(chapters));
@@ -262,13 +258,12 @@ void BiblePicker::select_chapter(CanonBook book, int chapter) {
 void BiblePicker::select_single_range(const CanonBook& book, VerseRef first, VerseRef last,
                                       SelectionUnit unit, bool reset) {
     if (reset || !anchor_ || !range_book_ || range_book_->code != book.code) {
-        anchor_ = Passage{book.frame_book, first, last};
+        anchor_ = Passage{book.code, first, last};
         anchor_unit_ = unit;
     }
     range_book_ = book;
-    first_ =
-        corpus_.compare(frame(book), book.frame_book, anchor_->first, first) < 0 ? anchor_->first : first;
-    last_ = corpus_.compare(frame(book), book.frame_book, anchor_->last, last) > 0 ? anchor_->last : last;
+    first_ = corpus_.compare(osb_reference, book.code, anchor_->first, first) < 0 ? anchor_->first : first;
+    last_ = corpus_.compare(osb_reference, book.code, anchor_->last, last) > 0 ? anchor_->last : last;
     update_selection();
 }
 void BiblePicker::select_verse(CanonBook book, VerseRef ref) {
@@ -283,7 +278,7 @@ void BiblePicker::select_verse(CanonBook book, VerseRef ref) {
 void BiblePicker::add_selection() {
     if (!first_ || !range_book_)
         return;
-    stack_.push_back({range_book_->frame_book, *first_, last_.value_or(*first_)});
+    stack_.push_back({range_book_->code, *first_, last_.value_or(*first_)});
     // The next selection starts afresh and becomes the next part.
     first_.reset();
     last_.reset();
@@ -304,7 +299,7 @@ void BiblePicker::update_selection() {
 std::vector<Passage> BiblePicker::parts() const {
     auto result = stack_;
     if (first_ && range_book_)
-        result.push_back({range_book_->frame_book, *first_, last_.value_or(*first_)});
+        result.push_back({range_book_->code, *first_, last_.value_or(*first_)});
     return result;
 }
 std::vector<wxString> BiblePicker::part_labels() const {

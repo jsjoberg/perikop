@@ -73,9 +73,8 @@ void ScriptureView::position_source_selectors() {
                 button->SetLabel(label);
                 button->Refresh();
             }
-            button->SetName(
-                ui::utf8(pane ? "Andra texten, " : "Huvudtext, ") + full +
-                wxString::Format(", kapitel %d", rows_[row].ref.chapter - (canon_ ? canon_->offset() : 0)));
+            button->SetName(ui::utf8(pane ? "Andra texten, " : "Huvudtext, ") + full +
+                            wxString::Format(", kapitel %d", rows_[row].ref.chapter));
             button->SetToolTip(
                 ui::utf8("Byt källa bara för detta kapitel. Prioriteringen i Inställningar behålls."));
             button->SetBackgroundColour(colors.paper);
