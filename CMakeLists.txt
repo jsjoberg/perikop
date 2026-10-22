@@ -85,6 +85,7 @@ add_library(ortho-core
     src/core/service_labels.cpp
     src/core/swedish_titles.cpp
     src/core/reading_display.cpp
+    src/core/scripture_copy.cpp
     src/core/online_bibles.cpp
     src/core/reading_plan.cpp
     src/core/updater.cpp
@@ -113,6 +114,9 @@ if(MINGW)
     add_link_options(-static)
 endif()
 if(BUILD_TESTING)
+    add_executable(ortho-scripture-copy-tests tests/scripture_copy_test.cpp)
+    target_link_libraries(ortho-scripture-copy-tests PRIVATE ortho-core)
+    add_test(NAME scripture-copy COMMAND ortho-scripture-copy-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")
     add_executable(ortho-osb-reference-tests tests/osb_reference_test.cpp)
     target_link_libraries(ortho-osb-reference-tests PRIVATE ortho-core)
     add_test(NAME osb-reference COMMAND ortho-osb-reference-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"

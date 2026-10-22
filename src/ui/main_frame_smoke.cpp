@@ -21,6 +21,8 @@
 #include <wx/access.h>
 #include <wx/app.h>
 #include <wx/checkbox.h>
+#include <wx/clipbrd.h>
+#include <wx/dataobj.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include <wx/dialog.h>
@@ -1228,7 +1230,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     scripture_->clear_selection();
     if (play_->GetLabel() != "Lyssna")
         fail(__LINE__);
-    const auto click_text = [&](wxPoint point) {
+    const auto click_text = [&](wxPoint point, int modifiers = wxMOD_NONE) {
         if (point == wxDefaultPosition) {
             fail(__LINE__);
             return;
@@ -1236,6 +1238,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         for (const auto type : {wxEVT_LEFT_DOWN, wxEVT_LEFT_UP}) {
             wxMouseEvent event(type);
             event.SetPosition(point);
+            event.SetShiftDown((modifiers & wxMOD_SHIFT) != 0);
+            event.SetAltDown((modifiers & wxMOD_ALT) != 0);
+            event.SetControlDown((modifiers & wxMOD_CONTROL) != 0);
             event.SetEventObject(scripture_);
             scripture_->GetEventHandler()->ProcessEvent(event);
         }
@@ -1256,6 +1261,63 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 }
         return result;
     };
+    // Shift extends from the original click even when the endpoint moves backwards.
+    open_fresh_psalm();
+    render();
+    click_text(verse_point({22, 3}, 0));
+    click_text(verse_point({22, 5}, 0), wxMOD_SHIFT);
+    auto shifted = scripture_->selections();
+    if (shifted.size() != 1 || shifted[0].first != VerseRef{22, 3} || shifted[0].last != VerseRef{22, 5})
+        fail(__LINE__);
+    click_text(verse_point({22, 2}, 0), wxMOD_SHIFT);
+    shifted = scripture_->selections();
+    if (shifted.size() != 1 || shifted[0].first != VerseRef{22, 2} || shifted[0].last != VerseRef{22, 3})
+        fail(__LINE__);
+    click_text(verse_point({22, 6}, 0), wxMOD_ALT);
+    shifted = scripture_->selections();
+    if (shifted.size() != 2 || scripture_->verse_selected({22, 4}) || !scripture_->verse_selected({22, 6}))
+        fail(__LINE__);
+    const auto copied = scripture_->selected_text();
+    if (!copied.ends_with("Psaltaren 23:2–3; 23:6 (Svenska 1917 med apokryfer)") ||
+        copied.find(corpus_.verse("sv1917", "Ps", {23, 4})->text) != std::string::npos)
+        fail(__LINE__);
+    wxCommandEvent copy_event(wxEVT_MENU, wxID_COPY);
+    scripture_->GetEventHandler()->ProcessEvent(copy_event);
+    if (wxTheClipboard->Open()) {
+        wxTextDataObject clipboard;
+        if (!wxTheClipboard->GetData(clipboard) || clipboard.GetText() != ui::utf8(copied))
+            fail(__LINE__);
+        wxTheClipboard->Close();
+    } else
+        fail(__LINE__);
+    // An added drag that retreats must discard the old endpoint, keeping earlier ranges.
+    scripture_->select_verses({22, 2}, {22, 2});
+    for (const auto& [type, ref] : std::vector<std::pair<wxEventType, VerseRef>>{{wxEVT_LEFT_DOWN, {22, 4}},
+                                                                                 {wxEVT_MOTION, {22, 6}},
+                                                                                 {wxEVT_MOTION, {22, 5}},
+                                                                                 {wxEVT_LEFT_UP, {22, 5}}}) {
+        wxMouseEvent event(type);
+        event.SetPosition(verse_point(ref, 0));
+        event.SetAltDown(true);
+        event.SetLeftDown(type != wxEVT_LEFT_UP);
+        scripture_->GetEventHandler()->ProcessEvent(event);
+    }
+    shifted = scripture_->selections();
+    if (shifted.size() != 2 || shifted[0].first != VerseRef{22, 2} || shifted[1].first != VerseRef{22, 4} ||
+        shifted[1].last != VerseRef{22, 5} || scripture_->verse_selected({22, 6}))
+        fail(__LINE__);
+    wxKeyEvent escape(wxEVT_CHAR_HOOK);
+    escape.m_keyCode = WXK_ESCAPE;
+    scripture_->GetEventHandler()->ProcessEvent(escape);
+    if (!scripture_->selections().empty() || !scripture_->selected_text().empty())
+        fail(__LINE__);
+    // Opening another passage discards the old Shift-click anchor.
+    open_fresh_psalm();
+    render();
+    click_text(verse_point({22, 2}, 0), wxMOD_SHIFT);
+    if (!scripture_->selections().empty())
+        fail(__LINE__);
+    scripture_->clear_selection();
     const auto verse_tools = [&]() -> wxWindow* {
         for (auto* child : scripture_->GetChildren())
             if (child->GetName() == ui::utf8("Läs den markerade versen online"))
@@ -1266,7 +1328,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         std::vector<TextButton*> buttons;
         if (parent)
             for (auto* child : parent->GetChildren())
-                if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() != "Lyssna")
+                if (auto* button = dynamic_cast<TextButton*>(child);
+                    button && button->GetLabel() != "Lyssna" && button->GetLabel() != "Kopiera")
                     buttons.push_back(button);
         return buttons;
     };
@@ -1323,6 +1386,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             click_text(right);
             if (!scripture_->highlighted_verse() || (tools && tools->IsShown()))
                 fail(__LINE__);
+            const auto source = scripture_->chapter_source(22, 1);
+            const auto targets = corpus_.counterparts(scripture_->frame(), source, "Ps", {22, 1});
+            if (targets.empty() ||
+                !scripture_->selected_text().starts_with(
+                    corpus_.verse(source, targets.front().first, targets.front().second)->text))
+                fail(__LINE__); // Copy follows the clicked pane's edition.
             click_text(verse_point({22, 1}, 0));
             if (scripture_->highlighted_verse())
                 fail(__LINE__);
