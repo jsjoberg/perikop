@@ -28,30 +28,38 @@ out = ROOT / "resources/content/swedish-study.db"
 
 def write_pronunciations():
     # Variant names reuse the established pronunciation rather than deriving speech from PDF typography.
-    dest = sqlite3.connect(out)
-    dest.execute("DROP TABLE IF EXISTS pronunciation")
-    dest.execute(
-        "CREATE TABLE pronunciation(language TEXT,source TEXT,spoken TEXT,phonemes TEXT,priority INTEGER,PRIMARY KEY(language,source)) STRICT, WITHOUT ROWID"
-    )
-    for line in (
-        (ROOT / "resources/content/pronunciation-aliases.tsv").read_text(encoding="utf-8").splitlines()
-    ):
-        if not line or line.startswith("#"):
-            continue
-        form, target = line.split("\t")
-        for suffix in ("", "s"):
-            known = source.execute(
-                "SELECT spoken,phonemes,priority FROM pronunciation WHERE language='sv' AND source=?",
-                (target + suffix,),
-            ).fetchone()
-            spoken, phonemes, priority = known if known else (target + suffix, "", 100)
-            dest.execute(
-                "INSERT INTO pronunciation VALUES(?,?,?,?,?)",
-                ("sv", form + suffix, spoken, phonemes, priority),
-            )
-    dest.commit()
-    dest.execute("VACUUM")
-    dest.close()
+    # One explicit transaction, so a bad alias leaves the old table in place.
+    dest = sqlite3.connect(out, isolation_level=None)
+    try:
+        dest.execute("BEGIN")
+        dest.execute("DROP TABLE IF EXISTS pronunciation")
+        dest.execute(
+            "CREATE TABLE pronunciation(language TEXT,source TEXT,spoken TEXT,phonemes TEXT,priority INTEGER,PRIMARY KEY(language,source)) STRICT, WITHOUT ROWID"
+        )
+        for line in (
+            (ROOT / "resources/content/pronunciation-aliases.tsv").read_text(encoding="utf-8").splitlines()
+        ):
+            if not line or line.startswith("#"):
+                continue
+            form, target = line.split("\t")
+            for suffix in ("", "s"):
+                known = source.execute(
+                    "SELECT spoken,phonemes,priority FROM pronunciation WHERE language='sv' AND source=?",
+                    (target + suffix,),
+                ).fetchone()
+                spoken, phonemes, priority = known if known else (target + suffix, "", 100)
+                dest.execute(
+                    "INSERT INTO pronunciation VALUES(?,?,?,?,?)",
+                    ("sv", form + suffix, spoken, phonemes, priority),
+                )
+        dest.execute("COMMIT")
+        dest.execute("VACUUM")
+    except BaseException:
+        if dest.in_transaction:
+            dest.execute("ROLLBACK")
+        raise
+    finally:
+        dest.close()
 
 
 def record_hash():
