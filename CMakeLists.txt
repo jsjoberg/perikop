@@ -94,6 +94,7 @@ add_library(ortho-core
     src/storage/content_import.cpp
     src/storage/study_db.cpp
     src/storage/user_db.cpp
+    src/storage/legacy_progress.cpp
     src/storage/reading_plan_migration.cpp
     src/storage/osb_migration.cpp
     src/storage/pronunciation_review_db.cpp

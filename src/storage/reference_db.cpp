@@ -29,7 +29,7 @@ void CorpusDb::load_reference(const std::filesystem::path& path) {
     storage::Statement query(reference_.get(),
                              "SELECT book,name,abbreviation,last_chapter FROM canon ORDER BY position");
     while (query.row())
-        canon_.push_back({query.text(0), query.text(0), query.text(1), query.text(2), 1, query.number(3),
+        canon_.push_back({query.text(0), query.text(1), query.text(2), query.number(3),
                           new_testament_book(query.text(0))});
     versification_.emplace(osb_reference, "OSB-2008-v1");
 }
