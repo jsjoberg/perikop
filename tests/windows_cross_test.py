@@ -42,7 +42,6 @@ add_test(NAME build-version COMMAND "${CMAKE_COMMAND}" "-DSOURCE_DIR=${REPOSITOR
                           "-DREPOSITORY=" + str(ROOT)])
         (build / "bin/resources").mkdir(parents=True)
         (build / "bin/resources/LICENSE").write_text("fixture license")
-        (build / "bin/onnxruntime.dll").write_bytes(b"upstream runtime")
         (build / "bin/velopack_libc.dll").write_bytes(b"update sdk")
         (build / "bin/perikop.exe").write_text("#!/bin/sh\nexit 0\n")
         binary = build / "bin/ortho-tests.exe"
@@ -65,27 +64,22 @@ test "$HANDOFF_ENV" = 'fixture value'
         shutil.copytree(build / "bin", consumer / "bin")
         shutil.copytree(build / "generated", consumer / "generated")
         shutil.copyfile(build / "windows-handoff.json", consumer / "windows-handoff.json")
-        runtime = root / "CRT"
-        runtime.mkdir()
-        for name in ("msvcp140", "msvcp140_1", "vcruntime140", "vcruntime140_1"):
-            (runtime / (name + ".dll")).write_bytes(b"fixture CRT")
-        return consumer, runtime
+        return consumer
 
     def run_command(self, command, **kwargs):
         result = subprocess.run(command, capture_output=True, text=True, **kwargs)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return result
 
-    def configure(self, build, runtime, **kwargs):
+    def configure(self, build, **kwargs):
         return subprocess.run(["cmake", "-S", str(ROOT / "cmake/windows-prebuilt"), "-B", str(build),
-                               "-G", "Ninja", "-DCMAKE_SYSTEM_NAME=Windows",
-                               "-DPERIKOP_MSVC_RUNTIME=" + str(runtime)], capture_output=True, text=True, **kwargs)
+                               "-G", "Ninja", "-DCMAKE_SYSTEM_NAME=Windows"], capture_output=True, text=True, **kwargs)
 
     def test_native_configuration_runs_and_packages_without_any_compiler(self):
         with tempfile.TemporaryDirectory() as temporary:
-            build, runtime = self.fixture(Path(temporary).resolve())
+            build = self.fixture(Path(temporary).resolve())
             env = dict(os.environ, CC="/must-not-run-a-compiler", CXX="/must-not-run-a-compiler", COPYFILE_DISABLE="1")
-            result = self.configure(build, runtime, env=env)
+            result = self.configure(build, env=env)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertFalse(list((build / "CMakeFiles").glob("*/CMake*C*Compiler.cmake")))
             self.run_command(["ctest", "--test-dir", str(build), "--output-on-failure"])
@@ -103,43 +97,30 @@ test "$HANDOFF_ENV" = 'fixture value'
                 # macOS CPack adds AppleDouble records. Windows and Linux do not.
                 files = {member.name.split("/", 1)[1] for member in archive if member.isfile()
                          and (sys.platform != "darwin" or not Path(member.name).name.startswith("._"))}
-                self.assertEqual(files, {"bin/perikop.exe", "bin/onnxruntime.dll", "bin/velopack_libc.dll",
-                                         "bin/resources/LICENSE",
-                                         "bin/msvcp140.dll", "bin/msvcp140_1.dll", "bin/vcruntime140.dll",
-                                         "bin/vcruntime140_1.dll"})
-                runtime_member = next(member for member in archive if member.name.endswith("/bin/onnxruntime.dll"))
-                self.assertEqual(archive.extractfile(runtime_member).read(), b"upstream runtime")
-
-    def test_prebuilt_configuration_rejects_missing_runtime(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            build, runtime = self.fixture(Path(temporary).resolve())
-            (runtime / "msvcp140_1.dll").unlink()
-            result = self.configure(build, runtime)
-            self.assertNotEqual(result.returncode, 0)
-            self.assertIn("Visual C++ runtime file is missing: msvcp140_1.dll", result.stderr)
+                self.assertEqual(files, {"bin/perikop.exe", "bin/velopack_libc.dll", "bin/resources/LICENSE"})
 
     def test_prebuilt_configuration_rejects_wrong_version(self):
         with tempfile.TemporaryDirectory() as temporary:
-            build, runtime = self.fixture(Path(temporary).resolve())
+            build = self.fixture(Path(temporary).resolve())
             manifest = build / "windows-handoff.json"
             data = json.loads(manifest.read_text())
             data["version"] = "wrong-version"
             manifest.write_text(json.dumps(data))
-            result = self.configure(build, runtime)
+            result = self.configure(build)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("does not match source version", result.stderr)
 
     def test_prebuilt_configuration_rejects_missing_test_binary(self):
         with tempfile.TemporaryDirectory() as temporary:
-            build, runtime = self.fixture(Path(temporary).resolve())
+            build = self.fixture(Path(temporary).resolve())
             (build / "bin/ortho-tests.exe").unlink()
-            result = self.configure(build, runtime)
+            result = self.configure(build)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("Prebuilt test executable is missing", result.stderr)
 
     def test_export_rejects_host_only_paths_and_empty_test_lists(self):
         with tempfile.TemporaryDirectory() as temporary:
-            build, runtime = self.fixture(Path(temporary).resolve())
+            build = self.fixture(Path(temporary).resolve())
             cases = [([], "contains no tests"),
                      ([{"name": "host", "command": ["/unmapped/host-tool"], "properties": []}], "retains a host path"),
                      ([{"name": "host", "command": ["cmake"], "properties": [
@@ -164,7 +145,6 @@ if [ "$1" = --build ]; then
     mkdir -p build/cmake/bin/resources build/cmake/generated
     printf 'app' > build/cmake/bin/perikop.exe
     printf 'test' > build/cmake/bin/ortho-tests.exe
-    printf 'runtime' > build/cmake/bin/onnxruntime.dll
     printf 'update sdk' > build/cmake/bin/velopack_libc.dll
     printf 'resources' > build/cmake/bin/resources/fixture
     printf 'version' > build/cmake/generated/perikop_version.hpp
@@ -193,7 +173,7 @@ fi
             self.assertEqual((root / "strip.log").read_text().strip(), "build/cmake/bin/perikop.exe")
             with tarfile.open(root / "build/windows-x64.tar.gz") as archive:
                 files = {member.name for member in archive if member.isfile()}
-            self.assertEqual(files, {"bin/perikop.exe", "bin/ortho-tests.exe", "bin/onnxruntime.dll", "bin/velopack_libc.dll",
+            self.assertEqual(files, {"bin/perikop.exe", "bin/ortho-tests.exe", "bin/velopack_libc.dll",
                                      "bin/resources/fixture", "generated/perikop_version.hpp", "windows-handoff.json"})
 
     def test_toolchain_rejects_unknown_architecture(self):

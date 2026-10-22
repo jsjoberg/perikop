@@ -1,11 +1,9 @@
 #include "speech/portable_speech.hpp"
 #include "speech/espeak_voice.hpp"
-#include "speech/kokoro_audio.hpp"
-#include "speech/kokoro_text.hpp"
 #include "speech/pcm_output.hpp"
 #include "speech/pcm_stream.hpp"
 #include "speech/playback_timeline.hpp"
-#include "storage/database.hpp"
+#include "speech/swedish_text.hpp"
 #include <algorithm>
 #include <atomic>
 #include <cctype>
@@ -21,85 +19,31 @@ namespace ortho {
 namespace {
 using namespace std::chrono_literals;
 std::string voice_name(const std::string& voice) {
-    if (const auto native = espeak_voice_name(voice); !native.empty())
-        return "eSpeak (" + native + ")";
-    return voice == "bjorn" ? "Björn" : "Alice";
+    return "eSpeak (" + espeak_voice_name(voice) + ")";
 }
-bool espeak_voice(const std::string& voice) {
-    return !espeak_voice_name(voice).empty();
-}
-// 16-bit mono PCM WAV at 24 kHz, for the speech probe.
-void write_wav(const std::filesystem::path& path, const std::vector<float>& samples) {
-    std::ofstream output(path, std::ios::binary);
-    const auto put = [&](uint32_t value, int bytes) {
-        for (int i = 0; i < bytes; ++i)
-            output.put(char((value >> (8 * i)) & 0xff));
-    };
-    const auto data = uint32_t(samples.size() * 2);
-    output.write("RIFF", 4);
-    put(36 + data, 4);
-    output.write("WAVEfmt ", 8);
-    put(16, 4);
-    put(1, 2);
-    put(1, 2);
-    put(24000, 4);
-    put(48000, 4);
-    put(2, 2);
-    put(16, 2);
-    output.write("data", 4);
-    put(data, 4);
-    for (float sample : samples)
-        put(uint32_t(uint16_t(int16_t(std::lround(std::clamp(sample, -1.0f, 1.0f) * 32767)))), 2);
-    if (!output)
-        throw std::runtime_error("Cannot write the speech probe audio.");
-}
-// Read-aloud is Swedish only, with Alice or Björn.
-class Kokoro {
-    KokoroText text_;
-    KokoroAudio audio_;
-    static std::filesystem::path checked(const std::filesystem::path& path) {
-        for (const char* file :
-             {"kokoro.onnx", "g2p-encoder.onnx", "g2p-decoder.onnx", "g2p-config.json", "config.json",
-              "alice.bin", "bjorn.bin", "lexicon.tsv", "custom_lexicon.tsv", "g2p-corpus.tsv"})
-            if (!std::filesystem::is_regular_file(path / file))
-                throw std::runtime_error("Röstpaketet för Alice och Björn saknas eller är ofullständigt. "
-                                         "Installera det för att lyssna offline.");
-        return path;
-    }
+// The user's installed eSpeak NG reading Perikop's own Swedish pronunciations.
+class EspeakSynthesis {
+    std::filesystem::path data_;
+    std::unique_ptr<SwedishText> text_;
+    std::unique_ptr<Espeak> espeak_;
 
 public:
-    explicit Kokoro(const std::filesystem::path& path) : text_(checked(path)), audio_(path) {}
-    std::vector<float> generate(const std::string& text, const std::string& voice,
-                                const std::function<bool()>& cancelled) {
-        const auto tokens = text_.tokens(text);
-        // Text without speakable letters reads as a short pause.
-        if (tokens.empty())
-            return std::vector<float>(4800, 0.0f);
-        // The voice context holds 510 tokens. Longer text splits at a word gap (token 16).
-        std::vector<float> result;
-        for (size_t begin = 0; begin < tokens.size();) {
-            if (cancelled())
-                throw std::runtime_error("Speech cancelled");
-            size_t end = tokens.size(), next = end;
-            if (end - begin > 510) {
-                end = next = begin + 510;
-                for (auto at = begin + 510; at > begin; --at)
-                    if (tokens[at] == 16) {
-                        end = at;
-                        next = at + 1;
-                        break;
-                    }
-            }
-            const auto pcm = audio_.generate({tokens.begin() + begin, tokens.begin() + end}, voice);
-            result.insert(result.end(), pcm.begin(), pcm.end());
-            begin = next;
-        }
-        return result;
+    explicit EspeakSynthesis(std::filesystem::path data) : data_(std::move(data)) {}
+    std::vector<float> operator()(const std::string& text, const std::string& voice, double speed,
+                                  const std::function<bool()>& cancelled) {
+        if (!text_)
+            text_ = std::make_unique<SwedishText>(data_);
+        if (!espeak_)
+            espeak_ = std::make_unique<Espeak>();
+        // Speed scales eSpeak's own rate, around the chosen 150 words per minute.
+        const int rate = std::clamp(int(std::lround(150 * speed)), 80, 450);
+        return espeak_->speak(text_->ipa(text), {espeak_voice_name(voice), rate}, cancelled);
     }
 };
 class PortableSpeech final : public SpeechEngine {
-    // The bundled voice pack, and the user data folder that holds the speech cache.
-    std::filesystem::path pack_, data_;
+    // The bundled Swedish pronunciation data.
+    std::filesystem::path data_;
+    SpeechSynthesis synthesis_;
     SpeechStatus callback_;
     mutable std::mutex mutex_;
     std::condition_variable condition_;
@@ -110,14 +54,13 @@ class PortableSpeech final : public SpeechEngine {
     bool output_started_ = false;
     SpeechState state_ = SpeechState::Idle;
     double ready_ = 0, speed_ = 1;
-    std::string voice_ = "alice";
+    std::string voice_ = espeak_male_id;
     PlaybackTimeline timeline_;
     std::string stage_ = "Förbereder läsningen";
-    bool cache_unavailable_ = false;
     std::unique_ptr<PcmOutput> output_;
     // Word lookups use their own front end, so they never wait for synthesis.
     std::mutex lookup_mutex_;
-    std::unique_ptr<KokoroText> lookup_;
+    std::unique_ptr<SwedishText> lookup_;
     struct Lookup {
         std::string text;
         std::function<void(std::string)> deliver;
@@ -173,21 +116,15 @@ class PortableSpeech final : public SpeechEngine {
         std::lock_guard lock(mutex_);
         if (shutdown_ || generation != generation_.load())
             return;
-        stage_ = status + (cache_unavailable_ ? ", utan ljudcache" : "");
+        stage_ = status;
         state_ = state;
         if (callback_)
             callback_({++status_sequence_, paused_ ? "Pausad" : stage_});
     }
     void run() {
-        std::unique_ptr<Kokoro> kokoro;
-        // eSpeak uses only the pack's pronunciations, not its neural voices.
-        std::unique_ptr<KokoroText> phonetic_text;
-        std::unique_ptr<Espeak> espeak;
-        std::unique_ptr<SpeechCache> cache;
-        bool cache_attempted = false;
-        // Measured synthesis speed for this session. Until the model has run,
-        // assume it is slower than real time, as on the reference hardware.
-        double model_seconds = 0, model_audio = 0, espeak_seconds = 0, espeak_audio = 0;
+        // Measured synthesis speed for this session. Until a text has been read,
+        // assume it is slower than real time.
+        double synthesis_seconds = 0, synthesis_audio = 0;
         while (true) {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
@@ -210,29 +147,7 @@ class PortableSpeech final : public SpeechEngine {
             const auto cancelled = [this, generation] {
                 return generation_.load() != generation;
             };
-            const auto cache_error = [&](const std::exception& error) {
-                cache.reset();
-                std::cerr << "Speech cache disabled; speech continues without it: " << error.what() << '\n';
-                std::lock_guard lock(mutex_);
-                cache_unavailable_ = true;
-            };
-            const auto with_cache = [&](auto&& operation) {
-                if (cache)
-                    try {
-                        operation(*cache);
-                    } catch (const std::exception& error) {
-                        cache_error(error);
-                    }
-            };
             try {
-                if (!cache_attempted) {
-                    cache_attempted = true;
-                    try {
-                        cache = std::make_unique<SpeechCache>(data_ / "speech-cache.db");
-                    } catch (const std::exception& error) {
-                        cache_error(error);
-                    }
-                }
                 {
                     std::lock_guard lock(mutex_);
                     if (cancelled())
@@ -245,20 +160,7 @@ class PortableSpeech final : public SpeechEngine {
                     std::string language, text;
                     std::optional<SpeechCue> cue;
                     double from, to, weight;
-                    bool cached;
                 };
-                const bool espeaking = espeak_voice(voice);
-                const Espeak::Settings espeak_settings{.voice = espeak_voice_name(voice)};
-                if (espeaking && !espeak)
-                    espeak = std::make_unique<Espeak>();
-                // eSpeak's audio changes with the installed eSpeak, not with the neural pack.
-                const auto revision = espeaking
-                                          ? "espeak/" + espeak->version() + "/" + espeak_settings.voice +
-                                                "/" + std::to_string(espeak_settings.rate) + "/v1"
-                                          : std::string(kokoro_pack_id) + "/ort1.23.2/" + voice + "/v1";
-                // eSpeak is far faster than the neural voices; its timing must not hide the model's.
-                auto& engine_seconds = espeaking ? espeak_seconds : model_seconds;
-                auto& engine_audio = espeaking ? espeak_audio : model_audio;
                 std::vector<Part> parts;
                 for (const auto& utterance : batch) {
                     auto chunks = speech_chunks(utterance.speech_text);
@@ -269,13 +171,9 @@ class PortableSpeech final : public SpeechEngine {
                         const auto weight = speech_text_weight(text);
                         if (cancelled())
                             break;
-                        bool cached = false;
-                        with_cache([&](SpeechCache& store) {
-                            cached = store.contains(revision, utterance.language, text);
-                        });
                         parts.push_back({utterance.language, std::move(text), utterance.cue,
                                          used / std::max(1.0, total), (used + weight) / std::max(1.0, total),
-                                         weight, cached});
+                                         weight});
                         used += weight;
                     }
                 }
@@ -289,17 +187,14 @@ class PortableSpeech final : public SpeechEngine {
                 double next_weight = 0;
                 std::string playing;
                 for (const auto& part : parts)
-                    if (!part.cached)
-                        remaining_weight += part.weight;
-                // Keep a rolling lead; slower models can prepare up to ten minutes.
-                // Pause suspends synthesis between chunks as well as audio playback.
+                    remaining_weight += part.weight;
+                // Keep a rolling lead. Pause suspends synthesis between chunks as well as audio playback.
                 const auto estimated_remaining = [&] {
-                    // Cached parts are disk reads, not future model inference.
                     return std::max(0.0, remaining_weight) * produced_seconds /
                            std::max(1e-9, produced_weight);
                 };
                 const auto realtime_factor = [&] {
-                    return (engine_audio > 0 ? engine_seconds / engine_audio : 2.5) * speed_;
+                    return synthesis_audio > 0 ? synthesis_seconds / synthesis_audio : 2.5;
                 };
                 const auto estimated_next = [&] {
                     return next_weight * produced_seconds / std::max(1e-9, produced_weight);
@@ -337,42 +232,26 @@ class PortableSpeech final : public SpeechEngine {
                             break;
                     }
                     const auto& part = parts[i];
-                    const auto& language = part.language;
                     const auto& text = part.text;
                     const auto progress = std::to_string(i + 1) + "/" + std::to_string(parts.size());
                     const auto name = voice_name(voice);
                     playing = "Läser med " + name;
                     report(generation, i ? "Läser med " + name + ", förbereder del " + progress
                                          : "Förbereder läsningen, " + progress);
-                    std::optional<std::vector<float>> samples;
-                    with_cache([&](SpeechCache& store) {
-                        samples = store.load(revision, language, text);
-                    });
-                    if (!samples) {
-                        if (espeaking) {
-                            if (!phonetic_text)
-                                phonetic_text = std::make_unique<KokoroText>(pack_);
-                        } else if (!kokoro) {
-                            report(generation, "Förbereder röstmodellen, " + name, SpeechState::Loading);
-                            kokoro = std::make_unique<Kokoro>(pack_);
-                        }
-                        report(generation, i ? "Läser med " + name + ", förbereder del " + progress
-                                             : "Förbereder läsningen, " + progress);
-                        const auto begin = std::chrono::steady_clock::now();
-                        samples = espeaking
-                                      ? espeak->speak(phonetic_text->ipa(text), espeak_settings, cancelled)
-                                      : kokoro->generate(text, voice, cancelled);
-                        if (cancelled())
-                            break;
-                        engine_seconds +=
-                            std::chrono::duration<double>(std::chrono::steady_clock::now() - begin).count();
-                        engine_audio += samples->size() / 24000.0;
-                        with_cache([&](SpeechCache& store) {
-                            store.save(revision, language, text, *samples);
-                        });
+                    double speed;
+                    {
+                        std::lock_guard lock(mutex_);
+                        speed = speed_;
                     }
+                    const auto begin = std::chrono::steady_clock::now();
+                    auto samples = synthesis_(text, voice, speed, cancelled);
+                    if (cancelled())
+                        break;
+                    synthesis_seconds +=
+                        std::chrono::duration<double>(std::chrono::steady_clock::now() - begin).count();
+                    synthesis_audio += samples.size() / 24000.0;
                     if (i)
-                        samples->insert(samples->begin(), 4800, 0.0f);
+                        samples.insert(samples.begin(), 4800, 0.0f);
                     bool need_output = false;
                     {
                         std::lock_guard lock(mutex_);
@@ -387,19 +266,16 @@ class PortableSpeech final : public SpeechEngine {
                         std::lock_guard lock(mutex_);
                         if (cancelled())
                             break;
-                        if (prepared_output) {
+                        if (prepared_output)
                             output_ = std::move(prepared_output);
-                            output_->set_speed(speed_);
-                        }
                         if (!i)
                             output_->start(paused_);
-                        timeline_.append(part.cue, samples->size(), i ? 4800 : 0, part.from, part.to);
-                        produced_seconds += samples->size() / 24000.0;
+                        timeline_.append(part.cue, samples.size(), i ? 4800 : 0, part.from, part.to);
+                        produced_seconds += samples.size() / 24000.0;
                         produced_weight += part.weight;
-                        if (!part.cached)
-                            remaining_weight -= part.weight;
-                        next_weight = i + 1 < parts.size() && !parts[i + 1].cached ? parts[i + 1].weight : 0;
-                        output_->append(std::move(*samples));
+                        remaining_weight -= part.weight;
+                        next_weight = i + 1 < parts.size() ? parts[i + 1].weight : 0;
+                        output_->append(std::move(samples));
                         output_started_ = true;
                         update_gate();
                     }
@@ -454,13 +330,6 @@ class PortableSpeech final : public SpeechEngine {
         for (const auto& utterance : utterances)
             if (utterance.language != "sv")
                 throw std::runtime_error("Uppläsning finns bara på svenska.");
-        bool neural;
-        {
-            std::lock_guard lock(mutex_);
-            neural = !espeak_voice(voice_);
-        }
-        if (neural && !std::filesystem::exists(pack_ / "kokoro.onnx"))
-            throw std::runtime_error("Den här versionen av Perikop byggdes utan rösterna Alice och Björn.");
         {
             std::lock_guard lock(mutex_);
             queue_.insert(queue_.end(), utterances.begin(), utterances.end());
@@ -474,8 +343,15 @@ class PortableSpeech final : public SpeechEngine {
     }
 
 public:
-    PortableSpeech(const std::filesystem::path& voices, std::filesystem::path data, SpeechStatus status)
-        : pack_(voices / kokoro_pack_id), data_(std::move(data)), callback_(std::move(status)) {
+    PortableSpeech(std::filesystem::path data, SpeechStatus status, SpeechSynthesis synthesis)
+        : data_(std::move(data)),
+          synthesis_(synthesis ? std::move(synthesis)
+                               : [espeak = std::make_shared<EspeakSynthesis>(data_)](
+                                     const std::string& text, const std::string& voice, double speed,
+                                     const std::function<bool()>& cancelled) {
+                                     return (*espeak)(text, voice, speed, cancelled);
+                                 }),
+          callback_(std::move(status)) {
         // Also join the first worker if starting the second one fails.
         try {
             lookup_worker_ = std::thread([this] {
@@ -536,9 +412,6 @@ public:
     void set_speed(double speed) override {
         std::lock_guard lock(mutex_);
         speed_ = speed;
-        if (output_)
-            output_->set_speed(speed);
-        condition_.notify_all();
     }
     void set_voice(const std::string& voice) override {
         std::lock_guard lock(mutex_);
@@ -548,7 +421,7 @@ public:
         std::lock_guard lock(lookup_mutex_);
         try {
             if (!lookup_)
-                lookup_ = std::make_unique<KokoroText>(pack_);
+                lookup_ = std::make_unique<SwedishText>(data_);
             return lookup_->ipa(text);
         } catch (const std::exception&) {
             return {};
@@ -580,60 +453,8 @@ public:
     }
 };
 } // namespace
-std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& voices,
-                                                     const std::filesystem::path& data, SpeechStatus status) {
-    return std::make_unique<PortableSpeech>(voices, data, std::move(status));
-}
-bool render_speech_probe(const std::filesystem::path& voices, const std::filesystem::path& output) {
-    const auto begin = std::chrono::steady_clock::now();
-    Kokoro model(voices / kokoro_pack_id);
-    const auto loaded = std::chrono::steady_clock::now();
-#if defined(__aarch64__) || defined(_M_ARM64)
-    constexpr auto architecture = "arm64";
-#elif defined(__x86_64__) || defined(_M_X64)
-    constexpr auto architecture = "x86_64";
-#else
-    constexpr auto architecture = "other";
-#endif
-    const std::string short_text = "Herren är min herde, mig skall intet fattas.";
-    // More than 510 phonemes exercises the voice context's splitting path.
-    std::string long_text;
-    for (int i = 0; i < 8; ++i)
-        long_text += "Han låter mig vila på gröna ängar. Han för mig till vatten där jag finner ro. "
-                     "Han vederkvicker min själ. Han leder mig på rätta vägar för sitt namns skull. ";
-    for (const auto* voice : {"alice", "bjorn"}) {
-        size_t short_frames = 0;
-        for (const bool longer : {false, true}) {
-            const auto started = std::chrono::steady_clock::now();
-            const auto samples = model.generate(longer ? long_text : short_text, voice, [] {
-                return false;
-            });
-            double energy = 0;
-            for (const auto sample : samples) {
-                if (!std::isfinite(sample))
-                    throw std::runtime_error("Speech probe generated a non-finite sample.");
-                energy += double(sample) * sample;
-            }
-            if (samples.size() < 2400 || energy / samples.size() < 1e-10)
-                throw std::runtime_error("Speech probe generated empty or silent audio.");
-            if (longer && samples.size() < short_frames * 4)
-                throw std::runtime_error("Speech probe long passage appears truncated.");
-            if (!longer)
-                short_frames = samples.size();
-            const auto path = std::string(voice) == "alice" && !longer
-                                  ? output
-                                  : output.parent_path() / (output.stem().string() + "-" + voice +
-                                                            (longer ? "-long.wav" : "-short.wav"));
-            write_wav(path, samples);
-            std::cout << "Speech probe: pack=" << kokoro_pack_id << ", architecture=" << architecture
-                      << ", voice=" << voice << ", passage=" << (longer ? "long" : "short")
-                      << ", audio_seconds=" << samples.size() / 24000.0
-                      << ", load_seconds=" << std::chrono::duration<double>(loaded - begin).count()
-                      << ", generation_seconds="
-                      << std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()
-                      << '\n';
-        }
-    }
-    return true;
+std::unique_ptr<SpeechEngine> create_portable_speech(const std::filesystem::path& speech_data,
+                                                     SpeechStatus status, SpeechSynthesis synthesis) {
+    return std::make_unique<PortableSpeech>(speech_data, std::move(status), std::move(synthesis));
 }
 } // namespace ortho

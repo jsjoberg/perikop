@@ -35,7 +35,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     include(cmake/gcc-runtime.cmake)
 endif()
 if(WIN32)
-    # The bundled ONNX Runtime and Visual C++ runtime require Windows 10.
+    # Perikop requires Windows 10.
     # Apply the same API baseline to the application and fetched dependencies.
     add_compile_definitions(WINVER=0x0A00 _WIN32_WINNT=0x0A00)
 endif()
@@ -89,7 +89,6 @@ add_library(ortho-core
     src/storage/study_db.cpp
     src/storage/user_db.cpp
     src/storage/reading_plan_migration.cpp
-    src/storage/speech_cache.cpp
     src/storage/pronunciation_review_db.cpp
     src/speech/speech.cpp
     src/speech/reading_speech.cpp
@@ -259,17 +258,6 @@ if(ORTHO_BUILD_GUI)
         set(resource_destination "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources")
         install(TARGETS perikop RUNTIME DESTINATION bin)
     endif()
-    # The Alice and Björn voice pack is bundled, so the installed program never needs a network.
-    # Prepare it with tools/speech/prepare_kokoro.py; see docs/building.md.
-    set(PERIKOP_VOICE_PACK "${CMAKE_SOURCE_DIR}/build/kokoro-pack" CACHE PATH "Prepared voice pack to bundle")
-    if(EXISTS "${PERIKOP_VOICE_PACK}/voice-pack.json")
-        file(READ "${PERIKOP_VOICE_PACK}/voice-pack.json" perikop_voice_manifest)
-        string(JSON perikop_voice_id GET "${perikop_voice_manifest}" id)
-        set(perikop_voice_copy COMMAND ${CMAKE_COMMAND} -E copy_directory "${PERIKOP_VOICE_PACK}"
-            "${resource_destination}/voices/${perikop_voice_id}")
-    else()
-        message(WARNING "No voice pack at ${PERIKOP_VOICE_PACK}. Perikop is built without read-aloud.")
-    endif()
     add_custom_target(ortho-resources ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/resources" "${resource_destination}"
@@ -290,24 +278,16 @@ if(ORTHO_BUILD_GUI)
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${ortho_speech_source}/licenses" "${resource_destination}/licenses"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${perikop_hyphenation_notices}"
             "${resource_destination}/licenses/Hyphenation-NOTICES.txt"
-        ${ortho_icon_copy}
-        ${perikop_voice_copy})
+        ${ortho_icon_copy})
     add_dependencies(perikop ortho-resources)
     if(APPLE)
         set_target_properties(perikop PROPERTIES BUILD_RPATH "@executable_path/../Frameworks" INSTALL_RPATH "@executable_path/../Frameworks")
-        add_custom_command(TARGET perikop POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_BUNDLE_DIR:perikop>/Contents/Frameworks"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ortho_ort_library}" "$<TARGET_BUNDLE_DIR:perikop>/Contents/Frameworks/libonnxruntime.${ortho_ort_version}.dylib")
     elseif(WIN32)
-        add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" "$<TARGET_FILE_DIR:perikop>/onnxruntime.dll")
-        install(FILES "${ortho_ort_SOURCE_DIR}/lib/onnxruntime.dll" DESTINATION bin)
         if(perikop_updates)
             add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${perikop_velopack_dll}" "$<TARGET_FILE_DIR:perikop>/velopack_libc.dll")
             install(FILES "${perikop_velopack_dll}" DESTINATION bin RENAME velopack_libc.dll)
         endif()
-        include(cmake/windows-runtime.cmake)
     else()
         set_target_properties(perikop PROPERTIES BUILD_RPATH "$ORIGIN" INSTALL_RPATH "$ORIGIN")
         # The reader refreshes Pango's font list after it registers the bundled fonts,
@@ -315,9 +295,6 @@ if(ORTHO_BUILD_GUI)
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(perikop_pango REQUIRED IMPORTED_TARGET pangoft2 pangocairo gtk+-3.0)
         target_link_libraries(perikop PRIVATE PkgConfig::perikop_pango)
-        add_custom_command(TARGET perikop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${ortho_ort_library}" "$<TARGET_FILE_DIR:perikop>/libonnxruntime.so.1")
-        install(FILES "${ortho_ort_library}" DESTINATION bin RENAME libonnxruntime.so.1)
         if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
             # Carry the compiler runtime so older distributions need only their own glibc.
             foreach(runtime IN LISTS perikop_gcc_runtimes)
@@ -328,7 +305,7 @@ if(ORTHO_BUILD_GUI)
             endforeach()
         endif()
     endif()
-    # The assembled resources include the generated licenses and the bundled voice pack.
+    # The assembled resources include the generated licenses and the Swedish pronunciation data.
     if(APPLE)
         install(DIRECTORY "${resource_destination}/" DESTINATION "Perikop.app/Contents/Resources")
         # CMake's bundle installation does not strip its binaries automatically.
@@ -336,7 +313,6 @@ if(ORTHO_BUILD_GUI)
         install(CODE "if(CMAKE_INSTALL_DO_STRIP)
             execute_process(COMMAND \"${CMAKE_STRIP}\" -S -x
                 \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Perikop.app/Contents/MacOS/Perikop\"
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/Perikop.app/Contents/Frameworks/libonnxruntime.${ortho_ort_version}.dylib\"
                 COMMAND_ERROR_IS_FATAL ANY)
         endif()")
         # A downloaded bundle whose seal does not cover its contents opens as "damaged".
@@ -348,14 +324,6 @@ if(ORTHO_BUILD_GUI)
         install(DIRECTORY "${resource_destination}/" DESTINATION share/perikop/resources)
     endif()
     if(BUILD_TESTING)
-        if(EXISTS "${PERIKOP_VOICE_PACK}/voice-pack.json")
-            add_executable(ortho-speech-recovery-tests tests/portable_speech_recovery_test.cpp src/speech/portable_speech.cpp)
-            target_link_libraries(ortho-speech-recovery-tests PRIVATE ortho-core ortho-kokoro ortho-espeak Threads::Threads)
-            add_dependencies(ortho-speech-recovery-tests ortho-resources)
-            add_test(NAME speech-cache-recovery COMMAND ortho-speech-recovery-tests
-                "${resource_destination}/voices" "${CMAKE_BINARY_DIR}/test-cache-recovery")
-            set_tests_properties(speech-cache-recovery PROPERTIES TIMEOUT 300)
-        endif()
         add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
         add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
             "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"

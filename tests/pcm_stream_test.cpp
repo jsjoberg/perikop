@@ -64,7 +64,7 @@ int main() {
         check(full.append(std::move(pending)), "A played slot is reused");
 
         check(ortho::buffer_target(0, 2.3) == 0.25,
-              "Cached playback needs only a short disk-read lead, even on a slow machine");
+              "Fully synthesized playback needs only a short lead, even on a slow machine");
         check(std::abs(ortho::buffer_target(100, 2.3) - 193.5) < 1e-9,
               "Slow synthesis buffers enough to finish before playback catches up");
         check(ortho::buffer_target(100, 0.5) == 2,
@@ -123,7 +123,8 @@ int main() {
             }
             concurrent.complete();
         });
-        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+        // A hang guard, not a speed requirement: sanitizer builds on busy runners are slow.
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(60);
         size_t expected = 1;
         bool ordered = true, timed_out = false;
         while (!concurrent.finished()) {

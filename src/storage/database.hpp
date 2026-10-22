@@ -131,20 +131,6 @@ public:
 private:
     DatabaseHandle db_;
 };
-// Speech audio has its own bounded database. It never changes Scripture or preferences.
-class SpeechCache {
-public:
-    explicit SpeechCache(const std::filesystem::path&);
-    // Check availability without reading or allocating the audio blob.
-    bool contains(const std::string& model, const std::string& language, const std::string& text);
-    std::optional<std::vector<float>> load(const std::string& model, const std::string& language,
-                                           const std::string& text);
-    void save(const std::string& model, const std::string& language, const std::string& text,
-              const std::vector<float>&);
-
-private:
-    DatabaseHandle db_;
-};
 struct PronunciationDecision {
     std::string form, status, spoken, note;
 };

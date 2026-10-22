@@ -185,9 +185,23 @@ std::string espeak_phonemes(const std::string& ipa) {
                     symbols[i].clear();
         begin = end + 1;
     }
-    std::string out, word;
+    std::string out, word, spelled;
+    bool spelling = false;
+    // A ⟨word⟩ without known phonemes goes to eSpeak as text, for its own Swedish rules.
     for (const auto& symbol : symbols) {
-        if (punctuation(symbol)) {
+        if (symbol == "⟨") {
+            if (const auto phones = trim(word); !phones.empty())
+                out += "[[" + phones + "]] ";
+            word.clear();
+            spelled.clear();
+            spelling = true;
+        } else if (spelling) {
+            if (symbol == "⟩") {
+                out += spelled + " ";
+                spelling = false;
+            } else
+                spelled += symbol;
+        } else if (punctuation(symbol)) {
             if (const auto phones = trim(word); !phones.empty())
                 out += "[[" + phones + "]]";
             out += symbol + " ";
@@ -203,10 +217,14 @@ std::string espeak_phonemes(const std::string& ipa) {
 
 std::vector<std::string> espeak_unknown_phones(const std::string& ipa) {
     std::vector<std::string> result;
-    for (const auto& symbol : split(ipa))
-        if (!symbol.empty() && !punctuation(symbol) && !code(symbol) &&
-            std::find(result.begin(), result.end(), symbol) == result.end())
+    bool spelling = false;
+    for (const auto& symbol : split(ipa)) {
+        if (symbol == "⟨" || symbol == "⟩")
+            spelling = symbol == "⟨";
+        else if (!spelling && !punctuation(symbol) && !code(symbol) &&
+                 std::find(result.begin(), result.end(), symbol) == result.end())
             result.push_back(symbol);
+    }
     return result;
 }
 

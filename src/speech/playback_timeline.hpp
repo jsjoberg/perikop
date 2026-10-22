@@ -4,7 +4,7 @@
 #include <cstdint>
 namespace ortho {
 // Verse boundaries use real PCM offsets. Movement inside a verse is an
-// estimate from text weight; the model does not supply word alignment.
+// estimate from text weight; the synthesizer does not supply word alignment.
 class PlaybackTimeline {
     struct Part {
         std::optional<SpeechCue> cue;
