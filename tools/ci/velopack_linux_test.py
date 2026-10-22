@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Update a Velopack-installed Perikop from a local feed, as Inställningar does, and check the result.
 
-Run it on the glibc 2.34 baseline after tools/package_appimage.sh, with the uv-managed Python
+Run it on the glibc 2.34 baseline after tools/prepare_appdir.sh, with the uv-managed Python
 used by tools/ci/build.py. It packs the same build as two nightly versions,
 installs the first, and lets the program update itself with --update-probe. It checks that:
 - the update applies and replaces the installed AppImage,
@@ -57,7 +57,7 @@ def wait_for_image(installed, expected):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("build", type=Path, help="The build directory whose AppDir tools/package_appimage.sh made")
+    parser.add_argument("build", type=Path, help="The build directory whose AppDir tools/prepare_appdir.sh made")
     args = parser.parse_args()
     architecture = {"x86_64": "x64", "aarch64": "arm64"}[platform.machine()]
     channel = f"linux-{architecture}-nightly"

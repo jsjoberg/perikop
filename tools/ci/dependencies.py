@@ -18,8 +18,8 @@ PLATFORMS = ("Linux", "Linux-arm64", "macOS", "Windows")
 CROSS_ENVIRONMENT = "Windows-cross-environment.tar.gz"
 # The AppImage tools for each Linux platform, named for the processor they run on.
 APPIMAGE_TOOLS = {
-    "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-x86_64"),
-    "Linux-arm64": ("linuxdeploy-aarch64.AppImage", "linuxdeploy-plugin-gtk.sh", "runtime-aarch64"),
+    "Linux": ("linuxdeploy-x86_64.AppImage", "linuxdeploy-plugin-gtk.sh"),
+    "Linux-arm64": ("linuxdeploy-aarch64.AppImage", "linuxdeploy-plugin-gtk.sh"),
 }
 
 
@@ -149,7 +149,7 @@ def restore(platform, output, cross=False, tools_only=False):
     extract(downloads / names[0], archives)
     verify(archives / "upstreams.json", lock["upstreams_sha256"])
     for item in selected(platform):
-        if tools_only and item["file"] not in ("nsis.zip", "vpk.nupkg"):
+        if tools_only and item["file"] != "vpk.nupkg":
             continue
         path = archives / item["file"]
         verify(path, item["sha256"])
@@ -177,8 +177,6 @@ def restore(platform, output, cross=False, tools_only=False):
         tools.mkdir(parents=True, exist_ok=True)
         if not tools_only:
             subprocess.run(["7z", "x", str(archives / "w64devkit.7z.exe"), "-o" + str(tools), "-y"], check=True)
-        unpack_root(archives / "nsis.zip", tools / "nsis")
-        if not tools_only:
             unpack_root(archives / "ccache-windows.zip", tools / "ccache")
     else:
         extract(downloads / names[1], output / "tools")
@@ -201,7 +199,7 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "build/ci")
     parser.add_argument("--platform", choices=PLATFORMS + ("Windows-cross",))
     parser.add_argument("--cross", action="store_true", help="Restore Windows sources and the Linux cross-build environment")
-    parser.add_argument("--tools-only", action="store_true", help="Restore only NSIS and vpk for prebuilt Windows packaging")
+    parser.add_argument("--tools-only", action="store_true", help="Restore only vpk for prebuilt Windows packaging")
     parser.add_argument("--repository", default="jsjoberg/perikop-assets")
     parser.add_argument("--release")
     args = parser.parse_args()

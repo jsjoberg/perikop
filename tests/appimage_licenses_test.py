@@ -54,8 +54,8 @@ esac
         build = root / "build"
         build.mkdir()
         # Run the production collector, not a copy of its license-selection logic.
-        script = (ROOT / "tools/package_appimage.sh").read_text()
-        collector = script[script.index("licenses=$appdir/"):script.index("linuxdeploy --output appimage")]
+        script = (ROOT / "tools/prepare_appdir.sh").read_text()
+        collector = script[script.index("licenses=$appdir/"):script.index("# Also check GTK libraries")]
         env = dict(os.environ, PATH=str(tools) + os.pathsep + os.environ["PATH"],
                    appdir=str(build / "AppDir"), build=str(build), source=str(ROOT),
                    FIXTURE_ORIGIN=origin, FIXTURE_LICENSE=str(installed_license or root / "absent-LICENSE"))
@@ -104,34 +104,29 @@ class AppImageRuntimeLgplTest(unittest.TestCase):
             self.assertEqual(asset["sha256"], hashlib.sha256((ROOT / asset["path"]).read_bytes()).hexdigest(), licence)
         self.assertIn("fuse-3.15.0/LGPL2.txt", manifest["resources/licenses/libfuse-LGPL-2.1.txt"]["url"])
 
-    def test_notices_name_libfuse_both_runtimes_and_the_source(self):
+    def test_notices_name_libfuse_the_runtime_and_the_source(self):
         notices = (ROOT / "THIRD-PARTY-NOTICES.md").read_text()
         for passage in ("libfuse 3.15.0", "LGPL-2.1", "patches/libfuse/mount.c.diff", "libfuse-LGPL-2.1.txt",
-                        runtime.RUNTIMES["linuxdeploy"]["commit"], runtime.RUNTIMES["velopack"]["commit"],
-                        runtime.name() + ".tar.gz", "Perikop remains under the MIT license"):
+                        runtime.RUNTIME["commit"], runtime.name() + ".tar.gz", "Perikop remains under the MIT license"):
             self.assertIn(passage, notices)
         self.assertTrue((ROOT / "LICENSE").read_text().startswith("MIT License"))
 
-    def test_runtimes_and_sources_are_pinned_for_both_architectures(self):
+    def test_runtime_and_sources_are_pinned_for_both_architectures(self):
         upstreams = json.loads((ROOT / "ci/upstreams.json").read_text())
-        for key, architecture in (("appimage-runtime", "x86_64"), ("appimage-runtime-arm64", "aarch64")):
-            self.assertEqual(upstreams[key]["file"], "runtime-" + architecture)
-            self.assertEqual(upstreams[key]["sha256"], runtime.RUNTIMES["linuxdeploy"][architecture])
-        for packaging in runtime.RUNTIMES.values():
-            self.assertEqual(set(packaging) - {"commit"}, {"x86_64", "aarch64"})
-        # The Velopack runtime comes from vpk, so vpk stays pinned too.
+        self.assertEqual(set(runtime.RUNTIME) - {"commit"}, {"x86_64", "aarch64"})
+        # The runtime comes from vpk, so vpk stays pinned too.
         self.assertEqual(upstreams["vpk"]["sha256"], "2b56ce117f803fc70c103cb423bd040e395e40370f6ff6e10818e9ff9c26a323")
         sources = {item["file"]: item for item in runtime.inputs()}
-        for packaging in runtime.RUNTIMES.values():
-            commit = packaging["commit"]
-            archive = next(item for item in sources.values() if item["url"].endswith(commit))
-            self.assertTrue(archive["file"].startswith("type2-runtime-" + commit[:12]))
+        commit = runtime.RUNTIME["commit"]
+        archives = [item for item in sources.values() if item["file"].startswith("type2-runtime-")]
+        self.assertEqual([item["file"] for item in archives], ["type2-runtime-" + commit[:12] + ".tar.gz"])
+        self.assertTrue(archives[0]["url"].endswith(commit))
         # The same libfuse and squashfuse hashes as upstream's scripts/common/install-dependencies.sh.
         self.assertEqual(sources["fuse-3.15.0.tar.xz"]["sha256"],
                          "70589cfd5e1cff7ccd6ac91c86c01be340b227285c5e200baa284e401eea2ca0")
         self.assertEqual(sources["squashfuse-0.5.2.tar.gz"]["sha256"],
                          "db0238c5981dabbd80ee09ae15387f390091668ca060a7bc38047912491443d3")
-        for library in ("musl-1.2.5", "zlib-1.3.2", "zlib-1.3.1", "zstd-1.5.6", "mimalloc-2.1.7"):
+        for library in ("musl-1.2.5", "zlib-1.3.1", "zstd-1.5.6", "mimalloc-2.1.7"):
             self.assertTrue(any(name.startswith(library) for name in sources), library)
         for item in sources.values():
             self.assertRegex(item["sha256"], "^[0-9a-f]{64}$")
@@ -159,7 +154,7 @@ class AppImageRuntimeLgplTest(unittest.TestCase):
                 first = runtime.source(archives, root / "first")
                 second = runtime.source(archives, root / "second")
             self.assertEqual(first.read_bytes(), second.read_bytes())
-            self.assertEqual(first.name, "AppImage-runtime-source-8f39b89-3d17002.tar.gz")
+            self.assertEqual(first.name, "AppImage-runtime-source-3d17002.tar.gz")
             prefix = runtime.name() + "/"
             with tarfile.open(first) as archive:
                 names = set(archive.getnames())
@@ -169,7 +164,7 @@ class AppImageRuntimeLgplTest(unittest.TestCase):
             expected |= {prefix + "sources/" + item["file"] for item in runtime.inputs()}
             expected |= {prefix + "licenses/" + licence for licence in runtime.LICENCES}
             self.assertEqual(names, expected)
-            for passage in (runtime.RUNTIMES["linuxdeploy"]["commit"], runtime.RUNTIMES["velopack"]["commit"],
+            for passage in (runtime.RUNTIME["commit"], runtime.RUNTIME["x86_64"], runtime.RUNTIME["aarch64"],
                             "libfuse-LGPL-2.1.txt", "--appimage-offset", "Relink with a modified libfuse",
                             "mount.c.diff", "Perikop itself is MIT-licensed"):
                 self.assertIn(passage, readme)
@@ -184,12 +179,13 @@ class AppImageRuntimeLgplTest(unittest.TestCase):
                 runtime.source(archives, root / "output")
 
     def test_runtime_check_rejects_other_builds_and_commits(self):
-        commit = runtime.RUNTIMES["velopack"]["commit"][:7]
+        commit = runtime.RUNTIME["commit"][:7]
         named = b"\x7fELF..." + f"https://github.com/AppImage/type2-runtime/commit/{commit}".encode()
-        self.assertIsNone(runtime.appimage_problem(named, "velopack"))
-        self.assertIn("does not name commit", runtime.appimage_problem(named, "linuxdeploy"))
+        self.assertIsNone(runtime.appimage_problem(named))
+        former = b"\x7fELF..." + b"https://github.com/AppImage/type2-runtime/commit/8f39b89"
+        self.assertIn("does not name commit", runtime.appimage_problem(former))
         for architecture in ("x86_64", "aarch64"):
-            self.assertIn("not the pinned build", runtime.runtime_problem(named, "velopack", architecture))
+            self.assertIn("not the pinned build", runtime.runtime_problem(named, architecture))
 
     def test_appimage_without_the_lgpl_text_fails(self):
         with tempfile.TemporaryDirectory() as temporary:
