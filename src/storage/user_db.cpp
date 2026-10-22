@@ -154,6 +154,45 @@ void UserDb::forget(const std::string& prefix) {
     positions.row();
     transaction.commit();
 }
+std::optional<WindowPlacement> UserDb::window_placement() const {
+    std::map<std::string, int> values;
+    Statement query(db_.get(), "SELECT key,value FROM settings WHERE key GLOB 'window.*'");
+    while (query.row()) {
+        const auto text = query.text(1);
+        int value = 0;
+        const auto parsed = std::from_chars(text.data(), text.data() + text.size(), value);
+        if (parsed.ec != std::errc{} || parsed.ptr != text.data() + text.size())
+            return {};
+        values.emplace(query.text(0), value);
+    }
+    for (const auto* key : {"window.x", "window.y", "window.width", "window.height"})
+        if (!values.contains(key))
+            return {};
+    const int width = values["window.width"], height = values["window.height"];
+    if (width < 1 || height < 1 || width > 100000 || height > 100000)
+        return {};
+    return WindowPlacement{values["window.x"], values["window.y"], width, height,
+                           values["window.maximized"] == 1};
+}
+void UserDb::window_placement(const WindowPlacement& placement) {
+    if (placement.width < 1 || placement.height < 1 || placement.width > 100000 || placement.height > 100000)
+        throw std::invalid_argument("Invalid window size");
+    Transaction transaction(db_.get());
+    Statement query(db_.get(),
+                    "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
+    for (const auto& [key, value] :
+         std::vector<std::pair<std::string, int>>{{"window.x", placement.x},
+                                                  {"window.y", placement.y},
+                                                  {"window.width", placement.width},
+                                                  {"window.height", placement.height},
+                                                  {"window.maximized", placement.maximized ? 1 : 0}}) {
+        query.text(1, key);
+        query.text(2, std::to_string(value));
+        query.row();
+        query.reset();
+    }
+    transaction.commit();
+}
 Settings UserDb::load() const {
     Settings result;
     Statement query(db_.get(), "SELECT key,value FROM settings");

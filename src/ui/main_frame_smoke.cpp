@@ -26,6 +26,7 @@
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include <wx/dialog.h>
+#include <wx/display.h>
 #include <wx/fontenum.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
@@ -33,7 +34,11 @@
 #include <wx/modalhook.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
+#include <wx/textctrl.h>
 #include <wx/utils.h>
+#ifdef __APPLE__
+#include "ui/native_menu.hpp"
+#endif
 #ifdef __WXMSW__
 #include <wx/msw/wrapwin.h>
 #endif
@@ -326,6 +331,132 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     if (GetMenuBar())
 #endif
         fail(__LINE__);
+    // Edit follows focus; Select All belongs to text fields, never the Scripture book.
+    {
+        const auto data = data_ / "desktop-conventions";
+        UserDb profile(data / "user.db");
+        auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                     std::make_unique<SmokeUpdates>(), true);
+        candidate->Show();
+        candidate->Raise();
+#ifdef __APPLE__
+        make_key_window(*candidate, true);
+#endif
+        wxTheApp->Yield(true);
+        candidate->open_reading({ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}});
+        candidate->scripture_->select_verses({1, 1}, {1, 2});
+        const auto focus = [&](wxWindow* window) {
+            for (int attempt = 0; attempt < 50; ++attempt) {
+                window->SetFocus();
+                wxTheApp->Yield(true);
+                auto* focused = wxWindow::FindFocus();
+                if (focused &&
+                    (focused == window || (window == candidate->scripture_ && window->IsDescendant(focused))))
+                    return;
+                wxMilliSleep(10);
+            }
+            fail(__LINE__);
+        };
+        focus(candidate->scripture_);
+        candidate->sync_menu();
+        if (candidate->menu_bar_->FindMenu("Redigera") == wxNOT_FOUND ||
+            !candidate->menu_bar_->IsEnabled(wxID_COPY) || candidate->menu_bar_->IsEnabled(wxID_CUT) ||
+            candidate->menu_bar_->IsEnabled(wxID_PASTE) || candidate->menu_bar_->IsEnabled(wxID_SELECTALL))
+            fail(__LINE__);
+        const auto command = [&](int id) {
+            wxCommandEvent event(wxEVT_MENU, id);
+            candidate->ProcessWindowEvent(event);
+        };
+        const auto clipboard_text = [&] {
+            wxTextDataObject text;
+            if (!wxTheClipboard->Open()) {
+                fail(__LINE__);
+                return wxString{};
+            }
+            if (!wxTheClipboard->GetData(text))
+                fail(__LINE__);
+            wxTheClipboard->Close();
+            return text.GetText();
+        };
+        command(wxID_COPY);
+        if (clipboard_text() != ui::utf8(candidate->scripture_->selected_text()))
+            fail(__LINE__);
+        auto* field = new wxTextCtrl(candidate->root_, wxID_ANY, "before after");
+        focus(field);
+        field->SetSelection(0, 6);
+        candidate->sync_menu();
+        if (!candidate->menu_bar_->IsEnabled(wxID_COPY) || !candidate->menu_bar_->IsEnabled(wxID_CUT) ||
+            !candidate->menu_bar_->IsEnabled(wxID_SELECTALL) ||
+            candidate->menu_bar_->IsEnabled(wxID_UNDO) != field->CanUndo() ||
+            candidate->menu_bar_->IsEnabled(wxID_REDO) != field->CanRedo())
+            fail(__LINE__);
+        command(wxID_COPY);
+        if (clipboard_text() != "before")
+            fail(__LINE__); // Native text copy must not include the reader's Scripture citation.
+        command(wxID_CUT);
+        if (field->GetValue() != " after")
+            fail(__LINE__);
+        command(wxID_PASTE);
+        if (field->GetValue() != "before after")
+            fail(__LINE__);
+        command(wxID_SELECTALL);
+        if (field->GetStringSelection() != field->GetValue())
+            fail(__LINE__);
+        field->SetEditable(false);
+        candidate->sync_menu();
+        if (!candidate->menu_bar_->IsEnabled(wxID_COPY) || candidate->menu_bar_->IsEnabled(wxID_CUT) ||
+            candidate->menu_bar_->IsEnabled(wxID_PASTE))
+            fail(__LINE__);
+        field->Destroy();
+        focus(candidate->scripture_);
+        command(wxID_SELECTALL);
+        const auto selected = candidate->scripture_->selections();
+        if (selected.size() != 1 || selected.front().last != VerseRef{1, 2})
+            fail(__LINE__);
+        const auto work = wxDisplay(0u).GetClientArea();
+        candidate->SetSize(work.x + 16, work.y + 16, std::min(800, work.width - 32),
+                           std::min(640, work.height - 32));
+        wxTheApp->Yield(true);
+        candidate->save_window_placement();
+        const auto normal = profile.window_placement();
+        if (!normal || normal->maximized ||
+            candidate->ToDIP(candidate->GetSize()) != wxSize(normal->width, normal->height))
+            fail(__LINE__);
+        candidate->Maximize();
+        wxTheApp->Yield(true);
+        candidate->save_window_placement();
+        const auto maximized = profile.window_placement();
+        if (!maximized || !maximized->maximized || !normal || maximized->width != normal->width ||
+            maximized->height != normal->height || maximized->x != normal->x || maximized->y != normal->y)
+            fail(__LINE__);
+        candidate->Maximize(false);
+        wxTheApp->Yield(true);
+        candidate->SetSize(work.x, work.y, 600, 500);
+        candidate->restore_window_placement();
+        wxTheApp->Yield(true);
+        if (!candidate->IsMaximized() ||
+            (normal && candidate->normal_window_size_dip_ != wxSize(normal->width, normal->height)))
+            fail(__LINE__);
+        candidate->Maximize(false);
+        wxTheApp->Yield(true);
+        profile.window_placement({100000, 100000, 90000, 90000});
+        candidate->restore_window_placement();
+        wxTheApp->Yield(true);
+        if (!work.Contains(candidate->GetRect()))
+            fail(__LINE__); // A disconnected monitor or smaller desktop cannot hide the window.
+        candidate->SetSize(work.x + 16, work.y + 16, std::min(800, work.width - 32),
+                           std::min(640, work.height - 32));
+        wxTheApp->Yield(true);
+        const auto expected = candidate->GetRect();
+        candidate->diagnostic_ = false; // Exercise the real close/reopen persistence hooks.
+        candidate.reset();
+        candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                std::make_unique<SmokeUpdates>());
+        if (candidate->GetRect() != expected)
+            fail(__LINE__);
+    }
+    if (user_.window_placement())
+        fail(__LINE__); // Diagnostic frames never overwrite window placement.
     // GetIcon() needs an exact system-size match on some ports. Check the stored artwork.
     if (GetIcons().IsEmpty() || !GetIcons().GetIconByIndex(0).IsOk())
         fail(__LINE__);

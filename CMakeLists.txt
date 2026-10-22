@@ -201,6 +201,7 @@ if(ORTHO_BUILD_GUI)
         src/app/main.cpp
         src/app/updates.cpp
         src/ui/main_frame.cpp
+        src/ui/main_frame_desktop.cpp
         src/ui/main_frame_navigation.cpp
         src/ui/main_frame_menus.cpp
         src/ui/main_frame_playback.cpp

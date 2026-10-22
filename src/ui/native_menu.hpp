@@ -3,6 +3,7 @@
 namespace ortho {
 #ifdef __APPLE__
 // wxWidgets shows a popup window on macOS without making it key, so it gets no keys. This does.
-void make_key_window(wxNonOwnedWindow&);
+// Desktop diagnostics launched from a shell can also request application activation.
+void make_key_window(wxNonOwnedWindow&, bool activate = false);
 #endif
 } // namespace ortho

@@ -52,6 +52,8 @@ The day page shows the selected date's readings and three reading plans. Press *
 - The text size applies to the whole program. Ctrl++ and Ctrl+- (⌘ on macOS) change it, and Ctrl+0 resets it.
 - **Inställningar** holds the colour scheme and theme, the calendar, the reading order, and the voice.
 - Tab moves through the toolbar, the page, and the word study column in that order. Shift+Tab moves back.
+- The macOS **Redigera** menu provides the standard Undo, Redo, Cut, Copy, Paste, and Select All commands. Their shortcuts work in editable fields on every platform. In the reader, Copy includes the marked verses and their reference; Select All applies to text fields, not a whole Bible book.
+- Perikop remembers the window's normal size, position, and maximized state for each local profile. A window from a disconnected monitor returns within an available display. Diagnostic runs keep their default window layout.
 
 ## Updates
 

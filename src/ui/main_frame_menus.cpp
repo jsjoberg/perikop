@@ -504,6 +504,8 @@ wxString shortcut_of(const wxString& label) {
 } // namespace
 void MainFrame::sync_menu() {
     auto& bar = *menu_bar_;
+    for (const int id : {wxID_UNDO, wxID_REDO, wxID_CUT, wxID_COPY, wxID_PASTE, wxID_SELECTALL})
+        bar.Enable(id, edit_enabled(id));
     const auto policy = controls();
     bar.Enable(AddBookmark, navigation_.reader() && scripture_->marked_reading().has_value());
     const auto label = ui::utf8(policy.playback_label) + "\tCtrl+Shift+P";
@@ -522,6 +524,33 @@ void MainFrame::sync_menu() {
     bar.Enable(Slower, step(rates, settings_.speech_rate, -1) != settings_.speech_rate);
 }
 void MainFrame::make_menus() {
+    auto* editing = new wxMenu;
+    editing->Append(wxID_UNDO, ui::utf8("Ångra\tCtrl+Z"));
+#ifdef __WXMSW__
+    editing->Append(wxID_REDO, ui::utf8("Gör om\tCtrl+Y"));
+#else
+    editing->Append(wxID_REDO, ui::utf8("Gör om\tCtrl+Shift+Z"));
+#endif
+    editing->AppendSeparator();
+    editing->Append(wxID_CUT, "Klipp ut\tCtrl+X");
+    editing->Append(wxID_COPY, "Kopiera\tCtrl+C");
+    editing->Append(wxID_PASTE, "Klistra in\tCtrl+V");
+    editing->AppendSeparator();
+    editing->Append(wxID_SELECTALL, "Markera allt\tCtrl+A");
+    for (const int id : {wxID_UNDO, wxID_REDO, wxID_CUT, wxID_COPY, wxID_PASTE, wxID_SELECTALL}) {
+        Bind(
+            wxEVT_MENU,
+            [this, id](wxCommandEvent&) {
+                edit(id);
+            },
+            id);
+        Bind(
+            wxEVT_UPDATE_UI,
+            [this, id](wxUpdateUIEvent& event) {
+                event.Enable(edit_enabled(id));
+            },
+            id);
+    }
     auto* view = new wxMenu;
     view->AppendRadioItem(Right, "En text");
     view->AppendRadioItem(Study, "Ordstudium");
@@ -570,6 +599,7 @@ void MainFrame::make_menus() {
     view->Append(wxID_ABOUT, "Om Perikop");
 #endif
     auto* bar = new wxMenuBar;
+    bar->Append(editing, "Redigera");
     bar->Append(view, "Visa");
     bar->Append(go, ui::utf8("Gå"));
     bar->Append(bookmark_menu(), ui::utf8("Bokmärken"));
