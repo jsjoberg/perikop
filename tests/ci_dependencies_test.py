@@ -190,9 +190,9 @@ class DependenciesTest(unittest.TestCase):
                     patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
                 dependencies.restore("Windows", root / "build/ci", tools_only=True)
                 run.assert_not_called()
-            self.assertEqual((root / "build/ci/tools/nsis/makensis.exe").read_text(), "fixture NSIS")
+            # The snapshot still holds NSIS, which nothing uses any more.
+            self.assertFalse((root / "build/ci/tools/nsis").exists())
             self.assertFalse((root / "build/ci/sources").exists())
-            self.assertEqual([path.name for path in (root / "build/ci/tools").iterdir()], ["nsis"])
 
     def test_tools_only_restore_rejects_incompatible_modes(self):
         for platform, options in (("Linux", {}), ("Windows", {"cross": True})):

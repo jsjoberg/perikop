@@ -42,10 +42,10 @@ The Windows x64 build uses the pinned llvm-mingw environment on Linux. CI has on
 
 Linux transfers the binaries and assembled resources to Windows.
 Linux also exports the CTest commands and strips the application executable.
-Windows configures local test paths and the installer with a compiler-free CMake project.
-Windows still runs native tests and creates the installer.
+Windows configures local test paths and installation with a compiler-free CMake project.
+Windows still runs native tests and packages the installed files with Velopack.
 
-Windows restores only NSIS and Velopack packaging tools from the dependency snapshot.
+Windows restores only Velopack's packaging tool from the dependency snapshot.
 Windows does not extract the source dependencies, w64devkit, or ccache.
 Local Windows builds continue to use w64devkit.
 
