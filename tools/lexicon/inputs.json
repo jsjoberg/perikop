@@ -1,0 +1,187 @@
+{
+  "nst": {
+    "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
+    "sha256": "4cfd9d86891a9f057f28ead716a1e0c08faefc754aaaae23db615360a561848b",
+    "license": "CC0-1.0",
+    "credit": "NST Pronunciation Lexicon for Swedish, Nasjonalbiblioteket Språkbanken"
+  },
+  "dalin": {
+    "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/dalin/dalin.xml",
+    "sha256": "358d9a4af498b5dbd3ee98199bc89d8f0309c4f136a98cc27b3820a4eed4a176",
+    "license": "CC-BY-4.0",
+    "credit": "Dalins ordbok, Ordbok öfver svenska språket (1850–1853), digitized by Språkbanken Text, University of Gothenburg"
+  },
+  "dalinm": {
+    "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/dalinm/dalinm.xml",
+    "sha256": "83ca2d26b2f5fb8b0c68f25e79d9854528d32202fa7d8c44ad361cc3e2315354",
+    "license": "CC-BY-4.0",
+    "credit": "Dalin's morphology, Språkbanken Text, University of Gothenburg"
+  },
+  "biblobok_a": {
+    "url": "https://runeberg.org/biblobok/ordbok_a.html",
+    "file": "biblobok-ordbok_a.html",
+    "sha256": "6730d3e4f89b133c8df02c5eb1767644503619fecbc1dd0f7a02af6d9eec603d",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_b": {
+    "url": "https://runeberg.org/biblobok/ordbok_b.html",
+    "file": "biblobok-ordbok_b.html",
+    "sha256": "cba2029273c7f7687ca5912e459dc36ba492aed0098ade23c789d6fcf75306a5",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_cd": {
+    "url": "https://runeberg.org/biblobok/ordbok_cd.html",
+    "file": "biblobok-ordbok_cd.html",
+    "sha256": "b3e339049bf6061ff0a365ed3a364e3be281b17af99379f89c598915ae2cf5fc",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_e": {
+    "url": "https://runeberg.org/biblobok/ordbok_e.html",
+    "file": "biblobok-ordbok_e.html",
+    "sha256": "09065327358abfc79fd2f51804d52a9c463da5f1de78376240b6d2468398a019",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_f": {
+    "url": "https://runeberg.org/biblobok/ordbok_f.html",
+    "file": "biblobok-ordbok_f.html",
+    "sha256": "1872acb962febed1ceb7668c5e8f5896576a50c51b8e8bd64836e7b9a7e92183",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_g": {
+    "url": "https://runeberg.org/biblobok/ordbok_g.html",
+    "file": "biblobok-ordbok_g.html",
+    "sha256": "4d52409fd634c15f9c70bea562830e03182b6532a39b6b3c040960ceefc64ecd",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_h": {
+    "url": "https://runeberg.org/biblobok/ordbok_h.html",
+    "file": "biblobok-ordbok_h.html",
+    "sha256": "f89867e718f9bb53ae117310ec4ac3009dfdf34d1bfcfce2cc01604c6c278bdf",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_i": {
+    "url": "https://runeberg.org/biblobok/ordbok_i.html",
+    "file": "biblobok-ordbok_i.html",
+    "sha256": "11647cd8081bb10ef741a5b6f5976e35920f55049d4846d94076e7666afda8ff",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_j": {
+    "url": "https://runeberg.org/biblobok/ordbok_j.html",
+    "file": "biblobok-ordbok_j.html",
+    "sha256": "d33631a2188923bbaf9689195d8a9c8924a357c7d14ae645146525d4ee175d64",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_k": {
+    "url": "https://runeberg.org/biblobok/ordbok_k.html",
+    "file": "biblobok-ordbok_k.html",
+    "sha256": "dbba2f16314eb2308df0233f4d7cab12e7c7645b0c37a1602efefb23b73de48c",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_l": {
+    "url": "https://runeberg.org/biblobok/ordbok_l.html",
+    "file": "biblobok-ordbok_l.html",
+    "sha256": "e946243801ae440cddfed7042d1fd1f7795c744df38c0827cbecde37c406ecb2",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_m": {
+    "url": "https://runeberg.org/biblobok/ordbok_m.html",
+    "file": "biblobok-ordbok_m.html",
+    "sha256": "040141753afe5cd16109dc7d00e5a7a970dd8db7564513e65ef595141527038b",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_n": {
+    "url": "https://runeberg.org/biblobok/ordbok_n.html",
+    "file": "biblobok-ordbok_n.html",
+    "sha256": "6b9438148ed6d829900231aecbb6e96f1dbd1777575a9d18e81dd539852ac2f6",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_o": {
+    "url": "https://runeberg.org/biblobok/ordbok_o.html",
+    "file": "biblobok-ordbok_o.html",
+    "sha256": "663e8d775178433dac123ab2c0643d1bd35bce5cb10af3793f8f70b9165bd3b9",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_p": {
+    "url": "https://runeberg.org/biblobok/ordbok_p.html",
+    "file": "biblobok-ordbok_p.html",
+    "sha256": "5337c7b8a3826bf9cedd28e1f6fac38b55a7af8b99aa35ed25b4fba2f6133091",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_qr": {
+    "url": "https://runeberg.org/biblobok/ordbok_qr.html",
+    "file": "biblobok-ordbok_qr.html",
+    "sha256": "7bc143b62a68003ea1bbdb33ff03de63de459a295b26743462711d43ff7f8305",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_s": {
+    "url": "https://runeberg.org/biblobok/ordbok_s.html",
+    "file": "biblobok-ordbok_s.html",
+    "sha256": "62788ff0d4178ff33befc37c3c006114f32e214946073e06ff528c4386505607",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_t": {
+    "url": "https://runeberg.org/biblobok/ordbok_t.html",
+    "file": "biblobok-ordbok_t.html",
+    "sha256": "580f1d396d95cad5cb38f97ee3278907963f48933f718e234297a1dd200cee9b",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_u": {
+    "url": "https://runeberg.org/biblobok/ordbok_u.html",
+    "file": "biblobok-ordbok_u.html",
+    "sha256": "a283d56fd01533e4292d7b150026aab16d90a5c811e004e862f4294a2a97b989",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_v": {
+    "url": "https://runeberg.org/biblobok/ordbok_v.html",
+    "file": "biblobok-ordbok_v.html",
+    "sha256": "850ce27a27e2057505c2007a3ca2be9eb9dbea1d0e32de01c9f723dacb7f0db3",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "biblobok_x": {
+    "url": "https://runeberg.org/biblobok/ordbok_x.html",
+    "file": "biblobok-ordbok_x.html",
+    "sha256": "28bf9939d706693fd2130a2364bc402e380133dc818d172867eb4cf12e4a99dc",
+    "license": "Public domain",
+    "credit": "Erik Nyström, Biblisk ordbok för hemmet och skolan, 4th edition (1896), digitized by Project Runeberg"
+  },
+  "saldo": {
+    "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/saldo/saldo.xml",
+    "sha256": "141ea24b6d821e9fd5bd724a909db4c11684cb64c43fd8955ed9de09536d187a",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "resource_url": "https://www.sprakbanken.se/resurser/saldo",
+    "updated": "2017-09-19",
+    "doi": "10.23695/s80w-2517",
+    "credit": "Lars Borin, Lennart Lönngren, Markus Forsberg (2017). SALDO. Processed and distributed by Språkbanken."
+  },
+  "saldom": {
+    "url": "https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/saldom/saldom.xml",
+    "sha256": "8e484c61722e6ac1b40812aa09d9bea56852c178a95754d7406e752943ea05b2",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "resource_url": "https://www.sprakbanken.se/resurser/saldom",
+    "updated": "2017-09-19",
+    "doi": "10.23695/agcm-ny22",
+    "credit": "Språkbanken (2017). SALDOs morfologi. Processed and distributed by Språkbanken."
+  }
+}
