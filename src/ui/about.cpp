@@ -1,0 +1,253 @@
+#include "ui/about.hpp"
+#include "perikop_version.hpp"
+#include "ui/app_icon.hpp"
+#include "ui/controls.hpp"
+#include <algorithm>
+#include <memory>
+#include <wx/hyperlink.h>
+#include <wx/image.h>
+#include <wx/scrolwin.h>
+#include <wx/sizer.h>
+#include <wx/statbmp.h>
+#include <wx/utils.h>
+namespace ortho {
+namespace {
+struct Link {
+    Link(const char* address, const char* text = nullptr) : url(address), label(text) {}
+    const char* url;
+    // Shown instead of the address, for addresses that say nothing to a reader.
+    const char* label;
+};
+struct Credit {
+    const char* name;
+    const char* detail;
+    std::vector<Link> links;
+};
+struct Section {
+    const char* title;
+    std::vector<Credit> credits;
+};
+// THIRD-PARTY-NOTICES.md is the complete record; this is its reader-facing summary.
+const std::vector<Section>& sections() {
+    static const std::vector<Section> all = {
+        {"Bibeltexter",
+         {{"Svenska Bibeln 1917", "Projekt Runeberg. Allmän egendom.", {"https://runeberg.org/bibeln/"}},
+          {"Apokryferna 1921",
+           "Projekt Runeberg och Scrollmapper Bible Databases (MIT).",
+           {"https://runeberg.org/apokryf/",
+            "https://github.com/scrollmapper/bible_databases/tree/master/sources/sv/Swe1917"}},
+          {"Septuaginta, Brentons grekiska text",
+           "eBible.org. Allmän egendom enligt utgivaren.",
+           {"https://ebible.org/grcbrent/copyright.htm"}},
+          {"Grekiska Nya testamentet, Patriarkatets text 1904",
+           "eBible.org. Allmän egendom enligt utgivaren.",
+           {"https://ebible.org/grcbyz/copyright.htm"}},
+          {"LXX2012, Septuaginta på engelska",
+           "Brentons översättning från 1851 med språkliga uppdateringar av Michael Paul Johnson. eBible.org. "
+           "Allmän egendom.",
+           {"https://ebible.org/eng-lxx2012/copyright.htm"}},
+          {"World English Bible, Nya testamentet",
+           "eBible.org. Allmän egendom; namnet är ett varumärke.",
+           {"https://ebible.org/bible/details.php?id=eng-web"}}}},
+        {"Läsordning",
+         {{"Orthocal",
+           "Brian Glass. Läsordningar och kalenderregler. MIT.",
+           {"https://github.com/brianglass/orthocal-python"}},
+          {"Antiokiska ärkestiftet i Nordamerika",
+           "Söndagarnas epistel och evangelium från de officiella läsordningarna 2019–2026. "
+           "Vardagar och övriga gudstjänster beräknas med Orthocal.",
+           {{"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202019%20English.pdf",
+             "Liturgical Chart for 2019 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202020%20English.pdf",
+             "Liturgical Chart for 2020 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202021%20English.pdf",
+             "Liturgical Chart for 2021 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202022%20English.pdf",
+             "Liturgical Chart for 2022 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202023%20English.pdf",
+             "Liturgical Chart for 2023 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202024%20English.pdf",
+             "Liturgical Chart for 2024 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202025%20English.pdf",
+             "Liturgical Chart for 2025 (PDF)"},
+            {"https://antiochianprodsa.blob.core.windows.net/liturgicalinstructions/"
+             "Liturgical%20Chart%20for%202026%20English.pdf",
+             "Liturgical Chart for 2026 (PDF)"}}},
+          {"Ortodoxa kyrkan i Amerika och Azbuka very",
+           "Versförteckningar för sammansatta vesperläsningar, från OCA:s dagliga läsningar och "
+           "samlingen Паремии на все дни года.",
+           {{"https://www.oca.org/readings", "OCA, dagliga läsningar"},
+            {"https://azbyka.ru/otechnik/Pravoslavnoe_Bogosluzhenie/parimii-na-vse-dni-goda/",
+             "Паремии на все дни года, azbyka.ru"}}}}},
+        {"Ordstudium",
+         {{"SALDO (2017) och SALDOs morfologi",
+           "Lars Borin, Lennart Lönngren och Markus Forsberg. Bearbetat och distribuerat av Språkbanken. "
+           "CC BY 4.0. Filtrerat och kopplat till bibeltextens ordformer.",
+           {{"https://doi.org/10.23695/s80w-2517", "SALDO, uppdaterat 2017-09-19"},
+            {"https://doi.org/10.23695/agcm-ny22", "SALDOs morfologi, Språkbanken, 2017-09-19"},
+            {"https://creativecommons.org/licenses/by/4.0/", "CC BY 4.0"}}},
+          {"Dalins ordbok",
+           "Språkbanken Text, Göteborgs universitet. CC BY 4.0.",
+           {"https://spraakbanken.gu.se/resurser/dalin"}},
+          {"Erik Nyström, Biblisk ordbok för hemmet och skolan (1896)",
+           "Digitaliserad av Projekt Runeberg. Allmän egendom.",
+           {"https://runeberg.org/biblobok/"}},
+          {"NST uttalslexikon för svenska",
+           "Nasjonalbiblioteket, Språkbanken. CC0 1.0.",
+           {"https://www.nb.no/sprakbanken/"}}}},
+        {"Uppläsning",
+         {{"eSpeak NG",
+           "Talsyntesen. Installeras separat och ingår inte i Perikop. GPL 3.0 eller senare.",
+           {"https://github.com/espeak-ng/espeak-ng"}},
+          {"kokoro-sv",
+           "Svenska textregler och uttalslexikon byggt på NST, med uttal för bibeltextens övriga ord. "
+           "Apache 2.0.",
+           {"https://huggingface.co/Joakim/kokoro-sv-g2p", "https://github.com/joakimeriksson/kokoro-sv"}},
+          {"miniaudio", "David Reid. Allmän egendom.", {"https://github.com/mackron/miniaudio"}}}},
+        {"Typografi",
+         {{"Literata", "TypeTogether för Google. SIL OFL 1.1.", {"https://github.com/googlefonts/literata"}},
+          {"IBM Plex Sans", "IBM och Bold Monday. SIL OFL 1.1.", {"https://github.com/IBM/plex"}},
+          {"Noto Serif Hebrew", "Google. SIL OFL 1.1.", {"https://github.com/notofonts/noto-fonts"}},
+          {"Avstavningsmönster",
+           "Jan Michael Rynning (svenska, LPPL), Dimitrios Filippou (grekiska, MIT) och "
+           "Gerard D.C. Kuiken (engelska).",
+           {"https://github.com/hyphenation/tex-hyphen"}},
+          {"Styckesättning",
+           "Knuth–Plass-radbrytning och Liang-avstavning, som i TeX. Justif var förebild.",
+           {"https://github.com/lyallcooper/justif"}}}},
+        {"Programbibliotek",
+         {{"wxWidgets", "wxWindows Library Licence.", {"https://www.wxwidgets.org"}},
+          {"SQLite", "Allmän egendom.", {"https://sqlite.org"}},
+          {"Velopack",
+           "Uppdateringar inifrån programmet. MIT, med Rust-bibliotek under fria licenser.",
+           {"https://velopack.io"}},
+          {"libpng, zlib, PCRE2 och NanoSVG",
+           "Ingår i wxWidgets, med egna fria licenser.",
+           {"http://www.libpng.org", "https://zlib.net", "https://github.com/PCRE2Project/pcre2",
+            "https://github.com/memononen/nanosvg"}},
+          {"libjpeg", "Programmet bygger delvis på arbete av Independent JPEG Group.", {"https://ijg.org"}},
+          {"GCC:s körtidsbibliotek",
+           "libstdc++ och libgcc i Windows- och Linuxversionerna. GPLv3 med GCC Runtime Library Exception.",
+           {"https://gcc.gnu.org"}}}},
+    };
+    return all;
+}
+wxString path_text(const std::filesystem::path& path) {
+    const auto text = path.u8string();
+    return wxString::FromUTF8(reinterpret_cast<const char*>(text.c_str()));
+}
+wxString link_label(wxString url) {
+    for (const auto* scheme : {"https://", "http://"})
+        if (url.StartsWith(scheme, &url))
+            break;
+    if (url.EndsWith("/"))
+        url.RemoveLast();
+    // Long links read better without their query or deep path.
+    return url.length() > 56 ? url.Left(55) + ui::utf8("…") : url;
+}
+} // namespace
+
+wxWindow* make_about_page(wxWindow* parent, Theme theme, const std::filesystem::path& resources) {
+    const auto colors = palette(theme);
+    auto* page =
+        new wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
+    page->SetScrollRate(0, page->FromDIP(zoomed(12)));
+    auto* sizer = new wxBoxSizer(wxVERTICAL);
+    const int pad = page->FromDIP(zoomed(32)), width = page->FromDIP(zoomed(480));
+    std::vector<wxWindow*> muted;
+    std::vector<std::pair<wxStaticText*, wxString>> labels;
+    std::vector<wxHyperlinkCtrl*> links;
+    const auto text = [&](const wxString& value, const wxFont& font, int below, bool quiet = false,
+                          int flags = 0) {
+        auto* label = new wxStaticText(page, wxID_ANY, value);
+        labels.emplace_back(label, value);
+        label->SetFont(font);
+        label->Wrap(width);
+        sizer->Add(label, 0, wxLEFT | wxRIGHT | flags, pad);
+        sizer->AddSpacer(page->FromDIP(zoomed(below)));
+        if (quiet)
+            muted.push_back(label);
+    };
+    sizer->AddSpacer(page->FromDIP(zoomed(28)));
+    auto icon = app_icon_image();
+    if (icon.IsOk()) {
+        const int side = page->FromDIP(zoomed(72));
+        auto* image =
+            new wxStaticBitmap(page, wxID_ANY, wxBitmap(icon.Rescale(side, side, wxIMAGE_QUALITY_HIGH)));
+        sizer->Add(image, 0, wxALIGN_CENTER_HORIZONTAL);
+        sizer->AddSpacer(page->FromDIP(zoomed(12)));
+    }
+    text("Perikop", body_font(28), 2, false, wxALIGN_CENTER_HORIZONTAL);
+    const wxString version = PERIKOP_VERSION, commit = PERIKOP_COMMIT;
+    text("Version " + version +
+             (commit.empty() || version.Contains(commit) ? wxString{} : " (" + commit + ")"),
+         ui_font(10), 18, true, wxALIGN_CENTER_HORIZONTAL);
+    text(ui::utf8("Dagens bibelläsningar i ortodox läsordning, med svensk, grekisk och engelsk text och "
+                  "svensk uppläsning. Fungerar utan nätverk."),
+         ui_font(11), 8);
+    text(ui::utf8("Fri programvara under MIT-licensen. Tack till alla nedan; varje källa har egna villkor."),
+         ui_font(11), 4, true);
+    for (const auto& section : sections()) {
+        sizer->AddSpacer(page->FromDIP(zoomed(18)));
+        text(ui::utf8(section.title).Upper(), ui_font(9), 6, true);
+        for (const auto& credit : section.credits) {
+            auto name = ui_font(11);
+            name.SetWeight(wxFONTWEIGHT_MEDIUM);
+            text(ui::utf8(credit.name), name, 1);
+            text(ui::utf8(credit.detail), ui_font(10), 2, true);
+            for (const auto& [url, label] : credit.links) {
+                auto* link =
+                    new wxHyperlinkCtrl(page, wxID_ANY, label ? ui::utf8(label) : link_label(url), url);
+                link->SetFont(ui_font(10));
+                link->SetToolTip(url);
+                sizer->Add(link, 0, wxLEFT | wxRIGHT, pad);
+                links.push_back(link);
+            }
+            sizer->AddSpacer(page->FromDIP(zoomed(10)));
+        }
+    }
+    sizer->AddSpacer(page->FromDIP(zoomed(8)));
+    text(ui::utf8("De fullständiga licenstexterna följer med programmet."), ui_font(10), 24, true);
+    const auto licenses = path_text(resources / "licenses");
+    auto* show_licenses = ui::button(page, "Visa licenstexter", [licenses] {
+        wxLaunchDefaultApplication(licenses);
+    });
+    show_licenses->SetToolTip(ui::utf8("Öppna mappen med licenstexterna"));
+    sizer->Add(show_licenses, 0, wxLEFT | wxRIGHT | wxBOTTOM, pad);
+    auto* outer = new wxBoxSizer(wxVERTICAL);
+    outer->Add(sizer, 0, wxALIGN_CENTER_HORIZONTAL);
+    page->SetSizer(outer);
+    page->SetMinSize({0, 0});
+    auto wrapped = std::make_shared<int>(width);
+    page->Bind(wxEVT_SIZE, [page, labels = std::move(labels), wrapped, pad, width](wxSizeEvent& event) {
+        const int available =
+            std::clamp(page->GetClientSize().x - 2 * pad, page->FromDIP(zoomed(200)), width);
+        if (*wrapped != available) {
+            *wrapped = available;
+            for (const auto& [label, value] : labels) {
+                label->SetLabel(value);
+                label->Wrap(available);
+            }
+        }
+        page->FitInside();
+        event.Skip();
+    });
+    page->FitInside();
+    ui::recolor(page, colors);
+    for (auto* label : muted)
+        label->SetForegroundColour(colors.muted);
+    for (auto* link : links) {
+        link->SetNormalColour(colors.accent);
+        link->SetVisitedColour(colors.accent);
+        link->SetHoverColour(colors.ink);
+    }
+    return page;
+}
+} // namespace ortho
