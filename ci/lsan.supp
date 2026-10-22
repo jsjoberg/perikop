@@ -1,0 +1,10 @@
+# LeakSanitizer suppressions for `tools/ci/build.py linux-sanitizers`.
+# Only system libraries that keep process-lifetime state; never Perikop's own code in src/.
+# A leaked Perikop object is still reported through its own allocation stack.
+
+# Fontconfig keeps its configuration, font patterns and caches until FcFini, which
+# GTK, Pango, cairo and wxWidgets never call.
+leak:libfontconfig.so.1
+
+# GTK's accessibility bridge opens the AT-SPI bus connection once and keeps it.
+leak:atk_bridge_adaptor_init

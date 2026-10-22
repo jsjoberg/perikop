@@ -27,7 +27,7 @@ The default build type is MinSizeRel with link-time optimization. Useful options
 
 CI builds Apple Silicon on macOS 15. Intel and universal Mac builds are rejected. macOS compilation, signing, and packaging stay native; there is no macOS cross-compilation migration to maintain.
 
-The shared `tools/ci/build.py` entry point runs `linux`, `macos`, `windows` (cross-build), or `sanitizers`. `.github/actions/python` installs uv 0.13.1 and the pinned Python before any network-denied build. Host checks use that interpreter; Linux containers mount its relocatable installation read-only. Its bundled SQLite reads STRICT tables without compiling or injecting a replacement library. This tooling bootstrap can download from upstream; application dependencies still come only from verified snapshots, and compilation/packaging run offline.
+The shared `tools/ci/build.py` entry point runs `linux`, `macos`, `windows` (cross-build), `sanitizers` (macOS), or `linux-sanitizers`. `.github/actions/python` installs uv 0.13.1 and the pinned Python before any network-denied build. Host checks use that interpreter; Linux containers mount its relocatable installation read-only. Its bundled SQLite reads STRICT tables without compiling or injecting a replacement library. This tooling bootstrap can download from upstream; application dependencies still come only from verified snapshots, and compilation/packaging run offline.
 
 To build offline from the same dependency snapshot as CI (`Linux`, `macOS`, or `Windows`):
 
@@ -96,3 +96,12 @@ cmake --build build/cmake --target tidy
 ```
 
 Any `tidy` finding is an error. To keep a wrong finding, add `// NOLINT(check-name)` with the reason.
+
+CI runs `tidy` in the Linux x64 job with Rocky Linux 9's clang-tidy 21. The macOS job analyzes only the sources that Linux does not compile in the same way: `.mm` files and `.cpp` files with `__APPLE__` or `__WXOSX__` sections. It uses the pinned clang-tidy 23 and sets `-DORTHO_TIDY_FILES`, a regular expression relative to the source tree.
+
+## Sanitizers
+
+`-DORTHO_SANITIZERS=ON` builds Perikop's code with AddressSanitizer and UndefinedBehaviorSanitizer. CI runs the full CTest suite with them in two jobs:
+
+- `sanitizers` on macOS 15 with Apple Clang.
+- `linux-sanitizers` in the Rocky Linux container with GCC 15, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and GTK's accessibility bridge. Do not add suppressions for Perikop's own code.

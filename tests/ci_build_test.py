@@ -72,6 +72,38 @@ class BuildTest(unittest.TestCase):
                                 for call in python.call_args_list))
             publish.assert_not_called()
 
+    def test_linux_analysis_runs_on_x64_only(self):
+        for machine, analyzed in (("x86_64", True), ("aarch64", False)):
+            with self.subTest(machine), patch.dict(os.environ), patch.object(build, "build"), \
+                    patch.object(build, "python"), patch.object(build, "run") as run, \
+                    patch.object(build.platform, "machine", return_value=machine):
+                build.linux(False)
+                self.assertEqual(any("tidy" in call.args for call in run.call_args_list), analyzed)
+
+    def test_mac_analysis_covers_only_apple_specific_sources(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "src").mkdir()
+            (root / "src/shared.cpp").write_text("int shared();\n")
+            (root / "src/menus.cpp").write_text("#ifdef __WXOSX__\n#endif\n")
+            (root / "src/native.mm").write_text("")
+            with patch.dict(os.environ), patch.object(build, "ROOT", root), patch.object(build, "build") as configure, \
+                    patch.object(build, "run"), patch.object(build, "python"):
+                build.macos(False)
+            files = next(option for option in configure.call_args.args if option.startswith("-DORTHO_TIDY_FILES="))
+        pattern = files.split("=", 1)[1]
+        self.assertTrue(re.search(pattern, "/work/src/menus.cpp"))
+        self.assertTrue(re.search(pattern, "/work/src/native.mm"))
+        self.assertFalse(re.search(pattern, "/work/src/shared.cpp"))
+
+    def test_linux_sanitizers_run_every_test_on_a_virtual_display(self):
+        with patch.dict(os.environ), patch.object(build, "build") as configure, patch.object(build, "run") as run:
+            build.linux_sanitizers()
+        self.assertIn("-DORTHO_SANITIZERS=ON", configure.call_args.args)
+        ctest = run.call_args.args
+        self.assertEqual(ctest[:len(build.DISPLAY) + 1], (*build.DISPLAY, "ctest"))
+        self.assertNotIn("-L", ctest)
+
 
 if __name__ == "__main__":
     unittest.main()

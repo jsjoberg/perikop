@@ -117,7 +117,7 @@ jobs:
             objects-${{ matrix.platform }}-${{ hashFiles('ci/upstreams.json') }}-
             objects-${{ matrix.platform }}-${{ hashFiles('ci/dependencies-lock.json') }}-
             objects-${{ matrix.platform }}-
-      - name: Build, test, and package Linux offline
+      - name: Build, analyze, test, and package Linux offline
         if: runner.os == 'Linux'
         run: |
           docker load --input "build/ci/downloads/$PLATFORM-environment.tar.gz"
@@ -339,6 +339,32 @@ jobs:
       - name: Storage, speech, layout, and UI with ASan and UBSan
         timeout-minutes: 30
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py sanitizers
+  linux-sanitizers:
+    needs: [nightly]
+    if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python tooling
+        id: python
+        uses: ./.github/actions/python
+      - name: Cached dependency snapshots
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: build/ci/downloads
+          key: dependencies-Linux-${{ hashFiles('ci/dependencies-lock.json') }}
+      - name: Restore verified dependencies
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/ci/dependencies.py restore --platform Linux
+      - name: Storage, speech, layout, and UI with ASan, UBSan, and LeakSanitizer
+        timeout-minutes: 40
+        run: |
+          docker load --input build/ci/downloads/Linux-environment.tar.gz
+          docker run --rm --pull never --network none -v "$PWD:/work" \
+            -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
+            -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+            perikop-ci-linux:dependencies python3 tools/ci/build.py linux-sanitizers
   publication-check:
     needs: [unix, windows, sanitizers]
     if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && !inputs.nightly && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' }}
