@@ -6,10 +6,8 @@ import os
 from pathlib import Path
 import platform
 import re
-import shutil
 import subprocess
 import sys
-import time
 
 ROOT = Path.cwd()
 BUILD = Path("build/cmake")
@@ -50,10 +48,6 @@ def publish_updates(target, pack):
     python("tools/ci/update_packages.py", "seed", Path("build/update-base") / channel, output)
     pack(current, channel, output)
     python("tools/ci/update_packages.py", "finish", output, channel, current, "build/publish/updates")
-    legacy = Path("build/publish/legacy")
-    legacy.mkdir(parents=True, exist_ok=True)
-    for package in Path("build/package").glob("Perikop-*"):
-        shutil.copy2(package, legacy)
 
 
 def linux(package):
@@ -76,14 +70,14 @@ def linux(package):
     checks("osb_metadata", "modern_lexicon", "icon", "linux_abi", "ci_dependencies", "ci_build", "windows_cross",
            "appimage_licenses", "nightly", "update_packages")
     if package:
-        run("tools/package_appimage.sh", BUILD)
+        run("tools/prepare_appdir.sh", BUILD)
         python("tools/ci/velopack_linux_test.py", BUILD)
         runtime = {"x86_64": "x64", "aarch64": "arm64"}[platform.machine()]
         os.environ["PERIKOP_VELOPACK_DELTA"] = "BestSpeed"
         publish_updates("linux-" + runtime, lambda current, channel, output:
                         run("tools/package_velopack.sh", BUILD, current, channel, output))
         python("tools/appimage_runtime.py", "check", BUILD)
-        python("tools/appimage_runtime.py", "source", "--output", "build/publish/legacy")
+        python("tools/appimage_runtime.py", "source", "--output", "build/publish/updates")
 
 
 def macos(package):
@@ -98,30 +92,14 @@ def macos(package):
     run("cmake", "--build", BUILD, "--target", "tidy")
     python("tools/check_resources.py")
     checks("osb_metadata", "icon", "linux_abi", "ci_dependencies", "ci_build", "macos_arch", "nightly", "update_packages")
-    if package:
-        for attempt in range(3):
-            try:
-                run("cpack", "--config", BUILD / "CPackConfig.cmake", "-B", "build/package")
-                break
-            except subprocess.CalledProcessError:
-                if attempt == 2:
-                    raise
-                time.sleep(15)
-        mount = ROOT / "build/dmg-check"
-        mount.mkdir(exist_ok=True)
-        dmg, = Path("build/package").glob("Perikop-*-macOS-arm64.dmg")
-        run("hdiutil", "attach", "-readonly", "-nobrowse", "-mountpoint", mount, dmg)
-        try:
-            bundle = mount / "Perikop.app"
-            python("tools/check_macos_arch.py", bundle, "--architecture", "arm64")
-            run("codesign", "--verify", "--deep", "--strict", bundle)
-            program = bundle / "Contents/MacOS/Perikop"
-            run(program, "--smoke-test", "--resources", bundle / "Contents/Resources")
-        finally:
-            run("hdiutil", "detach", mount)
     if package or os.environ.get("GITHUB_EVENT_NAME") == "pull_request":
         run("cmake", "--install", BUILD, "--prefix", "build/stage", "--strip")
         bundle = ROOT / "build/stage/Perikop.app"
+        if package:
+            # Velopack packs this bundle: check what releases ship.
+            python("tools/check_macos_arch.py", bundle, "--architecture", "arm64")
+            run("codesign", "--verify", "--deep", "--strict", bundle)
+            run(bundle / "Contents/MacOS/Perikop", "--smoke-test", "--resources", bundle / "Contents/Resources")
         os.environ["PERIKOP_MACOS_TEST_SANDBOX"] = "1"
         python("tools/ci/velopack_macos_test.py", bundle, "arm64", "build/macos-update-validation-arm64")
         if package:

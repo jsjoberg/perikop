@@ -44,10 +44,9 @@ void layout_test(const CorpusDb& corpus) {
                     const auto book = std::ranges::find(corpus.canon(), range.book, &CanonBook::code);
                     check(book != corpus.canon().end(), "Every planned book belongs to the canon");
                     int last = 0;
-                    for (const auto& verse :
-                         corpus.coordinates(corpus.frame_source("sv", book->frame_book), book->frame_book))
-                        if (book->first_chapter <= verse.chapter && verse.chapter <= book->last_chapter)
-                            last = std::max(last, verse.chapter - book->offset());
+                    for (const auto& verse : corpus.coordinates(osb_reference, book->code))
+                        if (verse.chapter <= book->last_chapter)
+                            last = std::max(last, verse.chapter);
                     check(range.first == 1 && range.last == last,
                           "A mixed part contains only complete books, never the start of another book");
                 }

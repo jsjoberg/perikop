@@ -6,24 +6,24 @@ Perikop works offline after installation. The interface is in Swedish.
 
 Download the file for your system from [the releases](https://github.com/jsjoberg/perikop/releases).
 
+Releases carry the `releases` downloads named below. Nightly builds, published as prereleases, carry the same downloads named `nightly` instead. Each updates itself from its own channel; see [Updates](#updates).
+
 ### Windows
-Requires Windows 10 or later, x86-64. Download the EXE file and run the installer.
-Choose `Perikop-win-x64-releases-Setup.exe` for in-app updates, or the corresponding `nightly` installer for experimental builds. If you installed the older `windows-x64.exe` NSIS package, uninstall it once before installing the Velopack version. Your reading profile is outside the application files and is kept.
+Requires Windows 10 or later, x86-64. Download `Perikop-win-x64-releases-Setup.exe` and run it.
+If you installed the older `windows-x64.exe` NSIS package, uninstall it once first. Your reading profile is outside the application files and is kept.
 The installer is unsigned. If Microsoft Defender SmartScreen blocks it, select *More info* → *Run anyway*.
 
 ### macOS
-Requires macOS 15 or later on an Apple Silicon Mac (M-series). Download `macOS-arm64.dmg`. Intel Macs are no longer supported.
-Open the DMG and drag Perikop to Applications. **About This Mac** shows whether your Mac has an Apple chip or an Intel processor.
-The app has an ad-hoc signature. If macOS blocks the app on first launch, go to *System Settings* → *Privacy & Security* and select *Open Anyway*.
-The `Perikop-osx-arm64-releases-Setup.pkg` download installs a copy that supports in-app updates. It is unsigned and not notarized. The DMG remains available. See [update validation](updating.md#packaging-and-validation) for the release checks.
+Requires macOS 15 or later on an Apple Silicon Mac (M-series). Intel Macs are no longer supported. **About This Mac** shows whether your Mac has an Apple chip or an Intel processor.
+Download `Perikop-osx-arm64-releases-Setup.pkg` and open it. The package is unsigned and not notarized: if macOS blocks it, go to *System Settings* → *Privacy & Security* and select *Open Anyway*. The app has an ad-hoc signature, and the same applies on its first launch.
+A copy installed from the older DMG cannot update itself; install the package once. See [update validation](updating.md#packaging-and-validation) for the release checks.
 
 ### Linux
-Requires glibc 2.34 or later, x86-64. Download the `x86_64` AppImage file.
-Make it executable (`chmod +x Perikop-*-x86_64.AppImage`), then run it.
-The `Perikop-linux-x64-releases.AppImage` download supports in-app updates. Use the `linux-arm64` equivalent on the Raspberry Pi 5, or the corresponding `nightly` AppImage for experimental builds. Keep the AppImage in a directory your user can write so it can replace itself.
+Requires glibc 2.34 or later, x86-64. Download `Perikop-linux-x64-releases.AppImage`.
+Make it executable (`chmod +x Perikop-linux-x64-releases.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
 
 ### Raspberry Pi 5
-Requires 64-bit Raspberry Pi OS with its desktop. Use the `aarch64` AppImage the same way. Older Pi models are not supported.
+Requires 64-bit Raspberry Pi OS with its desktop. Use `Perikop-linux-arm64-releases.AppImage` the same way. Older Pi models are not supported.
 A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 ## Day page and calendar
@@ -57,7 +57,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 **Inställningar → Uppdateringskanal** saves your choice of **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds).
 Changing this setting makes no network requests.
 **⋮ → Sök efter uppdateringar…**, just before **Granska svenskt uttal…**, opens an update dialog and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
-In-app updates require a Velopack download listed above. Plain DMG, NSIS, and older AppImage copies explain that they need a manual download instead. The feed becomes available when its GitHub release is published.
+In-app updates work in the downloads listed above. Copies from the DMG, the NSIS installer or the older AppImage, which 0.1.x offered, explain that they need a manual download instead. The feed becomes available when its GitHub release is published.
 The updater uses deltas when a suitable cached base exists, and otherwise downloads the full package. Updating or removing the application keeps your settings and reading progress. No check, download, or installation starts automatically.
 
 ## Bible browser

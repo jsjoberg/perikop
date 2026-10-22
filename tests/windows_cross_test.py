@@ -8,7 +8,6 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
-import sys
 import tarfile
 import tempfile
 import unittest
@@ -75,7 +74,7 @@ test "$HANDOFF_ENV" = 'fixture value'
         return subprocess.run(["cmake", "-S", str(ROOT / "cmake/windows-prebuilt"), "-B", str(build),
                                "-G", "Ninja", "-DCMAKE_SYSTEM_NAME=Windows"], capture_output=True, text=True, **kwargs)
 
-    def test_native_configuration_runs_and_packages_without_any_compiler(self):
+    def test_native_configuration_runs_and_installs_without_any_compiler(self):
         with tempfile.TemporaryDirectory() as temporary:
             build = self.fixture(Path(temporary).resolve())
             env = dict(os.environ, CC="/must-not-run-a-compiler", CXX="/must-not-run-a-compiler", COPYFILE_DISABLE="1")
@@ -89,15 +88,11 @@ test "$HANDOFF_ENV" = 'fixture value'
             properties = {prop["name"]: prop["value"] for prop in prebuilt["properties"]}
             self.assertEqual(properties["LABELS"], ["gui", "handoff"])
             self.assertEqual(properties["TIMEOUT"], 17)
-            self.run_command(["cpack", "--config", str(build / "CPackConfig.cmake"), "-G", "TGZ",
-                              "-B", str(build / "package")], env=env)
-            packages = list((build / "package").glob("*.tar.gz"))
-            self.assertEqual(len(packages), 1)
-            with tarfile.open(packages[0]) as archive:
-                # macOS CPack adds AppleDouble records. Windows and Linux do not.
-                files = {member.name.split("/", 1)[1] for member in archive if member.isfile()
-                         and (sys.platform != "darwin" or not Path(member.name).name.startswith("._"))}
-                self.assertEqual(files, {"bin/perikop.exe", "bin/velopack_libc.dll", "bin/resources/LICENSE"})
+            # Velopack packs the installed files.
+            stage = build / "stage"
+            self.run_command(["cmake", "--install", str(build), "--prefix", str(stage)], env=env)
+            files = {path.relative_to(stage).as_posix() for path in stage.rglob("*") if path.is_file()}
+            self.assertEqual(files, {"bin/perikop.exe", "bin/velopack_libc.dll", "bin/resources/LICENSE"})
 
     def test_prebuilt_configuration_rejects_wrong_version(self):
         with tempfile.TemporaryDirectory() as temporary:

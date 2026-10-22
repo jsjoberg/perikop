@@ -170,18 +170,13 @@ class DependenciesTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             manifest, lock, downloads = self.fixture(root, "Windows")
-            with zipfile.ZipFile(root / "nsis.zip", "w") as archive:
-                archive.writestr("nsis/makensis.exe", "fixture NSIS")
             data = json.loads(manifest.read_text())
-            data["nsis"] = {"file": "nsis.zip", "sha256": dependencies.digest(root / "nsis.zip"),
-                            "platform": "Windows"}
             # Unused compiler inputs need not exist for a tools-only restore.
             data["w64devkit"] = {"file": "w64devkit.7z.exe", "sha256": "unused", "platform": "Windows"}
             manifest.write_text(json.dumps(data))
             with tarfile.open(downloads / "inputs-Windows.tar.gz", "w:gz") as archive:
                 archive.add(manifest, arcname="upstreams.json")
                 archive.add(root / "dependency.zip", arcname="dependency.zip")
-                archive.add(root / "nsis.zip", arcname="nsis.zip")
             data = json.loads(lock.read_text())
             data["upstreams_sha256"] = dependencies.digest(manifest)
             data["assets"]["inputs-Windows.tar.gz"] = dependencies.digest(downloads / "inputs-Windows.tar.gz")
@@ -190,9 +185,7 @@ class DependenciesTest(unittest.TestCase):
                     patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
                 dependencies.restore("Windows", root / "build/ci", tools_only=True)
                 run.assert_not_called()
-            self.assertEqual((root / "build/ci/tools/nsis/makensis.exe").read_text(), "fixture NSIS")
             self.assertFalse((root / "build/ci/sources").exists())
-            self.assertEqual([path.name for path in (root / "build/ci/tools").iterdir()], ["nsis"])
 
     def test_tools_only_restore_rejects_incompatible_modes(self):
         for platform, options in (("Linux", {}), ("Windows", {"cross": True})):

@@ -43,8 +43,8 @@ Reading make_plan_reading(const CorpusDb& corpus, const PlanPart& part, const st
         });
         if (book == canon.end())
             throw std::logic_error("Okänd bok i läsplanen: " + range.book);
-        const auto frame = legacy ? corpus.legacy_frame_source(language, book->frame_book)
-                                  : corpus.frame_source(language, book->frame_book);
+        const std::string frame =
+            legacy ? corpus.legacy_frame_source(language, book->frame_book) : osb_reference;
         const int first = range.first + book->offset(), last = range.last + book->offset();
         std::optional<VerseRef> begin, end;
         for (const auto& ref : corpus.coordinates(frame, book->frame_book))

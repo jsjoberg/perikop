@@ -18,19 +18,9 @@ std::string bookmark_label(const CorpusDb& corpus, const Bookmark& mark) {
            std::to_string(mark.passage.first.chapter) + ":" + std::to_string(mark.passage.first.verse) +
            mark.passage.first.suffix;
 }
-Passage displayed_passage(const CorpusDb& corpus, Passage passage) {
-    // A framing passage in the book and chapter numbers the reader shows.
-    if (const auto* canon = corpus.canon_book(passage.book, passage.first.chapter)) {
-        passage.book = canon->code;
-        passage.first.chapter -= canon->offset();
-        passage.last.chapter -= canon->offset();
-    }
-    return passage;
-}
 std::string passage_label(const CorpusDb& corpus, const std::vector<Passage>& passages, bool short_names) {
     std::string label, book;
-    for (const auto& framing : passages) {
-        const auto p = displayed_passage(corpus, framing);
+    for (const auto& p : passages) {
         if (!label.empty())
             label += "; ";
         if (p.book != book) {

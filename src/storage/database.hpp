@@ -71,6 +71,7 @@ public:
     const std::vector<CanonBook>& canon() const {
         return canon_;
     }
+    // The pre-OSB books, numbered by the Septuagint, for converting old progress only.
     const std::vector<CanonBook>& legacy_canon() const {
         return legacy_canon_;
     }
@@ -81,8 +82,7 @@ public:
     std::string reference_name(const std::string& book) const;
     // The edition a pane shows for a language; empty for an unknown language.
     std::string source_for_language(const std::string& language, const std::string& book) const;
-    // OSB is the reference authority for every language and testament.
-    std::string frame_source(const std::string& language, const std::string& book) const;
+    // The pre-OSB framing edition of a book, for converting old progress only.
     std::string legacy_frame_source(const std::string& language, const std::string& book) const;
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;

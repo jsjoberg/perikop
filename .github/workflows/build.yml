@@ -47,7 +47,6 @@ jobs:
              [.[][] | select(.draft == false and .prerelease == true)
               | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7}(-[0-9]+(-[0-9]+)?)?)?$"))
               | select(((.body // "") | contains("<!-- perikop-nightly: partial -->")) | not)
-              | select([.assets[]? | select(.name | test("-(x86_64.AppImage|aarch64.AppImage|macOS-arm64.dmg|windows-x64.exe)$"))] | length == 4)
               | select([.assets[]? | select(.name | test("^releases\\.(linux-(x64|arm64)|win-x64|osx-arm64)-nightly\\.json$"))] | length == 4)]
             | sort_by(.published_at, .tag_name) | last | .tag_name // empty
           ' releases.json)
@@ -124,7 +123,7 @@ jobs:
           docker load --input "build/ci/downloads/$PLATFORM-environment.tar.gz"
           docker run --rm --pull never --network none -v "$PWD:/work" \
             -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
-            -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/bin:/usr/bin:/bin" \
+            -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
             -e PACKAGE -e NIGHTLY -e PERIKOP_BUILD_VERSION \
             perikop-ci-linux:dependencies python3 tools/ci/build.py linux
       - name: Build, analyze, test, and package macOS offline
@@ -234,8 +233,6 @@ jobs:
         run: |
           python tools/ci/dependencies.py restore --platform Windows --tools-only
           if ($LASTEXITCODE -ne 0) { throw 'Dependency snapshot restore failed' }
-          (Join-Path $PWD 'build/ci/tools/nsis') | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "NSISDIR=$(Join-Path $PWD 'build/ci/tools/nsis')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Restore verified previous update package
         if: env.PACKAGE == 'true'
         env:
@@ -252,7 +249,7 @@ jobs:
           New-Item -ItemType Directory -Force build/cmake | Out-Null
           tar -xzf build/cross/windows-x64.tar.gz -C build/cmake
           if ($LASTEXITCODE -ne 0) { throw 'Cross-built binary restore failed' }
-      - name: Configure native test paths and installer
+      - name: Configure native test paths and installation
         shell: pwsh
         run: |
           # The prebuilt project needs no compiler or native sources.
@@ -288,25 +285,14 @@ jobs:
           path: build/smoke
           if-no-files-found: ignore
       - name: Package
-        # PRs also compile the installer and check its Windows product-version metadata.
+        # PRs also install, update, and uninstall with Velopack.
         if: env.PACKAGE == 'true' || github.event_name == 'pull_request'
         shell: pwsh
         run: |
-          cpack --config build/cmake/CPackConfig.cmake -B build/package
-          if ($LASTEXITCODE -ne 0) { throw 'Windows packaging failed' }
-          $script = Get-Content build/package/_CPack_Packages/windows-x64/NSIS/project.nsi -Raw
-          $languages = [regex]::Matches($script, '!insertmacro MUI_LANGUAGE "([^"]+)"')
-          if ($languages.Count -ne 1 -or $languages[0].Groups[1].Value -ne 'Swedish') {
-            throw 'Installer must include only the Swedish language'
-          }
           $header = Get-Content build/cmake/generated/perikop_version.hpp -Raw
           if ($header -notmatch '#define PERIKOP_VERSION "([^"]+)"') { throw 'Build version missing' }
           $expected = $Matches[1]
-          $installer = Get-ChildItem build/package/Perikop-*.exe | Select-Object -First 1
-          if (-not $installer -or $installer.VersionInfo.ProductVersion -ne $expected) {
-            throw "Installer version does not match $expected"
-          }
-          # Velopack: install the same files with Setup.exe, update them from a local feed, and uninstall.
+          # Velopack: install the files with Setup.exe, update them from a local feed, and uninstall.
           cmake --install build/cmake --prefix build/stage
           if ($LASTEXITCODE -ne 0) { throw 'Staging the installed files failed' }
           python tools/ci/velopack_windows_test.py build/stage/bin
@@ -323,8 +309,6 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw 'Velopack packaging failed' }
             python tools/ci/update_packages.py finish $output $channel $expected build/publish/updates
             if ($LASTEXITCODE -ne 0) { throw 'Collecting update packages failed' }
-            New-Item -ItemType Directory -Force build/publish/legacy | Out-Null
-            Copy-Item build/package/Perikop-*.exe build/publish/legacy
           }
       - name: Upload package
         if: env.PACKAGE == 'true'
@@ -372,7 +356,7 @@ jobs:
       - name: Verify the complete unpublished release staging
         run: |
           version=$(python3 tools/ci/update_packages.py version)
-          python3 tools/ci/update_packages.py assemble packages/legacy packages/updates build/release-check "$version"
+          python3 tools/ci/update_packages.py assemble packages/updates build/release-check "$version" --complete
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: publication-check
@@ -405,26 +389,21 @@ jobs:
           BUILD_VERSION: ${{ needs.nightly.outputs.version }}
         run: |
           set -euo pipefail
-          mkdir -p packages/legacy packages/updates
+          mkdir -p packages/updates
+          complete=()
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
             tag=$GITHUB_REF_NAME
             version=${tag#v}
             base=${version%%-*}
-            shopt -s nullglob
-            files=(packages/legacy/Perikop-"$base"-*)
-            if [ "${#files[@]}" != 4 ]; then
-              echo "::error::The four native packages must match $base in CMakeLists.txt."
+            project=$(sed -n 's/^project(perikop VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+            if [ "$project" != "$base" ]; then
+              echo "::error::Tag $tag does not match version $project in CMakeLists.txt."
               exit 1
-            fi
-            if [ "$version" != "$base" ]; then
-              for file in "${files[@]}"; do
-                name=${file##*/}
-                mv "$file" "packages/legacy/Perikop-$version-${name#Perikop-"$base"-}"
-              done
             fi
             source="https://github.com/$GITHUB_REPOSITORY/blob/$tag"
             echo "See [the changes]($source/CHANGELOG.md) and [installation]($source/docs/using-perikop.md#installation)." > notes.md
             options=(--verify-tag --draft --title "Perikop $version")
+            complete=(--complete)
           else
             day=$(TZ=Europe/Stockholm date +%F)
             tag="nightly-$day-${GITHUB_SHA:0:7}"
@@ -432,17 +411,16 @@ jobs:
               tag="$tag-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
             fi
             version=$BUILD_VERSION
-            tag=$(python3 tools/ci/nightly.py prepare --packages packages/legacy --repository "$GITHUB_REPOSITORY" \
-              --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --tag "$tag" --sanitizers "$SANITIZERS" \
-              --version "$version")
+            tag=$(python3 tools/ci/nightly.py prepare --updates packages/updates --notes notes.md \
+              --repository "$GITHUB_REPOSITORY" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --tag "$tag" \
+              --sanitizers "$SANITIZERS" --version "$version")
             if [ -z "$tag" ]; then
               echo 'No successful platform packages; no nightly was published.' >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
-            cp packages/legacy/NOTES.md notes.md
             options=(--target "$GITHUB_SHA" --prerelease --latest=false --title "Perikop nightly $day")
           fi
-          python3 tools/ci/update_packages.py assemble packages/legacy packages/updates release-assets "$version"
+          python3 tools/ci/update_packages.py assemble packages/updates release-assets "$version" "${complete[@]}"
           gh release create "$tag" --repo "$GITHUB_REPOSITORY" "${options[@]}" --notes-file notes.md release-assets/*
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
       - name: Preserve referenced packages and keep the latest seven nightlies
