@@ -60,7 +60,7 @@ public:
     virtual void set_speed(double) {}
     // Swedish voice identity: an installed eSpeak selector. Applies from the next reading.
     virtual void set_voice(const std::string&) {}
-    // IPA the Swedish voice uses for speech text; empty when it is unavailable.
+    // The eSpeak phoneme codes the Swedish voice uses for speech text; empty when it is unavailable.
     virtual std::string pronunciation(const std::string&) {
         return {};
     }

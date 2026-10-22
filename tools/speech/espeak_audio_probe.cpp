@@ -50,12 +50,12 @@ int main(int argc, char** argv) {
             settings.voice = argv[4];
         if (argc > 5)
             settings.rate = std::stoi(argv[5]);
-        const auto ipa = ortho::SwedishText(path(argv[1])).ipa(text);
+        const auto tokens = ortho::SwedishText(path(argv[1])).tokens(text);
         ortho::Espeak espeak;
-        const auto audio = espeak.speak(ipa, settings);
+        const auto audio = espeak.speak(tokens, settings);
         wav(path(argv[3]), audio);
         std::cout << "espeak=" << espeak.version() << ", seconds=" << audio.size() / 24000.0
-                  << "\nphonemes=" << ortho::espeak_phonemes(ipa) << '\n';
+                  << "\nphonemes=" << ortho::espeak_phonemes(tokens) << '\n';
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';
         return 1;

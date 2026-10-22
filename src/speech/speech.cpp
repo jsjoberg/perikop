@@ -1,7 +1,10 @@
 #include "speech/speech.hpp"
 #include <algorithm>
 #include <cctype>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 namespace ortho {
 namespace {
 struct Token {
@@ -148,9 +151,42 @@ SpeechUtterance make_utterance(const std::string& text, const std::string& langu
                                const std::vector<Pronunciation>& lexicon) {
     return PronunciationMatcher(language, lexicon).utterance(text);
 }
+namespace {
+// The byte ranges of closed ⟦…⟧ phoneme overrides. eSpeak codes use . and ; themselves.
+std::vector<std::pair<size_t, size_t>> overrides(const std::string& text) {
+    std::vector<std::pair<size_t, size_t>> result;
+    for (auto open = text.find("⟦"); open != std::string::npos; open = text.find("⟦", open + 1)) {
+        const auto close = text.find("⟧", open);
+        if (close == std::string::npos)
+            break;
+        result.emplace_back(open, close + std::string_view("⟧").size());
+        open = close;
+    }
+    return result;
+}
+} // namespace
 std::vector<std::string> speech_chunks(const std::string& text) {
     const auto space = [](unsigned char c) {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f';
+    };
+    // A chunk never ends inside an override, and its punctuation ends no sentence.
+    const auto ranges = overrides(text);
+    const auto inside = [&](size_t at) {
+        return std::ranges::any_of(ranges, [at](const auto& range) {
+            return range.first < at && at < range.second;
+        });
+    };
+    const auto first_of = [&](const char* set, size_t from) {
+        auto at = text.find_first_of(set, from);
+        while (at != std::string::npos && inside(at))
+            at = text.find_first_of(set, at + 1);
+        return at;
+    };
+    const auto last_of = [&](const char* set, size_t from) {
+        auto at = text.find_last_of(set, from);
+        while (at != std::string::npos && inside(at))
+            at = text.find_last_of(set, at - 1);
+        return at;
     };
     std::vector<std::string> result;
     size_t begin = 0;
@@ -164,21 +200,21 @@ std::vector<std::string> speech_chunks(const std::string& text) {
             // Finish a nearby sentence instead of leaving its last words in a
             // separate synthesis request, which adds a pause inside the phrase.
             const auto limit = std::min(begin + 320, text.size());
-            const auto next_sentence = text.find_first_of(".!?;", end);
+            const auto next_sentence = first_of(".!?;", end);
             if (next_sentence != std::string::npos && next_sentence < limit)
                 end = next_sentence + 1;
             else if (text.size() <= limit)
                 end = text.size();
             else {
-                auto split = text.find_last_of(" \t\n\r\v\f", end);
+                auto split = last_of(" \t\n\r\v\f", end);
                 if (split != std::string::npos && split > begin)
                     end = split;
                 else {
-                    end = text.find_first_of(" \t\n\r\v\f", end);
+                    end = first_of(" \t\n\r\v\f", end);
                     if (end == std::string::npos)
                         end = text.size();
                 }
-                const auto sentence = text.find_last_of(".!?;", end - 1);
+                const auto sentence = last_of(".!?;", end - 1);
                 if (sentence != std::string::npos && sentence >= begin + 40)
                     end = sentence + 1;
             }
@@ -190,11 +226,19 @@ std::vector<std::string> speech_chunks(const std::string& text) {
 }
 double speech_text_weight(const std::string& text) {
     double weight = 0;
+    bool phonemes = false;
     for (size_t i = 0; i < text.size();) {
         const auto c = decode(text, i);
         if (c <= 127 && std::isspace(static_cast<unsigned char>(c)))
             continue;
-        weight += c == '.' || c == '!' || c == '?' ? 4 : c == ',' || c == ';' || c == ':' ? 2 : 1;
+        // Phoneme codes inside ⟦…⟧ use punctuation marks as letters.
+        if (c == U'⟦' || c == U'⟧') {
+            phonemes = c == U'⟦';
+            weight += 1;
+        } else if (phonemes)
+            weight += 1;
+        else
+            weight += c == '.' || c == '!' || c == '?' ? 4 : c == ',' || c == ';' || c == ':' ? 2 : 1;
     }
     return weight;
 }

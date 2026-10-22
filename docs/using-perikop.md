@@ -96,7 +96,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 ## Word study and pronunciation
 
 - **Visa → Ordstudium**: click a Swedish word to see its pronunciation and dictionary entries.
-- **Uppläsning → Granska svenskt uttal…**: listen to words and correct their pronunciation. Corrections change only the speech, not the text.
+- **Uppläsning → Granska svenskt uttal…**: listen to words and correct their pronunciation. Corrections change only the speech, not the text. Write a correction as a spelling, such as `å-sna`, or as exact eSpeak NG phoneme codes in `⟦…⟧`, such as `⟦k'Os.⟧`; choosing one of a word's NST pronunciations fills that in. Corrections saved in earlier versions are converted automatically.
 
 **Om Perikop** lists every source with links. It is in the application menu on macOS and in **Hjälp** elsewhere.
 

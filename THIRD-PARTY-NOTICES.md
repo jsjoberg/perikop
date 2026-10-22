@@ -196,11 +196,11 @@ wxWidgets also links its bundled libpng, IJG libjpeg, zlib, PCRE2, and NanoSVG l
 Their complete notices are in `resources/licenses/`.
 This software is based in part on the work of the Independent JPEG Group.
 
-Swedish read-aloud pronunciations in `resources/speech` come from `Joakim/kokoro-sv-g2p`, under Apache-2.0: the NST-derived lexicon, its custom overrides, and the pronunciation model's output for the corpus words the lexicon lacks.
+Swedish read-aloud pronunciations in `resources/speech` come from `Joakim/kokoro-sv-g2p`, under Apache-2.0: the NST-derived lexicon, its custom overrides, and the pronunciation model's output for the corpus words the lexicon lacks. Perikop has converted them from IPA to eSpeak NG Swedish phoneme codes.
 The licence and attribution are in `resources/speech/LICENSE-Kokoro-Swedish.txt`.
 https://huggingface.co/Joakim/kokoro-sv-g2p
 
-The native Swedish front end in `src/speech/swedish_text.cpp` reproduces the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0.
+The native Swedish front end in `src/speech/swedish_text.cpp` is derived from the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0, and modified to produce eSpeak NG phoneme codes.
 https://github.com/joakimeriksson/kokoro-sv
 
 Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, University of Gothenburg, under CC BY 4.0.

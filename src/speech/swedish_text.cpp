@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -233,11 +234,15 @@ struct SwedishText::Impl {
             corpus[line.substr(0, tab)] = line.substr(tab + 1);
         }
     }
-    // Other words keep their spelling as ⟨word⟩, for the voice's own rules.
-    std::string unknown(const std::string& word) const {
-        if (const auto found = corpus.find(word); found != corpus.end())
-            return found->second;
-        return "⟨" + word + "⟩";
+    // The lexicon, then a name's genitive -s on a lexicon stem, then the corpus; empty when none has it.
+    std::string find(const std::string& key, bool name) const {
+        if (auto phones = lexicon.find(key); !phones.empty())
+            return phones;
+        if (name && key.size() > 2 && key.back() == 's')
+            if (auto stem = lexicon.find(key.substr(0, key.size() - 1)); !stem.empty())
+                return stem + "s";
+        const auto found = corpus.find(key);
+        return found == corpus.end() ? std::string() : found->second;
     }
 };
 
@@ -245,97 +250,100 @@ SwedishText::SwedishText(const std::filesystem::path& data) : impl_(std::make_un
 SwedishText::~SwedishText() = default;
 
 namespace {
-std::string single_spaces(const std::string& text) {
-    std::string result;
-    for (char c : text)
-        if (c != ' ' || (!result.empty() && result.back() != ' '))
-            result += c;
-    if (!result.empty() && result.back() == ' ')
-        result.pop_back();
-    return result;
+// The front end stresses every word, as NST does. These function words are unstressed in running
+// speech.
+bool function_word(std::string_view word) {
+    static constexpr std::string_view words[] = {
+        "i",     "och",  "ett",    "en",  "det",  "den",  "de",    "att",  "som",  "på",   "av",
+        "för",   "till", "med",    "om",  "är",   "var",  "har",   "hade", "han",  "hon",  "honom",
+        "henne", "hans", "hennes", "jag", "du",   "vi",   "ni",    "dem",  "mig",  "dig",  "sig",
+        "sin",   "sitt", "sina",   "min", "mitt", "mina", "din",   "ditt", "dina", "vår",  "er",
+        "så",    "men",  "när",    "då",  "ty",   "ej",   "skall", "ska",  "kan",  "vill", "må",
+        "vid",   "mot",  "hos",    "åt",  "från", "ur"};
+    return std::ranges::find(words, word) != std::end(words);
 }
 } // namespace
-std::string SwedishText::ipa(const std::string& input) {
-    // g2p_infer.SwedishG2P.phonemize: sentences match [^.!?]+[.!?]?; tokens
-    // are runs of the letters below or one of ,.!?;:- and all else is dropped.
+std::vector<SpeechToken> SwedishText::tokens(const std::string& input) {
+    // As g2p_infer.SwedishG2P.phonemize: tokens are runs of the letters below or one of
+    // ,.!?;: and all else is dropped. A hyphen only separates words.
     static const std::u32string word_letters =
         U"abcdefghijklmnopqrstuvwxyzåäöéèüáàâëïABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
-    static const std::u32string punctuation = U",.!?;:-";
+    static const std::u32string punctuation = U",.!?;:";
     const auto is_letter = [](char32_t c) {
         return word_letters.find(c) != std::u32string::npos;
     };
-    const auto end_mark = [](char32_t c) {
-        return c == '.' || c == '!' || c == '?';
-    };
-    const auto text = decode(swedish_numbers(input));
-    std::string result;
-    for (size_t i = 0; i < text.size();) {
-        if (end_mark(text[i])) {
-            ++i;
-            continue;
+    // Digits are spelled as words outside ⟦…⟧ only: inside, 8 is the eSpeak code for ɵ.
+    const auto raw = decode(input);
+    std::u32string text;
+    for (size_t at = 0; at < raw.size();) {
+        const auto open = raw.find(U'⟦', at);
+        const auto close = open == std::u32string::npos ? open : raw.find(U'⟧', open);
+        if (close == std::u32string::npos) {
+            text += decode(swedish_numbers(encode(raw.substr(at))));
+            break;
         }
-        auto end = i;
-        while (end < text.size() && !end_mark(text[end]))
-            ++end;
-        if (end < text.size())
-            ++end;
-        std::string sentence;
-        bool previous_word = false;
-        for (size_t at = i; at < end;) {
-            // ⟦…⟧ holds one word's exact phonemes, from a pronunciation entry.
-            if (text[at] == U'⟦') {
-                const auto close = text.find(U'⟧', at);
-                if (close == std::u32string::npos || close >= end) {
-                    ++at;
-                    continue;
-                }
-                std::u32string ipa;
-                for (auto c : text.substr(at + 1, close - at - 1))
-                    if (c != U' ')
-                        ipa += c;
-                if (previous_word)
-                    sentence += ' ';
-                sentence += encode(ipa);
-                previous_word = true;
-                at = close + 1;
-            } else if (is_letter(text[at])) {
-                auto last = at;
-                while (last < end && is_letter(text[last]))
-                    ++last;
-                auto word = text.substr(at, last - at);
-                const bool name = (word[0] >= 'A' && word[0] <= 'Z') || word[0] == U'Å' || word[0] == U'Ä' ||
-                                  word[0] == U'Ö';
-                for (auto& c : word)
-                    if ((c >= 'A' && c <= 'Z') || c == U'Å' || c == U'Ä' || c == U'Ö')
-                        c += 32;
-                const auto key = encode(word);
-                auto ipa = impl_->lexicon.find(key);
-                // A name's genitive -s keeps the stem's pronunciation.
-                if (ipa.empty() && name && key.size() > 2 && key.back() == 's')
-                    if (auto stem = impl_->lexicon.find(key.substr(0, key.size() - 1)); !stem.empty())
-                        ipa = stem + "s";
-                if (ipa.empty())
-                    ipa = impl_->unknown(key);
-                if (previous_word)
-                    sentence += ' ';
-                sentence += ipa;
-                previous_word = true;
-                at = last;
-            } else {
-                if (punctuation.find(text[at]) != std::u32string::npos) {
-                    sentence += char(text[at]);
-                    previous_word = false;
-                }
-                ++at;
-            }
-        }
-        if (!sentence.empty())
-            result += (result.empty() ? "" : " ") + sentence;
-        i = end;
+        text += decode(swedish_numbers(encode(raw.substr(at, open - at))));
+        text += raw.substr(open, close + 1 - open);
+        at = close + 1;
     }
-    // g2p_sv: NEURAL_FIXES, then single spaces.
-    replace_all(result, "ˈuːɕˌɛj", "ˈuːkɛj");
-    replace_all(result, "uːəsˈɛs", "ˈɔs");
-    return single_spaces(result);
+    std::vector<SpeechToken> result;
+    for (size_t at = 0; at < text.size();) {
+        // ⟦…⟧ holds one word's exact phonemes, from a pronunciation entry.
+        if (text[at] == U'⟦') {
+            const auto close = text.find(U'⟧', at);
+            if (close == std::u32string::npos) {
+                ++at;
+                continue;
+            }
+            std::u32string phones;
+            for (auto c : text.substr(at + 1, close - at - 1))
+                if (c != U' ')
+                    phones += c;
+            if (!phones.empty())
+                result.push_back({SpeechToken::Kind::Phonemes, encode(phones)});
+            at = close + 1;
+        } else if (is_letter(text[at])) {
+            auto last = at;
+            while (last < text.size() && is_letter(text[last]))
+                ++last;
+            auto word = text.substr(at, last - at);
+            const bool name =
+                (word[0] >= 'A' && word[0] <= 'Z') || word[0] == U'Å' || word[0] == U'Ä' || word[0] == U'Ö';
+            for (auto& c : word)
+                if ((c >= 'A' && c <= 'Z') || c == U'Å' || c == U'Ä' || c == U'Ö')
+                    c += 32;
+            const auto key = encode(word);
+            auto phones = impl_->find(key, name);
+            // A hyphen joins a compound such as En-Mispat; its parts keep their stress.
+            const bool joined = (at > 0 && text[at - 1] == '-') || (last < text.size() && text[last] == '-');
+            if (phones.empty())
+                result.push_back({SpeechToken::Kind::Spelled, key});
+            else {
+                if (function_word(key) && !joined)
+                    std::erase(phones, '\'');
+                result.push_back({SpeechToken::Kind::Phonemes, phones});
+            }
+            at = last;
+        } else {
+            // A sentence ends at its first mark; "?!" reads as "?".
+            const auto end_mark = [](char32_t c) {
+                return c == '.' || c == '!' || c == '?';
+            };
+            if (punctuation.find(text[at]) != std::u32string::npos &&
+                !(end_mark(text[at]) && at > 0 && end_mark(text[at - 1])))
+                result.push_back({SpeechToken::Kind::Punctuation, encode(text.substr(at, 1))});
+            ++at;
+        }
+    }
+    return result;
+}
+std::string SwedishText::phonemes(const std::string& text) {
+    std::string result;
+    for (const auto& token : tokens(text)) {
+        if (!result.empty() && token.kind != SpeechToken::Kind::Punctuation)
+            result += ' ';
+        result += token.kind == SpeechToken::Kind::Spelled ? "⟨" + token.text + "⟩" : token.text;
+    }
+    return result;
 }
 } // namespace ortho

@@ -1,14 +1,13 @@
 #pragma once
+#include "speech/swedish_text.hpp"
 #include <functional>
 #include <memory>
 #include <string>
 #include <vector>
 namespace ortho {
-// SwedishText::ipa() as eSpeak NG Swedish input: phoneme codes in [[...]], punctuation and ⟨spelled⟩
-// words outside as text, function words unstressed. Symbols without a code are skipped.
-std::string espeak_phonemes(const std::string& ipa);
-// The phones in ipa that have no eSpeak code, for tests.
-std::vector<std::string> espeak_unknown_phones(const std::string& ipa);
+// SwedishText::tokens() as eSpeak NG input: adjacent phoneme words in one [[...]], spelled words and
+// punctuation outside as text.
+std::string espeak_phonemes(const std::vector<SpeechToken>& tokens);
 // Legacy settings values, kept so existing voice selections survive upgrades.
 inline constexpr char espeak_male_id[] = "espeak";
 inline constexpr char espeak_female_id[] = "espeak-f2";
@@ -40,8 +39,8 @@ public:
     std::string version() const;
     // Installed, loadable Swedish voices and variants. Safe during playback; throws if unavailable.
     static std::vector<EspeakVoice> voices();
-    // 24 kHz mono samples for SwedishText::ipa() output; stops early when cancelled() is true.
-    std::vector<float> speak(const std::string& ipa, const Settings& settings,
+    // 24 kHz mono samples for SwedishText::tokens() output; stops early when cancelled() is true.
+    std::vector<float> speak(const std::vector<SpeechToken>& tokens, const Settings& settings,
                              const std::function<bool()>& cancelled = {});
 };
 } // namespace ortho
