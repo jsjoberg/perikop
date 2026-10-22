@@ -36,7 +36,7 @@ with out.open('w',encoding='utf-8',newline='\n') as f:
 manifest=root/'resources/manifest.json'
 metadata=json.loads(manifest.read_text(encoding='utf-8'))
 asset={"path":"resources/lexicon/sv1917-words.tsv",
-       "url":json.loads((Path(__file__).parent/'inputs.json').read_text())["nst"]["url"],
+       "url":json.loads((Path(__file__).parent/'inputs.json').read_text(encoding='utf-8'))["nst"]["url"],
        "sha256":hashlib.sha256(out.read_bytes()).hexdigest(),"license":"CC0-1.0 (NST); public-domain corpus word counts",
        "role":"Generated Swedish 1917 word forms with NST SAMPA references"}
 metadata['assets']=[value for value in metadata['assets'] if value.get('path')!=asset['path']]+[asset]
