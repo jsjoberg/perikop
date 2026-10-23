@@ -157,10 +157,7 @@ def restore(platform, output, cross=False, tools_only=False):
             shutil.copyfile(path, target / "miniaudio.h")
         elif component:
             unpack_root(path, output / "sources" / component)
-    if cross:
-        # Windows sources are shared with native builds. Its executable tools are not.
-        pass
-    elif platform in APPIMAGE_TOOLS:
+    if platform in APPIMAGE_TOOLS:
         target = output / "tools/appimage"
         target.mkdir(parents=True, exist_ok=True)
         for name in APPIMAGE_TOOLS[platform]:
