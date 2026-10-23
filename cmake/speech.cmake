@@ -1,8 +1,8 @@
 # Read-aloud: the user's installed eSpeak NG reading Perikop's Swedish pronunciations. No system voice
 # or cloud fallback.
 FetchContent_Declare(ortho_audio
-    URL https://raw.githubusercontent.com/mackron/miniaudio/0.11.22/miniaudio.h
-    URL_HASH SHA256=9019743287e443c55e5737a7297f38e5e358561701d6db2d905afb114390c410 DOWNLOAD_NO_EXTRACT TRUE)
+    URL https://raw.githubusercontent.com/mackron/miniaudio/0.11.25/miniaudio.h
+    URL_HASH SHA256=ac7af4de748b7e26b777f37e01cee313a308a7296a3eb080e2906b320cc55c89 DOWNLOAD_NO_EXTRACT TRUE)
 FetchContent_MakeAvailable(ortho_audio)
 set(ortho_speech_source "${CMAKE_BINARY_DIR}/speech-source")
 # Swedish pronunciation and the eSpeak NG voices. eSpeak is loaded at run time (GPL; never bundled).
