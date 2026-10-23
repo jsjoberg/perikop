@@ -126,11 +126,19 @@ private:
     std::map<std::string, BookInfo> books_;
     std::vector<CanonBook> canon_;
 };
+struct WindowPlacement {
+    int x, y;          // Desktop coordinates; negative values are valid on secondary monitors.
+    int width, height; // Unmaximized size in device-independent pixels.
+    bool maximized = false;
+    bool operator==(const WindowPlacement&) const = default;
+};
 class UserDb {
 public:
     explicit UserDb(const std::filesystem::path& path);
     Settings load() const;
     void save(const Settings&);
+    std::optional<WindowPlacement> window_placement() const;
+    void window_placement(const WindowPlacement&);
     // Keys of what the reader has marked as read, such as "plan:nt:v3:7".
     std::set<std::string> completed() const;
     void complete(const std::string& key, bool done = true);

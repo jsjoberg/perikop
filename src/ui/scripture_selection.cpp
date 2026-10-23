@@ -1,7 +1,11 @@
+#include "core/scripture_copy.hpp"
 #include "ui/controls.hpp"
 #include "ui/scripture_view.hpp"
 #include <algorithm>
 #include <limits>
+#include <wx/clipbrd.h>
+#include <wx/dataobj.h>
+#include <wx/log.h>
 namespace ortho {
 std::optional<Reading> ScriptureView::marked_reading() const {
     auto passages = selections();
@@ -32,6 +36,8 @@ bool ScriptureView::verse_selected(VerseRef ref) const {
     });
 }
 void ScriptureView::select_verses(VerseRef first, VerseRef last, bool append) {
+    if (!drag_anchor_)
+        selection_anchor_ = first;
     if (compare_refs(last, first) < 0)
         std::swap(first, last);
     auto ranges =
@@ -65,6 +71,7 @@ void ScriptureView::select_verses(VerseRef first, VerseRef last, bool append) {
     rebuild_verse_links();
 }
 void ScriptureView::clear_selection() {
+    selection_anchor_.reset();
     if (selections_.empty())
         return;
     selections_.clear();
@@ -72,6 +79,46 @@ void ScriptureView::clear_selection() {
     if (selection_changed_)
         selection_changed_();
     rebuild_verse_links();
+}
+std::string ScriptureView::selected_text() const {
+    auto passages = selections();
+    const auto pane = passages.empty() ? std::min(highlighted_column_, std::size_t(columns_count() - 1)) : 0;
+    if (passages.empty() && highlighted_verse_ && !settings_.word_study)
+        passages.push_back({displayed_.book, highlighted_verse_->first, highlighted_verse_->second});
+    std::vector<std::pair<std::string, Passage>> parts;
+    for (const auto& passage : passages) {
+        std::optional<Passage> part;
+        std::string source;
+        for (const auto& ref : corpus_.coordinates(frame_, passage.book)) {
+            if (!corpus_.contains(frame_, passage, ref))
+                continue;
+            const auto shown = chapter_source(ref.chapter, pane);
+            if (!part || shown != source) {
+                if (part)
+                    parts.emplace_back(source, *part);
+                part = Passage{passage.book, ref, ref};
+                source = shown;
+            } else
+                part->last = ref;
+        }
+        if (part)
+            parts.emplace_back(source, *part);
+    }
+    return scripture_copy(corpus_, frame_, parts);
+}
+bool ScriptureView::copy_selection() {
+    const auto text = selected_text();
+    if (text.empty())
+        return false;
+    if (!wxTheClipboard->Open()) {
+        wxLogWarning(ui::utf8("Kunde inte öppna urklipp. Försök kopiera igen."));
+        return false;
+    }
+    const bool copied = wxTheClipboard->SetData(new wxTextDataObject(ui::utf8(text)));
+    wxTheClipboard->Close();
+    if (!copied)
+        wxLogWarning(ui::utf8("Kunde inte kopiera den markerade texten."));
+    return copied;
 }
 std::optional<VerseRef> ScriptureView::verse_at(wxPoint point) const {
     const auto found = hit(point);

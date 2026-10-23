@@ -1,6 +1,8 @@
 #include "ui/scripture_view.hpp"
+#include "ui/controls.hpp"
 #include <algorithm>
 #include <cmath>
+#include <wx/menu.h>
 #ifdef __APPLE__
 #include "ui/native_scroll.hpp"
 #endif
@@ -82,6 +84,18 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         Bind(type, scroll_event);
     Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& e) {
         const int key = e.GetKeyCode();
+        if ((e.CmdDown() || e.ControlDown()) && !e.AltDown() && !e.ShiftDown() &&
+            (key == 'C' || key == WXK_INSERT)) {
+            if (copy_selection())
+                return;
+        }
+        if (key == WXK_ESCAPE && (!selections_.empty() || highlighted_verse_)) {
+            clear_selection();
+            highlighted_verse_.reset();
+            rebuild_verse_links();
+            request_repaint();
+            return;
+        }
         if (key == WXK_HOME) {
             navigate_to(0);
             return;
@@ -108,7 +122,35 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         }
         e.Skip();
     });
-    // Ctrl/Command adds a range; each motion rebuilds it from the pre-drag selection.
+    Bind(
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            copy_selection();
+        },
+        wxID_COPY);
+    Bind(wxEVT_CONTEXT_MENU, [this](wxContextMenuEvent& e) {
+        if (e.GetPosition() != wxDefaultPosition) {
+            const auto point = ScreenToClient(e.GetPosition());
+            const auto verse = verse_at(point);
+            if (!verse)
+                return;
+            const auto found = hit(point);
+            if (found->column_index != 0 || !verse_selected(*verse)) {
+                clear_selection();
+                const auto& column = *found->column;
+                highlighted_verse_ = column.verses[column.text.lines[found->line].runs[found->run].tag];
+                highlighted_column_ = found->column_index;
+                selection_anchor_ = *verse;
+                rebuild_verse_links();
+                request_repaint();
+            }
+        }
+        wxMenu menu;
+        menu.Append(wxID_COPY, ui::utf8("Kopiera med referens"));
+        menu.Enable(wxID_COPY, !selected_text().empty());
+        PopupMenu(&menu);
+    });
+    // Each motion rebuilds an added range from the selection before the gesture.
     Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& e) {
         SetFocus();
         return_pressed_ = return_rect_.Contains(e.GetPosition());
@@ -117,11 +159,20 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         drag_anchor_ = verse_at(e.GetPosition());
         press_point_ = e.GetPosition();
         // Mark passages in the main pane; read-aloud is offered only for Swedish.
-        if (const auto found = hit(e.GetPosition()))
-            drag_selects_ = found->column_index == 0;
+        const auto found = hit(e.GetPosition());
+        drag_selects_ = found && found->column_index == 0;
         dragged_ = false;
-        append_drag_ = e.CmdDown() || e.ControlDown();
+        append_drag_ = e.AltDown() || e.CmdDown() || e.ControlDown();
         drag_ranges_ = selections_;
+        if (drag_anchor_ && drag_selects_) {
+            if (e.ShiftDown() && selection_anchor_) {
+                const auto end = *drag_anchor_;
+                drag_anchor_ = selection_anchor_;
+                dragged_ = true;
+                select_verses(*drag_anchor_, end, append_drag_);
+            } else
+                selection_anchor_ = drag_anchor_;
+        }
         if (drag_anchor_ && !HasCapture())
             CaptureMouse();
     });
@@ -129,14 +180,17 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
         hover_return(!drag_anchor_ && return_rect_.Contains(e.GetPosition()));
         if (!drag_anchor_ || !e.LeftIsDown())
             return;
+        const auto distance = e.GetPosition() - press_point_;
+        if (!dragged_ && std::abs(distance.x) <= FromDIP(zoomed(4)) &&
+            std::abs(distance.y) <= FromDIP(zoomed(4)))
+            return;
         if (!drag_selects_) {
-            const auto distance = e.GetPosition() - press_point_;
-            dragged_ |=
-                std::abs(distance.x) > FromDIP(zoomed(4)) || std::abs(distance.y) > FromDIP(zoomed(4));
+            dragged_ = true;
             return;
         }
         const auto verse = verse_at(e.GetPosition());
-        if (!verse || (!dragged_ && *verse == *drag_anchor_ && selections_.empty()))
+        const auto found = hit(e.GetPosition());
+        if (!verse || !found || found->column_index != 0)
             return;
         dragged_ = true;
         select_verses(*drag_anchor_, *verse, append_drag_);
@@ -156,6 +210,8 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             else {
                 clear_selection();
                 click_text(e.GetPosition());
+                if (drag_selects_)
+                    selection_anchor_ = drag_anchor_;
             }
         }
         drag_anchor_.reset();

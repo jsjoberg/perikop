@@ -56,6 +56,11 @@ void ScriptureView::open_section(std::size_t index) {
     located_cue_.reset();
     highlighted_.reset();
     highlighted_verse_.reset();
+    selection_anchor_.reset();
+    drag_anchor_.reset();
+    drag_ranges_.clear();
+    if (HasCapture())
+        ReleaseMouse();
     if (verse_links_)
         verse_links_->Hide();
     speech_row_.reset();
