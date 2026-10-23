@@ -75,7 +75,7 @@ def unpack_root(archive, destination):
         shutil.copytree(entries[0], destination, dirs_exist_ok=True)
 
 
-def upstream(output, repository):
+def upstream(output):
     """This command is used only by the manual dependency preparation workflow."""
     audit()
     output.mkdir(parents=True, exist_ok=True)
@@ -84,12 +84,8 @@ def upstream(output, repository):
         path = output / item["file"]
         if path.is_file() and digest(path) == item["sha256"]:
             continue
-        if "release" in item:
-            subprocess.run(["gh", "release", "download", item["release"], "--repo", repository,
-                            "--pattern", item["file"], "--dir", str(output), "--clobber"], check=True)
-        else:
-            subprocess.run(["curl", "--fail", "--location", "--retry", "4", "--retry-all-errors",
-                            "--output", str(path), item["url"]], check=True)
+        subprocess.run(["curl", "--fail", "--location", "--retry", "4", "--retry-all-errors",
+                        "--output", str(path), item["url"]], check=True)
         verify(path, item["sha256"])
     for platform in PLATFORMS:
         with tarfile.open(output / ("inputs-" + platform + ".tar.gz"), "w:gz", compresslevel=1) as bundle:
@@ -100,9 +96,7 @@ def upstream(output, repository):
 
 def make_lock(output, repository, release):
     names = ["inputs-" + platform + ".tar.gz" for platform in PLATFORMS]
-    names += ["Linux-environment.tar.gz", "Linux-arm64-environment.tar.gz", "macOS-tools.tar.gz"]
-    if (output / CROSS_ENVIRONMENT).is_file():
-        names.append(CROSS_ENVIRONMENT)
+    names += ["Linux-environment.tar.gz", "Linux-arm64-environment.tar.gz", "macOS-tools.tar.gz", CROSS_ENVIRONMENT]
     lock = {"repository": repository, "release": release, "upstreams_sha256": digest(UPSTREAMS),
             "assets": {name: digest(output / name) for name in names}}
     (output / "dependencies-lock.json").write_text(json.dumps(lock, indent=2) + "\n")
@@ -172,13 +166,7 @@ def restore(platform, output, cross=False, tools_only=False):
         for name in APPIMAGE_TOOLS[platform]:
             shutil.copyfile(archives / name, target / name)
             (target / name).chmod(0o755)
-    elif platform == "Windows":
-        tools = output / "tools"
-        tools.mkdir(parents=True, exist_ok=True)
-        if not tools_only:
-            subprocess.run(["7z", "x", str(archives / "w64devkit.7z.exe"), "-o" + str(tools), "-y"], check=True)
-            unpack_root(archives / "ccache-windows.zip", tools / "ccache")
-    else:
+    elif platform == "macOS":
         extract(downloads / names[1], output / "tools")
     # Zip extraction drops executable bits on the native Linux and macOS helpers.
     if not cross and any(item["file"] == "vpk.nupkg" for item in selected(platform)):
@@ -204,7 +192,7 @@ def main():
     parser.add_argument("--release")
     args = parser.parse_args()
     if args.command == "upstream":
-        upstream(args.output, args.repository)
+        upstream(args.output)
     elif args.command == "lock":
         if not args.release:
             parser.error("lock requires --release")

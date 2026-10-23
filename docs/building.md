@@ -46,8 +46,8 @@ Windows configures local test paths and installation with a compiler-free CMake 
 Windows still runs native tests and packages the installed files with Velopack.
 
 Windows restores only Velopack's packaging tool from the dependency snapshot.
-Windows does not extract the source dependencies, w64devkit, or ccache.
-Local Windows builds continue to use w64devkit.
+Windows does not extract the source dependencies. Snapshots contain no native Windows compiler or compiler cache.
+Local Windows builds use an installed w64devkit. `dependencies.py restore --platform Windows` restores sources and packaging tools for an offline native build, without installing a compiler.
 
 With llvm-mingw on the Linux `PATH`, the same offline cross-build is:
 

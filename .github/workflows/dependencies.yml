@@ -42,7 +42,7 @@ jobs:
           if [ "$MACOS_TOOLS_ONLY" = true ]; then
             python3 tools/ci/dependencies.py reuse --output build/snapshot
           else
-            python3 tools/ci/dependencies.py upstream --output build/snapshot --repository "$GITHUB_REPOSITORY"
+            python3 tools/ci/dependencies.py upstream --output build/snapshot
           fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -95,17 +95,8 @@ jobs:
       - name: Set up Python tooling
         id: python
         uses: ./.github/actions/python
-      - name: Check for an existing cross-build environment
-        id: environment
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-          from pathlib import Path
-          assets = json.loads(Path('ci/dependencies-lock.json').read_text())['assets']
-          print('available=' + str('Windows-cross-environment.tar.gz' in assets).lower())
-          PY
       - name: Prepare Linux toolchain for Windows x64
-        if: steps.environment.outputs.available != 'true' || (inputs.macos_tools_only != true && inputs.reuse_environments != true && inputs.linux_environment_only != true)
+        if: inputs.macos_tools_only != true && inputs.reuse_environments != true && inputs.linux_environment_only != true
         run: |
           docker build --pull -f ci/windows-cross.Dockerfile -t perikop-ci-windows-cross:dependencies ci
           mkdir -p build/snapshot
@@ -113,7 +104,7 @@ jobs:
             bash -c 'x86_64-w64-mingw32-clang --version && cmake --version && ccache --version'
           docker save perikop-ci-windows-cross:dependencies | gzip -1 > build/snapshot/Windows-cross-environment.tar.gz
       - name: Reuse pinned cross-build environment
-        if: steps.environment.outputs.available == 'true' && (inputs.macos_tools_only == true || inputs.reuse_environments == true || inputs.linux_environment_only == true)
+        if: inputs.macos_tools_only == true || inputs.reuse_environments == true || inputs.linux_environment_only == true
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/ci/dependencies.py reuse --platform Windows-cross --output build/snapshot

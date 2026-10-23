@@ -30,7 +30,7 @@ def version(base, released, day, run_number, run_attempt):
     return f"{major}.{minor}.{patch}-nightly.{day.replace('-', '')}.{int(run_number)}.{int(run_attempt)}"
 
 
-def prepare(updates, notes_path, repository, commit, run_id, tag, sanitizers, build_version=None):
+def prepare(updates, notes_path, repository, commit, run_id, tag, macos_sanitizers, linux_sanitizers, build_version=None):
     """Write the notes for the platforms whose feeds are in updates; None when there are none."""
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
         raise ValueError("The nightly needs a full commit SHA")
@@ -46,7 +46,8 @@ def prepare(updates, notes_path, repository, commit, run_id, tag, sanitizers, bu
         return None
 
     missing = [name for platform, name in PLATFORMS.items() if platform not in available]
-    complete = not missing and sanitizers == "success"
+    sanitizers = {"macOS": macos_sanitizers, "Linux": linux_sanitizers}
+    complete = not missing and all(result == "success" for result in sanitizers.values())
     status = "complete" if complete else "partial"
     notes = [f"<!-- perikop-nightly: {status} -->", f"Nightly build of commit `{commit}`.", ""]
     if build_version:
@@ -56,8 +57,10 @@ def prepare(updates, notes_path, repository, commit, run_id, tag, sanitizers, bu
     notes += ["Available platforms:"] + ["- " + name for platform, name in PLATFORMS.items() if platform in available]
     if missing:
         notes += ["", "Unavailable platforms:"] + ["- " + name for name in missing]
-    sanitizer_status = "passed" if sanitizers == "success" else sanitizers
-    notes += ["", f"Sanitizers: **{sanitizer_status}**.", "",
+    notes += ["", "Sanitizers:"]
+    notes += [f"- {platform}: **{'passed' if result == 'success' else result}**"
+              for platform, result in sanitizers.items()]
+    notes += ["",
               f"See [the build](https://github.com/{repository}/actions/runs/{run_id}), "
               f"[the changes](https://github.com/{repository}/blob/{commit}/CHANGELOG.md), and "
               f"[installation](https://github.com/{repository}/blob/{commit}/docs/using-perikop.md#installation)."]
@@ -81,7 +84,8 @@ if __name__ == "__main__":
     preparing.add_argument("--commit", required=True)
     preparing.add_argument("--run-id", required=True)
     preparing.add_argument("--tag", required=True)
-    preparing.add_argument("--sanitizers", choices=("success", "failure", "cancelled", "skipped"), required=True)
+    preparing.add_argument("--macos-sanitizers", choices=("success", "failure", "cancelled", "skipped"), required=True)
+    preparing.add_argument("--linux-sanitizers", choices=("success", "failure", "cancelled", "skipped"), required=True)
     preparing.add_argument("--version", default=None)
     args = parser.parse_args()
     try:
@@ -89,7 +93,7 @@ if __name__ == "__main__":
             print(version(args.base, args.released, args.date, args.run_number, args.run_attempt))
         else:
             tag = prepare(args.updates, args.notes, args.repository, args.commit, args.run_id, args.tag,
-                          args.sanitizers, args.version)
+                          args.macos_sanitizers, args.linux_sanitizers, args.version)
             if tag:
                 print(tag)
     except ValueError as error:

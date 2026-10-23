@@ -18,6 +18,22 @@ spec.loader.exec_module(build)
 
 
 class BuildTest(unittest.TestCase):
+    def test_publication_requires_every_sanitizer_job(self):
+        workflow = (ROOT / ".github/workflows/build.yml").read_text()
+        jobs = dict(re.findall(r"^  ([\w-]+):\n(.*?)(?=^  [\w-]+:|\Z)", workflow, re.M | re.S))
+        sanitizers = {name for name in jobs if name.endswith("sanitizers")}
+        for name in ("publication-check", "release"):
+            with self.subTest(job=name):
+                job = jobs[name]
+                needs = re.search(r"^    needs: \[(.*?)\]", job, re.M)[1].split(", ")
+                self.assertTrue(sanitizers <= set(needs))
+                # Nightlies may publish partial results; tagged releases must pass every check.
+                condition = re.search(r"^    if: (.*)", job, re.M)[1].split(" || (")[0]
+                required = set(re.findall(r"needs\.([\w-]+)\.result == 'success'", condition))
+                self.assertTrue(sanitizers <= required)
+        for name in sanitizers:
+            self.assertIn("${{ needs." + name + ".result }}", jobs["release"])
+
     def test_update_profile_comparison_preserves_values_and_allows_new_tables(self):
         script = (ROOT / "tools/ci/validate_macos_update.command").read_text()
         fixture = re.search(r'"\$database" <<\'SQL\'\n(.*?)\nSQL', script, re.S).group(1)

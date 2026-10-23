@@ -18,9 +18,9 @@ class NightlyTest(unittest.TestCase):
         for platform in platforms:
             (updates / f"releases.{platform}-nightly.json").write_text("{}")
 
-    def prepare(self, updates, sanitizers="success", tag=TAG, version=None):
+    def prepare(self, updates, macos_sanitizers="success", linux_sanitizers="success", tag=TAG, version=None):
         return nightly.prepare(updates, updates.parent / "notes.md", "owner/project", COMMIT, "1234", tag,
-                               sanitizers, version)
+                               macos_sanitizers, linux_sanitizers, version)
 
     def notes(self, updates):
         return (updates.parent / "notes.md").read_text()
@@ -39,7 +39,7 @@ class NightlyTest(unittest.TestCase):
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
             self.assertIn("Available platforms:\n- macOS Apple Silicon\n- Windows x64", notes)
             self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64", notes)
-            self.assertIn("Sanitizers: **passed**", notes)
+            self.assertIn("Sanitizers:\n- macOS: **passed**\n- Linux: **passed**", notes)
             # The notes stay outside the publication, which ships every file in it.
             self.assertEqual(sorted(path.name for path in updates.iterdir()),
                              ["releases.osx-arm64-nightly.json", "releases.win-x64-nightly.json"])
@@ -55,13 +55,16 @@ class NightlyTest(unittest.TestCase):
             self.assertNotIn("Incomplete nightly", notes)
 
     def test_sanitizer_failure_remains_visible_even_with_all_platforms(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            updates = self.directory(temporary)
-            self.fixtures(updates, nightly.PLATFORMS)
-            self.prepare(updates, sanitizers="failure")
-            notes = self.notes(updates)
-            self.assertIn("<!-- perikop-nightly: partial -->", notes)
-            self.assertIn("Sanitizers: **failure**", notes)
+        for platform in ("macos", "linux"):
+            for result in ("failure", "cancelled", "skipped"):
+                with self.subTest(platform=platform, result=result), tempfile.TemporaryDirectory() as temporary:
+                    updates = self.directory(temporary)
+                    self.fixtures(updates, nightly.PLATFORMS)
+                    self.assertEqual(self.prepare(updates, **{platform + "_sanitizers": result}), TAG)
+                    notes = self.notes(updates)
+                    self.assertIn("<!-- perikop-nightly: partial -->", notes)
+                    name = "macOS" if platform == "macos" else "Linux"
+                    self.assertIn(f"- {name}: **{result}**", notes)
 
     def test_empty_nightly_does_not_create_a_release(self):
         with tempfile.TemporaryDirectory() as temporary:

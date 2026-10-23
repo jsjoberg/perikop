@@ -29,13 +29,13 @@ These conversions keep profiles from 0.1.x working. Remove them once 0.2.0 has s
 Nightlies run at 03:15 Stockholm time when the default branch has changed since the last successful nightly.
 They publish a `nightly-<date>-<commit>` prerelease, and CI keeps the latest seven.
 Each nightly includes the platform packages that passed their checks.
-Its notes list available platforms, unavailable platforms, and the sanitizer result.
+Its notes list available platforms, unavailable platforms, and separate macOS and Linux sanitizer results.
 Failed jobs still fail the workflow, but do not discard successful packages from other platforms.
 
 Incomplete nightlies do not prevent another scheduled attempt for the same commit.
 Retries on the same day add the run ID and attempt number to the release tag.
 If all platforms fail, CI publishes no nightly.
-Version-tagged releases still require all four targets and sanitizers to pass.
+Version-tagged releases and manual publication checks require all four targets and both sanitizer jobs to pass.
 
 Every successful platform contributes its Velopack download, full package, optional delta, and `releases.<channel>.json` feed together. A platform whose packaging or update test fails contributes none of them. Full packages remain available for first upgrades, interrupted delta chains, and recovery.
 
@@ -75,7 +75,7 @@ Snapshots are kept out of this repository's releases because the in-app updater 
 To update a dependency:
 
 1. Edit `ci/upstreams.json` and the native dependency declaration, or `ci/linux.Dockerfile`. Commit and push.
-2. Prepare a snapshot from a commit or branch. Add `-f reuse_environments=true` for a source-only change, or `-f macos_tools_only=true` for macOS tools only.
+2. Prepare a snapshot from a commit or branch. Add `-f reuse_environments=true` for a source-only change, or `-f macos_tools_only=true` for macOS tools only. Every new snapshot must include the Windows cross-build environment; reuse modes need it in the pinned snapshot.
    The workflow in `jsjoberg/perikop-assets` runs this repository's `dependencies.yml` and publishes the snapshot there.
 
    ```sh
