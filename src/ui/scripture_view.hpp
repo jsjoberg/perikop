@@ -96,6 +96,8 @@ public:
     }
     void clear_selection();
     void select_verses(VerseRef first, VerseRef last, bool append = false);
+    std::string selected_text() const;
+    bool copy_selection();
     void on_selection(std::function<void()> callback) {
         selection_changed_ = std::move(callback);
     }
@@ -230,6 +232,7 @@ private:
     std::size_t highlighted_column_ = 0;
     wxPanel* verse_links_ = nullptr;
     std::optional<VerseRef> drag_anchor_;
+    std::optional<VerseRef> selection_anchor_;
     bool drag_selects_ = true;
     wxPoint press_point_;
     std::vector<std::pair<VerseRef, VerseRef>> selections_, drag_ranges_;

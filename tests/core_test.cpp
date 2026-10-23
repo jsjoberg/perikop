@@ -1086,6 +1086,49 @@ int main(int argc, char** argv) {
               "punctuation inside an override weighs as a letter");
         const std::filesystem::path user_path(argv[2]);
         std::filesystem::remove(user_path);
+        const WindowPlacement placement{-1200, 80, 960, 720, true};
+        {
+            UserDb user(user_path);
+            check(!user.window_placement(), "a new profile has no saved window geometry");
+            user.window_placement(placement);
+            user.save(Settings{});
+        }
+        {
+            UserDb user(user_path);
+            check(user.window_placement() == placement,
+                  "normal window size, negative desktop coordinates and maximized state survive reopening "
+                  "and settings saves");
+            bool rejected = false;
+            try {
+                user.window_placement({0, 0, 0, 720});
+            } catch (const std::invalid_argument&) {
+                rejected = true;
+            }
+            check(rejected && user.window_placement() == placement,
+                  "invalid window sizes preserve the previous geometry");
+            sqlite3* fixture = nullptr;
+            check(sqlite3_open(user_path.string().c_str(), &fixture) == SQLITE_OK, "open geometry fixture");
+            check(sqlite3_exec(fixture, "UPDATE settings SET value='960junk' WHERE key='window.width'",
+                               nullptr, nullptr, nullptr) == SQLITE_OK &&
+                      !user.window_placement(),
+                  "malformed saved geometry falls back to the default window");
+            user.window_placement(placement);
+            check(sqlite3_exec(fixture,
+                               "CREATE TRIGGER reject_geometry BEFORE INSERT ON settings WHEN "
+                               "NEW.key='window.height' BEGIN SELECT RAISE(ABORT,'test interruption'); END",
+                               nullptr, nullptr, nullptr) == SQLITE_OK,
+                  "window geometry transaction fixture");
+            rejected = false;
+            try {
+                user.window_placement({10, 20, 800, 600});
+            } catch (const std::exception&) {
+                rejected = true;
+            }
+            check(rejected && user.window_placement() == placement,
+                  "a failed geometry save rolls back all coordinates and dimensions");
+            sqlite3_close(fixture);
+        }
+        std::filesystem::remove(user_path);
         {
             UserDb user(user_path);
             auto s = user.load();

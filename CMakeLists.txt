@@ -85,6 +85,7 @@ add_library(ortho-core
     src/core/service_labels.cpp
     src/core/swedish_titles.cpp
     src/core/reading_display.cpp
+    src/core/scripture_copy.cpp
     src/core/online_bibles.cpp
     src/core/reading_plan.cpp
     src/core/updater.cpp
@@ -113,6 +114,9 @@ if(MINGW)
     add_link_options(-static)
 endif()
 if(BUILD_TESTING)
+    add_executable(ortho-scripture-copy-tests tests/scripture_copy_test.cpp)
+    target_link_libraries(ortho-scripture-copy-tests PRIVATE ortho-core)
+    add_test(NAME scripture-copy COMMAND ortho-scripture-copy-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")
     add_executable(ortho-osb-reference-tests tests/osb_reference_test.cpp)
     target_link_libraries(ortho-osb-reference-tests PRIVATE ortho-core)
     add_test(NAME osb-reference COMMAND ortho-osb-reference-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db"
@@ -197,6 +201,7 @@ if(ORTHO_BUILD_GUI)
         src/app/main.cpp
         src/app/updates.cpp
         src/ui/main_frame.cpp
+        src/ui/main_frame_desktop.cpp
         src/ui/main_frame_navigation.cpp
         src/ui/main_frame_menus.cpp
         src/ui/main_frame_playback.cpp
@@ -344,18 +349,19 @@ if(ORTHO_BUILD_GUI)
         install(DIRECTORY "${resource_destination}/" DESTINATION share/perikop/resources)
     endif()
     if(BUILD_TESTING)
-        add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
-        add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
-            "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"
-            "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
-            -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
-        set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT 240)
-        # Font shaping and native widgets take longer on hosted Windows runners, where the smoke
-        # test runs close to a minute.
+        # Keep nested profile-isolation runs within the same per-process budget as ui-smoke.
         set(perikop_smoke_timeout 60)
         if(ORTHO_SANITIZERS OR WIN32)
             set(perikop_smoke_timeout 180)
         endif()
+        add_test(NAME ui-smoke COMMAND perikop --smoke-test --resources "${resource_destination}")
+        add_test(NAME profile-isolation COMMAND "${CMAKE_COMMAND}"
+            "-DAPP=$<TARGET_FILE:perikop>" "-DRESOURCES=${resource_destination}"
+            "-DPROFILE_DIR=${CMAKE_BINARY_DIR}/test-profile-isolation"
+            "-DPROCESS_TIMEOUT=${perikop_smoke_timeout}"
+            -P "${CMAKE_SOURCE_DIR}/tests/profile_isolation_test.cmake")
+        math(EXPR perikop_profile_timeout "2 * ${perikop_smoke_timeout} + 30")
+        set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT "${perikop_profile_timeout}")
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
     endif()
 endif()

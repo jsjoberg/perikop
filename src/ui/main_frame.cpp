@@ -179,6 +179,30 @@ MainFrame::MainFrame(CorpusDb& corpus, UserDb& user, CivilDate date, const std::
     const int inset = FromDIP(48);
     SetSize(std::min(desired.x, work.width - inset), std::min(desired.y, work.height - inset));
     Center();
+    normal_window_rect_ = GetRect();
+    normal_window_size_dip_ = ToDIP(GetSize());
+    if (!diagnostic_)
+        restore_window_placement();
+    const auto remember_normal = [this] {
+        // Maximize/restore can emit several intermediate move and resize events.
+        CallAfter([this] {
+            if (IsShown() && !IsIconized() && !IsFullScreen()) {
+                window_maximized_ = IsMaximized();
+                if (!window_maximized_) {
+                    normal_window_rect_ = GetRect();
+                    normal_window_size_dip_ = ToDIP(GetSize());
+                }
+            }
+        });
+    };
+    Bind(wxEVT_SIZE, [remember_normal](wxSizeEvent& event) {
+        remember_normal();
+        event.Skip();
+    });
+    Bind(wxEVT_MOVE, [remember_normal](wxMoveEvent& event) {
+        remember_normal();
+        event.Skip();
+    });
     Bind(wxEVT_SYS_COLOUR_CHANGED, [this](wxSysColourChangedEvent& e) {
         if (settings_.theme == Theme::System)
             apply_settings(false);
@@ -529,6 +553,8 @@ void MainFrame::update_study() {
     root_->Layout();
 }
 MainFrame::~MainFrame() {
+    if (!diagnostic_)
+        save_window_placement();
     pause_for_navigation();
     // A download still running delivers nothing once the updater is gone.
     updater_.reset();

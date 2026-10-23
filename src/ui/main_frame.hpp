@@ -49,6 +49,14 @@ private:
     WXLRESULT MSWWindowProc(WXUINT, WXWPARAM, WXLPARAM) override;
 #endif
     void make_menus();
+    bool edit_enabled(int command, wxWindow* focus = wxWindow::FindFocus()) const;
+    void edit(int command, wxWindow* focus = wxWindow::FindFocus());
+    void restore_window_placement();
+    void save_window_placement();
+    // Kept while maximized, minimized, or in full screen so reopening preserves the normal size.
+    wxRect normal_window_rect_;
+    wxSize normal_window_size_dip_;
+    bool window_maximized_ = false;
     // Brings the menu bar's labels and states up to date. The ⋮ menu shows its items.
     void sync_menu();
     void show_menu();

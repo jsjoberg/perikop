@@ -28,6 +28,12 @@ void ScriptureView::rebuild_verse_links() {
     verse_links_->DestroyChildren();
     auto* sizer = new wxBoxSizer(wxVERTICAL);
     auto* actions = new wxBoxSizer(wxHORIZONTAL);
+    auto* copy = ui::button(verse_links_, "Kopiera", [this] {
+        copy_selection();
+    });
+    copy->SetFont(ui_font(10));
+    copy->SetToolTip(ui::utf8("Kopiera texten med bibelställe och översättning (Ctrl+C, ⌘C på Mac)"));
+    actions->Add(copy, 0, wxALIGN_CENTER_VERTICAL | wxALL, FromDIP(zoomed(3)));
     auto* bookmark = new SymbolButton(verse_links_, Symbol::Bookmark, ui::utf8("Lägg till bokmärke"),
                                       [this, reading = *marked] {
                                           CallAfter([this, reading] {
