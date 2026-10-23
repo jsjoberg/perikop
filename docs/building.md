@@ -4,7 +4,9 @@
 
 - CMake 3.24 or later and a C++23 compiler with `std::expected`.
 - Windows: w64devkit with MinGW-w64 GCC 15 or later.
-- Linux: GCC 15 or later and the GTK3 and Fontconfig development headers (`libgtk-3-dev libfontconfig1-dev` on Debian and Ubuntu).
+- Linux: GCC 14 or later and the GTK3 and Fontconfig development headers.
+  On Debian 13: `sudo apt install g++ cmake libgtk-3-dev libfontconfig1-dev`.
+  On RHEL, AlmaLinux or Rocky Linux 10: `sudo dnf install gcc-c++ gtk3-devel fontconfig-devel cmake make`.
   On RHEL or Rocky Linux 9: `sudo dnf install gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ gtk3-devel fontconfig-devel cmake make`, then `scl enable gcc-toolset-15 bash`.
 - macOS: Apple Silicon, macOS 15 or later, Apple Clang 16 or later, and the Xcode command-line tools.
 - Python tooling: uv; `.python-version` pins Python 3.14.6. `uv run --locked` prepares it automatically.
