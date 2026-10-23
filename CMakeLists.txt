@@ -49,7 +49,7 @@ include(cmake/tidy.cmake)
 check_cxx_source_compiles("#include <expected>
 int main() { std::expected<int,int> value{1}; return *value - 1; }" ORTHO_HAS_EXPECTED)
 if(NOT ORTHO_HAS_EXPECTED)
-    message(FATAL_ERROR "A C++23 standard library with std::expected is required. Use GCC 14+ or a recent Apple Clang.")
+    message(FATAL_ERROR "A C++23 standard library with std::expected is required. Use GCC 14+ on Linux, GCC 15+ on Windows, or a recent Apple Clang.")
 endif()
 option(ORTHO_BUILD_GUI "Build the native reader" ON)
 option(ORTHO_SYSTEM_WX "Use installed wxWidgets for developer builds" OFF)
