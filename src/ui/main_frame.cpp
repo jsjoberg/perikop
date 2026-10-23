@@ -414,15 +414,21 @@ void MainFrame::open_reading(const Reading& selected) {
     restore_reading_position();
     record_navigation();
 }
-void MainFrame::show_reading(const Reading& selected) {
+void MainFrame::show_reading(const Reading& selected, bool preserve_sources) {
     const auto reading = corpus_.localize(in_swedish(selected));
     close_pages();
     visible_reading_ = selected;
+    scripture_->open(reading, preserve_sources);
     // Lyssna is offered only where playback would find Swedish verses to read.
     try {
-        reading_speech(corpus_, {in_swedish(selected)}, [](const std::string&) {
-            return std::vector<Pronunciation>{};
-        });
+        reading_speech(
+            corpus_, {in_swedish(selected)},
+            [](const std::string&) {
+                return std::vector<Pronunciation>{};
+            },
+            [this](const Reading& item, const std::string& book, int chapter) {
+                return scripture_->primary_source(item, book, chapter);
+            });
         speakable_ = true;
     } catch (const std::exception&) {
         speakable_ = false;
@@ -442,7 +448,6 @@ void MainFrame::show_reading(const Reading& selected) {
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();
-    scripture_->open(reading);
     position_reset_ = false;
     scripture_->SetFocus();
 }

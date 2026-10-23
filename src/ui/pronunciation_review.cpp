@@ -387,9 +387,8 @@ void show_pronunciation_review(wxWindow* parent, const CorpusDb& corpus, Pronunc
         [&](wxTimerEvent&) {
             const auto playback = speech.playback();
             const auto text =
-                playback.state == SpeechState::Loading     ? ui::utf8("Förbereder rösten…")
-                : playback.state == SpeechState::Buffering ? ui::utf8("Förbereder ljud…")
-                : playback.state == SpeechState::Playing   ? ui::utf8("Spelar upp")
+                playback.state == SpeechState::Buffering ? ui::utf8("Förbereder ljud…")
+                : playback.state == SpeechState::Playing ? ui::utf8("Spelar upp")
                 : playback.state == SpeechState::Error
                     ? ui::utf8("Ljudet kunde inte skapas. Kontrollera att eSpeak NG är installerat.")
                 : playback.state == SpeechState::Completed ? ui::utf8("Uppläsningen är klar")

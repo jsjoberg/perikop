@@ -71,7 +71,7 @@ private:
     void layout_home();
     void show_readings(bool record = true);
     // Display a reading without replacing the playback session that requested it.
-    void show_reading(const Reading&);
+    void show_reading(const Reading&, bool preserve_sources = false);
     void select_day(CivilDate);
     void navigate(int days);
     void pick_date();

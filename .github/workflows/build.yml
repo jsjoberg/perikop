@@ -128,8 +128,13 @@ jobs:
             -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
             -e PACKAGE -e NIGHTLY -e PERIKOP_BUILD_VERSION \
             perikop-ci-linux:dependencies python3 tools/ci/build.py linux
+      - name: Install eSpeak NG for real synthesis tests
+        if: runner.os == 'macOS'
+        run: brew install espeak-ng
       - name: Build, analyze, test, and package macOS offline
         if: runner.os == 'macOS'
+        env:
+          PERIKOP_REQUIRE_ESPEAK: "1"
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py macos
       - &save-compiler-cache
         name: Save compiler cache after build or check failure

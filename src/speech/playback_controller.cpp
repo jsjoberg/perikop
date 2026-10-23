@@ -51,8 +51,6 @@ std::optional<PlaybackController::Status> PlaybackController::status(const Corpu
     const std::string ready =
         playback_.ready > 0 ? " " + std::to_string(int(playback_.ready * 100)) + " %" : std::string{};
     switch (feedback_) {
-    case SpeechState::Loading:
-        return Status{"Laddar rösten…"};
     case SpeechState::Buffering:
         return Status{
             (playback_.cue ? "Förbereder fortsättningen…" : "Förbereder uppläsningen…") + ready,

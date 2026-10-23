@@ -16,7 +16,7 @@ class ScriptureView final : public wxPanel {
 public:
     ScriptureView(wxWindow*, const CorpusDb&);
     bool Show(bool show = true) override;
-    void open(const Reading&);
+    void open(const Reading&, bool preserve_sources = false);
     void open_section(std::size_t index);
     void apply(const Settings&);
     void center_passage();
@@ -75,6 +75,7 @@ public:
     // The left pane's edition, and the edition whose numbering frames the text.
     std::string base_source() const;
     std::string primary_language() const;
+    std::string primary_source(const Reading&, const std::string& book, int chapter) const;
     std::vector<std::string> sources_for_chapter(int chapter) const;
     // Overrides belong only to this open passage and chapter, never to saved preferences.
     void chapter_source(int chapter, std::size_t pane, const std::string& source);

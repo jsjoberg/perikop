@@ -4,10 +4,9 @@
 #include <memory>
 #include <utility>
 namespace ortho {
-enum class SpeechState { Idle, Loading, Buffering, Playing, Paused, Stopped, Completed, Error };
+enum class SpeechState { Idle, Buffering, Playing, Paused, Stopped, Completed, Error };
 constexpr bool speech_active(SpeechState state) {
-    return state == SpeechState::Loading || state == SpeechState::Buffering ||
-           state == SpeechState::Playing || state == SpeechState::Paused;
+    return state == SpeechState::Buffering || state == SpeechState::Playing || state == SpeechState::Paused;
 }
 struct SpeechCue {
     size_t reading = 0, section = 0;

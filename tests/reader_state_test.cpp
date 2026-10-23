@@ -64,8 +64,8 @@ void controls_test() {
     for (auto screen :
          {Screen::Day, Screen::Reader, Screen::Bible, Screen::Plans, Screen::Settings, Screen::About})
         for (auto state :
-             {SpeechState::Idle, SpeechState::Loading, SpeechState::Buffering, SpeechState::Playing,
-              SpeechState::Paused, SpeechState::Stopped, SpeechState::Completed, SpeechState::Error})
+             {SpeechState::Idle, SpeechState::Buffering, SpeechState::Playing, SpeechState::Paused,
+              SpeechState::Stopped, SpeechState::Completed, SpeechState::Error})
             for (bool selection : {false, true}) {
                 const auto policy = reader_controls({screen, state, selection, true});
                 check(!(policy.listen && policy.pause), "Listen and Pause must not both be enabled");
@@ -84,9 +84,9 @@ void controls_test() {
     check(paused.listen && !paused.pause && paused.stop && paused.playback_action == PlaybackAction::Resume &&
               paused.listen_label == "Fortsätt",
           "A paused reader must offer Resume and Stop");
-    const auto loading = reader_controls({Screen::Reader, SpeechState::Loading});
-    check(!loading.listen && loading.pause && loading.playback_action == PlaybackAction::Pause,
-          "Loading must be pausable without allowing a second playback start");
+    const auto buffering = reader_controls({Screen::Reader, SpeechState::Buffering});
+    check(!buffering.listen && buffering.pause && buffering.playback_action == PlaybackAction::Pause,
+          "Buffering must be pausable without allowing a second playback start");
     const auto selected = reader_controls({Screen::Reader, SpeechState::Stopped, true});
     check(selected.listen && selected.playback_action == PlaybackAction::StartSelection &&
               selected.playback_label == "Läs markering",
@@ -107,7 +107,7 @@ void playback_test() {
     HeldSpeech engine;
     const Reading reading{ReadingKind::Gospel, {"John", {1, 1}, {1, 5}}};
     playback.start({reading});
-    for (auto state : {SpeechState::Playing, SpeechState::Loading, SpeechState::Buffering}) {
+    for (auto state : {SpeechState::Playing, SpeechState::Buffering}) {
         engine.state = {state, SpeechCue{0, 0, "John", "sv1917", {1, 2}, {1, 2}}, 0.3, 0.4};
         const int pauses = engine.pauses, resumes = engine.resumes;
         playback.leave_reader(engine);
