@@ -2,6 +2,7 @@
 # It is optional for builds, never includes fetched dependencies, and needs a built tree.
 find_program(ORTHO_RUN_CLANG_TIDY NAMES run-clang-tidy)
 find_program(ORTHO_CLANG_TIDY NAMES clang-tidy)
+set(ORTHO_TIDY_FILES "(src|tests|tools)/" CACHE STRING "Regular expression for the analyzed sources, relative to the source tree")
 if(ORTHO_RUN_CLANG_TIDY AND ORTHO_CLANG_TIDY)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     set(ortho_tidy_extra)
@@ -12,7 +13,7 @@ if(ORTHO_RUN_CLANG_TIDY AND ORTHO_CLANG_TIDY)
     endif()
     add_custom_target(tidy
         COMMAND "${ORTHO_RUN_CLANG_TIDY}" -p "${CMAKE_BINARY_DIR}" -quiet
-            -clang-tidy-binary "${ORTHO_CLANG_TIDY}" ${ortho_tidy_extra} "${CMAKE_SOURCE_DIR}/(src|tests|tools)/"
+            -clang-tidy-binary "${ORTHO_CLANG_TIDY}" ${ortho_tidy_extra} "${CMAKE_SOURCE_DIR}/${ORTHO_TIDY_FILES}"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         COMMENT "Analyze native sources"
         VERBATIM)

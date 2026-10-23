@@ -157,6 +157,7 @@ fi
                 (root / "build/cmake/windows-handoff.json").write_text("manifest")
             with chdir(root), patch.dict(os.environ, env), patch.object(builder, "ROOT", root), \
                     patch.object(builder, "SOURCES", root / "build/ci/sources"), \
+                    patch.object(builder.os, "process_cpu_count", return_value=4), \
                     patch.object(builder, "python", side_effect=handoff_probe) as probe:
                 builder.windows()
                 probe.assert_called_once_with("tools/ci/windows_handoff.py", "--source", ".", "--build", Path("build/cmake"))

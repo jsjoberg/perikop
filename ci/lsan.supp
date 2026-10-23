@@ -1,0 +1,11 @@
+# LeakSanitizer suppressions for `tools/ci/build.py linux-sanitizers`.
+# Only system libraries that keep process-lifetime state; never Perikop's own code in src/.
+# A leaked Perikop object is still reported through its own allocation stack.
+# Rocky's x86_64 libraries have no frame pointers, so stacks stop inside them: match modules.
+
+# Fontconfig keeps its configuration, font patterns and caches until FcFini, which
+# GTK, Pango, cairo and wxWidgets never call.
+leak:libfontconfig.so.1
+
+# librsvg keeps parsed SVG icon data that GTK's icon theme caches for the process.
+leak:librsvg-2.so.2

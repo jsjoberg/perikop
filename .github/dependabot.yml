@@ -1,5 +1,5 @@
 # Dependabot cannot see the native dependencies: wxWidgets, SQLite and miniaudio
-# are pinned URLs with hashes in CMake, and w64devkit and linuxdeploy
+# are pinned URLs with hashes in CMake, and linuxdeploy
 # are pinned in ci/upstreams.json and tools/prepare_appdir.sh. Prepare
 # a new CI dependency snapshot when those inputs or the build environment change.
 version: 2

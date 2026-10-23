@@ -8,7 +8,8 @@ RUN sed -i '/^tsflags=nodocs/d' /etc/dnf/dnf.conf && \
     dnf install -y gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ make cmake ninja-build ccache \
       git curl-minimal tar xz zstd gtk3-devel fontconfig-devel xorg-x11-server-Xvfb \
       xorg-x11-xauth python3.12 binutils file findutils which gdb \
-      dotnet-runtime-8.0 squashfs-tools strace && \
+      dotnet-runtime-8.0 squashfs-tools strace \
+      gcc-toolset-15-libasan-devel gcc-toolset-15-libubsan-devel clang-tools-extra && \
     dnf clean all && \
     ln -s /usr/bin/python3.12 /usr/local/bin/python3
 ENV PATH="/opt/rh/gcc-toolset-15/root/usr/bin:${PATH}" \

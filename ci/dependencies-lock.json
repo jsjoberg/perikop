@@ -1,15 +1,15 @@
 {
   "repository": "jsjoberg/perikop-assets",
-  "release": "ci-dependencies-6a313a7c8469",
-  "upstreams_sha256": "e30f641bbd186b38313b2c56007040557f360ba971d303fdf8c43996968328d3",
+  "release": "ci-dependencies-6b73f697188c",
+  "upstreams_sha256": "308cb4578ec60c9672c4837065fdf8a9defc631b54f609a44233d397ddbf4339",
   "assets": {
-    "inputs-Linux.tar.gz": "607de2b09a5e027726af88c9d3c424476ecc4daa2cc90c8548b47f976be7167c",
-    "inputs-Linux-arm64.tar.gz": "cd4908ff5218800f97118f1fb5347167963d67cd237b0a63e476173c896c683b",
-    "inputs-macOS.tar.gz": "61d7d62ea61c5df61f70bed217d43884630a902c4bca972ac85346119352d5e2",
-    "inputs-Windows.tar.gz": "19d097d66302a8fcaa8cb0d9e5abe04de3b4c84df1886e346f2b393b985f61ab",
-    "Linux-environment.tar.gz": "5ddff73eddc49e1211a100947fe13d87b9a78d5d8fd65b444f279f8fcb858925",
-    "Linux-arm64-environment.tar.gz": "5ccdb09724c707346a06a8acbe0fdca22449027de5c44c05f83d93b3ec60f7a0",
-    "macOS-tools.tar.gz": "d6d549eee4bdcedf1265ee0dac0be1ef138f098e610805642c7c421b4714fb03",
-    "Windows-cross-environment.tar.gz": "ab71f5b07152177a5008f6d03c7a0417f6f8d5d040f15d1ce0efde4aa7c413c7"
+    "inputs-Linux.tar.gz": "0f0ed1e9f3200e2dcc6fb3fe8adced05f288ef9e37f4ee6fc7ab76de1acb97c9",
+    "inputs-Linux-arm64.tar.gz": "6db9b2fb56cde8c4582b8cebecb7163263d1d12970f7a2684b52c2e26264e593",
+    "inputs-macOS.tar.gz": "d9747de04721c2d1ccfae4a3003f868ce9ac126bd1ab271bc1bbd58222f824a8",
+    "inputs-Windows.tar.gz": "979e14dbda1aff2859b13ffd66ad0dd44f19b2333c918a65d887732c9e6e5fde",
+    "Linux-environment.tar.gz": "d133578391ccd581873f7fc2110663107b90e3740e0df6a312485ff2a37d5c12",
+    "Linux-arm64-environment.tar.gz": "66f7d3f76496dc8ccec2403902c749d5f2435d76740eb2212183e91a0684e982",
+    "macOS-tools.tar.gz": "e53a00ff309b1ded20038b7cc49efb02abb591bb55578309ec52bbac1c6f65e7",
+    "Windows-cross-environment.tar.gz": "9e08da05e655df8b6b93f0197401e06765b08584a10dd31c31e29258dd47f844"
   }
 }

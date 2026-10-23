@@ -20,6 +20,9 @@ spec.loader.exec_module(dependencies)
 class DependenciesTest(unittest.TestCase):
     def test_native_versions_match_upstream_snapshot(self):
         dependencies.audit()
+        lock = json.loads(dependencies.LOCK.read_text())
+        self.assertEqual(lock["upstreams_sha256"], dependencies.digest(dependencies.UPSTREAMS))
+        self.assertIn(dependencies.CROSS_ENVIRONMENT, lock["assets"])
 
     def fixture(self, root, platform="Linux", vpk=False):
         (root / "ci").mkdir()
@@ -169,23 +172,24 @@ class DependenciesTest(unittest.TestCase):
     def test_windows_tools_only_restore_does_not_unpack_sources_or_compilers(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            manifest, lock, downloads = self.fixture(root, "Windows")
-            data = json.loads(manifest.read_text())
-            # Unused compiler inputs need not exist for a tools-only restore.
-            data["w64devkit"] = {"file": "w64devkit.7z.exe", "sha256": "unused", "platform": "Windows"}
-            manifest.write_text(json.dumps(data))
-            with tarfile.open(downloads / "inputs-Windows.tar.gz", "w:gz") as archive:
-                archive.add(manifest, arcname="upstreams.json")
-                archive.add(root / "dependency.zip", arcname="dependency.zip")
-            data = json.loads(lock.read_text())
-            data["upstreams_sha256"] = dependencies.digest(manifest)
-            data["assets"]["inputs-Windows.tar.gz"] = dependencies.digest(downloads / "inputs-Windows.tar.gz")
-            lock.write_text(json.dumps(data))
+            manifest, lock, downloads = self.fixture(root, "Windows", vpk=True)
             with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
                     patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
                 dependencies.restore("Windows", root / "build/ci", tools_only=True)
                 run.assert_not_called()
             self.assertFalse((root / "build/ci/sources").exists())
+            self.assertTrue((root / "build/ci/tools/vpk/tools/net8.0/any/vpk.dll").is_file())
+
+    def test_native_windows_restore_needs_no_bundled_compiler(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest, lock, downloads = self.fixture(root, "Windows", vpk=True)
+            with patch.object(dependencies, "ROOT", root), patch.object(dependencies, "UPSTREAMS", manifest), \
+                    patch.object(dependencies, "LOCK", lock), patch.object(dependencies.subprocess, "run") as run:
+                dependencies.restore("Windows", root / "build/ci")
+                run.assert_not_called()
+            self.assertEqual((root / "build/ci/sources/sqlite/sqlite3.h").read_text(), "offline source")
+            self.assertTrue((root / "build/ci/tools/vpk/tools/net8.0/any/vpk.dll").is_file())
 
     def test_tools_only_restore_rejects_incompatible_modes(self):
         for platform, options in (("Linux", {}), ("Windows", {"cross": True})):
@@ -193,16 +197,16 @@ class DependenciesTest(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Tools-only restore requires Windows"):
                     dependencies.restore(platform, Path("unused"), tools_only=True, **options)
 
-    def test_snapshot_lock_includes_cross_environment_when_prepared(self):
+    def test_snapshot_lock_requires_cross_environment(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             names = ["inputs-" + platform + ".tar.gz" for platform in dependencies.PLATFORMS]
             names += ["Linux-environment.tar.gz", "Linux-arm64-environment.tar.gz", "macOS-tools.tar.gz"]
             for name in names:
                 (output / name).write_bytes(b"fixture snapshot")
-            dependencies.make_lock(output, "owner/project", "fixture")
-            self.assertNotIn(dependencies.CROSS_ENVIRONMENT,
-                             json.loads((output / "dependencies-lock.json").read_text())["assets"])
+            with self.assertRaises(FileNotFoundError):
+                dependencies.make_lock(output, "owner/project", "fixture")
+            self.assertFalse((output / "dependencies-lock.json").exists())
             (output / dependencies.CROSS_ENVIRONMENT).write_bytes(b"cross-build container")
             dependencies.make_lock(output, "owner/project", "fixture")
             assets = json.loads((output / "dependencies-lock.json").read_text())["assets"]
