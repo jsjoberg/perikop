@@ -86,6 +86,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       PLATFORM: ${{ matrix.platform }}
+      COMPILER_CACHE_PLATFORM: ${{ matrix.platform }}
       PERIKOP_BUILD_VERSION: ${{ needs.nightly.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -107,16 +108,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/ci/update_packages.py restore --platform "$PLATFORM"
-      - name: Compiler cache
+      - &restore-compiler-cache
+        name: Compiler cache
         id: compiler-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: build/ccache
-          key: objects-${{ matrix.platform }}-${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
+          key: objects-${{ env.COMPILER_CACHE_PLATFORM }}--${{ hashFiles('ci/upstreams.json') }}-${{ github.sha }}
           restore-keys: |
-            objects-${{ matrix.platform }}-${{ hashFiles('ci/upstreams.json') }}-
-            objects-${{ matrix.platform }}-${{ hashFiles('ci/dependencies-lock.json') }}-
-            objects-${{ matrix.platform }}-
+            objects-${{ env.COMPILER_CACHE_PLATFORM }}--${{ hashFiles('ci/upstreams.json') }}-
+            objects-${{ env.COMPILER_CACHE_PLATFORM }}--
+            objects-${{ env.COMPILER_CACHE_PLATFORM }}-${{ hashFiles('ci/upstreams.json') }}-
       - name: Build, analyze, test, and package Linux offline
         if: runner.os == 'Linux'
         run: |
@@ -129,7 +131,8 @@ jobs:
       - name: Build, analyze, test, and package macOS offline
         if: runner.os == 'macOS'
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py macos
-      - name: Save compiler cache after build or check failure
+      - &save-compiler-cache
+        name: Save compiler cache after build or check failure
         if: always() && !cancelled() && steps.compiler-cache.outputs.cache-primary-key != '' && steps.compiler-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -322,6 +325,8 @@ jobs:
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: macos-15
+    env:
+      COMPILER_CACHE_PLATFORM: macOS-arm64-sanitizers
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Python tooling
@@ -336,13 +341,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/ci/dependencies.py restore --platform macOS
+      - *restore-compiler-cache
       - name: Storage, speech, layout, and UI with ASan and UBSan
         timeout-minutes: 30
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py sanitizers
+      - *save-compiler-cache
   linux-sanitizers:
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: ubuntu-24.04
+    env:
+      COMPILER_CACHE_PLATFORM: Linux-sanitizers
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Python tooling
@@ -357,6 +366,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/ci/dependencies.py restore --platform Linux
+      - *restore-compiler-cache
       - name: Storage, speech, layout, and UI with ASan, UBSan, and LeakSanitizer
         timeout-minutes: 40
         run: |
@@ -365,6 +375,7 @@ jobs:
             -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
             -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
             perikop-ci-linux:dependencies python3 tools/ci/build.py linux-sanitizers
+      - *save-compiler-cache
   publication-check:
     needs: [unix, windows, sanitizers, linux-sanitizers]
     if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && !inputs.nightly && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' && needs.linux-sanitizers.result == 'success' }}

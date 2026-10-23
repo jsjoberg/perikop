@@ -105,3 +105,5 @@ CI runs `tidy` in the Linux x64 job with Rocky Linux 9's clang-tidy 21. The macO
 
 - `sanitizers` on macOS 15 with Apple Clang.
 - `linux-sanitizers` in the Rocky Linux container with GCC 15, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and librsvg, and `NO_AT_BRIDGE=1` keeps GTK from opening an accessibility bus connection. Do not add suppressions for Perikop's own code.
+
+Both sanitizer jobs cache compiler output separately from release builds. Cache keys distinguish Linux x64, Linux ARM64, macOS ARM64, and sanitizer builds; all tests still run on every build. Each job reports its own cache hits and misses, including sanitizer jobs. Compilation uses the CPUs available to the process (three on the standard macOS runner, four on public Linux runners).

@@ -23,13 +23,12 @@ def python(script, *arguments):
     run(sys.executable, script, *arguments)
 
 
-def build(*options, directory=BUILD, jobs=3, cache=True):
+def build(*options, directory=BUILD):
     arguments = ["cmake", "-S", ".", "-B", directory, f"-DPERIKOP_DEPENDENCY_DIR={SOURCES}",
-                 "-DwxBUILD_PRECOMP=OFF", *options]
-    if cache:
-        arguments += ["-DCMAKE_C_COMPILER_LAUNCHER=ccache", "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache"]
+                 "-DwxBUILD_PRECOMP=OFF", "-DCMAKE_C_COMPILER_LAUNCHER=ccache",
+                 "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache", *options]
     run(*arguments)
-    run("cmake", "--build", directory, "--parallel", jobs)
+    run("cmake", "--build", directory, "--parallel", os.process_cpu_count() or 1)
 
 
 def checks(*names):
@@ -91,7 +90,6 @@ def linux(package):
 
 
 def macos(package):
-    os.environ["PATH"] = str(ROOT / "build/ci/tools/bin") + os.pathsep + os.environ["PATH"]
     checks("macos_tidy")
     build("-DCMAKE_BUILD_TYPE=MinSizeRel", "-DCMAKE_OSX_ARCHITECTURES=arm64",
           "-DCMAKE_OSX_DEPLOYMENT_TARGET=15.0",
@@ -120,7 +118,7 @@ def macos(package):
 
 
 def windows():
-    build("-G", "Ninja", "--toolchain", "cmake/llvm-mingw.cmake", "-DCMAKE_BUILD_TYPE=MinSizeRel", jobs=4)
+    build("-G", "Ninja", "--toolchain", "cmake/llvm-mingw.cmake", "-DCMAKE_BUILD_TYPE=MinSizeRel")
     python("tools/ci/windows_handoff.py", "--source", ".", "--build", BUILD)
     run("llvm-strip", BUILD / "bin/perikop.exe")
     # Transfer binaries and test metadata, without host-specific CMake state.
@@ -132,7 +130,7 @@ def windows():
 def sanitizers(*options, display=()):
     os.environ.update(UBSAN_OPTIONS="halt_on_error=1:print_stacktrace=1", ASAN_OPTIONS="halt_on_error=1")
     directory = Path("build/sanitizers")
-    build("-DCMAKE_BUILD_TYPE=Debug", "-DORTHO_SANITIZERS=ON", *options, directory=directory, cache=False)
+    build("-DCMAKE_BUILD_TYPE=Debug", "-DORTHO_SANITIZERS=ON", *options, directory=directory)
     run(*display, "ctest", "--test-dir", directory, "--output-on-failure", "--timeout", "240")
 
 
@@ -148,8 +146,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("target", choices=("linux", "macos", "windows", "sanitizers", "linux-sanitizers"))
     args = parser.parse_args()
-    os.environ.update(CCACHE_DIR=str(ROOT / "build/ccache"), CCACHE_BASEDIR=str(ROOT),
+    os.environ.update(PATH=str(ROOT / "build/ci/tools/bin") + os.pathsep + os.environ["PATH"],
+                      CCACHE_DIR=str(ROOT / "build/ccache"), CCACHE_BASEDIR=str(ROOT),
                       CCACHE_COMPILERCHECK="content", CCACHE_MAXSIZE="2G")
+    run("ccache", "--zero-stats")
     try:
         package = os.environ.get("PACKAGE") == "true"
         commands = {"linux": lambda: linux(package), "macos": lambda: macos(package),
@@ -159,5 +159,4 @@ if __name__ == "__main__":
                     "linux-sanitizers": linux_sanitizers}
         commands[args.target]()
     finally:
-        if not args.target.endswith("sanitizers"):
-            subprocess.run(["ccache", "--show-stats"], check=False)
+        subprocess.run(["ccache", "--show-stats"], check=False)

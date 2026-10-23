@@ -18,6 +18,29 @@ spec.loader.exec_module(build)
 
 
 class BuildTest(unittest.TestCase):
+    def test_build_uses_available_cpus_with_a_single_job_fallback(self):
+        for cpus, jobs in ((4, 4), (None, 1)):
+            with self.subTest(cpus=cpus), patch.object(build.os, "process_cpu_count", return_value=cpus), \
+                    patch.object(build, "run") as run:
+                build.build()
+                self.assertEqual(run.call_args.args, ("cmake", "--build", build.BUILD, "--parallel", jobs))
+
+    def test_compiler_cache_prefixes_do_not_cross_platforms_or_build_modes(self):
+        workflow = (ROOT / ".github/workflows/build.yml").read_text()
+        restore = re.search(r"- &restore-compiler-cache\n(.*?)(?=^      -)", workflow, re.M | re.S)[1]
+        key = re.search(r"key: (objects-.*)", restore)[1]
+        prefixes = re.findall(r"^            (objects-.*)", restore, re.M)
+        platforms = ("Linux", "Linux-arm64", "macOS-arm64", "Linux-sanitizers", "macOS-arm64-sanitizers")
+        def resolve(template, platform):
+            return template.replace("${{ env.COMPILER_CACHE_PLATFORM }}", platform)
+        for platform in platforms:
+            for prefix in prefixes:
+                for other in platforms:
+                    if platform != other:
+                        self.assertFalse(resolve(key, other).startswith(resolve(prefix, platform)),
+                                         (platform, other, prefix))
+            self.assertTrue(any(resolve(key, platform).startswith(resolve(prefix, platform)) for prefix in prefixes))
+
     def test_publication_requires_every_sanitizer_job(self):
         workflow = (ROOT / ".github/workflows/build.yml").read_text()
         jobs = dict(re.findall(r"^  ([\w-]+):\n(.*?)(?=^  [\w-]+:|\Z)", workflow, re.M | re.S))
@@ -113,9 +136,12 @@ class BuildTest(unittest.TestCase):
         self.assertFalse(re.search(pattern, "/work/src/shared.cpp"))
 
     def test_linux_sanitizers_run_every_test_on_a_virtual_display(self):
-        with patch.dict(os.environ), patch.object(build, "build") as configure, patch.object(build, "run") as run:
+        with patch.dict(os.environ), patch.object(build, "run") as run:
             build.linux_sanitizers()
-        self.assertIn("-DORTHO_SANITIZERS=ON", configure.call_args.args)
+        configure = next(call.args for call in run.call_args_list if "-S" in call.args)
+        self.assertIn("-DORTHO_SANITIZERS=ON", configure)
+        self.assertIn("-DCMAKE_C_COMPILER_LAUNCHER=ccache", configure)
+        self.assertIn("-DCMAKE_CXX_COMPILER_LAUNCHER=ccache", configure)
         ctest = run.call_args.args
         self.assertEqual(ctest[:len(build.DISPLAY) + 1], (*build.DISPLAY, "ctest"))
         self.assertNotIn("-L", ctest)
