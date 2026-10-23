@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cmath>
 #include <condition_variable>
+#include <cstdlib>
 #include <future>
 #include <iostream>
 #include <map>
@@ -311,6 +312,7 @@ int main(int argc, char** argv) {
 
         // The real eSpeak voice, where the user has installed it, with only the bundled pronunciations.
         if (!espeak_installed()) {
+            check(!std::getenv("PERIKOP_REQUIRE_ESPEAK"), "CI requires an installed eSpeak NG library");
             std::cout << "eSpeak NG playback skipped: not installed\n";
         } else {
             {

@@ -20,7 +20,8 @@ double resume_speech(std::vector<SpeechUtterance>& queue, const ReadingPosition&
     return skipped;
 }
 std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::vector<Reading>& readings,
-                                            const PronunciationLookup& lookup) {
+                                            const PronunciationLookup& lookup,
+                                            const SpeechSourceLookup& source_lookup) {
     std::vector<SpeechUtterance> queue;
     std::map<std::string, PronunciationMatcher> matchers;
     const auto prepare = [&](const std::string& text, const std::string& language) {
@@ -43,22 +44,33 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                               : reading.source_override;
             if (corpus.coordinates(frame, passage.book).empty())
                 frame = source;
-            const auto language = source_language(source);
             bool found = false;
+            bool source_read = false;
+            std::map<int, std::string> sources;
             std::optional<std::pair<std::string, VerseRef>> previous;
             for (auto ref : corpus.coordinates(frame, passage.book)) {
                 if (!corpus.contains(frame, passage, ref))
                     continue;
+                if (source_lookup) {
+                    auto [entry, added] = sources.try_emplace(ref.chapter);
+                    if (added)
+                        entry->second = source_lookup(reading, passage.book, ref.chapter);
+                    if (source != entry->second) {
+                        source = entry->second;
+                        previous.reset();
+                        source_read = false;
+                    }
+                }
                 auto verse = corpus.parallel_verse(frame, source, passage.book, ref);
                 // A selection may begin inside one indivisible translation verse.
                 // Read that complete source verse rather than dropping the selected OSB point.
-                if (!verse && verse.error() == merged_verse && !found)
+                if (!verse && verse.error() == merged_verse && !source_read)
                     if (const auto group = corpus.alignment(frame, source, {passage.book, ref, ref}))
                         verse = corpus.parallel_verse(frame, source, passage.book, group->from.first);
                 const bool continues =
                     (verse && previous && std::pair{verse->book, verse->ref} == *previous) ||
                     (!verse && verse.error() == merged_verse);
-                if (continues && found) {
+                if (continues && source_read) {
                     // NOLINTNEXTLINE(bugprone-unchecked-optional-access): queued verses have cues.
                     queue.back().cue->last = ref;
                     continue;
@@ -68,10 +80,11 @@ std::vector<SpeechUtterance> reading_speech(const CorpusDb& corpus, const std::v
                     continue;
                 }
                 previous = std::pair{verse->book, verse->ref};
-                auto utterance = prepare(verse->text, language);
+                auto utterance = prepare(verse->text, source_language(source));
                 utterance.cue = SpeechCue{r, s, passage.book, frame, ref, ref};
                 queue.push_back(std::move(utterance));
                 found = true;
+                source_read = true;
             }
             if (!found)
                 throw std::runtime_error("Ingen text finns att läsa upp.");

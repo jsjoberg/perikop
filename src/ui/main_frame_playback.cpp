@@ -170,7 +170,7 @@ void MainFrame::open_speech_location(size_t reading, size_t section) {
     if (reading >= readings.size())
         return;
     if (playback_.needs_location({reading, section}, navigation_.reader())) {
-        show_reading(readings[reading]);
+        show_reading(readings[reading], true);
         if (section) {
             scripture_->open_section(section);
             part_ = section;
@@ -240,16 +240,23 @@ void MainFrame::play_speech(const std::vector<Reading>& readings, bool resume) {
         primary_readings.reserve(readings.size());
         for (const auto& reading : readings)
             primary_readings.push_back(in_swedish(reading));
-        auto queue = reading_speech(corpus_, primary_readings, [this](const std::string& language) {
-            return speech_lexicon(language);
-        });
+        auto queue = reading_speech(
+            corpus_, primary_readings,
+            [this](const std::string& language) {
+                return speech_lexicon(language);
+            },
+            [this](const Reading& item, const std::string& book, int chapter) {
+                return scripture_->primary_source(item, book, chapter);
+            });
         double skipped = 0;
         if (resume && !primary_readings.empty())
             if (const auto position = user_.position(reading_key(corpus_, primary_readings.front())))
                 skipped = resume_speech(queue, *position, &corpus_);
         playback_.start(readings, skipped);
         if (!readings.empty()) {
-            show_reading(readings.front());
+            if (!visible_reading_ || reading_key(corpus_, in_swedish(*visible_reading_)) !=
+                                         reading_key(corpus_, primary_readings.front()))
+                show_reading(readings.front(), true);
             restore_reading_position();
             playback_.location(std::pair<size_t, size_t>{0, part_});
         }

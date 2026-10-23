@@ -71,6 +71,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Fixed
 
+- Read-aloud follows the main pane's edition in each chapter, including imported Reformationsbibeln, temporary chapter choices, selections, and resumed playback.
 - On Wayland, the ⋮ menu stays under its button when the text size changes. It used to keep its old left edge and grow past the window.
 - Read-aloud stresses män, säg, dom, ock and other words that only sound like an unstressed function word such as men, sig, dem or och. Function words after a dash, as in "jag - såsom", are now unstressed.
 - Swedish read-aloud stresses Jordan as Jordán, no longer reads ai as ä in Betsaida and about 40 other names, stresses spetälsk and spetälska on the second syllable, and stresses välan on -an. Välsignen no longer sounds like "väl" (well) + signen. The modal "väl" (surely), as in "Kan väl en blind leda en blind?", has a short ä; "väl" meaning "well" keeps its long ä. About 100 other names follow the stress rules of the 1921 Church Bible, such as Rehábeam, Gámliel, Daríus, and Dekápolis. About 700 more names follow its general rules: Ébal and Ábdon, not Ebál and Abdón; Baésa and Jáeser no longer read ae as ä; Us and Kus are no longer spelled out.

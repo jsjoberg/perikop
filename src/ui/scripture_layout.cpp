@@ -41,9 +41,10 @@ int ScriptureView::column_width() const {
                              : (usable - FromDIP(zoomed(44)) * (columns_count() - 1)) / columns_count() -
                                    FromDIP(zoomed(30));
 }
-void ScriptureView::open(const Reading& reading) {
+void ScriptureView::open(const Reading& reading, bool preserve_sources) {
     reading_ = reading;
-    chapter_overrides_.clear();
+    if (!preserve_sources)
+        chapter_overrides_.clear();
     open_section(0);
 }
 void ScriptureView::open_section(std::size_t index) {
@@ -163,10 +164,7 @@ std::vector<std::string> ScriptureView::shown_sources(std::size_t row) const {
     const auto found = chapter_overrides_.find({displayed_.book, chapter});
     const std::array<std::string, 2> overrides =
         found == chapter_overrides_.end() ? std::array<std::string, 2>{} : found->second;
-    auto primary = overrides[0];
-    if (primary.empty())
-        primary = reading_.source_override.empty() ? preferred_source(settings_.primary_sources, available)
-                                                   : reading_.source_override;
+    const auto primary = primary_source(reading_, displayed_.book, chapter);
     std::vector<std::string> result{primary};
     if (columns_count() == 2) {
         auto secondary = overrides[1];
@@ -176,6 +174,17 @@ std::vector<std::string> ScriptureView::shown_sources(std::size_t row) const {
             result.push_back(secondary);
     }
     return result;
+}
+std::string ScriptureView::primary_source(const Reading& reading, const std::string& book,
+                                          int chapter) const {
+    const auto found = chapter_overrides_.find({book, chapter});
+    if (found != chapter_overrides_.end() && !found->second[0].empty())
+        return found->second[0];
+    if (!reading.source_override.empty())
+        return reading.source_override;
+    const auto available = book == displayed_.book ? sources_for_chapter(chapter)
+                                                   : chapter_sources(corpus_, osb_reference, book, chapter);
+    return preferred_source(settings_.primary_sources, available);
 }
 wxString ScriptureView::swedish_edition(std::size_t heading) const {
     if (auto it = swedish_editions_.find(heading); it != swedish_editions_.end())

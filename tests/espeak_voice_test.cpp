@@ -2,6 +2,7 @@
 #include "speech/swedish_text.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 #include <vector>
@@ -69,16 +70,13 @@ int main(int argc, char** argv) {
                   ortho::espeak_voice_name("alice").empty(),
               "installed voice selectors and legacy identities");
 
-        // The library is the user's own installation; without it only the conversion is tested.
-        std::unique_ptr<ortho::Espeak> espeak;
-        std::vector<ortho::EspeakVoice> voices;
-        try {
-            voices = ortho::Espeak::voices();
-            espeak = std::make_unique<ortho::Espeak>();
-        } catch (const std::runtime_error& error) {
-            std::cout << "eSpeak NG synthesis skipped: " << error.what() << '\n';
-            return 0;
+        if (!ortho::espeak_installed()) {
+            check(!std::getenv("PERIKOP_REQUIRE_ESPEAK"), "CI requires an installed eSpeak NG library");
+            std::cout << "eSpeak NG synthesis skipped: library not installed\n";
+            return 77;
         }
+        const auto voices = ortho::Espeak::voices();
+        auto espeak = std::make_unique<ortho::Espeak>();
         std::cout << "eSpeak NG " << espeak->version() << '\n';
         const auto& tokens = phrase;
         const auto male = espeak->speak(tokens, {});

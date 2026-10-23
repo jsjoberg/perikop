@@ -103,6 +103,8 @@ MainFrame::MainFrame(CorpusDb& corpus, UserDb& user, CivilDate date, const std::
             pause_for_navigation();
             stop_speech(false);
         }
+        if (primary)
+            update_speakable();
         study_->clear();
         update_bar();
     });
@@ -414,19 +416,12 @@ void MainFrame::open_reading(const Reading& selected) {
     restore_reading_position();
     record_navigation();
 }
-void MainFrame::show_reading(const Reading& selected) {
+void MainFrame::show_reading(const Reading& selected, bool preserve_sources) {
     const auto reading = corpus_.localize(in_swedish(selected));
     close_pages();
     visible_reading_ = selected;
-    // Lyssna is offered only where playback would find Swedish verses to read.
-    try {
-        reading_speech(corpus_, {in_swedish(selected)}, [](const std::string&) {
-            return std::vector<Pronunciation>{};
-        });
-        speakable_ = true;
-    } catch (const std::exception&) {
-        speakable_ = false;
-    }
+    scripture_->open(reading, preserve_sources);
+    update_speakable();
     playback_.forget_location();
     scripture_->follow_playback(false);
     // Lectionary references use their reference edition's numbering; open them in the left pane's.
@@ -442,9 +437,26 @@ void MainFrame::show_reading(const Reading& selected) {
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();
-    scripture_->open(reading);
     position_reset_ = false;
     scripture_->SetFocus();
+}
+void MainFrame::update_speakable() {
+    if (!visible_reading_)
+        return;
+    // Lyssna is offered only where playback would find verses in the displayed editions.
+    try {
+        reading_speech(
+            corpus_, {in_swedish(*visible_reading_)},
+            [](const std::string&) {
+                return std::vector<Pronunciation>{};
+            },
+            [this](const Reading& item, const std::string& book, int chapter) {
+                return scripture_->primary_source(item, book, chapter);
+            });
+        speakable_ = true;
+    } catch (const std::exception&) {
+        speakable_ = false;
+    }
 }
 Reading MainFrame::in_swedish(Reading reading) const {
     // Every language shares OSB coordinates, so only the language changes.
@@ -539,6 +551,7 @@ void MainFrame::apply_settings(bool persist) {
         button->apply(colors);
     address_->apply(colors);
     scripture_->apply(settings_);
+    update_speakable();
     study_->apply(settings_.theme);
     update_study();
     update_bar();

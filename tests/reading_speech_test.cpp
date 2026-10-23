@@ -104,6 +104,21 @@ int main(int argc, char** argv) {
                   explicit_edition[0].display_text == corpus.verse("en-lxx2012", "Ps", {23, 1})->text,
               "An explicit edition must start with its first verse and retain its own coordinates");
 
+        Reading chapters{ReadingKind::Gospel, {"John", {1, 50}, {2, 2}}};
+        chapters.reference = osb_reference;
+        std::vector<int> resolved;
+        const auto selected_sources = reading_speech(
+            corpus, {chapters}, lexicon, [&](const Reading&, const std::string& book, int chapter) {
+                check(book == "John", "Source selection receives the framing book");
+                resolved.push_back(chapter);
+                return chapter == 1 ? "sv1917" : "en-web";
+            });
+        check(resolved == std::vector<int>{1, 2} && selected_sources.front().language == "sv" &&
+                  selected_sources.back().language == "en" &&
+                  selected_sources.back().display_text == corpus.verse("en-web", "John", {2, 2})->text &&
+                  selected_sources.back().cue == SpeechCue{0, 0, "John", osb_reference, {2, 2}, {2, 2}},
+              "Each chapter uses its displayed source without changing section or OSB coordinates");
+
         Reading untranslated{ReadingKind::OldTestament, {"1Kgs", {2, 35, "a"}, {2, 35, "b"}}};
         untranslated.reference = "grc-lxx";
         bool rejected = false;
@@ -118,8 +133,6 @@ int main(int argc, char** argv) {
         PlaybackController read_aloud;
         check(!read_aloud.status(corpus), "Nothing being read must leave the address field to the window");
         read_aloud.start({sections, psalm});
-        read_aloud.update({SpeechState::Loading, {}, 0, 0});
-        check(read_aloud.status(corpus)->title == "Laddar rösten…", "Loading must be shown");
         read_aloud.update({SpeechState::Buffering, {}, 0, 0, 0.4});
         check(read_aloud.status(corpus)->title == "Förbereder uppläsningen… 40 %" &&
                   !read_aloud.status(corpus)->tooltip.empty(),

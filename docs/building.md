@@ -63,7 +63,7 @@ Windows ARM64 CI is not part of this migration step.
 
 ## Read-aloud
 
-Read-aloud uses the user's own eSpeak NG installation, loaded at run time; Perikop bundles only its Swedish pronunciation data in `resources/speech`. No preparation step is needed. Tests that synthesize speech run where eSpeak NG is installed (for example `brew install espeak-ng`) and skip that part otherwise.
+Read-aloud uses the user's own eSpeak NG installation, loaded at run time; Perikop bundles only its Swedish pronunciation data in `resources/speech`. No preparation step is needed. Tests that synthesize speech run where eSpeak NG is installed (for example `brew install espeak-ng`). Missing libraries are reported as skipped locally; failures to initialize an installed library fail the test. Native macOS CI installs eSpeak NG and sets `PERIKOP_REQUIRE_ESPEAK=1`, so a missing library also fails that job.
 
 ## Run
 

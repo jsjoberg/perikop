@@ -2,6 +2,7 @@
 #include "core/reading_plan.hpp"
 #include "core/reading_position.hpp"
 #include "core/source_preferences.hpp"
+#include "storage/content_import.hpp"
 #include "storage/sqlite.hpp"
 #include "ui/app_icon.hpp"
 #include "ui/bible_picker.hpp"
@@ -1255,6 +1256,96 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_ = saved;
         apply_settings(false);
         open_fresh_psalm();
+    }
+    // Imported speech follows the displayed chapter editions, also after Pause and selection playback.
+    {
+        const auto data = data_ / "speech-sources";
+        const auto imported = data / "content/srb2026.db";
+        std::filesystem::create_directories(imported.parent_path());
+        {
+            auto db = storage::open(imported, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+            storage::Transaction transaction(db.get());
+            storage::exec(db.get(),
+                          "CREATE TABLE content_metadata(key TEXT,value TEXT);"
+                          "INSERT INTO content_metadata VALUES('srb2026',printf('%064d',0));"
+                          "CREATE TABLE imported_verse(book TEXT,chapter INTEGER,verse INTEGER,text TEXT,"
+                          "PRIMARY KEY(book,chapter,verse))");
+            storage::Statement attach(db.get(), "ATTACH DATABASE ? AS reference");
+            attach.text(1, (resources_ / "corpus/osb-reference.db").string());
+            attach.row();
+            storage::exec(db.get(),
+                          "INSERT INTO imported_verse SELECT book,chapter,verse,"
+                          "'SRB test '||book||' '||chapter||':'||verse FROM reference.source_verse "
+                          "JOIN reference.source ON source=source.id WHERE code='sv-srb2026';"
+                          // Unmapped verses are irrelevant here; retain the import's required row count.
+                          "WITH RECURSIVE padding(n) AS (SELECT 1 UNION ALL SELECT n+1 FROM padding "
+                          "WHERE n<31171-(SELECT count(*) FROM imported_verse)) "
+                          "INSERT INTO imported_verse SELECT 'Gen',999,n,'Test padding' FROM padding");
+            transaction.commit();
+        }
+        CorpusDb corpus(resources_ / "corpus/corpus.db");
+        corpus.load_imported(imported);
+        UserDb profile(data / "user.db");
+        auto candidate = std::make_unique<MainFrame>(corpus, profile, date, resources_, data,
+                                                     std::make_unique<SmokeUpdates>(), true);
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        candidate->speech_ = std::move(held);
+        candidate->settings_.primary_sources =
+            decode_sources("sv-srb2026=1,sv1917=1", candidate->settings_.primary_sources);
+        candidate->apply_settings(false);
+        candidate->Show();
+        const Reading reading{ReadingKind::Gospel, {"John", {1, 50}, {2, 3}}};
+        candidate->open_reading(reading);
+        candidate->scripture_->chapter_source(2, 0, "sv1917");
+        const auto check_sources = [&](bool srb_first, VerseRef last) {
+            if (engine->spoken.empty() ||
+                engine->spoken.front().display_text !=
+                    (srb_first ? "SRB test John 1:50"
+                               : corpus.parallel_verse(osb_reference, "sv1917", "John", {1, 50})->text) ||
+                engine->spoken.back().display_text !=
+                    (srb_first ? corpus.verse("sv1917", "John", last)->text
+                               : "SRB test John 2:" + std::to_string(last.verse)) ||
+                engine->spoken.back().cue != SpeechCue{0, 0, "John", osb_reference, last, last} ||
+                candidate->scripture_->chapter_source(1, 0) != (srb_first ? srb_source : "sv1917") ||
+                candidate->scripture_->chapter_source(2, 0) != (srb_first ? "sv1917" : srb_source))
+                fail(__LINE__);
+        };
+        candidate->play_or_pause();
+        check_sources(true, {2, 3});
+        candidate->toggle_pause();
+        candidate->toggle_pause();
+        check_sources(true, {2, 3});
+        candidate->stop_speech(false);
+        candidate->scripture_->select_verses({1, 50}, {2, 2});
+        candidate->play_or_pause();
+        check_sources(true, {2, 2});
+        candidate->stop_speech(false);
+        candidate->scripture_->chapter_source(1, 0, "sv1917");
+        candidate->scripture_->chapter_source(2, 0, srb_source);
+        candidate->scripture_->select_verses({1, 50}, {2, 2});
+        const auto marked = candidate->scripture_->marked_reading();
+        if (!marked)
+            fail(__LINE__);
+        else {
+            candidate->listen_to_selection(*marked);
+            check_sources(false, {2, 2});
+        }
+        candidate->stop_speech(false);
+        candidate->open_reading(reading);
+        if (candidate->scripture_->chapter_source(1, 0) != srb_source ||
+            candidate->scripture_->chapter_source(2, 0) != srb_source)
+            fail(__LINE__);
+        for (auto& source : candidate->settings_.primary_sources)
+            source.enabled = source.source == srb_source;
+        candidate->apply_settings(false);
+        candidate->open_reading({ReadingKind::OldTestament, {"Tob", {1, 1}, {1, 1}}});
+        if (candidate->play_->IsEnabled())
+            fail(__LINE__);
+        candidate->scripture_->chapter_source(1, 0, "sv1917");
+        if (!candidate->play_->IsEnabled())
+            fail(__LINE__);
+        candidate->Hide();
     }
     // The text size steps like Chrome's zoom, reaches every page, and returns to its default.
     {
@@ -2576,9 +2667,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     // The same focused control changes to Pause, so Space can toggle it again.
     play_->SetFocus();
     const bool focusable = FindFocus() == play_;
-    display_playback({SpeechState::Loading, {}, 0, 0});
-    // Play/Pause and Stop keep their positions during loading.
-    if (address_->GetLabel() != ui::utf8("Laddar rösten…") || !play_->IsEnabled() ||
+    display_playback({SpeechState::Buffering, {}, 0, 0});
+    // Play/Pause and Stop keep their positions while preparing audio.
+    if (address_->GetLabel() != ui::utf8("Förbereder uppläsningen…") || !play_->IsEnabled() ||
         play_->GetLabel() != "Pausa" || !stop_->IsEnabled() || !play_->IsShown() || !stop_->IsShown() ||
         (focusable && FindFocus() != play_))
         fail(__LINE__);
@@ -2838,13 +2929,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 engine->held.progress != progress || !play_->IsEnabled())
                 fail(__LINE__);
         }
-        for (const auto state : {SpeechState::Loading, SpeechState::Buffering}) {
-            engine->held.state = state;
-            about();
-            if (engine->held.state != SpeechState::Paused)
-                fail(__LINE__);
-            back();
-        }
+        engine->held.state = SpeechState::Buffering;
+        about();
+        if (engine->held.state != SpeechState::Paused)
+            fail(__LINE__);
+        back();
         engine->held.state = SpeechState::Playing;
         show_readings();
         if (engine->held.state != SpeechState::Paused || play_->IsEnabled() || stop_->IsEnabled())
