@@ -20,6 +20,9 @@ spec.loader.exec_module(dependencies)
 class DependenciesTest(unittest.TestCase):
     def test_native_versions_match_upstream_snapshot(self):
         dependencies.audit()
+        lock = json.loads(dependencies.LOCK.read_text())
+        self.assertEqual(lock["upstreams_sha256"], dependencies.digest(dependencies.UPSTREAMS))
+        self.assertIn(dependencies.CROSS_ENVIRONMENT, lock["assets"])
 
     def fixture(self, root, platform="Linux", vpk=False):
         (root / "ci").mkdir()
