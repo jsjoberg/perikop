@@ -27,6 +27,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ### Changed
 
+- Linux builds require GCC 14 or later, the system compiler of Debian 13 and Enterprise Linux 10. Windows builds still require GCC 15.
 - Releases and nightlies carry only the Velopack downloads, which update themselves: `Setup.exe` on Windows, a `.pkg` on macOS, and an AppImage on Linux. The NSIS installer, the DMG and the plain AppImage are gone. A 0.1.x copy installed from one of them needs the Velopack download once; on Windows, uninstall the NSIS version first. Reading profiles are kept.
 - Read-aloud uses eSpeak NG, which you install separately, with Perikop's own Swedish pronunciations, in any installed Swedish eSpeak voice or variant. It runs hundreds of times faster than real time and needs no bundled voice model, so the app is about 200 MB smaller. **Inställningar** links to installation instructions when eSpeak NG is missing. Speed changes eSpeak's speaking rate; during reading, the current verse starts again at the new speed.
 - Windows and Linux use the ⋮ menu and keyboard shortcuts; the Alt menu-bar toggle has been removed.
