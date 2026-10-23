@@ -1336,6 +1336,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (candidate->scripture_->chapter_source(1, 0) != srb_source ||
             candidate->scripture_->chapter_source(2, 0) != srb_source)
             fail(__LINE__);
+        for (auto& source : candidate->settings_.primary_sources)
+            source.enabled = source.source == srb_source;
+        candidate->apply_settings(false);
+        candidate->open_reading({ReadingKind::OldTestament, {"Tob", {1, 1}, {1, 1}}});
+        if (candidate->play_->IsEnabled())
+            fail(__LINE__);
+        candidate->scripture_->chapter_source(1, 0, "sv1917");
+        if (!candidate->play_->IsEnabled())
+            fail(__LINE__);
         candidate->Hide();
     }
     // The text size steps like Chrome's zoom, reaches every page, and returns to its default.

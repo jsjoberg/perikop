@@ -91,6 +91,7 @@ private:
     void close_pages();
     void apply_settings(bool persist = true);
     void update_study();
+    void update_speakable();
     // The reading as the Swedish left column shows it.
     Reading in_swedish(Reading) const;
 
