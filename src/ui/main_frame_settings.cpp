@@ -354,7 +354,6 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
     entries->Add(voice_row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
     // eSpeak NG is the user's own installation; Perikop never ships it.
-    wxHyperlinkCtrl* espeak_link = nullptr;
     if (!voice_error.empty()) {
         entries->Add(ui::label(content, ui::utf8(voice_error), 10));
 #if defined(__APPLE__)
@@ -363,7 +362,8 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         const wxString guide =
             "https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md#installation";
 #endif
-        espeak_link = new wxHyperlinkCtrl(content, wxID_ANY, ui::utf8("Så installerar du eSpeak NG"), guide);
+        auto* espeak_link =
+            new wxHyperlinkCtrl(content, wxID_ANY, ui::utf8("Så installerar du eSpeak NG"), guide);
         espeak_link->SetFont(ui_font(10));
         espeak_link->SetToolTip(guide);
         entries->Add(espeak_link, 0, wxBOTTOM, FromDIP(zoomed(18)));
@@ -389,11 +389,12 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
-    if (espeak_link) {
-        espeak_link->SetNormalColour(palette(settings_.theme).accent);
-        espeak_link->SetVisitedColour(palette(settings_.theme).accent);
-        espeak_link->SetHoverColour(palette(settings_.theme).ink);
-    }
+    for (auto* child : content->GetChildren())
+        if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
+            link->SetNormalColour(palette(settings_.theme).accent);
+            link->SetVisitedColour(palette(settings_.theme).accent);
+            link->SetHoverColour(palette(settings_.theme).ink);
+        }
     page->FitInside();
     page->Layout();
 }
