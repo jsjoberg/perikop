@@ -1,7 +1,7 @@
 # Standard-library-only build, release, and resource tools.
 [project]
 name = "perikop-tools"
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.14,<3.15"
 dependencies = []
 

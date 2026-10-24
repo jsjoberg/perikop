@@ -8,15 +8,16 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-24
+
+Upgrade a 0.1.x installation to 0.2.0 before any later version. 0.2.0 is the last release that converts 0.1.x reading progress and settings.
+
 ### Added
 
 - An OSB reference authority shared by all languages and editions, including lettered Esther additions, Nehemiah's own chapters and Manasseh at 2 Chronicles 37. Reading plans now use 60 NT, 182 OT and 36 other-book parts, with automatic conversion of previous progress and resume positions.
 - Local import of Reformationsbibeln 2026 from the publisher's two exact OT/NT PDFs in Settings, with word study and Swedish read-aloud. The app does not distribute either PDF or its Bible text.
-
 - Passage-selection actions for bookmarks and Swedish read-aloud alongside the online Bible links. Bookmarks use a ribbon icon, persist in the local profile, and appear in Bible book order in **Bokmärken**, including a submenu beside the main ⋮ menu. Opening a bookmark selects its saved passage; removing one requires confirmation.
-
 - Ordered, enabled/disabled source preferences for the main text and the second pane. Swedish is first by default, English is the fallback, and Greek main-text editions are opt-in. The second pane defaults to English, then Greek, with Swedish opt-in. Each chapter has source dropdowns for temporary independent pane overrides. Non-Swedish main text has no read-aloud.
-
 - Reading positions save automatically on pause, navigation, and close. Play resumes at the beginning of the saved verse, Stop resets the reading, and daily readings and reading-plan sections show the same passage progress percentages. Completed readings are marked without a confirmation dialog.
 - Back and Forward buttons, platform keyboard shortcuts, and mouse side-button navigation retain the current session's opened views and reading positions. A new destination clears Forward; navigation history is not persisted.
 - Linux releases and nightlies carry the corresponding source of the AppImage runtime, which statically links libfuse under the LGPL-2.1, so it can be rebuilt and relinked. The AppImages include the complete LGPL-2.1 text and the licences of every library in the runtime.
@@ -35,7 +36,6 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 - Windows and Linux use the ⋮ menu and keyboard shortcuts; the Alt menu-bar toggle has been removed.
 - Perikop's Swedish pronunciations are stored as eSpeak NG phoneme codes, which go to eSpeak unchanged. The pronunciation review shows and saves these codes; corrections saved earlier in IPA are converted automatically.
 - One toolbar button switches between Play and Pause. One split-view button replaces the separate Greek and English buttons and follows the saved secondary-source priority. Word study uses a distinct text-and-magnifier icon.
-
 - All reading-plan button grids fill the same content width, with or without completion marks and percentages.
 - macOS releases require Apple Silicon and macOS 15 or later. Intel and universal builds are retired.
 - CI uses uv-managed Python 3.14 and one Python build entry point. Windows builds always compile on Linux and run native checks on Windows; the migration fallback has been removed.
@@ -79,7 +79,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 - Read-aloud stresses män, säg, dom, ock and other words that only sound like an unstressed function word such as men, sig, dem or och. Function words after a dash, as in "jag - såsom", are now unstressed.
 - Swedish read-aloud stresses Jordan as Jordán, no longer reads ai as ä in Betsaida and about 40 other names, stresses spetälsk and spetälska on the second syllable, and stresses välan on -an. Välsignen no longer sounds like "väl" (well) + signen. The modal "väl" (surely), as in "Kan väl en blind leda en blind?", has a short ä; "väl" meaning "well" keeps its long ä. About 100 other names follow the stress rules of the 1921 Church Bible, such as Rehábeam, Gámliel, Daríus, and Dekápolis. About 700 more names follow its general rules: Ébal and Ábdon, not Ebál and Abdón; Baésa and Jáeser no longer read ae as ä; Us and Kus are no longer spelled out.
 - Opening the book picker no longer crashes on Wayland when no pointer device is present.
-
+- On Linux desktops set to subpixel font rendering, such as Ubuntu 26.04, text is drawn in grayscale, as on other systems. Text drawn directly and text from the reader's cache used to differ there.
 
 ## [0.1.0] - 2026-10-12
 
@@ -142,5 +142,6 @@ The first release.
 - The pronunciation review has a filter for the 303 Bible words with several pronunciations in NST. Each pronunciation can be heard in its verse with one click.
 - The voice model is half the size and uses less memory. Pronunciations for the Bible text are prepared in advance.
 
-[Unreleased]: https://github.com/jsjoberg/perikop/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jsjoberg/perikop/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jsjoberg/perikop/releases/tag/v0.2.0
 [0.1.0]: https://github.com/jsjoberg/perikop/releases/tag/v0.1.0
