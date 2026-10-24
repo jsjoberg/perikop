@@ -119,6 +119,20 @@ class BuildTest(unittest.TestCase):
                 build.linux(False)
                 self.assertEqual(any("tidy" in call.args for call in run.call_args_list), analyzed)
 
+    def test_linux_packages_use_the_new_baseline_on_both_tracks(self):
+        for machine, architecture in (("x86_64", "x64"), ("aarch64", "arm64")):
+            for nightly, track in (("false", "releases"), ("true", "nightly")):
+                with self.subTest(machine=machine, track=track), patch.dict(os.environ, NIGHTLY=nightly), \
+                        patch.object(build, "build"), patch.object(build, "python") as python, \
+                        patch.object(build, "run") as run, patch.object(build, "version", return_value="1.0.1"), \
+                        patch.object(build.platform, "machine", return_value=machine):
+                    build.linux(True)
+                    channel = f"linux-{architecture}-glibc241-{track}"
+                    output = Path("build/velopack") / channel
+                    python.assert_any_call("tools/ci/update_packages.py", "seed", Path("build/update-base") / channel, output)
+                    run.assert_any_call("tools/package_velopack.sh", build.BUILD, "1.0.1", channel, output)
+                    python.assert_any_call("tools/ci/update_packages.py", "finish", output, channel, "1.0.1", "build/publish/updates")
+
     def test_mac_analysis_covers_only_apple_specific_sources(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

@@ -62,19 +62,36 @@ class UpdatePackagesTest(unittest.TestCase):
             self.fixture(source, with_base=False)
             updates.finish(source, CHANNEL, "1.0.0-test.2", source / "publication")
 
-    def test_new_publication_rejects_retired_intel_target(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            publication = root / "updates"
-            publication.mkdir()
-            channel = "osx-x64-nightly"
-            entry = asset("1.0.0", channel=channel)
-            write_asset(publication, entry)
-            (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [entry]}))
-            (publication / f"Perikop-{channel}-Setup.pkg").write_bytes(b"retired")
-            with self.assertRaisesRegex(ValueError, "retired platform"):
-                updates.assemble(publication, root / "release", "1.0.0")
-            self.assertFalse((root / "release").exists())
+    def test_new_publication_rejects_retired_targets(self):
+        for platform in ("osx-x64", "linux-x64", "linux-arm64"):
+            with self.subTest(platform=platform), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                publication = root / "updates"
+                publication.mkdir()
+                channel = platform + "-nightly"
+                entry = asset("1.0.0", channel=channel)
+                write_asset(publication, entry)
+                (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [entry]}))
+                with self.assertRaisesRegex(ValueError, "retired platform"):
+                    updates.assemble(publication, root / "release", "1.0.0")
+                self.assertFalse((root / "release").exists())
+
+    def test_first_debian_build_ignores_earlier_linux_delta_bases(self):
+        for platform, architecture in (("Linux", "x64"), ("Linux-arm64", "arm64")):
+            for nightly, track in (("false", "releases"), ("true", "nightly")):
+                with self.subTest(platform=platform, track=track), tempfile.TemporaryDirectory() as temporary, \
+                        patch.dict(os.environ, NIGHTLY=nightly):
+                    old_channel = f"linux-{architecture}-{track}"
+                    old = asset("1.0.0", channel=old_channel)
+                    releases = [{"tag_name": "old", "prerelease": nightly == "true",
+                                 "assets": [{"name": f"releases.{old_channel}.json"}, {"name": old["FileName"]}]}]
+                    with patch.object(updates, "releases", return_value=releases), \
+                            patch.object(updates, "download") as download:
+                        updates.restore("owner/repo", platform, Path(temporary), "1.0.1")
+                    channel = f"linux-{architecture}-glibc241-{track}"
+                    self.assertEqual(updates.channel_for(platform), channel)
+                    self.assertEqual(list((Path(temporary) / channel).iterdir()), [])
+                    download.assert_not_called()
 
     def test_existing_base_requires_a_delta(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -132,7 +149,7 @@ class UpdatePackagesTest(unittest.TestCase):
                 self.assertEqual(digest, hashlib.sha256((output / name).read_bytes()).hexdigest())
 
     def test_assemble_ships_the_appimage_runtime_source_beside_appimages(self):
-        channel = "linux-x64-nightly"
+        channel = "linux-x64-glibc241-nightly"
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             publication = root / "updates"
@@ -159,7 +176,7 @@ class UpdatePackagesTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "does not match"):
                 updates.assemble(root / "updates", root / "release", "1.0.0-test.3")
             # A nightly may lack platforms; a release needs all four.
-            with self.assertRaisesRegex(ValueError, "linux-arm64, linux-x64, win-x64"):
+            with self.assertRaisesRegex(ValueError, "linux-arm64-glibc241, linux-x64-glibc241, win-x64"):
                 updates.assemble(root / "updates", root / "release", "1.0.0-test.2", complete=True)
             self.assertFalse((root / "release").exists())
 
@@ -217,17 +234,19 @@ class WindowsProbeTest(unittest.TestCase):
 
 
 class RetentionTest(unittest.TestCase):
-    def test_retired_intel_feeds_still_keep_their_referenced_packages(self):
-        releases, feeds, current = self.fixture()
-        channel = "osx-x64-nightly"
-        base = asset("1.0.0-nightly.2", channel=channel)
-        name = f"releases.{channel}.json"
-        releases[1]["assets"].append({"name": base["FileName"]})
-        releases[-1]["assets"].append({"name": name})
-        feeds[current, name] = {"Assets": [base]}
-        rescue, obsolete = updates.retention_plan(releases, feeds, current)
-        self.assertIn((releases[1]["tag_name"], base), rescue)
-        self.assertIn(releases[1]["tag_name"], obsolete)
+    def test_retired_feeds_still_keep_their_referenced_packages(self):
+        for platform in ("osx-x64", "linux-x64", "linux-arm64"):
+            with self.subTest(platform=platform):
+                releases, feeds, current = self.fixture()
+                channel = platform + "-nightly"
+                base = asset("1.0.0-nightly.2", channel=channel)
+                name = f"releases.{channel}.json"
+                releases[1]["assets"].append({"name": base["FileName"]})
+                releases[-1]["assets"].append({"name": name})
+                feeds[current, name] = {"Assets": [base]}
+                rescue, obsolete = updates.retention_plan(releases, feeds, current)
+                self.assertIn((releases[1]["tag_name"], base), rescue)
+                self.assertIn(releases[1]["tag_name"], obsolete)
 
     def fixture(self):
         releases, feeds = [], {}

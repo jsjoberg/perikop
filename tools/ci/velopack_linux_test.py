@@ -60,7 +60,7 @@ def main():
     parser.add_argument("build", type=Path, help="The build directory whose AppDir tools/prepare_appdir.sh made")
     args = parser.parse_args()
     architecture = {"x86_64": "x64", "aarch64": "arm64"}[platform.machine()]
-    channel = f"linux-{architecture}-nightly"
+    channel = f"linux-{architecture}-glibc241-nightly"
     with tempfile.TemporaryDirectory(prefix="perikop-velopack-") as temporary:
         work = Path(temporary)
         feed, profile, home = work / "feed", work / "profile", work / "home"

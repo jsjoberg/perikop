@@ -26,7 +26,7 @@ Release tags keep their SemVer versions, such as `0.1.0` or `0.2.0-alpha.1`. Nig
 - After it is released: `0.1.1-nightly.20261018.412.1`, above `0.1.0`.
 - The nightly suffix contains the Stockholm date, workflow run number, and attempt. About also shows the commit identity.
 
-Each channel is `<os>-<arch>-<track>`:
+Each channel is `<os>-<arch>-<track>`, with `-glibc241` after the architecture on Linux:
 
 | OS | Architectures | Tracks |
 | --- | --- | --- |
@@ -34,7 +34,11 @@ Each channel is `<os>-<arch>-<track>`:
 | `linux` | `x64`, `arm64` | `releases`, `nightly` |
 | `osx` | `arm64` | `releases`, `nightly` |
 
-For example, `linux-arm64-nightly` uses `releases.linux-arm64-nightly.json`. The application knows its platform; the preference chooses only the track.
+For example, `linux-arm64-glibc241-nightly` uses `releases.linux-arm64-glibc241-nightly.json`. The application knows its platform; the preference chooses only the track.
+
+Debian 13 AppImages publish only to `linux-{x64,arm64}-glibc241-{releases,nightly}`. The earlier `linux-{x64,arm64}-{releases,nightly}` feeds receive no new builds. An earlier client therefore cannot select an incompatible AppImage, even if it runs on a host with older glibc. On a supported system, download the new AppImage once to move to the new feeds; the reading profile stays in place. Delta bases come only from the new feed. Historical feeds and their referenced packages remain valid for nightly retention.
+
+This separation is required because the pinned Velopack 1.2.161 Linux updater replaces the AppImage before starting it, without checking glibc compatibility or restoring the previous image after a failed start. Changing only the new application's compatibility check would not protect existing clients.
 
 The SDK's GitHub source sends no installation identifier. Its pinned implementation reads the ten newest releases and filters prereleases on the release track. Dependency snapshots therefore live in `jsjoberg/perikop-assets`, and cleanup keeps seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
 
