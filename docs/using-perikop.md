@@ -107,7 +107,7 @@ Daily readings and reading-plan parts show saved passage progress as a percentag
 
 ## Lägg till Reformationsbibeln 2026
 
-Öppna Inställningar och följ länkarna under Lokalt bibelinnehåll. Hämta både Gamla
-och Nya testamentets PDF från bibel.se och välj sedan Importera båda PDF-filerna.
+Öppna Inställningar och följ länken under Lokalt bibelinnehåll till bibel.se. Hämta
+SRB Hela GT och SRB NT med UN noter där och välj sedan Importera båda PDF-filerna.
 Efter importen aktiverar du Reformationsbibeln 2026 i källorna och väljer dess prioritet.
 Texten sparas i din profil. Fotnoter och korshänvisningar importeras inte.

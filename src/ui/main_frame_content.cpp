@@ -18,33 +18,28 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
         label->Wrap(FromDIP(zoomed(440)));
         entries->Add(label, 0, wxBOTTOM, FromDIP(zoomed(8)));
     };
-    paragraph(
-        "Reformationsbibeln 2026 kan läggas till från två PDF-filer som du själv hämtar från "
-        "Svenska Reformationsbibelsällskapet. Båda testamentena behövs. Texten sparas bara i din profil.");
-    const auto link = [&](const char* title, const char* url) {
-        auto* control = new wxHyperlinkCtrl(content, wxID_ANY, ui::utf8(title), ui::utf8(url));
-        control->SetFont(ui_font());
-        entries->Add(control, 0, wxBOTTOM, FromDIP(zoomed(6)));
-    };
-    link("Hämta bibelböcker från bibel.se",
-         "https://bibel.se/wordpress/index.php/2022/01/18/oversatta-bibelbocker/");
-    link("Hämta hela Gamla testamentet (PDF)", "https://www.bibel.se/objfiles/PDF_books/SRBhelaGT.pdf");
-    link("Hämta hela Nya testamentet (PDF)", "https://www.bibel.se/objfiles/PDF_books/SRBNT-UNnoter.pdf");
-    if (corpus_.has_imported())
+    if (corpus_.has_imported()) {
         paragraph(
             "Reformationsbibeln 2026 är importerad. Aktivera den i källorna ovan och välj dess prioritet.");
-    else {
-        paragraph(
-            "Importen stöder de länkade 2026-filerna. Fotnoter, korshänvisningar och kapitelrubriker "
-            "importeras inte. Bibeltexten kan läsas, slås upp och läsas upp som övriga svenska texter.");
-        auto* button = ui::button(content, ui::utf8("Importera båda PDF-filerna…"), [this] {
-            CallAfter([this] {
-                import_content();
-            });
-        });
-        button->SetToolTip(ui::utf8("Välj först Gamla och sedan Nya testamentets PDF från bibel.se"));
-        entries->Add(button, 0, wxBOTTOM, FromDIP(zoomed(8)));
+        entries->AddSpacer(FromDIP(zoomed(22)));
+        return;
     }
+    paragraph("Reformationsbibeln 2026 kan läggas till från två PDF-filer som du själv hämtar från "
+              "Svenska Reformationsbibelsällskapet. Texten sparas bara i din profil.");
+    auto* page =
+        new wxHyperlinkCtrl(content, wxID_ANY, ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"),
+                            "https://bibel.se/wordpress/index.php/2022/01/18/oversatta-bibelbocker/");
+    page->SetFont(ui_font());
+    entries->Add(page, 0, wxBOTTOM, FromDIP(zoomed(8)));
+    paragraph("Hämta där SRB Hela GT och SRB NT med UN noter och importera dem sedan här. "
+              "Fotnoter, korshänvisningar och kapitelrubriker importeras inte.");
+    auto* button = ui::button(content, ui::utf8("Importera båda PDF-filerna…"), [this] {
+        CallAfter([this] {
+            import_content();
+        });
+    });
+    button->SetToolTip(ui::utf8("Välj först Gamla och sedan Nya testamentets PDF från bibel.se"));
+    entries->Add(button, 0, wxBOTTOM, FromDIP(zoomed(8)));
     entries->AddSpacer(FromDIP(zoomed(22)));
 }
 void MainFrame::import_content() {
