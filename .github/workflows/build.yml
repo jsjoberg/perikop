@@ -79,10 +79,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {os: ubuntu-24.04, platform: Linux}
+          - {name: Linux x64 (Debian 13), os: ubuntu-24.04, platform: Linux}
           # The Raspberry Pi 5 package, for 64-bit Raspberry Pi OS.
-          - {os: ubuntu-24.04-arm, platform: Linux-arm64}
-          - {os: macos-15, platform: macOS-arm64, dependencies: macOS, architecture: arm64}
+          - {name: Linux arm64 (Debian 13), os: ubuntu-24.04-arm, platform: Linux-arm64}
+          - {name: macOS arm64, os: macos-15, platform: macOS-arm64, dependencies: macOS, architecture: arm64}
+    name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
       PLATFORM: ${{ matrix.platform }}
@@ -168,6 +169,7 @@ jobs:
           if-no-files-found: error
           compression-level: 0
   windows-build:
+    name: Windows x64 build (Debian 13 cross-compile)
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: ubuntu-24.04
@@ -219,6 +221,7 @@ jobs:
           compression-level: 0
           retention-days: 1
   windows:
+    name: Windows x64 tests
     needs: [nightly, windows-build]
     if: ${{ !cancelled() && needs.windows-build.result == 'success' && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: windows-2025
@@ -327,6 +330,7 @@ jobs:
           path: build/publish
           if-no-files-found: error
   sanitizers:
+    name: macOS sanitizers
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: macos-15
@@ -352,6 +356,7 @@ jobs:
         run: sandbox-exec -p '(version 1)(allow default)(deny network*)' python3 tools/ci/build.py sanitizers
       - *save-compiler-cache
   linux-sanitizers:
+    name: Linux sanitizers (Debian 13)
     needs: [nightly]
     if: ${{ !cancelled() && ((github.event_name != 'schedule' && !inputs.nightly) || needs.nightly.outputs.build == 'true') }}
     runs-on: ubuntu-24.04
