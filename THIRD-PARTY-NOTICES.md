@@ -193,7 +193,7 @@ wxWidgets also links its bundled libpng, IJG libjpeg, zlib, PCRE2, and NanoSVG l
 Their complete notices are in `resources/licenses/`.
 This software is based in part on the work of the Independent JPEG Group.
 
-Swedish read-aloud pronunciations in `resources/speech` come from `Joakim/kokoro-sv-g2p`, under Apache-2.0: the NST-derived lexicon, its custom overrides, and the pronunciation model's output for the corpus words the lexicon lacks. Perikop has converted them from IPA to eSpeak NG Swedish phoneme codes.
+Swedish read-aloud pronunciations in `resources/speech` come from `Joakim/kokoro-sv-g2p`, under Apache-2.0: the NST-derived lexicon and the pronunciation model's output for the corpus words the lexicon lacks. Perikop has converted them from IPA to eSpeak NG Swedish phoneme codes.
 The licence and attribution are in `resources/speech/LICENSE-Kokoro-Swedish.txt`.
 https://huggingface.co/Joakim/kokoro-sv-g2p
 
