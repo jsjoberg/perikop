@@ -60,7 +60,7 @@ For an unpublished packaging check on a branch, run `gh workflow run build.yml -
 
 Every package is a Velopack package. They need .NET 8 and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
 
-On Linux, `tools/prepare_appdir.sh build/cmake` prepares the AppDir, and `tools/package_velopack.sh build/cmake <version> linux-<arch>-<track> <output>` packs it as the AppImage and update package. Packing also needs `squashfs-tools`.
+On Linux, `tools/prepare_appdir.sh build/cmake` prepares the AppDir, and `tools/package_velopack.sh build/cmake <version> linux-<arch>-glibc241-<track> <output>` packs it as the AppImage and update package. Packing also needs `squashfs-tools`.
 
 On Windows, stage with `cmake --install build/cmake --prefix build/stage`, then run `vpk pack` as the Windows job in `.github/workflows/build.yml` does.
 On macOS, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
