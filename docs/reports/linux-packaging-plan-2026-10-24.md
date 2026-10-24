@@ -17,7 +17,7 @@ Checked locally on arm64, 2026-10-23/24, with main at `c75815c`:
 | Check | Result |
 |---|---|
 | Debian 13, stock `g++` 14.2, system GTK and fontconfig | Builds with no warnings in our code. All 18 CTests pass under Xvfb, with `PERIKOP_REQUIRE_ESPEAK=1` and Debian's eSpeak NG. |
-| AlmaLinux 10, gcc-toolset-15 | Builds. The app needs glibc 2.39 (`pidfd_spawnp`), the bundled GTK stack ≤ 2.38. GUI tests fail because EL 10 has no Xvfb (see "Open decisions"). |
+| AlmaLinux 10, gcc-toolset-15 (stock GCC 14.3 not tried yet; step 4 must check it) | Builds. The app needs glibc 2.39 (`pidfd_spawnp`), the bundled GTK stack ≤ 2.38. GUI tests fail because EL 10 has no Xvfb (see "Open decisions"). |
 | GCC 15 requirement | Added in #6 as a toolchain choice; no code needs it. |
 
 ## Support matrix after the change
