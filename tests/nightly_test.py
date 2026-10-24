@@ -53,6 +53,7 @@ class NightlyTest(unittest.TestCase):
             self.assertIn("<!-- perikop-nightly: complete -->", notes)
             self.assertNotIn("Unavailable platforms", notes)
             self.assertNotIn("Incomplete nightly", notes)
+            self.assertIn("download the new AppImage once on a supported system", notes)
 
     def test_sanitizer_failure_remains_visible_even_with_all_platforms(self):
         for platform in ("macos", "linux"):
@@ -73,7 +74,8 @@ class NightlyTest(unittest.TestCase):
             self.assertFalse((updates.parent / "notes.md").exists())
 
     def test_unknown_or_release_feeds_are_rejected(self):
-        for name in ("releases.osx-x64-nightly.json", "releases.win-x64-releases.json"):
+        for name in ("releases.osx-x64-nightly.json", "releases.win-x64-releases.json",
+                     "releases.linux-x64-nightly.json", "releases.linux-arm64-nightly.json"):
             with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
                 updates = self.directory(temporary)
                 (updates / name).write_text("{}")

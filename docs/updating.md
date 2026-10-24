@@ -26,7 +26,7 @@ Release tags keep their SemVer versions, such as `0.1.0` or `0.2.0-alpha.1`. Nig
 - After it is released: `0.1.1-nightly.20261018.412.1`, above `0.1.0`.
 - The nightly suffix contains the Stockholm date, workflow run number, and attempt. About also shows the commit identity.
 
-Each channel is `<os>-<arch>-<track>`:
+Each channel is `<os>-<arch>-<track>`, with `-glibc241` after the architecture on Linux:
 
 | OS | Architectures | Tracks |
 | --- | --- | --- |
@@ -34,7 +34,11 @@ Each channel is `<os>-<arch>-<track>`:
 | `linux` | `x64`, `arm64` | `releases`, `nightly` |
 | `osx` | `arm64` | `releases`, `nightly` |
 
-For example, `linux-arm64-nightly` uses `releases.linux-arm64-nightly.json`. The application knows its platform; the preference chooses only the track.
+For example, `linux-arm64-glibc241-nightly` uses `releases.linux-arm64-glibc241-nightly.json`. The application knows its platform; the preference chooses only the track.
+
+Debian 13 AppImages publish only to `linux-{x64,arm64}-glibc241-{releases,nightly}`. The earlier `linux-{x64,arm64}-{releases,nightly}` feeds receive no new builds. An earlier client therefore cannot select an incompatible AppImage, even if it runs on a host with older glibc. On a supported system, download the new AppImage once to move to the new feeds; the reading profile stays in place. Delta bases come only from the new feed. Historical feeds and their referenced packages remain valid for nightly retention.
+
+This separation is required because the pinned Velopack 1.2.161 Linux updater replaces the AppImage before starting it, without checking glibc compatibility or restoring the previous image after a failed start. Changing only the new application's compatibility check would not protect existing clients.
 
 The SDK's GitHub source sends no installation identifier. Its pinned implementation reads the ten newest releases and filters prereleases on the release track. Dependency snapshots therefore live in `jsjoberg/perikop-assets`, and cleanup keeps seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
 
@@ -60,6 +64,6 @@ Packages remain unsigned by Developer ID or Authenticode and are not notarized. 
 
 ## Earlier compatibility research
 
-The standalone [Linux ARM64 prototype](reports/velopack-linux-2026-10-16.md) established static SDK compatibility with glibc 2.34. The shared Linux SDK requires glibc 2.39, so production Linux builds use static linkage. The current native Linux image retains its glibc 2.34 baseline; changing that image and minimum is a separate migration, not a prerequisite for the Python cleanup. Alpine/musl is not a target.
+The standalone [Linux ARM64 prototype](reports/velopack-linux-2026-10-16.md) established static SDK compatibility with glibc 2.34. The shared Linux SDK requires glibc 2.39, so production Linux builds use static linkage. The Debian 13 build image now sets a glibc 2.41 baseline, which the shared SDK would also meet; the static linkage stays. Alpine/musl is not a target.
 
 The [October 18 macOS report](reports/velopack-macos-2026-10-18.md) records earlier ARM64/Rosetta checks and the former macOS 13 validation gap. Those historical results do not establish the new macOS 15 baseline. macOS builds and packaging remain native; cross-compiling macOS from Linux is outside the release plan.

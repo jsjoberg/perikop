@@ -7,7 +7,6 @@
 - Linux: GCC 14 or later and the GTK3 and Fontconfig development headers.
   On Debian 13: `sudo apt install g++ cmake libgtk-3-dev libfontconfig1-dev`.
   On RHEL, AlmaLinux or Rocky Linux 10: `sudo dnf install gcc-c++ gtk3-devel fontconfig-devel cmake make`.
-  On RHEL or Rocky Linux 9: `sudo dnf install gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ gtk3-devel fontconfig-devel cmake make`, then `scl enable gcc-toolset-15 bash`.
 - macOS: Apple Silicon, macOS 15 or later, Apple Clang 16 or later, and the Xcode command-line tools.
 - Python tooling: uv; `.python-version` pins Python 3.14.6. `uv run --locked` prepares it automatically.
 
@@ -99,13 +98,13 @@ cmake --build build/cmake --target tidy
 
 Any `tidy` finding is an error. To keep a wrong finding, add `// NOLINT(check-name)` with the reason.
 
-CI runs `tidy` in the Linux x64 job with Rocky Linux 9's clang-tidy 21. The macOS job analyzes only the sources that Linux does not compile in the same way: `.mm` files and `.cpp` files with `__APPLE__` or `__WXOSX__` sections. It uses the pinned clang-tidy 23 and sets `-DORTHO_TIDY_FILES`, a regular expression relative to the source tree.
+CI runs `tidy` in the Linux x64 job with Debian 13's clang-tidy 22. The macOS job analyzes only the sources that Linux does not compile in the same way: `.mm` files and `.cpp` files with `__APPLE__` or `__WXOSX__` sections. It uses the pinned clang-tidy 23 and sets `-DORTHO_TIDY_FILES`, a regular expression relative to the source tree.
 
 ## Sanitizers
 
 `-DORTHO_SANITIZERS=ON` builds Perikop's code with AddressSanitizer and UndefinedBehaviorSanitizer. CI runs the full CTest suite with them in two jobs:
 
 - `sanitizers` on macOS 15 with Apple Clang.
-- `linux-sanitizers` in the Rocky Linux container with GCC 15, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and librsvg, and `NO_AT_BRIDGE=1` keeps GTK from opening an accessibility bus connection. Do not add suppressions for Perikop's own code.
+- `linux-sanitizers` in the Debian 13 container with GCC 14, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and librsvg, and `NO_AT_BRIDGE=1` keeps GTK from opening an accessibility bus connection. Do not add suppressions for Perikop's own code.
 
 Both sanitizer jobs cache compiler output separately from release builds. Cache keys distinguish Linux x64, Linux ARM64, macOS ARM64, and sanitizer builds; all tests still run on every build. Each job reports its own cache hits and misses, including sanitizer jobs. Compilation uses the CPUs available to the process (three on the standard macOS runner, four on public Linux runners).

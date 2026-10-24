@@ -58,7 +58,7 @@ def apple_sources():
 
 
 def linux(package):
-    # The pinned toolchain image remains compatible with the glibc 2.34 app baseline.
+    # The pinned Debian 13 image sets the AppImage's glibc 2.41 baseline.
     run("git", "config", "--global", "--add", "safe.directory", ROOT)
     os.environ.update(PERIKOP_OFFLINE="1", PERIKOP_APPIMAGE_TOOLS=str(ROOT / "build/ci/tools/appimage"))
     build("-DCMAKE_BUILD_TYPE=MinSizeRel")
@@ -83,7 +83,7 @@ def linux(package):
         python("tools/ci/velopack_linux_test.py", BUILD)
         runtime = {"x86_64": "x64", "aarch64": "arm64"}[platform.machine()]
         os.environ["PERIKOP_VELOPACK_DELTA"] = "BestSpeed"
-        publish_updates("linux-" + runtime, lambda current, channel, output:
+        publish_updates("linux-" + runtime + "-glibc241", lambda current, channel, output:
                         run("tools/package_velopack.sh", BUILD, current, channel, output))
         python("tools/appimage_runtime.py", "check", BUILD)
         python("tools/appimage_runtime.py", "source", "--output", "build/publish/updates")

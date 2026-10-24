@@ -62,17 +62,14 @@ GNU builds include GCC's runtime libraries, under GPLv3 or later with the GCC Ru
 Linux packages carry the selected toolchain's `libstdc++` and `libgcc_s` as shared libraries.
 The licenses are in `resources/licenses/GCC-COPYING3.txt` and `resources/licenses/GCC-RUNTIME-EXCEPTION.txt`.
 Upstream source: https://gcc.gnu.org/releases.html
-The Linux toolset and runtime source packages are available from Rocky Linux:
-https://dl.rockylinux.org/pub/rocky/9/
+The Linux toolchain and runtime source packages are available from Debian:
+https://deb.debian.org/debian/pool/main/ (exact versions at https://snapshot.debian.org/)
 
-The Linux AppImage also carries unmodified GTK 3 libraries and their dependencies from Rocky Linux 9,
+The Linux AppImage also carries unmodified GTK 3 libraries and their dependencies from Debian 13,
 among them GLib, Pango, Cairo, ATK, GDK-Pixbuf, librsvg, graphite2, ICU, GnuTLS, OpenSSL, and LZ4.
-Most use LGPL 2.1 or later, MIT, or BSD licences. The packaging step lists each package with its version and licence
-in `licenses/linux/PACKAGES.txt` and copies each package's licence texts beside it.
-Their source packages are available from Rocky Linux at the address above.
-
-The repository supplies upstream's BSD-2-Clause license for LZ4 when its RPM license file is absent.
-Source: https://github.com/lz4/lz4/blob/v1.9.3/lib/LICENSE
+Most use LGPL 2.1 or later, MIT, or BSD licences. The packaging step lists each package with its version
+in `licenses/linux/PACKAGES.txt` and copies each package's Debian copyright file beside it.
+Their source packages are available from Debian at the address above.
 
 ## AppImage runtime
 

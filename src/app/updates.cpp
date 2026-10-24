@@ -11,7 +11,7 @@ const char* const not_installed = "Den här kopian uppdateras inte inifrån prog
                                   "github.com/jsjoberg/perikop/releases.";
 #ifdef PERIKOP_UPDATES
 const char* const repository = "https://github.com/jsjoberg/perikop";
-// Channels are <os>-<arch>-<track>; see docs/updating.md.
+// Linux feeds include the glibc baseline so older clients cannot receive incompatible AppImages.
 #if defined(_WIN32) && defined(__aarch64__)
 const char* const platform = "win-arm64";
 #elif defined(_WIN32)
@@ -19,9 +19,9 @@ const char* const platform = "win-x64";
 #elif defined(__APPLE__)
 const char* const platform = "osx-arm64";
 #elif defined(__aarch64__)
-const char* const platform = "linux-arm64";
+const char* const platform = "linux-arm64-glibc241";
 #else
-const char* const platform = "linux-x64";
+const char* const platform = "linux-x64-glibc241";
 #endif
 
 // The manager finds an installed program from its files alone, with no network; it throws when there is none.
