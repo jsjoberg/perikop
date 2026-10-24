@@ -30,11 +30,10 @@ Upgrade 0.1.x installations through 0.2.0: later releases no longer convert 0.1.
 
 - Read-aloud uses an installed eSpeak NG; the app is about 200 MB smaller.
 - Swedish pronunciations stored as eSpeak phoneme codes; IPA corrections converted.
-- Releases ship only self-updating packages: `Setup.exe`, `.pkg` and AppImage.
+- Releases ship only self-updating packages; 0.1.x installs need one manual download.
 - Linux AppImages built on Debian 13; they need glibc 2.41.
-- Linux updates use new `glibc241` feeds.
 - macOS needs Apple Silicon and macOS 15.
-- Linux builds need GCC 14; Windows builds GCC 15.
+- Linux builds need GCC 14 instead of 15.
 - AppImage runs natively on Wayland.
 - New **Inställningar** page (Ctrl+,).
 - ⋮ menu works like Chrome's and ends with **Avsluta**.
@@ -54,12 +53,8 @@ Upgrade 0.1.x installations through 0.2.0: later releases no longer convert 0.1.
 - Reading-plan grids share one width.
 - Day and week heading stays visible.
 - Address field click closes the Bible browser.
-- Nightly versions sort in order; **Om Perikop** shows the commit.
 - Builds optimize for size, with LTO; releases are stripped.
 - x86-64 builds target `x86-64-v2`.
-- Hyphenation patterns compiled into the program.
-- Source texts stored as zip files.
-- CI uses uv-managed Python 3.14; Windows is always cross-compiled.
 
 ### Removed
 
@@ -74,11 +69,8 @@ Upgrade 0.1.x installations through 0.2.0: later releases no longer convert 0.1.
 
 ### Fixed
 
-- Read-aloud follows the shown edition, including Reformationsbibeln.
-- ⋮ menu position on Wayland after text size changes.
 - Stress on män, säg, dom, ock and words after a dash.
 - Pronunciation of Jordan, spetälsk, välan, väl and about 840 names.
-- Book picker crash on Wayland without a pointer.
 - Text drawn grayscale on subpixel hosts such as Ubuntu 26.04.
 
 ## [0.1.0] - 2026-10-12
