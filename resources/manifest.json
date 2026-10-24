@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "eb5b1eca8a22fbaa7362f84d0bcc5a0c82e4646b1949964809f08570115d9234",
+      "sha256": "ec63e596339e9cb7608c47438a8bda780bdfb2f7e45a40dfb5e7e50f6b98b2f4",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -516,7 +516,7 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "72382df1d4462dc1b1da6fc06a0311ade338f60c49633ce1155770aee54a7ac5",
+      "sha256": "2e0f06028d5bac84c7ee8c79bba237bf392b5fc8afd6efd8f5b5cef48396cbc0",
       "license": "MIT",
       "role": "Curated Swedish name phonemes for read-aloud; first-pass drafts pending listening review"
     },
@@ -528,9 +528,9 @@
     },
     {
       "path": "resources/speech/custom_lexicon.tsv",
-      "sha256": "5201af62bed77b65390588ecd297e1c548ba7020535a31c8b61a51ee7c3e4e7b",
+      "sha256": "67f0b39b88e6e381fe686d46e5ba27a447dfe491abfbb74c04806583d74d25fb",
       "license": "Apache-2.0",
-      "role": "kokoro-sv custom pronunciation overrides from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes, plus jo as the word instead of its spelled letters"
+      "role": "kokoro-sv custom pronunciation overrides from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes"
     },
     {
       "path": "resources/speech/g2p-corpus.tsv",
