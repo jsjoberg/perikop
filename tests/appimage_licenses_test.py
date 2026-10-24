@@ -19,13 +19,16 @@ spec.loader.exec_module(runtime)
 
 
 class AppImageLicensesTest(unittest.TestCase):
-    def collect(self, root, origin, copyright=None):
+    def collect(self, root, origin, copyright=None, libraries=("libfixture.so.1",)):
         tools = root / "tools"
         tools.mkdir()
         # The collector needs only library names and package metadata from these tools.
-        (tools / "find").write_text("#!/bin/sh\nprintf 'libfixture.so.1\\n'\n")
+        (tools / "find").write_text("#!/bin/sh\nprintf '%s\\n' " + " ".join(libraries) + "\n")
         (tools / "dpkg").write_text('''#!/bin/sh
-[ "$1" = -S ] && printf '%s:arm64: /usr/lib/aarch64-linux-gnu/libfixture.so.1\\n' "$FIXTURE_PACKAGE"
+case "$2" in
+    '*/libfixture.so.1') printf '%s:arm64: /usr/lib/aarch64-linux-gnu/libfixture.so.1\\n' "$FIXTURE_PACKAGE" ;;
+    *) exit 1 ;;
+esac
 ''')
         (tools / "dpkg-query").write_text('''#!/bin/sh
 case "$3" in
@@ -64,6 +67,13 @@ esac
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("No licence text for bundled packages: missing1", result.stderr)
             self.assertFalse((licenses / "missing").exists())
+
+    def test_missing_package_owner_stops_packaging(self):
+        for libraries in (("libunowned.so.1",), ("libfixture.so.1", "libunowned.so.1")):
+            with self.subTest(libraries=libraries), tempfile.TemporaryDirectory() as temporary:
+                result, _ = self.collect(Path(temporary), "fixture", "License: BSD-2-Clause\n", libraries)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("libunowned.so.1 (no Debian package owner)", result.stderr)
 
 class AppImageRuntimeLgplTest(unittest.TestCase):
     """The runtime statically links libfuse (LGPL-2.1); each check fails when an obligation's material goes."""

@@ -58,7 +58,11 @@ rm -f "$build/appimage-unlicensed.txt"
 # libstdc++ and libgcc_s come from GCC, whose licences the app already ships.
 find "$appdir/usr/lib" -name '*.so.*' ! -name 'libstdc++.so.*' ! -name 'libgcc_s.so.*' -printf '%f\n' |
     sort -u | while read -r library; do
-    dpkg -S "*/$library" 2>/dev/null | grep -v '^diversion ' | cut -d: -f1
+    if owners=$(dpkg -S "*/$library" 2>/dev/null); then
+        printf '%s\n' "$owners" | grep -v '^diversion ' | cut -d: -f1
+    else
+        echo "$library (no Debian package owner)" >> "$build/appimage-unlicensed.txt"
+    fi
 done | sort -u | while read -r package; do
     # Group by source package: binary packages such as libcairo-gobject2 share cairo's copyright.
     origin=$(dpkg-query -W -f '${source:Package}' "$package")
