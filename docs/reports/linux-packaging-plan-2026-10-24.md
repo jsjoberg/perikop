@@ -24,7 +24,7 @@ Checked locally on arm64, 2026-10-23/24, with main at `c75815c`:
 
 | Package | Built on | glibc needed | Runs on |
 |---|---|---|---|
-| AppImage x64/arm64 | Debian 13 | 2.41 | Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 42+, Arch, Void (glibc), Slackware-current |
+| AppImage x64/arm64 | Debian 13 | 2.41 | Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 42+, Arch, Slackware-current |
 | `.deb` x64/arm64 | Debian 13 | Debian 13 | Debian 13, Raspberry Pi OS (Debian 13) |
 | `.rpm` x64 (arm64 optional) | AlmaLinux 10 | 2.39 | AlmaLinux, Rocky and RHEL 10 |
 
@@ -60,7 +60,7 @@ Differences from the plan:
 - `tools/ci/velopack_linux_test.py`: describe the new baseline.
 - Docs: `using-perikop.md` (new requirements), `building.md`, `releasing.md`, `updating.md`, `testing.md`.
 - Dependency snapshot: rebuild and pin it (ask before triggering `dependencies.yml`).
-- Verification: every CI job green; the AppImage passes `--smoke-test` on clean Debian 13, Ubuntu 26.04, Fedora 43, Arch, Void and Raspberry Pi OS (Debian 13, arm64) containers.
+- Verification: every CI job green; the AppImage passes `--smoke-test` on clean Debian 13, Ubuntu 26.04, Fedora 43, Arch and Raspberry Pi OS (Debian 13, arm64) containers.
 
 ### 3. `.deb` from the Debian 13 job
 
