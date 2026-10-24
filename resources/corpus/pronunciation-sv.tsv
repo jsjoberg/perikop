@@ -1,6 +1,7 @@
 # Swedish name and word pronunciations for read-aloud.
 # Columns: word<TAB>phonemes[<TAB>word-only]. Phonemes are eSpeak NG Swedish codes, as in
 # resources/speech, with the stress mark ' directly before the stressed vowel.
+# An abbreviation uses abbreviation<TAB>spoken text<TAB>spoken.
 # First-pass drafts for frequent names and book titles that the neural
 # fallback misreads, mostly in stress. Compound titles follow the lexicon:
 # main stress on the first part, secondary stress on the second. Not yet reviewed by ear. The corpus build adds the
@@ -1007,10 +1008,22 @@ krubba	kR'8ba	word-only
 krubban	kR'8ban	word-only
 # NST spells jo as J-O instead of reading the Swedish word.
 jo	j'u:	word-only
-# NST mistakes the pronoun vi and the letters v and l for Roman numerals.
+# NST mistakes the pronoun vi for the Roman numeral VI.
 vi	v'i:	word-only
-v	v'e:	word-only
-l	'El	word-only
+# Read abbreviations as words; dots match with or without intervening spaces.
+o.s.v.	och så vidare	spoken
+osv.	och så vidare	spoken
+t.ex.	till exempel	spoken
+bl.a.	bland annat	spoken
+d.v.s.	det vill säga	spoken
+dvs.	det vill säga	spoken
+m.m.	med mera	spoken
+m.fl.	med flera	spoken
+fr.o.m.	från och med	spoken
+t.o.m.	till och med	spoken
+s.k.	så kallad	spoken
+f.Kr.	före Kristus	spoken
+e.Kr.	efter Kristus	spoken
 # Homographs. The voice pack's lexicon keeps one pronunciation per spelling and
 # often took a name's, an abbreviation's, or another word's, such as "Han" for
 # "han" and the genitive of "ko" for "kors". Each entry is the NST alternative

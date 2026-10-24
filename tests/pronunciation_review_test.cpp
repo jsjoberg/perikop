@@ -22,10 +22,10 @@ int main(int argc, char** argv) {
         const auto db_path = directory / "review.db";
         std::filesystem::remove(db_path);
         auto words = load_pronunciation_words(resources / "lexicon/sv1917-words.tsv");
-        check(words.size() == 28487, "prepared word list coverage");
+        check(words.size() == 28485, "prepared word list coverage");
         const auto homographs = load_homographs(resources / "lexicon/sv1917-homographs.tsv");
         const auto cross = homographs.find("kors");
-        check(homographs.size() == 302 && cross != homographs.end() && cross->second.voice == "k'u:s." &&
+        check(homographs.size() == 301 && cross != homographs.end() && cross->second.voice == "k'u:s." &&
                   cross->second.choices.size() == 2 && cross->second.choices[0].phonemes == "k'Os." &&
                   cross->second.choices[1].label == "substantiv, böjd form",
               "homographs list the voice's choice and each NST alternative");

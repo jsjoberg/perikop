@@ -846,9 +846,34 @@ int main(int argc, char** argv) {
               "word-only corrections do not turn the place Kos or sin kos into a cow's genitive");
         check(make_utterance("Jo, jo! Jos.", "sv", lexicon).speech_text == "⟦j'u:⟧, ⟦j'u:⟧! Jos.",
               "jo uses the bundled word correction without generating a genitive");
-        check(make_utterance("Vi vi; v, l. Vis.", "sv", lexicon).speech_text ==
-                  "⟦v'i:⟧ ⟦v'i:⟧; ⟦v'e:⟧, ⟦'El⟧. Vis.",
-              "Roman numeral corrections use corpus word entries without generating genitives");
+        check(make_utterance("Vi vi; v, l. Vis.", "sv", lexicon).speech_text == "⟦v'i:⟧ ⟦v'i:⟧; v, l. Vis.",
+              "vi is a word correction; standalone letters have no pronunciation workarounds");
+        const std::string abbreviations = "O.s.v.; o. s. v.; osv.; t. ex.; bl.a.; d.v.s.; dvs.; m.m.; "
+                                          "m.fl.; fr.o.m.; t.o.m.; s.k.; f.Kr.; e.Kr.";
+        const auto expanded = make_utterance(abbreviations, "sv", lexicon);
+        check(expanded.display_text == abbreviations &&
+                  expanded.speech_text ==
+                      "och så vidare; och så vidare; och så vidare; till exempel; bland annat; "
+                      "det vill säga; det vill säga; med mera; med flera; från och med; till och med; "
+                      "så kallad; före Kristus; efter Kristus.",
+              "Swedish abbreviations are spoken in full without changing the displayed text");
+        check(make_utterance("åosv.; o, s, v.; osv; o s v", "sv", lexicon).speech_text ==
+                  "åosv.; o, s, v.; osv; o s v",
+              "abbreviation matching requires whole words and the abbreviation's dots");
+        check(make_utterance("osv.", "en", lexicon).speech_text == "osv.",
+              "Swedish abbreviation expansion does not affect another language");
+        for (const auto& ref : std::vector<VerseRef>{{4, 10}, {4, 11}, {4, 17}, {7, 12}}) {
+            const auto text = corpus.verse("sv1917", "Ezra", ref)->text;
+            const auto speech = make_utterance(text, "sv", lexicon);
+            check(speech.display_text == text &&
+                      speech.speech_text.find("och så vidare") != std::string::npos &&
+                      speech.speech_text.find("o. s. v.") == std::string::npos,
+                  "every abbreviated o. s. v. in Ezra is expanded for speech");
+        }
+        check(corpus.verse("sv1917", "Jer", {8, 15})->text.starts_with("Vi bida efter frid"),
+              "Jeremiah's missing i is corrected from the printed text");
+        check(corpus.verse("sv1917", "Sir", {28, 9})->text.find("leva i frid") != std::string::npos,
+              "Sirach's OCR l is corrected to the printed i");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==
@@ -934,9 +959,7 @@ int main(int argc, char** argv) {
                 {"fördraget", "", "⟦fWRdR'A:gE-t⟧", 4, {}},
                 {"joses", "", "⟦j'u:sE-s⟧", 4, {}},
                 {"jo", "", "⟦j'u:⟧", 51, {}},
-                {"vi", "", "⟦v'i:⟧", 2332, {}},
-                {"v", "", "⟦v'e:⟧", 5, {}},
-                {"l", "", "⟦'El⟧", 1, {}},
+                {"vi", "", "⟦v'i:⟧", 2333, {}},
                 {"krubba", "", "⟦kR'8ba⟧", 4, {}},
                 {"krubban", "", "⟦kR'8ban⟧", 3, {}},
                 {"jordan", "", "⟦jURd'A:n⟧", 187, {}},

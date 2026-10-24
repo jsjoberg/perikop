@@ -8,7 +8,7 @@ din	2998	d'i:n	d'In=pronomen|d'i:n=okänd, substantiv
 vad	2904	v'A:d	v'A:d=substantiv, böjd form|v'ad=pronomen, substantiv
 min	2866	m'i:n	m'In=pronomen|m'i:n=substantiv
 man	2758	m'an	m'A:n=substantiv|m'an=substantiv
-vi	2332	s'Eks	s'Eks=räkneord|v'i:=pronomen
+vi	2333	s'Eks	s'Eks=räkneord|v'i:=pronomen
 son	2110	s'u:n	s'o:n=substantiv|s'u:n=substantiv
 oss	1945	'Os	'Os=pronomen|u:E-s'Es=namn
 genom	1649	j'e:nOm	j'e:nOm=adverb, preposition|jE-n'o:m=substantiv, böjd form
@@ -162,7 +162,6 @@ läkt	5	l'E:kt	l'E:kt=adjektiv, particip, verb|l'Ekt=substantiv
 matteus	5	mat'E8s	mat'E8s=namn|mat'e:8s=namn, böjd form
 no	5	'En,u:	'En,u:=okänd|n'u:=interjektion
 tel	5	t'e:l	t'e:l=namn|tE-lE-f'o:n=okänd
-v	5	f'Em	f'Em=räkneord|v'e:=substantiv
 alltings	4	'alt,INs	'alt,INs=substantiv, böjd form|'altINs=pronomen, substantiv
 ansattes	4	'ans,atE-s	'ans,atE-s=adjektiv, verb|'ansatE-s=adjektiv, böjd form
 ansett	4	'ansE-t	'ans,Et=adjektiv, verb|'ansE-t=adjektiv, böjd form
@@ -183,6 +182,7 @@ onyx	4	'u:nyks	'u:nyks=substantiv|Un'yks=substantiv, böjd form
 spåman	4	sp'o:man	sp'o:m,an=substantiv|sp'o:man=namn
 svans	4	sv'A:ns	sv'A:ns=substantiv, böjd form|sv'ans=substantiv
 tvärs	4	tv'Es.	tv'E:s.=adjektiv, substantiv, böjd form|tv'Es.=adverb
+v	4	f'Em	f'Em=räkneord|v'e:=substantiv
 värsta	4	v'E:s.Rta	v'E:s.Rta=namn|v'Es.Rta=adjektiv
 agat	3	ag'A:t	'A:gat=particip, verb, böjd form|ag'A:t=substantiv
 ansvar	3	'ansvaR	'ansv,A:R=substantiv|'ansvaR=namn
@@ -263,7 +263,6 @@ klövs	1	kl'Y:fs	kl'Y:fs=substantiv, verb, böjd form|kl'Y:vs=verb
 kola	1	k'o:la	k'o:la=substantiv, verb|k'u:la=verb, böjd form
 kona	1	k'o:na	k'o:na=substantiv|k'u:na=substantiv
 korsar	1	kOs.'A:R	k'Os.aR=verb|kOs.'A:R=substantiv, böjd form
-l	1	f'EmtIU	'El=substantiv|f'EmtIU=räkneord
 lyst	1	l'yst	l'y:st=particip, verb|l'yst=particip, verb, böjd form
 läras	1	l'E:Ras	l'E:R,A:s=substantiv|l'E:Ras=substantiv, verb
 makes	1	m'Ejks	m'A:kE-s=substantiv|m'Ejks=substantiv, böjd form

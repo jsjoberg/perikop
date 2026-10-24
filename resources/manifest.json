@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "622c28c6e7ec823b047a7e7dac9f228c26b5e2a5caccf5d806eab5c456ccdc19",
+      "sha256": "f8ba077c261c8cd66383957c2ec454b6ff7841ba690c9aef54ae41afd1254d9f",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -504,7 +504,7 @@
     },
     {
       "path": "resources/corpus/input/sv1921-apokryfer.tsv",
-      "sha256": "6ffaadb737d01849115136194030d3aeba8921c4c3b6bb8f20a3c6510130fd1d",
+      "sha256": "b57b5c8ce54e30dd0fe4f43f76fe874b4904765af692aa815971e25fba9d4af7",
       "license": "Public-Domain Scripture",
       "role": "Curated by tools/corpus/apocrypha1921.py from Swe1917.json and the Runeberg 1921 OCR"
     },
@@ -516,9 +516,9 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "15bef1b88cde6293833338381b157bfeb01382b200fb8e69ba665b330db90153",
+      "sha256": "ec15f1c72fb695b5d7189b70005f0917f1b9f9d640ffbf6257ed3ef643cc52d8",
       "license": "MIT",
-      "role": "Curated Swedish name phonemes for read-aloud; first-pass drafts pending listening review"
+      "role": "Curated Swedish name and word pronunciations and abbreviation expansions for read-aloud; phoneme drafts pending listening review"
     },
     {
       "path": "resources/speech/lexicon.tsv",
@@ -553,7 +553,7 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "3497a789cb83761be37a4367a9bcadadd6d5b5fdfe596669518d7ac377f951ed",
+      "sha256": "9156b2489cbc75acb5df6497da15537d85b89e5c05cc834d3d6dc4d8a2fd2ce2",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },
@@ -764,7 +764,7 @@
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "7027b9996980959df4dbfc7255bd640fd4ef5edb20460ff4fd0db430f871cb7f",
+      "sha256": "e90e0ad50cac9d82eec383de0eee9d62464079d1cf8aac378c406fd5190cdd94",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     },

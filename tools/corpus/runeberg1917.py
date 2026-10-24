@@ -16,6 +16,8 @@ VERSE=re.compile(r'^\s{0,3}(\d+)\.\s(.*)$')
 ELSEWHERE=re.compile(r'^\s*\d+:\d+\.\s*(?:\[\d+\])?$')
 # Misprinted verse numbers in the e-text: (book, chapter, printed number, occurrence) -> number.
 RENUMBER={('25',1,21,2):22,('42',20,23,1):22}
+# E-text errors checked against the 1927 facsimile, printed page 1017.
+REPLACE={('Jer',8,15):('V bida efter frid','Vi bida efter frid')}
 
 def chapter_number(name):
     if not name:return 1
@@ -66,4 +68,7 @@ def read(path):
         if not text:continue # Verses such as Josh 21:36-37 appear only as a footnote reference.
         if re.search(r'\[\d+\]|[<>]',text):raise ValueError('Unclean 1917 text %s %d:%d'%key)
         verses[key]=text
+    for key,(old,new) in REPLACE.items():
+        if verses[key].count(old)!=1:raise ValueError('1917 correction does not apply once: %s'%str(key))
+        verses[key]=verses[key].replace(old,new)
     return verses

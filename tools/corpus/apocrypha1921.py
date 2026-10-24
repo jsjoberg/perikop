@@ -27,6 +27,8 @@ SPLIT=[('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att 
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
+ # Printed page 106 (runeberg.org/apokryf/0110.html) has i, not OCR's l.
+ ('Sir',28,9,'leva l frid','leva i frid'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
