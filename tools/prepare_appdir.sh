@@ -50,34 +50,25 @@ linuxdeploy --executable "$appdir/usr/bin/perikop" \
 hook="$appdir/apprun-hooks/linuxdeploy-plugin-gtk.sh"
 grep -q '^export GDK_BACKEND=x11' "$hook" || { echo "GTK hook no longer forces X11; review $hook" >&2; exit 1; }
 sed -i '/^export GDK_BACKEND=x11/d' "$hook"
-# Ship the licence files of every system package whose libraries linuxdeploy bundled, beside the app's own.
+# Ship the copyright file of every Debian package whose libraries linuxdeploy bundled, beside the app's own.
+docs=/usr/share/doc
 licenses=$appdir/usr/bin/resources/licenses/linux
 mkdir -p "$licenses"
 rm -f "$build/appimage-unlicensed.txt"
-# libstdc++ and libgcc_s come from the GCC toolset, whose licences the app already ships.
+# libstdc++ and libgcc_s come from GCC, whose licences the app already ships.
 find "$appdir/usr/lib" -name '*.so.*' ! -name 'libstdc++.so.*' ! -name 'libgcc_s.so.*' -printf '%f\n' |
     sort -u | while read -r library; do
-    host=$(find /usr/lib64 /lib64 -maxdepth 3 -name "$library" -print -quit 2>/dev/null)
-    [ -n "$host" ] && rpm -qf --qf '%{NAME}\n' "$host" 2>/dev/null || true
+    dpkg -S "*/$library" 2>/dev/null | grep -v '^diversion ' | cut -d: -f1
 done | sort -u | while read -r package; do
-    # Group by source package: subpackages such as cairo-gobject keep their licence text in cairo.
-    rpm_source=$(rpm -q --qf '%{SOURCERPM}' "$package")
-    origin=$(echo "$rpm_source" | sed 's/-[^-]*-[^-]*\.src\.rpm$//')
-    siblings=$(rpm -qa --qf '%{NAME} %{SOURCERPM}\n' | awk -v s="$rpm_source" '$2 == s { print $1 }')
-    rpm -q --qf '%{NAME} %{VERSION}-%{RELEASE}: %{LICENSE}\n' "$package" >> "$licenses/PACKAGES.txt"
-    { rpm -q --licensefiles $siblings || true
-      rpm -q --docfiles $siblings | grep -i -E '/(COPYING|LICEN[CS]E|COPYRIGHT|NOTICE|BSD)[^/]*$' || true
-    } | grep '^/' | while read -r file; do
-        # rpm also lists files that are not installed, such as docs in an image built with nodocs.
-        if [ -f "$file" ]; then
-            mkdir -p "$licenses/$origin"
-            cp "$file" "$licenses/$origin/"
-        fi
-    done
-    # Rocky ships no licence text for some packages; tools/appimage-licenses has upstream's.
-    [ -d "$source/tools/appimage-licenses/$origin" ] && cp -r "$source/tools/appimage-licenses/$origin" "$licenses/"
-    [ -d "$licenses/$origin" ] || [ "$(rpm -q --qf '%{LICENSE}' "$package")" = "Public Domain" ] ||
+    # Group by source package: binary packages such as libcairo-gobject2 share cairo's copyright.
+    origin=$(dpkg-query -W -f '${source:Package}' "$package")
+    dpkg-query -W -f '${Package} ${Version}\n' "$package" >> "$licenses/PACKAGES.txt"
+    if [ -f "$docs/$package/copyright" ]; then
+        mkdir -p "$licenses/$origin"
+        cp "$docs/$package/copyright" "$licenses/$origin/copyright"
+    else
         echo "$package" >> "$build/appimage-unlicensed.txt"
+    fi
 done
 if [ -s "$build/appimage-unlicensed.txt" ]; then
     echo "No licence text for bundled packages:" $(cat "$build/appimage-unlicensed.txt") >&2

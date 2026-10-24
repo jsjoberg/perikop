@@ -15,12 +15,6 @@ def versions(*names):
         "  Name: {} Flags: none Version: 2".format(name) for name in names)
 
 
-def symbols(*names):
-    return "Symbol table '.dynsym' contains {} entries:\n".format(len(names)) + "\n".join(
-        "    {}: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND {}@GLIBC_2.35 (18)".format(index, name)
-        for index, name in enumerate(names, 1))
-
-
 class LinuxAbiTest(unittest.TestCase):
     def test_ignores_definitions_and_cpp_versions(self):
         output = "Version definition section '.gnu.version_d':\n  Name: GLIBC_2.40\n"
@@ -35,31 +29,19 @@ class LinuxAbiTest(unittest.TestCase):
             library = root / "usr/lib/libstdc++.so.6"
             library.write_bytes(b"\x7fELFfake")
             (root / "icon.png").write_bytes(b"PNG")
-            with patch("check_linux_abi.subprocess.check_output", return_value=versions("GLIBC_2.34")) as reader:
+            with patch("check_linux_abi.subprocess.check_output", return_value=versions("GLIBC_2.41")) as reader:
                 check_linux_abi.check([root])
                 self.assertEqual(reader.call_count, 2)
             with patch("check_linux_abi.subprocess.check_output",
-                       side_effect=[versions("GLIBC_2.34"), versions("GLIBC_2.35"), symbols("memfd_create")]):
-                with self.assertRaisesRegex(ValueError, "libstdc.*GLIBC_2.35"):
+                       side_effect=[versions("GLIBC_2.41"), versions("GLIBC_2.42")]):
+                with self.assertRaisesRegex(ValueError, r"libstdc.*GLIBC_2\.42 \(maximum GLIBC_2\.41\)"):
                     check_linux_abi.check([root])
-
-    def test_allows_only_backported_symbols_above_the_baseline(self):
-        with tempfile.TemporaryDirectory() as directory:
-            library = Path(directory) / "libgcc_s.so.1"
-            library.write_bytes(b"\x7fELFfake")
-            needs = versions("GLIBC_2.17", "GLIBC_2.34", "GLIBC_2.35")
-            with patch("check_linux_abi.subprocess.check_output", side_effect=[needs, symbols("_dl_find_object")]):
-                check_linux_abi.check([library])
-            with patch("check_linux_abi.subprocess.check_output",
-                       side_effect=[needs, symbols("_dl_find_object", "memfd_create")]):
-                with self.assertRaisesRegex(ValueError, "GLIBC_2.35"):
-                    check_linux_abi.check([library])
 
     def test_rejects_new_and_unknown_requirements(self):
         with tempfile.TemporaryDirectory() as directory:
             binary = Path(directory) / "perikop"
             binary.write_bytes(b"\x7fELFfake")
-            for name in ["GLIBC_2.35", "GLIBC_2.39", "GLIBC_ABI_DT_RELR", "GLIBC_PRIVATE"]:
+            for name in ["GLIBC_2.42", "GLIBC_2.44", "GLIBC_ABI_DT_RELR", "GLIBC_PRIVATE"]:
                 with self.subTest(name=name), patch("check_linux_abi.subprocess.check_output", return_value=versions(name)):
                     with self.assertRaisesRegex(ValueError, name):
                         check_linux_abi.check([binary])

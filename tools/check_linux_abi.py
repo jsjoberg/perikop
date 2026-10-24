@@ -8,10 +8,9 @@ import re
 import subprocess
 import sys
 
-BASELINE = (2, 34)
-# Newer symbols that the baseline's distributions provide anyway. Enterprise Linux 9's
-# glibc 2.34 backports _dl_find_object, which its aarch64 libgcc_s uses for unwinding.
-BACKPORTED = {"_dl_find_object@GLIBC_2.35"}
+# Debian 13, which builds the AppImage.
+BASELINE = (2, 41)
+LIMIT = "GLIBC_" + ".".join(map(str, BASELINE))
 
 
 def glibc_requirements(output):
@@ -24,11 +23,6 @@ def glibc_requirements(output):
         if needs:
             versions.update(re.findall(r"Name: (GLIBC_[A-Za-z0-9_.]+)", line))
     return versions
-
-
-def newer_symbols(output, version):
-    """The undefined dynamic symbols that need one glibc version, as name@version."""
-    return set(re.findall(r"\bUND (\S+@" + re.escape(version) + r")\b", output))
 
 
 def check(paths, readelf="readelf"):
@@ -55,19 +49,14 @@ def check(paths, readelf="readelf"):
                 continue
             version = tuple(int(part) for part in suffix.split("."))
             if version > BASELINE:
-                symbols = newer_symbols(subprocess.check_output(
-                    [readelf, "--dyn-syms", "--wide", str(path)], universal_newlines=True,
-                    env=dict(os.environ, LC_ALL="C")), name)
-                if symbols and symbols <= BACKPORTED:
-                    continue
-                errors.append("{}: requires {} (maximum GLIBC_2.34)".format(path, name))
+                errors.append("{}: requires {} (maximum {})".format(path, name, LIMIT))
             maximum = max(maximum, version)
     if not count:
         errors.append("No ELF files found")
     if errors:
         raise ValueError("\n".join(errors))
-    print("Checked {} ELF files: maximum GLIBC_{} (limit 2.34)".format(
-        count, ".".join(str(part) for part in maximum)))
+    print("Checked {} ELF files: maximum GLIBC_{} (limit {})".format(
+        count, ".".join(str(part) for part in maximum), LIMIT))
 
 
 def main():

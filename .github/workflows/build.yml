@@ -125,7 +125,7 @@ jobs:
           docker load --input "build/ci/downloads/$PLATFORM-environment.tar.gz"
           docker run --rm --pull never --network none -v "$PWD:/work" \
             -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
-            -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+            -e PATH="/opt/perikop-python/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
             -e PACKAGE -e NIGHTLY -e PERIKOP_BUILD_VERSION \
             perikop-ci-linux:dependencies python3 tools/ci/build.py linux
       - name: Install eSpeak NG for real synthesis tests
@@ -378,7 +378,7 @@ jobs:
           docker load --input build/ci/downloads/Linux-environment.tar.gz
           docker run --rm --pull never --network none -v "$PWD:/work" \
             -v "${{ steps.python.outputs.root }}:/opt/perikop-python:ro" \
-            -e PATH="/opt/perikop-python/bin:/opt/rh/gcc-toolset-15/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+            -e PATH="/opt/perikop-python/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
             perikop-ci-linux:dependencies python3 tools/ci/build.py linux-sanitizers
       - *save-compiler-cache
   publication-check:

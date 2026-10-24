@@ -19,11 +19,11 @@ Download `Perikop-osx-arm64-releases-Setup.pkg` and open it. The package is unsi
 A copy installed from the older DMG cannot update itself; install the package once. See [update validation](updating.md#packaging-and-validation) for the release checks.
 
 ### Linux
-Requires glibc 2.34 or later, x86-64. Download `Perikop-linux-x64-releases.AppImage`.
+Requires x86-64 and glibc 2.41 or later: Debian 13, Ubuntu 26.04, Fedora 42, or newer, and rolling distributions such as Arch, Void, and openSUSE Tumbleweed. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-linux-x64-releases.AppImage`.
 Make it executable (`chmod +x Perikop-linux-x64-releases.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
 
 ### Raspberry Pi 5
-Requires 64-bit Raspberry Pi OS with its desktop. Use `Perikop-linux-arm64-releases.AppImage` the same way. Older Pi models are not supported.
+Requires 64-bit Raspberry Pi OS based on Debian 13 (trixie), with its desktop. Use `Perikop-linux-arm64-releases.AppImage` the same way. Older Pi models are not supported.
 A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 ## Day page and calendar

@@ -60,6 +60,6 @@ Packages remain unsigned by Developer ID or Authenticode and are not notarized. 
 
 ## Earlier compatibility research
 
-The standalone [Linux ARM64 prototype](reports/velopack-linux-2026-10-16.md) established static SDK compatibility with glibc 2.34. The shared Linux SDK requires glibc 2.39, so production Linux builds use static linkage. The current native Linux image retains its glibc 2.34 baseline; changing that image and minimum is a separate migration, not a prerequisite for the Python cleanup. Alpine/musl is not a target.
+The standalone [Linux ARM64 prototype](reports/velopack-linux-2026-10-16.md) established static SDK compatibility with glibc 2.34. The shared Linux SDK requires glibc 2.39, so production Linux builds use static linkage. The Debian 13 build image now sets a glibc 2.41 baseline, which the shared SDK would also meet; the static linkage stays. Alpine/musl is not a target.
 
 The [October 18 macOS report](reports/velopack-macos-2026-10-18.md) records earlier ARM64/Rosetta checks and the former macOS 13 validation gap. Those historical results do not establish the new macOS 15 baseline. macOS builds and packaging remain native; cross-compiling macOS from Linux is outside the release plan.

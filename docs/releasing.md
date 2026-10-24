@@ -65,7 +65,7 @@ On Windows, stage with `cmake --install build/cmake --prefix build/stage`, then 
 On macOS, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
 `python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> arm64 osx-arm64-<releases|nightly> <output>`.
 It needs `zstd` for deltas. Native CI creates an ARM64 [portable update validation kit](updating.md#packaging-and-validation). The macOS 15 baseline update check must pass on the macOS 15 runner before release; results from newer macOS do not establish the minimum. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
-The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the CI container: CI rejects dependencies newer than glibc 2.34.
+The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the Debian 13 CI container: CI rejects dependencies newer than glibc 2.41.
 
 ## CI dependency snapshots
 

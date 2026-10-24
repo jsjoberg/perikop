@@ -58,7 +58,7 @@ def apple_sources():
 
 
 def linux(package):
-    # The pinned toolchain image remains compatible with the glibc 2.34 app baseline.
+    # The pinned Debian 13 image sets the AppImage's glibc 2.41 baseline.
     run("git", "config", "--global", "--add", "safe.directory", ROOT)
     os.environ.update(PERIKOP_OFFLINE="1", PERIKOP_APPIMAGE_TOOLS=str(ROOT / "build/ci/tools/appimage"))
     build("-DCMAKE_BUILD_TYPE=MinSizeRel")
