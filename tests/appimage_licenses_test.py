@@ -27,6 +27,7 @@ class AppImageLicensesTest(unittest.TestCase):
         (tools / "dpkg").write_text('''#!/bin/sh
 case "$2" in
     '*/libfixture.so.1') printf '%s:arm64: /usr/lib/aarch64-linux-gnu/libfixture.so.1\\n' "$FIXTURE_PACKAGE" ;;
+    '*/libdiverted.so.1') printf 'diversion by other from: /usr/lib/aarch64-linux-gnu/libdiverted.so.1\\n' ;;
     *) exit 1 ;;
 esac
 ''')
@@ -69,11 +70,12 @@ esac
             self.assertFalse((licenses / "missing").exists())
 
     def test_missing_package_owner_stops_packaging(self):
-        for libraries in (("libunowned.so.1",), ("libfixture.so.1", "libunowned.so.1")):
+        # libdiverted.so.1 has only a diversion entry, which names no installed package.
+        for libraries in (("libunowned.so.1",), ("libfixture.so.1", "libunowned.so.1"), ("libdiverted.so.1",)):
             with self.subTest(libraries=libraries), tempfile.TemporaryDirectory() as temporary:
                 result, _ = self.collect(Path(temporary), "fixture", "License: BSD-2-Clause\n", libraries)
                 self.assertNotEqual(result.returncode, 0)
-                self.assertIn("libunowned.so.1 (no Debian package owner)", result.stderr)
+                self.assertIn(libraries[-1] + " (no Debian package owner)", result.stderr)
 
 class AppImageRuntimeLgplTest(unittest.TestCase):
     """The runtime statically links libfuse (LGPL-2.1); each check fails when an obligation's material goes."""

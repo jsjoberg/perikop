@@ -58,8 +58,10 @@ rm -f "$build/appimage-unlicensed.txt"
 # libstdc++ and libgcc_s come from GCC, whose licences the app already ships.
 find "$appdir/usr/lib" -name '*.so.*' ! -name 'libstdc++.so.*' ! -name 'libgcc_s.so.*' -printf '%f\n' |
     sort -u | while read -r library; do
-    if owners=$(dpkg -S "*/$library" 2>/dev/null); then
-        printf '%s\n' "$owners" | grep -v '^diversion ' | cut -d: -f1
+    # A failed lookup and a path with only a diversion both leave no owner.
+    owners=$(dpkg -S "*/$library" 2>/dev/null | grep -v '^diversion ' | cut -d: -f1)
+    if [ -n "$owners" ]; then
+        printf '%s\n' "$owners"
     else
         echo "$library (no Debian package owner)" >> "$build/appimage-unlicensed.txt"
     fi
