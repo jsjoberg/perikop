@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
               "function words are unstressed by their spelling, in any case");
         check(front.phonemes("män och ja") == "m'En Ok j'A:",
               "a content word that sounds like a function word keeps its stress");
+        check(front.phonemes("Jo") == "j'u:", "jo is the word, not its spelled letters J-O");
         check(front.tokens("⟦f'Os.⟧ ja") ==
                   std::vector<Token>{{Token::Kind::Phonemes, "f'Os."}, {Token::Kind::Phonemes, "j'A:"}},
               "given codes keep their dots instead of ending a sentence");

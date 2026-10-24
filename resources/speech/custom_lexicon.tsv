@@ -51,3 +51,6 @@ onnx	' O n I k s
 ros	R ' O s
 cuda	k ' u: d a
 pytorch	p ' a j t , O R tS
+
+# NST stores jo as its spelled letters (J-O). The word, as in "Jo, Herre", is juː.
+jo	j ' u:
