@@ -4,6 +4,8 @@ Checked 2026-10-25. This is a source comparison, not a complete proofreading of 
 
 ## Confirmed text corrections
 
+The [Swedish errata draft](sv1917-errata.md) now records 15 scan-verified passages, including the two initial corrections below. It provides source links, page locations and unchecked boxes for human verification before sharing upstream. One further wording difference is held for edition comparison.
+
 | Verse | Imported text | Printed text | Witness |
 | --- | --- | --- | --- |
 | Jeremiah 8:15 | V bida efter frid | Vi bida efter frid | [1927 printing, p. 1017](https://runeberg.org/bibeln/efs1927/gt/1017.html) |
@@ -29,14 +31,16 @@ The comparison removes module formatting, chapter titles and footnotes, normaliz
 | Canonical verses in Perikop | 31,150 |
 | Nonempty Scripture records in MySword | 31,132 |
 | Shared coordinates | 31,132 |
-| Same text after formatting normalization | 30,325 |
+| Same text after formatting normalization | 30,313 |
 | Same word sequence, differences in case/punctuation/spacing | 700 |
-| Different word sequences | 107 |
+| Different word sequences | 119 |
 | Coordinates present only in Perikop | 18 |
 
 The 18 coordinate differences include verses embedded in a preceding MySword record, such as 3 John 1:15 and Daniel 3:31–33. They are not automatically classified as missing Scripture.
 
 The [word differences](sv1917-mysword-differences.tsv) are review candidates. MySword still has “V bida” in Jeremiah 8:15. It also has conversion damage: “spärra” becomes “ia” in Lamentations 2:16, and some records include chapter summaries or embedded verse labels. These differences do not justify replacing Perikop's corpus with MySword. Neither corpus is certified correct by this comparison; shared transcription errors cannot be detected by comparing two copies of the same source.
+
+The scan review added 12 canonical corrections that were shared with MySword, increasing the comparison's word-difference count from 107 to 119. These 12 differences are documented corrections, not new unverified findings. The apocrypha correction is outside MySword's coverage.
 
 [Runeberg documents](https://runeberg.org/bibeln/) remaining proofreading errors and mixed printed exemplars in its e-text. Its scanned editions provide a direct witness for reviewing corrections. [Wikisource](https://sv.wikisource.org/wiki/Bibeln_1917) and [Språkbanken](https://sprakbanken.se/resurser/bibel1917) also identify Runeberg as their source; they are not independent validation of every word.
 

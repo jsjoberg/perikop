@@ -2,10 +2,10 @@
 och	39653	word	"Ok
 i	15978	word	
 till	15693	word	"tIl
-som	14015	word	
+som	14016	word	
 att	12743	word	"at
 han	12030	word	"han
-de	11739	word	
+de	11740	word	
 det	8674	word	
 en	8480	word	"En
 Och	8353	word	"Ok
@@ -27,13 +27,13 @@ sig	5117	word	"sEj
 I	4771	word	"i:
 dig	4734	word	"dEj
 HERREN	4698	word	""hE$ren
-mig	4672	word	"mEj
+mig	4673	word	"mEj
 hade	4486	word	""ha$de
 sade	4210	word	""sA:$de
 hans	4174	word	"hans
 eder	3862	word	""e:$der
 om	3668	word	"Om
-var	3648	word	"vA:r
+var	3649	word	"vA:r
 sin	3469	word	"sIn
 då	3467	word	"do:
 Men	3401	word	"mEn
@@ -48,7 +48,7 @@ din	2896	word	"di:n
 upp	2824	word	"u0p
 över	2802	word	"2:$ver
 man	2676	word	"man
-min	2632	word	"mi:n
+min	2631	word	"mi:n
 när	2558	word	"nE:r
 Då	2454	word	"do:
 vad	2422	word	"vA:d
@@ -57,12 +57,12 @@ skola	2386	word	""sku:$la
 deras	2223	word	""de:$ras
 mot	2216	word	"mu:t
 sina	2216	word	""si:$na
-ty	2207	word	"ty:
+ty	2208	word	"ty:
 där	2157	word	
 efter	2135	word	
 men	2123	word	"mEn
 vi	2068	word	"vi:
-son	2031	word	"su:n
+son	2030	word	"su:n
 allt	1991	word	"alt
 vid	1980	word	"vi:d
 ut	1961	word	"}:t
@@ -149,7 +149,7 @@ män	863	word	"mEn
 De	853	word	"dE
 tid	823	word	"ti:d
 jorden	819	word	"ju:$d`en
-själv	818	word	"x\Elv
+själv	816	word	"x\Elv
 Jerusalem	812	name	je$""r}:$sa$%lEm
 Jesus	809	name	""je:$su0s
 Juda	808	name	""j}:$da
@@ -188,9 +188,9 @@ intet	633	word	""In$tet
 gör	628	word	"j2:r
 kommit	627	word	""kO$mIt
 här	626	word	"hE:r
+väl	621	word	"vE:l
 tusen	618	word	"t}:$sen
 år	617	word	"o:r
-väl	616	word	"vE:l
 bliver	603	word	"bli:$ver
 Det	596	word	
 höra	594	word	""h2:$ra
@@ -315,8 +315,8 @@ sätt	305	word	"sEt
 vände	305	word	""vEn$de
 makt	304	word	"makt
 födde	301	word	""f9$de
+själ	301	word	"x\E:l
 leva	299	word	""le:$va
-själ	299	word	"x\E:l
 bära	297	word	""bE:$ra
 dö	297	word	"d2:
 tro	297	word	"tru:
@@ -820,13 +820,13 @@ jord	100	word	"ju:d`
 lön	100	word	"l2:n
 människobarn	100	word	""mE$nI$x\U$%bA:n`
 rättfärdig	100	word	""rEt$%fE:$d`Ig
-vagnar	100	word	""vaN$nar
 Absalom	99	name	
 bedja	99	word	""be:d$ja
 evangelium	99	word	e$va$"nje:$lI$u0m
 hästar	99	word	""hE$star
 längre	99	word	"lEN$re
 skett	99	word	"x\Et
+vagnar	99	word	""vaN$nar
 Gilead	98	name	
 kasta	98	word	""ka$sta
 profeter	98	word	prU$"fe:$ter
@@ -1863,6 +1863,7 @@ Dan	37	name	"dA:n
 Jesaja	37	name	
 Mispa	37	name	
 Natan	37	name	""nA:$tan
+Tobias	37	name	tU$""bi:$as
 allas	37	word	""a$las
 amoréerna	37	word	
 arbeta	37	word	""ar$be:$ta
@@ -1909,7 +1910,6 @@ Rama	36	name	""rA:$ma
 Semaja	36	name	
 Silo	36	name	"si:$lU
 Simson	36	name	"sIm$sOn
-Tobias	36	name	tU$""bi:$as
 Vill	36	word	"vIl
 begrava	36	word	be$"grA:$va
 belägrade	36	word	be$"lE:$gra$de
@@ -5997,6 +5997,7 @@ vredens	9	word	"vre:$dens
 vredgades	9	word	
 vrånga	9	word	""vrON$a
 vrånghet	9	word	""vrON$%he:t
+vägnar	9	word	""vE:$gnar
 välsignelsen	9	word	vEl$"sIN$nel$sen
 välsignelser	9	word	vEl$"sIN$nel$ser
 vänskapen	9	word	""vEn$%skA:$pen
@@ -6505,7 +6506,6 @@ utstått	8	word	""}:t$%stOt
 utsäde	8	word	""}:t$%sE:$de
 utvald	8	word	""}:t$%vA:ld
 vakar	8	word	""vA:$kar
-val	8	word	"vA:l
 vanartig	8	word	""vA:n$%A:$t`Ig
 vanmakt	8	word	""vA:n$%makt
 vanära	8	word	""vA:$%nE:$ra
@@ -6523,7 +6523,6 @@ vissnade	8	word	""vI$sna$de
 vist	8	word	"vi:st
 vränga	8	word	""vrEN$a
 vrångt	8	word	"vrONt
-vägnar	8	word	""vE:$gnar
 väktaren	8	word	""vEk$ta$ren
 väktarna	8	word	""vEk$ta$n`a
 väldighet	8	word	""vEl$dIg$%he:t
@@ -16948,6 +16947,7 @@ vakor	2	word	""vA:$kUr
 vaktare	2	word	""vak$ta$re
 vaktkammare	2	word	
 vaktposter	2	word	""vakt$%pO$ster
+val	2	word	"vA:l
 valt	2	word	"vA:lt
 vandraden	2	word	
 vandrarens	2	word	""van$dra$rens
@@ -19749,7 +19749,6 @@ Tjänstekvinnan	1	word	""s'En$ste$%kvI$nan
 Tjänstekvinnorna	1	word	""s'En$ste$%kvI$nU$n`a
 Tjänsterna	1	name	""s'En$ste$n`a
 Toa	1	name	""tu:$a
-TobiasI	1	name	
 Tobiel	1	name	
 Tofel	1	name	
 Tofethöjderna	1	name	

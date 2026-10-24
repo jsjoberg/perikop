@@ -874,6 +874,32 @@ int main(int argc, char** argv) {
               "Jeremiah's missing i is corrected from the printed text");
         check(corpus.verse("sv1917", "Sir", {28, 9})->text.find("leva i frid") != std::string::npos,
               "Sirach's OCR l is corrected to the printed i");
+        struct TextCorrection {
+            std::string book;
+            VerseRef ref;
+            std::string before, after;
+        };
+        for (const auto& correction : std::vector<TextCorrection>{
+                 {"2Kgs", {18, 21}, "förtröstar val nu", "förtröstar väl nu"},
+                 {"Job", {9, 35}, "med min själv", "med mig själv"},
+                 {"Ps", {22, 30}, "sin själv vid liv", "sin själ vid liv"},
+                 {"Prov", {20, 7}, "går det val efter honom", "går det väl efter honom"},
+                 {"Prov", {23, 7}, "kan han val säga", "kan han väl säga"},
+                 {"Jer", {8, 12}, "på skam, övade styggelse", "på skam, ty de övade styggelse"},
+                 {"Jer", {16, 13}, "ett land son varken", "ett land som varken"},
+                 {"Jer", {17, 21}, "Tagen eder val till vara", "Tagen eder väl till vara"},
+                 {"Jer", {20, 13}, "den fattiges själv", "den fattiges själ"},
+                 {"Jer", {29, 7}, "så går det ock eder val", "så går det ock eder väl"},
+                 {"Ezek", {3, 17}, "å mina vagnar", "å mina vägnar"},
+                 {"Luke", {12, 48}, "vad som val slag värt", "vad som var slag värt"},
+                 {"Tob", {11, 15}, "min son TobiasI»", "min son Tobias!»"}}) {
+            const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
+            check(text.find(correction.after) != std::string::npos &&
+                      text.find(correction.before) == std::string::npos,
+                  "scan-verified erratum in " + correction.book);
+        }
+        check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
+              "the possible printing variant with någon remains pending human review");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==
@@ -977,7 +1003,7 @@ int main(int argc, char** argv) {
                 {"väl",
                  "⟦v'E:l⟧",
                  "⟦v'El⟧",
-                 645,
+                 650,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
                   "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",
@@ -1020,7 +1046,8 @@ int main(int argc, char** argv) {
                   "Sir 25:4",    "Sir 25:5",    "Sir 26:14",   "Sir 37:28",   "Sir 38:21",   "Sir 3:1",
                   "Sir 42:21",   "Sir 42:6",    "Sir 6:11",    "Sir 9:13",    "Song 3:8",    "Song 4:4",
                   "Tob 12:11",   "Tob 12:7",    "Tob 14:9",    "Tob 4:14",    "Tob 7:4",     "Tob 7:5",
-                  "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1"},
+                  "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1",
+                  "Jer 17:21",   "Prov 20:7"},
                  {{"Ezek 33:32", 1}}},
                 {"gibea", "", "⟦gIb'e:a⟧", 41, {}},
                 {"ahabs", "", "⟦'A:habs⟧", 35, {}},

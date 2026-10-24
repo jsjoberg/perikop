@@ -29,6 +29,8 @@ SPLIT=[('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att 
 REPLACE=[
  # Printed page 106 (runeberg.org/apokryf/0110.html) has i, not OCR's l.
  ('Sir',28,9,'leva l frid','leva i frid'),
+ # Printed page 62 (runeberg.org/apokryf/0066.html) has an exclamation mark.
+ ('Tob',11,15,'min son TobiasI»','min son Tobias!»'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
