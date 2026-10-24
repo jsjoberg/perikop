@@ -363,5 +363,11 @@ if(ORTHO_BUILD_GUI)
         math(EXPR perikop_profile_timeout "2 * ${perikop_smoke_timeout} + 30")
         set_tests_properties(profile-isolation PROPERTIES LABELS "gui" TIMEOUT "${perikop_profile_timeout}")
         set_tests_properties(ui-smoke PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}")
+        if(NOT APPLE AND NOT WIN32)
+            # Cached text tiles must still match direct text where the host asks for subpixel text.
+            add_test(NAME ui-smoke-subpixel COMMAND perikop --smoke-test --resources "${resource_destination}")
+            set_tests_properties(ui-smoke-subpixel PROPERTIES LABELS "gui" TIMEOUT "${perikop_smoke_timeout}"
+                ENVIRONMENT "FONTCONFIG_FILE=${CMAKE_SOURCE_DIR}/tests/subpixel-fonts.conf")
+        endif()
     endif()
 endif()
