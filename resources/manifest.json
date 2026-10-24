@@ -516,7 +516,7 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "d9eedf68ebfdead9db802580edfaf1e07fa020512a70383ad011e539f0b69056",
+      "sha256": "83344672330b7138d34eda548169a47cd8fcd21e83da9a5f9e43e94abc222c9f",
       "license": "MIT",
       "role": "Curated Swedish name and word pronunciations and abbreviation expansions for read-aloud; phoneme drafts pending listening review"
     },
@@ -820,13 +820,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "27265acb2b50d83d2c4f1470785791af3b3c97b4558f7cae4215175ac1d1a617"
+      "sha256": "6569c1bab95947aea0349dea261d7c578749f0c4d87ea617237911b2d4984462"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "9a5efcd3bb9046fa8fcfd4e5a0cf20dff5d480cf1ee62d6b138cc5ffd481d6d1"
+      "sha256": "89ff88f04644e775658c821adec42fc70fb7dd6ec1dc3a929f19e42741b3f38a"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

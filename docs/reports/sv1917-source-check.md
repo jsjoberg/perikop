@@ -17,6 +17,8 @@ The standalone v and l pronunciation workarounds have been removed. The four rem
 
 Common Swedish abbreviation expansions live with the other word corrections in `resources/corpus/pronunciation-sv.tsv`. A `spoken` third column supplies words instead of phonemes. Dots are required, capitalization is ignored, and spaces between abbreviation parts are optional. The displayed Scripture retains its abbreviation.
 
+The `jo` correction selects the interjection's pronunciation. NST already distinguishes uppercase `JO`, pronounced as letters (`""ji:$%u:`), from lowercase `jo`, tagged `IN` and pronounced `"ju:`. The bundled voice lexicon selected the uppercase entry under lowercase `jo`. `JO` likely means [Justitieombudsmannen](https://www.jo.se/om-jo/); NST's entry does not spell out the abbreviation's meaning. This is a choice between existing NST entries, rather than a missing pronunciation in NST.
+
 ## MySword comparison
 
 The [official MySword catalog](https://www.mysword.info/download-mysword/bibles) links the [Swedish 1917 module](https://mysword-bible.info/download/getfile.php?file=swe1917.bbl.mybible.zip). The downloaded module identifies itself as version 1.0.1, dated 2014-12-03. Its own metadata says it derives from Project Runeberg release 3.7, dated 1999-04-09. It is another packaging of the same textual lineage, not an independent witness. It has no apocrypha.
