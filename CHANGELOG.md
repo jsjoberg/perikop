@@ -31,7 +31,7 @@ Upgrade 0.1.x installations through 0.2.0: later releases no longer convert 0.1.
 - Read-aloud uses an installed eSpeak NG; the app is about 200 MB smaller.
 - Swedish pronunciations stored as eSpeak phoneme codes; IPA corrections converted.
 - Releases ship only self-updating packages; 0.1.x installs need one manual download.
-- Linux AppImages built on Debian 13; they need glibc 2.41.
+- Linux AppImages built on Debian 13; they need glibc 2.39, as in Enterprise Linux 10.
 - macOS needs Apple Silicon and macOS 15.
 - Linux builds need GCC 14 instead of 15.
 - AppImage runs natively on Wayland.
