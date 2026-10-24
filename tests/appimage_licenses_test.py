@@ -1,4 +1,4 @@
-"""Exercise the AppImage license collector without RPM or a Linux host, and check the AppImage runtime's
+"""Exercise the AppImage license collector without dpkg or a Linux host, and check the AppImage runtime's
 LGPL-2.1 obligations: licence texts, notices, pins, and the corresponding-source archive."""
 
 import hashlib
@@ -19,72 +19,63 @@ spec.loader.exec_module(runtime)
 
 
 class AppImageLicensesTest(unittest.TestCase):
-    def collect(self, root, origin, installed_license=None):
+    def collect(self, root, origin, copyright=None, libraries=("libfixture.so.1",)):
         tools = root / "tools"
         tools.mkdir()
         # The collector needs only library names and package metadata from these tools.
-        (tools / "find").write_text('''#!/bin/sh
-case "$1" in
-    /usr/lib64) printf '/usr/lib64/libfixture.so.1\n' ;;
-    *) printf 'libfixture.so.1\n' ;;
+        (tools / "find").write_text("#!/bin/sh\nprintf '%s\\n' " + " ".join(libraries) + "\n")
+        (tools / "dpkg").write_text('''#!/bin/sh
+case "$2" in
+    '*/libfixture.so.1') printf '%s:arm64: /usr/lib/aarch64-linux-gnu/libfixture.so.1\\n' "$FIXTURE_PACKAGE" ;;
+    '*/libdiverted.so.1') printf 'diversion by other from: /usr/lib/aarch64-linux-gnu/libdiverted.so.1\\n' ;;
+    *) exit 1 ;;
 esac
 ''')
-        (tools / "rpm").write_text('''#!/bin/sh
-set -eu
-case "$1" in
-    -qf) printf '%s-libs\n' "$FIXTURE_ORIGIN" ;;
-    -qa) printf '%s-libs %s-1.9.3-5.el9.src.rpm\n' "$FIXTURE_ORIGIN" "$FIXTURE_ORIGIN" ;;
-    -q)
-        case "$2" in
-            --licensefiles) printf '%s\n' "$FIXTURE_LICENSE" ;;
-            --docfiles) printf '/not-installed/share/doc/LICENSE\n' ;;
-            --qf)
-                case "$3" in
-                    '%{SOURCERPM}') printf '%s-1.9.3-5.el9.src.rpm\n' "$FIXTURE_ORIGIN" ;;
-                    '%{LICENSE}') printf 'BSD\n' ;;
-                    *) printf '%s-libs 1.9.3-5.el9: BSD\n' "$FIXTURE_ORIGIN" ;;
-                esac ;;
-            *) exit 1 ;;
-        esac ;;
-    *) exit 1 ;;
+        (tools / "dpkg-query").write_text('''#!/bin/sh
+case "$3" in
+    '${source:Package}') printf '%s' "$FIXTURE_ORIGIN" ;;
+    *) printf '%s 1.9.4-4\\n' "$FIXTURE_PACKAGE" ;;
 esac
 ''')
         for tool in tools.iterdir():
             tool.chmod(0o755)
+        docs = root / "doc"
+        package = origin + "1"
+        if copyright is not None:
+            (docs / package).mkdir(parents=True)
+            (docs / package / "copyright").write_text(copyright)
         build = root / "build"
         build.mkdir()
         # Run the production collector, not a copy of its license-selection logic.
         script = (ROOT / "tools/prepare_appdir.sh").read_text()
         collector = script[script.index("licenses=$appdir/"):script.index("# Also check GTK libraries")]
         env = dict(os.environ, PATH=str(tools) + os.pathsep + os.environ["PATH"],
-                   appdir=str(build / "AppDir"), build=str(build), source=str(ROOT),
-                   FIXTURE_ORIGIN=origin, FIXTURE_LICENSE=str(installed_license or root / "absent-LICENSE"))
+                   appdir=str(build / "AppDir"), build=str(build), docs=str(docs),
+                   FIXTURE_ORIGIN=origin, FIXTURE_PACKAGE=package)
         result = subprocess.run(["sh", "-eu", "-c", collector], env=env, capture_output=True, text=True)
         return result, build / "AppDir/usr/bin/resources/licenses/linux"
 
-    def test_lz4_fallback_copies_the_complete_license_when_rpm_files_are_absent(self):
+    def test_copyright_is_copied_under_the_source_package(self):
         with tempfile.TemporaryDirectory() as temporary:
-            result, licenses = self.collect(Path(temporary), "lz4")
+            result, licenses = self.collect(Path(temporary), "fixture", "Format: DEP-5\nLicense: BSD-2-Clause\n")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertEqual((licenses / "lz4/LICENSE").read_bytes(),
-                             (ROOT / "tools/appimage-licenses/lz4/LICENSE").read_bytes())
-            self.assertIn("lz4-libs 1.9.3-5.el9: BSD", (licenses / "PACKAGES.txt").read_text())
+            self.assertEqual((licenses / "fixture/copyright").read_text(), "Format: DEP-5\nLicense: BSD-2-Clause\n")
+            self.assertEqual((licenses / "PACKAGES.txt").read_text(), "fixture1 1.9.4-4\n")
 
-    def test_installed_rpm_license_still_copies_without_a_fallback(self):
+    def test_missing_copyright_stops_packaging(self):
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            license = root / "LICENSE"
-            license.write_text("Installed package license\n")
-            result, licenses = self.collect(root, "fixture", license)
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertEqual((licenses / "fixture/LICENSE").read_bytes(), license.read_bytes())
-
-    def test_unknown_missing_license_still_stops_packaging(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            result, licenses = self.collect(Path(temporary), "missing-package")
+            result, licenses = self.collect(Path(temporary), "missing")
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("No licence text for bundled packages: missing-package-libs", result.stderr)
-            self.assertFalse((licenses / "missing-package").exists())
+            self.assertIn("No licence text for bundled packages: missing1", result.stderr)
+            self.assertFalse((licenses / "missing").exists())
+
+    def test_missing_package_owner_stops_packaging(self):
+        # libdiverted.so.1 has only a diversion entry, which names no installed package.
+        for libraries in (("libunowned.so.1",), ("libfixture.so.1", "libunowned.so.1"), ("libdiverted.so.1",)):
+            with self.subTest(libraries=libraries), tempfile.TemporaryDirectory() as temporary:
+                result, _ = self.collect(Path(temporary), "fixture", "License: BSD-2-Clause\n", libraries)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(libraries[-1] + " (no Debian package owner)", result.stderr)
 
 class AppImageRuntimeLgplTest(unittest.TestCase):
     """The runtime statically links libfuse (LGPL-2.1); each check fails when an obligation's material goes."""
