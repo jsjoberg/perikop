@@ -2,7 +2,7 @@
 FROM debian:trixie
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates curl g++ make cmake ninja-build ccache pkg-config git tar xz-utils zstd \
-      libgtk-3-dev libfontconfig-dev xvfb xauth python3 binutils file findutils gdb \
+      libgtk-3-dev libfontconfig-dev librsvg2-common xvfb xauth python3 binutils file findutils gdb \
       libicu76 squashfs-tools strace dpkg-dev clang-tidy-22 && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/clang-tidy-22 /usr/local/bin/clang-tidy && \

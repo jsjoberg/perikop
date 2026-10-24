@@ -7,8 +7,8 @@ import re
 
 # Velopack channel platforms, in the order the notes list them.
 PLATFORMS = {
-    "linux-x64-glibc241": "Linux x64",
-    "linux-arm64-glibc241": "Linux ARM64",
+    "linux-x64-glibc239": "Linux x64",
+    "linux-arm64-glibc239": "Linux ARM64",
     "osx-arm64": "macOS Apple Silicon",
     "win-x64": "Windows x64",
 }
@@ -56,7 +56,7 @@ def prepare(updates, notes_path, repository, commit, run_id, tag, macos_sanitize
         notes += ["**Incomplete nightly.** Only the available platform packages appear in this release.", ""]
     notes += ["Available platforms:"] + ["- " + name for platform, name in PLATFORMS.items() if platform in available]
     if any(platform.startswith("linux-") for platform in available):
-        notes += ["", "Linux AppImages require glibc 2.41 or later. To move from an earlier Linux build, "
+        notes += ["", "Linux AppImages require glibc 2.39 or later. To move from an earlier Linux build, "
                   "download the new AppImage once on a supported system; the earlier update feeds do not receive it. "
                   "Your reading profile is kept."]
     if missing:

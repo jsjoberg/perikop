@@ -45,6 +45,9 @@ linuxdeploy() {
 linuxdeploy --executable "$appdir/usr/bin/perikop" \
     --library "$appdir/usr/bin/libstdc++.so.6" --library "$appdir/usr/bin/libgcc_s.so.1" \
     --desktop-file "$source/cmake/perikop.desktop" --icon-file "$tools/perikop.png" --plugin gtk
+# Icon themes such as Adwaita 46 ship only SVG icons, and GTK aborts when it cannot load one.
+find "$appdir/usr/lib" -name loaders.cache -exec grep -l svg {} + | grep -q . ||
+    { echo "The AppDir has no SVG image loader; install librsvg2-common" >&2; exit 1; }
 # The GTK plugin forces X11. Under Wayland that means XWayland, which made the reader unusable on a
 # Raspberry Pi 5, so let GTK choose: Wayland when available, else X11, or the user's own GDK_BACKEND.
 hook="$appdir/apprun-hooks/linuxdeploy-plugin-gtk.sh"
