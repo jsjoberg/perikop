@@ -129,7 +129,16 @@ public:
 #ifdef __WXGTK__
             // wxGTK gives Pango the same font configuration for every private font, so Pango keeps
             // the families it listed after the first one. Make it list them again.
-            pango_fc_font_map_config_changed(PANGO_FC_FONT_MAP(pango_cairo_font_map_get_default()));
+            auto* font_map = PANGO_FC_FONT_MAP(pango_cairo_font_map_get_default());
+            // Draw grayscale text even where the host's fontconfig asks for subpixel (RGB) text, as
+            // Ubuntu 26.04 does: cached text tiles keep only alpha, and Cairo lets fontconfig's rgba
+            // override a context's grayscale request.
+            FcConfigParseAndLoadFromMemory(pango_fc_font_map_get_config(font_map),
+                                           reinterpret_cast<const FcChar8*>(
+                                               "<fontconfig><match target=\"font\"><edit name=\"rgba\" "
+                                               "mode=\"assign\"><const>none</const></edit></match></fontconfig>"),
+                                           FcTrue);
+            pango_fc_font_map_config_changed(font_map);
             wxFontEnumerator::InvalidateCache();
 #endif
             ortho::load_hyphenation();
