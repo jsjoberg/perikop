@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "eb5b1eca8a22fbaa7362f84d0bcc5a0c82e4646b1949964809f08570115d9234",
+      "sha256": "622c28c6e7ec823b047a7e7dac9f228c26b5e2a5caccf5d806eab5c456ccdc19",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -516,7 +516,7 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "72382df1d4462dc1b1da6fc06a0311ade338f60c49633ce1155770aee54a7ac5",
+      "sha256": "15bef1b88cde6293833338381b157bfeb01382b200fb8e69ba665b330db90153",
       "license": "MIT",
       "role": "Curated Swedish name phonemes for read-aloud; first-pass drafts pending listening review"
     },
@@ -525,12 +525,6 @@
       "sha256": "01486be6be73e33a283e202775f46431508ee034d9c656e7aad400639feec520",
       "license": "Apache-2.0",
       "role": "NST-derived Swedish pronunciation lexicon from Joakim/kokoro-sv-g2p revision a5aac876ccb2bf7480a129774c7e89cf3bbeac01, from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes, with the spelled-out oss replaced by the pronoun"
-    },
-    {
-      "path": "resources/speech/custom_lexicon.tsv",
-      "sha256": "67f0b39b88e6e381fe686d46e5ba27a447dfe491abfbb74c04806583d74d25fb",
-      "license": "Apache-2.0",
-      "role": "kokoro-sv custom pronunciation overrides from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes"
     },
     {
       "path": "resources/speech/g2p-corpus.tsv",
@@ -770,7 +764,7 @@
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "a07bb52c86a90223af5951f6667898fd873e2d7631c24e91382526f46dc5fb60",
+      "sha256": "7027b9996980959df4dbfc7255bd640fd4ef5edb20460ff4fd0db430f871cb7f",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     },

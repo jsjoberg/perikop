@@ -68,12 +68,11 @@ with tarfile.open(fetch('nst')) as archive:
         entry[0].add(POS.get(fields[1].split('|')[0],fields[1].split('|')[0] or 'okänd'))
         entry[1]|='LEX' in fields[5]
 
-# The voice's own choice: upstream overrides, then the lexicon, then the
-# precomputed corpus pronunciations.
+# The voice's own choice: the lexicon, then the precomputed corpus pronunciations.
 def table(name):
     path=args.pack/name
     return dict(line.split('\t') for line in path.read_text(encoding='utf-8').splitlines() if line and not line.startswith('#'))
-voice={**table('g2p-corpus.tsv'),**table('lexicon.tsv'),**{k.lower():v for k,v in table('custom_lexicon.tsv').items()}}
+voice={**table('g2p-corpus.tsv'),**table('lexicon.tsv')}
 def spoken(form):
     return voice.get(form,'').replace(' ','')
 

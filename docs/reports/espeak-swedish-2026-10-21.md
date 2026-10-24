@@ -27,7 +27,7 @@
   - Swedish r is `R`, because eSpeak's plain `r` is English.
   - Retroflex stops are written `Rt`/`Rd`, as eSpeak's own rules write them.
   - An unknown code inside `[[...]]` silently drops the rest of the word, so a test requires a code for every lexicon phone.
-- The pronunciation data (NST lexicon, custom overrides, and kokoro-sv-g2p's output for the corpus words the lexicon lacks) lives in `resources/speech`. A word in none of them reaches eSpeak as text, for eSpeak's own Swedish rules.
+- The pronunciation data (NST lexicon and kokoro-sv-g2p's output for the corpus words the lexicon lacks) lives in `resources/speech`. Perikop's word corrections come from `resources/corpus/pronunciation-sv.tsv`, compiled into the corpus database. Words without prepared pronunciations reach eSpeak as text, for eSpeak's own Swedish rules.
 - Portable speech synthesizes each chunk on demand; there is no audio cache. Tests inject a scripted synthesizer.
 - Speed scales eSpeak's rate around 150 words/min (steps 60–300 %). During reading, a change restarts the current verse, as Pause and Fortsätt do.
 - Settings list every installed, loadable Swedish eSpeak voice and variant ("eSpeak – <name>", stored as `espeak:<selector>`; the older `espeak`/`espeak-f2` mean `sv`/`sv+f2`), with a John 3:16 preview. A saved voice that is no longer installed stays selected and is marked unavailable. MBROLA voices are left out, since they change eSpeak's sample rate. When none load, Settings show an installation link: Homebrew's formula on macOS, eSpeak NG's guide elsewhere.

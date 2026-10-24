@@ -844,6 +844,11 @@ int main(int argc, char** argv) {
         check(make_utterance("en ko, sin kos och Kos.", "sv", lexicon).speech_text ==
                   "en ⟦k'u:⟧, sin kos och Kos.",
               "word-only corrections do not turn the place Kos or sin kos into a cow's genitive");
+        check(make_utterance("Jo, jo! Jos.", "sv", lexicon).speech_text == "⟦j'u:⟧, ⟦j'u:⟧! Jos.",
+              "jo uses the bundled word correction without generating a genitive");
+        check(make_utterance("Vi vi; v, l. Vis.", "sv", lexicon).speech_text ==
+                  "⟦v'i:⟧ ⟦v'i:⟧; ⟦v'e:⟧, ⟦'El⟧. Vis.",
+              "Roman numeral corrections use corpus word entries without generating genitives");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==
@@ -928,6 +933,10 @@ int main(int argc, char** argv) {
                 {"skylt", "", "⟦sx'y:lt⟧", 3, {}},
                 {"fördraget", "", "⟦fWRdR'A:gE-t⟧", 4, {}},
                 {"joses", "", "⟦j'u:sE-s⟧", 4, {}},
+                {"jo", "", "⟦j'u:⟧", 51, {}},
+                {"vi", "", "⟦v'i:⟧", 2332, {}},
+                {"v", "", "⟦v'e:⟧", 5, {}},
+                {"l", "", "⟦'El⟧", 1, {}},
                 {"krubba", "", "⟦kR'8ba⟧", 4, {}},
                 {"krubban", "", "⟦kR'8ban⟧", 3, {}},
                 {"jordan", "", "⟦jURd'A:n⟧", 187, {}},
