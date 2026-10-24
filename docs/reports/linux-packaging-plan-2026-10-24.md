@@ -24,7 +24,7 @@ Checked locally on arm64, 2026-10-23/24, with main at `c75815c`:
 
 | Package | Built on | glibc needed | Runs on |
 |---|---|---|---|
-| AppImage x64/arm64 | Debian 13 | 2.41 | Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 42+, Arch, Void, Slackware-current |
+| AppImage x64/arm64 | Debian 13 | 2.41 | Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 42+, Arch, Void (glibc), Slackware-current |
 | `.deb` x64/arm64 | Debian 13 | Debian 13 | Debian 13, Raspberry Pi OS (Debian 13) |
 | `.rpm` x64 (arm64 optional) | AlmaLinux 10 | 2.39 | AlmaLinux, Rocky and RHEL 10 |
 
