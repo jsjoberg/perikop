@@ -125,7 +125,7 @@ The first release.
 - Icons embedded in the executable.
 - Icon packaging in Python; Swift no longer needed.
 - 1 John 5:7 brackets drawn as [[ ]]; Noto Sans Math dropped.
-- Play, pause and stop always in the toolbar.
+- Play, pause and stop are always in the toolbar.
 
 [Unreleased]: https://github.com/jsjoberg/perikop/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/jsjoberg/perikop/releases/tag/v0.2.0
