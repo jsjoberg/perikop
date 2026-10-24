@@ -19,7 +19,7 @@ Download `Perikop-osx-arm64-releases-Setup.pkg` and open it. The package is unsi
 A copy installed from the older DMG cannot update itself; install the package once. See [update validation](updating.md#packaging-and-validation) for the release checks.
 
 ### Linux
-Requires x86-64 and glibc 2.41 or later: Debian 13, Ubuntu 26.04, Fedora 42, or newer, and rolling distributions such as Arch, Void, and openSUSE Tumbleweed. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-linux-x64-glibc241-releases.AppImage`.
+Requires x86-64 and glibc 2.41 or later: Debian 13, Ubuntu 26.04, Fedora 42, or newer, and rolling distributions such as Arch and Void. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-linux-x64-glibc241-releases.AppImage`.
 Make it executable (`chmod +x Perikop-linux-x64-glibc241-releases.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
 If you use an earlier Linux build, download this AppImage once on a supported system. Earlier builds do not receive it through in-app updates, to keep an incompatible update from replacing a working copy on an older system. Your reading profile is kept.
 
