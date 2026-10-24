@@ -104,7 +104,7 @@ CI runs `tidy` in the Linux x64 job with Debian 13's clang-tidy 22. The macOS jo
 
 `-DORTHO_SANITIZERS=ON` builds Perikop's code with AddressSanitizer and UndefinedBehaviorSanitizer. CI runs the full CTest suite with them in two jobs:
 
-- `sanitizers` on macOS 15 with Apple Clang.
-- `linux-sanitizers` in the Debian 13 container with GCC 14, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and librsvg, and `NO_AT_BRIDGE=1` keeps GTK from opening an accessibility bus connection. Do not add suppressions for Perikop's own code.
+- **macOS sanitizers** (job `sanitizers`) on macOS 15 with Apple Clang.
+- **Linux sanitizers (Debian 13)** (job `linux-sanitizers`) in the Debian 13 container with GCC 14, under Xvfb. On Linux, AddressSanitizer also enables LeakSanitizer. `ci/lsan.supp` suppresses process-lifetime allocations in fontconfig and librsvg, and `NO_AT_BRIDGE=1` keeps GTK from opening an accessibility bus connection. Do not add suppressions for Perikop's own code.
 
 Both sanitizer jobs cache compiler output separately from release builds. Cache keys distinguish Linux x64, Linux ARM64, macOS ARM64, and sanitizer builds; all tests still run on every build. Each job reports its own cache hits and misses, including sanitizer jobs. Compilation uses the CPUs available to the process (three on the standard macOS runner, four on public Linux runners).
