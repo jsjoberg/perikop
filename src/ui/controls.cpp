@@ -2,6 +2,12 @@
 #include "ui/toolbar.hpp"
 
 namespace ortho::ui {
+wxString speech_language_name(const std::string& language) {
+    return utf8(language == "sv"   ? "svenska"
+                : language == "en" ? "engelska"
+                : language == "el" ? "grekiska"
+                                   : language);
+}
 wxString rate_label(int rate) {
     wxString text = wxString::Format("%d,%02d", rate / 100, rate % 100);
     while (text.EndsWith("0"))

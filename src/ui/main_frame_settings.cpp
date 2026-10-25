@@ -192,15 +192,20 @@ void MainFrame::show_settings() {
     fill_settings(page);
     show_page(page, Screen::Settings, ui::utf8("Inställningar"));
 }
-void MainFrame::preview_voice() {
+void MainFrame::preview_voice(const std::string& language, wxWindow* button) {
     if (voice_preview_) {
+        const bool same_language = voice_preview_language_ == language;
         stop_speech(false);
-        return;
+        if (same_language)
+            return;
     }
-    if (espeak_voice_name(settings_.speech_voice).empty())
+    const auto& voice = language == "en"   ? settings_.speech_voice_en
+                        : language == "el" ? settings_.speech_voice_el
+                                           : settings_.speech_voice;
+    if (espeak_voice_name(voice).empty())
         return;
     try {
-        const auto verse = corpus_.verse("sv1917", "John", {3, 16});
+        const auto verse = corpus_.verse(corpus_.source_for_language(language, "John"), "John", {3, 16});
         if (!verse)
             throw std::runtime_error("Provtexten Johannes 3:16 kunde inte läsas.");
         save_reading_position();
@@ -208,14 +213,18 @@ void MainFrame::preview_voice() {
         // A preview has no reading cues or completion tracking and stays on the settings page.
         playback_.start({});
         speech_tracked_.reset();
-        speech_->set_voice(settings_.speech_voice);
+        speech_->set_voice(voice, language);
+        voice_preview_language_ = language;
+        if (button)
+            voice_preview_button_ = button;
         voice_preview_ = true;
         if (voice_preview_button_) {
             voice_preview_button_->SetLabel(ui::utf8("Stoppa provet"));
-            voice_preview_button_->SetName(voice_preview_button_->GetLabel());
+            voice_preview_button_->SetName(voice_preview_button_->GetLabel() + ", " +
+                                           ui::speech_language_name(voice_preview_language_));
             voice_preview_button_->Refresh();
         }
-        speech_->speak_batch({make_utterance(verse->text, "sv", speech_lexicon("sv"))});
+        speech_->speak_batch({make_utterance(verse->text, language, speech_lexicon(language))});
         playback_timer_.Start(30);
         refresh_speech();
     } catch (const std::exception& error) {
@@ -277,7 +286,8 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     entries->Add(
         ui::label(content, ui::utf8("Den första aktiverade källan med text i kapitlet används."), 10));
     entries->Add(ui::label(
-        content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
+        content, ui::utf8("Andra texten väljer en annan källa. Uppläsningen följer huvudtextens språk."),
+        10));
     auto* authority =
         ui::label(content,
                   ui::utf8("Bokordning och referenser följer Orthodox Study Bible (OSB). "
@@ -396,58 +406,73 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                    ui::rate_label, [this](int value) {
                        set_speech_rate(value);
                    });
-    // Read-aloud is Swedish only.
-    std::vector<EspeakVoice> voices;
+    struct VoiceSetting {
+        const char* language;
+        const char* name;
+        std::string Settings::* preference;
+    };
     std::string voice_error;
-    try {
-        voices = Espeak::voices();
-        if (voices.empty())
-            voice_error = "Inga svenska eSpeak-röster hittades.";
-    } catch (const std::exception& error) {
-        voice_error = error.what();
+    for (const auto& setting : {VoiceSetting{"sv", "SVENSKA", &Settings::speech_voice},
+                                VoiceSetting{"en", "ENGELSKA", &Settings::speech_voice_en},
+                                VoiceSetting{"el", "GREKISKA", &Settings::speech_voice_el}}) {
+        const std::string language = setting.language;
+        const auto* name = setting.name;
+        const auto preference = setting.preference;
+        std::vector<EspeakVoice> voices;
+        try {
+            voices = Espeak::voices(language);
+            if (voices.empty())
+                voice_error += std::string("Inga eSpeak-röster hittades för ") + name + ". ";
+        } catch (const std::exception& error) {
+            voice_error = error.what();
+        }
+        auto chosen = std::ranges::find(voices, (settings_.*preference), &EspeakVoice::id);
+        const auto available_count = voices.size();
+        if (chosen == voices.end()) {
+            // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
+            voices.push_back({(settings_.*preference), (settings_.*preference) + " (inte tillgänglig)"});
+            chosen = std::prev(voices.end());
+        }
+        entries->Add(ui::label(content, ui::utf8(name), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        auto* voice_choice = new wxChoice(content, wxID_ANY);
+        voice_choice->SetFont(ui_font());
+        voice_choice->SetName(ui::utf8("Röst för uppläsning, ") + ui::speech_language_name(language));
+        for (const auto& voice : voices)
+            voice_choice->Append(ui::utf8(voice.name));
+        voice_choice->SetSelection(int(chosen - voices.begin()));
+        auto* voice_try =
+            new wxButton(content, wxID_ANY,
+                         ui::utf8(voice_preview_ && voice_preview_language_ == language ? "Stoppa provet"
+                                                                                        : "Prova rösten"));
+        voice_try->SetFont(ui_font());
+        voice_try->SetName(voice_try->GetLabel() + ", " + ui::speech_language_name(language));
+        voice_try->Bind(wxEVT_BUTTON, [this, language, voice_try](wxCommandEvent&) {
+            preview_voice(language, voice_try);
+        });
+        const auto button_size = voice_try->GetBestSize();
+        voice_try->SetMinSize({std::max(button_size.x, voice_try->GetTextExtent(ui::utf8("Stoppa provet")).x +
+                                                           FromDIP(zoomed(28))),
+                               button_size.y});
+        voice_try->SetToolTip(ui::utf8("Läs Johannes 3:16 med den valda eSpeak-rösten."));
+        voice_try->Enable(std::size_t(voice_choice->GetSelection()) < available_count &&
+                          !espeak_voice_name((settings_.*preference)).empty());
+        if (voice_preview_language_ == language)
+            voice_preview_button_ = voice_try;
+        voice_choice->Bind(wxEVT_CHOICE, [this, language, preference, voices, available_count,
+                                          voice_try](wxCommandEvent& event) {
+            if (voice_preview_)
+                stop_speech(false);
+            (settings_.*preference) = voices.at(std::size_t(event.GetSelection())).id;
+            speech_->set_voice((settings_.*preference), language);
+            voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
+                              !espeak_voice_name((settings_.*preference)).empty());
+            apply_settings();
+        });
+        auto* voice_row = new wxBoxSizer(wxHORIZONTAL);
+        voice_row->Add(voice_choice, 1, wxALIGN_CENTER_VERTICAL);
+        voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
+        entries->Add(voice_row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
     }
-    auto chosen = std::ranges::find(voices, settings_.speech_voice, &EspeakVoice::id);
-    const auto available_count = voices.size();
-    if (chosen == voices.end()) {
-        // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
-        voices.push_back({settings_.speech_voice, settings_.speech_voice + " (inte tillgänglig)"});
-        chosen = std::prev(voices.end());
-    }
-    entries->Add(ui::label(content, ui::utf8("RÖST FÖR UPPLÄSNING"), 10), 0, wxTOP | wxBOTTOM,
-                 FromDIP(zoomed(8)));
-    auto* voice_choice = new wxChoice(content, wxID_ANY);
-    voice_choice->SetFont(ui_font());
-    voice_choice->SetName(ui::utf8("Röst för uppläsning"));
-    for (const auto& voice : voices)
-        voice_choice->Append(ui::utf8(voice.name));
-    voice_choice->SetSelection(int(chosen - voices.begin()));
-    auto* voice_try =
-        new wxButton(content, wxID_ANY, ui::utf8(voice_preview_ ? "Stoppa provet" : "Prova rösten"));
-    voice_try->SetFont(ui_font());
-    voice_try->Bind(wxEVT_BUTTON, [this](wxCommandEvent&) {
-        preview_voice();
-    });
-    const auto button_size = voice_try->GetBestSize();
-    voice_try->SetMinSize(
-        {std::max(button_size.x, voice_try->GetTextExtent(ui::utf8("Stoppa provet")).x + FromDIP(zoomed(28))),
-         button_size.y});
-    voice_try->SetToolTip(ui::utf8("Läs Johannes 3:16 med den valda eSpeak-rösten."));
-    voice_try->Enable(std::size_t(voice_choice->GetSelection()) < available_count &&
-                      !espeak_voice_name(settings_.speech_voice).empty());
-    voice_preview_button_ = voice_try;
-    voice_choice->Bind(wxEVT_CHOICE, [this, voices, available_count, voice_try](wxCommandEvent& event) {
-        if (voice_preview_)
-            stop_speech(false);
-        settings_.speech_voice = voices.at(std::size_t(event.GetSelection())).id;
-        speech_->set_voice(settings_.speech_voice);
-        voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
-                          !espeak_voice_name(settings_.speech_voice).empty());
-        apply_settings();
-    });
-    auto* voice_row = new wxBoxSizer(wxHORIZONTAL);
-    voice_row->Add(voice_choice, 1, wxALIGN_CENTER_VERTICAL);
-    voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
-    entries->Add(voice_row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
     // eSpeak NG is the user's own installation; Perikop never ships it.
     if (!voice_error.empty()) {
         entries->Add(ui::label(content, ui::utf8(voice_error), 10));

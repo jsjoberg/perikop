@@ -13,6 +13,7 @@
 #include <deque>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <mutex>
 #include <thread>
 namespace ortho {
@@ -21,7 +22,7 @@ using namespace std::chrono_literals;
 std::string voice_name(const std::string& voice) {
     return "eSpeak (" + espeak_voice_name(voice) + ")";
 }
-// The user's installed eSpeak NG reading Perikop's own Swedish pronunciations.
+// eSpeak uses Perikop's Swedish pronunciations and its built-in rules for other languages.
 class EspeakSynthesis {
     std::filesystem::path data_;
     std::unique_ptr<SwedishText> text_;
@@ -29,14 +30,17 @@ class EspeakSynthesis {
 
 public:
     explicit EspeakSynthesis(std::filesystem::path data) : data_(std::move(data)) {}
-    std::vector<float> operator()(const std::string& text, const std::string& voice, double speed,
+    std::vector<float> operator()(const std::string& text, const std::string& language,
+                                  const std::string& voice, double speed,
                                   const std::function<bool()>& cancelled) {
-        if (!text_)
-            text_ = std::make_unique<SwedishText>(data_);
         if (!espeak_)
             espeak_ = std::make_unique<Espeak>();
         // Speed scales eSpeak's own rate, around the chosen 150 words per minute.
         const int rate = std::clamp(int(std::lround(150 * speed)), 80, 450);
+        if (language != "sv")
+            return espeak_->speak_text(text, {espeak_voice_name(voice), rate}, cancelled);
+        if (!text_)
+            text_ = std::make_unique<SwedishText>(data_);
         return espeak_->speak(text_->tokens(text), {espeak_voice_name(voice), rate}, cancelled);
     }
 };
@@ -54,7 +58,8 @@ class PortableSpeech final : public SpeechEngine {
     bool output_started_ = false;
     SpeechState state_ = SpeechState::Idle;
     double ready_ = 0, speed_ = 1;
-    std::string voice_ = espeak_male_id;
+    std::map<std::string, std::string> voices_{
+        {"sv", espeak_male_id}, {"en", "espeak:en"}, {"el", "espeak:el"}};
     PlaybackTimeline timeline_;
     std::string stage_ = "Förbereder läsningen";
     std::unique_ptr<PcmOutput> output_;
@@ -128,7 +133,6 @@ class PortableSpeech final : public SpeechEngine {
         while (true) {
             std::deque<SpeechUtterance> batch;
             uint64_t generation;
-            std::string voice;
             {
                 std::unique_lock lock(mutex_);
                 condition_.wait(lock, [this] {
@@ -137,7 +141,6 @@ class PortableSpeech final : public SpeechEngine {
                 if (shutdown_)
                     return;
                 generation = generation_.load();
-                voice = voice_;
                 batch.swap(queue_);
                 active_ = true;
                 output_started_ = false;
@@ -234,6 +237,11 @@ class PortableSpeech final : public SpeechEngine {
                     const auto& part = parts[i];
                     const auto& text = part.text;
                     const auto progress = std::to_string(i + 1) + "/" + std::to_string(parts.size());
+                    std::string voice;
+                    {
+                        std::lock_guard lock(mutex_);
+                        voice = voices_.at(part.language);
+                    }
                     const auto name = voice_name(voice);
                     playing = "Läser med " + name;
                     report(generation, i ? "Läser med " + name + ", förbereder del " + progress
@@ -244,7 +252,7 @@ class PortableSpeech final : public SpeechEngine {
                         speed = speed_;
                     }
                     const auto begin = std::chrono::steady_clock::now();
-                    auto samples = synthesis_(text, voice, speed, cancelled);
+                    auto samples = synthesis_(text, part.language, voice, speed, cancelled);
                     if (cancelled())
                         break;
                     synthesis_seconds +=
@@ -328,8 +336,8 @@ class PortableSpeech final : public SpeechEngine {
         if (utterances.empty())
             throw std::runtime_error("Ingen text finns att läsa upp.");
         for (const auto& utterance : utterances)
-            if (utterance.language != "sv")
-                throw std::runtime_error("Uppläsning finns bara på svenska.");
+            if (!speech_language_supported(utterance.language))
+                throw std::runtime_error("Uppläsning saknas för språket " + utterance.language + ".");
         {
             std::lock_guard lock(mutex_);
             queue_.insert(queue_.end(), utterances.begin(), utterances.end());
@@ -347,9 +355,9 @@ public:
         : data_(std::move(data)),
           synthesis_(synthesis ? std::move(synthesis)
                                : [espeak = std::make_shared<EspeakSynthesis>(data_)](
-                                     const std::string& text, const std::string& voice, double speed,
-                                     const std::function<bool()>& cancelled) {
-                                     return (*espeak)(text, voice, speed, cancelled);
+                                     const std::string& text, const std::string& language, const std::string& voice,
+                                     double speed, const std::function<bool()>& cancelled) {
+                                     return (*espeak)(text, language, voice, speed, cancelled);
                                  }),
           callback_(std::move(status)) {
         // Also join the first worker if starting the second one fails.
@@ -413,9 +421,9 @@ public:
         std::lock_guard lock(mutex_);
         speed_ = speed;
     }
-    void set_voice(const std::string& voice) override {
+    void set_voice(const std::string& voice, const std::string& language) override {
         std::lock_guard lock(mutex_);
-        voice_ = voice;
+        voices_.at(language) = voice;
     }
     std::string pronunciation(const std::string& text) override {
         std::lock_guard lock(lookup_mutex_);

@@ -1,6 +1,6 @@
 # Perikop
 
-An offline Orthodox lectionary reader with a Swedish interface, Scripture in Swedish, Greek, and English, and Swedish read-aloud.
+An offline Orthodox lectionary reader with a Swedish interface, Scripture in Swedish, Greek, and English, and read-aloud in all three languages.
 It is an early prototype.
 
 - [Download](https://github.com/jsjoberg/perikop/releases)

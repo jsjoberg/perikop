@@ -37,10 +37,17 @@ public:
     Espeak& operator=(const Espeak&) = delete;
     // The installed version, as eSpeak reports it.
     std::string version() const;
-    // Installed, loadable Swedish voices and variants. Safe during playback; throws if unavailable.
-    static std::vector<EspeakVoice> voices();
+    // Installed, loadable voices and variants for one language. Safe during playback.
+    static std::vector<EspeakVoice> voices(const std::string& language = "sv");
     // 24 kHz mono samples for SwedishText::tokens() output; stops early when cancelled() is true.
     std::vector<float> speak(const std::vector<SpeechToken>& tokens, const Settings& settings,
                              const std::function<bool()>& cancelled = {});
+    // Plain UTF-8 uses the selected language's built-in pronunciation rules.
+    std::vector<float> speak_text(const std::string& text, const Settings& settings,
+                                  const std::function<bool()>& cancelled = {});
+
+private:
+    std::vector<float> synthesize(const std::string&, const Settings&, unsigned flags,
+                                  const std::function<bool()>&);
 };
 } // namespace ortho

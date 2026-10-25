@@ -20,10 +20,10 @@ void MainFrame::save_reading_position() {
         if (speech_active(playback.state) && playback.cue &&
             playback.cue->reading < playback_.readings().size()) {
             const auto& reading = playback_.readings()[playback.cue->reading];
-            const auto position =
-                reading_position(corpus_, in_swedish(reading), playback.cue->section, playback.cue->verse);
+            const auto position = reading_position(corpus_, reader_reading(reading), playback.cue->section,
+                                                   playback.cue->verse);
             if (position) {
-                user_.position(reading_key(corpus_, in_swedish(reading)), *position);
+                user_.position(reading_key(corpus_, reader_reading(reading)), *position);
                 if (speech_tracked_)
                     user_.position(speech_tracked_->key, *position);
             }
@@ -31,10 +31,10 @@ void MainFrame::save_reading_position() {
             if (position_reset_ && std::abs(scripture_->scroll_position() - reset_scroll_) < 1)
                 return;
             position_reset_ = false;
-            const auto position =
-                reading_position(corpus_, in_swedish(*visible_reading_), part_, scripture_->current_verse());
+            const auto position = reading_position(corpus_, reader_reading(*visible_reading_), part_,
+                                                   scripture_->current_verse());
             if (position) {
-                user_.position(reading_key(corpus_, in_swedish(*visible_reading_)), *position);
+                user_.position(reading_key(corpus_, reader_reading(*visible_reading_)), *position);
                 if (tracked_)
                     user_.position(tracked_->key, *position);
             }
@@ -45,12 +45,12 @@ void MainFrame::save_reading_position() {
 }
 bool MainFrame::has_reading_position() const {
     return visible_reading_ &&
-           user_.position(reading_key(corpus_, in_swedish(*visible_reading_))).has_value();
+           user_.position(reading_key(corpus_, reader_reading(*visible_reading_))).has_value();
 }
 std::string MainFrame::reading_progress(const Reading& reading, const std::string& key) const {
     auto position = user_.position(key);
     if (!position)
-        position = user_.position(reading_key(corpus_, in_swedish(reading)));
+        position = user_.position(reading_key(corpus_, reader_reading(reading)));
     return position ? " · " + std::to_string(position->percent) + " %" : "";
 }
 void MainFrame::restore_reading_position() {
@@ -58,11 +58,11 @@ void MainFrame::restore_reading_position() {
         return;
     auto position = tracked_ ? user_.position(tracked_->key) : std::optional<ReadingPosition>{};
     if (!position)
-        position = user_.position(reading_key(corpus_, in_swedish(*visible_reading_)));
+        position = user_.position(reading_key(corpus_, reader_reading(*visible_reading_)));
     if (!position)
         return;
     const auto valid =
-        reading_position(corpus_, in_swedish(*visible_reading_), position->section, position->verse);
+        reading_position(corpus_, reader_reading(*visible_reading_), position->section, position->verse);
     if (!valid || valid->book != position->book || valid->source != position->source)
         return;
     part_ = position->section;
@@ -101,7 +101,7 @@ void MainFrame::play_or_pause() {
     }
 }
 void MainFrame::listen_to_selection(const Reading& reading) {
-    if (reading.base_language != "sv")
+    if (!speech_language_supported(reading.base_language))
         return;
     save_navigation();
     save_reading_position();
@@ -127,8 +127,10 @@ void MainFrame::set_speech_rate(int rate) {
     speech_->set_speed(rate / 100.0);
     apply_settings();
     if (voice_preview_) {
-        preview_voice();
-        preview_voice();
+        const auto language = voice_preview_language_;
+        auto* button = voice_preview_button_.get();
+        preview_voice(language, button);
+        preview_voice(language, button);
     } else if (speech_->playback().state == SpeechState::Playing) {
         // Restart the current verse at the new speed, as Pause and Fortsätt do.
         toggle_pause();
@@ -165,7 +167,7 @@ void MainFrame::pause_for_navigation() {
 void MainFrame::stop_speech(bool reset) {
     playback_.stop(*speech_);
     if (reset && visible_reading_ && navigation_.reader()) {
-        user_.reset_position(reading_key(corpus_, in_swedish(*visible_reading_)));
+        user_.reset_position(reading_key(corpus_, reader_reading(*visible_reading_)));
         if (tracked_)
             user_.reset_position(tracked_->key);
         part_ = 0;
@@ -211,7 +213,7 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
     if (!voice_preview_ && playback.state == SpeechState::Completed &&
         playback_.playback().state != SpeechState::Completed) {
         for (const auto& reading : playback_.readings())
-            user_.reset_position(reading_key(corpus_, in_swedish(reading)));
+            user_.reset_position(reading_key(corpus_, reader_reading(reading)));
         position_reset_ = true;
         reset_scroll_ = scripture_->scroll_position();
     }
@@ -229,7 +231,8 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         voice_preview_failed_ = playback.state == SpeechState::Error;
         if (voice_preview_button_) {
             voice_preview_button_->SetLabel(ui::utf8("Prova rösten"));
-            voice_preview_button_->SetName(voice_preview_button_->GetLabel());
+            voice_preview_button_->SetName(voice_preview_button_->GetLabel() + ", " +
+                                           ui::speech_language_name(voice_preview_language_));
             voice_preview_button_->Refresh();
         }
     }
@@ -251,7 +254,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings, bool resume) {
         std::vector<Reading> primary_readings;
         primary_readings.reserve(readings.size());
         for (const auto& reading : readings)
-            primary_readings.push_back(in_swedish(reading));
+            primary_readings.push_back(reader_reading(reading));
         auto queue = reading_speech(
             corpus_, primary_readings,
             [this](const std::string& language) {
@@ -266,7 +269,7 @@ void MainFrame::play_speech(const std::vector<Reading>& readings, bool resume) {
                 skipped = resume_speech(queue, *position, &corpus_);
         playback_.start(readings, skipped);
         if (!readings.empty()) {
-            if (!visible_reading_ || reading_key(corpus_, in_swedish(*visible_reading_)) !=
+            if (!visible_reading_ || reading_key(corpus_, reader_reading(*visible_reading_)) !=
                                          reading_key(corpus_, primary_readings.front()))
                 show_reading(readings.front(), true);
             restore_reading_position();
@@ -305,5 +308,7 @@ void MainFrame::initialize_speech() {
         });
     speech_->set_speed(settings_.speech_rate / 100.0);
     speech_->set_voice(settings_.speech_voice);
+    speech_->set_voice(settings_.speech_voice_en, "en");
+    speech_->set_voice(settings_.speech_voice_el, "el");
 }
 } // namespace ortho

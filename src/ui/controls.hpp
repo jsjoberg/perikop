@@ -11,6 +11,7 @@ wxString utf8(const std::string& text);
 std::string to_utf8(const wxString& text);
 std::filesystem::path filesystem_path(const wxString& text);
 wxString rate_label(int rate);
+wxString speech_language_name(const std::string& language);
 // A drawn button that looks the same on every platform and follows the page's colours.
 wxControl* button(wxWindow* parent, const wxString& text, const std::function<void()>& action);
 wxStaticText* label(wxWindow* parent, const wxString& text, int points = 11);

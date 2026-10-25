@@ -322,7 +322,7 @@ void MainFrame::refresh_day() {
                     "Sammansatt liturgisk läsning. Den sammanställda texten finns inte i bibelkorpusen.");
             return;
         }
-        const auto localized = corpus_.localize(in_swedish(reading));
+        const auto localized = corpus_.localize(reader_reading(reading));
         const auto segments = localized.segments();
         auto preview = ui::reading_tooltip(corpus_, localized);
         if (!tooltip.empty())
@@ -397,7 +397,7 @@ void MainFrame::open_psalm() {
 }
 void MainFrame::open_reading(const Reading& selected) {
     try {
-        corpus_.localize(in_swedish(selected));
+        corpus_.localize(reader_reading(selected));
     } catch (const std::exception& error) {
         wxMessageBox(ui::utf8(error.what()), ui::utf8("Referensen kunde inte öppnas"),
                      wxOK | wxICON_INFORMATION, this);
@@ -415,7 +415,7 @@ void MainFrame::open_reading(const Reading& selected) {
     record_navigation();
 }
 void MainFrame::show_reading(const Reading& selected, bool preserve_sources) {
-    const auto reading = corpus_.localize(in_swedish(selected));
+    const auto reading = corpus_.localize(reader_reading(selected));
     close_pages();
     visible_reading_ = selected;
     scripture_->open(reading, preserve_sources);
@@ -444,7 +444,7 @@ void MainFrame::update_speakable() {
     // Lyssna is offered only where playback would find verses in the displayed editions.
     try {
         reading_speech(
-            corpus_, {in_swedish(*visible_reading_)},
+            corpus_, {reader_reading(*visible_reading_)},
             [](const std::string&) {
                 return std::vector<Pronunciation>{};
             },
@@ -456,8 +456,8 @@ void MainFrame::update_speakable() {
         speakable_ = false;
     }
 }
-Reading MainFrame::in_swedish(Reading reading) const {
-    // Every language shares OSB coordinates, so only the language changes.
+Reading MainFrame::reader_reading(Reading reading) const {
+    // Keep existing passage keys for automatic source selection.
     if (reading.source_override.empty())
         reading.base_language = "sv";
     return reading;

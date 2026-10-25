@@ -222,9 +222,14 @@ Settings UserDb::load() const {
             result.text_zoom = std::clamp(number, 75, 200);
         if (key == "speech_rate" && numeric)
             result.speech_rate = std::clamp(number, 60, 300);
-        if (key == "speech_voice" &&
-            (value == "espeak" || value == "espeak-f2" || (value.starts_with("espeak:") && value.size() > 7)))
-            result.speech_voice = value;
+        if (value == "espeak" || value == "espeak-f2" || (value.starts_with("espeak:") && value.size() > 7)) {
+            if (key == "speech_voice")
+                result.speech_voice = value;
+            if (key == "speech_voice_en")
+                result.speech_voice_en = value;
+            if (key == "speech_voice_el")
+                result.speech_voice_el = value;
+        }
         if (key == "update_channel")
             result.update_channel = value == "nightly" ? UpdateChannel::Nightly : UpdateChannel::Releases;
         if (key == "word_study")
@@ -253,6 +258,8 @@ void UserDb::save(const Settings& settings) {
         {"text_zoom", std::to_string(settings.text_zoom)},
         {"speech_rate", std::to_string(settings.speech_rate)},
         {"speech_voice", settings.speech_voice},
+        {"speech_voice_en", settings.speech_voice_en},
+        {"speech_voice_el", settings.speech_voice_el},
         {"update_channel", settings.update_channel == UpdateChannel::Nightly ? "nightly" : "releases"},
         {"word_study", settings.word_study ? "1" : "0"},
         {"speech_highlight", settings.speech_highlight ? "1" : "0"}};

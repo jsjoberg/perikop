@@ -224,6 +224,8 @@ struct Settings {
     // Swedish voice: legacy "espeak" / "espeak-f2" or an installed "espeak:<selector>", from the
     // user's own eSpeak NG. The selected voice survives application restarts.
     std::string speech_voice = "espeak";
+    std::string speech_voice_en = "espeak:en";
+    std::string speech_voice_el = "espeak:el";
     // Selects the source for a user-initiated update check; never enables background networking.
     UpdateChannel update_channel = UpdateChannel::Releases;
 };

@@ -100,6 +100,20 @@ int main(int argc, char** argv) {
         const auto during = ortho::Espeak::voices();
         check(during.size() == voices.size(), "discovery also works while a speech engine is open");
         const auto after = espeak->speak(tokens, {});
+        for (const auto& [language, text] : std::vector<std::pair<std::string, std::string>>{
+                 {"en", "In the beginning was the Word."}, {"el", "Ἐν ἀρχῇ ἦν ὁ λόγος."}}) {
+            const auto catalog = ortho::Espeak::voices(language);
+            check(std::ranges::find(catalog, "espeak:" + language, &ortho::EspeakVoice::id) != catalog.end(),
+                  "each language discovers its own default voice");
+            check(std::ranges::find(catalog, ortho::espeak_male_id, &ortho::EspeakVoice::id) == catalog.end(),
+                  "non-Swedish pickers do not offer the Swedish voice");
+            const auto audio = espeak->speak_text(text, {.voice = language});
+            check(audio.size() > 12000 && std::ranges::any_of(audio,
+                                                              [](float x) {
+                                                                  return std::abs(x) > 0.01f;
+                                                              }),
+                  "English and polytonic Greek produce audible audio with their own language rules");
+        }
         check(std::max(after.size(), male.size()) - std::min(after.size(), male.size()) < 240,
               "discovery keeps the playback timing");
         const auto reference = crossings(male);

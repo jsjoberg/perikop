@@ -199,7 +199,7 @@ struct Espeak::Impl {
         if (library)
             close_library(library);
     }
-    std::vector<EspeakVoice> catalog() {
+    std::vector<EspeakVoice> catalog(const std::string& language) {
         const auto definitions = [&](const char* language) {
             std::vector<std::pair<std::string, std::string>> result;
             Voice specification{};
@@ -211,7 +211,7 @@ struct Espeak::Impl {
             return result;
         };
         // ListVoices invalidates the previous result, so copy each list before the next call.
-        const auto languages = definitions("sv"), variants = definitions("variant");
+        const auto languages = definitions(language.c_str()), variants = definitions("variant");
         std::vector<EspeakVoice> result;
         // Probing changes global voice state. Force the next synthesis to select its voice again.
         voice.clear();
@@ -227,10 +227,12 @@ struct Espeak::Impl {
         };
         for (const auto& [identifier, name] : languages) {
             // MBROLA voices switch eSpeak to their own sample rate, which speak() does not follow.
-            if (identifier.starts_with("mb/"))
+            if (identifier.starts_with("mb/") || identifier.starts_with("!v/"))
                 continue;
-            const auto native =
-                identifier == "gmq/sv" || identifier == "europe/sv" ? std::string("sv") : identifier;
+            const auto native = identifier == "gmq/sv" || identifier == "europe/sv"   ? std::string("sv")
+                                : identifier == "gmw/en" || identifier == "europe/en" ? std::string("en")
+                                : identifier == "grk/el" || identifier == "europe/el" ? std::string("el")
+                                                                                      : identifier;
             if (!add(native, name))
                 continue; // e.g. a definition whose voice data is absent
             for (const auto& [variant, variant_name] : variants)
@@ -266,13 +268,13 @@ std::string espeak_voice_name(const std::string& id) {
     return id.starts_with("espeak:") ? id.substr(7) : "";
 }
 
-std::vector<EspeakVoice> Espeak::voices() {
+std::vector<EspeakVoice> Espeak::voices(const std::string& language) {
     std::lock_guard lock(engine);
     if (Impl::active)
-        return Impl::active->catalog();
+        return Impl::active->catalog(language);
     Impl probe;
     probe.open();
-    return probe.catalog();
+    return probe.catalog(language);
 }
 
 std::string Espeak::version() const {
@@ -282,6 +284,14 @@ std::string Espeak::version() const {
 
 std::vector<float> Espeak::speak(const std::vector<SpeechToken>& tokens, const Settings& settings,
                                  const std::function<bool()>& cancelled) {
+    return synthesize(espeak_phonemes(tokens), settings, chars_utf8 | phoneme_input, cancelled);
+}
+std::vector<float> Espeak::speak_text(const std::string& text, const Settings& settings,
+                                      const std::function<bool()>& cancelled) {
+    return synthesize(text, settings, chars_utf8, cancelled);
+}
+std::vector<float> Espeak::synthesize(const std::string& text, const Settings& settings, unsigned flags,
+                                      const std::function<bool()>& cancelled) {
     std::lock_guard lock(engine);
     if (settings.voice != impl_->voice) {
         if (impl_->set_voice(settings.voice.c_str()) != ee_ok)
@@ -289,12 +299,11 @@ std::vector<float> Espeak::speak(const std::vector<SpeechToken>& tokens, const S
         impl_->voice = settings.voice;
     }
     impl_->set_parameter(parameter_rate, settings.rate, 0);
-    const auto text = espeak_phonemes(tokens);
     std::vector<short> samples;
     capture = &samples;
     capture_cancelled = &cancelled;
-    const int result = impl_->synth(text.c_str(), text.size() + 1, 0, position_character, 0,
-                                    chars_utf8 | phoneme_input, nullptr, nullptr);
+    const int result =
+        impl_->synth(text.c_str(), text.size() + 1, 0, position_character, 0, flags, nullptr, nullptr);
     capture = nullptr;
     capture_cancelled = nullptr;
     if (cancelled && cancelled())

@@ -4,6 +4,9 @@
 #include <memory>
 #include <utility>
 namespace ortho {
+inline bool speech_language_supported(const std::string& language) {
+    return language == "sv" || language == "en" || language == "el";
+}
 enum class SpeechState { Idle, Buffering, Playing, Paused, Stopped, Completed, Error };
 constexpr bool speech_active(SpeechState state) {
     return state == SpeechState::Buffering || state == SpeechState::Playing || state == SpeechState::Paused;
@@ -57,8 +60,8 @@ public:
     }
     // Speaking speed; 1 is the voice's own pace. Applies to text read after the change.
     virtual void set_speed(double) {}
-    // Swedish voice identity: an installed eSpeak selector. Applies from the next reading.
-    virtual void set_voice(const std::string&) {}
+    // Installed eSpeak selector for a language. Applies from the next utterance.
+    virtual void set_voice(const std::string&, const std::string& = "sv") {}
     // The eSpeak phoneme codes the Swedish voice uses for speech text; empty when it is unavailable.
     virtual std::string pronunciation(const std::string&) {
         return {};

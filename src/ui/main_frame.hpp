@@ -90,8 +90,8 @@ private:
     void apply_settings(bool persist = true);
     void update_study();
     void update_speakable();
-    // The reading as the Swedish left column shows it.
-    Reading in_swedish(Reading) const;
+    // Keep passage identities stable; displayed chapter sources determine the speech language.
+    Reading reader_reading(Reading) const;
 
     // Something the start page opens, which the reader can mark as read.
     struct Tracked {
@@ -106,7 +106,7 @@ private:
     void show_settings();
     void fill_settings(wxScrolledWindow*);
     int settings_category_ = 0;
-    void preview_voice();
+    void preview_voice(const std::string& language = "sv", wxWindow* button = nullptr);
     void set_speech_rate(int);
     void add_content_loader(wxWindow*, wxBoxSizer*);
     void import_content();
@@ -156,7 +156,7 @@ private:
     Settings settings_;
     DayReadings day_;
     std::optional<Reading> visible_reading_;
-    // Whether the visible reading has Swedish text to read aloud.
+    // Whether the visible reading has text to read aloud in its displayed editions.
     bool speakable_ = true;
     // The open start-page item, and the one being read aloud from start to end.
     std::optional<Tracked> tracked_, speech_tracked_;
@@ -170,6 +170,7 @@ private:
     wxTimer playback_timer_;
     PlaybackController playback_;
     bool voice_preview_ = false;
+    std::string voice_preview_language_ = "sv";
     // A preview that ended in an error, kept until its queued status shows the error.
     bool voice_preview_failed_ = false;
     wxWeakRef<wxWindow> voice_preview_button_;

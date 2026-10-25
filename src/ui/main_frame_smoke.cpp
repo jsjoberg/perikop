@@ -68,7 +68,7 @@ public:
     void set_speed(double value) override {
         speed = value;
     }
-    void set_voice(const std::string& selected) override {
+    void set_voice(const std::string& selected, const std::string& = "sv") override {
         voice = selected;
     }
     void speak_batch(const std::vector<SpeechUtterance>& queue) override {
@@ -884,6 +884,29 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         pause_for_navigation();
         if (voice_preview_ || engine->held.state != SpeechState::Stopped)
             fail(__LINE__);
+        for (const std::string language : {"en", "el"}) {
+            auto* choice = wxWindow::FindWindowByName(
+                ui::utf8("Röst för uppläsning, ") + ui::speech_language_name(language), current_page());
+            if (!choice || !choice->GetNextSibling()) {
+                fail(__LINE__);
+                continue;
+            }
+            preview_voice(language, choice->GetNextSibling());
+            const auto source = corpus_.source_for_language(language, "John");
+            const auto sample = corpus_.verse(source, "John", {3, 16});
+            if (!voice_preview_ || voice_preview_language_ != language || !sample ||
+                engine->spoken.size() != 1 || engine->spoken.front().language != language ||
+                engine->spoken.front().display_text != sample->text ||
+                engine->voice != (language == "en" ? settings_.speech_voice_en : settings_.speech_voice_el))
+                fail(__LINE__);
+        }
+        set_speech_rate(125);
+        if (!voice_preview_ || voice_preview_language_ != "el" || engine->spoken.front().language != "el")
+            fail(__LINE__);
+        stop_speech(false);
+        if (user_.position(key) != saved_position || user_.completed() != completed)
+            fail(__LINE__);
+        settings_snapshot(this, "-speech-languages");
         if (previous_position)
             user_.position(key, *previous_position);
         else
@@ -1097,7 +1120,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     if (!day_.readings.empty() && day_.readings.front().can_open()) {
         const auto preview =
-            ui::reading_tooltip(corpus_, corpus_.localize(in_swedish(day_.readings.front())));
+            ui::reading_tooltip(corpus_, corpus_.localize(reader_reading(day_.readings.front())));
         if (preview.empty() || std::none_of(home_rows_.begin(), home_rows_.end(), [&](auto* row) {
                 return row->GetToolTipText().StartsWith(preview);
             }))
@@ -1303,27 +1326,60 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->chapter_source(1, 1, "sv1917");
         if (scripture_->chapter_source(1, 0) != "grc-patriarchal" ||
             scripture_->chapter_source(1, 1) != "sv1917" || scripture_->chapter_source(2, 0) != "sv1917" ||
-            play_->IsEnabled() || controls().playback_action != PlaybackAction::None ||
+            !play_->IsEnabled() || controls().playback_action != PlaybackAction::StartReading ||
             settings_.primary_sources != saved.primary_sources)
             fail(__LINE__);
         save(render(), "-chapter-sources");
         scripture_->chapter_source(1, 0, "en-web");
-        if (scripture_->primary_language() != "en" || play_->IsEnabled())
+        if (scripture_->primary_language() != "en" || !play_->IsEnabled())
             fail(__LINE__);
         open_reading(reading);
         if (scripture_->chapter_source(1, 0) != "sv1917" || scripture_->chapter_source(1, 1) != "en-web")
             fail(__LINE__);
         settings_.primary_sources = decode_sources("en-web=1", settings_.primary_sources);
         apply_settings(false);
-        if (scripture_->chapter_source(1, 0) != "en-web" || play_->IsEnabled())
+        if (scripture_->chapter_source(1, 0) != "en-web" || !play_->IsEnabled())
             fail(__LINE__);
         settings_.primary_sources = decode_sources("grc-patriarchal=1", settings_.primary_sources);
         apply_settings(false);
-        if (scripture_->chapter_source(1, 0) != "grc-patriarchal" || play_->IsEnabled())
+        if (scripture_->chapter_source(1, 0) != "grc-patriarchal" || !play_->IsEnabled())
             fail(__LINE__);
         settings_ = saved;
         apply_settings(false);
         open_fresh_psalm();
+    }
+    {
+        const auto data = data_ / "multilingual-speech";
+        UserDb profile(data / "user.db");
+        auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                     std::make_unique<SmokeUpdates>(), true);
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        candidate->speech_ = std::move(held);
+        candidate->Show();
+        candidate->open_reading({ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 2}}});
+        if (!candidate->play_->IsEnabled() || candidate->scripture_->primary_language() != "en")
+            fail(__LINE__);
+        candidate->play_or_pause();
+        if (engine->spoken.size() != 2 || engine->spoken.front().language != "en")
+            fail(__LINE__);
+        candidate->stop_speech(false);
+        candidate->scripture_->select_verses({1, 2}, {1, 2});
+        candidate->play_or_pause();
+        if (engine->spoken.size() != 1 || engine->spoken.front().language != "en" ||
+            engine->spoken.front().cue->verse != VerseRef{1, 2})
+            fail(__LINE__);
+        candidate->stop_speech(false);
+        candidate->scripture_->clear_selection();
+        candidate->open_reading({ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 2}}});
+        candidate->stop_speech();
+        candidate->scripture_->chapter_source(1, 0, "grc-lxx");
+        candidate->play_or_pause();
+        if (engine->spoken.size() != 2 || engine->spoken.front().language != "el" ||
+            engine->spoken.front().display_text != corpus_.verse("grc-lxx", "1Esd", {1, 1})->text)
+            fail(__LINE__);
+        candidate->stop_speech(false);
+        candidate->Hide();
     }
     // Imported speech follows the displayed chapter editions, also after Pause and selection playback.
     {
@@ -1523,8 +1579,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             referenced.reference = "grc-lxx";
         open_reading(referenced);
         scripture_->center_passage();
-        // Only the Greek addition to Genesis has Swedish text to read aloud.
-        if (scripture_->cached_rows() == 0 || play_->IsEnabled() != (reading.passage.book == "Gen"))
+        // Read-aloud also works for the English fallback in books without Swedish text.
+        if (scripture_->cached_rows() == 0 || !play_->IsEnabled())
             fail(__LINE__);
         save(render(), "-" + ui::utf8(reading.passage.book));
     }
@@ -1916,13 +1972,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto english = candidate->scripture_->marked_reading();
         if (!english || english->base_language != "en")
             fail(__LINE__);
-        bool has_bookmark = false;
+        bool has_bookmark = false, has_listen = false;
         for (auto* child : tools->GetChildren()) {
             has_bookmark |= child->GetName() == ui::utf8("Lägg till bokmärke");
             if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Lyssna")
-                fail(__LINE__);
+                has_listen = true;
         }
-        if (!tools->IsShown() || !has_bookmark)
+        if (!tools->IsShown() || !has_bookmark || !has_listen)
             fail(__LINE__);
         candidate->Hide();
         open_fresh_psalm();
@@ -1933,7 +1989,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         reading.source_override = source;
         scripture_->open(reading);
         click_text(verse_point({1, 1}, 0));
-        if (!scripture_->highlighted_verse() || (verse_tools() && verse_tools()->IsShown()))
+        if (!scripture_->highlighted_verse() || !verse_tools() || !verse_tools()->IsShown() ||
+            !source_buttons(verse_tools()).empty())
             fail(__LINE__);
     }
     // A Swedish merged verse highlights both Greek counterparts and toggles from either.
@@ -2444,7 +2501,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         // NOLINTNEXTLINE(performance-unnecessary-copy-initialization): refresh_day replaces day_.readings.
         const auto reading = *daily;
         const auto key = day_key(reading);
-        const auto shared = reading_key(corpus_, in_swedish(reading));
+        const auto shared = reading_key(corpus_, reader_reading(reading));
         user_.position(shared, {0, reading.passage.book, "sv1917", reading.passage.first, 37});
         refresh_day();
         if (!home_rows_.front()->GetLabel().Contains(ui::utf8(" · 37 %")))

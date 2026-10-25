@@ -1535,7 +1535,8 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::System && s.color_scheme == ColorScheme::RosePine &&
-                      s.speech_voice == "espeak" && !s.speech_highlight && s.tradition == Tradition::Greek &&
+                      s.speech_voice == "espeak" && s.speech_voice_en == "espeak:en" &&
+                      s.speech_voice_el == "espeak:el" && !s.speech_highlight && s.tradition == Tradition::Greek &&
                       s.update_channel == UpdateChannel::Releases,
                   "default theme, voice, reading order, releases channel, and disabled read-aloud highlight");
             sqlite3* legacy = nullptr;
@@ -1554,6 +1555,8 @@ int main(int argc, char** argv) {
             s.text_zoom = 125;
             s.speech_rate = 175;
             s.speech_voice = "espeak-f2";
+            s.speech_voice_en = "espeak:en-us+f2";
+            s.speech_voice_el = "espeak:el+m3";
             s.speech_highlight = true;
             s.update_channel = UpdateChannel::Nightly;
             user.save(s);
@@ -1564,6 +1567,7 @@ int main(int argc, char** argv) {
             check(s.theme == Theme::Dark && s.color_scheme == ColorScheme::TokyoNight &&
                       s.calendar == CalendarStyle::Old && s.tradition == Tradition::Slavic && s.split_view &&
                       s.text_zoom == 125 && s.speech_rate == 175 && s.speech_voice == "espeak-f2" &&
+                      s.speech_voice_en == "espeak:en-us+f2" && s.speech_voice_el == "espeak:el+m3" &&
                       s.speech_highlight && s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
             s.update_channel = UpdateChannel::Releases;
