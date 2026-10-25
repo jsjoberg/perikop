@@ -24,7 +24,6 @@ class wxStaticText;
 
 namespace ortho {
 class UserDb;
-class PronunciationReviewDb;
 class ScriptureView;
 class StudyPanel;
 class SymbolButton;
@@ -40,7 +39,6 @@ public:
     ~MainFrame() override;
     void open_reading(const Reading&);
     void open_psalm();
-    void review_pronunciation();
     bool smoke_test(const wxString& screenshot_path);
     bool render_benchmark();
 
@@ -150,7 +148,6 @@ private:
     const std::filesystem::path resources_;
     const std::filesystem::path data_;
     bool diagnostic_;
-    std::string pronunciation_error_;
     Lectionary lectionary_;
     SelectedDay selected_;
     Settings settings_;
@@ -165,7 +162,6 @@ private:
     double reset_scroll_ = 0;
     wxString reading_title_;
 
-    std::unique_ptr<PronunciationReviewDb> pronunciation_review_;
     std::unique_ptr<SpeechEngine> speech_;
     std::unique_ptr<Updater> updater_;
     wxTimer playback_timer_;

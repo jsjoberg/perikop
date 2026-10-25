@@ -95,11 +95,9 @@ add_library(ortho-core
     src/storage/content_import.cpp
     src/storage/study_db.cpp
     src/storage/user_db.cpp
-    src/storage/pronunciation_review_db.cpp
     src/speech/speech.cpp
     src/speech/reading_speech.cpp
-    src/speech/playback_controller.cpp
-    src/speech/pronunciation_review.cpp)
+    src/speech/playback_controller.cpp)
 target_include_directories(ortho-core PUBLIC src)
 target_link_libraries(ortho-core PUBLIC ortho-sqlite ortho-sanitizers Threads::Threads PRIVATE ortho-content-codecs)
 if(MSVC)
@@ -146,9 +144,6 @@ if(BUILD_TESTING)
     add_executable(ortho-reading-speech-tests tests/reading_speech_test.cpp)
     target_link_libraries(ortho-reading-speech-tests PRIVATE ortho-core)
     add_test(NAME reading-speech COMMAND ortho-reading-speech-tests "${CMAKE_SOURCE_DIR}/resources/corpus/corpus.db")
-    add_executable(ortho-pronunciation-review-tests tests/pronunciation_review_test.cpp)
-    target_link_libraries(ortho-pronunciation-review-tests PRIVATE ortho-core)
-    add_test(NAME pronunciation-review COMMAND ortho-pronunciation-review-tests "${CMAKE_SOURCE_DIR}/resources" "${CMAKE_BINARY_DIR}/test-pronunciation")
     add_executable(ortho-pcm-stream-tests tests/pcm_stream_test.cpp)
     target_link_libraries(ortho-pcm-stream-tests PRIVATE ortho-core Threads::Threads)
     add_test(NAME pcm-streaming COMMAND ortho-pcm-stream-tests)
@@ -224,7 +219,6 @@ if(ORTHO_BUILD_GUI)
         src/ui/scripture_playback.cpp
         src/ui/scripture_render.cpp
         src/ui/scripture_text_cache.cpp
-        src/ui/pronunciation_review.cpp
         src/ui/study_panel.cpp
         src/typesetting/paragraph_layout.cpp)
     if(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
@@ -285,14 +279,13 @@ if(ORTHO_BUILD_GUI)
         # The program reads only the built databases; their inputs stay in the source tree.
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${resource_destination}/corpus/input"
             "${resource_destination}/corpus/provenance" "${resource_destination}/lectionary"
-            "${resource_destination}/lexicon/input"
+            "${resource_destination}/lexicon"
         COMMAND ${CMAKE_COMMAND} -E rm -f "${resource_destination}/manifest.json"
             "${resource_destination}/corpus/schema.sql" "${resource_destination}/corpus/alignment.tsv"
             "${resource_destination}/corpus/books.tsv" "${resource_destination}/corpus/canon.tsv"
             "${resource_destination}/corpus/pronunciation-sv.tsv"
             "${resource_destination}/corpus/osb-reviewed.tsv" "${resource_destination}/corpus/osb-provenance.json"
             "${resource_destination}/corpus/osb-frame.tsv"
-            "${resource_destination}/lexicon/sv1917-forms.tsv" "${resource_destination}/lexicon/sv1917-biblical-forms.tsv"
             "${resource_destination}/content/pronunciation-aliases.tsv" "${resource_destination}/content/srb2026-chapters.tsv"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/THIRD-PARTY-NOTICES.md" "${resource_destination}/THIRD-PARTY-NOTICES.md"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/LICENSE" "${resource_destination}/LICENSE"

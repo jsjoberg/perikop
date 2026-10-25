@@ -60,7 +60,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 
 **Inställningar → Uppdateringskanal** saves your choice of **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds).
 Changing this setting makes no network requests.
-**⋮ → Sök efter uppdateringar…**, just before **Granska svenskt uttal…**, opens an update dialog and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
+**⋮ → Sök efter uppdateringar…** opens an update dialog and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
 In-app updates work in the downloads listed above. Copies from the DMG, the NSIS installer or the older AppImage, which 0.1.x offered, explain that they need a manual download instead. The feed becomes available when its GitHub release is published.
 The updater uses deltas when a suitable cached base exists, and otherwise downloads the full package. Updating or removing the application keeps your settings and reading progress. No check, download, or installation starts automatically.
 
@@ -101,7 +101,6 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 ## Word study and pronunciation
 
 - **Visa → Ordstudium**: click a Swedish word to see its pronunciation and dictionary entries.
-- **Uppläsning → Granska svenskt uttal…**: listen to words and correct their pronunciation. Corrections change only the speech, not the text. Write a correction as a spelling, such as `å-sna`, or as exact eSpeak NG phoneme codes in `⟦…⟧`, such as `⟦k'Os.⟧`; choosing one of a word's NST pronunciations fills that in. Corrections saved in earlier versions are converted automatically.
 
 **Om Perikop** lists every source with links. It is in the application menu on macOS and in **Hjälp** elsewhere.
 
