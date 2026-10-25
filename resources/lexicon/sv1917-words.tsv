@@ -1,7 +1,7 @@
 # form	occurrences	kind	nst_sampa
 och	39656	word	"Ok
 i	15970	word	
-till	15696	word	"tIl
+till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
 han	12030	word	"han
@@ -32,7 +32,7 @@ hade	4486	word	""ha$de
 sade	4210	word	""sA:$de
 hans	4174	word	"hans
 eder	3862	word	""e:$der
-om	3667	word	"Om
+om	3668	word	"Om
 var	3649	word	"vA:r
 sin	3469	word	"sIn
 då	3467	word	"do:
@@ -42,7 +42,7 @@ Gud	3126	word	"g}:d
 ett	3067	word	"Et
 såsom	3055	word	"so:$sOm
 från	2946	word	"fro:n
-nu	2915	word	"n}:
+nu	2916	word	"n}:
 din	2896	word	"di:n
 åt	2855	word	"o:t
 upp	2824	word	"u0p
@@ -94,7 +94,7 @@ fram	1404	word	"fram
 vill	1400	word	"vIl
 utan	1382	word	""}:$tan
 någon	1373	word	
-land	1360	word	"land
+land	1361	word	"land
 hon	1342	word	"hu:n
 konungen	1296	word	""ko:$nu0N$en
 voro	1294	word	""vu:$rU
@@ -407,12 +407,12 @@ natten	230	word	"na$ten
 släkte	229	word	""slEk$te
 ären	229	word	
 ena	228	word	""e:$na
-lägga	228	word	""lE$ga
 redan	228	word	""re:$dan
 strid	228	word	"stri:d
 därav	227	word	dE:r$"A:v
 glädje	227	word	""glE:d$je
 kvinna	227	word	""kvI$na
+lägga	227	word	""lE$ga
 altaret	226	word	""al$ta$ret
 gudar	226	word	""g}:$dar
 hjärtan	225	word	""jE$t`an
@@ -450,11 +450,11 @@ begynte	207	word	be$"jYn$te
 därpå	207	word	dEr$"po:
 första	207	word	""f9$s`t`a
 skam	207	word	"skam
+övriga	207	word	""2:$vrI$ga
 annat	206	word	""a$nat
 frukt	206	word	"fru0kt
 förut	206	word	f2:r$"}:t
 marken	206	word	"mar$ken
-övriga	206	word	""2:$vrI$ga
 konungar	204	word	""ko:$nu0N$ar
 världen	204	word	"vE:$d`en
 huset	203	word	"h}:$set
@@ -567,6 +567,7 @@ andre	158	word	""an$dre
 däri	158	word	dE:r$"i:
 därmed	158	word	"dE:r$me:d
 offer	158	word	"O$fer
+ro	158	word	"ru:
 slå	158	word	"slo:
 sända	158	word	""sEn$da
 varda	158	word	""vA:$d`a
@@ -577,7 +578,6 @@ bygga	156	word	""bY$ga
 församlade	156	word	f9$"s`am$la$de
 kärlek	156	word	""s'E:$%l`e:k
 lärjungar	156	word	""lE:r$%ju0N$ar
-ro	156	word	"ru:
 skaffa	156	word	""ska$fa
 tänkte	156	word	""tENk$te
 hög	155	word	"h2:g
@@ -7049,6 +7049,7 @@ skicklig	7	word	""x\I$klIg
 skiftar	7	word	""x\If$tar
 skillnad	7	word	""x\Il$nad
 skinande	7	word	""x\i:$nan$de
+skingrade	7	word	""x\IN$ra$de
 skinn	7	word	"x\In
 skrifter	7	word	""skrIf$ter
 skriven	7	word	""skri:$ven
@@ -7589,6 +7590,7 @@ förliden	6	word	f9$"l`i:$den
 förlora	6	word	f9$"l`u:$ra
 förlust	6	word	f9$"l`u0st
 förminskas	6	word	f9r$"mIn$skas
+förmåner	6	word	""f2:r$%mo:$ner
 förnekar	6	word	f9$"n`e:$kar
 förrådshusen	6	word	f9r$""ro:ds$%h}:$sen
 församlingens	6	word	f9$"s`am$lIN$ens
@@ -7864,7 +7866,6 @@ skick	6	word	"x\Ik
 skicken	6	word	"x\I$ken
 skildes	6	word	""x\Il$des
 skiner	6	word	"x\i:$ner
-skingrade	6	word	""x\IN$ra$de
 skorpioner	6	word	skOr$pI$"u:$ner
 skri	6	word	"skri:
 skyddade	6	word	""x\Y$da$de
@@ -8540,7 +8541,6 @@ förlitande	5	word	f9$"l`i:$tan$de
 förloren	5	word	
 förlåtit	5	word	f9$"l`o:$tIt
 förmätenhet	5	word	f9r$"mE:$ten$he:t
-förmåner	5	word	""f2:r$%mo:$ner
 förmörkat	5	word	f9r$"m9r$kat
 förnedring	5	word	f9$"n`e:$drIN
 förnäm	5	word	f9$"n`E:m
@@ -16069,7 +16069,6 @@ rådlös	2	word	""ro:d$%l2:s
 rådsförsamling	2	word	""ro:ds$f9$%s`am$lIN
 rådsherre	2	word	""ro:ds$%hE$re
 rådslogo	2	word	
-rö	2	word	"r2:
 röj	2	word	"r9j
 röjde	2	word	""r9j$de
 röka	2	word	""r2:$ka
@@ -16606,6 +16605,7 @@ tillverkar	2	word	""tIl$%vEr$kar
 tillverkning	2	word	""tIl$%vEr$knIN
 tillvälla	2	word	""tIl$%vE$la
 tillväxt	2	word	""tIl$%vEkst
+tillägga	2	word	""tIl$%lE$ga
 tillägna	2	word	""tIl$%EN$na
 timmar	2	word	""tI$mar
 timmermannen	2	word	""tI$mer$%ma$nen
@@ -19097,7 +19097,7 @@ Omsorg	1	word	""Om$%sOrj
 Omstörtas	1	word	""Om$%st9$t`as
 Omvänden	1	word	
 Onams	1	name	
-Oni	1	word	
+Oni	1	name	
 Ordnen	1	name	"o:d`$n`en
 Ordningen	1	word	""o:d`$n`IN$en
 Ords	1	word	"u:d`s`
@@ -20296,7 +20296,7 @@ avtager	1	word
 avtagna	1	word	
 avteckning	1	word	""A:v$%tE$knIN
 avtog	1	word	""A:v$%tu:g
-avträdaland	1	word	
+avträda	1	word	""A:v$%trE:$da
 avträden	1	word	""A:v$%trE:$den
 avtvår	1	word	""A:v$%tvo:r
 avtärd	1	word	""A:v$%tE:d`
@@ -21051,7 +21051,6 @@ delades	1	word	""de:$la$des
 delaktigt	1	word	""de:l$%ak$tIkt
 dele	1	word	
 demon	1	word	"de:$mUn
-des	1	word	
 desto	1	word	"dE$stU
 diamantgriffel	1	word	
 diat	1	word	""di:$at
@@ -22034,7 +22033,6 @@ förlåte	1	word
 förlåtelsen	1	word	f9$"l`o:$tel$sen
 förlösen	1	word	
 förmanaren	1	word	
-förmanér	1	word	
 förmedling	1	word	f9r$"me:d$lIN
 förmena	1	word	f9r$"me:$na
 förmenande	1	word	f9r$"me:$nan$de
@@ -24481,7 +24479,7 @@ nedbrytes	1	word	""ne:d$%bry:$tes
 nederlaget	1	word	""ne:$de$%l`A:$get
 nedfalla	1	word	""ne:d$%fa$la
 nedfläckad	1	word	""ne:d$%flE$kad
-nedgjor	1	word	
+nedgjordes	1	word	""ne:d$%ju:$d`es
 nedgrävt	1	word	""ne:d$%grE:ft
 nedgången	1	word	""ne:d$%gON$en
 nedgören	1	word	
@@ -24550,7 +24548,6 @@ nordlig	1	word	""nu:d`$l`Ig
 nordostorkanen	1	word	
 nordväst	1	word	nu:d`$"vEst
 not	1	word	"nu:t
-nuu	1	word	
 nycklar	1	word	""nY$klar
 nycklarna	1	word	""nY$kla$n`a
 nye	1	word	""ny:$e
@@ -24861,7 +24858,6 @@ omöjligen	1	word	""u:$%m9j$lI$gen
 onaturlig	1	word	""u:$na$%t}:r$l`Ig
 ondskefull	1	word	""Und$ske$%fu0l
 ondskefullaste	1	word	""Und$ske$%fu0$la$ste
-oni	1	word	
 onjutbar	1	word	""U$nj}:t$%bA:r
 onyttiga	1	word	""u:$%nY$tI$ga
 onyttigt	1	word	""u:$%nY$tIkt
@@ -25211,7 +25207,6 @@ påvisade	1	word	""po:$%vi:$sa$de
 pöl	1	word	"p2:l
 pölen	1	word	"p2:$len
 raafågeln	1	word	
-rade	1	word	
 raderna	1	word	""rA:$de$n`a
 raglade	1	word	""rA:$gla$de
 raglen	1	word	
@@ -25776,7 +25771,6 @@ skiljemuren	1	word
 skiljevägg	1	word	""x\Il$je$%vEg
 skimra	1	word	""x\Im$ra
 skimrar	1	word	""x\Im$rar
-sking	1	word	
 skingrades	1	word	""x\IN$ra$des
 skinnar	1	word	""x\I$nar
 skinnen	1	word	"x\I$nen
@@ -26869,7 +26863,6 @@ tillvitar	1	word	""tIl$%vi:$tar
 tillväxer	1	word	""tIl$%vEk$ser
 tillväxte	1	word	
 tillyxa	1	word	""tIl$%Yk$sa
-tillägga	1	word	""tIl$%lE$ga
 tilläggas	1	word	""tIl$%lE$gas
 tillägger	1	word	""tIl$%lE$ger
 tillämpning	1	word	""tIl$%lEmp$nIN
@@ -28077,7 +28070,6 @@ yxorna	1	word	""Yk$sU$n`a
 Överskyl	1	word	""2:$ver$%x\y:l
 Överväg	1	word	""2:$ver$%vE:g
 Övervägen	1	name	
-Övriga	1	word	""2:$vrI$ga
 äckel	1	word	"E$kel
 ädlare	1	word	""E:d$la$re
 ägande	1	word	""E:$gan$de

@@ -1068,11 +1068,42 @@ int main(int argc, char** argv) {
                  {"1Macc", {6, 14}, "satte honom Över", "satte honom över"},
                  {"1Macc", {6, 20}, "år 150; Och", "år 150. Och"},
                  {"1Macc", {6, 56}, "Persien och Me-dien,", "Persien och Medien,"},
+                 {"1Macc", {7, 32}, "de Övriga flydde", "de övriga flydde"},
+                 {"1Macc", {7, 50}, "hade nu rö en", "hade nu ro en"},
+                 {"1Macc", {8, 7}, "avträdaland åt dem,’", "avträda land åt dem,"},
+                 {"1Macc", {8, 30}, "sålunda till-lägga", "sålunda tillägga"},
+                 {"1Macc", {8, 31}, "följande innehåll:’Varför", "följande innehåll: ’Varför"},
+                 {"1Macc", {9, 10}, "fläck,på", "fläck, på"},
+                 {"1Macc", {9, 33}, "Men då Jonatan, och", "Men då Jonatan och"},
+                 {"1Macc", {9, 37}, "att Jambris barn. just", "att Jambris barn just"},
+                 {"1Macc", {9, 58}, "sitta i rö och säkerhet", "sitta i ro och säkerhet"},
+                 {"1Macc", {10, 49}, "Demetrius’ här flydde. och Alexander", "Demetrius’ här flydde, och Alexander"},
+                 {"1Macc", {10, 83}, "ryttarna sking- rade sig", "ryttarna skingrade sig"},
+                 {"1Macc", {11, 3}, "alltefter; som", "alltefter som"},
+                 {"1Macc", {11, 18}, "nedgjor-des", "nedgjordes"},
+                 {"1Macc", {11, 33}, "följande förmanér.", "följande förmåner."},
+                 {"1Macc", {11, 37}, "härför'»", "härför.'»"},
+                 {"1Macc", {11, 63}, "hans förehavande.’ Han", "hans förehavande. Han"},
+                 {"1Macc", {11, 67}, "bröto nuu bittida", "bröto nu bittida"},
+                 {"1Macc", {12, 3}, "åstad till Rom När", "åstad till Rom. När"},
+                 {"1Macc", {12, 22}, "och säga oni det", "och säga om det"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
+        }
+        check(corpus.verse("sv1917", "1Macc", {10, 27})->text == "Fortfaren nu ock allt framgent att iakttaga trohet mot oss, så skola vi bereda eder fördelar, till tack för vad I gören till vårt gagn;" &&
+                  corpus.verse("sv1917", "1Macc", {10, 28})->text == "vi skola bevilja eder många eftergifter och tilldela eder många förmåner.",
+              "First Maccabees 10:27-28 follow the printed boundary without losing or duplicating words");
+        for (const VerseRef& ref : {VerseRef{10, 27}, VerseRef{10, 28}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "1Macc", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "1Macc", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "corrected First Maccabees verses align individually in both directions");
+            }
         }
         check(corpus.verse("sv1917", "Wis", {14, 20})->text.starts_with("och så begynte mängden, som fängslades genom") &&
                   corpus.verse("sv1917", "Wis", {16, 8})->text.ends_with("att du är den som frälsar ifrån allt ont."),

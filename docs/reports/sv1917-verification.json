@@ -2576,6 +2576,186 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 6:12 och 6:34 och spaltfortsättningarna i 6:23, 6:43 och 6:60. A168–A171 införda och återbyggda: saknat mellanslag före citat i 6:11, Över → över i 6:14, punkt efter 150 i 6:20 samt borttagen radslutsavstavning i Medien i 6:56. Tryckets trettiotvå krigsmän i 6:37 och elliptiska fiendens i 6:52 behållna. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive hela elefantskildringen och bokens fredsberättelse till kapitelgränsen i 6:63."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 50,
+      "text_sha256": "24a82328244f59067706268e1e4778da321864f8e181a8361bf80601f687e83e",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0180.1.tif",
+          "sha256": "53200f9fbf1296a9f4ffa3cd5b50df3850416a57ae5857c47f8cc277e45a9b5d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0181.1.tif",
+          "sha256": "b9dc6ef5f8c6569bcd09d579c006accabfc46735bf7f91b5e38f5cba88daf50a"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0182.1.tif",
+          "sha256": "ce03b04d2841b9785bd3ff97353cd5025bf9927b68629495228fd6b7f380a6ec"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0183.1.tif",
+          "sha256": "77807826f8525627f096a5cb073720521ef72c3977490bdd227d7378c50e941a"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 7:4, 7:23 och 7:43 och spaltfortsättningen i 7:14. A172–A173 införda och återbyggda: Övriga → övriga i 7:32 och rö → ro i 7:50. A009, dem i 7:38, samt versgränserna 7:16–17, 7:27–28, 7:36–37 och 7:40–41 återkontrollerade. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive tryckets förorenade dem i 7:34."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "941d4acbbeb883391c26ac01853b57ee02797c9a74dcaf53c71b0d5d8ae57616",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0183.1.tif",
+          "sha256": "77807826f8525627f096a5cb073720521ef72c3977490bdd227d7378c50e941a"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0184.1.tif",
+          "sha256": "8d4213be7f1437f9ac4807e75440fe774d0a5adf5baaf7d60cbb9b2740469e3c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0185.1.tif",
+          "sha256": "538bd888217d3e0bafc765c7ca48c1bfe5709b13135d1ec700abb8865dea5d28"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 8:7 och 8:23 samt spaltfortsättningarna i 8:14 och 8:32. A174–A176 införda och återbyggda: avträdaland → avträda land och främmande apostrof efter dem, tas bort i 8:7, radslutsavstavning i tillägga tas bort i 8:30 och citatmellanslag införs i 8:31. Tryckets Indien i 8:8 och romarna i 8:26 behållna. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive hela förbundsskrivelsen och gränsen 8:19–20."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 73,
+      "text_sha256": "0a5e145defc27324e34379d8ca50a41c1f5e68c8cc0c6a8762056599e910c863",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0185.1.tif",
+          "sha256": "538bd888217d3e0bafc765c7ca48c1bfe5709b13135d1ec700abb8865dea5d28"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0186.1.tif",
+          "sha256": "dea6094836a1bdad040b06848be2b652acb464e6d9fdb013200876c98b746a48"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0187.1.tif",
+          "sha256": "6001bd041e6001ce35af831b39e532897e8ffb3df704272ea7e9371658feb7ae"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0188.1.tif",
+          "sha256": "2170efebf4aefb3f2f7f3855450d000d42fe6baf940a07aca0c5d97023362189"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0189.1.tif",
+          "sha256": "0f0ea8585d18d0ca99c6df59e02dc3ed281f2c45e86e8524c59ba60e4e9afd2d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive samtliga sid- och spaltfortsättningar. A177–A180: mellanslag i fläck, på i 9:10, främmande kommatecken efter Jonatan i 9:33 och punkt efter barn i 9:37 tas bort, rö → ro i 9:58. Tryckets ovanliga kommatecken efter fläck i 9:10 och bindestrecket i Tamnata-Faraton i 9:50 behållna. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 89,
+      "text_sha256": "c99b1e954337e3ec94b3f78a22ddcbd6dca602f811775f0bc5ebfe368ec6d710",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0189.1.tif",
+          "sha256": "0f0ea8585d18d0ca99c6df59e02dc3ed281f2c45e86e8524c59ba60e4e9afd2d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0190.1.tif",
+          "sha256": "61506fd98ab33560a7e88fe1443dedc7e904fe50687db612e8feeb5005193027"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0191.1.tif",
+          "sha256": "0adff015c415a47fafd4b2c85e954e6c5c1d4ef7c782fb3c768ba8dd19f2d8b0"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0192.1.tif",
+          "sha256": "229ba74188639a93a2d502d01113a70244840d3c21b40f75acad07153da890c4"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0193.1.tif",
+          "sha256": "f830e23e463450858d991542961ffb3ba2d436e5846ba185b1f47ad085b0bc25"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0194.1.tif",
+          "sha256": "9a2963b23129450d6f0ae48b1616251e1f6119c8c65483355d601d7fe10072d1"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive samtliga sid- och spaltfortsättningar. A181–A184: I gören till vårt gagn; flyttas från början av 10:28 till slutet av 10:27 enligt marginalnumret och parallelltexterna; punkt → komma efter flydde i 10:49; radslutsavstavningen i skingrade tas bort i 10:83. Tidigare rättelsen stannade i 10:14 och delningen 10:45–46 återkontrollerade. Gränsen 10:77–78 och alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 74,
+      "text_sha256": "e9ef1dc56387ea696b2f959f8d61a22c786fcaafbc841d573d0eac6998e0afae",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0194.1.tif",
+          "sha256": "9a2963b23129450d6f0ae48b1616251e1f6119c8c65483355d601d7fe10072d1"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0195.1.tif",
+          "sha256": "862d39aa6434bfcd7f65fdf17b6c6d12797ffe0a676bccbe9e5e658ae61c4b14"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0196.1.tif",
+          "sha256": "869b13c07379defd31228544b31107c2c0fb446bde211646614012d9c00f39ab"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0197.1.tif",
+          "sha256": "d773b7778a04e5c480d7ecc199019990af73b69a35814707c7af8f693d8c7a4d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0198.1.tif",
+          "sha256": "bc465149877ca94888f2cd353441f5e0ea0ac57dfcd040ef33ead06898ada8e0"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive samtliga sid- och spaltfortsättningar. A185–A190: främmande semikolon efter alltefter tas bort i 11:3; radslutsavstavning i nedgjordes tas bort i 11:18; förmanér → förmåner i 11:33; slutpunkt återställs före citatsluten i 11:37; fotnotstecknet efter förehavande. tas bort i 11:63; nuu → nu i 11:67. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 53,
+      "text_sha256": "99a1e2f7461babb19eea76dafbc56600f81a18036ee25c06914076f2447b39de",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0198.1.tif",
+          "sha256": "bc465149877ca94888f2cd353441f5e0ea0ac57dfcd040ef33ead06898ada8e0"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0199.1.tif",
+          "sha256": "423e54d03d51561432666aa2118864ff0351f9b20782cd3d49ed5eccca37b98c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0200.1.tif",
+          "sha256": "b6000f85567be7afd73efe4cdd3b29494bb37c444dc52f2047a7f779783a44e3"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0201.1.tif",
+          "sha256": "3b9d37ff3079bf99d52592436b2d82dad5e14ebb5a42de672a71e722b19db840"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive samtliga sid- och spaltfortsättningar, de båda breven till Sparta och Tryfons tillfångatagande av Jonatan. A191–A192: saknad punkt efter Rom återställs i 12:3 och oni → om i 12:22. Tryckets Stora råd i 12:6 och sabadéer i 12:31 behållna; fotnotstecknet efter Judeen i 12:35 ingår inte i löptexten. Alla övriga ord, skiljetecken och versgränser bekräftade."
     }
   ],
   "unnumbered": [
