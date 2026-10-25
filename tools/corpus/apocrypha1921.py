@@ -23,7 +23,7 @@ LEAKED=[('Tob',3,1,'2 »'),('Tob',7,16,'17 »'),('Tob',9,1,'2 »'),('Tob',10,4,'
  ('1Macc',13,14,'15 »'),('2Macc',3,37,'38 »'),('2Macc',6,23,'24 »'),('2Macc',7,5,'6 »'),('2Macc',7,21,'22 »'),('2Macc',8,17,'18 »'),
  ('2Macc',10,9,'10} '),('2Macc',14,34,'35 »'),('2Macc',15,15,'16 »'),('2Macc',14,4,'6 »'),('Wis',11,26,'12,1 ')]
 # Verses split where an OCR margin number marks the boundary: (book, chapter, verse, first words of the next verse).
-SPLIT=[('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
+SPLIT=[('Sir',13,15,'Alla varelser sluta sig'),('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
@@ -126,6 +126,16 @@ REPLACE=[
  ('Sir', 11, 11, 'och avlas,', 'och ävlas,'),
  ('Sir', 11, 30, 'den övermodiges hjärta,', 'den övermodiges hjärta, och lik spejaren spanar han efter ditt fall.'),
  ('Sir', 11, 31, 'och lik spejaren spanar han efter ditt fall. Försåtligt vänder han gott tills ont, och på det allra bästa sätter han en fläck.', 'Försåtligt vänder han gott till ont, och på det allra bästa sätter han en fläck.'),
+ # Syrak 13-18 scan review: A100-A109; 13:16 is split after literal corrections.
+ ('Sir', 13, 4, 'vara honörn till nytta', 'vara honom till nytta'),
+ ('Sir', 13, 21, 'av sina vann er,', 'av sina vänner,'),
+ ('Sir', 14, 18, 'lövverket som grönskan', 'lövverket som grönskar'),
+ ('Sir', 14, 23, 'vid hennes dörrar:', 'vid hennes dörrar;'),
+ ('Sir', 15, 6, 'en fröjdekrahs', 'en fröjdekrans'),
+ ('Sir', 16, 8, 'som Löt bodde', 'som Lot bodde'),
+ ('Sir', 17, 13, 'o,ch hans rösts', 'och hans rösts'),
+ ('Sir', 17, 25, 'med att.synda;', 'med att synda;'),
+ ('Sir',13,15,'samman: efter','samman efter'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),

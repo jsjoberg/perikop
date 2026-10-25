@@ -1,5 +1,5 @@
 # form	occurrences	kind	nst_sampa
-och	39654	word	"Ok
+och	39655	word	"Ok
 i	15971	word	
 till	15696	word	"tIl
 som	14018	word	
@@ -20,7 +20,7 @@ med	7577	word	"me:d
 av	7271	word	
 dem	6933	word	"dOm
 så	6856	word	"so:
-honom	6735	word	""hO$nOm
+honom	6736	word	""hO$nOm
 har	6695	word	"hA:r
 du	6355	word	"d}:
 sig	5118	word	"sEj
@@ -504,8 +504,8 @@ levande	185	word	""le:$van$de
 fråga	184	word	""fro:$ga
 vin	184	word	"vi:n
 lever	183	word	"le:$ver
-o	183	word	
 tjänst	183	word	"s'Enst
+o	182	word	
 fastän	181	word	"fa$stEn
 leviterna	181	word	le$"vi:$te$n`a
 låg	181	word	"lo:g
@@ -802,6 +802,7 @@ dragit	103	word	""drA:$gIt
 ene	103	word	
 inne	103	word	""I$ne
 snart	103	word	"snA:t`
+vänner	103	word	""vE$ner
 Din	102	word	"di:n
 aftonen	102	word	""af$tO$nen
 akt	102	word	"akt
@@ -809,7 +810,6 @@ församlingen	102	word	f9$"s`am$lIN$en
 kunskap	102	word	""ku0n$%skA:p
 nästa	102	word	""nE$sta
 syndat	102	word	""sYn$dat
-vänner	102	word	""vE$ner
 Arons	101	name	"A:$rOns
 gamla	101	word	""gam$la
 konungs	101	word	""ko:$nu0Ns
@@ -2148,6 +2148,7 @@ Gören	31	word
 Josias	31	name	
 Judit	31	name	"j}:$dIt
 Kaleb	31	name	"kA:$leb
+Lot	31	name	
 Mackabeus	31	name	
 Satan	31	name	""sA:$tan
 Sonen	31	word	"so:$nen
@@ -2217,7 +2218,6 @@ Asaf	30	name
 Eli	30	name	"e:$lI
 Gad	30	name	"gA:d
 Kades	30	name	
-Lot	30	name	
 Nineve	30	name	
 Nuns	30	name	
 Röda	30	word	""r2:$da
@@ -5513,7 +5513,6 @@ vaknar	10	word	""vA:$knar
 vaktar	10	word	""vak$tar
 vall	10	word	"val
 vanliga	10	word	""vA:n$lI$ga
-vann	10	word	"van
 varm	10	word	"varm
 varnade	10	word	""vA:$n`a$de
 varnat	10	word	""vA:$n`at
@@ -5984,6 +5983,7 @@ utseendet	9	word	""}:t$%se:$en$det
 utsläcka	9	word	""}:t$%slE$ka
 utsänd	9	word	""}:t$%sEnd
 vanmäktig	9	word	""vA:n$%mEk$tIg
+vann	9	word	"van
 varde	9	word	""vA:$d`e
 varthelst	9	word	vat`$"hElst
 vattnar	9	word	""vat$nar
@@ -7506,7 +7506,6 @@ egyptiska	6	word	e$"jYp$tI$ska
 eldslåga	6	word	""Elds$%lo:$ga
 elefanterna	6	word	e$le$"fan$te$n`a
 enes	6	word	
-er	6	word	"e:r
 erkänna	6	word	""e:r$%s'E$na
 ertappas	6	word	""e:$%t`a$pas
 erövra	6	word	""e:$%r2:$vra
@@ -8441,6 +8440,7 @@ ekar	5	word	""e:$kar
 elda	5	word	""El$da
 elefanter	5	word	e$le$"fan$ter
 enfaldiga	5	word	""e:n$%fal$dI$ga
+er	5	word	"e:r
 erfara	5	word	""e:r$%fA:$ra
 erlägga	5	word	""e:r$%s'E$nas
 etiopierna	5	word	e$tI$"u:$pI$e$n`a
@@ -9875,6 +9875,7 @@ grymhet	4	word	""grYm$%he:t
 grymmaste	4	word	""grY$ma$ste
 gräsets	4	word	"grE:$sets
 gråtit	4	word	""gro:$tIt
+grönskar	4	word	""gr9n$skar
 gudabild	4	word	""g}:$da$%bIld
 gudahus	4	word	""g}:$da$%h}:s
 gudarnas	4	word	""g}:$da$n`as
@@ -11494,6 +11495,7 @@ fruktsamt	3	word	""fru0kt$%samt
 fräck	3	word	"frEk
 frälsat	3	word	
 frånskild	3	word	""fro:n$%x\Ild
+fröjdekrans	3	word	
 fullbordades	3	word	""fu0l$%bu:$d`a$des
 fullmånen	3	word	""fu0l$%mo:$nen
 fullsatta	3	word	""fu0l$%sa$ta
@@ -11687,8 +11689,6 @@ grymmare	3	word	""grY$ma$re
 grymme	3	word	""grY$me
 gräsbitarna	3	word	
 gräsgnagarna	3	word	
-grönskan	3	word	""gr9n$skan
-grönskar	3	word	""gr9n$skar
 grönskuren	3	word	
 gudabeläten	3	word	
 gudaväsen	3	word	""g}:$da$%vE:$sen
@@ -14619,7 +14619,6 @@ fräckhet	2	word	""frEk$%he:t
 främlings	2	word	""frEm$lINs
 fräta	2	word	""frE:$ta
 frätas	2	word	""frE:$tas
-fröjdekrans	2	word	
 frön	2	word	"fr2:n
 fukta	2	word	""fu0k$ta
 fuktar	2	word	""fu0k$tar
@@ -14986,6 +14985,7 @@ gråhårsmän	2	word
 gråtodagarna	2	word	
 grön	2	word	"gr2:n
 grönsaker	2	word	""gr2:n$%sA:$ker
+grönskan	2	word	""gr9n$skan
 gudaberget	2	word	
 gudabilder	2	word	""g}:$da$%bIl$der
 gudfruktigt	2	word	""g}:d$%fru0k$tIkt
@@ -15085,7 +15085,6 @@ hjärteångest	2	word
 hjärtlig	2	word	""jEt`$l`Ig
 hona	2	word	""hu:$na
 honungskaka	2	word	""ho:$nu0Ns$%kA:$ka
-honörn	2	word	
 hoparna	2	word	""hu:$pa$n`a
 hopfäst	2	word	""hu:p$%fEst
 hopknådat	2	word	
@@ -18797,7 +18796,6 @@ Löparna	1	name	""l2:$pa$n`a
 Löpen	1	word	"l2:$pen
 Lösaktighet	1	word	""l2:s$ak$tIg$%he:t
 Lösen	1	word	"l2:$sen
-Löt	1	name	"l2:t
 Lövhyddohögtiden	1	word	""l2:v$hY$dU$h9k$%ti:$den
 Maadai	1	name	
 Maadja	1	name	
@@ -21028,7 +21026,6 @@ cederplanka	1	word
 cederplankor	1	word	
 cederträd	1	word	
 centnertunga	1	word	
-ch	1	word	""se:$%ho:
 cymbal	1	word	sYm$"bA:l
 cyrenéernas	1	word	
 dagakarlens	1	word	""dA:$ga$%kA:$rens
@@ -21688,7 +21685,6 @@ fråntagna	1	word	""fro:n$%tA:$gna
 frånträdes	1	word	
 fröet	1	word	"fr2:$et
 fröjdats	1	word	
-fröjdekrahs	1	word	
 fröjdens	1	word	"fr9j$dens
 fröjdeort	1	word	
 fröjdesprång	1	word	
@@ -22841,6 +22837,7 @@ hometdjuret	1	word
 hondjur	1	word	""hu:n$%j}:r
 honungskakan	1	word	""ho:$nu0Ns$%kA:$kan
 honungskakor	1	word	""ho:$nu0Ns$%kA:$kUr
+honörn	1	word	
 hopat	1	word	""hu:$pat
 hopbundna	1	word	""hu:p$%bu0nd$na
 hopflickade	1	word	

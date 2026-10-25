@@ -1424,6 +1424,122 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 12:11 och sidfortsättningen i 12:18. Bildstödda A097–A099 införda och återbyggda: 12:3 avskiljs från 12:2 och tidigare felmärkt 12:3 flyttas till 12:4. Tryckets 12:7 saknar löptext; nothänvisningar återställs inte som verser. Ärg i 12:10–11 är tryckets ord."
+    },
+    {
+      "book": "Sir",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "0c468cb7eff07a210c4a591f42c353f70f0d66173d9e75d32590bd081efd63b5",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0088.1.tif",
+          "sha256": "91e11883ae09289edb074f1f94004658045544ecd18c9d3e7702bca258f3c784"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0089.1.tif",
+          "sha256": "6d3fd30e2f3dfeedc582c39cabf849d3a6ce508c2d41e23a4bb229936eab873e"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive fortsättningen av tryckets 13:16 över sidgränsen och 13:25–26 i nästa spalt. A100–A103 införda och återbyggda: honörn → honom, avskiljning av 13:16 från 13:15 med borttaget främmande kolon efter samman, vann er → vänner. A004 och A016 återkontrollerade. Höger marginalnummer är delvis beskurna i skanningen, men separat versansats vid Alla varelser och grekiska/engelska versindelningar stöder 13:16. Trycket har ingen löptext vid 13:14."
+    },
+    {
+      "book": "Sir",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "3c0086f082a7d826fe876afd224ed5ac1428038e2dc713cb619050184a94b08c",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0089.1.tif",
+          "sha256": "6d3fd30e2f3dfeedc582c39cabf849d3a6ce508c2d41e23a4bb229936eab873e"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0090.1.tif",
+          "sha256": "2e83b3617952d9e547077acfb891af93196393dbf55c2e5ed707e5127ff09569"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord. A104–A105 införda och återbyggda: grönskan → grönskar i 14:18 och kolon → semikolon i 14:23. 14:12:s slutpunkt efter sig kontrollerad i originalupplösning och behållen. Tryckets tankstreck i 14:18 återges typografiskt som bindestreck. Alla övriga ord, skiljetecken och versgränser kontrollerade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 20,
+      "text_sha256": "475c94dab824b55d9e1d9a6fa0f68814f8f198731c698d53bcc4d846741896cf",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0091.1.tif",
+          "sha256": "59f138a9c6eda174442c7ef49183a86f14be27ea860ae87f7abbdc799fb8123c"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 15:11. A106 införd och återbyggd: fröjdekrahs → fröjdekrans i 15:6. Val i 15:15 är det korrekta tryckta substantivet; inga ytterligare rättelser."
+    },
+    {
+      "book": "Sir",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "f72dfa0d3b1a35591a30c07fe1d52fe146703d9bb1eafbd6e62de2ebbb91072d",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0092.1.tif",
+          "sha256": "f734b7c021101549721a0d42dbf5ef2dca5a89c04b3d49476bf3e6346bad3a1b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0093.1.tif",
+          "sha256": "c516c422665a4819ece23e1400394fe16643b11a76e7721820268f8cce7f11e1"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord över två sidor. A107 införd och återbyggd: namnet Löt → Lot i 16:8. Tryckets 16:15–16 saknar löptext; notapparaten ska inte skapas som verser. Samtliga övriga ord, interpunktion och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "794c42bdcd6af0337992d8471037e690971991496955d640b79f04ed034cefee",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0093.1.tif",
+          "sha256": "c516c422665a4819ece23e1400394fe16643b11a76e7721820268f8cce7f11e1"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0094.1.tif",
+          "sha256": "294cc337b785c4fdeb255fb9902f6bc9b7906796b6ae58869acebb450de8f6fc"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 17:25. A108–A109 införda och återbyggda: o,ch → och i 17:13 och att.synda → att synda i 17:25. A005 i 17:23 återkontrollerad. Trycket saknar löptext vid 17:5, 16, 18 och 21. Orden i 17:9–10 bildar en mening över versgränsen; ingen interpunktion tillfogas där. Tankstreck i 17:28 återges typografiskt som bindestreck."
+    },
+    {
+      "book": "Sir",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "aae4866c36e39e233f7b87b4661653f5f2cf06169d8ec2fc02d42cc86babff51",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0095.1.tif",
+          "sha256": "5fa4b5bb356992e9783f386925bb80802935cc4882136fe07548482cfd940865"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0096.1.tif",
+          "sha256": "377bc0bacddaefc34cdd97d5ec4c8abfa6dfbd05a2d23101f3b0c3afe36845ea"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 18:22 och spaltfortsättningen i 18:33. Inga nya rättelser. Tryckets 18:3 saknar löptext och nothänvisningen räknas inte som bibeltext. Även ord som tillfyllest och försmäkta samt alla skiljetecken och versgränser kontrollerade."
     }
   ],
   "unnumbered": [

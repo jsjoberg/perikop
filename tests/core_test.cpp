@@ -1004,6 +1004,14 @@ int main(int argc, char** argv) {
                  {"Sir", {11, 4}, "din äras dag Ty", "din äras dag. Ty"},
                  {"Sir", {11, 11}, "och avlas,", "och ävlas,"},
                  {"Sir", {11, 31}, "och lik spejaren spanar han efter ditt fall. Försåtligt vänder han gott tills ont, och på det allra bästa sätter han en fläck.", "Försåtligt vänder han gott till ont, och på det allra bästa sätter han en fläck."},
+                 {"Sir", {13, 4}, "vara honörn till nytta", "vara honom till nytta"},
+                 {"Sir", {13, 21}, "av sina vann er,", "av sina vänner,"},
+                 {"Sir", {14, 18}, "lövverket som grönskan", "lövverket som grönskar"},
+                 {"Sir", {14, 23}, "vid hennes dörrar:", "vid hennes dörrar;"},
+                 {"Sir", {15, 6}, "en fröjdekrahs", "en fröjdekrans"},
+                 {"Sir", {16, 8}, "som Löt bodde", "som Lot bodde"},
+                 {"Sir", {17, 13}, "o,ch hans rösts", "och hans rösts"},
+                 {"Sir", {17, 25}, "med att.synda;", "med att synda;"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1055,6 +1063,18 @@ int main(int argc, char** argv) {
                 check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
                           parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
                       "restored Sirach 12:2-4 align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {13, 15})->text == "Vart levande väsen älskar sin like, och var människa den som står henne närmast." &&
+                  corpus.verse("sv1917", "Sir", {13, 16})->text == "Alla varelser sluta sig samman efter sina släkten; så bör ock en man hålla sig till sin like.",
+              "Sirach 13:15-16 retain individual verses without the stray OCR colon");
+        for (const VerseRef& ref : {VerseRef{13, 15}, VerseRef{13, 16}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 13:15-16 align individually in both directions");
             }
         }
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,

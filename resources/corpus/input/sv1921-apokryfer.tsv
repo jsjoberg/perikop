@@ -1330,7 +1330,7 @@ Sir	12	18	Han skakar huvudet och klappar i händerna, han tisslar och tasslar oc
 Sir	13	1	Den som kommer vid tjära, han bliver orenad, och den som umgås med den övermodige bliver honom lik.
 Sir	13	2	Tag icke på dig en börda som är för tung för dig, och umgås ej med en som är mäktigare och rikare än du. Vad har lerkrukan att göra med kitteln? Han stöter till, och hon går sönder.
 Sir	13	3	Den rike gör orätt och bannar därjämte, den fattige lider orätt och får dessutom göra avbön.
-Sir	13	4	Om du kan vara honörn till nytta, så brukar han dig, men om du intet förmår, då frågar han icke efter dig.
+Sir	13	4	Om du kan vara honom till nytta, så brukar han dig, men om du intet förmår, då frågar han icke efter dig.
 Sir	13	5	Om du har något, så lever han gärna samman med dig; han tömmer din pung, utan att göra sig några betänkligheter.
 Sir	13	6	Behöver han dig, så leder han dig vilse; han ler mot dig och ingiver dig förhoppningar. Han talar vackra ord till dig och säger: »Varmed kan jag stå dig till tjänst?»
 Sir	13	7	Han kommer dig att skämmas genom sina gästabud, till dess han har tömt din pung både två och tre gånger; och sedan, på sistone, gör han narr av dig. När han därefter får se dig, frågar han ej mer efter dig, utan skakar huvudet mot dig.
@@ -1340,12 +1340,13 @@ Sir	13	10	Var ej påträngande, på det att du icke må stötas tillbaka; håll 
 Sir	13	11	Stå ej efter att få tala med honom såsom med din like, och tro icke hans många ord. Ty genom sitt myckna ordflöde frestar han dig, och under sken av vänlighet utforskar han dig.
 Sir	13	12	Obarmhärtig är han som ej tiger med vad som har blivit sagt; icke skall han spara på misshandling och bojor.
 Sir	13	13	Var på din vakt och se dig noga för, ty du går på branten av ditt fall.
-Sir	13	15	Vart levande väsen älskar sin like, och var människa den som står henne närmast. Alla varelser sluta sig samman: efter sina släkten; så bör ock en man hålla sig till sin like.
+Sir	13	15	Vart levande väsen älskar sin like, och var människa den som står henne närmast.
+Sir	13	16	Alla varelser sluta sig samman efter sina släkten; så bör ock en man hålla sig till sin like.
 Sir	13	17	Icke kan vargen hava någon gemenskap med lammet; lika litet syndaren med den gudfruktige.
 Sir	13	18	Icke kan frid råda mellan hyenan och hunden, och icke kunna rik och fattig leva i frid med varandra.
 Sir	13	19	Vildåsnorna i öknen äro lejonens jaktbyte; så äro ock de fattiga de rikas bete.
 Sir	13	20	Ödmjukhet är en styggelse för den övermodige; likaså är den fattige en styggelse för den rike.
-Sir	13	21	Om en rik man förlorar fästet, så stödes han av sina vann er, men om en ringa man faller, får han ytterligare en stöt av sina vänner.
+Sir	13	21	Om en rik man förlorar fästet, så stödes han av sina vänner, men om en ringa man faller, får han ytterligare en stöt av sina vänner.
 Sir	13	22	Om en rik man vacklar, så finnas många som hålla honom uppe; talar han än otillbörliga ord, så giver man honom dock rätt. Om en ringa man vacklar, så bannar man honom därjämte; säger han något tänkvärt, så lånar man honom dock ej sitt öra.
 Sir	13	23	När en rik man talar, tiga alla stilla, och man höjer hans ord till skyarna. När en fattig talar, då säger man: »Vem är denne?», och snavar han, så slår man därtill omkull honom.
 Sir	13	24	Något gott är rikedomen, när synd icke låder därvid; ett ont är fattigdomen efter den ogudaktiges mening.
@@ -1368,12 +1369,12 @@ Sir	14	14	Försumma icke en glad dag, och försaka ej din del i en oskyldig njut
 Sir	14	15	Måste du icke åt en annan lämna dina mödors lön, och ditt arbetes frukt till att fördelas genom lott?
 Sir	14	16	Giv och tag, och gör dig inga betänkligheter; ty i dödsriket söker man förgäves goda dagar.
 Sir	14	17	Allt levande åldras såsom en klädnad; sedan urminnes tid är ju så förordnat: »Du skall döden dö.»
-Sir	14	18	Likt lövverket som grönskan på ett lummigt träd - en del faller av, och en annan del spricker ut - är det släkte som består av kött och blod: ett släkte dör bort, och ett annat födes till liv.
+Sir	14	18	Likt lövverket som grönskar på ett lummigt träd - en del faller av, och en annan del spricker ut - är det släkte som består av kött och blod: ett släkte dör bort, och ett annat födes till liv.
 Sir	14	19	Vart människoverk multnar och tager en ände, och den som utförde det, han går bort med det.
 Sir	14	20	Säll är den man som tänker på visheten, och som överlägger med sig själv i sitt förstånd,
 Sir	14	21	den som begrundar hennes vägar i sitt hjärta och eftersinnar hennes hemligheter.
 Sir	14	22	Begiv dig ut efter henne såsom en spanare, och ställ dig på lur där hon träder in.
-Sir	14	23	Ja, säll är den som blickar in genom hennes fönster och lyssnar vid hennes dörrar:
+Sir	14	23	Ja, säll är den som blickar in genom hennes fönster och lyssnar vid hennes dörrar;
 Sir	14	24	som rastar nära hennes hus och slår ned sina tältpluggar vid hennes väggar;
 Sir	14	25	som reser sitt tält invid henne och tager in i ett sådant ljuvligt härbärge;
 Sir	14	26	som ställer sina barn under hennes skygd och tager sin viloplats under hennes grenar;
@@ -1383,7 +1384,7 @@ Sir	15	2	Hon kommer honom till mötes likasom en moder, och likasom en ung maka 
 Sir	15	3	Hon giver honom förståndets bröd att äta och vishetens vatten att dricka.
 Sir	15	4	Han stöder sig vid henne och vacklar icke, han förlitar sig på henne och kommer ej på skam.
 Sir	15	5	Hon upphöjer honom över hans närmaste och upplåter hans mun i församlingen.
-Sir	15	6	Glädje får han till arvedel, ja, en fröjdekrahs och ett evärdligt namn.
+Sir	15	6	Glädje får han till arvedel, ja, en fröjdekrans och ett evärdligt namn.
 Sir	15	7	Oförståndiga människor kunna aldrig vinna henne, och syndiga män få icke skåda henne.
 Sir	15	8	Fjärran är hon från de övermodiga, och lögnare hava henne icke i sina tankar.
 Sir	15	9	Lovsång ljuder icke väl i syndarens mun, ty den är honom ej ingiven av Herren.
@@ -1405,7 +1406,7 @@ Sir	16	4	En enda förståndig man kan bliva fader till en folkrik stad, men en h
 Sir	16	5	Mycket sådant har jag skådat med mina ögon; ja, om ännu märkligare ting har mitt öra hört.
 Sir	16	6	I en församling av syndare uppflammar eld, och över ett gensträvigt folk uppflammar vrede.
 Sir	16	7	Herren hade ingen misskund med forntidens jättar, när de i sin väldighet reste sig upp emot honom.
-Sir	16	8	Han skonade icke det folk som Löt bodde ibland; han höll dem för en styggelse för deras fräckhets skull.
+Sir	16	8	Han skonade icke det folk som Lot bodde ibland; han höll dem för en styggelse för deras fräckhets skull.
 Sir	16	9	Han hade ej förbarmande med det folk som var hemfallet åt fördärv, dem som blevo utrotade i sina synder.
 Sir	16	10	Så gick det ock med skaran av de sex hundra tusen som hade gaddat sig samman i sina hjärtans hårdhet.
 Sir	16	11	Ja, gällde det allenast en enda hårdnackad man, förunderligt vore, om han bleve ostraffad. Ty barmhärtighet finnes hos Herren, men också vrede; han är mäktig i att förlåta, men han utgjuter ock vrede.
@@ -1437,7 +1438,7 @@ Sir	17	9	Så skulle de kunna förtälja hans väldiga gärningar
 Sir	17	10	och prisa hans heliga namn.
 Sir	17	11	Därtill förlänade han dem kunskap, och en lag till liv gav han dem till besittning.
 Sir	17	12	Ett evigt förbund upprättade han med dem, och sina rätter lärde han dem.
-Sir	17	13	Deras ögon fingo skåda hans härlighets majestät, o,ch hans rösts härlighet hörde deras öra.
+Sir	17	13	Deras ögon fingo skåda hans härlighets majestät, och hans rösts härlighet hörde deras öra.
 Sir	17	14	Han sade till dem: »Tagen eder till vara för allt vad orätt är», och gav dem befallning, envar angående hans nästa.
 Sir	17	15	Deras vägar ligga alltid uppenbara inför honom, de äro icke fördolda för hans ögon.
 Sir	17	17	(Över vart och ett av de andra folken har han insatt en furste, men Israel är Herrens egen besittning.)
@@ -1446,7 +1447,7 @@ Sir	17	20	Deras missgärningar äro icke fördolda för Herren, och alla deras s
 Sir	17	22	En mans barmhärtighet förvarar han såsom en signetring, och en människas godhet aktar han noga såsom sin ögonsten.
 Sir	17	23	En gång skall han stå upp och vedergälla dem och låta vedergällningen komma över vars och ens huvud.
 Sir	17	24	Men dem som vilja bättra sig tillstädjer han att vända om, och han uppmuntrar dem som äro nära att uppgiva hoppet.
-Sir	17	25	Så omvänd dig nu till Herren, och hör upp med att.synda; bönfall inför hans ansikte, och undvik det som kan komma dig på fall.
+Sir	17	25	Så omvänd dig nu till Herren, och hör upp med att synda; bönfall inför hans ansikte, och undvik det som kan komma dig på fall.
 Sir	17	26	Kom tillbaka till den Högste, och vänd om från orättfärdigheten, och hata av hjärtat allt vad styggelse heter.
 Sir	17	27	Vem prisar den Högste i dödsriket? Allenast de som leva hembära honom lov.
 Sir	17	28	Hos den döde tystnar tacksägelsen - han är ju icke ens mer till; den som har liv och hälsa, han prisar Herren.
