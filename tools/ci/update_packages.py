@@ -12,10 +12,10 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
-PLATFORMS = {"Linux": "linux-x64-glibc241", "Linux-arm64": "linux-arm64-glibc241", "Windows": "win-x64",
+PLATFORMS = {"Linux": "linux-x64-glibc239", "Linux-arm64": "linux-arm64-glibc239", "Windows": "win-x64",
              "macOS-arm64": "osx-arm64"}
 # What Velopack makes for people to install from, as Perikop-<channel><suffix>, beside each feed.
-INSTALLERS = {"linux-x64-glibc241": ".AppImage", "linux-arm64-glibc241": ".AppImage", "win-x64": "-Setup.exe",
+INSTALLERS = {"linux-x64-glibc239": ".AppImage", "linux-arm64-glibc239": ".AppImage", "win-x64": "-Setup.exe",
               "osx-arm64": "-Setup.pkg"}
 NIGHTLY = re.compile(r"nightly-\d{4}-\d{2}-\d{2}(?:-[0-9a-f]{7}(?:-\d+(?:-\d+)?)?)?")
 SEMVER = re.compile(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z.-]+))?")
@@ -54,7 +54,9 @@ def channel_for(platform):
 
 def check_channel(channel):
     # Retired feeds remain readable for cleanup; assemble rejects publishing to them.
-    if channel not in {platform + "-" + track for platform in (*PLATFORMS.values(), "osx-x64", "linux-x64", "linux-arm64")
+    # nightly-2026-10-25-cab925d published the short-lived glibc241 Linux feeds.
+    retired = ("osx-x64", "linux-x64", "linux-arm64", "linux-x64-glibc241", "linux-arm64-glibc241")
+    if channel not in {platform + "-" + track for platform in (*PLATFORMS.values(), *retired)
                        for track in ("nightly", "releases")}:
         raise ValueError("Unknown update channel: " + channel)
 

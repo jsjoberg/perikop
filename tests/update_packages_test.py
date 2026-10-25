@@ -63,7 +63,7 @@ class UpdatePackagesTest(unittest.TestCase):
             updates.finish(source, CHANNEL, "1.0.0-test.2", source / "publication")
 
     def test_new_publication_rejects_retired_targets(self):
-        for platform in ("osx-x64", "linux-x64", "linux-arm64"):
+        for platform in ("osx-x64", "linux-x64", "linux-arm64", "linux-x64-glibc241", "linux-arm64-glibc241"):
             with self.subTest(platform=platform), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
                 publication = root / "updates"
@@ -88,7 +88,7 @@ class UpdatePackagesTest(unittest.TestCase):
                     with patch.object(updates, "releases", return_value=releases), \
                             patch.object(updates, "download") as download:
                         updates.restore("owner/repo", platform, Path(temporary), "1.0.1")
-                    channel = f"linux-{architecture}-glibc241-{track}"
+                    channel = f"linux-{architecture}-glibc239-{track}"
                     self.assertEqual(updates.channel_for(platform), channel)
                     self.assertEqual(list((Path(temporary) / channel).iterdir()), [])
                     download.assert_not_called()
@@ -149,7 +149,7 @@ class UpdatePackagesTest(unittest.TestCase):
                 self.assertEqual(digest, hashlib.sha256((output / name).read_bytes()).hexdigest())
 
     def test_assemble_ships_the_appimage_runtime_source_beside_appimages(self):
-        channel = "linux-x64-glibc241-nightly"
+        channel = "linux-x64-glibc239-nightly"
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             publication = root / "updates"
@@ -176,7 +176,7 @@ class UpdatePackagesTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "does not match"):
                 updates.assemble(root / "updates", root / "release", "1.0.0-test.3")
             # A nightly may lack platforms; a release needs all four.
-            with self.assertRaisesRegex(ValueError, "linux-arm64-glibc241, linux-x64-glibc241, win-x64"):
+            with self.assertRaisesRegex(ValueError, "linux-arm64-glibc239, linux-x64-glibc239, win-x64"):
                 updates.assemble(root / "updates", root / "release", "1.0.0-test.2", complete=True)
             self.assertFalse((root / "release").exists())
 
@@ -235,7 +235,7 @@ class WindowsProbeTest(unittest.TestCase):
 
 class RetentionTest(unittest.TestCase):
     def test_retired_feeds_still_keep_their_referenced_packages(self):
-        for platform in ("osx-x64", "linux-x64", "linux-arm64"):
+        for platform in ("osx-x64", "linux-x64", "linux-arm64", "linux-x64-glibc241", "linux-arm64-glibc241"):
             with self.subTest(platform=platform):
                 releases, feeds, current = self.fixture()
                 channel = platform + "-nightly"

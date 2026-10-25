@@ -8,8 +8,8 @@ import re
 import subprocess
 import sys
 
-# Debian 13, which builds the AppImage.
-BASELINE = (2, 41)
+# Enterprise Linux 10's glibc. Debian 13 builds the AppImage, so this keeps it running on EL 10.
+BASELINE = (2, 39)
 LIMIT = "GLIBC_" + ".".join(map(str, BASELINE))
 
 

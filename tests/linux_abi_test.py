@@ -29,19 +29,19 @@ class LinuxAbiTest(unittest.TestCase):
             library = root / "usr/lib/libstdc++.so.6"
             library.write_bytes(b"\x7fELFfake")
             (root / "icon.png").write_bytes(b"PNG")
-            with patch("check_linux_abi.subprocess.check_output", return_value=versions("GLIBC_2.41")) as reader:
+            with patch("check_linux_abi.subprocess.check_output", return_value=versions("GLIBC_2.39")) as reader:
                 check_linux_abi.check([root])
                 self.assertEqual(reader.call_count, 2)
             with patch("check_linux_abi.subprocess.check_output",
-                       side_effect=[versions("GLIBC_2.41"), versions("GLIBC_2.42")]):
-                with self.assertRaisesRegex(ValueError, r"libstdc.*GLIBC_2\.42 \(maximum GLIBC_2\.41\)"):
+                       side_effect=[versions("GLIBC_2.39"), versions("GLIBC_2.40")]):
+                with self.assertRaisesRegex(ValueError, r"libstdc.*GLIBC_2\.40 \(maximum GLIBC_2\.39\)"):
                     check_linux_abi.check([root])
 
     def test_rejects_new_and_unknown_requirements(self):
         with tempfile.TemporaryDirectory() as directory:
             binary = Path(directory) / "perikop"
             binary.write_bytes(b"\x7fELFfake")
-            for name in ["GLIBC_2.42", "GLIBC_2.44", "GLIBC_ABI_DT_RELR", "GLIBC_PRIVATE"]:
+            for name in ["GLIBC_2.40", "GLIBC_2.41", "GLIBC_ABI_DT_RELR", "GLIBC_PRIVATE"]:
                 with self.subTest(name=name), patch("check_linux_abi.subprocess.check_output", return_value=versions(name)):
                     with self.assertRaisesRegex(ValueError, name):
                         check_linux_abi.check([binary])
