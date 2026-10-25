@@ -13,14 +13,14 @@ skall	8264	word	"skal
 på	8257	word	
 icke	8178	word	""I$ke
 för	8153	word	"f2:r
-jag	8124	word	"jA:g
-den	7755	word	
+jag	8125	word	"jA:g
+den	7756	word	
 med	7577	word	"me:d
 är	7547	word	"E:r
 av	7271	word	
 dem	6933	word	"dOm
 så	6856	word	"so:
-honom	6736	word	""hO$nOm
+honom	6737	word	""hO$nOm
 har	6695	word	"hA:r
 du	6355	word	"d}:
 sig	5118	word	"sEj
@@ -88,7 +88,7 @@ säger	1470	word	"sE$jer
 dina	1466	word	""di:$na
 göra	1460	word	""j2:$ra
 komma	1437	word	""kO$ma
-Jag	1419	word	"jA:g
+Jag	1418	word	"jA:g
 må	1417	word	"mo:
 fram	1404	word	"fram
 vill	1400	word	"vIl
@@ -1174,7 +1174,6 @@ templet	65	word	"tEm$plet
 vandrar	65	word	""van$drar
 varen	65	word	"vA:$ren
 vinna	65	word	""vI$na
-övermåttan	65	word	2:$ver$""mO$tan
 Damaskus	64	name	da$"ma$sku0s
 foro	64	word	
 förbliva	64	word	f9r$"bli:$va
@@ -1190,6 +1189,7 @@ tacka	64	word	""ta$ka
 trä	64	word	"trE:
 ålder	64	word	"Ol$der
 övergivit	64	word	""2:$ver$%ji:$vIt
+övermåttan	64	word	2:$ver$""mO$tan
 Abimelek	63	name	
 bevisa	63	word	be$"vi:$sa
 bäcken	63	word	"bE$ken
@@ -2487,7 +2487,6 @@ betryck	26	word	be$"trYk
 bild	26	word	"bIld
 bjuda	26	word	""bj}:$da
 bringar	26	word	""brIN$ar
-dens	26	word	"dEns
 dödat	26	word	""d2:$dat
 faderlöse	26	word	""fA:$de$%l`2:$se
 finger	26	word	"fIN$er
@@ -2559,6 +2558,7 @@ Vänden	25	word
 anställde	25	word	""an$%stEl$de
 avdelning	25	word	""A:v$%de:l$nIN
 bords	25	word	"bu:d`s`
+dens	25	word	"dEns
 drabbas	25	word	""dra$bas
 drömmar	25	word	""dr9$mar
 därur	25	word	dE:r$"}:r
@@ -5876,6 +5876,7 @@ påsk	9	word	"pOsk
 raden	9	word	"rA:$den
 renar	9	word	""re:$nar
 rida	9	word	""ri:$da
+riklig	9	word	""ri:$klIg
 rikligt	9	word	""ri:$klIkt
 rullen	9	word	""ru0$len
 rymma	9	word	""rY$ma
@@ -6389,7 +6390,6 @@ prövade	8	word	""pr2:$va$de
 pålade	8	word	""po:$la$de
 påträffades	8	word	""po:$%trE$fa$des
 rafaéerna	8	word	
-riklig	8	word	""ri:$klIg
 riset	8	word	"ri:$set
 romerska	8	word	"rU$me$s`ka
 rotade	8	word	""ru:$ta$de
@@ -10726,6 +10726,7 @@ Blive	3	word
 Blygs	3	word	"bly:gs
 Bryten	3	word	
 Bunni	3	name	
+Böjen	3	word	"b9$jen
 Cedron	3	name	
 Cendebeus	3	name	
 Dag	3	word	"dA:g
@@ -11169,6 +11170,7 @@ avrakat	3	word
 avrätta	3	word	""A:v$%rE$ta
 avskuren	3	word	
 avslutade	3	word	""A:v$%sl}:$ta$de
+avsomnat	3	word	
 avstodo	3	word	
 avstår	3	word	""A:v$%sto:r
 avtal	3	word	""A:v$%tA:l
@@ -13146,7 +13148,6 @@ Blevo	2	word	""ble:$vU
 Blodsåkern	2	name	
 Boes	2	name	
 Bohans	2	name	
-Bojen	2	name	"bO$jen
 Bokeru	2	name	
 Bokim	2	name	
 Bor	2	word	"bu:r
@@ -13166,7 +13167,6 @@ Buden	2	word	"b}:$den
 Byggen	2	word	""bY$gen
 Bäven	2	word	
 Båden	2	word	""bo:$den
-Böjen	2	word	"b9$jen
 Bönen	2	word	"b2:$nen
 Dammim	2	name	
 Darkons	2	name	
@@ -14053,7 +14053,6 @@ avsköto	2	word
 avsluta	2	word	""A:v$%sl}:$ta
 avslutat	2	word	""A:v$%sl}:$tat
 avsomna	2	word	""A:v$%sOm$na
-avsomnat	2	word	
 avspärra	2	word	""A:v$%spE$ra
 avsätta	2	word	""A:v$%sE$ta
 avtvått	2	word	
@@ -17109,6 +17108,7 @@ yxor	2	word	""Yk$sUr
 Öva	2	word	""2:$va
 Överallt	2	word	2:$ver$"alt
 Övergiven	2	word	""2:$ver$%ji:$ven
+Övermåttan	2	word	2:$ver$""mO$tan
 Överst	2	word	"2:$ves`t`
 Översteprästerna	2	word	""2:$ves`$t`e$%prE$ste$n`a
 ädelstenar	2	word	""E:$del$%ste:$nar
@@ -17648,6 +17648,7 @@ Blygens	1	word
 Blås	1	word	"blo:s
 Blåsbälgen	1	name	""blo:s$%bEl$jen
 Boanerges	1	name	
+Bojen	1	name	"bO$jen
 Boken	1	word	""bu:$ken
 Boos	1	name	"bu:s
 Borgen	1	word	"bOr$jen
@@ -20280,7 +20281,6 @@ avslöjas	1	word	""A:v$%sl9$jas
 avslöjat	1	word	""A:v$%sl9$jat
 avslöjen	1	word	
 avsomnad	1	word	""A:v$%sOm$nad
-avsomnät	1	word	
 avspeglar	1	word	""A:v$%spe:$glar
 avspärrningen	1	word	""A:v$%spEr$n`IN$en
 avsteg	1	word	""A:v$%ste:g
@@ -22836,7 +22836,6 @@ hometdjuret	1	word
 hondjur	1	word	""hu:n$%j}:r
 honungskakan	1	word	""ho:$nu0Ns$%kA:$kan
 honungskakor	1	word	""ho:$nu0Ns$%kA:$kUr
-honörn	1	word	
 hopat	1	word	""hu:$pat
 hopbundna	1	word	""hu:p$%bu0nd$na
 hopflickade	1	word	
@@ -25297,7 +25296,6 @@ riksförvaltare	1	word
 riksstyrelsen	1	word	
 riktar	1	word	""rIk$tar
 rikten	1	word	
-rildig	1	word	
 ringakta	1	word	""rIN$%ak$ta
 ringaktar	1	word	""rIN$%ak$tar
 ringaktat	1	word	
@@ -28085,7 +28083,6 @@ yxorna	1	word	""Yk$sU$n`a
 Överläggning	1	name	""2:$ve$%l`E$gnIN
 Överlåter	1	word	""2:$ve$%l`o:$ter
 Övermodet	1	word	""2:$ver$%mu:$det
-Övermåttan	1	word	2:$ver$""mO$tan
 Överskyl	1	word	""2:$ver$%x\y:l
 Överväg	1	word	""2:$ver$%vE:g
 Övervägen	1	name	

@@ -2068,6 +2068,206 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive 42:1 före kapitelrubriken och dess fortsättning under rubriken på nästa sida, sidgränsen efter 42:15 och spaltfortsättningen i 42:24. A137 införd och återbyggd: främmande versal Vanärad → vanärad i 42:10. Sluttankstrecket i 42:14 behålls som tryckets typografiska avdelning. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive hela den långa 42:17."
+    },
+    {
+      "book": "Sir",
+      "chapter": 43,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "2354c156ae47b882ae8210868585c707edcc7dd2d74c091cd656d07466d98669",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0133.1.tif",
+          "sha256": "d352d84146cce443af6b9a50d208f3a78da0d1ca412fc7bf06e9baf96ed66565"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0134.1.tif",
+          "sha256": "545b44f0c15d364f785a53f5ec325a08990cf4653fdeba8cb57a98191873e4c7"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0135.1.tif",
+          "sha256": "5b1ee7c8f2cea1fe0ea8ea3f6dbfd386f5528a98ebe638f33c9ad406f6fee68c"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 43:6 och 43:26 samt spaltfortsättningen i 43:16. A138 införd och återbyggd: övermåttan → Övermåttan efter slutpunkt i 43:11. Tankstrecket i 43:6 återges typografiskt som bindestreck. Alla andra ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 44,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "8020c1f193394cdf79e2c1d0f0c4a82564ed35d941d877adac93399b6018d74c",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0135.1.tif",
+          "sha256": "5b1ee7c8f2cea1fe0ea8ea3f6dbfd386f5528a98ebe638f33c9ad406f6fee68c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0136.1.tif",
+          "sha256": "586e4410499572229eb178776cec726e7e483c9b872907abaa893097a36ace6a"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0137.1.tif",
+          "sha256": "fc7d518b803ae34a6dd149068be5715f0e88247ae3fa34dd3ea8394b16c05f84"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 44:9 och hela slutet av 44:23 under rubriken för kapitel 45 och överst på nästa sida. Marginalnumret 45:1 står först vid och var älskad; den föregående satsen ligger kvar i 44:23. A020, åminnelse i 44:9, återkontrollerad. Alla övriga ord, skiljetecken och versgränser bekräftade. Tankstrecket i 44:6 återges som bindestreck."
+    },
+    {
+      "book": "Sir",
+      "chapter": 45,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "a8310dd37e348f93772264dbb5b146249b23c081f0b6ab1d099d55bdae31738b",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0137.1.tif",
+          "sha256": "fc7d518b803ae34a6dd149068be5715f0e88247ae3fa34dd3ea8394b16c05f84"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0138.1.tif",
+          "sha256": "9730ead200b49b446d10a9578f173f070f70d539bf163739d93b13cbab632a7c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0139.1.tif",
+          "sha256": "7915d9f34ad3c41bee8294d9bf4f366b4fb95e1e3f2c068d8d1759b50e6f5db3"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 45:8, sidfortsättningen i 45:14 och 45:26 på nästa sida. A139 införd och återbyggd: honörn → honom i 45:5. Versgränsen före 45:1 och alla andra ord, skiljetecken och versgränser bekräftade; den långa beskrivningen av prästdräkten genomläst i sin helhet."
+    },
+    {
+      "book": "Sir",
+      "chapter": 46,
+      "status": "verified",
+      "verse_count": 20,
+      "text_sha256": "35279fe055838d8c5d03d458c594ee5ea1fa2ef9da4d200cf3c5c5086ceefe4a",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0139.1.tif",
+          "sha256": "7915d9f34ad3c41bee8294d9bf4f366b4fb95e1e3f2c068d8d1759b50e6f5db3"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0140.1.tif",
+          "sha256": "63b5849164f19d7f92de0ddd8a7b7022934d95f48aef26e052165a8bf8b65536"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 46:5, sidgränsen efter 46:10 och spaltfortsättningen i 46:19. A140 införd och återbyggd: avsomnät → avsomnat i 46:20. Tryckets solen gick tillbaka i 46:4 och tyriernas i 46:18 behållna. Alla övriga ord, skiljetecken och versgränser bekräftade. Tankstrecket i 46:11 återges som bindestreck."
+    },
+    {
+      "book": "Sir",
+      "chapter": 47,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "d4e0bd287ba600bc5054566a66297769da3900782c2f1b479cc12946926477e7",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0140.1.tif",
+          "sha256": "63b5849164f19d7f92de0ddd8a7b7022934d95f48aef26e052165a8bf8b65536"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0141.1.tif",
+          "sha256": "131ca00561d71a27d54328e8e7fa0dd1778ffaec6fb9edf4574dfb16132adf6c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0142.1.tif",
+          "sha256": "467c1a5e4981029756cb026793877687b2316ab548587695b211a6fb3d7826ba"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 47:5, spaltfortsättningen i 47:12 och sidfortsättningen i 47:22. A141–A142 införda och återbyggda: 47:5, Ja, han åkallade Herren, den Högste ..., avskiljs från 47:4 och dens rättas till den i den återställda versen. Marginalnumret 5 kontrollerat i originalupplösning; de grekiska och engelska parallelltexterna bekräftar samma gräns. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 48,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "67e15ca63633d84e4a4d49c1f6b988c00e91c1ece4a94ae62adb9ec6c4de09ab",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0142.1.tif",
+          "sha256": "467c1a5e4981029756cb026793877687b2316ab548587695b211a6fb3d7826ba"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0143.1.tif",
+          "sha256": "db664eecac68ef88b7d69d6f4d866989e031275e593e581c65257d6ac8a6bca7"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 48:1 och sidgränsen efter 48:11. Inga nya rättelser. Alla ord, skiljetecken och versgränser bekräftade, inklusive hela den långa 48:15 och slutet av 48:25 före nästa kapitelrubrik."
+    },
+    {
+      "book": "Sir",
+      "chapter": 49,
+      "status": "verified",
+      "verse_count": 16,
+      "text_sha256": "cbf96bd987caa5e3296c212e6ddbfd451bc05b576cbcd108e18652c91b07065a",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0143.1.tif",
+          "sha256": "db664eecac68ef88b7d69d6f4d866989e031275e593e581c65257d6ac8a6bca7"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0144.1.tif",
+          "sha256": "3fa75f63f14d6ff8a279ce9cc62998f7606d52aa6e588cf6bc282442c321a46f"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 49:1 och hela slutet av 49:16. Inga nya rättelser. Samtliga ord, skiljetecken och versgränser bekräftade. Tryckets tankstreck behållna som typografisk återgivning, med bindestreck i 49:13."
+    },
+    {
+      "book": "Sir",
+      "chapter": 50,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "3936d9de16488027c0ff7643c6b2f35abe9502df758627da5e2bfc9179a41e64",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0145.1.tif",
+          "sha256": "6e0b32972f1dedac3d5f69b43125e577af0523fe96dfbed350653a3b88db9036"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0146.1.tif",
+          "sha256": "fa94ad8d4852e48a4954e6a16a15eb3a09ec513a3be9dcfc06af3d63f151f906"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 50:10 och sidfortsättningen i 50:17. A143 införd och återbyggd: rildig → riklig i 50:10, bekräftat i originalupplösning. A008, som i 50:26, återkontrollerad. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive gränsen mellan 50:14 och 50:15 utan påhittat skiljetecken."
+    },
+    {
+      "book": "Sir",
+      "chapter": 51,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "a8bedc26259f70246bb0896d88489bc7210848a1b5152b7e3cf00f2255720c70",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0146.1.tif",
+          "sha256": "fa94ad8d4852e48a4954e6a16a15eb3a09ec513a3be9dcfc06af3d63f151f906"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0147.1.tif",
+          "sha256": "9ac6a625debbbbb956280e2c512b400534c875acad63d525045802762b02b795"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0148.1.tif",
+          "sha256": "d0cc134182d45fdb358b62f5dc4ab3647fff257b26867ce26c3736efa24e4b1e"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidgränsen efter 51:2, spaltfortsättningen i 51:11 och sidgränsen efter 51:18; följt till hela bokens slut i 51:30. A144–A145 införda och återbyggda: Jag → jag i 51:17 samt Bojen → Böjen i 51:26. Tryckets mitt ur i 51:4 behållet. Alla övriga ord, skiljetecken och versgränser bekräftade. Tryckets avdelningslinjer ger inga extra versposter."
     }
   ],
   "unnumbered": [

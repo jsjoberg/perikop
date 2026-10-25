@@ -1038,6 +1038,12 @@ int main(int argc, char** argv) {
                  {"Sir", {37, 27}, "vad du tål, ocn lägg", "vad du tål, och lägg"},
                  {"Sir", {39, 23}, "hans vrede, såsom, när", "hans vrede, såsom när"},
                  {"Sir", {42, 10}, "skall bliva Vanärad", "skall bliva vanärad"},
+                 {"Sir", {43, 11}, "den. övermåttan skön", "den. Övermåttan skön"},
+                 {"Sir", {45, 5}, "lät honörn träda", "lät honom träda"},
+                 {"Sir", {46, 20}, "hade avsomnät,", "hade avsomnat,"},
+                 {"Sir", {50, 10}, "med rildig frukt", "med riklig frukt"},
+                 {"Sir", {51, 17}, "förkovrades Jag däri", "förkovrades jag däri"},
+                 {"Sir", {51, 26}, "Bojen eder hals", "Böjen eder hals"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1117,6 +1123,18 @@ int main(int argc, char** argv) {
         }
         check(corpus.verse("sv1917", "Sir", {38, 17})->text.find("såsom kan förtjänar") != std::string::npos,
               "Sirach's printed kan remains pending an independent witness");
+        check(corpus.verse("sv1917", "Sir", {47, 4})->text == "Slog han icke i sin ungdom ihjäl jätten och tog så bort försmädelsen ifrån folket, i det han lyfte sin hand med slungstenen och slog Goljats stolta skryt till marken?" &&
+                  corpus.verse("sv1917", "Sir", {47, 5})->text == "Ja, han åkallade Herren, den Högste, och Herren lade styrka i hans högra hand, till att nedgöra den starke kämpen och till att upphöja hans folks horn.",
+              "Sirach 47:4-5 retain the printed boundary and den reading");
+        for (const VerseRef& ref : {VerseRef{47, 4}, VerseRef{47, 5}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 47:4-5 align individually in both directions");
+            }
+        }
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
               "the possible printing variant with någon remains pending human review");
         check(corpus.verse("sv1917", "Jdt", {5, 8})->text.find("förjagade med från") != std::string::npos &&

@@ -23,7 +23,7 @@ LEAKED=[('Tob',3,1,'2 »'),('Tob',7,16,'17 »'),('Tob',9,1,'2 »'),('Tob',10,4,'
  ('1Macc',13,14,'15 »'),('2Macc',3,37,'38 »'),('2Macc',6,23,'24 »'),('2Macc',7,5,'6 »'),('2Macc',7,21,'22 »'),('2Macc',8,17,'18 »'),
  ('2Macc',10,9,'10} '),('2Macc',14,34,'35 »'),('2Macc',15,15,'16 »'),('2Macc',14,4,'6 »'),('Wis',11,26,'12,1 ')]
 # Verses split where an OCR margin number marks the boundary: (book, chapter, verse, first words of the next verse).
-SPLIT=[('Sir',40,15,'De likna vassen'),('Sir',13,15,'Alla varelser sluta sig'),('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
+SPLIT=[('Sir',47,4,'Ja, han åkallade Herren'),('Sir',40,15,'De likna vassen'),('Sir',13,15,'Alla varelser sluta sig'),('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
@@ -166,6 +166,14 @@ REPLACE=[
  ('Sir', 37, 27, 'vad du tål, ocn lägg', 'vad du tål, och lägg'),
  ('Sir', 39, 23, 'hans vrede, såsom, när', 'hans vrede, såsom när'),
  ('Sir', 42, 10, 'skall bliva Vanärad', 'skall bliva vanärad'),
+ # Syrak 43-51 scan review: A138-A145; 47:5 is restored by SPLIT.
+ ('Sir', 43, 11, 'den. övermåttan skön', 'den. Övermåttan skön'),
+ ('Sir', 45, 5, 'lät honörn träda', 'lät honom träda'),
+ ('Sir', 46, 20, 'hade avsomnät,', 'hade avsomnat,'),
+ ('Sir', 50, 10, 'med rildig frukt', 'med riklig frukt'),
+ ('Sir', 51, 17, 'förkovrades Jag däri', 'förkovrades jag däri'),
+ ('Sir', 51, 26, 'Bojen eder hals', 'Böjen eder hals'),
+ ('Sir', 47, 4, 'Herren, dens Högste', 'Herren, den Högste'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
