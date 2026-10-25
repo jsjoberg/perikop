@@ -5,9 +5,8 @@ Status, 2026-10-25: steps 1 and 2 are done (#52, #54), and the AppImage is held 
 ## Decisions
 
 - Linux support follows what Debian 13 and EL 10 (AlmaLinux/Rocky 10) ship. Their stock compilers are the constraint: **GCC 14** becomes the minimum (Debian 13: 14.2, EL 10: 14.3). No gcc-toolset and no custom compilers.
-- **Debian 13** builds the `.deb` and the **AppImage**, for x64 and arm64 (Raspberry Pi OS is Debian 13 based).
-- **AlmaLinux 10** builds the `.rpm`.
-- The AppImage keeps its Velopack updates. `.deb` and `.rpm` copies are updated by their package manager or by a new download. There are no APT or DNF repositories in this plan.
+- **Debian 13** builds the **AppImage**, for x64 and arm64 (Raspberry Pi OS is Debian 13 based). It keeps its Velopack updates.
+- No `.deb` or `.rpm`: the AppImage, held to glibc 2.39, also covers Enterprise Linux 10. (The original plan had Debian 13 build a `.deb` and AlmaLinux 10 an `.rpm`.)
 - Windows and macOS are unchanged.
 
 ## Why this works
@@ -25,8 +24,6 @@ Checked locally on arm64, 2026-10-23/24, with main at `c75815c`:
 | Package | Built on | glibc needed | Runs on |
 |---|---|---|---|
 | AppImage x64/arm64 | Debian 13 | 2.39 (gate since `linux-glibc239`) | Enterprise Linux 10, Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 40+, Arch, Slackware-current |
-| `.deb` x64/arm64 | Debian 13 | Debian 13 | Debian 13, Raspberry Pi OS (Debian 13) |
-| `.rpm` x64 (arm64 optional) | AlmaLinux 10 | 2.39 | AlmaLinux, Rocky and RHEL 10 |
 
 No longer supported: Ubuntu 24.04 and older, Debian 12, EL 9, Slackware 15.0. Today's AppImage (glibc 2.34) keeps working on several of these until the first release built by the new system.
 
