@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 178 rättade, återställda eller omnumrerade versposter efter sexton granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 193 rättade, återställda eller omnumrerade versposter efter sjutton granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -198,6 +198,21 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A154 | [Baruk 6:5](https://runeberg.org/apokryf/0157.html) | **Tanken i stället** | **Tänken i stället** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), höger spalt, v. 5 |
 | [ ] | A155 | [Baruk 6:11](https://runeberg.org/apokryf/0157.html) | **purpmr-dräkter.** | **purpurdräkter.** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), höger spalt, v. 11 |
 | [ ] | A156 | [Baruk 6:14](https://runeberg.org/apokryf/0157.html) | **kan nian förstå** | **kan man förstå** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), nederst till höger, v. 14 |
+| [ ] | A157 | [1 Mack. 1:10](https://runeberg.org/apokryf/0161.html) | **till Rom Han blev konung i det grekiska konungadömets ett hundra trettio sjunde år.** | **till Rom. Han blev konung i det grekiska konungadömets ett hundra trettiosjunde år.** | Jämför tryckets ord och marginalnummer | [s. 157](https://runeberg.org/apokryf/0161.html), höger spalt, v. 10 |
+| [ ] | A158 | [1 Mack. 1:39](https://runeberg.org/apokryf/0163.html) | **dess heder till förakt,** | **dess heder till förakt.** | Jämför tryckets ord och marginalnummer | [s. 159](https://runeberg.org/apokryf/0163.html), överst till vänster, v. 39 |
+| [ ] | A159 | [1 Mack. 2:8](https://runeberg.org/apokryf/0164.html) | **en Vanärad man** | **en vanärad man** | Jämför tryckets ord och marginalnummer | [s. 160](https://runeberg.org/apokryf/0164.html), vänster spalt, v. 8 |
+| [ ] | A160 | [1 Mack. 2:13](https://runeberg.org/apokryf/0164.html) | **Varförr skulle** | **Varför skulle** | Jämför tryckets ord och marginalnummer | [s. 160](https://runeberg.org/apokryf/0164.html), höger spalt, v. 13 |
+| [ ] | A161 | [1 Mack. 2:64](https://runeberg.org/apokryf/0166.html) | **barn, våren frimodiga** | **barn, varen frimodiga** | Jämför tryckets ord och marginalnummer | [s. 162](https://runeberg.org/apokryf/0166.html), höger spalt, v. 64 |
+| [ ] | A162 | [1 Mack. 2:70](https://runeberg.org/apokryf/0167.html) | **Han dog år 146; Och** | **Han dog år 146. Och** | Jämför tryckets ord och marginalnummer | [s. 163](https://runeberg.org/apokryf/0167.html), överst till vänster, v. 70 |
+| [ ] | A163 | [1 Mack. 3:38](https://runeberg.org/apokryf/0169.html) | **utsåg Ptolomeus,** | **utsåg Ptolemeus,** | Jämför tryckets ord och marginalnummer | [s. 165](https://runeberg.org/apokryf/0169.html), vänster spalt, v. 38 |
+| [ ] | A164 | [1 Mack. 3:42](https://runeberg.org/apokryf/0169.html) | **och hans broder sågo** | **och hans bröder sågo** | Jämför tryckets ord och marginalnummer | [s. 165](https://runeberg.org/apokryf/0169.html), höger spalt, v. 42 |
+| [ ] | A165 | [1 Mack. 4:8](https://runeberg.org/apokryf/0170.html) | **»Frukten Icke för deras stora antal, och radens icke för deras anlopp.** | **»Frukten icke för deras stora antal, och rädens icke för deras anlopp.** | Jämför tryckets ord och marginalnummer | [s. 166](https://runeberg.org/apokryf/0170.html), höger spalt, v. 8 |
+| [ ] | A166 | [1 Mack. 5:25](https://runeberg.org/apokryf/0174.html) | **Galaaditis.’ De sade:** | **Galaaditis. De sade:** | Jämför tryckets ord och marginalnummer | [s. 170](https://runeberg.org/apokryf/0174.html), höger spalt, v. 25 |
+| [ ] | A167 | [1 Mack. 5:38](https://runeberg.org/apokryf/0175.html) | **hos dem. en mycket** | **hos dem, en mycket** | Jämför tryckets ord och marginalnummer | [s. 171](https://runeberg.org/apokryf/0175.html), överst till höger, v. 38 |
+| [ ] | A168 | [1 Mack. 6:11](https://runeberg.org/apokryf/0177.html) | **vid mig själv:’I vilket** | **vid mig själv: ’I vilket** | Jämför tryckets ord och marginalnummer | [s. 173](https://runeberg.org/apokryf/0177.html), höger spalt, v. 11 |
+| [ ] | A169 | [1 Mack. 6:14](https://runeberg.org/apokryf/0178.html) | **satte honom Över** | **satte honom över** | Jämför tryckets ord och marginalnummer | [s. 174](https://runeberg.org/apokryf/0178.html), vänster spalt, v. 14 |
+| [ ] | A170 | [1 Mack. 6:20](https://runeberg.org/apokryf/0178.html) | **år 150; Och** | **år 150. Och** | Jämför tryckets ord och marginalnummer | [s. 174](https://runeberg.org/apokryf/0178.html), vänster spalt, v. 20 |
+| [ ] | A171 | [1 Mack. 6:56](https://runeberg.org/apokryf/0180.html) | **Persien och Me-dien,** | **Persien och Medien,** | Jämför tryckets ord och marginalnummer | [s. 176](https://runeberg.org/apokryf/0180.html), vänster spalt, v. 56 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -239,7 +254,7 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 522 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 156 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 171 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -271,3 +286,5 @@ Fjortonde omgången: hela Syrak 37–42, 177 versposter efter återställning, h
 Femtonde omgången: hela Syrak 43–51, 227 versposter efter återställning, har jämförts mot tryckta s. 129–144. A138–A145 rättar sex ord-/versalfel samt avskiljer 47:5 från 47:4 med dens → den i den återställda versen. Tolv mappningsrader korrigeras eller tas bort; inga andra ord ändras vid versdelningen. Kapitel 44, 48 och 49 behöver inga nya rättelser. Hela Syrak, inklusive företalet, är nu bildläst; 50 av 51 kapitel med 1 335 versposter är verifierade, medan kapitel 38 fortfarande väntar på V005. SALDO- och Dalin-sinnen oförändrade. Nästa bok är Baruk.
 
 Sextonde omgången: hela Baruk 1–6, inklusive Jeremias brev, 213 versposter efter återställning, har jämförts mot tryckta s. 145–156. A146–A156 omfattar nio ord-/interpunktionsrättelser och återställning av 3:38 från 3:37 utan ändrad ordalydelse. Fyra sammanslagna mappningar ersätts med åtta individuella med bibehållen svensk numreringsförskjutning. Alla sex kapitel är verifierade. Bojen → Böjen och nian → man tar bort fem falska SALDO-sinnen för boj/nia och två Dalin-poster för boj; 12 736 SALDO-sinnen och 7 591 Dalin-poster återstår.
+
+Sjuttonde omgången: hela 1 Mackabeerboken 1–6, 386 versposter på tryckta s. 157–176, har jämförts mot faksimil. A157–A171 rättar femton versposter, bland annat trettiosjunde i 1:10, bröder i 3:42, rädens i 4:8, fotnotsapostrof i 5:25 och Medien i 6:56. Alla verskoordinater, mappningar och lexikonsinnen är oförändrade. Tryckets Honom i 2:61, Han i 3:22 och 4:10 samt det ovanliga kommat efter hava i 4:16 är bekräftade och behållna. Alla sex kapitel är verifierade; 7–16 återstår.

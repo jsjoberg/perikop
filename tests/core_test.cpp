@@ -1053,6 +1053,21 @@ int main(int argc, char** argv) {
                  {"Baruch", {6, 5}, "Tanken i stället", "Tänken i stället"},
                  {"Baruch", {6, 11}, "purpmr-dräkter.", "purpurdräkter."},
                  {"Baruch", {6, 14}, "kan nian förstå", "kan man förstå"},
+                 {"1Macc", {1, 10}, "till Rom Han blev konung i det grekiska konungadömets ett hundra trettio sjunde år.", "till Rom. Han blev konung i det grekiska konungadömets ett hundra trettiosjunde år."},
+                 {"1Macc", {1, 39}, "dess heder till förakt,", "dess heder till förakt."},
+                 {"1Macc", {2, 8}, "en Vanärad man", "en vanärad man"},
+                 {"1Macc", {2, 13}, "Varförr skulle", "Varför skulle"},
+                 {"1Macc", {2, 64}, "barn, våren frimodiga", "barn, varen frimodiga"},
+                 {"1Macc", {2, 70}, "Han dog år 146; Och", "Han dog år 146. Och"},
+                 {"1Macc", {3, 38}, "utsåg Ptolomeus,", "utsåg Ptolemeus,"},
+                 {"1Macc", {3, 42}, "och hans broder sågo", "och hans bröder sågo"},
+                 {"1Macc", {4, 8}, "»Frukten Icke för deras stora antal, och radens icke för deras anlopp.", "»Frukten icke för deras stora antal, och rädens icke för deras anlopp."},
+                 {"1Macc", {5, 25}, "Galaaditis.’ De sade:", "Galaaditis. De sade:"},
+                 {"1Macc", {5, 38}, "hos dem. en mycket", "hos dem, en mycket"},
+                 {"1Macc", {6, 11}, "vid mig själv:’I vilket", "vid mig själv: ’I vilket"},
+                 {"1Macc", {6, 14}, "satte honom Över", "satte honom över"},
+                 {"1Macc", {6, 20}, "år 150; Och", "år 150. Och"},
+                 {"1Macc", {6, 56}, "Persien och Me-dien,", "Persien och Medien,"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

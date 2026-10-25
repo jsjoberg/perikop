@@ -2408,6 +2408,174 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, från brevets inledning Detta är en avskrift, som ligger i befintliga 6:1, till bokens slut i 6:72. Inga nya versnummer uppfunna för inledningen. Sidfortsättningarna i 6:14, 6:34 och 6:54 samt spaltfortsättningarna i 6:3, 6:25 och 6:63 följda. A154–A156 införda och återbyggda: Tanken → Tänken i 6:5, purpmr-dräkter → purpurdräkter i 6:11 och nian → man i 6:14. Tryckets ovanliga komma efter guldet i 6:57 behållet. Alla andra ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 64,
+      "text_sha256": "4d8d766d3880ace6d54125ca27c712bbffd5414ef280cda232f1b90fc317d603",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0161.1.tif",
+          "sha256": "3c4fc438a06e06be752bf87543f2ad35e2f76d3fadaa7b4ec6d03aa8457236a2"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0162.1.tif",
+          "sha256": "7a3d1f6221c89eac53a8274499ccfb85cfa9af4efc47da6f864db488e2019ef2"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0163.1.tif",
+          "sha256": "2558fe2d0a820c362a4c768e53990c093a2c3a494fc40d383bddcf89540b8d7c"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord på tre trycksidor, inklusive sidfortsättningarna i 1:17 och 1:39 samt spaltfortsättningarna i 1:9 och 1:52. A157–A158 införda och återbyggda: saknad punkt efter Rom och felaktigt särskrivet trettio sjunde i 1:10 samt slutpunkt i 1:39. A022, behag i 1:12, återkontrollerad. Alla övriga ord, skiljetecken och versgränser bekräftade; fotnotstecken i 1:23, 1:52 och 1:54 omvandlas inte till interpunktion."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 70,
+      "text_sha256": "d2f6e6affe3377c09c724c192b57a27f685be1bf270fac34ca28aa32a19751cb",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0164.1.tif",
+          "sha256": "18e878700e547053f706b83f4621b0437bed06ca3285d1070a466298a0702155"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0165.1.tif",
+          "sha256": "fda415e1ba234afcac1183a9e713c858e81d2ce6569a9241c0dc3965d7033c78"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0166.1.tif",
+          "sha256": "9c9070fe4fda30b4f157162331fe739527ad06212d30115f044cea36411bb3ac"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0167.1.tif",
+          "sha256": "1e91ae422cefe42131db68b69ecf30b9a7fcd824108a20b634513bbab6e08f00"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 2:20, 2:41 och 2:68 samt spaltfortsättningen i 2:54. A159–A162 införda och återbyggda: Vanärad → vanärad i 2:8, Varförr → Varför i 2:13, våren → varen i 2:64 och punkt efter 146 i 2:70. Tryckets versal Honom i 2:61 bekräftad och behållen. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive namnlistan och hela Mattatias avskedstal."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 60,
+      "text_sha256": "3e22b84b5fbe6e185950c9fcfa39c1852d09b3e353b0f1c46bdeac597ee646b5",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0167.1.tif",
+          "sha256": "1e91ae422cefe42131db68b69ecf30b9a7fcd824108a20b634513bbab6e08f00"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0168.1.tif",
+          "sha256": "98cf3c388f5733a9aad982d66ef0dd79dc54aa8b7b3b5f2e02b7f755f17a04d6"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0169.1.tif",
+          "sha256": "77f527ccec1676ba982c6fd073eae518a3ce497523d942698b74f20d2a8c61c9"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0170.1.tif",
+          "sha256": "696bac568cb02d64a9ad85ecdc1340fd4208fd9be8a0b0b8e9ce543bed213874"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningarna i 3:3 och 3:41 och sidfortsättningarna i 3:32 och 3:49. A163–A164 införda och återbyggda: Ptolomeus → Ptolemeus i 3:38 och broder → bröder i 3:42. Tryckets versal Han i 3:22 behållen. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive hela 3:29–31 och gränsen mellan 3:21 och 3:22."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 61,
+      "text_sha256": "2349db3dc2350ed148954d5084670d51a1b2d6daf5d6fbf2575182385faca427",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0170.1.tif",
+          "sha256": "696bac568cb02d64a9ad85ecdc1340fd4208fd9be8a0b0b8e9ce543bed213874"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0171.1.tif",
+          "sha256": "7585f7f73d63950a26fdaa922b7a069cdaef3fade7d88753ca8cdc061c877b55"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0172.1.tif",
+          "sha256": "1beee460daf445e58b3f7a58dd53a22a3706e64f3d49c9025b6deb729099d8aa"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0173.1.tif",
+          "sha256": "0c628335d7c1a3adecc6d876e1de19f5033b2b59a2f408fbe18a6e0ed0e0d4d5"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 4:10, 4:33 och 4:55 samt spaltfortsättningarna i 4:22 och 4:42. A165 införd och återbyggd: Icke → icke och radens → rädens i 4:8. Det ovanliga kommat efter hava i 4:16 finns även i tryckbilden, kontrollerat i originalupplösning, och behålls. Versalen Han i 4:10 är också tryckt och behålls. Alla övriga ord, skiljetecken och versgränser bekräftade, inklusive invigningsberättelsens långa slutparti."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 68,
+      "text_sha256": "0563fed2980a80d33484c2a09285358b82a6b7684c35483109fe61ccd7aaca8c",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0173.1.tif",
+          "sha256": "0c628335d7c1a3adecc6d876e1de19f5033b2b59a2f408fbe18a6e0ed0e0d4d5"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0174.1.tif",
+          "sha256": "bc4d9dd982d881257cfd03ef970fc801539ffae735da6fd567ebce2d4201756b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0175.1.tif",
+          "sha256": "3005623706352417725fbe6bce8c946c54e23ca7cfcdd6055bc683e8f89bbc0f"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0176.1.tif",
+          "sha256": "883f756ab0c731e813e2d4b1fc61f58f67bb8acf0802c31e4497c738f9c91d80"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0177.1.tif",
+          "sha256": "fcd44c8d19eceee78e190d24be7a7a85763d2223cd0c360d024b9d3d5a7e7c47"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 5:9, 5:28, 5:46 och 5:68 samt spaltfortsättningarna i 5:19, 5:38 och 5:55. A166–A167 införda och återbyggda: främmande fotnotsapostrof efter Galaaditis. i 5:25 tas bort och punkt rättas till tryckets komma i hos dem, en mycket stor härskara i 5:38. Tryckets marginalnummer och citatstart mellan 5:25–26 följda utan extra bibelord. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive tidigare gränsreparationer i 5:25–26 och borttaget främmande tecken i 5:60."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 63,
+      "text_sha256": "ff56c3265e9e9980296e95b61fe7915ad4450a2d76c4f2764de0a208d5ca1c0e",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0177.1.tif",
+          "sha256": "fcd44c8d19eceee78e190d24be7a7a85763d2223cd0c360d024b9d3d5a7e7c47"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0178.1.tif",
+          "sha256": "0fdc6686d652494bbc5d0c31bb3fd45697ac228570d335d0bec2c8f98214a9e6"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0179.1.tif",
+          "sha256": "a76d8fe9407385306cf25d575abc2a5f4eef3fde7deac4db4ac86156d5c2ea9b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0180.1.tif",
+          "sha256": "53200f9fbf1296a9f4ffa3cd5b50df3850416a57ae5857c47f8cc277e45a9b5d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 6:12 och 6:34 och spaltfortsättningarna i 6:23, 6:43 och 6:60. A168–A171 införda och återbyggda: saknat mellanslag före citat i 6:11, Över → över i 6:14, punkt efter 150 i 6:20 samt borttagen radslutsavstavning i Medien i 6:56. Tryckets trettiotvå krigsmän i 6:37 och elliptiska fiendens i 6:52 behållna. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive hela elefantskildringen och bokens fredsberättelse till kapitelgränsen i 6:63."
     }
   ],
   "unnumbered": [
