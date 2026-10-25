@@ -66,7 +66,7 @@ Compound fragments and component forms of phrases are excluded. No suffix guesse
 Reviewed irregular 1917 forms supply a fallback when no published form matches.
 Distinct SALDO senses remain separate. Word classes describe possible entries, rather than a grammatical analysis of the verse.
 
-The bundle contains 12,751 SALDO senses.
+The bundle contains 12,749 SALDO senses.
 SALDO matches 96.0 % of Swedish word occurrences. All three sources together match 98.2 %.
 These percentages measure available entries, not prose definitions or correct interpretation of each word in context.
 

@@ -27,6 +27,21 @@ SPLIT=[('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att 
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
+ # Printed page 106 (runeberg.org/apokryf/0110.html) has i, not OCR's l.
+ ('Sir',28,9,'leva l frid','leva i frid'),
+ # Printed page 62 (runeberg.org/apokryf/0066.html) has an exclamation mark.
+ ('Tob',11,15,'min son TobiasI»','min son Tobias!»'),
+ # Further scan-verified OCR errors: A003-A012 in docs/reports/sv1917-errata.md.
+ ('Sir',4,8,'saktmod vänligr svar','saktmod vänligt svar'),
+ ('Sir',13,10,'icke rnå bliva glömd','icke må bliva glömd'),
+ ('Sir',17,23,'vedergälla dern','vedergälla dem'),
+ ('Sir',34,9,'En väiuppfostrad man','En väluppfostrad man'),
+ ('Sir',34,19,'skygd rnot den','skygd mot den'),
+ ('Sir',50,26,'de sorn äro','de som äro'),
+ ('1Macc',7,38,'låt dern icke','låt dem icke'),
+ ('1Macc',15,41,'fotfolk, sorn skulle','fotfolk, som skulle'),
+ ('2Macc',3,25,'sina f ramhovar','sina framhovar'),
+ ('PrAzar',1,19,'handla rned oss','handla med oss'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
