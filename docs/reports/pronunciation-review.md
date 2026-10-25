@@ -1,6 +1,6 @@
 > Report as of 2026-10-14 (60c64bc). Not kept up to date; check the code before relying on it.
 
-Removed from the application in 0.2.0; kept as background for a possible separate developer tool.
+Removed from the application in 0.2.0. The menu item, `--pronunciation-review`, the corrections database and the export described below no longer exist; this report is kept only as background for a possible separate developer tool.
 
 # Swedish pronunciation review
 
