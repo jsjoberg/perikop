@@ -76,14 +76,8 @@ The version-3 plans follow OSB chapters and book order. They include Psalm 151,
 37. See [reading plans](reading-plans.md) for lengths and compatibility details.
 
 Bookmarks keep their original source and coordinates; labels and opening passages
-are mapped to OSB. Saved reading positions are copied to `reading:osb-v1:...` keys.
-Old rows remain recovery data. Plan conversion uses frozen v1/v2 ranges and requires
-all source counterparts to be read before marking a new OSB verse covered. New
-material without old coverage remains unread. Checkpoints resume at the first
-unread verse, so a boundary may repeat text but cannot skip an unread gap.
-
-Each migration phase is transactional and idempotent. Existing OSB progress wins.
-Reset clears all versions of a plan, and migration markers prevent resurrection.
+are mapped to OSB. Reading positions use `reading:osb-v1:...` keys. Positions and plan progress saved
+before OSB are not converted; see [reading plans](reading-plans.md#compatibility).
 
 ## Reproduce and verify
 

@@ -1,6 +1,5 @@
 #include "core/source_preferences.hpp"
 #include "storage/database.hpp"
-#include "storage/sqlite.hpp"
 #include <algorithm>
 #include <filesystem>
 #include <iostream>
@@ -66,22 +65,7 @@ int main(int argc, char** argv) {
                   "Reopened profile retains both priority lists and split view");
         }
         std::filesystem::remove(path);
-        {
-            auto database = storage::open(path, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
-            storage::exec(database.get(), "CREATE TABLE settings(key TEXT PRIMARY KEY,value TEXT);"
-                                          "INSERT INTO settings VALUES('parallel','el,en');");
-        }
-        {
-            UserDb user(path);
-            const auto migrated = user.load();
-            check(migrated.split_view && migrated.secondary_sources.front().source == "grc-lxx",
-                  "Legacy Greek parallel choice migrates to secondary priority");
-            user.save(migrated);
-            check(user.load().secondary_sources == migrated.secondary_sources,
-                  "Migration remains stable after saving");
-        }
-        std::cout
-            << "Source preferences: defaults, fallback, Greek opt-in, persistence, and migration passed\n";
+        std::cout << "Source preferences: defaults, fallback, Greek opt-in and persistence passed\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

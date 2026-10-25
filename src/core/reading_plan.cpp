@@ -11,7 +11,7 @@ const std::vector<ReadingPlan>& reading_plans() {
     return plans;
 }
 std::string plan_key(const ReadingPlan& plan, std::size_t part) {
-    return "plan:" + plan.id + ":v3:" + std::to_string(part + 1);
+    return "plan:" + plan.id + ":v4:" + std::to_string(part + 1);
 }
 std::string plan_label(const CorpusDb& corpus, const PlanPart& part, bool short_names) {
     // Books of one chapter are named without a chapter number, as in "Filem".
