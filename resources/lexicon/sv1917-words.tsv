@@ -1,13 +1,13 @@
 # form	occurrences	kind	nst_sampa
-och	39653	word	"Ok
-i	15975	word	
-till	15694	word	"tIl
+och	39654	word	"Ok
+i	15971	word	
+till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
 han	12030	word	"han
 de	11741	word	
 det	8674	word	
-en	8481	word	"En
+en	8482	word	"En
 Och	8353	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
@@ -172,7 +172,7 @@ får	718	word	"fo:r
 två	715	word	"tvo:
 gav	688	word	"gA:v
 fader	682	word	""fA:$der
-huru	681	word	""h}:$r}:
+huru	682	word	""h}:$r}:
 ögon	680	word	""2:$gOn
 låta	677	word	""lo:$ta
 Den	673	word	
@@ -184,8 +184,8 @@ landet	645	word	"land$det
 taga	636	word	""tA:$ga
 haven	633	word	"hA:$ven
 intet	633	word	""In$tet
+gör	629	word	"j2:r
 ännu	629	word	""E$n}:
-gör	628	word	"j2:r
 kommit	627	word	""kO$mIt
 här	626	word	"hE:r
 väl	621	word	"vE:l
@@ -403,7 +403,7 @@ gått	233	word	"gOt
 låter	233	word	"lo:$ter
 synd	232	word	"sYnd
 förbund	231	word	f9r$"bu0nd
-natten	229	word	"na$ten
+natten	230	word	"na$ten
 släkte	229	word	""slEk$te
 ären	229	word	
 ena	228	word	""e:$na
@@ -427,9 +427,9 @@ falla	219	word	""fa$la
 kött	219	word	"s'9t
 därtill	218	word	"dE:$t`Il
 Vem	217	word	"vEm
+kallade	217	word	""ka$la$de
 faders	216	word	""fA:$des`
 jordens	216	word	"ju:$d`ens
-kallade	216	word	""ka$la$de
 känna	216	word	""s'E$na
 togo	216	word	""tu:$gU
 fötter	215	word	"f9$ter
@@ -1172,6 +1172,7 @@ skara	65	word	""skA:$ra
 skatter	65	word	""ska$ter
 templet	65	word	"tEm$plet
 vandrar	65	word	""van$drar
+varen	65	word	"vA:$ren
 vinna	65	word	""vI$na
 övermåttan	65	word	2:$ver$""mO$tan
 Damaskus	64	name	da$"ma$sku0s
@@ -1187,7 +1188,6 @@ skada	64	word	""skA:$da
 skriftlärde	64	word	""skrIft$%lE:$d`e
 tacka	64	word	""ta$ka
 trä	64	word	"trE:
-varen	64	word	"vA:$ren
 ålder	64	word	"Ol$der
 övergivit	64	word	""2:$ver$%ji:$vIt
 Abimelek	63	name	
@@ -1613,7 +1613,6 @@ hemlighet	44	word	""hEm$lIg$%he:t
 härefter	44	word	"hE:r$ef$ter
 hären	44	word	"hE:$ren
 höjderna	44	word	""h9j$de$n`a
-kallades	44	word	""ka$la$des
 myndighet	44	word	""mYn$dIg$%he:t
 offergåva	44	word	""O$fer$%go:$va
 rätten	44	word	"rE$ten
@@ -1648,6 +1647,7 @@ fotstycken	43	word
 förrätta	43	word	f9r$"rE$ta
 helga	43	word	""hEl$ga
 hälsar	43	word	""hEl$sar
+kallades	43	word	""ka$la$des
 krossade	43	word	""krO$sa$de
 krönika	43	word	"kr2:$nI$ka
 leder	43	word	""le:$der
@@ -4163,7 +4163,6 @@ gossebarn	14	word	""gO$se$%bA:n`
 greker	14	word	"gre:$ker
 gripen	14	word	""gri:$pen
 gömmer	14	word	"j9$mer
-göre	14	word	""j2:$re
 handlar	14	word	""hand$lar
 harm	14	word	"harm
 helighet	14	word	""he:$lIg$%he:t
@@ -4405,6 +4404,7 @@ gemenskap	13	word	je$"me:n$skA:p
 grekiska	13	word	"gre:$kI$ska
 gropen	13	word	"gru:$pen
 gårdar	13	word	""go:$d`ar
+göre	13	word	""j2:$re
 halta	13	word	""hal$ta
 hemsökt	13	word	""hEm$%s2:kt
 hitin	13	word	
@@ -12917,7 +12917,6 @@ våldföra	3	word	""vOld$%f2:$ra
 våldsamma	3	word	""vOld$%sa$ma
 våndades	3	word	""vOn$da$des
 våningar	3	word	""vo:$nIN$ar
-våren	3	word	"vo:$ren
 ynglingens	3	word	""YN$lIN$ens
 yppade	3	word	""Y$pa$de
 yppighet	3	word	""Y$pIg$%he:t
@@ -17079,6 +17078,7 @@ våldsmän	2	word	""vOlds$%mEn
 vålnad	2	word	""vo:l$nad
 våningens	2	word	""vo:$nIN$ens
 vårdade	2	word	""vo:$d`a$de
+våren	2	word	"vo:$ren
 vördnadsbjudande	2	word	""v2:d`$n`ats$%bj}:$dan$de
 ymnig	2	word	""Ym$nIg
 ymnigheten	2	word	""Ym$nIg$%he:$ten
@@ -21337,7 +21337,6 @@ enheten	1	word	""e:n$%he:$ten
 eniga	1	word	""e:$nI$ga
 enighet	1	word	""e:$nIg$%he:t
 enigt	1	word	""e:$nIkt
-enl	1	word	""e:n$lIkt
 ensliga	1	word	""e:n$slI$ga
 enträgna	1	word	""e:n$%trE:$gna
 envigeskämpe	1	word	
@@ -24601,7 +24600,6 @@ näsborrar	1	word	""nE:s$%bO$rar
 näsringen	1	word	
 nästans	1	word	""nE$stans
 nätgrop	1	word	
-nätten	1	word	
 nådastolens	1	word	""no:$da$%stu:$lens
 nådefull	1	word	
 nådefulla	1	word	
@@ -24669,7 +24667,6 @@ oblyga	1	word	""u:$%bly:$ga
 oborttaget	1	word	
 obotfärdighet	1	word	
 obändig	1	word	""u:$%bEn$dIg
-ochhuru	1	word	
 ockrare	1	word	""O$kra$re
 ockraren	1	word	""O$kra$ren
 ocn	1	word	

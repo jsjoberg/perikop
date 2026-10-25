@@ -23,7 +23,7 @@ LEAKED=[('Tob',3,1,'2 »'),('Tob',7,16,'17 »'),('Tob',9,1,'2 »'),('Tob',10,4,'
  ('1Macc',13,14,'15 »'),('2Macc',3,37,'38 »'),('2Macc',6,23,'24 »'),('2Macc',7,5,'6 »'),('2Macc',7,21,'22 »'),('2Macc',8,17,'18 »'),
  ('2Macc',10,9,'10} '),('2Macc',14,34,'35 »'),('2Macc',15,15,'16 »'),('2Macc',14,4,'6 »'),('Wis',11,26,'12,1 ')]
 # Verses split where an OCR margin number marks the boundary: (book, chapter, verse, first words of the next verse).
-SPLIT=[('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
+SPLIT=[('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
@@ -94,6 +94,23 @@ REPLACE=[
  ('Wis',19,7,'överskygga. lägret','överskygga lägret'),
  ('Wis',19,15,'ytterligare hemsökelser medan','ytterligare hemsökelse: medan'),
  ('Wis',19,17,'rättfärd iges dörr','rättfärdiges dörr'),
+ # Complete Tobit scan review: A061-A080; printed orsdpråk in 3:4 remains V004.
+ ('Tob',1,3,'utvandra till i Nineve','utvandra till Nineve'),
+ ('Tob',1,4,'för evig tid,','för evig tid.'),
+ ('Tob',4,6,'om du göre sanningen','om du gör sanningen'),
+ ('Tob',4,14,'över nätten för','över natten för'),
+ ('Tob',5,1,'svarade och sade honom','svarade och sade till honom'),
+ ('Tob',5,11,'sade till i honom','sade till honom'),
+ ('Tob',6,6,'tillsagt honom,;','tillsagt honom;'),
+ ('Tob',6,18,'eder -barmhärtighet','eder barmhärtighet'),
+ ('Tob',8,6,'Du sade:’Det','Du sade: ’Det'),
+ ('Tob',8,19,'åt dem ett i bröllop','åt dem ett bröllop'),
+ ('Tob',12,5,'Sedan kallades han till sig','Sedan kallade han till sig'),
+ ('Tob',12,6,'Ja, våren icke sena','Ja, varen icke sena'),
+ ('Tob',13,1,'en bön, enl fröjdesång','en bön, en fröjdesång'),
+ ('Tob',14,10,'ochhuru illa han','och huru illa han'),
+ ('Tob',14,12,'begrov i han henne','begrov han henne'),
+ ('Tob',14,13,'sin fader Tobits,','sin fader Tobits.'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),

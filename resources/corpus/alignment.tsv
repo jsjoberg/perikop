@@ -2284,8 +2284,6 @@ en-lxx2012	sv1917	Tob	8:1	10:6	Tob	8:1	10:6	0
 en-lxx2012	sv1917	Tob	10:7	10:8	Tob	10:7	10:7	3
 en-lxx2012	sv1917	Tob	10:9	10:13	Tob	10:8	10:12	1
 en-lxx2012	sv1917	Tob	11:1	14:15	Tob	11:1	14:15	0
-en-lxx2012	sv1917	Tob	11:19	11:19	-	-	-	6
-en-lxx2012	sv1917	Tob	13:17	13:18	Tob	13:17	13:17	3
 en-lxx2012	sv1917	Jdt	1:1	15:13	Jdt	1:1	15:13	0
 en-lxx2012	sv1917	Jdt	16:1	16:1	Jdt	15:14	15:14	1
 en-lxx2012	sv1917	Jdt	16:2	16:7	Jdt	16:1	16:6	1
@@ -2676,8 +2674,6 @@ en-web	sv1917	Tob	7:8	7:8	Tob	7:8	7:9	2
 en-web	sv1917	Tob	7:9	7:10	Tob	7:10	7:10	3
 en-web	sv1917	Tob	7:11	14:15	Tob	7:11	14:15	0
 en-web	sv1917	Tob	7:18	7:18	-	-	-	6
-en-web	sv1917	Tob	11:18	11:19	Tob	11:18	11:18	3
-en-web	sv1917	Tob	13:17	13:18	Tob	13:17	13:17	3
 en-web	sv1917	Jdt	1:1	16:5	Jdt	1:1	16:5	0
 en-web	sv1917	Jdt	16:6	16:7	Jdt	16:6	16:6	3
 en-web	sv1917	Jdt	16:8	16:8	Jdt	16:7	16:8	2
@@ -4738,12 +4734,10 @@ grc-lxx	sv1917	Tob	8:1	10:6	Tob	8:1	10:6	0
 grc-lxx	sv1917	Tob	10:7	10:8	Tob	10:7	10:7	3
 grc-lxx	sv1917	Tob	10:9	10:13	Tob	10:8	10:12	1
 grc-lxx	sv1917	Tob	11:1	13:7	Tob	11:1	13:7	0
-grc-lxx	sv1917	Tob	11:19	11:19	-	-	-	5
 grc-lxx	sv1917	Tob	13:7a	13:7a	Tob	13:8	13:8	1
 grc-lxx	sv1917	Tob	13:7b	13:7b	Tob	13:9	13:9	1
 grc-lxx	sv1917	Tob	13:7c	13:7c	Tob	13:10	13:10	1
 grc-lxx	sv1917	Tob	13:11	14:15	Tob	13:11	14:15	0
-grc-lxx	sv1917	Tob	13:17	13:18	Tob	13:17	13:17	3
 grc-lxx	sv1917	Jdt	1:1	15:13	Jdt	1:1	15:13	0
 grc-lxx	sv1917	Jdt	16:1	16:1	Jdt	15:14	15:14	1
 grc-lxx	sv1917	Jdt	16:2	16:7	Jdt	16:1	16:6	1
@@ -6024,7 +6018,6 @@ sv1917	en-lxx2012	Tob	8:1	10:6	Tob	8:1	10:6	0
 sv1917	en-lxx2012	Tob	10:7	10:7	Tob	10:7	10:8	2
 sv1917	en-lxx2012	Tob	10:8	10:12	Tob	10:9	10:13	1
 sv1917	en-lxx2012	Tob	11:1	14:15	Tob	11:1	14:15	0
-sv1917	en-lxx2012	Tob	13:17	13:17	Tob	13:17	13:18	2
 sv1917	en-lxx2012	Jdt	1:1	15:13	Jdt	1:1	15:13	0
 sv1917	en-lxx2012	Jdt	15:14	15:14	Jdt	16:1	16:1	1
 sv1917	en-lxx2012	Jdt	16:1	16:6	Jdt	16:2	16:7	1
@@ -6367,8 +6360,6 @@ sv1917	en-web	Tob	6:17	6:18	Tob	6:17	6:17	3
 sv1917	en-web	Tob	7:8	7:9	Tob	7:8	7:8	3
 sv1917	en-web	Tob	7:10	7:10	Tob	7:9	7:10	2
 sv1917	en-web	Tob	7:11	14:15	Tob	7:11	14:15	0
-sv1917	en-web	Tob	11:18	11:18	Tob	11:18	11:19	2
-sv1917	en-web	Tob	13:17	13:17	Tob	13:17	13:18	2
 sv1917	en-web	Jdt	1:1	16:5	Jdt	1:1	16:5	0
 sv1917	en-web	Jdt	15:14	15:14	-	-	-	6
 sv1917	en-web	Jdt	16:6	16:6	Jdt	16:6	16:7	2
@@ -7030,7 +7021,6 @@ sv1917	grc-lxx	Tob	13:8	13:8	Tob	13:7a	13:7a	1
 sv1917	grc-lxx	Tob	13:9	13:9	Tob	13:7b	13:7b	1
 sv1917	grc-lxx	Tob	13:10	13:10	Tob	13:7c	13:7c	1
 sv1917	grc-lxx	Tob	13:11	14:15	Tob	13:11	14:15	0
-sv1917	grc-lxx	Tob	13:17	13:17	Tob	13:17	13:18	2
 sv1917	grc-lxx	Jdt	1:1	15:13	Jdt	1:1	15:13	0
 sv1917	grc-lxx	Jdt	15:14	15:14	Jdt	16:1	16:1	1
 sv1917	grc-lxx	Jdt	16:1	16:6	Jdt	16:2	16:7	1

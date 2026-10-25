@@ -18,10 +18,10 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
-| Svenska apokryfer | 5 / 12 | 38 / 148 | 938 / 4 365 |
+| Svenska apokryfer | 5 / 12 | 51 / 148 | 1 165 / 4 367 |
 | GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 976 versposter färdiglästa i detta protokoll. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 1 203 versposter färdiglästa i detta protokoll. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -32,20 +32,21 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | Haggai | Hela 1:1–14 och 2:1–24 | [1253](https://runeberg.org/bibeln/efs1927/gt/1253.html)–[1255](https://runeberg.org/bibeln/efs1927/gt/1255.html) | R018–R022: till, får och tre interpunktionsfel; behållna kommaskillnader antecknade per kapitel |
 | Judit | 1–4 och 6–16; 15 av 16 kapitel, 316 versposter | 1–24 / [0005](https://runeberg.org/apokryf/0005.html)–[0028](https://runeberg.org/apokryf/0028.html) | A031–A036 införda; kapitel 5 bildläst men olöst V003, räknas inte som färdigt |
 | Visheten | Hela 1–19, 436 versposter | 24–50 / [0028](https://runeberg.org/apokryf/0028.html)–[0054](https://runeberg.org/apokryf/0054.html) | A037–A060: 24 rättade versposter, inklusive två versgränser |
+| Tobit | 1–2 och 4–14; 13 av 14 kapitel, 227 versposter | 50–66 / [0054](https://runeberg.org/apokryf/0054.html)–[0070](https://runeberg.org/apokryf/0070.html) | A061–A080 införda, inklusive återställda 11:19 och 13:18; kapitel 3 väntar på V004 |
 
 ## Återstår
 
-**Apokryfer:** Judit 5 väntar på bedömning av V003. Tobit, Syrak, Baruk, 1 Mackabeerboken, 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
+**Apokryfer:** Judit 5 och Tobit 3 väntar på bedömning av V003 respektive V004. Syrak, Baruk, 1 Mackabeerboken, 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
 
 **GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
-**Öppna läsningsfrågor:** V001 (Jer. 8:12, någon), V002 (2 Mack. 6:17, avb rrott) och V003 (Judit 5:8, förjagade med) står kvar i erratarapporten. De kapitlen räknas inte som färdiga.
+**Öppna läsningsfrågor:** V001 (Jer. 8:12, någon), V002 (2 Mack. 6:17, avb rrott), V003 (Judit 5:8, förjagade med) och V004 (Tobit 3:4, orsdpråk) står kvar i erratarapporten. De kapitlen räknas inte som färdiga.
 
-**Omfattning:** svenska 1917/1921-texten, 51 böcker och 27 575 versposter i GT och apokryfer tillsammans. NT och grekiska/engelska utgåvor räknas inte i dessa täckningstal. Ortodoxa extraböcker som saknar svensk text kan inte markeras verifierade genom att kontrollera en annan språkversion.
+**Omfattning:** svenska 1917/1921-texten, 51 böcker och 27 577 versposter i GT och apokryfer tillsammans. NT och grekiska/engelska utgåvor räknas inte i dessa täckningstal. Ortodoxa extraböcker som saknar svensk text kan inte markeras verifierade genom att kontrollera en annan språkversion.
 
 ## Nästa arbetsblock
 
-1. Fortsätt med **Tobit 1** från [skannummer 0054, tryckt s. 50](https://runeberg.org/apokryf/0054.html) och följ hela kapitlet över efterföljande sidor. Läs sedan vidare kapitel för kapitel. Sök parallellt ett oberoende tryck för V003; Judit 5 får inte räknas som färdigt innan frågan har bedömts.
+1. Fortsätt med **Syraks företal** från [skannummer 0070, tryckt s. 66](https://runeberg.org/apokryf/0070.html) och fortsätt därefter med hela Syrak 1 över efterföljande sidor. Läs sedan vidare kapitel för kapitel. Sök parallellt oberoende tryck för V003 och V004; Judit 5 och Tobit 3 får inte räknas som färdiga innan frågorna har bedömts. Företalet saknar versposter i korpusen och måste redovisas separat från kapitelräkningen.
 2. Lägg till en kapitelpost först efter full jämförelse och efter att eventuella rättelser har återbyggts i korpusen. `needs-review` används om något fortfarande är olöst.
 3. Kör liggarkontrollen och relevanta regressioner. Uppdatera denna sammanställning och PR #64 vid varje färdigt arbetsblock. Lämna ofärdiga kapitel uttryckligen ofärdiga.
 
@@ -61,3 +62,4 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 2:** läste hela Haggai på tre faksimilsidor; två kapitel och 38 versposter. Fem nya rättelser R018–R022. Kommaskillnader och placeringen av 2:1 före kapitelrubriken dokumenterades. Överlappande Sefanja- och Sakarjatext räknas inte som granskad.
 - **2026-10-25, block 3:** läste hela Judit, 16 kapitel och 340 versposter på 24 nya faksimilsidor. Sex rättelser A031–A036 införda och återbyggda. Femton kapitel med 316 versposter är färdiga; kapitel 5 med 24 versposter är `needs-review` på grund av tryckets ”förjagade med” (V003). Kontrollerade ovanliga men tryckstödda former och återställda versgränser. Totalt 38 unika bildsidor har lästs i liggarens fulla kapitelgenomgångar; text efter Judits slut räknas inte som läst. Nästa bok är Visheten.
 - **2026-10-25, block 4:** läste hela Visheten, 19 kapitel och 436 versposter på 27 faksimilsidor, varav en redan delats med Judit. A037–A060 införda och återbyggda: 24 rättade versposter, inklusive flytt av ord till rätt vers i 14:19–20 och 16:8–9. Alla 19 kapitel färdiga. Totalt 64 unika bildsidor och 976 färdiga versposter. Rättat st järnlågorna avlägsnar falska SALDO-kopplingar till saint och Stockholms-Tidningen; den förväntade mängden lexikonsinnen har uppdaterats från 12 748 till 12 746. Nästa bok är Tobit.
+- **2026-10-25, block 5:** läste hela Tobit på 17 faksimilsidor, varav en redan delats med Visheten. A061–A080 införda och återbyggda: 18 ändrade och två återställda versposter, 11:19 och 13:18. Tio föråldrade mappningsundantag borttagna efter kontroll mot samma gränser i grekiska och engelska vittnen. Totalt svensk text innehåller nu 35 517 versposter, varav 4 367 apokryfposter; inga nya ord har lagts till genom versdelningarna. Tretton kapitel med 227 versposter är färdiga; Tobit 3 är bildläst men väntar på V004, tryckets orsdpråk. Totalt 80 unika bildsidor och 1 203 färdiga versposter. Nästa bok är Syrak, inklusive dess ännu oredovisade företal.

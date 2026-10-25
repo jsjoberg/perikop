@@ -974,7 +974,25 @@ int main(int argc, char** argv) {
                  {"Wis", {19, 3}, "jämrade Sigvid", "jämrade sig vid"},
                  {"Wis", {19, 7}, "överskygga. lägret", "överskygga lägret"},
                  {"Wis", {19, 15}, "ytterligare hemsökelser medan", "ytterligare hemsökelse: medan"},
-                 {"Wis", {19, 17}, "rättfärd iges dörr", "rättfärdiges dörr"}}) {
+                 {"Wis", {19, 17}, "rättfärd iges dörr", "rättfärdiges dörr"},
+                 {"Tob", {1, 3}, "utvandra till i Nineve", "utvandra till Nineve"},
+                 {"Tob", {1, 4}, "för evig tid,", "för evig tid."},
+                 {"Tob", {4, 6}, "om du göre sanningen", "om du gör sanningen"},
+                 {"Tob", {4, 14}, "över nätten för", "över natten för"},
+                 {"Tob", {5, 1}, "svarade och sade honom", "svarade och sade till honom"},
+                 {"Tob", {5, 11}, "sade till i honom", "sade till honom"},
+                 {"Tob", {6, 6}, "tillsagt honom,;", "tillsagt honom;"},
+                 {"Tob", {6, 18}, "eder -barmhärtighet", "eder barmhärtighet"},
+                 {"Tob", {8, 6}, "Du sade:’Det", "Du sade: ’Det"},
+                 {"Tob", {8, 19}, "åt dem ett i bröllop", "åt dem ett bröllop"},
+                 {"Tob", {11, 18}, "också tillstädes; och Tobias’ bröllop firades med gamman i sju dagar.", "också tillstädes;"},
+                 {"Tob", {12, 5}, "Sedan kallades han till sig", "Sedan kallade han till sig"},
+                 {"Tob", {12, 6}, "Ja, våren icke sena", "Ja, varen icke sena"},
+                 {"Tob", {13, 1}, "en bön, enl fröjdesång", "en bön, en fröjdesång"},
+                 {"Tob", {13, 17}, "från Sufir, och alla dess gränder skola säga: »Halleluja», och lova Gud: »Lovad vare Gud evinnerligen, han som har upphöjt dig!»", "från Sufir,"},
+                 {"Tob", {14, 10}, "ochhuru illa han", "och huru illa han"},
+                 {"Tob", {14, 12}, "begrov i han henne", "begrov han henne"},
+                 {"Tob", {14, 13}, "sin fader Tobits,", "sin fader Tobits."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
@@ -983,6 +1001,23 @@ int main(int argc, char** argv) {
         check(corpus.verse("sv1917", "Wis", {14, 20})->text.starts_with("och så begynte mängden, som fängslades genom") &&
                   corpus.verse("sv1917", "Wis", {16, 8})->text.ends_with("att du är den som frälsar ifrån allt ont."),
               "Wisdom verse boundaries retain their complete opening and closing phrases");
+        check(corpus.verse("sv1917", "Tob", {11, 19})->text ==
+                  "och Tobias’ bröllop firades med gamman i sju dagar." &&
+                  corpus.verse("sv1917", "Tob", {13, 18})->text ==
+                  "och alla dess gränder skola säga: »Halleluja», och lova Gud: »Lovad vare Gud evinnerligen, han som har upphöjt dig!»",
+              "Tobit restores separate verse records for 11:19 and 13:18");
+        for (const VerseRef& ref : {VerseRef{11, 18}, VerseRef{11, 19}, VerseRef{13, 17}, VerseRef{13, 18}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Tob", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Tob", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Tobit verses align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Tob", {3, 4})->text.find("smädligt orsdpråk") != std::string::npos &&
+                  corpus.verse("sv1917", "Tob", {4, 19})->text.find("efter som honom behagar") != std::string::npos,
+              "Tobit's printed spelling and source typo are preserved pending review");
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
               "the possible printing variant with någon remains pending human review");
         check(corpus.verse("sv1917", "Jdt", {5, 8})->text.find("förjagade med från") != std::string::npos &&
