@@ -8,7 +8,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
-## [0.2.0] - 2026-10-24
+## [0.2.0] - 2026-10-25
 
 Reading-plan progress and resume positions start over; daily-reading marks, bookmarks and most settings are kept.
 
@@ -71,6 +71,8 @@ Reading-plan progress and resume positions start over; daily-reading marks, book
 
 - Stress on män, säg, dom, ock and words after a dash.
 - Pronunciation of Jordan, spetälsk, välan, väl and about 840 names.
+- Read-aloud says jo and vi as words and reads Swedish abbreviations in full.
+- 25 scan-verified text errors in the 1917 Bible and 1921 apocrypha.
 - Text drawn grayscale on subpixel hosts such as Ubuntu 26.04.
 
 ## [0.1.0] - 2026-10-12
