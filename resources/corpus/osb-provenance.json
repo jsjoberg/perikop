@@ -5,8 +5,8 @@
   "nt_coordinates": 7957,
   "reviewed_points": 106,
   "inputs": {
-    "resources/corpus/corpus.db": "5443f9934a9f598ff6dde4849fea276e413793c65e0916f25a222762f32017e4",
-    "resources/corpus/alignment.tsv": "58604a8776f311cccd5771b9678773e2b410cddc0bda324cfa7fa6787c51df0b",
+    "resources/corpus/corpus.db": "d5073b74a37f9c9e22d51c19ff0c51ea15fcdfa7611064561c97e98fb73984c1",
+    "resources/corpus/alignment.tsv": "2845f5ee947d2cf6ff929e023c45faeabcf7ebfdf5e4f6dae63d33c9d7cc3739",
     "resources/corpus/books.tsv": "80057b866c13fb666b64aaef4ce3540aee9d98938a9b4416f8aba45818fc952a",
     "resources/corpus/input/KJV.json": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c",
     "resources/corpus/input/eng-Brenton_usfm.zip": "5813078f2213e472a3d4946ccf468a6e17cf145f7b0f7afd154dced36203c6d3",
@@ -20,7 +20,7 @@
     "resources/corpus/osb-frame.tsv": "76ec7bdcd897bf8aaa26f8e532df2dc4b2a9381e327e89376bb653dae19e2256"
   },
   "source_coverage": {
-    "sv1917": 35248,
+    "sv1917": 35249,
     "grc-lxx": 28132,
     "grc-patriarchal": 7956,
     "en-lxx2012": 28128,

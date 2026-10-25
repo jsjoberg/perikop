@@ -921,14 +921,328 @@ int main(int argc, char** argv) {
                  {"1Macc", {7, 38}, "låt dern icke", "låt dem icke"},
                  {"1Macc", {15, 41}, "fotfolk, sorn skulle", "fotfolk, som skulle"},
                  {"2Macc", {3, 25}, "sina f ramhovar", "sina framhovar"},
-                 {"PrAzar", {1, 19}, "handla rned oss", "handla med oss"}}) {
+                 {"PrAzar", {1, 19}, "handla rned oss", "handla med oss"},
+                 {"Ps", {44, 11}, "för ovånnen", "för ovännen"},
+                 {"Ps", {66, 14}, "mina låppar", "mina läppar"},
+                 {"Ps", {102, 27}, "skall förvanda dem", "skall förvandla dem"},
+                 {"Prov", {12, 22}, "lögnaktiga låppar", "lögnaktiga läppar"},
+                 {"Wis", {18, 16}, "din oryggliga befällning", "din oryggliga befallning"},
+                 {"Sir", {7, 8}, "bliva osträffad", "bliva ostraffad"},
+                 {"Sir", {11, 5}, "rnen den som", "men den som"},
+                 {"Sir", {13, 23}, "»Vern är denne?", "»Vem är denne?"},
+                 {"Sir", {31, 16}, "väcka motvilja.\"", "väcka motvilja."},
+                 {"Sir", {31, 25}, "de\"som vinet", "de som vinet"},
+                 {"Sir", {37, 3}, "har da vällt fram", "har du vällt fram"},
+                 {"Sir", {44, 9}, "någon aminnelse", "någon åminnelse"},
+                 {"Baruch", {4, 18}, "som nar låtit", "som har låtit"},
+                 {"1Macc", {1, 12}, "fann behåg", "fann behag"},
+                 {"1Macc", {10, 14}, "Betsura stannåde", "Betsura stannade"},
+                 {"1Macc", {14, 42}, "insätta uppsyningsrnan", "insätta uppsyningsmän"},
+                 {"2Macc", {5, 22}, "kvar uppsyningsrnan", "kvar uppsyningsmän"},
+                 {"2Macc", {11, 10}, "framåt, ordnåde", "framåt, ordnade"},
+                 {"Bel", {1, 34}, "i lejonssgropen", "i lejongropen"},
+                 {"Sus", {1, 20}, "»Se,trädgårdsporten", "»Se, trädgårdsporten"},
+                 {"Sus", {1, 24}, "ropa med högröst", "ropa med hög röst"},
+                 {"Hag", {1, 1}, "profeten Haggai Serubbabel", "profeten Haggai till Serubbabel"},
+                 {"Hag", {1, 6}, "han far den allenast", "han får den allenast"},
+                 {"Hag", {1, 14}, "HERREN Sebaots; sin Guds", "HERREN Sebaots, sin Guds"},
+                 {"Hag", {2, 2}, "profeten Haggai han sade", "profeten Haggai; han sade"},
+                 {"Jdt", {5, 22}, "allt folket som stod", "allt folket, som stod"},
+                 {"Jdt", {7, 3}, "till Gyamon,", "till Cyamon,"},
+                 {"Jdt", {7, 30}, "mina broder!", "mina bröder!"},
+                 {"Jdt", {8, 5}, "hade gjorts sig", "hade gjort sig"},
+                 {"Jdt", {10, 3}, "Manasses’livstid", "Manasses’ livstid"},
+                 {"Jdt", {14, 15}, "sängpallen;och", "sängpallen; och"},
+                 {"Wis", {2, 5}, "lik ens skugga", "lik en skugga"},
+                 {"Wis", {2, 9}, "vår festgädje", "vår festglädje"},
+                 {"Wis", {2, 17}, "bliver för honom,", "bliver för honom."},
+                 {"Wis", {2, 24}, "höra honom till, få erfara", "höra honom till, de få erfara"},
+                 {"Wis", {4, 16}, "skall, fästän död,", "skall, fastän död,"},
+                 {"Wis", {6, 1}, "I som domen jordens", "I som dömen jordens"},
+                 {"Wis", {7, 23}, "av fullkomlig finhet,", "av fullkomlig finhet."},
+                 {"Wis", {8, 3}, "gör hon kunniga genom", "gör hon kunnig genom"},
+                 {"Wis", {8, 11}, "skarpsinnig i i domslut", "skarpsinnig i domslut"},
+                 {"Wis", {11, 7}, "barnen kulle dödas", "barnen skulle dödas"},
+                 {"Wis", {12, 18}, "närhelst du vill.", "närhelst du vill,"},
+                 {"Wis", {14, 22}, "mitt under i sitt elände", "mitt under sitt elände"},
+                 {"Wis", {14, 19}, "likhet; och så begynte mängden,", "likhet;"},
+                 {"Wis", {16, 1}, "dessa i människor", "dessa människor"},
+                 {"Wis", {16, 9}, "som frälsar ifrån allt ont. Ty dessa", "Ty dessa"},
+                 {"Wis", {17, 5}, "st järnlågorna", "stjärnlågorna"},
+                 {"Wis", {17, 15}, "och Oförtänkt förskräckelse", "och oförtänkt förskräckelse"},
+                 {"Wis", {18, 9}, "endräk-tigt", "endräktigt"},
+                 {"Wis", {19, 3}, "jämrade Sigvid", "jämrade sig vid"},
+                 {"Wis", {19, 7}, "överskygga. lägret", "överskygga lägret"},
+                 {"Wis", {19, 15}, "ytterligare hemsökelser medan", "ytterligare hemsökelse: medan"},
+                 {"Wis", {19, 17}, "rättfärd iges dörr", "rättfärdiges dörr"},
+                 {"Tob", {1, 3}, "utvandra till i Nineve", "utvandra till Nineve"},
+                 {"Tob", {1, 4}, "för evig tid,", "för evig tid."},
+                 {"Tob", {4, 6}, "om du göre sanningen", "om du gör sanningen"},
+                 {"Tob", {4, 14}, "över nätten för", "över natten för"},
+                 {"Tob", {5, 1}, "svarade och sade honom", "svarade och sade till honom"},
+                 {"Tob", {5, 11}, "sade till i honom", "sade till honom"},
+                 {"Tob", {6, 6}, "tillsagt honom,;", "tillsagt honom;"},
+                 {"Tob", {6, 18}, "eder -barmhärtighet", "eder barmhärtighet"},
+                 {"Tob", {8, 6}, "Du sade:’Det", "Du sade: ’Det"},
+                 {"Tob", {8, 19}, "åt dem ett i bröllop", "åt dem ett bröllop"},
+                 {"Tob", {11, 18}, "också tillstädes; och Tobias’ bröllop firades med gamman i sju dagar.", "också tillstädes;"},
+                 {"Tob", {12, 5}, "Sedan kallades han till sig", "Sedan kallade han till sig"},
+                 {"Tob", {12, 6}, "Ja, våren icke sena", "Ja, varen icke sena"},
+                 {"Tob", {13, 1}, "en bön, enl fröjdesång", "en bön, en fröjdesång"},
+                 {"Tob", {13, 17}, "från Sufir, och alla dess gränder skola säga: »Halleluja», och lova Gud: »Lovad vare Gud evinnerligen, han som har upphöjt dig!»", "från Sufir,"},
+                 {"Tob", {14, 10}, "ochhuru illa han", "och huru illa han"},
+                 {"Tob", {14, 12}, "begrov i han henne", "begrov han henne"},
+                 {"Tob", {14, 13}, "sin fader Tobits,", "sin fader Tobits."},
+                 {"Sir", {2, 9}, "vanten eder lycka", "vänten eder lycka"},
+                 {"Sir", {2, 10}, "åkallade honörn", "åkallade honom"},
+                 {"Sir", {3, 14}, "bliva förgäten i stället", "bliva förgäten; i stället"},
+                 {"Sir", {7, 20}, "helt åt din tjänst,", "helt åt din tjänst."},
+                 {"Sir", {7, 23}, "allt iirån ungdomen", "allt ifrån ungdomen"},
+                 {"Sir", {8, 8}, "huru du’; skall", "huru du skall"},
+                 {"Sir", {8, 14}, "giva honom rätt,", "giva honom rätt."},
+                 {"Sir", {10, 9}, "den som stoft och aska", "den som är stoft och aska"},
+                 {"Sir", {11, 4}, "din äras dag Ty", "din äras dag. Ty"},
+                 {"Sir", {11, 11}, "och avlas,", "och ävlas,"},
+                 {"Sir", {11, 31}, "och lik spejaren spanar han efter ditt fall. Försåtligt vänder han gott tills ont, och på det allra bästa sätter han en fläck.", "Försåtligt vänder han gott till ont, och på det allra bästa sätter han en fläck."},
+                 {"Sir", {13, 4}, "vara honörn till nytta", "vara honom till nytta"},
+                 {"Sir", {13, 21}, "av sina vann er,", "av sina vänner,"},
+                 {"Sir", {14, 18}, "lövverket som grönskan", "lövverket som grönskar"},
+                 {"Sir", {14, 23}, "vid hennes dörrar:", "vid hennes dörrar;"},
+                 {"Sir", {15, 6}, "en fröjdekrahs", "en fröjdekrans"},
+                 {"Sir", {16, 8}, "som Löt bodde", "som Lot bodde"},
+                 {"Sir", {17, 13}, "o,ch hans rösts", "och hans rösts"},
+                 {"Sir", {17, 25}, "med att.synda;", "med att synda;"},
+                 {"Sir", {19, 5}, "Den som glades över", "Den som glädes över"},
+                 {"Sir", {20, 31}, "döljer sin vishet.", "döljer sin vishet,"},
+                 {"Sir", {23, 3}, "mina felsteg bliva: så många", "mina felsteg bliva så många"},
+                 {"Sir", {24, 19}, "och matten eder", "och mätten eder"},
+                 {"Sir", {25, 4}, "icke gråhårsman att", "icke gråhårsmän att"},
+                 {"Sir", {25, 8}, "får levas samman", "får leva samman"},
+                 {"Sir", {26, 10}, "den till självsvåld,", "den till självsvåld."},
+                 {"Sir", {28, 11}, "blodsutgjutelse åstad.", "blodsutgjutelse åstad,"},
+                 {"Sir", {28, 20}, "koppar-fjättrar.", "kopparfjättrar."},
+                 {"Sir", {28, 23}, "Hon slappes lös", "Hon släppes lös"},
+                 {"Sir", {29, 20}, "din nästa, allt efter", "din nästa, alltefter"},
+                 {"Sir", {29, 25}, "bjuda på mat. och dryck", "bjuda på mat och dryck"},
+                 {"Sir", {31, 17}, "må väcka anstöt,", "må väcka anstöt."},
+                 {"Sir", {31, 28}, "en glädje for sinnet", "en glädje för sinnet"},
+                 {"Sir", {32, 9}, "prata icke vitt och brett,", "prata icke vitt och brett."},
+                 {"Sir", {32, 17}, "finner han ut rättsgrunder,", "finner han ut rättsgrunder."},
+                 {"Sir", {32, 20}, "du ej må snäva på", "du ej må snava på"},
+                 {"Sir", {33, 7}, "dagen företrade framför", "dagen företräde framför"},
+                 {"Sir", {33, 15}, "de té sig sammalunda", "de te sig sammalunda"},
+                 {"Sir", {34, 16}, "Herren förfaras alls icke", "Herren förfäras alls icke"},
+                 {"Sir", {36, 8}, "och Utgjut din vrede.", "och utgjut din vrede."},
+                 {"Sir", {37, 1}, "Också jag ar vän", "Också jag är vän"},
+                 {"Sir", {37, 17}, "sinnets om-skiftningar", "sinnets omskiftningar"},
+                 {"Sir", {37, 27}, "vad du tål, ocn lägg", "vad du tål, och lägg"},
+                 {"Sir", {39, 23}, "hans vrede, såsom, när", "hans vrede, såsom när"},
+                 {"Sir", {42, 10}, "skall bliva Vanärad", "skall bliva vanärad"},
+                 {"Sir", {43, 11}, "den. övermåttan skön", "den. Övermåttan skön"},
+                 {"Sir", {45, 5}, "lät honörn träda", "lät honom träda"},
+                 {"Sir", {46, 20}, "hade avsomnät,", "hade avsomnat,"},
+                 {"Sir", {50, 10}, "med rildig frukt", "med riklig frukt"},
+                 {"Sir", {51, 17}, "förkovrades Jag däri", "förkovrades jag däri"},
+                 {"Sir", {51, 26}, "Bojen eder hals", "Böjen eder hals"},
+                 {"Baruch", {2, 5}, "måste’ligga under’ och fingo icke’ligga över’", "måste ’ligga under’ och fingo icke ’ligga över’"},
+                 {"Baruch", {2, 21}, "Bojen edra skuldror", "Böjen edra skuldror"},
+                 {"Baruch", {4, 12}, "över mig, i en värnlös", "över mig, en värnlös"},
+                 {"Baruch", {4, 18}, "Nej han som", "Nej, han som"},
+                 {"Baruch", {4, 27}, "Men våren vid", "Men varen vid"},
+                 {"Baruch", {5, 8}, "på Guds befallning,", "på Guds befallning."},
+                 {"Baruch", {6, 5}, "Tanken i stället", "Tänken i stället"},
+                 {"Baruch", {6, 11}, "purpmr-dräkter.", "purpurdräkter."},
+                 {"Baruch", {6, 14}, "kan nian förstå", "kan man förstå"},
+                 {"1Macc", {1, 10}, "till Rom Han blev konung i det grekiska konungadömets ett hundra trettio sjunde år.", "till Rom. Han blev konung i det grekiska konungadömets ett hundra trettiosjunde år."},
+                 {"1Macc", {1, 39}, "dess heder till förakt,", "dess heder till förakt."},
+                 {"1Macc", {2, 8}, "en Vanärad man", "en vanärad man"},
+                 {"1Macc", {2, 13}, "Varförr skulle", "Varför skulle"},
+                 {"1Macc", {2, 64}, "barn, våren frimodiga", "barn, varen frimodiga"},
+                 {"1Macc", {2, 70}, "Han dog år 146; Och", "Han dog år 146. Och"},
+                 {"1Macc", {3, 38}, "utsåg Ptolomeus,", "utsåg Ptolemeus,"},
+                 {"1Macc", {3, 42}, "och hans broder sågo", "och hans bröder sågo"},
+                 {"1Macc", {4, 8}, "»Frukten Icke för deras stora antal, och radens icke för deras anlopp.", "»Frukten icke för deras stora antal, och rädens icke för deras anlopp."},
+                 {"1Macc", {5, 25}, "Galaaditis.’ De sade:", "Galaaditis. De sade:"},
+                 {"1Macc", {5, 38}, "hos dem. en mycket", "hos dem, en mycket"},
+                 {"1Macc", {6, 11}, "vid mig själv:’I vilket", "vid mig själv: ’I vilket"},
+                 {"1Macc", {6, 14}, "satte honom Över", "satte honom över"},
+                 {"1Macc", {6, 20}, "år 150; Och", "år 150. Och"},
+                 {"1Macc", {6, 56}, "Persien och Me-dien,", "Persien och Medien,"},
+                 {"1Macc", {7, 32}, "de Övriga flydde", "de övriga flydde"},
+                 {"1Macc", {7, 50}, "hade nu rö en", "hade nu ro en"},
+                 {"1Macc", {8, 7}, "avträdaland åt dem,’", "avträda land åt dem,"},
+                 {"1Macc", {8, 30}, "sålunda till-lägga", "sålunda tillägga"},
+                 {"1Macc", {8, 31}, "följande innehåll:’Varför", "följande innehåll: ’Varför"},
+                 {"1Macc", {9, 10}, "fläck,på", "fläck, på"},
+                 {"1Macc", {9, 33}, "Men då Jonatan, och", "Men då Jonatan och"},
+                 {"1Macc", {9, 37}, "att Jambris barn. just", "att Jambris barn just"},
+                 {"1Macc", {9, 58}, "sitta i rö och säkerhet", "sitta i ro och säkerhet"},
+                 {"1Macc", {10, 49}, "Demetrius’ här flydde. och Alexander", "Demetrius’ här flydde, och Alexander"},
+                 {"1Macc", {10, 83}, "ryttarna sking- rade sig", "ryttarna skingrade sig"},
+                 {"1Macc", {11, 3}, "alltefter; som", "alltefter som"},
+                 {"1Macc", {11, 18}, "nedgjor-des", "nedgjordes"},
+                 {"1Macc", {11, 33}, "följande förmanér.", "följande förmåner."},
+                 {"1Macc", {11, 37}, "härför'»", "härför.'»"},
+                 {"1Macc", {11, 63}, "hans förehavande.’ Han", "hans förehavande. Han"},
+                 {"1Macc", {11, 67}, "bröto nuu bittida", "bröto nu bittida"},
+                 {"1Macc", {12, 3}, "åstad till Rom När", "åstad till Rom. När"},
+                 {"1Macc", {12, 22}, "och säga oni det", "och säga om det"},
+                 {"1Macc", {13, 5}, "att jags någonsin", "att jag någonsin"},
+                 {"1Macc", {14, 22}, "upptecknat följande:’Numenius", "upptecknat följande: ’Numenius"},
+                 {"1Macc", {14, 33}, "judar såsom be- sättning.", "judar såsom besättning."},
+                 {"1Macc", {15, 23}, "Halikarnas-sus", "Halikarnassus"},
+                 {"1Macc", {16, 1}, "vad Cende-beus förövade.", "vad Cendebeus förövade."},
+                 {"1Macc", {16, 4}, "mot Gendebeus och", "mot Cendebeus och"},
+                 {"1Macc", {16, 9}, "som Gendebeus hade befäst.", "som Cendebeus hade befäst."},
+                 {"2Macc", {2, 28}, "verklige författareris sak", "verklige författarens sak"},
+                 {"2Macc", {4, 1}, "omtalade Sisom hade", "omtalade Simon, som hade"},
+                 {"2Macc", {5, 5}, "ett falskt ryktes hade", "ett falskt rykte hade"},
+                 {"2Macc", {5, 12}, "utan försköning hugga ned dem som kommo i deras väg octi att dräpa", "utan förskoning hugga ned dem som kommo i deras väg och att dräpa"},
+                 {"2Macc", {6, 21}, "skaffa dit kött som han", "skaffa dit kött, som han"},
+                 {"2Macc", {7, 6}, "han förbarma sig'»", "han förbarma sig.'»"},
+                 {"2Macc", {7, 30}, "Vad vanten I på?", "Vad vänten I på?"},
+                 {"2Macc", {7, 34}, "förhävdig icke fåfängt", "förhäv dig icke fåfängt"},
+                 {"Jer", {8, 12}, "alls icke skam", "alls icke någon skam"},
+                 {"2Macc", {6, 17}, "avb rrott vilja vi nu åtgå", "avbrott vilja vi nu återgå"},
+                 {"Jdt", {5, 8}, "förjagade med från", "förjagade dem från"},
+                 {"Tob", {3, 4}, "smädligt orsdpråk", "smädligt ordspråk"},
+                 {"Sir", {38, 17}, "såsom kan förtjänar", "såsom han förtjänar"},
+                 {"2Macc", {8, 8}, "komma kunungens sak", "komma konungens sak"},
+                 {"2Macc", {9, 8}, "slagen till marken låta", "slagen till marken, låta"},
+                 {"2Macc", {9, 10}, "himmel ens stjärnor", "himmelens stjärnor"},
+                 {"2Macc", {9, 13}, "icke ni er skulle", "icke mer skulle"},
+                 {"2Macc", {10, 3}, "och fram-buro så", "och framburo så"},
+                 {"2Macc", {12, 4}, "de icke förenade något misstänkt", "de icke förehade något misstänkt"},
+                 {"2Macc", {14, 14}, "till Nikanor,! hopp", "till Nikanor, i hopp"},
+                 {"2Macc", {15, 22}, "din ängel, O Herre", "din ängel, o Herre"},
+                 {"2Macc", {15, 34}, "plats obesmittadl»", "plats obesmittad!»"},
+                 {"EsthGr", {2, 6}, "misskund eller försköning", "misskund eller förskoning"},
+                 {"EsthGr", {6, 7}, "äldre historiska skildringar som", "äldre historiska skildringar, som"},
+                 {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
-        check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
-              "the possible printing variant with någon remains pending human review");
+        check(corpus.verse("sv1917", "1Macc", {10, 27})->text == "Fortfaren nu ock allt framgent att iakttaga trohet mot oss, så skola vi bereda eder fördelar, till tack för vad I gören till vårt gagn;" &&
+                  corpus.verse("sv1917", "1Macc", {10, 28})->text == "vi skola bevilja eder många eftergifter och tilldela eder många förmåner.",
+              "First Maccabees 10:27-28 follow the printed boundary without losing or duplicating words");
+        for (const VerseRef& ref : {VerseRef{10, 27}, VerseRef{10, 28}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "1Macc", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "1Macc", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "corrected First Maccabees verses align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "2Macc", {1, 1})->text.starts_with("»De judiska bröderna i Jerusalem") &&
+                  corpus.verse("sv1917", "2Macc", {2, 1})->text.starts_with("»Man finner i urkunderna"),
+              "Second Maccabees preserves the printed opening quotation marks in both letter sections");
+        check(corpus.verse("sv1917", "Wis", {14, 20})->text.starts_with("och så begynte mängden, som fängslades genom") &&
+                  corpus.verse("sv1917", "Wis", {16, 8})->text.ends_with("att du är den som frälsar ifrån allt ont."),
+              "Wisdom verse boundaries retain their complete opening and closing phrases");
+        check(corpus.verse("sv1917", "Tob", {11, 19})->text ==
+                  "och Tobias’ bröllop firades med gamman i sju dagar." &&
+                  corpus.verse("sv1917", "Tob", {13, 18})->text ==
+                  "och alla dess gränder skola säga: »Halleluja», och lova Gud: »Lovad vare Gud evinnerligen, han som har upphöjt dig!»",
+              "Tobit restores separate verse records for 11:19 and 13:18");
+        for (const VerseRef& ref : {VerseRef{11, 18}, VerseRef{11, 19}, VerseRef{13, 17}, VerseRef{13, 18}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Tob", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Tob", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Tobit verses align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Tob", {4, 19})->text.find("efter som honom behagar") != std::string::npos,
+              "Tobit's confirmed printed efter som is preserved");
+        check(!corpus.verse("sv1917", "Sir", {3, 25}) &&
+                  corpus.verse("sv1917", "Sir", {3, 26})->text.starts_with("Ett förmätet hjärta går det på sistone illa,") &&
+                  corpus.verse("sv1917", "Sir", {3, 27})->text.starts_with("Ett förmätet hjärta bliver nedtyngt av vedermödor,"),
+              "Sirach 3:26-27 retain the printed numbering without inventing 3:25");
+        for (const VerseRef& ref : {VerseRef{3, 26}, VerseRef{3, 27}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "renumbered Sirach verses align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {11, 30})->text.ends_with("och lik spejaren spanar han efter ditt fall.") &&
+                  corpus.verse("sv1917", "Sir", {12, 2})->text.ends_with("så dock av den Högste.") &&
+                  corpus.verse("sv1917", "Sir", {12, 3})->text == "Välgärningar må ej bevisas den som framhärdar i det onda eller den som icke själv övar välgörenhet." &&
+                  corpus.verse("sv1917", "Sir", {12, 4})->text == "Giv åt den som är god, men tag dig ej an syndaren.",
+              "Sirach 11:30-31 and 12:2-4 follow the printed verse boundaries");
+        for (const VerseRef& ref : {VerseRef{12, 2}, VerseRef{12, 3}, VerseRef{12, 4}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 12:2-4 align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {13, 15})->text == "Vart levande väsen älskar sin like, och var människa den som står henne närmast." &&
+                  corpus.verse("sv1917", "Sir", {13, 16})->text == "Alla varelser sluta sig samman efter sina släkten; så bör ock en man hålla sig till sin like.",
+              "Sirach 13:15-16 retain individual verses without the stray OCR colon");
+        for (const VerseRef& ref : {VerseRef{13, 15}, VerseRef{13, 16}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 13:15-16 align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {40, 15})->text == "De ogudaktigas avkomlingar skjuta icke grenar i mängd, och orena rotskott växa på kala klippan." &&
+                  corpus.verse("sv1917", "Sir", {40, 16})->text == "De likna vassen vid var vattensamling och vid var flodbrädd, vilken ryckes bort före allt annat gräs.",
+              "Sirach 40:15-16 retain the printed verse boundary");
+        for (const VerseRef& ref : {VerseRef{40, 15}, VerseRef{40, 16}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 40:15-16 align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {47, 4})->text == "Slog han icke i sin ungdom ihjäl jätten och tog så bort försmädelsen ifrån folket, i det han lyfte sin hand med slungstenen och slog Goljats stolta skryt till marken?" &&
+                  corpus.verse("sv1917", "Sir", {47, 5})->text == "Ja, han åkallade Herren, den Högste, och Herren lade styrka i hans högra hand, till att nedgöra den starke kämpen och till att upphöja hans folks horn.",
+              "Sirach 47:4-5 retain the printed boundary and den reading");
+        for (const VerseRef& ref : {VerseRef{47, 4}, VerseRef{47, 5}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 47:4-5 align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Baruch", {3, 37})->text == "Han utrönte all vishetens väg och gav henne åt Jakob, sin tjänare, och åt Israel, sin älskade." &&
+                  corpus.verse("sv1917", "Baruch", {3, 38})->text == "Därefter blev hon skådad på jorden och hade sin umgängelse bland människorna.",
+              "Baruch 3:37-38 retain the printed verse boundary");
+        for (int verse : {37, 38}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const VerseRef swedish_ref{3, verse};
+                const VerseRef other_ref{3, verse - 1};
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Baruch", other_ref);
+                const auto other = corpus.parallel_verse("sv1917", source, "Baruch", swedish_ref);
+                check(swedish && swedish->ref == swedish_ref && swedish->last.value_or(swedish->ref) == swedish_ref &&
+                          other && other->ref == other_ref && other->last.value_or(other->ref) == other_ref,
+                      "restored Baruch verses align individually with the numbering offset");
+            }
+        }
+        check(corpus.verse("sv1917", "Jdt", {5, 3})->text.find("och hvad för städer") != std::string::npos,
+              "Judith's confirmed historical spelling hvad is preserved");
+        check(corpus.verse("sv1917", "Hag", {2, 16})->text.ends_with("till HERRENS tempel;"),
+              "Haggai's sentence continues across the verse boundary with a semicolon");
+        check(corpus.verse("sv1917", "PrAzar", {1, 42})->text.ends_with("i evighet."),
+              "the printed final period is restored in the song of the three men");
+        check(corpus.verse("sv1917", "2Macc", {7, 11})->text.find("för Hans lags skull") != std::string::npos,
+              "Second Maccabees preserves the confirmed capital Hans");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==
