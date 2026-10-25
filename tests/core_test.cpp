@@ -921,7 +921,25 @@ int main(int argc, char** argv) {
                  {"1Macc", {7, 38}, "låt dern icke", "låt dem icke"},
                  {"1Macc", {15, 41}, "fotfolk, sorn skulle", "fotfolk, som skulle"},
                  {"2Macc", {3, 25}, "sina f ramhovar", "sina framhovar"},
-                 {"PrAzar", {1, 19}, "handla rned oss", "handla med oss"}}) {
+                 {"PrAzar", {1, 19}, "handla rned oss", "handla med oss"},
+                 {"Ps", {44, 11}, "för ovånnen", "för ovännen"},
+                 {"Ps", {66, 14}, "mina låppar", "mina läppar"},
+                 {"Ps", {102, 27}, "skall förvanda dem", "skall förvandla dem"},
+                 {"Prov", {12, 22}, "lögnaktiga låppar", "lögnaktiga läppar"},
+                 {"Wis", {18, 16}, "din oryggliga befällning", "din oryggliga befallning"},
+                 {"Sir", {7, 8}, "bliva osträffad", "bliva ostraffad"},
+                 {"Sir", {11, 5}, "rnen den som", "men den som"},
+                 {"Sir", {13, 23}, "»Vern är denne?", "»Vem är denne?"},
+                 {"Sir", {31, 16}, "väcka motvilja.\"", "väcka motvilja."},
+                 {"Sir", {31, 25}, "de\"som vinet", "de som vinet"},
+                 {"Sir", {37, 3}, "har da vällt fram", "har du vällt fram"},
+                 {"Sir", {44, 9}, "någon aminnelse", "någon åminnelse"},
+                 {"Baruch", {4, 18}, "som nar låtit", "som har låtit"},
+                 {"1Macc", {1, 12}, "fann behåg", "fann behag"},
+                 {"1Macc", {10, 14}, "Betsura stannåde", "Betsura stannade"},
+                 {"1Macc", {14, 42}, "insätta uppsyningsrnan", "insätta uppsyningsmän"},
+                 {"2Macc", {5, 22}, "kvar uppsyningsrnan", "kvar uppsyningsmän"},
+                 {"2Macc", {11, 10}, "framåt, ordnåde", "framåt, ordnade"}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
@@ -929,6 +947,8 @@ int main(int argc, char** argv) {
         }
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
               "the possible printing variant with någon remains pending human review");
+        check(corpus.verse("sv1917", "2Macc", {6, 17})->text.find("avb rrott") != std::string::npos,
+              "a suspicious word also present in print is not silently normalized");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==

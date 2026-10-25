@@ -31,7 +31,11 @@ REPLACE={
  ('Jer',20,13):('den fattiges själv','den fattiges själ'),
  ('Jer',29,7):('så går det ock eder val','så går det ock eder väl'),
  ('Ezek',3,17):('å mina vagnar','å mina vägnar'),
- ('Luke',12,48):('vad som val slag värt','vad som var slag värt')}
+ ('Luke',12,48):('vad som val slag värt','vad som var slag värt'),
+ ('Ps',44,11):('för ovånnen','för ovännen'),
+ ('Ps',66,14):('mina låppar','mina läppar'),
+ ('Ps',102,27):('skall förvanda dem','skall förvandla dem'),
+ ('Prov',12,22):('lögnaktiga låppar','lögnaktiga läppar')}
 
 def chapter_number(name):
     if not name:return 1

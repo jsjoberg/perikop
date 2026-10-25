@@ -2,17 +2,17 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-De två första granskningsomgångarna omfattar 25 verser. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+De tre första granskningsomgångarna omfattar 43 verser. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
-För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); i de tolv A-raderna finns felet i sidans OCR-text.
+För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); i de 26 A-raderna finns felet i sidans OCR-text.
 
 Tack till [MySword](https://www.mysword.info/download-mysword/bibles), vars modul *Swedish Bible 1917*, version 1.0.1, användes i den inledande textjämförelsen. Jämförelsen hjälpte oss att klarlägga textens ursprung och ledde vidare till granskning mot faksimil och OCR. Modulen bygger på samma Runeberg-utgåva och delar flera av dess fel; rättelserna i tabellen är därför verifierade mot trycksidorna, inte hämtade från MySword.
 
 Den aktuella samlingsfilen `https://runeberg.org/bibeln/index2.html` hämtades på nytt 2026-10-25 och var byteidentisk med den fil Perikop hämtade 2026-10-06. SHA-256 för HTML-innehållet är `faca4da7be96baef71efb484e3662deb0e4873c532edfe5312fe1bd38be77c4a`. Uppgifterna nedan gäller alltså även den då aktuella e-texten. OCR-sidorna kontrollerades också på Runebergs webbplats 2026-10-25.
 
-Trycksidan öppnas via länken i sista kolumnen. Siffran där är det tryckta sidnumret; för apokryferna skiljer det sig från numret i webbadressen. Spalt och versnummer hjälper dig att hitta rätt rad. Endast det markerade utdraget rättas; kommatering och andra tryckskillnader ingår inte i denna omgång.
+Trycksidan öppnas via länken i sista kolumnen. Siffran där är det tryckta sidnumret; för apokryferna skiljer det sig från numret i webbadressen. Spalt och versnummer hjälper dig att hitta rätt rad. Endast det markerade utdraget rättas; andra tryckskillnader ingår inte i dessa omgångar. A017–A018 avlägsnar två främmande OCR-citattecken efter bildkontroll.
 
 ## Patchtabell
 
@@ -45,10 +45,28 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A010 | [1 Mack. 15:41](https://runeberg.org/apokryf/0209.html) | fotfolk, **sorn** skulle | fotfolk, **som** skulle | Har samma fel som källtexten; kontrollera bilden | [s. 205](https://runeberg.org/apokryf/0209.html), överst till höger; versen börjar längst ned till vänster |
 | [ ] | A011 | [2 Mack. 3:25](https://runeberg.org/apokryf/0216.html) | sina **f ramhovar** | sina **framhovar** | Har samma fel som källtexten; kontrollera bilden | [s. 212](https://runeberg.org/apokryf/0216.html), längst ned till höger, v. 25 |
 | [ ] | A012 | [Asarjas bön 1:19](https://runeberg.org/apokryf/0262.html) | handla **rned** oss | handla **med** oss | Har samma fel som källtexten; kontrollera bilden | [s. 258](https://runeberg.org/apokryf/0262.html), höger spalt, v. 19 |
+| [ ] | R014 | [Ps. 44:11](https://runeberg.org/bibeln/19_44.html) | **för ovånnen** | **för ovännen** | Stämmer med rättelsen | [s. 769](https://runeberg.org/bibeln/efs1927/gt/0769.html), överst till vänster, v. 11 |
+| [ ] | R015 | [Ps. 66:14](https://runeberg.org/bibeln/19_66.html) | **mina låppar** | **mina läppar** | Stämmer med rättelsen | [s. 784](https://runeberg.org/bibeln/efs1927/gt/0784.html), vänster spalt, v. 14 |
+| [ ] | R016 | [Ps. 102:27](https://runeberg.org/bibeln/19_a2.html) | **skall förvanda dem** | **skall förvandla dem** | Stämmer med rättelsen | [s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html), höger spalt, v. 27 |
+| [ ] | R017 | [Ords. 12:22](https://runeberg.org/bibeln/20_12.html) | **lögnaktiga låppar** | **lögnaktiga läppar** | Stämmer med rättelsen | [s. 866](https://runeberg.org/bibeln/efs1927/gt/0866.html), höger spalt, v. 22 |
+| [ ] | A013 | [Vish. 18:16](https://runeberg.org/apokryf/0052.html) | **din oryggliga befällning** | **din oryggliga befallning** | Har samma fel; kontrollera bilden | [s. 48](https://runeberg.org/apokryf/0052.html), höger spalt, v. 16 |
+| [ ] | A014 | [Syrak 7:8](https://runeberg.org/apokryf/0079.html) | **bliva osträffad** | **bliva ostraffad** | Har samma fel; kontrollera bilden | [s. 75](https://runeberg.org/apokryf/0079.html), höger spalt, v. 8 |
+| [ ] | A015 | [Syrak 11:5](https://runeberg.org/apokryf/0085.html) | **rnen den som** | **men den som** | Har samma fel; kontrollera bilden | [s. 81](https://runeberg.org/apokryf/0085.html), överst till höger, v. 5 |
+| [ ] | A016 | [Syrak 13:23](https://runeberg.org/apokryf/0089.html) | **»Vern är denne?** | **»Vem är denne?** | Har samma fel; kontrollera bilden | [s. 85](https://runeberg.org/apokryf/0089.html), nedre delen av vänster spalt, v. 23 |
+| [ ] | A017 | [Syrak 31:16](https://runeberg.org/apokryf/0115.html) | **väcka motvilja."** | **väcka motvilja.** | Har samma fel; kontrollera bilden | [s. 111](https://runeberg.org/apokryf/0115.html), vänster spalt, v. 16 |
+| [ ] | A018 | [Syrak 31:25](https://runeberg.org/apokryf/0115.html) | **de"som vinet** | **de som vinet** | Har samma fel; kontrollera bilden | [s. 111](https://runeberg.org/apokryf/0115.html), höger spalt, v. 25 |
+| [ ] | A019 | [Syrak 37:3](https://runeberg.org/apokryf/0123.html) | **har da vällt fram** | **har du vällt fram** | Har samma fel; kontrollera bilden | [s. 119](https://runeberg.org/apokryf/0123.html), vänster spalt, v. 3 |
+| [ ] | A020 | [Syrak 44:9](https://runeberg.org/apokryf/0135.html) | **någon aminnelse** | **någon åminnelse** | Har samma fel; kontrollera bilden | [s. 131](https://runeberg.org/apokryf/0135.html), nedre delen av höger spalt, v. 9 |
+| [ ] | A021 | [Baruk 4:18](https://runeberg.org/apokryf/0155.html) | **som nar låtit** | **som har låtit** | Har samma fel; kontrollera bilden | [s. 151](https://runeberg.org/apokryf/0155.html), nedre delen av vänster spalt, v. 18 |
+| [ ] | A022 | [1 Mack. 1:12](https://runeberg.org/apokryf/0161.html) | **fann behåg** | **fann behag** | Har samma fel; kontrollera bilden | [s. 157](https://runeberg.org/apokryf/0161.html), höger spalt, v. 12 |
+| [ ] | A023 | [1 Mack. 10:14](https://runeberg.org/apokryf/0189.html) | **Betsura stannåde** | **Betsura stannade** | Har samma fel; kontrollera bilden | [s. 185](https://runeberg.org/apokryf/0189.html), höger spalt, v. 14 |
+| [ ] | A024 | [1 Mack. 14:42](https://runeberg.org/apokryf/0206.html) | **insätta uppsyningsrnan** | **insätta uppsyningsmän** | Har samma fel; kontrollera bilden | [s. 202](https://runeberg.org/apokryf/0206.html), höger spalt, v. 42 |
+| [ ] | A025 | [2 Mack. 5:22](https://runeberg.org/apokryf/0223.html) | **kvar uppsyningsrnan** | **kvar uppsyningsmän** | Har samma fel; kontrollera bilden | [s. 219](https://runeberg.org/apokryf/0223.html), vänster spalt, v. 22 |
+| [ ] | A026 | [2 Mack. 11:10](https://runeberg.org/apokryf/0236.html) | **framåt, ordnåde** | **framåt, ordnade** | Har samma fel; kontrollera bilden | [s. 232](https://runeberg.org/apokryf/0236.html), nedre delen av höger spalt, v. 10 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
-Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 13 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; två rader har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. För A001–A012 upprepar OCR-texten felet. Dessa tolv rättelser måste därför verifieras mot bilden, inte härledas från den befintliga OCR-texten.
+Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 17 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; två rader har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. För A001–A026 upprepar OCR-texten felet. Dessa 26 rättelser måste därför verifieras mot bilden, inte härledas från den befintliga OCR-texten.
 
 OCR används för att hitta och kontrollera kandidater. Det får inte automatiskt ersätta e-texten: både OCR-fel och skillnader mellan tryckningar förekommer. Endast utdraget i patchtabellen ändras, även när sidans OCR skiljer sig på andra ställen.
 
@@ -71,10 +89,15 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 **V001, Jeremia 8:12:** E-texten har ”Likväl känna de alls icke skam”, medan [bilden på s. 1017](https://runeberg.org/bibeln/efs1927/gt/1017.html) har ”Likväl känna de alls icke någon skam”. Ordet ”någon” är inte infört i Perikop. Båda lydelserna är grammatiskt möjliga, och Runebergs e-text bygger på flera tryckningar. Kontrollera ytterligare ett tryck innan avvikelsen klassas som ett transkriptionsfel.
 
+**V002, 2 Mack. 6:17:** Texten ”Efter detta korta avb rrott” finns även i [tryckbilden, s. 220](https://runeberg.org/apokryf/0224.html), höger spalt. Den har därför behållits. ”Avbrott” är en rimlig språklig normalisering, men skulle också rätta förlagan; kontrollera ett annat tryck innan en sådan ändring införs.
+
+
 ## Avgränsning och lokal tillämpning
 
-Detta är två riktade omgångar, inte en fullständig korrekturläsning av de 35 515 svenska versposterna. Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
+Detta är tre riktade omgångar, inte en fullständig korrekturläsning av de 35 515 svenska versposterna. Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 13 R-raderna rapporteras som e-textärenden och de tolv A-raderna som OCR-ärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 17 R-raderna rapporteras som e-textärenden och de 26 A-raderna som OCR-ärenden. Ingen rapport har skickats till någon extern mottagare.
 
-Nästa begränsade granskning bör kontrollera ”låppar” i Ps. 66:14 och Ords. 12:22, ”uppsyningsrnan” i 1 Mack. 14:42 och 2 Mack. 5:22, samt ”aminnelse” i Syrak 44:9. Dessa är endast sökkandidater: inga ytterligare rättelser har införts utan bildkontroll. En fullständig sidjämförelse återstår och bör också skilja OCR-fel från skillnader mellan tryckningar.
+Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
+
+En fullständig sidjämförelse återstår. Se [sökmetod, resultat och fortsatt granskning](sv1917-ocr-audit.md) för den återkörbara kandidatlistan och jämförelsen mellan NT, GT och apokryferna.
