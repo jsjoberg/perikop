@@ -50,6 +50,8 @@ The build writes all editions to `build/corpus/work.db`, which `align_editions.p
 
 ## Rebuild and check resources
 
+The [Swedish patch table](sv1917-errata.md) records verse-specific text corrections, scan evidence and pending human review.
+
 Rebuild the corpus and its word-study tables from bundled source data:
 
 ```sh

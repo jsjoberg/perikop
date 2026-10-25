@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Första omgången omfattar 15 verser: 13 nya rättelser och de två som redan identifierats. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Första omgången omfattar 15 verser. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -12,30 +12,46 @@ Den aktuella samlingsfilen `https://runeberg.org/bibeln/index2.html` hämtades p
 
 Trycksidan öppnas via länken i sista kolumnen. Siffran där är det tryckta sidnumret; för apokryferna skiljer det sig från numret i webbadressen. Spalt och versnummer hjälper dig att hitta rätt rad. Endast det markerade utdraget rättas; kommatering och andra tryckskillnader ingår inte i denna omgång.
 
-## Kanoniska böcker: fel i e-texten
+## Patchtabell
 
-| Granskad | ID | Vers och e-text | E-textens lydelse | Rättelse enligt bilden | Faksimil och läge |
-| --- | --- | --- | --- | --- | --- |
-| [ ] | R001 | [2 Kon. 18:21](https://runeberg.org/bibeln/12_18.html) | förtröstar **val** nu | förtröstar **väl** nu | [s. 537](https://runeberg.org/bibeln/efs1927/gt/0537.html), höger spalt, v. 21 |
-| [ ] | R002 | [Job 9:35](https://runeberg.org/bibeln/18_09.html) | med **min** själv | med **mig** själv | [s. 697](https://runeberg.org/bibeln/efs1927/gt/0697.html), överst till vänster, v. 35 |
-| [ ] | R003 | [Ps. 22:30](https://runeberg.org/bibeln/19_22.html) | sin **själv** vid liv | sin **själ** vid liv | [s. 751](https://runeberg.org/bibeln/efs1927/gt/0751.html), vänster spalt, v. 30 |
-| [ ] | R004 | [Ords. 20:7](https://runeberg.org/bibeln/20_20.html) | går det **val** efter honom | går det **väl** efter honom | [s. 876](https://runeberg.org/bibeln/efs1927/gt/0876.html), nedre delen av höger spalt, v. 7 |
-| [ ] | R005 | [Ords. 23:7](https://runeberg.org/bibeln/20_23.html) | kan han **val** säga | kan han **väl** säga | [s. 880](https://runeberg.org/bibeln/efs1927/gt/0880.html), längst ned till höger, v. 7 |
-| [ ] | R006 | [Jer. 8:12](https://runeberg.org/bibeln/24_08.html) | på skam, **övade** styggelse | på skam, **ty de övade** styggelse | [s. 1017](https://runeberg.org/bibeln/efs1927/gt/1017.html), övre delen av vänster spalt, v. 12 |
-| [ ] | R007 | [Jer. 8:15](https://runeberg.org/bibeln/24_08.html) | **V** bida efter frid | **Vi** bida efter frid | [s. 1017](https://runeberg.org/bibeln/efs1927/gt/1017.html), vänster spalt, v. 15; tidigare identifierad |
-| [ ] | R008 | [Jer. 16:13](https://runeberg.org/bibeln/24_16.html) | ett land **son** varken | ett land **som** varken | [s. 1029](https://runeberg.org/bibeln/efs1927/gt/1029.html), längst ned till höger, v. 13 |
-| [ ] | R009 | [Jer. 17:21](https://runeberg.org/bibeln/24_17.html) | Tagen eder **val** till vara | Tagen eder **väl** till vara | [s. 1031](https://runeberg.org/bibeln/efs1927/gt/1031.html), längst ned till höger, v. 21 |
-| [ ] | R010 | [Jer. 20:13](https://runeberg.org/bibeln/24_20.html) | den fattiges **själv** | den fattiges **själ** | [s. 1035](https://runeberg.org/bibeln/efs1927/gt/1035.html), nedre delen av höger spalt, v. 13 |
-| [ ] | R011 | [Jer. 29:7](https://runeberg.org/bibeln/24_29.html) | så går det ock eder **val** | så går det ock eder **väl** | [s. 1049](https://runeberg.org/bibeln/efs1927/gt/1049.html), vänster spalt, v. 7 |
-| [ ] | R012 | [Hes. 3:17](https://runeberg.org/bibeln/26_03.html) | å mina **vagnar** | å mina **vägnar** | [s. 1103](https://runeberg.org/bibeln/efs1927/gt/1103.html), övre delen av höger spalt, v. 17 |
-| [ ] | R013 | [Luk. 12:48](https://runeberg.org/bibeln/42_12.html) | vad som **val** slag värt | vad som **var** slag värt | [NT s. 118](https://runeberg.org/bibeln/efs1927/nt/0118.html), höger spalt, v. 48 |
+R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-text. Kolumnen **Sidans OCR** beskriver om maskintexten på den länkade faksimilsidan stöder rättelsen. Bilden är utslagsgivande för samtliga rader.
 
-## Apokryferna: fel i OCR-texten
+| Granskad | ID | Vers och källtext | Före | Efter, enligt bilden | Sidans OCR | Faksimil och läge |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ ] | R001 | [2 Kon. 18:21](https://runeberg.org/bibeln/12_18.html) | förtröstar **val** nu | förtröstar **väl** nu | Stämmer med rättelsen | [s. 537](https://runeberg.org/bibeln/efs1927/gt/0537.html), höger spalt, v. 21 |
+| [ ] | R002 | [Job 9:35](https://runeberg.org/bibeln/18_09.html) | med **min** själv | med **mig** själv | Stämmer med rättelsen | [s. 697](https://runeberg.org/bibeln/efs1927/gt/0697.html), överst till vänster, v. 35 |
+| [ ] | R003 | [Ps. 22:30](https://runeberg.org/bibeln/19_22.html) | sin **själv** vid liv | sin **själ** vid liv | Stämmer med rättelsen | [s. 751](https://runeberg.org/bibeln/efs1927/gt/0751.html), vänster spalt, v. 30 |
+| [ ] | R004 | [Ords. 20:7](https://runeberg.org/bibeln/20_20.html) | går det **val** efter honom | går det **väl** efter honom | Stämmer med rättelsen | [s. 876](https://runeberg.org/bibeln/efs1927/gt/0876.html), nedre delen av höger spalt, v. 7 |
+| [ ] | R005 | [Ords. 23:7](https://runeberg.org/bibeln/20_23.html) | kan han **val** säga | kan han **väl** säga | Stämmer med rättelsen | [s. 880](https://runeberg.org/bibeln/efs1927/gt/0880.html), längst ned till höger, v. 7 |
+| [ ] | R006 | [Jer. 8:12](https://runeberg.org/bibeln/24_08.html) | på skam, **övade** styggelse | på skam, **ty de övade** styggelse | Stämmer med rättelsen | [s. 1017](https://runeberg.org/bibeln/efs1927/gt/1017.html), övre delen av vänster spalt, v. 12 |
+| [ ] | R007 | [Jer. 8:15](https://runeberg.org/bibeln/24_08.html) | **V** bida efter frid | **Vi** bida efter frid | Stämmer med rättelsen | [s. 1017](https://runeberg.org/bibeln/efs1927/gt/1017.html), vänster spalt, v. 15 |
+| [ ] | R008 | [Jer. 16:13](https://runeberg.org/bibeln/24_16.html) | ett land **son** varken | ett land **som** varken | Har ”ett land, som varken” | [s. 1029](https://runeberg.org/bibeln/efs1927/gt/1029.html), längst ned till höger, v. 13 |
+| [ ] | R009 | [Jer. 17:21](https://runeberg.org/bibeln/24_17.html) | Tagen eder **val** till vara | Tagen eder **väl** till vara | Stämmer med rättelsen | [s. 1031](https://runeberg.org/bibeln/efs1927/gt/1031.html), längst ned till höger, v. 21 |
+| [ ] | R010 | [Jer. 20:13](https://runeberg.org/bibeln/24_20.html) | den fattiges **själv** | den fattiges **själ** | Stämmer med rättelsen | [s. 1035](https://runeberg.org/bibeln/efs1927/gt/1035.html), nedre delen av höger spalt, v. 13 |
+| [ ] | R011 | [Jer. 29:7](https://runeberg.org/bibeln/24_29.html) | så går det ock eder **val** | så går det ock eder **väl** | Har ”så går det ock eder Väl” | [s. 1049](https://runeberg.org/bibeln/efs1927/gt/1049.html), vänster spalt, v. 7 |
+| [ ] | R012 | [Hes. 3:17](https://runeberg.org/bibeln/26_03.html) | å mina **vagnar** | å mina **vägnar** | Stämmer med rättelsen | [s. 1103](https://runeberg.org/bibeln/efs1927/gt/1103.html), övre delen av höger spalt, v. 17 |
+| [ ] | R013 | [Luk. 12:48](https://runeberg.org/bibeln/42_12.html) | vad som **val** slag värt | vad som **var** slag värt | Stämmer med rättelsen | [NT s. 118](https://runeberg.org/bibeln/efs1927/nt/0118.html), höger spalt, v. 48 |
+| [ ] | A001 | [Tobit 11:15](https://runeberg.org/apokryf/0066.html) | min son **TobiasI»** | min son **Tobias!»** | Har samma fel som källtexten; kontrollera bilden | [s. 62](https://runeberg.org/apokryf/0066.html), nedre delen av vänster spalt, v. 15; tecknet är ett utropstecken |
+| [ ] | A002 | [Syrak 28:9](https://runeberg.org/apokryf/0110.html) | leva **l** frid | leva **i** frid | Har samma fel som källtexten; kontrollera bilden | [s. 106](https://runeberg.org/apokryf/0110.html), höger spalt, v. 9 |
 
-| Granskad | ID | Vers | OCR-textens lydelse | Rättelse enligt bilden | OCR och faksimil, läge |
-| --- | --- | --- | --- | --- | --- |
-| [ ] | A001 | Tobit 11:15 | min son **TobiasI»** | min son **Tobias!»** | [s. 62](https://runeberg.org/apokryf/0066.html), nedre delen av vänster spalt, v. 15; tecknet är ett utropstecken |
-| [ ] | A002 | Syrak 28:9 | leva **l** frid | leva **i** frid | [s. 106](https://runeberg.org/apokryf/0110.html), höger spalt, v. 9; tidigare identifierad |
+## Så kontrolleras och återbyggs rättelserna
+
+Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 13 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; två rader har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. För A001 och A002 upprepar OCR-texten felet. Dessa två rättelser kan därför bara verifieras mot bilden, inte härledas från den befintliga OCR-texten.
+
+OCR används för att hitta och kontrollera kandidater. Det får inte automatiskt ersätta e-texten: både OCR-fel och skillnader mellan tryckningar förekommer. Endast utdraget i patchtabellen ändras, även när sidans OCR skiljer sig på andra ställen.
+
+Återbygg från de sparade källfilerna i Perikops rotkatalog:
+
+```sh
+uv run --locked tools/corpus/apocrypha1921.py
+uv run --locked tools/corpus/build_corpus.py
+uv run --locked tools/corpus/build_osb_reference.py
+uv run --locked tests/osb_metadata_test.py
+uv run --locked tools/check_resources.py
+ctest --test-dir build/cmake -R '^core-storage-speech$' --output-on-failure
+```
+
+Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd den egna CMake-byggkatalogen vid behov. Importen använder versbundna ersättningar i `tools/corpus/runeberg1917.py` och `tools/corpus/apocrypha1921.py`, kräver den gamla lydelsen exakt en gång och avbryter om källtexten har ändrats. Ingen extern bibelmodul eller ny OCR-körning krävs för att återbygga rättelserna.
 
 ## Avvikelse som behöver ytterligare kontroll
 
