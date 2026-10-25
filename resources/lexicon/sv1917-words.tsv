@@ -59,11 +59,11 @@ mot	2217	word	"mu:t
 sina	2216	word	""si:$na
 ty	2208	word	"ty:
 där	2157	word	
-efter	2135	word	
+efter	2134	word	
 men	2124	word	"mEn
 vi	2068	word	"vi:
 son	2030	word	"su:n
-allt	1991	word	"alt
+allt	1990	word	"alt
 vid	1981	word	"vi:d
 ut	1961	word	"}:t
 oss	1942	word	"Os
@@ -316,7 +316,7 @@ vände	305	word	""vEn$de
 makt	304	word	"makt
 födde	301	word	""f9$de
 själ	301	word	"x\E:l
-leva	299	word	""le:$va
+leva	300	word	""le:$va
 bära	297	word	""bE:$ra
 dö	297	word	"d2:
 tro	297	word	"tru:
@@ -769,7 +769,6 @@ handen	109	word	"han$den
 lamm	109	word	"lam
 nog	109	word	"nu:g
 Eftersom	108	word	ef$te$"s`Om
-koppar	108	word	""kO$par
 nöd	108	word	"n2:d
 sten	108	word	"ste:n
 syster	108	word	""sY$ster
@@ -778,6 +777,7 @@ allena	107	word	a$""le:$na
 elden	107	word	"El$den
 filistéernas	107	word	fI$lI$"ste:$e$n`as
 fyrtio	107	word	"f9$t`I$U
+koppar	107	word	""kO$par
 präster	107	word	""prE$ster
 siklar	107	word	""si:$klar
 döma	106	word	""d9$ma
@@ -2281,6 +2281,7 @@ Rebecka	29	name	re$""bE$ka
 Saliga	29	word	""sA:$lI$ga
 Upp	29	word	"u0p
 Väl	29	word	"vE:l
+alltefter	29	word	alt$"Ef$ter
 altarets	29	word	""al$ta$rets
 arbetade	29	word	""ar$be:$ta$de
 avund	29	word	""A:$vu0nd
@@ -2341,7 +2342,6 @@ Meraris	28	name
 Simeons	28	name	
 Tamar	28	name	
 Vart	28	word	
-alltefter	28	word	alt$"Ef$ter
 alltför	28	word	"alt$f2:r
 begynnelse	28	word	be$"jY$nel$se
 begärelse	28	word	be$"jE:$rel$se
@@ -6900,6 +6900,7 @@ kastskovel	7	word	""kast$%skO$vel
 kittéernas	7	word	
 koger	7	word	"ku:$ger
 konungshusets	7	word	
+kopparfjättrar	7	word	
 korsfästas	7	word	""kOs`$%fE$stas
 korsfäste	7	word	""kOs`$%fE$ste
 kraftigt	7	word	""kraf$tIkt
@@ -7522,7 +7523,6 @@ fientliga	6	word	fI$"Ent$lI$ga
 filisté	6	word	fI$lI$"ste:
 fiskens	6	word	""fI$skens
 fjädrar	6	word	""fjE:$drar
-fjättrar	6	word	""fjE$trar
 flickans	6	word	""flI$kans
 flygeln	6	word	""fly:$geln
 flyger	6	word	"fly:$ger
@@ -7706,7 +7706,6 @@ knorren	6	word	"knO$ren
 kol	6	word	"ko:l
 konungariken	6	word	""ko:$nu0N$a$%ri:$ken
 konungasönerna	6	word	
-kopparfjättrar	6	word	
 krigsman	6	word	""krIks$%man
 krukan	6	word	""kr}:$kan
 krysolit	6	word	krY$sU$"li:t
@@ -8455,6 +8454,7 @@ fet	5	word	"fe:t
 fiendehand	5	word	""fi:$en$de$%hand
 firas	5	word	""fi:$ras
 fiskare	5	word	""fI$ska$re
+fjättrar	5	word	""fjE$trar
 flammade	5	word	""fla$ma$de
 flickebarn	5	word	""flI$ke$%bA:n`
 fliken	5	word	"fli:$ken
@@ -11690,6 +11690,7 @@ grymmare	3	word	""grY$ma$re
 grymme	3	word	""grY$me
 gräsbitarna	3	word	
 gräsgnagarna	3	word	
+gråhårsmän	3	word	
 grönskuren	3	word	
 gudabeläten	3	word	
 gudaväsen	3	word	""g}:$da$%vE:$sen
@@ -14981,7 +14982,6 @@ gränserna	2	word	""grEn$se$n`a
 gränslinje	2	word	""grEns$%li:$nje
 gräshoppssvärm	2	word	""grE:s$hOps$%svErm
 grävda	2	word	
-gråhårsmän	2	word	
 gråtodagarna	2	word	
 grön	2	word	"gr2:n
 grönsaker	2	word	""gr2:n$%sA:$ker
@@ -18083,7 +18083,7 @@ Grus	1	word	"gr}:s
 Grät	1	word	"grE:t
 Gräva	1	word	""grE:$va
 Gräven	1	name	""grE:$ven
-Gråhårsman	1	word	
+Gråhårsman	1	name	
 Gråta	1	word	""gro:$ta
 Gråtoeken	1	name	
 Gudabild	1	word	""g}:$da$%bIld
@@ -22517,7 +22517,6 @@ gräsätarna	1	word	""grE:s$%E:$ta$n`a
 gräte	1	word	
 gräten	1	word	
 grävd	1	word	
-gråhårsman	1	word	
 grånad	1	word	
 grånade	1	word	""gro:$na$de
 gråtarna	1	word	""gro:$ta$n`a
@@ -23862,7 +23861,6 @@ letek	1	word
 letuséerna	1	word	
 leumméerna	1	word	
 levandegörande	1	word	""le:$van$de$%j2:$ran$de
-levas	1	word	""le:$vas
 leverfett	1	word	
 leviters	1	word	le$"vi:$tes`
 levitiske	1	word	le$"vi:$tI$ske
@@ -25981,7 +25979,6 @@ slaktoffergåvor	1	word
 slaktoffersdjuren	1	word	
 slaktoffret	1	word	""slakt$%O$fret
 slamret	1	word	"slam$ret
-slappes	1	word	""sla$pes
 slav	1	word	"slA:v
 slemörtens	1	word	
 sleto	1	word	
@@ -26031,6 +26028,7 @@ släp	1	word	"slE:p
 släpad	1	word	""slE:$pad
 släpades	1	word	""slE:$pa$des
 släpen	1	word	"slE:$pen
+släppes	1	word	""slE$pes
 slätter	1	word	""slE$ter
 slätterna	1	word	""slE$te$n`a
 slättmark	1	word	""slEt$%mark

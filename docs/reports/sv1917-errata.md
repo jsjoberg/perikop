@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 135 rättade, återställda eller omnumrerade versposter efter elva granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 143 rättade, återställda eller omnumrerade versposter efter tolv granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -155,6 +155,14 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A111 | [Syrak 20:31](https://runeberg.org/apokryf/0099.html) | **döljer sin vishet.** | **döljer sin vishet,** | Jämför tryckets ord och interpunktion | [s. 95](https://runeberg.org/apokryf/0099.html), vänster spalt, sista versraden, v. 31 |
 | [ ] | A112 | [Syrak 23:3](https://runeberg.org/apokryf/0102.html) | **mina felsteg bliva: så många** | **mina felsteg bliva så många** | Jämför tryckets ord och interpunktion | [s. 98](https://runeberg.org/apokryf/0102.html), höger spalt, v. 3 |
 | [ ] | A113 | [Syrak 24:19](https://runeberg.org/apokryf/0105.html) | **och matten eder** | **och mätten eder** | Jämför tryckets ord och interpunktion | [s. 101](https://runeberg.org/apokryf/0105.html), vänster spalt, v. 19 |
+| [ ] | A114 | [Syrak 25:4](https://runeberg.org/apokryf/0106.html) | **icke gråhårsman att** | **icke gråhårsmän att** | Jämför tryckets ord och interpunktion | [s. 102](https://runeberg.org/apokryf/0106.html), vänster spalt, v. 4 |
+| [ ] | A115 | [Syrak 25:8](https://runeberg.org/apokryf/0106.html) | **får levas samman** | **får leva samman** | Jämför tryckets ord och interpunktion | [s. 102](https://runeberg.org/apokryf/0106.html), höger spalt, v. 8 |
+| [ ] | A116 | [Syrak 26:10](https://runeberg.org/apokryf/0108.html) | **den till självsvåld,** | **den till självsvåld.** | Jämför tryckets ord och interpunktion | [s. 104](https://runeberg.org/apokryf/0108.html), överst till vänster, v. 10 |
+| [ ] | A117 | [Syrak 28:11](https://runeberg.org/apokryf/0110.html) | **blodsutgjutelse åstad.** | **blodsutgjutelse åstad,** | Jämför tryckets ord och interpunktion | [s. 106](https://runeberg.org/apokryf/0110.html), höger spalt, v. 11 |
+| [ ] | A118 | [Syrak 28:20](https://runeberg.org/apokryf/0111.html) | **koppar-fjättrar.** | **kopparfjättrar.** | Jämför tryckets ord och interpunktion | [s. 107](https://runeberg.org/apokryf/0111.html), vänster spalt, v. 20 |
+| [ ] | A119 | [Syrak 28:23](https://runeberg.org/apokryf/0111.html) | **Hon slappes lös** | **Hon släppes lös** | Jämför tryckets ord och interpunktion | [s. 107](https://runeberg.org/apokryf/0111.html), nederst till vänster, v. 23 |
+| [ ] | A120 | [Syrak 29:20](https://runeberg.org/apokryf/0112.html) | **din nästa, allt efter** | **din nästa, alltefter** | Jämför tryckets ord och interpunktion | [s. 108](https://runeberg.org/apokryf/0112.html), höger spalt, v. 20 |
+| [ ] | A121 | [Syrak 29:25](https://runeberg.org/apokryf/0112.html) | **bjuda på mat. och dryck** | **bjuda på mat och dryck** | Jämför tryckets ord och interpunktion | [s. 108](https://runeberg.org/apokryf/0112.html), nederst till höger; fortsättning på s. 109, v. 25 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -194,7 +202,7 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 519 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 113 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 121 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -216,3 +224,5 @@ Nionde omgången: hela Syrak 7–12, 152 versposter efter återställning, har j
 Tionde omgången: hela Syrak 13–18, 160 versposter efter återställning, har jämförts mot tryckta s. 84–92. A100–A109 omfattar åtta ord-/interpunktionsrättelser samt avskiljning av 13:16 från 13:15 och borttagning av ett främmande kolon efter samman. Versdelningen bevarar ordalydelsen. Tolv mappningsrader uppdateras eller tas bort för individuella motsvarigheter till 13:15–16. Kapitel 18 saknar nya rättelser. Tryckets frånvarande versnummer och typografiska tankstreck redovisas i liggaren.
 
 Elfte omgången: hela Syrak 19–24, 169 versposter, har jämförts mot tryckta s. 92–102. A110–A113 rättar två ord och två skiljetecken: glädes i 19:5, tryckets slutkomma i 20:31, borttaget främmande kolon efter bliva i 23:3 och mätten i 24:19. Kapitel 21–22 behöver inga rättelser. Alla verskoordinater och utgåvemappningar är oförändrade. Matten → mätten tar bort två falska SALDO-kopplingar till matematik och matmor; förväntat antal lexikonsinnen ändras från 12 746 till 12 744. Tryckets slutkomma i 24:22 behålls.
+
+Tolfte omgången: hela Syrak 25–30, 154 versposter, har jämförts mot tryckta s. 102–110. A114–A121 rättar gråhårsmän i 25:4, leva i 25:8, slutpunkt i 26:10, tryckets slutkomma i 28:11, kopparfjättrar i 28:20 (borttagen radslutsavstavning), släppes i 28:23, alltefter i 29:20 och en främmande punkt efter mat i 29:25. Kapitel 27 och 30 behöver inga nya rättelser. Alla verskoordinater, utgåvemappningar och SALDO-sinnen är oförändrade.
