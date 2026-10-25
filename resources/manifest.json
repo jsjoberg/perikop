@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "d3fb97f409f83780e08f4a0d18c29272271e14897afc6e0df629ce2fc71e130f",
+      "sha256": "5ef33c4255b3c18a5e0482ac05264ab7acde299cbadbf5c92ac15d9ce9d0913c",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -504,7 +504,7 @@
     },
     {
       "path": "resources/corpus/input/sv1921-apokryfer.tsv",
-      "sha256": "8c2d7e188443bec93f6511bfc78cbd35e303e5874420229e5f508114fa11bec0",
+      "sha256": "e1ac82a06b7ef9d2c57a542ae0b7b4427fb64838c2b328fa77e1b63785782a55",
       "license": "Public-Domain Scripture",
       "role": "Curated by tools/corpus/apocrypha1921.py from Swe1917.json and the Runeberg 1921 OCR"
     },
@@ -553,7 +553,7 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "7cd1801e397c3f6186b97323e90fd0e42de42b7b5ef95433868816ae103e7cea",
+      "sha256": "c5415e5a6acf23c0f65706e66b39852557b83a5316713c81dadf8226a424c02b",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },
@@ -820,13 +820,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "5cdd4e3098a7a38d8d52f83c120c7e0e2a2a166f39c05c53092cdc0ad82b7398"
+      "sha256": "048c7ab6ca1e2d42a8e4bdf72ee803b3b30634131334bca9d5af282ba1d90f7f"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "c23b8802182b128d652cff262ec35fa07ce8a148a8d729bece1352db62a04ae5"
+      "sha256": "f8558903cbf999eca5b66880833d9e68e4e21e4499c2ead04fe2eeceb3fb2d08"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

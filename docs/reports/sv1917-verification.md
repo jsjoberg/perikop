@@ -18,10 +18,10 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
-| Svenska apokryfer | 5 / 12 | 69 / 148 | 1 634 / 4 369 |
+| Svenska apokryfer | 5 / 12 | 75 / 148 | 1 803 / 4 369 |
 | GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 1 672 versposter färdiglästa i detta protokoll. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 1 841 versposter färdiglästa i detta protokoll. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -33,7 +33,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | Judit | 1–4 och 6–16; 15 av 16 kapitel, 316 versposter | 1–24 / [0005](https://runeberg.org/apokryf/0005.html)–[0028](https://runeberg.org/apokryf/0028.html) | A031–A036 införda; kapitel 5 bildläst men olöst V003, räknas inte som färdigt |
 | Visheten | Hela 1–19, 436 versposter | 24–50 / [0028](https://runeberg.org/apokryf/0028.html)–[0054](https://runeberg.org/apokryf/0054.html) | A037–A060: 24 rättade versposter, inklusive två versgränser |
 | Tobit | 1–2 och 4–14; 13 av 14 kapitel, 227 versposter | 50–66 / [0054](https://runeberg.org/apokryf/0054.html)–[0070](https://runeberg.org/apokryf/0070.html) | A061–A080 införda, inklusive återställda 11:19 och 13:18; kapitel 3 väntar på V004 |
-| Syrak | Hela kapitel 1–18, 469 versposter | 67–92 / [0071](https://runeberg.org/apokryf/0071.html)–[0096](https://runeberg.org/apokryf/0096.html) | A081–A109 införda; rättade gränser i 11:30–31, 12:2–4 och 13:15–16, samt numrering i 3:26–27 |
+| Syrak | Hela kapitel 1–24, 638 versposter | 67–102 / [0071](https://runeberg.org/apokryf/0071.html)–[0106](https://runeberg.org/apokryf/0106.html) | A081–A113 införda; rättade gränser i 11:30–31, 12:2–4 och 13:15–16, samt numrering i 3:26–27 |
 
 ## Onumrerad text
 
@@ -41,7 +41,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Återstår
 
-**Apokryfer:** Judit 5 och Tobit 3 väntar på bedömning av V003 respektive V004. Syrak 19–51, Baruk, 1 Mackabeerboken, 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
+**Apokryfer:** Judit 5 och Tobit 3 väntar på bedömning av V003 respektive V004. Syrak 25–51, Baruk, 1 Mackabeerboken, 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
 
 **GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
@@ -51,7 +51,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Nästa arbetsblock
 
-1. Fortsätt med **Syrak 19** från [skannummer 0096, tryckt s. 92](https://runeberg.org/apokryf/0096.html) och följ hela kapitlet över efterföljande sidor. Slutet av 18:33 är redan granskat överst till höger; kapitel 19 är inte tillgodoräknat. Sök även oberoende tryck för de öppna läsningarna V001–V004.
+1. Fortsätt med **Syrak 25** från [skannummer 0106, tryckt s. 102](https://runeberg.org/apokryf/0106.html) och följ hela kapitlet över efterföljande sidor. Slutet av 24:34 är redan granskat överst till vänster; kapitel 25 är inte tillgodoräknat. Sök även oberoende tryck för de öppna läsningarna V001–V004.
 2. Lägg till en kapitelpost först efter full jämförelse och efter att eventuella rättelser har återbyggts i korpusen. `needs-review` används om något fortfarande är olöst.
 3. Kör liggarkontrollen och relevanta regressioner. Uppdatera denna sammanställning och PR #64 vid varje färdigt arbetsblock. Lämna ofärdiga kapitel uttryckligen ofärdiga.
 
@@ -73,3 +73,5 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 7:** läste hela Syrak 7–12 på tryckta s. 75–84, 152 versposter efter återställning. A088–A099 införda: åtta ord-/interpunktionsrättelser, rättad gräns mellan 11:30–31 och återställda individuella poster för 12:2–4. Tolv mappningsrader korrigerade eller borttagna. Före-/efterjämförelse bekräftar elva ändrade poster och en ny; övriga verser och språkversioner oförändrade. Totalt 98 unika bildsidor och 1 512 färdiga versposter i 65 kapitel, plus företalet. 1 012 kapitel återstår. Nästa kapitel är Syrak 13; V001–V004 kvarstår. Liggar- och kandidattester, core-storage-speech, sex OSB-tester och samtliga 122 resurshashar godkända.
 
 - **2026-10-25, block 8:** läste hela Syrak 13–18 på tryckta s. 84–92, 160 versposter efter återställning. A100–A109 införda: åtta ord-/interpunktionsrättelser samt avskiljning av 13:16 från 13:15 med borttaget främmande kolon. Tolv mappningsrader korrigerade eller borttagna. Före-/efterjämförelse bekräftar nio ändrade poster och en ny; övriga verser och språkversioner oförändrade. Totalt 106 unika bildsidor och 1 672 färdiga versposter i 71 kapitel, plus företalet. 1 006 kapitel återstår. Nästa kapitel är Syrak 19; V001–V004 kvarstår. Liggar- och kandidattester, core-storage-speech, sex OSB-tester och samtliga 122 resurshashar godkända.
+
+- **2026-10-25, block 9:** läste hela Syrak 19–24 på tryckta s. 92–102, 169 versposter. A110–A113 införda: glädes i 19:5, slutkomma i 20:31, borttaget främmande kolon i 23:3 och mätten i 24:19. Kapitel 21–22 utan nya rättelser. Före-/efterjämförelse bekräftar exakt fyra ändrade versposter; alla verskoordinater och övriga texter oförändrade. Två falska SALDO-sinnen för matematik och matmor avlägsnade genom mätten-rättelsen; förväntat antal uppdaterat till 12 744. Totalt 116 unika bildsidor och 1 841 färdiga versposter i 77 kapitel, plus företalet. 1 000 kapitel återstår. Nästa kapitel är Syrak 25; V001–V004 kvarstår. Liggar- och kandidattester, core-storage-speech, sex OSB-tester och samtliga 122 resurshashar godkända.

@@ -136,6 +136,11 @@ REPLACE=[
  ('Sir', 17, 13, 'o,ch hans rösts', 'och hans rösts'),
  ('Sir', 17, 25, 'med att.synda;', 'med att synda;'),
  ('Sir',13,15,'samman: efter','samman efter'),
+ # Syrak 19-24 scan review: A110-A113.
+ ('Sir', 19, 5, 'Den som glades över', 'Den som glädes över'),
+ ('Sir', 20, 31, 'döljer sin vishet.', 'döljer sin vishet,'),
+ ('Sir', 23, 3, 'mina felsteg bliva: så många', 'mina felsteg bliva så många'),
+ ('Sir', 24, 19, 'och matten eder', 'och mätten eder'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),

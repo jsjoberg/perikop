@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 131 rättade, återställda eller omnumrerade versposter efter tio granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 135 rättade, återställda eller omnumrerade versposter efter elva granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -151,6 +151,10 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A107 | [Syrak 16:8](https://runeberg.org/apokryf/0092.html) | **som Löt bodde** | **som Lot bodde** | Jämför tryckets ord och marginalnummer | [s. 88](https://runeberg.org/apokryf/0092.html), vänster spalt, v. 8 |
 | [ ] | A108 | [Syrak 17:13](https://runeberg.org/apokryf/0094.html) | **o,ch hans rösts** | **och hans rösts** | Jämför tryckets ord och marginalnummer | [s. 90](https://runeberg.org/apokryf/0094.html), överst till vänster, v. 13 |
 | [ ] | A109 | [Syrak 17:25](https://runeberg.org/apokryf/0094.html) | **med att.synda;** | **med att synda;** | Jämför tryckets ord och marginalnummer | [s. 90](https://runeberg.org/apokryf/0094.html), nederst till vänster, v. 25 |
+| [ ] | A110 | [Syrak 19:5](https://runeberg.org/apokryf/0096.html) | **Den som glades över** | **Den som glädes över** | Jämför tryckets ord och interpunktion | [s. 92](https://runeberg.org/apokryf/0096.html), höger spalt, v. 5 |
+| [ ] | A111 | [Syrak 20:31](https://runeberg.org/apokryf/0099.html) | **döljer sin vishet.** | **döljer sin vishet,** | Jämför tryckets ord och interpunktion | [s. 95](https://runeberg.org/apokryf/0099.html), vänster spalt, sista versraden, v. 31 |
+| [ ] | A112 | [Syrak 23:3](https://runeberg.org/apokryf/0102.html) | **mina felsteg bliva: så många** | **mina felsteg bliva så många** | Jämför tryckets ord och interpunktion | [s. 98](https://runeberg.org/apokryf/0102.html), höger spalt, v. 3 |
+| [ ] | A113 | [Syrak 24:19](https://runeberg.org/apokryf/0105.html) | **och matten eder** | **och mätten eder** | Jämför tryckets ord och interpunktion | [s. 101](https://runeberg.org/apokryf/0105.html), vänster spalt, v. 19 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -190,7 +194,7 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 519 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 109 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 113 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -210,3 +214,5 @@ Sjunde omgången: hela Tobit, 14 kapitel och efter återställd versindelning 24
 Nionde omgången: hela Syrak 7–12, 152 versposter efter återställning, har jämförts mot tryckta s. 75–84. A088–A099 omfattar åtta ord-/interpunktionsrättelser, återföring av slutet av 11:30 från 11:31 samt avskiljning av 12:3 från 12:2 och omnumrering av tidigare 12:3 till 12:4. Ingen löptext har lagts till eller tagits bort vid versgränsrättelserna; ordfelet tills → till i 11:31 rättas separat inom samma verspost. Tolv mappningsrader uppdateras eller tas bort för att ge 12:2–4 individuella motsvarigheter. Verserna 10:21, 11:15–16 och 12:7 saknar löptext i trycket; nothänvisningar omvandlas inte till verser.
 
 Tionde omgången: hela Syrak 13–18, 160 versposter efter återställning, har jämförts mot tryckta s. 84–92. A100–A109 omfattar åtta ord-/interpunktionsrättelser samt avskiljning av 13:16 från 13:15 och borttagning av ett främmande kolon efter samman. Versdelningen bevarar ordalydelsen. Tolv mappningsrader uppdateras eller tas bort för individuella motsvarigheter till 13:15–16. Kapitel 18 saknar nya rättelser. Tryckets frånvarande versnummer och typografiska tankstreck redovisas i liggaren.
+
+Elfte omgången: hela Syrak 19–24, 169 versposter, har jämförts mot tryckta s. 92–102. A110–A113 rättar två ord och två skiljetecken: glädes i 19:5, tryckets slutkomma i 20:31, borttaget främmande kolon efter bliva i 23:3 och mätten i 24:19. Kapitel 21–22 behöver inga rättelser. Alla verskoordinater och utgåvemappningar är oförändrade. Matten → mätten tar bort två falska SALDO-kopplingar till matematik och matmor; förväntat antal lexikonsinnen ändras från 12 746 till 12 744. Tryckets slutkomma i 24:22 behålls.
