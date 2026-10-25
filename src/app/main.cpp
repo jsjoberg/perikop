@@ -171,7 +171,6 @@ public:
 #if wxCHECK_VERSION(3, 3, 0)
             SetAppearance(static_cast<wxApp::Appearance>(user_->load().theme));
 #endif
-            user_->migrate_reading_plans(*corpus_);
             auto* frame = new ortho::MainFrame(*corpus_, *user_, date, resources, data_path,
                                                ortho::make_update_backend(), smoke || benchmark);
             wxIcon icon;

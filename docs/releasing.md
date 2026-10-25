@@ -7,23 +7,16 @@ See the [update migration plan](updating.md) for platform validation and user-co
 Set the version in `project()` in `CMakeLists.txt`, then push a matching tag:
 
 ```sh
-git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
+git tag v0.2.0 && git push origin v0.2.0
 ```
 
 CI builds, tests, and packages four targets: Windows x64, Linux x64, Linux ARM64, and macOS Apple Silicon (macOS 15+).
-Linux channels include `-glibc241` after the architecture. Publish Debian 13 builds only to these feeds, never to the earlier Linux feeds; users moving from an earlier build download the new AppImage once on a supported system. See [the Linux migration boundary](updating.md#versions-and-channels).
+Linux channels include `-glibc239` after the architecture. Publish Debian 13 builds only to these feeds, never to the earlier Linux feeds; users moving from an earlier build download the new AppImage once on a supported system. See [the Linux migration boundary](updating.md#versions-and-channels).
 It then creates a draft release containing, for each target, the Velopack download (`Perikop-<channel>-Setup.exe`, `Perikop-<channel>-Setup.pkg` or `Perikop-<channel>.AppImage`), portable packages where Velopack makes them, a full update package and channel feed, a delta where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file. A release needs all four targets; `update_packages.py assemble --complete` refuses one without them.
 Releases with AppImages also carry `AppImage-runtime-source-<commit>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
-The tag's version, such as `0.1.0-alpha.2`, goes into the update packages. CI stops if the tag does not match `CMakeLists.txt`.
+The tag's version, such as `0.2.0`, goes into the update packages. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
 The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.
-
-## After 0.2.0
-
-These conversions keep profiles from 0.1.x working. Remove them once 0.2.0 has shipped, and say in that release's notes that 0.1.x installations should upgrade through 0.2.0:
-
-- Reading-plan progress from the original and v2 plan layouts and from the Septuagint frame: `src/storage/legacy_reading_plan_parts.inc`, `src/storage/reading_plan_migration.cpp`, the progress transfer in `src/storage/osb_migration.cpp`, and the legacy canon and frame helpers they use.
-- Retired settings that `UserDb::load()` still converts: `parallel` and the Antiochian `tradition` values.
 
 ## Nightly builds
 
@@ -60,13 +53,13 @@ For an unpublished packaging check on a branch, run `gh workflow run build.yml -
 
 Every package is a Velopack package. They need .NET 8 and `vpk`, which `dependencies.py restore` unpacks to `build/ci/tools/vpk`.
 
-On Linux, `tools/prepare_appdir.sh build/cmake` prepares the AppDir, and `tools/package_velopack.sh build/cmake <version> linux-<arch>-glibc241-<track> <output>` packs it as the AppImage and update package. Packing also needs `squashfs-tools`.
+On Linux, `tools/prepare_appdir.sh build/cmake` prepares the AppDir, and `tools/package_velopack.sh build/cmake <version> linux-<arch>-glibc239-<track> <output>` packs it as the AppImage and update package. Packing also needs `squashfs-tools`.
 
 On Windows, stage with `cmake --install build/cmake --prefix build/stage`, then run `vpk pack` as the Windows job in `.github/workflows/build.yml` does.
 On macOS, stage with `cmake --install build/cmake --prefix build/stage --strip`, then run
 `python3 tools/package_velopack_macos.py build/stage/Perikop.app <version> arm64 osx-arm64-<releases|nightly> <output>`.
 It needs `zstd` for deltas. Native CI creates an ARM64 [portable update validation kit](updating.md#packaging-and-validation). The macOS 15 baseline update check must pass on the macOS 15 runner before release; results from newer macOS do not establish the minimum. Pass `--delta BestSpeed` after seeding the output directory with the previous same-channel full package and feed. The Linux packer accepts `PERIKOP_VELOPACK_DELTA=BestSpeed` for the same purpose.
-The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the Debian 13 CI container: CI rejects dependencies newer than glibc 2.41.
+The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in the Debian 13 CI container: CI rejects dependencies newer than glibc 2.39, the version in Enterprise Linux 10.
 
 ## CI dependency snapshots
 

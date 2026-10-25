@@ -40,33 +40,16 @@ changing the user's edition never recalculates them.
 python tools/build_reading_plans.py --check
 ```
 
-Use `--write` only when deliberately editing the layout. Published boundary changes
-require another key version and migration, even when the number of parts is unchanged.
+Use `--write` only when deliberately editing the layout. A published boundary change
+needs a new key version in `plan_key()`, even when the number of parts is unchanged.
 
 ## Compatibility
 
-Startup calls `UserDb::migrate_reading_plans`. The original 30/30/14-part layout is
-frozen in `legacy_reading_plan_parts.inc`; the previous 60/180/31-part layout is
-frozen in `reading_plan_v2_parts.inc`. The old source canon and frames remain
-available only for conversion. Neither frozen layout is regenerated from OSB data.
+Progress keys carry the layout version, such as `plan:nt:v4:7`. Marks and positions
+saved for an earlier layout are not converted: they stay in the profile unused, and
+the plan starts over. Version 4 began with 0.2.0, together with `passage:` resume keys
+(shared with daily readings of the same passage), so no earlier position applies either. Daily-reading marks, bookmarks and
+settings are kept separately and are unaffected, except the 0.1.x split-pane setting
+(`parallel`), which is no longer read.
 
-1. `reading_plan_migration.cpp` transfers v1 coverage into v2 keys in its own SQLite
-   transaction, with the `reading_plans_v2_migrated` marker.
-2. `osb_migration.cpp` transfers v2 coverage and ordinary reading checkpoints into
-   OSB v3 keys and `reading:osb-v1:...` keys in a second transaction, with the
-   `osb_v1_migrated` marker.
-
-Completed old parts contribute their original framed verses. A valid checkpoint
-contributes only verses before its current verse, which is read again on resume.
-A new verse is covered only when all its old source counterparts are covered.
-New OSB material without old coverage remains unread. Nonconsecutive completions
-are handled independently; the first unread gap determines the new checkpoint.
-
-Completion dates use the latest contributing date. Existing OSB completion or
-checkpoint rows take precedence. Original progress and positions remain as recovery
-data; settings, bookmarks and unrelated day progress are retained. Each phase rolls
-back its writes and marker on failure and can retry on the next launch.
-
-**Börja om** clears the plan's old and new keys. Both migration markers remain,
-so reset cannot resurrect cleared progress. The old converters and frozen tables
-can eventually be retired, but the v3 key format and published ranges must remain.
+**Börja om** clears every version's marks for the plan, and its reading positions.

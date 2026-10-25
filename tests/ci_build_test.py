@@ -127,7 +127,7 @@ class BuildTest(unittest.TestCase):
                         patch.object(build, "run") as run, patch.object(build, "version", return_value="1.0.1"), \
                         patch.object(build.platform, "machine", return_value=machine):
                     build.linux(True)
-                    channel = f"linux-{architecture}-glibc241-{track}"
+                    channel = f"linux-{architecture}-glibc239-{track}"
                     output = Path("build/velopack") / channel
                     python.assert_any_call("tools/ci/update_packages.py", "seed", Path("build/update-base") / channel, output)
                     run.assert_any_call("tools/package_velopack.sh", build.BUILD, "1.0.1", channel, output)

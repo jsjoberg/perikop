@@ -19,9 +19,9 @@ const char* const platform = "win-x64";
 #elif defined(__APPLE__)
 const char* const platform = "osx-arm64";
 #elif defined(__aarch64__)
-const char* const platform = "linux-arm64-glibc241";
+const char* const platform = "linux-arm64-glibc239";
 #else
-const char* const platform = "linux-x64-glibc241";
+const char* const platform = "linux-x64-glibc239";
 #endif
 
 // The manager finds an installed program from its files alone, with no network; it throws when there is none.

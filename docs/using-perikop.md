@@ -19,12 +19,12 @@ Download `Perikop-osx-arm64-releases-Setup.pkg` and open it. The package is unsi
 A copy installed from the older DMG cannot update itself; install the package once. See [update validation](updating.md#packaging-and-validation) for the release checks.
 
 ### Linux
-Requires x86-64 and glibc 2.41 or later: Debian 13, Ubuntu 26.04, Fedora 42, or newer, and rolling distributions such as Arch and Void. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-linux-x64-glibc241-releases.AppImage`.
-Make it executable (`chmod +x Perikop-linux-x64-glibc241-releases.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
+Requires x86-64 and glibc 2.39 or later: Debian 13, Enterprise Linux 10 (AlmaLinux, Rocky Linux, RHEL), Ubuntu 26.04, Fedora 40, or newer, and rolling distributions such as Arch. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-linux-x64-glibc239-releases.AppImage`.
+Make it executable (`chmod +x Perikop-linux-x64-glibc239-releases.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
 If you use an earlier Linux build, download this AppImage once on a supported system. Earlier builds do not receive it through in-app updates, to keep an incompatible update from replacing a working copy on an older system. Your reading profile is kept.
 
 ### Raspberry Pi 5
-Requires 64-bit Raspberry Pi OS based on Debian 13 (trixie), with its desktop. Use `Perikop-linux-arm64-glibc241-releases.AppImage` the same way, including the one-time download when moving from an earlier Linux build. Older Pi models are not supported.
+Requires 64-bit Raspberry Pi OS based on Debian 13 (trixie), with its desktop. Use `Perikop-linux-arm64-glibc239-releases.AppImage` the same way, including the one-time download when moving from an earlier Linux build. Older Pi models are not supported.
 A slow SD card makes the reader stall; an SSD or a fast card helps.
 
 ## Day page and calendar
@@ -95,6 +95,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
 - **Inställningar → Markera texten som läses upp** highlights the spoken text.
 - eSpeak reads with Perikop's own Swedish pronunciations and uses very little CPU. **Snabbare** and **Långsammare** change its speaking rate; during reading, the current verse starts again at the new speed.
+- Swedish abbreviations are read in full, such as `o. s. v.` as “och så vidare” and `t.ex.` as “till exempel”. The displayed text keeps its abbreviations.
 - Beside the voice picker, **Prova rösten** reads John 3:16 with the selected eSpeak voice. **Stoppa provet** stops the sample; choosing another voice or leaving settings also stops it. Trying a voice preserves your reading position.
 
 ## Word study and pronunciation

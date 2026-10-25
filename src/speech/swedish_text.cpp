@@ -119,7 +119,6 @@ bool digit(char32_t c) {
 class Lexicon {
     std::string data_;
     std::vector<uint32_t> lines_;
-    std::unordered_map<std::string, std::string> custom_;
     std::string_view word(uint32_t line) const {
         const auto end = data_.find('\t', line);
         return std::string_view(data_).substr(line, end - line);
@@ -133,8 +132,7 @@ class Lexicon {
     }
 
 public:
-    Lexicon(const std::filesystem::path& lexicon, const std::filesystem::path& custom)
-        : data_(read_file(lexicon)) {
+    explicit Lexicon(const std::filesystem::path& lexicon) : data_(read_file(lexicon)) {
         for (size_t begin = 0; begin < data_.size();) {
             auto end = data_.find('\n', begin);
             if (end == std::string::npos)
@@ -148,25 +146,9 @@ public:
         for (size_t i = 1; i < lines_.size(); ++i)
             if (!(word(lines_[i - 1]) < word(lines_[i])))
                 throw std::runtime_error("Swedish lexicon is not sorted.");
-        // Custom overrides win over the NST lexicon. Their words are lowercased.
-        std::istringstream input(read_file(custom));
-        for (std::string line; std::getline(input, line);) {
-            if (line.empty() || line[0] == '#')
-                continue;
-            const auto tab = line.find('\t');
-            if (tab == std::string::npos || line.find('\t', tab + 1) != std::string::npos)
-                throw std::runtime_error("Invalid Swedish custom lexicon row.");
-            auto text = decode(line.substr(0, tab));
-            for (auto& c : text)
-                if ((c >= 'A' && c <= 'Z') || (c >= 0xc0 && c <= 0xde && c != 0xd7))
-                    c += 32;
-            custom_[encode(text)] = joined(std::string_view(line).substr(tab + 1));
-        }
     }
     // Empty when the word is unknown or its entry is empty, as `lex.get(w) or ...`.
     std::string find(const std::string& key) const {
-        if (const auto entry = custom_.find(key); entry != custom_.end())
-            return entry->second;
         const auto at = std::lower_bound(lines_.begin(), lines_.end(), key,
                                          [this](uint32_t line, const std::string& value) {
                                              return word(line) < value;
@@ -224,8 +206,7 @@ struct SwedishText::Impl {
     Lexicon lexicon;
     // Pronunciations of the corpus words the lexicon lacks, from the kokoro-sv neural G2P.
     std::unordered_map<std::string, std::string> corpus;
-    explicit Impl(const std::filesystem::path& data)
-        : lexicon(data / "lexicon.tsv", data / "custom_lexicon.tsv") {
+    explicit Impl(const std::filesystem::path& data) : lexicon(data / "lexicon.tsv") {
         std::istringstream rows(read_file(data / "g2p-corpus.tsv"));
         for (std::string line; std::getline(rows, line);) {
             const auto tab = line.find('\t');

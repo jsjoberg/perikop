@@ -16,6 +16,22 @@ VERSE=re.compile(r'^\s{0,3}(\d+)\.\s(.*)$')
 ELSEWHERE=re.compile(r'^\s*\d+:\d+\.\s*(?:\[\d+\])?$')
 # Misprinted verse numbers in the e-text: (book, chapter, printed number, occurrence) -> number.
 RENUMBER={('25',1,21,2):22,('42',20,23,1):22}
+# E-text errors checked visually against the 1927 facsimile.
+# Page links, context and pending human review: docs/reports/sv1917-errata.md.
+REPLACE={
+ ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
+ ('Job',9,35):('med min själv','med mig själv'),
+ ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
+ ('Prov',20,7):('går det val efter honom','går det väl efter honom'),
+ ('Prov',23,7):('kan han val säga','kan han väl säga'),
+ ('Jer',8,12):('på skam, övade styggelse','på skam, ty de övade styggelse'),
+ ('Jer',8,15):('V bida efter frid','Vi bida efter frid'),
+ ('Jer',16,13):('ett land son varken','ett land som varken'),
+ ('Jer',17,21):('Tagen eder val till vara','Tagen eder väl till vara'),
+ ('Jer',20,13):('den fattiges själv','den fattiges själ'),
+ ('Jer',29,7):('så går det ock eder val','så går det ock eder väl'),
+ ('Ezek',3,17):('å mina vagnar','å mina vägnar'),
+ ('Luke',12,48):('vad som val slag värt','vad som var slag värt')}
 
 def chapter_number(name):
     if not name:return 1
@@ -66,4 +82,7 @@ def read(path):
         if not text:continue # Verses such as Josh 21:36-37 appear only as a footnote reference.
         if re.search(r'\[\d+\]|[<>]',text):raise ValueError('Unclean 1917 text %s %d:%d'%key)
         verses[key]=text
+    for key,(old,new) in REPLACE.items():
+        if verses[key].count(old)!=1:raise ValueError('1917 correction does not apply once: %s'%str(key))
+        verses[key]=verses[key].replace(old,new)
     return verses

@@ -184,7 +184,7 @@ def check(build, vpk):
     with tempfile.TemporaryDirectory() as temporary:
         work = Path(temporary)
         # Velopack makes the AppImage from the prepared AppDir; pack one to check what it ships.
-        channel = "linux-" + {"x86_64": "x64", "aarch64": "arm64"}[architecture] + "-glibc241-nightly"
+        channel = "linux-" + {"x86_64": "x64", "aarch64": "arm64"}[architecture] + "-glibc239-nightly"
         subprocess.run([str(ROOT / "tools/package_velopack.sh"), str(build), "1.0.0-licences", channel, str(work / "feed")],
                        check=True, capture_output=True, env=dict(os.environ, PERIKOP_VPK=str(vpk)))
         image = next((work / "feed").glob("*.AppImage"))

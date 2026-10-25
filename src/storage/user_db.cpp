@@ -31,7 +31,7 @@ UserDb::UserDb(const std::filesystem::path& path) {
 #ifdef __APPLE__
     exec(db_.get(), "PRAGMA fullfsync=ON; PRAGMA checkpoint_fullfsync=ON");
 #endif
-    // Additive tables preserve existing profiles. Plan-layout migration runs separately with the corpus.
+    // Additive tables preserve existing profiles.
     exec(db_.get(),
          "CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY NOT NULL,value TEXT NOT NULL) STRICT;"
          "CREATE TABLE IF NOT EXISTS progress(key TEXT PRIMARY KEY NOT NULL,completed TEXT NOT NULL) STRICT;"
@@ -207,15 +207,7 @@ Settings UserDb::load() const {
         if (key == "calendar")
             result.calendar = value == "old" ? CalendarStyle::Old : CalendarStyle::New;
         if (key == "tradition")
-            // Retired Antiochian settings now select the Greek family, including its variants.
             result.tradition = value == "slavic" ? Tradition::Slavic : Tradition::Greek;
-        // Older profiles retain their split-pane choice as a source priority.
-        if (key == "parallel" && !value.empty()) {
-            result.split_view = true;
-            if (value.starts_with("el"))
-                result.secondary_sources =
-                    decode_sources("grc-lxx=1,grc-patriarchal=1", result.secondary_sources);
-        }
         if (key == "split_view")
             result.split_view = value == "1";
         if (key == "primary_sources")
@@ -255,7 +247,6 @@ void UserDb::save(const Settings& settings) {
         {"color_scheme", color_schemes[int(settings.color_scheme)]},
         {"calendar", settings.calendar == CalendarStyle::Old ? "old" : "new"},
         {"tradition", settings.tradition == Tradition::Slavic ? "slavic" : "greek"},
-        {"parallel", ""},
         {"split_view", settings.split_view ? "1" : "0"},
         {"primary_sources", encode_sources(settings.primary_sources)},
         {"secondary_sources", encode_sources(settings.secondary_sources)},
