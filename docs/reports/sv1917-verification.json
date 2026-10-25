@@ -1804,6 +1804,134 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltgränsen efter 30:4 och sidfortsättningen i 30:15. Inga nya rättelser. Även de ovanliga uttrycken Glamma i 30:10 och ömma tänder i samma vers, formuleringen Hälsa och välbefinnande är i 30:15 och samtliga skiljetecken och versgränser stämmer med trycket."
+    },
+    {
+      "book": "Sir",
+      "chapter": 31,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "0e05e8d2647cb749191dbfa9a4e2dac0cc4b64366fae84572b68ca1ca0a0f073",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0114.1.tif",
+          "sha256": "45a0817a1f3855d5082cfafd33c095e751e00bb1e52a5f3165f5b37d358eb05a"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0115.1.tif",
+          "sha256": "c0137db5d8f7231a069e347466e885f5bd591abaa8329bffe4c984873493bc35"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0116.1.tif",
+          "sha256": "370d07f00672cabac93220ee8c01df7fb2a8a510696b059399ced1d156a6804d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 31:10 och 31:28 samt spaltfortsättningen i 31:20. A122–A123 införda och återbyggda: slutkomma → slutpunkt i 31:17 och for → för i 31:28. Tidigare A017–A018 i 31:16 och 31:25 återkontrollerade; inkfläckar i bilden är inte textcitattecken. Alla övriga ord, interpunktion och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 32,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "af2871c47ebbe72881968be0fc21733557411b8c4614103aa016bf71b7ff439a",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0116.1.tif",
+          "sha256": "370d07f00672cabac93220ee8c01df7fb2a8a510696b059399ced1d156a6804d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0117.1.tif",
+          "sha256": "02386cb4b473ab7f7ef91e3aa47fc96153473cecb94628023c1303102d797ff7"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättning i 32:3 och sidfortsättning i 32:15. A124–A126 införda och återbyggda: slutkomma → slutpunkt i 32:9 och 32:17 samt snäva → tryckets snava i 32:20. Snava kontrollerat i originalupplösning. Semikolonet mellan 32:21 och 32:22 samt alla övriga ord och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 33,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "5f76e954f330a9dd69801c2e91733f41d970f19530069b50399a0edbdaf3252f",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0117.1.tif",
+          "sha256": "02386cb4b473ab7f7ef91e3aa47fc96153473cecb94628023c1303102d797ff7"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0118.1.tif",
+          "sha256": "3d1be9783d1c7ebba6ec0cd83d2c68a7732411fd6f91d535b5ffb408e71d0eb5"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0119.1.tif",
+          "sha256": "a6195a89dc1d2002e20755951c1591b26b710a20f588b023447f06aee5f3602e"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättning av 33:2, sidfortsättning av 33:12 och slutverserna 33:32–33 överst på nästa sida. A127–A128 införda och återbyggda: företrade → företräde i 33:7 och té → te i 33:15. Te står utan accent i trycket. Det tryckta tankstrecket i 33:16 återges typografiskt som bindestreck; alla andra ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 34,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "5747eccc0de95e03134da9532fc73bfdabe885b2cc5d079cd9461377e983a3d0",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0119.1.tif",
+          "sha256": "a6195a89dc1d2002e20755951c1591b26b710a20f588b023447f06aee5f3602e"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0120.1.tif",
+          "sha256": "7a0d1cc2cbf6dde042c48e096a3ba04828283f3252c44451427612939f052545"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord över två sidor. A129 införd och återbyggd: förfaras → förfäras i 34:16. A006–A007 i 34:9 och 34:19 återkontrollerade. Formuleringen Han bevarar dem för att stöta emot i 34:19 och singularformen beror i 34:25 står också i trycket och behålls. Tankstrecken i 34:17, 34:28 och 34:29 återges typografiskt som bindestreck. Samtliga övriga ord och gränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 35,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "8514c9668784218af86e183463c9d3a9ba28084bee62b58c84cf3baf75967277",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0120.1.tif",
+          "sha256": "7a0d1cc2cbf6dde042c48e096a3ba04828283f3252c44451427612939f052545"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0121.1.tif",
+          "sha256": "39c52a910b7c7c3185c9556efab359fbf7dbb02d653f74996e03ef1b9f4d0685"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidgränsen efter 35:13 och spaltgränsen efter 35:23. Inga nya rättelser. Slutordet länd i 35:22 står i samma form i trycket; ingen utfyllnad görs; fortsättningen börjar och utkrävt hämnd i 35:23. Även de långa 35:21–25 och samtliga andra ord, skiljetecken och versgränser kontrollerade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 36,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "d68796c0d7e29c9eadfa632888dc0424be3a2adaf727543ffe407466d76b04d2",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0121.1.tif",
+          "sha256": "39c52a910b7c7c3185c9556efab359fbf7dbb02d653f74996e03ef1b9f4d0685"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0122.1.tif",
+          "sha256": "dc3ca48646fef8aa7b90684469592278cf759ddd182ebdfb17be81a396a4d135"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidgränsen efter 36:9 och spaltfortsättningen i 36:20. A130 införd och återbyggd: främmande versal Utgjut → utgjut i 36:8. Versgränsen mitt i bönen mellan 36:18 och 36:19 och hela slutversen 36:28 bekräftade. Samtliga andra ord, skiljetecken och gränser stämmer med trycket."
     }
   ],
   "unnumbered": [

@@ -12,7 +12,7 @@ Och	8353	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
 icke	8178	word	""I$ke
-för	8152	word	"f2:r
+för	8153	word	"f2:r
 jag	8124	word	"jA:g
 den	7755	word	
 med	7577	word	"me:d
@@ -648,11 +648,11 @@ vittnesbörd	133	word	""vIt$nes$%b2:d`
 Dock	132	word	"dOk
 Jeremia	132	name	
 bär	132	word	"bE:r
-for	132	word	"fu:r
 gören	132	word	
 ljus	132	word	"j}:s
 tillhopa	132	word	""tIl$%hu:$pa
 ens	131	word	"Ens
+for	131	word	"fu:r
 hustrur	131	word	""hu0$str}:r
 lägret	131	word	"lE:$gret
 vän	131	word	"vE:n
@@ -5726,6 +5726,7 @@ föreläste	9	word	""f2:$re$%lE:$ste
 föreskrifter	9	word	""f2:$re$%skrIf$ter
 föreståndarna	9	word	""f2:$re$%stOn$da$n`a
 företaga	9	word	""f2:$re$%tA:$ga
+förfäras	9	word	f9r$"fE:$ras
 förfång	9	word	f9r$"fON
 förföra	9	word	f9r$"f2:$ra
 förgåtts	9	word	f9r$"gOts
@@ -6210,7 +6211,6 @@ förbinder	8	word	""f2:r$%bIn$der
 förenade	8	word	f9r$"e:$na$de
 förfallet	8	word	f9r$"fa$let
 förfaren	8	word	f9r$"fA:$ren
-förfäras	8	word	f9r$"fE:$ras
 förföljt	8	word	f9r$"f9ljt
 förförelse	8	word	f9r$"f2:$rel$se
 förgicks	8	word	f9r$"jIks
@@ -8520,7 +8520,7 @@ förening	5	word	f9r$"e:$nIN
 förestod	5	word	""f2:$re$%stu:d
 företagit	5	word	""f2:$re$%tA:$gIt
 företogo	5	word	
-förfaras	5	word	f9r$"fA:$ras
+företräde	5	word	""f2:$re$%trE:$de
 förfor	5	word	f9r$"fu:r
 förforo	5	word	
 förfärdigande	5	word	f9r$"fE:$d`I$gan$de
@@ -9488,7 +9488,6 @@ Upphöjd	4	word	""u0p$%h9jd
 Ussas	4	name	
 Ut	4	word	"}:t
 Ute	4	word	"u:$te
-Utgjut	4	word	""}:t$%j}:t
 Utom	4	word	""}:$tOm
 Varav	4	word	"vA:$rA:v
 Varde	4	word	""vA:$d`e
@@ -9792,9 +9791,9 @@ förena	4	word	""f2:r$e$na
 föreskrift	4	word	""f2:$re$%skrIft
 föreskriften	4	word	""f2:$re$%skrIf$ten
 föreskrivit	4	word	""f2:$re$%skri:$vIt
-företräde	4	word	""f2:$re$%trE:$de
 förfalla	4	word	f9r$"fa$la
 förfallna	4	word	f9r$"fal$na
+förfaras	4	word	f9r$"fA:$ras
 förfarit	4	word	f9r$"fA:$rIt
 förfärdigar	4	word	f9r$"fE:$d`I$gar
 förföljares	4	word	f9r$"f9l$ja$res
@@ -11098,6 +11097,7 @@ Unga	3	word	""u0N$a
 Uppfyll	3	word	""u0p$%fYl
 Upphöjen	3	word	
 Uriel	3	name	
+Utgjut	3	word	""}:t$%j}:t
 Utsen	3	word	
 Vaknen	3	name	
 Valkarfältet	3	name	
@@ -16548,6 +16548,7 @@ tappa	2	word	""ta$pa
 tappat	2	word	""ta$pat
 tappre	2	word	""ta$pre
 tassla	2	word	""ta$sla
+te	2	word	"te:
 teckentydare	2	word	""tE$ken$%ty:$da$re
 teckentydning	2	word	""tE$ken$%ty:d$nIN
 tecknad	2	word	
@@ -16874,6 +16875,7 @@ utfärdar	2	word	""}:t$%fE:$d`ar
 utfärden	2	word	""}:t$%fE:$d`en
 utföre	2	word	
 utgiven	2	word	""}:t$%ji:$ven
+utgjut	2	word	""}:t$%j}:t
 utgjutes	2	word	""}:t$%j}:$tes
 utgjutna	2	word	""}:t$%j}:t$na
 utgrenat	2	word	
@@ -21911,7 +21913,6 @@ föreståndarens	1	word	""f2:$re$%stOn$da$rens
 föresätta	1	word	""f2:$re$%sE$ta
 företagen	1	word	""f2:$re$%tA:$gen
 företal	1	word	""f2:$re$%tA:l
-företrade	1	word	
 företrädde	1	word	""f2:$re$%trE$de
 företrädet	1	word	""f2:$re$%trE:$det
 förevita	1	word	""f2:$re$%vi:$ta
@@ -26084,6 +26085,7 @@ snabbt	1	word	"snapt
 snaraste	1	word	""snA:$ra$ste
 snarfärdigt	1	word	
 snartrogen	1	word	
+snava	1	word	""snA:$va
 snavar	1	word	""snA:$var
 snett	1	word	"snEt
 snibben	1	word	"snI$ben
@@ -26102,7 +26104,6 @@ snubbla	1	word	""snu0$bla
 snärjande	1	word	
 snärjde	1	word	""snErj$de
 snärjes	1	word	
-snäva	1	word	""snE:$va
 snåle	1	word	""sno:$le
 snåret	1	word	"sno:$ret
 snöplig	1	word	""sn2:$plIg
@@ -26733,7 +26734,6 @@ tassar	1	word	""ta$sar
 tasslande	1	word	""ta$sland$de
 tasslar	1	word	""ta$slar
 tavlornas	1	word	""tA:v$lU$n`as
-te	1	word	"te:
 teckentyderskor	1	word	
 tecknades	1	word	""tE$kna$des
 tecknar	1	word	""tE$knar
@@ -27155,7 +27155,6 @@ tång	1	word	"tON
 tårarna	1	word	""to:$ra$n`a
 tårebröd	1	word	
 tårekälla	1	word	
-té	1	word	
 tömmas	1	word	""t9$mas
 tömmer	1	word	"t9$mer
 törnbuskar	1	word	""t2:n`$%bu0$skar
@@ -27470,7 +27469,6 @@ utgifterna	1	word	""}:t$%jIf$te$n`a
 utgivande	1	word	""}:t$%ji:$van$de
 utgiver	1	word	""}:t$%ji:$ver
 utgivet	1	word	""}:t$%ji:$vet
-utgjut	1	word	""}:t$%j}:t
 utgjutandet	1	word	
 utgjutits	1	word	""}:t$%j}:$tIts
 utgrenade	1	word	""}:t$%gre:$na$de

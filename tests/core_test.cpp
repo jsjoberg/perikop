@@ -1024,6 +1024,15 @@ int main(int argc, char** argv) {
                  {"Sir", {28, 23}, "Hon slappes lös", "Hon släppes lös"},
                  {"Sir", {29, 20}, "din nästa, allt efter", "din nästa, alltefter"},
                  {"Sir", {29, 25}, "bjuda på mat. och dryck", "bjuda på mat och dryck"},
+                 {"Sir", {31, 17}, "må väcka anstöt,", "må väcka anstöt."},
+                 {"Sir", {31, 28}, "en glädje for sinnet", "en glädje för sinnet"},
+                 {"Sir", {32, 9}, "prata icke vitt och brett,", "prata icke vitt och brett."},
+                 {"Sir", {32, 17}, "finner han ut rättsgrunder,", "finner han ut rättsgrunder."},
+                 {"Sir", {32, 20}, "du ej må snäva på", "du ej må snava på"},
+                 {"Sir", {33, 7}, "dagen företrade framför", "dagen företräde framför"},
+                 {"Sir", {33, 15}, "de té sig sammalunda", "de te sig sammalunda"},
+                 {"Sir", {34, 16}, "Herren förfaras alls icke", "Herren förfäras alls icke"},
+                 {"Sir", {36, 8}, "och Utgjut din vrede.", "och utgjut din vrede."},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

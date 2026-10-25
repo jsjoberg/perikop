@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 143 rättade, återställda eller omnumrerade versposter efter tolv granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 152 rättade, återställda eller omnumrerade versposter efter tretton granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -163,6 +163,15 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A119 | [Syrak 28:23](https://runeberg.org/apokryf/0111.html) | **Hon slappes lös** | **Hon släppes lös** | Jämför tryckets ord och interpunktion | [s. 107](https://runeberg.org/apokryf/0111.html), nederst till vänster, v. 23 |
 | [ ] | A120 | [Syrak 29:20](https://runeberg.org/apokryf/0112.html) | **din nästa, allt efter** | **din nästa, alltefter** | Jämför tryckets ord och interpunktion | [s. 108](https://runeberg.org/apokryf/0112.html), höger spalt, v. 20 |
 | [ ] | A121 | [Syrak 29:25](https://runeberg.org/apokryf/0112.html) | **bjuda på mat. och dryck** | **bjuda på mat och dryck** | Jämför tryckets ord och interpunktion | [s. 108](https://runeberg.org/apokryf/0112.html), nederst till höger; fortsättning på s. 109, v. 25 |
+| [ ] | A122 | [Syrak 31:17](https://runeberg.org/apokryf/0115.html) | **må väcka anstöt,** | **må väcka anstöt.** | Jämför tryckets ord och interpunktion | [s. 111](https://runeberg.org/apokryf/0115.html), vänster spalt, v. 17 |
+| [ ] | A123 | [Syrak 31:28](https://runeberg.org/apokryf/0115.html) | **en glädje for sinnet** | **en glädje för sinnet** | Jämför tryckets ord och interpunktion | [s. 111](https://runeberg.org/apokryf/0115.html), nederst till höger; fortsättning på s. 112, v. 28 |
+| [ ] | A124 | [Syrak 32:9](https://runeberg.org/apokryf/0116.html) | **prata icke vitt och brett,** | **prata icke vitt och brett.** | Jämför tryckets ord och interpunktion | [s. 112](https://runeberg.org/apokryf/0116.html), höger spalt, v. 9 |
+| [ ] | A125 | [Syrak 32:17](https://runeberg.org/apokryf/0117.html) | **finner han ut rättsgrunder,** | **finner han ut rättsgrunder.** | Jämför tryckets ord och interpunktion | [s. 113](https://runeberg.org/apokryf/0117.html), vänster spalt, v. 17 |
+| [ ] | A126 | [Syrak 32:20](https://runeberg.org/apokryf/0117.html) | **du ej må snäva på** | **du ej må snava på** | Jämför tryckets ord och interpunktion | [s. 113](https://runeberg.org/apokryf/0117.html), vänster spalt, v. 20 |
+| [ ] | A127 | [Syrak 33:7](https://runeberg.org/apokryf/0117.html) | **dagen företrade framför** | **dagen företräde framför** | Jämför tryckets ord och interpunktion | [s. 113](https://runeberg.org/apokryf/0117.html), höger spalt, v. 7 |
+| [ ] | A128 | [Syrak 33:15](https://runeberg.org/apokryf/0118.html) | **de té sig sammalunda** | **de te sig sammalunda** | Jämför tryckets ord och interpunktion | [s. 114](https://runeberg.org/apokryf/0118.html), vänster spalt, v. 15 |
+| [ ] | A129 | [Syrak 34:16](https://runeberg.org/apokryf/0119.html) | **Herren förfaras alls icke** | **Herren förfäras alls icke** | Jämför tryckets ord och interpunktion | [s. 115](https://runeberg.org/apokryf/0119.html), höger spalt, v. 16 |
+| [ ] | A130 | [Syrak 36:8](https://runeberg.org/apokryf/0121.html) | **och Utgjut din vrede.** | **och utgjut din vrede.** | Jämför tryckets ord och interpunktion | [s. 117](https://runeberg.org/apokryf/0121.html), nederst till höger, v. 8 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -202,7 +211,7 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 519 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 121 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 130 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -226,3 +235,5 @@ Tionde omgången: hela Syrak 13–18, 160 versposter efter återställning, har 
 Elfte omgången: hela Syrak 19–24, 169 versposter, har jämförts mot tryckta s. 92–102. A110–A113 rättar två ord och två skiljetecken: glädes i 19:5, tryckets slutkomma i 20:31, borttaget främmande kolon efter bliva i 23:3 och mätten i 24:19. Kapitel 21–22 behöver inga rättelser. Alla verskoordinater och utgåvemappningar är oförändrade. Matten → mätten tar bort två falska SALDO-kopplingar till matematik och matmor; förväntat antal lexikonsinnen ändras från 12 746 till 12 744. Tryckets slutkomma i 24:22 behålls.
 
 Tolfte omgången: hela Syrak 25–30, 154 versposter, har jämförts mot tryckta s. 102–110. A114–A121 rättar gråhårsmän i 25:4, leva i 25:8, slutpunkt i 26:10, tryckets slutkomma i 28:11, kopparfjättrar i 28:20 (borttagen radslutsavstavning), släppes i 28:23, alltefter i 29:20 och en främmande punkt efter mat i 29:25. Kapitel 27 och 30 behöver inga nya rättelser. Alla verskoordinater, utgåvemappningar och SALDO-sinnen är oförändrade.
+
+Trettonde omgången: hela Syrak 31–36, 173 versposter, har jämförts mot tryckta s. 110–118. A122–A130 rättar tre slutpunkter, for → för i 31:28, snäva → snava i 32:20, företrade → företräde i 33:7, té → te i 33:15, förfaras → förfäras i 34:16 och Utgjut → utgjut i 36:8. Kapitel 35 behöver inga rättelser; länd i 35:22 står så i trycket. Alla verskoordinater och mappningar är oförändrade. Rättelsen till snava tar bort två falska SALDO-kopplingar till snäv och en Dalin-post för snäf. Förväntat antal SALDO-sinnen uppdateras från 12 744 till 12 742; Dalin har nu 7 594 poster.
