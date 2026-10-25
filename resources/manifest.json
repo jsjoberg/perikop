@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "eb5b1eca8a22fbaa7362f84d0bcc5a0c82e4646b1949964809f08570115d9234",
+      "sha256": "5443f9934a9f598ff6dde4849fea276e413793c65e0916f25a222762f32017e4",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -504,7 +504,7 @@
     },
     {
       "path": "resources/corpus/input/sv1921-apokryfer.tsv",
-      "sha256": "6ffaadb737d01849115136194030d3aeba8921c4c3b6bb8f20a3c6510130fd1d",
+      "sha256": "e35de773231c473c63040fda6fcfdb8b571e30b11e93872cb459075244499d58",
       "license": "Public-Domain Scripture",
       "role": "Curated by tools/corpus/apocrypha1921.py from Swe1917.json and the Runeberg 1921 OCR"
     },
@@ -516,21 +516,15 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "72382df1d4462dc1b1da6fc06a0311ade338f60c49633ce1155770aee54a7ac5",
+      "sha256": "83344672330b7138d34eda548169a47cd8fcd21e83da9a5f9e43e94abc222c9f",
       "license": "MIT",
-      "role": "Curated Swedish name phonemes for read-aloud; first-pass drafts pending listening review"
+      "role": "Curated Swedish name and word pronunciations and abbreviation expansions for read-aloud; phoneme drafts pending listening review"
     },
     {
       "path": "resources/speech/lexicon.tsv",
       "sha256": "01486be6be73e33a283e202775f46431508ee034d9c656e7aad400639feec520",
       "license": "Apache-2.0",
       "role": "NST-derived Swedish pronunciation lexicon from Joakim/kokoro-sv-g2p revision a5aac876ccb2bf7480a129774c7e89cf3bbeac01, from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes, with the spelled-out oss replaced by the pronoun"
-    },
-    {
-      "path": "resources/speech/custom_lexicon.tsv",
-      "sha256": "67f0b39b88e6e381fe686d46e5ba27a447dfe491abfbb74c04806583d74d25fb",
-      "license": "Apache-2.0",
-      "role": "kokoro-sv custom pronunciation overrides from voice pack kokoro-sv-alice-bjorn-2c7968d-v3; converted from IPA to eSpeak NG Swedish phoneme codes"
     },
     {
       "path": "resources/speech/g2p-corpus.tsv",
@@ -559,7 +553,7 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "3497a789cb83761be37a4367a9bcadadd6d5b5fdfe596669518d7ac377f951ed",
+      "sha256": "19ef43d8001fa8ccb6aa81d79b554b74cd7d17deb0ce04bd23480053cf4fad30",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },
@@ -770,7 +764,7 @@
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "a07bb52c86a90223af5951f6667898fd873e2d7631c24e91382526f46dc5fb60",
+      "sha256": "fe9336ebf733235c522c9cf290525b6204c62f394de213e50f68696aea14e635",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     },
@@ -826,13 +820,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "27265acb2b50d83d2c4f1470785791af3b3c97b4558f7cae4215175ac1d1a617"
+      "sha256": "d21f299a344d41b23934b0f70caa15ef0ea1b1a094647714b7efb7bd34bf8407"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "9a5efcd3bb9046fa8fcfd4e5a0cf20dff5d480cf1ee62d6b138cc5ffd481d6d1"
+      "sha256": "75d7c2b669885719609b1fc650ed88c921afeb2f34b80048e93b593794357ec8"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

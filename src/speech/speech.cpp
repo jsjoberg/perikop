@@ -1,6 +1,7 @@
 #include "speech/speech.hpp"
 #include <algorithm>
 #include <cctype>
+#include <ranges>
 #include <string_view>
 #include <unordered_map>
 #include <utility>
@@ -63,10 +64,30 @@ std::vector<Token> tokens(const std::string& text) {
     }
     return result;
 }
-bool only_space(const std::string& text, std::size_t first, std::size_t last) {
-    return std::all_of(text.begin() + first, text.begin() + last, [](unsigned char c) {
-        return std::isspace(c);
+bool same_separator(std::string_view expected, std::string_view actual) {
+    const auto non_space = [](unsigned char c) {
+        return !std::isspace(c);
+    };
+    return std::ranges::equal(expected | std::views::filter(non_space),
+                              actual | std::views::filter(non_space));
+}
+bool abbreviation_sentence_end(const std::string& text, std::size_t end, const std::string& source) {
+    // These finish a phrase; prefixes such as t.ex. can precede a capitalized name.
+    constexpr std::string_view endings[]{"o.s.v.", "osv.", "m.m.", "m.fl.", "f.kr.", "e.kr."};
+    const auto key = folded(source);
+    const bool complete = std::ranges::any_of(endings, [&](auto ending) {
+        return same_separator(ending, key);
     });
+    for (auto i = end; i < text.size();) {
+        const auto c = decode(text, i);
+        if ((c < 128 && std::isspace(static_cast<unsigned char>(c))) || c == '"' || c == '\'' || c == ')' ||
+            c == ']' || c == U'»' || c == U'”' || c == U'’')
+            continue;
+        // shortcut: capitalization marks the next sentence; use a sentence parser if names need
+        // disambiguation.
+        return complete && ((c >= 'A' && c <= 'Z') || (c >= 0xc0 && c <= 0xd6) || (c >= 0xd8 && c <= 0xde));
+    }
+    return true;
 }
 } // namespace
 std::string pronunciation_key(const std::string& text) {
@@ -112,26 +133,37 @@ SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
     std::size_t copied = 0;
     for (std::size_t i = 0; i < words.size();) {
         std::size_t count = 0;
+        std::size_t matched_end = 0;
         std::string replacement;
         const auto bucket = impl_->candidates.find(words[i].folded);
         if (bucket != impl_->candidates.end())
             for (const auto& candidate : bucket->second) {
                 const auto& phrase = candidate.phrase;
+                const auto& entry = impl_->ordered[candidate.entry];
                 if (i + phrase.size() > words.size())
                     continue;
                 bool match = true;
                 for (std::size_t j = 0; j < phrase.size(); ++j) {
                     if (phrase[j].folded != words[i + j].folded ||
-                        (j && !only_space(text, words[i + j - 1].end, words[i + j].begin))) {
+                        (j && !same_separator(
+                                  std::string_view(entry.source)
+                                      .substr(phrase[j - 1].end, phrase[j].begin - phrase[j - 1].end),
+                                  std::string_view(text).substr(
+                                      words[i + j - 1].end, words[i + j].begin - words[i + j - 1].end)))) {
                         match = false;
                         break;
                     }
                 }
+                const auto end = words[i + phrase.size() - 1].end;
+                const auto suffix = std::string_view(entry.source).substr(phrase.back().end);
                 // Phonemes go to the Swedish front end as one ⟦…⟧ word.
-                if (match) {
-                    const auto& entry = impl_->ordered[candidate.entry];
+                if (match && text.compare(end, suffix.size(), suffix) == 0) {
                     count = phrase.size();
+                    matched_end = end + suffix.size();
                     replacement = entry.phonemes.empty() ? entry.spoken : "⟦" + entry.phonemes + "⟧";
+                    if (!entry.spoken.empty() && suffix == "." &&
+                        abbreviation_sentence_end(text, matched_end, entry.source))
+                        replacement += '.';
                     break;
                 }
             }
@@ -141,7 +173,7 @@ SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
         }
         result += text.substr(copied, words[i].begin - copied);
         result += replacement;
-        copied = words[i + count - 1].end;
+        copied = matched_end;
         i += count;
     }
     result += text.substr(copied);

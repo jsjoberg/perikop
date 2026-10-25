@@ -122,14 +122,19 @@ with sqlite3.connect(temp) as db:
   for target,ref in mapper.counterparts('grc-lxx','en-lxx2012',book,(chapter,verse,suffix))[:1]:
    if ref in mapper.coordinates('en-lxx2012',target):db.execute('INSERT OR IGNORE INTO paragraph VALUES(4,?,?,?,?,?)',(ids[target],*ref,'Greek USFM'))
  db.executemany('INSERT INTO pronunciation VALUES(?,?,?,?,?)',[('sv','Melkisedek','Melki-sedek','',100)])
- # Swedish phonemes. Names also get a genitive -s; word-only corrections do not.
+ # Swedish pronunciations and abbreviation expansions. Names also get a genitive -s; word-only corrections do not.
  # eSpeak NG Swedish codes, read longest first, with exactly one primary stress.
  codes='|'.join(re.escape(c) for c in sorted(set(CODES.values()),key=len,reverse=True))
  for line in (root/'resources/corpus/pronunciation-sv.tsv').read_text().splitlines():
   if not line or line.startswith('#'):continue
   fields=line.split('\t')
-  if len(fields) not in (2,3) or (len(fields)==3 and fields[2]!='word-only'):raise SystemExit('Invalid pronunciation row: '+line)
-  word,phones=fields[:2]
+  if len(fields) not in (2,3) or (len(fields)==3 and fields[2] not in ('word-only','spoken')):raise SystemExit('Invalid pronunciation row: '+line)
+  word,value=fields[:2]
+  if fields[2:]==['spoken']:
+   if not word.strip() or not value.strip():raise SystemExit('Empty spoken abbreviation: '+line)
+   db.execute('INSERT INTO pronunciation VALUES(?,?,?,?,?)',('sv',word,value,'',50))
+   continue
+  phones=value
   if not re.fullmatch(f'(?:{codes})+',phones) or phones.count("'")!=1:raise SystemExit('Invalid phonemes for '+word+': '+phones)
   # A phrase gives its bracketed word one sense. It outranks review corrections (1000) and previews (2000).
   if '[' in word:

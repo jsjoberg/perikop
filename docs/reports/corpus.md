@@ -50,6 +50,8 @@ The build writes all editions to `build/corpus/work.db`, which `align_editions.p
 
 ## Rebuild and check resources
 
+The [Swedish patch table](sv1917-errata.md) records verse-specific text corrections, scan evidence and pending human review.
+
 Rebuild the corpus and its word-study tables from bundled source data:
 
 ```sh
@@ -57,6 +59,13 @@ uv run --locked tools/corpus/build_corpus.py
 ```
 
 After a change to the inputs or alignment rules, run `tools/corpus/align_editions.py` and then rebuild again.
+
+After the final corpus rebuild, refresh the dependent OSB reference metadata and check its recorded input hashes:
+
+```sh
+uv run --locked tools/corpus/build_osb_reference.py
+uv run --locked tests/osb_metadata_test.py
+```
 
 Python is a corpus development tool.
 The native build, packaged application, and application startup do not need Python or `uv`.
