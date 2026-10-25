@@ -862,6 +862,25 @@ int main(int argc, char** argv) {
               "abbreviation matching requires whole words and the abbreviation's dots");
         check(make_utterance("osv.", "en", lexicon).speech_text == "osv.",
               "Swedish abbreviation expansion does not affect another language");
+        const std::vector<Pronunciation> punctuation_aliases{{"sv", "osv.", "och så vidare", "", 50},
+                                                             {"sv", "o.s.v.", "och så vidare", "", 50},
+                                                             {"sv", "m.fl.", "med flera", "", 50},
+                                                             {"sv", "t.ex.", "till exempel", "", 50},
+                                                             {"sv", "bl.a.", "bland annat", "", 50}};
+        for (const auto& [before, after] : std::vector<std::pair<std::string, std::string>>{
+                 {"osv. Nästa mening.", "och så vidare. Nästa mening."},
+                 {"o. s. v. Ännu en mening.", "och så vidare. Ännu en mening."},
+                 {"m.fl. Övriga väntar.", "med flera. Övriga väntar."},
+                 {"osv. och annat", "och så vidare och annat"},
+                 {"osv., men", "och så vidare, men"},
+                 {"osv.. Nästa mening.", "och så vidare. Nästa mening."},
+                 {"osv.» Nästa mening.", "och så vidare.» Nästa mening."},
+                 {"osv.»", "och så vidare.»"},
+                 {"t.ex. Stockholm och bl.a. Åke.", "till exempel Stockholm och bland annat Åke."}}) {
+            const auto spoken = make_utterance(before, "sv", punctuation_aliases);
+            check(spoken.display_text == before && spoken.speech_text == after,
+                  "abbreviation punctuation is preserved at sentence boundaries: " + before);
+        }
         for (const auto& ref : std::vector<VerseRef>{{4, 10}, {4, 11}, {4, 17}, {7, 12}}) {
             const auto text = corpus.verse("sv1917", "Ezra", ref)->text;
             const auto speech = make_utterance(text, "sv", lexicon);

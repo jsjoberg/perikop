@@ -71,6 +71,24 @@ bool same_separator(std::string_view expected, std::string_view actual) {
     return std::ranges::equal(expected | std::views::filter(non_space),
                               actual | std::views::filter(non_space));
 }
+bool abbreviation_sentence_end(const std::string& text, std::size_t end, const std::string& source) {
+    // These finish a phrase; prefixes such as t.ex. can precede a capitalized name.
+    constexpr std::string_view endings[]{"o.s.v.", "osv.", "m.m.", "m.fl.", "f.kr.", "e.kr."};
+    const auto key = folded(source);
+    const bool complete = std::ranges::any_of(endings, [&](auto ending) {
+        return same_separator(ending, key);
+    });
+    for (auto i = end; i < text.size();) {
+        const auto c = decode(text, i);
+        if ((c < 128 && std::isspace(static_cast<unsigned char>(c))) || c == '"' || c == '\'' || c == ')' ||
+            c == ']' || c == U'»' || c == U'”' || c == U'’')
+            continue;
+        // shortcut: capitalization marks the next sentence; use a sentence parser if names need
+        // disambiguation.
+        return complete && ((c >= 'A' && c <= 'Z') || (c >= 0xc0 && c <= 0xd6) || (c >= 0xd8 && c <= 0xde));
+    }
+    return true;
+}
 } // namespace
 std::string pronunciation_key(const std::string& text) {
     return folded(text);
@@ -144,7 +162,7 @@ SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
                     matched_end = end + suffix.size();
                     replacement = entry.phonemes.empty() ? entry.spoken : "⟦" + entry.phonemes + "⟧";
                     if (!entry.spoken.empty() && suffix == "." &&
-                        same_separator({}, std::string_view(text).substr(matched_end)))
+                        abbreviation_sentence_end(text, matched_end, entry.source))
                         replacement += '.';
                     break;
                 }
