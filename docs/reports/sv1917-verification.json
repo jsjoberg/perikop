@@ -3380,6 +3380,222 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Matt",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "81f7d48a8662c95a64c7e4ba58d790e358216dd0e631d3bd8f344aa1bb015c95",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0003.1.tif",
+          "sha256": "971467fbe267aca9ac9df059fd016bf72e1c47267d31c742e305652e1a8aa9ee"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0004.1.tif",
+          "sha256": "e6851d608787053c11bb95945dfba72147f0d71f9e2c71f43c1902f0c899bad0"
+        }
+      ],
+      "notes": "Hela 1:1–25 ord- och interpunktionsjämförd, inklusive sidfortsättningen mellan 1:21–22 och spaltfortsättningen i 1:12. R024 rättar for till för i 1:19. V007: e-texten har gjorde han som, EFS 1927 gjorde han, såsom i 1:24; ytterligare foto behövs för att bedöma tryckskillnaden. Asaf och Amos i släkttavlan står så i trycket och behålls. Kommatering i 1:1, 1:7 (punkt i e-texten, komma i bilden), 1:16, 1:17, 1:22 och 1:25 harmoniseras inte; e-textens skiljetecken behålls. Kapitlet är needs-review tills V007 bedömts."
+    },
+    {
+      "book": "Matt",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "51004db18a2184043193829178c3ce7ab8de0cb39391ea96b5835c4cb0495313",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0004.1.tif",
+          "sha256": "e6851d608787053c11bb95945dfba72147f0d71f9e2c71f43c1902f0c899bad0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0005.1.tif",
+          "sha256": "96862b875d27833b0f80c222e4542da6063868cb7c4e9969c870303869bd485e"
+        }
+      ],
+      "notes": "Hela 2:1–23 ord- och interpunktionsjämförd, inklusive sidfortsättningen i 2:16 och spaltfortsättningen i 2:7. R025 rättar for till för i 2:19. Samtliga namn, citat och versgränser bekräftade. E-textens kommatering behålls mot bildens skillnader i 2:3, 2:4, 2:7, 2:9, 2:10, 2:12, 2:14, 2:15, 2:17, 2:20, 2:21 och 2:23. E-textens semikolon efter Judeen i 2:22 saknas i bilden; registrerat som behållen interpunktionsskillnad, ingen automatisk harmonisering."
+    },
+    {
+      "book": "Matt",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 17,
+      "text_sha256": "86db3deb229c16677f26e6d1117aff1f5095445e596b2b7c22a752bba71be7d6",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0005.1.tif",
+          "sha256": "96862b875d27833b0f80c222e4542da6063868cb7c4e9969c870303869bd485e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0006.1.tif",
+          "sha256": "40a6b02fc872fc49ce6ace3ade0f747f292aa3984cef0694080c42cc1766e457"
+        }
+      ],
+      "notes": "Hela 3:1–17 jämförd, inklusive sidfortsättningen mellan 3:11–12 och spaltfortsättningen i 3:1. R028 återställer avslutande citattecken efter rättfärdighet i 3:15; det syns tydligt i förstorad originalbild före berättelsens Då tillstadde han honom det. Ingen kompletterande foto behövs för detta. Bildens lilla ande i 3:16 skiljer sig från e-textens Ande; denna versalskillnad samt kommaskillnader i 3:3, 3:8, 3:10 och 3:12 behålls. Alla ord och versgränser bekräftade."
+    },
+    {
+      "book": "Matt",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "11f6d2d8434a229e5c7e37e08884ca2ac0981160d66a2ef29a3ec3055fd46b0b",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0006.1.tif",
+          "sha256": "40a6b02fc872fc49ce6ace3ade0f747f292aa3984cef0694080c42cc1766e457"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0007.1.tif",
+          "sha256": "de80978742e0a8455a54a7d7aee4b48f47a8d865c1f112ad6bf5a50dc5099c10"
+        }
+      ],
+      "notes": "Hela 4:1–25 jämförd, inklusive sidfortsättningen i 4:15 och spaltfortsättningarna i 4:4 och 4:25. V008: e-texten har olika slags lidanden i 4:24, bilden alla slags lidanden; båda språkligt möjliga, foto av annat tryck behövs. Kommaskillnader i 4:4, 4:12, 4:16 och 4:19 samt bildens kommatering kring som voro i 4:24 behålls utan harmonisering. Namnen och samtliga versgränser bekräftade. Kapitlet är needs-review tills V008 bedömts."
+    },
+    {
+      "book": "Matt",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 48,
+      "text_sha256": "542121f9655a94bca48d5ec0cadf225b6f7f821e692b82a2810a4e68ccafcc79",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0007.1.tif",
+          "sha256": "de80978742e0a8455a54a7d7aee4b48f47a8d865c1f112ad6bf5a50dc5099c10"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0008.1.tif",
+          "sha256": "32318183540e93292c900339028c100cd129d6abe354a32ea8a1129fc75368cc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0009.1.tif",
+          "sha256": "95f47289928d748335217b8e8136acbcc5bdc62ffc1e98117d8367cd47a7b8cf"
+        }
+      ],
+      "notes": "Hela 5:1–48 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 5:13 och 5:32 samt spaltfortsättningarna i 5:22 och 5:43. Inga ord behöver rättas. Frågetecknet i 5:14 är faktiskt tryckt och behålls. Bildens Domstolens och samtliga citat/versgränser bekräftade. E-textens kommaskillnader mot bilden i 5:3, 5:6, 5:10, 5:15, 5:17, 5:21–23, 5:27, 5:31–34, 5:38–39, 5:42, 5:44 och 5:46 behålls; inget överförs automatiskt från 1927-trycket."
+    },
+    {
+      "book": "Matt",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "dce6b080fe232e8465557fe6a83a669588c67a78592eba036831abd0c6470bd0",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0009.1.tif",
+          "sha256": "95f47289928d748335217b8e8136acbcc5bdc62ffc1e98117d8367cd47a7b8cf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0010.1.tif",
+          "sha256": "ee105107c9aa6c870a601f71ba817dfddb5d18e4a1c9ca8150e17469b258ea76"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0011.1.tif",
+          "sha256": "59218b4cb69485fcf6e9344eb55e36765e654078f70ca73e2c32be0907badc52"
+        }
+      ],
+      "notes": "Hela 6:1–34 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 6:5 och 6:28 och spaltfortsättningen i 6:18. Inga nya ord-/bokstavsrättelser. Hela Fader vår i 6:9–13, klentrogne i 6:30 och övriga ord/versgränser bekräftade. E-textens kommaskillnader i 6:3, 6:7–8, 6:29 och 6:32 och kommat i 6:19 där bilden har semikolon behålls. E-textens kapitelvis öppnade och slutna »-citat skiljer sig från bildens fortlöpande tal; detta är typografisk återgivning, ingen ny text."
+    },
+    {
+      "book": "Matt",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "c14e26d5b2fec089426de0744b823df00e1530ce40a9bc2a07def2dd11333efc",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0011.1.tif",
+          "sha256": "59218b4cb69485fcf6e9344eb55e36765e654078f70ca73e2c32be0907badc52"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0012.1.tif",
+          "sha256": "1a5ac796973178bd4f31ddaf47d0eed0467d7a076753ec39be0790d395622095"
+        }
+      ],
+      "notes": "Hela 7:1–29 ord- och interpunktionsjämförd, inklusive sidfortsättningen mellan 7:17–18 och spaltfortsättningarna mellan 7:5–6 och i 7:29. Inga rättelser. E-textens kommaskillnader i 7:2, 7:6, 7:8, 7:13, 7:19, 7:24, 7:26 och 7:29 och kommat efter bröd i 7:9 där bilden har punkt behålls. Talets citattecken och tankstreck behandlas som typografisk återgivning; alla ord och gränser bekräftade."
+    },
+    {
+      "book": "Matt",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "222ac3db7cfd3800311b610cab056a93099555aeaeea72c01a50e5061188cd50",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0012.1.tif",
+          "sha256": "1a5ac796973178bd4f31ddaf47d0eed0467d7a076753ec39be0790d395622095"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0013.1.tif",
+          "sha256": "aa3e4ef5aa76f1d3ab0d814bb4b8bf0d4a0349f48e87fae642e5e50688af9b15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0014.1.tif",
+          "sha256": "0ed2f0c96baf70c91ef634b59f0a4627866ca887f09cb62c62806e05d9658be9"
+        }
+      ],
+      "notes": "Hela 8:1–34 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 8:10 och mellan 8:33–34 och spaltfortsättningen i 8:21. Inga rättelser. Gadarenernas i 8:28 är bildstödd och behålls. E-textens kolon efter befäl i 8:9 där bilden har semikolon, samt kommaskillnader i 8:4, 8:8–10, 8:16, 8:18–20, 8:31 och 8:34 behålls. Alla ord och versgränser bekräftade."
+    },
+    {
+      "book": "Matt",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "a5a2f0668a7f703289081fe987ea7bd883cc43f3e920fe79c08500eaa99bbf60",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0014.1.tif",
+          "sha256": "0ed2f0c96baf70c91ef634b59f0a4627866ca887f09cb62c62806e05d9658be9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0015.1.tif",
+          "sha256": "ac92f71f4ff6e3b132e0b84f240b8eb13a93441640aa0a8dde25cce3389cdac0"
+        }
+      ],
+      "notes": "Hela 9:1–38 ord- och interpunktionsjämförd, inklusive sidfortsättningen i 9:20 och spaltfortsättningarna i 9:11 och mellan 9:33–34. R026 rättar prepositionens felaktiga versal I till i i 9:17. E-textens kommaskillnader i 9:2, 9:6, 9:12, 9:14, 9:23, 9:27–28, 9:32 och 9:36 behålls. Meningen över 9:4–6 och citaten 9:12–13 och 9:15–17 jämförda; samtliga ord och versgränser i övrigt bekräftade."
+    },
+    {
+      "book": "Matt",
+      "chapter": 10,
+      "status": "needs-review",
+      "verse_count": 42,
+      "text_sha256": "d626292f305785176ac5b4aee683713c672690171cab79d27d04aaf7a87cb400",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0015.1.tif",
+          "sha256": "ac92f71f4ff6e3b132e0b84f240b8eb13a93441640aa0a8dde25cce3389cdac0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0016.1.tif",
+          "sha256": "bf371ad386ae6f2eb8b420007c139becec867edb60a4bf1596ee3b83d34101a7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0017.1.tif",
+          "sha256": "7515b882ada28687a363f04c55de15ddb3dfac4cfa40de00a1bdf88a84a3e8ab"
+        }
+      ],
+      "notes": "Hela 10:1–42 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 10:5–6 och 10:25–26 och spaltfortsättningarna i 10:17 och mellan 10:35–36. R027 återställer I i det skolen I säga i 10:27, bekräftat i bilden och parallellt med nästa sats. V009: e-texten stannen hos honom i 10:11 mot bildens stannen så hos honom; foto behövs för att bedöma det möjliga ordbortfallet/tryckskillnaden. Lebbeus i 10:3 och Ande i 10:20 bekräftade. E-textens kommaskillnader i 10:2, 10:7, 10:11, 10:20, 10:22, 10:28, 10:34 och 10:40 samt tankstrecket efter 10:39 behålls utan harmonisering. Kapitlet är needs-review tills V009 bedömts."
     }
   ],
   "unnumbered": [

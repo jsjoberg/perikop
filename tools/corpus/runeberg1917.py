@@ -40,7 +40,14 @@ REPLACE={
  ('Hag',1,6):('han far den allenast','han får den allenast'),
  ('Hag',1,14):('HERREN Sebaots; sin Guds','HERREN Sebaots, sin Guds'),
  ('Hag',2,2):('profeten Haggai han sade','profeten Haggai; han sade'),
- ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;')}
+ ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;'),
+ # Matthew 1-10 scan pass: R024-R028; unresolved printing readings remain in the ledger.
+ ('Matt', 1, 19):('utsätta henne for vanära', 'utsätta henne för vanära'),
+ ('Matt', 2, 19):('en Herrens ängel for Josef', 'en Herrens ängel för Josef'),
+ ('Matt', 9, 17):('nytt vin I gamla', 'nytt vin i gamla'),
+ ('Matt', 10, 27):('det skolen säga i ljuset', 'det skolen I säga i ljuset'),
+ ('Matt', 3, 15):('all rättfärdighet. Då', 'all rättfärdighet.» Då'),
+}
 
 def chapter_number(name):
     if not name:return 1

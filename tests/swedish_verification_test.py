@@ -37,6 +37,15 @@ rejects([record | {'book': 'Unknown'}])
 bad = copy.deepcopy(record)
 bad['scans'][0]['url'] = 'https://example.com/scan.tif'
 rejects([bad])
+gospel_rows = [('Matt', 1, 1, 'Detta är Jesu Kristi släkttavla.')]
+gospel = record | {'book': 'Matt', 'text_sha256': text_hash(gospel_rows),
+                   'scans': [{'url': 'https://runeberg.org/img/bibeln/efs1927/nt/0003.1.tif',
+                              'sha256': 'b' * 64}]}
+assert validate([gospel], {('Matt', 1): gospel_rows}) == {('Matt', 1)}
+assert validate([gospel | {'status': 'needs-review'}], {('Matt', 1): gospel_rows}) == set()
+rejects([gospel], {('Matt', 1): [('Matt', 1, 1, 'Changed Gospel text.')]})
+rejects([gospel | {'scans': [{'url': 'https://runeberg.org/img/bibeln/efs1927/unknown/0003.1.tif',
+                            'sha256': 'b' * 64}]}], {('Matt', 1): gospel_rows})
 with tempfile.TemporaryDirectory() as directory:
     root = Path(directory)
     path = root / 'foretal.txt'

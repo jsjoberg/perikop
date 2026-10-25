@@ -1118,6 +1118,11 @@ int main(int argc, char** argv) {
                  {"2Macc", {15, 34}, "plats obesmittadl»", "plats obesmittad!»"},
                  {"EsthGr", {2, 6}, "misskund eller försköning", "misskund eller förskoning"},
                  {"EsthGr", {6, 7}, "äldre historiska skildringar som", "äldre historiska skildringar, som"},
+                 {"Matt", {1, 19}, "utsätta henne for vanära", "utsätta henne för vanära"},
+                 {"Matt", {2, 19}, "en Herrens ängel for Josef", "en Herrens ängel för Josef"},
+                 {"Matt", {9, 17}, "nytt vin I gamla", "nytt vin i gamla"},
+                 {"Matt", {10, 27}, "det skolen säga i ljuset", "det skolen I säga i ljuset"},
+                 {"Matt", {3, 15}, "all rättfärdighet. Då", "all rättfärdighet.» Då"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

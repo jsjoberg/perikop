@@ -29,7 +29,7 @@ def validate_evidence(record, key):
     for scan in record['scans']:
         url = urlparse(scan['url'])
         if (url.scheme != 'https' or url.netloc != 'runeberg.org'
-                or not re.fullmatch(r'/img/(?:apokryf/\d{4}|bibeln/efs1927/gt/\d{4})\.1\.tif', url.path)
+                or not re.fullmatch(r'/img/(?:apokryf/\d{4}|bibeln/efs1927/(?:gt|nt)/\d{4})\.1\.tif', url.path)
                 or not re.fullmatch(r'[0-9a-f]{64}', scan['sha256'])):
             raise ValueError('Invalid scan witness: %s' % (key,))
 
@@ -98,9 +98,11 @@ def validate_print_witnesses(records, chapters, root=ROOT):
 def main():
     with sqlite3.connect((ROOT / 'resources/corpus/corpus.db').as_uri() + '?mode=ro', uri=True) as db:
         rows = db.execute("""SELECT b.code,v.chapter,v.verse,v.text,
-            CASE WHEN b.deuterocanonical THEN 'AP' ELSE 'GT' END,b.name_sv
+            CASE WHEN b.code IN ('Matt','Mark','Luke','John') THEN 'Gospels'
+                 WHEN b.new_testament THEN 'Other NT'
+                 WHEN b.deuterocanonical THEN 'AP' ELSE 'GT' END,b.name_sv
             FROM verse v JOIN book b ON b.id=v.book_id JOIN source s ON s.id=v.source_id
-            WHERE s.code='sv1917' AND NOT b.new_testament
+            WHERE s.code='sv1917'
             ORDER BY b.canonical_order,v.chapter,v.verse""").fetchall()
     chapters = collections.defaultdict(list)
     books = {}
@@ -119,7 +121,7 @@ def main():
         total = sum(len(chapters[key]) for key in keys)
         status = 'complete' if done == keys else 'partial' if done else 'unverified'
         print('%s\t%s\t%d\t%d\t%d\t%d\t%s' % (book, section, len(done), len(keys), count, total, status))
-    for section in ('AP', 'GT'):
+    for section in ('AP', 'Gospels', 'Other NT', 'GT'):
         keys = {key for key in chapters if books[key[0]][0] == section}
         done = keys & covered
         count = sum(len(chapters[key]) for key in done)
