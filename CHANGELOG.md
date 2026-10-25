@@ -10,12 +10,12 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [0.2.0] - 2026-10-24
 
-Upgrade 0.1.x installations through 0.2.0: later releases no longer convert 0.1.x profiles.
+Reading-plan progress starts over; daily-reading marks, bookmarks and settings are kept.
 
 ### Added
 
 - OSB reference system shared by all editions.
-- Reading plans in 60 NT, 182 OT and 36 other parts; old progress is converted.
+- Reading plans in 60 NT, 182 OT and 36 other parts.
 - Import of Reformationsbibeln 2026 from the publisher's PDFs.
 - Bookmarks, in **Bokmärken** and the ⋮ menu.
 - Ordered source preferences for both panes, with per-chapter overrides.
