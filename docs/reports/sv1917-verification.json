@@ -2268,6 +2268,146 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive sidgränsen efter 51:2, spaltfortsättningen i 51:11 och sidgränsen efter 51:18; följt till hela bokens slut i 51:30. A144–A145 införda och återbyggda: Jag → jag i 51:17 samt Bojen → Böjen i 51:26. Tryckets mitt ur i 51:4 behållet. Alla övriga ord, skiljetecken och versgränser bekräftade. Tryckets avdelningslinjer ger inga extra versposter."
+    },
+    {
+      "book": "Baruch",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "3fc8c1fdb28bf84dec687d716ee8413f0632d9199691b45c0b78eb4ede5d9c87",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0149.1.tif",
+          "sha256": "fc8df1a2dcce446a3df392ba616dff623b461c765c794775eab43dc7803597ac"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0150.1.tif",
+          "sha256": "d4a8642a2091c2d28e72465512f012879e63b5a3d1185b0014618a55efe11e62"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive spaltfortsättningen i 1:8 och sidfortsättningen i 1:15. Inga nya rättelser. Marginalnumren står ibland vid en rad som också innehåller föregående vers; gränserna i bland annat 1:2–4, 1:7–8 och 1:16–18 följda i den löpande meningen. Tryckets efter som i 1:6 behållet; apostrofglyfen i Josias namn är typografisk. Alla ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "Baruch",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "e3d82635ef2e61a7931984fde27b83c8e681820609e9aea3b33b831846d2066f",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0150.1.tif",
+          "sha256": "d4a8642a2091c2d28e72465512f012879e63b5a3d1185b0014618a55efe11e62"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0151.1.tif",
+          "sha256": "9391b2a822af8a49ed6a66d19f80871dd0eda5e624e70609afe0439c2f4bb0a1"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0152.1.tif",
+          "sha256": "c2085f76bc00e05039cc32a0b5c05a06ac38440f04e05b9534ec8b931f86e51c"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 2:11 och 2:31 och spaltfortsättningen i 2:22. A146–A147 införda och återbyggda: två saknade mellanslag före citaten i 2:5 och Bojen → Böjen i 2:21. Slutcitattecknet efter givit dem. i 2:35 bekräftat i originalupplösning; korpusens raka apostrof behålls som glyfvariant. Alla andra ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "Baruch",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "e9deedce1151ad901bbbef9c6bcdecd2d927f35d474e2644416cbaf5ef5c403e",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0152.1.tif",
+          "sha256": "c2085f76bc00e05039cc32a0b5c05a06ac38440f04e05b9534ec8b931f86e51c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0153.1.tif",
+          "sha256": "2ade030545b7f52ad4288f6bfa32ab2f9c093d7b30c4002d842a6933d254e2c3"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0154.1.tif",
+          "sha256": "98795976eefe7a74290d29233c0dd06ad69c2e94d0205afcc99f501fbbafa6f5"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive 3:1–8 före kapitelrubriken, spaltfortsättningen i 3:7 och sidfortsättningarna i 3:13 och 3:32. A148–A149 införda och återbyggda: tryckets 3:38, Därefter blev hon skådad ..., avskiljs från 3:37 utan ändrad ordalydelse. Tryckets marginalnummer 38 och de grekiska/engelska motsvarigheterna 3:36–37 bekräftar separata verser. 3:34–35 behåller svensk numrering, där parallellutgåvorna har en vers. Övriga ord och skiljetecken bekräftade; tankstreck i 3:23 återges som bindestreck."
+    },
+    {
+      "book": "Baruch",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 37,
+      "text_sha256": "41374b062227006bfb0036d0844287b8e9fe4c663aa4f4835c317d4f24fdcd24",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0154.1.tif",
+          "sha256": "98795976eefe7a74290d29233c0dd06ad69c2e94d0205afcc99f501fbbafa6f5"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0155.1.tif",
+          "sha256": "f44699c0c94d4c27db797f5750c121beecd58fe0ec7c05bf0d9e743f3714eb79"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0156.1.tif",
+          "sha256": "1111639282c3ee2557f62c19d58533bbcb21d9bfa12be55ff3c886ada9ec80f6"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive 4:1–4 före kapitelrubriken, sidfortsättningen i 4:12 och spaltfortsättningarna i 4:20 och 4:37. A150–A152 införda och återbyggda: främmande i i 4:12 tas bort, tryckets komma efter Nej i 4:18 återställs och våren → varen i 4:27. A021, har i 4:18, återkontrollerad. Alla andra ord, skiljetecken och versgränser bekräftade; tankstrecket i 4:17 återges som bindestreck."
+    },
+    {
+      "book": "Baruch",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 9,
+      "text_sha256": "d1e2e3e12c517eba0cbaf460863c2aaf40402f092bf7cd5986203c3a8986c52b",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0156.1.tif",
+          "sha256": "1111639282c3ee2557f62c19d58533bbcb21d9bfa12be55ff3c886ada9ec80f6"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0157.1.tif",
+          "sha256": "1ad84e3878d4ec2e2b9e471c36473bc602cc02ca6c705bac49d05f320d94a9de"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 5:7 och slutet av 5:9 före nästa kapitelrubrik. A153 införd och återbyggd: slutkommat i 5:8 rättas till tryckets punkt. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive båda namnen i 5:4 och ordningen väster och öster i 5:5."
+    },
+    {
+      "book": "Baruch",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 72,
+      "text_sha256": "43c0a529d431e5350022376dab574b713b44d0f857b99be77e06851e44e7728f",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0157.1.tif",
+          "sha256": "1ad84e3878d4ec2e2b9e471c36473bc602cc02ca6c705bac49d05f320d94a9de"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0158.1.tif",
+          "sha256": "3e14358f90d7efaffc7d1b5c1a38173861895c0e1c659fe09937e73f1dd796df"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0159.1.tif",
+          "sha256": "33805261ea29566a3c95a09e2049039c4dedc37749d8286aaa500b0f3ffde693"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0160.1.tif",
+          "sha256": "b7f9441858f09dd37da23268452cbcec3dadd3d9b4cee30679441d254aaa48e2"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, från brevets inledning Detta är en avskrift, som ligger i befintliga 6:1, till bokens slut i 6:72. Inga nya versnummer uppfunna för inledningen. Sidfortsättningarna i 6:14, 6:34 och 6:54 samt spaltfortsättningarna i 6:3, 6:25 och 6:63 följda. A154–A156 införda och återbyggda: Tanken → Tänken i 6:5, purpmr-dräkter → purpurdräkter i 6:11 och nian → man i 6:14. Tryckets ovanliga komma efter guldet i 6:57 behållet. Alla andra ord, skiljetecken och versgränser bekräftade."
     }
   ],
   "unnumbered": [

@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 167 rättade, återställda eller omnumrerade versposter efter femton granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 178 rättade, återställda eller omnumrerade versposter efter sexton granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -187,6 +187,17 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A143 | [Syrak 50:10](https://runeberg.org/apokryf/0145.html) | **med rildig frukt** | **med riklig frukt** | Jämför tryckets ord och marginalnummer | [s. 141](https://runeberg.org/apokryf/0145.html), nederst till vänster, v. 10 |
 | [ ] | A144 | [Syrak 51:17](https://runeberg.org/apokryf/0147.html) | **förkovrades Jag däri** | **förkovrades jag däri** | Jämför tryckets ord och marginalnummer | [s. 143](https://runeberg.org/apokryf/0147.html), höger spalt, v. 17 |
 | [ ] | A145 | [Syrak 51:26](https://runeberg.org/apokryf/0148.html) | **Bojen eder hals** | **Böjen eder hals** | Jämför tryckets ord och marginalnummer | [s. 144](https://runeberg.org/apokryf/0148.html), höger spalt, v. 26 |
+| [ ] | A146 | [Baruk 2:5](https://runeberg.org/apokryf/0150.html) | **måste’ligga under’ och fingo icke’ligga över’** | **måste ’ligga under’ och fingo icke ’ligga över’** | Jämför tryckets ord och marginalnummer | [s. 146](https://runeberg.org/apokryf/0150.html), höger spalt, v. 5 |
+| [ ] | A147 | [Baruk 2:21](https://runeberg.org/apokryf/0151.html) | **Bojen edra skuldror** | **Böjen edra skuldror** | Jämför tryckets ord och marginalnummer | [s. 147](https://runeberg.org/apokryf/0151.html), vänster spalt, v. 21 |
+| [ ] | A148 | [Baruk 3:37](https://runeberg.org/apokryf/0154.html) | **Han utrönte all vishetens väg och gav henne åt Jakob, sin tjänare, och åt Israel, sin älskade. Därefter blev hon skådad på jorden och hade sin umgängelse bland människorna.** | **Han utrönte all vishetens väg och gav henne åt Jakob, sin tjänare, och åt Israel, sin älskade.** | Jämför tryckets ord och marginalnummer | [s. 150](https://runeberg.org/apokryf/0154.html), vänster spalt, v. 37 |
+| [ ] | A149 | [Baruk 3:38](https://runeberg.org/apokryf/0154.html) | **Ingen egen verspost; texten låg i 3:37** | **Därefter blev hon skådad på jorden och hade sin umgängelse bland människorna.** | Jämför tryckets ord och marginalnummer | [s. 150](https://runeberg.org/apokryf/0154.html), vänster spalt, v. 38 |
+| [ ] | A150 | [Baruk 4:12](https://runeberg.org/apokryf/0154.html) | **över mig, i en värnlös** | **över mig, en värnlös** | Jämför tryckets ord och marginalnummer | [s. 150](https://runeberg.org/apokryf/0154.html), nederst till höger, v. 12 |
+| [ ] | A151 | [Baruk 4:18](https://runeberg.org/apokryf/0155.html) | **Nej han som** | **Nej, han som** | Jämför tryckets ord och marginalnummer | [s. 151](https://runeberg.org/apokryf/0155.html), vänster spalt, v. 18 |
+| [ ] | A152 | [Baruk 4:27](https://runeberg.org/apokryf/0156.html) | **Men våren vid** | **Men varen vid** | Jämför tryckets ord och marginalnummer | [s. 152](https://runeberg.org/apokryf/0156.html), överst till vänster, v. 27 |
+| [ ] | A153 | [Baruk 5:8](https://runeberg.org/apokryf/0157.html) | **på Guds befallning,** | **på Guds befallning.** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), vänster spalt, v. 8 |
+| [ ] | A154 | [Baruk 6:5](https://runeberg.org/apokryf/0157.html) | **Tanken i stället** | **Tänken i stället** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), höger spalt, v. 5 |
+| [ ] | A155 | [Baruk 6:11](https://runeberg.org/apokryf/0157.html) | **purpmr-dräkter.** | **purpurdräkter.** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), höger spalt, v. 11 |
+| [ ] | A156 | [Baruk 6:14](https://runeberg.org/apokryf/0157.html) | **kan nian förstå** | **kan man förstå** | Jämför tryckets ord och marginalnummer | [s. 153](https://runeberg.org/apokryf/0157.html), nederst till höger, v. 14 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -226,9 +237,9 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 ## Avgränsning och lokal tillämpning
 
-De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 521 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
+De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 522 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 145 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 156 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -258,3 +269,5 @@ Trettonde omgången: hela Syrak 31–36, 173 versposter, har jämförts mot tryc
 Fjortonde omgången: hela Syrak 37–42, 177 versposter efter återställning, har jämförts mot tryckta s. 119–129. A131–A137 rättar fem ord-/interpunktionsavvikelser och återställer 40:16 som egen post efter 40:15 utan ändrad ordalydelse. Tolv mappningsrader korrigeras eller tas bort. Kapitel 38 väntar på V005, tryckets kan i 38:17; dess 34 versposter räknas inte som färdiga. De övriga fem kapitlen omfattar 143 färdiga versposter. Omskiftningar-rättelsen tar bort en falsk SALDO-koppling och en Dalin-post för skiftning; förväntat antal SALDO-sinnen uppdateras till 12 741.
 
 Femtonde omgången: hela Syrak 43–51, 227 versposter efter återställning, har jämförts mot tryckta s. 129–144. A138–A145 rättar sex ord-/versalfel samt avskiljer 47:5 från 47:4 med dens → den i den återställda versen. Tolv mappningsrader korrigeras eller tas bort; inga andra ord ändras vid versdelningen. Kapitel 44, 48 och 49 behöver inga nya rättelser. Hela Syrak, inklusive företalet, är nu bildläst; 50 av 51 kapitel med 1 335 versposter är verifierade, medan kapitel 38 fortfarande väntar på V005. SALDO- och Dalin-sinnen oförändrade. Nästa bok är Baruk.
+
+Sextonde omgången: hela Baruk 1–6, inklusive Jeremias brev, 213 versposter efter återställning, har jämförts mot tryckta s. 145–156. A146–A156 omfattar nio ord-/interpunktionsrättelser och återställning av 3:38 från 3:37 utan ändrad ordalydelse. Fyra sammanslagna mappningar ersätts med åtta individuella med bibehållen svensk numreringsförskjutning. Alla sex kapitel är verifierade. Bojen → Böjen och nian → man tar bort fem falska SALDO-sinnen för boj/nia och två Dalin-poster för boj; 12 736 SALDO-sinnen och 7 591 Dalin-poster återstår.

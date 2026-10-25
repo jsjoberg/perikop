@@ -1,6 +1,6 @@
 # form	occurrences	kind	nst_sampa
 och	39656	word	"Ok
-i	15971	word	
+i	15970	word	
 till	15696	word	"tIl
 som	14018	word	
 att	12743	word	"at
@@ -47,7 +47,7 @@ din	2896	word	"di:n
 åt	2855	word	"o:t
 upp	2824	word	"u0p
 över	2802	word	"2:$ver
-man	2676	word	"man
+man	2677	word	"man
 min	2631	word	"mi:n
 när	2558	word	"nE:r
 Då	2454	word	"do:
@@ -1159,6 +1159,7 @@ byggt	66	word	"bYkt
 frambära	66	word	""fram$%bE:$ra
 lågo	66	word	""lo:$gU
 skapat	66	word	""skA:$pat
+varen	66	word	"vA:$ren
 Elia	65	name	e$""li:$a
 Esau	65	name	
 Hebron	65	name	"he:$brOn
@@ -1172,7 +1173,6 @@ skara	65	word	""skA:$ra
 skatter	65	word	""ska$ter
 templet	65	word	"tEm$plet
 vandrar	65	word	""van$drar
-varen	65	word	"vA:$ren
 vinna	65	word	""vI$na
 Damaskus	64	name	da$"ma$sku0s
 foro	64	word	
@@ -4098,6 +4098,7 @@ Soba	14	name
 Sur	14	name	"s}:r
 Titus	14	name	"ti:$tu0s
 Två	14	word	"tvo:
+Tänken	14	word	
 anhängare	14	word	""an$%hEN$a$re
 ankomst	14	word	""an$%kOmst
 annans	14	word	""a$nans
@@ -4327,7 +4328,6 @@ Stor	13	word	"stu:r
 Strax	13	word	"straks
 Sådana	13	word	""so:$da$na
 Träd	13	word	"trE:d
-Tänken	13	word	
 Utan	13	word	""}:$tan
 Vakna	13	word	""vA:$kna
 adertonde	13	word	""A:$de$t`On$de
@@ -9257,6 +9257,7 @@ Bröder	4	word	"br2:$der
 Bygg	4	word	"bYg
 Bäst	4	word	"bEst
 Båda	4	word	""bo:$da
+Böjen	4	word	"b9$jen
 Ciliciens	4	name	
 Dalporten	4	name	
 Deguels	4	name	
@@ -10726,7 +10727,6 @@ Blive	3	word
 Blygs	3	word	"bly:gs
 Bryten	3	word	
 Bunni	3	name	
-Böjen	3	word	"b9$jen
 Cedron	3	name	
 Cendebeus	3	name	
 Dag	3	word	"dA:g
@@ -14389,7 +14389,6 @@ druvkaka	2	word
 druvors	2	word	""dr}:$vUs`
 dryckesgillen	2	word	""drY$kes$%jI$len
 dryckeskärl	2	word	""drY$kes$%s'E:l`
-dräkter	2	word	""drEk$ter
 dräng	2	word	"drEN
 dränkt	2	word	"drENkt
 dränktes	2	word	""drENk$tes
@@ -17077,7 +17076,6 @@ våldsmän	2	word	""vOlds$%mEn
 vålnad	2	word	""vo:l$nad
 våningens	2	word	""vo:$nIN$ens
 vårdade	2	word	""vo:$d`a$de
-våren	2	word	"vo:$ren
 vördnadsbjudande	2	word	""v2:d`$n`ats$%bj}:$dan$de
 ymnig	2	word	""Ym$nIg
 ymnigheten	2	word	""Ym$nIg$%he:$ten
@@ -17648,7 +17646,6 @@ Blygens	1	word
 Blås	1	word	"blo:s
 Blåsbälgen	1	name	""blo:s$%bEl$jen
 Boanerges	1	name	
-Bojen	1	name	"bO$jen
 Boken	1	word	""bu:$ken
 Boos	1	name	"bu:s
 Borgen	1	word	"bOr$jen
@@ -19685,7 +19682,6 @@ Tamars	1	name
 Tammus	1	name	
 Tamnata	1	name	
 Tanis	1	name	
-Tanken	1	word	""taN$ken
 Tara	1	name	""tA:$ra
 Tarala	1	name	
 Tarra	1	name	
@@ -21143,6 +21139,7 @@ dryckesbröder	1	word	""drY$kes$%br2:$der
 dryckesvaror	1	word	""drY$kes$%vA:$rUr
 dryg	1	word	"dry:g
 drype	1	word	
+dräkter	1	word	""drEk$ter
 dräktiga	1	word	""drEk$tI$ga
 dränkte	1	word	""drENk$te
 dräpe	1	word	
@@ -24531,7 +24528,6 @@ nejden	1	word	"nEj$den
 nemueliternas	1	word	
 netofatiterna	1	word	
 ni	1	word	"ni:
-nian	1	word	""ni:$an
 niding	1	word	""ni:$dIN
 nidingen	1	word	""ni:$dIN$en
 nineviterna	1	word	
@@ -25170,7 +25166,7 @@ puniternas	1	word
 punkt	1	word	"pu0Nkt
 punkterna	1	word	""pu0Nk$te$n`a
 purjolöken	1	word	""pu0r$jU$%l2:$ken
-purpmr	1	word	
+purpurdräkter	1	word	
 purpurglans	1	word	
 purpurkrämerska	1	word	
 purpurmanteln	1	word	""pu0r$pu0r$%man$teln
@@ -28028,6 +28024,7 @@ våningarna	1	word	""vo:$nIN$a$n`a
 vårdaden	1	word	
 vårdslös	1	word	""vo:d`s`$%l`2:s
 vårdtorn	1	word	
+våren	1	word	"vo:$ren
 vårens	1	word	"vo:$rens
 vårregnets	1	word	""vo:r$%rEN$nets
 vått	1	word	"vOt

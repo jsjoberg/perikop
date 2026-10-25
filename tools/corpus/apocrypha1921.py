@@ -23,7 +23,7 @@ LEAKED=[('Tob',3,1,'2 »'),('Tob',7,16,'17 »'),('Tob',9,1,'2 »'),('Tob',10,4,'
  ('1Macc',13,14,'15 »'),('2Macc',3,37,'38 »'),('2Macc',6,23,'24 »'),('2Macc',7,5,'6 »'),('2Macc',7,21,'22 »'),('2Macc',8,17,'18 »'),
  ('2Macc',10,9,'10} '),('2Macc',14,34,'35 »'),('2Macc',15,15,'16 »'),('2Macc',14,4,'6 »'),('Wis',11,26,'12,1 ')]
 # Verses split where an OCR margin number marks the boundary: (book, chapter, verse, first words of the next verse).
-SPLIT=[('Sir',47,4,'Ja, han åkallade Herren'),('Sir',40,15,'De likna vassen'),('Sir',13,15,'Alla varelser sluta sig'),('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
+SPLIT=[('Baruch',3,37,'Därefter blev hon skådad'),('Sir',47,4,'Ja, han åkallade Herren'),('Sir',40,15,'De likna vassen'),('Sir',13,15,'Alla varelser sluta sig'),('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
@@ -174,6 +174,16 @@ REPLACE=[
  ('Sir', 51, 17, 'förkovrades Jag däri', 'förkovrades jag däri'),
  ('Sir', 51, 26, 'Bojen eder hals', 'Böjen eder hals'),
  ('Sir', 47, 4, 'Herren, dens Högste', 'Herren, den Högste'),
+ # Complete Baruch scan review: A146-A156; 3:38 is restored by SPLIT.
+ ('Baruch', 2, 5, 'måste’ligga under’ och fingo icke’ligga över’', 'måste ’ligga under’ och fingo icke ’ligga över’'),
+ ('Baruch', 2, 21, 'Bojen edra skuldror', 'Böjen edra skuldror'),
+ ('Baruch', 4, 12, 'över mig, i en värnlös', 'över mig, en värnlös'),
+ ('Baruch', 4, 18, 'Nej han som', 'Nej, han som'),
+ ('Baruch', 4, 27, 'Men våren vid', 'Men varen vid'),
+ ('Baruch', 5, 8, 'på Guds befallning,', 'på Guds befallning.'),
+ ('Baruch', 6, 5, 'Tanken i stället', 'Tänken i stället'),
+ ('Baruch', 6, 11, 'purpmr-dräkter.', 'purpurdräkter.'),
+ ('Baruch', 6, 14, 'kan nian förstå', 'kan man förstå'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),

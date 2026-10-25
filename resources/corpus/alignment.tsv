@@ -2370,7 +2370,8 @@ en-lxx2012	sv1917	Sir	47:4	51:30	Sir	47:4	51:30	0
 en-lxx2012	sv1917	Baruch	1:1	3:33	Baruch	1:1	3:33	0
 en-lxx2012	sv1917	Baruch	3:34	3:34	Baruch	3:34	3:35	2
 en-lxx2012	sv1917	Baruch	3:35	3:35	Baruch	3:36	3:36	1
-en-lxx2012	sv1917	Baruch	3:36	3:37	Baruch	3:37	3:37	3
+en-lxx2012	sv1917	Baruch	3:36	3:36	Baruch	3:37	3:37	1
+en-lxx2012	sv1917	Baruch	3:37	3:37	Baruch	3:38	3:38	1
 en-lxx2012	sv1917	Baruch	4:1	5:9	Baruch	4:1	5:9	0
 en-lxx2012	sv1917	PrAzar	1:1	1:5	PrAzar	1:2	1:6	1
 en-lxx2012	sv1917	PrAzar	1:6	1:6	PrAzar	1:6	1:7	2
@@ -4909,7 +4910,8 @@ grc-lxx	sv1917	Sir	47:4	51:30	Sir	47:4	51:30	0
 grc-lxx	sv1917	Baruch	1:1	3:33	Baruch	1:1	3:33	0
 grc-lxx	sv1917	Baruch	3:34	3:34	Baruch	3:34	3:35	2
 grc-lxx	sv1917	Baruch	3:35	3:35	Baruch	3:36	3:36	1
-grc-lxx	sv1917	Baruch	3:36	3:37	Baruch	3:37	3:37	3
+grc-lxx	sv1917	Baruch	3:36	3:36	Baruch	3:37	3:37	1
+grc-lxx	sv1917	Baruch	3:37	3:37	Baruch	3:38	3:38	1
 grc-lxx	sv1917	Baruch	4:1	5:9	Baruch	4:1	5:9	0
 grc-lxx	sv1917	Sus	1:1	1:64	Sus	1:1	1:64	0
 grc-lxx	sv1917	Bel	1:1	1:42	Bel	1:1	1:42	0
@@ -6091,7 +6093,8 @@ sv1917	en-lxx2012	Sir	47:4	51:30	Sir	47:4	51:30	0
 sv1917	en-lxx2012	Baruch	1:1	3:33	Baruch	1:1	3:33	0
 sv1917	en-lxx2012	Baruch	3:34	3:35	Baruch	3:34	3:34	3
 sv1917	en-lxx2012	Baruch	3:36	3:36	Baruch	3:35	3:35	1
-sv1917	en-lxx2012	Baruch	3:37	3:37	Baruch	3:36	3:37	2
+sv1917	en-lxx2012	Baruch	3:37	3:37	Baruch	3:36	3:36	1
+sv1917	en-lxx2012	Baruch	3:38	3:38	Baruch	3:37	3:37	1
 sv1917	en-lxx2012	Baruch	4:1	5:9	Baruch	4:1	5:9	0
 sv1917	en-lxx2012	Baruch	6:1	6:1	EpJer	1:1	1:2	2
 sv1917	en-lxx2012	Baruch	6:2	6:72	EpJer	1:3	1:73	1
@@ -7170,7 +7173,8 @@ sv1917	grc-lxx	Sir	47:4	51:30	Sir	47:4	51:30	0
 sv1917	grc-lxx	Baruch	1:1	3:33	Baruch	1:1	3:33	0
 sv1917	grc-lxx	Baruch	3:34	3:35	Baruch	3:34	3:34	3
 sv1917	grc-lxx	Baruch	3:36	3:36	Baruch	3:35	3:35	1
-sv1917	grc-lxx	Baruch	3:37	3:37	Baruch	3:36	3:37	2
+sv1917	grc-lxx	Baruch	3:37	3:37	Baruch	3:36	3:36	1
+sv1917	grc-lxx	Baruch	3:38	3:38	Baruch	3:37	3:37	1
 sv1917	grc-lxx	Baruch	4:1	5:9	Baruch	4:1	5:9	0
 sv1917	grc-lxx	Baruch	6:1	6:1	EpJer	1:1	1:2	2
 sv1917	grc-lxx	Baruch	6:2	6:72	EpJer	1:3	1:73	1
