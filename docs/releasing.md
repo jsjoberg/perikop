@@ -7,14 +7,14 @@ See the [update migration plan](updating.md) for platform validation and user-co
 Set the version in `project()` in `CMakeLists.txt`, then push a matching tag:
 
 ```sh
-git tag v0.1.0-alpha.2 && git push origin v0.1.0-alpha.2
+git tag v0.2.0 && git push origin v0.2.0
 ```
 
 CI builds, tests, and packages four targets: Windows x64, Linux x64, Linux ARM64, and macOS Apple Silicon (macOS 15+).
 Linux channels include `-glibc239` after the architecture. Publish Debian 13 builds only to these feeds, never to the earlier Linux feeds; users moving from an earlier build download the new AppImage once on a supported system. See [the Linux migration boundary](updating.md#versions-and-channels).
 It then creates a draft release containing, for each target, the Velopack download (`Perikop-<channel>-Setup.exe`, `Perikop-<channel>-Setup.pkg` or `Perikop-<channel>.AppImage`), portable packages where Velopack makes them, a full update package and channel feed, a delta where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file. A release needs all four targets; `update_packages.py assemble --complete` refuses one without them.
 Releases with AppImages also carry `AppImage-runtime-source-<commit>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
-The tag's version, such as `0.1.0-alpha.2`, goes into the update packages. CI stops if the tag does not match `CMakeLists.txt`.
+The tag's version, such as `0.2.0`, goes into the update packages. CI stops if the tag does not match `CMakeLists.txt`.
 Write the release notes on GitHub, then publish the draft.
 The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.
 
