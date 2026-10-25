@@ -8,6 +8,8 @@ Första omgången omfattar 15 verser. Varje markerat utdrag har kontrollerats vi
 
 För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); i dessa två rader finns felet i sidans OCR-text.
 
+Tack till [MySword](https://www.mysword.info/download-mysword/bibles), vars modul *Swedish Bible 1917*, version 1.0.1, användes i den inledande textjämförelsen. Jämförelsen hjälpte oss att klarlägga textens ursprung och ledde vidare till granskning mot faksimil och OCR. Modulen bygger på samma Runeberg-utgåva och delar flera av dess fel; rättelserna i tabellen är därför verifierade mot trycksidorna, inte hämtade från MySword.
+
 Den aktuella samlingsfilen `https://runeberg.org/bibeln/index2.html` hämtades på nytt 2026-10-25 och var byteidentisk med den fil Perikop hämtade 2026-10-06. SHA-256 för HTML-innehållet är `faca4da7be96baef71efb484e3662deb0e4873c532edfe5312fe1bd38be77c4a`. Uppgifterna nedan gäller alltså även den då aktuella e-texten. De två OCR-sidorna kontrollerades också på Runebergs webbplats 2026-10-25.
 
 Trycksidan öppnas via länken i sista kolumnen. Siffran där är det tryckta sidnumret; för apokryferna skiljer det sig från numret i webbadressen. Spalt och versnummer hjälper dig att hitta rätt rad. Endast det markerade utdraget rättas; kommatering och andra tryckskillnader ingår inte i denna omgång.
