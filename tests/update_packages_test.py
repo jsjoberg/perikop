@@ -44,13 +44,13 @@ class UpdatePackagesTest(unittest.TestCase):
             [{"RelativeFileName": entry["FileName"], "Type": entry["Type"]} for entry in published]))
         return entries
 
-    def test_publication_has_new_full_and_delta_but_does_not_duplicate_the_base(self):
+    def test_publication_has_verified_base_full_and_new_delta(self):
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary)
             entries = self.fixture(source)
             destination = source / "publication"
             updates.finish(source, CHANNEL, "1.0.0-test.2", destination)
-            self.assertFalse((destination / entries[0]["FileName"]).exists())
+            self.assertTrue((destination / entries[0]["FileName"]).is_file())
             self.assertTrue((destination / entries[1]["FileName"]).is_file())
             self.assertTrue((destination / entries[2]["FileName"]).is_file())
             feed = json.loads((destination / f"releases.{CHANNEL}.json").read_text())
@@ -202,6 +202,29 @@ class UpdatePackagesTest(unittest.TestCase):
             packages = list((output / CHANNEL).glob("*.nupkg"))
             self.assertEqual([path.name for path in packages], [asset("1.0.0-test.2")["FileName"]])
             self.assertNotIn(asset("1.0.0-test.3")["FileName"], downloaded)
+
+    def test_migration_restores_legacy_base_when_update_repository_is_empty(self):
+        channel = "win-x64-releases"
+        entry = asset("0.2.0", channel=channel)
+        release = {"tag_name": "v0.2.0", "prerelease": False,
+                   "assets": [{"name": f"releases.{channel}.json"}, {"name": entry["FileName"]}]}
+        downloaded = []
+        def download(repository, tag, name, directory):
+            downloaded.append((repository, name))
+            if name.endswith(".json"):
+                (directory / name).write_text(json.dumps({"Assets": [entry]}))
+            else:
+                write_asset(directory, entry)
+            return directory / name
+        def history(repository):
+            return [release] if repository == updates.LEGACY_REPOSITORY else []
+        with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, NIGHTLY="false"), \
+                patch.object(updates, "releases", side_effect=history), \
+                patch.object(updates, "download", side_effect=download):
+            updates.restore(updates.UPDATE_REPOSITORY, "Windows", Path(temporary), "0.2.1", updates.LEGACY_REPOSITORY)
+            updates.verify(Path(temporary) / channel / entry["FileName"], entry)
+        self.assertTrue(downloaded)
+        self.assertTrue(all(repository == updates.LEGACY_REPOSITORY for repository, _ in downloaded))
 
     def test_versions_order_nightly_numbers_numerically_and_stable_above_prerelease(self):
         versions = ["1.0.0-alpha.1", "1.0.0-nightly.20261018.9.1", "1.0.0-nightly.20261018.10.1", "1.0.0", "1.0.1"]

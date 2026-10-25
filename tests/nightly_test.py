@@ -3,9 +3,11 @@
 import importlib.util
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools/ci"))
 spec = importlib.util.spec_from_file_location("nightly", ROOT / "tools/ci/nightly.py")
 nightly = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(nightly)
@@ -54,6 +56,10 @@ class NightlyTest(unittest.TestCase):
             self.assertNotIn("Unavailable platforms", notes)
             self.assertNotIn("Incomplete nightly", notes)
             self.assertIn("download the new AppImage once on a supported system", notes)
+            self.assertIn("Raspberry Pi 3, 4 and 5 use the same ARM64 download", notes)
+            self.assertIn("64-bit Raspberry Pi OS Trixie", notes)
+            self.assertIn("sudo apt install libespeak-ng1", notes)
+            self.assertIn("have not yet been verified", notes)
 
     def test_sanitizer_failure_remains_visible_even_with_all_platforms(self):
         for platform in ("macos", "linux"):
@@ -97,6 +103,8 @@ class NightlyTest(unittest.TestCase):
             self.fixtures(updates, ["win-x64"])
             self.prepare(updates, version="0.1.1-nightly.20261016.7.1")
             self.assertIn("Version `0.1.1-nightly.20261016.7.1`.", self.notes(updates))
+            self.assertIn("Perikop-win-x64-0.1.1-nightly.20261016.7.1-Setup.exe", self.notes(updates))
+            self.assertNotIn("win-x64-nightly-Setup.exe", self.notes(updates))
 
 
 def precedence(version):

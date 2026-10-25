@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -16,6 +17,40 @@ def versions(*names):
 
 
 class LinuxAbiTest(unittest.TestCase):
+    def test_linux_arm64_uses_pi3_cpu_baseline_without_changing_other_targets(self):
+        root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as directory:
+            fixture = Path(directory)
+            (fixture / "CMakeLists.txt").write_text('''cmake_minimum_required(VERSION 3.24)
+project(cpu_baseline LANGUAGES NONE)
+set(CMAKE_SYSTEM_NAME "${TEST_SYSTEM}")
+set(CMAKE_SYSTEM_PROCESSOR "${TEST_CPU}")
+set(CMAKE_CXX_COMPILER_ID GNU)
+set(CMAKE_SIZEOF_VOID_P 8)
+set(APPLE FALSE)
+if(TEST_SYSTEM STREQUAL "Darwin")
+    set(APPLE TRUE)
+endif()
+set(PERIKOP_LTO OFF CACHE BOOL "" FORCE)
+include("${REPOSITORY}/cmake/optimization.cmake")
+get_directory_property(flags COMPILE_OPTIONS)
+file(WRITE "${CMAKE_BINARY_DIR}/flags.txt" "${flags}")
+''')
+            for system, cpu in (("Linux", "aarch64"), ("Linux", "arm64"), ("Linux", "ARM64"),
+                                ("Linux", "x86_64"), ("Darwin", "arm64")):
+                with self.subTest(system=system, cpu=cpu):
+                    build = fixture / f"{system}-{cpu}"
+                    result = subprocess.run(["cmake", "-S", str(fixture), "-B", str(build),
+                                             f"-DREPOSITORY={root}", f"-DTEST_SYSTEM={system}", f"-DTEST_CPU={cpu}"],
+                                            capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    flags = (build / "flags.txt").read_text().split(";")
+                    arm_linux = system == "Linux" and cpu != "x86_64"
+                    self.assertEqual("-march=armv8-a" in flags, arm_linux)
+                    self.assertEqual("-march=x86-64-v2" in flags, cpu == "x86_64")
+                    self.assertNotIn("-mcpu=native", flags)
+                    self.assertNotIn("-march=native", flags)
+
     def test_ignores_definitions_and_cpp_versions(self):
         output = "Version definition section '.gnu.version_d':\n  Name: GLIBC_2.40\n"
         output += versions("GLIBC_2.2.5", "GLIBC_2.34", "GLIBCXX_3.4.35", "CXXABI_1.3.16")

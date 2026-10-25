@@ -10,7 +10,7 @@ namespace {
 const char* const not_installed = "Den här kopian uppdateras inte inifrån programmet. Nya versioner finns på "
                                   "github.com/jsjoberg/perikop/releases.";
 #ifdef PERIKOP_UPDATES
-const char* const repository = "https://github.com/jsjoberg/perikop";
+const char* const repository = "https://github.com/jsjoberg/perikop-updates";
 // Linux feeds include the glibc baseline so older clients cannot receive incompatible AppImages.
 #if defined(_WIN32) && defined(__aarch64__)
 const char* const platform = "win-arm64";

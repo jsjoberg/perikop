@@ -5,10 +5,12 @@ import argparse
 from pathlib import Path
 import re
 
+from publish_release import ARM64_REQUIREMENTS, installer_name
+
 # Velopack channel platforms, in the order the notes list them.
 PLATFORMS = {
     "linux-x64-glibc239": "Linux x64",
-    "linux-arm64-glibc239": "Linux ARM64",
+    "linux-arm64-glibc239": "Linux ARM64 (Raspberry Pi 3, 4 and 5)",
     "osx-arm64": "macOS Apple Silicon",
     "win-x64": "Windows x64",
 }
@@ -54,11 +56,15 @@ def prepare(updates, notes_path, repository, commit, run_id, tag, macos_sanitize
         notes += [f"Version `{build_version}`.", ""]
     if not complete:
         notes += ["**Incomplete nightly.** Only the available platform packages appear in this release.", ""]
-    notes += ["Available platforms:"] + ["- " + name for platform, name in PLATFORMS.items() if platform in available]
+    notes += ["Available platforms:"] + [
+        "- " + name + (f" — `{installer_name(platform, build_version)}`" if build_version else "")
+        for platform, name in PLATFORMS.items() if platform in available]
     if any(platform.startswith("linux-") for platform in available):
         notes += ["", "Linux AppImages require glibc 2.39 or later. To move from an earlier Linux build, "
                   "download the new AppImage once on a supported system; the earlier update feeds do not receive it. "
                   "Your reading profile is kept."]
+    if "linux-arm64-glibc239" in available:
+        notes += ["", ARM64_REQUIREMENTS]
     if missing:
         notes += ["", "Unavailable platforms:"] + ["- " + name for name in missing]
     notes += ["", "Sanitizers:"]

@@ -57,6 +57,14 @@ class BuildTest(unittest.TestCase):
         for name in sanitizers:
             self.assertIn("${{ needs." + name + ".result }}", jobs["release"])
 
+    def test_reviewed_release_and_nightlies_share_the_publication_lock(self):
+        automatic = (ROOT / ".github/workflows/build.yml").read_text()
+        reviewed = (ROOT / ".github/workflows/publish.yml").read_text()
+        for workflow in (automatic, reviewed):
+            self.assertIn("group: perikop-release-publication", workflow)
+            self.assertIn("UPDATES_TOKEN: ${{ secrets.PERIKOP_UPDATES_TOKEN }}", workflow)
+        self.assertIn('publish_release.py promote --tag "$RELEASE_TAG"', reviewed)
+
     def test_update_profile_comparison_preserves_values_and_allows_new_tables(self):
         script = (ROOT / "tools/ci/validate_macos_update.command").read_text()
         fixture = re.search(r'"\$database" <<\'SQL\'\n(.*?)\nSQL', script, re.S).group(1)

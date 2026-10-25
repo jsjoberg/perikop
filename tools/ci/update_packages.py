@@ -12,6 +12,8 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
+UPDATE_REPOSITORY = "jsjoberg/perikop-updates"
+LEGACY_REPOSITORY = "jsjoberg/perikop"
 PLATFORMS = {"Linux": "linux-x64-glibc239", "Linux-arm64": "linux-arm64-glibc239", "Windows": "win-x64",
              "macOS-arm64": "osx-arm64"}
 # What Velopack makes for people to install from, as Perikop-<channel><suffix>, beside each feed.
@@ -109,7 +111,7 @@ def download(repository, tag, name, destination):
     return destination / name
 
 
-def restore(repository, platform, output, version):
+def restore(repository, platform, output, version, fallback=None):
     channel = channel_for(platform)
     target = precedence(version)
     output = output / channel
@@ -118,23 +120,25 @@ def restore(repository, platform, output, version):
         raise ValueError("Delta base directory must be empty: " + str(output))
     name = f"releases.{channel}.json"
     best = None
-    for release in releases(repository):
+    published = [(repo, release) for repo in (repository, fallback) if repo for release in releases(repo)]
+    for repo, release in published:
         if channel.endswith("-releases") and release["prerelease"]:
             continue
         if name not in {asset["name"] for asset in release["assets"]}:
             continue
         with tempfile.TemporaryDirectory() as temporary:
-            feed = json.loads(download(repository, release["tag_name"], name, Path(temporary)).read_text())
+            feed = json.loads(download(repo, release["tag_name"], name, Path(temporary)).read_text())
         for asset in feed_assets(feed, channel):
             key = precedence(asset["Version"])
             if asset["Type"] == "Full" and key < target and (best is None or key > best[0]):
-                best = key, asset
+                best = key, asset, repo
     if best is None:
         print(f"{channel}: no earlier published full package; the first package has no delta")
         return
     asset = best[1]
     # A feed may name a base hosted by another release, including a base rescued during cleanup.
-    host = next((release for release in releases(repository)
+    repository = best[2]
+    host = next((release for repo, release in published if repo == repository
                  if asset["FileName"] in {item["name"] for item in release["assets"]}), None)
     if host is None:
         raise ValueError("Published delta base is missing: " + asset["FileName"])
@@ -179,6 +183,7 @@ def finish(directory, channel, version, destination):
         verify(directory / asset["FileName"], asset)
     for asset in bases:
         verify(directory / asset["FileName"], asset)
+        names.add(asset["FileName"])
     # Each publication includes only its new delta. Repeating older deltas in GitHub feeds would
     # make the pinned SDK try to apply the same patch twice when it combines release feeds.
     feed = {"Assets": bases + current}
@@ -195,9 +200,11 @@ def assemble(updates, output, version, complete=False):
     if not feeds:
         raise ValueError("Publication needs update feeds")
     present = set()
+    tracks = set()
     for feed in feeds:
         channel = feed.name[len("releases."):-len(".json")]
         platform = channel.rsplit("-", 1)[0]
+        tracks.add(channel.rsplit("-", 1)[1])
         if platform not in INSTALLERS:
             raise ValueError("Publication contains a retired platform: " + platform)
         assets = feed_assets(json.loads(feed.read_text()), channel)
@@ -209,8 +216,9 @@ def assemble(updates, output, version, complete=False):
         if not (updates / f"Perikop-{channel}{INSTALLERS[platform]}").is_file():
             raise ValueError("Update feed lacks its installer: " + channel)
         for asset in assets:
-            if asset["Version"] == version:
-                verify(updates / asset["FileName"], asset)
+            verify(updates / asset["FileName"], asset)
+    if len(tracks) != 1:
+        raise ValueError("Publication mixes release and nightly channels")
     if complete and present != set(INSTALLERS):
         raise ValueError("A release needs every platform; missing " + ", ".join(sorted(set(INSTALLERS) - present)))
     files = sorted(updates.iterdir())
@@ -345,7 +353,9 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("version")
     restoring = commands.add_parser("restore")
-    restoring.add_argument("--repository", default=os.environ.get("GITHUB_REPOSITORY"), required=False)
+    restoring.add_argument("--repository", default=UPDATE_REPOSITORY)
+    restoring.add_argument("--fallback", default=LEGACY_REPOSITORY,
+                           help="Read-only legacy source for migration delta bases")
     restoring.add_argument("--platform", choices=PLATFORMS, required=True)
     restoring.add_argument("--output", type=Path, default=ROOT / "build/update-base")
     restoring.add_argument("--version")
@@ -372,7 +382,7 @@ def main():
     elif args.command == "restore":
         if not args.repository:
             parser.error("restore needs --repository or GITHUB_REPOSITORY")
-        restore(args.repository, args.platform, args.output, args.version or build_version())
+        restore(args.repository, args.platform, args.output, args.version or build_version(), args.fallback)
     elif args.command == "seed":
         seed(args.base, args.output)
     elif args.command == "finish":

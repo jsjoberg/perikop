@@ -1,0 +1,27 @@
+name: Publish reviewed release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Verified draft tag to publish in both repositories
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    concurrency:
+      group: perikop-release-publication
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/python
+      - name: Verify and publish the reviewed pair
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPDATES_TOKEN: ${{ secrets.PERIKOP_UPDATES_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: python3 tools/ci/publish_release.py promote --tag "$RELEASE_TAG"
