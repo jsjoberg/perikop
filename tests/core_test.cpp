@@ -1102,6 +1102,12 @@ int main(int argc, char** argv) {
                  {"2Macc", {7, 6}, "han förbarma sig'»", "han förbarma sig.'»"},
                  {"2Macc", {7, 30}, "Vad vanten I på?", "Vad vänten I på?"},
                  {"2Macc", {7, 34}, "förhävdig icke fåfängt", "förhäv dig icke fåfängt"},
+                 {"Jer", {8, 12}, "alls icke skam", "alls icke någon skam"},
+                 {"2Macc", {6, 17}, "avb rrott vilja vi nu åtgå", "avbrott vilja vi nu återgå"},
+                 {"Jdt", {5, 8}, "förjagade med från", "förjagade dem från"},
+                 {"Tob", {3, 4}, "smädligt orsdpråk", "smädligt ordspråk"},
+                 {"Sir", {38, 17}, "såsom kan förtjänar", "såsom han förtjänar"},
+                 {"2Macc", {8, 8}, "komma kunungens sak", "komma konungens sak"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1140,9 +1146,8 @@ int main(int argc, char** argv) {
                       "restored Tobit verses align individually in both directions");
             }
         }
-        check(corpus.verse("sv1917", "Tob", {3, 4})->text.find("smädligt orsdpråk") != std::string::npos &&
-                  corpus.verse("sv1917", "Tob", {4, 19})->text.find("efter som honom behagar") != std::string::npos,
-              "Tobit's printed spelling and source typo are preserved pending review");
+        check(corpus.verse("sv1917", "Tob", {4, 19})->text.find("efter som honom behagar") != std::string::npos,
+              "Tobit's confirmed printed efter som is preserved");
         check(!corpus.verse("sv1917", "Sir", {3, 25}) &&
                   corpus.verse("sv1917", "Sir", {3, 26})->text.starts_with("Ett förmätet hjärta går det på sistone illa,") &&
                   corpus.verse("sv1917", "Sir", {3, 27})->text.starts_with("Ett förmätet hjärta bliver nedtyngt av vedermödor,"),
@@ -1194,8 +1199,6 @@ int main(int argc, char** argv) {
                       "restored Sirach 40:15-16 align individually in both directions");
             }
         }
-        check(corpus.verse("sv1917", "Sir", {38, 17})->text.find("såsom kan förtjänar") != std::string::npos,
-              "Sirach's printed kan remains pending an independent witness");
         check(corpus.verse("sv1917", "Sir", {47, 4})->text == "Slog han icke i sin ungdom ihjäl jätten och tog så bort försmädelsen ifrån folket, i det han lyfte sin hand med slungstenen och slog Goljats stolta skryt till marken?" &&
                   corpus.verse("sv1917", "Sir", {47, 5})->text == "Ja, han åkallade Herren, den Högste, och Herren lade styrka i hans högra hand, till att nedgöra den starke kämpen och till att upphöja hans folks horn.",
               "Sirach 47:4-5 retain the printed boundary and den reading");
@@ -1222,20 +1225,14 @@ int main(int argc, char** argv) {
                       "restored Baruch verses align individually with the numbering offset");
             }
         }
-        check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
-              "the possible printing variant with någon remains pending human review");
-        check(corpus.verse("sv1917", "Jdt", {5, 8})->text.find("förjagade med från") != std::string::npos &&
-                  corpus.verse("sv1917", "Jdt", {5, 3})->text.find("och hvad för städer") != std::string::npos,
-              "Judith's printed med and hvad remain distinct from OCR corrections");
+        check(corpus.verse("sv1917", "Jdt", {5, 3})->text.find("och hvad för städer") != std::string::npos,
+              "Judith's confirmed historical spelling hvad is preserved");
         check(corpus.verse("sv1917", "Hag", {2, 16})->text.ends_with("till HERRENS tempel;"),
               "Haggai's sentence continues across the verse boundary with a semicolon");
         check(corpus.verse("sv1917", "PrAzar", {1, 42})->text.ends_with("i evighet."),
               "the printed final period is restored in the song of the three men");
-        check(corpus.verse("sv1917", "2Macc", {8, 8})->text.find("komma kunungens sak till hjälp") != std::string::npos &&
-                  corpus.verse("sv1917", "2Macc", {7, 11})->text.find("för Hans lags skull") != std::string::npos,
-              "Second Maccabees preserves printed kunungens pending review and the confirmed capital Hans");
-        check(corpus.verse("sv1917", "2Macc", {6, 17})->text.find("avb rrott") != std::string::npos,
-              "a suspicious word also present in print is not silently normalized");
+        check(corpus.verse("sv1917", "2Macc", {7, 11})->text.find("för Hans lags skull") != std::string::npos,
+              "Second Maccabees preserves the confirmed capital Hans");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==

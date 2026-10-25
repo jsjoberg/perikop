@@ -62,7 +62,7 @@ REPLACE=[
  ('PrAzar',1,42,'i evighet','i evighet.'),
  ('Sus',1,20,'»Se,trädgårdsporten','»Se, trädgårdsporten'),
  ('Sus',1,24,'ropa med högröst','ropa med hög röst'),
- # Complete Judith scan review: A031-A036; printed med in 5:8 remains V003.
+ # Complete Judith scan review: A031-A036; V003 is resolved by A211 below.
  ('Jdt',5,22,'allt folket som stod','allt folket, som stod'),
  ('Jdt',7,3,'till Gyamon,','till Cyamon,'),
  ('Jdt',7,30,'mina broder!','mina bröder!'),
@@ -94,7 +94,7 @@ REPLACE=[
  ('Wis',19,7,'överskygga. lägret','överskygga lägret'),
  ('Wis',19,15,'ytterligare hemsökelser medan','ytterligare hemsökelse: medan'),
  ('Wis',19,17,'rättfärd iges dörr','rättfärdiges dörr'),
- # Complete Tobit scan review: A061-A080; printed orsdpråk in 3:4 remains V004.
+ # Complete Tobit scan review: A061-A080; V004 is resolved by A212 below.
  ('Tob',1,3,'utvandra till i Nineve','utvandra till Nineve'),
  ('Tob',1,4,'för evig tid,','för evig tid.'),
  ('Tob',4,6,'om du göre sanningen','om du gör sanningen'),
@@ -233,7 +233,7 @@ REPLACE=[
  ('2Macc', 1, 1, 'De judiska bröderna i Jerusalem', '»De judiska bröderna i Jerusalem'),
  ('2Macc', 2, 1, 'Man finner i urkunderna', '»Man finner i urkunderna'),
  ('2Macc', 2, 28, 'verklige författareris sak', 'verklige författarens sak'),
- # Second Maccabees 3-8 scan review: A203-A209; printed variants remain pending.
+ # Second Maccabees 3-8 scan review: A203-A209; printed variants are resolved by A210 and A214 below.
  ('2Macc', 4, 1, 'omtalade Sisom hade', 'omtalade Simon, som hade'),
  ('2Macc', 5, 5, 'ett falskt ryktes hade', 'ett falskt rykte hade'),
  ('2Macc', 5, 12, 'utan försköning hugga ned dem som kommo i deras väg octi att dräpa', 'utan förskoning hugga ned dem som kommo i deras väg och att dräpa'),
@@ -241,6 +241,12 @@ REPLACE=[
  ('2Macc', 7, 6, "han förbarma sig'»", "han förbarma sig.'»"),
  ('2Macc', 7, 30, 'Vad vanten I på?', 'Vad vänten I på?'),
  ('2Macc', 7, 34, 'förhävdig icke fåfängt', 'förhäv dig icke fåfängt'),
+ # Additional print witnesses supplied and reviewed by the user: V002-V006, A210-A214.
+ ('2Macc', 6, 17, 'avb rrott vilja vi nu åtgå', 'avbrott vilja vi nu återgå'),
+ ('Jdt', 5, 8, 'förjagade med från', 'förjagade dem från'),
+ ('Tob', 3, 4, 'smädligt orsdpråk', 'smädligt ordspråk'),
+ ('Sir', 38, 17, 'såsom kan förtjänar', 'såsom han förtjänar'),
+ ('2Macc', 8, 8, 'komma kunungens sak', 'komma konungens sak'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),

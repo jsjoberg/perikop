@@ -4,7 +4,7 @@ i	15970	word
 till	15695	word	"tIl
 som	14019	word	
 att	12743	word	"at
-han	12030	word	"han
+han	12031	word	"han
 de	11741	word	
 det	8674	word	
 en	8482	word	"En
@@ -15,10 +15,10 @@ icke	8179	word	""I$ke
 för	8153	word	"f2:r
 jag	8126	word	"jA:g
 den	7756	word	
-med	7577	word	"me:d
+med	7576	word	"me:d
 är	7547	word	"E:r
 av	7271	word	
-dem	6933	word	"dOm
+dem	6934	word	"dOm
 så	6856	word	"so:
 honom	6737	word	""hO$nOm
 har	6695	word	"hA:r
@@ -93,7 +93,7 @@ må	1417	word	"mo:
 fram	1404	word	"fram
 vill	1400	word	"vIl
 utan	1382	word	""}:$tan
-någon	1373	word	
+någon	1374	word	
 land	1361	word	"land
 hon	1342	word	"hu:n
 konungen	1296	word	""ko:$nu0N$en
@@ -144,7 +144,7 @@ tjänare	892	word	""s'E:$na$re
 David	885	name	""dA:$vId
 kommer	880	word	"kO$mer
 gjorde	869	word	""ju:$d`e
-kan	867	word	"kA:n
+kan	866	word	"kA:n
 män	863	word	"mEn
 De	853	word	"dE
 tid	823	word	"ti:d
@@ -276,8 +276,8 @@ dit	367	word	"di:t
 Herre	364	word	""hE$re
 varit	363	word	""vA:$rIt
 stad	358	word	"stA:d
+konungens	354	word	""ko:$nu0N$ens
 döda	353	word	""d2:$da
-konungens	353	word	""ko:$nu0N$ens
 fått	352	word	"fOt
 föra	352	word	""f2:$ra
 röst	352	word	"r9st
@@ -2379,6 +2379,7 @@ lärare	28	word	""lE:$ra$re
 människornas	28	word	""mE$nI$x\U$n`as
 nästas	28	word	""nE$stas
 olyckan	28	word	""u:$%lY$kan
+ordspråk	28	word	""u:d`$%s`pro:k
 ostrafflig	28	word	""u:$%stra$flIg
 personer	28	word	pe$"s`u:$ner
 plantera	28	word	plan$"te:$ra
@@ -2444,7 +2445,6 @@ ljudet	27	word	"j}:$det
 loven	27	word	"lo:$ven
 måltid	27	word	""mo:l$%ti:d
 når	27	word	"no:r
-ordspråk	27	word	""u:d`$%s`pro:k
 oro	27	word	""u:$ru:
 orättfärdiga	27	word	""u:$rEt$%fE:$d`I$ga
 prov	27	word	"pru:v
@@ -11153,6 +11153,7 @@ arvedelar	3	word	""ar$ve$%de:$lar
 arvingar	3	word	""ar$vIN$ar
 asdoditerna	3	word	
 avbildningar	3	word	""A:v$%bIld$nIN$ar
+avbrott	3	word	""A:v$%brOt
 avbärgad	3	word	""A:v$%bEr$jad
 avdelade	3	word	""A:v$%de:$la$de
 avdöma	3	word	""A:v$%d9$ma
@@ -12951,6 +12952,7 @@ yppighet	3	word	""Y$pIg$%he:t
 åstunden	3	word	
 återfunna	3	word	
 återgälda	3	word	""o:$ter$%jEl$da
+återgå	3	word	""o:$ter$%go:
 återkallas	3	word	""o:$ter$%ka$las
 återspeglar	3	word	""o:$te$%s`pe:$glar
 återstodo	3	word	
@@ -14015,7 +14017,6 @@ asgamen	2	word	""A:s$%gA:$men
 asidéer	2	word	
 atenare	2	word	a$""te:$na$re
 avbildade	2	word	""A:v$%bIl$da$de
-avbrott	2	word	""A:v$%brOt
 avbärga	2	word	""A:v$%bEr$ja
 avbärgade	2	word	""A:v$%bEr$ja$de
 avbärgat	2	word	
@@ -17159,7 +17160,6 @@ yxor	2	word	""Yk$sUr
 återbära	2	word	""o:$ter$%bE:$ra
 återfunnen	2	word	
 återgäldar	2	word	""o:$ter$%jEl$dar
-återgå	2	word	""o:$ter$%go:
 återgång	2	word	""o:$ter$%gON
 återkomst	2	word	""o:$ter$%kOmst
 återsken	2	word	""o:$ter$%x\e:n
@@ -17169,7 +17169,6 @@ yxor	2	word	""Yk$sUr
 återvände	2	word	""o:$ter$%vEn$de
 åtfölja	2	word	""o:t$%f9l$ja
 åtgick	2	word	""o:t$%jIk
-åtgå	2	word	""o:t$%go:
 åtnjöt	2	word	""o:t$%nj2:t
 åtskilja	2	word	""o:t$%x\Il$ja
 åttiofyra	2	word	O$tI$U$""fy:$ra
@@ -20139,7 +20138,6 @@ assyrisk	1	word	a$"sy:$rIsk
 astarotiten	1	word	
 asuréernas	1	word	
 atenarna	1	word	a$""te:$na$n`a
-avb	1	word	
 avbilda	1	word	""A:v$%bIl$da
 avbilden	1	word	""A:v$%bIl$den
 avbilderna	1	word	""A:v$%bIl$de$n`a
@@ -23675,7 +23673,6 @@ kungjorda	1	word	""ku0$%nju:$d`a
 kungsslåttern	1	word	
 kunnige	1	word	""ku0$nI$ge
 kunskapssökarna	1	word	
-kunungens	1	word	
 kupor	1	word	""k}:$pUr
 kust	1	word	"ku0st
 kustfarare	1	word	""ku0st$%fA:$ra$re
@@ -24883,7 +24880,6 @@ oroligheterna	1	word	""u:$ru:$lIg$%he:$te$n`a
 oroligt	1	word	""u:$%ru:$lIkt
 oron	1	word	""u:$ru:n
 orsaks	1	word	""u:$s`A:ks
-orsdpråk	1	word	
 orterna	1	word	""U$t`e$n`a
 orubbliga	1	word	""u:$%r}:$blI$ga
 orubbligt	1	word	""u:$%r}:$blIkt
@@ -25313,7 +25309,6 @@ rotskotten	1	word	""ru:t$%skO$ten
 rott	1	word	"rUt
 rovfågel	1	word	""ru:v$%fo:$gel
 rovgirige	1	word	""ru:v$%ji:$rI$ge
-rrott	1	word	
 rubba	1	word	""r}:$ba
 rubbas	1	word	""r}:$bas
 rubeniten	1	word	
@@ -28219,6 +28214,7 @@ yxorna	1	word	""Yk$sU$n`a
 åtföljer	1	word	""o:t$%f9l$jer
 åtgingo	1	word	
 åtgärder	1	word	""o:t$%jE:$d`er
+åtgå	1	word	""o:t$%go:
 åtgått	1	word	""o:t$%gOt
 åthävor	1	word	""o:t$%hE:$vUr
 åtlydd	1	word	

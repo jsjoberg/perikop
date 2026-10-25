@@ -240,11 +240,11 @@
     {
       "book": "Jdt",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 24,
-      "text_sha256": "60a4201f4c4f167809d7a29ab9d2aecbd37f4e956a75b2f1d635b36bc09c485a",
+      "text_sha256": "4295edb591633990edabfba9286c19782da5a3b72925a7d605d16ac90541846c",
       "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "reviewer": "Codex, full visual scan comparison; användarens kompletterande fotogranskning",
       "scans": [
         {
           "url": "https://runeberg.org/img/apokryf/0009.1.tif",
@@ -259,7 +259,7 @@
           "sha256": "a75efce28a6f0fa6e959ef9482ad1ae68137059c14d975c747bbffe749f8d30d"
         }
       ],
-      "notes": "Hela 5:1–24 visuellt jämförd mot tryckta s. 5–7. Olöst V003: trycket har förjagade med från i 5:8, samma som korpusen, trots det oväntade pronomenet; jämför ytterligare tryck. Införd bildstödd rättelse A031: saknat komma efter allt folket i 5:22. Trycket har faktiskt den äldre stavningen hvad i 5:3; den får inte moderniseras. Kapitel 5 räknas inte som färdigt innan V003 har bedömts."
+      "notes": "Hela 5:1–24 visuellt jämförd mot tryckta s. 5–7; A031, komma efter allt folket i 5:22, och tryckets äldre hvad i 5:3 återkontrollerade. V003 löst 2026-10-25 genom användarens foto och genomgång: fotot har förjagade dem från, medan Runebergs fulla sida har med i höger spalt. A211 inför dem. Den tidigare detaljbildens beskärning klippte omgivande ord. Övriga ord, skiljetecken och versgränser är redan jämförda; hela kapitlet är nu verifierat."
     },
     {
       "book": "Jdt",
@@ -932,11 +932,11 @@
     {
       "book": "Tob",
       "chapter": 3,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 17,
-      "text_sha256": "d625d405c6df809f4e7bf70de80a0bac8e2f7a34eb1a26bb753f4f998d400387",
+      "text_sha256": "71b311d6a7adc71154a8195b7cbf3ddb6484cbac24445fda5e05b5850492a220",
       "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "reviewer": "Codex, full visual scan comparison; användarens kompletterande fotogranskning",
       "scans": [
         {
           "url": "https://runeberg.org/img/apokryf/0057.1.tif",
@@ -947,7 +947,7 @@
           "sha256": "60f7e37ad85dc2056099088313a4a47fb98816b6c8ef8d275f86b1fcede73e30"
         }
       ],
-      "notes": "Hela 3:1–17 jämförd mot tryckta s. 53–54. Olöst V004: trycket har orsdpråk i 3:4, precis som korpusen; ett tryckfel tycks föreligga men inget ändras utan ytterligare vittne. Förstorad originalbild kontrollerad. Tidigare återställd 3:2 och fortsättningarna i 3:4, 3:10 och 3:17 kontrollerade. Kapitlet räknas inte som färdigt tills V004 har bedömts."
+      "notes": "Hela 3:1–17 jämförd mot tryckta s. 53–54; återställda 3:2 och fortsättningarna i 3:4, 3:10 och 3:17 kontrollerade. V004 löst 2026-10-25 genom användarens foto och genomgång: ordspråk bekräftat, tryckets orsdpråk rättat med A212. Övriga ord, skiljetecken och versgränser är redan jämförda; hela kapitlet är nu verifierat."
     },
     {
       "book": "Tob",
@@ -1956,11 +1956,11 @@
     {
       "book": "Sir",
       "chapter": 38,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
-      "text_sha256": "77ff4d83b8c348fe237ac40ed706af5f8f06727f7ec146777b3d9bb44e371d02",
+      "text_sha256": "9d0dd62b611cb160966b3d54fd576b94720f263c780d92cd9bf1bfcad7cb80b1",
       "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "reviewer": "Codex, full visual scan comparison; användarens kompletterande fotogranskning",
       "scans": [
         {
           "url": "https://runeberg.org/img/apokryf/0124.1.tif",
@@ -1975,7 +1975,7 @@
           "sha256": "427e9f4ba97eaa210b3ee7cde83c03638b43f89b8a50fa91447b070ad222efe9"
         }
       ],
-      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 38:6 och 38:25, spaltfortsättningarna i 38:16 och 38:30 samt den avslutande satsen i 38:34 under nästa kapitelrubrik. Ingen rättelse tillåten för V005: såväl korpusen som trycket i 38:17 har såsom kan förtjänar. Kan har kontrollerats i originalupplösning. Den väntade läsningen han skulle också ändra det tryckta vittnet och har inte införts. Kapitlet är needs-review och räknas inte som färdigt. De övriga orden och versgränserna stämmer, inklusive tidigare återställda 38:34."
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 38:6 och 38:25, spaltfortsättningarna i 38:16 och 38:30 och den avslutande satsen i 38:34 under nästa kapitelrubrik. V005 löst 2026-10-25 genom användarens foto och genomgång: såsom han förtjänar bekräftat, tryckets kan rättat med A213. Alla övriga ord och versgränser är redan jämförda, inklusive återställda 38:34; hela kapitlet är nu verifierat."
     },
     {
       "book": "Sir",
@@ -2984,11 +2984,11 @@
     {
       "book": "2Macc",
       "chapter": 6,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 31,
-      "text_sha256": "6604f9f653ca084adb92b65879f23a43570e0bc34176d740dbe68665ef415878",
+      "text_sha256": "3f02f502844967e85488766298f4dfa5f593486e882dddc105eb81e31ce4cd7e",
       "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "reviewer": "Codex, full visual scan comparison; användarens kompletterande fotogranskning",
       "scans": [
         {
           "url": "https://runeberg.org/img/apokryf/0223.1.tif",
@@ -3003,7 +3003,7 @@
           "sha256": "e38f7fa55e45179d4f9dd890312def7b3da059da4d6962db5d80348d3eeea61b"
         }
       ],
-      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 6:4 och 6:21 samt spaltfortsättningarna i 6:12 och 6:28. A206 återställer tryckets komma efter kött i 6:21. Avskiljningen 6:23–24 återkontrollerad. Tryckets avb rrott i 6:17 (V002) är fortfarande olöst; även åtgå står i trycket och behålls. Alla övriga ord, skiljetecken och versgränser bekräftade. Kapitlet är needs-review och dess 31 versposter ingår inte i färdig täckning."
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 6:4 och 6:21 samt spaltfortsättningarna i 6:12 och 6:28. A206 återställer kommat efter kött i 6:21; avskiljningen 6:23–24 återkontrollerad. V002 löst 2026-10-25 genom användarens foto och genomgång: avbrott och återgå bekräftade på foto s. 187, tryckets avb rrott och åtgå rättade med A210. Alla övriga ord, skiljetecken och versgränser är redan jämförda; hela kapitlet är nu verifierat."
     },
     {
       "book": "2Macc",
@@ -3036,11 +3036,11 @@
     {
       "book": "2Macc",
       "chapter": 8,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 36,
-      "text_sha256": "0d2d53b154dfeb2fca0fbb5eecf980b8fab8e97c238eebd50c5a47cf99e95b7d",
+      "text_sha256": "73d33a0156254e4dd90582d80137691e6d824a81e99aa5b7389e1f0ec2d3794a",
       "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "reviewer": "Codex, full visual scan comparison; användarens kompletterande fotogranskning",
       "scans": [
         {
           "url": "https://runeberg.org/img/apokryf/0228.1.tif",
@@ -3059,7 +3059,7 @@
           "sha256": "5328e75ad5b3694e2a720e6aece59f7c19336b1917cac1b4e2dd572c4b9b845b"
         }
       ],
-      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 8:18 och 8:32 samt spaltfortsättningarna i 8:11 och 8:25. Inga nya rättelser. Kunungens i 8:8 står även i trycket; bokstaven u kontrollerad i originalupplösning. Läsningen behålls som V006 i väntan på ett oberoende tryck. Tryckets avsaknad av komma efter rättfärdighet i 8:13 behållen. Avskiljningen 8:17–18 återkontrollerad. Alla övriga ord, skiljetecken och versgränser bekräftade. Kapitlet är needs-review och dess 36 versposter ingår inte i färdig täckning."
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 8:18 och 8:32 samt spaltfortsättningarna i 8:11 och 8:25. V006 löst 2026-10-25 genom användarens foto och genomgång: konungens bekräftat på foto s. 191, tryckets kunungens rättat med A214. Tryckets frånvarande komma efter rättfärdighet i 8:13 behållet; avskiljningen 8:17–18 återkontrollerad. Alla övriga ord, skiljetecken och versgränser är redan jämförda; hela kapitlet är nu verifierat."
     }
   ],
   "unnumbered": [
@@ -3082,6 +3082,104 @@
         }
       ],
       "notes": "Hela det onumrerade företalet på tryckta s. 66–67 jämfört ord för ord, inklusive tre stycken och fortsättningar mellan spalter och sidor. Den ursprungliga Swe1917-transkriptionen är korrekt i denna text; redaktionellt referat och efterföljande 1:1 är avskilda. Texten bevaras i en separat granskad fil och är inte inläst i appens versdatabas. Den räknas varken som kapitel eller versposter."
+    }
+  ],
+  "resolved_readings": [
+    {
+      "id": "V001",
+      "correction_id": "R023",
+      "book": "Jer",
+      "chapter": 8,
+      "verse": 12,
+      "status": "resolved",
+      "reading": "alls icke någon skam",
+      "text_sha256": "d892962c931c73bcedac9896332d5ba52c3bee60c59aae1574966b06fc12d909",
+      "checked_at": "2026-10-25",
+      "reviewer": "Användarens genomgång och instruktion; Codex, visuell kontroll av fotot",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V001.jpg",
+      "photo_sha256": "f8fbf13ba77ba16cd7fa90b01ac7d1a382ea21e84a605008e4687a9ea2706c0e",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Tillagt någon; både Runebergs 1927-bild och användarens andra tryck har ordet."
+    },
+    {
+      "id": "V002",
+      "correction_id": "A210",
+      "book": "2Macc",
+      "chapter": 6,
+      "verse": 17,
+      "status": "resolved",
+      "reading": "avbrott vilja vi nu återgå",
+      "text_sha256": "2deccd352b39d233da9e4ddb0242e7bdfefa5030b20d48b180c532adfe126a8c",
+      "checked_at": "2026-10-25",
+      "reviewer": "Användarens genomgång och instruktion; Codex, visuell kontroll av fotot",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V002.jpg",
+      "photo_sha256": "a6d83f96103387a9aef538d754845c5fa1feea3a06bff32d2475d7a817edb8f1",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Användarens foto, tryckt s. 187, bekräftar både avbrott och återgå; två tryckfel i Runebergs förlaga rättas."
+    },
+    {
+      "id": "V003",
+      "correction_id": "A211",
+      "book": "Jdt",
+      "chapter": 5,
+      "verse": 8,
+      "status": "resolved",
+      "reading": "förjagade dem från",
+      "text_sha256": "361c3007d1fa4d431d31c94478c904177dac2b81c7e74b244d88cd1b8ea872cc",
+      "checked_at": "2026-10-25",
+      "reviewer": "Användarens genomgång och instruktion; Codex, visuell kontroll av fotot",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V003.jpg",
+      "photo_sha256": "b5be3dbd45c842922f92ee5a09e56e5682c6c3566d35bc55b2f69faa4e390fc4",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Användarens foto visar dem. Runebergs hela sida, höger spalt nederst, har med; den tidigare beskurna bilden klippte omgivande text och var svår att bedöma."
+    },
+    {
+      "id": "V004",
+      "correction_id": "A212",
+      "book": "Tob",
+      "chapter": 3,
+      "verse": 4,
+      "status": "resolved",
+      "reading": "smädligt ordspråk",
+      "text_sha256": "0af3d3e855bf9dffca8be15e7605449656b928c9af47cd862e88617054256d73",
+      "checked_at": "2026-10-25",
+      "reviewer": "Användarens genomgång och instruktion; Codex, visuell kontroll av fotot",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V004.jpg",
+      "photo_sha256": "93535b885d2e812902192cd04e5e2c011e56e68119366032aa350b94f17e7786",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Användarens foto bekräftar ordspråk; orsdpråk är ett tryckfel i Runebergs förlaga."
+    },
+    {
+      "id": "V005",
+      "correction_id": "A213",
+      "book": "Sir",
+      "chapter": 38,
+      "verse": 17,
+      "status": "resolved",
+      "reading": "såsom han förtjänar",
+      "text_sha256": "da2bed9ea14dd25b22ffa5002441ec473b8be38de3dee727abd0f59ac05f1224",
+      "checked_at": "2026-10-25",
+      "reviewer": "Användarens genomgång och instruktion; Codex, visuell kontroll av fotot",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V005.jpg",
+      "photo_sha256": "2f82d63cd3caba128f0bbc334947102a474635955703080af61ba78005a71363",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Användarens foto bekräftar han; kan är ett tryckfel i Runebergs förlaga."
+    },
+    {
+      "id": "V006",
+      "correction_id": "A214",
+      "book": "2Macc",
+      "chapter": 8,
+      "verse": 8,
+      "status": "resolved",
+      "reading": "komma konungens sak",
+      "text_sha256": "0cc5e578659c8c5909784650623ec6227073c78afde7d4646577315b64f673e1",
+      "checked_at": "2026-10-25",
+      "reviewer": "Användarens genomgång och instruktion; Codex, visuell kontroll av fotot",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V006.jpg",
+      "photo_sha256": "a12eebf44188631a27c82b68fad583a341cbefe173ca0a5519e3de54fd005a8c",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Användarens foto, tryckt s. 191, bekräftar konungens; kunungens är ett tryckfel i Runebergs förlaga."
     }
   ]
 }

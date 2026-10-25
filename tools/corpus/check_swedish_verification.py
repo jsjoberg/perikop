@@ -72,6 +72,29 @@ def validate_unnumbered(records, books, root=ROOT):
     return covered
 
 
+def validate_print_witnesses(records, chapters, root=ROOT):
+    """Check retained photographs and exact resolved verses, without adding chapter coverage."""
+    seen = set()
+    for record in records:
+        key = record['book'], record['chapter']
+        rows = [row for row in chapters.get(key, []) if row[2] == record['verse']]
+        path = (root / record['photo_path']).resolve()
+        datetime.date.fromisoformat(record['checked_at'])
+        if (record['id'] in seen or not re.fullmatch(r'V\d{3}', record['id'])
+                or record['status'] != 'resolved' or not record['reviewer'].strip()
+                or not record['source'].strip() or not record['notes'].strip()
+                or not re.fullmatch(r'[RA]\d{3}', record['correction_id'])
+                or len(rows) != 1 or not record['reading'] or record['reading'] not in rows[0][3]
+                or record['text_sha256'] != text_hash(rows)):
+            raise ValueError('Invalid or changed print-witness reading: %s' % record['id'])
+        if (Path(record['photo_path']).is_absolute() or not path.is_relative_to(root.resolve())
+                or path.suffix.lower() not in ('.jpg', '.jpeg', '.png') or not path.is_file()
+                or record['photo_sha256'] != hashlib.sha256(path.read_bytes()).hexdigest()):
+            raise ValueError('Missing or changed print-witness photograph: %s' % record['id'])
+        seen.add(record['id'])
+    return seen
+
+
 def main():
     with sqlite3.connect((ROOT / 'resources/corpus/corpus.db').as_uri() + '?mode=ro', uri=True) as db:
         rows = db.execute("""SELECT b.code,v.chapter,v.verse,v.text,
@@ -109,6 +132,8 @@ def main():
     reviewed = validate_unnumbered(unnumbered, books)
     print('Unnumbered source texts: %d/%d verified separately; excluded from chapter/verse counts' %
           (len(reviewed), len(unnumbered)))
+    resolved = validate_print_witnesses(ledger.get('resolved_readings', []), chapters)
+    print('Resolved readings backed by retained print photographs: %d; no extra chapter coverage' % len(resolved))
 
 
 if __name__ == '__main__':

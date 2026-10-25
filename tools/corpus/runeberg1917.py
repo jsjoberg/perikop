@@ -24,7 +24,7 @@ REPLACE={
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
  ('Prov',20,7):('går det val efter honom','går det väl efter honom'),
  ('Prov',23,7):('kan han val säga','kan han väl säga'),
- ('Jer',8,12):('på skam, övade styggelse','på skam, ty de övade styggelse'),
+ ('Jer',8,12):('på skam, övade styggelse. Likväl känna de alls icke skam','på skam, ty de övade styggelse. Likväl känna de alls icke någon skam'), # R006 + R023, photo V001
  ('Jer',8,15):('V bida efter frid','Vi bida efter frid'),
  ('Jer',16,13):('ett land son varken','ett land som varken'),
  ('Jer',17,21):('Tagen eder val till vara','Tagen eder väl till vara'),

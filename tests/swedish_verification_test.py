@@ -6,7 +6,7 @@ import tempfile
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools/corpus'))
-from check_swedish_verification import text_hash, validate, validate_unnumbered
+from check_swedish_verification import text_hash, validate, validate_unnumbered, validate_print_witnesses
 
 rows = [('PrMan', 1, 1, 'Herre, du Allsmäktige.')]
 chapters = {('PrMan', 1): rows}
@@ -60,4 +60,33 @@ with tempfile.TemporaryDirectory() as directory:
         pass
     else:
         raise AssertionError('Changed unnumbered text was accepted')
+with tempfile.TemporaryDirectory() as directory:
+    root = Path(directory)
+    photo = root / 'witness.jpg'
+    photo.write_bytes(b'original photograph')
+    witness = {'id': 'V001', 'correction_id': 'R023', 'book': 'PrMan', 'chapter': 1, 'verse': 1,
+               'status': 'resolved', 'reading': 'Herre', 'text_sha256': text_hash(rows),
+               'checked_at': '2026-10-25', 'reviewer': 'Human and visual check',
+               'source': 'Another print, supplied by the user', 'notes': 'Confirmed reading.',
+               'photo_path': 'witness.jpg', 'photo_sha256': hashlib.sha256(photo.read_bytes()).hexdigest()}
+    assert validate_print_witnesses([witness], chapters, root) == {'V001'}
+    assert validate_print_witnesses([], chapters, root) == set()
+    for invalid in ([witness, witness], [witness | {'reading': 'Different'}],
+                    [witness | {'verse': 2}], [witness | {'photo_path': '../outside.jpg'}],
+                    [witness | {'photo_path': 'missing.jpg'}], [witness | {'photo_sha256': 'a' * 64}],
+                    [witness | {'text_sha256': 'a' * 64}], [witness | {'reviewer': ''}]):
+        try:
+            validate_print_witnesses(invalid, chapters, root)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('Invalid print evidence or stale resolved verse was accepted')
+    photo.write_bytes(b'changed photograph')
+    try:
+        validate_print_witnesses([witness], chapters, root)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('Changed photograph was accepted')
+    assert validate([], chapters) == set(), 'A resolved verse must not imply a whole chapter review'
 print('Swedish verification ledger checks passed')
