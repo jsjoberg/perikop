@@ -111,6 +111,11 @@ REPLACE=[
  ('Tob',14,10,'ochhuru illa han','och huru illa han'),
  ('Tob',14,12,'begrov i han henne','begrov han henne'),
  ('Tob',14,13,'sin fader Tobits,','sin fader Tobits.'),
+ # Syrak 1-6 scan review: A081-A087; verses 3:26-27 are renumbered below.
+ ('Sir',2,9,'vanten eder lycka','vänten eder lycka'),
+ ('Sir',2,10,'åkallade honörn','åkallade honom'),
+ ('Sir',3,14,'bliva förgäten i stället','bliva förgäten; i stället'),
+ ('Sir',5,12,'handen på munnen,','handen på munnen.'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
@@ -207,6 +212,11 @@ def derive():
         if target in verses:raise ValueError('Leaked verse already present %s'%(target,))
         verses[(book,chapter,verse)]=text[:i].rstrip();verses[target]=rest
     for book,chapter,verse,old,new in REPLACE:once((book,chapter,verse),old,new)
+    # A084-A086: the printed 3:25 is absent; these two texts are 3:26 and 3:27.
+    for old,new,expected in ((26, 27, 'Ett förmätet hjärta bliver nedtyngt av vedermödor, och syndaren hopar synd på synd.'), (25, 26, 'Ett förmätet hjärta går det på sistone illa, och den som gärna giver sig i fara, han förgås däri.')):
+        key,target=('Sir',3,old),('Sir',3,new)
+        if target in verses or verses.get(key)!=expected:raise ValueError('Syrak 3:26-27 source changed')
+        verses[target]=verses.pop(key)
     for key in DELETE:del verses[key]
     verses[('1Macc',10,45)]=verses.pop(('1Macc',10,46)) # 10:45-46 share one slot.
     for book,chapter,verse,start in SPLIT:

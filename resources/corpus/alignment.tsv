@@ -2305,7 +2305,7 @@ en-lxx2012	sv1917	Sir	1:6	1:6	Sir	1:6	1:6	0
 en-lxx2012	sv1917	Sir	1:8	1:20	Sir	1:8	1:20	0
 en-lxx2012	sv1917	Sir	1:22	3:18	Sir	1:22	3:18	0
 en-lxx2012	sv1917	Sir	3:20	3:24	Sir	3:20	3:24	0
-en-lxx2012	sv1917	Sir	3:26	3:27	Sir	3:25	3:26	1
+en-lxx2012	sv1917	Sir	3:26	3:27	Sir	3:26	3:27	0
 en-lxx2012	sv1917	Sir	3:28	10:20	Sir	3:28	10:20	0
 en-lxx2012	sv1917	Sir	10:22	11:14	Sir	10:22	11:14	0
 en-lxx2012	sv1917	Sir	11:18	12:3	Sir	11:18	12:3	0
@@ -2698,8 +2698,8 @@ en-web	sv1917	Sir	1:1	1:4	Sir	1:1	1:4	0
 en-web	sv1917	Sir	1:6	1:6	Sir	1:6	1:6	0
 en-web	sv1917	Sir	1:8	1:20	Sir	1:8	1:20	0
 en-web	sv1917	Sir	1:22	3:18	Sir	1:22	3:18	0
-en-web	sv1917	Sir	3:20	3:26	Sir	3:20	3:26	0
-en-web	sv1917	Sir	3:27	3:27	-	-	-	6
+en-web	sv1917	Sir	3:20	3:27	Sir	3:20	3:27	0
+en-web	sv1917	Sir	3:25	3:25	-	-	-	6
 en-web	sv1917	Sir	3:28	10:20	Sir	3:28	10:20	0
 en-web	sv1917	Sir	10:22	11:14	Sir	10:22	11:14	0
 en-web	sv1917	Sir	11:17	12:1	Sir	11:17	12:1	0
@@ -4849,7 +4849,7 @@ grc-lxx	sv1917	Sir	1:6	1:6	Sir	1:6	1:6	0
 grc-lxx	sv1917	Sir	1:8	1:20	Sir	1:8	1:20	0
 grc-lxx	sv1917	Sir	1:22	3:18	Sir	1:22	3:18	0
 grc-lxx	sv1917	Sir	3:20	3:24	Sir	3:20	3:24	0
-grc-lxx	sv1917	Sir	3:26	3:27	Sir	3:25	3:26	1
+grc-lxx	sv1917	Sir	3:26	3:27	Sir	3:26	3:27	0
 grc-lxx	sv1917	Sir	3:28	5:15	Sir	3:28	5:15	0
 grc-lxx	sv1917	Sir	6:2a	6:2a	Sir	6:1	6:1	1
 grc-lxx	sv1917	Sir	6:2b	6:2b	Sir	6:2	6:2	1
@@ -6038,7 +6038,7 @@ sv1917	en-lxx2012	Sir	1:6	1:6	Sir	1:6	1:6	0
 sv1917	en-lxx2012	Sir	1:8	1:20	Sir	1:8	1:20	0
 sv1917	en-lxx2012	Sir	1:22	3:18	Sir	1:22	3:18	0
 sv1917	en-lxx2012	Sir	3:20	3:24	Sir	3:20	3:24	0
-sv1917	en-lxx2012	Sir	3:25	3:26	Sir	3:26	3:27	1
+sv1917	en-lxx2012	Sir	3:26	3:27	Sir	3:26	3:27	0
 sv1917	en-lxx2012	Sir	3:28	10:20	Sir	3:28	10:20	0
 sv1917	en-lxx2012	Sir	10:22	11:14	Sir	10:22	11:14	0
 sv1917	en-lxx2012	Sir	11:17	11:17	-	-	-	6
@@ -6378,7 +6378,7 @@ sv1917	en-web	Sir	1:1	1:4	Sir	1:1	1:4	0
 sv1917	en-web	Sir	1:6	1:6	Sir	1:6	1:6	0
 sv1917	en-web	Sir	1:8	1:20	Sir	1:8	1:20	0
 sv1917	en-web	Sir	1:22	3:18	Sir	1:22	3:18	0
-sv1917	en-web	Sir	3:20	3:26	Sir	3:20	3:26	0
+sv1917	en-web	Sir	3:20	3:27	Sir	3:20	3:27	0
 sv1917	en-web	Sir	3:28	10:20	Sir	3:28	10:20	0
 sv1917	en-web	Sir	10:22	11:14	Sir	10:22	11:14	0
 sv1917	en-web	Sir	11:17	12:1	Sir	11:17	12:1	0
@@ -7124,7 +7124,7 @@ sv1917	grc-lxx	Sir	1:6	1:6	Sir	1:6	1:6	0
 sv1917	grc-lxx	Sir	1:8	1:20	Sir	1:8	1:20	0
 sv1917	grc-lxx	Sir	1:22	3:18	Sir	1:22	3:18	0
 sv1917	grc-lxx	Sir	3:20	3:24	Sir	3:20	3:24	0
-sv1917	grc-lxx	Sir	3:25	3:26	Sir	3:26	3:27	1
+sv1917	grc-lxx	Sir	3:26	3:27	Sir	3:26	3:27	0
 sv1917	grc-lxx	Sir	3:28	5:15	Sir	3:28	5:15	0
 sv1917	grc-lxx	Sir	6:1	6:1	Sir	6:2a	6:2a	1
 sv1917	grc-lxx	Sir	6:2	6:2	Sir	6:2b	6:2b	1

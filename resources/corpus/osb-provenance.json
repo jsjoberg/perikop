@@ -5,8 +5,8 @@
   "nt_coordinates": 7957,
   "reviewed_points": 106,
   "inputs": {
-    "resources/corpus/corpus.db": "53dcb3cd261597720d345bb0fd8820b809123118b9c511636221f2a2f3fb2f33",
-    "resources/corpus/alignment.tsv": "8a06020afa64ebd177168b2772aa89c22a81f5a28708fadda0148ca58b3b32e0",
+    "resources/corpus/corpus.db": "2019a6e3e8cbf5181afedf0d87f5abda0ee10917ad1b7e0107c00a5ed7547498",
+    "resources/corpus/alignment.tsv": "9c69a88e5d0d306d070f3c19ff975c47422d9615e390b1ce15143fc5a0a6a850",
     "resources/corpus/books.tsv": "80057b866c13fb666b64aaef4ce3540aee9d98938a9b4416f8aba45818fc952a",
     "resources/corpus/input/KJV.json": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c",
     "resources/corpus/input/eng-Brenton_usfm.zip": "5813078f2213e472a3d4946ccf468a6e17cf145f7b0f7afd154dced36203c6d3",

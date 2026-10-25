@@ -22,6 +22,18 @@ def text_hash(rows):
     return hashlib.sha256(''.join('%s\t%d\t%d\t%s\n' % row for row in rows).encode('utf-8')).hexdigest()
 
 
+def validate_evidence(record, key):
+    datetime.date.fromisoformat(record['checked_at'])
+    if not record['reviewer'].strip() or not record['notes'].strip() or not record['scans']:
+        raise ValueError('Missing review evidence: %s' % (key,))
+    for scan in record['scans']:
+        url = urlparse(scan['url'])
+        if (url.scheme != 'https' or url.netloc != 'runeberg.org'
+                or not re.fullmatch(r'/img/(?:apokryf/\d{4}|bibeln/efs1927/gt/\d{4})\.1\.tif', url.path)
+                or not re.fullmatch(r'[0-9a-f]{64}', scan['sha256'])):
+            raise ValueError('Invalid scan witness: %s' % (key,))
+
+
 def validate(records, chapters):
     seen = set()
     covered = set()
@@ -35,15 +47,26 @@ def validate(records, chapters):
             raise ValueError('Unknown review status: %s' % (key,))
         if record['verse_count'] != len(rows) or record['text_sha256'] != text_hash(rows):
             raise ValueError('Reviewed text changed; recheck the scans: %s' % (key,))
-        datetime.date.fromisoformat(record['checked_at'])
-        if not record['reviewer'].strip() or not record['notes'].strip() or not record['scans']:
-            raise ValueError('Missing review evidence: %s' % (key,))
-        for scan in record['scans']:
-            url = urlparse(scan['url'])
-            if (url.scheme != 'https' or url.netloc != 'runeberg.org'
-                    or not re.fullmatch(r'/img/(?:apokryf/\d{4}|bibeln/efs1927/gt/\d{4})\.1\.tif', url.path)
-                    or not re.fullmatch(r'[0-9a-f]{64}', scan['sha256'])):
-                raise ValueError('Invalid scan witness: %s' % (key,))
+        validate_evidence(record, key)
+        if record['status'] == 'verified':
+            covered.add(key)
+    return covered
+
+
+def validate_unnumbered(records, books, root=ROOT):
+    seen, covered = set(), set()
+    for record in records:
+        key = record['book'], record['title']
+        if key in seen or key[0] not in books or not key[1].strip():
+            raise ValueError('Duplicate or unknown unnumbered text: %s' % (key,))
+        seen.add(key)
+        if record['status'] not in ('verified', 'needs-review'):
+            raise ValueError('Unknown review status: %s' % (key,))
+        path = (root / record['text_path']).resolve()
+        if (Path(record['text_path']).is_absolute() or not path.is_relative_to(root.resolve())
+                or not path.is_file() or record['text_sha256'] != hashlib.sha256(path.read_bytes()).hexdigest()):
+            raise ValueError('Unnumbered text changed or missing: %s' % (key,))
+        validate_evidence(record, key)
         if record['status'] == 'verified':
             covered.add(key)
     return covered
@@ -82,6 +105,10 @@ def main():
                        for book in books if books[book][0] == section)
         print('%s: %d/%d chapters; %d/%d verses; %d complete books' % (section, len(done), len(keys), count, total, complete))
     print('%d chapters still need verification' % (len(chapters) - len(covered)))
+    unnumbered = ledger.get('unnumbered', [])
+    reviewed = validate_unnumbered(unnumbered, books)
+    print('Unnumbered source texts: %d/%d verified separately; excluded from chapter/verse counts' %
+          (len(reviewed), len(unnumbered)))
 
 
 if __name__ == '__main__':

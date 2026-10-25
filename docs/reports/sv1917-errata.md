@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 102 rättade eller återställda versposter efter sju granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 109 rättade, återställda eller omnumrerade versposter efter åtta granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -122,6 +122,13 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A078 | [Tobit 14:10](https://runeberg.org/apokryf/0070.html) | **ochhuru illa han** | **och huru illa han** | Har samma fel; kontrollera bilden | [s. 66](https://runeberg.org/apokryf/0070.html), vänster spalt, v. 10 |
 | [ ] | A079 | [Tobit 14:12](https://runeberg.org/apokryf/0070.html) | **begrov i han henne** | **begrov han henne** | Har samma fel; kontrollera bilden | [s. 66](https://runeberg.org/apokryf/0070.html), höger spalt, v. 12 |
 | [ ] | A080 | [Tobit 14:13](https://runeberg.org/apokryf/0070.html) | **sin fader Tobits,** | **sin fader Tobits.** | Har samma fel; kontrollera bilden | [s. 66](https://runeberg.org/apokryf/0070.html), höger spalt, v. 13 |
+| [ ] | A081 | [Syrak 2:9](https://runeberg.org/apokryf/0073.html) | **vanten eder lycka** | **vänten eder lycka** | Har samma fel; kontrollera bilden | [s. 69](https://runeberg.org/apokryf/0073.html), vänster spalt, v. 9 |
+| [ ] | A082 | [Syrak 2:10](https://runeberg.org/apokryf/0073.html) | **åkallade honörn** | **åkallade honom** | Har samma fel; kontrollera bilden | [s. 69](https://runeberg.org/apokryf/0073.html), vänster spalt, v. 10 |
+| [ ] | A083 | [Syrak 3:14](https://runeberg.org/apokryf/0074.html) | **bliva förgäten i stället** | **bliva förgäten; i stället** | Har samma fel; kontrollera bilden | [s. 70](https://runeberg.org/apokryf/0074.html), längst ned till vänster, v. 14 |
+| [ ] | A084 | [Syrak 3:25](https://runeberg.org/apokryf/0074.html) | **Ett förmätet hjärta går det på sistone illa, och den som gärna giver sig i fara, han förgås däri.** | **Ingen verspost 3:25; texten flyttas till 3:26** | Sidans OCR anger 26 och 27; jämför tryckets not vid 25 | [s. 70](https://runeberg.org/apokryf/0074.html), höger spalt, v. 25 |
+| [ ] | A085 | [Syrak 3:26](https://runeberg.org/apokryf/0074.html) | **Ett förmätet hjärta bliver nedtyngt av vedermödor, och syndaren hopar synd på synd.** | **Ett förmätet hjärta går det på sistone illa, och den som gärna giver sig i fara, han förgås däri.** | Sidans OCR anger 26 och 27; jämför tryckets not vid 25 | [s. 70](https://runeberg.org/apokryf/0074.html), höger spalt, v. 26 |
+| [ ] | A086 | [Syrak 3:27](https://runeberg.org/apokryf/0074.html) | **Ingen egen verspost; texten låg i 3:26** | **Ett förmätet hjärta bliver nedtyngt av vedermödor, och syndaren hopar synd på synd.** | Sidans OCR anger 26 och 27; jämför tryckets not vid 25 | [s. 70](https://runeberg.org/apokryf/0074.html), höger spalt, v. 27 |
+| [ ] | A087 | [Syrak 5:12](https://runeberg.org/apokryf/0077.html) | **handen på munnen,** | **handen på munnen.** | Har samma fel; kontrollera bilden | [s. 73](https://runeberg.org/apokryf/0077.html), vänster spalt, v. 12 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -161,7 +168,7 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 517 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 80 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 87 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -175,3 +182,5 @@ Femte omgången: hela Judit, 16 kapitel och 340 versposter på 24 faksimilsidor,
 Sjätte omgången: hela Visheten, 19 kapitel och 436 versposter på 27 faksimilsidor, har jämförts visuellt. A037–A060 rättar 24 versposter, däribland de två versgränserna 14:19–20 och 16:8–9. Alla 19 kapitel är färdiga i liggaren. Tryckets äldre af i 2:16, avsaknaden av sluttecken i 8:18 och det ovanliga kommat i 12:18 är dokumenterade. Rättelsen st järnlågorna tar också bort falska lexikonkopplingar från det främmande st till saint och Stockholms-Tidningen.
 
 Sjunde omgången: hela Tobit, 14 kapitel och efter återställd versindelning 244 versposter på 17 faksimilsidor, har jämförts visuellt. A061–A080 omfattar 18 ändrade och två återställda versposter (11:19 och 13:18). Deras ordalydelse låg redan i föregående vers; ingen ny bibeltext har lagts till. Tio föråldrade undantag för saknade/sammanslagna verser har tagits bort ur utgåvemappningen; gränserna jämfördes även med grekiska och engelska vittnen. Tretton kapitel med 227 versposter är färdiga. Kapitel 3 med 17 versposter väntar på V004. Tryckets efter som i 4:19 behålls.
+
+Åttonde omgången: Syraks företal och hela kapitel 1–6 har jämförts mot tryckta s. 66–75. A081–A087 omfattar fyra text-/interpunktionsrättelser och omnumrering av 3:25–26 till 3:26–27. Numren 3:19 och 3:25 saknar löptext i denna tryckning. Företalets 348 ord i tre stycken är granskade och bevarade i en separat textfil med hash och bildhänvisningar i liggaren; texten är inte inläst i appens versdatabas och ingår inte i kapitel-/versräkningen. Sju mappningsrader uppdateras så att de rätta versnumren får rätt motsvarigheter.

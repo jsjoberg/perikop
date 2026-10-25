@@ -1,10 +1,12 @@
 #!/usr/bin/env -S uv run --locked
 """Coverage must not survive changed text or accept duplicate/missing evidence."""
 import copy
+import hashlib
+import tempfile
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools/corpus'))
-from check_swedish_verification import text_hash, validate
+from check_swedish_verification import text_hash, validate, validate_unnumbered
 
 rows = [('PrMan', 1, 1, 'Herre, du Allsmäktige.')]
 chapters = {('PrMan', 1): rows}
@@ -35,4 +37,27 @@ rejects([record | {'book': 'Unknown'}])
 bad = copy.deepcopy(record)
 bad['scans'][0]['url'] = 'https://example.com/scan.tif'
 rejects([bad])
+with tempfile.TemporaryDirectory() as directory:
+    root = Path(directory)
+    path = root / 'foretal.txt'
+    path.write_text('Genom lagen och profeterna.\n')
+    item = record | {'book': 'Sir', 'title': 'Företal', 'text_path': 'foretal.txt',
+                     'text_sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+    assert validate_unnumbered([item], {'Sir'}, root) == {('Sir', 'Företal')}
+    assert validate_unnumbered([item | {'status': 'needs-review'}], {'Sir'}, root) == set()
+    for invalid in ([item, item], [item | {'book': 'Unknown'}],
+                    [item | {'text_path': '../outside.txt'}], [item | {'scans': []}]):
+        try:
+            validate_unnumbered(invalid, {'Sir'}, root)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('Invalid unnumbered evidence was accepted')
+    path.write_text('Changed text.\n')
+    try:
+        validate_unnumbered([item], {'Sir'}, root)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('Changed unnumbered text was accepted')
 print('Swedish verification ledger checks passed')

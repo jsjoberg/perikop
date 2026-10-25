@@ -1168,6 +1168,156 @@
         }
       ],
       "notes": "Hela 14:1–15 jämförd mot tryckta s. 65–66. Bildstödda A078–A080 införda och återbyggda: ochhuru till och huru i 14:10, extra i i 14:12 och slutpunkt i 14:13. 14:1 står före kapitelrubriken. Fortsättningarna i 14:3 mellan spalterna, i 14:8 över sidgränsen och i 14:11 mellan spalterna kontrollerade, liksom alla åldersuppgifter och bokens sista Amen. Efterföljande Syraks företal räknas inte som granskat."
+    },
+    {
+      "book": "Sir",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "3e258c118899bf414930e48a9b3d9cbb9b7831c0a1ab5381eedec2c64eeecea1",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0071.1.tif",
+          "sha256": "297a5287fa63da3767b310b1daa626ae51152b4e0f9857422e4afb024cd90a07"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0072.1.tif",
+          "sha256": "7d440e60dbc1882b9e496cec8e829258799de8660e13f03993e9672a1eb30264"
+        }
+      ],
+      "notes": "Hela 1:1–30 enligt tryckets numrering jämförd mot tryckta s. 67–68; 27 versposter och inga nya avvikelser. Numren 5, 7 och 21 saknar bibeltext i trycket och är inte bortfall i korpusen. Företalet jämförs och bevaras separat utan att räknas som vers. Tidigare återställd 1:1 och borttagen hakparentesrest vid 1:6–7 kontrollerade. Sidövergången efter 1:13 samt fortsättningen av 1:25 mellan spalterna kontrollerade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "4e4b9d968e7317075a82f56f35702e101afd805cad8480b9e44aaf58c4222cf1",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0072.1.tif",
+          "sha256": "7d440e60dbc1882b9e496cec8e829258799de8660e13f03993e9672a1eb30264"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0073.1.tif",
+          "sha256": "944d30739728a73d04251ae57bcd8f648101defc796a64641c54dca992bf859c"
+        }
+      ],
+      "notes": "Hela 2:1–18 jämförd mot tryckta s. 68–69. Bildstödda A081–A082 införda och återbyggda: vanten till vänten i 2:9 och honörn till honom i 2:10. Sidövergången i 2:2 och spaltövergången i 2:13 kontrollerade, liksom det avslutande citatet i 2:18."
+    },
+    {
+      "book": "Sir",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "70f3518549bb3bbd35759d40c4ab2106a1b0f886899929be81cf9b235a650e22",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0073.1.tif",
+          "sha256": "944d30739728a73d04251ae57bcd8f648101defc796a64641c54dca992bf859c"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0074.1.tif",
+          "sha256": "58ea6fb2ed3b9aee0a59999140b7db566f79d13a7fea7e21a49ee8acd7c617b2"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0075.1.tif",
+          "sha256": "151210bb9d4f3b9ff5083547e567bd111cc4530fa673e84426adce1601fc302b"
+        }
+      ],
+      "notes": "Hela 3:1–31 enligt tryckets numrering jämförd mot tryckta s. 69–71; 29 versposter. A083–A086 införda och återbyggda: saknat semikolon i 3:14 och felaktigt numrerade 3:25–26 ska vara 3:26–27. Tryckets notapparat hänvisar vid 25 till 19; båda saknar löptext. Högra sifferkanten på s. 70 är avskuren i bilden, men Runebergs sparade sid-OCR har uttryckligen 26 och 27 och ordalydelsen motsvarar grc-lxx/en-lxx2012 3:26–27. Alla ord, skiljetecken och övergångar jämförda, inklusive den delvis skadade raden 3:31."
+    },
+    {
+      "book": "Sir",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "f936703902d01bfd40b1da6581005fd9b95b6c34f97f34dd890a8540b7c1cffe",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0075.1.tif",
+          "sha256": "151210bb9d4f3b9ff5083547e567bd111cc4530fa673e84426adce1601fc302b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0076.1.tif",
+          "sha256": "79736ab263e5f13bd0f1a8fb9e8ba00d0d925abec96963f2279c3adb1fcfd14a"
+        }
+      ],
+      "notes": "Hela 4:1–31 jämförd mot tryckta s. 71–72; inga nya avvikelser. A003 i 4:8 verifierad på nytt. Tidigare återställd 4:31 står efter rubriken för kapitel 5 men tillhör kapitel 4. Fortsättningarna av 4:5 och 4:25 mellan spalterna kontrollerade, liksom alla satser och skiljetecken."
+    },
+    {
+      "book": "Sir",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "6bb2b69ec88d9f9048b65cf06055755d46613910f12baeab311df0dfab66f04f",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0076.1.tif",
+          "sha256": "79736ab263e5f13bd0f1a8fb9e8ba00d0d925abec96963f2279c3adb1fcfd14a"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0077.1.tif",
+          "sha256": "2c9cebb514473aa8f9052d9dc6d179b1a72670ec53e0b86be2c98e1460bcd275"
+        }
+      ],
+      "notes": "Hela 5:1–15 jämförd mot tryckta s. 72–73. Bildstödd A087 införd och återbyggd: sluttecknet i 5:12 ska vara punkt, inte komma. Sidövergången i 5:4 och spaltövergången i 5:14 kontrollerade. Vers 6:1 står före kapitelrubriken och är rätt hänförd till nästa kapitel."
+    },
+    {
+      "book": "Sir",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 37,
+      "text_sha256": "d6b8af7b86285e86d7bdc23951824ea351018710542b42b9661f4cc9a9ac6394",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0077.1.tif",
+          "sha256": "2c9cebb514473aa8f9052d9dc6d179b1a72670ec53e0b86be2c98e1460bcd275"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0078.1.tif",
+          "sha256": "fda858ecd98a24d42525ecb2823ae560df11187d500522d9f964a0a027406e92"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0079.1.tif",
+          "sha256": "7e27945b1082ad4289722331275f8211fe99144e92422cfa9e1cf07eadef6743"
+        }
+      ],
+      "notes": "Hela 6:1–37 jämförd mot tryckta s. 73–75; inga nya avvikelser. 6:1 står före kapitelrubriken. Fortsättningen av 6:18 mellan spalterna och sidövergångarna efter 6:6 och 6:28 kontrollerade. Samtliga ord i beskrivningen av vänskap och vishetens bojor jämförda. Efterföljande Syrak 7 är inte färdigläst och räknas inte här."
+    }
+  ],
+  "unnumbered": [
+    {
+      "book": "Sir",
+      "title": "Företal",
+      "status": "verified",
+      "text_path": "docs/reports/sv1917-syrak-foretal.txt",
+      "text_sha256": "2a6e7686f2548a8d0a94b4075cd223788cf8e81019dfb7ee81a8384386d730ea",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0070.1.tif",
+          "sha256": "ff43420a4b8d33cb60f2c171141e7bb031b8b4d164c323898b04bfc0c6155c9e"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0071.1.tif",
+          "sha256": "297a5287fa63da3767b310b1daa626ae51152b4e0f9857422e4afb024cd90a07"
+        }
+      ],
+      "notes": "Hela det onumrerade företalet på tryckta s. 66–67 jämfört ord för ord, inklusive tre stycken och fortsättningar mellan spalter och sidor. Den ursprungliga Swe1917-transkriptionen är korrekt i denna text; redaktionellt referat och efterföljande 1:1 är avskilda. Texten bevaras i en separat granskad fil och är inte inläst i appens versdatabas. Den räknas varken som kapitel eller versposter."
     }
   ]
 }

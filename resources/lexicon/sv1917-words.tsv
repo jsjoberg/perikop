@@ -20,7 +20,7 @@ med	7577	word	"me:d
 av	7271	word	
 dem	6933	word	"dOm
 så	6856	word	"so:
-honom	6734	word	""hO$nOm
+honom	6735	word	""hO$nOm
 har	6695	word	"hA:r
 du	6355	word	"d}:
 sig	5118	word	"sEj
@@ -7178,6 +7178,7 @@ vägfarande	7	word	""vE:g$%fA:$ran$de
 väggarna	7	word	""vE$ga$n`a
 välfärd	7	word	""vE:l$%fE:d`
 väntan	7	word	""vEn$tan
+vänten	7	word	"vEn$ten
 väva	7	word	""vE:$va
 vågorna	7	word	""vo:$gU$n`a
 våldsam	7	word	""vOld$%sam
@@ -8033,7 +8034,6 @@ väldigheter	6	word	""vEl$dIg$%he:$ter
 välgång	6	word	""vE:l$%gON
 vältrade	6	word	""vEl$tra$de
 väntat	6	word	""vEn$tat
-vänten	6	word	"vEn$ten
 vävt	6	word	"vE:ft
 våden	6	word	"vo:$den
 vågor	6	word	""vo:$gUr
@@ -11754,7 +11754,6 @@ hjälpkvinnan	3	word
 hjälplösa	3	word	""jElp$%l2:$sa
 hjältekraft	3	word	
 hjärtesår	3	word	""jE$t`e$%so:r
-honörn	3	word	
 hopsamlat	3	word	
 horoniten	3	word	
 horéerna	3	word	
@@ -15087,6 +15086,7 @@ hjärteångest	2	word
 hjärtlig	2	word	""jEt`$l`Ig
 hona	2	word	""hu:$na
 honungskaka	2	word	""ho:$nu0Ns$%kA:$ka
+honörn	2	word	
 hoparna	2	word	""hu:$pa$n`a
 hopfäst	2	word	""hu:p$%fEst
 hopknådat	2	word	
@@ -16951,7 +16951,6 @@ vandringstid	2	word
 vanligen	2	word	""vA:n$lI$gen
 vansinnig	2	word	""vA:n$%sI$nIg
 vanställt	2	word	""vA:n$%stElt
-vanten	2	word	"van$ten
 vanvettigt	2	word	""vA:n$%vE$tIkt
 vanvördnad	2	word	""vA:n$%v2:d`$n`ad
 vapendragaren	2	word	""vA:$pen$%drA:$ga$ren
@@ -27683,6 +27682,7 @@ vanor	1	word	""vA:$nUr
 vanryktad	1	word	""vA:n$%rYk$tad
 vanrykte	1	word	""vA:n$%rYk$te
 vanställa	1	word	""vA:n$%stE$la
+vanten	1	word	"van$ten
 vanvettig	1	word	""vA:n$%vE$tIg
 vanvettingar	1	word	
 vanvörda	1	word	
