@@ -18,10 +18,10 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
-| Svenska apokryfer | 6 / 12 | 119 / 148 | 3 470 / 4 372 |
+| Svenska apokryfer | 7 / 12 | 125 / 148 | 3 705 / 4 372 |
 | GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 3 508 versposter färdiglästa i detta protokoll. Det motsvarar 12,7 % av versposterna i GT och apokryfer tillsammans: 79,4 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 3 743 versposter färdiglästa i detta protokoll. Det motsvarar 13,6 % av versposterna i GT och apokryfer tillsammans: 84,7 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -35,7 +35,8 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | Tobit | 1–2 och 4–14; 13 av 14 kapitel, 227 versposter | 50–66 / [0054](https://runeberg.org/apokryf/0054.html)–[0070](https://runeberg.org/apokryf/0070.html) | A061–A080 införda, inklusive återställda 11:19 och 13:18; kapitel 3 väntar på V004 |
 | Syrak | 1–37 och 39–51; 50 av 51 kapitel, 1 335 versposter | 67–144 / [0071](https://runeberg.org/apokryf/0071.html)–[0148](https://runeberg.org/apokryf/0148.html) | A081–A145 införda; rättade gränser i 11:30–31, 12:2–4, 13:15–16, 40:15–16 och 47:4–5 samt numrering i 3:26–27. Hela boken bildläst; kapitel 38 väntar på V005 |
 | Baruk, inklusive Jeremias brev | Hela 1–6, 213 versposter | 145–156 / [0149](https://runeberg.org/apokryf/0149.html)–[0160](https://runeberg.org/apokryf/0160.html) | A146–A156 införda, inklusive återställd 3:38 med individuella parallellmappningar |
-| 1 Mackabeerboken | Hela 1–12, 757 versposter; 12 av 16 kapitel | 157–197 / [0161](https://runeberg.org/apokryf/0161.html)–[0201](https://runeberg.org/apokryf/0201.html) | A157–A192 införda, inklusive rättad gräns 10:27–28; 13–16 återstår |
+| 1 Mackabeerboken | Hela 1–16, 924 versposter | 157–206 / [0161](https://runeberg.org/apokryf/0161.html)–[0210](https://runeberg.org/apokryf/0210.html) | A157–A199 införda, inklusive rättad gräns 10:27–28; hela boken verifierad |
+| 2 Mackabeerboken | Hela 1–2, 68 versposter; 2 av 15 kapitel | 207–211 / [0211](https://runeberg.org/apokryf/0211.html)–[0215](https://runeberg.org/apokryf/0215.html) | A200–A202 införda; 3–15 återstår |
 
 ## Onumrerad text
 
@@ -43,7 +44,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Återstår
 
-**Apokryfer:** Judit 5 och Tobit 3 väntar på bedömning av V003 respektive V004. Syrak 38 väntar på V005. Hela Syrak är bildläst och hela Baruk är verifierad. 1 Mackabeerboken 1–12 är verifierad; 13–16, hela 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
+**Apokryfer:** Judit 5 och Tobit 3 väntar på bedömning av V003 respektive V004. Syrak 38 väntar på V005. Hela Syrak är bildläst; hela Baruk och Första Mackabeerboken är verifierade. Andra Mackabeerboken 1–2 är verifierad; 3–15 och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
 
 **GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
@@ -53,7 +54,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Nästa arbetsblock
 
-1. Fortsätt med **1 Mackabeerboken 13** från [skannummer 0201, tryckt s. 197](https://runeberg.org/apokryf/0201.html). Kapitel 1–12 är verifierade; endast texten till och med slutet av 12:53 på denna sida är tillgodoräknad. Därefter återstår 14–16, 2 Mackabeerboken och Tillägg till Ester. Sök även oberoende tryck för V001–V005.
+1. Fortsätt med **2 Mackabeerboken 3** från [skannummer 0215, tryckt s. 211](https://runeberg.org/apokryf/0215.html). Hela Första Mackabeerboken och Andra Mackabeerboken 1–2 är verifierade; endast texten till och med slutet av 2:32 på denna sida är tillgodoräknad. Därefter återstår 4–15 och Tillägg till Ester. Sök även oberoende tryck för V001–V005.
 2. Lägg till en kapitelpost först efter full jämförelse och efter att eventuella rättelser har återbyggts i korpusen. `needs-review` används om något fortfarande är olöst.
 3. Kör liggarkontrollen och relevanta regressioner. Uppdatera denna sammanställning och PR #64 vid varje färdigt arbetsblock. Lämna ofärdiga kapitel uttryckligen ofärdiga.
 
@@ -91,3 +92,5 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 15:** läste hela 1 Mackabeerboken 1–6 på tryckta s. 157–176; 386 versposter. A157–A171 införda, femton rättade versposter. Exakt dessa femton texter ändrade; alla verskoordinater, övriga texter, mappningar och lexikonsinnen oförändrade. Tryckets versaler Honom/Han och kommat efter hava i 4:16 bekräftade och behållna. Alla sex kapitel verifierade. Totalt 190 unika bildsidor och 3 137 färdiga versposter i 115 kapitel, plus Syraks företal. 962 kapitel återstår. Nästa kapitel är 1 Mackabeerboken 7; V001–V005 kvarstår. Liggar- och kandidattester, core-storage-speech, sex OSB-tester och samtliga 122 resurshashar godkända.
 
 - **2026-10-25, block 16:** läste hela 1 Mackabeerboken 7–12 på tryckta s. 176–197; 371 versposter. A172–A192 införda, 21 rättade versposter inklusive flytt av I gören till vårt gagn; från 10:28 till slutet av 10:27 utan ordändring. Före-/efterjämförelse bekräftar exakt dessa ändringar, bevarad sammanhängande text över versgränsen, oförändrade koordinater, övriga språk och mappningar samt oförändrade tidigare kapitelposter. Avträda får det korrekta SALDO-sinnet överlåta; 12 737 SALDO-sinnen och 7 591 Dalin-poster. Tryckets Indien i 8:8 och kommat efter fläck i 9:10 behållna. Totalt 211 unika bildsidor och 3 508 färdiga versposter i 121 kapitel, plus Syraks företal. 956 kapitel återstår. Nästa kapitel är 1 Mackabeerboken 13; V001–V005 kvarstår. Grenen ombaserad utan konflikter på main ed4474c; alla femton tidigare granskningscommittar är identiska enligt range-diff. CI på föregående publicerade version godkänd på Linux x64/arm64, macOS arm64, Windows x64 samt Linux/macOS-sanitizers; ny CI krävs efter publicering av denna omgång. Liggar- och kandidattester, core-storage-speech, sex OSB-tester och samtliga 122 resurshashar samt korpusens teckentäckning godkända. Diffens blankstegskontroll godkänd.
+
+- **2026-10-25, block 17:** läste hela 1 Mackabeerboken 13–16 och 2 Mackabeerboken 1–2 på tryckta s. 197–211; 235 versposter. A193–A202 införda, tio rättade poster. Hela Första Mackabeerboken är verifierad: 16 kapitel och 924 versposter. Andra Mackabeerboken 1–2 har 68 färdiga poster. Före-/efterjämförelse bekräftar exakt dessa tio ändringar; alla koordinater, övriga texter, språkversioner, mappningar och tidigare kapitelposter oförändrade. Besättning tar bort falska Be/beryllium- och sättning-sinnen; författarens återfår författare i båda lexikonen. Nu 12 734 SALDO-sinnen och 7 590 Dalin-poster. Tryckets adertonde och Saramel i 1 Mack. 14:27 och I mån i 2 Mack. 2:15 behållna. Totalt 225 unika bildsidor och 3 743 färdiga versposter i 127 kapitel, plus Syraks företal. 950 kapitel återstår. Nästa kapitel är 2 Mackabeerboken 3; V001–V005 kvarstår. Liggar- och kandidattester, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända.

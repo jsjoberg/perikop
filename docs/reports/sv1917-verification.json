@@ -2756,6 +2756,154 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive samtliga sid- och spaltfortsättningar, de båda breven till Sparta och Tryfons tillfångatagande av Jonatan. A191–A192: saknad punkt efter Rom återställs i 12:3 och oni → om i 12:22. Tryckets Stora råd i 12:6 och sabadéer i 12:31 behållna; fotnotstecknet efter Judeen i 12:35 ingår inte i löptexten. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 53,
+      "text_sha256": "0378f7bde47609edc629c1e0fe7f80fa22a33e5747d1389810aa0e11f383d465",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0201.1.tif",
+          "sha256": "3b9d37ff3079bf99d52592436b2d82dad5e14ebb5a42de672a71e722b19db840"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0202.1.tif",
+          "sha256": "98f554f62a3ca8f9bb5cb086ee200187e3e489cf5eb36e869ddcdc1d5eb4a8b1"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0203.1.tif",
+          "sha256": "841adbdf5be72b7d35af1cbe13ca1e757bc6988dcd043b8803123bd21059c9bd"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0204.1.tif",
+          "sha256": "df6e796044a8c161085ad4ffa03a6d574eb709b84648caf259b46147fce02f0e"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 13:13, 13:33 och 13:51 samt spaltfortsättningen i 13:22. A193: jags → jag i 13:5. Alla övriga ord, skiljetecken och versgränser bekräftade, inklusive tidigare avskiljda 13:14–15 och citatet över 13:45–46."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 49,
+      "text_sha256": "40617793d9ec2bd9784a88e31e25f25506799b617e566ae2950917eec8b9f910",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0204.1.tif",
+          "sha256": "df6e796044a8c161085ad4ffa03a6d574eb709b84648caf259b46147fce02f0e"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0205.1.tif",
+          "sha256": "1e5b1dcd71aebb9d512aab99420cdcd5a9d5e57818c7ee22373cf0a5fe8ecd6e"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0206.1.tif",
+          "sha256": "fdbd9b4c019abe86d282ccaf5082da88b87e7fa06d48ec249c50e72c6459ef15"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0207.1.tif",
+          "sha256": "b66d4796f6bacb5d0981929704408e939bb638aa4845564494c2e2d800452d01"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 14:29 och 14:46 samt spaltfortsättningarna i 14:3, 14:22 och 14:37. A194–A195: citatmellanslag i 14:22 och borttagen radslutsavstavning i besättning i 14:33. A024, uppsyningsmän i 14:42, återkontrollerad. Tryckets adertonde och Saramel i 14:27 behållna; notens tolkning av Saramel ingår inte i bibeltexten. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 41,
+      "text_sha256": "863fe7d9907eca394a8e789c4a23e50a42bb08813070f210846db3071d9ef41e",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0207.1.tif",
+          "sha256": "b66d4796f6bacb5d0981929704408e939bb638aa4845564494c2e2d800452d01"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0208.1.tif",
+          "sha256": "3bc2045b5eb2dd14b73794d0f1de3fa9d86a160050571a12cc9a48e595b8d39f"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0209.1.tif",
+          "sha256": "7355100c2e5c6f4e9192256411c975ffcc2fe6837062c0d4df24cc1da335b1aa"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 15:12 och 15:32 samt spaltfortsättningarna i 15:3, 15:23 och 15:41. A196: radslutsavstavning i Halikarnassus i 15:23 borttagen. A010, som i 15:41, återkontrollerad. Versgränserna 15:1–2 och 15:16–17 bekräftade: marginalnumren står vid rader som också innehåller slutet av föregående vers, medan nästa vers börjar vid Det var respektive Judarnas. Tryckets kommatering i 15:35–36 och tankstrecken i 15:3–4 behållna med e-textens typografiska återgivning. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "1Macc",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "3bddc25cfa67e64f21e2ca3d6a9016168d2060c7bcc3c9ef623adfb50ec9c9e8",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0209.1.tif",
+          "sha256": "7355100c2e5c6f4e9192256411c975ffcc2fe6837062c0d4df24cc1da335b1aa"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0210.1.tif",
+          "sha256": "87604a5a21563719216ca5a08f3e037e75b9ad208d3cf6314e0ede640e0fc125"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 16:6 och spaltfortsättningen i 16:16. A197–A199: Cende-beus → Cendebeus i 16:1 samt Gendebeus → Cendebeus i 16:4 och 16:9. Begick i 16:17 återkontrollerat i originalupplösning. Alla övriga ord, skiljetecken och versgränser bekräftade, inklusive avslutningen 16:23–24. Därmed är hela Första Mackabeerboken bildläst."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "c0a94d958ad20cedadfb3ddd6182846da24651288a25dee626853c1feac8b444",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0211.1.tif",
+          "sha256": "252ea2de37067c9796811b8a86d7983f15be83fa916fef81faba26ff93fec895"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0212.1.tif",
+          "sha256": "2be8a8ac2ec63aa39c99c39588709acf635ab1e65f8dccc03011376404ffc6ad"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0213.1.tif",
+          "sha256": "dd4c1337711a6610523740ffdf74ca8d694fdc1801dd59a3bd9a94f4d359e6fc"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 1:16 och 1:33 samt spaltfortsättningarna i 1:9 och 1:22. A200: inledande citattecken före De återställt i 1:1. Båda breven, bönen 1:24–29 och avslutningen 1:34–36 jämförda. Tryckets Stora rådet i 1:10, Neemias och formerna neftar/neftai i 1:36 behållna. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "a5f600e3e54b4965ca7f3b3a5fbc4fec68d5583d9f8649c2819b49f1902c89a4",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0213.1.tif",
+          "sha256": "dd4c1337711a6610523740ffdf74ca8d694fdc1801dd59a3bd9a94f4d359e6fc"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0214.1.tif",
+          "sha256": "640ef2e5aa4e18d534d7a28ee34e0c1cb00700c7475d804f2848e3b9fd3a466f"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0215.1.tif",
+          "sha256": "49945335309c4f942df5f6fe91dfdb32fe9c218d7ff2f80633b1477977a0025d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 2:13 och 2:30 samt spaltfortsättningarna i 2:4 och 2:22. A201–A202: inledande citattecken före Man återställt i 2:1 och författareris → författarens i 2:28. Både brevets avslutning 2:1–18 och bokens företal 2:19–32 jämförda; företalet ingår här i numrerad bibeltext. Tryckets I mån i 2:15 och tankstrecken i 2:22 och 2:26 behållna med e-textens typografiska återgivning. Alla övriga ord, skiljetecken och versgränser bekräftade."
     }
   ],
   "unnumbered": [

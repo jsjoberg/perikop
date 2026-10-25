@@ -1087,6 +1087,14 @@ int main(int argc, char** argv) {
                  {"1Macc", {11, 67}, "bröto nuu bittida", "bröto nu bittida"},
                  {"1Macc", {12, 3}, "åstad till Rom När", "åstad till Rom. När"},
                  {"1Macc", {12, 22}, "och säga oni det", "och säga om det"},
+                 {"1Macc", {13, 5}, "att jags någonsin", "att jag någonsin"},
+                 {"1Macc", {14, 22}, "upptecknat följande:’Numenius", "upptecknat följande: ’Numenius"},
+                 {"1Macc", {14, 33}, "judar såsom be- sättning.", "judar såsom besättning."},
+                 {"1Macc", {15, 23}, "Halikarnas-sus", "Halikarnassus"},
+                 {"1Macc", {16, 1}, "vad Cende-beus förövade.", "vad Cendebeus förövade."},
+                 {"1Macc", {16, 4}, "mot Gendebeus och", "mot Cendebeus och"},
+                 {"1Macc", {16, 9}, "som Gendebeus hade befäst.", "som Cendebeus hade befäst."},
+                 {"2Macc", {2, 28}, "verklige författareris sak", "verklige författarens sak"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1105,6 +1113,9 @@ int main(int argc, char** argv) {
                       "corrected First Maccabees verses align individually in both directions");
             }
         }
+        check(corpus.verse("sv1917", "2Macc", {1, 1})->text.starts_with("»De judiska bröderna i Jerusalem") &&
+                  corpus.verse("sv1917", "2Macc", {2, 1})->text.starts_with("»Man finner i urkunderna"),
+              "Second Maccabees preserves the printed opening quotation marks in both letter sections");
         check(corpus.verse("sv1917", "Wis", {14, 20})->text.starts_with("och så begynte mängden, som fängslades genom") &&
                   corpus.verse("sv1917", "Wis", {16, 8})->text.ends_with("att du är den som frälsar ifrån allt ont."),
               "Wisdom verse boundaries retain their complete opening and closing phrases");

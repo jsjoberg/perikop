@@ -13,7 +13,7 @@ skall	8264	word	"skal
 på	8257	word	
 icke	8179	word	""I$ke
 för	8153	word	"f2:r
-jag	8125	word	"jA:g
+jag	8126	word	"jA:g
 den	7756	word	
 med	7577	word	"me:d
 är	7547	word	"E:r
@@ -5227,6 +5227,7 @@ besatta	10	word	be$"sa$ta
 bespotta	10	word	be$"spO$ta
 bespottar	10	word	be$"spO$tar
 bespottare	10	word	be$"spO$ta$re
+besättning	10	word	be$"sEt$nIN
 betogos	10	word	
 betrodd	10	word	be$"trUd
 bistånd	10	word	""bi:$%stOnd
@@ -5655,7 +5656,6 @@ bese	9	word	be$"se:
 besittningar	9	word	be$"sIt$nIN$ar
 beskydda	9	word	be$"x\Y$da
 bestryka	9	word	be$"stry:$ka
-besättning	9	word	be$"sEt$nIN
 besättningen	9	word	be$"sEt$nIN$en
 betyga	9	word	be$"ty:$ga
 blomster	9	word	"blOm$ster
@@ -7239,6 +7239,7 @@ Bene	6	name
 Besek	6	name	
 Boset	6	name	
 Celesyrien	6	name	
+Cendebeus	6	name	
 Delila	6	name	
 Dit	6	word	"di:t
 Doeg	6	name	
@@ -10729,7 +10730,6 @@ Blygs	3	word	"bly:gs
 Bryten	3	word	
 Bunni	3	name	
 Cedron	3	name	
-Cendebeus	3	name	
 Dag	3	word	"dA:g
 Debar	3	name	
 Dedans	3	name	
@@ -12524,7 +12524,6 @@ suga	3	word	""s}:$ga
 sunemitiskan	3	word	
 sunnanvinden	3	word	""su0$nan$%vIn$den
 sura	3	word	""s}:$ra
-sus	3	word	"s}:s
 svaja	3	word	""sva$ja
 svalan	3	word	""svA:$lan
 svalka	3	word	""sval$ka
@@ -13309,7 +13308,6 @@ Gebas	2	name
 Gedera	2	name	
 Gederot	2	name	
 Gedors	2	name	
-Gendebeus	2	name	
 Genubat	2	name	
 Gersoniternas	2	word	
 Geter	2	name	
@@ -16463,6 +16461,7 @@ stötestenar	2	word	""st2:$te$%ste:$nar
 suckande	2	word	""su0$kan$de
 suckans	2	word	
 surt	2	word	"s}:t`
+sus	2	word	"s}:s
 susning	2	word	""s}:$snIN
 svagas	2	word	""svA:$gas
 svage	2	word	""svA:$ge
@@ -17685,7 +17684,6 @@ Bönfallen	1	name
 Bör	1	word	"b2:r
 Börda	1	word	""b2:$d`a
 Bördemannen	1	word	
-Cende	1	name	
 Cyamon	1	name	
 Cyrus	1	name	"sy:$ru0s
 DE	1	word	
@@ -18129,7 +18127,7 @@ Hajearim	1	name
 Hakmonis	1	name	
 Halhul	1	name	
 Hali	1	name	
-Halikarnas	1	name	
+Halikarnassus	1	name	
 Halluhits	1	name	
 Halluhots	1	name	
 Halm	1	word	"halm
@@ -20370,7 +20368,6 @@ basiliskägg	1	word
 basunklangens	1	word	
 basunstöt	1	word	
 batmått	1	word	
-be	1	word	"be:
 bearbetning	1	word	""be:$ar$%be:t$nIN
 beblandade	1	word	be$"bland$da$de
 beblandning	1	word	be$"bland$nIN
@@ -20680,7 +20677,6 @@ betänksam	1	word	be$"tENk$sam
 betänksamhet	1	word	be$""tENk$sam$%he:t
 beundra	1	word	be$"u0n$dra
 beundran	1	word	be$"u0n$dran
-beus	1	word	
 bevarades	1	word	be$"vA:$ra$des
 beveka	1	word	be$"ve:$ka
 bevekande	1	word	be$"ve:$kan$de
@@ -21915,7 +21911,7 @@ förfaringssätt	1	word	f9r$""fA:$rINs$%sEt
 förfarits	1	word	f9r$"fA:$rIts
 förfarnaste	1	word	
 författade	1	word	f9r$"fa$ta$de
-författareris	1	word	
+författarens	1	word	f9r$"fa$ta$rens
 författat	1	word	f9r$"fa$tat
 förfelat	1	word	f9r$"fe:$lat
 förfluten	1	word	f9r$"fl}:$ten
@@ -23280,7 +23276,6 @@ isär	1	word	I$"sE:r
 ivrare	1	word	""i:$vra$re
 jafletiternas	1	word	
 jagat	1	word	""jA:$gat
-jags	1	word	"jA:gs
 jairiten	1	word	
 jakiniternas	1	word	
 jaktbyte	1	word	""jakt$%by:$te
@@ -26614,7 +26609,6 @@ sängpallen	1	word
 sängstolparna	1	word	""sEN$%stOl$pa$n`a
 sängstolpen	1	word	""sEN$%stOl$pen
 sänklodet	1	word	""sENk$%lu:$det
-sättning	1	word	""sEt$nIN
 sävhank	1	word	
 sådanas	1	word	
 sådda	1	word	""sO$da
