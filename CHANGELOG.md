@@ -29,7 +29,7 @@ Reading-plan progress and resume positions start over; daily-reading marks, book
 ### Changed
 
 - Read-aloud uses an installed eSpeak NG; the app is about 200 MB smaller.
-- Swedish pronunciations stored as eSpeak phoneme codes; IPA corrections converted.
+- Swedish pronunciations stored as eSpeak phoneme codes.
 - Releases ship only self-updating packages; 0.1.x installs need one manual download.
 - Linux AppImages built on Debian 13; they need glibc 2.39, as in Enterprise Linux 10.
 - macOS needs Apple Silicon and macOS 15.
@@ -59,6 +59,7 @@ Reading-plan progress and resume positions start over; daily-reading marks, book
 ### Removed
 
 - Alice and Björn voices, ONNX Runtime and the speech audio cache.
+- Swedish pronunciation review (**Granska svenskt uttal…**).
 - NSIS installer, DMG and plain AppImage.
 - Ubuntu 24.04, Debian 12 and Enterprise Linux 9 support.
 - Intel Mac builds.
