@@ -154,18 +154,4 @@ public:
 private:
     DatabaseHandle db_;
 };
-struct PronunciationDecision {
-    std::string form, status, spoken, note;
-};
-class PronunciationReviewDb {
-public:
-    explicit PronunciationReviewDb(const std::filesystem::path&);
-    std::vector<PronunciationDecision> decisions() const;
-    void save(const PronunciationDecision&);
-    std::vector<Pronunciation> overrides() const;
-    void export_tsv(const std::filesystem::path&) const;
-
-private:
-    DatabaseHandle db_;
-};
 } // namespace ortho

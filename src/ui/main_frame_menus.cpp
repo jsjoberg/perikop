@@ -75,7 +75,6 @@ enum {
     Faster,
     Slower,
     NormalRate,
-    Review,
     CheckUpdates,
     AddBookmark
 };
@@ -592,8 +591,6 @@ void MainFrame::make_menus() {
     reading->AppendSeparator();
     reading->Append(CheckUpdates, ui::utf8("Sök efter uppdateringar…"),
                     ui::utf8("Sök på den valda uppdateringskanalen"));
-    reading->Append(Review, ui::utf8("Granska svenskt uttal…"),
-                    ui::utf8("Lyssna på och rätta hur ord uttalas vid uppläsning"));
 #ifdef __WXOSX__
     // macOS moves this item to the application menu, where About belongs, and Hjälp would be empty.
     view->Append(wxID_ABOUT, "Om Perikop");
@@ -732,15 +729,11 @@ void MainFrame::make_menus() {
                     stop_speech();
                 return;
             }
-            if (id == Review) {
-                review_pronunciation();
-                return;
-            }
             settings_.word_study = id == Study;
             settings_.split_view = id == Parallel;
             apply_settings();
         },
-        Today, Review);
+        Today, NormalRate);
 }
 void MainFrame::show_menu() {
     sync_menu();
@@ -795,7 +788,6 @@ void MainFrame::show_menu() {
         popup.item(ui::utf8("Inställningar…"), shortcut_of("\tCtrl+,"), true, command(wxID_PREFERENCES),
                    ui::utf8("Färgschema, tema, kalender, läsordning och röst"));
         item(CheckUpdates);
-        item(Review);
         popup.item("Om Perikop", {}, true, command(wxID_ABOUT), ui::utf8("Version, källor och licenser"));
         // Last, as in Chrome.
         popup.separator();

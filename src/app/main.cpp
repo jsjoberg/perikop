@@ -41,7 +41,7 @@ public:
         SetVendorName("orthodox-reader");
         SetAppDisplayName("Perikop");
         wxInitAllImageHandlers();
-        bool smoke = false, benchmark = false, reader = false, pronunciation_review = false;
+        bool smoke = false, benchmark = false, reader = false;
         wxString resource_override, profile_override, screenshot, update_probe;
         auto date = ortho::local_civil_date();
         for (int i = 1; i < argc; ++i) {
@@ -52,8 +52,6 @@ public:
                 benchmark = true;
             else if (arg == "--reader")
                 reader = true;
-            else if (arg == "--pronunciation-review")
-                pronunciation_review = true;
             else if ((arg == "--resources" || arg == "--profile" || arg == "--date" ||
                       arg == "--screenshot" || arg == "--update-probe") &&
                      i + 1 < argc) {
@@ -182,10 +180,6 @@ public:
             frame->Show();
             if (reader)
                 frame->open_psalm();
-            if (pronunciation_review)
-                frame->CallAfter([frame] {
-                    frame->review_pronunciation();
-                });
             if (smoke || benchmark) {
                 timer_ = std::make_unique<wxTimer>(this);
                 Bind(wxEVT_TIMER, [this, frame, screenshot, benchmark](wxTimerEvent&) {

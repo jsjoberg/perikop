@@ -5,7 +5,6 @@
 #include "ui/bible_picker.hpp"
 #include "ui/controls.hpp"
 #include "ui/month_calendar.hpp"
-#include "ui/pronunciation_review.hpp"
 #include "ui/reading_tooltips.hpp"
 #include "ui/scripture_view.hpp"
 #include "ui/study_panel.hpp"
@@ -15,7 +14,6 @@
 #include <wx/app.h>
 #include <wx/button.h>
 #include <wx/eventfilter.h>
-#include <wx/log.h>
 #include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
@@ -465,28 +463,7 @@ Reading MainFrame::in_swedish(Reading reading) const {
     return reading;
 }
 std::vector<Pronunciation> MainFrame::speech_lexicon(const std::string& language) const {
-    auto result = corpus_.pronunciations(language);
-    if (language == "sv" && pronunciation_review_) {
-        try {
-            const auto overrides = pronunciation_review_->overrides();
-            result.insert(result.begin(), overrides.begin(), overrides.end());
-        } catch (const std::exception& e) {
-            wxLogWarning("Uttalskorrigeringar kunde inte läsas: %s", ui::utf8(e.what()));
-        }
-    }
-    return result;
-}
-void MainFrame::review_pronunciation() {
-    stop_speech();
-    try {
-        if (!pronunciation_review_)
-            throw std::runtime_error(pronunciation_error_);
-        show_pronunciation_review(this, corpus_, *pronunciation_review_, *speech_, resources_);
-    } catch (const std::exception& e) {
-        wxMessageBox(ui::utf8(e.what()), ui::utf8("Uttalsgranskning"), wxOK | wxICON_ERROR, this);
-    }
-    speech_->set_speed(settings_.speech_rate / 100.0);
-    refresh_speech();
+    return corpus_.pronunciations(language);
 }
 void MainFrame::apply_settings(bool persist) {
     color_scheme = settings_.color_scheme;

@@ -15,7 +15,6 @@
 #include "ui/toolbar.hpp"
 #include <algorithm>
 #include <cmath>
-#include <fstream>
 #include <iostream>
 #include <limits>
 #include <set>
@@ -282,42 +281,6 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
     std::cout << "Automatic verse resume, Stop/reset, mouse Back/Forward, and profile reopen.\n";
-    // Optional pronunciation failures preserve the profile and leave reading usable.
-    for (const bool future : {false, true}) {
-        const auto data = data_ / (future ? "future-pronunciation" : "corrupt-pronunciation");
-        UserDb profile(data / "user.db");
-        auto settings = profile.load();
-        settings.speech_voice = "espeak-f2";
-        profile.save(settings);
-        profile.complete("preserved-progress");
-        const auto path = data / "pronunciation-review.db";
-        if (future) {
-            {
-                PronunciationReviewDb review(path);
-                review.save({"RecoverySentinel", "corrected", "preserved correction", "future schema"});
-            }
-            auto db = storage::open(path, SQLITE_OPEN_READWRITE);
-            storage::exec(db.get(), "PRAGMA user_version=99");
-        } else
-            std::ofstream(path) << "preserve corrupt pronunciation bytes";
-        const auto contents = [&] {
-            std::ifstream file(path, std::ios::binary);
-            return std::string((std::istreambuf_iterator<char>(file)), {});
-        };
-        const auto before = contents();
-        {
-            auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
-                                                         std::make_unique<SmokeUpdates>(), true);
-            candidate->open_psalm();
-            if (candidate->pronunciation_review_ || !candidate->speech_ ||
-                candidate->scripture_->reading().passage.book != "Ps" ||
-                candidate->speech_lexicon("sv").size() != corpus_.pronunciations("sv").size())
-                fail(__LINE__);
-        }
-        if (contents() != before || profile.load().speech_voice != "espeak-f2" ||
-            !profile.completed().contains("preserved-progress"))
-            fail(__LINE__);
-    }
     if (!corpus_.read_only())
         fail(__LINE__);
     // Windows/Linux use only the overflow menu and accelerators. macOS keeps its native bar.

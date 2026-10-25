@@ -16,7 +16,7 @@ Word study shows dictionary source links with their articles.
 For a Swedish 1917 word:
 
 1. The word, the IPA that the Swedish voice uses, and **Lyssna**. Read-aloud is Swedish only.
-   The IPA includes bundled name phonemes and your corrections from **Granska svenskt uttal…**.
+   The IPA includes bundled name phonemes.
 2. Matching SALDO entries show modern headwords, word classes, and semantic associations.
    Associations describe relationships between meanings. They are not dictionary definitions or guaranteed synonyms.
    Published inflections identify base forms. Reviewed historical mappings have a separate label.
