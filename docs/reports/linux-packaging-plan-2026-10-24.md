@@ -1,6 +1,6 @@
 # Linux packaging plan: Debian 13, EL 10 and a Debian-built AppImage
 
-Status, 2026-10-24: steps 1 and 2 are done (#52, #54); steps 3 to 5 are not started. Step 2 lists where the result differs from the plan.
+Status, 2026-10-25: steps 1 and 2 are done (#52, #54), and the AppImage is held to glibc 2.39 so it runs on Enterprise Linux 10 (#61). Steps 3 to 5 (`.deb`, `.rpm` and their release plumbing) are dropped: the AppImage covers Debian 13, Enterprise Linux 10 and the newer distributions on its own. On AlmaLinux 10 it passes the smoke test apart from clipboard and window-placement checks that fail the same way for Rocky-built AppImages in the headless Mutter session. Step 2 lists where the result differs from the plan.
 
 ## Decisions
 
@@ -62,26 +62,26 @@ Differences from the plan:
 - Dependency snapshot: rebuild and pin it (ask before triggering `dependencies.yml`).
 - Verification: every CI job green; the AppImage passes `--smoke-test` on clean Debian 13, Ubuntu 26.04, Fedora 43, Arch and Raspberry Pi OS (Debian 13, arm64) containers.
 
-### 3. `.deb` from the Debian 13 job
+### 3. `.deb` from the Debian 13 job (dropped)
 
 - Build with CPack DEB (or `dpkg-deb`), computing dependencies from the binaries with `dpkg-shlibdeps`. The package carries a desktop entry and an icon. wxWidgets stays statically linked from the snapshot.
 - Do not install files that the package manager and Velopack would both claim.
 - Verification: install on clean Debian 13 and Raspberry Pi OS containers, run `--smoke-test`, uninstall cleanly.
 
-### 4. `.rpm` from an AlmaLinux 10 job
+### 4. `.rpm` from an AlmaLinux 10 job (dropped)
 
 - A new environment, `ci/el10.Dockerfile`, on `almalinux/10-base`. Use the `linux/amd64/v2` variant so older CPUs (X220 era) keep working. It needs its own snapshot environment.
 - Build with CPack RPM, with automatic library dependencies.
 - GUI tests: see "Open decisions".
 - Verification: install on clean AlmaLinux 10 and Rocky 10 containers, run `--smoke-test`, uninstall cleanly.
 
-### 5. Release plumbing
+### 5. Release plumbing (dropped)
 
 - `tools/ci/update_packages.py`: allow `.deb` and `.rpm` assets in `assemble`. They have no Velopack feed.
 - `tools/ci/nightly.py` and the release notes: list the new packages.
 - `src/app/updates.cpp`: a copy that Velopack did not install already reports "not installed". Make the message point package installs to their package manager or the Releases page.
 
-## Open decisions
+## Open decisions (moot since steps 3 to 5 were dropped)
 
 1. **GUI tests on EL 10.** EL 10 has no Xvfb. Headless Weston has no input seat, and Perikop crashes there (separate bug, see below). Under Mutter or cage, the clipboard checks (`main_frame_smoke.cpp` lines 367 and 1507) and the window placement checks (lines 406, 428 and 445) fail, because the compositor manages window geometry. Options:
    - Build Xvfb for EL 10 from Fedora's `xorg-x11-server` source package in the snapshot workflow.
