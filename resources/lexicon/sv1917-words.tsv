@@ -1,7 +1,7 @@
 # form	occurrences	kind	nst_sampa
 och	39654	word	"Ok
 i	15971	word	
-till	15695	word	"tIl
+till	15696	word	"tIl
 som	14018	word	
 att	12743	word	"at
 han	12030	word	"han
@@ -16,7 +16,7 @@ för	8152	word	"f2:r
 jag	8124	word	"jA:g
 den	7755	word	
 med	7577	word	"me:d
-är	7545	word	"E:r
+är	7546	word	"E:r
 av	7271	word	
 dem	6933	word	"dOm
 så	6856	word	"so:
@@ -110,8 +110,8 @@ inför	1150	word	In$"f2:r
 konung	1146	word	""ko:$nu0N
 folket	1145	word	"fOl$ket
 kom	1142	word	"kOm
+ifrån	1141	word	
 ur	1141	word	"}:r
-ifrån	1140	word	
 När	1133	word	"nE:r
 blev	1127	word	"ble:v
 in	1120	word	"In
@@ -8049,6 +8049,7 @@ yxa	6	word	""Yk$sa
 ämnar	6	word	""Em$nar
 ängslan	6	word	""EN$slan
 ärat	6	word	""E:$rat
+ävlas	6	word	""E:v$las
 åkerfält	6	word	""o:$ker$%fElt
 åliggande	6	word	""o:$%lI$gan$de
 ålåg	6	word	""o:$%lo:g
@@ -9184,7 +9185,6 @@ yxan	5	word	""Yk$san
 ärenden	5	word	""E:$ren$den
 ärorika	5	word	""E:$rU$%ri:$ka
 ättling	5	word	""Et$lIN
-ävlas	5	word	""E:v$las
 åkerstycket	5	word	
 åligger	5	word	""o:$%lI$ger
 ålägga	5	word	""o:$%lE$ga
@@ -12601,7 +12601,6 @@ tillredelse	3	word	""tIl$%re:$del$se
 tillreder	3	word	""tIl$%re:$der
 tillreds	3	word	""tIl$%re:ds
 tillrättavisar	3	word	tI$""rE$ta$%vi:$sar
-tills	3	word	
 tillsatt	3	word	
 tillslutet	3	word	
 tillstaddes	3	word	
@@ -16588,6 +16587,7 @@ tillredelsedagen	2	word
 tillredes	2	word	""tIl$%re:$des
 tillräknad	2	word	""tIl$%rE:$knad
 tillrättavisade	2	word	tIl$""rE$ta$%vi:$sa$de
+tills	2	word	
 tillskiftad	2	word	
 tillskiftar	2	word	
 tillskynda	2	word	""tIl$%x\Yn$da
@@ -20224,7 +20224,6 @@ avkunnade	1	word	""A:v$%ku0$na$de
 avkunnat	1	word	""A:v$%ku0$nat
 avla	1	word	""A:v$la
 avlad	1	word	
-avlas	1	word	""A:v$las
 avlidnes	1	word	""A:v$%li:d$nes
 avlivas	1	word	""A:v$%li:$vas
 avlupit	1	word	
@@ -23120,7 +23119,6 @@ ihärdighet	1	word	""i:$hE:$d`Ig$%he:t
 ihågkomma	1	word	I$""ho:g$%kO$ma
 ihålig	1	word	""i:$%ho:$lIg
 ihållande	1	word	""i:$%hO$land$de
-iirån	1	word	
 iklädde	1	word	""i:$%klE$de
 ikläden	1	word	
 ikläder	1	word	""i:$%klE:$der

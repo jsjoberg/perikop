@@ -23,7 +23,7 @@ LEAKED=[('Tob',3,1,'2 »'),('Tob',7,16,'17 »'),('Tob',9,1,'2 »'),('Tob',10,4,'
  ('1Macc',13,14,'15 »'),('2Macc',3,37,'38 »'),('2Macc',6,23,'24 »'),('2Macc',7,5,'6 »'),('2Macc',7,21,'22 »'),('2Macc',8,17,'18 »'),
  ('2Macc',10,9,'10} '),('2Macc',14,34,'35 »'),('2Macc',15,15,'16 »'),('2Macc',14,4,'6 »'),('Wis',11,26,'12,1 ')]
 # Verses split where an OCR margin number marks the boundary: (book, chapter, verse, first words of the next verse).
-SPLIT=[('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
+SPLIT=[('Sir',12,2,'Välgärningar må ej bevisas'),('Tob',11,18,'och Tobias’ bröllop'),('Tob',13,17,'och alla dess gränder'),('Wis',16,1,'Medan dessa så blevo straffade'),('Wis',16,10,'Ty för att de skulle'),('1Macc',10,45,'När Jonatan och folket'),
  ('1Macc',11,30,'En avskrift av det brev'),('2Macc',14,4,'Men sedan fick han')]
 # Literal replacements inside one verse: (book, chapter, verse, old, new).
 REPLACE=[
@@ -116,6 +116,16 @@ REPLACE=[
  ('Sir',2,10,'åkallade honörn','åkallade honom'),
  ('Sir',3,14,'bliva förgäten i stället','bliva förgäten; i stället'),
  ('Sir',5,12,'handen på munnen,','handen på munnen.'),
+ # Syrak 7-12 scan review: A088-A099; 12:3-4 are restored below.
+ ('Sir', 7, 20, 'helt åt din tjänst,', 'helt åt din tjänst.'),
+ ('Sir', 7, 23, 'allt iirån ungdomen', 'allt ifrån ungdomen'),
+ ('Sir', 8, 8, 'huru du’; skall', 'huru du skall'),
+ ('Sir', 8, 14, 'giva honom rätt,', 'giva honom rätt.'),
+ ('Sir', 10, 9, 'den som stoft och aska', 'den som är stoft och aska'),
+ ('Sir', 11, 4, 'din äras dag Ty', 'din äras dag. Ty'),
+ ('Sir', 11, 11, 'och avlas,', 'och ävlas,'),
+ ('Sir', 11, 30, 'den övermodiges hjärta,', 'den övermodiges hjärta, och lik spejaren spanar han efter ditt fall.'),
+ ('Sir', 11, 31, 'och lik spejaren spanar han efter ditt fall. Försåtligt vänder han gott tills ont, och på det allra bästa sätter han en fläck.', 'Försåtligt vänder han gott till ont, och på det allra bästa sätter han en fläck.'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
@@ -217,6 +227,10 @@ def derive():
         key,target=('Sir',3,old),('Sir',3,new)
         if target in verses or verses.get(key)!=expected:raise ValueError('Syrak 3:26-27 source changed')
         verses[target]=verses.pop(key)
+    # A097-A099: the printed 12:3 is attached to 12:2; free its slot before splitting.
+    key,target=('Sir',12,3),('Sir',12,4)
+    if target in verses or verses.get(key)!='Giv åt den som är god, men tag dig ej an syndaren.':raise ValueError('Syrak 12:4 source changed')
+    verses[target]=verses.pop(key)
     for key in DELETE:del verses[key]
     verses[('1Macc',10,45)]=verses.pop(('1Macc',10,46)) # 10:45-46 share one slot.
     for book,chapter,verse,start in SPLIT:

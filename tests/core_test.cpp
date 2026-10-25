@@ -996,6 +996,14 @@ int main(int argc, char** argv) {
                  {"Sir", {2, 9}, "vanten eder lycka", "vänten eder lycka"},
                  {"Sir", {2, 10}, "åkallade honörn", "åkallade honom"},
                  {"Sir", {3, 14}, "bliva förgäten i stället", "bliva förgäten; i stället"},
+                 {"Sir", {7, 20}, "helt åt din tjänst,", "helt åt din tjänst."},
+                 {"Sir", {7, 23}, "allt iirån ungdomen", "allt ifrån ungdomen"},
+                 {"Sir", {8, 8}, "huru du’; skall", "huru du skall"},
+                 {"Sir", {8, 14}, "giva honom rätt,", "giva honom rätt."},
+                 {"Sir", {10, 9}, "den som stoft och aska", "den som är stoft och aska"},
+                 {"Sir", {11, 4}, "din äras dag Ty", "din äras dag. Ty"},
+                 {"Sir", {11, 11}, "och avlas,", "och ävlas,"},
+                 {"Sir", {11, 31}, "och lik spejaren spanar han efter ditt fall. Försåtligt vänder han gott tills ont, och på det allra bästa sätter han en fläck.", "Försåtligt vänder han gott till ont, och på det allra bästa sätter han en fläck."},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1033,6 +1041,20 @@ int main(int argc, char** argv) {
                 check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
                           parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
                       "renumbered Sirach verses align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {11, 30})->text.ends_with("och lik spejaren spanar han efter ditt fall.") &&
+                  corpus.verse("sv1917", "Sir", {12, 2})->text.ends_with("så dock av den Högste.") &&
+                  corpus.verse("sv1917", "Sir", {12, 3})->text == "Välgärningar må ej bevisas den som framhärdar i det onda eller den som icke själv övar välgörenhet." &&
+                  corpus.verse("sv1917", "Sir", {12, 4})->text == "Giv åt den som är god, men tag dig ej an syndaren.",
+              "Sirach 11:30-31 and 12:2-4 follow the printed verse boundaries");
+        for (const VerseRef& ref : {VerseRef{12, 2}, VerseRef{12, 3}, VerseRef{12, 4}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 12:2-4 align individually in both directions");
             }
         }
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
