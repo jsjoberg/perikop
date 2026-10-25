@@ -57,6 +57,11 @@ REPLACE=[
  ('1Macc',14,42,'insätta uppsyningsrnan','insätta uppsyningsmän'),
  ('2Macc',5,22,'kvar uppsyningsrnan','kvar uppsyningsmän'),
  ('2Macc',11,10,'framåt, ordnåde','framåt, ordnade'),
+ # Complete-book scan review: A027-A030; chapter coverage is in the verification ledger.
+ ('Bel',1,34,'i lejonssgropen','i lejongropen'),
+ ('PrAzar',1,42,'i evighet','i evighet.'),
+ ('Sus',1,20,'»Se,trädgårdsporten','»Se, trädgårdsporten'),
+ ('Sus',1,24,'ropa med högröst','ropa med hög röst'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),

@@ -1,5 +1,7 @@
 # Sökning efter svenska textfel, 2026-10-25
 
+**Fortsatt arbete:** aktuell kapitel- och boktäckning förs i [den löpande granskningsliggaren](sv1917-verification.md). Siffrorna nedan beskriver tredje omgångens grundläge.
+
 En tredje riktad granskning gav **18 nya bildkontrollerade rättelser: fyra i GT och fjorton i apokryferna**. De är införda som versbundna importpatchar och dokumenterade som R014–R017 och A013–A026 i [erratatabellen](sv1917-errata.md). Ursprungliga nedladdningar är bevarade. Inga rättelser har skickats till Runeberg.
 
 Sökningen gick igenom samtliga 35 515 svenska versposter, totalt 839 500 ordtoken. Bildgranskningen omfattade endast utvalda utdrag. Detta är därför en korpusomfattande kandidatsökning, inte en fullständig OCR-verifiering eller korrekturläsning.

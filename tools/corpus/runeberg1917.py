@@ -35,7 +35,12 @@ REPLACE={
  ('Ps',44,11):('för ovånnen','för ovännen'),
  ('Ps',66,14):('mina låppar','mina läppar'),
  ('Ps',102,27):('skall förvanda dem','skall förvandla dem'),
- ('Prov',12,22):('lögnaktiga låppar','lögnaktiga läppar')}
+ ('Prov',12,22):('lögnaktiga låppar','lögnaktiga läppar'),
+ ('Hag',1,1):('profeten Haggai Serubbabel','profeten Haggai till Serubbabel'),
+ ('Hag',1,6):('han far den allenast','han får den allenast'),
+ ('Hag',1,14):('HERREN Sebaots; sin Guds','HERREN Sebaots, sin Guds'),
+ ('Hag',2,2):('profeten Haggai han sade','profeten Haggai; han sade'),
+ ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;')}
 
 def chapter_number(name):
     if not name:return 1

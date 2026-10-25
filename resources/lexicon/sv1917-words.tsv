@@ -1,7 +1,7 @@
 # form	occurrences	kind	nst_sampa
 och	39653	word	"Ok
 i	15978	word	
-till	15693	word	"tIl
+till	15694	word	"tIl
 som	14018	word	
 att	12743	word	"at
 han	12030	word	"han
@@ -168,7 +168,7 @@ tillbaka	739	word	tIl$"bA:$ka
 lät	732	word	"lE:t
 vår	726	word	"vo:r
 Mose	718	name	
-får	717	word	"fo:r
+får	718	word	"fo:r
 två	715	word	"tvo:
 gav	688	word	"gA:v
 fader	682	word	""fA:$der
@@ -280,8 +280,8 @@ döda	353	word	""d2:$da
 konungens	353	word	""ko:$nu0N$ens
 fått	352	word	"fOt
 föra	352	word	""f2:$ra
+röst	352	word	"r9st
 Egypten	351	name	e$"jYp$ten
-röst	351	word	"r9st
 låt	348	word	"lo:t
 gingo	347	word	""jIN$U
 prästen	347	word	"prE$sten
@@ -580,12 +580,12 @@ lärjungar	156	word	""lE:r$%ju0N$ar
 ro	156	word	"ru:
 skaffa	156	word	""ska$fa
 tänkte	156	word	""tENk$te
+hög	155	word	"h2:g
 rädda	155	word	""rE$da
 vandra	155	word	""van$dra
 Gå	154	word	"go:
 bön	154	word	"b2:n
 egen	154	word	""e:$gen
-hög	154	word	"h2:g
 höll	154	word	"h9l
 tjäna	154	word	""s'E:$na
 våld	154	word	"vOld
@@ -1027,7 +1027,6 @@ tionde	77	word
 äter	77	word	"E:$ter
 ditupp	76	word	""dIt$%u0p
 evärdlig	76	word	e$"vE:d`$l`Ig
-far	76	word	"fA:r
 fäkreatur	76	word	""fE:$kre:$a$%t}:r
 kände	76	word	""s'En$de
 lovade	76	word	""lo:$va$de
@@ -1035,6 +1034,7 @@ murar	76	word	""m}:$rar
 svar	76	word	"svA:r
 tagen	76	word	""tA:$gen
 tjänares	76	word	""s'E:$na$res
+far	75	word	"fA:r
 gud	75	word	"g}:d
 helige	75	word	""he:$lI$ge
 hjärtat	75	word	""jE$t`at
@@ -6916,6 +6916,7 @@ lagda	7	word	""lag$da
 lans	7	word	"lA:ns
 larmsignal	7	word	""larm$sIN$%nA:l
 lejonets	7	word	""lE$jO$nets
+lejongropen	7	word	""lE$jON$%gru:$pen
 lek	7	word	"le:k
 levit	7	word	le$"vi:t
 levnadsår	7	word	""le:v$nats$%o:r
@@ -7723,7 +7724,6 @@ kärlet	6	word	"s'E:$l`et
 köttslig	6	word	""s'9t$slIg
 köttsligt	6	word	""s'9t$slIkt
 last	6	word	"last
-lejongropen	6	word	""lE$jON$%gru:$pen
 lejoninna	6	word	le$jO$""nI$na
 leka	6	word	""le:$ka
 lekamen	6	word	le$"kA:$men
@@ -23058,7 +23058,6 @@ högmodiges	1	word	""h2:g$%mu:$dI$ges
 högmodsfrukt	1	word	
 högrest	1	word	""h2:g$%re:st
 högröda	1	word	""h2:g$%r2:$da
-högröst	1	word	
 högtbenådade	1	word	
 högtidens	1	word	""h9k$%ti:$dens
 högtiders	1	word	""h9k$%ti:$des`
@@ -23854,7 +23853,6 @@ lejonansikten	1	word
 lejoninnans	1	word	le$jO$""nI$nans
 lejoninnas	1	word	le$jO$""nI$nas
 lejoninnors	1	word	le$jO$""nI$nUs`
-lejonssgropen	1	word	
 lejontänder	1	word	
 lejonungar	1	word	
 lejonungen	1	word	

@@ -2,11 +2,11 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-De tre första granskningsomgångarna omfattar 43 verser. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 52 rättade verser efter fyra granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
-För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); i de 26 A-raderna finns felet i sidans OCR-text.
+För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); i de 30 A-raderna finns felet i sidans OCR-text.
 
 Tack till [MySword](https://www.mysword.info/download-mysword/bibles), vars modul *Swedish Bible 1917*, version 1.0.1, användes i den inledande textjämförelsen. Jämförelsen hjälpte oss att klarlägga textens ursprung och ledde vidare till granskning mot faksimil och OCR. Modulen bygger på samma Runeberg-utgåva och delar flera av dess fel; rättelserna i tabellen är därför verifierade mot trycksidorna, inte hämtade från MySword.
 
@@ -63,10 +63,19 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A024 | [1 Mack. 14:42](https://runeberg.org/apokryf/0206.html) | **insätta uppsyningsrnan** | **insätta uppsyningsmän** | Har samma fel; kontrollera bilden | [s. 202](https://runeberg.org/apokryf/0206.html), höger spalt, v. 42 |
 | [ ] | A025 | [2 Mack. 5:22](https://runeberg.org/apokryf/0223.html) | **kvar uppsyningsrnan** | **kvar uppsyningsmän** | Har samma fel; kontrollera bilden | [s. 219](https://runeberg.org/apokryf/0223.html), vänster spalt, v. 22 |
 | [ ] | A026 | [2 Mack. 11:10](https://runeberg.org/apokryf/0236.html) | **framåt, ordnåde** | **framåt, ordnade** | Har samma fel; kontrollera bilden | [s. 232](https://runeberg.org/apokryf/0236.html), nedre delen av höger spalt, v. 10 |
+| [ ] | A027 | [Bel 1:34](https://runeberg.org/apokryf/0261.html) | i **lejonssgropen** | i **lejongropen** | Har samma fel; kontrollera bilden | [s. 257](https://runeberg.org/apokryf/0261.html), vänster spalt, v. 34 |
+| [ ] | A028 | [Asarjas bön 1:42](https://runeberg.org/apokryf/0263.html) | i **evighet** (utan slutpunkt) | i **evighet.** | Har samma fel; kontrollera bilden | [s. 259](https://runeberg.org/apokryf/0263.html), längst ned till höger, v. 42 |
+| [ ] | A029 | [Susanna 1:20](https://runeberg.org/apokryf/0257.html) | **»Se,trädgårdsporten** | **»Se, trädgårdsporten** | Har samma fel; kontrollera bilden | [s. 253](https://runeberg.org/apokryf/0257.html), överst till vänster, v. 20 |
+| [ ] | A030 | [Susanna 1:24](https://runeberg.org/apokryf/0257.html) | ropa med **högröst** | ropa med **hög röst** | Har samma fel; kontrollera bilden | [s. 253](https://runeberg.org/apokryf/0257.html), vänster spalt, v. 24 |
+| [ ] | R018 | [Haggai 1:1](https://runeberg.org/bibeln/37_01.html) | profeten Haggai **Serubbabel** | profeten Haggai **till Serubbabel** | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1253](https://runeberg.org/bibeln/efs1927/gt/1253.html), vänster spalt, v. 1 |
+| [ ] | R019 | [Haggai 1:6](https://runeberg.org/bibeln/37_01.html) | han **far** den allenast | han **får** den allenast | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1253](https://runeberg.org/bibeln/efs1927/gt/1253.html), höger spalt, v. 6 |
+| [ ] | R020 | [Haggai 1:14](https://runeberg.org/bibeln/37_01.html) | HERREN **Sebaots;** sin Guds | HERREN **Sebaots,** sin Guds | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1254](https://runeberg.org/bibeln/efs1927/gt/1254.html), vänster spalt, v. 14 |
+| [ ] | R021 | [Haggai 2:2](https://runeberg.org/bibeln/37_02.html) | profeten **Haggai han** sade | profeten **Haggai; han** sade | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1254](https://runeberg.org/bibeln/efs1927/gt/1254.html), vänster spalt, v. 2 |
+| [ ] | R022 | [Haggai 2:16](https://runeberg.org/bibeln/37_02.html) | till HERRENS **tempel** (utan semikolon) | till HERRENS **tempel;** | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1255](https://runeberg.org/bibeln/efs1927/gt/1255.html), vänster spalt, v. 16 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
-Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 17 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; två rader har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. För A001–A026 upprepar OCR-texten felet. Dessa 26 rättelser måste därför verifieras mot bilden, inte härledas från den befintliga OCR-texten.
+Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 22 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; R008 och R011 har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. Haggais faksimil-OCR återger ofta kapitäl-HERREN som Herren; det är inte en ytterligare ändring i löptexten. För A001–A030 upprepar OCR-texten felet. Dessa 30 rättelser måste därför verifieras mot bilden, inte härledas från den befintliga OCR-texten.
 
 OCR används för att hitta och kontrollera kandidater. Det får inte automatiskt ersätta e-texten: både OCR-fel och skillnader mellan tryckningar förekommer. Endast utdraget i patchtabellen ändras, även när sidans OCR skiljer sig på andra ställen.
 
@@ -80,6 +89,8 @@ uv run --locked tools/lexicon/build_homographs.py
 uv run --locked tools/corpus/build_osb_reference.py
 uv run --locked tests/osb_metadata_test.py
 uv run --locked tools/check_resources.py
+uv run --locked tools/corpus/check_swedish_verification.py
+uv run --locked tests/swedish_verification_test.py
 ctest --test-dir build/cmake -R '^core-storage-speech$' --output-on-failure
 ```
 
@@ -94,10 +105,13 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 ## Avgränsning och lokal tillämpning
 
-Detta är tre riktade omgångar, inte en fullständig korrekturläsning av de 35 515 svenska versposterna. Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
+De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 515 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 17 R-raderna rapporteras som e-textärenden och de 26 A-raderna som OCR-ärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 30 A-raderna som OCR-ärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
 En fullständig sidjämförelse återstår. Se [sökmetod, resultat och fortsatt granskning](sv1917-ocr-audit.md) för den återkörbara kandidatlistan och jämförelsen mellan NT, GT och apokryferna.
+
+
+Fjärde omgången: Manasses’ bön 1:1–15, Bel 1:1–42, Asarjas bön 1:1–65, Susanna 1:1–64 och Haggai 1–2 har nu jämförts i sin helhet med faksimil. Nio nya rättelser är införda som A027–A030 och R018–R022. Granskade kapitel, exakta text- och bildhashar, behållna tryckskillnader och nästa arbetsblock finns i [den löpande granskningsliggaren](sv1917-verification.md). Detta ersätter inte din separata kontroll av patchtabellens rader.

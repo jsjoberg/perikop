@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "chapters": [
+    {
+      "book": "PrMan",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "67de94b83357f614d750c7a4527b91c42097d84f4d0d6c3aba69a6eea06d0cc4",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0265.1.tif",
+          "sha256": "685e5fee458f21fb497fec92ae97858bd4fb4a2b1242557ca9e525ce91a2aeb9"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0266.1.tif",
+          "sha256": "ca3b4b8fa42615686ded8ba661d573d60cd60199a90ebd42d39a8e0a17b160d6"
+        }
+      ],
+      "notes": "Hela 1:1–15 jämförd ord för ord och med interpunktion mot tryckta s. 261–262. Inga nya avvikelser. Vers 13 fortsätter på nästa sida. Rubrik, sammanfattning och korshänvisningar är inte bibeltext; radbrytningsavstavning och satsytans radbrytningar återges som löptext."
+    },
+    {
+      "book": "Bel",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 42,
+      "text_sha256": "1dcdc0d49be9809a24bdf13d65feece3e034eef047391208011027dffc2dee21",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0259.1.tif",
+          "sha256": "43c0fac5a0c03101e502503d71d99cb5ecb45a03407bab785a2d8cb4aa2be621"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0260.1.tif",
+          "sha256": "8bdf7beddd5fff16725db7abbd85cae92a0d7f715d5f7c4d6db40f1daa0a4c3b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0261.1.tif",
+          "sha256": "6b64e2815c4b4d9c0af950d2e487b3d9e3cdd373e0ba5e6da320901486966129"
+        }
+      ],
+      "notes": "Hela 1:1–42 jämförd mot tryckta s. 255–257, inklusive övergången mellan Bel i Babylon och Draken i Babylon och vers 31 över sidgränsen. A027 rättar lejonssgropen till lejongropen i 1:34. Inga ytterligare ord- eller interpunktionsavvikelser; noter och rubriker undantas."
+    },
+    {
+      "book": "PrAzar",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 65,
+      "text_sha256": "fc49cf17bf418e95528c5888a7f7ab51fe4020017604c10937c2f13c3abc22ce",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0261.1.tif",
+          "sha256": "6b64e2815c4b4d9c0af950d2e487b3d9e3cdd373e0ba5e6da320901486966129"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0262.1.tif",
+          "sha256": "07ebb308a94fdefb764eea2f024719b58d0e09c06c1dcac1bbac72dde0fb6bac"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0263.1.tif",
+          "sha256": "a70cb0beef9771c15ac074e65c280e871116a308b236e41a45a55d0ff574f133"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0264.1.tif",
+          "sha256": "60b7d1fb42f650f0552b0ea41ab22078bf7e2bb2d08e0c830320b19134562ca0"
+        }
+      ],
+      "notes": "Hela 1:1–65 jämförd mot tryckta s. 257–260, inklusive de tidigare återställda sidövergångarna i vers 7 och 23 och övergången till De tre männens lovsång i vers 28. A028 återställer slutpunkten i 1:42. Den tryckta numreringen slutar vid 65; inga saknade verser 66–68. Tidigare A012 i 1:19 kontrollerad igen."
+    },
+    {
+      "book": "Sus",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 64,
+      "text_sha256": "b577e170338f0786a053b3c6955d221602693128f0cc5ae4c3db1013e0b1fef5",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0256.1.tif",
+          "sha256": "23ed598c2a3d79a784cb25024294a908b81af7fcd18c3a2134bbeb94522c8e73"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0257.1.tif",
+          "sha256": "d62778f9ca96820c67008af1578aec8ab4f143de89f9a2deeefd410876ea65b3"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0258.1.tif",
+          "sha256": "eb944d281d040abe51e4a5724bdfee2776b649ca3da2fa6d8e978740b9c99a7b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0259.1.tif",
+          "sha256": "43c0fac5a0c03101e502503d71d99cb5ecb45a03407bab785a2d8cb4aa2be621"
+        }
+      ],
+      "notes": "Hela 1:1–64 jämförd mot tryckta s. 252–255. A029 återställer mellanslag efter Se, i 1:20; A030 delar hög röst i 1:24. Samtliga versers text och tidigare återställd fortsättning av 1:61 över sidgränsen kontrollerade. Typografiska apostrofer återges även med rak apostrof; spärrning och fotnotsstjärnor i ordlekarna 1:54–59 är presentations-/notmarkörer och ingår inte i löptexten."
+    },
+    {
+      "book": "Hag",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 14,
+      "text_sha256": "b2637ed9e0db6add3ed90fc4b45db2e3b732f432d292f05955a0864794639e9b",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1253.1.tif",
+          "sha256": "5ee9c13372d64c44b9524bc3798a929d57e9a0182c1f22ad85ad2381fa705440"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1254.1.tif",
+          "sha256": "56e5fa35966d65b70284304155012dc925a08ce642994ddd68d119e6cb7db27b"
+        }
+      ],
+      "notes": "Hela 1:1–14 jämförd mot EFS 1927 s. 1253–1254. R018 återställer till i 1:1, R019 får i 1:6 och R020 kommat efter Sebaots i 1:14. Behållna kommaskillnader mot denna tryckning: 1:5 och 1:7 efter på, 1:11 i uppräkningen, 1:12 efter Josadaks son. Rak/typografisk apostrof, citationstecken och HERREN/kapitäl-Herren betraktas som typografisk återgivning. Föregående Sefanja-text räknas inte som granskad."
+    },
+    {
+      "book": "Hag",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "4b3b2712819504321bfbee8e7d7d46c6b58b83b2a1cce8fc170a68be7757b34e",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1254.1.tif",
+          "sha256": "56e5fa35966d65b70284304155012dc925a08ce642994ddd68d119e6cb7db27b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1255.1.tif",
+          "sha256": "4db505427d56f8c1c27805daee78ed481a3b60bec9edcd048ca7ba1b696d16f8"
+        }
+      ],
+      "notes": "Hela 2:1–24 jämförd mot EFS 1927 s. 1254–1255; vers 1 står före kapitelrubriken men hör till 2:1. R021 återställer semikolon efter Haggai i 2:2 och R022 efter tempel i 2:16. Ord och övrig interpunktion kontrollerade; behållna kommaskillnader i 2:3,5,6,14,15,16,17,19,24 redovisas som skillnader mot bildvittnet utan harmonisering till denna tryckning. Citatglyfer, typografisk apostrof och kapitäl-Herren normaliseras inte i e-texten. Efterföljande Sakarja-text räknas inte som granskad."
+    }
+  ]
+}
