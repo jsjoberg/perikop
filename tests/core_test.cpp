@@ -1095,6 +1095,13 @@ int main(int argc, char** argv) {
                  {"1Macc", {16, 4}, "mot Gendebeus och", "mot Cendebeus och"},
                  {"1Macc", {16, 9}, "som Gendebeus hade befäst.", "som Cendebeus hade befäst."},
                  {"2Macc", {2, 28}, "verklige författareris sak", "verklige författarens sak"},
+                 {"2Macc", {4, 1}, "omtalade Sisom hade", "omtalade Simon, som hade"},
+                 {"2Macc", {5, 5}, "ett falskt ryktes hade", "ett falskt rykte hade"},
+                 {"2Macc", {5, 12}, "utan försköning hugga ned dem som kommo i deras väg octi att dräpa", "utan förskoning hugga ned dem som kommo i deras väg och att dräpa"},
+                 {"2Macc", {6, 21}, "skaffa dit kött som han", "skaffa dit kött, som han"},
+                 {"2Macc", {7, 6}, "han förbarma sig'»", "han förbarma sig.'»"},
+                 {"2Macc", {7, 30}, "Vad vanten I på?", "Vad vänten I på?"},
+                 {"2Macc", {7, 34}, "förhävdig icke fåfängt", "förhäv dig icke fåfängt"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1224,6 +1231,9 @@ int main(int argc, char** argv) {
               "Haggai's sentence continues across the verse boundary with a semicolon");
         check(corpus.verse("sv1917", "PrAzar", {1, 42})->text.ends_with("i evighet."),
               "the printed final period is restored in the song of the three men");
+        check(corpus.verse("sv1917", "2Macc", {8, 8})->text.find("komma kunungens sak till hjälp") != std::string::npos &&
+                  corpus.verse("sv1917", "2Macc", {7, 11})->text.find("för Hans lags skull") != std::string::npos,
+              "Second Maccabees preserves printed kunungens pending review and the confirmed capital Hans");
         check(corpus.verse("sv1917", "2Macc", {6, 17})->text.find("avb rrott") != std::string::npos,
               "a suspicious word also present in print is not silently normalized");
         check(

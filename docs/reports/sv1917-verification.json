@@ -2904,6 +2904,162 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 2:13 och 2:30 samt spaltfortsättningarna i 2:4 och 2:22. A201–A202: inledande citattecken före Man återställt i 2:1 och författareris → författarens i 2:28. Både brevets avslutning 2:1–18 och bokens företal 2:19–32 jämförda; företalet ingår här i numrerad bibeltext. Tryckets I mån i 2:15 och tankstrecken i 2:22 och 2:26 behållna med e-textens typografiska återgivning. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 40,
+      "text_sha256": "4d4ff3fe072f8520716b23efe0af1c73a055d6ca7aee25cba02d079f94e6ff4d",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0215.1.tif",
+          "sha256": "49945335309c4f942df5f6fe91dfdb32fe9c218d7ff2f80633b1477977a0025d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0216.1.tif",
+          "sha256": "4b577c96d125dabac2c2b81c1e1fec152df069ed47d59df7022bfa40a7cb385a"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0217.1.tif",
+          "sha256": "adb6d89c52223e929a626d38aa33d3ecb503afff90e4fc864aede06c37c478fb"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 3:9 och 3:25 samt spaltfortsättningarna i 3:3, 3:17 och 3:33. Inga nya rättelser. A011, framhovar i 3:25, och avskiljningen 3:37–38 återkontrollerade. Alla ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 50,
+      "text_sha256": "e61e8587458b5b37cc15944a1e44fc57a30586d99e8d68f36484c2ebc3b56918",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0218.1.tif",
+          "sha256": "376372308c076f1b0fde25d6edd7912af3989208f7cf03f1216b392cf6014a86"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0219.1.tif",
+          "sha256": "ffd826441ba329cbe21886705ba4e2c788656dd5a23be597f3fa4bf2b3b74c33"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0220.1.tif",
+          "sha256": "a19c6760f46a5fa407693ac602af744cb37b7fa76f06d80e5e92ad10e2adbde3"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0221.1.tif",
+          "sha256": "926f8d804653b8d851518562ff0576f10d82d563244c406bfc4edeba6a54c1b6"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 4:14, 4:28 och 4:41 samt spaltfortsättningarna i 4:7, 4:21, 4:34 och 4:50. A203 återställer Simon, som i 4:1 från den felaktiga förkortningen Sisom. Tryckets det som ligger i 4:33, fått bekräfta i 4:34 och Stora rådet i 4:44 behållna. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "bb4266a936c4cc888626f586a810112c3705741029afad9f1933c893c0c91c2b",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0221.1.tif",
+          "sha256": "926f8d804653b8d851518562ff0576f10d82d563244c406bfc4edeba6a54c1b6"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0222.1.tif",
+          "sha256": "f271336d8bd51f1838d856b59b34a26e735da67e061e684a72ed943619360968"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0223.1.tif",
+          "sha256": "99d415a28f974f0b977c9fcd7e118d2553d5dbbe6f651a0e9afed1866611359d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 5:6 och 5:20 samt spaltfortsättningarna i 5:12 och 5:26. A204–A205: ryktes → rykte i 5:5 samt försköning → förskoning och octi → och i 5:12. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "6604f9f653ca084adb92b65879f23a43570e0bc34176d740dbe68665ef415878",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0223.1.tif",
+          "sha256": "99d415a28f974f0b977c9fcd7e118d2553d5dbbe6f651a0e9afed1866611359d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0224.1.tif",
+          "sha256": "6a328c657a40dc3cbdbfd4ae4c3f8d959bbbe8c21c8620718008c14b8383f9ab"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0225.1.tif",
+          "sha256": "e38f7fa55e45179d4f9dd890312def7b3da059da4d6962db5d80348d3eeea61b"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 6:4 och 6:21 samt spaltfortsättningarna i 6:12 och 6:28. A206 återställer tryckets komma efter kött i 6:21. Avskiljningen 6:23–24 återkontrollerad. Tryckets avb rrott i 6:17 (V002) är fortfarande olöst; även åtgå står i trycket och behålls. Alla övriga ord, skiljetecken och versgränser bekräftade. Kapitlet är needs-review och dess 31 versposter ingår inte i färdig täckning."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 42,
+      "text_sha256": "3b8d70c815e860ee5037020b5fbc54e60a46779f389732d546727efda9a3507e",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0225.1.tif",
+          "sha256": "e38f7fa55e45179d4f9dd890312def7b3da059da4d6962db5d80348d3eeea61b"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0226.1.tif",
+          "sha256": "7e8db052a443479a4d7ceed1aa42f7ccab8732493554af7e3f8395cf8a6f9222"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0227.1.tif",
+          "sha256": "5b74749238eeb5b05025653bedb620eea6f3e18d2960eef85d5ba7dc78356598"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0228.1.tif",
+          "sha256": "2dbf7eb5e245393bb8014cf955e08ab3d793940d66a8d80ff35c9063558125ee"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 7:2, 7:18 och 7:30 samt spaltfortsättningarna i 7:8, 7:24 och 7:42. A207–A209: slutpunkt före citatsluten i 7:6, vanten → vänten i 7:30 och förhävdig → förhäv dig i 7:34. Tryckets Hans och Honom i 7:11 behållna. Tidigare avskilda 7:5–6 och 7:21–22 återkontrollerade. Alla övriga ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "2Macc",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 36,
+      "text_sha256": "0d2d53b154dfeb2fca0fbb5eecf980b8fab8e97c238eebd50c5a47cf99e95b7d",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0228.1.tif",
+          "sha256": "2dbf7eb5e245393bb8014cf955e08ab3d793940d66a8d80ff35c9063558125ee"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0229.1.tif",
+          "sha256": "12dcb664650398343fbae94d976c1b0c3098f9ba4bb3e6c335bde9ca3a4a80e2"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0230.1.tif",
+          "sha256": "d8fbe2fbf6e9bb894a07a41991cc46137977a53495edcda3045385314821d0df"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0231.1.tif",
+          "sha256": "5328e75ad5b3694e2a720e6aece59f7c19336b1917cac1b4e2dd572c4b9b845b"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 8:18 och 8:32 samt spaltfortsättningarna i 8:11 och 8:25. Inga nya rättelser. Kunungens i 8:8 står även i trycket; bokstaven u kontrollerad i originalupplösning. Läsningen behålls som V006 i väntan på ett oberoende tryck. Tryckets avsaknad av komma efter rättfärdighet i 8:13 behållen. Avskiljningen 8:17–18 återkontrollerad. Alla övriga ord, skiljetecken och versgränser bekräftade. Kapitlet är needs-review och dess 36 versposter ingår inte i färdig täckning."
     }
   ],
   "unnumbered": [

@@ -1,8 +1,8 @@
 # form	occurrences	kind	nst_sampa
-och	39656	word	"Ok
+och	39657	word	"Ok
 i	15970	word	
 till	15695	word	"tIl
-som	14018	word	
+som	14019	word	
 att	12743	word	"at
 han	12030	word	"han
 de	11741	word	
@@ -25,7 +25,7 @@ har	6695	word	"hA:r
 du	6355	word	"d}:
 sig	5118	word	"sEj
 I	4771	word	"i:
-dig	4734	word	"dEj
+dig	4735	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
 hade	4486	word	""ha$de
@@ -638,7 +638,7 @@ slags	137	word	"slA:gs
 byggde	136	word	""bYg$de
 jämväl	136	word	""jEm$%vE:l
 ställe	136	word	""stE$le
-Simon	134	name	"si:$mOn
+Simon	135	name	"si:$mOn
 rätta	134	word	""rE$ta
 sida	134	word	"si:$da
 dom	133	word	"dOm
@@ -2935,6 +2935,7 @@ ovän	22	word	""u:$%vEn
 prästernas	22	word	""prE$ste$n`as
 regera	22	word	re$"je:$ra
 rikes	22	word	""ri:$kes
+rykte	22	word	""rYk$te
 sed	22	word	"se:d
 sinnen	22	word	""sI$nen
 skrift	22	word	"skrIft
@@ -3043,7 +3044,6 @@ plägar	21	word	""plE:$gar
 pund	21	word	"pu0nd
 påbud	21	word	""po:$%b}:d
 påskalammet	21	word	""pO$ska$%la$met
-rykte	21	word	""rYk$te
 räcka	21	word	""rE$ka
 sexton	21	word	""sEk$stOn
 skaffat	21	word	""ska$fat
@@ -4952,6 +4952,7 @@ förlopp	11	word	f9$"l`Op
 förlossar	11	word	f9$"l`O$sar
 församlar	11	word	f9$"s`am$lar
 förskingra	11	word	f9r$"x\IN$ra
+förskoning	11	word	f9$"s`ku:$nIN
 förstått	11	word	f9$"s`t`Ot
 försyndar	11	word	f9$"s`y:n$dar
 förtorka	11	word	f9$"t`Or$ka
@@ -5287,7 +5288,6 @@ förlorad	10	word	f9$"l`u:$rad
 förmanar	10	word	f9r$"mA:$nar
 förmörkas	10	word	f9r$"m9r$kas
 förnummo	10	word	
-förskoning	10	word	f9$"s`ku:$nIN
 förstling	10	word	""f9s`t`$l`IN
 förstörda	10	word	
 försökte	10	word	f9$"s`2:k$te
@@ -6530,6 +6530,7 @@ välja	8	word	""vEl$ja
 välsignen	8	word	
 vändas	8	word	""vEn$das
 väns	8	word	"vE:ns
+vänten	8	word	"vEn$ten
 väsendes	8	word	"vE:$sen$des
 väsendet	8	word	"vE:$sen$det
 våga	8	word	""vo:$ga
@@ -7181,7 +7182,6 @@ vägfarande	7	word	""vE:g$%fA:$ran$de
 väggarna	7	word	""vE$ga$n`a
 välfärd	7	word	""vE:l$%fE:d`
 väntan	7	word	""vEn$tan
-vänten	7	word	"vEn$ten
 väva	7	word	""vE:$va
 vågorna	7	word	""vo:$gU$n`a
 våldsam	7	word	""vOld$%sam
@@ -9810,6 +9810,7 @@ förgårdsmuren	4	word
 förhatliga	4	word	f9r$"hA:t$lI$ga
 förhjälpa	4	word	f9r$"jEl$pa
 förhärda	4	word	f9r$"hE:$d`a
+förhäv	4	word	f9r$"hE:v
 förkastad	4	word	
 förklaring	4	word	f9r$"klA:$rIN
 förkrossad	4	word	f9r$"krO$sad
@@ -11578,7 +11579,6 @@ förhärdade	3	word	f9r$"hE:$d`a$de
 förhärdar	3	word	f9r$"hE:$d`ar
 förhärjat	3	word	
 förhärjelse	3	word	
-förhäv	3	word	f9r$"hE:v
 förhållande	3	word	f9r$"hO$land$de
 förhållanden	3	word	f9r$"hO$land$den
 förjagar	3	word	f9r$"jA:$gar
@@ -11612,7 +11612,6 @@ försatt	3	word	f9$"s`at
 försegla	3	word	f9$"s`e:$gla
 försett	3	word	
 förskingrades	3	word	f9r$"x\IN$ra$des
-försköning	3	word	f9r$"x\2:$nIN
 försmälter	3	word	
 försmådde	3	word	f9$"s`mO$de
 försona	3	word	f9$"s`u:$na
@@ -14822,6 +14821,7 @@ förskräcke	2	word
 förskräckelsen	2	word	f9$"s`krE$kel$sen
 förskräckliga	2	word	f9$"s`krE$klI$ga
 förskyllan	2	word	f9r$"x\Y$lan
+försköning	2	word	f9r$"x\2:$nIN
 försmådda	2	word	
 försmått	2	word	
 försonas	2	word	f9$"s`u:$nas
@@ -16042,7 +16042,6 @@ rutig	2	word	""r}:$tIg
 ruvar	2	word	""r}:$var
 ryggas	2	word	""rY$gas
 ryka	2	word	""ry:$ka
-ryktes	2	word	""rYk$tes
 rymliga	2	word	""rYm$lI$ga
 rymligt	2	word	""rYm$lIkt
 rymmare	2	word	""rY$ma$re
@@ -19470,7 +19469,6 @@ Simrit	1	name
 Sinab	1	name	
 Sior	1	name	
 Sippai	1	name	
-Sisom	1	name	
 Sitna	1	name	
 Sitrai	1	name	
 Sitri	1	name	
@@ -21971,7 +21969,6 @@ förhärjas	1	word	f9r$"hEr$jas
 förhärjelsens	1	word	
 förhärligande	1	word	f9r$"hE:$l`I$gan$de
 förhärligen	1	word	
-förhävdig	1	word	
 förhållna	1	word	f9r$"hOl$na
 förhånad	1	word	f9r$"ho:$nad
 förhöja	1	word	f9r$"h9$ja
@@ -24642,7 +24639,6 @@ obotfärdighet	1	word
 obändig	1	word	""u:$%bEn$dIg
 ockrare	1	word	""O$kra$re
 ockraren	1	word	""O$kra$ren
-octi	1	word	
 odjuret	1	word	""u:$%j}:$ret
 odla	1	word	""u:d$la
 odlade	1	word	""u:d$la$de
@@ -25351,6 +25347,7 @@ ryggraden	1	word	""rYg$%rA:$den
 ryggstycke	1	word	""rYg$%stY$ke
 ryggstödet	1	word	""rYg$%st2:$det
 ryker	1	word	"ry:$ker
+ryktes	1	word	""rYk$tes
 rymden	1	word	"rYm$den
 rymder	1	word	""rYm$der
 rymmas	1	word	""rY$mas
@@ -27645,7 +27642,6 @@ vanor	1	word	""vA:$nUr
 vanryktad	1	word	""vA:n$%rYk$tad
 vanrykte	1	word	""vA:n$%rYk$te
 vanställa	1	word	""vA:n$%stE$la
-vanten	1	word	"van$ten
 vanvettig	1	word	""vA:n$%vE$tIg
 vanvettingar	1	word	
 vanvörda	1	word	
