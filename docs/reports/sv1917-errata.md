@@ -2,11 +2,11 @@
 
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 58 rättade verser efter fem granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 82 rättade verser efter sex granskningsomgångar. Varje markerat utdrag har kontrollerats visuellt mot en inskannad trycksida. Rättelserna är införda i Perikops import; din egen kontroll av varje rad återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
-För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); i de 36 A-raderna finns felet i sidans OCR-text.
+För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); A-raderna behandlar fel i apokryfernas OCR och transkriptionens versindelning.
 
 Tack till [MySword](https://www.mysword.info/download-mysword/bibles), vars modul *Swedish Bible 1917*, version 1.0.1, användes i den inledande textjämförelsen. Jämförelsen hjälpte oss att klarlägga textens ursprung och ledde vidare till granskning mot faksimil och OCR. Modulen bygger på samma Runeberg-utgåva och delar flera av dess fel; rättelserna i tabellen är därför verifierade mot trycksidorna, inte hämtade från MySword.
 
@@ -16,7 +16,7 @@ Trycksidan öppnas via länken i sista kolumnen. Siffran där är det tryckta si
 
 ## Patchtabell
 
-R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-text. Kolumnen **Sidans OCR** beskriver om maskintexten på den länkade faksimilsidan stöder rättelsen. Bilden är utslagsgivande för samtliga rader.
+R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-text och versindelning. Kolumnen **Sidans OCR** beskriver om maskintexten på den länkade faksimilsidan stöder rättelsen. Bilden är utslagsgivande för samtliga rader.
 
 | Granskad | ID | Vers och källtext | Före | Efter, enligt bilden | Sidans OCR | Faksimil och läge |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -72,17 +72,40 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | R020 | [Haggai 1:14](https://runeberg.org/bibeln/37_01.html) | HERREN **Sebaots;** sin Guds | HERREN **Sebaots,** sin Guds | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1254](https://runeberg.org/bibeln/efs1927/gt/1254.html), vänster spalt, v. 14 |
 | [ ] | R021 | [Haggai 2:2](https://runeberg.org/bibeln/37_02.html) | profeten **Haggai han** sade | profeten **Haggai; han** sade | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1254](https://runeberg.org/bibeln/efs1927/gt/1254.html), vänster spalt, v. 2 |
 | [ ] | R022 | [Haggai 2:16](https://runeberg.org/bibeln/37_02.html) | till HERRENS **tempel** (utan semikolon) | till HERRENS **tempel;** | Stöder rättelsen efter normalisering av kapitäl-HERREN | [s. 1255](https://runeberg.org/bibeln/efs1927/gt/1255.html), vänster spalt, v. 16 |
-
 | [ ] | A031 | [Judit 5:22](https://runeberg.org/apokryf/0010.html) | **allt folket som stod** | **allt folket, som stod** | Har samma fel; kontrollera bilden | [s. 6](https://runeberg.org/apokryf/0010.html), höger spalt, v. 22 |
 | [ ] | A032 | [Judit 7:3](https://runeberg.org/apokryf/0012.html) | **till Gyamon,** | **till Cyamon,** | Har samma fel; kontrollera bilden | [s. 8](https://runeberg.org/apokryf/0012.html), höger spalt, v. 3 |
 | [ ] | A033 | [Judit 7:30](https://runeberg.org/apokryf/0014.html) | **mina broder!** | **mina bröder!** | Har ”mina broderi”; kontrollera bilden | [s. 10](https://runeberg.org/apokryf/0014.html), vänster spalt, v. 30 |
 | [ ] | A034 | [Judit 8:5](https://runeberg.org/apokryf/0014.html) | **hade gjorts sig** | **hade gjort sig** | Har samma fel; kontrollera bilden | [s. 10](https://runeberg.org/apokryf/0014.html), höger spalt, v. 5 |
 | [ ] | A035 | [Judit 10:3](https://runeberg.org/apokryf/0018.html) | **Manasses’livstid** | **Manasses’ livstid** | Har samma fel; kontrollera bilden | [s. 14](https://runeberg.org/apokryf/0018.html), vänster spalt, v. 3 |
 | [ ] | A036 | [Judit 14:15](https://runeberg.org/apokryf/0025.html) | **sängpallen;och** | **sängpallen; och** | Har ”säng-pallen;och” över radbrytningen; kontrollera bilden | [s. 21](https://runeberg.org/apokryf/0025.html), överst till vänster, v. 15 |
+| [ ] | A037 | [Vish. 2:5](https://runeberg.org/apokryf/0029.html) | **lik ens skugga** | **lik en skugga** | Har samma fel; kontrollera bilden | [s. 25](https://runeberg.org/apokryf/0029.html), höger spalt, v. 5 |
+| [ ] | A038 | [Vish. 2:9](https://runeberg.org/apokryf/0029.html) | **vår festgädje** | **vår festglädje** | Har samma fel; kontrollera bilden | [s. 25](https://runeberg.org/apokryf/0029.html), höger spalt, v. 9 |
+| [ ] | A039 | [Vish. 2:17](https://runeberg.org/apokryf/0030.html) | **bliver för honom,** | **bliver för honom.** | Har samma fel; kontrollera bilden | [s. 26](https://runeberg.org/apokryf/0030.html), vänster spalt, v. 17 |
+| [ ] | A040 | [Vish. 2:24](https://runeberg.org/apokryf/0030.html) | **höra honom till, få erfara** | **höra honom till, de få erfara** | Stämmer med rättelsen | [s. 26](https://runeberg.org/apokryf/0030.html), höger spalt, v. 24 |
+| [ ] | A041 | [Vish. 4:16](https://runeberg.org/apokryf/0032.html) | **skall, fästän död,** | **skall, fastän död,** | Har samma fel; kontrollera bilden | [s. 28](https://runeberg.org/apokryf/0032.html), höger spalt, v. 16 |
+| [ ] | A042 | [Vish. 6:1](https://runeberg.org/apokryf/0034.html) | **I som domen jordens** | **I som dömen jordens** | Har samma fel; kontrollera bilden | [s. 30](https://runeberg.org/apokryf/0034.html), höger spalt, v. 1 |
+| [ ] | A043 | [Vish. 7:23](https://runeberg.org/apokryf/0037.html) | **av fullkomlig finhet,** | **av fullkomlig finhet.** | Har samma fel; kontrollera bilden | [s. 33](https://runeberg.org/apokryf/0037.html), vänster spalt, v. 23 |
+| [ ] | A044 | [Vish. 8:3](https://runeberg.org/apokryf/0037.html) | **gör hon kunniga genom** | **gör hon kunnig genom** | Har samma fel; kontrollera bilden | [s. 33](https://runeberg.org/apokryf/0037.html), höger spalt, v. 3 |
+| [ ] | A045 | [Vish. 8:11](https://runeberg.org/apokryf/0038.html) | **skarpsinnig i i domslut** | **skarpsinnig i domslut** | Har samma fel; kontrollera bilden | [s. 34](https://runeberg.org/apokryf/0038.html), höger spalt, v. 11 |
+| [ ] | A046 | [Vish. 11:7](https://runeberg.org/apokryf/0041.html) | **barnen kulle dödas** | **barnen skulle dödas** | Har samma fel; kontrollera bilden | [s. 37](https://runeberg.org/apokryf/0041.html), höger spalt, v. 7 |
+| [ ] | A047 | [Vish. 12:18](https://runeberg.org/apokryf/0043.html) | **närhelst du vill.** | **närhelst du vill,** | Stämmer med rättelsen | [s. 39](https://runeberg.org/apokryf/0043.html), längst ned till höger, v. 18 |
+| [ ] | A048 | [Vish. 14:22](https://runeberg.org/apokryf/0047.html) | **mitt under i sitt elände** | **mitt under sitt elände** | Har samma fel; kontrollera bilden | [s. 43](https://runeberg.org/apokryf/0047.html), vänster spalt, v. 22 |
+| [ ] | A049 | [Vish. 14:19](https://runeberg.org/apokryf/0046.html) | **likhet; och så begynte mängden,** | **likhet;** | Orden finns; versgränsen måste läsas i bilden | [s. 42](https://runeberg.org/apokryf/0046.html), längst ned till höger, v. 19 |
+| [ ] | A050 | [Vish. 14:20](https://runeberg.org/apokryf/0046.html) | **som fängslades genom** | **och så begynte mängden, som fängslades genom** | Orden finns; versgränsen måste läsas i bilden | [s. 42](https://runeberg.org/apokryf/0046.html), längst ned till höger, v. 20 |
+| [ ] | A051 | [Vish. 16:1](https://runeberg.org/apokryf/0048.html) | **dessa i människor** | **dessa människor** | Har samma fel; kontrollera bilden | [s. 44](https://runeberg.org/apokryf/0048.html), längst ned till höger, v. 1 |
+| [ ] | A052 | [Vish. 16:8](https://runeberg.org/apokryf/0049.html) | **att du är den** | **att du är den som frälsar ifrån allt ont.** | Orden finns; versgränsen måste läsas i bilden | [s. 45](https://runeberg.org/apokryf/0049.html), vänster spalt, v. 8 |
+| [ ] | A053 | [Vish. 16:9](https://runeberg.org/apokryf/0049.html) | **som frälsar ifrån allt ont. Ty dessa** | **Ty dessa** | Orden finns; versgränsen måste läsas i bilden | [s. 45](https://runeberg.org/apokryf/0049.html), vänster spalt, v. 9 |
+| [ ] | A054 | [Vish. 17:5](https://runeberg.org/apokryf/0050.html) | **st järnlågorna** | **stjärnlågorna** | Har samma fel; kontrollera bilden | [s. 46](https://runeberg.org/apokryf/0050.html), längst ned till höger, v. 5 |
+| [ ] | A055 | [Vish. 17:15](https://runeberg.org/apokryf/0051.html) | **och Oförtänkt förskräckelse** | **och oförtänkt förskräckelse** | Har samma fel; kontrollera bilden | [s. 47](https://runeberg.org/apokryf/0051.html), längst ned till vänster, v. 15 |
+| [ ] | A056 | [Vish. 18:9](https://runeberg.org/apokryf/0052.html) | **endräk-tigt** | **endräktigt** | Har samma fel; kontrollera bilden | [s. 48](https://runeberg.org/apokryf/0052.html), vänster spalt, v. 9 |
+| [ ] | A057 | [Vish. 19:3](https://runeberg.org/apokryf/0053.html) | **jämrade Sigvid** | **jämrade sig vid** | Har samma fel; kontrollera bilden | [s. 49](https://runeberg.org/apokryf/0053.html), höger spalt, v. 3 |
+| [ ] | A058 | [Vish. 19:7](https://runeberg.org/apokryf/0053.html) | **överskygga. lägret** | **överskygga lägret** | Har samma fel; kontrollera bilden | [s. 49](https://runeberg.org/apokryf/0053.html), höger spalt, v. 7 |
+| [ ] | A059 | [Vish. 19:15](https://runeberg.org/apokryf/0054.html) | **ytterligare hemsökelser medan** | **ytterligare hemsökelse: medan** | Har samma fel; kontrollera bilden | [s. 50](https://runeberg.org/apokryf/0054.html), vänster spalt, v. 15 |
+| [ ] | A060 | [Vish. 19:17](https://runeberg.org/apokryf/0054.html) | **rättfärd iges dörr** | **rättfärdiges dörr** | Har samma fel; kontrollera bilden | [s. 50](https://runeberg.org/apokryf/0054.html), överst till höger, v. 17 |
 
 ## Så kontrolleras och återbyggs rättelserna
 
-Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 22 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; R008 och R011 har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. Haggais faksimil-OCR återger ofta kapitäl-HERREN som Herren; det är inte en ytterligare ändring i löptexten. För A001–A036 upprepar OCR-texten felet. Dessa 36 rättelser måste därför verifieras mot bilden, inte härledas från den befintliga OCR-texten.
+Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 22 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; R008 och R011 har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. Haggais faksimil-OCR återger ofta kapitäl-HERREN som Herren; det är inte en ytterligare ändring i löptexten. För A-raderna måste själva bilden kontrolleras: OCR-texten kan upprepa felet och återger inte versgränserna tillförlitligt. A040 och A047 stöds även av sidans OCR. A049–A050 och A052–A053 flyttar ord till rätt vers utan att ändra den sammanhängande lydelsen; bilden visar gränserna.
 
 OCR används för att hitta och kontrollera kandidater. Det får inte automatiskt ersätta e-texten: både OCR-fel och skillnader mellan tryckningar förekommer. Endast utdraget i patchtabellen ändras, även när sidans OCR skiljer sig på andra ställen.
 
@@ -116,7 +139,7 @@ Det sista kommandot förutsätter en byggd testbinär i `build/cmake`; använd d
 
 De första tre omgångarna var riktade ordkontroller. Fjärde omgången läste fem hela böcker mot bilderna. Övriga delar av de 35 515 svenska versposterna är inte fullständigt korrekturlästa; aktuell täckning förs i [granskningsliggaren](sv1917-verification.md). Sökningen omfattade misstänkta enstaka bokstäver, förekomster av ”val”, konstruktioner som ”min själv” och ”sin själv vid liv”, en oväntad versal inuti ett namn samt OCR-förväxlingar som ”rn” för ”m”, ”i” för ”l” och en felaktig orddelning. ”Val” i Rom. 8:20 och Syr. 15:15 har behållits som det vanliga substantivet.
 
-Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 36 A-raderna som OCR-ärenden. Ingen rapport har skickats till någon extern mottagare.
+Perikops ursprungliga nedladdningar är bevarade. Importskripten rättar endast de angivna utdragen i den angivna versen och kräver att varje gammal lydelse förekommer exakt en gång. Regressionstester kontrollerar de återbyggda verserna. Efter din kontroll kan de 22 R-raderna rapporteras som e-textärenden och de 60 A-raderna som apokryfärenden. Ingen rapport har skickats till någon extern mottagare.
 
 Tredje omgången kontrollerade de fem tidigare utpekade verserna och ytterligare kandidater från en korpusomfattande ord- och teckensökning. Resultatet är R014–R017 och A013–A026 ovan. Observera särskilt att ”da” i Syrak 37:3 rättas till ”du”, inte ”då”, och att båda ”uppsyningsrnan” rättas till pluralen ”uppsyningsmän”. Sökförslag får alltså inte användas som rättelser utan bildkontroll.
 
@@ -126,3 +149,5 @@ En fullständig sidjämförelse återstår. Se [sökmetod, resultat och fortsatt
 Fjärde omgången: Manasses’ bön 1:1–15, Bel 1:1–42, Asarjas bön 1:1–65, Susanna 1:1–64 och Haggai 1–2 har nu jämförts i sin helhet med faksimil. Nio nya rättelser är införda som A027–A030 och R018–R022. Granskade kapitel, exakta text- och bildhashar, behållna tryckskillnader och nästa arbetsblock finns i [den löpande granskningsliggaren](sv1917-verification.md). Detta ersätter inte din separata kontroll av patchtabellens rader.
 
 Femte omgången: hela Judit, 16 kapitel och 340 versposter på 24 faksimilsidor, har jämförts visuellt. Sex rättelser A031–A036 är införda. Femton kapitel med 316 versposter är färdiga; kapitel 5 med 24 versposter väntar på bedömning av V003. Tryckstödda ovanliga former som ”huvor”, ”hvad” och ”stadens styresman” har behållits.
+
+Sjätte omgången: hela Visheten, 19 kapitel och 436 versposter på 27 faksimilsidor, har jämförts visuellt. A037–A060 rättar 24 versposter, däribland de två versgränserna 14:19–20 och 16:8–9. Alla 19 kapitel är färdiga i liggaren. Tryckets äldre af i 2:16, avsaknaden av sluttecken i 8:18 och det ovanliga kommat i 12:18 är dokumenterade. Rättelsen st järnlågorna tar också bort falska lexikonkopplingar från det främmande st till saint och Stockholms-Tidningen.

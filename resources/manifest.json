@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "0441c491b2bcde097602c3103f50d1a996543c67f90adf7eef67805535763152",
+      "sha256": "0bee444ae45f9922444a4b01cd18805029e701709e5cd3702e5f9f3eda1ed239",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -504,7 +504,7 @@
     },
     {
       "path": "resources/corpus/input/sv1921-apokryfer.tsv",
-      "sha256": "0e87a1d0ec5df35492fb608c4243c5f53f990b93ed19a83f6af4793b3ef66dc7",
+      "sha256": "3ad05d958a684c4828d628c30b2234fbaa7e5e57e50c8aee7dbe4d9dbb001f75",
       "license": "Public-Domain Scripture",
       "role": "Curated by tools/corpus/apocrypha1921.py from Swe1917.json and the Runeberg 1921 OCR"
     },
@@ -553,7 +553,7 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "571cc1a137f02a61475df63b3d389f8069bac645effd6b70df025f78ef9b9d91",
+      "sha256": "a23c92b66dd8285286e21d9d3b302d8be8bf5568a027efc39eaafd701921d0e8",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },
@@ -764,7 +764,7 @@
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "14e971d0c3b59d993962503c76edd3a7c1b8b233b72df29859fe2d9c049cc667",
+      "sha256": "4c4f083c8e432190fec0c570029fc1ffc0e90ca75369533ab0ef3a4c9975c5d4",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     },
@@ -820,13 +820,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "0981ca90391d6e00c0a801ffd1fef161b50c5baa16f44c4f2482d079c6f42812"
+      "sha256": "d9adf28de747dc4cabed13678577896f06f326f9682fe3ede500bcaa1ec45c1e"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "c42aefb00ed4ce7e28e6aa1a22198059b3eedb8d994405e81b30c5e2119a24a3"
+      "sha256": "a0436617e70b63b75497cfa6762ab993d5ad730d872a07f912f718eff65de5e6"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

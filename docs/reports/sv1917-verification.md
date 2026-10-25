@@ -18,10 +18,10 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
-| Svenska apokryfer | 4 / 12 | 19 / 148 | 502 / 4 365 |
+| Svenska apokryfer | 5 / 12 | 38 / 148 | 938 / 4 365 |
 | GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 540 versposter färdiglästa i detta protokoll. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 976 versposter färdiglästa i detta protokoll. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -31,10 +31,11 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | Susanna | Hela 1:1–64 | 252–255 / [0256](https://runeberg.org/apokryf/0256.html)–[0259](https://runeberg.org/apokryf/0259.html) | A029–A030: mellanslag i 1:20 och hög röst i 1:24 |
 | Haggai | Hela 1:1–14 och 2:1–24 | [1253](https://runeberg.org/bibeln/efs1927/gt/1253.html)–[1255](https://runeberg.org/bibeln/efs1927/gt/1255.html) | R018–R022: till, får och tre interpunktionsfel; behållna kommaskillnader antecknade per kapitel |
 | Judit | 1–4 och 6–16; 15 av 16 kapitel, 316 versposter | 1–24 / [0005](https://runeberg.org/apokryf/0005.html)–[0028](https://runeberg.org/apokryf/0028.html) | A031–A036 införda; kapitel 5 bildläst men olöst V003, räknas inte som färdigt |
+| Visheten | Hela 1–19, 436 versposter | 24–50 / [0028](https://runeberg.org/apokryf/0028.html)–[0054](https://runeberg.org/apokryf/0054.html) | A037–A060: 24 rättade versposter, inklusive två versgränser |
 
 ## Återstår
 
-**Apokryfer:** Judit 5 väntar på bedömning av V003. Visheten, Tobit, Syrak, Baruk, 1 Mackabeerboken, 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
+**Apokryfer:** Judit 5 väntar på bedömning av V003. Tobit, Syrak, Baruk, 1 Mackabeerboken, 2 Mackabeerboken och Tillägg till Ester är ännu inte genomlästa kapitelvis i detta protokoll. Enskilda tidigare bildkontroller är dokumenterade i erratatabellen men ger ingen full kapitelstatus.
 
 **GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
@@ -44,7 +45,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Nästa arbetsblock
 
-1. Fortsätt med **Visheten 1** från [skannummer 0028, tryckt s. 24](https://runeberg.org/apokryf/0028.html) och följ hela kapitlet över efterföljande sidor. Läs sedan vidare kapitel för kapitel. Sök parallellt ett oberoende tryck för V003; Judit 5 får inte räknas som färdigt innan frågan har bedömts.
+1. Fortsätt med **Tobit 1** från [skannummer 0054, tryckt s. 50](https://runeberg.org/apokryf/0054.html) och följ hela kapitlet över efterföljande sidor. Läs sedan vidare kapitel för kapitel. Sök parallellt ett oberoende tryck för V003; Judit 5 får inte räknas som färdigt innan frågan har bedömts.
 2. Lägg till en kapitelpost först efter full jämförelse och efter att eventuella rättelser har återbyggts i korpusen. `needs-review` används om något fortfarande är olöst.
 3. Kör liggarkontrollen och relevanta regressioner. Uppdatera denna sammanställning och PR #64 vid varje färdigt arbetsblock. Lämna ofärdiga kapitel uttryckligen ofärdiga.
 
@@ -59,3 +60,4 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 1:** läste samtliga verser i Manasses’ bön, Bel och draken, Asarjas bön inklusive lovsången samt Susanna; 11 unika faksimilsidor, fyra hela kapitel och 186 versposter. Fyra nya rättelser A027–A030. Tidigare återställda passager över sidgränser kontrollerades på nytt.
 - **2026-10-25, block 2:** läste hela Haggai på tre faksimilsidor; två kapitel och 38 versposter. Fem nya rättelser R018–R022. Kommaskillnader och placeringen av 2:1 före kapitelrubriken dokumenterades. Överlappande Sefanja- och Sakarjatext räknas inte som granskad.
 - **2026-10-25, block 3:** läste hela Judit, 16 kapitel och 340 versposter på 24 nya faksimilsidor. Sex rättelser A031–A036 införda och återbyggda. Femton kapitel med 316 versposter är färdiga; kapitel 5 med 24 versposter är `needs-review` på grund av tryckets ”förjagade med” (V003). Kontrollerade ovanliga men tryckstödda former och återställda versgränser. Totalt 38 unika bildsidor har lästs i liggarens fulla kapitelgenomgångar; text efter Judits slut räknas inte som läst. Nästa bok är Visheten.
+- **2026-10-25, block 4:** läste hela Visheten, 19 kapitel och 436 versposter på 27 faksimilsidor, varav en redan delats med Judit. A037–A060 införda och återbyggda: 24 rättade versposter, inklusive flytt av ord till rätt vers i 14:19–20 och 16:8–9. Alla 19 kapitel färdiga. Totalt 64 unika bildsidor och 976 färdiga versposter. Rättat st järnlågorna avlägsnar falska SALDO-kopplingar till saint och Stockholms-Tidningen; den förväntade mängden lexikonsinnen har uppdaterats från 12 748 till 12 746. Nästa bok är Tobit.

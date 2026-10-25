@@ -1,6 +1,6 @@
 # form	occurrences	voice	alternatives
 han	13134	h'A:n	h'A:n=namn|h'an=pronomen
-en	8904	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
+en	8905	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
 du	7143	d'y:	d'u-=pronomen|d'y:=namn
 men	5525	m'En	m'En=konjunktion|m'e:n=substantiv
 hans	4320	h'A:ns	h'A:ns=namn|h'ans=pronomen
@@ -28,7 +28,7 @@ andre	158	andR'E	'andRE-=adjektiv, pronomen, räkneord|andR'E=namn
 sen	138	s'En	s'En=namn|s'e:n=adjektiv, adverb, konjunktion, preposition
 just	134	j'8st	j'8st=adverb, namn|sx'yst=adjektiv
 dom	133	d'Om	d'Om=pronomen|d'Um=substantiv|d'o:m=substantiv
-ens	132	'Ens	'Ens=adverb|'e:ns=substantiv
+ens	131	'Ens	'Ens=adverb|'e:ns=substantiv
 vän	131	v'E:n	v'E:n=adjektiv|v'En=substantiv
 ben	126	b'En	b'En=namn, substantiv|b'e:n=namn, substantiv
 bergen	122	b'ERgE-n	b'ERgE-n=namn, substantiv|b'ERjE-n=substantiv
@@ -63,8 +63,8 @@ förlåten	42	fWl.'o:tE-n	f'Y:l.,o:tE-n=substantiv|fWl.'o:tE-n=adjektiv, partici
 utför	42	'u-tfWR	'u-tf,Y:R=verb, böjd form|'u-tfWR=adverb, preposition, verb
 särskilda	40	s'E:s.,Ilda	s'E:Rs.,Ilda=adjektiv, particip|s'E:s.,Ilda=adjektiv, böjd form
 andras	34	'andRas	'andRA:s=verb|'andRas=namn, pronomen, räkneord
-domen	33	d'UmE-n	d'UmE-n=substantiv|d'o:mE-n=substantiv
 ai	32	'A:,i:	'A:,i:=namn|'A:i:=substantiv
+domen	32	d'UmE-n	d'UmE-n=substantiv|d'o:mE-n=substantiv
 syntes	30	synt'e:s	s'y:ntE-s=verb|synt'e:s=substantiv
 särskild	30	s'E:s.,Ild	s'E:Rs.,Ild=adjektiv, particip|s'E:s.,Ild=adjektiv, böjd form
 driver	28	dR'ajvE-R	dR'ajvE-R=substantiv, böjd form|dR'i:vE-R=verb

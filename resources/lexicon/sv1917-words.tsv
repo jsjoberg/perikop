@@ -1,13 +1,13 @@
 # form	occurrences	kind	nst_sampa
 och	39653	word	"Ok
-i	15978	word	
+i	15975	word	
 till	15694	word	"tIl
 som	14018	word	
 att	12743	word	"at
 han	12030	word	"han
-de	11740	word	
+de	11741	word	
 det	8674	word	
-en	8480	word	"En
+en	8481	word	"En
 Och	8353	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
@@ -23,7 +23,7 @@ så	6856	word	"so:
 honom	6734	word	""hO$nOm
 har	6695	word	"hA:r
 du	6355	word	"d}:
-sig	5117	word	"sEj
+sig	5118	word	"sEj
 I	4771	word	"i:
 dig	4734	word	"dEj
 HERREN	4698	word	""hE$ren
@@ -64,7 +64,7 @@ men	2124	word	"mEn
 vi	2068	word	"vi:
 son	2030	word	"su:n
 allt	1991	word	"alt
-vid	1980	word	"vi:d
+vid	1981	word	"vi:d
 ut	1961	word	"}:t
 oss	1942	word	"Os
 detta	1932	word	
@@ -76,7 +76,7 @@ eller	1704	word	"E$ler
 sitt	1609	word	"sIt
 Israels	1608	name	Is$ra$"e:ls
 vara	1606	word	""vA:$ra
-skulle	1584	word	""sku0$le
+skulle	1585	word	""sku0$le
 hus	1580	word	"h}:s
 Så	1577	word	"so:
 äro	1565	word	""E:$rU
@@ -506,9 +506,9 @@ vin	184	word	"vi:n
 lever	183	word	"le:$ver
 o	183	word	
 tjänst	183	word	"s'Enst
+fastän	181	word	"fa$stEn
 leviterna	181	word	le$"vi:$te$n`a
 låg	181	word	"lo:g
-fastän	180	word	"fa$stEn
 finna	180	word	""fI$na
 judarna	180	word	""j}:$da$n`a
 männen	180	word	"mE$nen
@@ -648,11 +648,11 @@ vittnesbörd	133	word	""vIt$nes$%b2:d`
 Dock	132	word	"dOk
 Jeremia	132	name	
 bär	132	word	"bE:r
-ens	132	word	"Ens
 for	132	word	"fu:r
 gören	132	word	
 ljus	132	word	"j}:s
 tillhopa	132	word	""tIl$%hu:$pa
+ens	131	word	"Ens
 hustrur	131	word	""hu0$str}:r
 lägret	131	word	"lE:$gret
 vän	131	word	"vE:n
@@ -2106,7 +2106,6 @@ befallningar	32	word	be$"fal$nIN$ar
 begår	32	word	be$"go:r
 bredd	32	word	"brEd
 djupet	32	word	"j}:$pet
-domen	32	word	"dU$men
 dyrbara	32	word	""dy:r$%bA:$ra
 fira	32	word	""fi:$ra
 fullbordan	32	word	""fu0l$%bu:$d`an
@@ -2164,6 +2163,7 @@ bet	31	word	"be:t
 bockar	31	word	""bO$kar
 brödet	31	word	"br2:$det
 cederträ	31	word	""se:$de$%t`rE:
+domen	31	word	"dU$men
 drag	31	word	"drA:g
 dryck	31	word	"drYk
 falskt	31	word	"falskt
@@ -2364,6 +2364,7 @@ förmå	28	word	f9r$"mo:
 förtär	28	word	f9$"t`E:r
 handla	28	word	""hand$la
 helgedomens	28	word	""hEl$ge$%dU$mens
+hemsökelse	28	word	""hEm$%s2:$kel$se
 hjälper	28	word	""jEl$per
 hjärtans	28	word	""jE$t`ans
 härav	28	word	"hE:r$A:v
@@ -2436,7 +2437,6 @@ givna	27	word	""ji:v$na
 godo	27	word	""gu:$dU
 gällde	27	word	""jEl$de
 göt	27	word	"j2:t
-hemsökelse	27	word	""hEm$%s2:$kel$se
 höjer	27	word	"h9$jer
 kläda	27	word	""klE:$da
 liknelse	27	word	""li:$knel$se
@@ -2706,6 +2706,7 @@ palats	24	word	pa$"lats
 personen	24	word	pe$"s`u:$nen
 ris	24	word	"ri:s
 räcker	24	word	"rE$ker
+rättfärdiges	24	word	""rEt$%fE:$d`I$ges
 silvret	24	word	"sIl$vret
 skaran	24	word	""skA:$ran
 skriften	24	word	"skrIf$ten
@@ -2821,7 +2822,6 @@ redliga	23	word	""re:d$lI$ga
 riva	23	word	""ri:$va
 rygg	23	word	"rYg
 räknade	23	word	""rE:$kna$de
-rättfärdiges	23	word	""rEt$%fE:$d`I$ges
 rättvisa	23	word	""rEt$%vi:$sa
 rådslut	23	word	""ro:d$%sl}:t
 samlat	23	word	""sam$lat
@@ -3238,6 +3238,7 @@ delar	19	word	""de:$lar
 densamme	19	word	den$"sa$me
 druvor	19	word	""dr}:$vUr
 dödsrikets	19	word	""d9ts$%ri:$kets
+endräktigt	19	word	""e:n$%drEk$tIkt
 evad	19	word	
 familjerna	19	word	fa$"mIl$je$n`a
 flyr	19	word	"fly:r
@@ -3393,7 +3394,6 @@ dagligen	18	word	""dA:$glI$gen
 domaren	18	word	""dU$ma$ren
 döljer	18	word	"d9l$jer
 dömde	18	word	""d9m$de
-endräktigt	18	word	""e:n$%drEk$tIkt
 familj	18	word	fa$"mIlj
 fastade	18	word	""fa$sta$de
 fettet	18	word	"fE$tet
@@ -3753,6 +3753,7 @@ nyttigt	16	word	""nY$tIkt
 nämner	16	word	"nEm$ner
 nätter	16	word	"nE$ter
 oförståndiga	16	word	
+oförtänkt	16	word	
 ordningen	16	word	""o:d`$n`IN$en
 otrohet	16	word	""u:$tru:$%he:t
 ouppsåtligen	16	word	
@@ -3954,6 +3955,7 @@ kloka	15	word	""klu:$ka
 knorrade	15	word	""knO$ra$de
 krossas	15	word	""krO$sas
 kräldjur	15	word	""krE:l$%j}:r
+kunnig	15	word	""ku0$nIg
 kval	15	word	"kvA:l
 kvistar	15	word	""kvI$star
 källor	15	word	""s'E$lUr
@@ -3978,7 +3980,6 @@ måg	15	word	"mo:g
 mål	15	word	"mo:l
 offerhöjden	15	word	
 oförnuftiga	15	word	""u:$f9$%n`u0f$tI$ga
-oförtänkt	15	word	
 ogudaktig	15	word	
 oomskuren	15	word	""u:$Om$%sk}:$ren
 orenat	15	word	""u:$%re:$nat
@@ -4183,7 +4184,6 @@ hörsamma	14	word	""h2:$%s`a$ma
 inbärga	14	word	
 judisk	14	word	"j}:$dIsk
 konungatron	14	word	
-kunnig	14	word	""ku0$nIg
 köpenskap	14	word	""s'2:$pen$%skA:p
 lastade	14	word	""la$sta$de
 lerkärl	14	word	""le:r$%s'E:l`
@@ -4633,6 +4633,7 @@ duva	12	word	""d}:$va
 däromkring	12	word	dE:$rOm$"krIN
 dåraktigt	12	word	""do:$%rak$tIkt
 dårars	12	word	""do:$ras`
+dömen	12	word	
 döpelse	12	word	""d2:$pel$se
 dörrvaktare	12	word	
 fallna	12	word	""fal$na
@@ -4689,7 +4690,6 @@ guds	12	word
 halva	12	word	""hal$va
 hedar	12	word	""he:$dar
 hemligen	12	word	""hEm$lI$gen
-hemsökelser	12	word	""hEm$%s2:$kel$ser
 himmelske	12	word	"hI$mel$ske
 hämten	12	word	
 högheliga	12	word	
@@ -4919,7 +4919,6 @@ dolde	11	word	""do:l$de
 domens	11	word	"do:$mens
 dråparen	11	word	""dro:$pa$ren
 därovan	11	word	dEr$""o:$van
-dömen	11	word	
 dömt	11	word	"d9mt
 döparen	11	word	""d2:$pa$ren
 döpta	11	word	
@@ -4977,6 +4976,7 @@ gärningars	11	word	""jE:$n`IN$as`
 gåvorna	11	word	""go:$vU$n`a
 halsen	11	word	"hal$sen
 helgelse	11	word	""hEl$gel$se
+hemsökelser	11	word	""hEm$%s2:$kel$ser
 hetiternas	11	word	
 hinna	11	word	""hI$na
 hittills	11	word	"hi:$tIls
@@ -5811,7 +5811,6 @@ kos	9	word	"ku:s
 krans	9	word	"krA:ns
 krigare	9	word	""kri:$ga$re
 kroppens	9	word	"krO$pens
-kunniga	9	word	""ku0$nI$ga
 kvad	9	word	
 lades	9	word	""lA:$des
 lejt	9	word	"lEjt
@@ -6315,6 +6314,7 @@ kronan	8	word	""kru:$nan
 kropparna	8	word	""krO$pa$n`a
 kränkte	8	word	"krENk$te
 kungören	8	word	
+kunniga	8	word	""ku0$nI$ga
 kyss	8	word	"s'Ys
 kärt	8	word	"s'E:t`
 kärvar	8	word	""s'Er$var
@@ -10964,7 +10964,6 @@ Nästa	3	word	""nE$sta
 Nåväl	3	name	"no:$vE:l
 Obadjas	3	name	
 Ofel	3	name	
-Oförtänkt	3	word	
 Olycka	3	word	""u:$%lY$ka
 Omar	3	name	"u:$mar
 Omtala	3	word	""Om$%tA:$la
@@ -11449,6 +11448,7 @@ fattats	3	word	""fa$tats
 fattigdomen	3	word	""fa$tIg$%dU$men
 femtiofem	3	word	fem$tI$U$"fEm
 femtiosju	3	word	fem$tI$U$"x\}:
+festglädje	3	word	""fEst$%glE:d$je
 festligt	3	word	""fEst$lIkt
 fiendes	3	word	""fi:$en$des
 fika	3	word	""fi:$ka
@@ -11950,7 +11950,6 @@ krälar	3	word	""krE:$lar
 krönikan	3	word	"kr2:$nI$kan
 krönikor	3	word	"kr2:$nI$kUr
 kullarna	3	word	""ku0$la$n`a
-kulle	3	word	""ku0$le
 kummel	3	word	"ku0$mel
 kunden	3	word	"ku0n$den
 kustlandets	3	word	""ku0st$%land$dets
@@ -13664,6 +13663,7 @@ Ock	2	word	"Ok
 Oded	2	name	
 Ofelmuren	2	name	
 Ofärd	2	word	""u:$%fE:d`
+Oförtänkt	2	word	
 Ohad	2	name	
 Olyckliga	2	word	""u:$%lY$klI$ga
 Omgjorden	2	name	
@@ -14513,7 +14513,6 @@ femtionio	2	word	fem$tI$U$""ni:$U
 femtioåtta	2	word	fem$tI$U$""O$ta
 festdagar	2	word	""fEst$%dA:$gar
 festerna	2	word	""fE$ste$n`a
-festglädje	2	word	""fEst$%glE:d$je
 fiendskapen	2	word	""fi:$end$%skA:$pen
 fientlig	2	word	fI$"Ent$lIg
 fikar	2	word	""fi:$kar
@@ -15400,6 +15399,7 @@ kröna	2	word	""kr2:$na
 kröner	2	word	"kr2:$ner
 krönt	2	word	"kr2:nt
 krönte	2	word	""kr2:n$te
+kulle	2	word	""ku0$le
 kullen	2	word	"ku0$len
 kungligt	2	word	""ku0N$lIkt
 kunskapare	2	word	""ku0n$%skA:$pa$re
@@ -19460,7 +19460,6 @@ Sifron	1	name
 Sifs	1	name	
 Siftans	1	name	
 Sigjonót	1	name	
-Sigvid	1	name	
 Siha	1	name	
 Sikeln	1	word	"si:$keln
 Silhim	1	name	
@@ -21329,7 +21328,6 @@ eméer	1	word
 eméerna	1	word	
 endaste	1	word	""En$da$ste
 endera	1	word	
-endräk	1	word	
 enfald	1	word	""e:n$%fald
 enfaldig	1	word	""e:n$%fal$dIg
 enfaldige	1	word	""e:n$%fal$dI$ge
@@ -21441,7 +21439,6 @@ fereséerna	1	word
 fest	1	word	"fEst
 festdag	1	word	""fEst$%dA:g
 festförsamling	1	word	
-festgädje	1	word	
 festlig	1	word	""fEst$lIg
 festligheter	1	word	""fEst$lIg$%he:$ter
 festrus	1	word	
@@ -21775,7 +21772,6 @@ fästningarnas	1	word	""fEst$nIN$a$n`as
 fästningsmurarna	1	word	""fEst$nINs$%m}:$ra$n`a
 fästningstinnar	1	word	
 fästningstornen	1	word	""fEst$nINs$%tu:$n`en
-fästän	1	word	
 fåfängligheten	1	word	""fo:$fEN$lIg$%he:$ten
 fåfängligheter	1	word	
 fågelbo	1	word	""fo:$gel$%bu:
@@ -23119,7 +23115,6 @@ iförd	1	word
 ifört	1	word	
 igentäppas	1	word	I$""jEn$%tE$pas
 igentäppta	1	word	
-iges	1	word	
 ihjälrivna	1	word	
 ihjälslagen	1	word	I$""jE:l$%slA:$gen
 ihjälslagna	1	word	I$""jE:l$%slA:$gna
@@ -23371,7 +23366,6 @@ jämrat	1	word
 jämvikt	1	word	""jEm$%vIkt
 järnek	1	word	""jE:n`$%e:k
 järnets	1	word	"jE:$n`ets
-järnlågorna	1	word	
 järnok	1	word	
 järnpansar	1	word	
 järnpelare	1	word	
@@ -25428,7 +25422,6 @@ rätas	1	word	""rE:$tas
 rätsidan	1	word	""rE:t$%si:$dan
 rättan	1	word	""rE$tan
 rättesnöre	1	word	""rE$te$%sn2:$re
-rättfärd	1	word	
 rättfärdigaste	1	word	""rEt$%fE:$d`I$ga$ste
 rättfärdiggjort	1	word	
 rättfärdiggörelse	1	word	""rEt$fE:$d`Ig$%j2:$rel$se
@@ -26263,7 +26256,6 @@ spåmännens	1	word	""spo:$%mE$nens
 spån	1	word	"spo:n
 spåra	1	word	""spo:$ra
 spörjen	1	word	
-st	1	word	"stYk
 stadfästa	1	word	""stA:d$%fE$sta
 stadgad	1	word	
 stadgan	1	word	""stad$gan
@@ -26353,6 +26345,7 @@ stjärnbilderna	1	word	""x\E:n`$%bIl$de$n`a
 stjärnguden	1	word	
 stjärnhimmelen	1	word	
 stjärnljus	1	word	""x\E:n`$%j}:s
+stjärnlågorna	1	word	
 stjärnringen	1	word	
 stjärntydare	1	word	""x\E:n`$%t`y:$da$re
 stjärt	1	word	"x\Et`
@@ -26806,7 +26799,6 @@ tidstecknens	1	word
 tidsåldrar	1	word	""ti:ds$%Ol$drar
 tiggarbönen	1	word	
 tiggarliv	1	word	
-tigt	1	word	
 tillaga	1	word	""tIl$%lA:$ga
 tillagad	1	word	
 tillagar	1	word	""tIl$%lA:$gar

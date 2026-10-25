@@ -952,12 +952,37 @@ int main(int argc, char** argv) {
                  {"Jdt", {7, 30}, "mina broder!", "mina bröder!"},
                  {"Jdt", {8, 5}, "hade gjorts sig", "hade gjort sig"},
                  {"Jdt", {10, 3}, "Manasses’livstid", "Manasses’ livstid"},
-                 {"Jdt", {14, 15}, "sängpallen;och", "sängpallen; och"}}) {
+                 {"Jdt", {14, 15}, "sängpallen;och", "sängpallen; och"},
+                 {"Wis", {2, 5}, "lik ens skugga", "lik en skugga"},
+                 {"Wis", {2, 9}, "vår festgädje", "vår festglädje"},
+                 {"Wis", {2, 17}, "bliver för honom,", "bliver för honom."},
+                 {"Wis", {2, 24}, "höra honom till, få erfara", "höra honom till, de få erfara"},
+                 {"Wis", {4, 16}, "skall, fästän död,", "skall, fastän död,"},
+                 {"Wis", {6, 1}, "I som domen jordens", "I som dömen jordens"},
+                 {"Wis", {7, 23}, "av fullkomlig finhet,", "av fullkomlig finhet."},
+                 {"Wis", {8, 3}, "gör hon kunniga genom", "gör hon kunnig genom"},
+                 {"Wis", {8, 11}, "skarpsinnig i i domslut", "skarpsinnig i domslut"},
+                 {"Wis", {11, 7}, "barnen kulle dödas", "barnen skulle dödas"},
+                 {"Wis", {12, 18}, "närhelst du vill.", "närhelst du vill,"},
+                 {"Wis", {14, 22}, "mitt under i sitt elände", "mitt under sitt elände"},
+                 {"Wis", {14, 19}, "likhet; och så begynte mängden,", "likhet;"},
+                 {"Wis", {16, 1}, "dessa i människor", "dessa människor"},
+                 {"Wis", {16, 9}, "som frälsar ifrån allt ont. Ty dessa", "Ty dessa"},
+                 {"Wis", {17, 5}, "st järnlågorna", "stjärnlågorna"},
+                 {"Wis", {17, 15}, "och Oförtänkt förskräckelse", "och oförtänkt förskräckelse"},
+                 {"Wis", {18, 9}, "endräk-tigt", "endräktigt"},
+                 {"Wis", {19, 3}, "jämrade Sigvid", "jämrade sig vid"},
+                 {"Wis", {19, 7}, "överskygga. lägret", "överskygga lägret"},
+                 {"Wis", {19, 15}, "ytterligare hemsökelser medan", "ytterligare hemsökelse: medan"},
+                 {"Wis", {19, 17}, "rättfärd iges dörr", "rättfärdiges dörr"}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
+        check(corpus.verse("sv1917", "Wis", {14, 20})->text.starts_with("och så begynte mängden, som fängslades genom") &&
+                  corpus.verse("sv1917", "Wis", {16, 8})->text.ends_with("att du är den som frälsar ifrån allt ont."),
+              "Wisdom verse boundaries retain their complete opening and closing phrases");
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
               "the possible printing variant with någon remains pending human review");
         check(corpus.verse("sv1917", "Jdt", {5, 8})->text.find("förjagade med från") != std::string::npos &&
