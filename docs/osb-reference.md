@@ -76,14 +76,8 @@ The version-3 plans follow OSB chapters and book order. They include Psalm 151,
 37. See [reading plans](reading-plans.md) for lengths and compatibility details.
 
 Bookmarks keep their original source and coordinates; labels and opening passages
-are mapped to OSB. Saved reading positions are copied to `reading:osb-v1:...` keys.
-Old rows remain recovery data. Plan conversion uses frozen v1/v2 ranges and requires
-all source counterparts to be read before marking a new OSB verse covered. New
-material without old coverage remains unread. Checkpoints resume at the first
-unread verse, so a boundary may repeat text but cannot skip an unread gap.
-
-Each migration phase is transactional and idempotent. Existing OSB progress wins.
-Reset clears all versions of a plan, and migration markers prevent resurrection.
+are mapped to OSB. Reading positions use `passage:osb-v1:...` keys, which plan parts share with daily readings of the same
+passage. Positions and plan progress saved before 0.2.0 are not converted; see [reading plans](reading-plans.md#compatibility).
 
 ## Reproduce and verify
 
@@ -100,7 +94,7 @@ python tests/osb_metadata_test.py
 
 The installed reference database has coordinate and link tables only. Regression tests cover the reviewed exceptions, all generated
 inverse links to bundled text, every lectionary assignment, mixed/merged speech,
-bookmarks, v1/v2 resume conversion, rollback, reset and existing-progress precedence.
+bookmarks, versioned plan keys and the plan layout.
 The metadata tests also rebuild the complete database from the frame and compare
 all relational data, verify every NT coordinate against KJV, and check that the
 shipped schema has no Bible-text fields.

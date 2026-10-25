@@ -666,7 +666,7 @@ int main(int argc, char** argv) {
                                   "chapter in two plan parts: " + range.book);
                 }
             check(plan_label(corpus, plans[0].parts[50]) == "2 Tim 1–4 + Tit 1–3 + Filem", "plan part label");
-            check(plan_key(plans[1], 6) == "plan:ot:v3:7", "versioned plan part key");
+            check(plan_key(plans[1], 6) == "plan:ot:v4:7", "versioned plan part key");
             // Together the plans cover the Septuagint canon and the New Testament, except the books
             // that have no Swedish text yet.
             std::vector<std::string> missing;
@@ -1231,7 +1231,7 @@ int main(int argc, char** argv) {
                 legacy, "INSERT INTO settings VALUES('tradition','antiochian')", nullptr, nullptr, nullptr);
             sqlite3_close(legacy);
             check(legacy_result == SQLITE_OK && user.load().tradition == Tradition::Greek,
-                  "legacy Antiochian settings select the Greek family");
+                  "a reading order other than Slavic selects the Greek family");
             s.theme = Theme::Dark;
             s.color_scheme = ColorScheme::TokyoNight;
             s.calendar = CalendarStyle::Old;

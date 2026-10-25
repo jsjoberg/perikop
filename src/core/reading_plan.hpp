@@ -13,7 +13,8 @@ struct ReadingPlan {
 };
 // The New Testament, the whole Bible, and the Septuagint's other books.
 const std::vector<ReadingPlan>& reading_plans();
-// Versioned progress key of a part, counted from 1: "plan:nt:v3:7".
+// Progress key of a part, counted from 1: "plan:nt:v4:7". A new plan layout takes a new version,
+// so marks saved for an earlier layout no longer apply; they are not converted.
 std::string plan_key(const ReadingPlan&, std::size_t part);
 // A part as the plan states it, with ranges or complete short books, or with whole book names.
 std::string plan_label(const CorpusDb&, const PlanPart&, bool short_names = true);
