@@ -94,7 +94,7 @@ python tests/osb_metadata_test.py
 
 The installed reference database has coordinate and link tables only. Regression tests cover the reviewed exceptions, all generated
 inverse links to bundled text, every lectionary assignment, mixed/merged speech,
-bookmarks, v1/v2 resume conversion, rollback, reset and existing-progress precedence.
+bookmarks, versioned plan keys and the plan layout.
 The metadata tests also rebuild the complete database from the frame and compare
 all relational data, verify every NT coordinate against KJV, and check that the
 shipped schema has no Bible-text fields.
