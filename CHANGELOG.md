@@ -10,7 +10,7 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [0.2.0] - 2026-10-24
 
-Reading-plan progress starts over; daily-reading marks, bookmarks and settings are kept.
+Reading-plan progress and resume positions start over; daily-reading marks, bookmarks and settings are kept.
 
 ### Added
 
