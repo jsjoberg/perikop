@@ -158,7 +158,7 @@ mer	801	word
 namn	796	word	"namn
 Ja	790	word	"jA:
 Du	788	word	"dy:
-gjort	777	word	"jUt`
+gjort	778	word	"jUt`
 edra	776	word	""e:$dra
 Om	767	word	"Om
 denna	763	word	""dE$na
@@ -205,7 +205,7 @@ många	575	word
 åstad	575	word	O$"stA:d
 emot	573	word	
 stor	569	word	"stu:r
-bröder	558	word	"br2:$der
+bröder	559	word	"br2:$der
 skull	556	word	"sku0l
 omkring	546	word	
 ända	545	word	""En$da
@@ -268,7 +268,7 @@ både	384	word	""bo:$de
 stod	384	word	"stu:d
 HERRE	383	word	""hE$re
 vilken	383	word	""vIl$ken
-broder	376	word	""bru:$der
+broder	375	word	""bru:$der
 herre	375	word	""hE$re
 heliga	373	word	""he:$lI$ga
 bo	367	word	"bu:
@@ -7623,7 +7623,6 @@ gathörn	6	word	""gA:t$%h2:n`
 genast	6	word	
 genstridighet	6	word	""je:n$stri:$dIg$%he:t
 gileaditen	6	word	
-gjorts	6	word	"jUt`s`
 gnista	6	word	""gnI$sta
 gomer	6	word	
 granatäpple	6	word	gra$""nA:t$%E$ple
@@ -8586,6 +8585,7 @@ gesuréernas	5	word
 girgaséerna	5	word	
 gisselslag	5	word	""jI$sel$%slA:g
 givits	5	word	""ji:$vIts
+gjorts	5	word	"jUt`s`
 gjut	5	word	"j}:t
 glansen	5	word	"glan$sen
 glädjedag	5	word	
@@ -17688,6 +17688,7 @@ Bör	1	word	"b2:r
 Börda	1	word	""b2:$d`a
 Bördemannen	1	word	
 Cende	1	name	
+Cyamon	1	name	
 Cyrus	1	name	"sy:$ru0s
 DE	1	word	
 Dabbeset	1	name	
@@ -18091,7 +18092,6 @@ Gudasvar	1	name
 Gudsfruktans	1	word	
 Gur	1	name	
 Gurhöjden	1	name	
-Gyamon	1	name	
 Gyllene	1	word	""jY$le$ne
 Gärna	1	word	""jE:$n`a
 Gång	1	word	"gON

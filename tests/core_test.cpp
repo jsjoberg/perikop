@@ -946,7 +946,13 @@ int main(int argc, char** argv) {
                  {"Hag", {1, 1}, "profeten Haggai Serubbabel", "profeten Haggai till Serubbabel"},
                  {"Hag", {1, 6}, "han far den allenast", "han får den allenast"},
                  {"Hag", {1, 14}, "HERREN Sebaots; sin Guds", "HERREN Sebaots, sin Guds"},
-                 {"Hag", {2, 2}, "profeten Haggai han sade", "profeten Haggai; han sade"}}) {
+                 {"Hag", {2, 2}, "profeten Haggai han sade", "profeten Haggai; han sade"},
+                 {"Jdt", {5, 22}, "allt folket som stod", "allt folket, som stod"},
+                 {"Jdt", {7, 3}, "till Gyamon,", "till Cyamon,"},
+                 {"Jdt", {7, 30}, "mina broder!", "mina bröder!"},
+                 {"Jdt", {8, 5}, "hade gjorts sig", "hade gjort sig"},
+                 {"Jdt", {10, 3}, "Manasses’livstid", "Manasses’ livstid"},
+                 {"Jdt", {14, 15}, "sängpallen;och", "sängpallen; och"}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
@@ -954,6 +960,9 @@ int main(int argc, char** argv) {
         }
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
               "the possible printing variant with någon remains pending human review");
+        check(corpus.verse("sv1917", "Jdt", {5, 8})->text.find("förjagade med från") != std::string::npos &&
+                  corpus.verse("sv1917", "Jdt", {5, 3})->text.find("och hvad för städer") != std::string::npos,
+              "Judith's printed med and hvad remain distinct from OCR corrections");
         check(corpus.verse("sv1917", "Hag", {2, 16})->text.ends_with("till HERRENS tempel;"),
               "Haggai's sentence continues across the verse boundary with a semicolon");
         check(corpus.verse("sv1917", "PrAzar", {1, 42})->text.ends_with("i evighet."),

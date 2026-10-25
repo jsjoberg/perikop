@@ -62,6 +62,13 @@ REPLACE=[
  ('PrAzar',1,42,'i evighet','i evighet.'),
  ('Sus',1,20,'»Se,trädgårdsporten','»Se, trädgårdsporten'),
  ('Sus',1,24,'ropa med högröst','ropa med hög röst'),
+ # Complete Judith scan review: A031-A036; printed med in 5:8 remains V003.
+ ('Jdt',5,22,'allt folket som stod','allt folket, som stod'),
+ ('Jdt',7,3,'till Gyamon,','till Cyamon,'),
+ ('Jdt',7,30,'mina broder!','mina bröder!'),
+ ('Jdt',8,5,'hade gjorts sig','hade gjort sig'),
+ ('Jdt',10,3,'Manasses’livstid','Manasses’ livstid'),
+ ('Jdt',14,15,'sängpallen;och','sängpallen; och'),
  ('Jdt',1,1,'Konung Nebukadnessar bådar upp alla länder till krig mot konung Arfaksad. Länderna västerut vägra att hörsamma denna befallning. Arfaksad besegras. ',''),
  ('PrMan',1,1,'2 Krön 33,12; Syndabekännelse och bön om förlåtelse. ',''),
  ('Wis',3,2,', Mack 7,33; Hebr 12,7.',','),('Wis',9,18,' 1 Kor 2,16.',''),('Tob',4,21,' 16,2; 2 Kor 8,12.',''),
