@@ -99,18 +99,14 @@ void CorpusDb::load_imported(const std::filesystem::path& path) {
     std::lock_guard lock(cache_mutex_);
     imported_ = std::move(candidate);
     versification_[srb_source] = "SRB2026";
-    std::erase_if(texts_, [](const auto& entry) {
-        return entry.first.first == srb_source;
-    });
-    std::erase_if(alignments_, [](const auto& entry) {
-        return std::get<0>(entry.first) == srb_source || std::get<1>(entry.first) == srb_source;
-    });
+    clear_imported_cache();
 }
 void CorpusDb::remove_imported() {
     std::lock_guard lock(cache_mutex_);
     if (!imported_)
         return;
-    const auto path = std::filesystem::u8path(sqlite3_db_filename(imported_.get(), "main"));
+    const auto* filename = sqlite3_db_filename(imported_.get(), "main");
+    const std::filesystem::path path(reinterpret_cast<const char8_t*>(filename));
     // Windows requires closing the database before deleting its file.
     imported_.reset();
     std::error_code error;
@@ -122,9 +118,20 @@ void CorpusDb::remove_imported() {
                                                 error);
     }
     versification_.erase(srb_source);
-    std::erase_if(texts_, [](const auto& entry) {
-        return entry.first.first == srb_source;
-    });
+    clear_imported_cache();
+}
+void CorpusDb::clear_imported_cache() {
+    TextCache retired;
+    for (auto it = texts_.begin(); it != texts_.end();) {
+        if (it->first.first == srb_source) {
+            auto book = texts_.extract(it++);
+            book.mapped().texts.clear();
+            retired.insert(std::move(book));
+        } else
+            ++it;
+    }
+    if (!retired.empty())
+        retired_texts_.push_back(std::move(retired));
     std::erase_if(alignments_, [](const auto& entry) {
         return std::get<0>(entry.first) == srb_source || std::get<1>(entry.first) == srb_source;
     });

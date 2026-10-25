@@ -1383,7 +1383,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     // Imported speech follows the displayed chapter editions, also after Pause and selection playback.
     {
-        const auto data = data_ / "speech-sources";
+        const auto data = data_ / u8"speech-sources-åäö";
         const auto imported = data / "content/srb2026.db";
         std::filesystem::create_directories(imported.parent_path());
         {
@@ -1408,7 +1408,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             transaction.commit();
         }
         CorpusDb corpus(resources_ / "corpus/corpus.db");
+        const auto& before_import = corpus.coordinates(srb_source, "John");
         corpus.load_imported(imported);
+        const auto& installed_coordinates = corpus.coordinates(srb_source, "John");
+        const auto saved_coordinates = installed_coordinates;
+        if (!before_import.empty() || installed_coordinates.empty())
+            fail(__LINE__);
         UserDb profile(data / "user.db");
         auto candidate = std::make_unique<MainFrame>(corpus, profile, date, resources_, data,
                                                      std::make_unique<SmokeUpdates>(), true);
@@ -1469,6 +1474,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         candidate->scripture_->chapter_source(1, 0, "sv1917");
         if (!candidate->play_->IsEnabled())
             fail(__LINE__);
+        candidate->settings_.primary_sources =
+            decode_sources("sv-srb2026=1,en-lxx2012=1,sv1917=0,en-web=0,grc-lxx=0,grc-patriarchal=0",
+                           candidate->settings_.primary_sources);
+        candidate->apply_settings(false);
         profile.bookmark(srb_source, {"John", {1, 50}, {1, 51}});
         const auto bookmarks = profile.bookmarks(corpus);
         const auto completed = profile.completed();
@@ -1506,6 +1515,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 fail(__LINE__);
         }
         check_import_controls(false);
+        const auto& removed_coordinates = corpus.coordinates(srb_source, "John");
+        if (!before_import.empty() || installed_coordinates != saved_coordinates ||
+            !removed_coordinates.empty())
+            fail(__LINE__);
         if (corpus.has_imported() || std::filesystem::exists(imported) ||
             !corpus.coordinates(srb_source, "John").empty() || corpus.verse(srb_source, "John", {1, 50}) ||
             profile.bookmarks(corpus).size() != bookmarks.size() || profile.completed() != completed ||
@@ -1517,11 +1530,16 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         candidate->open_reading(reading);
         if (candidate->scripture_->chapter_source(1, 0) != "sv1917" || !candidate->play_->IsEnabled())
             fail(__LINE__);
+        candidate->open_reading({ReadingKind::OldTestament, {"Gen", {1, 1}, {1, 2}}});
+        if (candidate->scripture_->chapter_source(1, 0) != "en-lxx2012")
+            fail(__LINE__);
         // Reinstalling clears the empty lookups cached after removal.
         std::filesystem::copy_file(backup, imported);
         corpus.load_imported(imported);
         const auto reimported = corpus.verse(srb_source, "John", {1, 50});
-        if (!corpus.has_imported() || !reimported || reimported->text != "SRB test John 1:50")
+        if (!corpus.has_imported() || !reimported || reimported->text != "SRB test John 1:50" ||
+            !before_import.empty() || !removed_coordinates.empty() ||
+            installed_coordinates != saved_coordinates)
             fail(__LINE__);
         candidate->Hide();
     }

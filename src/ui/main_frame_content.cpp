@@ -98,18 +98,24 @@ void MainFrame::remove_content() {
     try {
         save_reading_position();
         stop_speech(false);
+        const bool primary_removed = std::ranges::any_of(settings_.primary_sources, [](const auto& source) {
+            return source.source == srb_source && source.enabled;
+        });
         corpus_.remove_imported();
         for (auto* preferences : {&settings_.primary_sources, &settings_.secondary_sources})
             std::erase_if(*preferences, [](const auto& preference) {
                 return preference.source == srb_source;
             });
-        if (std::ranges::none_of(settings_.primary_sources, &SourcePreference::enabled)) {
+        if (primary_removed || std::ranges::none_of(settings_.primary_sources, &SourcePreference::enabled)) {
             const auto fallback =
                 std::ranges::find(settings_.primary_sources, "sv1917", &SourcePreference::source);
             if (fallback == settings_.primary_sources.end())
                 settings_.primary_sources.push_back({"sv1917", true});
-            else
-                fallback->enabled = true;
+            else if (!fallback->enabled) {
+                // Preserve the priority of existing editions; Swedish fills their remaining gaps.
+                settings_.primary_sources.erase(fallback);
+                settings_.primary_sources.push_back({"sv1917", true});
+            }
         }
         apply_settings();
         if (navigation_.current().screen == Screen::Settings)
