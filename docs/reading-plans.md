@@ -47,7 +47,8 @@ needs a new key version in `plan_key()`, even when the number of parts is unchan
 
 Progress keys carry the layout version, such as `plan:nt:v4:7`. Marks and positions
 saved for an earlier layout are not converted: they stay in the profile unused, and
-the plan starts over. Version 4 began with 0.2.0. Daily-reading marks, bookmarks and
+the plan starts over. Version 4 began with 0.2.0, together with `passage:` resume keys
+(shared with daily readings of the same passage), so no earlier position applies either. Daily-reading marks, bookmarks and
 settings are kept separately and are unaffected.
 
 **Börja om** clears every version's marks for the plan, and its reading positions.

@@ -3,7 +3,8 @@
 
 namespace ortho {
 std::string reading_key(const CorpusDb& corpus, const Reading& reading) {
-    std::string key = "reading:osb-v1:" + reading.base_language + ":" + reading.source_override;
+    // "passage:" replaced "reading:" in 0.2.0, so resume points saved earlier no longer apply.
+    std::string key = "passage:osb-v1:" + reading.base_language + ":" + reading.source_override;
     for (const auto& part : corpus.localize(reading).segments())
         key += ":" + part.book + " " + std::to_string(part.first.chapter) + ":" +
                std::to_string(part.first.verse) + part.first.suffix + "-" +

@@ -76,8 +76,8 @@ The version-3 plans follow OSB chapters and book order. They include Psalm 151,
 37. See [reading plans](reading-plans.md) for lengths and compatibility details.
 
 Bookmarks keep their original source and coordinates; labels and opening passages
-are mapped to OSB. Reading positions use `reading:osb-v1:...` keys. Positions and plan progress saved
-before OSB are not converted; see [reading plans](reading-plans.md#compatibility).
+are mapped to OSB. Reading positions use `passage:osb-v1:...` keys, which plan parts share with daily readings of the same
+passage. Positions and plan progress saved before 0.2.0 are not converted; see [reading plans](reading-plans.md#compatibility).
 
 ## Reproduce and verify
 
