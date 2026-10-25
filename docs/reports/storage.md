@@ -2,7 +2,7 @@
 
 # SQLite storage policy
 
-The native application uses four SQLite databases. It does not use platform preference defaults as its storage system.
+The native application uses SQLite databases. It does not use platform preference defaults as its storage system.
 
 `corpus.db` contains Scripture, source metadata, alignment, pronunciation, recurring and dated reading rules, day ranks and cycle titles, and the word-study data.
 The connection opens with `SQLITE_OPEN_READONLY` and enables `query_only`.
@@ -38,16 +38,10 @@ One speech worker owns the cache connection.
 Silent day preparation and playback use the same cache. Date changes and restarts retain completed chunks.
 Preparation succeeds only if every requested chunk remains in the bounded cache.
 
-`pronunciation-review.db` contains the decisions of the Swedish pronunciation review.
-Its schema version is 1, and its application identifier is `ORTP`.
-Corrected forms override the corpus pronunciations when the reader speaks Swedish.
-The [pronunciation review guide](pronunciation-review.md) describes the tool.
-
-The application resolves one profile directory for all three writable databases.
+The application resolves one profile directory for its writable databases.
 `--profile PATH` selects another directory for normal use.
 Smoke tests and benchmarks always use a temporary profile, including when this option is present.
 Cache failures disable persistent caching for the current session. Speech continues with fresh inference.
-Unreadable pronunciation decisions disable personal overrides. The reader preserves the database and uses bundled pronunciations.
 Recovery does not delete corrupt files or replace unknown future schemas.
 
 All connections enable foreign keys, defensive mode, and extended result codes.
