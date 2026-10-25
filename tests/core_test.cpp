@@ -892,7 +892,17 @@ int main(int argc, char** argv) {
                  {"Jer", {29, 7}, "så går det ock eder val", "så går det ock eder väl"},
                  {"Ezek", {3, 17}, "å mina vagnar", "å mina vägnar"},
                  {"Luke", {12, 48}, "vad som val slag värt", "vad som var slag värt"},
-                 {"Tob", {11, 15}, "min son TobiasI»", "min son Tobias!»"}}) {
+                 {"Tob", {11, 15}, "min son TobiasI»", "min son Tobias!»"},
+                 {"Sir", {4, 8}, "saktmod vänligr svar", "saktmod vänligt svar"},
+                 {"Sir", {13, 10}, "icke rnå bliva glömd", "icke må bliva glömd"},
+                 {"Sir", {17, 23}, "vedergälla dern", "vedergälla dem"},
+                 {"Sir", {34, 9}, "En väiuppfostrad man", "En väluppfostrad man"},
+                 {"Sir", {34, 19}, "skygd rnot den", "skygd mot den"},
+                 {"Sir", {50, 26}, "de sorn äro", "de som äro"},
+                 {"1Macc", {7, 38}, "låt dern icke", "låt dem icke"},
+                 {"1Macc", {15, 41}, "fotfolk, sorn skulle", "fotfolk, som skulle"},
+                 {"2Macc", {3, 25}, "sina f ramhovar", "sina framhovar"},
+                 {"PrAzar", {1, 19}, "handla rned oss", "handla med oss"}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,

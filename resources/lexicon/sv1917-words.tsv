@@ -2,7 +2,7 @@
 och	39653	word	"Ok
 i	15978	word	
 till	15693	word	"tIl
-som	14016	word	
+som	14018	word	
 att	12743	word	"at
 han	12030	word	"han
 de	11740	word	
@@ -15,10 +15,10 @@ icke	8178	word	""I$ke
 för	8152	word	"f2:r
 jag	8124	word	"jA:g
 den	7755	word	
-med	7576	word	"me:d
+med	7577	word	"me:d
 är	7545	word	"E:r
 av	7271	word	
-dem	6931	word	"dOm
+dem	6933	word	"dOm
 så	6856	word	"so:
 honom	6734	word	""hO$nOm
 har	6694	word	"hA:r
@@ -55,7 +55,7 @@ vad	2422	word	"vA:d
 hava	2415	word	""hA:$va
 skola	2386	word	""sku:$la
 deras	2223	word	""de:$ras
-mot	2216	word	"mu:t
+mot	2217	word	"mu:t
 sina	2216	word	""si:$na
 ty	2208	word	"ty:
 där	2157	word	
@@ -89,7 +89,7 @@ dina	1466	word	""di:$na
 göra	1460	word	""j2:$ra
 komma	1437	word	""kO$ma
 Jag	1419	word	"jA:g
-må	1416	word	"mo:
+må	1417	word	"mo:
 fram	1404	word	"fram
 vill	1400	word	"vIl
 utan	1382	word	""}:$tan
@@ -2959,6 +2959,7 @@ vistades	22	word	""vI$sta$des
 vredgas	22	word	""vrEd$gas
 väga	22	word	""vE:$ga
 väldige	22	word	""vEl$dI$ge
+vänligt	22	word	""vEn$lIkt
 värd	22	word	"vE:d`
 äldre	22	word	"El$dre
 äran	22	word	""E:$ran
@@ -3072,7 +3073,6 @@ upptänd	21	word	""u0p$%tEnd
 utplåna	21	word	""}:t$%plo:$na
 varav	21	word	"vA:$rA:v
 varna	21	word	""vA:$n`a
-vänligt	21	word	""vEn$lIkt
 vänskap	21	word	""vEn$%skA:p
 yngling	21	word	""YN$lIN
 ynglingar	21	word	""YN$lIN$ar
@@ -14348,7 +14348,6 @@ deltagande	2	word	""de:l$%tA:$gan$de
 deltager	2	word	
 deltagit	2	word	""de:l$%tA:$gIt
 deltogo	2	word	
-dern	2	word	
 diadem	2	word	di:$a$"de:m
 diamant	2	word	di:$a$"mant
 dilamm	2	word	""di:$%lam
@@ -16321,7 +16320,6 @@ sorgedagar	2	word	""sOr$je$%dA:$gar
 sorgefesten	2	word	
 sorgens	2	word	"sOr$jens
 sorgetider	2	word	""sOr$je$%ti:$der
-sorn	2	word	
 sovgemak	2	word	""so:v$je$%mA:k
 sovgemaket	2	word	""so:v$je$%mA:$ket
 spana	2	word	""spA:$na
@@ -17054,6 +17052,7 @@ vällevnad	2	word	""vE:l$%le:v$nad
 vällukter	2	word	""vE:l$%lu0k$ter
 välordnade	2	word	""vE:l$%o:d`$n`a$de
 vältrat	2	word	""vEl$trat
+väluppfostrad	2	word	""vE:l$u0p$%fU$strad
 väluppfostrade	2	word	""vE:l$u0p$%fU$stra$de
 välva	2	word	""vEl$va
 välvilliga	2	word	""vE:l$%vI$lI$ga
@@ -21382,7 +21381,6 @@ etthundratjugu	1	word
 evangelisten	1	word	e$va$nje$"lI$sten
 evangelister	1	word	e$va$nje$"lI$ster
 evangelists	1	word	e$va$nje$"lIsts
-f	1	word	"Ef
 fabeldiktarna	1	word	
 fackelsken	1	word	""fa$kel$%x\e:n
 faderlös	1	word	""fA:$de$%l`2:s
@@ -21595,6 +21593,7 @@ framgnistrar	1	word
 framgången	1	word	""fram$%gON$en
 framgår	1	word	""fram$%go:r
 framhavd	1	word	
+framhovar	1	word	""fram$%hu:$var
 framhämtats	1	word	
 framhärdade	1	word	""fram$%hE:$d`a$de
 framhålla	1	word	""fram$%hO$la
@@ -25263,7 +25262,6 @@ rakar	1	word	""rA:$kar
 raklång	1	word	""rA:k$%lON
 ramatiten	1	word	
 ramen	1	word	"rA:$men
-ramhovar	1	word	
 rankan	1	word	""raN$kan
 rannsaken	1	word	
 rannsakningen	1	word	""ran$%sA:$knIN$en
@@ -25347,10 +25345,7 @@ rister	1	word	""rI$ster
 ritade	1	word	""ri:$ta$de
 ritstift	1	word	""ri:t$%stIft
 rivet	1	word	""ri:$vet
-rned	1	word	
 rnen	1	word	
-rnot	1	word	
-rnå	1	word	
 rodanéerna	1	word	
 rodde	1	word	""rU$de
 roddflotta	1	word	
@@ -27966,7 +27961,6 @@ vägning	1	word	""vE:$gnIN
 vägskälen	1	word	""vE:g$%x\E:$len
 vägvisarna	1	word	""vE:g$%vi:$sa$n`a
 vägvisning	1	word	""vE:g$%vi:$snIN
-väiuppfostrad	1	word	
 väktarens	1	word	""vEk$ta$rens
 väktartorn	1	word	
 väktartornen	1	word	
@@ -27999,7 +27993,6 @@ välsinnade	1	word	""vE:l$%sI$na$de
 välsmakande	1	word	""vE:l$%smA:$kan$de
 välspunna	1	word	
 vältren	1	word	
-väluppfostrad	1	word	""vE:l$u0p$%fU$strad
 välvas	1	word	""vEl$vas
 välviljas	1	word	""vE:l$%vIl$jas
 välvt	1	word	"vElft
@@ -28013,7 +28006,6 @@ vämjes	1	word
 vänja	1	word	""vE$nja
 vänjer	1	word	""vE$njer
 vänlig	1	word	""vEn$lIg
-vänligr	1	word	
 vännernas	1	word	""vE$ne$n`as
 vänskapsförhållande	1	word	""vEn$skA:ps$f9r$%hO$land$de
 vänsterhänt	1	word	""vEn$ster$%hEnt
