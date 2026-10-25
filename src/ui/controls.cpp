@@ -2,6 +2,14 @@
 #include "ui/toolbar.hpp"
 
 namespace ortho::ui {
+wxString rate_label(int rate) {
+    wxString text = wxString::Format("%d,%02d", rate / 100, rate % 100);
+    while (text.EndsWith("0"))
+        text.RemoveLast();
+    if (text.EndsWith(","))
+        text.RemoveLast();
+    return text + utf8("×");
+}
 wxString utf8(const std::string& text) {
     return wxString::FromUTF8(text);
 }

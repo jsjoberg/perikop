@@ -18,12 +18,6 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
         label->Wrap(FromDIP(zoomed(440)));
         entries->Add(label, 0, wxBOTTOM, FromDIP(zoomed(8)));
     };
-    if (corpus_.has_imported()) {
-        paragraph(
-            "Reformationsbibeln 2026 är importerad. Aktivera den i källorna ovan och välj dess prioritet.");
-        entries->AddSpacer(FromDIP(zoomed(22)));
-        return;
-    }
     paragraph("Reformationsbibeln 2026 kan läggas till från två PDF-filer som du själv hämtar från "
               "Svenska Reformationsbibelsällskapet. Texten sparas bara i din profil.");
     auto* page =
@@ -39,7 +33,19 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
         });
     });
     button->SetToolTip(ui::utf8("Välj först Gamla och sedan Nya testamentets PDF från bibel.se"));
+    button->Enable(!corpus_.has_imported());
     entries->Add(button, 0, wxBOTTOM, FromDIP(zoomed(8)));
+    auto* remove = ui::button(content, ui::utf8("Ta bort importerad text…"), [this] {
+        CallAfter([this] {
+            remove_content();
+        });
+    });
+    remove->Enable(corpus_.has_imported());
+    entries->Add(remove, 0, wxBOTTOM, FromDIP(zoomed(8)));
+    paragraph(corpus_.has_imported()
+                  ? "Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och textkällor "
+                    "och välj dess prioritet. Du kan ta bort texten och importera den igen senare."
+                  : "Reformationsbibeln 2026 är inte importerad.");
     entries->AddSpacer(FromDIP(zoomed(22)));
 }
 void MainFrame::import_content() {
@@ -73,11 +79,43 @@ void MainFrame::import_content() {
         apply_settings();
         if (navigation_.current().screen == Screen::Settings)
             fill_settings(static_cast<wxScrolledWindow*>(current_page()));
-        wxMessageBox(ui::utf8("Reformationsbibeln 2026 är importerad. Aktivera den i källorna och flytta "
-                              "den uppåt om du vill använda den som huvudtext."),
+        wxMessageBox(ui::utf8("Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och "
+                              "textkällor och flytta den uppåt om du vill använda den som huvudtext."),
                      ui::utf8("Importen är klar"), wxOK | wxICON_INFORMATION, this);
     } catch (const std::exception& e) {
         wxMessageBox(ui::utf8(e.what()), ui::utf8("PDF-filerna kunde inte importeras"), wxOK | wxICON_ERROR,
+                     this);
+    }
+}
+void MainFrame::remove_content() {
+    if (!corpus_.has_imported())
+        return;
+    if (wxMessageBox(ui::utf8("Ta bort den importerade Reformationsbibeln 2026? "
+                              "Dina PDF-filer, bokmärken och läsframsteg sparas."),
+                     ui::utf8("Ta bort importerad text"), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION,
+                     this) != wxYES)
+        return;
+    try {
+        save_reading_position();
+        stop_speech(false);
+        corpus_.remove_imported();
+        for (auto* preferences : {&settings_.primary_sources, &settings_.secondary_sources})
+            std::erase_if(*preferences, [](const auto& preference) {
+                return preference.source == srb_source;
+            });
+        if (std::ranges::none_of(settings_.primary_sources, &SourcePreference::enabled)) {
+            const auto fallback =
+                std::ranges::find(settings_.primary_sources, "sv1917", &SourcePreference::source);
+            if (fallback == settings_.primary_sources.end())
+                settings_.primary_sources.push_back({"sv1917", true});
+            else
+                fallback->enabled = true;
+        }
+        apply_settings();
+        if (navigation_.current().screen == Screen::Settings)
+            fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+    } catch (const std::exception& error) {
+        wxMessageBox(ui::utf8(error.what()), ui::utf8("Importen kunde inte tas bort"), wxOK | wxICON_ERROR,
                      this);
     }
 }

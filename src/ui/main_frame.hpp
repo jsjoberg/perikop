@@ -102,12 +102,15 @@ private:
     void show_plans();
     void fill_plans(wxScrolledWindow*);
     void layout_plans(wxScrolledWindow*);
-    // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
+    // Categorized settings, also reachable through the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);
+    int settings_category_ = 0;
     void preview_voice();
+    void set_speech_rate(int);
     void add_content_loader(wxWindow*, wxBoxSizer*);
     void import_content();
+    void remove_content();
     void show_updates();
     // The update dialog follows the updater's state.
     void show_update_status();

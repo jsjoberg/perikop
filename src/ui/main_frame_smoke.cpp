@@ -21,6 +21,7 @@
 #include <wx/access.h>
 #include <wx/app.h>
 #include <wx/checkbox.h>
+#include <wx/choice.h>
 #include <wx/clipbrd.h>
 #include <wx/dataobj.h>
 #include <wx/dcclient.h>
@@ -30,10 +31,12 @@
 #include <wx/fontenum.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
+#include <wx/listbox.h>
 #include <wx/menu.h>
 #include <wx/modalhook.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
+#include <wx/simplebook.h>
 #include <wx/textctrl.h>
 #include <wx/utils.h>
 #ifdef __WXMSW__
@@ -61,6 +64,10 @@ public:
     SpeechPlayback held;
     std::vector<SpeechUtterance> spoken;
     std::string voice;
+    double speed = 1;
+    void set_speed(double value) override {
+        speed = value;
+    }
     void set_voice(const std::string& selected) override {
         voice = selected;
     }
@@ -95,12 +102,13 @@ public:
 };
 class BookmarkConfirmation final : public wxModalDialogHook {
 public:
+    wxString title = ui::utf8("Ta bort bokmärke");
     int answer = wxID_NO;
     int questions = 0;
     bool safe_default = true;
     int Enter(wxDialog* dialog) override {
         auto* question = dynamic_cast<wxMessageDialog*>(dialog);
-        if (!question || question->GetTitle() != ui::utf8("Ta bort bokmärke"))
+        if (!question || question->GetTitle() != title)
             return wxID_CANCEL;
         ++questions;
         safe_default &= (question->GetMessageDialogStyle() & wxNO_DEFAULT) != 0;
@@ -690,7 +698,93 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         save(image, "-reader" + suffix);
     });
     show_settings();
+    const auto settings_snapshot = [&](MainFrame* frame, const wxString& suffix) {
+        if (screenshot_path.empty())
+            return;
+        frame->Update();
+        wxBitmap bitmap(frame->GetClientSize());
+        wxClientDC window(frame);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-settings" + suffix);
+    };
+    const auto select_settings = [&](int index) {
+        auto* categories = static_cast<wxListBox*>(
+            wxWindow::FindWindowByName(ui::utf8("Inställningskategorier"), current_page()));
+        auto* sections = static_cast<wxSimplebook*>(
+            wxWindow::FindWindowByName(ui::utf8("Inställningar för vald kategori"), current_page()));
+        if (!categories || !sections || categories->GetCount() != 6 || sections->GetPageCount() != 6) {
+            fail(__LINE__);
+            return;
+        }
+        categories->SetSelection(index);
+        wxCommandEvent select(wxEVT_LISTBOX, categories->GetId());
+        select.SetInt(index);
+        categories->GetEventHandler()->ProcessEvent(select);
+        if (sections->GetSelection() != index || settings_category_ != index ||
+            sections->GetPageText(index) != categories->GetString(index))
+            fail(__LINE__);
+        for (std::size_t i = 0; i < sections->GetPageCount(); ++i)
+            if (sections->GetPage(i)->IsShown() != (int(i) == index))
+                fail(__LINE__);
+    };
     {
+        for (int i = 0; i < 6; ++i)
+            select_settings(i);
+        select_settings(1);
+        auto* import_link = wxWindow::FindWindowByLabel(
+            ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), current_page());
+        auto* source =
+            wxWindow::FindWindowByName(ui::utf8("Huvudtext, Svenska 1917 med apokryfer"), current_page());
+        if (!import_link || !import_link->IsShownOnScreen() || !source || source->IsShownOnScreen())
+            fail(__LINE__);
+        const auto import_button =
+            wxWindow::FindWindowByLabel(ui::utf8("Importera båda PDF-filerna…"), current_page());
+        const auto remove_button =
+            wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), current_page());
+        if (!import_button || !import_button->IsEnabled() || !remove_button || remove_button->IsEnabled())
+            fail(__LINE__);
+        settings_snapshot(this, "-import-empty");
+        settings_.text_zoom = 125;
+        apply_settings(false);
+        auto* categories = wxWindow::FindWindowByName(ui::utf8("Inställningskategorier"), current_page());
+        if (!categories || static_cast<wxListBox*>(categories)->GetSelection() != 1)
+            fail(__LINE__);
+        about();
+        back();
+        categories = wxWindow::FindWindowByName(ui::utf8("Inställningskategorier"), current_page());
+        if (!categories || static_cast<wxListBox*>(categories)->GetSelection() != 1)
+            fail(__LINE__);
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        select_settings(0);
+    }
+    {
+        select_settings(2);
+        auto* size = static_cast<wxChoice*>(wxWindow::FindWindowByName("TEXTSTORLEK", current_page()));
+        wxCommandEvent change(wxEVT_CHOICE, size->GetId());
+        change.SetInt(6); // 150 percent, also used by the menu.
+        size->GetEventHandler()->ProcessEvent(change);
+        wxTheApp->ProcessPendingEvents();
+        size = static_cast<wxChoice*>(wxWindow::FindWindowByName("TEXTSTORLEK", current_page()));
+        if (settings_.text_zoom != 150 || text_zoom != 150 || size->GetSelection() != 6 ||
+            user_.load().text_zoom != 150 || settings_category_ != 2)
+            fail(__LINE__);
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        const auto previous_size = GetClientSize();
+        SetClientSize(FromDIP(wxSize(520, 480)));
+        Layout();
+        wxTheApp->ProcessPendingEvents();
+        settings_snapshot(this, "-appearance-narrow");
+        SetClientSize(previous_size);
+        Layout();
+        select_settings(0);
+    }
+    {
+        settings_snapshot(this, "-sources");
         const auto preferences = settings_.primary_sources;
         const std::function<wxWindow*(wxWindow*, const wxString&)> named =
             [&](wxWindow* parent, const wxString& name) -> wxWindow* {
@@ -732,10 +826,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         apply_settings(false);
         fill_settings(static_cast<wxScrolledWindow*>(current_page()));
     }
+    select_settings(4);
     {
         auto real_speech = std::move(speech_);
         const auto previous_playback = playback_;
         const auto previous_voice = settings_.speech_voice;
+        const auto previous_rate = settings_.speech_rate;
         const auto previous_tracked = speech_tracked_;
         const Reading retained{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}, {}, "sv"};
         const auto key = reading_key(corpus_, retained);
@@ -749,6 +845,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_.speech_voice = "espeak:sv+adam";
         speech_tracked_ = Tracked{"voice-preview-test", "Preview"};
         auto* settings_page = current_page();
+        auto* rate = static_cast<wxChoice*>(
+            wxWindow::FindWindowByName(ui::utf8("UPPLÄSNINGSHASTIGHET"), current_page()));
+        wxCommandEvent change_rate(wxEVT_CHOICE, rate->GetId());
+        change_rate.SetInt(3); // 1.25 times the voice's pace.
+        rate->GetEventHandler()->ProcessEvent(change_rate);
+        if (settings_.speech_rate != 125 || engine->speed != 1.25 || user_.load().speech_rate != 125)
+            fail(__LINE__);
         preview_voice();
         const auto saved_position = user_.position(key);
         const auto sample = corpus_.verse("sv1917", "John", {3, 16});
@@ -756,6 +859,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             engine->spoken.front().display_text != sample->text || engine->spoken.front().cue ||
             engine->voice != settings_.speech_voice || !playback_.readings().empty() || speech_tracked_ ||
             !saved_position || saved_position->verse != VerseRef{1, 4} || current_page() != settings_page)
+            fail(__LINE__);
+        change_rate.SetInt(6); // Changing speed during a preview restarts the sample.
+        rate->GetEventHandler()->ProcessEvent(change_rate);
+        if (!voice_preview_ || engine->speed != 2 || settings_.speech_rate != 200)
             fail(__LINE__);
         preview_voice();
         if (voice_preview_ || engine->held.state != SpeechState::Stopped)
@@ -769,6 +876,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             (voice_preview_button_ && voice_preview_button_->GetLabel() != ui::utf8("Prova rösten")))
             fail(__LINE__);
         preview_voice();
+        select_settings(0);
+        if (voice_preview_ || engine->held.state != SpeechState::Stopped)
+            fail(__LINE__);
+        select_settings(4);
+        preview_voice();
         pause_for_navigation();
         if (voice_preview_ || engine->held.state != SpeechState::Stopped)
             fail(__LINE__);
@@ -777,24 +889,17 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         else
             user_.reset_position(key);
         settings_.speech_voice = previous_voice;
+        set_speech_rate(previous_rate);
         speech_ = std::move(real_speech);
         playback_ = previous_playback;
         speech_tracked_ = previous_tracked;
         refresh_speech();
     }
+    select_settings(2);
     each_scheme([&](const wxString& suffix, const wxColour& paper) {
         if (!current_page() || current_page()->GetBackgroundColour() != paper)
             fail(__LINE__);
-        if (screenshot_path.empty())
-            return;
-        Update();
-        wxBitmap bitmap(GetClientSize());
-        wxClientDC window(this);
-        {
-            wxMemoryDC image(bitmap);
-            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
-        }
-        save(bitmap.ConvertToImage(), "-settings" + suffix);
+        settings_snapshot(this, suffix);
     });
     {
         // Updates are an action in the menu, outside Settings.
@@ -1307,6 +1412,60 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         candidate->scripture_->chapter_source(1, 0, "sv1917");
         if (!candidate->play_->IsEnabled())
+            fail(__LINE__);
+        profile.bookmark(srb_source, {"John", {1, 50}, {1, 51}});
+        const auto bookmarks = profile.bookmarks(corpus);
+        const auto completed = profile.completed();
+        const auto backup = data / "srb-backup.db";
+        std::filesystem::copy_file(imported, backup);
+        candidate->settings_category_ = 1;
+        candidate->show_settings();
+        const auto check_import_controls = [&](bool installed) {
+            const auto page = candidate->current_page();
+            auto* import_button = wxWindow::FindWindowByLabel(ui::utf8("Importera båda PDF-filerna…"), page);
+            auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);
+            auto* link =
+                wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
+            if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
+                !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
+                import_button->IsEnabled() == installed || remove_button->IsEnabled() != installed)
+                fail(__LINE__);
+        };
+        check_import_controls(true);
+        settings_snapshot(candidate.get(), "-import-loaded");
+        {
+            BookmarkConfirmation confirmation;
+            confirmation.title = ui::utf8("Ta bort importerad text");
+            confirmation.Register();
+            candidate->remove_content();
+            if (!corpus.has_imported() || !std::filesystem::exists(imported))
+                fail(__LINE__);
+            confirmation.answer = wxID_YES;
+            auto* remove =
+                wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), candidate->current_page());
+            wxCommandEvent click(wxEVT_BUTTON, remove->GetId());
+            remove->GetEventHandler()->ProcessEvent(click);
+            wxTheApp->ProcessPendingEvents();
+            if (confirmation.questions != 2 || !confirmation.safe_default)
+                fail(__LINE__);
+        }
+        check_import_controls(false);
+        if (corpus.has_imported() || std::filesystem::exists(imported) ||
+            !corpus.coordinates(srb_source, "John").empty() || corpus.verse(srb_source, "John", {1, 50}) ||
+            profile.bookmarks(corpus).size() != bookmarks.size() || profile.completed() != completed ||
+            std::ranges::any_of(profile.load().primary_sources, [](const auto& source) {
+                return source.source == srb_source;
+            }))
+            fail(__LINE__);
+        candidate->back();
+        candidate->open_reading(reading);
+        if (candidate->scripture_->chapter_source(1, 0) != "sv1917" || !candidate->play_->IsEnabled())
+            fail(__LINE__);
+        // Reinstalling clears the empty lookups cached after removal.
+        std::filesystem::copy_file(backup, imported);
+        corpus.load_imported(imported);
+        const auto reimported = corpus.verse(srb_source, "John", {1, 50});
+        if (!corpus.has_imported() || !reimported || reimported->text != "SRB test John 1:50")
             fail(__LINE__);
         candidate->Hide();
     }

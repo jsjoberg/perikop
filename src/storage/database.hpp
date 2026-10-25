@@ -35,6 +35,7 @@ public:
     explicit CorpusDb(const std::filesystem::path& path);
     // Optional, locally imported Scripture. The bundled corpus stays read-only.
     void load_imported(const std::filesystem::path&);
+    void remove_imported();
     bool has_imported() const {
         return bool(imported_);
     }

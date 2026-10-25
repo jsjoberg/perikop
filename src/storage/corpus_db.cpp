@@ -106,6 +106,29 @@ void CorpusDb::load_imported(const std::filesystem::path& path) {
         return std::get<0>(entry.first) == srb_source || std::get<1>(entry.first) == srb_source;
     });
 }
+void CorpusDb::remove_imported() {
+    std::lock_guard lock(cache_mutex_);
+    if (!imported_)
+        return;
+    const auto path = std::filesystem::u8path(sqlite3_db_filename(imported_.get(), "main"));
+    // Windows requires closing the database before deleting its file.
+    imported_.reset();
+    std::error_code error;
+    std::filesystem::remove(path, error);
+    if (error) {
+        imported_ = open(path, SQLITE_OPEN_READONLY);
+        exec(imported_.get(), "PRAGMA query_only=ON");
+        throw std::filesystem::filesystem_error("Det importerade bibelinnehållet kunde inte tas bort", path,
+                                                error);
+    }
+    versification_.erase(srb_source);
+    std::erase_if(texts_, [](const auto& entry) {
+        return entry.first.first == srb_source;
+    });
+    std::erase_if(alignments_, [](const auto& entry) {
+        return std::get<0>(entry.first) == srb_source || std::get<1>(entry.first) == srb_source;
+    });
+}
 std::vector<WordExample> CorpusDb::word_examples(const std::string& word, int limit) const {
     Statement q(db_.get(), "SELECT book.code,chapter,verse,verse_suffix,text FROM verse JOIN book ON "
                            "book.id=book_id JOIN source ON source.id=source_id WHERE source.code='sv1917' "

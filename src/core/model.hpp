@@ -194,6 +194,9 @@ struct SourcePreference {
     bool operator==(const SourcePreference&) const = default;
 };
 struct Settings {
+    static constexpr int text_zoom_steps[] = {75, 80, 90, 100, 110, 125, 150, 175, 200};
+    // eSpeak speaks 80–450 words per minute, around its normal 150.
+    static constexpr int speech_rate_steps[] = {60, 75, 100, 125, 150, 175, 200, 250, 300};
     CalendarStyle calendar = CalendarStyle::New;
     Tradition tradition = Tradition::Greek;
     Theme theme = Theme::System;

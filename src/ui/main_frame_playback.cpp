@@ -122,6 +122,19 @@ void MainFrame::speech_status(const std::string& status) {
     if (preview_error)
         wxMessageBox(ui::utf8(status), ui::utf8("Prova rösten"), wxOK | wxICON_INFORMATION, this);
 }
+void MainFrame::set_speech_rate(int rate) {
+    settings_.speech_rate = rate;
+    speech_->set_speed(rate / 100.0);
+    apply_settings();
+    if (voice_preview_) {
+        preview_voice();
+        preview_voice();
+    } else if (speech_->playback().state == SpeechState::Playing) {
+        // Restart the current verse at the new speed, as Pause and Fortsätt do.
+        toggle_pause();
+        toggle_pause();
+    }
+}
 void MainFrame::toggle_pause() {
     const auto state = speech_->playback();
     if (state.state == SpeechState::Paused && state.cue && !playback_.readings().empty()) {

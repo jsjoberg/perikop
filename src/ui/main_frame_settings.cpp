@@ -3,6 +3,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
+#include <span>
 #include <stdexcept>
 #include <wx/button.h>
 #include <wx/checkbox.h>
@@ -10,9 +11,11 @@
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
+#include <wx/listbox.h>
 #include <wx/msgdlg.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
+#include <wx/simplebook.h>
 #include <wx/sizer.h>
 namespace ortho {
 namespace {
@@ -39,6 +42,27 @@ private:
             const auto found = std::ranges::find(catalog_, preference.source, &Source::code);
             const auto name = ui::utf8(found == catalog_.end() ? preference.source : found->name);
             auto* row = new wxBoxSizer(wxHORIZONTAL);
+            for (const int direction : {-1, 1}) {
+                auto* move = ui::button(this, ui::utf8(direction < 0 ? "↑" : "↓"), [this, i, direction] {
+                    CallAfter([this, i, direction] {
+                        const auto destination = direction < 0 ? i - 1 : i + 1;
+                        std::swap(preferences_[i], preferences_[destination]);
+                        changed_();
+                        rebuild();
+                        if (auto* item = GetSizer()
+                                             ->GetItem(destination)
+                                             ->GetSizer()
+                                             ->GetItem(std::size_t{2})
+                                             ->GetWindow())
+                            item->SetFocus();
+                    });
+                });
+                const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
+                move->SetName(label);
+                move->SetToolTip(label);
+                move->Enable(direction < 0 ? i > 0 : i + 1 < preferences_.size());
+                row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(4)));
+            }
             auto* check = new wxCheckBox(this, wxID_ANY, name);
             check->SetFont(ui_font());
             check->SetValue(preference.enabled);
@@ -52,28 +76,7 @@ private:
                     rebuild();
                 });
             });
-            row->Add(check, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(12)));
-            for (const int direction : {-1, 1}) {
-                auto* move = ui::button(this, ui::utf8(direction < 0 ? "↑" : "↓"), [this, i, direction] {
-                    CallAfter([this, i, direction] {
-                        const auto destination = direction < 0 ? i - 1 : i + 1;
-                        std::swap(preferences_[i], preferences_[destination]);
-                        changed_();
-                        rebuild();
-                        if (auto* item = GetSizer()
-                                             ->GetItem(destination)
-                                             ->GetSizer()
-                                             ->GetItem(std::size_t{0})
-                                             ->GetWindow())
-                            item->SetFocus();
-                    });
-                });
-                const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
-                move->SetName(label);
-                move->SetToolTip(label);
-                move->Enable(direction < 0 ? i > 0 : i + 1 < preferences_.size());
-                row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(4)));
-            }
+            row->Add(check, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(8)));
             stack->Add(row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(5)));
         }
         SetSizer(stack, true);
@@ -98,9 +101,19 @@ public:
     bool AcceptsFocus() const override {
         return false;
     }
+    int pair_width() const {
+        return FromDIP(zoomed(2 * page_width + gap));
+    }
+    void fit_width(int width) {
+        stacked_ = width < pair_width();
+        SetMinSize(FromDIP(zoomed(wxSize(stacked_ ? page_width : 2 * page_width + gap,
+                                         stacked_ ? 2 * (page_height + 22) + gap : page_height + 22))));
+        Refresh();
+    }
 
 private:
     static constexpr int page_width = 210, page_height = 172, gap = 14;
+    bool stacked_ = false;
     void paint(wxPaintEvent&) {
         wxAutoBufferedPaintDC dc(this);
         dc.SetBackground(wxBrush(GetBackgroundColour()));
@@ -112,7 +125,8 @@ private:
         const auto& names = scheme_names[std::size_t(color_scheme)];
         for (const bool dark : {false, true}) {
             gc->PushState();
-            gc->Translate(dark ? (page_width + gap) * unit : 0, 0);
+            gc->Translate(dark && !stacked_ ? (page_width + gap) * unit : 0,
+                          dark && stacked_ ? (page_height + 22 + gap) * unit : 0);
             gc->SetFont(ui_font(9), GetForegroundColour());
             gc->DrawText(ui::utf8(dark ? names.dark : names.light), 0, 0);
             gc->Translate(0, 20 * unit);
@@ -174,9 +188,7 @@ private:
 void MainFrame::show_settings() {
     if (navigation_.current().screen == Screen::Settings)
         return;
-    auto* page =
-        new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    page->SetScrollRate(0, FromDIP(zoomed(12)));
+    auto* page = new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
     fill_settings(page);
     show_page(page, Screen::Settings, ui::utf8("Inställningar"));
 }
@@ -212,26 +224,56 @@ void MainFrame::preview_voice() {
     }
 }
 void MainFrame::fill_settings(wxScrolledWindow* page) {
-    // Native radio buttons and a check box, so screen readers and arrow keys work as everywhere else.
     page->DestroyChildren();
-    auto* content = new wxPanel(page);
-    auto* entries = new wxBoxSizer(wxVERTICAL);
-    content->SetSizer(entries);
+    auto* categories = new wxListBox(page, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, nullptr,
+                                     wxLB_SINGLE | wxBORDER_NONE);
+    categories->SetFont(ui_font());
+    categories->SetName(ui::utf8("Inställningskategorier"));
+    auto* sections = new wxSimplebook(page);
+    sections->SetName(ui::utf8("Inställningar för vald kategori"));
+    sections->SetMinSize({1, 1});
+    wxPanel* content = nullptr;
+    wxBoxSizer* entries = nullptr;
+    const auto category = [&](const char* name) {
+        const auto title = ui::utf8(name);
+        categories->Append(title);
+        auto* section = new wxScrolledWindow(sections, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                                             wxHSCROLL | wxVSCROLL | wxBORDER_NONE);
+        section->SetName(title);
+        section->SetScrollRate(FromDIP(zoomed(12)), FromDIP(zoomed(12)));
+        content = new wxPanel(section);
+        entries = new wxBoxSizer(wxVERTICAL);
+        content->SetSizer(entries);
+        entries->Add(ui::label(content, title, 18), 0, wxBOTTOM, FromDIP(zoomed(18)));
+        auto* outer = new wxBoxSizer(wxVERTICAL);
+        outer->Add(content, 1, wxEXPAND | wxALL, FromDIP(zoomed(24)));
+        section->SetSizer(outer);
+        sections->AddPage(section, title);
+    };
+    category("Böcker och textkällor");
     const auto sources = corpus_.sources();
     const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
                                   bool primary) {
-        entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
-        entries->Add(new SourceStack(content, preferences, sources, primary,
-                                     [this, primary] {
-                                         if (primary)
-                                             stop_speech(false);
-                                         apply_settings();
-                                     }),
-                     0, wxEXPAND);
-        entries->AddSpacer(FromDIP(zoomed(14)));
+        auto* column = new wxPanel(content);
+        auto* stack = new wxBoxSizer(wxVERTICAL);
+        column->SetSizer(stack);
+        stack->Add(ui::label(column, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        stack->Add(ui::label(column, ui::utf8("Källor i prioritetsordning"), 10), 0, wxBOTTOM,
+                   FromDIP(zoomed(12)));
+        stack->Add(new SourceStack(column, preferences, sources, primary,
+                                   [this, primary] {
+                                       if (primary)
+                                           stop_speech(false);
+                                       apply_settings();
+                                   }),
+                   0, wxEXPAND);
+        return column;
     };
-    source_stack("HUVUDTEXT – KÄLLOR I PRIORITETSORDNING", settings_.primary_sources, true);
-    source_stack("DELAD LÄSNING – ANDRA TEXTENS KÄLLOR", settings_.secondary_sources, false);
+    auto* columns = new wxBoxSizer(wxHORIZONTAL);
+    columns->Add(source_stack("VÄNSTER TEXT – HUVUDTEXT", settings_.primary_sources, true), 1, wxEXPAND);
+    columns->AddSpacer(FromDIP(zoomed(28)));
+    columns->Add(source_stack("HÖGER TEXT – DELAD LÄSNING", settings_.secondary_sources, false), 1, wxEXPAND);
+    entries->Add(columns, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(14)));
     entries->Add(
         ui::label(content, ui::utf8("Den första aktiverade källan med text i kapitlet används."), 10));
     entries->Add(ui::label(
@@ -244,7 +286,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                   10);
     authority->Wrap(FromDIP(zoomed(440)));
     entries->Add(authority, 0, wxTOP, FromDIP(zoomed(8)));
-    entries->AddSpacer(FromDIP(zoomed(22)));
+    category("Importera PDF");
     add_content_loader(content, entries);
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
@@ -263,6 +305,43 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         }
         entries->AddSpacer(FromDIP(zoomed(18)));
     };
+    const auto percent_choice = [&](const char* heading, std::span<const int> steps, int Settings::* setting,
+                                    const std::function<wxString(int)>& format,
+                                    const std::function<void(int)>& change) {
+        entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxBOTTOM, FromDIP(zoomed(8)));
+        auto* choice = new wxChoice(content, wxID_ANY);
+        choice->SetName(ui::utf8(heading));
+        choice->SetFont(ui_font());
+        for (const auto value : steps)
+            choice->Append(format(value));
+        const auto sync = [this, choice, steps, setting] {
+            const auto found = std::ranges::find(steps, settings_.*setting);
+            choice->SetSelection(found == steps.end() ? wxNOT_FOUND : int(found - steps.begin()));
+        };
+        sync();
+        choice->Bind(wxEVT_UPDATE_UI, [sync](wxUpdateUIEvent&) {
+            sync();
+        });
+        choice->Bind(wxEVT_CHOICE, [steps, change](wxCommandEvent& event) {
+            change(steps[std::size_t(event.GetSelection())]);
+        });
+        entries->Add(choice, 0, wxBOTTOM, FromDIP(zoomed(18)));
+    };
+    category("Utseende");
+    percent_choice(
+        "TEXTSTORLEK", Settings::text_zoom_steps, &Settings::text_zoom,
+        [](int value) {
+            return wxString::Format("%d %%", value);
+        },
+        [this](int value) {
+            // Zoom rebuilds this page; finish the choice event before destroying its control.
+            CallAfter([this, value] {
+                settings_.text_zoom = value;
+                apply_settings();
+                if (auto* choice = wxWindow::FindWindowByName("TEXTSTORLEK", current_page()))
+                    choice->SetFocus();
+            });
+        });
     // The scheme list beside a preview of its light and dark variants.
     entries->Add(ui::label(content, ui::utf8("FÄRGSCHEMA"), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
     auto* schemes = new wxBoxSizer(wxVERTICAL);
@@ -282,11 +361,22 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     scheme_row->Add(schemes, 0, wxRIGHT, FromDIP(zoomed(28)));
     scheme_row->Add(preview);
     entries->Add(scheme_row);
+    auto* appearance = static_cast<wxScrolledWindow*>(content->GetParent());
+    appearance->Bind(wxEVT_SIZE, [this, appearance, schemes, scheme_row, preview](wxSizeEvent& event) {
+        const int width = std::max(1, event.GetSize().x - FromDIP(zoomed(64)));
+        const bool beside = width >= schemes->GetMinSize().x + FromDIP(zoomed(28)) + preview->pair_width();
+        scheme_row->SetOrientation(beside ? wxHORIZONTAL : wxVERTICAL);
+        scheme_row->GetItem(std::size_t{0})->SetFlag(beside ? wxRIGHT : wxBOTTOM);
+        preview->fit_width(width);
+        appearance->FitInside();
+        event.Skip();
+    });
     entries->AddSpacer(FromDIP(zoomed(18)));
     choices("TEMA", {"Systemets tema", "Ljust tema", "Mörkt tema"}, int(settings_.theme), [this](int i) {
         settings_.theme = static_cast<Theme>(i);
         apply_settings();
     });
+    category("Kalender och läsordning");
     const auto day_changed = [this] {
         refresh_day();
         apply_settings();
@@ -301,6 +391,11 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 settings_.tradition = i ? Tradition::Slavic : Tradition::Greek;
                 day_changed();
             });
+    category("Uppläsning");
+    percent_choice("UPPLÄSNINGSHASTIGHET", Settings::speech_rate_steps, &Settings::speech_rate,
+                   ui::rate_label, [this](int value) {
+                       set_speech_rate(value);
+                   });
     // Read-aloud is Swedish only.
     std::vector<EspeakVoice> voices;
     std::string voice_error;
@@ -377,6 +472,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     });
     entries->Add(highlight);
     entries->AddSpacer(FromDIP(zoomed(18)));
+    category("Uppdateringar");
     choices("UPPDATERINGSKANAL", {"Utgåvor (rekommenderas)", "Nattbyggen (experimentella)"},
             settings_.update_channel == UpdateChannel::Nightly, [this](int i) {
                 settings_.update_channel = i ? UpdateChannel::Nightly : UpdateChannel::Releases;
@@ -385,17 +481,46 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 updater_->reset();
             });
     entries->Add(ui::label(content, ui::utf8("Valet startar ingen sökning eller hämtning.")));
-    auto* outer = new wxBoxSizer(wxVERTICAL);
-    outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
+    categories->SetMinSize({categories->GetBestSize().x + FromDIP(zoomed(20)), 1});
+    categories->SetSelection(settings_category_);
+    sections->SetSelection(settings_category_);
+    categories->Bind(wxEVT_LISTBOX, [this, sections](wxCommandEvent& event) {
+        if (voice_preview_)
+            stop_speech(false);
+        settings_category_ = event.GetSelection();
+        sections->SetSelection(settings_category_);
+    });
+    auto* outer = new wxBoxSizer(wxHORIZONTAL);
+    outer->Add(categories, 0, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT, FromDIP(zoomed(16)));
+    outer->Add(sections, 1, wxEXPAND);
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
-    for (auto* child : content->GetChildren())
-        if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
-            link->SetNormalColour(palette(settings_.theme).accent);
-            link->SetVisitedColour(palette(settings_.theme).accent);
-            link->SetHoverColour(palette(settings_.theme).ink);
-        }
-    page->FitInside();
+    for (std::size_t i = 0; i < sections->GetPageCount(); ++i) {
+        auto* section = static_cast<wxScrolledWindow*>(sections->GetPage(i));
+        std::vector<std::pair<wxStaticText*, wxString>> paragraphs;
+        for (auto* child : section->GetChildren().front()->GetChildren())
+            if (auto* label = wxDynamicCast(child, wxStaticText)) {
+                auto text = label->GetLabel();
+                text.Replace("\n", " ");
+                paragraphs.emplace_back(label, text);
+            }
+        section->Bind(wxEVT_SIZE, [this, section, paragraphs](wxSizeEvent& event) {
+            const int width = std::max(1, event.GetSize().x - FromDIP(zoomed(64)));
+            for (const auto& [label, text] : paragraphs) {
+                label->SetLabel(text);
+                label->Wrap(std::min(width, FromDIP(zoomed(600))));
+            }
+            section->FitInside();
+            event.Skip();
+        });
+        section->FitInside();
+        for (auto* child : section->GetChildren().front()->GetChildren())
+            if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
+                link->SetNormalColour(palette(settings_.theme).accent);
+                link->SetVisitedColour(palette(settings_.theme).accent);
+                link->SetHoverColour(palette(settings_.theme).ink);
+            }
+    }
     page->Layout();
 }
 } // namespace ortho
