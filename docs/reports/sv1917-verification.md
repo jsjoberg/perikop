@@ -1,8 +1,16 @@
 # Löpande granskningsliggare för svensk bibeltext
 
-**Uppdaterad 2026-10-25. Aktivt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). PR:n får inte slås ihop eller stängas förrän hela den svenska utökade kanon och all återstående overifierad GT-text har verifierats.**
+**Uppdaterad 2026-10-25. Aktivt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). Enligt användarens ändrade prioritering är målet för denna PR och textgranskningen inför 0.2.1 den svenska utökade kanon som saknas i SRB26. Återstående GT och en framtida NT-genomgång är uppföljningsarbete och blockerar inte denna PR eller 0.2.1.**
 
 Till skillnad från daterade rapporter uppdateras denna liggare under arbetet. Den anger vad som är färdigläst, vad som endast ordkontrollerats och var nästa genomgång börjar. Detaljerna finns i [den maskinläsbara liggaren](sv1917-verification.json).
+
+## Prioritet och avgränsning för PR #64 och 0.2.1
+
+SRB26:s lokala kapitelinventering innehåller de 66 kanoniska böckerna och ingen av de tolv svenska apokryfböckerna. Den svenska 1917/1921-texten är därför den primära svenska källan för dessa tolv böcker. Målet här är full visuell granskning av alla deras 148 kapitel och 4 372 versposter, samt separat redovisning av onumrerad bibeltext, med införda belagda rättelser, giltig liggare och godkända relevanta kontroller. Eventuella kvarvarande läsningsfrågor ska lösas före färdigställandet.
+
+Redan gjorda GT-rättelser och Haggais genomgång bevaras. Jeremia och resten av GT följer efter utökade kanon; NT är en senare etapp. Dessa får inte markeras som verifierade när apokryferna är färdiga. Äldre arbetsloggar återger dåvarande bredare mål och täckning.
+
+Användarens foton kan begäras när ytterligare tryckstöd behövs. Codex tolkar bilderna och dokumenterar beslut och underlag; användaren behöver bara hjälpa till med tolkningen om osäkerheten kvarstår. Den separata mänskliga kontrollen i erratatabellen redovisas ärligt och får inte räknas som utförd av Codex.
 
 ## Vad färdig betyder
 
@@ -18,10 +26,10 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
-| Svenska apokryfer | 10 / 12 | 134 / 148 | 4 006 / 4 372 |
+| Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
 | GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. Totalt är 4 044 versposter färdiglästa i detta protokoll. Det motsvarar 14,7 % av versposterna i GT och apokryfer tillsammans: 91,6 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 4 410 versposter färdiglästa i detta protokoll, inklusive tidigare Haggai. Det motsvarar 16,0 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -36,7 +44,8 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | Syrak | Hela 1–51, 1 369 versposter, samt separat företal | 67–144 / [0071](https://runeberg.org/apokryf/0071.html)–[0148](https://runeberg.org/apokryf/0148.html) | A081–A145 och A213 införda; versgränser och numrering återställda; V005 löst; hela boken verifierad |
 | Baruk, inklusive Jeremias brev | Hela 1–6, 213 versposter | 145–156 / [0149](https://runeberg.org/apokryf/0149.html)–[0160](https://runeberg.org/apokryf/0160.html) | A146–A156 införda, inklusive återställd 3:38 med individuella parallellmappningar |
 | 1 Mackabeerboken | Hela 1–16, 924 versposter | 157–206 / [0161](https://runeberg.org/apokryf/0161.html)–[0210](https://runeberg.org/apokryf/0210.html) | A157–A199 införda, inklusive rättad gräns 10:27–28; hela boken verifierad |
-| 2 Mackabeerboken | Hela 1–8, 294 versposter; 8 av 15 kapitel | 207–227 / [0211](https://runeberg.org/apokryf/0211.html)–[0231](https://runeberg.org/apokryf/0231.html) | A200–A210 och A214 införda; V002 och V006 lösta; 9–15 återstår |
+| 2 Mackabeerboken | Hela 1–15, 555 versposter | 207–245 / [0211](https://runeberg.org/apokryf/0211.html)–[0249](https://runeberg.org/apokryf/0249.html) | A200–A210 och A214–A222 införda; V002 och V006 lösta; hela boken verifierad |
+| Tillägg till Ester | Hela 1–7, 105 versposter, inklusive efterskriften 7:11 | 245–251 / [0249](https://runeberg.org/apokryf/0249.html)–[0255](https://runeberg.org/apokryf/0255.html) | A223–A224 införda; tidigare återställda passager återkontrollerade; hela boken verifierad |
 
 ## Onumrerad text
 
@@ -44,19 +53,19 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Återstår
 
-**Apokryfer:** Judit, Tobit, hela Syrak, Baruk och Första Mackabeerboken är verifierade, liksom de fyra korta böckerna ovan. Andra Mackabeerboken 1–8 är verifierad. Kapitel 9–15 och Tillägg till Ester återstår att genomläsa kapitelvis.
+**Apokryfer:** inga olästa kapitel eller olösta läsningsfrågor återstår i den svenska utökade kanon. Alla tolv böcker är verifierade. Detta gäller inte andra språk eller böcker som saknar svensk text.
 
-**GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
+**Senare uppföljning, GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
 **Läsningsfrågor:** V001–V006 är lösta 2026-10-25 mot användarens sex foton och genomgång. R023 och A210–A214 är införda; fem redan fullständigt bildlästa kapitel kan därmed färdigmarkeras. Jeremia 8:12 är rättad men hela Jeremia 8 är fortfarande inte verifierat. Fotona ger ingen täckning för omgivande, olästa text.
 
-**Omfattning:** svenska 1917/1921-texten, 51 böcker och 27 582 versposter i GT och apokryfer tillsammans. NT och grekiska/engelska utgåvor räknas inte i dessa täckningstal. Ortodoxa extraböcker som saknar svensk text kan inte markeras verifierade genom att kontrollera en annan språkversion.
+**Liggarens totala omfattning:** svenska 1917/1921-texten, 51 böcker och 27 582 versposter i GT och apokryfer tillsammans. Denna PR:s och 0.2.1:s textgranskningsmål är de tolv apokryfböckerna; GT-kolumnen visar separat uppföljningsstatus. NT och grekiska/engelska utgåvor räknas inte i dessa täckningstal. Ortodoxa extraböcker som saknar svensk text kan inte markeras verifierade genom att kontrollera en annan språkversion.
 
 ## Nästa arbetsblock
 
-1. Fortsätt med **2 Mackabeerboken 9** från [skannummer 0231, tryckt s. 227](https://runeberg.org/apokryf/0231.html). Kapitel 1–8 är nu verifierade. På denna sida är endast texten till och med slutet av 8:36 tillgodoräknad. Därefter återstår 10–15, Tillägg till Ester och all ännu oläst GT-text. V001–V006 är lösta.
-2. Lägg till en kapitelpost först efter full jämförelse och efter att eventuella rättelser har återbyggts i korpusen. `needs-review` används om något fortfarande är olöst.
-3. Kör liggarkontrollen och relevanta regressioner. Uppdatera denna sammanställning och PR #64 vid varje färdigt arbetsblock. Lämna ofärdiga kapitel uttryckligen ofärdiga.
+1. Textgranskningen av utökade kanon är färdig. Kontrollera den publicerade omgångens CI före färdigställande av PR #64; bevara rättelser, fotobevis och kapitelhashar. Slå inte ihop eller stäng PR:n automatiskt.
+2. Den separata mänskliga kontrollen av erratatabellen är inte utförd av Codex: sex fotogranskade rader är markerade, 241 rader är fortfarande omarkerade. Detta är en separat granskningsmöjlighet, inte ytterligare oläst korpustext eller ett krav på att användaren ska tolka varje bild åt Codex.
+3. Senare etapp: Jeremia och övrig ännu oläst GT-text, 927 kapitel. Haggai är sedan tidigare färdig. En framtida NT-genomgång behöver en separat omfattning och liggare; NT har ingen tillgodoräknad kapitelgranskning här.
 
 ```sh
 uv run --locked tools/corpus/check_swedish_verification.py
@@ -98,3 +107,5 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 18:** läste hela 2 Mackabeerboken 3–8 på tryckta s. 211–227; 226 versposter. A203–A209 införda, sju rättade poster. Kapitel 3–5 och 7 har 159 nya färdiga poster. Kapitel 6 med 31 poster väntar på V002, tryckets avb rrott, och kapitel 8 med 36 poster på nya V006, tryckets kunungens; de 67 posterna räknas inte som verifierade. Före-/efterjämförelse bekräftar exakt dessa sju ändringar; alla koordinater, övriga texter, språkversioner, mappningar och tidigare kapitelposter oförändrade. Vänten tar bort två falska SALDO-sinnen för vant/vante och en Dalin-post för vante; nu 12 732 SALDO-sinnen och 7 589 Dalin-poster. Tryckets Hans/Honom i 7:11 och frånvarande komma i 8:13 behållna. Totalt 241 unika bildsidor och 3 902 färdiga versposter i 131 kapitel, plus Syraks företal. 946 kapitel återstår. Nästa kapitel är 2 Mackabeerboken 9; V001–V006 kvarstår. Liggar- och kandidattester, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända.
 
 - **2026-10-25, block 19, användarens fotogranskning:** sex kompletterande originalfoton och användarens beslut löser V001–V006. R023 och A210–A214 införda; foto 2 bekräftar även återgå i 2 Mack. 6:17 och foto 3 visar dem i Judit 5:8. Foton och exakta korrigerade verser har lagrats med hash; kontrollen avvisar saknade/ändrade foton och ändrad text. Exakt sex verser ändrade; alla koordinater, andra texter, mappningar och lexikonsinnen oförändrade. Fem tidigare fullt bildlästa kapitel, tillsammans 142 poster, är nu verifierade: Judit 5, Tobit 3, Syrak 38 och 2 Mack. 6 och 8. Hela Judit, Tobit och Syrak är därmed färdiga. Jeremia 8:12 är rättad men hela kapitlet återstår. Totalt 241 unika Runebergsbilder plus sex kompletterande foton; 4 044 färdiga versposter i 136 kapitel, plus Syraks företal. 941 kapitel återstår. Nästa kapitel är 2 Mackabeerboken 9. Äldre loggposter visar läget före denna upplösning. Liggar- och kandidattester, fotobevisens hash- och regressionstester, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända.
+
+- **2026-10-25, block 20, utökade kanon färdig:** läste hela 2 Mackabeerboken 9–15 och Tillägg till Ester 1–7, 366 versposter på tryckta s. 227–251. A215–A224 införda, tio exakt avgränsade ord-/interpunktionsrättelser. Kapitel 11 och 13 i 2 Mack. samt Till. t. Ester 1, 3, 4, 5 och 7 utan nya rättelser. Marginalnumren i 2 Mack. 13:6–7 och 15:25–26 återkontrollerade i originalupplösning; befintliga gränser och individuella mappningar behållna. Alla koordinater, övriga texter och språkversioner, mappningar och tidigare liggarposter är oförändrade. Ni er → mer tar bort ett falskt SALDO-sinne för nickel och två Dalin-poster för ni/nia; nu 12 731 respektive 7 587. Alla 12 apokryfböcker, 148 kapitel och 4 372 versposter är verifierade, plus Syraks separat granskade företal. Totalt inklusive Haggai: 150 kapitel och 4 410 versposter på 265 unika Runebergsbilder, plus sex originalfoton. Inga nya olösta läsningar. Användaren har ändrat PR #64:s och 0.2.1:s textgranskningsmål till utökade kanon; de 927 återstående GT-kapitlen och senare NT är uttryckligt uppföljningsarbete. Codex tolkar kompletterande foton och ber om användarens tolkning endast om osäkerhet kvarstår. Liggar- och kandidattester, fotobevisens regressioner, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända. CI på föregående publicerade version 219e3f5 godkänd; ny CI krävs efter publicering av slutomgången.

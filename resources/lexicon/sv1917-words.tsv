@@ -1,6 +1,6 @@
 # form	occurrences	kind	nst_sampa
 och	39657	word	"Ok
-i	15970	word	
+i	15971	word	
 till	15695	word	"tIl
 som	14019	word	
 att	12743	word	"at
@@ -90,7 +90,7 @@ göra	1460	word	""j2:$ra
 komma	1437	word	""kO$ma
 Jag	1418	word	"jA:g
 må	1417	word	"mo:
-fram	1404	word	"fram
+fram	1403	word	"fram
 vill	1400	word	"vIl
 utan	1382	word	""}:$tan
 någon	1374	word	
@@ -154,7 +154,7 @@ Jerusalem	812	name	je$""r}:$sa$%lEm
 Jesus	809	name	""je:$su0s
 Juda	808	name	""j}:$da
 därför	802	word	"dE:r$f9r
-mer	801	word	
+mer	802	word	
 namn	796	word	"namn
 Ja	790	word	"jA:
 Du	788	word	"dy:
@@ -504,8 +504,8 @@ levande	185	word	""le:$van$de
 fråga	184	word	""fro:$ga
 vin	184	word	"vi:n
 lever	183	word	"le:$ver
+o	183	word	
 tjänst	183	word	"s'Enst
-o	182	word	
 fastän	181	word	"fa$stEn
 leviterna	181	word	le$"vi:$te$n`a
 låg	181	word	"lo:g
@@ -531,9 +531,9 @@ hedningarna	170	word	""he:d$nIN$a$n`a
 enda	169	word	
 förrän	168	word	"f9$rEn
 fört	168	word	"f2:t`
+himmelens	168	word	""hI$me$lens
 frukta	167	word	""fru0k$ta
 först	167	word	"f9s`t`
-himmelens	167	word	""hI$me$lens
 sak	167	word	"sA:k
 vårt	167	word	"vo:t`
 Må	166	word	"mo:
@@ -651,11 +651,11 @@ bär	132	word	"bE:r
 gören	132	word	
 ljus	132	word	"j}:s
 tillhopa	132	word	""tIl$%hu:$pa
-ens	131	word	"Ens
 for	131	word	"fu:r
 hustrur	131	word	""hu0$str}:r
 lägret	131	word	"lE:$gret
 vän	131	word	"vE:n
+ens	130	word	"Ens
 inom	130	word	""In$%Om
 människorna	130	word	""mE$nI$x\U$n`a
 bad	129	word	"bA:d
@@ -973,7 +973,6 @@ varder	82	word	"vA:$d`er
 öde	82	word	""2:$de
 Benjamins	81	name	""be:$nja$mIns
 Samaria	81	name	
-buro	81	word	
 evighet	81	word	""e:$vIg$%he:t
 fint	81	word	"fi:nt
 förbliver	81	word	f9r$"bli:$ver
@@ -985,6 +984,7 @@ stilla	81	word	""stI$la
 Benjamin	80	name	""be:$nja$mIn
 Josafat	80	name	
 blodet	80	word	"blu:$det
+buro	80	word	
 fulla	80	word	""fu0$la
 utföra	80	word	""}:t$%f2:$ra
 Ack	79	word	"ak
@@ -1394,7 +1394,6 @@ föddes	53	word	""f9$des
 givet	53	word	""ji:$vet
 heligt	53	word	""he:$lIkt
 herde	53	word	""he:$d`e
-himmel	53	word	""hI$mel
 livets	53	word	"li:$vets
 nya	53	word	""ny:$a
 ovanpå	53	word	
@@ -1420,6 +1419,7 @@ fäste	52	word	""fE$ste
 förkunnade	52	word	f9r$"ku0$na$de
 förmer	52	word	f9r$"me:r
 gudsmannen	52	word	""gu0ts$%ma$nen
+himmel	52	word	""hI$mel
 intog	52	word	""In$%tu:g
 lycka	52	word	""lY$ka
 lyssna	52	word	""lY$sna
@@ -1542,7 +1542,6 @@ vittne	48	word	""vIt$ne
 Frukta	47	word	""fru0k$ta
 Jerobeams	47	name	
 Laban	47	name	"lA:$ban
-O	47	word	"u:
 Rehabeam	47	name	
 förbarma	47	word	f9r$"bar$ma
 förbundet	47	word	f9r$"bu0n$det
@@ -1562,6 +1561,7 @@ väldiga	47	word	""vEl$dI$ga
 Allenast	46	word	a$""le:$nast
 Amen	46	word	"a$men
 Noa	46	name	""nu:$a
+O	46	word	"u:
 behöva	46	word	be$"h2:$va
 femte	46	word	""fEm$te
 fett	46	word	"fEt
@@ -3915,6 +3915,7 @@ fiskar	15	word	""fI$skar
 flyta	15	word	""fly:$ta
 folkslagen	15	word	""fOlk$%slA:$gen
 foten	15	word	"fu:$ten
+framburo	15	word	
 fridens	15	word	"fri:$dens
 frivilligt	15	word	""fri:$%vI$lIkt
 fullbordade	15	word	""fu0l$%bu:$d`a$de
@@ -4139,7 +4140,6 @@ fattigdom	14	word	""fa$tIg$%dUm
 fel	14	word	"fe:l
 flykt	14	word	"flYkt
 fotapall	14	word	""fu:$ta$%pal
-framburo	14	word	
 framtid	14	word	""fram$%ti:d
 friskt	14	word	"frIskt
 fräcka	14	word	""frE$ka
@@ -4676,6 +4676,7 @@ förmanade	12	word	f9r$"mA:$na$de
 förnämste	12	word	f9$"n`E:m$ste
 förrådshus	12	word	f9r$""ro:ds$%h}:s
 församlingar	12	word	f9$"s`am$lIN$ar
+förskoning	12	word	f9$"s`ku:$nIN
 förstfödda	12	word	""f9s`t`$%f9$da
 förströdda	12	word	f9$"s`t`r9$da
 förstöring	12	word	f9$"s`t`2:$rIN
@@ -4952,7 +4953,6 @@ förlopp	11	word	f9$"l`Op
 förlossar	11	word	f9$"l`O$sar
 församlar	11	word	f9$"s`am$lar
 förskingra	11	word	f9r$"x\IN$ra
-förskoning	11	word	f9$"s`ku:$nIN
 förstått	11	word	f9$"s`t`Ot
 försyndar	11	word	f9$"s`y:n$dar
 förtorka	11	word	f9$"t`Or$ka
@@ -6209,7 +6209,6 @@ fäller	8	word	"fE$ler
 förbannat	8	word	f9r$"ba$nat
 förbindelse	8	word	f9r$"bIn$del$se
 förbinder	8	word	""f2:r$%bIn$der
-förenade	8	word	f9r$"e:$na$de
 förfallet	8	word	f9r$"fa$let
 förfaren	8	word	f9r$"fA:$ren
 förföljt	8	word	f9r$"f9ljt
@@ -6363,6 +6362,7 @@ nyktra	8	word	""nYk$tra
 närmade	8	word	""nEr$ma$de
 närvarande	8	word	""nE:r$%vA:$ran$de
 någonstädes	8	word	""no:$gOn$%stE:$des
+obesmittad	8	word	""u:$be$%smI$tad
 odödlighet	8	word	""u:$d2:d$lIg$%he:t
 oförgänglighet	8	word	
 ohelgat	8	word	
@@ -6783,6 +6783,7 @@ förbundna	7	word	f9r$"bu0nd$na
 förbundsarken	7	word	
 fördriver	7	word	f9$"d`ri:$ver
 förekommit	7	word	""f2:$re$%kO$mIt
+förenade	7	word	f9r$"e:$na$de
 föres	7	word	""f2:$res
 förfara	7	word	f9r$"fA:$ra
 förfarna	7	word	f9r$"fA:$n`a
@@ -6972,7 +6973,6 @@ nådegåva	7	word	""no:$de$%go:$va
 nödga	7	word	""n9d$ga
 nödgade	7	word	""n9d$ga$de
 obemärkt	7	word	""u:$be$%mErkt
-obesmittad	7	word	""u:$be$%smI$tad
 ofärds	7	word	""u:$%fE:d`s`
 ogunst	7	word	
 ogärning	7	word	""u:$%jE:$n`IN
@@ -8442,7 +8442,6 @@ ekar	5	word	""e:$kar
 elda	5	word	""El$da
 elefanter	5	word	e$le$"fan$ter
 enfaldiga	5	word	""e:n$%fal$dI$ga
-er	5	word	"e:r
 erfara	5	word	""e:r$%fA:$ra
 erlägga	5	word	""e:r$%s'E$nas
 etiopierna	5	word	e$tI$"u:$pI$e$n`a
@@ -8518,6 +8517,7 @@ fördärvare	5	word	f9$"d`Er$va$re
 fördömer	5	word	f9$"d`9$mer
 förebrå	5	word	""f2:$re$%bro:
 förebrådde	5	word	""f2:$re$%brO$de
+förehade	5	word	
 förekomma	5	word	""f2:$re$%kO$ma
 förening	5	word	f9r$"e:$nIN
 förestod	5	word	""f2:$re$%stu:d
@@ -9704,6 +9704,7 @@ eldstod	4	word	""Eld$%stu:d
 endas	4	word	
 enfödde	4	word	""e:n$%f9$de
 enskild	4	word	""e:n$%x\Ild
+er	4	word	"e:r
 fabler	4	word	"fA:$bler
 faderlösas	4	word	""fA:$de$%l`2:$sas
 fallgropen	4	word	
@@ -9785,7 +9786,6 @@ fördärvades	4	word	f9$"d`Er$va$des
 fördölj	4	word	
 fördöljer	4	word	
 fördöma	4	word	f9$"d`9$ma
-förehade	4	word	
 förehaft	4	word	
 förehavande	4	word	""f2:$re$%hA:$van$de
 förena	4	word	""f2:r$e$na
@@ -14822,7 +14822,6 @@ förskräcke	2	word
 förskräckelsen	2	word	f9$"s`krE$kel$sen
 förskräckliga	2	word	f9$"s`krE$klI$ga
 förskyllan	2	word	f9r$"x\Y$lan
-försköning	2	word	f9r$"x\2:$nIN
 försmådda	2	word	
 försmått	2	word	
 försonas	2	word	f9$"s`u:$nas
@@ -22119,6 +22118,7 @@ förskräckelsens	1	word	f9$"s`krE$kel$sens
 förskräckelsernas	1	word	
 förskräckens	1	word	
 förskönad	1	word	f9r$"x\2:$nad
+försköning	1	word	f9r$"x\2:$nIN
 förslagenhet	1	word	f9$"s`l`A:$gen$he:t
 förslaget	1	word	f9$"s`l`A:$get
 förslår	1	word	f9$"s`l`o:r
@@ -24510,7 +24510,6 @@ nejd	1	word	"nEjd
 nejden	1	word	"nEj$den
 nemueliternas	1	word	
 netofatiterna	1	word	
-ni	1	word	"ni:
 niding	1	word	""ni:$dIN
 nidingen	1	word	""ni:$dIN$en
 nineviterna	1	word	
@@ -24620,7 +24619,6 @@ oberedda	1	word	""u:$be$%rE$da
 oberoende	1	word	""u:$be$%ru:$en$de
 oberäknat	1	word	""u:$be$%rE:$knat
 obeskrivligt	1	word	""u:$be$%skri:v$lIkt
-obesmittadl	1	word	
 obesmittlig	1	word	
 obetald	1	word	""u:$be$%tA:ld
 obetvinglig	1	word	""u:$be$%tvIN$lIg

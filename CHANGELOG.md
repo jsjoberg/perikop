@@ -8,6 +8,12 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 ## [Unreleased]
 
+For 0.2.1, the Swedish extended-canon books absent from SRB26 have been compared in full against printed scans: 12 books, 148 chapters and 4,372 verse records. The [verification ledger](docs/reports/sv1917-verification.md) records evidence, corrections and separate follow-up work for the remaining 1917 OT and a future NT review.
+
+### Fixed
+
+- Scan-verified Swedish 1917/1921 word, punctuation and verse-boundary corrections, including restored missing verses and corrections supported by another printed copy.
+
 ## [0.2.0] - 2026-10-25
 
 Reading-plan progress and resume positions start over; daily-reading marks, bookmarks and most settings are kept.

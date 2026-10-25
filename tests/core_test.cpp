@@ -1108,6 +1108,16 @@ int main(int argc, char** argv) {
                  {"Tob", {3, 4}, "smädligt orsdpråk", "smädligt ordspråk"},
                  {"Sir", {38, 17}, "såsom kan förtjänar", "såsom han förtjänar"},
                  {"2Macc", {8, 8}, "komma kunungens sak", "komma konungens sak"},
+                 {"2Macc", {9, 8}, "slagen till marken låta", "slagen till marken, låta"},
+                 {"2Macc", {9, 10}, "himmel ens stjärnor", "himmelens stjärnor"},
+                 {"2Macc", {9, 13}, "icke ni er skulle", "icke mer skulle"},
+                 {"2Macc", {10, 3}, "och fram-buro så", "och framburo så"},
+                 {"2Macc", {12, 4}, "de icke förenade något misstänkt", "de icke förehade något misstänkt"},
+                 {"2Macc", {14, 14}, "till Nikanor,! hopp", "till Nikanor, i hopp"},
+                 {"2Macc", {15, 22}, "din ängel, O Herre", "din ängel, o Herre"},
+                 {"2Macc", {15, 34}, "plats obesmittadl»", "plats obesmittad!»"},
+                 {"EsthGr", {2, 6}, "misskund eller försköning", "misskund eller förskoning"},
+                 {"EsthGr", {6, 7}, "äldre historiska skildringar som", "äldre historiska skildringar, som"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
