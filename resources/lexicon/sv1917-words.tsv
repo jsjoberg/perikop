@@ -1,5 +1,5 @@
 # form	occurrences	kind	nst_sampa
-och	39655	word	"Ok
+och	39656	word	"Ok
 i	15971	word	
 till	15696	word	"tIl
 som	14018	word	
@@ -16,7 +16,7 @@ för	8153	word	"f2:r
 jag	8124	word	"jA:g
 den	7755	word	
 med	7577	word	"me:d
-är	7546	word	"E:r
+är	7547	word	"E:r
 av	7271	word	
 dem	6933	word	"dOm
 så	6856	word	"so:
@@ -32,7 +32,7 @@ hade	4486	word	""ha$de
 sade	4210	word	""sA:$de
 hans	4174	word	"hans
 eder	3862	word	""e:$der
-om	3668	word	"Om
+om	3667	word	"Om
 var	3649	word	"vA:r
 sin	3469	word	"sIn
 då	3467	word	"do:
@@ -8003,6 +8003,7 @@ vaktlar	6	word	""vakt$lar
 valde	6	word	""vA:l$de
 vana	6	word	""vA:$na
 vanmäktiga	6	word	""vA:n$%mEk$tI$ga
+vanärad	6	word	
 varelse	6	word	""vA:$rel$se
 varnar	6	word	""vA:$n`ar
 varv	6	word	"varv
@@ -8091,7 +8092,7 @@ Alfeus	5	name
 Amasjas	5	name	
 Ammisaddais	5	name	
 Amons	5	name	"a$mUns
-Ar	5	word	"A:r
+Ar	5	name	"A:r
 Arad	5	name	
 Ararats	5	name	"a$ra$rats
 Argob	5	name	
@@ -9126,7 +9127,6 @@ vagnsstäderna	5	word
 vaknat	5	word	""vA:$knat
 vakthållningen	5	word	""vakt$%hOl$nIN$en
 vallar	5	word	""va$lar
-vanärad	5	word	
 vanärade	5	word	""vA:$%nE:$ra$de
 vapenrustning	5	word	
 varden	5	word	
@@ -13918,7 +13918,6 @@ Utläggning	2	name	""}:t$%lE$gnIN
 Uttyd	2	word	""}:t$%ty:d
 Vakta	2	word	""vak$ta
 Vandren	2	word	
-Vanärad	2	word	
 Varhelst	2	word	vA:r$"hElst
 Vari	2	word	"var$i:
 Vastis	2	name	
@@ -19860,6 +19859,7 @@ Vaka	1	word	""vA:$ka
 Vandra	1	word	""van$dra
 Vanja	1	name	""va$nja
 Vanligt	1	word	""vA:n$lIkt
+Vanärad	1	word	
 Varförr	1	name	
 Varpå	1	word	"vA:r$po:
 Vars	1	word	"vA:s`
@@ -20094,7 +20094,6 @@ använt	1	word	""an$%vEnt
 använts	1	word	""an$%vEnts
 apostels	1	word	a$"pO$stels
 apostlaverksamhet	1	word	
-ar	1	word	"A:r
 arabernas	1	word	a$"rA:$be$n`as
 arabers	1	word	a$"rA:$bes`
 arabiten	1	word	
@@ -24660,7 +24659,6 @@ obotfärdighet	1	word
 obändig	1	word	""u:$%bEn$dIg
 ockrare	1	word	""O$kra$re
 ockraren	1	word	""O$kra$ren
-ocn	1	word	
 octi	1	word	
 odjuret	1	word	""u:$%j}:$ret
 odla	1	word	""u:d$la
@@ -24837,6 +24835,7 @@ omogna	1	word	""u:$%mu:$gna
 omringad	1	word	
 omringas	1	word	""Om$%rIN$as
 omskifta	1	word	""Om$%x\If$ta
+omskiftningar	1	word	""Om$%x\Ift$nIN$ar
 omskuret	1	word	""Om$%sk}:$ret
 omskuros	1	word	
 omskär	1	word	""Om$%x\E:r
@@ -25778,7 +25777,6 @@ skickelser	1	word	""x\I$kel$ser
 skida	1	word	""x\i:$da
 skiftat	1	word	""x\If$tat
 skiftesman	1	word	""x\If$tes$%man
-skiftningar	1	word	""x\Ift$nIN$ar
 skildra	1	word	""x\Il$dra
 skildringar	1	word	""x\Il$drIN$ar
 skildringarna	1	word	""x\Il$drIN$a$n`a

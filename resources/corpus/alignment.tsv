@@ -2363,8 +2363,7 @@ en-lxx2012	sv1917	Sir	36:12	36:26	Sir	36:14	36:28	1
 en-lxx2012	sv1917	Sir	37:1	38:34	Sir	37:1	38:34	0
 en-lxx2012	sv1917	Sir	39:1	39:1	Sir	38:34	39:1	2
 en-lxx2012	sv1917	Sir	39:2	40:14	Sir	39:2	40:14	0
-en-lxx2012	sv1917	Sir	40:15	40:16	Sir	40:15	40:15	3
-en-lxx2012	sv1917	Sir	40:17	44:23	Sir	40:17	44:23	0
+en-lxx2012	sv1917	Sir	40:15	44:23	Sir	40:15	44:23	0
 en-lxx2012	sv1917	Sir	44:24	44:24	Sir	45:1	45:1	1
 en-lxx2012	sv1917	Sir	45:2	47:3	Sir	45:2	47:3	0
 en-lxx2012	sv1917	Sir	47:4	47:5	Sir	47:4	47:4	3
@@ -2730,8 +2729,7 @@ en-web	sv1917	Sir	35:18	35:18	Sir	35:20	35:21	2
 en-web	sv1917	Sir	35:19	35:19	Sir	35:23	35:24	2
 en-web	sv1917	Sir	35:20	35:20	Sir	35:25	35:25	1
 en-web	sv1917	Sir	36:1	40:14	Sir	36:1	40:14	0
-en-web	sv1917	Sir	40:15	40:16	Sir	40:15	40:15	3
-en-web	sv1917	Sir	40:17	41:22	Sir	40:17	41:22	0
+en-web	sv1917	Sir	40:15	41:22	Sir	40:15	41:22	0
 en-web	sv1917	Sir	41:23	42:1	Sir	42:1	42:1	3
 en-web	sv1917	Sir	42:2	47:3	Sir	42:2	47:3	0
 en-web	sv1917	Sir	47:4	47:5	Sir	47:4	47:4	3
@@ -4906,8 +4904,7 @@ grc-lxx	sv1917	Sir	33:12	33:12	Sir	30:25	30:25	1
 grc-lxx	sv1917	Sir	34:1	36:16	Sir	31:1	33:16	1
 grc-lxx	sv1917	Sir	36:17	36:31	Sir	36:14	36:28	1
 grc-lxx	sv1917	Sir	37:1	40:14	Sir	37:1	40:14	0
-grc-lxx	sv1917	Sir	40:15	40:16	Sir	40:15	40:15	3
-grc-lxx	sv1917	Sir	40:17	41:22	Sir	40:17	41:22	0
+grc-lxx	sv1917	Sir	40:15	41:22	Sir	40:15	41:22	0
 grc-lxx	sv1917	Sir	41:23	42:1	Sir	42:1	42:1	3
 grc-lxx	sv1917	Sir	42:2	47:3	Sir	42:2	47:3	0
 grc-lxx	sv1917	Sir	47:4	47:5	Sir	47:4	47:4	3
@@ -6090,8 +6087,7 @@ sv1917	en-lxx2012	Sir	36:13	36:13	-	-	-	6
 sv1917	en-lxx2012	Sir	36:14	36:28	Sir	36:12	36:26	1
 sv1917	en-lxx2012	Sir	37:1	40:14	Sir	37:1	40:14	0
 sv1917	en-lxx2012	Sir	38:34	38:34	Sir	38:34	39:1	2
-sv1917	en-lxx2012	Sir	40:15	40:15	Sir	40:15	40:16	2
-sv1917	en-lxx2012	Sir	40:17	44:23	Sir	40:17	44:23	0
+sv1917	en-lxx2012	Sir	40:15	44:23	Sir	40:15	44:23	0
 sv1917	en-lxx2012	Sir	45:1	45:1	Sir	44:24	44:24	1
 sv1917	en-lxx2012	Sir	45:2	47:3	Sir	45:2	47:3	0
 sv1917	en-lxx2012	Sir	47:4	47:4	Sir	47:4	47:5	2
@@ -6407,8 +6403,7 @@ sv1917	en-web	Sir	35:25	35:25	Sir	35:20	35:20	1
 sv1917	en-web	Sir	35:26	35:26	-	-	-	6
 sv1917	en-web	Sir	36:1	40:14	Sir	36:1	40:14	0
 sv1917	en-web	Sir	36:27	36:28	-	-	-	6
-sv1917	en-web	Sir	40:15	40:15	Sir	40:15	40:16	2
-sv1917	en-web	Sir	40:17	41:22	Sir	40:17	41:22	0
+sv1917	en-web	Sir	40:15	41:22	Sir	40:15	41:22	0
 sv1917	en-web	Sir	42:1	42:1	Sir	41:23	42:1	2
 sv1917	en-web	Sir	42:2	47:3	Sir	42:2	47:3	0
 sv1917	en-web	Sir	47:4	47:4	Sir	47:4	47:5	2
@@ -7173,8 +7168,7 @@ sv1917	grc-lxx	Sir	36:7	36:9	Sir	33:7	33:7	3
 sv1917	grc-lxx	Sir	36:10	36:13	Sir	33:8	33:11	1
 sv1917	grc-lxx	Sir	36:14	36:28	Sir	36:17	36:31	1
 sv1917	grc-lxx	Sir	37:1	40:14	Sir	37:1	40:14	0
-sv1917	grc-lxx	Sir	40:15	40:15	Sir	40:15	40:16	2
-sv1917	grc-lxx	Sir	40:17	41:22	Sir	40:17	41:22	0
+sv1917	grc-lxx	Sir	40:15	41:22	Sir	40:15	41:22	0
 sv1917	grc-lxx	Sir	42:1	42:1	Sir	41:23	42:1	2
 sv1917	grc-lxx	Sir	42:2	47:3	Sir	42:2	47:3	0
 sv1917	grc-lxx	Sir	47:4	47:4	Sir	47:4	47:5	2

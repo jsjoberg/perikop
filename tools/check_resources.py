@@ -51,7 +51,7 @@ import sqlite3
 with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',uri=True) as db:
     required={ord(c) for (text,) in db.execute('SELECT text FROM verse') for c in text if not c.isspace()}
     count=db.execute('SELECT count(*) FROM verse').fetchone()[0]
-    expected={'sv1917':(35519,78),'grc-lxx':(28597,52),'grc-patriarchal':(7958,27),'en-lxx2012':(28324,54),'en-web':(7953,27)}
+    expected={'sv1917':(35520,78),'grc-lxx':(28597,52),'grc-patriarchal':(7958,27),'en-lxx2012':(28324,54),'en-web':(7953,27)}
     editions={code:(verses,books) for code,verses,books in db.execute('SELECT code,count(*),count(DISTINCT book_id) FROM verse JOIN source ON source.id=source_id GROUP BY source_id')}
     if editions!=expected:raise SystemExit(f'Incomplete pinned edition: {editions}')
     if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchall():raise SystemExit('Corpus integrity failed')
@@ -59,7 +59,7 @@ with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',u
     bad=db.execute("SELECT count(*) FROM verse WHERE text LIKE '%strong=%' OR text LIKE '%<%' OR text LIKE '%\\%'").fetchone()[0]
     if bad:raise SystemExit(f'{bad} verses still contain import markup')
     if db.execute('PRAGMA user_version').fetchone()[0]!=10:raise SystemExit('Unsupported corpus schema')
-    if db.execute('SELECT count(*) FROM saldo').fetchone()[0]!=12742:
+    if db.execute('SELECT count(*) FROM saldo').fetchone()[0]!=12741:
         raise SystemExit('Incomplete SALDO word-study data')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:
     fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')

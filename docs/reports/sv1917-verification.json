@@ -1932,6 +1932,142 @@
         }
       ],
       "notes": "Hela kapitlet jämfört ord för ord, inklusive sidgränsen efter 36:9 och spaltfortsättningen i 36:20. A130 införd och återbyggd: främmande versal Utgjut → utgjut i 36:8. Versgränsen mitt i bönen mellan 36:18 och 36:19 och hela slutversen 36:28 bekräftade. Samtliga andra ord, skiljetecken och gränser stämmer med trycket."
+    },
+    {
+      "book": "Sir",
+      "chapter": 37,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "18ffdadbda82c5edfc70075988f6e7ccf7472aa0e27dd23588e4ced2ac11b8da",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0123.1.tif",
+          "sha256": "244f4a8ab19c70384b45715eb2118d758d7ecda9d15943b1160ae01a7dd859f1"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0124.1.tif",
+          "sha256": "2cafda3f4924794b7be929106f7c45942c9393ce4c9448f5f327bd8ec9460031"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 37:16 och spaltgränsen efter 37:27. A131–A133 införda och återbyggda: ar → är i 37:1, borttagen radslutsavstavning i omskiftningar i 37:17 samt ocn → och i 37:27. A019 i 37:3 återkontrollerad. Tankstrecken i 37:8 återges typografiskt som bindestreck. Övriga ord, skiljetecken och versgränser bekräftade, inklusive hela den långa listan i 37:11."
+    },
+    {
+      "book": "Sir",
+      "chapter": 38,
+      "status": "needs-review",
+      "verse_count": 34,
+      "text_sha256": "77ff4d83b8c348fe237ac40ed706af5f8f06727f7ec146777b3d9bb44e371d02",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0124.1.tif",
+          "sha256": "2cafda3f4924794b7be929106f7c45942c9393ce4c9448f5f327bd8ec9460031"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0125.1.tif",
+          "sha256": "70eede55d33df0c563b133364461ae646348f6257e44acc19d0fe926041039bd"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0126.1.tif",
+          "sha256": "427e9f4ba97eaa210b3ee7cde83c03638b43f89b8a50fa91447b070ad222efe9"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 38:6 och 38:25, spaltfortsättningarna i 38:16 och 38:30 samt den avslutande satsen i 38:34 under nästa kapitelrubrik. Ingen rättelse tillåten för V005: såväl korpusen som trycket i 38:17 har såsom kan förtjänar. Kan har kontrollerats i originalupplösning. Den väntade läsningen han skulle också ändra det tryckta vittnet och har inte införts. Kapitlet är needs-review och räknas inte som färdigt. De övriga orden och versgränserna stämmer, inklusive tidigare återställda 38:34."
+    },
+    {
+      "book": "Sir",
+      "chapter": 39,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "883066099fdb85f0f71e92db72f4694f019980f1c7739b70350d11e92f48557f",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0126.1.tif",
+          "sha256": "427e9f4ba97eaa210b3ee7cde83c03638b43f89b8a50fa91447b070ad222efe9"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0127.1.tif",
+          "sha256": "28d3bd1ff4ac0ac588aeb90be2cad837a1ea2bb06141db2375ec4aac5f16d7d7"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0128.1.tif",
+          "sha256": "574da757d72c671ea18ef2bd1e699375dffef914a7882170cbc5061ecca7f62d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningarna i 39:2 och 39:18 samt spaltfortsättningen i 39:29. A134 införd och återbyggd: främmande komma efter såsom i 39:23 tas bort. Texten Icke så den som allenast tänker följer under kapitelrubriken men före numrerade 39:1 och ligger kvar i 38:34. Alla andra ord, skiljetecken och versgränser bekräftade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 40,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "76480919f39e294c43d3df0c5e04ab7a38d89f0c6b24f67219daf15d50db97ea",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0128.1.tif",
+          "sha256": "574da757d72c671ea18ef2bd1e699375dffef914a7882170cbc5061ecca7f62d"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0129.1.tif",
+          "sha256": "897ff4effc9ca61706fe8010f08e4021b6bed6faf8eedd551d15967af14f26d9"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0130.1.tif",
+          "sha256": "8a245111aa5612bddb938d7a3f4cdcb45a61d68ce499d0faa4519d1c6810fd00"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 40:1 och spaltfortsättningen i 40:11. A135–A136 införda och återbyggda: tryckets 40:16, De likna vassen ..., avskiljs från 40:15 som egen post utan ändrad ordalydelse. Marginalnumret 16 och motsvarande grekiska/engelska texter bekräftar gränsen. Tryckets tankstreck i 40:8 återges typografiskt som bindestreck. Alla övriga ord och gränser kontrollerade."
+    },
+    {
+      "book": "Sir",
+      "chapter": 41,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "b679c0d5a0b91be7454086dd2d27e2cf85c56b3816f168240252faf3b65a5ea6",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0130.1.tif",
+          "sha256": "8a245111aa5612bddb938d7a3f4cdcb45a61d68ce499d0faa4519d1c6810fd00"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0131.1.tif",
+          "sha256": "4a072032b1f27d5c0ba4374245dc1f0908bf76a2c634f1782725681c60836229"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive sidfortsättningen i 41:6 och spaltfortsättningen i 41:17. Inga nya rättelser. Listan i 41:17–22 fortsätter in i 42:1 på samma sida och har följts över denna gräns. Det långa slutpartiets skiljetecken och alla ord och versgränser bekräftade. Tryckets tankstreck i 41:4 och 41:22 återges typografiskt som bindestreck."
+    },
+    {
+      "book": "Sir",
+      "chapter": 42,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "d777555bff1791e8291b6a46dcb443a80cb9de24e6220527f8c1afd3f5209820",
+      "checked_at": "2026-10-25",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/apokryf/0131.1.tif",
+          "sha256": "4a072032b1f27d5c0ba4374245dc1f0908bf76a2c634f1782725681c60836229"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0132.1.tif",
+          "sha256": "21483049ab643b1a1f6454d36b4a48c54cfdbe5e80b59fa045d8a1700f1aaa19"
+        },
+        {
+          "url": "https://runeberg.org/img/apokryf/0133.1.tif",
+          "sha256": "d352d84146cce443af6b9a50d208f3a78da0d1ca412fc7bf06e9baf96ed66565"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört ord för ord, inklusive 42:1 före kapitelrubriken och dess fortsättning under rubriken på nästa sida, sidgränsen efter 42:15 och spaltfortsättningen i 42:24. A137 införd och återbyggd: främmande versal Vanärad → vanärad i 42:10. Sluttankstrecket i 42:14 behålls som tryckets typografiska avdelning. Alla andra ord, skiljetecken och versgränser bekräftade, inklusive hela den långa 42:17."
     }
   ],
   "unnumbered": [

@@ -1033,6 +1033,11 @@ int main(int argc, char** argv) {
                  {"Sir", {33, 15}, "de té sig sammalunda", "de te sig sammalunda"},
                  {"Sir", {34, 16}, "Herren förfaras alls icke", "Herren förfäras alls icke"},
                  {"Sir", {36, 8}, "och Utgjut din vrede.", "och utgjut din vrede."},
+                 {"Sir", {37, 1}, "Också jag ar vän", "Också jag är vän"},
+                 {"Sir", {37, 17}, "sinnets om-skiftningar", "sinnets omskiftningar"},
+                 {"Sir", {37, 27}, "vad du tål, ocn lägg", "vad du tål, och lägg"},
+                 {"Sir", {39, 23}, "hans vrede, såsom, när", "hans vrede, såsom när"},
+                 {"Sir", {42, 10}, "skall bliva Vanärad", "skall bliva vanärad"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1098,6 +1103,20 @@ int main(int argc, char** argv) {
                       "restored Sirach 13:15-16 align individually in both directions");
             }
         }
+        check(corpus.verse("sv1917", "Sir", {40, 15})->text == "De ogudaktigas avkomlingar skjuta icke grenar i mängd, och orena rotskott växa på kala klippan." &&
+                  corpus.verse("sv1917", "Sir", {40, 16})->text == "De likna vassen vid var vattensamling och vid var flodbrädd, vilken ryckes bort före allt annat gräs.",
+              "Sirach 40:15-16 retain the printed verse boundary");
+        for (const VerseRef& ref : {VerseRef{40, 15}, VerseRef{40, 16}}) {
+            for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+                const auto swedish = corpus.parallel_verse(source, "sv1917", "Sir", ref);
+                const auto parallel = corpus.parallel_verse("sv1917", source, "Sir", ref);
+                check(swedish && swedish->ref == ref && swedish->last.value_or(swedish->ref) == ref &&
+                          parallel && parallel->ref == ref && parallel->last.value_or(parallel->ref) == ref,
+                      "restored Sirach 40:15-16 align individually in both directions");
+            }
+        }
+        check(corpus.verse("sv1917", "Sir", {38, 17})->text.find("såsom kan förtjänar") != std::string::npos,
+              "Sirach's printed kan remains pending an independent witness");
         check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
               "the possible printing variant with någon remains pending human review");
         check(corpus.verse("sv1917", "Jdt", {5, 8})->text.find("förjagade med från") != std::string::npos &&
