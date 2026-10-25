@@ -54,7 +54,7 @@ def channel_for(platform):
 
 def check_channel(channel):
     # Retired feeds remain readable for cleanup; assemble rejects publishing to them.
-    # Nightlies from 2026-10-25 may carry the short-lived glibc241 Linux feeds.
+    # nightly-2026-10-25-cab925d published the short-lived glibc241 Linux feeds.
     retired = ("osx-x64", "linux-x64", "linux-arm64", "linux-x64-glibc241", "linux-arm64-glibc241")
     if channel not in {platform + "-" + track for platform in (*PLATFORMS.values(), *retired)
                        for track in ("nightly", "releases")}:
