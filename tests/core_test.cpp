@@ -844,6 +844,91 @@ int main(int argc, char** argv) {
         check(make_utterance("en ko, sin kos och Kos.", "sv", lexicon).speech_text ==
                   "en ⟦k'u:⟧, sin kos och Kos.",
               "word-only corrections do not turn the place Kos or sin kos into a cow's genitive");
+        check(make_utterance("Jo, jo! Jos.", "sv", lexicon).speech_text == "⟦j'u:⟧, ⟦j'u:⟧! Jos.",
+              "jo uses the bundled word correction without generating a genitive");
+        check(make_utterance("Vi vi; v, l. Vis.", "sv", lexicon).speech_text == "⟦v'i:⟧ ⟦v'i:⟧; v, l. Vis.",
+              "vi is a word correction; standalone letters have no pronunciation workarounds");
+        const std::string abbreviations = "O.s.v.; o. s. v.; osv.; t. ex.; bl.a.; d.v.s.; dvs.; m.m.; "
+                                          "m.fl.; fr.o.m.; t.o.m.; s.k.; f.Kr.; e.Kr.";
+        const auto expanded = make_utterance(abbreviations, "sv", lexicon);
+        check(expanded.display_text == abbreviations &&
+                  expanded.speech_text ==
+                      "och så vidare; och så vidare; och så vidare; till exempel; bland annat; "
+                      "det vill säga; det vill säga; med mera; med flera; från och med; till och med; "
+                      "så kallad; före Kristus; efter Kristus.",
+              "Swedish abbreviations are spoken in full without changing the displayed text");
+        check(make_utterance("åosv.; o, s, v.; osv; o s v", "sv", lexicon).speech_text ==
+                  "åosv.; o, s, v.; osv; o s v",
+              "abbreviation matching requires whole words and the abbreviation's dots");
+        check(make_utterance("osv.", "en", lexicon).speech_text == "osv.",
+              "Swedish abbreviation expansion does not affect another language");
+        const std::vector<Pronunciation> punctuation_aliases{{"sv", "osv.", "och så vidare", "", 50},
+                                                             {"sv", "o.s.v.", "och så vidare", "", 50},
+                                                             {"sv", "m.fl.", "med flera", "", 50},
+                                                             {"sv", "t.ex.", "till exempel", "", 50},
+                                                             {"sv", "bl.a.", "bland annat", "", 50}};
+        for (const auto& [before, after] : std::vector<std::pair<std::string, std::string>>{
+                 {"osv. Nästa mening.", "och så vidare. Nästa mening."},
+                 {"o. s. v. Ännu en mening.", "och så vidare. Ännu en mening."},
+                 {"m.fl. Övriga väntar.", "med flera. Övriga väntar."},
+                 {"osv. och annat", "och så vidare och annat"},
+                 {"osv., men", "och så vidare, men"},
+                 {"osv.. Nästa mening.", "och så vidare. Nästa mening."},
+                 {"osv.» Nästa mening.", "och så vidare.» Nästa mening."},
+                 {"osv.»", "och så vidare.»"},
+                 {"t.ex. Stockholm och bl.a. Åke.", "till exempel Stockholm och bland annat Åke."}}) {
+            const auto spoken = make_utterance(before, "sv", punctuation_aliases);
+            check(spoken.display_text == before && spoken.speech_text == after,
+                  "abbreviation punctuation is preserved at sentence boundaries: " + before);
+        }
+        for (const auto& ref : std::vector<VerseRef>{{4, 10}, {4, 11}, {4, 17}, {7, 12}}) {
+            const auto text = corpus.verse("sv1917", "Ezra", ref)->text;
+            const auto speech = make_utterance(text, "sv", lexicon);
+            check(speech.display_text == text &&
+                      speech.speech_text.find("och så vidare") != std::string::npos &&
+                      speech.speech_text.find("o. s. v.") == std::string::npos,
+                  "every abbreviated o. s. v. in Ezra is expanded for speech");
+        }
+        check(corpus.verse("sv1917", "Jer", {8, 15})->text.starts_with("Vi bida efter frid"),
+              "Jeremiah's missing i is corrected from the printed text");
+        check(corpus.verse("sv1917", "Sir", {28, 9})->text.find("leva i frid") != std::string::npos,
+              "Sirach's OCR l is corrected to the printed i");
+        struct TextCorrection {
+            std::string book;
+            VerseRef ref;
+            std::string before, after;
+        };
+        for (const auto& correction : std::vector<TextCorrection>{
+                 {"2Kgs", {18, 21}, "förtröstar val nu", "förtröstar väl nu"},
+                 {"Job", {9, 35}, "med min själv", "med mig själv"},
+                 {"Ps", {22, 30}, "sin själv vid liv", "sin själ vid liv"},
+                 {"Prov", {20, 7}, "går det val efter honom", "går det väl efter honom"},
+                 {"Prov", {23, 7}, "kan han val säga", "kan han väl säga"},
+                 {"Jer", {8, 12}, "på skam, övade styggelse", "på skam, ty de övade styggelse"},
+                 {"Jer", {16, 13}, "ett land son varken", "ett land som varken"},
+                 {"Jer", {17, 21}, "Tagen eder val till vara", "Tagen eder väl till vara"},
+                 {"Jer", {20, 13}, "den fattiges själv", "den fattiges själ"},
+                 {"Jer", {29, 7}, "så går det ock eder val", "så går det ock eder väl"},
+                 {"Ezek", {3, 17}, "å mina vagnar", "å mina vägnar"},
+                 {"Luke", {12, 48}, "vad som val slag värt", "vad som var slag värt"},
+                 {"Tob", {11, 15}, "min son TobiasI»", "min son Tobias!»"},
+                 {"Sir", {4, 8}, "saktmod vänligr svar", "saktmod vänligt svar"},
+                 {"Sir", {13, 10}, "icke rnå bliva glömd", "icke må bliva glömd"},
+                 {"Sir", {17, 23}, "vedergälla dern", "vedergälla dem"},
+                 {"Sir", {34, 9}, "En väiuppfostrad man", "En väluppfostrad man"},
+                 {"Sir", {34, 19}, "skygd rnot den", "skygd mot den"},
+                 {"Sir", {50, 26}, "de sorn äro", "de som äro"},
+                 {"1Macc", {7, 38}, "låt dern icke", "låt dem icke"},
+                 {"1Macc", {15, 41}, "fotfolk, sorn skulle", "fotfolk, som skulle"},
+                 {"2Macc", {3, 25}, "sina f ramhovar", "sina framhovar"},
+                 {"PrAzar", {1, 19}, "handla rned oss", "handla med oss"}}) {
+            const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
+            check(text.find(correction.after) != std::string::npos &&
+                      text.find(correction.before) == std::string::npos,
+                  "scan-verified erratum in " + correction.book);
+        }
+        check(corpus.verse("sv1917", "Jer", {8, 12})->text.find("alls icke skam") != std::string::npos,
+              "the possible printing variant with någon remains pending human review");
         check(
             make_utterance("Och förlåten i templet rämnade. Vilkens överträdelse är förlåten.", "sv", lexicon)
                     .speech_text ==
@@ -928,6 +1013,8 @@ int main(int argc, char** argv) {
                 {"skylt", "", "⟦sx'y:lt⟧", 3, {}},
                 {"fördraget", "", "⟦fWRdR'A:gE-t⟧", 4, {}},
                 {"joses", "", "⟦j'u:sE-s⟧", 4, {}},
+                {"jo", "", "⟦j'u:⟧", 51, {}},
+                {"vi", "", "⟦v'i:⟧", 2333, {}},
                 {"krubba", "", "⟦kR'8ba⟧", 4, {}},
                 {"krubban", "", "⟦kR'8ban⟧", 3, {}},
                 {"jordan", "", "⟦jURd'A:n⟧", 187, {}},
@@ -945,7 +1032,7 @@ int main(int argc, char** argv) {
                 {"väl",
                  "⟦v'E:l⟧",
                  "⟦v'El⟧",
-                 645,
+                 650,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
                   "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",
@@ -988,7 +1075,8 @@ int main(int argc, char** argv) {
                   "Sir 25:4",    "Sir 25:5",    "Sir 26:14",   "Sir 37:28",   "Sir 38:21",   "Sir 3:1",
                   "Sir 42:21",   "Sir 42:6",    "Sir 6:11",    "Sir 9:13",    "Song 3:8",    "Song 4:4",
                   "Tob 12:11",   "Tob 12:7",    "Tob 14:9",    "Tob 4:14",    "Tob 7:4",     "Tob 7:5",
-                  "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1"},
+                  "Wis 11:11",   "Wis 14:22",   "Wis 16:2",    "Wis 5:21",    "Wis 6:24",    "Wis 8:1",
+                  "Jer 17:21",   "Prov 20:7"},
                  {{"Ezek 33:32", 1}}},
                 {"gibea", "", "⟦gIb'e:a⟧", 41, {}},
                 {"ahabs", "", "⟦'A:habs⟧", 35, {}},

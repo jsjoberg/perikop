@@ -1,13 +1,12 @@
 # Linux packaging plan: Debian 13, EL 10 and a Debian-built AppImage
 
-Status, 2026-10-24: steps 1 and 2 are done (#52, #54); steps 3 to 5 are not started. Step 2 lists where the result differs from the plan.
+Status, 2026-10-25: steps 1 and 2 are done (#52, #54), and the AppImage is held to glibc 2.39 so it runs on Enterprise Linux 10 (#61). Steps 3 to 5 (`.deb`, `.rpm` and their release plumbing) are dropped: the AppImage covers Debian 13, Enterprise Linux 10 and the newer distributions on its own. On AlmaLinux 10 it passes the smoke test apart from clipboard and window-placement checks that fail the same way for Rocky-built AppImages in the headless Mutter session. Step 2 lists where the result differs from the plan.
 
 ## Decisions
 
 - Linux support follows what Debian 13 and EL 10 (AlmaLinux/Rocky 10) ship. Their stock compilers are the constraint: **GCC 14** becomes the minimum (Debian 13: 14.2, EL 10: 14.3). No gcc-toolset and no custom compilers.
-- **Debian 13** builds the `.deb` and the **AppImage**, for x64 and arm64 (Raspberry Pi OS is Debian 13 based).
-- **AlmaLinux 10** builds the `.rpm`.
-- The AppImage keeps its Velopack updates. `.deb` and `.rpm` copies are updated by their package manager or by a new download. There are no APT or DNF repositories in this plan.
+- **Debian 13** builds the **AppImage**, for x64 and arm64 (Raspberry Pi OS is Debian 13 based). It keeps its Velopack updates.
+- No `.deb` or `.rpm`: the AppImage, held to glibc 2.39, also covers Enterprise Linux 10. (The original plan had Debian 13 build a `.deb` and AlmaLinux 10 an `.rpm`.)
 - Windows and macOS are unchanged.
 
 ## Why this works
@@ -24,9 +23,7 @@ Checked locally on arm64, 2026-10-23/24, with main at `c75815c`:
 
 | Package | Built on | glibc needed | Runs on |
 |---|---|---|---|
-| AppImage x64/arm64 | Debian 13 | 2.41 | Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 42+, Arch, Slackware-current |
-| `.deb` x64/arm64 | Debian 13 | Debian 13 | Debian 13, Raspberry Pi OS (Debian 13) |
-| `.rpm` x64 (arm64 optional) | AlmaLinux 10 | 2.39 | AlmaLinux, Rocky and RHEL 10 |
+| AppImage x64/arm64 | Debian 13 | 2.39 (gate since `linux-glibc239`) | Enterprise Linux 10, Debian 13, Raspberry Pi OS (Debian 13), Ubuntu 26.04, Fedora 40+, Arch, Slackware-current |
 
 No longer supported: Ubuntu 24.04 and older, Debian 12, EL 9, Slackware 15.0. Today's AppImage (glibc 2.34) keeps working on several of these until the first release built by the new system.
 
@@ -48,7 +45,7 @@ Differences from the plan:
 - .NET 8 comes from Microsoft's runtime tarball, pinned by SHA-512, because Microsoft's Debian 13 repository has no arm64 build.
 - Every bundled package has a Debian copyright file, so `tools/appimage-licenses/` was removed. Packaging stops when a bundled library has no package owner.
 - `ci/lsan.supp` also suppresses Mesa's GLX state (`libGLX_mesa.so.0`).
-- Linux update channels now carry `-glibc241` after the architecture, so clients built for glibc 2.34 never receive a Debian 13 build. See `docs/updating.md`.
+- Linux update channels now carry `-glibc241` after the architecture (renamed `-glibc239` when the gate moved to Enterprise Linux 10's 2.39), so clients built for glibc 2.34 never receive a Debian 13 build. See `docs/updating.md`.
 - The Ubuntu 26.04 smoke failure was older than this change. It was fixed in #55 and is tested under a subpixel fontconfig host since #56.
 
 - `ci/linux.Dockerfile`: `FROM debian:trixie`. Install the compiler, CMake, Ninja, ccache, GTK and fontconfig headers, Xvfb, the sanitizer runtimes, `clang-tidy-22`, squashfs-tools and dpkg-dev. Velopack's `vpk` needs the .NET 8 runtime, which Debian does not package; take it from Microsoft's Debian 13 repository (packages.microsoft.com). The snapshot captures it like the rest of the image. Check whether the image excludes `/usr/share/doc`; the licence collection needs the `copyright` files.
@@ -62,26 +59,26 @@ Differences from the plan:
 - Dependency snapshot: rebuild and pin it (ask before triggering `dependencies.yml`).
 - Verification: every CI job green; the AppImage passes `--smoke-test` on clean Debian 13, Ubuntu 26.04, Fedora 43, Arch and Raspberry Pi OS (Debian 13, arm64) containers.
 
-### 3. `.deb` from the Debian 13 job
+### 3. `.deb` from the Debian 13 job (dropped)
 
 - Build with CPack DEB (or `dpkg-deb`), computing dependencies from the binaries with `dpkg-shlibdeps`. The package carries a desktop entry and an icon. wxWidgets stays statically linked from the snapshot.
 - Do not install files that the package manager and Velopack would both claim.
 - Verification: install on clean Debian 13 and Raspberry Pi OS containers, run `--smoke-test`, uninstall cleanly.
 
-### 4. `.rpm` from an AlmaLinux 10 job
+### 4. `.rpm` from an AlmaLinux 10 job (dropped)
 
 - A new environment, `ci/el10.Dockerfile`, on `almalinux/10-base`. Use the `linux/amd64/v2` variant so older CPUs (X220 era) keep working. It needs its own snapshot environment.
 - Build with CPack RPM, with automatic library dependencies.
 - GUI tests: see "Open decisions".
 - Verification: install on clean AlmaLinux 10 and Rocky 10 containers, run `--smoke-test`, uninstall cleanly.
 
-### 5. Release plumbing
+### 5. Release plumbing (dropped)
 
 - `tools/ci/update_packages.py`: allow `.deb` and `.rpm` assets in `assemble`. They have no Velopack feed.
 - `tools/ci/nightly.py` and the release notes: list the new packages.
 - `src/app/updates.cpp`: a copy that Velopack did not install already reports "not installed". Make the message point package installs to their package manager or the Releases page.
 
-## Open decisions
+## Open decisions (moot since steps 3 to 5 were dropped)
 
 1. **GUI tests on EL 10.** EL 10 has no Xvfb. Headless Weston has no input seat, and Perikop crashes there (separate bug, see below). Under Mutter or cage, the clipboard checks (`main_frame_smoke.cpp` lines 367 and 1507) and the window placement checks (lines 406, 428 and 445) fail, because the compositor manages window geometry. Options:
    - Build Xvfb for EL 10 from Fedora's `xorg-x11-server` source package in the snapshot workflow.
