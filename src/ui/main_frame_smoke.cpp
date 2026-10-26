@@ -855,6 +855,15 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     select_settings(SettingsCategory::Speech);
     {
+        const auto catalog = voice_catalog_;
+        voice_catalog_["sv"] = {{"espeak", "Cached test voice"}};
+        fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+        const auto* cached = static_cast<wxChoice*>(
+            wxWindow::FindWindowByName(ui::utf8("Röst för uppläsning, svenska"), current_page()));
+        if (!cached || cached->GetString(0) != "Cached test voice")
+            fail(__LINE__);
+        voice_catalog_ = catalog;
+        fill_settings(static_cast<wxScrolledWindow*>(current_page()));
         auto real_speech = std::move(speech_);
         const auto previous_playback = playback_;
         const auto previous_voice = settings_.speech_voices.at("sv");

@@ -441,7 +441,10 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         const auto name = ui::utf8(setting.name).Upper();
         std::vector<EspeakVoice> voices;
         try {
-            voices = Espeak::voices(language);
+            auto& catalog = voice_catalog_[language];
+            if (catalog.empty())
+                catalog = Espeak::voices(language);
+            voices = catalog;
             if (voices.empty())
                 voice_error += "Inga eSpeak-röster hittades för " + std::string(setting.name) + ". ";
         } catch (const std::exception& error) {

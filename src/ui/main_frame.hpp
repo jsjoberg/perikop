@@ -2,6 +2,7 @@
 
 #include "core/navigation.hpp"
 #include "core/updater.hpp"
+#include "speech/espeak_voice.hpp"
 #include "speech/playback_controller.hpp"
 #include "ui/reader_controls.hpp"
 #include <filesystem>
@@ -113,6 +114,7 @@ private:
         {SettingsCategory::Speech, "Uppläsning"},
         {SettingsCategory::Updates, "Uppdateringar"}};
     SettingsCategory settings_category_ = SettingsCategory::Sources;
+    std::map<std::string, std::vector<EspeakVoice>> voice_catalog_;
     void preview_voice(const std::string& language = "sv", wxWindow* button = nullptr);
     void set_speech_rate(int);
     void restart_speech();
