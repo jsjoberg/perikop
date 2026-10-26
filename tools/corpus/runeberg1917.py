@@ -324,6 +324,14 @@ REPLACE={
  ('1Tim', 4, 4):('mottages med tacksägelse:', 'mottages med tacksägelse;'),
  ('Philemon', 1, 11):('som förut var ingalunda var dig till »till gagn»', 'som förut ingalunda var dig »till gagn»'),
 
+ # Hebrews full scan pass: R274; NT photo batch 9.
+ ('Heb', 12, 11):('Väl synes alla aga', 'Väl synes all aga'),
+
+ # James full scan pass: R275-R277; NT photo batch 9.
+ ('James', 2, 5):('Har icke Gud utvald just', 'Har icke Gud utvalt just'),
+ ('James', 4, 1):('krig i eder lemmar', 'krig i edra lemmar'),
+ ('James', 4, 15):('vi får leva', 'vi få leva'),
+
 }
 
 def chapter_number(name):

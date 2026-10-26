@@ -31,13 +31,13 @@ mig	4673	word	"mEj
 hade	4486	word	""ha$de
 sade	4210	word	""sA:$de
 hans	4179	word	"hans
-eder	3863	word	""e:$der
+eder	3862	word	""e:$der
 om	3668	word	"Om
 var	3648	word	"vA:r
 då	3469	word	"do:
 sin	3465	word	"sIn
 Men	3400	word	"mEn
-alla	3209	word	
+alla	3208	word	
 Gud	3126	word	"g}:d
 ett	3068	word	"Et
 såsom	3056	word	"so:$sOm
@@ -99,7 +99,7 @@ hon	1343	word	"hu:n
 konungen	1296	word	""ko:$nu0N$en
 voro	1294	word	""vu:$rU
 dess	1280	word	"dEs
-få	1277	word	
+få	1278	word	
 se	1233	word	"se:
 ditt	1204	word	"dIt
 ned	1203	word	"ne:d
@@ -159,7 +159,7 @@ namn	796	word	"namn
 Ja	790	word	"jA:
 Du	788	word	"dy:
 gjort	779	word	"jUt`
-edra	776	word	""e:$dra
+edra	777	word	""e:$dra
 Om	767	word	"Om
 denna	763	word	""dE$na
 säga	760	word	""sE$ja
@@ -168,7 +168,7 @@ tillbaka	739	word	tIl$"bA:$ka
 lät	733	word	"lE:t
 vår	726	word	"vo:r
 Mose	718	name	
-får	718	word	"fo:r
+får	717	word	"fo:r
 två	715	word	"tvo:
 gav	688	word	"gA:v
 huru	682	word	""h}:$r}:
@@ -261,8 +261,8 @@ nämligen	395	word	""nEm$lI$gen
 själva	393	word	""x\El$va
 Detta	390	word	
 eld	390	word	"Eld
+all	389	word	"al
 människor	389	word	""mE$nI$x\Ur
-all	388	word	"al
 städer	388	word	"stE:$der
 stod	384	word	"stu:d
 HERRE	383	word	""hE$re
@@ -897,12 +897,12 @@ ihåg	90	word	I$"ho:g
 mörker	90	word	"m9r$ker
 städerna	90	word	"stE:$de$n`a
 syn	90	word	"sy:n
+utvalt	90	word	""}:t$%vA:lt
 Efraims	89	name	""e:$fra$Ims
 Hör	89	word	"h2:r
 ben	89	word	"be:n
 kalla	89	word	""ka$la
 smälek	89	word	""smE:$%le:k
-utvalt	89	word	""}:t$%vA:lt
 gyllene	88	word	""jY$le$ne
 slår	88	word	"slo:r
 stark	88	word	"stark
@@ -6504,7 +6504,6 @@ utskickade	8	word	""}:t$%x\I$ka$de
 utspänt	8	word	""}:t$%spEnt
 utstått	8	word	""}:t$%stOt
 utsäde	8	word	""}:t$%sE:$de
-utvald	8	word	""}:t$%vA:ld
 vakar	8	word	""vA:$kar
 vanartig	8	word	""vA:n$%A:$t`Ig
 vanmakt	8	word	""vA:n$%makt
@@ -7158,6 +7157,7 @@ utsagor	7	word	""}:t$%sA:$gUr
 utse	7	word	""}:t$%se:
 utslag	7	word	""}:t$%slA:g
 uttåg	7	word	""}:t$%to:g
+utvald	7	word	""}:t$%vA:ld
 vanheder	7	word	""vA:n$%he:$der
 vanärad	7	word	
 vanärat	7	word	
