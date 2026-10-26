@@ -1,6 +1,6 @@
 # form	occurrences	kind	nst_sampa
-och	39656	word	"Ok
-i	15970	word	
+och	39655	word	"Ok
+i	15969	word	
 till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
@@ -24,7 +24,7 @@ honom	6737	word	""hO$nOm
 har	6692	word	"hA:r
 du	6353	word	"d}:
 sig	5119	word	"sEj
-I	4775	word	"i:
+I	4776	word	"i:
 dig	4736	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
@@ -69,7 +69,7 @@ ut	1961	word	"}:t
 oss	1942	word	"Os
 detta	1932	word	
 barn	1833	word	"bA:n`
-ock	1774	word	"Ok
+ock	1775	word	"Ok
 Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
 eller	1704	word	"E$ler
@@ -149,7 +149,7 @@ män	866	word	"mEn
 De	852	word	"dE
 tid	821	word	"ti:d
 jorden	819	word	"ju:$d`en
-själv	816	word	"x\Elv
+själv	815	word	"x\Elv
 Jerusalem	812	name	je$""r}:$sa$%lEm
 Jesus	809	name	""je:$su0s
 Juda	808	name	""j}:$da
@@ -258,7 +258,7 @@ kunde	402	word	""ku0n$de
 blevo	400	word	""ble:$vU
 gott	398	word	"gOt
 nämligen	395	word	""nEm$lI$gen
-själva	392	word	""x\El$va
+själva	393	word	""x\El$va
 Detta	390	word	
 eld	390	word	"Eld
 all	389	word	"al
@@ -1568,6 +1568,7 @@ fett	46	word	"fEt
 hav	46	word	"hA:v
 herrar	46	word	""hE$rar
 hydda	46	word	""hY$da
+hälsa	46	word	""hEl$sa
 köpa	46	word	""s'2:$pa
 led	46	word	"le:d
 namns	46	word	"namns
@@ -1586,7 +1587,6 @@ blott	45	word	"blOt
 dragen	45	word	""drA:$gen
 främlingen	45	word	""frEm$lIN$en
 förvar	45	word	f9r$"vA:r
-hälsa	45	word	""hEl$sa
 inmönstrades	45	word	""In$%m9n$stra$des
 kallar	45	word	""ka$lar
 lär	45	word	"lE:r
@@ -1646,7 +1646,6 @@ fattade	43	word	""fa$ta$de
 fotstycken	43	word	
 förrätta	43	word	f9r$"rE$ta
 helga	43	word	""hEl$ga
-hälsar	43	word	""hEl$sar
 kallades	43	word	""ka$la$des
 krossade	43	word	""krO$sa$de
 krönika	43	word	"kr2:$nI$ka
@@ -1684,6 +1683,7 @@ förtälja	42	word	f9$"t`El$ja
 gjordes	42	word	""ju:$d`es
 gälla	42	word	""jE$la
 huvudmännen	42	word	""h}:$vu0d$%mE$nen
+hälsar	42	word	""hEl$sar
 krona	42	word	""kru:$na
 känt	42	word	"s'Ent
 människas	42	word	""mE$nI$x\as

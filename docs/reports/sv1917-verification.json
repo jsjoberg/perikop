@@ -6140,6 +6140,346 @@
         }
       ],
       "notes": "Full chapter compared, including 28:16 page and 28:23 column continuations and final line of Acts. Restored two quotation endings/punctuation and har. 28:29 is only a footnote marker; ordinary comma/semicolon variation at 28:30 retained. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R246, R247, R248."
+    },
+    {
+      "book": "Rom",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "91289380bbf9e8d42785e8d17b873c3f84542b8f2a7cd881e4616f1ec6d9dad2",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0239.1.tif",
+          "sha256": "e101035be872bbf78f51830fbea27ec8d674ab8337003f07ff00b7abc2e02a1e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0240.1.tif",
+          "sha256": "992b70b4a447585929983c785dce650eafba96e5509bac62e1bb67b44f23bc8a"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 1:16 över sidgränsen. Inga nya rättelser eller olösta ordfrågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "0ac2ba96807a69294045fe29073ff14928cf71af0993353a4d50a92663343090",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0241.1.tif",
+          "sha256": "de87469e3be4de33fae65249b14e9e1ebe99e83636e07efe4d544b999c059ca7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0242.1.tif",
+          "sha256": "88d56693e78c032187c3ef06c7b6488553856f9a3d943e37d53afaf65997beb7"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 2:9 över spaltgränsen och 2:29 över spaltgränsen på nästa sida. R249 återställer pluralformen själva. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R249."
+    },
+    {
+      "book": "Rom",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "ecf067bfa2623f6affdded7cc62c7dde0452392b061c2d9cbcd9d025e91dcd9d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0242.1.tif",
+          "sha256": "88d56693e78c032187c3ef06c7b6488553856f9a3d943e37d53afaf65997beb7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0243.1.tif",
+          "sha256": "318719675786823163166b6b2aa5cf7114b4ef75456a719304bb483d29e24f40"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0244.1.tif",
+          "sha256": "ce56144356753daf6683d085f8e447e2ebfc2cdf4b514188336e2ed6e9f308a4"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 3:7 över sidgränsen och 3:20/29 över spalt-/sidgränser. V133 sparar versgränsen 3:7–8; ord och koordinater behålls tills ytterligare tryck har jämförts. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V133 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rom",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "71b3b5162eab1afa77762cba9999a94aa0c1b05811e28851a052f8b805a99a56",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0244.1.tif",
+          "sha256": "ce56144356753daf6683d085f8e447e2ebfc2cdf4b514188336e2ed6e9f308a4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0245.1.tif",
+          "sha256": "21e597f86be7d8809fb494bf2d26856599477ff5b52e8cfebf959a3152cc66be"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive fortsättningen av 4:17 över sidgränsen. Tryckets trodde utan på i 4:17 bekräftas; inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "a771a3e79f1c178be98265f5b164005b4e7cfca7e950955e4e968e56aa17e902",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0245.1.tif",
+          "sha256": "21e597f86be7d8809fb494bf2d26856599477ff5b52e8cfebf959a3152cc66be"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0246.1.tif",
+          "sha256": "73dc669e1240813315ca8998788376c68c1e3a2232bb191043eab7aa5775dc0e"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 5:10 över sidgränsen. Tankstrecket vid 5:1–2 är typografisk variation utan ändrad ordalydelse. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "bb274e54764c5e8ed67d3b0477e0428557cf52ff2c71cbb66230be661201245b",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0246.1.tif",
+          "sha256": "73dc669e1240813315ca8998788376c68c1e3a2232bb191043eab7aa5775dc0e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0247.1.tif",
+          "sha256": "42aa62113b42a8585e2b511148b8ea9448f1fcc9f1dd104db22122b80ad95baf"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 6:3/4 över sidgränsen. V134 gäller gränsen 6:20–21; ord och koordinater behålls. Tryckets versala I i 6:12 harmoniseras inte med korpusens preposition i. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V134 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rom",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "b838ff961d86f845e60509bbe0d61684774c6660d776605271eea0bdd6d46c51",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0248.1.tif",
+          "sha256": "2f3af848298535040ead829dc35f37449a65e8c05bf2b172d68b59e7479cc47c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0249.1.tif",
+          "sha256": "c0bb4791f5e1ab18631b5b80c6832cd748f483378f805741739f621350aae4ad"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 7:19 över sidgränsen och slutet 7:25 före nästa kapitelrubrik. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 39,
+      "text_sha256": "98922526894dd82b85e5ee4713bb921bbe58d2af0d3a49e642db00a13ce52657",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0249.1.tif",
+          "sha256": "c0bb4791f5e1ab18631b5b80c6832cd748f483378f805741739f621350aae4ad"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0250.1.tif",
+          "sha256": "4c439b636b26911aeeedfa6ec7681f7d0b20d8c2f81f4b7ff421bd249328258d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0251.1.tif",
+          "sha256": "0acf136ec35e62c5f2ae79dadfa3d60e4ab82363e26397394e560456a92fda62"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 8:3 över spaltgränsen och 8:34 över sidgränsen. R250 återställer pronomenets versala I. Originalupplösningen bekräftar båda de i 8:5; ingen fotofråga behövs. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R250."
+    },
+    {
+      "book": "Rom",
+      "chapter": 9,
+      "status": "needs-review",
+      "verse_count": 33,
+      "text_sha256": "18923be734409a393a053b481ddf2d5da265e5788d4ef6b86358bf70d0a83403",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0251.1.tif",
+          "sha256": "0acf136ec35e62c5f2ae79dadfa3d60e4ab82363e26397394e560456a92fda62"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0252.1.tif",
+          "sha256": "627caaa2b6629e108f9fb0724c4855194ed175ff94a011d1b9ce458cebdb7cfa"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0253.1.tif",
+          "sha256": "bfac92a9e5fd80c3e7db4854beac26010c2f3a55eb73dce602f11f8c545526fe"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 9:3/4 över spaltgränsen och 9:33 över sidgränsen. V135 gäller Moses/Mose i 9:15; övriga ord inklusive utkorelse-rådslut överensstämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V135 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rom",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "e28c67db70ba0e1e1144fddf4c920eae60bc5dea7f47cca6828f9488f2967266",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0253.1.tif",
+          "sha256": "bfac92a9e5fd80c3e7db4854beac26010c2f3a55eb73dce602f11f8c545526fe"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0254.1.tif",
+          "sha256": "a285f3374e167ede1371bca75d75f3d45b7bc0b446651446189236fc2002699e"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 10:7/8 över spaltgränsen och 10:18 över sidgränsen. R251 rättar och till ock. Uträckt i 10:21 står så i trycket och behålls. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R251."
+    },
+    {
+      "book": "Rom",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "d2dddcc56880c05038d2f90d5df7ef86f23604bd4864134b1fbcf8a2c0b8b7ce",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0254.1.tif",
+          "sha256": "a285f3374e167ede1371bca75d75f3d45b7bc0b446651446189236fc2002699e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0255.1.tif",
+          "sha256": "ca898b6c63c4b8a0073152cd88194034b34bee2e2720314f86652a7c5283d735"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0256.1.tif",
+          "sha256": "18de4a0964f58ed393e03a797069f11df9020783da8c20ce9b116b75aa2770dd"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 11:2/11/20/28 över spalt- och sidgränser. Den skadade bildtexten vid 11:33/36 är läsbar och bekräftad i originalupplösning. Vanlig citat-/frågeteckensplacering i 11:3/35 behålls. Tryckets hava i 11:30 kopieras inte till korpusens grammatiska haven. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "8d2194b5e5ca404e8463429064915cd9c5ed13444b1099b80cd8471f2f38fdec",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0256.1.tif",
+          "sha256": "18de4a0964f58ed393e03a797069f11df9020783da8c20ce9b116b75aa2770dd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0257.1.tif",
+          "sha256": "7419309138ed2180fb4ef0a6a02e6f2742aa49eaee0a6a9f4150cd3fe79b2576"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 12:1 och 12:19/20 över spaltgränserna. Originalupplösningen bekräftar satt till lärare i 12:7; ingen fotofråga behövs. Övriga ord och citerade stycken överensstämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 14,
+      "text_sha256": "cf374026ea193b89809736c1a969d46d9e491519ba47f6bde06cfb9177f8a837",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0257.1.tif",
+          "sha256": "7419309138ed2180fb4ef0a6a02e6f2742aa49eaee0a6a9f4150cd3fe79b2576"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0258.1.tif",
+          "sha256": "f6bc7d3cf3c1e9d76566c9d6c9a23764ee40d9bb199eb23b381908ea55d89286"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 13:6 över sidgränsen och 13:14 över spaltgränsen. För den skull/Fördenskull är dokumenterad sär-/sammanskrivningsvariation. Inga rättelser eller olösta ordfrågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "6576ea7f7033888d1fe3f6fb0cb825d5f936cddf7ff06e2b557d5e4d251b5a37",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0258.1.tif",
+          "sha256": "f6bc7d3cf3c1e9d76566c9d6c9a23764ee40d9bb199eb23b381908ea55d89286"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0259.1.tif",
+          "sha256": "064ac9f5de68c97f032b2e8ab4fea82bb3f2e0b01be2368d814c313aa71fb885"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 14:8/9 över sidgränsen och 14:19/20 över spaltgränsen. Korpusens meningspunkter i 14:12/19 behålls mot tryckets slutkomman. Inga rättelser eller olösta ordfrågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "3f8bd3bc2c2ee45ea2c447eb029fc38069fa259dca57f05ad1211d566cae59cb",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0259.1.tif",
+          "sha256": "064ac9f5de68c97f032b2e8ab4fea82bb3f2e0b01be2368d814c313aa71fb885"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0260.1.tif",
+          "sha256": "c4afea3c348de5b093d0f94efb2b6c199f11295d2aaa838bc203ddd07120c7d5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0261.1.tif",
+          "sha256": "ce280fa6feb635bdd405174b59e601cf62921b5bde67acca72e8c63fd9c930dc"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 15:4/5 och 15:23/24 över sidgränserna. Inga nya rättelser eller olösta ordfrågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rom",
+      "chapter": 16,
+      "status": "needs-review",
+      "verse_count": 26,
+      "text_sha256": "238972554331881967040d6625eb819cb2b56e8c313029b3d37139fe9b1635a5",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0261.1.tif",
+          "sha256": "ce280fa6feb635bdd405174b59e601cf62921b5bde67acca72e8c63fd9c930dc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0262.1.tif",
+          "sha256": "cff0fb158f9ce3e90bc70b739e3147175165e633f4d7d812ee65d8520a0d4eaa"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 16:12/13 över sidgränsen. R252 återställer pluralformen hälsa. V136 gäller eviga/evige i 16:26. Kolon/semikolon i 16:21 och vanliga kommaskillnader i 16:20 behålls. Vers 24 finns endast som nothänvisning i trycket; ingen vers skapas. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V136 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord. Införda rättelser: R252."
     }
   ],
   "unnumbered": [
