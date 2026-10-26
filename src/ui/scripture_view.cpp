@@ -158,7 +158,7 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             return;
         drag_anchor_ = verse_at(e.GetPosition());
         press_point_ = e.GetPosition();
-        // Mark passages in the main pane; read-aloud is offered only for Swedish.
+        // Mark passages in the main pane; read-aloud follows each chapter's selected language.
         const auto found = hit(e.GetPosition());
         drag_selects_ = found && found->column_index == 0;
         dragged_ = false;

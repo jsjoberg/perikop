@@ -2,6 +2,7 @@
 
 #include "core/navigation.hpp"
 #include "core/updater.hpp"
+#include "speech/espeak_voice.hpp"
 #include "speech/playback_controller.hpp"
 #include "ui/reader_controls.hpp"
 #include <filesystem>
@@ -16,7 +17,6 @@
 class wxBoxSizer;
 class wxEventFilter;
 class wxMenuBar;
-class wxDialog;
 class wxMenu;
 class wxPanel;
 class wxScrolledWindow;
@@ -90,8 +90,8 @@ private:
     void apply_settings(bool persist = true);
     void update_study();
     void update_speakable();
-    // The reading as the Swedish left column shows it.
-    Reading in_swedish(Reading) const;
+    // Keep passage identities stable; displayed chapter sources determine the speech language.
+    Reading reader_reading(Reading) const;
 
     // Something the start page opens, which the reader can mark as read.
     struct Tracked {
@@ -102,14 +102,28 @@ private:
     void show_plans();
     void fill_plans(wxScrolledWindow*);
     void layout_plans(wxScrolledWindow*);
-    // Theme, calendar, reading order and voice. Text size and speed are in the ⋮ menu.
+    // Categorized settings, also reachable through the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);
-    void preview_voice();
+    enum class SettingsCategory { Sources, Import, Appearance, Calendar, Speech, Updates };
+    static constexpr std::pair<SettingsCategory, const char*> settings_categories_[] = {
+        {SettingsCategory::Sources, "Böcker och textkällor"},
+        {SettingsCategory::Import, "Importera PDF"},
+        {SettingsCategory::Appearance, "Utseende"},
+        {SettingsCategory::Calendar, "Kalender och läsordning"},
+        {SettingsCategory::Speech, "Uppläsning"},
+        {SettingsCategory::Updates, "Uppdateringar"}};
+    SettingsCategory settings_category_ = SettingsCategory::Sources;
+    std::map<std::string, std::vector<EspeakVoice>> voice_catalog_;
+    void preview_voice(const std::string& language = "sv", wxWindow* button = nullptr);
+    void set_speech_rate(int);
+    void restart_speech();
     void add_content_loader(wxWindow*, wxBoxSizer*);
     void import_content();
+    void remove_content();
     void show_updates();
-    // The update dialog follows the updater's state.
+    void add_update_controls(wxWindow*, wxBoxSizer*);
+    // The update controls follow the updater's state.
     void show_update_status();
     void update_clicked();
     // The start page's plan section: the next part of the plan in progress, and all plans.
@@ -153,7 +167,7 @@ private:
     Settings settings_;
     DayReadings day_;
     std::optional<Reading> visible_reading_;
-    // Whether the visible reading has Swedish text to read aloud.
+    // Whether the visible reading has text to read aloud in its displayed editions.
     bool speakable_ = true;
     // The open start-page item, and the one being read aloud from start to end.
     std::optional<Tracked> tracked_, speech_tracked_;
@@ -167,6 +181,7 @@ private:
     wxTimer playback_timer_;
     PlaybackController playback_;
     bool voice_preview_ = false;
+    std::string voice_preview_language_ = "sv";
     // A preview that ended in an error, kept until its queued status shows the error.
     bool voice_preview_failed_ = false;
     wxWeakRef<wxWindow> voice_preview_button_;
@@ -227,8 +242,7 @@ private:
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
-    // Update action dialog; controls go when it closes.
-    wxWeakRef<wxDialog> update_dialog_;
+    // Settings controls may be rebuilt while an update is running.
     wxWeakRef<wxWindow> update_button_, update_cancel_, update_text_;
 };
 } // namespace ortho

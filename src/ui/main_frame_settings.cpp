@@ -3,6 +3,7 @@
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
 #include <algorithm>
+#include <span>
 #include <stdexcept>
 #include <wx/button.h>
 #include <wx/checkbox.h>
@@ -10,17 +11,20 @@
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
+#include <wx/listbox.h>
 #include <wx/msgdlg.h>
 #include <wx/radiobut.h>
 #include <wx/scrolwin.h>
+#include <wx/simplebook.h>
 #include <wx/sizer.h>
 namespace ortho {
 namespace {
 class SourceStack final : public wxPanel {
 public:
     SourceStack(wxWindow* parent, std::vector<SourcePreference>& preferences,
-                const std::vector<Source>& catalog, bool primary, std::function<void()> changed)
-        : wxPanel(parent), preferences_(preferences), catalog_(catalog), primary_(primary),
+                const std::vector<Source>& catalog, const std::map<std::string, wxString>& details,
+                bool primary, std::function<void()> changed)
+        : wxPanel(parent), preferences_(preferences), catalog_(catalog), details_(details), primary_(primary),
           changed_(std::move(changed)) {
         rebuild();
     }
@@ -28,10 +32,13 @@ public:
 private:
     std::vector<SourcePreference>& preferences_;
     std::vector<Source> catalog_;
+    std::map<std::string, wxString> details_;
+    std::vector<wxCheckBox*> checks_;
     bool primary_;
     std::function<void()> changed_;
     void rebuild() {
         DestroyChildren();
+        checks_.clear();
         auto* stack = new wxBoxSizer(wxVERTICAL);
         const auto enabled = std::ranges::count(preferences_, true, &SourcePreference::enabled);
         for (std::size_t i = 0; i < preferences_.size(); ++i) {
@@ -39,7 +46,24 @@ private:
             const auto found = std::ranges::find(catalog_, preference.source, &Source::code);
             const auto name = ui::utf8(found == catalog_.end() ? preference.source : found->name);
             auto* row = new wxBoxSizer(wxHORIZONTAL);
+            for (const int direction : {-1, 1}) {
+                auto* move = ui::button(this, ui::utf8(direction < 0 ? "↑" : "↓"), [this, i, direction] {
+                    CallAfter([this, i, direction] {
+                        const auto destination = direction < 0 ? i - 1 : i + 1;
+                        std::swap(preferences_[i], preferences_[destination]);
+                        changed_();
+                        rebuild();
+                        checks_[destination]->SetFocus();
+                    });
+                });
+                const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
+                move->SetName(label);
+                move->SetToolTip(label);
+                move->Enable(direction < 0 ? i > 0 : i + 1 < preferences_.size());
+                row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(4)));
+            }
             auto* check = new wxCheckBox(this, wxID_ANY, name);
+            checks_.push_back(check);
             check->SetFont(ui_font());
             check->SetValue(preference.enabled);
             check->SetName(ui::utf8(primary_ ? "Huvudtext, " : "Andra texten, ") + name);
@@ -52,28 +76,11 @@ private:
                     rebuild();
                 });
             });
-            row->Add(check, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(12)));
-            for (const int direction : {-1, 1}) {
-                auto* move = ui::button(this, ui::utf8(direction < 0 ? "↑" : "↓"), [this, i, direction] {
-                    CallAfter([this, i, direction] {
-                        const auto destination = direction < 0 ? i - 1 : i + 1;
-                        std::swap(preferences_[i], preferences_[destination]);
-                        changed_();
-                        rebuild();
-                        if (auto* item = GetSizer()
-                                             ->GetItem(destination)
-                                             ->GetSizer()
-                                             ->GetItem(std::size_t{0})
-                                             ->GetWindow())
-                            item->SetFocus();
-                    });
-                });
-                const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
-                move->SetName(label);
-                move->SetToolTip(label);
-                move->Enable(direction < 0 ? i > 0 : i + 1 < preferences_.size());
-                row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(4)));
-            }
+            auto* text = new wxBoxSizer(wxVERTICAL);
+            text->Add(check);
+            if (const auto detail = details_.find(preference.source); detail != details_.end())
+                text->Add(ui::label(this, detail->second, 9), 0, wxTOP, FromDIP(zoomed(2)));
+            row->Add(text, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(8)));
             stack->Add(row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(5)));
         }
         SetSizer(stack, true);
@@ -98,9 +105,19 @@ public:
     bool AcceptsFocus() const override {
         return false;
     }
+    int pair_width() const {
+        return FromDIP(zoomed(2 * page_width + gap));
+    }
+    void fit_width(int width) {
+        stacked_ = width < pair_width();
+        SetMinSize(FromDIP(zoomed(wxSize(stacked_ ? page_width : 2 * page_width + gap,
+                                         stacked_ ? 2 * (page_height + 22) + gap : page_height + 22))));
+        Refresh();
+    }
 
 private:
     static constexpr int page_width = 210, page_height = 172, gap = 14;
+    bool stacked_ = false;
     void paint(wxPaintEvent&) {
         wxAutoBufferedPaintDC dc(this);
         dc.SetBackground(wxBrush(GetBackgroundColour()));
@@ -112,7 +129,8 @@ private:
         const auto& names = scheme_names[std::size_t(color_scheme)];
         for (const bool dark : {false, true}) {
             gc->PushState();
-            gc->Translate(dark ? (page_width + gap) * unit : 0, 0);
+            gc->Translate(dark && !stacked_ ? (page_width + gap) * unit : 0,
+                          dark && stacked_ ? (page_height + 22 + gap) * unit : 0);
             gc->SetFont(ui_font(9), GetForegroundColour());
             gc->DrawText(ui::utf8(dark ? names.dark : names.light), 0, 0);
             gc->Translate(0, 20 * unit);
@@ -174,21 +192,22 @@ private:
 void MainFrame::show_settings() {
     if (navigation_.current().screen == Screen::Settings)
         return;
-    auto* page =
-        new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE);
-    page->SetScrollRate(0, FromDIP(zoomed(12)));
+    auto* page = new wxScrolledWindow(root_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
     fill_settings(page);
     show_page(page, Screen::Settings, ui::utf8("Inställningar"));
 }
-void MainFrame::preview_voice() {
+void MainFrame::preview_voice(const std::string& language, wxWindow* button) {
     if (voice_preview_) {
+        const bool same_language = voice_preview_language_ == language;
         stop_speech(false);
-        return;
+        if (same_language)
+            return;
     }
-    if (espeak_voice_name(settings_.speech_voice).empty())
+    const auto& voice = settings_.speech_voices.at(language);
+    if (espeak_voice_name(voice).empty())
         return;
     try {
-        const auto verse = corpus_.verse("sv1917", "John", {3, 16});
+        const auto verse = corpus_.verse(corpus_.source_for_language(language, "John"), "John", {3, 16});
         if (!verse)
             throw std::runtime_error("Provtexten Johannes 3:16 kunde inte läsas.");
         save_reading_position();
@@ -196,14 +215,18 @@ void MainFrame::preview_voice() {
         // A preview has no reading cues or completion tracking and stays on the settings page.
         playback_.start({});
         speech_tracked_.reset();
-        speech_->set_voice(settings_.speech_voice);
+        speech_->set_voice(voice, language);
+        voice_preview_language_ = language;
+        if (button)
+            voice_preview_button_ = button;
         voice_preview_ = true;
         if (voice_preview_button_) {
             voice_preview_button_->SetLabel(ui::utf8("Stoppa provet"));
-            voice_preview_button_->SetName(voice_preview_button_->GetLabel());
+            voice_preview_button_->SetName(voice_preview_button_->GetLabel() + ", " +
+                                           ui::speech_language_name(voice_preview_language_));
             voice_preview_button_->Refresh();
         }
-        speech_->speak_batch({make_utterance(verse->text, "sv", speech_lexicon("sv"))});
+        speech_->speak_batch({make_utterance(verse->text, language, speech_lexicon(language))});
         playback_timer_.Start(30);
         refresh_speech();
     } catch (const std::exception& error) {
@@ -212,30 +235,84 @@ void MainFrame::preview_voice() {
     }
 }
 void MainFrame::fill_settings(wxScrolledWindow* page) {
-    // Native radio buttons and a check box, so screen readers and arrow keys work as everywhere else.
     page->DestroyChildren();
-    auto* content = new wxPanel(page);
-    auto* entries = new wxBoxSizer(wxVERTICAL);
-    content->SetSizer(entries);
+    auto* categories = new wxListBox(page, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, nullptr,
+                                     wxLB_SINGLE | wxBORDER_NONE);
+    categories->SetFont(ui_font());
+    categories->SetName(ui::utf8("Inställningskategorier"));
+    auto* sections = new wxSimplebook(page);
+    sections->SetName(ui::utf8("Inställningar för vald kategori"));
+    sections->SetMinSize({1, 1});
+    wxPanel* content = nullptr;
+    wxBoxSizer* entries = nullptr;
+    std::vector<SettingsCategory> category_keys;
+    const auto category = [&](SettingsCategory key) {
+        const auto found = std::ranges::find_if(settings_categories_, [key](const auto& entry) {
+            return entry.first == key;
+        });
+        const auto title = ui::utf8(found->second);
+        category_keys.push_back(key);
+        categories->Append(title);
+        auto* section = new wxScrolledWindow(sections, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                                             wxHSCROLL | wxVSCROLL | wxBORDER_NONE);
+        section->SetName(title);
+        section->SetScrollRate(FromDIP(zoomed(12)), FromDIP(zoomed(12)));
+        content = new wxPanel(section);
+        entries = new wxBoxSizer(wxVERTICAL);
+        content->SetSizer(entries);
+        entries->Add(ui::label(content, title, 18), 0, wxBOTTOM, FromDIP(zoomed(18)));
+        auto* outer = new wxBoxSizer(wxVERTICAL);
+        outer->Add(content, 1, wxEXPAND | wxALL, FromDIP(zoomed(24)));
+        section->SetSizer(outer);
+        sections->AddPage(section, title);
+    };
+    category(SettingsCategory::Sources);
     const auto sources = corpus_.sources();
+    std::map<std::string, wxString> source_details;
+    for (const auto& source : sources) {
+        bool old = false, nt = false, apocrypha = false;
+        for (const auto& book : corpus_.source_books(source.code)) {
+            if (corpus_.new_testament_book(book))
+                nt = true;
+            else if (corpus_.deuterocanonical_book(book))
+                apocrypha = true;
+            else
+                old = true;
+        }
+        auto detail = ui::speech_language_name(source.language);
+        detail[0] = wxToupper(detail[0]);
+        for (const auto& [present, name] : {std::pair{old, "GT"}, {nt, "NT"}, {apocrypha, "apokryfer"}})
+            if (present)
+                detail += ui::utf8(" · ") + name;
+        source_details.emplace(source.code, detail);
+    }
     const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
                                   bool primary) {
-        entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
-        entries->Add(new SourceStack(content, preferences, sources, primary,
-                                     [this, primary] {
-                                         if (primary)
-                                             stop_speech(false);
-                                         apply_settings();
-                                     }),
-                     0, wxEXPAND);
-        entries->AddSpacer(FromDIP(zoomed(14)));
+        auto* column = new wxPanel(content);
+        auto* stack = new wxBoxSizer(wxVERTICAL);
+        column->SetSizer(stack);
+        stack->Add(ui::label(column, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        stack->Add(ui::label(column, ui::utf8("Källor i prioritetsordning"), 10), 0, wxBOTTOM,
+                   FromDIP(zoomed(12)));
+        stack->Add(new SourceStack(column, preferences, sources, source_details, primary,
+                                   [this, primary] {
+                                       if (primary)
+                                           stop_speech(false);
+                                       apply_settings();
+                                   }),
+                   0, wxEXPAND);
+        return column;
     };
-    source_stack("HUVUDTEXT – KÄLLOR I PRIORITETSORDNING", settings_.primary_sources, true);
-    source_stack("DELAD LÄSNING – ANDRA TEXTENS KÄLLOR", settings_.secondary_sources, false);
+    auto* columns = new wxBoxSizer(wxHORIZONTAL);
+    columns->Add(source_stack("VÄNSTER TEXT – HUVUDTEXT", settings_.primary_sources, true), 1, wxEXPAND);
+    columns->AddSpacer(FromDIP(zoomed(28)));
+    columns->Add(source_stack("HÖGER TEXT – DELAD LÄSNING", settings_.secondary_sources, false), 1, wxEXPAND);
+    entries->Add(columns, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(14)));
     entries->Add(
         ui::label(content, ui::utf8("Den första aktiverade källan med text i kapitlet används."), 10));
     entries->Add(ui::label(
-        content, ui::utf8("Andra texten väljer en annan källa. Uppläsning finns bara för svenska."), 10));
+        content, ui::utf8("Andra texten väljer en annan källa. Uppläsningen följer huvudtextens språk."),
+        10));
     auto* authority =
         ui::label(content,
                   ui::utf8("Bokordning och referenser följer Orthodox Study Bible (OSB). "
@@ -244,7 +321,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                   10);
     authority->Wrap(FromDIP(zoomed(440)));
     entries->Add(authority, 0, wxTOP, FromDIP(zoomed(8)));
-    entries->AddSpacer(FromDIP(zoomed(22)));
+    category(SettingsCategory::Import);
     add_content_loader(content, entries);
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
@@ -263,6 +340,43 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         }
         entries->AddSpacer(FromDIP(zoomed(18)));
     };
+    const auto percent_choice = [&](const char* heading, std::span<const int> steps, int Settings::* setting,
+                                    const std::function<wxString(int)>& format,
+                                    const std::function<void(int)>& change) {
+        entries->Add(ui::label(content, ui::utf8(heading), 10), 0, wxBOTTOM, FromDIP(zoomed(8)));
+        auto* choice = new wxChoice(content, wxID_ANY);
+        choice->SetName(ui::utf8(heading));
+        choice->SetFont(ui_font());
+        for (const auto value : steps)
+            choice->Append(format(value));
+        const auto sync = [this, choice, steps, setting] {
+            const auto found = std::ranges::find(steps, settings_.*setting);
+            choice->SetSelection(found == steps.end() ? wxNOT_FOUND : int(found - steps.begin()));
+        };
+        sync();
+        choice->Bind(wxEVT_UPDATE_UI, [sync](wxUpdateUIEvent&) {
+            sync();
+        });
+        choice->Bind(wxEVT_CHOICE, [steps, change](wxCommandEvent& event) {
+            change(steps[std::size_t(event.GetSelection())]);
+        });
+        entries->Add(choice, 0, wxBOTTOM, FromDIP(zoomed(18)));
+    };
+    category(SettingsCategory::Appearance);
+    percent_choice(
+        "TEXTSTORLEK", Settings::text_zoom_steps, &Settings::text_zoom,
+        [](int value) {
+            return wxString::Format("%d %%", value);
+        },
+        [this](int value) {
+            // Zoom rebuilds this page; finish the choice event before destroying its control.
+            CallAfter([this, value] {
+                settings_.text_zoom = value;
+                apply_settings();
+                if (auto* choice = wxWindow::FindWindowByName("TEXTSTORLEK", current_page()))
+                    choice->SetFocus();
+            });
+        });
     // The scheme list beside a preview of its light and dark variants.
     entries->Add(ui::label(content, ui::utf8("FÄRGSCHEMA"), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
     auto* schemes = new wxBoxSizer(wxVERTICAL);
@@ -282,77 +396,109 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     scheme_row->Add(schemes, 0, wxRIGHT, FromDIP(zoomed(28)));
     scheme_row->Add(preview);
     entries->Add(scheme_row);
+    auto* appearance = static_cast<wxScrolledWindow*>(content->GetParent());
+    appearance->Bind(wxEVT_SIZE, [this, appearance, schemes, scheme_row, preview](wxSizeEvent& event) {
+        const int width = std::max(1, event.GetSize().x - FromDIP(zoomed(64)));
+        const bool beside = width >= schemes->GetMinSize().x + FromDIP(zoomed(28)) + preview->pair_width();
+        scheme_row->SetOrientation(beside ? wxHORIZONTAL : wxVERTICAL);
+        scheme_row->GetItem(std::size_t{0})->SetFlag(beside ? wxRIGHT : wxBOTTOM);
+        preview->fit_width(width);
+        appearance->FitInside();
+        event.Skip();
+    });
     entries->AddSpacer(FromDIP(zoomed(18)));
     choices("TEMA", {"Systemets tema", "Ljust tema", "Mörkt tema"}, int(settings_.theme), [this](int i) {
         settings_.theme = static_cast<Theme>(i);
         apply_settings();
     });
+    category(SettingsCategory::Calendar);
     const auto day_changed = [this] {
         refresh_day();
         apply_settings();
     };
+    entries->Add(ui::label(content, ui::utf8("Kalendern styr fasta högtider. Påskdatumet är detsamma."), 10),
+                 0, wxBOTTOM, FromDIP(zoomed(8)));
     choices("KALENDER", {"Gregoriansk / reviderad juliansk", "Juliansk"},
             settings_.calendar == CalendarStyle::Old, [this, day_changed](int i) {
                 settings_.calendar = i ? CalendarStyle::Old : CalendarStyle::New;
                 day_changed();
             });
+    entries->Add(ui::label(content, ui::utf8("Läsordningen styr vilka bibeltexter som läses varje dag."), 10),
+                 0, wxBOTTOM, FromDIP(zoomed(8)));
     choices("LÄSORDNING", {"Grekiska läsordningen", "Slaviska läsordningen"},
             settings_.tradition == Tradition::Slavic, [this, day_changed](int i) {
                 settings_.tradition = i ? Tradition::Slavic : Tradition::Greek;
                 day_changed();
             });
-    // Read-aloud is Swedish only.
-    std::vector<EspeakVoice> voices;
+    category(SettingsCategory::Speech);
+    percent_choice("UPPLÄSNINGSHASTIGHET", Settings::speech_rate_steps, &Settings::speech_rate,
+                   ui::rate_label, [this](int value) {
+                       set_speech_rate(value);
+                   });
     std::string voice_error;
-    try {
-        voices = Espeak::voices();
-        if (voices.empty())
-            voice_error = "Inga svenska eSpeak-röster hittades.";
-    } catch (const std::exception& error) {
-        voice_error = error.what();
+    for (const auto& setting : speech_languages) {
+        const std::string language = setting.code;
+        const auto name = ui::utf8(setting.name).Upper();
+        std::vector<EspeakVoice> voices;
+        try {
+            auto& catalog = voice_catalog_[language];
+            if (catalog.empty())
+                catalog = Espeak::voices(language);
+            voices = catalog;
+            if (voices.empty())
+                voice_error += "Inga eSpeak-röster hittades för " + std::string(setting.name) + ". ";
+        } catch (const std::exception& error) {
+            if (voice_error.find(error.what()) == std::string::npos)
+                voice_error += std::string(error.what()) + " ";
+        }
+        auto chosen = std::ranges::find(voices, settings_.speech_voices.at(language), &EspeakVoice::id);
+        const auto available_count = voices.size();
+        if (chosen == voices.end()) {
+            // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
+            voices.push_back({settings_.speech_voices.at(language),
+                              settings_.speech_voices.at(language) + " (inte tillgänglig)"});
+            chosen = std::prev(voices.end());
+        }
+        entries->Add(ui::label(content, name, 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        auto* voice_choice = new wxChoice(content, wxID_ANY);
+        voice_choice->SetFont(ui_font());
+        voice_choice->SetName(ui::utf8("Röst för uppläsning, ") + ui::speech_language_name(language));
+        for (const auto& voice : voices)
+            voice_choice->Append(ui::utf8(voice.name));
+        voice_choice->SetSelection(int(chosen - voices.begin()));
+        auto* voice_try =
+            new wxButton(content, wxID_ANY,
+                         ui::utf8(voice_preview_ && voice_preview_language_ == language ? "Stoppa provet"
+                                                                                        : "Prova rösten"));
+        voice_try->SetFont(ui_font());
+        voice_try->SetName(voice_try->GetLabel() + ", " + ui::speech_language_name(language));
+        voice_try->Bind(wxEVT_BUTTON, [this, language, voice_try](wxCommandEvent&) {
+            preview_voice(language, voice_try);
+        });
+        const auto button_size = voice_try->GetBestSize();
+        voice_try->SetMinSize({std::max(button_size.x, voice_try->GetTextExtent(ui::utf8("Stoppa provet")).x +
+                                                           FromDIP(zoomed(28))),
+                               button_size.y});
+        voice_try->SetToolTip(ui::utf8("Läs Johannes 3:16 med den valda eSpeak-rösten."));
+        voice_try->Enable(std::size_t(voice_choice->GetSelection()) < available_count &&
+                          !espeak_voice_name(settings_.speech_voices.at(language)).empty());
+        if (voice_preview_language_ == language)
+            voice_preview_button_ = voice_try;
+        voice_choice->Bind(
+            wxEVT_CHOICE, [this, language, voices, available_count, voice_try](wxCommandEvent& event) {
+                if (voice_preview_)
+                    stop_speech(false);
+                settings_.speech_voices.at(language) = voices.at(std::size_t(event.GetSelection())).id;
+                speech_->set_voice(settings_.speech_voices.at(language), language);
+                voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
+                                  !espeak_voice_name(settings_.speech_voices.at(language)).empty());
+                apply_settings();
+            });
+        auto* voice_row = new wxBoxSizer(wxHORIZONTAL);
+        voice_row->Add(voice_choice, 1, wxALIGN_CENTER_VERTICAL);
+        voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
+        entries->Add(voice_row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
     }
-    auto chosen = std::ranges::find(voices, settings_.speech_voice, &EspeakVoice::id);
-    const auto available_count = voices.size();
-    if (chosen == voices.end()) {
-        // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
-        voices.push_back({settings_.speech_voice, settings_.speech_voice + " (inte tillgänglig)"});
-        chosen = std::prev(voices.end());
-    }
-    entries->Add(ui::label(content, ui::utf8("RÖST FÖR UPPLÄSNING"), 10), 0, wxTOP | wxBOTTOM,
-                 FromDIP(zoomed(8)));
-    auto* voice_choice = new wxChoice(content, wxID_ANY);
-    voice_choice->SetFont(ui_font());
-    voice_choice->SetName(ui::utf8("Röst för uppläsning"));
-    for (const auto& voice : voices)
-        voice_choice->Append(ui::utf8(voice.name));
-    voice_choice->SetSelection(int(chosen - voices.begin()));
-    auto* voice_try =
-        new wxButton(content, wxID_ANY, ui::utf8(voice_preview_ ? "Stoppa provet" : "Prova rösten"));
-    voice_try->SetFont(ui_font());
-    voice_try->Bind(wxEVT_BUTTON, [this](wxCommandEvent&) {
-        preview_voice();
-    });
-    const auto button_size = voice_try->GetBestSize();
-    voice_try->SetMinSize(
-        {std::max(button_size.x, voice_try->GetTextExtent(ui::utf8("Stoppa provet")).x + FromDIP(zoomed(28))),
-         button_size.y});
-    voice_try->SetToolTip(ui::utf8("Läs Johannes 3:16 med den valda eSpeak-rösten."));
-    voice_try->Enable(std::size_t(voice_choice->GetSelection()) < available_count &&
-                      !espeak_voice_name(settings_.speech_voice).empty());
-    voice_preview_button_ = voice_try;
-    voice_choice->Bind(wxEVT_CHOICE, [this, voices, available_count, voice_try](wxCommandEvent& event) {
-        if (voice_preview_)
-            stop_speech(false);
-        settings_.speech_voice = voices.at(std::size_t(event.GetSelection())).id;
-        speech_->set_voice(settings_.speech_voice);
-        voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
-                          !espeak_voice_name(settings_.speech_voice).empty());
-        apply_settings();
-    });
-    auto* voice_row = new wxBoxSizer(wxHORIZONTAL);
-    voice_row->Add(voice_choice, 1, wxALIGN_CENTER_VERTICAL);
-    voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
-    entries->Add(voice_row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(18)));
     // eSpeak NG is the user's own installation; Perikop never ships it.
     if (!voice_error.empty()) {
         entries->Add(ui::label(content, ui::utf8(voice_error), 10));
@@ -377,6 +523,8 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     });
     entries->Add(highlight);
     entries->AddSpacer(FromDIP(zoomed(18)));
+    category(SettingsCategory::Updates);
+    add_update_controls(content, entries);
     choices("UPPDATERINGSKANAL", {"Utgåvor (rekommenderas)", "Nattbyggen (experimentella)"},
             settings_.update_channel == UpdateChannel::Nightly, [this](int i) {
                 settings_.update_channel = i ? UpdateChannel::Nightly : UpdateChannel::Releases;
@@ -384,18 +532,52 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 // An offer from the other channel no longer applies.
                 updater_->reset();
             });
-    entries->Add(ui::label(content, ui::utf8("Valet startar ingen sökning eller hämtning.")));
-    auto* outer = new wxBoxSizer(wxVERTICAL);
-    outer->Add(content, 0, wxALIGN_CENTER_HORIZONTAL | wxTOP | wxBOTTOM, FromDIP(zoomed(40)));
+    categories->SetMinSize({categories->GetBestSize().x + FromDIP(zoomed(20)), 1});
+    const int selected = int(std::ranges::find(category_keys, settings_category_) - category_keys.begin());
+    categories->SetSelection(selected);
+    sections->SetSelection(selected);
+    categories->Bind(wxEVT_LISTBOX, [this, sections, category_keys](wxCommandEvent& event) {
+        if (voice_preview_)
+            stop_speech(false);
+        settings_category_ = category_keys.at(std::size_t(event.GetSelection()));
+        sections->SetSelection(event.GetSelection());
+    });
+    auto* outer = new wxBoxSizer(wxHORIZONTAL);
+    outer->Add(categories, 0, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT, FromDIP(zoomed(16)));
+    outer->Add(sections, 1, wxEXPAND);
     page->SetSizer(outer);
     ui::recolor(page, palette(settings_.theme));
-    for (auto* child : content->GetChildren())
-        if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
-            link->SetNormalColour(palette(settings_.theme).accent);
-            link->SetVisitedColour(palette(settings_.theme).accent);
-            link->SetHoverColour(palette(settings_.theme).ink);
-        }
-    page->FitInside();
+    for (std::size_t i = 0; i < sections->GetPageCount(); ++i) {
+        auto* section = static_cast<wxScrolledWindow*>(sections->GetPage(i));
+        section->Bind(wxEVT_SIZE, [this, section](wxSizeEvent& event) {
+            const int width = std::max(1, event.GetSize().x - FromDIP(zoomed(64)));
+            const std::function<void(wxWindow*)> wrap = [&](wxWindow* parent) {
+                for (auto* child : parent->GetChildren()) {
+                    if (auto* label = wxDynamicCast(child, wxStaticText);
+                        label && label != update_text_.get()) {
+                        auto text = label->GetLabel();
+                        text.Replace("\n", " ");
+                        label->SetLabel(text);
+                        const int available = parent->GetClientSize().x - label->GetPosition().x;
+                        label->Wrap(std::max(1, std::min({width, available, FromDIP(zoomed(600))})));
+                    } else
+                        wrap(child);
+                }
+            };
+            wrap(section->GetChildren().front());
+            if (update_text_ && update_text_->GetParent()->GetParent() == section)
+                show_update_status();
+            section->FitInside();
+            event.Skip();
+        });
+        section->FitInside();
+        for (auto* child : section->GetChildren().front()->GetChildren())
+            if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
+                link->SetNormalColour(palette(settings_.theme).accent);
+                link->SetVisitedColour(palette(settings_.theme).accent);
+                link->SetHoverColour(palette(settings_.theme).ink);
+            }
+    }
     page->Layout();
 }
 } // namespace ortho

@@ -222,9 +222,11 @@ Settings UserDb::load() const {
             result.text_zoom = std::clamp(number, 75, 200);
         if (key == "speech_rate" && numeric)
             result.speech_rate = std::clamp(number, 60, 300);
-        if (key == "speech_voice" &&
-            (value == "espeak" || value == "espeak-f2" || (value.starts_with("espeak:") && value.size() > 7)))
-            result.speech_voice = value;
+        if (value == "espeak" || value == "espeak-f2" || (value.starts_with("espeak:") && value.size() > 7)) {
+            for (const auto& language : speech_languages)
+                if (key == language.voice_key)
+                    result.speech_voices.at(language.code) = value;
+        }
         if (key == "update_channel")
             result.update_channel = value == "nightly" ? UpdateChannel::Nightly : UpdateChannel::Releases;
         if (key == "word_study")
@@ -240,7 +242,7 @@ Settings UserDb::load() const {
 }
 void UserDb::save(const Settings& settings) {
     Transaction transaction(db_.get());
-    const std::vector<std::pair<std::string, std::string>> values = {
+    std::vector<std::pair<std::string, std::string>> values = {
         {"theme", settings.theme == Theme::Dark    ? "dark"
                   : settings.theme == Theme::Light ? "light"
                                                    : "system"},
@@ -252,10 +254,11 @@ void UserDb::save(const Settings& settings) {
         {"secondary_sources", encode_sources(settings.secondary_sources)},
         {"text_zoom", std::to_string(settings.text_zoom)},
         {"speech_rate", std::to_string(settings.speech_rate)},
-        {"speech_voice", settings.speech_voice},
         {"update_channel", settings.update_channel == UpdateChannel::Nightly ? "nightly" : "releases"},
         {"word_study", settings.word_study ? "1" : "0"},
         {"speech_highlight", settings.speech_highlight ? "1" : "0"}};
+    for (const auto& language : speech_languages)
+        values.emplace_back(language.voice_key, settings.speech_voices.at(language.code));
     Statement query(db_.get(),
                     "INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value");
     for (const auto& [key, value] : values) {

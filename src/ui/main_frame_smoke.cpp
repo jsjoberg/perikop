@@ -21,6 +21,7 @@
 #include <wx/access.h>
 #include <wx/app.h>
 #include <wx/checkbox.h>
+#include <wx/choice.h>
 #include <wx/clipbrd.h>
 #include <wx/dataobj.h>
 #include <wx/dcclient.h>
@@ -30,10 +31,12 @@
 #include <wx/fontenum.h>
 #include <wx/graphics.h>
 #include <wx/hyperlink.h>
+#include <wx/listbox.h>
 #include <wx/menu.h>
 #include <wx/modalhook.h>
 #include <wx/msgdlg.h>
 #include <wx/scrolwin.h>
+#include <wx/simplebook.h>
 #include <wx/textctrl.h>
 #include <wx/utils.h>
 #ifdef __WXMSW__
@@ -61,7 +64,11 @@ public:
     SpeechPlayback held;
     std::vector<SpeechUtterance> spoken;
     std::string voice;
-    void set_voice(const std::string& selected) override {
+    double speed = 1;
+    void set_speed(double value) override {
+        speed = value;
+    }
+    void set_voice(const std::string& selected, const std::string& = "sv") override {
         voice = selected;
     }
     void speak_batch(const std::vector<SpeechUtterance>& queue) override {
@@ -95,12 +102,13 @@ public:
 };
 class BookmarkConfirmation final : public wxModalDialogHook {
 public:
+    wxString title = ui::utf8("Ta bort bokmärke");
     int answer = wxID_NO;
     int questions = 0;
     bool safe_default = true;
     int Enter(wxDialog* dialog) override {
         auto* question = dynamic_cast<wxMessageDialog*>(dialog);
-        if (!question || question->GetTitle() != ui::utf8("Ta bort bokmärke"))
+        if (!question || question->GetTitle() != title)
             return wxID_CANCEL;
         ++questions;
         safe_default &= (question->GetMessageDialogStyle() & wxNO_DEFAULT) != 0;
@@ -167,6 +175,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             if (engine->spoken.size() != 7 || !engine->spoken.front().cue ||
                 engine->spoken.front().cue->verse != VerseRef{1, 4} || engine->held.verse_progress != 0 ||
                 candidate->scripture_->reading().passage.first != VerseRef{1, 1})
+                fail(__LINE__);
+            candidate->set_speech_rate(125);
+            if (engine->speed != 1.25 || engine->held.state != SpeechState::Playing ||
+                engine->spoken.size() != 7 || !engine->spoken.front().cue ||
+                engine->spoken.front().cue->verse != VerseRef{1, 4} || !candidate->speech_tracked_ ||
+                candidate->speech_tracked_->key != "plan:resume:0")
                 fail(__LINE__);
             candidate->about();
             engine->changed = false;
@@ -690,7 +704,105 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         save(image, "-reader" + suffix);
     });
     show_settings();
+    const auto settings_snapshot = [&](MainFrame* frame, const wxString& suffix) {
+        if (screenshot_path.empty())
+            return;
+        frame->Update();
+        wxBitmap bitmap(frame->GetClientSize());
+        wxClientDC window(frame);
+        {
+            wxMemoryDC image(bitmap);
+            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
+        }
+        save(bitmap.ConvertToImage(), "-settings" + suffix);
+    };
+    const auto select_settings = [&](SettingsCategory category) {
+        auto* categories = static_cast<wxListBox*>(
+            wxWindow::FindWindowByName(ui::utf8("Inställningskategorier"), current_page()));
+        auto* sections = static_cast<wxSimplebook*>(
+            wxWindow::FindWindowByName(ui::utf8("Inställningar för vald kategori"), current_page()));
+        if (!categories || !sections || categories->GetCount() != 6 || sections->GetPageCount() != 6) {
+            fail(__LINE__);
+            return;
+        }
+        const auto found = std::ranges::find_if(settings_categories_, [category](const auto& entry) {
+            return entry.first == category;
+        });
+        const int index = categories->FindString(ui::utf8(found->second));
+        categories->SetSelection(index);
+        wxCommandEvent select(wxEVT_LISTBOX, categories->GetId());
+        select.SetInt(index);
+        categories->GetEventHandler()->ProcessEvent(select);
+        if (sections->GetSelection() != index || settings_category_ != category ||
+            sections->GetPageText(index) != categories->GetString(index))
+            fail(__LINE__);
+        for (std::size_t i = 0; i < sections->GetPageCount(); ++i)
+            if (sections->GetPage(i)->IsShown() != (int(i) == index))
+                fail(__LINE__);
+    };
     {
+        for (const auto& [category, name] : settings_categories_)
+            select_settings(category);
+        select_settings(SettingsCategory::Calendar);
+        settings_snapshot(this, "-calendar");
+        select_settings(SettingsCategory::Import);
+        auto* import_link = wxWindow::FindWindowByLabel(
+            ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), current_page());
+        auto* source =
+            wxWindow::FindWindowByName(ui::utf8("Huvudtext, Svenska 1917 med apokryfer"), current_page());
+        if (!import_link || !import_link->IsShownOnScreen() || !source || source->IsShownOnScreen())
+            fail(__LINE__);
+        const auto import_button =
+            wxWindow::FindWindowByLabel(ui::utf8("Importera båda PDF-filerna…"), current_page());
+        const auto remove_button =
+            wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), current_page());
+        if (!import_button || !import_button->IsEnabled() || !remove_button || remove_button->IsEnabled())
+            fail(__LINE__);
+        settings_snapshot(this, "-import-empty");
+        settings_.text_zoom = 125;
+        apply_settings(false);
+        auto* categories = wxWindow::FindWindowByName(ui::utf8("Inställningskategorier"), current_page());
+        if (!categories ||
+            static_cast<wxListBox*>(categories)->GetStringSelection() != ui::utf8("Importera PDF"))
+            fail(__LINE__);
+        about();
+        back();
+        categories = wxWindow::FindWindowByName(ui::utf8("Inställningskategorier"), current_page());
+        if (!categories ||
+            static_cast<wxListBox*>(categories)->GetStringSelection() != ui::utf8("Importera PDF"))
+            fail(__LINE__);
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        select_settings(SettingsCategory::Sources);
+    }
+    {
+        select_settings(SettingsCategory::Appearance);
+        auto* size = static_cast<wxChoice*>(wxWindow::FindWindowByName("TEXTSTORLEK", current_page()));
+        wxCommandEvent change(wxEVT_CHOICE, size->GetId());
+        change.SetInt(6); // 150 percent, also used by the menu.
+        size->GetEventHandler()->ProcessEvent(change);
+        wxTheApp->ProcessPendingEvents();
+        size = static_cast<wxChoice*>(wxWindow::FindWindowByName("TEXTSTORLEK", current_page()));
+        if (settings_.text_zoom != 150 || text_zoom != 150 || size->GetSelection() != 6 ||
+            user_.load().text_zoom != 150 || settings_category_ != SettingsCategory::Appearance)
+            fail(__LINE__);
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        const auto previous_size = GetClientSize();
+        SetClientSize(FromDIP(wxSize(520, 480)));
+        Layout();
+        wxTheApp->ProcessPendingEvents();
+        settings_snapshot(this, "-appearance-narrow");
+        SetClientSize(previous_size);
+        Layout();
+        select_settings(SettingsCategory::Sources);
+    }
+    {
+        for (const auto* detail :
+             {"Svenska · GT · NT · apokryfer", "Engelska · NT", "Grekiska · GT · apokryfer"})
+            if (!wxWindow::FindWindowByLabel(ui::utf8(detail), current_page()))
+                fail(__LINE__);
+        settings_snapshot(this, "-sources");
         const auto preferences = settings_.primary_sources;
         const std::function<wxWindow*(wxWindow*, const wxString&)> named =
             [&](wxWindow* parent, const wxString& name) -> wxWindow* {
@@ -711,8 +823,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             wxCommandEvent click(wxEVT_BUTTON, move->GetId());
             move->GetEventHandler()->ProcessEvent(click);
             wxTheApp->ProcessPendingEvents();
+            auto* moved = named(current_page(), ui::utf8("Huvudtext, World English Bible Classic"));
             if (settings_.primary_sources[1].source != "en-web" ||
-                user_.load().primary_sources != settings_.primary_sources)
+                user_.load().primary_sources != settings_.primary_sources || !moved ||
+                (moved->CanAcceptFocusFromKeyboard() && wxWindow::FindFocus() != moved))
                 fail(__LINE__);
         }
         auto* greek = named(current_page(), ui::utf8("Huvudtext, Patriarkal grekiska 1904"));
@@ -731,11 +845,29 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_.primary_sources = preferences;
         apply_settings(false);
         fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+        const auto previous_size = GetClientSize();
+        SetClientSize(FromDIP(wxSize(520, 480)));
+        Layout();
+        wxTheApp->ProcessPendingEvents();
+        settings_snapshot(this, "-sources-narrow");
+        SetClientSize(previous_size);
+        Layout();
     }
+    select_settings(SettingsCategory::Speech);
     {
+        const auto catalog = voice_catalog_;
+        voice_catalog_["sv"] = {{"espeak", "Cached test voice"}};
+        fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+        const auto* cached = static_cast<wxChoice*>(
+            wxWindow::FindWindowByName(ui::utf8("Röst för uppläsning, svenska"), current_page()));
+        if (!cached || cached->GetString(0) != "Cached test voice")
+            fail(__LINE__);
+        voice_catalog_ = catalog;
+        fill_settings(static_cast<wxScrolledWindow*>(current_page()));
         auto real_speech = std::move(speech_);
         const auto previous_playback = playback_;
-        const auto previous_voice = settings_.speech_voice;
+        const auto previous_voice = settings_.speech_voices.at("sv");
+        const auto previous_rate = settings_.speech_rate;
         const auto previous_tracked = speech_tracked_;
         const Reading retained{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}, {}, "sv"};
         const auto key = reading_key(corpus_, retained);
@@ -746,16 +878,28 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         engine->held = {SpeechState::Paused, SpeechCue{0, 0, "John", "sv1917", {1, 4}, {1, 4}}, 0, 0.3};
         speech_ = std::move(held);
         playback_.start({retained});
-        settings_.speech_voice = "espeak:sv+adam";
+        settings_.speech_voices.at("sv") = "espeak:sv+adam";
         speech_tracked_ = Tracked{"voice-preview-test", "Preview"};
         auto* settings_page = current_page();
+        auto* rate = static_cast<wxChoice*>(
+            wxWindow::FindWindowByName(ui::utf8("UPPLÄSNINGSHASTIGHET"), current_page()));
+        wxCommandEvent change_rate(wxEVT_CHOICE, rate->GetId());
+        change_rate.SetInt(3); // 1.25 times the voice's pace.
+        rate->GetEventHandler()->ProcessEvent(change_rate);
+        if (settings_.speech_rate != 125 || engine->speed != 1.25 || user_.load().speech_rate != 125)
+            fail(__LINE__);
         preview_voice();
         const auto saved_position = user_.position(key);
         const auto sample = corpus_.verse("sv1917", "John", {3, 16});
         if (!voice_preview_ || !sample || engine->spoken.size() != 1 ||
             engine->spoken.front().display_text != sample->text || engine->spoken.front().cue ||
-            engine->voice != settings_.speech_voice || !playback_.readings().empty() || speech_tracked_ ||
-            !saved_position || saved_position->verse != VerseRef{1, 4} || current_page() != settings_page)
+            engine->voice != settings_.speech_voices.at("sv") || !playback_.readings().empty() ||
+            speech_tracked_ || !saved_position || saved_position->verse != VerseRef{1, 4} ||
+            current_page() != settings_page)
+            fail(__LINE__);
+        change_rate.SetInt(6); // Changing speed during a preview restarts the sample.
+        rate->GetEventHandler()->ProcessEvent(change_rate);
+        if (!voice_preview_ || engine->speed != 2 || settings_.speech_rate != 200)
             fail(__LINE__);
         preview_voice();
         if (voice_preview_ || engine->held.state != SpeechState::Stopped)
@@ -769,48 +913,56 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             (voice_preview_button_ && voice_preview_button_->GetLabel() != ui::utf8("Prova rösten")))
             fail(__LINE__);
         preview_voice();
+        select_settings(SettingsCategory::Sources);
+        if (voice_preview_ || engine->held.state != SpeechState::Stopped)
+            fail(__LINE__);
+        select_settings(SettingsCategory::Speech);
+        preview_voice();
         pause_for_navigation();
         if (voice_preview_ || engine->held.state != SpeechState::Stopped)
             fail(__LINE__);
+        for (const std::string language : {"en", "el"}) {
+            auto* choice = wxWindow::FindWindowByName(
+                ui::utf8("Röst för uppläsning, ") + ui::speech_language_name(language), current_page());
+            if (!choice || !choice->GetNextSibling()) {
+                fail(__LINE__);
+                continue;
+            }
+            preview_voice(language, choice->GetNextSibling());
+            const auto source = corpus_.source_for_language(language, "John");
+            const auto sample = corpus_.verse(source, "John", {3, 16});
+            if (!voice_preview_ || voice_preview_language_ != language || !sample ||
+                engine->spoken.size() != 1 || engine->spoken.front().language != language ||
+                engine->spoken.front().display_text != sample->text ||
+                engine->voice != settings_.speech_voices.at(language))
+                fail(__LINE__);
+        }
+        set_speech_rate(125);
+        if (!voice_preview_ || voice_preview_language_ != "el" || engine->spoken.front().language != "el")
+            fail(__LINE__);
+        stop_speech(false);
+        if (user_.position(key) != saved_position || user_.completed() != completed)
+            fail(__LINE__);
+        settings_snapshot(this, "-speech-languages");
         if (previous_position)
             user_.position(key, *previous_position);
         else
             user_.reset_position(key);
-        settings_.speech_voice = previous_voice;
+        settings_.speech_voices.at("sv") = previous_voice;
+        set_speech_rate(previous_rate);
         speech_ = std::move(real_speech);
         playback_ = previous_playback;
         speech_tracked_ = previous_tracked;
         refresh_speech();
     }
+    select_settings(SettingsCategory::Appearance);
     each_scheme([&](const wxString& suffix, const wxColour& paper) {
         if (!current_page() || current_page()->GetBackgroundColour() != paper)
             fail(__LINE__);
-        if (screenshot_path.empty())
-            return;
-        Update();
-        wxBitmap bitmap(GetClientSize());
-        wxClientDC window(this);
-        {
-            wxMemoryDC image(bitmap);
-            image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
-        }
-        save(bitmap.ConvertToImage(), "-settings" + suffix);
+        settings_snapshot(this, suffix);
     });
     {
-        // Updates are an action in the menu, outside Settings.
-        const int update =
-            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Sök efter uppdateringar…"));
-        wxCommandEvent command(wxEVT_MENU, update);
-        ProcessWindowEvent(command);
-        auto* button = update_button_.get();
-        const auto* text = static_cast<wxStaticText*>(update_text_.get());
-        const auto initial = updater_->status().state;
-        const bool checking = initial == UpdateStatus::State::Checking;
-        if (!update_dialog_ || !button || !text ||
-            button->IsEnabled() != (!checking && initial != UpdateStatus::State::Unavailable) ||
-            update_cancel_->IsShown() != checking)
-            fail(__LINE__);
-        // Each step waits for a click, and the controls follow it.
+        // Browsing Settings waits for a click; the menu action starts a check.
         updater_ = std::make_unique<Updater>(
             std::make_unique<SmokeUpdates>(),
             [this](const std::function<void()>& function) {
@@ -820,6 +972,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 show_update_status();
             });
         show_update_status();
+        select_settings(SettingsCategory::Updates);
+        auto* button = update_button_.get();
+        auto* text = static_cast<wxStaticText*>(update_text_.get());
+        if (!button || !text || !button->IsShownOnScreen() || !button->IsEnabled() ||
+            update_cancel_->IsShown() || updater_->status().state != UpdateStatus::State::Idle)
+            fail(__LINE__);
         const auto reaches = [&](UpdateStatus::State state) {
             for (int i = 0; i < 1000 && updater_->status().state != state; ++i) {
                 wxMilliSleep(5);
@@ -827,39 +985,72 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }
             return updater_->status().state == state;
         };
-        if (!button->IsEnabled() || update_cancel_->IsShown())
+        wxCommandEvent click(wxEVT_BUTTON, button->GetId());
+        button->GetEventHandler()->ProcessEvent(click);
+        if (button->IsEnabled() || !update_cancel_->IsShown())
             fail(__LINE__);
-        // Opening the action starts a check; it does not need a second click in Settings.
-        update_dialog_->Close();
-        wxTheApp->Yield(true);
+        wxCommandEvent cancel(wxEVT_BUTTON, update_cancel_->GetId());
+        update_cancel_->GetEventHandler()->ProcessEvent(cancel);
+        if (!reaches(UpdateStatus::State::Idle) || !button->IsEnabled() || update_cancel_->IsShown())
+            fail(__LINE__);
+        select_settings(SettingsCategory::Sources);
+        const int update =
+            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Sök efter uppdateringar…"));
+        wxCommandEvent command(wxEVT_MENU, update);
         ProcessWindowEvent(command);
         button = update_button_.get();
         text = static_cast<wxStaticText*>(update_text_.get());
-        if (!reaches(UpdateStatus::State::Available) ||
+        if (settings_category_ != SettingsCategory::Updates || !button->IsShownOnScreen() ||
+            !reaches(UpdateStatus::State::Available) ||
             button->GetLabel() != ui::utf8("Hämta version 9.9.9") || !text->GetLabel().Contains("2 MB"))
             fail(__LINE__);
+        const auto previous_size = GetClientSize();
+        SetClientSize(FromDIP(wxSize(520, 480)));
+        Layout();
+        wxTheApp->ProcessPendingEvents();
+        if (!text->GetLabel().Contains("9.9.9"))
+            fail(__LINE__);
+        settings_snapshot(this, "-updates-narrow");
+        SetClientSize(previous_size);
+        Layout();
         update_clicked();
         if (!reaches(UpdateStatus::State::Ready) ||
             button->GetLabel() != ui::utf8("Starta om och installera"))
             fail(__LINE__);
-        if (!screenshot_path.empty()) {
-            auto* dialog = update_dialog_.get();
-            dialog->Update();
-            wxBitmap bitmap(dialog->GetClientSize());
-            wxClientDC window(dialog);
-            {
-                wxMemoryDC image(bitmap);
-                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
-            }
-            save(bitmap.ConvertToImage(), "-updates");
-        }
-        updater_->reset();
-        if (updater_->status().state != UpdateStatus::State::Idle ||
-            button->GetLabel() != ui::utf8("Sök efter uppdateringar"))
+        settings_.text_zoom = 125;
+        apply_settings(false);
+        button = update_button_.get();
+        if (settings_category_ != SettingsCategory::Updates ||
+            button->GetLabel() != ui::utf8("Starta om och installera"))
             fail(__LINE__);
-        if (auto* dialog = update_dialog_.get())
-            dialog->Close();
-        wxTheApp->Yield(true);
+        settings_snapshot(this, "-updates");
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        auto* releases = wxWindow::FindWindowByLabel(ui::utf8("Utgåvor (rekommenderas)"), current_page());
+        wxCommandEvent channel(wxEVT_RADIOBUTTON, releases->GetId());
+        releases->GetEventHandler()->ProcessEvent(channel);
+        if (updater_->status().state != UpdateStatus::State::Idle ||
+            update_button_->GetLabel() != ui::utf8("Sök efter uppdateringar"))
+            fail(__LINE__);
+        // Leaving Settings during a check and reopening it retains the result.
+        update_clicked();
+        about();
+        if (!reaches(UpdateStatus::State::Available))
+            fail(__LINE__);
+        ProcessWindowEvent(command);
+        if (settings_category_ != SettingsCategory::Updates ||
+            update_button_->GetLabel() != ui::utf8("Hämta version 9.9.9"))
+            fail(__LINE__);
+        back();
+        back();
+        settings_.text_zoom = 125;
+        apply_settings(false);
+        if (!current_page()->IsDescendant(update_button_.get()) ||
+            update_button_->GetLabel() != ui::utf8("Hämta version 9.9.9"))
+            fail(__LINE__);
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        updater_->reset();
     }
     close_page();
     set_parallel("el");
@@ -992,7 +1183,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         fail(__LINE__);
     if (!day_.readings.empty() && day_.readings.front().can_open()) {
         const auto preview =
-            ui::reading_tooltip(corpus_, corpus_.localize(in_swedish(day_.readings.front())));
+            ui::reading_tooltip(corpus_, corpus_.localize(reader_reading(day_.readings.front())));
         if (preview.empty() || std::none_of(home_rows_.begin(), home_rows_.end(), [&](auto* row) {
                 return row->GetToolTipText().StartsWith(preview);
             }))
@@ -1198,31 +1389,64 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         scripture_->chapter_source(1, 1, "sv1917");
         if (scripture_->chapter_source(1, 0) != "grc-patriarchal" ||
             scripture_->chapter_source(1, 1) != "sv1917" || scripture_->chapter_source(2, 0) != "sv1917" ||
-            play_->IsEnabled() || controls().playback_action != PlaybackAction::None ||
+            !play_->IsEnabled() || controls().playback_action != PlaybackAction::StartReading ||
             settings_.primary_sources != saved.primary_sources)
             fail(__LINE__);
         save(render(), "-chapter-sources");
         scripture_->chapter_source(1, 0, "en-web");
-        if (scripture_->primary_language() != "en" || play_->IsEnabled())
+        if (scripture_->primary_language() != "en" || !play_->IsEnabled())
             fail(__LINE__);
         open_reading(reading);
         if (scripture_->chapter_source(1, 0) != "sv1917" || scripture_->chapter_source(1, 1) != "en-web")
             fail(__LINE__);
         settings_.primary_sources = decode_sources("en-web=1", settings_.primary_sources);
         apply_settings(false);
-        if (scripture_->chapter_source(1, 0) != "en-web" || play_->IsEnabled())
+        if (scripture_->chapter_source(1, 0) != "en-web" || !play_->IsEnabled())
             fail(__LINE__);
         settings_.primary_sources = decode_sources("grc-patriarchal=1", settings_.primary_sources);
         apply_settings(false);
-        if (scripture_->chapter_source(1, 0) != "grc-patriarchal" || play_->IsEnabled())
+        if (scripture_->chapter_source(1, 0) != "grc-patriarchal" || !play_->IsEnabled())
             fail(__LINE__);
         settings_ = saved;
         apply_settings(false);
         open_fresh_psalm();
     }
+    {
+        const auto data = data_ / "multilingual-speech";
+        UserDb profile(data / "user.db");
+        auto candidate = std::make_unique<MainFrame>(corpus_, profile, date, resources_, data,
+                                                     std::make_unique<SmokeUpdates>(), true);
+        auto held = std::make_unique<NavigationSpeech>();
+        auto* engine = held.get();
+        candidate->speech_ = std::move(held);
+        candidate->Show();
+        candidate->open_reading({ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 2}}});
+        if (!candidate->play_->IsEnabled() || candidate->scripture_->primary_language() != "en")
+            fail(__LINE__);
+        candidate->play_or_pause();
+        if (engine->spoken.size() != 2 || engine->spoken.front().language != "en")
+            fail(__LINE__);
+        candidate->stop_speech(false);
+        candidate->scripture_->select_verses({1, 2}, {1, 2});
+        candidate->play_or_pause();
+        if (engine->spoken.size() != 1 || engine->spoken.front().language != "en" ||
+            engine->spoken.front().cue->verse != VerseRef{1, 2})
+            fail(__LINE__);
+        candidate->stop_speech(false);
+        candidate->scripture_->clear_selection();
+        candidate->open_reading({ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 2}}});
+        candidate->stop_speech();
+        candidate->scripture_->chapter_source(1, 0, "grc-lxx");
+        candidate->play_or_pause();
+        if (engine->spoken.size() != 2 || engine->spoken.front().language != "el" ||
+            engine->spoken.front().display_text != corpus_.verse("grc-lxx", "1Esd", {1, 1})->text)
+            fail(__LINE__);
+        candidate->stop_speech(false);
+        candidate->Hide();
+    }
     // Imported speech follows the displayed chapter editions, also after Pause and selection playback.
     {
-        const auto data = data_ / "speech-sources";
+        const auto data = data_ / u8"speech-sources-åäö";
         const auto imported = data / "content/srb2026.db";
         std::filesystem::create_directories(imported.parent_path());
         {
@@ -1247,7 +1471,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             transaction.commit();
         }
         CorpusDb corpus(resources_ / "corpus/corpus.db");
+        const auto& before_import = corpus.coordinates(srb_source, "John");
         corpus.load_imported(imported);
+        const auto& installed_coordinates = corpus.coordinates(srb_source, "John");
+        const auto saved_coordinates = installed_coordinates;
+        if (!before_import.empty() || installed_coordinates.empty() ||
+            corpus.source_books(srb_source).size() != 66)
+            fail(__LINE__);
         UserDb profile(data / "user.db");
         auto candidate = std::make_unique<MainFrame>(corpus, profile, date, resources_, data,
                                                      std::make_unique<SmokeUpdates>(), true);
@@ -1308,6 +1538,75 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         candidate->scripture_->chapter_source(1, 0, "sv1917");
         if (!candidate->play_->IsEnabled())
             fail(__LINE__);
+        candidate->settings_.primary_sources =
+            decode_sources("sv-srb2026=1,en-lxx2012=1,sv1917=0,en-web=0,grc-lxx=0,grc-patriarchal=0",
+                           candidate->settings_.primary_sources);
+        candidate->apply_settings(false);
+        profile.bookmark(srb_source, {"John", {1, 50}, {1, 51}});
+        const auto bookmarks = profile.bookmarks(corpus);
+        const auto completed = profile.completed();
+        const auto backup = data / "srb-backup.db";
+        std::filesystem::copy_file(imported, backup);
+        candidate->settings_category_ = SettingsCategory::Import;
+        candidate->show_settings();
+        const auto check_import_controls = [&](bool installed) {
+            if (corpus.source_books(srb_source).empty() == installed)
+                fail(__LINE__);
+            const auto page = candidate->current_page();
+            auto* import_button = wxWindow::FindWindowByLabel(ui::utf8("Importera båda PDF-filerna…"), page);
+            auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);
+            auto* link =
+                wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
+            if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
+                !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
+                import_button->IsEnabled() == installed || remove_button->IsEnabled() != installed)
+                fail(__LINE__);
+        };
+        check_import_controls(true);
+        settings_snapshot(candidate.get(), "-import-loaded");
+        {
+            BookmarkConfirmation confirmation;
+            confirmation.title = ui::utf8("Ta bort importerad text");
+            confirmation.Register();
+            candidate->remove_content();
+            if (!corpus.has_imported() || !std::filesystem::exists(imported))
+                fail(__LINE__);
+            confirmation.answer = wxID_YES;
+            auto* remove =
+                wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), candidate->current_page());
+            wxCommandEvent click(wxEVT_BUTTON, remove->GetId());
+            remove->GetEventHandler()->ProcessEvent(click);
+            wxTheApp->ProcessPendingEvents();
+            if (confirmation.questions != 2 || !confirmation.safe_default)
+                fail(__LINE__);
+        }
+        check_import_controls(false);
+        const auto& removed_coordinates = corpus.coordinates(srb_source, "John");
+        if (!before_import.empty() || installed_coordinates != saved_coordinates ||
+            !removed_coordinates.empty())
+            fail(__LINE__);
+        if (corpus.has_imported() || std::filesystem::exists(imported) ||
+            !corpus.coordinates(srb_source, "John").empty() || corpus.verse(srb_source, "John", {1, 50}) ||
+            profile.bookmarks(corpus).size() != bookmarks.size() || profile.completed() != completed ||
+            std::ranges::any_of(profile.load().primary_sources, [](const auto& source) {
+                return source.source == srb_source;
+            }))
+            fail(__LINE__);
+        candidate->back();
+        candidate->open_reading(reading);
+        if (candidate->scripture_->chapter_source(1, 0) != "sv1917" || !candidate->play_->IsEnabled())
+            fail(__LINE__);
+        candidate->open_reading({ReadingKind::OldTestament, {"Gen", {1, 1}, {1, 2}}});
+        if (candidate->scripture_->chapter_source(1, 0) != "en-lxx2012")
+            fail(__LINE__);
+        // Reinstalling clears the empty lookups cached after removal.
+        std::filesystem::copy_file(backup, imported);
+        corpus.load_imported(imported);
+        const auto reimported = corpus.verse(srb_source, "John", {1, 50});
+        if (!corpus.has_imported() || !reimported || reimported->text != "SRB test John 1:50" ||
+            !before_import.empty() || !removed_coordinates.empty() ||
+            installed_coordinates != saved_coordinates)
+            fail(__LINE__);
         candidate->Hide();
     }
     // The text size steps like Chrome's zoom, reaches every page, and returns to its default.
@@ -1364,8 +1663,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             referenced.reference = "grc-lxx";
         open_reading(referenced);
         scripture_->center_passage();
-        // Only the Greek addition to Genesis has Swedish text to read aloud.
-        if (scripture_->cached_rows() == 0 || play_->IsEnabled() != (reading.passage.book == "Gen"))
+        // Read-aloud also works for the English fallback in books without Swedish text.
+        if (scripture_->cached_rows() == 0 || !play_->IsEnabled())
             fail(__LINE__);
         save(render(), "-" + ui::utf8(reading.passage.book));
     }
@@ -1757,13 +2056,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const auto english = candidate->scripture_->marked_reading();
         if (!english || english->base_language != "en")
             fail(__LINE__);
-        bool has_bookmark = false;
+        bool has_bookmark = false, has_listen = false;
         for (auto* child : tools->GetChildren()) {
             has_bookmark |= child->GetName() == ui::utf8("Lägg till bokmärke");
             if (auto* button = dynamic_cast<TextButton*>(child); button && button->GetLabel() == "Lyssna")
-                fail(__LINE__);
+                has_listen = true;
         }
-        if (!tools->IsShown() || !has_bookmark)
+        if (!tools->IsShown() || !has_bookmark || !has_listen)
             fail(__LINE__);
         candidate->Hide();
         open_fresh_psalm();
@@ -1774,7 +2073,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         reading.source_override = source;
         scripture_->open(reading);
         click_text(verse_point({1, 1}, 0));
-        if (!scripture_->highlighted_verse() || (verse_tools() && verse_tools()->IsShown()))
+        if (!scripture_->highlighted_verse() || !verse_tools() || !verse_tools()->IsShown() ||
+            !source_buttons(verse_tools()).empty())
             fail(__LINE__);
     }
     // A Swedish merged verse highlights both Greek counterparts and toggles from either.
@@ -2285,7 +2585,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         // NOLINTNEXTLINE(performance-unnecessary-copy-initialization): refresh_day replaces day_.readings.
         const auto reading = *daily;
         const auto key = day_key(reading);
-        const auto shared = reading_key(corpus_, in_swedish(reading));
+        const auto shared = reading_key(corpus_, reader_reading(reading));
         user_.position(shared, {0, reading.passage.book, "sv1917", reading.passage.first, 37});
         refresh_day();
         if (!home_rows_.front()->GetLabel().Contains(ui::utf8(" · 37 %")))

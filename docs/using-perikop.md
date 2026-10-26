@@ -34,33 +34,32 @@ The day page shows the selected date's readings and three reading plans. Press *
 - The arrows beside the date change the day. **Ctrl+Shift+T** goes to today (⌘ instead of Ctrl on macOS).
 - Click the date for the month calendar. Click the month or year name for a grid of months or years.
 - Calendar markers: violet circle for Orthros, gold diamond for Vespers, green square for other services.
-- **Inställningar** (Ctrl+, or ⌘, on macOS) selects the Greek or Slavic reading order and the Revised Julian or Julian calendar.
+- **Inställningar → Kalender och läsordning** (Ctrl+, or ⌘, on macOS) selects the Greek or Slavic reading order and the Revised Julian or Julian calendar.
   With the Greek order, the day page shows Antiochian readings beside the Greek ones when they differ.
 
 ## Reader
 
 - **Tillbaka** and **Framåt** return through the views opened in this session, preserving the reading position and Bible-picker selection. Use Alt+Left/Right on Windows and Linux, ⌘[/⌘] on macOS, or the mouse's Back/Forward side buttons.
 - **Ctrl+L** opens the passage picker; **Ctrl+Shift+L** opens the selected day's readings. **Ctrl+PageUp/PageDown** changes the day, and **Ctrl+Shift+D** opens the calendar. Use ⌘ instead of Ctrl on macOS.
-- **Inställningar** has separate ordered source lists for the main text and the second pane. Enable editions with their checkboxes and move them with ↑/↓. The first enabled edition containing the chapter is used. Swedish comes first by default, then English; Greek is available but initially off for the main text. The second pane defaults to English, then Greek, with Swedish available but initially off.
+- **Inställningar → Böcker och textkällor** shows ordered source lists side by side: the main text on the left and the second pane on the right. Each edition shows its language and coverage: GT (Old Testament), NT (New Testament), and apokryfer (apocrypha). Enable editions with their checkboxes and move them with ↑/↓. The first enabled edition containing the chapter is used. Swedish comes first by default, then English; Greek is available but initially off for the main text. The second pane defaults to English, then Greek, with Swedish available but initially off.
 - The split-view button right of the address field opens one second pane using its source preferences. Click it again to return to one text. The word-study button opens Swedish word study instead.
 - Each chapter's source label is a dropdown. Choose any available edition independently for either pane, including an unchecked edition or the same edition as the other pane, or **Automatiskt enligt Inställningar** to return to the saved priority. Automatic secondary selection skips the main pane's edition. Overrides stay within the open passage and chapter; reopening the passage restores the saved preferences.
-- Click a verse to highlight it. In a single Swedish pane, buttons above the verse open it in online Swedish Bibles. Drag over verses in the main pane to mark a passage, or Shift-click to extend from the verse where you started. Alt/Option-click or drag adds a separate range; Ctrl/⌘ also works. Escape clears the selection. The selection actions offer **Kopiera**, the same online lookups for Swedish text, **Lyssna** to read the marked Swedish passage aloud, and a ribbon-shaped bookmark button to save it. English and Greek selections can also be bookmarked.
+- Click a verse to highlight it. In a single Swedish pane, buttons above the verse open it in online Swedish Bibles. Drag over verses in the main pane to mark a passage, or Shift-click to extend from the verse where you started. Alt/Option-click or drag adds a separate range; Ctrl/⌘ also works. Escape clears the selection. The selection actions offer **Kopiera**, the same online lookups for Swedish text, **Lyssna** to read the marked passage aloud in its displayed language, and a ribbon-shaped bookmark button to save it. English and Greek selections can also be bookmarked.
 - **Ctrl+C** (⌘C on macOS) copies marked verses, or the clicked verse from either pane. Right-click also offers **Kopiera med referens**. Copied text ends with the passage reference in the copied edition's numbering and its translation/edition name. Separate ranges stay separate, and changing editions across chapters gives each text its own reference.
 - **Bokmärken**, in the menu bar and as a submenu of the ⋮ menu, lists saved passages in Bible book order, then chapter and verse. Click the submenu row or press Right to open it beside the main menu. Cancelling the submenu returns to the main menu. Opening a bookmark selects that passage as a reading. **Ta bort bokmärke…** lets you choose a bookmark to remove and asks for confirmation; **Avbryt** keeps it. Bookmarks are saved in the local profile and survive restarting the app. Separate selected ranges become separate bookmarks; adding the same range again keeps one copy.
 - Click the address field to go to another passage, or to choose a part of a reading in several parts.
-- **⋮** opens the commands, as in Chrome. **−** and **+** in the menu change the text size and the read-aloud speed without closing it.
+- **⋮** opens the commands, as in Chrome. **−** and **+** in the menu change the text size and the read-aloud speed without closing it. These choices are also available under **Inställningar → Utseende → Textstorlek** and **Inställningar → Uppläsning → Uppläsningshastighet**.
   Windows and Linux use the ⋮ menu and keyboard shortcuts; macOS also has its native menu bar.
 - The text size applies to the whole program. Ctrl++ and Ctrl+- (⌘ on macOS) change it, and Ctrl+0 resets it.
-- **Inställningar** holds the colour scheme and theme, the calendar, the reading order, and the voice.
+- **Inställningar** has a category selector on the left: **Böcker och textkällor**, **Importera PDF**, **Utseende**, **Kalender och läsordning**, **Uppläsning**, and **Uppdateringar**. Each category opens its own page. Use the arrow keys to select a category, then Tab to reach its controls.
 - Tab moves through the toolbar, the page, and the word study column in that order. Shift+Tab moves back.
 - The macOS **Redigera** menu provides the standard Undo, Redo, Cut, Copy, Paste, and Select All commands. Their shortcuts work in editable fields on every platform. In the reader, Copy includes the marked verses and their reference; Select All applies to text fields, not a whole Bible book.
 - Perikop remembers the window's normal size, position, and maximized state for each local profile. A window from a disconnected monitor returns within an available display. Diagnostic runs keep their default window layout.
 
 ## Updates
 
-**Inställningar → Uppdateringskanal** saves your choice of **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds).
-Changing this setting makes no network requests.
-**⋮ → Sök efter uppdateringar…** opens an update dialog and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop.
+**Inställningar → Uppdateringar** shows the installed version, update status, and **Sök efter uppdateringar** button. **Uppdateringskanal** selects **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds). Opening the page or changing the channel makes no network requests.
+**⋮ → Sök efter uppdateringar…** opens that page and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop. Checks and downloads can continue while you visit another page; return to Updates for the result or to cancel.
 In-app updates work in the downloads listed above. Copies from the DMG, the NSIS installer or the older AppImage, which 0.1.x offered, explain that they need a manual download instead. The feed becomes available when its GitHub release is published.
 The updater uses deltas when a suitable cached base exists, and otherwise downloads the full package. Updating or removing the application keeps your settings and reading progress. No check, download, or installation starts automatically.
 
@@ -88,15 +87,15 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Read-aloud
 
-- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads Swedish aloud; English and Greek primary text have no read-aloud. Read-aloud needs eSpeak NG, which you install separately; **Inställningar** links to instructions when it is missing. Choose one of the Swedish voices and variants of your installed eSpeak NG there.
+- The toolbar has one Play/Pause button: it shows Pause during playback and Play when paused or stopped. **Lyssna** reads the displayed main text aloud in Swedish, English, or Greek. Passages without Swedish text use the English or Greek edition chosen by your source preferences. Read-aloud needs eSpeak NG, which you install separately; **Inställningar** links to instructions when it is missing. Under **Inställningar → Uppläsning**, choose an installed voice separately for Swedish, English, and Greek. Each picker lists voices and variants for that language, including the available English accents. Voice selections survive restarting the app.
 - **Pausa** saves the current verse. **Fortsätt** starts that verse again from the beginning, with the full passage still visible. This also works after reopening the reading or restarting Perikop. Space in the reader or **Ctrl+Shift+P** (⌘⇧P on macOS) plays or pauses.
 - **Stoppa** resets the open reading to its beginning and clears its saved position, including while paused. **Ctrl+.** (⌘. on macOS) does the same. Leaving after Stop keeps the reset until you move in the text or start playing again.
 - Drag across verses to mark them. Hold Ctrl (⌘ on macOS) to add more ranges. **Läs markering** reads the marked verses.
 - Scrolling stops the reader from following the voice. **Följ uppläsningen** returns to it.
-- **Inställningar → Markera texten som läses upp** highlights the spoken text.
-- eSpeak reads with Perikop's own Swedish pronunciations and uses very little CPU. **Snabbare** and **Långsammare** change its speaking rate; during reading, the current verse starts again at the new speed.
+- **Inställningar → Uppläsning → Markera texten som läses upp** highlights the spoken text.
+- eSpeak uses Perikop's pronunciation data for Swedish and its built-in language rules for English and Greek. Additional English and Greek pronunciation dictionaries are deferred. **Snabbare** and **Långsammare** change its speaking rate; during reading, the current verse starts again at the new speed.
 - Swedish abbreviations are read in full, such as `o. s. v.` as “och så vidare” and `t.ex.` as “till exempel”. The displayed text keeps its abbreviations.
-- Beside the voice picker, **Prova rösten** reads John 3:16 with the selected eSpeak voice. **Stoppa provet** stops the sample; choosing another voice or leaving settings also stops it. Trying a voice preserves your reading position.
+- Beside the voice picker, **Prova rösten** reads John 3:16 in that picker's language with its selected eSpeak voice. **Stoppa provet** stops the sample; choosing another voice, switching category, or leaving settings also stops it. Changing speed restarts the sample at the new pace. Trying a voice preserves your reading position.
 
 ## Word study and pronunciation
 
@@ -108,7 +107,9 @@ Daily readings and reading-plan parts show saved passage progress as a percentag
 
 ## Lägg till Reformationsbibeln 2026
 
-Öppna Inställningar och följ länken under Lokalt bibelinnehåll till bibel.se. Hämta
+Öppna Inställningar → Importera PDF och följ länken under Lokalt bibelinnehåll till bibel.se. Hämta
 SRB Hela GT och SRB NT med UN noter där och välj sedan Importera båda PDF-filerna.
-Efter importen aktiverar du Reformationsbibeln 2026 i källorna och väljer dess prioritet.
+Efter importen aktiverar du Reformationsbibeln 2026 under Böcker och textkällor och väljer dess prioritet.
 Texten sparas i din profil. Fotnoter och korshänvisningar importeras inte.
+
+Importens instruktioner och knappar finns kvar även när texten är importerad. Då är Importera inaktiverad, medan Ta bort importerad text är tillgänglig. Ta bort raderar bara den importerade texten och dess källval; dina PDF-filer, bokmärken och läsframsteg sparas. Därefter kan du importera på nytt.

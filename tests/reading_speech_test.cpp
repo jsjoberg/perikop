@@ -1,4 +1,5 @@
 #include "core/reading_display.hpp"
+#include "core/source_preferences.hpp"
 #include "speech/playback_controller.hpp"
 #include "speech/reading_speech.hpp"
 #include "storage/database.hpp"
@@ -128,6 +129,23 @@ int main(int argc, char** argv) {
             rejected = std::string(error.what()) == "Ingen text finns att läsa upp.";
         }
         check(rejected, "A passage without Swedish text must report that no speech is available");
+        const Reading esdras{ReadingKind::OldTestament, {"1Esd", {1, 1}, {1, 2}}};
+        const Settings defaults;
+        const auto fallback = reading_speech(
+            corpus, {esdras}, lexicon, [&](const Reading&, const std::string& book, int chapter) {
+                return preferred_source(defaults.primary_sources,
+                                        chapter_sources(corpus, osb_reference, book, chapter));
+            });
+        check(fallback.size() == 2 && fallback.front().language == "en" &&
+                  fallback.front().display_text == corpus.verse("en-lxx2012", "1Esd", {1, 1})->text,
+              "a book without Swedish text reads its displayed English fallback");
+        const auto greek =
+            reading_speech(corpus, {esdras}, lexicon, [](const Reading&, const std::string&, int) {
+                return "grc-lxx";
+            });
+        check(greek.size() == 2 && greek.front().language == "el" &&
+                  greek.front().display_text == corpus.verse("grc-lxx", "1Esd", {1, 1})->text,
+              "selecting Greek reads the Greek text in the same passage without Swedish");
         check(reading_speech(corpus, {}, lexicon).empty(), "An empty batch must contain no utterances");
 
         PlaybackController read_aloud;

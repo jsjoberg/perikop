@@ -1535,17 +1535,27 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             auto s = user.load();
             check(s.theme == Theme::System && s.color_scheme == ColorScheme::RosePine &&
-                      s.speech_voice == "espeak" && !s.speech_highlight && s.tradition == Tradition::Greek &&
-                      s.update_channel == UpdateChannel::Releases,
+                      s.speech_voices.at("sv") == "espeak" && s.speech_voices.at("en") == "espeak:en" &&
+                      s.speech_voices.at("el") == "espeak:el" && !s.speech_highlight &&
+                      s.tradition == Tradition::Greek && s.update_channel == UpdateChannel::Releases,
                   "default theme, voice, reading order, releases channel, and disabled read-aloud highlight");
             sqlite3* legacy = nullptr;
             check(sqlite3_open(user_path.string().c_str(), &legacy) == SQLITE_OK,
                   "open legacy user settings");
-            const int legacy_result = sqlite3_exec(
-                legacy, "INSERT INTO settings VALUES('tradition','antiochian')", nullptr, nullptr, nullptr);
+            const int legacy_result =
+                sqlite3_exec(legacy,
+                             "INSERT INTO settings VALUES('tradition','antiochian');"
+                             "INSERT INTO settings VALUES('speech_voice','espeak-f2');"
+                             "INSERT INTO settings VALUES('speech_voice_en','espeak:en-us+f2');"
+                             "INSERT INTO settings VALUES('speech_voice_el','espeak:el+m3');",
+                             nullptr, nullptr, nullptr);
             sqlite3_close(legacy);
             check(legacy_result == SQLITE_OK && user.load().tradition == Tradition::Greek,
                   "a reading order other than Slavic selects the Greek family");
+            const auto stored_voices = user.load().speech_voices;
+            check(stored_voices.at("sv") == "espeak-f2" && stored_voices.at("en") == "espeak:en-us+f2" &&
+                      stored_voices.at("el") == "espeak:el+m3",
+                  "existing per-language storage keys retain all selected voices");
             s.theme = Theme::Dark;
             s.color_scheme = ColorScheme::TokyoNight;
             s.calendar = CalendarStyle::Old;
@@ -1553,7 +1563,9 @@ int main(int argc, char** argv) {
             s.split_view = true;
             s.text_zoom = 125;
             s.speech_rate = 175;
-            s.speech_voice = "espeak-f2";
+            s.speech_voices.at("sv") = "espeak-f2";
+            s.speech_voices.at("en") = "espeak:en-us+f2";
+            s.speech_voices.at("el") = "espeak:el+m3";
             s.speech_highlight = true;
             s.update_channel = UpdateChannel::Nightly;
             user.save(s);
@@ -1563,11 +1575,13 @@ int main(int argc, char** argv) {
             auto s = user.load();
             check(s.theme == Theme::Dark && s.color_scheme == ColorScheme::TokyoNight &&
                       s.calendar == CalendarStyle::Old && s.tradition == Tradition::Slavic && s.split_view &&
-                      s.text_zoom == 125 && s.speech_rate == 175 && s.speech_voice == "espeak-f2" &&
-                      s.speech_highlight && s.update_channel == UpdateChannel::Nightly,
+                      s.text_zoom == 125 && s.speech_rate == 175 && s.speech_voices.at("sv") == "espeak-f2" &&
+                      s.speech_voices.at("en") == "espeak:en-us+f2" &&
+                      s.speech_voices.at("el") == "espeak:el+m3" && s.speech_highlight &&
+                      s.update_channel == UpdateChannel::Nightly,
                   "persisted settings");
             s.update_channel = UpdateChannel::Releases;
-            s.speech_voice = "espeak:sv+adam";
+            s.speech_voices.at("sv") = "espeak:sv+adam";
             user.save(s);
             user.complete("plan:nt:1");
             user.complete("plan:nt:2");
@@ -1579,7 +1593,7 @@ int main(int argc, char** argv) {
             UserDb user(user_path);
             check(user.load().update_channel == UpdateChannel::Releases,
                   "switching back to releases survives reopening the profile");
-            check(user.load().speech_voice == "espeak:sv+adam",
+            check(user.load().speech_voices.at("sv") == "espeak:sv+adam",
                   "an installed eSpeak voice selection survives reopening the profile");
             sqlite3* inspect = nullptr;
             check(sqlite3_open(user_path.string().c_str(), &inspect) == SQLITE_OK,

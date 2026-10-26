@@ -91,14 +91,14 @@ void controls_test() {
     check(selected.listen && selected.playback_action == PlaybackAction::StartSelection &&
               selected.playback_label == "Läs markering",
           "A stopped reader must offer its selected verses");
-    const auto english =
+    const auto unavailable =
         reader_controls({.screen = Screen::Reader, .playback = SpeechState::Stopped, .speakable = false});
-    check(!english.listen && english.playback_action == PlaybackAction::None,
-          "A reading without Swedish text must not offer playback");
-    const auto english_paused =
+    check(!unavailable.listen && unavailable.playback_action == PlaybackAction::None,
+          "A reading without available text must not offer playback");
+    const auto unavailable_paused =
         reader_controls({.screen = Screen::Reader, .playback = SpeechState::Paused, .speakable = false});
-    check(english_paused.listen && english_paused.playback_action == PlaybackAction::Resume,
-          "Playback started elsewhere must stay resumable over a reading without Swedish text");
+    check(unavailable_paused.listen && unavailable_paused.playback_action == PlaybackAction::Resume,
+          "Playback started elsewhere must stay resumable over a reading without available text");
     const auto home = reader_controls({Screen::Day, SpeechState::Paused});
     check(!home.stop && !home.listen && !home.pause, "A paused day page must disable all playback controls");
 }

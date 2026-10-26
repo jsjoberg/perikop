@@ -180,7 +180,8 @@ std::string ScriptureView::primary_source(const Reading& reading, const std::str
     const auto found = chapter_overrides_.find({book, chapter});
     if (found != chapter_overrides_.end() && !found->second[0].empty())
         return found->second[0];
-    if (!reading.source_override.empty())
+    if (!reading.source_override.empty() &&
+        std::ranges::find(source_catalog_, reading.source_override, &Source::code) != source_catalog_.end())
         return reading.source_override;
     const auto available = book == displayed_.book ? sources_for_chapter(chapter)
                                                    : chapter_sources(corpus_, osb_reference, book, chapter);
@@ -354,11 +355,18 @@ bool ScriptureView::passage_in_view() const {
     return false;
 }
 void ScriptureView::apply(const Settings& settings) {
-    source_catalog_ = corpus_.sources();
-    if (settings_.primary_sources != settings.primary_sources ||
+    auto sources = corpus_.sources();
+    const bool sources_changed = sources.size() != source_catalog_.size();
+    source_catalog_ = std::move(sources);
+    if (sources_changed) {
+        available_sources_.clear();
+        orphans_.clear();
+        swedish_editions_.clear();
+    }
+    if (sources_changed || settings_.primary_sources != settings.primary_sources ||
         settings_.secondary_sources != settings.secondary_sources)
         chapter_overrides_.clear();
-    const bool metrics_changed = settings_.text_zoom != settings.text_zoom ||
+    const bool metrics_changed = sources_changed || settings_.text_zoom != settings.text_zoom ||
                                  settings_.split_view != settings.split_view ||
                                  settings_.primary_sources != settings.primary_sources ||
                                  settings_.secondary_sources != settings.secondary_sources;

@@ -35,10 +35,12 @@ public:
     explicit CorpusDb(const std::filesystem::path& path);
     // Optional, locally imported Scripture. The bundled corpus stays read-only.
     void load_imported(const std::filesystem::path&);
+    void remove_imported();
     bool has_imported() const {
         return bool(imported_);
     }
     std::vector<Source> sources() const;
+    std::vector<std::string> source_books(const std::string& source) const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,
                                             VerseRef ref) const;
     const std::vector<VerseRef>& coordinates(const std::string& source, const std::string& book) const;
@@ -98,6 +100,7 @@ private:
         std::map<VerseRef, std::size_t> order;
     };
     const BookText& book_text(const std::string& source, const std::string& book) const;
+    void clear_imported_cache();
     // The alignment rows from one edition to another for a book, ordered by their first verse.
     const std::vector<Alignment>& book_alignment(const std::string& from, const std::string& to,
                                                  const std::string& book) const;
@@ -111,9 +114,12 @@ private:
     const ReferenceLinks& reference_links(const std::string& from, const std::string& to,
                                           const std::string& book) const;
     sqlite3* study_database(const char* table, const std::string& form) const;
-    // Loaded books are never changed or removed, so references to them stay valid.
+    // Keep old book objects alive so coordinates() references survive import changes.
     mutable std::mutex cache_mutex_;
-    mutable std::map<std::pair<std::string, std::string>, BookText> texts_;
+    using TextCache = std::map<std::pair<std::string, std::string>, BookText>;
+    mutable TextCache texts_;
+    // Retained until CorpusDb is destroyed: callers may still hold coordinates() references.
+    std::vector<TextCache> retired_texts_;
     mutable std::map<std::tuple<std::string, std::string, std::string>, std::vector<Alignment>> alignments_;
     mutable std::map<std::tuple<std::string, std::string, std::string>, ReferenceLinks> reference_links_;
     // Each edition's versification system, by source code. The corpus is read-only.

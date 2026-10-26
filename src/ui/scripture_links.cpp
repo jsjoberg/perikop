@@ -12,7 +12,7 @@
 namespace ortho {
 void ScriptureView::rebuild_verse_links() {
     const auto marked = marked_reading();
-    if (!marked || settings_.word_study || (selections_.empty() && primary_language() != "sv")) {
+    if (!marked || settings_.word_study) {
         if (verse_links_) {
             if (verse_links_->IsDescendant(wxWindow::FindFocus()))
                 SetFocus();
@@ -44,7 +44,7 @@ void ScriptureView::rebuild_verse_links() {
     bookmark->SetToolTip(ui::utf8("Spara den markerade texten som bokmärke"));
     bookmark->apply(palette(settings_.theme));
     actions->Add(bookmark, 0, wxALIGN_CENTER_VERTICAL | wxALL, FromDIP(zoomed(3)));
-    if (primary_language() == "sv") {
+    if (speech_language_supported(primary_language())) {
         auto* listen = ui::button(verse_links_, "Lyssna", [this, reading = *marked] {
             CallAfter([this, reading] {
                 if (listen_)
@@ -108,8 +108,7 @@ void ScriptureView::position_verse_links() {
     if (!verse_links_)
         return;
     const auto marked = marked_reading();
-    if (!marked || settings_.word_study || rows_.empty() ||
-        (selections_.empty() && primary_language() != "sv")) {
+    if (!marked || settings_.word_study || rows_.empty()) {
         verse_links_->Hide();
         return;
     }
