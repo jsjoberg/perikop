@@ -306,6 +306,10 @@ REPLACE={
  ('2Cor', 4, 18):('allenast en tid, med de', 'allenast en tid, men de'),
  ('2Cor', 12, 9):('Herren har sagt till mig;', 'Herren har sagt till mig:'),
 
+ # Galatians 1-6 scan pass: R262-R263; wording questions are saved in NT photo batch 6.
+ ('Gal', 4, 17):('nej, del vilja avspärra', 'nej, de vilja avspärra'),
+ ('Gal', 4, 27):('icke bliver moder, Ty', 'icke bliver moder. Ty'),
+
 }
 
 def chapter_number(name):

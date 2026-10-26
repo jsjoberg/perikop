@@ -7080,6 +7080,254 @@
         }
       ],
       "notes": "Hela kapitlet jämfört, inklusive 13:5/6 över sidgränsen och 13:10 över spaltgränsen. Båda hälsningarna i 13:12 ingår i samma vers även i trycket. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Gal",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "6f11d8a95b7f8fb88ea2489020b867f8bdb1be597b10743caade4550b16505fe",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0301.1.tif",
+          "sha256": "de47d3912ab58b687ef7b684f923c6566d8769664d9eaa6cce3b3948436d2307"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0302.1.tif",
+          "sha256": "063295aa25e59c45679ef321439c9782561d3ccc446c0679e727a890fd992a17"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 1:4/17 över spaltgränserna och 1:8/9 över sidgränsen. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Gal",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "a77d118ec82a97261b0d5df03b8fd752d3b3b4473b2f2284edc1ab5e22d44974",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0302.1.tif",
+          "sha256": "063295aa25e59c45679ef321439c9782561d3ccc446c0679e727a890fd992a17"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0303.1.tif",
+          "sha256": "834164b6e9193e6bbfc923896b3a8b99595418dc426112156b13cf2144c28a18"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0304.1.tif",
+          "sha256": "1ff318642a11c0632cfb76482754980efae95c24ae3303667c68e43ee022595b"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 2:2/3 och 2:19 över sidgränserna samt 2:10/11 över spaltgränsen. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Gal",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "a32db71395ca368793b814aea9a66564e93676f1dbd48a80a4b3517e44220b8f",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0304.1.tif",
+          "sha256": "1ff318642a11c0632cfb76482754980efae95c24ae3303667c68e43ee022595b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0305.1.tif",
+          "sha256": "1b213b3dda30b40a788455b37db0970cafce4ab907e6a683b2394f7cb25ce20f"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 3:6/7 över spaltgränsen och 3:15 över sidgränsen. Versal/gemen I/i vid början av 3:6 behålls. Inga nya rättelser eller olösta frågor. Originalupplösningen bekräftar här även tredje gången i 3:28. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Gal",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "1c237d25c47a408beccdb89a0ef6c60cd1e85c5fb562f9fcfe0f320d6ab3703a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0305.1.tif",
+          "sha256": "1b213b3dda30b40a788455b37db0970cafce4ab907e6a683b2394f7cb25ce20f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0306.1.tif",
+          "sha256": "019d271248ad0ccfb483b06f369cdb1e03c9da462ab5482ca51a9a762202b1dd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0307.1.tif",
+          "sha256": "78af20697e520576d6c6c0139483f4c64a5a0d4ff9829b0009af942d6983fc77"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 4:2/3 och 4:23/24 över sidgränserna. R262 rättar del till de i 4:17; R263 återställer meningspunkt före Ty i 4:27. V144 sparar gränsen 4:12–13; ord och koordinater behålls tills ett annat tryck har jämförts. Punkt/komma i 4:18 behålls. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V144 i sv1917-nt-questions/batch-6.md; inga ändringar av frågornas ord. Införda rättelser: R262, R263."
+    },
+    {
+      "book": "Gal",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "f429570d1e1041733955e06d97131a90bdf370cc8913ca72e1221e48bacf5c5a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0307.1.tif",
+          "sha256": "78af20697e520576d6c6c0139483f4c64a5a0d4ff9829b0009af942d6983fc77"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0308.1.tif",
+          "sha256": "915df1f336aac82de6a79d1b44b26c88f9347e48413bfdc494e26d1221e1e354"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 5:1 över spaltgränsen och 5:12/13 över sidgränsen. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Gal",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "796adcdccf9cbf405aa3ca7e639263d857cc9ce536fe7576ef921e5a5ab7c888",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0308.1.tif",
+          "sha256": "915df1f336aac82de6a79d1b44b26c88f9347e48413bfdc494e26d1221e1e354"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0309.1.tif",
+          "sha256": "e15db1a37dba57c9919200464ab3dd3ce67fd48ee14c6a91e339e21e6856d93f"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 6:8/9 över sidgränsen och 6:13/14 över spaltgränsen. Inga nya rättelser eller olösta frågor. Originalupplösningen bekräftar undervisar i 6:6. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Eph",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "e1894f1f5b4e40c76214f7e3a267167898bae0557f889271d3b10be46975daf6",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0309.1.tif",
+          "sha256": "e15db1a37dba57c9919200464ab3dd3ce67fd48ee14c6a91e339e21e6856d93f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0310.1.tif",
+          "sha256": "dfea2859e213c101de1c97b4a95229d5aaaf677224ede5542568979073678894"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 1:3/4 och 1:17/18 över spaltgränserna samt 1:7/8 över sidgränsen. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Eph",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "ecff3b84a93f5e3a76d08e2b80a8e80c7253f228ffd360a996cd2db98494ab64",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0310.1.tif",
+          "sha256": "dfea2859e213c101de1c97b4a95229d5aaaf677224ede5542568979073678894"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0311.1.tif",
+          "sha256": "856d5cd1b63485509cda88ef82e2d942a3e41ad9a510547267c31caa3200769d"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 2:2/3 över sidgränsen och 2:12/13 över spaltgränsen. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Eph",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "13a22e616c5ebc7feb05f9272c0a75b24451862b9a85401e0652f6c0a702529d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0312.1.tif",
+          "sha256": "d965607c98271d1fe8774a039298b9d845067fa8fa3fafddf0d5742de89d396f"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 3:9 över spaltgränsen. Komma/inget skiljetecken vid 3:18–19 behålls. Inga nya rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Eph",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "f69d39076fdb8d07e3ba65edb51b774123fbbb7d04e09820ddebd54b411efbad",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0313.1.tif",
+          "sha256": "95e1631c413c4efaf7d3b1c556daa24c16d48a20d6006b0c69c0b012bc4c22a9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0314.1.tif",
+          "sha256": "d1fd9ba2d6ea80fa4e7698009b845813e54c6c64702c26990a873a1aa5699d4c"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 4:11 över spaltgränsen och 4:19/20 över sidgränsen. Versgränsen 4:5–6 bekräftas; en Gud som är allas Fader hör till vers 5 även i trycket. Inga rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Eph",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "21b3df78f6524bd5a9806f2f611f96cf136608321cefa6bbbf0b66d79a8a16aa",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0314.1.tif",
+          "sha256": "d1fd9ba2d6ea80fa4e7698009b845813e54c6c64702c26990a873a1aa5699d4c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0315.1.tif",
+          "sha256": "0ed40ff893455e30fdc41a30fb6cbfa2df6d72a3685e2e509029511a7786eb5e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0316.1.tif",
+          "sha256": "17dcfddec173d87a13ee5e3837ca22d6c3a0432f29ca861e29a3a10efcb7d453"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 5:1–2 före kapitelrubriken och 5:8/9 samt 5:32/33 över sidgränserna. Eder i 5:2 bekräftat i trycket. Inga rättelser eller olösta frågor. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Eph",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "4f3066c624364597af01e988004511e6d2028d913bd344873d3d7d336da4593b",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0316.1.tif",
+          "sha256": "17dcfddec173d87a13ee5e3837ca22d6c3a0432f29ca861e29a3a10efcb7d453"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0317.1.tif",
+          "sha256": "520e8f3cf53d5da2f5217c12b98b3c6c8a866df4b2a2dcb12ae5ed178a17db68"
+        }
+      ],
+      "notes": "Hela kapitlet jämfört, inklusive 6:9 och 6:21 över spaltgränserna och 6:18/19 över sidgränsen. Inga rättelser eller olösta frågor. Hela Efesierbrevet verifierat utan nya rättelser. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
     }
   ],
   "unnumbered": [

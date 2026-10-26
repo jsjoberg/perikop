@@ -9,5 +9,6 @@ Användaren är borta från boken; **ingen åtgärd behövs nu**. Här samlas fr
 | [NT 3](batch-3.md) | Romarbrevet 1–16 | 4, V133–V136 | 3:7–8; 6:20–21; 9:15; 16:26 |
 | [NT 4](batch-4.md) | Första Korinthierbrevet 1–16 | 5, V137–V141 | 1:3; 2:2; 7:23; 11:28; 15:19 |
 | [NT 5](batch-5.md) | Andra Korinthierbrevet 1–13 | 2, V142–V143 | 5:14; 6:16 |
+| [NT 6](batch-6.md) | Galaterbrevet 1–6; Efesierbrevet helt verifierat | 1, V144 | Gal. 4:12–13 |
 
-Alla tjugoen frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
+Alla tjugotvå frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
