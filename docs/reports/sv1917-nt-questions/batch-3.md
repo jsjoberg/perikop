@@ -1,13 +1,13 @@
 # NT-fotobunt 3: Romarbrevet
 
-**Uppdaterad 2026-10-26.** V133 är löst mot användarens foto och kapitel 3 verifierat. Tre frågor V134–V136 i kapitel 6, 9 och 16 återstår; de är inte fastställda fel. Hela Romarbrevet är bildläst och tretton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Uppdaterad 2026-10-26.** V133–V134 är lösta mot användarens foton och kapitel 3 och 6 verifierade. Två frågor V135–V136 i kapitel 9 och 16 återstår; de är inte fastställda fel. Hela Romarbrevet är bildläst och fjorton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
 
-När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. **V134 behöver både 6:20 och 6:21**, eftersom frågorna gäller gränsen mellan verserna. Frågornas ord och alla koordinater behålls. Originalupplösningen bekräftar båda de i 8:5 och till i 12:7 utan fotofrågor. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
+När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V133–V134:s versgränser är nu avgjorda; inga fler foton behövs för dem. Frågornas ord och alla koordinater behålls. Originalupplösningen bekräftar båda de i 8:5 och till i 12:7 utan fotofrågor. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
 
 | Fråga | Vers | Korpus / EFS 1927 |
 | --- | --- | --- |
 | [V133](#v133), löst | Rom. 3:7–8 | Versgräns 3:7–8: Och varför skulle vi icke ligger i v. 8 / Versgräns 3:7–8: Och varför skulle vi icke ligger i v. 7 |
-| [V134](#v134) | Rom. 6:20–21 | Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 21 / Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 20 |
+| [V134](#v134), löst | Rom. 6:20–21 | Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 21 / Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 20 |
 | [V135](#v135) | Rom. 9:15 | Han säger ju till Moses: / Han säger ju till Mose: |
 | [V136](#v136) | Rom. 16:26 | den eviga Gudens befallning / den evige Gudens befallning |
 
@@ -47,13 +47,17 @@ Originalfotots SHA-256 `7f6685e73e99ff8c53e7a7667b3bc8554f9a0db503345c6720b557b4
 
 **6:21:** men vilken frukt skördaden I då därav? Jo, det som I nu blygens för; änden på sådant är ju döden.
 
-**Foto till senare:** hela 6:20–21 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** båda verserna och numren synliga. Ingen ytterligare bild behövs för V134.
 
 ![V134, direkt scanutsnitt från NT s. 247](V134.png)
 
 [Full sida, NT s. 247](https://runeberg.org/bibeln/efs1927/nt/0247.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0247.1.tif`; SHA-256 `42aa62113b42a8585e2b511148b8ea9448f1fcc9f1dd104db22122b80ad95baf`. Utsnittets SHA-256 `d6fd6d5c6a441394a7463706215ff74c9aa06d69274bac9b47e300dbb59939c6`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-26. Användarens originalfoto visar 6:20 och 6:21 med båda numren, fotograferat sidledes. Bilden kan läsas genom att vrida den 90 grader moturs. men vilken frukt skördaden I då därav? börjar uttryckligen v. 21, som i korpusen; EFS 1927 har dessa ord i v. 20. Text och koordinater behålls som belagd tryckvariant. Verspostens hash låser 6:21; den oförändrade kapitelhashen låser även 6:20 och hela gränsen. Inget rättelse-ID. Bedömningen bygger på originalfotot; en roterad visningsbild används inte som källbevis.
+
+![V134, bevarat originalfoto i ursprunglig orientering](../sv1917-print-witnesses/V134.jpg)
+
+Originalfotots SHA-256 `960938294778add62bf5305a69712718bb30736e5114e7c2070006b83757f5d2`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
 
 ## V135
 

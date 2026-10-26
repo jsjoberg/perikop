@@ -6248,7 +6248,7 @@
     {
       "book": "Rom",
       "chapter": 6,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 23,
       "text_sha256": "bb274e54764c5e8ed67d3b0477e0428557cf52ff2c71cbb66230be661201245b",
       "checked_at": "2026-10-26",
@@ -6263,7 +6263,7 @@
           "sha256": "42aa62113b42a8585e2b511148b8ea9448f1fcc9f1dd104db22122b80ad95baf"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 6:3/4 över sidgränsen. V134 gäller gränsen 6:20–21; ord och koordinater behålls. Tryckets versala I i 6:12 harmoniseras inte med korpusens preposition i. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V134 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord."
+      "notes": "Hela kapitlet jämfört, inklusive 6:3/4 över sidgränsen. V134 avgjord mot användarens originalfoto: båda versnumren bekräftar korpusens 6:20–21-gräns. Ord och koordinater behålls. Tryckets versala I i 6:12 harmoniseras inte med korpusens preposition i. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V134."
     },
     {
       "book": "Rom",
@@ -9402,6 +9402,23 @@
       "photo_sha256": "7f6685e73e99ff8c53e7a7667b3bc8554f9a0db503345c6720b557b4d5066b6d",
       "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat utan beskärning eller omkodning.",
       "notes": "Användarens foto visar hela 3:7 och 3:8 med båda numren. Och varför skulle vi icke börjar uttryckligen v. 8, som i korpusen; EFS 1927 har dessa ord sist i v. 7. Båda versernas text och koordinater behålls som belagd tryckvariant. Verspostens hash låser 3:8; den oförändrade kapitelhashen låser även 3:7 och hela gränsen. Inget rättelse-ID."
+    },
+    {
+      "id": "V134",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Rom",
+      "chapter": 6,
+      "verse": 21,
+      "status": "resolved",
+      "reading": "men vilken frukt skördaden I då därav?",
+      "text_sha256": "dcb4fc3b3a4c2476eb4a8baf883147f323d6a1a9b4e347daf4a37979729331cb",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V134.jpg",
+      "photo_sha256": "960938294778add62bf5305a69712718bb30736e5114e7c2070006b83757f5d2",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat byteidentiskt, med ursprunglig orientering, utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar 6:20 och 6:21 med båda numren, fotograferat sidledes. Bilden kan läsas genom att vrida den 90 grader moturs. men vilken frukt skördaden I då därav? börjar uttryckligen v. 21, som i korpusen; EFS 1927 har dessa ord i v. 20. Text och koordinater behålls som belagd tryckvariant. Verspostens hash låser 6:21; den oförändrade kapitelhashen låser även 6:20 och hela gränsen. Inget rättelse-ID. Bedömningen bygger på originalfotot; en roterad visningsbild används inte som källbevis."
     }
   ]
 }
