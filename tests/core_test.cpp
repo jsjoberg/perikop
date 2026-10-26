@@ -1143,12 +1143,38 @@ int main(int argc, char** argv) {
                  {"Mark", {11, 3}, "sända den tillbaka hit.»", "sända den tillbaka hit.'»"},
                  {"Mark", {13, 34}, "bjuder portvaktaren att vaka.", "bjuder portvaktaren att vaka,"},
                  {"Mark", {16, 7}, "såsom han bar sagt eder", "såsom han har sagt eder"},
+                 {"Luke", {1, 70}, "sin forntida heliga profeters mun", "sina forntida heliga profeters mun"},
+                 {"Luke", {1, 73}, "lovat för vår fader Abraham,", "lovat för vår fader Abraham."},
+                 {"Luke", {3, 4}, "i öknen: Bereden vägen", "i öknen: 'Bereden vägen"},
+                 {"Luke", {3, 14}, "Vad skola då vi göra? Han", "Vad skola då vi göra?» Han"},
+                 {"Luke", {3, 16}, "tog till orda och sade: till dem alla:", "tog till orda och sade till dem alla:"},
+                 {"Luke", {3, 22}, "över honom I lekamlig skepnad", "över honom i lekamlig skepnad"},
+                 {"Luke", {4, 16}, "in i synagogan: och där", "in i synagogan; och där"},
+                 {"Luke", {4, 25}, "på Elias' tid då himmelen", "på Elias' tid – då himmelen"},
+                 {"Luke", {5, 31}, "»De är icke de friska", "»Det är icke de friska"},
+                 {"Luke", {6, 2}, "Då sade några av fariséerna; »Huru kunnen I göra vad som icke är lovligt att göra på sabbaten?", "Då sade några av fariséerna: »Huru kunnen I göra vad som icke är lovligt att göra på sabbaten?»"},
+                 {"Luke", {6, 20}, "och säg på sina lärjungar", "och såg på sina lärjungar"},
+                 {"Luke", {6, 23}, "På samma satt gjorde", "På samma sätt gjorde"},
+                 {"Luke", {6, 26}, "gjorde ju deras fader i fråga", "gjorde ju deras fäder i fråga"},
+                 {"Luke", {6, 42}, "att du kan tala ut grandet", "att du kan taga ut grandet"},
+                 {"Luke", {7, 7}, "värdig att komma till dig Men säg", "värdig att komma till dig. Men säg"},
+                 {"Luke", {7, 16}, "och sade: Den stor profet", "och sade: »En stor profet"},
+                 {"Luke", {7, 20}, "När mannen kommo fram", "När männen kommo fram"},
+                 {"Luke", {7, 43}, "»Rätt dömde du»", "»Rätt dömde du.»"},
+                 {"Luke", {8, 10}, "för att de med seende ögon", "för att de 'med seende ögon"},
+                 {"Luke", {8, 20}, "Din moder och dina broder", "Din moder och dina bröder"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
+        check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
+              "Luke 3:9 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),
+              "Luke 7:40 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Luke", {8, 44})->text.ends_with("strax stannade hennes blodgång."),
+              "Luke 8:44 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Mark", {10, 12})->text.ends_with("då begår hon äktenskapsbrott.»"),
               "Mark 10:12 closes Jesus' reply before the following narration");
         check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,

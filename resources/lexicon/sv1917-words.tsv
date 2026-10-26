@@ -1,6 +1,6 @@
 # form	occurrences	kind	nst_sampa
 och	39656	word	"Ok
-i	15973	word	
+i	15974	word	
 till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
@@ -24,7 +24,7 @@ honom	6737	word	""hO$nOm
 har	6697	word	"hA:r
 du	6355	word	"d}:
 sig	5118	word	"sEj
-I	4770	word	"i:
+I	4769	word	"i:
 dig	4735	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
@@ -34,7 +34,7 @@ hans	4174	word	"hans
 eder	3862	word	""e:$der
 om	3668	word	"Om
 var	3649	word	"vA:r
-sin	3469	word	"sIn
+sin	3468	word	"sIn
 då	3466	word	"do:
 Men	3401	word	"mEn
 alla	3209	word	
@@ -56,7 +56,7 @@ hava	2415	word	""hA:$va
 skola	2386	word	""sku:$la
 deras	2223	word	""de:$ras
 mot	2217	word	"mu:t
-sina	2216	word	""si:$na
+sina	2217	word	""si:$na
 ty	2208	word	"ty:
 där	2157	word	
 efter	2134	word	
@@ -146,7 +146,7 @@ kommer	880	word	"kO$mer
 gjorde	869	word	""ju:$d`e
 kan	866	word	"kA:n
 män	863	word	"mEn
-De	853	word	"dE
+De	852	word	"dE
 tid	823	word	"ti:d
 jorden	819	word	"ju:$d`en
 själv	816	word	"x\Elv
@@ -171,17 +171,17 @@ Mose	718	name
 får	718	word	"fo:r
 två	715	word	"tvo:
 gav	688	word	"gA:v
-fader	682	word	""fA:$der
 huru	682	word	""h}:$r}:
+fader	681	word	""fA:$der
 ögon	680	word	""2:$gOn
 låta	677	word	""lo:$ta
-Den	673	word	
+Den	672	word	
 tog	672	word	"tu:g
 dagen	670	word	"dA:$gen
 ja	655	word	"jA:
 hundra	648	word	"hu0n$dra
 landet	645	word	"land$det
-taga	636	word	""tA:$ga
+taga	637	word	""tA:$ga
 haven	633	word	"hA:$ven
 intet	633	word	""In$tet
 gör	629	word	"j2:r
@@ -192,7 +192,7 @@ väl	621	word	"vE:l
 tusen	618	word	"t}:$sen
 år	616	word	"o:r
 bliver	603	word	"bli:$ver
-Det	596	word	
+Det	597	word	
 höra	594	word	""h2:$ra
 fick	593	word	"fIk
 Se	586	word	"se:
@@ -205,7 +205,7 @@ många	575	word
 åstad	575	word	O$"stA:d
 emot	573	word	
 stor	569	word	"stu:r
-bröder	560	word	"br2:$der
+bröder	561	word	"br2:$der
 skull	556	word	"sku0l
 omkring	546	word	
 ända	545	word	""En$da
@@ -222,8 +222,8 @@ dagar	485	word	""dA:$gar
 Sedan	482	word	""se:$dan
 Vad	482	word	"vA:d
 talade	482	word	""tA:$la$de
+såg	479	word	"so:g
 hålla	478	word	""hO$la
-såg	478	word	"so:g
 kvar	477	word	"kvA:r
 äta	473	word	""E:$ta
 måste	472	word	""mO$ste
@@ -238,13 +238,13 @@ vare	443	word	""vA:$re
 rätt	441	word	"rEt
 Därefter	437	word	dE:r$""Ef$ter
 sju	433	word	"x\}:
-tala	432	word	""tA:$la
 allenast	431	word	a$""le:$nast
 givit	431	word	""ji:$vIt
 stora	431	word	""stu:$ra
+tala	431	word	""tA:$la
 Därför	425	word	"dE:r$f9r
+En	425	word	"En
 stå	425	word	"sto:
-En	424	word	"En
 ville	424	word	""vI$le
 guld	415	word	"gu0ld
 heller	412	word	"hE$ler
@@ -269,7 +269,7 @@ stod	384	word	"stu:d
 HERRE	383	word	""hE$re
 vilken	383	word	""vIl$ken
 herre	375	word	""hE$re
-broder	374	word	""bru:$der
+broder	373	word	""bru:$der
 heliga	373	word	""he:$lI$ga
 bo	367	word	"bu:
 dit	367	word	"di:t
@@ -290,8 +290,8 @@ nåd	344	word	"no:d
 plats	343	word	"plats
 satte	341	word	""sa$te
 bud	340	word	"b}:d
+fäder	339	word	"fE:$der
 ont	339	word	"Unt
-fäder	338	word	"fE:$der
 framför	337	word	""fram$%f2:r
 svärd	337	word	"svE:d`
 veta	334	word	""ve:$ta
@@ -310,8 +310,8 @@ mun	319	word	"mu0n
 Jakob	317	name	""jA:$kOp
 Saul	315	name	"sa*Ul
 ära	308	word	""E:$ra
+sätt	306	word	"sEt
 sidan	305	word	""si:$dan
-sätt	305	word	"sEt
 vände	305	word	""vEn$de
 makt	304	word	"makt
 födde	301	word	""f9$de
@@ -350,7 +350,7 @@ arvedel	273	word	""ar$ve$%de:l
 dotter	273	word	""dO$ter
 tillsammans	272	word	tIl$"sa$mans
 fem	270	word	"fEm
-mannen	269	word	"ma$nen
+mannen	268	word	"ma$nen
 ande	267	word	""an$de
 runt	267	word	"ru0nt
 fyra	266	word	""fy:$ra
@@ -391,8 +391,8 @@ Sebaot	241	name
 lik	241	word	"li:k
 alnar	239	word	""A:l$nar
 bjudit	238	word	""bj}:$dIt
-satt	238	word	"sat
 äldste	238	word	""El$ste
+satt	237	word	"sat
 döttrar	236	word	""d9$trar
 berg	235	word	"bErj
 Låt	234	word	"lo:t
@@ -509,9 +509,9 @@ tjänst	183	word	"s'Enst
 fastän	181	word	"fa$stEn
 leviterna	181	word	le$"vi:$te$n`a
 låg	181	word	"lo:g
+männen	181	word	"mE$nen
 finna	180	word	""fI$na
 judarna	180	word	""j}:$da$n`a
-männen	180	word	"mE$nen
 stället	180	word	""stE$let
 söka	179	word	""s2:$ka
 fanns	178	word	"fans
@@ -539,9 +539,9 @@ vårt	167	word	"vo:t`
 Må	166	word	"mo:
 finnas	166	word	""fI$nas
 nära	166	word	""nE:$ra
-säg	166	word	"sEj
 Är	166	word	"E:r
 Paulus	165	name	"pa*U$lu0s
+säg	165	word	"sEj
 Av	163	word	
 fruktan	163	word	""fru0k$tan
 berget	162	word	"bEr$jet

@@ -4404,6 +4404,202 @@
         }
       ],
       "notes": "Hela 16:1–20 bildjämförd, sidgräns mellan 16:17–18, spaltgräns mellan 16:7–8 och inne i 16:19. R051 bar→har i 16:7. V037 vit i 16:5 och V038 när/där i 16:14 sparade. Hakparentes mot rund parentes runt 16:9–20 bevaras enligt befintlig e-textnotation; noterna importeras inte som verser. Normala komma- och citattypografiska skillnader behållna."
+    },
+    {
+      "book": "Luke",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 80,
+      "text_sha256": "e2f5b7734a0e8220932cd2167466025013bcfe0c70b448c1f76ddb983bbb14c0",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0088.1.tif",
+          "sha256": "36f31ebf5e21e67ae47b93f04978ec23694771ebcbe56a7b9b1adeb72eab6c8d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0089.1.tif",
+          "sha256": "0604f6fb0187827d874fb1c99bcc6217d6674d88d9530dfdd4c49ad487506cb9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0090.1.tif",
+          "sha256": "59ecff142aeac378ba042c0e34ad18e83bdf661abd23d25916cd80b166c35eb3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0091.1.tif",
+          "sha256": "7dca5bee022de7344903655951d5342d5bcdad60746f4f73a095c79e6d2daa31"
+        }
+      ],
+      "notes": "Hela 1:1–80 bildjämförd. Sidgränser mellan 1:16–17, i 1:39 och mellan 1:65–66; spaltfortsättning i 1:27, mellan 1:52–53 och 1:77–78. R052 sin→sina i 1:70 och R053 avslutande punkt i 1:73 bekräftade i originalupplösning. V039 från begynnelsen i 1:2, V040 det i 1:9, V041 fylld/uppfylld i 1:41, V042 Elisabet/Elisabeth i 1:57 och V043 för i 1:73 sparade till annat tryck. 1:28 högtbenådade/högt benådade och Magnificats citattypografi 1:46 behållna; vanliga kommaskillnader bevarade."
+    },
+    {
+      "book": "Luke",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 52,
+      "text_sha256": "801fc159f3c5e8f7c33029d37e4630909940f35247dfcd14f5841cae429de42a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0091.1.tif",
+          "sha256": "7dca5bee022de7344903655951d5342d5bcdad60746f4f73a095c79e6d2daa31"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0092.1.tif",
+          "sha256": "df289bb3b12f387301686ee3f8872a520435c337d387a460d3064065f5cf471d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0093.1.tif",
+          "sha256": "ece1d53c8459936e871989fd59a4d330faf59b3c168a2c3a0351b16d629e6b4c"
+        }
+      ],
+      "notes": "Hela 2:1–52 bildjämförd, sidfortsättning i 2:7 och mellan 2:30–31, spaltgräns i 2:20 och mellan 2:40–41. V044 där i 2:15, V045 hade i 2:20, V046 duvor/turturduvor i 2:24. Kvirinius, reningsdagar, Simeon, Fanuels, Asers och övriga ord bekräftade. Normal kommatering och citattypografi (2:35) behållna; alternativnoten till 2:52 är inte löptext."
+    },
+    {
+      "book": "Luke",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 38,
+      "text_sha256": "8596abdfaa44cddda871f7e72c083f5787db3f1cccc530bd57bdf3ca366c3849",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0094.1.tif",
+          "sha256": "fa5caf49e0206947666e96c77fba7a279095f681afa6ecbd9d43b754f080d06a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0095.1.tif",
+          "sha256": "de27edb5db7f8b3b8d568dc8b0b0ee1c675aabda38beff0dc28c173dc96c18ee"
+        }
+      ],
+      "notes": "Hela 3:1–38 bildjämförd inklusive alla släkttavlans namn. Sidgräns mellan 3:17–18; spaltfortsättningar i 3:8 och 3:28. R054 öppnande inre apostrof i 3:4, R055 avslutande citat i 3:9, R056 avslut efter frågan i 3:14, R057 främmande kolon i 3:16 och R058 I→i i 3:22. V048 en/den i 3:11. Trakonitis-landet/Trakonitislandet särskrivning med bindestreck, stort Ty efter semikolon i 3:8, kommatering efter Jaret i 3:37 och slutpunkt mot komma 3:38 behållna som typografiska/interpunktionsskillnader. V047 på/i i 3:9 sparat; R055 återställer endast citatavslutet."
+    },
+    {
+      "book": "Luke",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 44,
+      "text_sha256": "4d4c2d1ffa03640bedce20dcd132cb9ee6e856dec11a16f054320a32a4cd752a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0096.1.tif",
+          "sha256": "1dfc297ae725f6ea950212ccb101260e98e642b22bcc662713af068c6cfc4e54"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0097.1.tif",
+          "sha256": "4f13a03f9b9323bce237501ae9faa24233e5c5da46b99ea2ee19a7b6324afe03"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0098.1.tif",
+          "sha256": "0e1ca0ab8a0051194ddcd689ac182ef51536f73f7754045490cc6ed3208fb8f0"
+        }
+      ],
+      "notes": "Hela 4:1–44 bildjämförd; sidgräns mellan 4:21–22 och fortsättning i 4:41, spaltgräns mellan 4:10–11 och fortsättning i 4:32. R059 kolon→semikolon i 4:16 och R060 återställt första tankstreck för inskottet i 4:25. V049 att/och i 4:10, V050 satt/sänt i 4:18 och V051 tillsade/tillstadde i 4:41. Sarepta, Sidons land, Naiman, Judeen i 4:44 och övriga ord bekräftade. Normala komma- och citattypografiska skillnader bevarade."
+    },
+    {
+      "book": "Luke",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 39,
+      "text_sha256": "735b2d914d195f81d334bf24220002fc2cf7cbc5ac812f8e1e3fea7d0334ec7a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0098.1.tif",
+          "sha256": "0e1ca0ab8a0051194ddcd689ac182ef51536f73f7754045490cc6ed3208fb8f0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0099.1.tif",
+          "sha256": "cbc6fdc586ae5397f72c4a3f925295bf4a2e750e395b30dc9531ef91238b2aa5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0100.1.tif",
+          "sha256": "a28d4e6a5c4df3187d04478f02cb3b8ba476143d676d2ac11a93037b9ef4fc90"
+        }
+      ],
+      "notes": "Hela 5:1–39 bildjämförd, sidfortsättningar i 5:17 och 5:37, spaltfortsättningar i 5:7 och 5:27. R061 De→Det i 5:31. V052 Gennesarets/Genesarets i 5:1, V053 från/ifrån i 5:3 och V054 begynte/begynta i 5:7 bekräftade i originalupplösning och sparade till annat tryck. Källa och e-text saknar båda citatavslut vid 5:32; inget skapas före ytterligare tryckstöd. Normal kommatering och källans fördelning av repliken i 5:24 behållna."
+    },
+    {
+      "book": "Luke",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 49,
+      "text_sha256": "cc51179d9f0925c82d5cdd0759448db477810655d0d2b88826ae9a83dd78f8f9",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0100.1.tif",
+          "sha256": "a28d4e6a5c4df3187d04478f02cb3b8ba476143d676d2ac11a93037b9ef4fc90"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0101.1.tif",
+          "sha256": "35fc15d8e83c783d83ac195933ffed4510ee521c5b0dbb114b4340cb86400ec8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0102.1.tif",
+          "sha256": "5dec45263f5b0bb6ca95d0a88d811e4fb5d0f97dad778f58c42bdecf6cece21e"
+        }
+      ],
+      "notes": "Hela 6:1–49 bildjämförd, sidgräns mellan 6:17–18 och fortsättning i 6:38; spaltgräns mellan 6:7–8, fortsättning i 6:28 och 6:47. R062 kolon och citatavslut i 6:2, R063 säg→såg i 6:20, R064 satt→sätt i 6:23, R065 fader→fäder i 6:26 samt R066 tala→taga i 6:42. V055 nu i 6:17 och V056 väl i 6:48. Apostlanamnen, ursinniga, hugnad och hälleberget bekräftade. Paragrafens upprepade citatöppning i tryckets 6:27 harmoniseras inte; övriga normala kommaskillnader behållna."
+    },
+    {
+      "book": "Luke",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 50,
+      "text_sha256": "78a30495de2d672f1991d4c33c1b083a8c1112230371d3461e11e49bce0eb55d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0102.1.tif",
+          "sha256": "5dec45263f5b0bb6ca95d0a88d811e4fb5d0f97dad778f58c42bdecf6cece21e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0103.1.tif",
+          "sha256": "572bae9e5f9590a340af6664467ddd02a818ecc75bf03fe4a1c5b8f8c1787a2c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0104.1.tif",
+          "sha256": "fc5586bdfa7f616512e1f41091143152e4d5c5eb233d31bb210d082951f8198f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0105.1.tif",
+          "sha256": "d604bb6d1073c114ccd86897fe39346fa1a9d5e07ff4859eabad63c0bea02a08"
+        }
+      ],
+      "notes": "Hela 7:1–50 bildjämförd, sidgränser mellan 7:6–7, fortsättningar i 7:27 och 7:47, spaltgräns mellan 7:17–18 och 7:37–38. R067 meningspunkt i 7:7, R068 Den stor→»En stor i 7:16, R069 mannen→männen i 7:20, R070 citatavslut i 7:40 och R071 punkt i 7:43. Nain, lagkloke, kräslighet, Visheten och övriga ord bekräftade. Normal kommatering och citattypografi behållna. Ingen öppen ordläsningsfråga."
+    },
+    {
+      "book": "Luke",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 56,
+      "text_sha256": "9fd92af62bfc62b86499b2a92e28ae1438d2f599df1ad069dcac7d922bbaa4ad",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0105.1.tif",
+          "sha256": "d604bb6d1073c114ccd86897fe39346fa1a9d5e07ff4859eabad63c0bea02a08"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0106.1.tif",
+          "sha256": "d76f26a2d9263bb0b59d312d4ca0bdcb7f919347ab6b5153f0bea1bbb8141e64"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0107.1.tif",
+          "sha256": "13507cb7115b8b0e5d84c9f83d50528fdfa1a3e6bd27aeda102077e7201a7212"
+        }
+      ],
+      "notes": "Hela 8:1–56 bildjämförd, sidfortsättning i 8:16 och gräns mellan 8:34–35, spaltgräns mellan 8:6–7, fortsättning i 8:25 och 8:44. R072 öppnande inre apostrof i 8:10, R073 broder→bröder i 8:20 och R074 meningspunkt i 8:44. V057 igenom/genom i 8:1, V058 då i 8:35, V059 sett/åsett i 8:36, V060 gerasenernas/gerassenernas i 8:37 bekräftade i originalupplösning och sparade till annat tryck. Kusas, Susanna, Legion, Jairus, tillstädja och övriga ord bekräftade; son/Son i 8:28 och vanliga komma-/citatskillnader behållna. Originalupplösningen bekräftar ditin i 8:51 utan foto."
     }
   ],
   "unnumbered": [
