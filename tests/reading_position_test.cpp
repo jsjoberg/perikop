@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
         }
         {
             UserDb user(path);
-            check(user.load().speech_voice == "espeak-f2" && user.completed().contains("plan:nt:1"),
+            check(user.load().speech_voices.at("sv") == "espeak-f2" && user.completed().contains("plan:nt:1"),
                   "Adding resume storage preserves existing preferences and completed readings");
             user.position(reading_key(corpus, reading), *position);
             user.position("plan:nt:2", *position);

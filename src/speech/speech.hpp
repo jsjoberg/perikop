@@ -1,11 +1,14 @@
 #pragma once
 #include "core/model.hpp"
+#include <algorithm>
 #include <functional>
 #include <memory>
 #include <utility>
 namespace ortho {
 inline bool speech_language_supported(const std::string& language) {
-    return language == "sv" || language == "en" || language == "el";
+    return std::ranges::any_of(speech_languages, [&](const auto& supported) {
+        return language == supported.code;
+    });
 }
 enum class SpeechState { Idle, Buffering, Playing, Paused, Stopped, Completed, Error };
 constexpr bool speech_active(SpeechState state) {

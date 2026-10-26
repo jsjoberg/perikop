@@ -159,6 +159,7 @@ std::vector<Source> CorpusDb::sources() const {
     return result;
 }
 std::vector<std::string> CorpusDb::source_books(const std::string& source) const {
+    std::lock_guard lock(cache_mutex_);
     std::vector<std::string> result;
     if (source == srb_source) {
         if (imported_) {

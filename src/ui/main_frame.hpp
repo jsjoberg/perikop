@@ -104,9 +104,18 @@ private:
     // Categorized settings, also reachable through the ⋮ menu.
     void show_settings();
     void fill_settings(wxScrolledWindow*);
-    int settings_category_ = 0;
+    enum class SettingsCategory { Sources, Import, Appearance, Calendar, Speech, Updates };
+    static constexpr std::pair<SettingsCategory, const char*> settings_categories_[] = {
+        {SettingsCategory::Sources, "Böcker och textkällor"},
+        {SettingsCategory::Import, "Importera PDF"},
+        {SettingsCategory::Appearance, "Utseende"},
+        {SettingsCategory::Calendar, "Kalender och läsordning"},
+        {SettingsCategory::Speech, "Uppläsning"},
+        {SettingsCategory::Updates, "Uppdateringar"}};
+    SettingsCategory settings_category_ = SettingsCategory::Sources;
     void preview_voice(const std::string& language = "sv", wxWindow* button = nullptr);
     void set_speech_rate(int);
+    void restart_speech();
     void add_content_loader(wxWindow*, wxBoxSizer*);
     void import_content();
     void remove_content();

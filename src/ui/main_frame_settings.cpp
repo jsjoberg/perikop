@@ -33,10 +33,12 @@ private:
     std::vector<SourcePreference>& preferences_;
     std::vector<Source> catalog_;
     std::map<std::string, wxString> details_;
+    std::vector<wxCheckBox*> checks_;
     bool primary_;
     std::function<void()> changed_;
     void rebuild() {
         DestroyChildren();
+        checks_.clear();
         auto* stack = new wxBoxSizer(wxVERTICAL);
         const auto enabled = std::ranges::count(preferences_, true, &SourcePreference::enabled);
         for (std::size_t i = 0; i < preferences_.size(); ++i) {
@@ -51,14 +53,7 @@ private:
                         std::swap(preferences_[i], preferences_[destination]);
                         changed_();
                         rebuild();
-                        if (auto* item = GetSizer()
-                                             ->GetItem(destination)
-                                             ->GetSizer()
-                                             ->GetItem(std::size_t{2})
-                                             ->GetSizer()
-                                             ->GetItem(std::size_t{0})
-                                             ->GetWindow())
-                            item->SetFocus();
+                        checks_[destination]->SetFocus();
                     });
                 });
                 const auto label = ui::utf8(direction < 0 ? "Flytta upp " : "Flytta ner ") + name;
@@ -68,6 +63,7 @@ private:
                 row->Add(move, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(zoomed(4)));
             }
             auto* check = new wxCheckBox(this, wxID_ANY, name);
+            checks_.push_back(check);
             check->SetFont(ui_font());
             check->SetValue(preference.enabled);
             check->SetName(ui::utf8(primary_ ? "Huvudtext, " : "Andra texten, ") + name);
@@ -207,9 +203,7 @@ void MainFrame::preview_voice(const std::string& language, wxWindow* button) {
         if (same_language)
             return;
     }
-    const auto& voice = language == "en"   ? settings_.speech_voice_en
-                        : language == "el" ? settings_.speech_voice_el
-                                           : settings_.speech_voice;
+    const auto& voice = settings_.speech_voices.at(language);
     if (espeak_voice_name(voice).empty())
         return;
     try {
@@ -251,8 +245,13 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     sections->SetMinSize({1, 1});
     wxPanel* content = nullptr;
     wxBoxSizer* entries = nullptr;
-    const auto category = [&](const char* name) {
-        const auto title = ui::utf8(name);
+    std::vector<SettingsCategory> category_keys;
+    const auto category = [&](SettingsCategory key) {
+        const auto found = std::ranges::find_if(settings_categories_, [key](const auto& entry) {
+            return entry.first == key;
+        });
+        const auto title = ui::utf8(found->second);
+        category_keys.push_back(key);
         categories->Append(title);
         auto* section = new wxScrolledWindow(sections, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                                              wxHSCROLL | wxVSCROLL | wxBORDER_NONE);
@@ -267,7 +266,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         section->SetSizer(outer);
         sections->AddPage(section, title);
     };
-    category("Böcker och textkällor");
+    category(SettingsCategory::Sources);
     const auto sources = corpus_.sources();
     std::map<std::string, wxString> source_details;
     for (const auto& source : sources) {
@@ -322,7 +321,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                   10);
     authority->Wrap(FromDIP(zoomed(440)));
     entries->Add(authority, 0, wxTOP, FromDIP(zoomed(8)));
-    category("Importera PDF");
+    category(SettingsCategory::Import);
     add_content_loader(content, entries);
     const auto choices = [&](const char* heading, std::initializer_list<const char*> names, int chosen,
                              const std::function<void(int)>& choose) {
@@ -363,7 +362,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         });
         entries->Add(choice, 0, wxBOTTOM, FromDIP(zoomed(18)));
     };
-    category("Utseende");
+    category(SettingsCategory::Appearance);
     percent_choice(
         "TEXTSTORLEK", Settings::text_zoom_steps, &Settings::text_zoom,
         [](int value) {
@@ -412,7 +411,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         settings_.theme = static_cast<Theme>(i);
         apply_settings();
     });
-    category("Kalender och läsordning");
+    category(SettingsCategory::Calendar);
     const auto day_changed = [this] {
         refresh_day();
         apply_settings();
@@ -431,39 +430,33 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 settings_.tradition = i ? Tradition::Slavic : Tradition::Greek;
                 day_changed();
             });
-    category("Uppläsning");
+    category(SettingsCategory::Speech);
     percent_choice("UPPLÄSNINGSHASTIGHET", Settings::speech_rate_steps, &Settings::speech_rate,
                    ui::rate_label, [this](int value) {
                        set_speech_rate(value);
                    });
-    struct VoiceSetting {
-        const char* language;
-        const char* name;
-        std::string Settings::* preference;
-    };
     std::string voice_error;
-    for (const auto& setting : {VoiceSetting{"sv", "SVENSKA", &Settings::speech_voice},
-                                VoiceSetting{"en", "ENGELSKA", &Settings::speech_voice_en},
-                                VoiceSetting{"el", "GREKISKA", &Settings::speech_voice_el}}) {
-        const std::string language = setting.language;
-        const auto* name = setting.name;
-        const auto preference = setting.preference;
+    for (const auto& setting : speech_languages) {
+        const std::string language = setting.code;
+        const auto name = ui::utf8(setting.name).Upper();
         std::vector<EspeakVoice> voices;
         try {
             voices = Espeak::voices(language);
             if (voices.empty())
-                voice_error += std::string("Inga eSpeak-röster hittades för ") + name + ". ";
+                voice_error += "Inga eSpeak-röster hittades för " + std::string(setting.name) + ". ";
         } catch (const std::exception& error) {
-            voice_error = error.what();
+            if (voice_error.find(error.what()) == std::string::npos)
+                voice_error += std::string(error.what()) + " ";
         }
-        auto chosen = std::ranges::find(voices, (settings_.*preference), &EspeakVoice::id);
+        auto chosen = std::ranges::find(voices, settings_.speech_voices.at(language), &EspeakVoice::id);
         const auto available_count = voices.size();
         if (chosen == voices.end()) {
             // Preserve the preference if its voice was removed or eSpeak is temporarily unavailable.
-            voices.push_back({(settings_.*preference), (settings_.*preference) + " (inte tillgänglig)"});
+            voices.push_back({settings_.speech_voices.at(language),
+                              settings_.speech_voices.at(language) + " (inte tillgänglig)"});
             chosen = std::prev(voices.end());
         }
-        entries->Add(ui::label(content, ui::utf8(name), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
+        entries->Add(ui::label(content, name, 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
         auto* voice_choice = new wxChoice(content, wxID_ANY);
         voice_choice->SetFont(ui_font());
         voice_choice->SetName(ui::utf8("Röst för uppläsning, ") + ui::speech_language_name(language));
@@ -485,19 +478,19 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                                button_size.y});
         voice_try->SetToolTip(ui::utf8("Läs Johannes 3:16 med den valda eSpeak-rösten."));
         voice_try->Enable(std::size_t(voice_choice->GetSelection()) < available_count &&
-                          !espeak_voice_name((settings_.*preference)).empty());
+                          !espeak_voice_name(settings_.speech_voices.at(language)).empty());
         if (voice_preview_language_ == language)
             voice_preview_button_ = voice_try;
-        voice_choice->Bind(wxEVT_CHOICE, [this, language, preference, voices, available_count,
-                                          voice_try](wxCommandEvent& event) {
-            if (voice_preview_)
-                stop_speech(false);
-            (settings_.*preference) = voices.at(std::size_t(event.GetSelection())).id;
-            speech_->set_voice((settings_.*preference), language);
-            voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
-                              !espeak_voice_name((settings_.*preference)).empty());
-            apply_settings();
-        });
+        voice_choice->Bind(
+            wxEVT_CHOICE, [this, language, voices, available_count, voice_try](wxCommandEvent& event) {
+                if (voice_preview_)
+                    stop_speech(false);
+                settings_.speech_voices.at(language) = voices.at(std::size_t(event.GetSelection())).id;
+                speech_->set_voice(settings_.speech_voices.at(language), language);
+                voice_try->Enable(std::size_t(event.GetSelection()) < available_count &&
+                                  !espeak_voice_name(settings_.speech_voices.at(language)).empty());
+                apply_settings();
+            });
         auto* voice_row = new wxBoxSizer(wxHORIZONTAL);
         voice_row->Add(voice_choice, 1, wxALIGN_CENTER_VERTICAL);
         voice_row->Add(voice_try, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(12)));
@@ -527,7 +520,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     });
     entries->Add(highlight);
     entries->AddSpacer(FromDIP(zoomed(18)));
-    category("Uppdateringar");
+    category(SettingsCategory::Updates);
     add_update_controls(content, entries);
     choices("UPPDATERINGSKANAL", {"Utgåvor (rekommenderas)", "Nattbyggen (experimentella)"},
             settings_.update_channel == UpdateChannel::Nightly, [this](int i) {
@@ -537,13 +530,14 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 updater_->reset();
             });
     categories->SetMinSize({categories->GetBestSize().x + FromDIP(zoomed(20)), 1});
-    categories->SetSelection(settings_category_);
-    sections->SetSelection(settings_category_);
-    categories->Bind(wxEVT_LISTBOX, [this, sections](wxCommandEvent& event) {
+    const int selected = int(std::ranges::find(category_keys, settings_category_) - category_keys.begin());
+    categories->SetSelection(selected);
+    sections->SetSelection(selected);
+    categories->Bind(wxEVT_LISTBOX, [this, sections, category_keys](wxCommandEvent& event) {
         if (voice_preview_)
             stop_speech(false);
-        settings_category_ = event.GetSelection();
-        sections->SetSelection(settings_category_);
+        settings_category_ = category_keys.at(std::size_t(event.GetSelection()));
+        sections->SetSelection(event.GetSelection());
     });
     auto* outer = new wxBoxSizer(wxHORIZONTAL);
     outer->Add(categories, 0, wxEXPAND | wxTOP | wxBOTTOM | wxLEFT, FromDIP(zoomed(16)));
@@ -552,19 +546,22 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     ui::recolor(page, palette(settings_.theme));
     for (std::size_t i = 0; i < sections->GetPageCount(); ++i) {
         auto* section = static_cast<wxScrolledWindow*>(sections->GetPage(i));
-        std::vector<std::pair<wxStaticText*, wxString>> paragraphs;
-        for (auto* child : section->GetChildren().front()->GetChildren())
-            if (auto* label = wxDynamicCast(child, wxStaticText); label && label != update_text_.get()) {
-                auto text = label->GetLabel();
-                text.Replace("\n", " ");
-                paragraphs.emplace_back(label, text);
-            }
-        section->Bind(wxEVT_SIZE, [this, section, paragraphs](wxSizeEvent& event) {
+        section->Bind(wxEVT_SIZE, [this, section](wxSizeEvent& event) {
             const int width = std::max(1, event.GetSize().x - FromDIP(zoomed(64)));
-            for (const auto& [label, text] : paragraphs) {
-                label->SetLabel(text);
-                label->Wrap(std::min(width, FromDIP(zoomed(600))));
-            }
+            const std::function<void(wxWindow*)> wrap = [&](wxWindow* parent) {
+                for (auto* child : parent->GetChildren()) {
+                    if (auto* label = wxDynamicCast(child, wxStaticText);
+                        label && label != update_text_.get()) {
+                        auto text = label->GetLabel();
+                        text.Replace("\n", " ");
+                        label->SetLabel(text);
+                        const int available = parent->GetClientSize().x - label->GetPosition().x;
+                        label->Wrap(std::max(1, std::min({width, available, FromDIP(zoomed(600))})));
+                    } else
+                        wrap(child);
+                }
+            };
+            wrap(section->GetChildren().front());
             if (update_text_ && update_text_->GetParent()->GetParent() == section)
                 show_update_status();
             section->FitInside();

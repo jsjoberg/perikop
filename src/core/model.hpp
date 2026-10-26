@@ -2,6 +2,7 @@
 #include <chrono>
 #include <compare>
 #include <expected>
+#include <map>
 #include <optional>
 #include <string>
 #include <vector>
@@ -193,6 +194,13 @@ struct SourcePreference {
     bool enabled = true;
     bool operator==(const SourcePreference&) const = default;
 };
+struct SpeechLanguage {
+    const char *code, *name, *voice_key, *default_voice;
+};
+// Keep persisted keys stable, including the original Swedish voice key.
+inline constexpr SpeechLanguage speech_languages[] = {{"sv", "svenska", "speech_voice", "espeak"},
+                                                      {"en", "engelska", "speech_voice_en", "espeak:en"},
+                                                      {"el", "grekiska", "speech_voice_el", "espeak:el"}};
 struct Settings {
     static constexpr int text_zoom_steps[] = {75, 80, 90, 100, 110, 125, 150, 175, 200};
     // eSpeak speaks 80–450 words per minute, around its normal 150.
@@ -221,11 +229,13 @@ struct Settings {
     bool speech_highlight = false;
     // Read-aloud speed, in percent of the voice's own pace (eSpeak: 150 words per minute).
     int speech_rate = 100;
-    // Swedish voice: legacy "espeak" / "espeak-f2" or an installed "espeak:<selector>", from the
-    // user's own eSpeak NG. The selected voice survives application restarts.
-    std::string speech_voice = "espeak";
-    std::string speech_voice_en = "espeak:en";
-    std::string speech_voice_el = "espeak:el";
+    // Installed eSpeak selectors per language; Swedish also accepts legacy voice identities.
+    std::map<std::string, std::string> speech_voices = [] {
+        std::map<std::string, std::string> result;
+        for (const auto& language : speech_languages)
+            result.emplace(language.code, language.default_voice);
+        return result;
+    }();
     // Selects the source for a user-initiated update check; never enables background networking.
     UpdateChannel update_channel = UpdateChannel::Releases;
 };

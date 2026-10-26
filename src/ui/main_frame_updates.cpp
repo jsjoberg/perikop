@@ -9,7 +9,7 @@ namespace ortho {
 void MainFrame::show_updates() {
     if (voice_preview_)
         stop_speech(false);
-    settings_category_ = 5;
+    settings_category_ = SettingsCategory::Updates;
     if (navigation_.current().screen == Screen::Settings)
         fill_settings(static_cast<wxScrolledWindow*>(current_page()));
     else

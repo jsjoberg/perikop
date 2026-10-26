@@ -457,7 +457,7 @@ void MainFrame::update_speakable() {
     }
 }
 Reading MainFrame::reader_reading(Reading reading) const {
-    // Keep existing passage keys for automatic source selection.
+    // Automatic readings keep Swedish progress keys; source preferences choose the displayed language.
     if (reading.source_override.empty())
         reading.base_language = "sv";
     return reading;

@@ -229,10 +229,8 @@ struct Espeak::Impl {
             // MBROLA voices switch eSpeak to their own sample rate, which speak() does not follow.
             if (identifier.starts_with("mb/") || identifier.starts_with("!v/"))
                 continue;
-            const auto native = identifier == "gmq/sv" || identifier == "europe/sv"   ? std::string("sv")
-                                : identifier == "gmw/en" || identifier == "europe/en" ? std::string("en")
-                                : identifier == "grk/el" || identifier == "europe/el" ? std::string("el")
-                                                                                      : identifier;
+            const auto basename = identifier.substr(identifier.find_last_of('/') + 1);
+            const auto native = basename == language ? language : identifier;
             if (!add(native, name))
                 continue; // e.g. a definition whose voice data is absent
             for (const auto& [variant, variant_name] : variants)

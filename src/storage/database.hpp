@@ -118,6 +118,7 @@ private:
     mutable std::mutex cache_mutex_;
     using TextCache = std::map<std::pair<std::string, std::string>, BookText>;
     mutable TextCache texts_;
+    // Retained until CorpusDb is destroyed: callers may still hold coordinates() references.
     std::vector<TextCache> retired_texts_;
     mutable std::map<std::tuple<std::string, std::string, std::string>, std::vector<Alignment>> alignments_;
     mutable std::map<std::tuple<std::string, std::string, std::string>, ReferenceLinks> reference_links_;

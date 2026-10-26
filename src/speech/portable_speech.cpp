@@ -58,8 +58,7 @@ class PortableSpeech final : public SpeechEngine {
     bool output_started_ = false;
     SpeechState state_ = SpeechState::Idle;
     double ready_ = 0, speed_ = 1;
-    std::map<std::string, std::string> voices_{
-        {"sv", espeak_male_id}, {"en", "espeak:en"}, {"el", "espeak:el"}};
+    std::map<std::string, std::string> voices_ = Settings{}.speech_voices;
     PlaybackTimeline timeline_;
     std::string stage_ = "Förbereder läsningen";
     std::unique_ptr<PcmOutput> output_;

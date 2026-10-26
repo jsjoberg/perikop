@@ -126,27 +126,33 @@ void MainFrame::set_speech_rate(int rate) {
     settings_.speech_rate = rate;
     speech_->set_speed(rate / 100.0);
     apply_settings();
+    if (voice_preview_ || speech_->playback().state == SpeechState::Playing)
+        restart_speech();
+}
+void MainFrame::restart_speech() {
+    save_reading_position();
     if (voice_preview_) {
         const auto language = voice_preview_language_;
         auto* button = voice_preview_button_.get();
+        stop_speech(false);
         preview_voice(language, button);
-        preview_voice(language, button);
-    } else if (speech_->playback().state == SpeechState::Playing) {
-        // Restart the current verse at the new speed, as Pause and Fortsätt do.
-        toggle_pause();
-        toggle_pause();
+        return;
     }
+    const auto state = speech_->playback();
+    if (!state.cue || playback_.readings().empty())
+        return;
+    const auto& retained = playback_.readings();
+    const auto first = std::min(state.cue->reading, retained.size() - 1);
+    const std::vector<Reading> readings(retained.begin() + first, retained.end());
+    const auto item = speech_tracked_;
+    play_speech(readings);
+    speech_tracked_ = item;
 }
 void MainFrame::toggle_pause() {
     const auto state = speech_->playback();
-    if (state.state == SpeechState::Paused && state.cue && !playback_.readings().empty()) {
-        const auto& retained = playback_.readings();
-        const auto first = std::min(state.cue->reading, retained.size() - 1);
-        const std::vector<Reading> readings(retained.begin() + first, retained.end());
-        const auto item = speech_tracked_;
-        play_speech(readings);
-        speech_tracked_ = item;
-    } else {
+    if (state.state == SpeechState::Paused && state.cue && !playback_.readings().empty())
+        restart_speech();
+    else {
         playback_.toggle_pause(*speech_);
         save_reading_position();
     }
@@ -307,8 +313,7 @@ void MainFrame::initialize_speech() {
             wxTheApp->CallAfter(deliver);
         });
     speech_->set_speed(settings_.speech_rate / 100.0);
-    speech_->set_voice(settings_.speech_voice);
-    speech_->set_voice(settings_.speech_voice_en, "en");
-    speech_->set_voice(settings_.speech_voice_el, "el");
+    for (const auto& [language, voice] : settings_.speech_voices)
+        speech_->set_voice(voice, language);
 }
 } // namespace ortho
