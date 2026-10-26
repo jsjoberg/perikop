@@ -310,6 +310,15 @@ REPLACE={
  ('Gal', 4, 17):('nej, del vilja avspärra', 'nej, de vilja avspärra'),
  ('Gal', 4, 27):('icke bliver moder, Ty', 'icke bliver moder. Ty'),
 
+ # Philippians through 2 Thessalonians full scan pass: R264-R270; NT photo batch 7.
+ ('Col', 2, 17):('skulla komma', 'skulle komma'),
+ ('Col', 3, 8):('lägga bort alltsammans; vrede', 'lägga bort alltsammans: vrede'),
+ ('1Thess', 1, 4):('bröder, i Guds älskade', 'bröder, I Guds älskade'),
+ ('1Thess', 2, 2):('såsom i veten', 'såsom I veten'),
+ ('1Thess', 5, 4):('I leven icke mörker', 'I leven icke i mörker'),
+ ('1Thess', 5, 20):('profetisk tal', 'profetiskt tal'),
+ ('2Thess', 2, 3):('bedraga eder om vad sätt', 'bedraga eder på vad sätt'),
+
 }
 
 def chapter_number(name):
