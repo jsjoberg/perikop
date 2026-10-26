@@ -4820,6 +4820,182 @@
         }
       ],
       "notes": "Hela 17:1–35 och den avslutande 17:36-posten bildjämförd; trycket har en nothänvisning 17:36 följd av textvers 17:37. Sidgräns mellan 17:17–18, spaltfortsättningar i 17:6 och 17:28. R121 försyndat→försyndar i 17:3, R122 mitt→sitt i 17:16 och R123 hand→hans i 17:24 är bekräftade i originalupplösning. V070 ock i 17:24 och V071 versnumret i sista posten sparas före koordinatändring. Mullbärsfikonträd, invärtes i eder, Lots hustru och övriga ord bekräftade; normal komma-, utropsteckens- och citattypografi behållen."
+    },
+    {
+      "book": "Luke",
+      "chapter": 18,
+      "status": "needs-review",
+      "verse_count": 43,
+      "text_sha256": "22e75099ef85039c68fad5081e261ce873761cd4676ef771c93d2a128d1e48dd",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0127.1.tif",
+          "sha256": "1137bebb97da57858fc67a4a79ca014d512d7bdbee9e2988241558e3d44bb99f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0128.1.tif",
+          "sha256": "a8ea26b47860a168a3371612ae246ec01af016b7f098c5029c9c6b485a7cef15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0129.1.tif",
+          "sha256": "e08cf18451a2d5b1f7565661d3f3ce9cf4ec3c32f2871f092e24c0e5b3d3e6b5"
+        }
+      ],
+      "notes": "Hela 18:1–43 bildjämförd, sidfortsättning i 18:1 och gräns mellan 18:21–22, spaltgräns mellan 18:11–12 och 18:32–33. R124 an→än i 18:14 och R125 saknat få i 18:30 bekräftade i originalupplösning. V073 det i 18:16 sparas. Liknelsen om domaren, publikanens bön, överhetspersonen och Jerikos blinde bildlästa; vanliga kommaskillnader behållna."
+    },
+    {
+      "book": "Luke",
+      "chapter": 19,
+      "status": "needs-review",
+      "verse_count": 48,
+      "text_sha256": "cf0163f96b29ece449e37e355c19348bedf0f49ccc17124f188123ff6831bfb3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0129.1.tif",
+          "sha256": "e08cf18451a2d5b1f7565661d3f3ce9cf4ec3c32f2871f092e24c0e5b3d3e6b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0130.1.tif",
+          "sha256": "0da464b4a5ec0632a52e8edd81503910bddc9f77a9600341244b5b4d85e52dc0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0131.1.tif",
+          "sha256": "6878a80e170cedb5097a425fe701e940f7cc028cc626dc8654fc09e093936f8b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0132.1.tif",
+          "sha256": "19fd16d2ee50c573e91e513dcb7a53d391cdd318029e991d3c9780acc4da526e"
+        }
+      ],
+      "notes": "Hela 19:1–48 bildjämförd, sidfortsättning i 19:1, 19:22 och 19:45; spaltfortsättning i 19:12 och gräns mellan 19:34–35. R126 citatavslut i 19:8, R127 sin→sina i 19:13, R128 inre citatavslut i 19:14, R129 saknat och/komma i 19:27. V074 ägaren/ägarna i 19:33 sparas; två av lärjungarna i 19:29 bekräftas utan fråga; övriga ord och versgränser kontrollerade. Normal kommatering och versal i Människosonen 19:10 behålls. Tryckets enda yttre avslut utan separat inre apostrof i 19:27 behålls."
+    },
+    {
+      "book": "Luke",
+      "chapter": 20,
+      "status": "needs-review",
+      "verse_count": 47,
+      "text_sha256": "0690d18d78326114fc894c7b00e96e38e58946482f53fb21f61c9d2a026f708b",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0132.1.tif",
+          "sha256": "19fd16d2ee50c573e91e513dcb7a53d391cdd318029e991d3c9780acc4da526e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0133.1.tif",
+          "sha256": "bec7a01e5ad6fbea49abf9d824f910edd90b7085bbf2d012154de19a705d03cb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0134.1.tif",
+          "sha256": "bf97ba8a2f4ae72e11b4a362a3eb16c7fe283974cbfc806998c101bea8d22816"
+        }
+      ],
+      "notes": "Hela 20:1–47 bildjämförd, sidfortsättning i 20:17 och 20:37, spaltfortsättning i 20:6 och gräns mellan 20:26–27. R130 rivit→givit i 20:2, R131 för→for i 20:9, R132 vingårdsmannen→vingårdsmännen i 20:14, R133 akta→äkta i 20:28, R134 tag→taga och saknat åt i 20:35, R135 saknat semikolon och främmande komma i 20:36, R136 saknat inre citatöppning i 20:42 samt R137 baner→böner och Del→De i 20:47. V075 ej/icke i 20:36 sparas. Paragrafcitat i 20:15 och normal kommatering/versal behålls. Tryckets uppenbara dubbla att i 20:47 kopieras inte; korpusens enkla att behålls."
+    },
+    {
+      "book": "Luke",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "cee23e9ba79d7264460e0112805bd6149a51de82c259db818f0d5063dfb759bf",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0134.1.tif",
+          "sha256": "bf97ba8a2f4ae72e11b4a362a3eb16c7fe283974cbfc806998c101bea8d22816"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0135.1.tif",
+          "sha256": "b04aaa5eeec616ecd5c85a068b7c05d47c4e5b1d548873498bdb3e4f8ca426ef"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0136.1.tif",
+          "sha256": "f3f5d4467226d2d3b065d043b3d326ffacdffda2dd3fa2356328d4d977c5a082"
+        }
+      ],
+      "notes": "Hela 21:1–38 bildjämförd; sidfortsättning i 21:12 och 21:34, spaltgräns mellan 21:1–2 och fortsättning i 21:24. R138 återställer prepositionen i före månen i 21:25. Övriga ord, versgränser, slutet av talet och slutnotisen stämmer; vanliga kommaskillnader behålls."
+    },
+    {
+      "book": "Luke",
+      "chapter": 22,
+      "status": "needs-review",
+      "verse_count": 71,
+      "text_sha256": "d2b494d66c7b257b9cd12f88432cda8e9fb8ffc01d389f162fb614e5ed3945c4",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0136.1.tif",
+          "sha256": "f3f5d4467226d2d3b065d043b3d326ffacdffda2dd3fa2356328d4d977c5a082"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0137.1.tif",
+          "sha256": "c4bbb8ffd8b181f5c37b5e73ecedfb192df7d8d51232ae28dff38a034b8b6865"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0138.1.tif",
+          "sha256": "dcc56800c421a06e0fa9be4e8a1234317ee8bed3efad0c5404ae0dfa4119f6b1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0139.1.tif",
+          "sha256": "0d306ba67295c9fb56bf89ef21f14309bbed00635ea3896a1641b1c3b7d9055c"
+        }
+      ],
+      "notes": "Hela 22:1–71 bildjämförd; sidfortsättning i 22:5, 22:18 och 22:61 samt gräns mellan 22:38–39; spaltgräns mellan 22:28–29 och 22:50–51. R139 osyrad→osyrade, R140–R141 saknade citatöppningar i 22:9–10, R142 slutpunkt i 22:37, R143 semikolon i 22:53, R144 komma och citatavslut i 22:56 och R145 mannen→männen i 22:58. V076 väl i 22:23 och V077 ordordningen i 22:59 sparas. Styckecitat och vanliga komma/streckvarianter behållna; övriga ord, namn och versgränser kontrollerade."
+    },
+    {
+      "book": "Luke",
+      "chapter": 23,
+      "status": "needs-review",
+      "verse_count": 55,
+      "text_sha256": "1bef3bcf192ca147ee50316f5565f513a6fc9b09ea6b56ea454e7f72a2569dd3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0139.1.tif",
+          "sha256": "0d306ba67295c9fb56bf89ef21f14309bbed00635ea3896a1641b1c3b7d9055c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0140.1.tif",
+          "sha256": "8b225251e53602c4c41c4669f41b27990da0fde5632e3cfbed89a57a2fdd46dd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0141.1.tif",
+          "sha256": "5e4dcffc210f500a03c38d071ce11d092fa3f9f7cdf5c9208c373fb2d5c40238"
+        }
+      ],
+      "notes": "Hela 23:1–56 (55 textposter; 17 endast not) bildjämförd; sidfortsättning i 23:2 och 23:25 samt gräns mellan 23:34–35, spaltgräns mellan 23:46–47. R146 citatöppning i 23:3, R147 dalar→dagar i 23:7, R148 slutpunkt i 23:22, R149 främmande kolon i 23:30, R150 kolon och citatavslut i 23:34 samt R151 vi→vid i 23:50. V078 medan/sedan i 23:16 och V079 han/man i 23:31 sparas; övriga ord och versgränser kontrollerade. Vanliga kommaskillnader, citationstecken i 23:37 och versal efter semikolon i 23:12 behålls."
+    },
+    {
+      "book": "Luke",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 53,
+      "text_sha256": "7042fbb38c2026ccc555b959fdb4d010c7fb4c88aa258b6a66c41bb1c6af5794",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0142.1.tif",
+          "sha256": "8766989cadddfa0b7c126824e4094a0fd0be0abfc906f889db439776cabdb90a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0143.1.tif",
+          "sha256": "d8c2f950234baa3cb37fc5a0123a4bc249e0ab76d1cb6a02c4276939f095026c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0144.1.tif",
+          "sha256": "28630439097489e33243815ad1d6be2667ef9785458ce405a8b222c2f24eeb68"
+        }
+      ],
+      "notes": "Hela 24:1–53 bildjämförd; sidgräns mellan 24:22–23 och fortsättning i 24:46, spaltgräns mellan 24:11–12, 24:33–34 och 24:49–50. R152 man→män i 24:4, R153 mannen→männen och saknat kolon i 24:5, R154 har→här i 24:6, R155 främmande I i 24:26 och R156 citatavslut i 24:36. Emmauspassagen, honungskakan i 24:42, avslutningen 24:50–53, samtliga ord och versgränser kontrollerade. Ingen öppen ordfråga; normal kommatering behålls."
     }
   ],
   "unnumbered": [

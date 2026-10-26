@@ -1204,6 +1204,37 @@ int main(int argc, char** argv) {
                  {"Luke", {17, 3}, "Om din broder försyndat sig", "Om din broder försyndar sig"},
                  {"Luke", {17, 16}, "på mitt ansikte för Jesu fötter", "på sitt ansikte för Jesu fötter"},
                  {"Luke", {17, 24}, "på hand dag", "på hans dag"},
+                 {"Luke", {18, 14}, "rättfärdig mer an den andre", "rättfärdig mer än den andre"},
+                 {"Luke", {18, 30}, "som icke skall mångfaldigt igen", "som icke skall få mångfaldigt igen"},
+                 {"Luke", {19, 13}, "till sig tio sin tjänare", "till sig tio sina tjänare"},
+                 {"Luke", {19, 14}, "denne skall bliva konung över oss.»", "denne skall bliva konung över oss.'"},
+                 {"Luke", {19, 27}, "fören dem hit huggen ned dem", "fören dem hit, och huggen ned dem"},
+                 {"Luke", {20, 2}, "har rivit dig sådan myndighet", "har givit dig sådan myndighet"},
+                 {"Luke", {20, 9}, "och för utrikes för lång tid", "och for utrikes för lång tid"},
+                 {"Luke", {20, 14}, "Men när vingårdsmannen fingo se honom", "Men när vingårdsmännen fingo se honom"},
+                 {"Luke", {20, 28}, "hustru till akta", "hustru till äkta"},
+                 {"Luke", {20, 35}, "varken män tag sig hustrur, eller hustrur givas män", "varken män taga sig hustrur, eller hustrur givas åt män"},
+                 {"Luke", {20, 36}, "mer dö ty de äro lika änglarna och äro, Guds söner", "mer dö; ty de äro lika änglarna och äro Guds söner"},
+                 {"Luke", {20, 42}, "Psalmernas bok: Herren sade till min herre:", "Psalmernas bok: 'Herren sade till min herre:"},
+                 {"Luke", {20, 47}, "hålla långa baner. Del skola", "hålla långa böner. De skola"},
+                 {"Luke", {21, 25}, "i solen och månen och i stjärnorna", "i solen och i månen och i stjärnorna"},
+                 {"Luke", {22, 7}, "i det osyrad brödets högtid", "i det osyrade brödets högtid"},
+                 {"Luke", {22, 9}, "De frågade honom: Var vill du", "De frågade honom: »Var vill du"},
+                 {"Luke", {22, 10}, "Han svarade dem: När I kommen", "Han svarade dem: »När I kommen"},
+                 {"Luke", {22, 37}, "det går nu i fullbordan»", "det går nu i fullbordan.»"},
+                 {"Luke", {22, 53}, "händer emot mig men detta", "händer emot mig; men detta"},
+                 {"Luke", {22, 56}, "där han satt vid elden fäste ögonen på honom och sade: »Också denne var med honom.", "där han satt vid elden, fäste ögonen på honom och sade: »Också denne var med honom.»"},
+                 {"Luke", {22, 58}, "en av mannen, se honom", "en av männen, se honom"},
+                 {"Luke", {23, 3}, "och sade: Är du judarnas konung?»", "och sade: »Är du judarnas konung?»"},
+                 {"Luke", {23, 7}, "under dessa dalar också", "under dessa dagar också"},
+                 {"Luke", {23, 22}, "som förtjänar döden Därför vill jag", "som förtjänar döden. Därför vill jag"},
+                 {"Luke", {23, 30}, "säga till: bergen", "säga till bergen"},
+                 {"Luke", {23, 34}, "Men Jesus sade. »Fader, förlåt dem; ty de veta icke vad de göra.", "Men Jesus sade: »Fader, förlåt dem; ty de veta icke vad de göra.»"},
+                 {"Luke", {23, 50}, "en rådsherre, vi namn Josef", "en rådsherre, vid namn Josef"},
+                 {"Luke", {24, 4}, "då stodo två man framför dem", "då stodo två män framför dem"},
+                 {"Luke", {24, 5}, "Då sade mannen till dem »", "Då sade männen till dem: »"},
+                 {"Luke", {24, 6}, "Han är icke har, han är uppstånden.", "Han är icke här, han är uppstånden."},
+                 {"Luke", {24, 26}, "för I att så ingå", "för att så ingå"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1232,6 +1263,10 @@ int main(int argc, char** argv) {
               "Luke 13:14 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {15, 10})->text.ends_with("en enda syndare som gör bättring.»"),
               "Luke 15:10 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Luke", {19, 8})->text.ends_with("så giver jag fyradubbelt igen.»"),
+              "Luke 19:8 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Luke", {24, 36})->text.ends_with("»Frid vare med eder.»"),
+              "Luke 24:36 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Mark", {10, 12})->text.ends_with("då begår hon äktenskapsbrott.»"),
               "Mark 10:12 closes Jesus' reply before the following narration");
         check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,
@@ -1443,7 +1478,7 @@ int main(int argc, char** argv) {
                 {"fördraget", "", "⟦fWRdR'A:gE-t⟧", 4, {}},
                 {"joses", "", "⟦j'u:sE-s⟧", 4, {}},
                 {"jo", "", "⟦j'u:⟧", 51, {}},
-                {"vi", "", "⟦v'i:⟧", 2335, {}},
+                {"vi", "", "⟦v'i:⟧", 2334, {}},
                 {"krubba", "", "⟦kR'8ba⟧", 4, {}},
                 {"krubban", "", "⟦kR'8ban⟧", 3, {}},
                 {"jordan", "", "⟦jURd'A:n⟧", 187, {}},
