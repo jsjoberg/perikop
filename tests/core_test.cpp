@@ -1289,6 +1289,31 @@ int main(int argc, char** argv) {
                  {"Acts", {9, 41}, "levande framför den.", "levande framför dem."},
                  {"Acts", {10, 32}, "ock kallas Petrus: han", "ock kallas Petrus; han"},
                  {"Acts", {12, 8}, "Och han gjorde så. därefter", "Och han gjorde så. Därefter"},
+                 {"Acts", {13, 25}, "lösa av han fötter", "lösa av hans fötter"},
+                 {"Acts", {13, 38}, "veta, mena bröder", "veta, mina bröder"},
+                 {"Acts", {13, 42}, "bad men dem", "bad man dem"},
+                 {"Acts", {15, 35}, "jämte många andra förkunnade", "jämte många andra, förkunnade"},
+                 {"Acts", {16, 17}, "Denne följde efter Paulus", "Denna följde efter Paulus"},
+                 {"Acts", {16, 20}, "fört dem tid fram", "fört dem dit fram"},
+                 {"Acts", {17, 16}, "Men, Paulus nu väntade", "Medan Paulus nu väntade"},
+                 {"Acts", {18, 25}, "Denne sade blivit undervisad", "Denne hade blivit undervisad"},
+                 {"Acts", {19, 3}, "Johannes' döpelse»", "Johannes' döpelse.»"},
+                 {"Acts", {19, 25}, "»I man, I veten", "»I män, I veten"},
+                 {"Acts", {19, 37}, "ej heller smäda vår gudinna,", "ej heller smäda vår gudinna."},
+                 {"Acts", {20, 13}, "fara land vägen.", "fara landvägen."},
+                 {"Acts", {20, 18}, "umgåtts med eder:", "umgåtts med eder;"},
+                 {"Acts", {22, 11}, "icke mer kunde se togo", "icke mer kunde se, togo"},
+                 {"Acts", {22, 12}, "en efter lagen fram man", "en efter lagen from man"},
+                 {"Acts", {22, 21}, "Då sade han till mig: Gå;", "Då sade han till mig: 'Gå;"},
+                 {"Acts", {22, 28}, "Översten sade då: Mig", "Översten sade då: »Mig"},
+                 {"Acts", {22, 30}, "av judarna, låt han", "av judarna, lät han"},
+                 {"Acts", {25, 24}, "som ären har tillstädes", "som ären här tillstädes"},
+                 {"Acts", {25, 26}, "rannsakning har; blivit", "rannsakning har blivit"},
+                 {"Acts", {26, 14}, "förföljer du mig'?", "förföljer du mig?"},
+                 {"Acts", {26, 24}, "på detta satt försvarade", "på detta sätt försvarade"},
+                 {"Acts", {27, 10}, "»I mån, jag ser", "»I män, jag ser"},
+                 {"Acts", {28, 27}, "helade av mig'", "helade av mig.'"},
+                 {"Acts", {28, 28}, "hedningarna bar denna", "hedningarna har denna"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1299,6 +1324,20 @@ int main(int argc, char** argv) {
               "Acts 2:35 retains the scan-verified inner quotation ending");
         check(corpus.verse("sv1917", "Acts", {7, 34})->text.ends_with("sända dig till Egypten.'"),
               "Acts 7:34 retains the scan-verified inner quotation ending");
+        check(corpus.verse("sv1917", "Acts", {17, 7})->text.ends_with("Jesus, är konung.»"),
+              "Acts 17:7 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Acts", {19, 13})->text.ends_with("som Paulus predikar.»"),
+              "Acts 19:13 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Acts", {19, 29})->text.ends_with("Paulus' följeslagare."),
+              "Acts 19:29 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Acts", {20, 9})->text.ends_with("var han död."),
+              "Acts 20:9 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Acts", {21, 32})->text.ends_with("upphörde de att slå Paulus."),
+              "Acts 21:32 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Acts", {27, 34})->text.ends_with("ett huvudhår gå förlorat.»"),
+              "Acts 27:34 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Acts", {28, 22})->text.ends_with("allestädes mötes med gensägelse.»"),
+              "Acts 28:22 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
               "Luke 3:9 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),
