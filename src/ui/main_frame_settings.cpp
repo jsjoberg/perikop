@@ -284,7 +284,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         for (const auto& [present, name] :
              {std::pair{old, "GT"}, {nt, "NT"}, {apocrypha, "deuterokanoniska böcker"}})
             if (present)
-                detail += ui::utf8(" · ") + name;
+                detail += ui::utf8(" · ") + ui::utf8(name);
         source_details.emplace(source.code, detail);
     }
     const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
