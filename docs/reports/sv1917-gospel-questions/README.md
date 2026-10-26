@@ -1,6 +1,6 @@
 # Sparade fotofrågor i evangelierna
 
-**Aktuellt:** [Fotobunt 2, V010–V016](batch-2.md), [fotobunt 3, V017–V020](batch-3.md), [fotobunt 4, V021–V038](batch-4.md) och [fotobunt 5, V039–V060](batch-5.md), är sparade för senare boktillgång. Totalt 51 öppna frågor; ingen åtgärd behövs nu. Hela Matteus, Markus och Lukas 1–8 är bildlästa; granskningen fortsätter med Lukas 9. Varje bunt anger vilka verser som senare kan samlas i samma foto.
+**Aktuellt:** [Fotobunt 2, V010–V016](batch-2.md), [fotobunt 3, V017–V020](batch-3.md), [fotobunt 4, V021–V038](batch-4.md) [fotobunt 5, V039–V060](batch-5.md) och [fotobunt 6, V061–V066](batch-6.md), är sparade för senare boktillgång. Totalt 57 öppna frågor; ingen åtgärd behövs nu. Hela Matteus, Markus och Lukas 1–12 är bildlästa; granskningen fortsätter med Lukas 13. Varje bunt anger vilka verser som senare kan samlas i samma foto.
 
 ## Fotobunt 1: tre lösta läsningar i Matteus
 

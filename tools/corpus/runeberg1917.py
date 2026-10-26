@@ -99,6 +99,37 @@ REPLACE={
  ('Luke', 8, 20):('Din moder och dina broder', 'Din moder och dina bröder'),
  ('Luke', 8, 44):('strax stannade hennes blodgång', 'strax stannade hennes blodgång.'),
 
+ # Luke 9-12 scan pass: R075-R103; unresolved readings are retained in photo batch 6.
+ ('Luke', 9, 4):('kommit in något hus', 'kommit in i något hus'),
+ ('Luke', 9, 10):('De tog han dem med sig', 'Då tog han dem med sig'),
+ ('Luke', 9, 16):('och säg upp till himmelen', 'och såg upp till himmelen'),
+ ('Luke', 9, 18):('var stadd i byn', 'var stadd i bön'),
+ ('Luke', 9, 26):('när han kom mer i sin', 'när han kommer i sin'),
+ ('Luke', 9, 30):('Och de, två män stodo', 'Och se, två män stodo'),
+ ('Luke', 9, 33):('Mästare, har är oss gott', 'Mästare, här är oss gott'),
+ ('Luke', 9, 44):('bliva överlämnad i människors händer.', 'bliva överlämnad i människors händer.»'),
+ ('Luke', 9, 48):('han är störst.', 'han är störst.»'),
+ ('Luke', 9, 49):('Mästare, sågo huru en man drev ut onda andar genom ditt namn; och du ville hindra honom', 'Mästare, vi sågo huru en man drev ut onda andar genom ditt namn; och vi ville hindra honom'),
+ ('Luke', 9, 54):('lärjungarna Jakob i och Johannes', 'lärjungarna Jakob och Johannes'),
+ ('Luke', 9, 57):('Jag vill följa dig, varthelst du går.', 'Jag vill följa dig, varthelst du går.»'),
+ ('Luke', 9, 59):('Föl; mig.', 'Följ mig.'),
+ ('Luke', 10, 1):('dit han själv tänkte komma', 'dit han själv tänkte komma.'),
+ ('Luke', 10, 15):('Och du. Kapernaum', 'Och du, Kapernaum'),
+ ('Luke', 10, 20):('över att änglarna äro eder underdåniga', 'över att andarna äro eder underdåniga'),
+ ('Luke', 10, 22):('blivit för trott åt mig', 'blivit förtrott åt mig'),
+ ('Luke', 10, 28):('Gör det, så får du leva,', 'Gör det, så får du leva.»'),
+ ('Luke', 11, 7):('stå upp och göra dig något', 'stå upp och giva dig något'),
+ ('Luke', 11, 11):('i stallet för en fisk', 'i stället för en fisk'),
+ ('Luke', 11, 27):('hov en kvinna in folkhopen', 'hov en kvinna i folkhopen'),
+ ('Luke', 11, 28):('saliga är de som höra', 'saliga äro de som höra'),
+ ('Luke', 11, 29):('ett ont släkte Det begär', 'ett ont släkte. Det begär'),
+ ('Luke', 11, 31):('och se, har är vad som är mer än Salomo', 'och se, här är vad som är mer än Salomo'),
+ ('Luke', 12, 19):('Sedan vill jag säga till min själ: Kära själ, du har mycket gott förvarat för många år; giv dig nu ro, ät, drick och var glad.', "Sedan vill jag säga till min själ: 'Kära själ, du har mycket gott förvarat för många år; giv dig nu ro, ät, drick och var glad.'"),
+ ('Luke', 12, 33):('där man icke fördärvar', 'där mal icke fördärvar'),
+ ('Luke', 12, 40):('Så varen ock I redo ty', 'Så varen ock I redo, ty'),
+ ('Luke', 12, 54):('Han hade också till folket', 'Han sade också till folket'),
+ ('Luke', 12, 53):('sonhustrun mot sin svärmoder.', 'sonhustrun mot sin svärmoder.»'),
+
 }
 
 def chapter_number(name):
