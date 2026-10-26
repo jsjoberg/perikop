@@ -302,6 +302,10 @@ REPLACE={
  ('1Cor', 15, 30):('varför undsätta vi oss', 'varför utsätta vi oss'),
  ('1Cor', 16, 19):('Asien hälsar eder.', 'Asien hälsa eder.'),
 
+ # 2 Corinthians 1-13 scan pass: R260-R261; wording questions are saved in NT photo batch 5.
+ ('2Cor', 4, 18):('allenast en tid, med de', 'allenast en tid, men de'),
+ ('2Cor', 12, 9):('Herren har sagt till mig;', 'Herren har sagt till mig:'),
+
 }
 
 def chapter_number(name):
