@@ -6464,9 +6464,9 @@
     {
       "book": "Rom",
       "chapter": 16,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 26,
-      "text_sha256": "238972554331881967040d6625eb819cb2b56e8c313029b3d37139fe9b1635a5",
+      "text_sha256": "c18019770e08e21e7191c0901c397325457823fc6da3a4a3be00378fc3e481b7",
       "checked_at": "2026-10-26",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
@@ -6479,7 +6479,7 @@
           "sha256": "cff0fb158f9ce3e90bc70b739e3147175165e633f4d7d812ee65d8520a0d4eaa"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 16:12/13 över sidgränsen. R252 återställer pluralformen hälsa. V136 gäller eviga/evige i 16:26. Kolon/semikolon i 16:21 och vanliga kommaskillnader i 16:20 behålls. Vers 24 finns endast som nothänvisning i trycket; ingen vers skapas. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V136 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord. Införda rättelser: R252."
+      "notes": "Hela kapitlet jämfört, inklusive 16:12/13 över sidgränsen. R252 återställer pluralformen hälsa. V136 avgjord mot användarens originalfoto: den evige Gudens bekräftar EFS 1927 och införs genom R327. Kolon/semikolon i 16:21 och vanliga kommaskillnader i 16:20 behålls. Vers 24 finns endast som nothänvisning i trycket; ingen vers skapas. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V136. Införda rättelser: R252, R327."
     },
     {
       "book": "1Cor",
@@ -9436,6 +9436,23 @@
       "photo_sha256": "6a2ca886221e6ece6b382b35a77d36354c7a849a9034f27e6a82ab791bcac706",
       "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 9:15 med synligt versnummer och läsningen Han säger ju till Moses:. Fotot bekräftar korpusens Moses mot EFS 1927:s Mose. Texten behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; citatglyfer harmoniseras inte."
+    },
+    {
+      "id": "V136",
+      "correction_id": "R327",
+      "decision": "corrected",
+      "book": "Rom",
+      "chapter": 16,
+      "verse": 26,
+      "status": "resolved",
+      "reading": "den evige Gudens befallning",
+      "text_sha256": "8f517fb402cc067dbcbecc882d3bfe1b685589f99a7357b19d685ddd3d195fd1",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V136.jpg",
+      "photo_sha256": "ddcf9edb2b6d3124153e48976b459a40d3d91fb1d5db617f5791c8764a848c3d",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 16:26 med synligt versnummer och läsningen den evige Gudens befallning. Samma ordalydelse finns i EFS 1927. Korpusens eviga rättas till evige genom R327. Hela versen visuellt jämförd; övrig kommatering och citat-/tankstreckstypografi harmoniseras inte."
     }
   ]
 }

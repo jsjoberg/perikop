@@ -1872,7 +1872,6 @@ borg	37	word	"bOrj
 bryter	37	word	"bry:$ter
 böjde	37	word	""b9j$de
 böner	37	word	""b2:$ner
-eviga	37	word	""e:$vI$ga
 falska	37	word	""fal$ska
 flykten	37	word	"flYk$ten
 fullbordas	37	word	""fu0l$%bu:$d`as
@@ -1917,6 +1916,7 @@ belägrade	36	word	be$"lE:$gra$de
 berättat	36	word	be$"rE$tat
 dagarna	36	word	""dA:$ga$n`a
 dricker	36	word	"drI$ker
+eviga	36	word	""e:$vI$ga
 förste	36	word	""f9$s`t`e
 handlat	36	word	""hand$lat
 ingång	36	word	""IN$%gON
@@ -9704,6 +9704,7 @@ endas	4	word
 enfödde	4	word	""e:n$%f9$de
 enskild	4	word	""e:n$%x\Ild
 er	4	word	"e:r
+evige	4	word	""e:$vI$ge
 fabler	4	word	"fA:$bler
 faderlösas	4	word	""fA:$de$%l`2:$sas
 fallgropen	4	word	
@@ -11436,7 +11437,6 @@ enskilda	3	word	""e:n$%x\Il$da
 enskilt	3	word	""e:n$%x\Ilt
 ertappades	3	word	""e:$%t`a$pa$des
 esraiten	3	word	
-evige	3	word	""e:$vI$ge
 facklor	3	word	""fa$klUr
 faderlöses	3	word	""fA:$de$%l`2:$ses
 fagrare	3	word	""fA:$gra$re

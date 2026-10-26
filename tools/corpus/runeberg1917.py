@@ -387,6 +387,9 @@ REPLACE={
  ('Acts', 5, 13):('folket höll dem i ära', 'folket höll dem i stor ära'),
  ('Acts', 13, 16):('I män av Israels hus', 'I män av Israel'),
 
+ # Romans 16:26 confirmed by the user's print photograph: R327 (V136).
+ ('Rom', 16, 26):('den eviga Gudens', 'den evige Gudens'),
+
 }
 
 def chapter_number(name):

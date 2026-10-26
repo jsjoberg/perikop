@@ -1,15 +1,15 @@
 # NT-fotobunt 3: Romarbrevet
 
-**Uppdaterad 2026-10-26.** V133–V135 är lösta mot användarens foton och kapitel 3, 6 och 9 verifierade. Endast V136 i kapitel 16 återstår; frågan är inte ett fastställt fel. Hela Romarbrevet är bildläst och femton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Alla fyra frågor avgjorda 2026-10-26 mot användarens bevarade originalfoton. Hela Romarbrevet är verifierat: 16 kapitel och 432 versposter.** V133–V135 bekräftar korpusens båda versgränser och Moses som dokumenterade tryckvarianter. V136 bekräftar EFS 1927:s evige och inför R327. Inga fler foton behövs för denna bunt.
 
-När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V133–V134:s versgränser är nu avgjorda; inga fler foton behövs för dem. Frågornas ord och alla koordinater behålls. Originalupplösningen bekräftar båda de i 8:5 och till i 12:7 utan fotofrågor. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
+Tabellen visar jämförelsen före besluten; de fulla korpusverserna nedan är uppdaterade efter rättelserna. Båda tryckens underlag och stabila V-ID bevaras för återkontroll.
 
 | Fråga | Vers | Korpus / EFS 1927 |
 | --- | --- | --- |
 | [V133](#v133), löst | Rom. 3:7–8 | Versgräns 3:7–8: Och varför skulle vi icke ligger i v. 8 / Versgräns 3:7–8: Och varför skulle vi icke ligger i v. 7 |
 | [V134](#v134), löst | Rom. 6:20–21 | Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 21 / Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 20 |
 | [V135](#v135), löst | Rom. 9:15 | Han säger ju till Moses: / Han säger ju till Mose: |
-| [V136](#v136) | Rom. 16:26 | den eviga Gudens befallning / den evige Gudens befallning |
+| [V136](#v136), löst | Rom. 16:26 | den eviga Gudens befallning / den evige Gudens befallning |
 
 ## V133
 
@@ -85,12 +85,16 @@ Originalfotots SHA-256 `6a2ca886221e6ece6b382b35a77d36354c7a849a9034f27e6a82ab79
 
 **Korpustext:**
 
-**16:26:** men som nu har blivit uppenbarad och, enligt den eviga Gudens befallning, blivit, med stöd av profetiska skrifter, kungjord bland alla hedningar, för att bland dem upprätta trons lydnad –
+**16:26:** men som nu har blivit uppenbarad och, enligt den evige Gudens befallning, blivit, med stöd av profetiska skrifter, kungjord bland alla hedningar, för att bland dem upprätta trons lydnad –
 
-**Foto till senare:** hela 16:26 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 16:26 med synligt nummer. Ingen ytterligare bild behövs för V136.
 
 ![V136, direkt scanutsnitt från NT s. 262](V136.png)
 
 [Full sida, NT s. 262](https://runeberg.org/bibeln/efs1927/nt/0262.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0262.1.tif`; SHA-256 `cff0fb158f9ce3e90bc70b739e3147175165e633f4d7d812ee65d8520a0d4eaa`. Utsnittets SHA-256 `33cd2721341af99e1c78e4ad92e2b806e67e7ddea138840d9055a0aad67bf6f0`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-26. Användarens originalfoto visar hela 16:26 med synligt versnummer och läsningen den evige Gudens befallning. Samma ordalydelse finns i EFS 1927. Korpusens eviga rättas till evige genom R327. Hela versen visuellt jämförd; övrig kommatering och citat-/tankstreckstypografi harmoniseras inte.
+
+![V136, användarens bevarade originalfoto](../sv1917-print-witnesses/V136.jpg)
+
+Originalfotots SHA-256 `ddcf9edb2b6d3124153e48976b459a40d3d91fb1d5db617f5791c8764a848c3d`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
