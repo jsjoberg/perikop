@@ -25,9 +25,9 @@ class GitHubFixture:
     def release(self, repository, tag):
         return next(item for item in self.repositories[repository] if item["tag_name"] == tag)
 
-    def gh(self, *arguments):
+    def gh(self, *arguments, token=None):
         args = list(map(str, arguments))
-        self.calls.append((os.environ.get("GH_TOKEN"), args))
+        self.calls.append((token if token is not None else os.environ.get("GH_TOKEN"), args))
         if self.fail and self.fail(args):
             raise RuntimeError("Injected publication failure")
         if args[0] == "api":
@@ -103,6 +103,21 @@ def build(directory, version, track="releases", platforms=None, base=None):
         (directory / f"Perikop-{channel}{packages.INSTALLERS[platform]}").write_bytes(b"installer " + version.encode())
         if platform.startswith("linux-"):
             (directory / "AppImage-runtime-source-3d17002.tar.gz").write_bytes(b"runtime source")
+
+
+class CredentialTest(unittest.TestCase):
+    def test_subprocess_gets_scoped_token_without_changing_parent_even_after_failure(self):
+        for fail in (False, True):
+            with self.subTest(fail=fail), patch.dict(os.environ, GH_TOKEN="parent-token"), \
+                    patch.object(packages.subprocess, "check_output", side_effect=RuntimeError("gh failed") if fail else None,
+                                 return_value="ok") as run:
+                if fail:
+                    with self.assertRaisesRegex(RuntimeError, "gh failed"):
+                        packages.gh("api", "repos/owner/repo", token="scoped-token")
+                else:
+                    self.assertEqual(packages.gh("api", "repos/owner/repo", token="scoped-token"), "ok")
+                self.assertEqual(run.call_args.kwargs["env"]["GH_TOKEN"], "scoped-token")
+                self.assertEqual(os.environ["GH_TOKEN"], "parent-token")
 
 
 class PublicationTest(unittest.TestCase):
@@ -252,6 +267,20 @@ class PublicationTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "not referenced"):
             publication.promote(self.main, self.updates, tag, False)
         self.assertTrue(self.server.release(self.main.name, tag)["draft"])
+
+    def test_source_missing_from_older_checksum_manifest_blocks_staging_with_clear_error(self):
+        tag = self.stage()
+        publication.promote(self.main, self.updates, tag, False)
+        release = self.server.release(self.updates.name, tag)
+        source = "AppImage-runtime-source-3d17002.tar.gz"
+        manifest = packages.read_checksums(release["files"]["SHA256SUMS.txt"].decode())
+        del manifest[source]
+        release["files"]["SHA256SUMS.txt"] = packages.checksum_text(manifest).encode()
+        self.server.calls.clear()
+        with self.assertRaisesRegex(ValueError, "Runtime source missing from checksum manifest: " + source):
+            self.stage("0.2.2-nightly.20261025.1.1", nightly=True, platforms=["win-x64"])
+        self.assertFalse(any(args[:2] == ["release", "create"] for _, args in self.server.calls))
+        self.assertFalse(any(args[:2] == ["release", "delete"] for _, args in self.server.calls))
 
     def test_corrupt_source_snapshot_cannot_be_carried_into_a_partial_nightly(self):
         tag = self.stage()

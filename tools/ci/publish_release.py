@@ -2,7 +2,6 @@
 """Stage, verify and promote Perikop's paired download/update releases."""
 
 import argparse
-from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -22,7 +21,6 @@ ARM64_REQUIREMENTS = (
 )
 
 
-
 def installer_name(platform, version):
     packages.precedence(version)
     return f"Perikop-{platform}-{version}{packages.INSTALLERS[platform]}"
@@ -37,19 +35,6 @@ def checksums(directory):
     (directory / "SHA256SUMS.txt").write_text(packages.checksum_text(values))
 
 
-@contextmanager
-def credential(token):
-    previous = os.environ.get("GH_TOKEN")
-    os.environ["GH_TOKEN"] = token
-    try:
-        yield
-    finally:
-        if previous is None:
-            del os.environ["GH_TOKEN"]
-        else:
-            os.environ["GH_TOKEN"] = previous
-
-
 class Repository:
     def __init__(self, name, token):
         if not token:
@@ -57,19 +42,18 @@ class Repository:
         self.name, self.token = name, token
 
     def gh(self, *arguments):
-        with credential(self.token):
-            return packages.gh(*arguments)
+        return packages.gh(*arguments, token=self.token)
 
     def releases(self):
         pages = json.loads(self.gh("api", "--paginate", "--slurp", f"repos/{self.name}/releases?per_page=100"))
         return [release for page in pages for release in page]
 
     def download(self, tag, name, destination):
-        with credential(self.token):
-            return packages.download(self.name, tag, name, destination)
+        return packages.download(self.name, tag, name, destination, token=self.token)
 
     def publication_target(self, tag, source):
         # Release dates can follow the tagged commit; avoid dating every storage tag to the initial README.
+        # This commit is deliberately held by its release tag, without advancing main.
         parent = json.loads(self.gh("api", f"repos/{self.name}/commits/main"))
         commit = json.loads(self.gh("api", "--method", "POST", f"repos/{self.name}/git/commits",
                                    "-f", f"message=Perikop {tag} from {source}",
@@ -170,6 +154,8 @@ def copy_sources(repository, release, destination):
         work = Path(temporary)
         manifest = packages.read_checksums(repository.download(release["tag_name"], "SHA256SUMS.txt", work).read_text())
         for name in names:
+            if name not in manifest:
+                raise ValueError("Runtime source missing from checksum manifest: " + name)
             path = destination / name
             if not path.exists():
                 repository.download(release["tag_name"], name, destination)
@@ -219,23 +205,28 @@ def projected_history(releases, tag, nightly):
     if nightly:
         retained = sorted((release for release in history if release["prerelease"] and
                            packages.NIGHTLY.fullmatch(release["tag_name"])),
-                          key=lambda release: (release["published_at"], release["tag_name"]), reverse=True)[:6]
+                          key=lambda release: (release["published_at"], release["tag_name"]), reverse=True)
+        retained = retained[:packages.NIGHTLY_RETENTION - 1]
         keep = {release["tag_name"] for release in retained}
         history = [release for release in history if not release["prerelease"] or release["tag_name"] in keep]
     return history
 
 
+def bridge_window(history, channel):
+    visible = history[:packages.SDK_RELEASE_WINDOW - 1]
+    if channel.endswith("-releases"):
+        return [release for release in visible if not release["prerelease"]][:packages.STABLE_BRIDGE_LOOKBACK]
+    return visible
+
+
 def bridge(main_releases, internal, downloads, nightly):
     """Keep migration feeds discoverable without adding them to every ordinary release."""
-    visible = main_releases[:9]  # Leave one slot for the release being staged.
-    # Seven retained nightlies leave three slots for stable releases. Refresh at least every third stable.
-    stable = [release for release in main_releases if not release["prerelease"]][:2]
     for feed in internal.glob("releases.*.json"):
         channel = feed.name[len("releases."):-len(".json")]
         release_track = channel.endswith("-releases")
         if release_track and nightly:
             continue
-        window = stable if release_track else visible
+        window = bridge_window(main_releases, channel)
         if any(MARKER in (release.get("body") or "") and feed.name in {item["name"] for item in release["assets"]}
                for release in window):
             continue
@@ -250,7 +241,8 @@ def bridge(main_releases, internal, downloads, nightly):
 
 def candidate_window(history, tag, nightly):
     retained = {release["tag_name"] for release in projected_history(history, tag, nightly)}
-    window = [release for release in history if release["tag_name"] == tag or release["tag_name"] in retained][:10]
+    window = [release for release in history if release["tag_name"] == tag or release["tag_name"] in retained]
+    window = window[:packages.SDK_RELEASE_WINDOW]
     if tag not in {release["tag_name"] for release in window}:
         raise ValueError("The tagged commit is outside the SDK discovery window; use a recent commit")
     return window
@@ -281,7 +273,6 @@ def validate_repository(releases):
 
 
 def stage(source, main, updates, output, version, tag, notes, target, nightly):
-    packages.precedence(version)
     if packages.precedence(version) < packages.precedence("0.2.1-0") or tag == "v0.2.0":
         raise ValueError("Migration publication starts at 0.2.1")
     if nightly != bool(packages.NIGHTLY.fullmatch(tag)) or (not nightly and tag != "v" + version):
@@ -307,11 +298,12 @@ def stage(source, main, updates, output, version, tag, notes, target, nightly):
 def trim_nightlies(repository, tag):
     nightlies = [release for release in published(repository)
                 if release["prerelease"] and packages.NIGHTLY.fullmatch(release["tag_name"])]
-    keep = 7 if any(release["tag_name"] == tag for release in nightlies) else 6
+    keep = packages.NIGHTLY_RETENTION
+    if not any(release["tag_name"] == tag for release in nightlies):
+        keep -= 1
     if len(nightlies) > keep:
         current = max(nightlies, key=lambda release: (release["published_at"], release["tag_name"]))["tag_name"]
-        with credential(repository.token):
-            packages.cleanup(repository.name, current, keep)
+        packages.cleanup(repository.name, current, keep, token=repository.token)
 
 
 def promote(main, updates, tag, nightly):
@@ -354,11 +346,12 @@ def promote(main, updates, tag, nightly):
     candidate = next(release for release in main_history if release["tag_name"] == tag)
     if any(name.startswith("releases.") for name in downloads) and MARKER not in (candidate.get("body") or ""):
         raise ValueError("Compatibility release notes lost their migration marker")
-    visible = projected_history(main_history, tag, nightly)[:9]
+    history = projected_history(main_history, tag, nightly)
     for name in internal:
         if not name.startswith("releases.") or (nightly and name.endswith("-releases.json")):
             continue
-        window = [release for release in visible if not release["prerelease"]][:2] if name.endswith("-releases.json") else visible
+        channel = name[len("releases."):-len(".json")]
+        window = bridge_window(history, channel)
         if name not in downloads and not any(MARKER in (release.get("body") or "") and name in {
                 item["name"] for item in release["assets"]} for release in window):
             raise ValueError("Migration bridge aged out during draft review; restage before publishing: " + name)

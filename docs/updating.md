@@ -44,6 +44,10 @@ This separation is required because the pinned Velopack 1.2.161 Linux updater re
 
 The SDK's GitHub source sends no installation identifier. Its [pinned implementation](https://github.com/velopack/velopack/blob/1.2.161/src/lib-rust/src/sources/github.rs) requests ten releases before filtering prereleases on the release track. Dependency snapshots therefore stay in `jsjoberg/perikop-assets`; application updates use dedicated `jsjoberg/perikop-updates`, and both application repositories keep at most seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
 
+The static-feed alternative was checked against the pinned SDK: its [C++ `HttpSource` and `HttpOptions`](https://github.com/velopack/velopack/blob/1.2.161/src/lib-cpp/include/Velopack.hpp) expose URL, headers and timeout, but no option to disable identifiers. Its [HTTP implementation](https://github.com/velopack/velopack/blob/1.2.161/src/lib-rust/src/sources/http.rs) always appends `localVersion`, application `id` and `stagingId` to feed requests. This PR keeps `GithubSource` to preserve the existing no-installation-identifier behavior. A static source without those parameters would require a custom transport or a separately verified SDK change, plus a publication scheme that preserves packages while replacing feeds.
+
+The current discovery budget is named in `tools/ci/update_packages.py`: `SDK_RELEASE_WINDOW = 10`, `NIGHTLY_RETENTION = 7`, and `STABLE_BRIDGE_LOOKBACK = 10 - 7 - 1 = 2`. Staging and promotion use the same `bridge_window()` selection. Legacy 0.2.0 clients retain this discovery constraint even if a future version switches to static feeds.
+
 Historical Intel Mac feeds remain readable by nightly cleanup so their referenced packages survive while those older nightlies are retained. New publications contain only the four supported targets.
 
 ## Migration from 0.2.0

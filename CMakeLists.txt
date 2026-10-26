@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 include(cmake/defaults.cmake)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 15.0 CACHE STRING "Oldest supported macOS")
-project(perikop VERSION 0.2.1 LANGUAGES C CXX)
+project(perikop VERSION 0.2.0 LANGUAGES C CXX)
 if(APPLE)
     if(CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS 15.0)
         message(FATAL_ERROR "Perikop requires macOS 15 or later.")

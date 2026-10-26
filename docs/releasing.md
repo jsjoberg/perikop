@@ -12,7 +12,7 @@ From 0.2.1, downloads and updates use separate public repositories:
 | `jsjoberg/perikop-updates` | Velopack feeds, full packages, deltas, portable archives, corresponding AppImage runtime source archives, and checksums |
 | `jsjoberg/perikop-assets` | CI dependency snapshots only |
 
-The pinned [Velopack 1.2.161 GitHub source](https://github.com/velopack/velopack/blob/1.2.161/src/lib-rust/src/sources/github.rs) requests only ten releases, **before** filtering prereleases. Ten dependency snapshots can hide every application feed. The existing assets repository therefore cannot safely host updates. Keep both application repositories free of dependency snapshots and unrelated releases; publication refuses unrelated tags.
+The pinned [Velopack 1.2.161 GitHub source](https://github.com/velopack/velopack/blob/1.2.161/src/lib-rust/src/sources/github.rs) requests only ten releases, **before** filtering prereleases. Ten dependency snapshots can hide every application feed. Sharing the assets repository would require coordinated snapshot and application retention or a different discovery source; that redesign is not part of the current publication implementation. Keep both application repositories free of dependency snapshots and unrelated releases; publication refuses unrelated tags.
 
 ### One-time setup
 
@@ -23,7 +23,7 @@ The pinned [Velopack 1.2.161 GitHub source](https://github.com/velopack/velopack
 
 ### Stage and publish
 
-Set `project()` in `CMakeLists.txt`, then push its matching version tag. The migration starts at `0.2.1`:
+Keep the version bump in a separate release-preparation commit: update `project()` in `CMakeLists.txt` and the tooling version in `pyproject.toml`/`uv.lock`, then push the matching version tag. The migration starts at `0.2.1`:
 
 ```sh
 git tag v0.2.1 && git push origin v0.2.1
@@ -46,7 +46,7 @@ Review the draft notes, preserving the generated download names and hidden migra
 gh workflow run publish.yml --repo jsjoberg/perikop --ref main -f tag=v0.2.1
 ```
 
-Do not publish the main draft using GitHub's Publish button: it bypasses paired verification. Promotion downloads every remote asset again, checks checksum coverage and hashes, verifies every feed's referenced package, and checks platform coverage and compatibility-feed visibility. It publishes the update release first and the main release last. Main stable releases are marked Latest; internal releases are not. Paired publication is not an atomic GitHub operation: if the last step fails, the main release remains a draft while the complete update release is available. Rerun the same promotion command after fixing the failure; public assets are never overwritten.
+Do not publish the main draft using GitHub's Publish button: it bypasses paired verification. Promotion downloads every remote asset again, checks checksum coverage and hashes, verifies every feed's referenced package, and checks platform coverage and compatibility-feed visibility. It publishes the update release first and the main release last. Main stable releases are marked Latest; internal releases are not. Paired publication is not an atomic GitHub operation: nightly cleanup runs before promotion, so if the last step fails, the main release remains a draft while the complete update release is available and obsolete nightlies have already been removed. Retained feeds and their referenced packages remain available. Rerun the same promotion command after fixing the failure; public assets are never overwritten.
 
 The initial main `0.2.1` release necessarily includes four full packages and four release feeds for installed `0.2.0` clients. These feeds contain only their newest full package: migration has a full fallback even if every intermediate delta was skipped. New clients use the separate update repository. Removing the bridge after one release would strand users who update later. Main stable bridges are therefore refreshed at least every third stable release, leaving room for seven nightlies inside the SDK's ten-release window; other stable releases normally have the four primary downloads plus checksums. Nightly bridges are refreshed when their feeds would leave the retained window. The notes explain which files ordinary users should choose. Keep generated compatibility assets and markers until a separately designed migration retires the old SDK source.
 

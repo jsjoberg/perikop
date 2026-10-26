@@ -2,6 +2,7 @@
 """Restore verified delta bases, collect Velopack outputs, and preserve feeds during nightly cleanup."""
 
 import argparse
+from functools import partial
 import hashlib
 import json
 import os
@@ -14,6 +15,11 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 UPDATE_REPOSITORY = "jsjoberg/perikop-updates"
 LEGACY_REPOSITORY = "jsjoberg/perikop"
+# The pinned SDK fetches ten releases before filtering prereleases. Seven nightlies leave
+# three stable slots; a bridge must be in the preceding two stable releases before adding one.
+SDK_RELEASE_WINDOW = 10
+NIGHTLY_RETENTION = 7
+STABLE_BRIDGE_LOOKBACK = SDK_RELEASE_WINDOW - NIGHTLY_RETENTION - 1
 PLATFORMS = {"Linux": "linux-x64-glibc239", "Linux-arm64": "linux-arm64-glibc239", "Windows": "win-x64",
              "macOS-arm64": "osx-arm64"}
 # What Velopack makes for people to install from, as Perikop-<channel><suffix>, beside each feed.
@@ -94,20 +100,23 @@ def verify(path, asset):
         raise ValueError("Package checksum mismatch: " + str(path))
 
 
-def gh(*arguments):
-    return subprocess.check_output(["gh", *map(str, arguments)], text=True)
+def gh(*arguments, token=None):
+    environment = dict(os.environ)
+    if token is not None:
+        environment["GH_TOKEN"] = token
+    return subprocess.check_output(["gh", *map(str, arguments)], text=True, env=environment)
 
 
-def releases(repository):
-    pages = json.loads(gh("api", "--paginate", "--slurp", f"repos/{repository}/releases?per_page=100"))
+def releases(repository, token=None):
+    pages = json.loads(gh("api", "--paginate", "--slurp", f"repos/{repository}/releases?per_page=100", token=token))
     return [release for page in pages for release in page if not release["draft"]]
 
 
-def download(repository, tag, name, destination):
+def download(repository, tag, name, destination, token=None):
     # All downloads stay within the chosen repository; feed URLs are never executed or fetched.
     if Path(name).name != name or name.startswith("-"):
         raise ValueError("Unsafe release asset name")
-    gh("release", "download", tag, "--repo", repository, "--pattern", name, "--dir", destination)
+    gh("release", "download", tag, "--repo", repository, "--pattern", name, "--dir", destination, token=token)
     return destination / name
 
 
@@ -241,8 +250,8 @@ def assemble(updates, output, version, complete=False):
     (output / "SHA256SUMS.txt").write_text("".join(checksums))
 
 
-def retention_plan(all_releases, feeds, current, keep=7):
-    if keep < 1 or keep > 9:
+def retention_plan(all_releases, feeds, current, keep=NIGHTLY_RETENTION):
+    if keep < 1 or keep >= SDK_RELEASE_WINDOW:
         raise ValueError("Keep between one and nine nightlies so the SDK can discover releases")
     nightlies = sorted((release for release in all_releases if not release["draft"] and release["prerelease"]
                         and NIGHTLY.fullmatch(release["tag_name"])),
@@ -290,8 +299,10 @@ def checksum_text(checksums):
     return "".join(checksums[name] + "  " + name + "\n" for name in sorted(checksums))
 
 
-def cleanup(repository, current, keep):
-    all_releases = releases(repository)
+def cleanup(repository, current, keep, token=None):
+    run = partial(gh, token=token) if token is not None else gh
+    fetch = partial(download, token=token) if token is not None else download
+    all_releases = releases(repository, token=token) if token is not None else releases(repository)
     nightlies = sorted((release for release in all_releases if release["prerelease"]
                         and NIGHTLY.fullmatch(release["tag_name"])),
                        key=lambda release: (release["published_at"], release["tag_name"]), reverse=True)[:keep]
@@ -305,13 +316,13 @@ def cleanup(repository, current, keep):
                 name = asset["name"]
                 if name.startswith("releases.") and name.endswith("-nightly.json"):
                     feeds[(release["tag_name"], name)] = json.loads(
-                        download(repository, release["tag_name"], name, directory).read_text())
+                        fetch(repository, release["tag_name"], name, directory).read_text())
         rescue, obsolete = retention_plan(all_releases, feeds, current, keep)
         current_names = {item["name"] for release in all_releases if release["tag_name"] == current
                          for item in release["assets"]}
         checksum_dir = work / "checksums"
         checksum_dir.mkdir()
-        checksum_file = download(repository, current, "SHA256SUMS.txt", checksum_dir)
+        checksum_file = fetch(repository, current, "SHA256SUMS.txt", checksum_dir)
         original_checksums = checksum_file.read_text()
         checksums = read_checksums(original_checksums)
         references = {asset["FileName"]: asset for feed in feeds.values() for asset in feed["Assets"]}
@@ -324,27 +335,27 @@ def cleanup(repository, current, keep):
             # checksum list. Verify its bytes before adding its checksum.
             if name not in references:
                 raise ValueError("An uploaded asset has no checksum or feed metadata: " + name)
-            path = download(repository, current, name, checksum_dir)
+            path = fetch(repository, current, name, checksum_dir)
             verify(path, references[name])
             checksums[name] = references[name]["SHA256"].lower()
         rescue_dir = work / "rescue"
         rescue_dir.mkdir()
         for tag, asset in rescue:
-            path = download(repository, tag, asset["FileName"], rescue_dir)
+            path = fetch(repository, tag, asset["FileName"], rescue_dir)
             verify(path, asset)
-            gh("release", "upload", current, path, "--repo", repository)
+            run("release", "upload", current, path, "--repo", repository)
             checksums[asset["FileName"]] = asset["SHA256"].lower()
         updated_checksums = checksum_text(checksums)
         if updated_checksums != original_checksums:
             checksum_file.write_text(updated_checksums)
-            gh("release", "upload", current, checksum_file, "--repo", repository, "--clobber")
+            run("release", "upload", current, checksum_file, "--repo", repository, "--clobber")
         # Confirm every referenced rescue asset is present before deleting any old release/tag.
-        names = {item["name"] for item in json.loads(gh("release", "view", current, "--repo", repository,
+        names = {item["name"] for item in json.loads(run("release", "view", current, "--repo", repository,
                                                        "--json", "assets"))["assets"]}
         if "SHA256SUMS.txt" not in names or set(checksums) - names:
             raise ValueError("Checksummed packages are missing; no nightly releases were deleted")
         for tag in obsolete:
-            gh("release", "delete", tag, "--repo", repository, "--cleanup-tag", "--yes")
+            run("release", "delete", tag, "--repo", repository, "--cleanup-tag", "--yes")
         print(f"Retained {min(keep, len(nightlies))} nightlies; rescued {len(rescue)} referenced packages")
 
 
@@ -375,13 +386,11 @@ def main():
     cleaning = commands.add_parser("cleanup")
     cleaning.add_argument("--repository", required=True)
     cleaning.add_argument("--current", required=True)
-    cleaning.add_argument("--keep", type=int, default=7)
+    cleaning.add_argument("--keep", type=int, default=NIGHTLY_RETENTION)
     args = parser.parse_args()
     if args.command == "version":
         print(build_version())
     elif args.command == "restore":
-        if not args.repository:
-            parser.error("restore needs --repository or GITHUB_REPOSITORY")
         restore(args.repository, args.platform, args.output, args.version or build_version(), args.fallback)
     elif args.command == "seed":
         seed(args.base, args.output)

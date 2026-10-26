@@ -64,6 +64,8 @@ class BuildTest(unittest.TestCase):
             self.assertIn("group: perikop-release-publication", workflow)
             self.assertIn("UPDATES_TOKEN: ${{ secrets.PERIKOP_UPDATES_TOKEN }}", workflow)
         self.assertIn('publish_release.py promote --tag "$RELEASE_TAG"', reviewed)
+        self.assertIn("persist-credentials: false", reviewed)
+        self.assertIn("persist-credentials: false", automatic.split("\n  release:\n", 1)[1])
 
     def test_update_profile_comparison_preserves_values_and_allows_new_tables(self):
         script = (ROOT / "tools/ci/validate_macos_update.command").read_text()
