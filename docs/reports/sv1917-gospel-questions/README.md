@@ -1,4 +1,8 @@
-# Fotobunt 1: tre läsningar i Matteus
+# Sparade fotofrågor i evangelierna
+
+**Aktuellt:** [Fotobunt 2, V010–V016](batch-2.md), är sparad för senare boktillgång. Sju frågor kan täckas av fem foton. Ingen åtgärd behövs nu; granskningen fortsätter.
+
+## Fotobunt 1: tre lösta läsningar i Matteus
 
 **Löst 2026-10-26.** Användaren skickade tre foton utan att behöva transkribera eller tolka texten. Codex läste dem: V007 och V009 ger rättelser, V008 bekräftar befintlig korpustext som en tryckskillnad. Ingen fråga i denna bunt återstår.
 

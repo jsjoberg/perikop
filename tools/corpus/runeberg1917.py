@@ -49,6 +49,12 @@ REPLACE={
  ('Matt', 3, 15):('all rättfärdighet. Då', 'all rättfärdighet.» Då'),
  ('Matt', 1, 24):('gjorde han som Herrens ängel', 'gjorde han såsom Herrens ängel'),
  ('Matt', 10, 11):('och stannen hos honom', 'och stannen så hos honom'),
+ # Matthew 11-18 scan pass: R031-R035; printing questions are deferred in photo batch 2.
+ ('Matt', 13, 15):('helade av mig.', "helade av mig.'"),
+ ('Matt', 13, 27):('varifrån har den då fått ogräs?', "varifrån har den då fått ogräs?'"),
+ ('Matt', 14, 20):('blevo mätta Sedan', 'blevo mätta. Sedan'),
+ ('Matt', 17, 27):('åt dem for mig och dig', 'åt dem för mig och dig'),
+ ('Matt', 18, 5):('ett sådant barn I mitt namn', 'ett sådant barn i mitt namn'),
 }
 
 def chapter_number(name):

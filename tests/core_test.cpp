@@ -1125,6 +1125,9 @@ int main(int argc, char** argv) {
                  {"Matt", {3, 15}, "all rättfärdighet. Då", "all rättfärdighet.» Då"},
                  {"Matt", {1, 24}, "gjorde han som Herrens ängel", "gjorde han såsom Herrens ängel"},
                  {"Matt", {10, 11}, "och stannen hos honom", "och stannen så hos honom"},
+                 {"Matt", {14, 20}, "blevo mätta Sedan", "blevo mätta. Sedan"},
+                 {"Matt", {17, 27}, "åt dem for mig och dig", "åt dem för mig och dig"},
+                 {"Matt", {18, 5}, "ett sådant barn I mitt namn", "ett sådant barn i mitt namn"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1133,6 +1136,9 @@ int main(int argc, char** argv) {
         }
         check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,
               "Matthew 4:24 retains olika as confirmed by supplementary print photograph V008");
+        check(corpus.verse("sv1917", "Matt", {13, 15})->text.ends_with("helade av mig.'") &&
+                  corpus.verse("sv1917", "Matt", {13, 27})->text.ends_with("fått ogräs?'"),
+              "Matthew 13:15 and 13:27 retain the scan-verified closing quotation marks");
         check(corpus.verse("sv1917", "1Macc", {10, 27})->text == "Fortfaren nu ock allt framgent att iakttaga trohet mot oss, så skola vi bereda eder fördelar, till tack för vad I gören till vårt gagn;" &&
                   corpus.verse("sv1917", "1Macc", {10, 28})->text == "vi skola bevilja eder många eftergifter och tilldela eder många förmåner.",
               "First Maccabees 10:27-28 follow the printed boundary without losing or duplicating words");
