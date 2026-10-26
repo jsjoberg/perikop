@@ -35,7 +35,7 @@ eder	3862	word	""e:$der
 om	3668	word	"Om
 var	3649	word	"vA:r
 sin	3469	word	"sIn
-då	3467	word	"do:
+då	3466	word	"do:
 Men	3401	word	"mEn
 alla	3209	word	
 Gud	3126	word	"g}:d
@@ -104,7 +104,7 @@ se	1232	word	"se:
 ditt	1203	word	"dIt
 ned	1203	word	"ne:d
 hela	1188	word	""he:$la
-gå	1152	word	"go:
+gå	1153	word	"go:
 under	1151	word	"u0n$der
 inför	1150	word	In$"f2:r
 konung	1146	word	""ko:$nu0N
@@ -253,8 +253,8 @@ dock	407	word
 finnes	406	word	""fI$nes
 vilja	404	word	""vIl$ja
 vatten	403	word	"va$ten
+hörde	402	word	""h2:$d`e
 kunde	402	word	""ku0n$de
-hörde	401	word	""h2:$d`e
 blevo	400	word	""ble:$vU
 gott	398	word	"gOt
 nämligen	395	word	""nEm$lI$gen
@@ -1824,7 +1824,6 @@ Gideon	38	name	"ji:$de$On
 Ismael	38	name	"I$sma$el
 Simei	38	name	
 berömmelse	38	word	be$"r9$mel$se
-borde	38	word	""bu:$d`e
 brist	38	word	"brIst
 brunn	38	word	"bru0n
 drabanterna	38	word	dra$"ban$te$n`a
@@ -1869,6 +1868,7 @@ amoréerna	37	word
 arbeta	37	word	""ar$be:$ta
 avkomma	37	word	""A:v$%kO$ma
 beslut	37	word	be$"sl}:t
+borde	37	word	""bu:$d`e
 borg	37	word	"bOrj
 bryter	37	word	"bry:$ter
 böjde	37	word	""b9j$de

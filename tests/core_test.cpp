@@ -1128,6 +1128,12 @@ int main(int argc, char** argv) {
                  {"Matt", {14, 20}, "blevo mätta Sedan", "blevo mätta. Sedan"},
                  {"Matt", {17, 27}, "åt dem for mig och dig", "åt dem för mig och dig"},
                  {"Matt", {18, 5}, "ett sådant barn I mitt namn", "ett sådant barn i mitt namn"},
+                 {"Matt", {20, 11}, "knorrade de mot husbonden.", "knorrade de mot husbonden"},
+                 {"Matt", {21, 24}, "myndighet jag gör detta».", "myndighet jag gör detta."},
+                 {"Matt", {21, 42}, "byggningsmännen förkastade. den", "byggningsmännen förkastade, den"},
+                 {"Matt", {23, 23}, "skriftlärde och fariséer. I skrymtare", "skriftlärde och fariséer, I skrymtare"},
+                 {"Matt", {25, 46}, "dessa skola då då bort", "dessa skola då gå bort"},
+                 {"Matt", {27, 47}, "som stodo där borde detta", "som stodo där hörde detta"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
