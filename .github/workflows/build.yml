@@ -80,8 +80,8 @@ jobs:
       matrix:
         include:
           - {name: Linux x64 (Debian 13), os: ubuntu-24.04, platform: Linux}
-          # One ARM64 package targeting Pi 3/4/5 on 64-bit Raspberry Pi OS Trixie desktop.
-          - {name: "Linux arm64 (Pi 3/4/5, Debian 13)", os: ubuntu-24.04-arm, platform: Linux-arm64}
+          # Keep this required-check name stable; the ARM64 package targets Pi 3/4/5 on Trixie desktop.
+          - {name: Linux arm64 (Debian 13), os: ubuntu-24.04-arm, platform: Linux-arm64}
           - {name: macOS arm64, os: macos-15, platform: macOS-arm64, dependencies: macOS, architecture: arm64}
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
