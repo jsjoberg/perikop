@@ -319,6 +319,11 @@ REPLACE={
  ('1Thess', 5, 20):('profetisk tal', 'profetiskt tal'),
  ('2Thess', 2, 3):('bedraga eder om vad sätt', 'bedraga eder på vad sätt'),
 
+ # 1 Timothy through Philemon full scan pass: R271-R273; NT photo batch 8.
+ ('1Tim', 3, 5):('huru skulle dem som icke vet', 'huru skulle den som icke vet'),
+ ('1Tim', 4, 4):('mottages med tacksägelse:', 'mottages med tacksägelse;'),
+ ('Philemon', 1, 11):('som förut var ingalunda var dig till »till gagn»', 'som förut ingalunda var dig »till gagn»'),
+
 }
 
 def chapter_number(name):

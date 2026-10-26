@@ -11,5 +11,6 @@ Användaren är borta från boken; **ingen åtgärd behövs nu**. Här samlas fr
 | [NT 5](batch-5.md) | Andra Korinthierbrevet 1–13 | 2, V142–V143 | 5:14; 6:16 |
 | [NT 6](batch-6.md) | Galaterbrevet 1–6; Efesierbrevet helt verifierat | 1, V144 | Gal. 4:12–13 |
 | [NT 7](batch-7.md) | Filipperbrevet till Andra Tessalonikerbrevet | 3, V145–V147 | Kol. 1:23; 1 Tess. 5:17–18; 2 Tess. 1:10 |
+| [NT 8](batch-8.md) | Timoteusbreven, Titus och Filemon | 1, V148 | 2 Tim. 4:10 |
 
-Alla tjugofem frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
+Alla tjugosex frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
