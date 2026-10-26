@@ -8600,6 +8600,450 @@
         }
       ],
       "notes": "Hela 1:1–25 bildläst; 1:3 över spaltgränsen, 1:5 över sidgränsen, 1:12 över spaltgränsen, gränsen 1:20–21 över sidgränsen och 1:23 över spaltgränsen kontrollerade. Moses’ kropp i 1:9, citatgränserna i 1:14–15 och 18 samt själiska i 1:19 stämmer. Ingen slutinterpunktion efter barmhärtiga i 1:22 finns heller i trycket; hela slutönskan 1:24–25 bekräftad. Inga ordskillnader. Uppenbarelseboken börjar längre ned på delade NT s. 393 och räknas inte som granskad här. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rev",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "39a48c0a00f83174217a85acb7bcc4fa7e0f02fe1010104438966a8663626aba",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0393.1.tif",
+          "sha256": "2f95f9bdbf39891ba82e1223876d820a3f8e2e30964c9b6d9d8379a7f829565c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0394.1.tif",
+          "sha256": "90d4fb6f04f40ad5933f3b56685d3916adc8cf124a3a522d72945cac4bc2ed00"
+        }
+      ],
+      "notes": "Hela 1:1–20 bildläst; gränsen 1:9–10 över sidgränsen och 1:19 över spaltgränsen. Frid från / ifrån i 1:4 sparas; övriga ord och citatgränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V153 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rev",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "bea3babc4e0a5839ca9ee19f2403edbe42ccda98b465679691aea1641dad3a71",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0394.1.tif",
+          "sha256": "90d4fb6f04f40ad5933f3b56685d3916adc8cf124a3a522d72945cac4bc2ed00"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0395.1.tif",
+          "sha256": "f3b4ba4292967e811c754b578a82094dc22feba0fdd7aeedbc9f07a43c581e8e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0396.1.tif",
+          "sha256": "223c119b0088f1a25756119947d351d0273d555249712d961ffa009cf99b020d"
+        }
+      ],
+      "notes": "Hela 2:1–29 bildläst; gränsen 2:7–8 över sidgränsen, 2:15–16 över spaltgränsen och 2:23 över sidgränsen. Slutpunkt i 2:10 och komma i 2:26 återställs. Till fall i 2:14 sparas. Styckeavdelande tankstreck harmoniseras inte; tryckets extra citatöppning före Jag lägger i 2:24 utan separat inre avslut behandlas som citattypografi. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V154 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R289, R290."
+    },
+    {
+      "book": "Rev",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "ed364d875cdcb8cf924896fcd36eba7081c5231c23845d77573c5ca907bd67ad",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0396.1.tif",
+          "sha256": "223c119b0088f1a25756119947d351d0273d555249712d961ffa009cf99b020d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0397.1.tif",
+          "sha256": "f8faf08abc6fbf1200d062d00a7a31357a1a73be2c5c9e846f91df1c0b504c1a"
+        }
+      ],
+      "notes": "Hela 3:1–22 bildläst; 3:3 över spaltgränsen, 3:10 över sidgränsen och gränsen 3:18–19 över spaltgränsen. Dubblerat på därpå i 3:3, ock / och i 3:9, citatavslut i 3:13 och 22 samt den / det vittnet i 3:14 rättas. Inre citat i 3:7, 17 och 19 kontrollerade. I 3:13 placeras återställt citatavslut före slutpunkten enligt bilden; i 3:22 står det efter punkten. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R291, R292, R293, R294, R295."
+    },
+    {
+      "book": "Rev",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "5106a4e94084546019f12542a39b392843c2934d84f39c651547b4b062ab4651",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0397.1.tif",
+          "sha256": "f8faf08abc6fbf1200d062d00a7a31357a1a73be2c5c9e846f91df1c0b504c1a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0398.1.tif",
+          "sha256": "4321a4323923a76ab6bc67296e1e852ed275d7f7e988012d238777b571ce6e04"
+        }
+      ],
+      "notes": "Hela 4:1–11 bildläst; 4:5 över sidgränsen. En smaragd / smaragd i 4:3 och extra tillbedja honom i korpusens 4:9 sparas; kolon före citatet i 4:10 återställs. Övriga ord och citatgränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V155, V156 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R296."
+    },
+    {
+      "book": "Rev",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "683433685799f706a58fc2eddbfab3aaa7c0e7fa035f05ff7af2bf01396a3abd",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0398.1.tif",
+          "sha256": "4321a4323923a76ab6bc67296e1e852ed275d7f7e988012d238777b571ce6e04"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0399.1.tif",
+          "sha256": "4245e13f007675bbe92073255e19812ca4d5bf7ea79ae281b38483ca0e1757be"
+        }
+      ],
+      "notes": "Hela 5:1–14 bildläst; 5:2 över spaltgränsen och gränsen 5:10–11 över sidgränsen. Dubblerat och i 5:5 och saknad slutpunkt i 5:10 rättas; vara i 5:4 sparas. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V157 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R297, R298."
+    },
+    {
+      "book": "Rev",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 17,
+      "text_sha256": "15607823b2c0462f772b7f07d5ba8aecc820155b6b44870568b3e1edc96546e4",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0399.1.tif",
+          "sha256": "4245e13f007675bbe92073255e19812ca4d5bf7ea79ae281b38483ca0e1757be"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0400.1.tif",
+          "sha256": "3124e17b52f708522dbecb3d2a8e9655492e79ca5fc93998a8fc4166c7c053e6"
+        }
+      ],
+      "notes": "Hela 6:1–17 bildläst; gränsen 6:4–5 över spaltgränsen och 6:12 över sidgränsen. Från / ifrån i 6:4, åt och till i 6:11, som / såsom i 6:12 samt alla i 6:15 sparas. Övriga ord och citatgränser stämmer. Originalförstoringen bekräftar Huru i 6:10 utan fotofråga. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V158, V159, V160, V161 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rev",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 17,
+      "text_sha256": "7fc904cc1c5e757437f86091eaa86bf03ff941a6fe2c076a422e67a1ce36c5a6",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0400.1.tif",
+          "sha256": "3124e17b52f708522dbecb3d2a8e9655492e79ca5fc93998a8fc4166c7c053e6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0401.1.tif",
+          "sha256": "eeb96cda47153c626507d367a91c5e3fbd910c194cc6d2d9f27be318658e6f85"
+        }
+      ],
+      "notes": "Hela 7:1–17 bildläst; gränsen 7:3–4 över spaltgränsen och 7:13–14 över sidgränsen. Kolon före stamlistan i 7:4 och inre citatavslut i 7:16 rättas. Sabulons / Sebulons i 7:8 och ordföljden i 7:14 sparas. Ingen slutinterpunktion efter Gud i 7:11 finns heller i trycket. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V162, V163 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R299, R300."
+    },
+    {
+      "book": "Rev",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "c2be12bf493440c4ca9744277214f9a949b914a15ca44402a998ba870ab8f335",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0401.1.tif",
+          "sha256": "eeb96cda47153c626507d367a91c5e3fbd910c194cc6d2d9f27be318658e6f85"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0402.1.tif",
+          "sha256": "095e5bffe75181f96fb154110f19431d01f386970af17d6c26bf14fc4c0dd557"
+        }
+      ],
+      "notes": "Hela 8:1–13 bildläst; gränsen 8:3–4 över spaltgränsen och 8:12 över sidgränsen. Var / blev given i 8:3 och från / ifrån i 8:10 sparas; övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V164, V165 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rev",
+      "chapter": 9,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "80eadad31cf7406c59f22862128038e6a5276b070915859096a4e96d5477e50f",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0402.1.tif",
+          "sha256": "095e5bffe75181f96fb154110f19431d01f386970af17d6c26bf14fc4c0dd557"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0403.1.tif",
+          "sha256": "06194d9700a4a3a2d7ce32dfb029d1723fafed35f7e767a125119808bd032a8a"
+        }
+      ],
+      "notes": "Hela 9:1–21 bildläst; gränsen 9:6–7 över spaltgränsen och 9:17 över sidgränsen. Främmande första att i 9:5 tas bort enligt trycket. För min syn / för mig i min syn i 9:17 sparas. Originalförstoringen bekräftar den som hade basunen i 9:14 utan fotofråga. Abaddon och Apollyon samt övriga ord stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V166 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R301."
+    },
+    {
+      "book": "Rev",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 11,
+      "text_sha256": "4a8de642bf263a01f3e0e9d6b5db8d9de0ac17a85646576fefdef9bc84451924",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0403.1.tif",
+          "sha256": "06194d9700a4a3a2d7ce32dfb029d1723fafed35f7e767a125119808bd032a8a"
+        }
+      ],
+      "notes": "Hela 10:1–11 bildläst på en sida; gränsen 10:3–4 över spaltgränsen. Citatavslut i 10:11 återställs. Avsaknaden av skiljetecken efter himmelen i 10:5 stämmer; övriga ord och citatgränser bekräftade. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R302."
+    },
+    {
+      "book": "Rev",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 19,
+      "text_sha256": "e80d809f73450b532eda8f4cb3c004a184a74a12e3152818f2678bc5cecfcbb2",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0404.1.tif",
+          "sha256": "0bde10e24751e524aa7f68e726aad04cbf8547f26eb84d71daaf195bcc936845"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0405.1.tif",
+          "sha256": "f9c2c668305218dec985a42c2b0cf3eb3e81571f360855ab2ead860d40a8e6ce"
+        }
+      ],
+      "notes": "Hela 11:1–19 bildläst; gränsen 11:8–9 över spaltgränsen och 11:17 över sidgränsen. Alla ord, inre citat och versgränser stämmer; ingen slutinterpunktion efter Gud i 11:16 finns heller i trycket. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Rev",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "8ff517d41d032e7c988c82720c5eec0f051f62bcaec6a7a21774479b55ee5983",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0405.1.tif",
+          "sha256": "f9c2c668305218dec985a42c2b0cf3eb3e81571f360855ab2ead860d40a8e6ce"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0406.1.tif",
+          "sha256": "fb382b6bafbe66c050b56d1726c06f0d6fb13571ea694572c6ca9d1638874dd1"
+        }
+      ],
+      "notes": "Hela 12:1–18 bildläst; gränsen 12:5–6 över spaltgränsen och 12:14 över sidgränsen. Den / dem i 12:4 och det främmande barn före gossebarn i 12:5 rättas. 12:18 står efter kapitelrubriken för 13 i trycket; koordinaten bekräftad. Korpusens stora Och mot tryckets och efter semikolon i 12:6 behålls som versaltypografi. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R303, R304."
+    },
+    {
+      "book": "Rev",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "232c4be9c5486e2b41590f89eedbb93c74be3c96e3bb6c29c4b3bb3e6f69bbdd",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0406.1.tif",
+          "sha256": "fb382b6bafbe66c050b56d1726c06f0d6fb13571ea694572c6ca9d1638874dd1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0407.1.tif",
+          "sha256": "d6352cba096ce3c11b4f09cc6b4922b9670220898e9c19ccef3fd12604b80ec8"
+        }
+      ],
+      "notes": "Hela 13:1–18 bildläst; 13:5 över spaltgränsen och 13:14 över sidgränsen. Och / ock och kolon före citat i 13:4 samt den / det i 13:6 rättas. Alla övriga ord, antalet sex hundra sextiosex i 13:18 och versgränser stämmer; avdelande tankstreck i 13:17 harmoniseras inte. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R305, R306."
+    },
+    {
+      "book": "Rev",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "32ee8d1eb8ca7f90206dff576c19b51f803bb29ff94341e9be2ff523afbdfc54",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0407.1.tif",
+          "sha256": "d6352cba096ce3c11b4f09cc6b4922b9670220898e9c19ccef3fd12604b80ec8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0408.1.tif",
+          "sha256": "4859a714dcb2d7986af30cdc315cb2c6f91e47322ef0139cf50a97a6f21a6f2c"
+        }
+      ],
+      "notes": "Hela 14:1–20 bildläst; gränsen 14:3–4 över spaltgränsen, 14:11–12 över sidgränsen och 14:20 över spaltgränsen. Saknat citatavslut i 14:7, vaken / varken i 14:11, kolon i 14:18 och trampade / trampades i 14:20 rättas. Saknat och före jämte i 14:1 sparas för annat tryck. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V167 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R307, R308, R309, R310."
+    },
+    {
+      "book": "Rev",
+      "chapter": 15,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "552c7209c3b877dfd67565c8498024e3dcef4835efb2b06987cf83b9491872ee",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0408.1.tif",
+          "sha256": "4859a714dcb2d7986af30cdc315cb2c6f91e47322ef0139cf50a97a6f21a6f2c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0409.1.tif",
+          "sha256": "a9450fe2616638a4ce0dbc2fbb6ffc1bc61e485d5dd771a8edfd35fbcba35477"
+        }
+      ],
+      "notes": "Hela 15:1–8 bildläst; gränsen 15:6–7 över sidgränsen. Fått / nått sin fullbordan i 15:8 sparas. Moses’ i 15:3 samt sångens ord och citatgränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V168 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rev",
+      "chapter": 16,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "f2660e2e93d959ebe96b4a9692c6e6160b7bf880e749a81937f45b16d0ff7e30",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0409.1.tif",
+          "sha256": "a9450fe2616638a4ce0dbc2fbb6ffc1bc61e485d5dd771a8edfd35fbcba35477"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0410.1.tif",
+          "sha256": "e9c5da17af82d2a62bb4f0634ced58598f9d47fcb0ba19d2db35c067d64af2a0"
+        }
+      ],
+      "notes": "Hela 16:1–21 bildläst; gränsen 16:6–7 över spaltgränsen och 16:16–17 över sidgränsen. Kolon före citatet i 16:17 rättas; från / ifrån i samma vers sparas. Korpusens helige mot tryckets Helige i 16:5 behålls som versalskillnad. Parentesen i 16:15, Harmagedon och övriga ord stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V169 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R311."
+    },
+    {
+      "book": "Rev",
+      "chapter": 17,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "190b91ff70fb70b980a2da7f1a553a1ea9fd2b4ebdab77c2764736992f937d3d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0410.1.tif",
+          "sha256": "e9c5da17af82d2a62bb4f0634ced58598f9d47fcb0ba19d2db35c067d64af2a0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0411.1.tif",
+          "sha256": "4fb995767854cfbf71c087c04d89029950754ad8c7e6eef7d14d499284316726"
+        }
+      ],
+      "notes": "Hela 17:1–18 bildläst; gränsen 17:3–4 över spaltgränsen och 17:12 över sidgränsen. Med / till i 17:1 sparas. Alla andra ord och citatgränser, inklusive konungarnas antal i 17:9–12, stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V170 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "Rev",
+      "chapter": 18,
+      "status": "needs-review",
+      "verse_count": 24,
+      "text_sha256": "1190a363c4fe25f917fc76e19b936c6d666b2a57c9364e9ab73c68e900692c40",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0411.1.tif",
+          "sha256": "4fb995767854cfbf71c087c04d89029950754ad8c7e6eef7d14d499284316726"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0412.1.tif",
+          "sha256": "20167442da925ac5c1f1f7fd8d34717cf6b25329dcfa1b0eeaeb5bf7d55d6e7e"
+        }
+      ],
+      "notes": "Hela 18:1–24 bildläst; 18:2 över spaltgränsen, gränsen 18:9–10 över sidgränsen och 18:19 över spaltgränsen. Dubblerat och i 18:7, ser / se i 18:18 och saknat inre citatavslut i 18:19 rättas. Bullret av en kvarn börjar tryckets 18:23 och du genom vars trolldom tryckets 18:24, men dessa fraser ligger i föregående vers i korpusen; gränserna 18:22–24 sparas utan flytt. Versal De / de i 18:14 behandlas som versaltypografi. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V171 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R312, R313, R314."
+    },
+    {
+      "book": "Rev",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "c9b7b51775c10a99a1b0244b968adee8fac1857f5cc5cc54b53edd1652d8c267",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0412.1.tif",
+          "sha256": "20167442da925ac5c1f1f7fd8d34717cf6b25329dcfa1b0eeaeb5bf7d55d6e7e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0413.1.tif",
+          "sha256": "54b6e3adc350376158b7637bc14dba1efaabe605975c76a51bdbe3993eebcb76"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0414.1.tif",
+          "sha256": "8795e78479e4d96c29546563c13c90a9737dd7d31ad5f747257bf4f1daacb762"
+        }
+      ],
+      "notes": "Hela 19:1–21 bildläst; gränsen 19:1–2 över sidgränsen, 19:10–11 över spaltgränsen och 19:19–20 över sidgränsen. Kolon före citatet i 19:1 rättas. Korpusens Guds Ord mot tryckets Guds ord i 19:13 behålls som versalskillnad. Alla andra ord och citatgränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R315."
+    },
+    {
+      "book": "Rev",
+      "chapter": 20,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "879c0057d1156b86cdb15d1e817515b2b45c2040b7b69ca9a7c1f1525f3bd9b3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0414.1.tif",
+          "sha256": "8795e78479e4d96c29546563c13c90a9737dd7d31ad5f747257bf4f1daacb762"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0415.1.tif",
+          "sha256": "f721551b68f673e9f79f845c848bee720c5637528d22590418ea8d5d32259b62"
+        }
+      ],
+      "notes": "Hela 20:1–15 bildläst; gränsen 20:4–5 över spaltgränsen och 20:12–13 över sidgränsen. Blev / blevo i 20:13 rättas; icke heller / icke hade i 20:4 och vid / i i 20:8 sparas. Korpusens Guds Ords mot tryckets Guds ords i 20:4 behålls som versalskillnad; avsaknaden av skiljetecken efter år i 20:2 stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V172, V173 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R316."
+    },
+    {
+      "book": "Rev",
+      "chapter": 21,
+      "status": "needs-review",
+      "verse_count": 27,
+      "text_sha256": "a5bc7532de4637e14f8757f7e305d566cb3f0ca612b468f9812aa034fca52548",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0415.1.tif",
+          "sha256": "f721551b68f673e9f79f845c848bee720c5637528d22590418ea8d5d32259b62"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0416.1.tif",
+          "sha256": "7a874d361c79f64908b17b82edf164ac5adea8ae3ebc66ebfc98ba1f70a4025d"
+        }
+      ],
+      "notes": "Hela 21:1–27 bildläst; gränsen 21:5–6 över spaltgränsen, 21:14–15 över sidgränsen och 21:24–25 över spaltgränsen. Den beryll / en beryll i 21:20 och semikolon efter tempel i 21:22 rättas. Visa / vissa i 21:5 sparas. Tankstrecken kring parentesen i 21:25 behandlas som typografi; alla namn i ädelstenslistan och övriga ord och gränser kontrollerade. Originalförstoringen visar bortfallna bokstavsdelar i talade i 21:15; en fotofråga sparas utan gissad läsning. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V174, V175 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R317, R318."
+    },
+    {
+      "book": "Rev",
+      "chapter": 22,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "1126620ead627c87db84d5f22076922ccdd1bf294001b85c27b60b97271771d8",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0416.1.tif",
+          "sha256": "7a874d361c79f64908b17b82edf164ac5adea8ae3ebc66ebfc98ba1f70a4025d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0417.1.tif",
+          "sha256": "b05892239599bfdfcf9ede7bb17db214ebc548dd846816a6f75b9c337a1e65c5"
+        }
+      ],
+      "notes": "Hela 22:1–21 bildläst; 22:6 över sidgränsen och 22:14 över spaltgränsen. Skall / skola före tjäna i 22:3 och kolon före Kom i 22:17 rättas. Levande i 22:1 och alla i 22:15 sparas. Där inne / därinne i 22:3 och efter som i 22:12 behandlas som ordmellanrum; hela slutönskan 22:21 bekräftad. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V176, V177 i sv1917-nt-questions/batch-11.md; inga ändringar av frågornas ord. Införda rättelser: R319, R320."
     }
   ],
   "unnumbered": [

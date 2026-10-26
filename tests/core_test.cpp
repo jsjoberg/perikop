@@ -1350,6 +1350,33 @@ int main(int argc, char** argv) {
                  {"1Peter", {4, 11}, "tal i enlighet med Guds ord, om någon", "tal i enlighet med Guds ord; om någon"},
                  {"2Peter", {1, 9}, "från sina förra synder,", "från sina förra synder."},
                  {"1John", {3, 5}, "Och i veten att Han uppenbarades", "Och I veten att Han uppenbarades"},
+                 {"Rev", {2, 10}, "giva dig livets krona,", "giva dig livets krona."},
+                 {"Rev", {2, 26}, "makt över hedningarna.", "makt över hedningarna,"},
+                 {"Rev", {3, 3}, "och tag vara på därpå", "och tag vara därpå"},
+                 {"Rev", {3, 9}, "de komma ock falla ned", "de komma och falla ned"},
+                 {"Rev", {3, 13}, "Anden säger till församlingarna.", "Anden säger till församlingarna»."},
+                 {"Rev", {3, 14}, "den trovärdiga och sannfärdiga vittnet", "det trovärdiga och sannfärdiga vittnet"},
+                 {"Rev", {4, 10}, "inför tronen och säga;", "inför tronen och säga:"},
+                 {"Rev", {5, 5}, "bokrullen och och bryta", "bokrullen och bryta"},
+                 {"Rev", {5, 10}, "regera på jorden»", "regera på jorden.»"},
+                 {"Rev", {7, 4}, "av alla Israels barns stammar;", "av alla Israels barns stammar:"},
+                 {"Rev", {9, 5}, "Och åt dem blev givet att, icke att döda dem", "Och åt dem blev givet, icke att döda dem"},
+                 {"Rev", {12, 4}, "och kastade den ned på jorden", "och kastade dem ned på jorden"},
+                 {"Rev", {12, 5}, "hon födde ett barn gossebarn", "hon födde ett gossebarn"},
+                 {"Rev", {13, 4}, "de tillbådo och vilddjuret och sade »", "de tillbådo ock vilddjuret och sade: »"},
+                 {"Rev", {13, 6}, "Och den öppnade sin mun", "Och det öppnade sin mun"},
+                 {"Rev", {14, 11}, "ingen ro, vaken dag eller natt", "ingen ro, varken dag eller natt"},
+                 {"Rev", {14, 18}, "lien; han sade »", "lien; han sade: »"},
+                 {"Rev", {14, 20}, "Och vinpressen trampade utanför staden", "Och vinpressen trampades utanför staden"},
+                 {"Rev", {16, 17}, "och sade »Det är gjort.»", "och sade: »Det är gjort.»"},
+                 {"Rev", {18, 7}, "drottning och och sitter", "drottning och sitter"},
+                 {"Rev", {18, 18}, "och när de ser röken", "och när de se röken"},
+                 {"Rev", {19, 1}, "i himmelen, som sade »", "i himmelen, som sade: »"},
+                 {"Rev", {20, 13}, "och dessa blev dömda", "och dessa blevo dömda"},
+                 {"Rev", {21, 20}, "den åttonde den beryll", "den åttonde en beryll"},
+                 {"Rev", {21, 22}, "Och jag såg i den intet tempel, ty", "Och jag såg i den intet tempel; ty"},
+                 {"Rev", {22, 3}, "och hans tjänare skall tjäna honom", "och hans tjänare skola tjäna honom"},
+                 {"Rev", {22, 17}, "han säge »Kom.»", "han säge: »Kom.»"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1382,6 +1409,16 @@ int main(int argc, char** argv) {
               "1Peter 4:6 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "1John", {3, 11})->text.ends_with("att vi skola älska varandra."),
               "1John 3:11 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Rev", {3, 22})->text.ends_with("Anden säger till församlingarna.»"),
+              "Rev 3:22 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Rev", {7, 16})->text.ends_with("någon brännande hetta.'"),
+              "Rev 7:16 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Rev", {10, 11})->text.ends_with("tungomål och konungar.»"),
+              "Rev 10:11 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Rev", {14, 7})->text.ends_with("himmel och jord och hav och vattenkällor.»"),
+              "Rev 14:7 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Rev", {18, 19})->text.ends_with("I ett ögonblick har den nu blivit förödd.'"),
+              "Rev 18:19 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
               "Luke 3:9 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),

@@ -1,24 +1,24 @@
 # form	occurrences	kind	nst_sampa
-och	39655	word	"Ok
+och	39653	word	"Ok
 i	15966	word	
 till	15694	word	"tIl
 som	14018	word	
-att	12744	word	"at
+att	12743	word	"at
 han	12025	word	"han
 de	11741	word	
-det	8674	word	
-en	8481	word	"En
+det	8676	word	
+en	8482	word	"En
 Och	8353	word	"Ok
-skall	8265	word	"skal
-på	8258	word	
+skall	8264	word	"skal
+på	8257	word	
 icke	8179	word	""I$ke
 för	8154	word	"f2:r
 jag	8126	word	"jA:g
-den	7755	word	
+den	7751	word	
 med	7575	word	"me:d
 är	7545	word	"E:r
 av	7271	word	
-dem	6937	word	"dOm
+dem	6938	word	"dOm
 så	6854	word	"so:
 honom	6737	word	""hO$nOm
 har	6692	word	"hA:r
@@ -53,7 +53,7 @@ när	2558	word	"nE:r
 Då	2455	word	"do:
 vad	2422	word	"vA:d
 hava	2415	word	""hA:$va
-skola	2386	word	""sku:$la
+skola	2387	word	""sku:$la
 deras	2223	word	""de:$ras
 sina	2218	word	""si:$na
 mot	2217	word	"mu:t
@@ -68,7 +68,7 @@ vid	1982	word	"vi:d
 ut	1961	word	"}:t
 oss	1942	word	"Os
 detta	1932	word	
-barn	1833	word	"bA:n`
+barn	1832	word	"bA:n`
 ock	1775	word	"Ok
 Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
@@ -100,7 +100,7 @@ konungen	1296	word	""ko:$nu0N$en
 voro	1294	word	""vu:$rU
 dess	1280	word	"dEs
 få	1278	word	
-se	1233	word	"se:
+se	1234	word	"se:
 ditt	1204	word	"dIt
 ned	1203	word	"ne:d
 hela	1188	word	""he:$la
@@ -113,7 +113,7 @@ ifrån	1141	word
 kom	1141	word	"kOm
 ur	1141	word	"}:r
 När	1133	word	"nE:r
-blev	1127	word	"ble:v
+blev	1126	word	"ble:v
 Guds	1119	word	"g}:ds
 in	1119	word	"In
 bort	1115	word	
@@ -255,7 +255,7 @@ vilja	404	word	""vIl$ja
 vatten	403	word	"va$ten
 hörde	402	word	""h2:$d`e
 kunde	402	word	""ku0n$de
-blevo	400	word	""ble:$vU
+blevo	401	word	""ble:$vU
 gott	398	word	"gOt
 nämligen	395	word	""nEm$lI$gen
 själva	393	word	""x\El$va
@@ -460,9 +460,9 @@ konungar	204	word	""ko:$nu0N$ar
 huset	203	word	"h}:$set
 slog	203	word	"slu:g
 Farao	201	name	""fA:$ra$U
-ser	201	word	"se:r
 aldrig	200	word	""al$drIg
 edert	200	word	"e:$det`
+ser	200	word	"se:r
 sett	200	word	
 släkt	200	word	"slEkt
 Jonatan	199	name	""ju:$na$tan
@@ -657,6 +657,7 @@ vän	131	word	"vE:n
 ens	130	word	"Ens
 inom	130	word	""In$%Om
 människorna	130	word	""mE$nI$x\U$n`a
+varken	130	word	""var$ken
 bad	129	word	"bA:d
 behag	129	word	be$"hA:g
 for	129	word	"fu:r
@@ -664,7 +665,6 @@ högt	129	word
 levde	129	word	""le:v$de
 penningar	129	word	""pE$nIN$ar
 sant	129	word	"sant
-varken	129	word	""var$ken
 Jerusalems	128	name	jE$""r}:$sa$lems
 hopp	128	word	"hOp
 namnet	128	word	"nam$net
@@ -3482,7 +3482,6 @@ tecknade	18	word	""tE$kna$de
 tillfalla	18	word	""tIl$%fa$la
 tillkommande	18	word	""tIl$%kO$man$de
 tillkommelse	18	word	
-trampade	18	word	""tram$pa$de
 trumpeterna	18	word	tru0m$"pe:$te$n`a
 trädet	18	word	""trE:$det
 träffar	18	word	""trE$far
@@ -3615,6 +3614,7 @@ tackade	17	word	""ta$ka$de
 tak	17	word	"tA:k
 tillintetgöra	17	word	tIl$""In$tet$%j2:$ra
 trakter	17	word	""trak$ter
+trampade	17	word	""tram$pa$de
 tredjedelen	17	word	""tre:d$je$%de:$len
 trettiotvå	17	word	tre$tI$U$"tvo:
 trogna	17	word	""tru:$gna
@@ -4535,7 +4535,6 @@ utsända	13	word	""}:t$%sEn$da
 uttalade	13	word	""}:t$%tA:$la$de
 utvälja	13	word	""}:t$%vEl$ja
 utåt	13	word	
-vaken	13	word	""vA:$ken
 vandring	13	word	""van$drIN
 vanligt	13	word	""vA:n$lIkt
 varest	13	word	""vA:$rest
@@ -4803,6 +4802,7 @@ uppslukade	12	word	""u0p$%sl}:$ka$de
 usla	12	word	""}:$sla
 utbreda	12	word	""}:t$%bre:$da
 utgör	12	word	""}:t$%j2:r
+vaken	12	word	""vA:$ken
 vakten	12	word	"vak$ten
 varade	12	word	""vA:$ra$de
 vattna	12	word	""vat$na
@@ -26921,6 +26921,7 @@ torrskodd	1	word	""tOr$%skUd
 torvor	1	word	""tOr$vUr
 tracisk	1	word	
 trakte	1	word	
+trampades	1	word	""tram$pa$des
 trampe	1	word	
 trampet	1	word	"tram$pet
 trana	1	word	""trA:$na

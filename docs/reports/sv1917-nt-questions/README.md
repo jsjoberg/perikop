@@ -14,5 +14,6 @@ Användaren är borta från boken; **ingen åtgärd behövs nu**. Här samlas fr
 | [NT 8](batch-8.md) | Timoteusbreven, Titus och Filemon | 1, V148 | 2 Tim. 4:10 |
 | [NT 9](batch-9.md) | Hebreerbrevet och Jakobs brev | 3, V149–V151 | Hebr. 9:19; Jak. 1:11, 4:15 |
 | [NT 10](batch-10.md) | Petrusbreven, Johannesbreven och Judas brev | 1, V152 | 1 Joh. 2:20 |
+| [NT 11](batch-11.md) | Uppenbarelseboken 1–22 | 25, V153–V177 | 1:4; 2:14; 4:3, 9; 5:4; 6:4, 11–12, 15; 7:8, 14; 8:3, 10; 9:17; 14:1; 15:8; 16:17; 17:1; 18:22–24; 20:4, 8; 21:5, 15; 22:1, 15 |
 
-Alla trettio frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
+Alla femtiofem frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
