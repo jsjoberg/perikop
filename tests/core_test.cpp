@@ -1343,6 +1343,13 @@ int main(int argc, char** argv) {
                  {"James", {2, 5}, "Har icke Gud utvald just", "Har icke Gud utvalt just"},
                  {"James", {4, 1}, "krig i eder lemmar", "krig i edra lemmar"},
                  {"James", {4, 15}, "vi får leva", "vi få leva"},
+                 {"1Peter", {2, 20}, "välbehaglig för Gud.", "välbehagligt för Gud."},
+                 {"1Peter", {3, 1}, "Sammalunda, i hustrur, underordnen eder edra män, för att också de män, som till äventyrs icke hörsamma ordet; må genom sina hustrurs vandel bliva vunna utan ord,", "Sammalunda, I hustrur, underordnen eder edra män, för att också de män, som till äventyrs icke hörsamma ordet, må genom sina hustrurs vandel bliva vunna utan ord,"},
+                 {"1Peter", {3, 19}, "I anden gick han gick han ock åstad", "I anden gick han ock åstad"},
+                 {"1Peter", {3, 21}, "Efter denna förebild bliven nu och I frälsta", "Efter denna förebild bliven nu ock I frälsta"},
+                 {"1Peter", {4, 11}, "tal i enlighet med Guds ord, om någon", "tal i enlighet med Guds ord; om någon"},
+                 {"2Peter", {1, 9}, "från sina förra synder,", "från sina förra synder."},
+                 {"1John", {3, 5}, "Och i veten att Han uppenbarades", "Och I veten att Han uppenbarades"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1367,6 +1374,14 @@ int main(int argc, char** argv) {
               "Acts 27:34 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Acts", {28, 22})->text.ends_with("allestädes mötes med gensägelse.»"),
               "Acts 28:22 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "1Peter", {2, 22})->text.ends_with("fanns i hans mun.»"),
+              "1Peter 2:22 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "1Peter", {3, 11})->text.ends_with("trakte därefter."),
+              "1Peter 3:11 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "1Peter", {4, 6})->text.ends_with("så som Gud lever."),
+              "1Peter 4:6 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "1John", {3, 11})->text.ends_with("att vi skola älska varandra."),
+              "1John 3:11 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
               "Luke 3:9 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),

@@ -8276,6 +8276,330 @@
         }
       ],
       "notes": "Hela 5:1–20 bildläst; 5:10 över sidgränsen och 5:15 över spaltgränsen kontrollerade. Den ovanliga versgränsen 5:13–14 stämmer: Är någon glad inleder 5:14 i båda vittnena. Inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "1Peter",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "5ce2106140e1436ec3dc8f44ea116b17c42dceb946e1ee23a05cbe4d0b070557",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0368.1.tif",
+          "sha256": "72904a8965f5cac2108acc248383f099bebef056c9d3117b5cc279cebe012e84"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0369.1.tif",
+          "sha256": "dc554c12cc569859300e5a6a8672a0e93bdb1f932053702877e315c70ce5deaa"
+        }
+      ],
+      "notes": "Hela 1:1–25 bildläst; 1:7 över spaltgränsen och gränsen 1:13–14 över sidgränsen kontrollerade. Citatet 1:24–25 och dess övergång till förklaringen i 1:25 stämmer; inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "1Peter",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "5573f903366cf4eb810102bb025ea53adcb8d2429a4cddc0ad433aa7ae61732f",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0369.1.tif",
+          "sha256": "dc554c12cc569859300e5a6a8672a0e93bdb1f932053702877e315c70ce5deaa"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0370.1.tif",
+          "sha256": "438532aeef629db51d300fdbcf5c5a88e11ff95e8e05c6d7b0e95e242ef64573"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0371.1.tif",
+          "sha256": "91c1a752e239bd418f1b7c05a1c59c9278f2eb342ea5c8dc31fd7c3671f8a203"
+        }
+      ],
+      "notes": "Hela 2:1–25 bildläst; 2:6 över sidgränsen, 2:14 över spaltgränsen och gränsen 2:23–24 över sidgränsen kontrollerade. Originalförstoring bekräftar välbehagligt i 2:20 och slutcitat efter mun. i 2:22; båda återställs. De inre citaten i 2:7–10, 17 och 24–25 stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R278, R279."
+    },
+    {
+      "book": "1Peter",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "3018a92de2c0c56d77e918f5703e5a8a67783e9f108cbbfdc23bd3572db116bc",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0371.1.tif",
+          "sha256": "91c1a752e239bd418f1b7c05a1c59c9278f2eb342ea5c8dc31fd7c3671f8a203"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0372.1.tif",
+          "sha256": "ade3c4308565db2631bc1d3bfc558e660399243fc9008dd08fc4e79494936b43"
+        }
+      ],
+      "notes": "Hela 3:1–22 bildläst; gränsen 3:6–7 över spaltgränsen och 3:14–15 över sidgränsen kontrollerade. Originalförstoring bekräftar tilltalspronomenet I och komma i 3:1, slutpunkt i 3:11, enkelt gick han i 3:19 och ock I i 3:21. Samtliga återställs. Ingen slutinterpunktion efter fruktan i 3:15 finns heller i trycket; den äldre formen väldige i 3:22 behålls. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R280, R281, R282, R283."
+    },
+    {
+      "book": "1Peter",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 19,
+      "text_sha256": "83128a92680438d93e4f81dbfd07f30c16ed3c4ded9cbae1ef7a0bc8b71c966b",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0372.1.tif",
+          "sha256": "ade3c4308565db2631bc1d3bfc558e660399243fc9008dd08fc4e79494936b43"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0373.1.tif",
+          "sha256": "e7d859656552ff9996a54bec93ddbec7261c34fe19f88904fa36381a59cb1beb"
+        }
+      ],
+      "notes": "Hela 4:1–19 bildläst; gränsen 4:9–10 över sidgränsen och 4:17–18 över spaltgränsen kontrollerade. Originalförstoring bekräftar slutpunkt i 4:6 och semikolon efter Guds ord i 4:11; de återställs. Så som / såsom i 4:6 behandlas som ordmellanrum; litet amen i 4:11 stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R284, R285."
+    },
+    {
+      "book": "1Peter",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 14,
+      "text_sha256": "5b54ef73044473aed37f2cf3d8e8862a90f5cd9f9015696cf1798e0ebe60b3b4",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0373.1.tif",
+          "sha256": "e7d859656552ff9996a54bec93ddbec7261c34fe19f88904fa36381a59cb1beb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0374.1.tif",
+          "sha256": "f500d5e5a126ba5145bb109210fe8fb857beff063c457e83860a16481e36eb8a"
+        }
+      ],
+      "notes": "Hela 5:1–14 bildläst; gränsen 5:5–6 över sidgränsen och 5:10 över spaltgränsen kontrollerade. Citatgränserna 5:5 och 7 samt slutönskan inom 5:14 stämmer. Inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "2Peter",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "7e0425a00f78aee828905fdd2c172cda4257b586f864082640e4e66ea075d87d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0374.1.tif",
+          "sha256": "f500d5e5a126ba5145bb109210fe8fb857beff063c457e83860a16481e36eb8a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0375.1.tif",
+          "sha256": "a5fe90c70756e36126e59e9055261939db0a2fd500ce58dd3780c96a9d381222"
+        }
+      ],
+      "notes": "Hela 1:1–21 bildläst; 1:4 över spaltgränsen, gränsen 1:8–9 över sidgränsen och 1:19 över spaltgränsen kontrollerade. Originalförstoring bekräftar slutpunkt efter synder i 1:9; den återställs. Korpusens fadern mot tryckets Fadern i 1:17 behålls som uttrycklig versalskillnad; orden och citatgränsen stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R286."
+    },
+    {
+      "book": "2Peter",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "157bf6cf535e0679fece536a5791eaf28108b1104c3c44e14b66d68948f8038d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0375.1.tif",
+          "sha256": "a5fe90c70756e36126e59e9055261939db0a2fd500ce58dd3780c96a9d381222"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0376.1.tif",
+          "sha256": "018520ea216180bd7d4799dab9a860f5e227e9e20e1a39f9df9325ee6074724a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0377.1.tif",
+          "sha256": "0c1cdb2deea3e72162164eda34c126be8f37b3c31b73ee7dacf55e0851acca80"
+        }
+      ],
+      "notes": "Hela 2:1–22 bildläst; 2:5 över sidgränsen, 2:13 över spaltgränsen och 2:21 över sidgränsen kontrollerade. Alla ord, inklusive Balam och Beors i 2:15, och båda ordspråken i 2:22 stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "2Peter",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "657cf3542c4bb8e7630883b660eb39de38ba85e638251766fe016a05445ddb8c",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0377.1.tif",
+          "sha256": "0c1cdb2deea3e72162164eda34c126be8f37b3c31b73ee7dacf55e0851acca80"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0378.1.tif",
+          "sha256": "203ccd70cb2fcdeb3756961ca151d9d0ccbfddc7b050602f6bdc927b12c275f1"
+        }
+      ],
+      "notes": "Hela 3:1–18 bildläst; 3:7 över spaltgränsen, gränsen 3:15–16 över sidgränsen och 3:17 över spaltgränsen kontrollerade. Citatet 3:4 och citatgränserna i 3:8 och 13 samt slutönskan i 3:18 stämmer. Inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "1John",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 10,
+      "text_sha256": "e1c9f507a24336b1079286393123d513b0419d65011dff779035fee1943b62d9",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0378.1.tif",
+          "sha256": "203ccd70cb2fcdeb3756961ca151d9d0ccbfddc7b050602f6bdc927b12c275f1"
+        }
+      ],
+      "notes": "Hela 1:1–10 bildläst; 1:6 över spaltgränsen kontrollerad. Alla ord i prologen 1:1–4 och undervisningen om ljus och synd stämmer; inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "1John",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "d6d27675b9f32d3b2bd3e4d6139984f3043f1c0dd6ec214422f0f2f9bf371a81",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0378.1.tif",
+          "sha256": "203ccd70cb2fcdeb3756961ca151d9d0ccbfddc7b050602f6bdc927b12c275f1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0379.1.tif",
+          "sha256": "6e9603e3fec65eb2c59b3dce9aea45712c5f5d02029197e2ca33ace9302ae966"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0380.1.tif",
+          "sha256": "b01b286bc29878f8136cb41f386ced15c3711f91ac89a63ece05841214d7e066"
+        }
+      ],
+      "notes": "Hela 2:1–29 bildläst; gränsen 2:1–2 över sidgränsen, 2:12–13 över spaltgränsen och 2:21 över sidgränsen kontrollerade. Originalförstoring bekräftar all / alla kunskap i 2:20; sparas som V152 utan ordändring. Versalen Han i 2:6 och alla övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V152 i sv1917-nt-questions/batch-10.md; inga ändringar av frågornas ord."
+    },
+    {
+      "book": "1John",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "7f9f76068fafb60e1df3b801f2a1237e15184f2588d0d0dc5488c2b9f3aa3ebe",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0380.1.tif",
+          "sha256": "b01b286bc29878f8136cb41f386ced15c3711f91ac89a63ece05841214d7e066"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0381.1.tif",
+          "sha256": "8038149b19384ffcc20938621216ac039b30ab407cc5d2a4830849b843d28dbb"
+        }
+      ],
+      "notes": "Hela 3:1–24 bildläst; gränsen 3:9–10 över sidgränsen och 3:19–20 över spaltgränsen kontrollerade. Originalförstoring bekräftar tilltalspronomenet I i 3:5 och slutpunkt i 3:11; båda återställs. Tryckets lilla och vid början av 3:12 behålls liksom versal Han i 3:3, 5, 7 och 16; övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R287, R288."
+    },
+    {
+      "book": "1John",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "fa3a925e96bf6ef579db227d746ecdce75236d0d26ba949ffcd068438ef374d9",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0381.1.tif",
+          "sha256": "8038149b19384ffcc20938621216ac039b30ab407cc5d2a4830849b843d28dbb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0382.1.tif",
+          "sha256": "2b5a7912fc724c891b4f4a6e612442b18964fdc2982e31bf53564daa8795dd26"
+        }
+      ],
+      "notes": "Hela 4:1–21 bildläst; gränsen 4:3–4 över sidgränsen och 4:13–14 över spaltgränsen kontrollerade. Bekännelsens exakta ord i 4:2–3, versal Han i 4:17 och alla övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "1John",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "9b1cae50f28002f971868e454e3c7db422d39effc082b1e64e1f580b52272f5a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0382.1.tif",
+          "sha256": "2b5a7912fc724c891b4f4a6e612442b18964fdc2982e31bf53564daa8795dd26"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0383.1.tif",
+          "sha256": "47749c0de3ee99fedad9768dc9b20eff021a5cf2d8d1efdc7746999ca1fe54a8"
+        }
+      ],
+      "notes": "Hela 5:1–21 bildläst; gränsen 5:1–2 över sidgränsen och 5:12–13 över spaltgränsen kontrollerade. Den korta 5:7 och fortsättningen i 5:8 stämmer; ingen extra text läggs till. Alla ord om vittnesbörd, bön och slutuppmaningen 5:21 bekräftade. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "2John",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 13,
+      "text_sha256": "725aa7beb6aafae32826ee3ffbce73966b6b19afe42767cd353797282f83536a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0384.1.tif",
+          "sha256": "2a4bcbd5c77bc0638a957e5ba2a9691830d8f6fa147bf6d3aac2582e3901b1ab"
+        }
+      ],
+      "notes": "Hela 1:1–13 bildläst på en sida; gränsen 1:6–7 över spaltgränsen kontrollerad. Semikolonet i 1:5, ordalydelsen skulle komma i köttet i 1:7 och slutönskan i 1:13 stämmer. Inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "3John",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "3d5a4c4525eae92d4670946203796fffe1d96b6cab8f5a6ae6bf07551eddc0df",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0385.1.tif",
+          "sha256": "edaa3fda4f897ddf5639843a938eafaa3fca06f545d0ea4a3514c410bfc7a295"
+        }
+      ],
+      "notes": "Hela 1:1–15 bildläst på en sida; 1:8 över spaltgränsen kontrollerad. Namnen Gajus, Diotrefes och Demetrius samt tryckets plurala Mina älskade i 1:11 stämmer. Slutönskan i 1:15 bekräftad; inga ordskillnader. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Jude",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "321265b39f4e34467716bfdaf561cc9020a7a65e0365fb316227489d9a272700",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0391.1.tif",
+          "sha256": "eb5e054cd005371cd9b84df5559d6c4b1dac1fbb06f7875a7469952646371309"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0392.1.tif",
+          "sha256": "5c64d9910d9d7e78123a6e58c9a22987f3657fcce80300545a28118f9df89529"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0393.1.tif",
+          "sha256": "2f95f9bdbf39891ba82e1223876d820a3f8e2e30964c9b6d9d8379a7f829565c"
+        }
+      ],
+      "notes": "Hela 1:1–25 bildläst; 1:3 över spaltgränsen, 1:5 över sidgränsen, 1:12 över spaltgränsen, gränsen 1:20–21 över sidgränsen och 1:23 över spaltgränsen kontrollerade. Moses’ kropp i 1:9, citatgränserna i 1:14–15 och 18 samt själiska i 1:19 stämmer. Ingen slutinterpunktion efter barmhärtiga i 1:22 finns heller i trycket; hela slutönskan 1:24–25 bekräftad. Inga ordskillnader. Uppenbarelseboken börjar längre ned på delade NT s. 393 och räknas inte som granskad här. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
     }
   ],
   "unnumbered": [

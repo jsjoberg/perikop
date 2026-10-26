@@ -1,10 +1,10 @@
 # form	occurrences	kind	nst_sampa
-och	39656	word	"Ok
-i	15968	word	
+och	39655	word	"Ok
+i	15966	word	
 till	15694	word	"tIl
 som	14018	word	
 att	12744	word	"at
-han	12026	word	"han
+han	12025	word	"han
 de	11741	word	
 det	8674	word	
 en	8481	word	"En
@@ -24,7 +24,7 @@ honom	6737	word	""hO$nOm
 har	6692	word	"hA:r
 du	6353	word	"d}:
 sig	5119	word	"sEj
-I	4778	word	"i:
+I	4780	word	"i:
 dig	4736	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
@@ -69,7 +69,7 @@ ut	1961	word	"}:t
 oss	1942	word	"Os
 detta	1932	word	
 barn	1833	word	"bA:n`
-ock	1774	word	"Ok
+ock	1775	word	"Ok
 Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
 eller	1704	word	"E$ler
@@ -135,7 +135,7 @@ dag	980	word	"dA:g
 sedan	979	word	""se:$dan
 blivit	978	word	""bli:$vIt
 än	956	word	
-gick	946	word	"jIk
+gick	945	word	"jIk
 ej	943	word	"Ej
 söner	932	word	""s2:$ner
 ju	905	word	"ju0
@@ -1456,7 +1456,6 @@ sluta	51	word	""sl}:$ta
 stadens	51	word	"stA:$dens
 talenter	51	word	ta$"lEn$ter
 tillhörande	51	word	
-välbehaglig	51	word	""vE:l$be$%hA:$glIg
 Helige	50	word	""he:$lI$ge
 Skall	50	word	"skal
 alltjämt	50	word	"alt$jEmt
@@ -1481,6 +1480,7 @@ söder	50	word
 söners	50	word	""s2:$nes`
 tuktan	50	word	""tu0k$tan
 undervisa	50	word	""u0n$der$%vi:$sa
+välbehaglig	50	word	""vE:l$be$%hA:$glIg
 ödemark	50	word	""2:$de$%mark
 Demetrius	49	name	
 Fördenskull	49	word	f9$"d`En$sku0l
@@ -2331,6 +2331,7 @@ vari	29	word	"var$i:
 vinner	29	word	"vI$ner
 visdom	29	word	""vi:s$%dUm
 väduren	29	word	""vE:$%d}:$ren
+välbehagligt	29	word	""vE:l$be$%hA:$glIkt
 växer	29	word	"vEk$ser
 yngre	29	word	"YN$re
 Alexander	28	name	a$lek$"san$der
@@ -2401,7 +2402,6 @@ vakta	28	word	""vak$ta
 vida	28	word	""vi:$da
 vittnesbördets	28	word	
 väggen	28	word	"vE$gen
-välbehagligt	28	word	""vE:l$be$%hA:$glIkt
 ögonblick	28	word	""2:$gOn$%blIk
 öppnar	28	word	""9p$nar
 övergåvo	28	word	

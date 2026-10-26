@@ -13,5 +13,6 @@ Användaren är borta från boken; **ingen åtgärd behövs nu**. Här samlas fr
 | [NT 7](batch-7.md) | Filipperbrevet till Andra Tessalonikerbrevet | 3, V145–V147 | Kol. 1:23; 1 Tess. 5:17–18; 2 Tess. 1:10 |
 | [NT 8](batch-8.md) | Timoteusbreven, Titus och Filemon | 1, V148 | 2 Tim. 4:10 |
 | [NT 9](batch-9.md) | Hebreerbrevet och Jakobs brev | 3, V149–V151 | Hebr. 9:19; Jak. 1:11, 4:15 |
+| [NT 10](batch-10.md) | Petrusbreven, Johannesbreven och Judas brev | 1, V152 | 1 Joh. 2:20 |
 
-Alla tjugonio frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).
+Alla trettio frågor har full korpusvers, läsbart originalutsnitt, full sidlänk och exakta TIFF-/utsnittshashar. Foton av hela verserna räcker; Codex tolkar dem. Frågorna är inte fastställda fel och deras kapitel räknas inte som verifierade. [Arbetsstatus och nästa kapitel](../sv1917-rest-nt.md).

@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "4dfd3c32be936d5c9d03523960edce5b857309a993ff9d4e094e68a5d2af3a16",
+      "sha256": "a8db17470232c1a7412c4e68cdde31211be1b21acfbfd1fdc43b517891c84966",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -553,7 +553,7 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "dfec2fb265e3da8dff67a2b1bbefd2fb5b0fa5a615b2809e090f4ce1aa51c42d",
+      "sha256": "1e164f7c471afa322c51bd76dba9020e9ed4623e103ef878b9dd03d16ec3cde2",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },
@@ -764,7 +764,7 @@
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "78440eea5dda1b0b97dabb1d73879b9136bc76c3f69136a6516dd4c62d5700da",
+      "sha256": "b10dc4c4152b37a8715cbd12f7f795ed28b6339f1bed765062da1319890a1605",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     },
@@ -820,13 +820,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "a583be6bb4cdf21bb659b80281eaa5b1c972697670449ca271e6221d0de0537c"
+      "sha256": "648ef9f6d5112f761eae8bd9aeb1d9c3d56ca4f4ca45373d331b1d1304882cc2"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "7676993eb59e30ca52dd336a719b2d4559b7e254992807448d0a9fa5c0669cf9"
+      "sha256": "985d5218c2c9eb39214f48825791b0358b4ce64b7695973885dff21fb7d68039"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

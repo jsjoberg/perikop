@@ -332,6 +332,19 @@ REPLACE={
  ('James', 4, 1):('krig i eder lemmar', 'krig i edra lemmar'),
  ('James', 4, 15):('vi får leva', 'vi få leva'),
 
+ # Peter and John letters full scan pass: R278-R288; NT photo batch 10.
+ ('1Peter', 2, 20):('välbehaglig för Gud.', 'välbehagligt för Gud.'),
+ ('1Peter', 2, 22):('fanns i hans mun.', 'fanns i hans mun.»'),
+ ('1Peter', 3, 1):('Sammalunda, i hustrur, underordnen eder edra män, för att också de män, som till äventyrs icke hörsamma ordet; må genom sina hustrurs vandel bliva vunna utan ord,', 'Sammalunda, I hustrur, underordnen eder edra män, för att också de män, som till äventyrs icke hörsamma ordet, må genom sina hustrurs vandel bliva vunna utan ord,'),
+ ('1Peter', 3, 11):('trakte därefter', 'trakte därefter.'),
+ ('1Peter', 3, 19):('I anden gick han gick han ock åstad', 'I anden gick han ock åstad'),
+ ('1Peter', 3, 21):('Efter denna förebild bliven nu och I frälsta', 'Efter denna förebild bliven nu ock I frälsta'),
+ ('1Peter', 4, 6):('så som Gud lever', 'så som Gud lever.'),
+ ('1Peter', 4, 11):('tal i enlighet med Guds ord, om någon', 'tal i enlighet med Guds ord; om någon'),
+ ('2Peter', 1, 9):('från sina förra synder,', 'från sina förra synder.'),
+ ('1John', 3, 5):('Och i veten att Han uppenbarades', 'Och I veten att Han uppenbarades'),
+ ('1John', 3, 11):('att vi skola älska varandra', 'att vi skola älska varandra.'),
+
 }
 
 def chapter_number(name):
