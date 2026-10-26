@@ -1,10 +1,10 @@
 # form	occurrences	kind	nst_sampa
-och	39657	word	"Ok
+och	39656	word	"Ok
 i	15973	word	
 till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
-han	12031	word	"han
+han	12030	word	"han
 de	11741	word	
 det	8674	word	
 en	8482	word	"En
@@ -16,12 +16,12 @@ för	8156	word	"f2:r
 jag	8126	word	"jA:g
 den	7756	word	
 med	7576	word	"me:d
-är	7547	word	"E:r
+är	7548	word	"E:r
 av	7271	word	
 dem	6934	word	"dOm
 så	6857	word	"so:
 honom	6737	word	""hO$nOm
-har	6695	word	"hA:r
+har	6697	word	"hA:r
 du	6355	word	"d}:
 sig	5118	word	"sEj
 I	4770	word	"i:
@@ -95,7 +95,7 @@ vill	1400	word	"vIl
 utan	1382	word	""}:$tan
 någon	1374	word	
 land	1361	word	"land
-hon	1342	word	"hu:n
+hon	1343	word	"hu:n
 konungen	1296	word	""ko:$nu0N$en
 voro	1294	word	""vu:$rU
 dess	1280	word	"dEs
@@ -190,7 +190,7 @@ kommit	627	word	""kO$mIt
 här	626	word	"hE:r
 väl	621	word	"vE:l
 tusen	618	word	"t}:$sen
-år	617	word	"o:r
+år	616	word	"o:r
 bliver	603	word	"bli:$ver
 Det	596	word	
 höra	594	word	""h2:$ra
@@ -903,7 +903,6 @@ kalla	89	word	""ka$la
 smälek	89	word	""smE:$%le:k
 sägen	89	word	"sE:$gen
 utvalt	89	word	""}:t$%vA:lt
-bar	88	word	"bA:r
 gyllene	88	word	""jY$le$ne
 slår	88	word	"slo:r
 stark	88	word	"stark
@@ -923,6 +922,7 @@ utom	87	word	""}:$tOm
 öga	87	word	""2:$ga
 öppna	87	word	""9p$na
 Efraim	86	name	""e:$fra$Im
+bar	86	word	"bA:r
 brev	86	word	"bre:v
 fåglar	86	word	""fo:$glar
 invid	86	word	
@@ -1600,7 +1600,6 @@ ve	45	word	"ve:
 vänta	45	word	""vEn$ta
 överträdelser	45	word	""2:$ve$%t`rE:$del$ser
 Bort	44	word	
-Herodes	44	name	he$"ru:$des
 Sadok	44	name	
 Under	44	word	"u0n$der
 arbetet	44	word	""ar$be:$tet
@@ -1627,6 +1626,7 @@ vädur	44	word	""vE:$%d}:r
 vänt	44	word	"vE:nt
 ögonen	44	word	""2:$gO$nen
 överste	44	word	"2:$ve$s`t`e
+Herodes	43	name	he$"ru:$des
 Mika	43	name	""mi:$ka
 Sikem	43	name	
 Tänk	43	word	"tENk
@@ -7267,6 +7267,7 @@ Helgen	6	word	""hEl$gen
 Hell	6	name	"hEl
 Heres	6	name	
 Hermons	6	name	
+Herodias	6	name	
 Hogla	6	name	
 Hosianna	6	name	hU$sI$"a$na
 Ifrån	6	word	
@@ -8162,7 +8163,6 @@ Hattus	5	name
 Havet	5	word	"hA:$vet
 Heles	5	name	""he:$les
 Helons	5	name	
-Herodias	5	name	
 Himlarna	5	word	""hIm$la$n`a
 Himmelens	5	word	""hI$me$lens
 Hodia	5	name	

@@ -1134,12 +1134,23 @@ int main(int argc, char** argv) {
                  {"Matt", {23, 23}, "skriftlärde och fariséer. I skrymtare", "skriftlärde och fariséer, I skrymtare"},
                  {"Matt", {25, 46}, "dessa skola då då bort", "dessa skola då gå bort"},
                  {"Matt", {27, 47}, "som stodo där borde detta", "som stodo där hörde detta"},
+                 {"Mark", {2, 28}, "Så år då Människosonen", "Så är då Människosonen"},
+                 {"Mark", {3, 11}, "för honom och och ropade", "för honom och ropade"},
+                 {"Mark", {3, 33}, "och sade: Vilken är min moder", "och sade: »Vilken är min moder"},
+                 {"Mark", {6, 16}, "Han bar uppstått från de döda", "Han har uppstått från de döda"},
+                 {"Mark", {6, 19}, "Därför hyste nu Herodes agg till honom och ville döda honom, men han hade icke makt därtill.", "Därför hyste nu Herodias agg till honom och ville döda honom, men hon hade icke makt därtill."},
+                 {"Mark", {10, 19}, "tillkommer', Hedra din fader", "tillkommer', 'Hedra din fader"},
+                 {"Mark", {11, 3}, "sända den tillbaka hit.»", "sända den tillbaka hit.'»"},
+                 {"Mark", {13, 34}, "bjuder portvaktaren att vaka.", "bjuder portvaktaren att vaka,"},
+                 {"Mark", {16, 7}, "såsom han bar sagt eder", "såsom han har sagt eder"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
+        check(corpus.verse("sv1917", "Mark", {10, 12})->text.ends_with("då begår hon äktenskapsbrott.»"),
+              "Mark 10:12 closes Jesus' reply before the following narration");
         check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,
               "Matthew 4:24 retains olika as confirmed by supplementary print photograph V008");
         check(corpus.verse("sv1917", "Matt", {13, 15})->text.ends_with("helade av mig.'") &&

@@ -4020,6 +4020,390 @@
         }
       ],
       "notes": "Hela 28:1–20 ord- och interpunktionsjämförd, inklusive sidfortsättningen mellan 28:2–3 och spaltfortsättningen i 28:11. Inga rättelser eller olösta ordfrågor. Båda Mariorna, tillbådo, gängse och hela slutet 28:18–20 bekräftade. E-textens kommaskillnader i 28:5–8, 28:11, 28:15–17 och 28:20 samt citatens typografiska form behålls. Alla ord och versgränser bekräftade."
+    },
+    {
+      "book": "Mark",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 45,
+      "text_sha256": "2ad4b62a36ec9eccf3b58e6c7a1f307b844665a9671dac44b41a70fc651660cd",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0055.1.tif",
+          "sha256": "9e594a78a87b89f19d037006de9d091582b6f1f986dc8550a1e02a322133fc89"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0056.1.tif",
+          "sha256": "719327a4b51171fe418bb5ead2dfcb3da789774b5881ac3efebd619c9e23ae27"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0057.1.tif",
+          "sha256": "e58fa98c3817d473a083a8a19be2cc6f4f0f9ce89c570b9a1ca4d6a7e96facab"
+        }
+      ],
+      "notes": "Hela 1:1–45 jämförd på s. 55–57, sidgränser mellan 1:18–19 och 1:40–41, spaltfortsättning mellan 1:8–9 och i 1:29. V021: vände i 1:43 mot visade. Övriga ord bekräftade, helig ande i 1:8 båda liten, e-textens kommaskillnader 1:5,1:10,1:21–24,1:27,1:29,1:32,1:34–36,1:44–45 behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 28,
+      "text_sha256": "ac66639c0d03e4dfee987ff15b8e46934851d4cd0eeaf6f5fb392c178dce3d62",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0057.1.tif",
+          "sha256": "e58fa98c3817d473a083a8a19be2cc6f4f0f9ce89c570b9a1ca4d6a7e96facab"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0058.1.tif",
+          "sha256": "f5142a3afe435f5dfab4e28e152c50f1f59409fe62d7a55d985290ff7631e97b"
+        }
+      ],
+      "notes": "Hela 2:1–28 jämförd på s. 57–58, sidfortsättning i 2:16, spaltfortsättning i 2:5 och 2:25. R042 år→är 2:28. V022: steg upp i 2:14 mot stod upp. Abjatar bekräftat. Övriga ord och gränser bekräftade; kommaskillnader 2:1,2:4,2:8,2:10,2:14,2:16–17,2:23–27 behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 35,
+      "text_sha256": "3754b5a450bd05b2b5e98a029e6726af473fdcd14102c7cb8989510e08bbc609",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0058.1.tif",
+          "sha256": "f5142a3afe435f5dfab4e28e152c50f1f59409fe62d7a55d985290ff7631e97b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0059.1.tif",
+          "sha256": "a6e064fd579405d3ebc3087d577529000b33160ec660f84659f32aebf2b28d74"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0060.1.tif",
+          "sha256": "2965ec8a3e2da7044d417f124b6335b0846c5ebf9777546515e297e844859fbf"
+        }
+      ],
+      "notes": "Hela 3:1–35 jämförd s. 58–60, sidfortsättning i 3:6 och mellan 3:28–29, spaltfortsättning mellan 3:17–18. R043 tar bort dubbelt och i 3:11. R044 återställer öppnande » i 3:33. V023 någonsin/ någon 3:29. Boanerges/tordönsmän och bota sjuka i 3:15 bekräftade. Citattypografi och kommaskillnader 3:1,3:3–4,3:9–10,3:13–14,3:21–22,3:29–30,3:32–35 behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 41,
+      "text_sha256": "9a8aadcaa06f0d30b4f6c0c21677414ae0ec268128b85798ee50bdec8be5ecf3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0060.1.tif",
+          "sha256": "2965ec8a3e2da7044d417f124b6335b0846c5ebf9777546515e297e844859fbf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0061.1.tif",
+          "sha256": "d9b0088607b02bb77933a7d0ef4fc9fc62e816221180b20f3883ff279d1a7c65"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0062.1.tif",
+          "sha256": "7e91af547c6b826f363550cd6fce7830ebdc1111af00b57a6bc3d0d3fc505c84"
+        }
+      ],
+      "notes": "Hela 4:1–41 bildjämförd, sidfortsättning mellan 4:16–17 och i 4:38, spaltgränser mellan 4:4–5 och i 4:26. V024 en stor hop/en hop och V025 ock/och. Övriga ord och gränser bekräftade; vanliga komma- och citattypografiska skillnader behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 43,
+      "text_sha256": "a1dbcc975508082cf5540efc96f4604b7a38ecc4bc8dccf56ace6beb79d2be7e",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0062.1.tif",
+          "sha256": "7e91af547c6b826f363550cd6fce7830ebdc1111af00b57a6bc3d0d3fc505c84"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0063.1.tif",
+          "sha256": "f780627135994b8cfc15b200530f33aab83a1e014a60cb49bfdcb3ea7e81124e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0064.1.tif",
+          "sha256": "bda715ff523ea8355e15dbd5db3ba57104a018d17fc9dc772570586f9611044e"
+        }
+      ],
+      "notes": "Hela 5:1–43 bildjämförd, sidfortsättning i 5:19 och mellan 5:40–41, spaltgränser mellan 5:7–8 och i 5:30. V026 orena/orene i 5:8. Originalupplösningen bekräftar dem i 5:10; ingen fråga där. Gerasenernas, Dekapolis, Jairus och Talita kum bekräftade. Blods källa/blodskälla i 5:29 och vanliga komma-/citatskillnader behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 56,
+      "text_sha256": "5b7d8e24d15e8ce680e43fecc17bef380abb1efe5a1d74e62bbfddadd4d91024",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0064.1.tif",
+          "sha256": "bda715ff523ea8355e15dbd5db3ba57104a018d17fc9dc772570586f9611044e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0065.1.tif",
+          "sha256": "37509f057e686dca84c2a005f834219c9f622cd85c093f87699bbcea7763cbb9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0066.1.tif",
+          "sha256": "8257bdecc0df7dc2a220997515dbd8ed4e65052efe05d5dbffe948a11dccbf91"
+        }
+      ],
+      "notes": "Hela 6:1–56 bildjämförd, sidfortsättningar i 6:16 och 6:35, spaltgränser mellan 6:5–6, 6:25–26 och 6:47–48. R045 bar→har i 6:16 och R046 Herodes/han→Herodias/hon i 6:19 entydigt bildbekräftade. V027 där i 6:5 och V028 finge/fingo i 6:9 väntar på annat tryck. Gennesarets, Betsaida, hörntofsen och hulpna bekräftade. Vadhelst/vad helst samt vanliga kommaskillnader behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 36,
+      "text_sha256": "95a5282c9859fc847eef186ea2a552b8636950c46130afb6a8b16f66d3d56f6e",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0066.1.tif",
+          "sha256": "8257bdecc0df7dc2a220997515dbd8ed4e65052efe05d5dbffe948a11dccbf91"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0067.1.tif",
+          "sha256": "e2f6d0047719b025628cbe4357cd8de60389b07f36b40226aa13142091020f9e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0068.1.tif",
+          "sha256": "9839e515026bc1ccf0d28943fb11c86f897f5f4c6efcfd34e7be78d913fa0fc1"
+        }
+      ],
+      "notes": "Hela 7:1–37 bildjämförd, 36 levande versposter: 7:16 är en nothänvisning, ingen löptext skapas. Sidfortsättningar i 7:1 och 7:24, spaltfortsättningar i 7:11 och 7:36. V029 ju i 7:27. Korban, offergåva, syrofenicisk, Dekapolis och Effata bekräftade. 7:37 semikolon/kolon och övrig normal interpunktion behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 38,
+      "text_sha256": "683f2b5038468a47356fea431906b8dace3ff4c0a52ef6bedd23b40c38d68a5a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0068.1.tif",
+          "sha256": "9839e515026bc1ccf0d28943fb11c86f897f5f4c6efcfd34e7be78d913fa0fc1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0069.1.tif",
+          "sha256": "c53cf8bafe8716f02a650b3bf0e9b2c1a23641ee8ebaf2bd2eb5d52752cf2b21"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0070.1.tif",
+          "sha256": "77af20a9af2ec2062697dde28b940ee5e88e1c85a7154b81e061c9d163063483"
+        }
+      ],
+      "notes": "Hela 8:1–38 bildjämförd, sidgräns mellan 8:7–8 och i 8:31, spaltgräns mellan 8:19–20. V030 Ock/Och i 8:6. Dalmanuta och Cesarea Filippi samt övriga ord bekräftade; vanliga kommaskillnader behållna. 9:1 står nederst till vänster på s. 70 och räknas korrekt till kapitel 9."
+    },
+    {
+      "book": "Mark",
+      "chapter": 9,
+      "status": "needs-review",
+      "verse_count": 48,
+      "text_sha256": "a03a79d312924d60eebd627b341c76854b73f44e3c948d4785f33525d135df39",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0070.1.tif",
+          "sha256": "77af20a9af2ec2062697dde28b940ee5e88e1c85a7154b81e061c9d163063483"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0071.1.tif",
+          "sha256": "a1509c182edd71179ae89238ee04669e49a6becf61e1b80ce539bc7365937bd2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0072.1.tif",
+          "sha256": "8e82ce7c20bb97539865fd6c4bdf53b966e982f4d045bab1bd2584cbc50b4283"
+        }
+      ],
+      "notes": "Hela 9:1–50 bildjämförd, 48 levande versposter; 9:44 och 9:46 är bara nothänvisningar. 9:1 står i vänsterspaltens slut på s. 70, kapitelrubriken före 9:2 till höger flyttar inte versen. Sidfortsättningar mellan 9:10–11 och i 9:31, spaltfortsättningar i 9:20 och mellan 9:40–41. V031 får/fått i 9:18. Bön och fasta i 9:29 bekräftat; övriga ord och gränser samt normala kommaskillnader bevarade."
+    },
+    {
+      "book": "Mark",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 52,
+      "text_sha256": "84c9ea8ede3d714685959c6761ec620419ae13b23630c4ace879ea5b47df7e69",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0073.1.tif",
+          "sha256": "728503f28c16ce7dd021288d74397ad7498779e3246a761a7c93af1b6ee559b6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0074.1.tif",
+          "sha256": "8dbd2d53c33fc21ca0786413b2513aa3515f064ea5c9fbbda696469700521d3c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0075.1.tif",
+          "sha256": "97205c66690e6906e3788a64290dd3d5aca655a60c1e7280544e884dc033fce5"
+        }
+      ],
+      "notes": "Hela 10:1–52 bildjämförd, sidgräns mellan 10:21–22 och i 10:40, spaltgränser i 10:12, mellan 10:31–32 och i 10:51. R047 saknad öppnande apostrof före Hedra i 10:19 och R049 saknat citatavslut i 10:12 återställs. Originalupplösningen bekräftar detsamma i 10:10; ingen fråga där. Bartimeus, Timeus och Rabbuni bekräftade. 10:24 utropstecken mot punkt/citattypografi och vanliga kommaskillnader behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "140f9bc4bfc9fbd537a333e99af78c04b9572dba9a710300a1098d981a399f86",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0075.1.tif",
+          "sha256": "97205c66690e6906e3788a64290dd3d5aca655a60c1e7280544e884dc033fce5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0076.1.tif",
+          "sha256": "df474583ff06dd4f436b8bb79b43b5ee554c05be8c3b55c85a3d1a04f8868438"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0077.1.tif",
+          "sha256": "ff7778240b1f0407e19ce5133e4db62878874b4b50cff8d5d662ab825e2977b9"
+        }
+      ],
+      "notes": "Hela 11:1–33 bildjämförd, 32 levande versposter; 11:26 är bara en nothänvisning. Sidgränser mellan 11:8–9 och 11:28–29, spaltfortsättning i 11:18. R048 avslutar den inre repliken med saknad apostrof i 11:3. Betfage, Betania, Oljeberget, duvomånglarnas och övriga ord och gränser bekräftade; normala komma- och citattypografiska skillnader behållna. Ingen öppen läsfråga."
+    },
+    {
+      "book": "Mark",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 44,
+      "text_sha256": "4c66e9979d558a194da2a228614db0ab454139bfa7353977b5dcee7483a20e3b",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0077.1.tif",
+          "sha256": "ff7778240b1f0407e19ce5133e4db62878874b4b50cff8d5d662ab825e2977b9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0078.1.tif",
+          "sha256": "a65069af1c3bcf1e7a009c4cd44409e27aa3657dcb2a1ea2869d1a71f2b91441"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0079.1.tif",
+          "sha256": "6495914db04ed22b90049964f570c8d8657dbfef25267ede46bd7a842be1857d"
+        }
+      ],
+      "notes": "Hela 12:1–44 bildjämförd, sidfortsättning i 12:14 och mellan 12:32–33, spaltfortsättning i 12:4 och 12:23, gräns mellan 12:41–42. Originalupplösningen bekräftar hustrur två gånger i 12:25; ingen fråga där. Övriga ord bekräftade, inklusive skärvar/öre och byggningsmännen. Komma- och citattypografi (bl.a. 12:26) behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 13,
+      "status": "needs-review",
+      "verse_count": 37,
+      "text_sha256": "bdc21337a8d29dbaad514f1b5e73cc09fd2ec2e1d3c3ff714cca5b6cbc568125",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0079.1.tif",
+          "sha256": "6495914db04ed22b90049964f570c8d8657dbfef25267ede46bd7a842be1857d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0080.1.tif",
+          "sha256": "c0ed8d569a765854c484d8504661a788005f1f007ace23413f39fbf04e2b787c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0081.1.tif",
+          "sha256": "b8a6f83ee1dbd0ed6dddcf2deab9a9622316f4a6dff22343b68c8ea8f38877c1"
+        }
+      ],
+      "notes": "Hela 13:1–37 bildjämförd, sidgräns mellan 13:6–7 och i 13:26, spaltgräns mellan 13:14–15. R050 punkt→komma i 13:34 återställer den fortsatta meningen i 13:35. V032 de/dem i 13:17. Födslovåndorna, förödelsens styggelse, save, hanegället och övriga ord bekräftade. Normal komma- och citattypografi behållen."
+    },
+    {
+      "book": "Mark",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 72,
+      "text_sha256": "d79ee726dcb6ebe24984991403928249d7b8ef1e19a7fe2d4f67261ca338a06a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0081.1.tif",
+          "sha256": "b8a6f83ee1dbd0ed6dddcf2deab9a9622316f4a6dff22343b68c8ea8f38877c1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0082.1.tif",
+          "sha256": "fce6c98a0778894d477dd931b1460d29f6b7d679b5b71d1eb38dc79afbec04c5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0083.1.tif",
+          "sha256": "8f70347aa6d1a20c80d392b108870b1140a4601a3465db1380fd369ed97618f3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0084.1.tif",
+          "sha256": "666d038a9cdd8fe8a35f596b8c90e4b933fb033a26a2b05f5c0c1af1e7d21392"
+        }
+      ],
+      "notes": "Hela 14:1–72 bildjämförd, sidfortsättningar i 14:9, 14:30 och mellan 14:52–53, spaltfortsättningar i 14:19 och 14:41, gräns mellan 14:63–64. V033 ju i 14:6, V034 att i 14:11 och V035 ock/och i 14:23 sparade. Ord och versgränser i övrigt bekräftade; texten om Getsemane i 14:31 och repliken i 14:32 följer källan. Normal kommasättning, närhelst/när helst och citattypografi behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 15,
+      "status": "needs-review",
+      "verse_count": 46,
+      "text_sha256": "417b00c2d8c2991ac7520d63cd01f1e5aa67a2a6048809b70b92a917ef75d693",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0084.1.tif",
+          "sha256": "666d038a9cdd8fe8a35f596b8c90e4b933fb033a26a2b05f5c0c1af1e7d21392"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0085.1.tif",
+          "sha256": "e63376e6ce04936cb61e3b8b2c49e53f3842d3ab1dc8d5d967a27b1f58b54ff6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0086.1.tif",
+          "sha256": "5d00519118f6df7d013c179328116ed27374796d537302cf8d20ca50ef1b88b8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0087.1.tif",
+          "sha256": "3cb5fa9603afc505bd398394174710786fe3ef02224b3d5e2abbe7981c46455f"
+        }
+      ],
+      "notes": "Hela 15:1–47 bildjämförd, 46 levande versposter; 15:28 är bara nothänvisning. Sidfortsättningar i 15:1, mellan 15:25–26 och i 15:46, spaltgränser mellan 15:13–14 och i 15:36. V036 nu i 15:8. Barabbas, Cyrene, Alexanders, Rufus, Golgataplatsen och Eloi/lema sabaktani bekräftade. Normala komma-, citat- och utropsteckensskillnader behållna."
+    },
+    {
+      "book": "Mark",
+      "chapter": 16,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "822ee25975f5098a1df62c7230ee76442dab4e38b2098d05e10ec2d4a3eb15ba",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0087.1.tif",
+          "sha256": "3cb5fa9603afc505bd398394174710786fe3ef02224b3d5e2abbe7981c46455f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0088.1.tif",
+          "sha256": "36f31ebf5e21e67ae47b93f04978ec23694771ebcbe56a7b9b1adeb72eab6c8d"
+        }
+      ],
+      "notes": "Hela 16:1–20 bildjämförd, sidgräns mellan 16:17–18, spaltgräns mellan 16:7–8 och inne i 16:19. R051 bar→har i 16:7. V037 vit i 16:5 och V038 när/där i 16:14 sparade. Hakparentes mot rund parentes runt 16:9–20 bevaras enligt befintlig e-textnotation; noterna importeras inte som verser. Normala komma- och citattypografiska skillnader behållna."
     }
   ],
   "unnumbered": [

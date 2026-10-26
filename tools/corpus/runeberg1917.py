@@ -62,6 +62,18 @@ REPLACE={
  ('Matt', 23, 23):('skriftlärde och fariséer. I skrymtare', 'skriftlärde och fariséer, I skrymtare'),
  ('Matt', 25, 46):('dessa skola då då bort', 'dessa skola då gå bort'),
  ('Matt', 27, 47):('som stodo där borde detta', 'som stodo där hörde detta'),
+ # Mark 1-16 scan pass: R042-R051; unresolved readings are saved in photo batch 4.
+ ('Mark', 2, 28):('Så år då Människosonen', 'Så är då Människosonen'),
+ ('Mark', 3, 11):('för honom och och ropade', 'för honom och ropade'),
+ ('Mark', 3, 33):('och sade: Vilken är min moder', 'och sade: »Vilken är min moder'),
+ ('Mark', 6, 16):('Han bar uppstått från de döda', 'Han har uppstått från de döda'),
+ ('Mark', 6, 19):('Därför hyste nu Herodes agg till honom och ville döda honom, men han hade icke makt därtill.', 'Därför hyste nu Herodias agg till honom och ville döda honom, men hon hade icke makt därtill.'),
+ ('Mark', 10, 19):("tillkommer', Hedra din fader", "tillkommer', 'Hedra din fader"),
+ ('Mark', 11, 3):('sända den tillbaka hit.»', "sända den tillbaka hit.'»"),
+ ('Mark', 10, 12):('då begår hon äktenskapsbrott.', 'då begår hon äktenskapsbrott.»'),
+ ('Mark', 13, 34):('bjuder portvaktaren att vaka.', 'bjuder portvaktaren att vaka,'),
+ ('Mark', 16, 7):('såsom han bar sagt eder', 'såsom han har sagt eder'),
+
 }
 
 def chapter_number(name):
