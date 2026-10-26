@@ -6312,7 +6312,7 @@
     {
       "book": "Rom",
       "chapter": 9,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 33,
       "text_sha256": "18923be734409a393a053b481ddf2d5da265e5788d4ef6b86358bf70d0a83403",
       "checked_at": "2026-10-26",
@@ -6331,7 +6331,7 @@
           "sha256": "bfac92a9e5fd80c3e7db4854beac26010c2f3a55eb73dce602f11f8c545526fe"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 9:3/4 över spaltgränsen och 9:33 över sidgränsen. V135 gäller Moses/Mose i 9:15; övriga ord inklusive utkorelse-rådslut överensstämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V135 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord."
+      "notes": "Hela kapitlet jämfört, inklusive 9:3/4 över spaltgränsen och 9:33 över sidgränsen. V135 avgjord mot användarens originalfoto: korpusens Moses bekräftas och behålls mot EFS 1927:s Mose. Övriga ord inklusive utkorelse-rådslut överensstämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V135."
     },
     {
       "book": "Rom",
@@ -9419,6 +9419,23 @@
       "photo_sha256": "960938294778add62bf5305a69712718bb30736e5114e7c2070006b83757f5d2",
       "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat byteidentiskt, med ursprunglig orientering, utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar 6:20 och 6:21 med båda numren, fotograferat sidledes. Bilden kan läsas genom att vrida den 90 grader moturs. men vilken frukt skördaden I då därav? börjar uttryckligen v. 21, som i korpusen; EFS 1927 har dessa ord i v. 20. Text och koordinater behålls som belagd tryckvariant. Verspostens hash låser 6:21; den oförändrade kapitelhashen låser även 6:20 och hela gränsen. Inget rättelse-ID. Bedömningen bygger på originalfotot; en roterad visningsbild används inte som källbevis."
+    },
+    {
+      "id": "V135",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Rom",
+      "chapter": 9,
+      "verse": 15,
+      "status": "resolved",
+      "reading": "Han säger ju till Moses:",
+      "text_sha256": "dbe08d21b62117c327a6a51b08d54de06acd672a8e274fc8046814132c234eb3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V135.jpg",
+      "photo_sha256": "6a2ca886221e6ece6b382b35a77d36354c7a849a9034f27e6a82ab791bcac706",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 9:15 med synligt versnummer och läsningen Han säger ju till Moses:. Fotot bekräftar korpusens Moses mot EFS 1927:s Mose. Texten behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; citatglyfer harmoniseras inte."
     }
   ]
 }

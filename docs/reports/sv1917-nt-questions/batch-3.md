@@ -1,6 +1,6 @@
 # NT-fotobunt 3: Romarbrevet
 
-**Uppdaterad 2026-10-26.** V133–V134 är lösta mot användarens foton och kapitel 3 och 6 verifierade. Två frågor V135–V136 i kapitel 9 och 16 återstår; de är inte fastställda fel. Hela Romarbrevet är bildläst och fjorton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Uppdaterad 2026-10-26.** V133–V135 är lösta mot användarens foton och kapitel 3, 6 och 9 verifierade. Endast V136 i kapitel 16 återstår; frågan är inte ett fastställt fel. Hela Romarbrevet är bildläst och femton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
 
 När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V133–V134:s versgränser är nu avgjorda; inga fler foton behövs för dem. Frågornas ord och alla koordinater behålls. Originalupplösningen bekräftar båda de i 8:5 och till i 12:7 utan fotofrågor. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
 
@@ -8,7 +8,7 @@ När boken finns till hands räcker foton av hela verserna med synliga versnumme
 | --- | --- | --- |
 | [V133](#v133), löst | Rom. 3:7–8 | Versgräns 3:7–8: Och varför skulle vi icke ligger i v. 8 / Versgräns 3:7–8: Och varför skulle vi icke ligger i v. 7 |
 | [V134](#v134), löst | Rom. 6:20–21 | Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 21 / Versgräns 6:20–21: men vilken frukt skördaden I då därav? ligger i v. 20 |
-| [V135](#v135) | Rom. 9:15 | Han säger ju till Moses: / Han säger ju till Mose: |
+| [V135](#v135), löst | Rom. 9:15 | Han säger ju till Moses: / Han säger ju till Mose: |
 | [V136](#v136) | Rom. 16:26 | den eviga Gudens befallning / den evige Gudens befallning |
 
 ## V133
@@ -67,13 +67,17 @@ Originalfotots SHA-256 `960938294778add62bf5305a69712718bb30736e5114e7c2070006b8
 
 **9:15:** Han säger ju till Moses: »Jag skall vara barmhärtig mot den jag vill vara barmhärtig emot, och jag skall förbarma mig över den jag vill förbarma mig över.»
 
-**Foto till senare:** hela 9:15 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 9:15 med synligt nummer. Ingen ytterligare bild behövs för V135.
 
 ![V135, direkt scanutsnitt från NT s. 252](V135.png)
 
 [Full sida, NT s. 252](https://runeberg.org/bibeln/efs1927/nt/0252.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0252.1.tif`; SHA-256 `627caaa2b6629e108f9fb0724c4855194ed175ff94a011d1b9ce458cebdb7cfa`. Utsnittets SHA-256 `352a81c7419e61dda0011ed1c3c3025f19cac72d7ec649199f48d9098ffc53ea`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-26. Användarens originalfoto visar hela 9:15 med synligt versnummer och läsningen Han säger ju till Moses:. Fotot bekräftar korpusens Moses mot EFS 1927:s Mose. Texten behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; citatglyfer harmoniseras inte.
+
+![V135, användarens bevarade originalfoto](../sv1917-print-witnesses/V135.jpg)
+
+Originalfotots SHA-256 `6a2ca886221e6ece6b382b35a77d36354c7a849a9034f27e6a82ab791bcac706`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
 
 ## V136
 
