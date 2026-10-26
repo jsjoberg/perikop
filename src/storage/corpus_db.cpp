@@ -158,6 +158,24 @@ std::vector<Source> CorpusDb::sources() const {
         result.push_back({100, srb_source, "sv", "Reformationsbibeln 2026", "SRB2026"});
     return result;
 }
+std::vector<std::string> CorpusDb::source_books(const std::string& source) const {
+    std::vector<std::string> result;
+    if (source == srb_source) {
+        if (imported_) {
+            Statement query(imported_.get(), "SELECT DISTINCT book FROM imported_verse ORDER BY book");
+            while (query.row())
+                result.push_back(query.text(0));
+        }
+        return result;
+    }
+    Statement query(db_.get(), "SELECT book.code FROM book JOIN source ON source.code=? WHERE EXISTS "
+                               "(SELECT 1 FROM verse WHERE source_id=source.id AND book_id=book.id) "
+                               "ORDER BY book.code");
+    query.text(1, source);
+    while (query.row())
+        result.push_back(query.text(0));
+    return result;
+}
 const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const std::string& book) const {
     std::lock_guard lock(cache_mutex_);
     auto [entry, added] = texts_.try_emplace({source, book});

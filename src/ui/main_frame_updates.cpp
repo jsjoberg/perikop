@@ -1,59 +1,50 @@
 #include "perikop_version.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
-#include <wx/dialog.h>
+#include <algorithm>
 #include <wx/msgdlg.h>
+#include <wx/scrolwin.h>
 #include <wx/sizer.h>
 namespace ortho {
 void MainFrame::show_updates() {
-    if (auto* dialog = update_dialog_.get(); dialog && !dialog->IsBeingDeleted()) {
-        dialog->Raise();
-        dialog->SetFocus();
-        return;
-    }
-    auto* dialog = new wxDialog(this, wxID_ANY, ui::utf8("Uppdateringar"));
-    dialog->SetFont(ui_font());
-    auto* layout = new wxBoxSizer(wxVERTICAL);
-    auto* text = ui::label(dialog, {}, 10);
-    text->SetMinSize(FromDIP(wxSize(440, 40)));
-    layout->Add(text, 0, wxEXPAND | wxALL, FromDIP(20));
-    auto* row = new wxBoxSizer(wxHORIZONTAL);
-    auto* button = ui::button(dialog, ui::utf8("Sök efter uppdateringar"), [this] {
-        update_clicked();
-    });
-    auto* cancel = ui::button(dialog, "Avbryt", [this] {
-        updater_->cancel();
-    });
-    cancel->SetToolTip(ui::utf8("Sluta vänta. En påbörjad hämtning avslutas först."));
-    row->Add(button, 0, wxRIGHT, FromDIP(8));
-    row->Add(cancel);
-    layout->Add(row, 0, wxLEFT | wxRIGHT | wxBOTTOM, FromDIP(20));
-    dialog->SetSizer(layout);
-    update_dialog_ = dialog;
-    update_button_ = button;
-    update_cancel_ = cancel;
-    update_text_ = text;
-    dialog->Bind(wxEVT_CLOSE_WINDOW, [this, dialog](wxCloseEvent&) {
-        const auto state = updater_->status().state;
-        if (state == UpdateStatus::State::Checking || state == UpdateStatus::State::Downloading)
-            updater_->cancel();
-        dialog->Destroy();
-    });
-    ui::recolor(dialog, palette(settings_.theme));
-    show_update_status();
-    dialog->CenterOnParent();
-    dialog->Show();
+    if (voice_preview_)
+        stop_speech(false);
+    settings_category_ = 5;
+    if (navigation_.current().screen == Screen::Settings)
+        fill_settings(static_cast<wxScrolledWindow*>(current_page()));
+    else
+        show_settings();
     const auto state = updater_->status().state;
     if (state == UpdateStatus::State::Idle || state == UpdateStatus::State::Current ||
         state == UpdateStatus::State::Failed)
         updater_->check(settings_.update_channel);
 }
+void MainFrame::add_update_controls(wxWindow* parent, wxBoxSizer* layout) {
+    layout->Add(ui::label(parent, ui::utf8("Installerad version: ") + PERIKOP_VERSION), 0, wxBOTTOM,
+                FromDIP(zoomed(12)));
+    auto* text = ui::label(parent, {}, 10);
+    layout->Add(text, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(12)));
+    auto* row = new wxBoxSizer(wxHORIZONTAL);
+    auto* button = ui::button(parent, ui::utf8("Sök efter uppdateringar"), [this] {
+        update_clicked();
+    });
+    auto* cancel = ui::button(parent, "Avbryt", [this] {
+        updater_->cancel();
+    });
+    cancel->SetToolTip(ui::utf8("Sluta vänta. En påbörjad hämtning avslutas först."));
+    row->Add(button, 0, wxRIGHT, FromDIP(zoomed(8)));
+    row->Add(cancel);
+    layout->Add(row, 0, wxBOTTOM, FromDIP(zoomed(18)));
+    update_button_ = button;
+    update_cancel_ = cancel;
+    update_text_ = text;
+    show_update_status();
+}
 void MainFrame::show_update_status() {
     auto* button = update_button_.get();
     auto* cancel = update_cancel_.get();
     auto* text = static_cast<wxStaticText*>(update_text_.get());
-    auto* dialog = update_dialog_.get();
-    if (!dialog || dialog->IsBeingDeleted() || !button || !cancel || !text)
+    if (!button || !cancel || !text)
         return;
     using State = UpdateStatus::State;
     const auto& status = updater_->status();
@@ -67,15 +58,14 @@ void MainFrame::show_update_status() {
         line = ui::utf8(status.message);
         break;
     case State::Idle:
-        line = ui::utf8("Den här versionen: ") + PERIKOP_VERSION;
+        break;
+    case State::Current:
+        line = ui::utf8("Du har den senaste versionen.");
         break;
     case State::Checking:
         label = ui::utf8("Söker…");
         enabled = false;
         line = ui::utf8("Söker efter uppdateringar på GitHub.");
-        break;
-    case State::Current:
-        line = ui::utf8("Du har den senaste versionen, ") + PERIKOP_VERSION + ".";
         break;
     case State::Available:
         label = ui::utf8("Hämta version ") + version;
@@ -110,12 +100,11 @@ void MainFrame::show_update_status() {
     }
     button->Enable(enabled);
     cancel->Show(status.state == State::Checking || status.state == State::Downloading);
-    if (text->GetLabel() != line) {
-        text->SetLabelText(line);
-        text->Wrap(FromDIP(zoomed(440)));
-    }
-    dialog->GetSizer()->Fit(dialog);
-    dialog->Layout();
+    text->SetLabelText(line);
+    auto* parent = button->GetParent();
+    text->Wrap(std::max(1, std::min(parent->GetClientSize().x, FromDIP(zoomed(440)))));
+    parent->Layout();
+    static_cast<wxScrolledWindow*>(parent->GetParent())->FitInside();
 }
 void MainFrame::update_clicked() {
     using State = UpdateStatus::State;

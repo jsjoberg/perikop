@@ -498,7 +498,9 @@ void MainFrame::apply_settings(bool persist) {
                 fill_plans(static_cast<wxScrolledWindow*>(page.window));
                 break;
             case Screen::Settings:
-                fill_settings(static_cast<wxScrolledWindow*>(page.window));
+                // Hidden settings are rebuilt when navigation restores them.
+                if (page.window == current_page())
+                    fill_settings(static_cast<wxScrolledWindow*>(page.window));
                 break;
             case Screen::About: {
                 auto* about = make_about_page(root_, settings_.theme, resources_);

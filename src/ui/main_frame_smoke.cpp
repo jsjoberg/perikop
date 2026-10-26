@@ -733,6 +733,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     {
         for (int i = 0; i < 6; ++i)
             select_settings(i);
+        select_settings(3);
+        settings_snapshot(this, "-calendar");
         select_settings(1);
         auto* import_link = wxWindow::FindWindowByLabel(
             ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), current_page());
@@ -784,6 +786,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         select_settings(0);
     }
     {
+        for (const auto* detail :
+             {"Svenska · GT · NT · apokryfer", "Engelska · NT", "Grekiska · GT · apokryfer"})
+            if (!wxWindow::FindWindowByLabel(ui::utf8(detail), current_page()))
+                fail(__LINE__);
         settings_snapshot(this, "-sources");
         const auto preferences = settings_.primary_sources;
         const std::function<wxWindow*(wxWindow*, const wxString&)> named =
@@ -925,20 +931,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         settings_snapshot(this, suffix);
     });
     {
-        // Updates are an action in the menu, outside Settings.
-        const int update =
-            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Sök efter uppdateringar…"));
-        wxCommandEvent command(wxEVT_MENU, update);
-        ProcessWindowEvent(command);
-        auto* button = update_button_.get();
-        const auto* text = static_cast<wxStaticText*>(update_text_.get());
-        const auto initial = updater_->status().state;
-        const bool checking = initial == UpdateStatus::State::Checking;
-        if (!update_dialog_ || !button || !text ||
-            button->IsEnabled() != (!checking && initial != UpdateStatus::State::Unavailable) ||
-            update_cancel_->IsShown() != checking)
-            fail(__LINE__);
-        // Each step waits for a click, and the controls follow it.
+        // Browsing Settings waits for a click; the menu action starts a check.
         updater_ = std::make_unique<Updater>(
             std::make_unique<SmokeUpdates>(),
             [this](const std::function<void()>& function) {
@@ -948,6 +941,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 show_update_status();
             });
         show_update_status();
+        select_settings(5);
+        auto* button = update_button_.get();
+        auto* text = static_cast<wxStaticText*>(update_text_.get());
+        if (!button || !text || !button->IsShownOnScreen() || !button->IsEnabled() ||
+            update_cancel_->IsShown() || updater_->status().state != UpdateStatus::State::Idle)
+            fail(__LINE__);
         const auto reaches = [&](UpdateStatus::State state) {
             for (int i = 0; i < 1000 && updater_->status().state != state; ++i) {
                 wxMilliSleep(5);
@@ -955,39 +954,70 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             }
             return updater_->status().state == state;
         };
-        if (!button->IsEnabled() || update_cancel_->IsShown())
+        wxCommandEvent click(wxEVT_BUTTON, button->GetId());
+        button->GetEventHandler()->ProcessEvent(click);
+        if (button->IsEnabled() || !update_cancel_->IsShown())
             fail(__LINE__);
-        // Opening the action starts a check; it does not need a second click in Settings.
-        update_dialog_->Close();
-        wxTheApp->Yield(true);
+        wxCommandEvent cancel(wxEVT_BUTTON, update_cancel_->GetId());
+        update_cancel_->GetEventHandler()->ProcessEvent(cancel);
+        if (!reaches(UpdateStatus::State::Idle) || !button->IsEnabled() || update_cancel_->IsShown())
+            fail(__LINE__);
+        select_settings(0);
+        const int update =
+            menu_bar_->FindMenuItem(ui::utf8("Uppläsning"), ui::utf8("Sök efter uppdateringar…"));
+        wxCommandEvent command(wxEVT_MENU, update);
         ProcessWindowEvent(command);
         button = update_button_.get();
         text = static_cast<wxStaticText*>(update_text_.get());
-        if (!reaches(UpdateStatus::State::Available) ||
+        if (settings_category_ != 5 || !button->IsShownOnScreen() ||
+            !reaches(UpdateStatus::State::Available) ||
             button->GetLabel() != ui::utf8("Hämta version 9.9.9") || !text->GetLabel().Contains("2 MB"))
             fail(__LINE__);
+        const auto previous_size = GetClientSize();
+        SetClientSize(FromDIP(wxSize(520, 480)));
+        Layout();
+        wxTheApp->ProcessPendingEvents();
+        if (!text->GetLabel().Contains("9.9.9"))
+            fail(__LINE__);
+        settings_snapshot(this, "-updates-narrow");
+        SetClientSize(previous_size);
+        Layout();
         update_clicked();
         if (!reaches(UpdateStatus::State::Ready) ||
             button->GetLabel() != ui::utf8("Starta om och installera"))
             fail(__LINE__);
-        if (!screenshot_path.empty()) {
-            auto* dialog = update_dialog_.get();
-            dialog->Update();
-            wxBitmap bitmap(dialog->GetClientSize());
-            wxClientDC window(dialog);
-            {
-                wxMemoryDC image(bitmap);
-                image.Blit(0, 0, bitmap.GetWidth(), bitmap.GetHeight(), &window, 0, 0);
-            }
-            save(bitmap.ConvertToImage(), "-updates");
-        }
-        updater_->reset();
-        if (updater_->status().state != UpdateStatus::State::Idle ||
-            button->GetLabel() != ui::utf8("Sök efter uppdateringar"))
+        settings_.text_zoom = 125;
+        apply_settings(false);
+        button = update_button_.get();
+        if (settings_category_ != 5 || button->GetLabel() != ui::utf8("Starta om och installera"))
             fail(__LINE__);
-        if (auto* dialog = update_dialog_.get())
-            dialog->Close();
-        wxTheApp->Yield(true);
+        settings_snapshot(this, "-updates");
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        auto* releases = wxWindow::FindWindowByLabel(ui::utf8("Utgåvor (rekommenderas)"), current_page());
+        wxCommandEvent channel(wxEVT_RADIOBUTTON, releases->GetId());
+        releases->GetEventHandler()->ProcessEvent(channel);
+        if (updater_->status().state != UpdateStatus::State::Idle ||
+            update_button_->GetLabel() != ui::utf8("Sök efter uppdateringar"))
+            fail(__LINE__);
+        // Leaving Settings during a check and reopening it retains the result.
+        update_clicked();
+        about();
+        if (!reaches(UpdateStatus::State::Available))
+            fail(__LINE__);
+        ProcessWindowEvent(command);
+        if (settings_category_ != 5 || update_button_->GetLabel() != ui::utf8("Hämta version 9.9.9"))
+            fail(__LINE__);
+        back();
+        back();
+        settings_.text_zoom = 125;
+        apply_settings(false);
+        if (!current_page()->IsDescendant(update_button_.get()) ||
+            update_button_->GetLabel() != ui::utf8("Hämta version 9.9.9"))
+            fail(__LINE__);
+        settings_.text_zoom = 100;
+        apply_settings(false);
+        updater_->reset();
     }
     close_page();
     set_parallel("el");
@@ -1412,7 +1442,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         corpus.load_imported(imported);
         const auto& installed_coordinates = corpus.coordinates(srb_source, "John");
         const auto saved_coordinates = installed_coordinates;
-        if (!before_import.empty() || installed_coordinates.empty())
+        if (!before_import.empty() || installed_coordinates.empty() ||
+            corpus.source_books(srb_source).size() != 66)
             fail(__LINE__);
         UserDb profile(data / "user.db");
         auto candidate = std::make_unique<MainFrame>(corpus, profile, date, resources_, data,
@@ -1486,6 +1517,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         candidate->settings_category_ = 1;
         candidate->show_settings();
         const auto check_import_controls = [&](bool installed) {
+            if (corpus.source_books(srb_source).empty() == installed)
+                fail(__LINE__);
             const auto page = candidate->current_page();
             auto* import_button = wxWindow::FindWindowByLabel(ui::utf8("Importera båda PDF-filerna…"), page);
             auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);

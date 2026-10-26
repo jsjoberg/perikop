@@ -22,8 +22,9 @@ namespace {
 class SourceStack final : public wxPanel {
 public:
     SourceStack(wxWindow* parent, std::vector<SourcePreference>& preferences,
-                const std::vector<Source>& catalog, bool primary, std::function<void()> changed)
-        : wxPanel(parent), preferences_(preferences), catalog_(catalog), primary_(primary),
+                const std::vector<Source>& catalog, const std::map<std::string, wxString>& details,
+                bool primary, std::function<void()> changed)
+        : wxPanel(parent), preferences_(preferences), catalog_(catalog), details_(details), primary_(primary),
           changed_(std::move(changed)) {
         rebuild();
     }
@@ -31,6 +32,7 @@ public:
 private:
     std::vector<SourcePreference>& preferences_;
     std::vector<Source> catalog_;
+    std::map<std::string, wxString> details_;
     bool primary_;
     std::function<void()> changed_;
     void rebuild() {
@@ -53,6 +55,8 @@ private:
                                              ->GetItem(destination)
                                              ->GetSizer()
                                              ->GetItem(std::size_t{2})
+                                             ->GetSizer()
+                                             ->GetItem(std::size_t{0})
                                              ->GetWindow())
                             item->SetFocus();
                     });
@@ -76,7 +80,11 @@ private:
                     rebuild();
                 });
             });
-            row->Add(check, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(8)));
+            auto* text = new wxBoxSizer(wxVERTICAL);
+            text->Add(check);
+            if (const auto detail = details_.find(preference.source); detail != details_.end())
+                text->Add(ui::label(this, detail->second, 9), 0, wxTOP, FromDIP(zoomed(2)));
+            row->Add(text, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(zoomed(8)));
             stack->Add(row, 0, wxEXPAND | wxBOTTOM, FromDIP(zoomed(5)));
         }
         SetSizer(stack, true);
@@ -261,6 +269,24 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     };
     category("Böcker och textkällor");
     const auto sources = corpus_.sources();
+    std::map<std::string, wxString> source_details;
+    for (const auto& source : sources) {
+        bool old = false, nt = false, apocrypha = false;
+        for (const auto& book : corpus_.source_books(source.code)) {
+            if (corpus_.new_testament_book(book))
+                nt = true;
+            else if (corpus_.deuterocanonical_book(book))
+                apocrypha = true;
+            else
+                old = true;
+        }
+        auto detail = ui::speech_language_name(source.language);
+        detail[0] = wxToupper(detail[0]);
+        for (const auto& [present, name] : {std::pair{old, "GT"}, {nt, "NT"}, {apocrypha, "apokryfer"}})
+            if (present)
+                detail += ui::utf8(" · ") + name;
+        source_details.emplace(source.code, detail);
+    }
     const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
                                   bool primary) {
         auto* column = new wxPanel(content);
@@ -269,7 +295,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         stack->Add(ui::label(column, ui::utf8(heading), 10), 0, wxTOP | wxBOTTOM, FromDIP(zoomed(8)));
         stack->Add(ui::label(column, ui::utf8("Källor i prioritetsordning"), 10), 0, wxBOTTOM,
                    FromDIP(zoomed(12)));
-        stack->Add(new SourceStack(column, preferences, sources, primary,
+        stack->Add(new SourceStack(column, preferences, sources, source_details, primary,
                                    [this, primary] {
                                        if (primary)
                                            stop_speech(false);
@@ -391,11 +417,15 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         refresh_day();
         apply_settings();
     };
+    entries->Add(ui::label(content, ui::utf8("Kalendern styr fasta högtider. Påskdatumet är detsamma."), 10),
+                 0, wxBOTTOM, FromDIP(zoomed(8)));
     choices("KALENDER", {"Gregoriansk / reviderad juliansk", "Juliansk"},
             settings_.calendar == CalendarStyle::Old, [this, day_changed](int i) {
                 settings_.calendar = i ? CalendarStyle::Old : CalendarStyle::New;
                 day_changed();
             });
+    entries->Add(ui::label(content, ui::utf8("Läsordningen styr vilka bibeltexter som läses varje dag."), 10),
+                 0, wxBOTTOM, FromDIP(zoomed(8)));
     choices("LÄSORDNING", {"Grekiska läsordningen", "Slaviska läsordningen"},
             settings_.tradition == Tradition::Slavic, [this, day_changed](int i) {
                 settings_.tradition = i ? Tradition::Slavic : Tradition::Greek;
@@ -498,6 +528,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
     entries->Add(highlight);
     entries->AddSpacer(FromDIP(zoomed(18)));
     category("Uppdateringar");
+    add_update_controls(content, entries);
     choices("UPPDATERINGSKANAL", {"Utgåvor (rekommenderas)", "Nattbyggen (experimentella)"},
             settings_.update_channel == UpdateChannel::Nightly, [this](int i) {
                 settings_.update_channel = i ? UpdateChannel::Nightly : UpdateChannel::Releases;
@@ -505,7 +536,6 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 // An offer from the other channel no longer applies.
                 updater_->reset();
             });
-    entries->Add(ui::label(content, ui::utf8("Valet startar ingen sökning eller hämtning.")));
     categories->SetMinSize({categories->GetBestSize().x + FromDIP(zoomed(20)), 1});
     categories->SetSelection(settings_category_);
     sections->SetSelection(settings_category_);
@@ -524,7 +554,7 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         auto* section = static_cast<wxScrolledWindow*>(sections->GetPage(i));
         std::vector<std::pair<wxStaticText*, wxString>> paragraphs;
         for (auto* child : section->GetChildren().front()->GetChildren())
-            if (auto* label = wxDynamicCast(child, wxStaticText)) {
+            if (auto* label = wxDynamicCast(child, wxStaticText); label && label != update_text_.get()) {
                 auto text = label->GetLabel();
                 text.Replace("\n", " ");
                 paragraphs.emplace_back(label, text);
@@ -535,6 +565,8 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
                 label->SetLabel(text);
                 label->Wrap(std::min(width, FromDIP(zoomed(600))));
             }
+            if (update_text_ && update_text_->GetParent()->GetParent() == section)
+                show_update_status();
             section->FitInside();
             event.Skip();
         });

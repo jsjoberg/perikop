@@ -40,6 +40,7 @@ public:
         return bool(imported_);
     }
     std::vector<Source> sources() const;
+    std::vector<std::string> source_books(const std::string& source) const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,
                                             VerseRef ref) const;
     const std::vector<VerseRef>& coordinates(const std::string& source, const std::string& book) const;

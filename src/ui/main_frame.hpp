@@ -16,7 +16,6 @@
 class wxBoxSizer;
 class wxEventFilter;
 class wxMenuBar;
-class wxDialog;
 class wxMenu;
 class wxPanel;
 class wxScrolledWindow;
@@ -112,7 +111,8 @@ private:
     void import_content();
     void remove_content();
     void show_updates();
-    // The update dialog follows the updater's state.
+    void add_update_controls(wxWindow*, wxBoxSizer*);
+    // The update controls follow the updater's state.
     void show_update_status();
     void update_clicked();
     // The start page's plan section: the next part of the plan in progress, and all plans.
@@ -231,8 +231,7 @@ private:
     std::vector<std::pair<std::string, SymbolButton*>> panes_;
     std::vector<wxString> parts_;
     size_t part_ = 0;
-    // Update action dialog; controls go when it closes.
-    wxWeakRef<wxDialog> update_dialog_;
+    // Settings controls may be rebuilt while an update is running.
     wxWeakRef<wxWindow> update_button_, update_cancel_, update_text_;
 };
 } // namespace ortho
