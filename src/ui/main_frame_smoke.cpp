@@ -798,8 +798,8 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         select_settings(SettingsCategory::Sources);
     }
     {
-        for (const auto* detail :
-             {"Svenska · GT · NT · apokryfer", "Engelska · NT", "Grekiska · GT · apokryfer"})
+        for (const auto* detail : {"Svenska · GT · NT · deuterokanoniska böcker", "Engelska · NT",
+                                   "Grekiska · GT · deuterokanoniska böcker"})
             if (!wxWindow::FindWindowByLabel(ui::utf8(detail), current_page()))
                 fail(__LINE__);
         settings_snapshot(this, "-sources");
