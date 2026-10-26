@@ -1,9 +1,9 @@
 # form	occurrences	kind	nst_sampa
-och	39655	word	"Ok
+och	39656	word	"Ok
 i	15969	word	
 till	15695	word	"tIl
 som	14018	word	
-att	12743	word	"at
+att	12744	word	"at
 han	12026	word	"han
 de	11740	word	
 det	8674	word	
@@ -18,7 +18,7 @@ den	7754	word
 med	7576	word	"me:d
 är	7545	word	"E:r
 av	7271	word	
-dem	6937	word	"dOm
+dem	6938	word	"dOm
 så	6854	word	"so:
 honom	6737	word	""hO$nOm
 har	6692	word	"hA:r
@@ -69,7 +69,7 @@ ut	1961	word	"}:t
 oss	1942	word	"Os
 detta	1932	word	
 barn	1833	word	"bA:n`
-ock	1775	word	"Ok
+ock	1774	word	"Ok
 Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
 eller	1704	word	"E$ler
@@ -89,7 +89,7 @@ dina	1466	word	""di:$na
 göra	1460	word	""j2:$ra
 komma	1438	word	""kO$ma
 Jag	1418	word	"jA:g
-må	1417	word	"mo:
+må	1418	word	"mo:
 fram	1402	word	"fram
 vill	1400	word	"vIl
 utan	1382	word	""}:$tan
@@ -261,8 +261,8 @@ nämligen	395	word	""nEm$lI$gen
 själva	393	word	""x\El$va
 Detta	390	word	
 eld	390	word	"Eld
-all	389	word	"al
 människor	389	word	""mE$nI$x\Ur
+all	388	word	"al
 städer	388	word	"stE:$der
 stod	384	word	"stu:d
 HERRE	383	word	""hE$re
@@ -407,11 +407,11 @@ natten	230	word	"na$ten
 släkte	229	word	""slEk$te
 ären	229	word	
 ena	228	word	""e:$na
+kvinna	228	word	""kvI$na
 redan	228	word	""re:$dan
 strid	228	word	"stri:d
 därav	227	word	dE:r$"A:v
 glädje	227	word	""glE:d$je
-kvinna	227	word	""kvI$na
 lägga	227	word	""lE$ga
 altaret	226	word	""al$ta$ret
 gudar	226	word	""g}:$dar
@@ -494,9 +494,9 @@ förstånd	188	word	f9$"s`t`Ond
 Abraham	187	name	""A:$bra$ham
 Jordan	187	name	jU$"d`A:n
 ligga	187	word	"lI$ga
-mån	187	word	"mo:n
 ske	187	word	"x\e:
 lika	186	word	""li:$ka
+mån	186	word	"mo:n
 vishet	186	word	""vi:s$%he:t
 vägar	186	word	""vE:$gar
 Josef	185	name	""ju:$sef
@@ -647,10 +647,10 @@ vittnesbörd	133	word	""vIt$nes$%b2:d`
 Dock	132	word	"dOk
 Jeremia	132	name	
 bär	132	word	"bE:r
-dom	132	word	"dOm
 gören	132	word	
 ljus	132	word	"j}:s
 tillhopa	132	word	""tIl$%hu:$pa
+dom	131	word	"dOm
 hustrur	131	word	""hu0$str}:r
 lägret	131	word	"lE:$gret
 vän	131	word	"vE:n
@@ -738,10 +738,10 @@ lång	114	word	"lON
 Fadern	113	word	""fA:$den`
 Hiskia	113	name	
 Isak	113	name	""i:$sak
-kvinnan	113	word	""kvI$nan
 lämna	113	word	""lEm$na
 Daniel	112	name	""dA:$nI$el
 Tag	112	word	"tA:g
+kvinnan	112	word	""kvI$nan
 lott	112	word	"lOt
 morgonen	112	word	""mOr$gO$nen
 oren	112	word	""u:$%re:n
@@ -1548,6 +1548,7 @@ förbundet	47	word	f9r$"bu0n$det
 förgjorde	47	word	f9r$"ju:$d`e
 förlåta	47	word	f9$"l`o:$ta
 helgade	47	word	""hEl$ga$de
+hälsa	47	word	""hEl$sa
 hämnd	47	word	"hEmnd
 klippan	47	word	""klI$pan
 kvinnorna	47	word	""kvI$nU$n`a
@@ -1568,7 +1569,6 @@ fett	46	word	"fEt
 hav	46	word	"hA:v
 herrar	46	word	""hE$rar
 hydda	46	word	""hY$da
-hälsa	46	word	""hEl$sa
 köpa	46	word	""s'2:$pa
 led	46	word	"le:d
 namns	46	word	"namns
@@ -1683,7 +1683,6 @@ förtälja	42	word	f9$"t`El$ja
 gjordes	42	word	""ju:$d`es
 gälla	42	word	""jE$la
 huvudmännen	42	word	""h}:$vu0d$%mE$nen
-hälsar	42	word	""hEl$sar
 krona	42	word	""kru:$na
 känt	42	word	"s'Ent
 människas	42	word	""mE$nI$x\as
@@ -1716,6 +1715,7 @@ föreskrivet	41	word
 förlåten	41	word	f9$"l`o:$ten
 glad	41	word	"glA:d
 guldet	41	word	""gu0l$det
+hälsar	41	word	""hEl$sar
 härliga	41	word	""hE:$l`I$ga
 härpå	41	word	"hE:r$po:
 inmönstrade	41	word	""In$%m9n$stra$de
@@ -10549,6 +10549,7 @@ utsirningar	4	word	""}:t$%si:$n`IN$ar
 utsläckes	4	word	""}:t$%slE$kes
 utstår	4	word	
 utstött	4	word	""}:t$%st9t
+utsätta	4	word	""}:t$%sE$ta
 uttagit	4	word	
 uttröttade	4	word	""}:t$%tr9$ta$de
 v	4	word	"ve:
@@ -12800,7 +12801,6 @@ utstakat	3	word	""}:t$%stA:$kat
 utströr	3	word	
 utsuga	3	word	""}:t$%s}:$ga
 utsänt	3	word	
-utsätta	3	word	""}:t$%sE$ta
 uttaga	3	word	""}:t$%tA:$ga
 uttryckligen	3	word	""}:t$%trY$klI$gen
 uttyder	3	word	""}:t$%ty:$der
@@ -16764,7 +16764,6 @@ undkommer	2	word	""u0nd$%kO$mer
 undra	2	word	""u0n$dra
 undslipper	2	word	""u0nd$%slI$per
 undsluppna	2	word	""u0nd$%slu0p$na
-undsätta	2	word	""u0nd$%sE$ta
 undvik	2	word	""u0nd$%vi:k
 ungas	2	word	""u0N$as
 ungdomstid	2	word	""u0N$dUms$%ti:d
@@ -27189,6 +27188,7 @@ undslapp	1	word	""u0nd$%slap
 undslippa	1	word	""u0nd$%slI$pa
 undsluppit	1	word	""u0nd$%slu0$pIt
 undsätt	1	word	
+undsätta	1	word	""u0nd$%sE$ta
 undviken	1	word	""u0nd$%vi:$ken
 ungdomens	1	word	""u0N$%dU$mens
 ungdomliga	1	word	

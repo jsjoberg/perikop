@@ -293,6 +293,15 @@ REPLACE={
  ('Rom', 10, 15):('Så är och skrivet:', 'Så är ock skrivet:'),
  ('Rom', 16, 23):('Kvartus hälsar eder.', 'Kvartus hälsa eder.'),
 
+ # 1 Corinthians 1-16 scan pass: R253-R259; wording questions are saved in NT photo batch 4.
+ ('1Cor', 9, 20):('för dom som stå under lagen', 'för dem som stå under lagen'),
+ ('1Cor', 10, 7):('upp till all leka', 'upp till att leka'),
+ ('1Cor', 11, 13):('en kvinnan att ohöljd', 'en kvinna att ohöljd'),
+ ('1Cor', 11, 16):('så mån han veta', 'så må han veta'),
+ ('1Cor', 11, 22):('äta ock dricka', 'äta och dricka'),
+ ('1Cor', 15, 30):('varför undsätta vi oss', 'varför utsätta vi oss'),
+ ('1Cor', 16, 19):('Asien hälsar eder.', 'Asien hälsa eder.'),
+
 }
 
 def chapter_number(name):
