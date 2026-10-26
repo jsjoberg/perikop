@@ -4708,6 +4708,118 @@
         }
       ],
       "notes": "Hela 12:1–59 bildjämförd; sidfortsättningar i 12:13 och 12:54, gräns mellan 12:34–35. Spaltfortsättningar i 12:3 och 12:45, gräns mellan 12:23–24. R099 inre apostrofer i 12:19, R100 man→mal i 12:33, R101 komma i 12:40, R102 hade→sade i 12:54 och R103 avslutande citat i 12:53 är bekräftade i originalupplösning. Tidigare R013 var slag värt i 12:48 återkontrollerat; ingen ny rättelse där. Länder omgjordade i 12:35 bekräftat som tryckt. Tryckets och e-textens ofullständiga yttre apostrofhierarki i 12:18–20 harmoniseras inte utöver de två uttryckliga markörerna i 12:19; normala komma-, tankstrecks- och versalskillnader behållna, bl.a. Och i 12:52. Ingen öppen ordfråga."
+    },
+    {
+      "book": "Luke",
+      "chapter": 13,
+      "status": "needs-review",
+      "verse_count": 35,
+      "text_sha256": "6ebff388e9f21dc2b69df7a3f8abfaf18544b8c24fb6cf0feb3f1105517bd00f",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0119.1.tif",
+          "sha256": "af7f9e0ea5c106525b79d0a289d765e6740acbf05e34b88b7a1b024e8408952d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0120.1.tif",
+          "sha256": "c492c4112f5a9572deaf7a30ad8d42f5502d9705acbc631548804a8359513389"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0121.1.tif",
+          "sha256": "c0212253af1aadc700907271cf9fe657dc4b0c9d1b5e617fd537c19984784d33"
+        }
+      ],
+      "notes": "Hela 13:1–35 bildjämförd, sidfortsättning i 13:15 och gräns mellan 13:34–35. Spaltgräns mellan 13:4–5 och fortsättning i 13:25. R104 å→år i 13:9, R105 kolon och sjuk dom→sjukdom i 13:12, R106 citatavslut i 13:14, R107 saknat I i 13:34 och R108 kommen→kommer samt citatavslut i 13:35 är bekräftade i originalupplösning. Siloam, senapskorn, fikonträdets liknelse och övriga ord bekräftade; normala kommaskillnader behållna. V072 fri ifrån/fri från i 13:12 sparas; kolon och sjukdom rättas separat."
+    },
+    {
+      "book": "Luke",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 35,
+      "text_sha256": "da5e73e885a93c562ff8b22c76d1a61cccac28a49183e22e94928ea6847cb27a",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0121.1.tif",
+          "sha256": "c0212253af1aadc700907271cf9fe657dc4b0c9d1b5e617fd537c19984784d33"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0122.1.tif",
+          "sha256": "4b78d98d89c3f6474ce2eb5576e1353161eb1e83b4fc967f5c6b3c2472704386"
+        }
+      ],
+      "notes": "Hela 14:1–35 bildjämförd, sidgräns mellan 14:16–17, spaltfortsättningar i 14:8 och 14:27. R109 har→här i 14:22, R110 sin→min måltid i 14:24 och R111 mer→ser i 14:28 är bekräftade i originalupplösning. V067 för dem i 14:7 och V068 bjudna/inbjudna i 14:24 sparas. Vattusiktig, jordagods och försaka/hatarläsningar i 14:26 bekräftade. Normal kommatering samt semikolon/komma i 14:34 behållna."
+    },
+    {
+      "book": "Luke",
+      "chapter": 15,
+      "status": "needs-review",
+      "verse_count": 32,
+      "text_sha256": "c4fb4044ba413a5cad85767b1229d5180df0418e7d7903672d68fd49453333b1",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0122.1.tif",
+          "sha256": "4b78d98d89c3f6474ce2eb5576e1353161eb1e83b4fc967f5c6b3c2472704386"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0123.1.tif",
+          "sha256": "22a46650cb217af8d8310e63611acd55e4decfb01b97f38ba00a074002abd1d7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0124.1.tif",
+          "sha256": "e9324f838548e2cd595fde250bc52ef40c56d5ed6cd86d62736eaa7862276356"
+        }
+      ],
+      "notes": "Hela 15:1–32 bildjämförd; sidgräns mellan 15:1–2 och 15:22–23. Spaltgräns mellan 15:12–13. R112 citatavslut i 15:10, R113 svär→svår i 15:14, R114 har→här i 15:17, R115 inre öppnande apostrof i 15:18, R116 kolon i 15:22, R117 gör→göra i 15:23, R118 vanligt→vänligt i 15:28 och R119 lik väl→likväl i 15:29 är bekräftade i originalupplösning. V069 värd/värdig i 15:19 sparas. Legodrängar, fröskidor, yppersta, killing och övriga ord bekräftade; normal kommatering behållen."
+    },
+    {
+      "book": "Luke",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "54641690dbe4196776c0f9a560bc1572dd83a293dc9fba06dcbe9c13e574b632",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0124.1.tif",
+          "sha256": "e9324f838548e2cd595fde250bc52ef40c56d5ed6cd86d62736eaa7862276356"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0125.1.tif",
+          "sha256": "acf62cd37703c47125bd437452f6b11e58350b7b06bcaf7f3ae9edb6b9e73371"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0126.1.tif",
+          "sha256": "9721a05f131c3fe3cc6b0b65d044db0a8d6c9cb1b30e128d9ccc51c5695bef19"
+        }
+      ],
+      "notes": "Hela 16:1–31 bildjämförd; sidfortsättning i 16:9 och gräns mellan 16:27–28, spaltfortsättning i 16:18. R120 felaktigt yttre citatavslut→inre apostrof i 16:26 är bekräftade i originalupplösning. Orättrådige Mamons, sannskyldiga, Lasarus, Abrahams sköte, pinorum och övriga ord bekräftade. Normal komma- och versaltypografi behållen; källan saknar också citatavslut efter 16:18, så inget nytt skapas där. Ingen öppen ordfråga."
+    },
+    {
+      "book": "Luke",
+      "chapter": 17,
+      "status": "needs-review",
+      "verse_count": 36,
+      "text_sha256": "e71d9a906b79fd7815b8dd3703feca3c88db20d83dec5474d8995dae6591166c",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0126.1.tif",
+          "sha256": "9721a05f131c3fe3cc6b0b65d044db0a8d6c9cb1b30e128d9ccc51c5695bef19"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0127.1.tif",
+          "sha256": "1137bebb97da57858fc67a4a79ca014d512d7bdbee9e2988241558e3d44bb99f"
+        }
+      ],
+      "notes": "Hela 17:1–35 och den avslutande 17:36-posten bildjämförd; trycket har en nothänvisning 17:36 följd av textvers 17:37. Sidgräns mellan 17:17–18, spaltfortsättningar i 17:6 och 17:28. R121 försyndat→försyndar i 17:3, R122 mitt→sitt i 17:16 och R123 hand→hans i 17:24 är bekräftade i originalupplösning. V070 ock i 17:24 och V071 versnumret i sista posten sparas före koordinatändring. Mullbärsfikonträd, invärtes i eder, Lots hustru och övriga ord bekräftade; normal komma-, utropsteckens- och citattypografi behållen."
     }
   ],
   "unnumbered": [

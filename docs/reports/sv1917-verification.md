@@ -28,10 +28,10 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 | --- | ---: | ---: | ---: |
 | Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
 | GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
-| Evangelierna, separat etapp | 0 / 4 | 26 / 89 | 1 001 / 3 767 |
+| Evangelierna, separat etapp | 0 / 4 | 27 / 89 | 1 032 / 3 767 |
 | Övriga NT, senare etapp | 0 / 23 | 0 / 171 | 0 / 4 173 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** GT och apokryfer har 4 410 färdiga versposter, inklusive tidigare Haggai; evangelieetappen tillför separat 1 001, totalt 5 411 i hela liggaren. GT-/AP-delens 4 410 poster motsvarar 16,0 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** GT och apokryfer har 4 410 färdiga versposter, inklusive tidigare Haggai; evangelieetappen tillför separat 1 032, totalt 5 442 i hela liggaren. GT-/AP-delens 4 410 poster motsvarar 16,0 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -65,7 +65,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Nästa arbetsblock
 
-1. Aktiv etapp: **Lukas 13** från NT s. 119; se [evangeliernas granskningsrapport](sv1917-gospels.md). Hela Matteus, Markus och Lukas 1–12 är bildlästa: 26 kapitel med 1 001 versposter är verifierade, 30 kapitel med 1 364 poster väntar på [sparade fotobuntar 2–6](sv1917-gospel-questions/README.md). 33 evangeliekapitel saknar ännu färdig kapitelgenomgång i liggaren. Nästa avsnitt påbörjas utan ny användaruppmaning enligt uttryckligt godkännande.
+1. Aktiv etapp: **Lukas 18** från NT s. 127; se [evangeliernas granskningsrapport](sv1917-gospels.md). Hela Matteus, Markus och Lukas 1–17 är bildlästa: 27 kapitel med 1 032 versposter är verifierade, 34 kapitel med 1 502 poster väntar på [sparade fotobuntar 2–7](sv1917-gospel-questions/README.md). 28 evangeliekapitel saknar ännu färdig kapitelgenomgång i liggaren. Nästa avsnitt påbörjas utan ny användaruppmaning enligt uttryckligt godkännande.
 2. PR #64 för utökade kanon är sammanslagen. Evangeliearbetet fortsätter separat i utkastet PR #65, nu ombaserat på main. Separata mänskliga erratakryss är fortfarande bara markerade för de sex användargranskade raderna; Codex påstår inte att användaren har granskat övriga.
 3. Övriga NT och de 927 återstående GT-kapitlen är fortsatt uppföljningsarbete; tidigare riktade fynd är inte full kapitelgranskning.
 
@@ -127,3 +127,5 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-26, evangelieblock E7:** Hela Lukas 9–12 bildjämförda, 217 versposter på NT s. 108–119. R075–R103 införda i tjugonio versposter. Kapitel 12 tillför 59 verifierade poster; tre kapitel med 158 poster väntar på sex frågor V061–V066 i fotobunt 6. Ingen omedelbar hjälp begärd. Totalt i evangelierna: 56 kapitel bildlästa, 26 kapitel och 1 001 poster verifierade; 57 öppna frågor i 30 kapitel. Totalt 5 411 verifierade poster i liggaren. Nästa kapitel Lukas 13. Liggar- och kandidattester, core-storage-speech med tjugonio nya versregressioner, sex OSB-tester, alla 122 resurshashar och korpusens teckentäckning godkända. Före-/efterjämförelsen bekräftar exakt tjugonio ändrade versposter; övriga texter, koordinater, mappningar, kalenderregler, styckeankare, lexikonsinnen och tidigare liggarposter oförändrade. Alla 58 öppna frågeutsnitt matchar angivna SHA-256. Blankstegskontroll godkänd för övriga filer; ordlistans avsiktligt tomma slutkolumn validerad som TSV-format.
 
 Kontrollanmärkning E7: första core-storage-speech-körningen upptäckte ett inaktuellt förväntat ordantal för vi. R084 återställer två vi i Luk. 9:49; räkningsregressionen är uppdaterad från 2 333 till korpusens bekräftade 2 335 förekomster. Den nya körningen är godkänd. Inga ytterligare korpusändringar krävdes.
+
+- **2026-10-26, evangelieblock E8:** Hela Lukas 13–17 bildjämförda, 169 versposter på NT s. 119–127. R104–R123 införda i tjugo versposter. Kapitel 16 tillför 31 verifierade poster; fyra kapitel med 138 poster väntar på sex frågor V067–V072 i fotobunt 7, inklusive 17:36/37. Inga koordinater/mappningar ändrade för denna fråga. Ingen omedelbar hjälp begärd. Totalt i evangelierna: 61 kapitel bildlästa, 27 kapitel och 1 032 poster verifierade; 63 öppna frågor i 34 kapitel. Totalt 5 442 verifierade poster i liggaren. Nästa kapitel Lukas 18. Liggare, kandidataudit, kärntest, sex OSB-metadatatest, 122 resurshashar och fonttäckning godkända. Exakt databasjämförelse bekräftar endast tjugo avsedda versändringar; tidigare liggarposter, koordinater, mappningar, övriga texter, lexikonbetydelser och 64 frågeutsnittshashar är oförändrade/giltiga. Ordfrekvenstestets väl uppdaterat från 650 till 649 efter lik väl → likväl.

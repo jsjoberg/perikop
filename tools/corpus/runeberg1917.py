@@ -130,6 +130,28 @@ REPLACE={
  ('Luke', 12, 54):('Han hade också till folket', 'Han sade också till folket'),
  ('Luke', 12, 53):('sonhustrun mot sin svärmoder.', 'sonhustrun mot sin svärmoder.»'),
 
+ # Luke 13-17 scan pass: R104-R123; wording/numbering questions are saved in photo batch 7.
+ ('Luke', 13, 9):('till nästa å bära frukt', 'till nästa år bära frukt'),
+ ('Luke', 13, 12):('sade till henne »Kvinna, du är fri ifrån din sjuk dom»,', 'sade till henne: »Kvinna, du är fri ifrån din sjukdom»,'),
+ ('Luke', 13, 14):('men icke på sabbatsdagen.', 'men icke på sabbatsdagen.»'),
+ ('Luke', 13, 34):('Men haven icke velat.', 'Men I haven icke velat.'),
+ ('Luke', 13, 35):("förrän den tid kommen, då I sägen: 'Välsignad vare han som kommer, i Herrens namn.'", "förrän den tid kommer, då I sägen: 'Välsignad vare han som kommer, i Herrens namn.'»"),
+ ('Luke', 14, 22):('men har är ännu rum', 'men här är ännu rum'),
+ ('Luke', 14, 24):('skall smaka sin måltid', 'skall smaka min måltid'),
+ ('Luke', 14, 28):('kostnaden och mer till', 'kostnaden och ser till'),
+ ('Luke', 15, 10):('en enda syndare som gör bättring.', 'en enda syndare som gör bättring.»'),
+ ('Luke', 15, 14):('kom en svär hungersnöd', 'kom en svår hungersnöd'),
+ ('Luke', 15, 17):('medan jag har förgås av hunger', 'medan jag här förgås av hunger'),
+ ('Luke', 15, 18):('och säga till honom: Fader,', "och säga till honom: 'Fader,"),
+ ('Luke', 15, 22):("Då sade fadern till sina tjänare '", "Då sade fadern till sina tjänare: '"),
+ ('Luke', 15, 23):('så vilja vi äta och gör oss glada', 'så vilja vi äta och göra oss glada'),
+ ('Luke', 15, 28):('och talade vanligt med honom', 'och talade vänligt med honom'),
+ ('Luke', 15, 29):('och lik väl har du åt mig', 'och likväl har du åt mig'),
+ ('Luke', 16, 26):('över till oss.»', "över till oss.'"),
+ ('Luke', 17, 3):('Om din broder försyndat sig', 'Om din broder försyndar sig'),
+ ('Luke', 17, 16):('på mitt ansikte för Jesu fötter', 'på sitt ansikte för Jesu fötter'),
+ ('Luke', 17, 24):('på hand dag', 'på hans dag'),
+
 }
 
 def chapter_number(name):

@@ -1186,6 +1186,24 @@ int main(int argc, char** argv) {
                  {"Luke", {12, 33}, "där man icke fördärvar", "där mal icke fördärvar"},
                  {"Luke", {12, 40}, "Så varen ock I redo ty", "Så varen ock I redo, ty"},
                  {"Luke", {12, 54}, "Han hade också till folket", "Han sade också till folket"},
+                 {"Luke", {13, 9}, "till nästa å bära frukt", "till nästa år bära frukt"},
+                 {"Luke", {13, 12}, "sade till henne »Kvinna, du är fri ifrån din sjuk dom»,", "sade till henne: »Kvinna, du är fri ifrån din sjukdom»,"},
+                 {"Luke", {13, 34}, "Men haven icke velat.", "Men I haven icke velat."},
+                 {"Luke", {13, 35}, "förrän den tid kommen, då I sägen: 'Välsignad vare han som kommer, i Herrens namn.'", "förrän den tid kommer, då I sägen: 'Välsignad vare han som kommer, i Herrens namn.'»"},
+                 {"Luke", {14, 22}, "men har är ännu rum", "men här är ännu rum"},
+                 {"Luke", {14, 24}, "skall smaka sin måltid", "skall smaka min måltid"},
+                 {"Luke", {14, 28}, "kostnaden och mer till", "kostnaden och ser till"},
+                 {"Luke", {15, 14}, "kom en svär hungersnöd", "kom en svår hungersnöd"},
+                 {"Luke", {15, 17}, "medan jag har förgås av hunger", "medan jag här förgås av hunger"},
+                 {"Luke", {15, 18}, "och säga till honom: Fader,", "och säga till honom: 'Fader,"},
+                 {"Luke", {15, 22}, "Då sade fadern till sina tjänare '", "Då sade fadern till sina tjänare: '"},
+                 {"Luke", {15, 23}, "så vilja vi äta och gör oss glada", "så vilja vi äta och göra oss glada"},
+                 {"Luke", {15, 28}, "och talade vanligt med honom", "och talade vänligt med honom"},
+                 {"Luke", {15, 29}, "och lik väl har du åt mig", "och likväl har du åt mig"},
+                 {"Luke", {16, 26}, "över till oss.»", "över till oss.'"},
+                 {"Luke", {17, 3}, "Om din broder försyndat sig", "Om din broder försyndar sig"},
+                 {"Luke", {17, 16}, "på mitt ansikte för Jesu fötter", "på sitt ansikte för Jesu fötter"},
+                 {"Luke", {17, 24}, "på hand dag", "på hans dag"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1210,6 +1228,10 @@ int main(int argc, char** argv) {
               "Luke 12:19 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {12, 53})->text.ends_with("sonhustrun mot sin svärmoder.»"),
               "Luke 12:53 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Luke", {13, 14})->text.ends_with("men icke på sabbatsdagen.»"),
+              "Luke 13:14 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "Luke", {15, 10})->text.ends_with("en enda syndare som gör bättring.»"),
+              "Luke 15:10 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Mark", {10, 12})->text.ends_with("då begår hon äktenskapsbrott.»"),
               "Mark 10:12 closes Jesus' reply before the following narration");
         check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,
@@ -1439,7 +1461,7 @@ int main(int argc, char** argv) {
                 {"väl",
                  "⟦v'E:l⟧",
                  "⟦v'El⟧",
-                 650,
+                 649,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
                   "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",
