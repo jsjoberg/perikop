@@ -187,6 +187,29 @@ REPLACE={
  ('Luke', 24, 26):('för I att så ingå', 'för att så ingå'),
  ('Luke', 24, 36):('»Frid vare med eder.', '»Frid vare med eder.»'),
 
+ # John 1-8 scan pass: R157-R177; wording questions are saved in photo batch 9.
+ ('John', 1, 40):('hört var Johannes sade', 'hört vad Johannes sade'),
+ ('John', 3, 12):('Tron i icke, när jag talar', 'Tron I icke, när jag talar'),
+ ('John', 3, 19):('eftersom deras gärningar voro onda,', 'eftersom deras gärningar voro onda.'),
+ ('John', 3, 27):('givet från himmelen.»', 'givet från himmelen.'),
+ ('John', 4, 17):('att du icke har någon man.»', 'att du icke har någon man.'),
+ ('John', 4, 18):('däri sade du sant.', 'däri sade du sant.»'),
+ ('John', 4, 34):('och att fullborda hans verk.»', 'och att fullborda hans verk.'),
+ ('John', 4, 40):('både de honom att stanna', 'bådo de honom att stanna'),
+ ('John', 5, 12):('att du skulle taga sin säng', 'att du skulle taga din säng'),
+ ('John', 5, 23):('såsom de ära Faderns.', 'såsom de ära Fadern.'),
+ ('John', 5, 25):('Sannerligen säger jag eder: Den stund kommer, ja, den är redan inne, så de döda', 'Sannerligen, sannerligen säger jag eder: Den stund kommer, ja, den är redan inne, då de döda'),
+ ('John', 5, 33):('och han har vittnat för sanningen,', 'och han har vittnat för sanningen.'),
+ ('John', 6, 14):('Då nu människorna hade det tecken', 'Då nu människorna hade sett det tecken'),
+ ('John', 7, 49):('det är förbannat.', 'det är förbannat.»'),
+ ('John', 8, 18):('Fadern, som har sänt mig.', 'Fadern, som har sänt mig.»'),
+ ('John', 8, 21):('Dig jag går, dit kunnen I', 'Dit jag går, dit kunnen I'),
+ ('John', 8, 28):('då skolen I första att', 'då skolen I förstå att'),
+ ('John', 8, 36):('så bliven i verkligen fria', 'så bliven I verkligen fria'),
+ ('John', 8, 44):('det viljen i göra', 'det viljen I göra'),
+ ('John', 8, 47):('som I icke lyssnen därtill.', 'som I icke lyssnen därtill.»'),
+ ('John', 8, 54):('han som I säger vara eder Gud', 'han som I sägen vara eder Gud'),
+
 }
 
 def chapter_number(name):

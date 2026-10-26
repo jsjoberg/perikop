@@ -1235,6 +1235,23 @@ int main(int argc, char** argv) {
                  {"Luke", {24, 5}, "Då sade mannen till dem »", "Då sade männen till dem: »"},
                  {"Luke", {24, 6}, "Han är icke har, han är uppstånden.", "Han är icke här, han är uppstånden."},
                  {"Luke", {24, 26}, "för I att så ingå", "för att så ingå"},
+                 {"John", {1, 40}, "hört var Johannes sade", "hört vad Johannes sade"},
+                 {"John", {3, 12}, "Tron i icke, när jag talar", "Tron I icke, när jag talar"},
+                 {"John", {3, 19}, "eftersom deras gärningar voro onda,", "eftersom deras gärningar voro onda."},
+                 {"John", {3, 27}, "givet från himmelen.»", "givet från himmelen."},
+                 {"John", {4, 17}, "att du icke har någon man.»", "att du icke har någon man."},
+                 {"John", {4, 34}, "och att fullborda hans verk.»", "och att fullborda hans verk."},
+                 {"John", {4, 40}, "både de honom att stanna", "bådo de honom att stanna"},
+                 {"John", {5, 12}, "att du skulle taga sin säng", "att du skulle taga din säng"},
+                 {"John", {5, 23}, "såsom de ära Faderns.", "såsom de ära Fadern."},
+                 {"John", {5, 25}, "Sannerligen säger jag eder: Den stund kommer, ja, den är redan inne, så de döda", "Sannerligen, sannerligen säger jag eder: Den stund kommer, ja, den är redan inne, då de döda"},
+                 {"John", {5, 33}, "och han har vittnat för sanningen,", "och han har vittnat för sanningen."},
+                 {"John", {6, 14}, "Då nu människorna hade det tecken", "Då nu människorna hade sett det tecken"},
+                 {"John", {8, 21}, "Dig jag går, dit kunnen I", "Dit jag går, dit kunnen I"},
+                 {"John", {8, 28}, "då skolen I första att", "då skolen I förstå att"},
+                 {"John", {8, 36}, "så bliven i verkligen fria", "så bliven I verkligen fria"},
+                 {"John", {8, 44}, "det viljen i göra", "det viljen I göra"},
+                 {"John", {8, 54}, "han som I säger vara eder Gud", "han som I sägen vara eder Gud"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1267,6 +1284,14 @@ int main(int argc, char** argv) {
               "Luke 19:8 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {24, 36})->text.ends_with("»Frid vare med eder.»"),
               "Luke 24:36 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "John", {4, 18})->text.ends_with("däri sade du sant.»"),
+              "John 4:18 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "John", {7, 49})->text.ends_with("det är förbannat.»"),
+              "John 7:49 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "John", {8, 18})->text.ends_with("Fadern, som har sänt mig.»"),
+              "John 8:18 retains the scan-verified verse ending");
+        check(corpus.verse("sv1917", "John", {8, 47})->text.ends_with("som I icke lyssnen därtill.»"),
+              "John 8:47 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Mark", {10, 12})->text.ends_with("då begår hon äktenskapsbrott.»"),
               "Mark 10:12 closes Jesus' reply before the following narration");
         check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,

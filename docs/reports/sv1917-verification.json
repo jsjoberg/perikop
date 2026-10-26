@@ -4996,6 +4996,202 @@
         }
       ],
       "notes": "Hela 24:1–53 bildjämförd; sidgräns mellan 24:22–23 och fortsättning i 24:46, spaltgräns mellan 24:11–12, 24:33–34 och 24:49–50. R152 man→män i 24:4, R153 mannen→männen och saknat kolon i 24:5, R154 har→här i 24:6, R155 främmande I i 24:26 och R156 citatavslut i 24:36. Emmauspassagen, honungskakan i 24:42, avslutningen 24:50–53, samtliga ord och versgränser kontrollerade. Ingen öppen ordfråga; normal kommatering behålls."
+    },
+    {
+      "book": "John",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 51,
+      "text_sha256": "7cd3b4b01277a79924477cd2cea3dc5e6c5417498761378b24ca1918c321ce19",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0144.1.tif",
+          "sha256": "28630439097489e33243815ad1d6be2667ef9785458ce405a8b222c2f24eeb68"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0145.1.tif",
+          "sha256": "8ec93e772d62bd41a5a2e9833a0f9ccce93bd78b334dc25b53617d961b531814"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0146.1.tif",
+          "sha256": "dcac0e4ae583c6ba223938a93dae7ed34a66802ea9c9820c50d613d53fd84943"
+        }
+      ],
+      "notes": "Hela 1:1–51 bildjämförd; sidfortsättning i 1:15 och gräns mellan 1:38–39, spaltgräns mellan 1:8–9, 1:25–26 och 1:48–49. R157 var→vad i 1:40 bekräftade i originalupplösning. V080 den i 1:39 sparas. Prologen, släkt-/personnamn, dopvittnesbördet och lärjungakallelsen jämförda; särspärrade ord och normal kommatering/versal harmoniseras inte."
+    },
+    {
+      "book": "John",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "8c8832689dd5a524fad630259f4c16eff9867a8777cfda23baffa9c49d730b67",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0146.1.tif",
+          "sha256": "dcac0e4ae583c6ba223938a93dae7ed34a66802ea9c9820c50d613d53fd84943"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0147.1.tif",
+          "sha256": "43d8997131ac0c2ace4d2f9fd0f4433f475970a27ae46ddabdef3507b0090378"
+        }
+      ],
+      "notes": "Hela 2:1–25 bildjämförd; sidgräns mellan 2:8–9 och spaltgräns mellan 2:18–19. V081 först i 2:10, V082 när i 2:14 och V083 som i 2:21 sparas. Bröllopet i Kana, krukornas mått, tempelrensningen och slutnotisen jämförda; vanliga kommaskillnader behålls."
+    },
+    {
+      "book": "John",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 36,
+      "text_sha256": "649b95f72fff2e52ee2c6154571e6f6fcd44540fbf1e26840704173ec919416c",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0147.1.tif",
+          "sha256": "43d8997131ac0c2ace4d2f9fd0f4433f475970a27ae46ddabdef3507b0090378"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0148.1.tif",
+          "sha256": "60b0c147f763b7200c433e2af81b815077dcf8235a1da08cee8967dff0245ebe"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0149.1.tif",
+          "sha256": "315b11801303d9b8078c4bebd737f6260f24b962a528e2212b18fda44e4edf52"
+        }
+      ],
+      "notes": "Hela 3:1–36 bildjämförd; sidgräns mellan 3:3–4 och 3:25–26, spaltgräns mellan 3:14–15 och fortsättning i 3:36. R158 i→I i 3:12, R159 slutpunkt i 3:19, R160 främmande citatavslut i 3:27 bekräftade i originalupplösning. V084 så att/för att i 3:15 och V085 på i 3:29 sparas. Nikodemussamtalet, döparens sista vittnesbörd och övriga ord jämförda; normal kommatering behålls."
+    },
+    {
+      "book": "John",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 54,
+      "text_sha256": "b94917a4492ed451273f40f3513871fc5692b6d82bc32c2fffef1b127db73ad8",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0149.1.tif",
+          "sha256": "315b11801303d9b8078c4bebd737f6260f24b962a528e2212b18fda44e4edf52"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0150.1.tif",
+          "sha256": "f9528ad198d0b7fd406bc14072537d7ac63b1c32d24625c30edcd2b5aae4176c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0151.1.tif",
+          "sha256": "e325a4c7015b2ea85660625499a9d51c526c67462dcbb8831595a67f7356ba07"
+        }
+      ],
+      "notes": "Hela 4:1–54 bildjämförd; sidfortsättning i 4:10 och gräns mellan 4:33–34, spaltfortsättning i 4:21 och gräns mellan 4:44–45. R161–R162 flyttar citatavslutet från 4:17 till 4:18; R163 tar bort främmande citatavslut efter 4:34 och R164 både→bådo i 4:40 bekräftade i originalupplösning. V086 den i 4:6, V087 ordordningen i 4:12, V088 en/honom i 4:24, V089 lärjungefrasen i 4:33 och V090 den i 4:52 sparas. Samtalets alla talarbyten, Sykar/Jakobs brunn och botandet av tjänstemannens son bildjämförda; normala komma- och citatvarianter behållna."
+    },
+    {
+      "book": "John",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 46,
+      "text_sha256": "b8642749a880b11d130f3bba0ab250016d2082c8d2165d667d78dd7f6ef2799d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0152.1.tif",
+          "sha256": "e33cd89b4c0c1d16b4e9004ee288689e6aaec4f140cf7c6b793e79ec418ea1e5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0153.1.tif",
+          "sha256": "1401f2e2e2722ebdf95b4dc75caa5e583523931a98f579ee7b5b210d7a7f4460"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0154.1.tif",
+          "sha256": "6f6ff549fafcac25a764099489d41479fc578af40aa0617a35a90bad7e584573"
+        }
+      ],
+      "notes": "Hela 5:1–47 (46 textposter; 4 endast not) bildjämförd; sidfortsättning i 5:44 och gräns mellan 5:22–23, spaltfortsättning i 5:13 och gräns mellan 5:32–33. R165 sin→din i 5:12, R166 Faderns→Fadern i 5:23, R167 saknat sannerligen och så→då i 5:25, R168 slutpunkt i 5:33 bekräftade i originalupplösning. V091 de i 5:21 sparas. Betesdapassagen och Sonens förhållande till Fadern, alla övriga ord och versgränser jämförda; vanliga kommaskillnader behålls. Originalupplösning bekräftar ned i 5:7 utan fråga."
+    },
+    {
+      "book": "John",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 71,
+      "text_sha256": "f9944dbfb57bfe2768178695b85edd130cdd388669e77cbb64903e553b1dde9d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0154.1.tif",
+          "sha256": "6f6ff549fafcac25a764099489d41479fc578af40aa0617a35a90bad7e584573"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0155.1.tif",
+          "sha256": "34789f2b0120888bb2dd4622627a616d277ad3a61aec98438f7618d51a11ab99"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0156.1.tif",
+          "sha256": "55e2f0fc5ec6c4ddd444680cb97b4d282167cf37d0942044537f8186dee0a136"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0157.1.tif",
+          "sha256": "e3dae1ecf4e4832af3b2b27256e2c05fda49b2ea06c3d46824e8f109aaa28e96"
+        }
+      ],
+      "notes": "Hela 6:1–71 bildjämförd; sidgräns mellan 6:21–22 och fortsättning i 6:42 samt 6:66, spaltgräns mellan 6:9–10, 6:31–32 och fortsättning i 6:54. R169 återställer saknat sett i 6:14. V092 efter i 6:2, V093 lägga/lägra i 6:10 och V094 någonsin i 6:35 sparas. Brödundret, sjövandringen, hela talet om livets bröd, Petrus bekännelse och Judasnoten jämförda. Normal kommatering, streck och versal i Anden/Helige behålls."
+    },
+    {
+      "book": "John",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 53,
+      "text_sha256": "b3f735667ef93bf17bc0d3e7ba290f4ed1aab162057047d67defd6b104dbb08d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0157.1.tif",
+          "sha256": "e3dae1ecf4e4832af3b2b27256e2c05fda49b2ea06c3d46824e8f109aaa28e96"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0158.1.tif",
+          "sha256": "7623b547e5dd68f8dcb4c6eae6abcae588aabd38063573155fda941d1e2b5b2e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0159.1.tif",
+          "sha256": "b15ba86f3be94efd0c48b715f8c5d0c26584c61a4209412830023e0458723956"
+        }
+      ],
+      "notes": "Hela 7:1–53 bildjämförd; sidfortsättning i 7:19 och gräns mellan 7:38–39, spaltgräns mellan 7:6–7, 7:28–29 och fortsättning i 7:51. Även 7:53 efter rubriken till kapitel 8 jämförd; korpusens hakparentes före 7:53 behålls. R170 återställer citatavslutet i 7:49. V095 han/hans i 7:17, V096 hållen i 7:23, V097 av/från i 7:42 och V098 så i 7:46 sparas. Normal kommatering, citatens styckemarkörer i 7:37–38 och övriga ord jämförda. V101 rättsinnig/rättsinig i 7:12 sparas; källtryckets enkla n kopieras inte."
+    },
+    {
+      "book": "John",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 59,
+      "text_sha256": "bd39cd1d0b3196bfc3c3179aa060ee60d1d8510821d87f48f5df861415b7f68b",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0159.1.tif",
+          "sha256": "b15ba86f3be94efd0c48b715f8c5d0c26584c61a4209412830023e0458723956"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0160.1.tif",
+          "sha256": "17fcf640b6358ead1b806c6b227241a27da86b22f7cd9d86a03d2a8c3a0c0598"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0161.1.tif",
+          "sha256": "a5a638cccc14627903bb123614a61052f6cf2bcd9afa9dc2ee8c69b784981237"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0162.1.tif",
+          "sha256": "fe4a037442eae262a3d1c9e554c813608eda31c072447704782816e47b3aacd3"
+        }
+      ],
+      "notes": "Hela 8:1–59 bildjämförd; sidgräns mellan 8:9–10, 8:29–30 och 8:50–51; spaltfortsättning i 8:20 och gräns mellan 8:41–42. R171 citatavslut i 8:18, R172 Dig→Dit i 8:21, R173 första→förstå i 8:28, R174–R175 i→I i 8:36/44, R176 citatavslut i 8:47 och R177 säger→sägen i 8:54 bekräftade i originalupplösning. V099 svarade/sade i 8:39 och V100 den i 8:7 sparas. Äktenskapsbryterskans berättelse inklusive hakparentesens slut i 8:11, hela ljus-/Abrahamstalet, alla övriga ord och versgränser jämförda. Normal kommatering, citatglypher och versaler behålls."
     }
   ],
   "unnumbered": [

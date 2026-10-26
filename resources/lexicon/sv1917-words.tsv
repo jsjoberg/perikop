@@ -1,6 +1,6 @@
 # form	occurrences	kind	nst_sampa
 och	39657	word	"Ok
-i	15976	word	
+i	15973	word	
 till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
@@ -19,12 +19,12 @@ med	7576	word	"me:d
 är	7547	word	"E:r
 av	7271	word	
 dem	6934	word	"dOm
-så	6857	word	"so:
+så	6856	word	"so:
 honom	6737	word	""hO$nOm
 har	6692	word	"hA:r
 du	6354	word	"d}:
 sig	5118	word	"sEj
-I	4769	word	"i:
+I	4772	word	"i:
 dig	4735	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
@@ -33,9 +33,9 @@ sade	4211	word	""sA:$de
 hans	4175	word	"hans
 eder	3862	word	""e:$der
 om	3668	word	"Om
-var	3649	word	"vA:r
-då	3466	word	"do:
-sin	3466	word	"sIn
+var	3648	word	"vA:r
+då	3467	word	"do:
+sin	3465	word	"sIn
 Men	3401	word	"mEn
 alla	3209	word	
 Gud	3126	word	"g}:d
@@ -43,7 +43,7 @@ ett	3067	word	"Et
 såsom	3056	word	"so:$sOm
 från	2946	word	"fro:n
 nu	2916	word	"n}:
-din	2896	word	"di:n
+din	2897	word	"di:n
 åt	2856	word	"o:t
 upp	2824	word	"u0p
 över	2803	word	"2:$ver
@@ -51,7 +51,7 @@ man	2675	word	"man
 min	2632	word	"mi:n
 när	2558	word	"nE:r
 Då	2455	word	"do:
-vad	2422	word	"vA:d
+vad	2423	word	"vA:d
 hava	2415	word	""hA:$va
 skola	2386	word	""sku:$la
 deras	2223	word	""de:$ras
@@ -84,7 +84,7 @@ folk	1560	word	"fOlk
 genom	1552	word	"je:$nOm
 mitt	1521	word	"mIt
 bliva	1494	word	""bli:$va
-säger	1470	word	"sE$jer
+säger	1469	word	"sE$jer
 dina	1466	word	""di:$na
 göra	1460	word	""j2:$ra
 komma	1437	word	""kO$ma
@@ -264,9 +264,9 @@ eld	390	word	"Eld
 all	389	word	"al
 människor	389	word	""mE$nI$x\Ur
 städer	388	word	"stE:$der
-både	384	word	""bo:$de
 stod	384	word	"stu:d
 HERRE	383	word	""hE$re
+både	383	word	""bo:$de
 vilken	383	word	""vIl$ken
 herre	375	word	""hE$re
 broder	373	word	""bru:$der
@@ -448,11 +448,11 @@ ligger	209	word	""lI$ger
 vart	208	word	
 begynte	207	word	be$"jYn$te
 därpå	207	word	dEr$"po:
-första	207	word	""f9$s`t`a
 skam	207	word	"skam
 övriga	207	word	""2:$vrI$ga
 annat	206	word	""a$nat
 frukt	206	word	"fru0kt
+första	206	word	""f9$s`t`a
 förut	206	word	f2:r$"}:t
 marken	206	word	"mar$ken
 konungar	204	word	""ko:$nu0N$ar
@@ -463,10 +463,10 @@ Farao	201	name	""fA:$ra$U
 ser	201	word	"se:r
 aldrig	200	word	""al$drIg
 edert	200	word	"e:$det`
+sett	200	word	
 släkt	200	word	"slEkt
 Jonatan	199	name	""ju:$na$tan
 folken	199	word	"fOl$ken
-sett	199	word	
 tager	199	word	"tA:$ger
 brännoffer	198	word	""brEn$%O$fer
 evinnerligen	198	word	e$"vI$ne$l`I$gen
@@ -726,6 +726,7 @@ just	116	word	"ju0st
 Denne	115	word	""dE$ne
 Vid	115	word	"vi:d
 bröt	115	word	"br2:t
+förstå	115	word	f9$"s`t`o:
 läto	115	word	
 regeringsår	115	word	re$""je:$rINs$%o:r
 altare	114	word	""al$ta$re
@@ -733,14 +734,13 @@ bergen	114	word	"bEr$jen
 bröto	114	word	""br2:$tU
 bättre	114	word	"bE$tre
 förgöra	114	word	f9r$"j2:$ra
-förstå	114	word	f9$"s`t`o:
 lång	114	word	"lON
+Fadern	113	word	""fA:$den`
 Hiskia	113	name	
 Isak	113	name	""i:$sak
 kvinnan	113	word	""kvI$nan
 lämna	113	word	""lEm$na
 Daniel	112	name	""dA:$nI$el
-Fadern	112	word	""fA:$den`
 Tag	112	word	"tA:g
 lott	112	word	"lOt
 morgonen	112	word	""mOr$gO$nen
@@ -896,12 +896,12 @@ ihåg	90	word	I$"ho:g
 mörker	90	word	"m9r$ker
 städerna	90	word	"stE:$de$n`a
 syn	90	word	"sy:n
+sägen	90	word	"sE:$gen
 Efraims	89	name	""e:$fra$Ims
 Hör	89	word	"h2:r
 ben	89	word	"be:n
 kalla	89	word	""ka$la
 smälek	89	word	""smE:$%le:k
-sägen	89	word	"sE:$gen
 utvalt	89	word	""}:t$%vA:lt
 gyllene	88	word	""jY$le$ne
 slår	88	word	"slo:r
@@ -1243,6 +1243,7 @@ kroppar	60	word	""krO$par
 riket	60	word	""ri:$ket
 räddade	60	word	""rE$da$de
 sabbaten	60	word	"sa$ba$ten
+sannerligen	60	word	""sa$ne$l`i:$gen
 skyldig	60	word	""x\Yl$dIg
 smorde	60	word	""smu:$d`e
 stötte	60	word	""st9$te
@@ -1262,7 +1263,6 @@ härom	59	word
 hår	59	word	"ho:r
 markens	59	word	"mar$kens
 orter	59	word	""U$t`er
-sannerligen	59	word	""sa$ne$l`i:$gen
 sinnet	59	word	""sI$net
 slakta	59	word	""slak$ta
 spillo	59	word	""spI$lU
@@ -1296,6 +1296,7 @@ babyloniske	57	word	ba$bY$"lu:$nI$ske
 bereda	57	word	be$"re:$da
 brände	57	word	""brEn$de
 byar	57	word	""by:$ar
+bådo	57	word	""bo:$dU
 farit	57	word	""fA:$rIt
 fienders	57	word	""fi:$en$des`
 föras	57	word	""f2:$ras
@@ -1324,7 +1325,6 @@ Sions	56	name	"si:$Ons
 befästa	56	word	be$"fE$sta
 bjuder	56	word	"bj}:$der
 bliven	56	word	
-bådo	56	word	""bo:$dU
 garn	56	word	"gA:n`
 gärna	56	word	""jE:$n`a
 gån	56	word	"go:n
@@ -3644,7 +3644,6 @@ Ananias	16	name
 Asael	16	name	
 Baalerna	16	name	
 Bergsbygden	16	word	
-Dig	16	word	"dEj
 Efesus	16	name	
 Etiopien	16	name	e$tI$"u:$pI$en
 Hav	16	word	"hA:v
@@ -3839,6 +3838,7 @@ Atalja	15	name
 Bel	15	name	"be:l
 Betsura	15	name	
 Betylua	15	name	
+Dig	15	word	"dEj
 Eber	15	name	"e:$ber
 Eder	15	word	"e:$der
 Eliab	15	name	
@@ -5563,7 +5563,6 @@ Därpå	9	word	dEr$"po:
 Eden	9	word	"e:$den
 Ehud	9	name	
 Elisabet	9	name	e$""li:$sa$bet
-Faderns	9	word	""fA:$den`s`
 Felix	9	name	"fe:$lIks
 Fenicien	9	name	fe$"ni:$sI$en
 Filistéerna	9	word	fI$lI$"ste:$e$n`a
@@ -6055,6 +6054,7 @@ Eljoenai	8	name
 Emellertid	8	word	e$"mE$le$t`i:d
 Enos	8	name	
 Evige	8	word	""e:$vI$ge
+Faderns	8	word	""fA:$den`s`
 Fastän	8	word	"fa$stEn
 Flyn	8	word	"fly:n
 Fräls	8	word	"frEls
@@ -6576,6 +6576,7 @@ Beria	7	name
 Betsaida	7	name	
 Betänk	7	word	be$"tENk
 Bosra	7	name	
+Dit	7	word	"di:t
 Dåren	7	word	""do:$ren
 Edna	7	name	""e:d$na
 Elams	7	name	
@@ -7241,7 +7242,6 @@ Boset	6	name
 Celesyrien	6	name	
 Cendebeus	6	name	
 Delila	6	name	
-Dit	6	word	"di:t
 Doeg	6	name	
 Ebed	6	name	
 Ebjatars	6	name	
