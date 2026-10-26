@@ -1272,12 +1272,33 @@ int main(int argc, char** argv) {
                  {"John", {20, 5}, "när han lutade sig ditin, så han linnebindlarna", "när han lutade sig ditin, såg han linnebindlarna"},
                  {"John", {20, 26}, "och stod mitt ibland de, och sade", "och stod mitt ibland dem, och sade"},
                  {"John", {20, 27}, "Räck hit dit finger", "Räck hit ditt finger"},
+                 {"Acts", {2, 41}, "togo emot hans ort", "togo emot hans ord"},
+                 {"Acts", {2, 47}, "allt folket vad dem", "allt folket var dem"},
+                 {"Acts", {3, 21}, "de tider nå allt", "de tider då allt"},
+                 {"Acts", {4, 7}, "Av vilken makt eller i genom", "Av vilken makt eller genom"},
+                 {"Acts", {4, 19}, "eder mer är Gud", "eder mer än Gud"},
+                 {"Acts", {4, 30}, "du uträcker din hand", "du utsträcker din hand"},
+                 {"Acts", {4, 32}, "utan du hade allting", "utan de hade allting"},
+                 {"Acts", {5, 24}, "visst de icke", "visste de icke"},
+                 {"Acts", {5, 25}, "berättade för den:", "berättade för dem:"},
+                 {"Acts", {7, 4}, "efter han faders död", "efter hans faders död"},
+                 {"Acts", {7, 13}, "fick kunskap och Josefs släkt", "fick kunskap om Josefs släkt"},
+                 {"Acts", {7, 30}, "när fyrtio är äter voro", "när fyrtio år åter voro"},
+                 {"Acts", {7, 38}, "Det var och han,", "Det var ock han,"},
+                 {"Acts", {9, 39}, "Dorkas hade gjord,", "Dorkas hade gjort,"},
+                 {"Acts", {9, 41}, "levande framför den.", "levande framför dem."},
+                 {"Acts", {10, 32}, "ock kallas Petrus: han", "ock kallas Petrus; han"},
+                 {"Acts", {12, 8}, "Och han gjorde så. därefter", "Och han gjorde så. Därefter"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
+        check(corpus.verse("sv1917", "Acts", {2, 35})->text.ends_with("dig till en fotapall.'"),
+              "Acts 2:35 retains the scan-verified inner quotation ending");
+        check(corpus.verse("sv1917", "Acts", {7, 34})->text.ends_with("sända dig till Egypten.'"),
+              "Acts 7:34 retains the scan-verified inner quotation ending");
         check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
               "Luke 3:9 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),

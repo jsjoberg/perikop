@@ -1,11 +1,11 @@
 # form	occurrences	kind	nst_sampa
-och	39658	word	"Ok
-i	15971	word	
+och	39656	word	"Ok
+i	15970	word	
 till	15695	word	"tIl
 som	14018	word	
 att	12743	word	"at
-han	12028	word	"han
-de	11739	word	
+han	12027	word	"han
+de	11740	word	
 det	8674	word	
 en	8481	word	"En
 Och	8353	word	"Ok
@@ -14,15 +14,15 @@ på	8257	word
 icke	8179	word	""I$ke
 för	8154	word	"f2:r
 jag	8126	word	"jA:g
-den	7756	word	
+den	7754	word	
 med	7576	word	"me:d
-är	7547	word	"E:r
+är	7545	word	"E:r
 av	7271	word	
-dem	6935	word	"dOm
+dem	6937	word	"dOm
 så	6854	word	"so:
 honom	6737	word	""hO$nOm
 har	6692	word	"hA:r
-du	6354	word	"d}:
+du	6353	word	"d}:
 sig	5119	word	"sEj
 I	4775	word	"i:
 dig	4736	word	"dEj
@@ -30,11 +30,11 @@ HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
 hade	4485	word	""ha$de
 sade	4211	word	""sA:$de
-hans	4177	word	"hans
+hans	4178	word	"hans
 eder	3863	word	""e:$der
-om	3668	word	"Om
-var	3648	word	"vA:r
-då	3468	word	"do:
+om	3669	word	"Om
+var	3649	word	"vA:r
+då	3469	word	"do:
 sin	3465	word	"sIn
 Men	3401	word	"mEn
 alla	3209	word	
@@ -51,7 +51,7 @@ man	2675	word	"man
 min	2632	word	"mi:n
 när	2558	word	"nE:r
 Då	2455	word	"do:
-vad	2423	word	"vA:d
+vad	2422	word	"vA:d
 hava	2415	word	""hA:$va
 skola	2386	word	""sku:$la
 deras	2223	word	""de:$ras
@@ -69,7 +69,7 @@ ut	1961	word	"}:t
 oss	1942	word	"Os
 detta	1932	word	
 barn	1833	word	"bA:n`
-ock	1773	word	"Ok
+ock	1774	word	"Ok
 Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
 eller	1704	word	"E$ler
@@ -118,8 +118,8 @@ Guds	1119	word	"g}:ds
 in	1119	word	"In
 bort	1115	word	
 Han	1104	word	"hA:n
+ord	1094	word	"u:d`
 andra	1093	word	""an$dra
-ord	1093	word	"u:d`
 dessa	1087	word	""dE$sa
 mina	1074	word	""mi:$na
 skolen	1069	word	
@@ -134,7 +134,7 @@ något	990	word	""no:$gOt
 dag	980	word	"dA:g
 sedan	979	word	""se:$dan
 blivit	978	word	""bli:$vIt
-än	955	word	
+än	956	word	
 gick	946	word	"jIk
 ej	943	word	"Ej
 söner	932	word	""s2:$ner
@@ -158,7 +158,7 @@ mer	800	word
 namn	796	word	"namn
 Ja	790	word	"jA:
 Du	788	word	"dy:
-gjort	778	word	"jUt`
+gjort	779	word	"jUt`
 edra	776	word	""e:$dra
 Om	767	word	"Om
 denna	763	word	""dE$na
@@ -190,16 +190,16 @@ gör	628	word	"j2:r
 kommit	627	word	""kO$mIt
 väl	620	word	"vE:l
 tusen	618	word	"t}:$sen
-år	617	word	"o:r
+år	618	word	"o:r
 bliver	603	word	"bli:$ver
 Det	597	word	
 höra	594	word	""h2:$ra
 fick	593	word	"fIk
 Se	586	word	"se:
 staden	586	word	"stA:$den
+åter	580	word	"o:$ter
 denne	579	word	""dE$ne
 också	579	word	"Ok$sO
-åter	579	word	"o:$ter
 kunna	578	word	""ku0$na
 många	575	word	
 åstad	575	word	O$"stA:d
@@ -236,7 +236,7 @@ sände	448	word	""sEn$de
 sagt	443	word	"sakt
 vare	443	word	""vA:$re
 rätt	441	word	"rEt
-Därefter	437	word	dE:r$""Ef$ter
+Därefter	438	word	dE:r$""Ef$ter
 sju	433	word	"x\}:
 givit	432	word	""ji:$vIt
 allenast	431	word	a$""le:$nast
@@ -321,7 +321,7 @@ bära	297	word	""bE:$ra
 dö	297	word	"d2:
 tro	297	word	"tru:
 varandra	296	word	va$"ran$dra
-därefter	293	word	dE:r$""Ef$ter
+därefter	292	word	dE:r$""Ef$ter
 onda	292	word	""Un$da
 undan	292	word	
 några	291	word	
@@ -869,6 +869,7 @@ domare	93	word	""dU$ma$re
 eljest	93	word	""El$jest
 fött	93	word	"f9t
 rättfärdiga	93	word	""rEt$%fE:$d`I$ga
+visste	93	word	""vI$ste
 vänder	93	word	"vEn$der
 fördärva	92	word	f9$"d`Er$va
 haft	92	word	"haft
@@ -877,7 +878,6 @@ sanning	92	word	""sa$nIN
 slogo	92	word	
 vilkens	92	word	""vIl$kens
 visade	92	word	""vi:$sa$de
-visste	92	word	""vI$ste
 året	92	word	"o:$ret
 Mina	91	word	""mi:$na
 Ve	91	word	"ve:
@@ -1024,7 +1024,6 @@ stiga	77	word	""sti:$ga
 syndoffer	77	word	
 sång	77	word	"sON
 tionde	77	word	
-äter	77	word	"E:$ter
 ditupp	76	word	""dIt$%u0p
 evärdlig	76	word	e$"vE:d`$l`Ig
 fäkreatur	76	word	""fE:$kre:$a$%t}:r
@@ -1034,6 +1033,7 @@ murar	76	word	""m}:$rar
 svar	76	word	"svA:r
 tagen	76	word	""tA:$gen
 tjänares	76	word	""s'E:$na$res
+äter	76	word	"E:$ter
 far	75	word	"fA:r
 gud	75	word	"g}:d
 helige	75	word	""he:$lI$ge
@@ -1852,7 +1852,6 @@ stjärnorna	38	word	""x\E:$n`U$n`a
 tillstädes	38	word	tIl$"stE:$des
 utrotas	38	word	""}:t$%ru:$tas
 vingårdar	38	word	""vi:N$%go:$d`ar
-visst	38	word	"vIst
 änden	38	word	""En$den
 öva	38	word	""2:$va
 översten	38	word	"2:$ve$s`t`en
@@ -1898,6 +1897,7 @@ stigar	37	word	""sti:$gar
 stridde	37	word	
 vilda	37	word	""vIl$da
 viss	37	word	"vIs
+visst	37	word	"vIst
 vänster	37	word	"vEn$ster
 väster	37	word	"vE$ster
 äktenskapsbrott	37	word	""Ek$ten$skA:ps$%brOt
@@ -2023,7 +2023,6 @@ menar	34	word	""me:$nar
 molnskyn	34	word	
 nionde	34	word	""ni:$On$de
 närmaste	34	word	""nEr$ma$ste
-ort	34	word	"Ut`
 plågor	34	word	""plo:$gUr
 sjunga	34	word	""x\u0N$a
 sorgdräkt	34	word	""sOrj$%drEkt
@@ -2069,6 +2068,7 @@ mäns	33	word	"mEns
 mätt	33	word	"mEt
 nio	33	word	""ni:$U
 nitälskan	33	word	""ni:t$%El$skan
+ort	33	word	"Ut`
 oxe	33	word	""Uk$se
 pröva	33	word	""pr2:$va
 rika	33	word	""ri:$ka
@@ -2595,7 +2595,6 @@ köpt	25	word	"s'9pt
 ledare	25	word	""le:$da$re
 långa	25	word	""lON$a
 löpa	25	word	
-nå	25	word	"no:
 nådastolen	25	word	""no:$da$%stu:$len
 offret	25	word	"O$fret
 oförnuft	25	word	""u:$f9$%n`u0ft
@@ -2703,6 +2702,7 @@ levandes	24	word	""le:$van$des
 lidit	24	word	""li:$dIt
 majestät	24	word	ma$je$"stE:t
 möjligt	24	word	""m9j$lIkt
+nå	24	word	"no:
 palats	24	word	pa$"lats
 personen	24	word	pe$"s`u:$nen
 ris	24	word	"ri:s
@@ -4685,7 +4685,6 @@ försyndar	12	word	f9$"s`y:n$dar
 förtjänar	12	word	f9r$"s'E:$nar
 förvärv	12	word	f9r$"vErv
 gaditerna	12	word	
-gjord	12	word	"ju:d`
 glömde	12	word	""gl9m$de
 gosse	12	word	""gO$se
 gråten	12	word	""gro:$ten
@@ -4968,6 +4967,7 @@ gensträvig	11	word	""je:n$%strE:$vIg
 getter	11	word	"jE$ter
 giller	11	word	"jI$ler
 gissla	11	word	""jI$sla
+gjord	11	word	"ju:d`
 greps	11	word	"gre:ps
 grotta	11	word	""grO$ta
 grundat	11	word	""gru0n$dat
@@ -9114,7 +9114,6 @@ utlovade	5	word	""}:t$%lo:$va$de
 utländska	5	word	""}:t$%lEnd$ska
 utrotar	5	word	""}:t$%ru:$tar
 utrustade	5	word	""}:t$%ru0$sta$de
-uträcker	5	word	""}:t$%rE$ker
 utskiftas	5	word	""}:t$%x\If$tas
 utsträckt	5	word	""}:t$%strEkt
 uttalar	5	word	""}:t$%tA:$lar
@@ -10545,6 +10544,7 @@ utplundrade	4	word	""}:t$%plu0n$dra$de
 utplånad	4	word	
 utplånade	4	word	""}:t$%plo:$na$de
 utplånar	4	word	""}:t$%plo:$nar
+uträcker	4	word	""}:t$%rE$ker
 utsirningar	4	word	""}:t$%si:$n`IN$ar
 utsläckes	4	word	""}:t$%slE$kes
 utstår	4	word	
@@ -27529,6 +27529,7 @@ utspytt	1	word
 utspända	1	word	""}:t$%spEn$da
 utspänner	1	word	""}:t$%spE$ner
 utspätt	1	word	""}:t$%spEt
+utsträcker	1	word	""}:t$%strE$ker
 utsträckning	1	word	""}:t$%strE$knIN
 utsträckta	1	word	
 utstrålade	1	word	""}:t$%stro:$la$de

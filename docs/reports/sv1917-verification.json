@@ -5492,6 +5492,278 @@
         }
       ],
       "notes": "Hela 21:1–25 bildjämförd; sidfortsättning i 21:15, spaltgräns mellan 21:4–5 och 21:19–20. Inga nya rättelser eller öppna ordfrågor. Originalbilden bekräftar även korpusens ovanliga formulering och vid den uppenbarelsen gick så till i 21:1; ingen normalisering. Fiskarnas antal 153, hela Petrussamtalet, citatfortsättningen 21:17–18, den älskade lärjungen och efterskriften 21:24–25 jämförda; normal kommatering och streck behålls."
+    },
+    {
+      "book": "Acts",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "c18124e735dd068b3f77f0c7818288a8979008f04cc63f80029dc2989b6af639",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0185.1.tif",
+          "sha256": "3983ec1758e45fe252301709e23034319b791d706c29bf30a6ca23eee69db48c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0186.1.tif",
+          "sha256": "df7161e5fd42d6047e29639e61eea4c9721c31b628549ae483d92845f9c68dde"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0187.1.tif",
+          "sha256": "67637f583ce03512304f200354b9e02d2608228e2f1ea407bf2fe39c006b96e0"
+        }
+      ],
+      "notes": "Full chapter compared, including page/column continuations, names and quotations. Ordinary quotation glyph/closing-mark differences retained. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Acts",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 47,
+      "text_sha256": "1bcc24ee17202dd2a9122755f9d351c4e2e5eac944c553df881f7652377ed356",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0187.1.tif",
+          "sha256": "67637f583ce03512304f200354b9e02d2608228e2f1ea407bf2fe39c006b96e0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0188.1.tif",
+          "sha256": "9dcd78713ab4fd7787a4c048a2ad4a293f405eab58f31cc59c41f7c02be776f7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0189.1.tif",
+          "sha256": "20700467e0d930ca5c5411d3fd5cc1e3d8043b276307fdf7513b62871df99145"
+        }
+      ],
+      "notes": "Full chapter compared; unusual 2:46/47 boundary agrees with print. Inner quotation ending and two malformed words corrected; 2:2 needs another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V123 i sv1917-nt-questions/batch-1.md; inga ändringar av frågornas ord. Införda rättelser: R198, R199, R200."
+    },
+    {
+      "book": "Acts",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "fd2ac973959335dc35e0062000feb55f555e59634de648dd802fae1d77eb5579",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0189.1.tif",
+          "sha256": "20700467e0d930ca5c5411d3fd5cc1e3d8043b276307fdf7513b62871df99145"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0190.1.tif",
+          "sha256": "420201ba5851b1e3e8b0e6b2baf525405d434f28c19415663e887192a9117a17"
+        }
+      ],
+      "notes": "Full chapter compared, including 3:8/9 page break and 3:17 column continuation. Corrected nå/då. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R201."
+    },
+    {
+      "book": "Acts",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 37,
+      "text_sha256": "2c5cbd05e52a6865b952bc65fd27a31dee67a7e685b4aace749876d4213161af",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0191.1.tif",
+          "sha256": "18e2a4db6915efc85104b7586fbf39407eb717f8c50b37b54d25f9d636d074f7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0192.1.tif",
+          "sha256": "9b46ef671b7708a993ddf46583b8d773cd1c18b64157718e5aeafeaaa32be917"
+        }
+      ],
+      "notes": "Full chapter compared, including 4:10 column continuation and 4:19/20 page break. Four malformed readings corrected; two plausible wording differences saved. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V124, V125 i sv1917-nt-questions/batch-1.md; inga ändringar av frågornas ord. Införda rättelser: R202, R203, R204, R205."
+    },
+    {
+      "book": "Acts",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 42,
+      "text_sha256": "7280c8d04bdca1d71d0c1a3607cf4b356840712ec735cd74e500bf49bf40c136",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0192.1.tif",
+          "sha256": "9b46ef671b7708a993ddf46583b8d773cd1c18b64157718e5aeafeaaa32be917"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0193.1.tif",
+          "sha256": "dec9314dc7801a7f7562d742b1821aa6acbb6f695da11d204cdc849b2a2434a0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0194.1.tif",
+          "sha256": "8fa7d50c3162b52b40661a97271119b043cfecce9a8ab3a099e585bbace862b0"
+        }
+      ],
+      "notes": "Full chapter compared, including 5:2 and 5:12 continuations. Two malformed words corrected; 5:1 and 5:13 need another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V126, V127 i sv1917-nt-questions/batch-1.md; inga ändringar av frågornas ord. Införda rättelser: R206, R207."
+    },
+    {
+      "book": "Acts",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "9e86386d4e448b87875840a277300a4d4ba8bd1d10e818af78f47a53c72909b1",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0195.1.tif",
+          "sha256": "7b1eed0ef913a70a75b6fb98025895e22d7a551f7a4c9f8982a317b62206de42"
+        }
+      ],
+      "notes": "Full chapter compared, including 6:9 column continuation and all seven names. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Acts",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 60,
+      "text_sha256": "97425b10eb46a464deae49497f3027f5eb4b803c077bc18432d5434073880675",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0195.1.tif",
+          "sha256": "7b1eed0ef913a70a75b6fb98025895e22d7a551f7a4c9f8982a317b62206de42"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0196.1.tif",
+          "sha256": "82108021820d8da744c3febae7b1bbbc65691e54f09b97ffa717c23f3a4fcfc2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0197.1.tif",
+          "sha256": "3619dab8c2e669ba66c0b786dcc8718d31a77195e4867ea93ce009e03fa7c6cd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0198.1.tif",
+          "sha256": "be56b7b1132efe145d1ee41ed71208c8425c91b06d9517f7d58b7e9e11334365"
+        }
+      ],
+      "notes": "Full chapter compared, including 7:4, 7:35 and 7:43 continuations and all quotations. Five correction records; ordinary missing source quote at 7:37 retained in corpus. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R208, R209, R210, R211, R212."
+    },
+    {
+      "book": "Acts",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 39,
+      "text_sha256": "cf6f946f2f5f7627928940f8820ff09a1e3cd04584192a1b001115ecd47701dc",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0198.1.tif",
+          "sha256": "be56b7b1132efe145d1ee41ed71208c8425c91b06d9517f7d58b7e9e11334365"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0199.1.tif",
+          "sha256": "8c98547c78091fd3a0207d07bbef98607ae3425f478a828644a2e7841edfef99"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0200.1.tif",
+          "sha256": "521f9e7c19fdf7bbf97905448bc09161491ab6c96cdf15ac23b3b7c39025e374"
+        }
+      ],
+      "notes": "Full chapter compared, including 8:1 split around heading and 8:25 continuation. Absent 8:37 is explicitly referred to in print footnote, not lost OCR. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Acts",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "4a13de82473e78babc570c080b3e6089fde3dc7771f615b3d859195cbbde6a63",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0200.1.tif",
+          "sha256": "521f9e7c19fdf7bbf97905448bc09161491ab6c96cdf15ac23b3b7c39025e374"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0201.1.tif",
+          "sha256": "ccdd82887d2cd47aa1539357bad03fef96fad603e48436a96ddb49a4a196e158"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0202.1.tif",
+          "sha256": "047a161f4b175ffe689f1ce53abca53a674cc4a417f6d81e4c0a542949d3b82e"
+        }
+      ],
+      "notes": "Full chapter compared, including 9:4, 9:25 and 9:35 continuations. Corrected gjord/gjort and den/dem; no unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R213, R214."
+    },
+    {
+      "book": "Acts",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 48,
+      "text_sha256": "abeffb65739dd52c38d4f4943185cfa6b563578aeee7d1c53666d91204b0d0a4",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0203.1.tif",
+          "sha256": "fb6c9f1d6c312c6611c3fcab960465a7eca1a0374d137dddc677c907dc6a91eb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0204.1.tif",
+          "sha256": "ce72f9fb90496406fe1d149104b1c6a0ce6e4f7c045bb33da29912f2b4a497f7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0205.1.tif",
+          "sha256": "f5a4143cef9aa8c7752c39d922c58b71c57cce8ff77ccbbe827db0c6a1b05ead"
+        }
+      ],
+      "notes": "Full chapter compared, including 10:11 and 10:22 continuations. Restored semicolon at 10:32; ordinary capitalization (herre/Herre, Himmelen/himmelen), comma and quote-glyph differences retained. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R215."
+    },
+    {
+      "book": "Acts",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "895ff9b300876bc7ad516b81e1847585ed2d970b4ab6bc5d96a39e0eb0daad12",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0205.1.tif",
+          "sha256": "f5a4143cef9aa8c7752c39d922c58b71c57cce8ff77ccbbe827db0c6a1b05ead"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0206.1.tif",
+          "sha256": "2b365a5a30672be101f52c88462768b68ea6c959f0c9827e549189c8cc31bfc7"
+        }
+      ],
+      "notes": "Full chapter compared, including 11:15 continuation. Ordinary closing quote variation at 11:14 retained. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Acts",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "220ed3eeaa821a7b9d39e3e31b8c4a18da8e0e97e6ac620ad551098c953f2948",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0206.1.tif",
+          "sha256": "2b365a5a30672be101f52c88462768b68ea6c959f0c9827e549189c8cc31bfc7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0207.1.tif",
+          "sha256": "8e7aa40b895d4ed9eb7ed3f3b9504da6e99dffe1c1e9dde193a8617e23809403"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/nt/0208.1.tif",
+          "sha256": "47c863d9eb10fcc11e0689071e25815df21959301f96c4749046bdcce9fe2d26"
+        }
+      ],
+      "notes": "Full chapter compared, including 12:4, 12:12 and 12:21 continuations. Restored sentence-initial capital at 12:8; ordinary guds/Guds capitalization at 12:22 retained. No unresolved lexical differences. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R216."
     }
   ],
   "unnumbered": [

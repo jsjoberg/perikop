@@ -232,6 +232,27 @@ REPLACE={
  ('John', 20, 26):('och stod mitt ibland de, och sade', 'och stod mitt ibland dem, och sade'),
  ('John', 20, 27):('Räck hit dit finger', 'Räck hit ditt finger'),
 
+ # Acts 1-12 scan pass: R198-R216; wording questions are saved in NT photo batch 1.
+ ('Acts', 2, 35):('dig till en fotapall.', "dig till en fotapall.'"),
+ ('Acts', 2, 41):('togo emot hans ort', 'togo emot hans ord'),
+ ('Acts', 2, 47):('allt folket vad dem', 'allt folket var dem'),
+ ('Acts', 3, 21):('de tider nå allt', 'de tider då allt'),
+ ('Acts', 4, 7):('Av vilken makt eller i genom', 'Av vilken makt eller genom'),
+ ('Acts', 4, 19):('eder mer är Gud', 'eder mer än Gud'),
+ ('Acts', 4, 30):('du uträcker din hand', 'du utsträcker din hand'),
+ ('Acts', 4, 32):('utan du hade allting', 'utan de hade allting'),
+ ('Acts', 5, 24):('visst de icke', 'visste de icke'),
+ ('Acts', 5, 25):('berättade för den:', 'berättade för dem:'),
+ ('Acts', 7, 4):('efter han faders död', 'efter hans faders död'),
+ ('Acts', 7, 13):('fick kunskap och Josefs släkt', 'fick kunskap om Josefs släkt'),
+ ('Acts', 7, 30):('när fyrtio är äter voro', 'när fyrtio år åter voro'),
+ ('Acts', 7, 34):('sända dig till Egypten.', "sända dig till Egypten.'"),
+ ('Acts', 7, 38):('Det var och han,', 'Det var ock han,'),
+ ('Acts', 9, 39):('Dorkas hade gjord,', 'Dorkas hade gjort,'),
+ ('Acts', 9, 41):('levande framför den.', 'levande framför dem.'),
+ ('Acts', 10, 32):('ock kallas Petrus: han', 'ock kallas Petrus; han'),
+ ('Acts', 12, 8):('Och han gjorde så. därefter', 'Och han gjorde så. Därefter'),
+
 }
 
 def chapter_number(name):
