@@ -210,6 +210,28 @@ REPLACE={
  ('John', 8, 47):('som I icke lyssnen därtill.', 'som I icke lyssnen därtill.»'),
  ('John', 8, 54):('han som I säger vara eder Gud', 'han som I sägen vara eder Gud'),
 
+ # John 9-21 scan pass: R178-R197; wording questions are saved in photo batch 10.
+ ('John', 9, 8):('den man som att och tiggde', 'den man som satt och tiggde'),
+ ('John', 9, 18):('till sig mannen föräldrar', 'till sig mannens föräldrar'),
+ ('John', 9, 20):('Då svarade han föräldrar', 'Då svarade hans föräldrar'),
+ ('John', 11, 20):('Då nu Maria fick höra att Jesus kom', 'Då nu Marta fick höra att Jesus kom'),
+ ('John', 11, 56):('där de stodo i helgedom:', 'där de stodo i helgedomen:'),
+ ('John', 12, 30):('utan för eder skull.»', 'utan för eder skull.'),
+ ('John', 12, 42):('för fariséernas skulle ville', 'för fariséernas skull ville'),
+ ('John', 13, 13):('och I säger rätt', 'och I sägen rätt'),
+ ('John', 15, 8):('att i bären mycken frukt', 'att I bären mycken frukt'),
+ ('John', 16, 20):('säger jag eder: I skolen bliva bedrövade', 'säger jag eder: I skolen komma att gråta och jämra eder, men världen skall glädja sig; I skolen bliva bedrövade'),
+ ('John', 16, 32):('redan kommen, så I skolen förskingras', 'redan kommen, då I skolen förskingras'),
+ ('John', 16, 33):('I världen liden i betryck', 'I världen liden I betryck'),
+ ('John', 17, 8):('har jag givit åt dem: och de', 'har jag givit åt dem; och de'),
+ ('John', 17, 13):('Nu går jag till tid; dock', 'Nu går jag till dig; dock'),
+ ('John', 19, 20):('låg nära staden: och den var', 'låg nära staden; och den var'),
+ ('John', 19, 29):('Där stod då en kärl', 'Där stod då ett kärl'),
+ ('John', 19, 34):('stack upp han sida med ett spjut', 'stack upp hans sida med ett spjut'),
+ ('John', 20, 5):('när han lutade sig ditin, så han linnebindlarna', 'när han lutade sig ditin, såg han linnebindlarna'),
+ ('John', 20, 26):('och stod mitt ibland de, och sade', 'och stod mitt ibland dem, och sade'),
+ ('John', 20, 27):('Räck hit dit finger', 'Räck hit ditt finger'),
+
 }
 
 def chapter_number(name):

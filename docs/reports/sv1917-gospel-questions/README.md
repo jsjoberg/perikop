@@ -1,6 +1,6 @@
 # Sparade fotofrågor i evangelierna
 
-**Aktuellt:** [Fotobunt 2, V010–V016](batch-2.md), [fotobunt 3, V017–V020](batch-3.md), [fotobunt 4, V021–V038](batch-4.md), [fotobunt 5, V039–V060](batch-5.md), [fotobunt 6, V061–V066](batch-6.md), [fotobunt 7, V067–V072](batch-7.md) och [fotobunt 8, V073–V079](batch-8.md) är sparade för senare boktillgång. Totalt 92 öppna frågor; ingen åtgärd behövs nu. Hela Matteus, Markus och Lukas är bildlästa; Johannes 1–8 är också bildlästa; granskningen fortsätter med Johannes 9. Varje bunt anger vilka verser som senare kan samlas i samma foto.
+**Aktuellt:** Alla fyra evangelier är helt bildlästa. [Samlad fotolista i bok- och versordning](photo-checklist.md) gör det möjligt att samla närliggande frågor på samma foto eller uppslag. Totalt 113 öppna frågor i 56 kapitel; ingen åtgärd behövs nu. Fulla verser och bildbevis finns i [fotobunt 2, V010–V016](batch-2.md), [fotobunt 3, V017–V020](batch-3.md), [fotobunt 4, V021–V038](batch-4.md), [fotobunt 5, V039–V060](batch-5.md), [fotobunt 6, V061–V066](batch-6.md), [fotobunt 7, V067–V072](batch-7.md), [fotobunt 8, V073–V079](batch-8.md), [fotobunt 9, V080–V101](batch-9.md), [fotobunt 10, V102–V122](batch-10.md). De 33 kapitlen utan öppna frågor är verifierade; övriga räknas inte som färdiga.
 
 ## Fotobunt 1: tre lösta läsningar i Matteus
 
