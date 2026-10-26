@@ -6184,7 +6184,7 @@
     {
       "book": "Rom",
       "chapter": 3,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 31,
       "text_sha256": "ecf067bfa2623f6affdded7cc62c7dde0452392b061c2d9cbcd9d025e91dcd9d",
       "checked_at": "2026-10-26",
@@ -6203,7 +6203,7 @@
           "sha256": "ce56144356753daf6683d085f8e447e2ebfc2cdf4b514188336e2ed6e9f308a4"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 3:7 över sidgränsen och 3:20/29 över spalt-/sidgränser. V133 sparar versgränsen 3:7–8; ord och koordinater behålls tills ytterligare tryck har jämförts. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V133 i sv1917-nt-questions/batch-3.md; inga ändringar av frågornas ord."
+      "notes": "Hela kapitlet jämfört, inklusive 3:7 över sidgränsen och 3:20/29 över spalt-/sidgränser. V133 avgjord mot användarens kompletterande foto: båda versnumren bekräftar korpusens 3:7–8-gräns. Ord och koordinater behålls. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Foto och vershash under resolved_readings/V133."
     },
     {
       "book": "Rom",
@@ -9385,6 +9385,23 @@
       "photo_sha256": "dd33f5535b4d0b292baf4684e29d2efbd1c16ed53b0bad4101b0549fc8429704",
       "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 209. https://archive.org/download/bibelnellerdenhe0000unse/page/n1418.jpg ; originalbild SHA-256 2239eee2d2619e7a72d168e13917dbdebaa92a7894bf9bc412a5c2b1e403b65b. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
       "notes": "EFS 1926 bekräftar korpusens rannsakning har blivit hållen; EFS 1927 saknar har. Behållen tryckvariant; inget rättelse-ID."
+    },
+    {
+      "id": "V133",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Rom",
+      "chapter": 3,
+      "verse": 8,
+      "status": "resolved",
+      "reading": "Och varför skulle vi icke",
+      "text_sha256": "761bbf3f48b99b4979be74d39b7d2167dcce28e364d54529b5525dcdf34d4a8d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande foto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V133.jpg",
+      "photo_sha256": "7f6685e73e99ff8c53e7a7667b3bc8554f9a0db503345c6720b557b4d5066b6d",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-26 är bevarat utan beskärning eller omkodning.",
+      "notes": "Användarens foto visar hela 3:7 och 3:8 med båda numren. Och varför skulle vi icke börjar uttryckligen v. 8, som i korpusen; EFS 1927 har dessa ord sist i v. 7. Båda versernas text och koordinater behålls som belagd tryckvariant. Verspostens hash låser 3:8; den oförändrade kapitelhashen låser även 3:7 och hela gränsen. Inget rättelse-ID."
     }
   ]
 }
