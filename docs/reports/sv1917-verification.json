@@ -5520,9 +5520,9 @@
     {
       "book": "Acts",
       "chapter": 2,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 47,
-      "text_sha256": "1bcc24ee17202dd2a9122755f9d351c4e2e5eac944c553df881f7652377ed356",
+      "text_sha256": "1bdf693fffdb8afdbf1dfd6b26b545d2e205ca0dd0a98488ed75e497276f4365",
       "checked_at": "2026-10-26",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
@@ -5539,7 +5539,7 @@
           "sha256": "20700467e0d930ca5c5411d3fd5cc1e3d8043b276307fdf7513b62871df99145"
         }
       ],
-      "notes": "Full chapter compared; unusual 2:46/47 boundary agrees with print. Inner quotation ending and two malformed words corrected; 2:2 needs another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V123 i sv1917-nt-questions/batch-1.md; inga ändringar av frågornas ord. Införda rättelser: R198, R199, R200."
+      "notes": "Full chapter compared; unusual 2:46/47 boundary agrees with print. Inner quotation ending and two malformed words corrected; 2:2 resolved against EFS 1926. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R198, R199, R200. Frågor V123 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
@@ -5564,9 +5564,9 @@
     {
       "book": "Acts",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 37,
-      "text_sha256": "2c5cbd05e52a6865b952bc65fd27a31dee67a7e685b4aace749876d4213161af",
+      "text_sha256": "33528a1624859c2dee41946a82d1653c732e71ef8c13b29ba89986d622689148",
       "checked_at": "2026-10-26",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
@@ -5579,14 +5579,14 @@
           "sha256": "9b46ef671b7708a993ddf46583b8d773cd1c18b64157718e5aeafeaaa32be917"
         }
       ],
-      "notes": "Full chapter compared, including 4:10 column continuation and 4:19/20 page break. Four malformed readings corrected; two plausible wording differences saved. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V124, V125 i sv1917-nt-questions/batch-1.md; inga ändringar av frågornas ord. Införda rättelser: R202, R203, R204, R205."
+      "notes": "Full chapter compared, including 4:10 column continuation and 4:19/20 page break. Four malformed readings corrected; two wording questions resolved against EFS 1926. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R202, R203, R204, R205. Frågor V124, V125 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 42,
-      "text_sha256": "7280c8d04bdca1d71d0c1a3607cf4b356840712ec735cd74e500bf49bf40c136",
+      "text_sha256": "56247ce4072b04d20daa827462048344472c496c3087fd4464c1b499d1cd2985",
       "checked_at": "2026-10-26",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
@@ -5603,7 +5603,7 @@
           "sha256": "8fa7d50c3162b52b40661a97271119b043cfecce9a8ab3a099e585bbace862b0"
         }
       ],
-      "notes": "Full chapter compared, including 5:2 and 5:12 continuations. Two malformed words corrected; 5:1 and 5:13 need another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V126, V127 i sv1917-nt-questions/batch-1.md; inga ändringar av frågornas ord. Införda rättelser: R206, R207."
+      "notes": "Full chapter compared, including 5:2 and 5:12 continuations. Two malformed words corrected; 5:1 and 5:13 resolved against EFS 1926. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R206, R207. Frågor V126, V127 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
@@ -5768,9 +5768,9 @@
     {
       "book": "Acts",
       "chapter": 13,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 52,
-      "text_sha256": "f3915654bef28872e452c1a2bc403663dbc82bf1b497850c0f8c7d56fceb46a0",
+      "text_sha256": "1ab6e06d050f3b23f7afcbf1ee6fe14ea0659da8114250e449208375265f33e0",
       "checked_at": "2026-10-26",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
@@ -5791,7 +5791,7 @@
           "sha256": "178619f582d457865b375b1994af6d7a51945d28006ee5e48ae5fd4058fee13a"
         }
       ],
-      "notes": "Full chapter compared, including 13:41 column and 13:50 page continuation. Three malformed readings corrected; V128–V129 need another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V128, V129 i sv1917-nt-questions/batch-2.md; inga ändringar av frågornas ord. Införda rättelser: R217, R218, R219."
+      "notes": "Full chapter compared, including 13:41 column and 13:50 page continuation. Three malformed readings corrected; V128–V129 resolved against EFS 1926. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R217, R218, R219. Frågor V128, V129 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
@@ -5816,7 +5816,7 @@
     {
       "book": "Acts",
       "chapter": 15,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 40,
       "text_sha256": "ab1e076634c91f07154e33c1ecffda32b16fa77cc548cd772ab4be65c4246cbb",
       "checked_at": "2026-10-26",
@@ -5835,7 +5835,7 @@
           "sha256": "dcdb5e8d8a8904d596406080b646dfd338d198440c28f94439628e5c4c8502bc"
         }
       ],
-      "notes": "Full chapter compared, including 15:6 and 15:16 continuations. Paired parenthetical comma restored at 15:35; 15:34 has only a footnote marker in print. V130 needs another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V130 i sv1917-nt-questions/batch-2.md; inga ändringar av frågornas ord. Införda rättelser: R220."
+      "notes": "Full chapter compared, including 15:6 and 15:16 continuations. Paired parenthetical comma restored at 15:35; 15:34 has only a footnote marker in print. V130 resolved against EFS 1926. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R220. Frågor V130 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
@@ -5864,7 +5864,7 @@
     {
       "book": "Acts",
       "chapter": 17,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
       "text_sha256": "0b6e7ca6ec938adfcf21639df172837cd433b336c2719f012447599329ebf4f0",
       "checked_at": "2026-10-26",
@@ -5883,7 +5883,7 @@
           "sha256": "5df7fa49a9f3c137df24a9f03e950e77754940523d4cbc99d41d41c327b57eaa"
         }
       ],
-      "notes": "Full chapter compared, including 17:14, 17:23 and 17:30 continuations. Medan and closing quotation corrected. V131 saves the 17:6–7 verse boundary; coordinates and wording remain unchanged pending another print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V131 i sv1917-nt-questions/batch-2.md; inga ändringar av frågornas ord. Införda rättelser: R223, R224."
+      "notes": "Full chapter compared, including 17:14, 17:23 and 17:30 continuations. Medan and closing quotation corrected. EFS 1926 confirms the retained 17:6–7 verse boundary and wording (V131). Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R223, R224. Frågor V131 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
@@ -6052,7 +6052,7 @@
     {
       "book": "Acts",
       "chapter": 25,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 27,
       "text_sha256": "88b92425661aee738498102341b00a74151230fb088dc988d633b0d472ba0857",
       "checked_at": "2026-10-26",
@@ -6071,7 +6071,7 @@
           "sha256": "1f2aa5465b1c65ee1a71418f2b0f915d67913b8c9998fffc45259e1fb08daede"
         }
       ],
-      "notes": "Full chapter compared, including 25:3 and 25:21 page continuations. Corrected här and stray semicolon in 25:26, retaining har pending V132. 25:25–26 boundary agrees with print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V132 i sv1917-nt-questions/batch-2.md; inga ändringar av frågornas ord. Införda rättelser: R240, R241."
+      "notes": "Full chapter compared, including 25:3 and 25:21 page continuations. Corrected här and stray semicolon in 25:26, retaining har, confirmed by EFS 1926 (V132). 25:25–26 boundary agrees with print. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R240, R241. Frågor V132 avgjorda mot EFS 1926; beslut och bevarade bildutsnitt under resolved_readings. Inga öppna frågor i kapitlet."
     },
     {
       "book": "Acts",
@@ -9215,6 +9215,176 @@
       "photo_sha256": "df87c4f0778c8fcf390509350501f8ab664012a594f5442590221b6c4134efbe",
       "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
       "notes": "Fotot bekräftar stannen så hos honom, samma ordalydelse som EFS 1927. Det saknade så återställs."
+    },
+    {
+      "id": "V123",
+      "correction_id": "R321",
+      "decision": "corrected",
+      "book": "Acts",
+      "chapter": 2,
+      "verse": 2,
+      "status": "resolved",
+      "reading": "hade farit fram",
+      "text_sha256": "9c7cd461aff85fe840db8e6df56fde72c0e1f93693daeaaeebd15a277990d502",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V123.png",
+      "photo_sha256": "13d1338efb65415e55dd5020e3c8291334fff6598d65901e97e2a0ab6e241924",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 168. https://archive.org/download/bibelnellerdenhe0000unse/page/n1377.jpg ; originalbild SHA-256 5be120e164c681f9b92635127c8367907b18a8200650f7cc9aedf9a5f05b5a85. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "EFS 1926 och 1927 har båda hade farit fram; dragit ersätts med farit. Endast det belagda ordet ändras."
+    },
+    {
+      "id": "V124",
+      "correction_id": "R322",
+      "decision": "corrected",
+      "book": "Acts",
+      "chapter": 4,
+      "verse": 1,
+      "status": "resolved",
+      "reading": "Medan de nu talade",
+      "text_sha256": "a27fe24dffbb9a08550c1d522c9efa9ea28fd87f07975e51c483884f5aaa858f",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V124.png",
+      "photo_sha256": "f60b0ba270d30b38a4408617240576fb793995cb17996a34bd1992b128458126",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 171. https://archive.org/download/bibelnellerdenhe0000unse/page/n1380.jpg ; originalbild SHA-256 84c11b228ccde4505ff03e4be0bf08b39f3f6be083d718e8059f0b9f5cd7bef3. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "Båda trycken har Medan de nu talade; ännu ersätts med nu."
+    },
+    {
+      "id": "V125",
+      "correction_id": "R323",
+      "decision": "corrected",
+      "book": "Acts",
+      "chapter": 4,
+      "verse": 21,
+      "status": "resolved",
+      "reading": "utväg att straffa",
+      "text_sha256": "6c8bc94871ca633241d2283e4789cfc64b06a85ee7d3d5baa3468f8407a5c7cb",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V125.png",
+      "photo_sha256": "919a1132f69b1e4ab5dc2fa94290c2f4590a9a39964e889254681406c9dbfdf1",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 172. https://archive.org/download/bibelnellerdenhe0000unse/page/n1381.jpg ; originalbild SHA-256 dddc84fffe9ac41a2e3cda7bd3015aea8241e37da4aa920d9708e325851bfed5. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "Båda trycken har utväg att straffa; det främmande genom tas bort."
+    },
+    {
+      "id": "V126",
+      "correction_id": "R324",
+      "decision": "corrected",
+      "book": "Acts",
+      "chapter": 5,
+      "verse": 1,
+      "status": "resolved",
+      "reading": "Men en man",
+      "text_sha256": "611cfb61a4ba38e2a7c674444b7c6aeb5a763fc0bad27094f14c0c78be02c4f3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V126.png",
+      "photo_sha256": "5cf21f0fa3bce9f9c3da80b85f5119b9814ddc1ac9ecd2565dce3772781f846f",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 173. https://archive.org/download/bibelnellerdenhe0000unse/page/n1382.jpg ; originalbild SHA-256 6a0d793bd0c6ddfe8ce0600099f1a7f0c7e40c21ef9fe2c6082350c82fa14a83. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "Båda trycken har Men en man; det främmande ung tas bort."
+    },
+    {
+      "id": "V127",
+      "correction_id": "R325",
+      "decision": "corrected",
+      "book": "Acts",
+      "chapter": 5,
+      "verse": 13,
+      "status": "resolved",
+      "reading": "folket höll dem i stor ära",
+      "text_sha256": "46e8dce0a37032dcc6fde664b85375656e05871c9b5a76ded0721dc3ec86cbf3",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V127.png",
+      "photo_sha256": "76a9b87675eea58d2bdb5ed8060c3931687e5922c636e5e44f7701fea4561d4f",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 174. https://archive.org/download/bibelnellerdenhe0000unse/page/n1383.jpg ; originalbild SHA-256 b3f46d8a6ab955bbe79cd930bd3d688a883fd472a9cde9b361442e53c39a2779. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "Båda trycken har folket höll dem i stor ära; det saknade stor återställs."
+    },
+    {
+      "id": "V128",
+      "correction_id": "R326",
+      "decision": "corrected",
+      "book": "Acts",
+      "chapter": 13,
+      "verse": 16,
+      "status": "resolved",
+      "reading": "I män av Israel",
+      "text_sha256": "1f3aa9913706b12270c8b090f712d5bbaaa15d95bbd6de59e042b71ac3d7190c",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V128.png",
+      "photo_sha256": "537934fa31970a9607ad59e81723ee762049661943b909ad3dca7a53ed9e594c",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 188. https://archive.org/download/bibelnellerdenhe0000unse/page/n1397.jpg ; originalbild SHA-256 addb3ad5f06cebd2b79da9d976b96c88f3a280b956e5febf6d78e342ec5f4d67. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "Båda trycken har I män av Israel; Israels hus ersätts med Israel."
+    },
+    {
+      "id": "V129",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Acts",
+      "chapter": 13,
+      "verse": 45,
+      "status": "resolved",
+      "reading": "det myckna folket",
+      "text_sha256": "88a1827564c5427eda8ff11a3b436e0e9725d967d3eb8b463292c636b1e1b005",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V129.png",
+      "photo_sha256": "0c7385cc3c540b44d628aa2c63e8a3bad58363d4d031bd4f1642d2188afeb095",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 189. https://archive.org/download/bibelnellerdenhe0000unse/page/n1398.jpg ; originalbild SHA-256 8cd6a58c156c6877b7df552688df73fe4131a44d4721cac154ca81dd7cbdb9dd. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "EFS 1926 bekräftar korpusens det myckna folket mot EFS 1927:s detta myckna folket. Behållen tryckvariant; inget rättelse-ID."
+    },
+    {
+      "id": "V130",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Acts",
+      "chapter": 15,
+      "verse": 24,
+      "status": "resolved",
+      "reading": "kommit från oss",
+      "text_sha256": "620ca1ad20b6f1f71158dd47b759326548c7af32cb9d7946e4f65bf2398bf5f6",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V130.png",
+      "photo_sha256": "b590ce9dc2b55b52c89aa6013b72ebf345f63ba58ab551726e63b766920ea859",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 192. https://archive.org/download/bibelnellerdenhe0000unse/page/n1401.jpg ; originalbild SHA-256 19daed4844a8d293d025a31827dcce7cf53f640e4f4017a944c72aa6f82ce3f6. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "EFS 1926 bekräftar korpusens kommit från oss mot EFS 1927:s kommit ifrån oss. Behållen tryckvariant; inget rättelse-ID."
+    },
+    {
+      "id": "V131",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Acts",
+      "chapter": 17,
+      "verse": 7,
+      "status": "resolved",
+      "reading": "och Jason har tagit emot dem i sitt hus.",
+      "text_sha256": "d928f61f4296ab8cbb140b199e6222bb6f44b7f51418016591de94164e978e90",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V131.png",
+      "photo_sha256": "e1caa4644dbd5911c389ffc19e24307b4e295bb3b059165944b3f03a3641ba3f",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 195. https://archive.org/download/bibelnellerdenhe0000unse/page/n1404.jpg ; originalbild SHA-256 b9aa613ecc3f873d2119fcb74f038c0c3df69a119158aad6c7e2ed993a1220cd. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "Hela 17:6 och 17:7 med båda numren är visuellt jämförda. EFS 1926 börjar v. 7 med och Jason har tagit emot dem i sitt hus., precis som korpusen; EFS 1927 har satsen i v. 6. Både ord och koordinater behålls. Verspostens hash avser 17:7; kapitelhashen skyddar även 17:6 och hela gränsen."
+    },
+    {
+      "id": "V132",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Acts",
+      "chapter": 25,
+      "verse": 26,
+      "status": "resolved",
+      "reading": "rannsakning har blivit hållen",
+      "text_sha256": "1d3b2a7e944ae8d7103d89cf0ae1e4998e58418d3112f2a27e6a0a3f0a7666c9",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V132.png",
+      "photo_sha256": "dd33f5535b4d0b292baf4684e29d2efbd1c16ed53b0bad4101b0549fc8429704",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, NT tryckt s. 209. https://archive.org/download/bibelnellerdenhe0000unse/page/n1418.jpg ; originalbild SHA-256 2239eee2d2619e7a72d168e13917dbdebaa92a7894bf9bc412a5c2b1e403b65b. Titel och kolofon bevarade i sv1917-efs1926-witnesses/. Direkt beskuret scanutsnitt, utan OCR, retuschering eller omskapade bokstäver.",
+      "notes": "EFS 1926 bekräftar korpusens rannsakning har blivit hållen; EFS 1927 saknar har. Behållen tryckvariant; inget rättelse-ID."
     }
   ]
 }

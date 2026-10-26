@@ -379,6 +379,14 @@ REPLACE={
  ('Rev', 22, 3):('och hans tjänare skall tjäna honom', 'och hans tjänare skola tjäna honom'),
  ('Rev', 22, 17):('han säge »Kom.»', 'han säge: »Kom.»'),
 
+ # Acts questions resolved against EFS 1926 and 1927: R321-R326.
+ ('Acts', 2, 2):('hade dragit fram', 'hade farit fram'),
+ ('Acts', 4, 1):('Medan de ännu talade', 'Medan de nu talade'),
+ ('Acts', 4, 21):('utväg genom att straffa', 'utväg att straffa'),
+ ('Acts', 5, 1):('Men en ung man', 'Men en man'),
+ ('Acts', 5, 13):('folket höll dem i ära', 'folket höll dem i stor ära'),
+ ('Acts', 13, 16):('I män av Israels hus', 'I män av Israel'),
+
 }
 
 def chapter_number(name):

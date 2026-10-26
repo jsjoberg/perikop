@@ -42,7 +42,7 @@ Gud	3126	word	"g}:d
 ett	3068	word	"Et
 såsom	3056	word	"so:$sOm
 från	2946	word	"fro:n
-nu	2916	word	"n}:
+nu	2917	word	"n}:
 din	2897	word	"di:n
 åt	2856	word	"o:t
 upp	2824	word	"u0p
@@ -74,14 +74,14 @@ Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
 eller	1704	word	"E$ler
 sitt	1610	word	"sIt
-Israels	1608	name	Is$ra$"e:ls
+Israels	1607	name	Is$ra$"e:ls
 vara	1606	word	""vA:$ra
 skulle	1585	word	""sku0$le
-hus	1580	word	"h}:s
+hus	1579	word	"h}:s
 Så	1577	word	"so:
 äro	1566	word	""E:$rU
 folk	1560	word	"fOlk
-genom	1552	word	"je:$nOm
+genom	1551	word	"je:$nOm
 mitt	1521	word	"mIt
 bliva	1494	word	""bli:$va
 säger	1468	word	"sE$jer
@@ -124,7 +124,7 @@ dessa	1087	word	""dE$sa
 mina	1075	word	""mi:$na
 skolen	1069	word	
 hand	1058	word	"hand
-Israel	1051	name	""i:s$ra$el
+Israel	1052	name	""i:s$ra$el
 henne	1032	word	""hE$ne
 Herren	1031	word	""hE$ren
 bland	1026	word	"bland
@@ -185,8 +185,8 @@ taga	638	word	""tA:$ga
 haven	633	word	"hA:$ven
 intet	633	word	""In$tet
 här	632	word	"hE:r
-ännu	629	word	""E$n}:
 gör	628	word	"j2:r
+ännu	628	word	""E$n}:
 kommit	627	word	""kO$mIt
 väl	620	word	"vE:l
 tusen	618	word	"t}:$sen
@@ -204,7 +204,7 @@ kunna	578	word	""ku0$na
 många	575	word	
 åstad	575	word	O$"stA:d
 emot	573	word	
-stor	569	word	"stu:r
+stor	570	word	"stu:r
 bröder	561	word	"br2:$der
 skull	557	word	"sku0l
 omkring	546	word	
@@ -798,7 +798,6 @@ utgjorde	104	word	""}:t$%ju:$d`e
 vilket	104	word	""vIl$ket
 Judeen	103	name	
 ark	103	word	"ark
-dragit	103	word	""drA:$gIt
 ene	103	word	
 inne	103	word	""I$ne
 snart	103	word	"snA:t`
@@ -806,6 +805,7 @@ vänner	103	word	""vE$ner
 Din	102	word	"di:n
 aftonen	102	word	""af$tO$nen
 akt	102	word	"akt
+dragit	102	word	""drA:$gIt
 församlingen	102	word	f9$"s`am$lIN$en
 kunskap	102	word	""ku0n$%skA:p
 nästa	102	word	""nE$sta
@@ -1272,6 +1272,7 @@ Tagen	58	word	""tA:$gen
 Tala	58	word	""tA:$la
 Tyrus	58	name	
 efa	58	word	
+farit	58	word	""fA:$rIt
 fattige	58	word	""fa$tI$ge
 givas	58	word	""ji:$vas
 helgat	58	word	""hEl$gat
@@ -1297,7 +1298,6 @@ bereda	57	word	be$"re:$da
 brände	57	word	""brEn$de
 byar	57	word	""by:$ar
 bådo	57	word	""bo:$dU
-farit	57	word	""fA:$rIt
 fienders	57	word	""fi:$en$des`
 föras	57	word	""f2:$ras
 hjord	57	word	"ju:d`
@@ -1536,7 +1536,6 @@ svek	48	word	"sve:k
 underlydande	48	word	""u0n$de$%l`y:$dan$de
 undervisade	48	word	""u0n$der$%vi:$sa$de
 undervisning	48	word	""u0n$der$%vi:$snIN
-ung	48	word	"u0N
 vittne	48	word	""vIt$ne
 åsnor	48	word	""o:$snUr
 Frukta	47	word	""fru0k$ta
@@ -1556,6 +1555,7 @@ mjölk	47	word	"mj9lk
 ofärd	47	word	""u:$%fE:d`
 räknas	47	word	""rE:$knas
 stoftet	47	word	"stOf$tet
+ung	47	word	"u0N
 utgjuta	47	word	""}:t$%j}:$ta
 väldiga	47	word	""vEl$dI$ga
 Åter	47	word	"o:$ter
