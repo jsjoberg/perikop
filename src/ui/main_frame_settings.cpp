@@ -281,9 +281,10 @@ void MainFrame::fill_settings(wxScrolledWindow* page) {
         }
         auto detail = ui::speech_language_name(source.language);
         detail[0] = wxToupper(detail[0]);
-        for (const auto& [present, name] : {std::pair{old, "GT"}, {nt, "NT"}, {apocrypha, "apokryfer"}})
+        for (const auto& [present, name] :
+             {std::pair{old, "GT"}, {nt, "NT"}, {apocrypha, "deuterokanoniska böcker"}})
             if (present)
-                detail += ui::utf8(" · ") + name;
+                detail += ui::utf8(" · ") + ui::utf8(name);
         source_details.emplace(source.code, detail);
     }
     const auto source_stack = [&](const char* heading, std::vector<SourcePreference>& preferences,
