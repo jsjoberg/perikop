@@ -1123,12 +1123,16 @@ int main(int argc, char** argv) {
                  {"Matt", {9, 17}, "nytt vin I gamla", "nytt vin i gamla"},
                  {"Matt", {10, 27}, "det skolen säga i ljuset", "det skolen I säga i ljuset"},
                  {"Matt", {3, 15}, "all rättfärdighet. Då", "all rättfärdighet.» Då"},
+                 {"Matt", {1, 24}, "gjorde han som Herrens ängel", "gjorde han såsom Herrens ängel"},
+                 {"Matt", {10, 11}, "och stannen hos honom", "och stannen så hos honom"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
+        check(corpus.verse("sv1917", "Matt", {4, 24})->text.find("hemsökta av olika slags lidanden") != std::string::npos,
+              "Matthew 4:24 retains olika as confirmed by supplementary print photograph V008");
         check(corpus.verse("sv1917", "1Macc", {10, 27})->text == "Fortfaren nu ock allt framgent att iakttaga trohet mot oss, så skola vi bereda eder fördelar, till tack för vad I gören till vårt gagn;" &&
                   corpus.verse("sv1917", "1Macc", {10, 28})->text == "vi skola bevilja eder många eftergifter och tilldela eder många förmåner.",
               "First Maccabees 10:27-28 follow the printed boundary without losing or duplicating words");

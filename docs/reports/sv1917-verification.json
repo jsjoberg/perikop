@@ -3384,11 +3384,11 @@
     {
       "book": "Matt",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 25,
-      "text_sha256": "81f7d48a8662c95a64c7e4ba58d790e358216dd0e631d3bd8f344aa1bb015c95",
-      "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "text_sha256": "4f0a3bdd5193d919875175548ec70d1ef451ed14ca0f8646da3fc6fc25ee2512",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison and supplementary photograph interpretation",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/nt/0003.1.tif",
@@ -3399,7 +3399,7 @@
           "sha256": "e6851d608787053c11bb95945dfba72147f0d71f9e2c71f43c1902f0c899bad0"
         }
       ],
-      "notes": "Hela 1:1–25 ord- och interpunktionsjämförd, inklusive sidfortsättningen mellan 1:21–22 och spaltfortsättningen i 1:12. R024 rättar for till för i 1:19. V007: e-texten har gjorde han som, EFS 1927 gjorde han, såsom i 1:24; ytterligare foto behövs för att bedöma tryckskillnaden. Asaf och Amos i släkttavlan står så i trycket och behålls. Kommatering i 1:1, 1:7 (punkt i e-texten, komma i bilden), 1:16, 1:17, 1:22 och 1:25 harmoniseras inte; e-textens skiljetecken behålls. Kapitlet är needs-review tills V007 bedömts."
+      "notes": "Hela 1:1–25 ord- och interpunktionsjämförd, inklusive sidfortsättningen mellan 1:21–22 och spaltfortsättningen i 1:12. R024 rättar for till för i 1:19. V007 löst 2026-10-26: användarens foto bekräftar såsom; R029 ändrar som till såsom i 1:24. Fotot saknar kommat efter han, liksom korpusen; inget komma läggs till. Asaf och Amos i släkttavlan står så i trycket och behålls. Kommatering i 1:1, 1:7 (punkt i e-texten, komma i bilden), 1:16, 1:17, 1:22 och 1:25 harmoniseras inte; e-textens skiljetecken behålls."
     },
     {
       "book": "Matt",
@@ -3444,11 +3444,11 @@
     {
       "book": "Matt",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 25,
       "text_sha256": "11f6d2d8434a229e5c7e37e08884ca2ac0981160d66a2ef29a3ec3055fd46b0b",
-      "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison and supplementary photograph interpretation",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/nt/0006.1.tif",
@@ -3459,7 +3459,7 @@
           "sha256": "de80978742e0a8455a54a7d7aee4b48f47a8d865c1f112ad6bf5a50dc5099c10"
         }
       ],
-      "notes": "Hela 4:1–25 jämförd, inklusive sidfortsättningen i 4:15 och spaltfortsättningarna i 4:4 och 4:25. V008: e-texten har olika slags lidanden i 4:24, bilden alla slags lidanden; båda språkligt möjliga, foto av annat tryck behövs. Kommaskillnader i 4:4, 4:12, 4:16 och 4:19 samt bildens kommatering kring som voro i 4:24 behålls utan harmonisering. Namnen och samtliga versgränser bekräftade. Kapitlet är needs-review tills V008 bedömts."
+      "notes": "Hela 4:1–25 jämförd, inklusive sidfortsättningen i 4:15 och spaltfortsättningarna i 4:4 och 4:25. V008 löst 2026-10-26: användarens foto bekräftar olika slags lidanden i 4:24. Korpustexten behålls oförändrad som dokumenterad tryckskillnad mot EFS 1927:s alla slags lidanden; ingen rättelse. Kommaskillnader i 4:4, 4:12, 4:16 och 4:19 samt bildens kommatering kring som voro i 4:24 behålls utan harmonisering. Namnen och samtliga versgränser bekräftade."
     },
     {
       "book": "Matt",
@@ -3576,11 +3576,11 @@
     {
       "book": "Matt",
       "chapter": 10,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 42,
-      "text_sha256": "d626292f305785176ac5b4aee683713c672690171cab79d27d04aaf7a87cb400",
-      "checked_at": "2026-10-25",
-      "reviewer": "Codex, full visual scan comparison",
+      "text_sha256": "3bd9cbd49c4c0f0237c381f10462bcecda7d9c5f31b7d896c8692b9d7dbf3e15",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, full visual scan comparison and supplementary photograph interpretation",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/nt/0015.1.tif",
@@ -3595,7 +3595,7 @@
           "sha256": "7515b882ada28687a363f04c55de15ddb3dfac4cfa40de00a1bdf88a84a3e8ab"
         }
       ],
-      "notes": "Hela 10:1–42 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 10:5–6 och 10:25–26 och spaltfortsättningarna i 10:17 och mellan 10:35–36. R027 återställer I i det skolen I säga i 10:27, bekräftat i bilden och parallellt med nästa sats. V009: e-texten stannen hos honom i 10:11 mot bildens stannen så hos honom; foto behövs för att bedöma det möjliga ordbortfallet/tryckskillnaden. Lebbeus i 10:3 och Ande i 10:20 bekräftade. E-textens kommaskillnader i 10:2, 10:7, 10:11, 10:20, 10:22, 10:28, 10:34 och 10:40 samt tankstrecket efter 10:39 behålls utan harmonisering. Kapitlet är needs-review tills V009 bedömts."
+      "notes": "Hela 10:1–42 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 10:5–6 och 10:25–26 och spaltfortsättningarna i 10:17 och mellan 10:35–36. R027 återställer I i det skolen I säga i 10:27, bekräftat i bilden och parallellt med nästa sats. V009 löst 2026-10-26: användarens foto bekräftar stannen så hos honom i 10:11, samma ordalydelse som EFS 1927; R030 återställer så. Lebbeus i 10:3 och Ande i 10:20 bekräftade. E-textens kommaskillnader i 10:2, 10:7, 10:11, 10:20, 10:22, 10:28, 10:34 och 10:40 samt tankstrecket efter 10:39 behålls utan harmonisering."
     }
   ],
   "unnumbered": [
@@ -3716,6 +3716,57 @@
       "photo_sha256": "a12eebf44188631a27c82b68fad583a341cbefe173ca0a5519e3de54fd005a8c",
       "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
       "notes": "Användarens foto, tryckt s. 191, bekräftar konungens; kunungens är ett tryckfel i Runebergs förlaga."
+    },
+    {
+      "id": "V007",
+      "correction_id": "R029",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 1,
+      "verse": 24,
+      "status": "resolved",
+      "reading": "gjorde han såsom Herrens ängel",
+      "text_sha256": "ce5a0767347fd83bffb5a3d60c44a4381d54bc596851ccf36a166bfb3bfad081",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande foto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V007.jpg",
+      "photo_sha256": "e7b5c573eaacee6f632b608a3a3112c360ffd3ad34c1e3f9786d3d02e7774f33",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Fotot bekräftar såsom, samma ord som EFS 1927. Som rättas till såsom. Fotot saknar kommat efter han, liksom korpusen; endast ordet ändras."
+    },
+    {
+      "id": "V008",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Matt",
+      "chapter": 4,
+      "verse": 24,
+      "status": "resolved",
+      "reading": "hemsökta av olika slags lidanden",
+      "text_sha256": "96ef5bec22a866443fa32535caae31169cf3623ffca9fb835c25e5e0f3d5b10d",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande foto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V008.jpg",
+      "photo_sha256": "6d9e03ffb716b1dad3a79f2eb240b467daad23debcf1c16e9720a13a8dc9b3d1",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Fotot bekräftar korpusens olika; EFS 1927 har alla. En dokumenterad tryckskillnad, ingen rättelse och inget rättelse-ID."
+    },
+    {
+      "id": "V009",
+      "correction_id": "R030",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 10,
+      "verse": 11,
+      "status": "resolved",
+      "reading": "och stannen så hos honom",
+      "text_sha256": "3e3ead3744eefd5cd72bfc991843d923487a9f66ac4556c3ed76ccde4cd88e09",
+      "checked_at": "2026-10-26",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande foto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V009.jpg",
+      "photo_sha256": "df87c4f0778c8fcf390509350501f8ab664012a594f5442590221b6c4134efbe",
+      "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
+      "notes": "Fotot bekräftar stannen så hos honom, samma ordalydelse som EFS 1927. Det saknade så återställs."
     }
   ]
 }

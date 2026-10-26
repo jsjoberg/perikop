@@ -79,11 +79,16 @@ with tempfile.TemporaryDirectory() as directory:
                'source': 'Another print, supplied by the user', 'notes': 'Confirmed reading.',
                'photo_path': 'witness.jpg', 'photo_sha256': hashlib.sha256(photo.read_bytes()).hexdigest()}
     assert validate_print_witnesses([witness], chapters, root) == {'V001'}
+    retained = witness | {'decision': 'retained', 'correction_id': None}
+    assert validate_print_witnesses([retained], chapters, root) == {'V001'}
     assert validate_print_witnesses([], chapters, root) == set()
     for invalid in ([witness, witness], [witness | {'reading': 'Different'}],
                     [witness | {'verse': 2}], [witness | {'photo_path': '../outside.jpg'}],
                     [witness | {'photo_path': 'missing.jpg'}], [witness | {'photo_sha256': 'a' * 64}],
-                    [witness | {'text_sha256': 'a' * 64}], [witness | {'reviewer': ''}]):
+                    [witness | {'text_sha256': 'a' * 64}], [witness | {'reviewer': ''}],
+                    [witness | {'decision': 'unknown'}], [witness | {'decision': 'retained'}],
+                    [witness | {'correction_id': None}], [witness | {'correction_id': 'invalid'}],
+                    [{k: v for k, v in witness.items() if k != 'correction_id'}]):
         try:
             validate_print_witnesses(invalid, chapters, root)
         except ValueError:

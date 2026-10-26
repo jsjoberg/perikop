@@ -80,10 +80,15 @@ def validate_print_witnesses(records, chapters, root=ROOT):
         rows = [row for row in chapters.get(key, []) if row[2] == record['verse']]
         path = (root / record['photo_path']).resolve()
         datetime.date.fromisoformat(record['checked_at'])
+        decision = record.get('decision', 'corrected')
+        correction = record.get('correction_id')
         if (record['id'] in seen or not re.fullmatch(r'V\d{3}', record['id'])
                 or record['status'] != 'resolved' or not record['reviewer'].strip()
                 or not record['source'].strip() or not record['notes'].strip()
-                or not re.fullmatch(r'[RA]\d{3}', record['correction_id'])
+                or decision not in ('corrected', 'retained')
+                or (decision == 'corrected' and
+                    (not isinstance(correction, str) or not re.fullmatch(r'[RA]\d{3}', correction)))
+                or (decision == 'retained' and correction is not None)
                 or len(rows) != 1 or not record['reading'] or record['reading'] not in rows[0][3]
                 or record['text_sha256'] != text_hash(rows)):
             raise ValueError('Invalid or changed print-witness reading: %s' % record['id'])
