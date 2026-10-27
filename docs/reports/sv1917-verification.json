@@ -9104,6 +9104,30 @@
         }
       ],
       "notes": "Hela 3:1–24 visuellt jämförd mot EFS 1927 s. 7–8, inklusive sidfortsättningen efter 3:6 och spaltgränsen mellan 3:16–17. Inga nya rättelser. Korpusens utropstecken efter gjort i 3:13 och avslutande citattecken i 3:19 behålls med visuellt stöd av EFS 1926 GT s. 4, mot EFS 1927:s frågetecken respektive uteblivna citatavslut. Båda är avgjorda tryckvarianter, inte öppna frågor. Frågetecknet i EFS 1927:s 3:13 även kontrollerat i originalupplösning. Vanlig kommatering behålls, exempelvis 3:6 efter såg/ögonen, 3:7 efter varse, 3:12 efter kvinnan och 3:24 efter mannen. Ingen täckning tillgodoräknas för 4:1 på samma sida. Kompletterande bevarade original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0004.jpg, SHA-256 10879e9af195eb3a1c6640f1c740c16faf54c7d50e868d122cff7144dc1c404c."
+    },
+    {
+      "book": "Gen",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "6cbc1795605da88229b5b42c55e70d10918ba0a8d640789ac6d3e0956eed5048",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0008.1.tif",
+          "sha256": "0b55e34aa4fe2491e2a1d6207b134f78a6492999df7d75697f06ce2e80b68a57"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0009.1.tif",
+          "sha256": "bb7387d3c4adc5281e095077c318f923f43afa9ed6712f987f1dc7ff96563e82"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0010.1.tif",
+          "sha256": "c17093c1a97eb68d77cd0a31694bbaf63bbe51055ab7307ca99db6f34bd82bec"
+        }
+      ],
+      "notes": "Hela 4:1–26 visuellt jämförd mot EFS 1927 GT s. 8–10, inklusive övergång från s. 8 till s. 9, fortsättning 4:14 mellan spalterna samt 4:25–26 på s. 10. Inga korpusändringar eller öppna frågor. EFS 1926 GT s. 5 bekräftar korpusens slutcitat i 4:7, ordföljden skall jag i 4:9, utropstecknet i 4:10 och ifrån i 4:11 mot avvikande EFS 1927. I 4:4 är korpusens hjord belagt av EFS 1927; EFS 1926 visar jord. Dessa tryckskillnader behålls utan harmonisering. Vanlig kommatering bevaras, bland annat i 4:3, 4:13, 4:14 och 4:17. EFS 1926:s fulla originalbild är bevarad byteidentiskt: docs/reports/sv1917-efs1926-witnesses/gt0005.jpg, SHA-256 bf49dd651dac68d7fb7b548b9b6846f7e0101595795dd0fdd0cda03e11b5772b. Ingen lästäckning för kapitel 5 räknas från den delade sidan."
     }
   ],
   "unnumbered": [
