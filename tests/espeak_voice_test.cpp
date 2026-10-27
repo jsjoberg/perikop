@@ -32,6 +32,10 @@ int main(int argc, char** argv) {
               "function words are unstressed by their spelling, in any case");
         check(front.phonemes("män och ja") == "m'En Ok j'A:",
               "a content word that sounds like a function word keeps its stress");
+        check(front.tokens("klentrogna Klentrogna") ==
+                  std::vector<Token>{{Token::Kind::Phonemes, "kl'e:ntR,u:gna"},
+                                     {Token::Kind::Phonemes, "kl'e:ntR,u:gna"}},
+              "SRB26 inflections use the supplemental NST phonemes in either case");
         check(front.tokens("⟦f'Os.⟧ ja") ==
                   std::vector<Token>{{Token::Kind::Phonemes, "f'Os."}, {Token::Kind::Phonemes, "j'A:"}},
               "given codes keep their dots instead of ending a sentence");

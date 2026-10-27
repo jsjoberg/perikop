@@ -32,8 +32,9 @@ int ScriptureView::column_stride() const {
     return (usable - gap * (columns_count() - 1)) / columns_count() + gap;
 }
 int ScriptureView::estimated_height(const Row& row) const {
-    return row.heading ? FromDIP(zoomed(stacked_columns() && columns_count() == 2 ? 158 : 130))
-                       : FromDIP(zoomed(150));
+    return row.heading
+               ? source_selector_top() + FromDIP(zoomed(stacked_columns() && columns_count() == 2 ? 68 : 38))
+               : FromDIP(zoomed(150));
 }
 int ScriptureView::column_width() const {
     const int usable = std::max(FromDIP(zoomed(120)), GetClientSize().x - 2 * outside_margin());
@@ -392,6 +393,7 @@ void ScriptureView::apply(const Settings& settings) {
         rebuild_verse_links();
 }
 void ScriptureView::invalidate() {
+    source_selector_top_ = 0;
     const double marker_screen = guide_y_ - offset_;
     const auto anchor = first_visible();
     const double fraction =

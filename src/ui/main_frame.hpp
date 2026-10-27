@@ -171,9 +171,8 @@ private:
     bool speakable_ = true;
     // The open start-page item, and the one being read aloud from start to end.
     std::optional<Tracked> tracked_, speech_tracked_;
-    // Hold a restored verse or Stop reset until the reader moves or starts again.
-    bool position_reset_ = false;
-    double reset_scroll_ = 0;
+    // Only deliberate scrolling or an audible verse can advance the reading checkpoint.
+    std::size_t saved_scroll_revision_ = 0;
     wxString reading_title_;
 
     std::unique_ptr<SpeechEngine> speech_;

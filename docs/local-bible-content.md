@@ -43,6 +43,11 @@ The generator uses glyph positions to recover missing spaces around note markers
 and joins words broken across typeset lines. An aggregate SHA-256 verifies the
 resulting normalized verse text before any database writes.
 
+The recipe includes drop capitals in both Sabon and Times New Roman. The 0.2.0
+recipe omitted the opening J in Colossians 2:1 and Jude 1:1. Existing imports with
+that recipe's exact text checksum recover these two initials when read, without
+modifying the imported database or requiring the PDFs again.
+
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers
 provide AES, SHA-256 and Flate inflation. Their pins and licenses are in
@@ -73,8 +78,12 @@ queries prefer existing dictionary entries and use the supplement for missing fo
 Alternative biblical name spellings reuse existing curated pronunciations where
 available, with spoken spelling aliases otherwise. User pronunciation corrections
 retain their normal priority. Unlisted words use the selected voice's normal
-pronunciation system; this does not claim an individual listening review of every
-name or verse.
+pronunciation system. A supplemental CC0 NST lexicon supplies 4,144 previously
+uncovered forms, including `klentrogna`, after the existing speech data and
+corrections. Only exact lowercase dictionary forms with one supported pronunciation
+are added. Ambiguous and unsupported forms retain the normal fallback. This does
+not claim an individual listening review of every name or verse.
+See the [SRB26 import and pronunciation audit](reports/srb2026-audit.md).
 
 Local import avoids shipping the Bible text. It is not a legal determination about
 personal copying or all possible derived data; the publisher's terms still apply.
@@ -87,6 +96,7 @@ or tests. The offline generator requires `pypdf==6.10.0`; runtime import does no
 
 ```sh
 python tools/content/build_srb_recipe.py build/srb --diagnostics build/srb/extracted
+python tools/content/build_srb_pronunciations.py build/srb/extracted/verses.json --report build/srb/pronunciation-coverage.json
 python tools/content/build_swedish_supplement.py build/srb/extracted/verses.json
 cmake --build build/cmake --parallel 2
 ctest --test-dir build/cmake --output-on-failure

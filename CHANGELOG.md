@@ -12,6 +12,10 @@ For 0.2.1, the Swedish extended-canon books absent from SRB26 have been compared
 
 ### Fixed
 
+- Restored missing opening letters in SRB26 Colossians 2:1 and Jude 1:1, including existing imports; added 4,144 unambiguous NST pronunciations for additional SRB26 forms such as klentrogna.
+- Returning to reading plans updates the existing buttons and preserves scrolling instead of rebuilding the page; initial layout stays hidden to avoid flashing controls over the toolbar.
+- Chapter headings leave room for the measured font height above the Bible-edition selector, preventing clipped chapter numbers on Windows.
+- Opening a reading and going Back without scrolling or listening no longer records progress, even after automatic layout changes; preparing audio also preserves the resume point until playback begins.
 - Scan-verified Swedish 1917/1921 word, punctuation and verse-boundary corrections, including restored missing verses and corrections supported by another printed copy.
 
 ## [0.2.0] - 2026-10-25

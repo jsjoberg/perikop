@@ -204,9 +204,11 @@ std::string swedish_numbers(const std::string& text) {
 
 struct SwedishText::Impl {
     Lexicon lexicon;
+    Lexicon supplement;
     // Pronunciations of the corpus words the lexicon lacks, from the kokoro-sv neural G2P.
     std::unordered_map<std::string, std::string> corpus;
-    explicit Impl(const std::filesystem::path& data) : lexicon(data / "lexicon.tsv") {
+    explicit Impl(const std::filesystem::path& data)
+        : lexicon(data / "lexicon.tsv"), supplement(data / "nst-srb2026.tsv") {
         std::istringstream rows(read_file(data / "g2p-corpus.tsv"));
         for (std::string line; std::getline(rows, line);) {
             const auto tab = line.find('\t');
@@ -215,7 +217,7 @@ struct SwedishText::Impl {
             corpus[line.substr(0, tab)] = line.substr(tab + 1);
         }
     }
-    // The lexicon, then a name's genitive -s on a lexicon stem, then the corpus; empty when none has it.
+    // Preserve existing pronunciations before looking in the additional NST forms.
     std::string find(const std::string& key, bool name) const {
         if (auto phones = lexicon.find(key); !phones.empty())
             return phones;
@@ -223,7 +225,7 @@ struct SwedishText::Impl {
             if (auto stem = lexicon.find(key.substr(0, key.size() - 1)); !stem.empty())
                 return stem + "s";
         const auto found = corpus.find(key);
-        return found == corpus.end() ? std::string() : found->second;
+        return found == corpus.end() ? supplement.find(key) : found->second;
     }
 };
 

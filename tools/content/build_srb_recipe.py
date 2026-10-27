@@ -433,7 +433,12 @@ class Extractor:
                         chapter = int(next(x for x in m.groups() if x))
                         self.begin(bi, chapter, 1)
                         self.headers = ""
-                elif "Sabon" in name and fs >= 8.0 and fs < 35:
+                elif ("Sabon" in name and 8.0 <= fs < 35) or (
+                    "TimesNewRomanPSMT" in name
+                    and 22 < fs < 35
+                    and len(text.strip()) == 1
+                    and text.strip().isupper()
+                ):
                     if not chapter:
                         raise ValueError(("Body before chapter", half, pno, text))
                     if half == 1 and 9 <= fs <= 10 and text.isdigit():
@@ -525,6 +530,9 @@ def main():
     assert all(
         refs == list(range(1, max(refs) + 1)) for refs in actual.values()
     ), "Incomplete chapter"
+    assert all(
+        v != 1 or not text[0].islower() for (_, _, v), _, text in ex.verses
+    ), "Chapter opening lost its drop capital"
     args.diagnostics.mkdir(exist_ok=True, parents=True)
     (args.diagnostics / "verses.json").write_text(
         json.dumps(

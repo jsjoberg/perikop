@@ -5,7 +5,6 @@
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
 #include <atomic>
-#include <cmath>
 #include <stdexcept>
 #include <wx/app.h>
 #include <wx/log.h>
@@ -17,8 +16,10 @@ void MainFrame::save_reading_position() {
         return;
     try {
         const auto playback = speech_->playback();
-        if (speech_active(playback.state) && playback.cue &&
-            playback.cue->reading < playback_.readings().size()) {
+        if (speech_active(playback.state)) {
+            // Preparation has no audible verse yet; the viewport must not advance the checkpoint.
+            if (!playback.cue || playback.cue->reading >= playback_.readings().size())
+                return;
             const auto& reading = playback_.readings()[playback.cue->reading];
             const auto position = reading_position(corpus_, reader_reading(reading), playback.cue->section,
                                                    playback.cue->verse);
@@ -26,17 +27,18 @@ void MainFrame::save_reading_position() {
                 user_.position(reading_key(corpus_, reader_reading(reading)), *position);
                 if (speech_tracked_)
                     user_.position(speech_tracked_->key, *position);
+                saved_scroll_revision_ = scripture_->manual_scroll_revision();
             }
         } else if (navigation_.reader() && visible_reading_) {
-            if (position_reset_ && std::abs(scripture_->scroll_position() - reset_scroll_) < 1)
+            if (scripture_->manual_scroll_revision() == saved_scroll_revision_)
                 return;
-            position_reset_ = false;
             const auto position = reading_position(corpus_, reader_reading(*visible_reading_), part_,
                                                    scripture_->current_verse());
             if (position) {
                 user_.position(reading_key(corpus_, reader_reading(*visible_reading_)), *position);
                 if (tracked_)
                     user_.position(tracked_->key, *position);
+                saved_scroll_revision_ = scripture_->manual_scroll_revision();
             }
         }
     } catch (const std::exception& error) {
@@ -68,8 +70,7 @@ void MainFrame::restore_reading_position() {
     part_ = position->section;
     scripture_->open_section(part_);
     scripture_->show_verse(position->verse);
-    position_reset_ = true;
-    reset_scroll_ = scripture_->scroll_position();
+    saved_scroll_revision_ = scripture_->manual_scroll_revision();
     update_bar();
 }
 bool MainFrame::active_playback() const {
@@ -179,8 +180,7 @@ void MainFrame::stop_speech(bool reset) {
         part_ = 0;
         scripture_->open_section(0);
         scripture_->center_passage();
-        position_reset_ = true;
-        reset_scroll_ = scripture_->scroll_position();
+        saved_scroll_revision_ = scripture_->manual_scroll_revision();
     }
     scripture_->follow_playback(false);
     refresh_speech();
@@ -220,8 +220,7 @@ void MainFrame::display_playback(const SpeechPlayback& playback) {
         playback_.playback().state != SpeechState::Completed) {
         for (const auto& reading : playback_.readings())
             user_.reset_position(reading_key(corpus_, reader_reading(reading)));
-        position_reset_ = true;
-        reset_scroll_ = scripture_->scroll_position();
+        saved_scroll_revision_ = scripture_->manual_scroll_revision();
     }
     if (!voice_preview_ && playback.state == SpeechState::Completed &&
         playback_.playback().state != SpeechState::Completed && speech_tracked_)

@@ -73,10 +73,8 @@ ScriptureView::ScriptureView(wxWindow* parent, const CorpusDb& corpus)
             scroll_by(-GetClientSize().y * 0.85);
         else if (e.GetEventType() == wxEVT_SCROLLWIN_PAGEDOWN)
             scroll_by(GetClientSize().y * 0.85);
-        else {
-            set_position(e.GetPosition());
-            target_ = offset_;
-        }
+        else
+            navigate_to(e.GetPosition());
     };
     for (const auto type : {wxEVT_SCROLLWIN_LINEUP, wxEVT_SCROLLWIN_LINEDOWN, wxEVT_SCROLLWIN_PAGEUP,
                             wxEVT_SCROLLWIN_PAGEDOWN, wxEVT_SCROLLWIN_THUMBTRACK,
@@ -361,17 +359,23 @@ void ScriptureView::scroll_by(double pixels) {
 void ScriptureView::navigate_to(double position) {
     release_follow();
     wheel_timer_.Stop();
+    const double previous = offset_;
     set_position(position);
     target_ = offset_;
+    if (offset_ != previous)
+        ++manual_scroll_revision_;
 }
 void ScriptureView::advance_scroll() {
     if (!wheel_timer_.IsRunning())
         return; // A timer event queued before immediate navigation is stale.
+    const double previous = offset_;
     const double distance = target_ - offset_;
     if (std::abs(distance) < 0.5) {
         set_position(target_);
         wheel_timer_.Stop();
     } else
         set_position(offset_ + distance * 0.3);
+    if (offset_ != previous)
+        ++manual_scroll_revision_;
 }
 } // namespace ortho
