@@ -3468,6 +3468,50 @@
         }
       ],
       "notes": "Hela 4:1–31 jämförd mot EFS 1927 GT s. 81–83 och EFS 1926 GT s. 72–74 (Internet Archive bibelnellerdenhe0000unse, n83–n85). E027–E037 införda endast där båda trycken är överens mot e-texten: komma i 4:5, 4:12, 4:14, 4:15, 4:18, 4:21, 4:24, 4:28 och 4:31, kolon för punkt i 4:7, saknat slutcitat i 4:5 och den tillagda bokstaven I i 4:10 (Ack I Herre; båda trycken saknar den). Behållna läsningar där bara ett tryck avviker: komma i 4:1, 4:2, 4:13 och 4:28–30 (allt, vad) där 1927 har komma, samt Jeter i 4:18 (e-texten och 1926; 1927 har Jetro). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "8a667bfe0599eafb49988b1c126a41a890af980417c5d4d2c2a433cc991dbe52",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0082.1.tif",
+          "sha256": "1761d963a404863a70afaa26abe7375b4f9a184c24bd79bac68a056947b17f15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0083.1.tif",
+          "sha256": "c7c169e738b6019e666a9fa2b718b57981af19e970259c2f0d838ca283a39b92"
+        }
+      ],
+      "notes": "Hela 5:1–23 jämförd mot EFS 1927 GT s. 82–83 och EFS 1926 GT s. 73–74 (Internet Archive bibelnellerdenhe0000unse, n84–n85). E038–E043 införda endast där båda trycken är överens mot e-texten: komma i 5:8, 5:17, 5:19 och 5:23 samt tre saknade slutcitat (5:4, 5:21, 5:23). Behållna läsningar där bara ett tryck avviker: en del komma i 1927 samt allt för i 5:5 (1927 delar ordet). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "20a52fa06374ad1bb27722e9e8c6f672ea8c839959c3a34d8f7fc4e7180659b7",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0083.1.tif",
+          "sha256": "c7c169e738b6019e666a9fa2b718b57981af19e970259c2f0d838ca283a39b92"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0084.1.tif",
+          "sha256": "8f91a2962ac20a4da086df9ed29be1c28cce045106be14a377877c37099e73c6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0085.1.tif",
+          "sha256": "1f50c33710345542358c2b16bb2d9593138a8049a2a59b687b28c6e6f5884ab8"
+        }
+      ],
+      "notes": "Hela 6:1–30 jämförd mot EFS 1927 GT s. 83–85 och EFS 1926 GT s. 74–75 (n85–n86). E044–E049 införda endast där båda trycken är överens mot e-texten: komma i 6:1, 6:4 och 6:7 (förnimma, att … HERREN, eder Gud), kolon i 6:14, punkt i 6:27 och det felaktiga avslutande apostrofen i 6:8. Behållna läsningar där bara ett tryck avviker: hon i 6:23 (1926 har och hon födde, 1927 saknar hon), komma i 6:12 och 6:29 samt tankstrecket i 6:12. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

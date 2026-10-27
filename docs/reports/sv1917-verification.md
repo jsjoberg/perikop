@@ -27,9 +27,9 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
 | Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
-| GT utan apokryfer | 1 / 39 | 5 / 929 | 116 / 23 210 |
+| GT utan apokryfer | 1 / 39 | 7 / 929 | 169 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 4 488 versposter färdiglästa i detta protokoll, inklusive tidigare Haggai och Andra Moseboken 1–2 och 4. Det motsvarar 16,3 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,50 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 4 541 versposter färdiglästa i detta protokoll, inklusive tidigare Haggai och Andra Moseboken 1–2 och 4–6. Det motsvarar 16,4 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,73 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -117,3 +117,7 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-27, Andra Moseboken 3:** läste kapitlet mot EFS 1927 GT s. 79–81 och EFS 1926 GT s. 71–72. Fjorton versposter ändrade, E013–E026, endast där båda trycken avviker från e-texten. Kapitlet är **needs-review** och räknas inte som verifierat: slutet på 3:18 (Gud.' i e-texten) är oavgjort mellan trycken. Kandidater hittades med en tretydig jämförelse mellan e-text, Runebergs OCR av 1927 och Internet Archives OCR av 1926; varje ändring lästes mot sidbild. Nästa: Andra Moseboken 4 från GT s. 81.
 
 - **2026-10-27, Andra Moseboken 4:** läste kapitlet mot EFS 1927 GT s. 81–83 och EFS 1926 GT s. 72–74. Elva versposter ändrade, E027–E037, endast där båda trycken avviker från e-texten; skillnader där bara ett tryck avviker är behållna och antecknade i liggaren. Hela kapitlet verifierat. Nästa: Andra Moseboken 5 från GT s. 83.
+
+- **2026-10-27, Andra Moseboken 5:** läste kapitlet mot EFS 1927 GT s. 82–83 och EFS 1926 GT s. 73–74. Sex versposter ändrade, E038–E043, endast där båda trycken avviker från e-texten. Hela kapitlet verifierat. Nästa: Andra Moseboken 6.
+
+- **2026-10-27, Andra Moseboken 6:** läste kapitlet mot EFS 1927 GT s. 83–85 och EFS 1926 GT s. 74–75. Sex versposter ändrade, E044–E049. Hela kapitlet verifierat. Nästa: Andra Moseboken 7 från GT s. 85.

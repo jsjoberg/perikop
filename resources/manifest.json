@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "9fc7f0255fd6b4369a35e5997cd61a8adbcd134cdf0acc38e0e3ea5c61c9ee0a",
+      "sha256": "5b5441f78aab28fdb569f0a56c6ca468c6661a9dcfe9bc00737c28679de77e52",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -806,13 +806,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "0f85f8ba3bc0d19ee8dc752a76d99ebca03f619dcf4db94740eadb5df72eb4a0"
+      "sha256": "b22047abc4834ecd565289fc08553e50b66825aa8ae9c758ce85ed4b9ae1fa78"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "fb9bffc1ebab26d352d160286388e3bbbcc0abbbc29cd46188a2133b5119caa2"
+      "sha256": "54f86a7b64170c2d32b723b86fe1d9230a54dc706a4cebba4e7f5672895d544c"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",
