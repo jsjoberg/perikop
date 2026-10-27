@@ -3380,6 +3380,46 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Exod",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "35b05af89acd960663c77de8ddf1e9ab6a7c1f9ebbac815165d9c2d8b42dc048",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0077.1.tif",
+          "sha256": "1aa8afd0d29c7c57745049de45066fdbf1df40923adf74c7ff7a4142ea6c95d5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0078.1.tif",
+          "sha256": "1abe5f5358cb2a6ff51b647357c3fadde6c64aa8fec22e9da26300faba6b9169"
+        }
+      ],
+      "notes": "Hela 1:1–22 visuellt jämförd mot EFS 1927 GT s. 77–78 (kap. 1 börjar nederst på s. 77). E001–E006: kommatering i 1:5, 1:10, 1:17 och 1:20, kommats plats och slutpunkt i 1:14, samt tryckfel gossebarn- och all i 1:22. Bilderna är inte incheckade; skanningsadress och hash anges här. Tankstrecket i 1:15 är typografi och lämnat."
+    },
+    {
+      "book": "Exod",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "9c2e2d101a31a7a49e9569100717214a2478f7952b5cf3fb343d1bc5213face9",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0078.1.tif",
+          "sha256": "1abe5f5358cb2a6ff51b647357c3fadde6c64aa8fec22e9da26300faba6b9169"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0079.1.tif",
+          "sha256": "05b021ce70fac756fa0777f0355839665019b1a255b5e5c80f1f4450a6dc873d"
+        }
+      ],
+      "notes": "Hela 2:1–25 visuellt jämförd mot EFS 1927 GT s. 78–79, inklusive fortsättningen över sid- och spaltgräns i 2:8 och 2:16–17. E007–E018: kommatering i 2:2, 2:4, 2:6, 2:7, 2:9, 2:10, 2:11, 2:13, 2:20 och 2:22, semikolon i 2:11 och 2:15, Då i 2:12 och Och så fick i 2:15. Skanningsadress och hash anges här; bilderna är inte incheckade."
     }
   ],
   "unnumbered": [

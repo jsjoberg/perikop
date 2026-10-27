@@ -268,6 +268,31 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | A223 | [Till. t. Ester 2:6](https://runeberg.org/apokryf/0250.html) | **misskund eller försköning** | **misskund eller förskoning** | Jämför tryckets ord och interpunktion | [s. 246](https://runeberg.org/apokryf/0250.html), höger spalt, v. 6 |
 | [ ] | A224 | [Till. t. Ester 6:7](https://runeberg.org/apokryf/0254.html) | **äldre historiska skildringar som** | **äldre historiska skildringar, som** | Jämför tryckets ord och interpunktion | [s. 250](https://runeberg.org/apokryf/0254.html), vänster spalt överst, v. 7 |
 
+## Andra Moseboken 1–2 (E-rader)
+
+Granskat 2026-10-27 av Claude mot EFS 1927 GT s. 77–79; kapitel 1–2 är helt jämförda. Raderna numreras E001–E018 så att de inte kolliderar med R/A-numren i andra öppna grenar. **De är inte granskade av en människa:** att de är bekräftade är granskarens egen uppgift. De flesta gäller interpunktion; orden ändras i E006 (alla), E014 (versal) och E016 (Och så fick). Bibelutgåvor på andra språk kan inte avgöra dem, så trycksidan måste jämföras. Bildfilerna är inte incheckade; skanningsadress och hash står i liggaren.
+
+| Granskad | ID | Ställe | Före | Efter | Underlag |
+| --- | --- | --- | --- | --- | --- |
+| [ ] | E001 | [2 Mos. 1:5](https://runeberg.org/bibeln/02_01.html) | utgjorde de **som** … länd **sjuttio** | utgjorde de**, som** … länd**, sjuttio** | [EFS 1927 GT s. 77](https://runeberg.org/bibeln/efs1927/gt/0077.html), nederst vänster |
+| [ ] | E002 | [2 Mos. 1:10](https://runeberg.org/bibeln/02_01.html) | föröka sig**;** och om | föröka sig**,** och om | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), vänster överst |
+| [ ] | E003 | [2 Mos. 1:14](https://runeberg.org/bibeln/02_01.html) | marken **korteligen,** med … utföra | marken**,** korteligen med … utföra**.** | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), vänster |
+| [ ] | E004 | [2 Mos. 1:17](https://runeberg.org/bibeln/02_01.html) | gjorde icke **såsom** | gjorde icke**, såsom** | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), vänster |
+| [ ] | E005 | [2 Mos. 1:20](https://runeberg.org/bibeln/02_01.html) | hjälpkvinnorna**;** och folket | hjälpkvinnorna**,** och folket | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), höger överst |
+| [ ] | E006 | [2 Mos. 1:22](https://runeberg.org/bibeln/02_01.html) | gossebarn**-** skolen … men **all** flickebarn | gossebarn skolen … men **alla** flickebarn | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), höger |
+| [ ] | E007 | [2 Mos. 2:2](https://runeberg.org/bibeln/02_02.html) | såg **att** det | såg**, att** det | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), höger |
+| [ ] | E008 | [2 Mos. 2:4](https://runeberg.org/bibeln/02_02.html) | därifrån**,** för att se **huru** | därifrån för att se**, huru** | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), höger |
+| [ ] | E009 | [2 Mos. 2:6](https://runeberg.org/bibeln/02_02.html) | såg **att** det var | såg**, att** det var | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), höger |
+| [ ] | E010 | [2 Mos. 2:7](https://runeberg.org/bibeln/02_02.html) | Vill du **att** … amma **som** | Vill du**, att** … amma**, som** | [EFS 1927 GT s. 78](https://runeberg.org/bibeln/efs1927/gt/0078.html), höger nederst |
+| [ ] | E011 | [2 Mos. 2:9](https://runeberg.org/bibeln/02_02.html) | med dig**,** och amma | med dig och amma | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), vänster |
+| [ ] | E012 | [2 Mos. 2:10](https://runeberg.org/bibeln/02_02.html) | upp**;** förde hon … »ty»**,** sade hon | upp**,** förde hon … »ty» sade hon | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), vänster |
+| [ ] | E013 | [2 Mos. 2:11](https://runeberg.org/bibeln/02_02.html) | sig **att** Mose … se **att** en … bröder**.** | sig**, att** Mose … se**, att** en … bröder**;** | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), vänster |
+| [ ] | E014 | [2 Mos. 2:12](https://runeberg.org/bibeln/02_02.html) | **då** vände … såg **att** ingen | **Då** vände … såg**, att** ingen | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), vänster |
+| [ ] | E015 | [2 Mos. 2:13](https://runeberg.org/bibeln/02_02.html) | till den **som** gjorde orätt | till den**, som** gjorde orätt | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), vänster |
+| [ ] | E016 | [2 Mos. 2:15](https://runeberg.org/bibeln/02_02.html) | **Också** fick Farao … land**;** där | **Och så** fick Farao … land**,** där | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), vänster |
+| [ ] | E017 | [2 Mos. 2:20](https://runeberg.org/bibeln/02_02.html) | med oss**».** | med oss**.»** | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), höger |
+| [ ] | E018 | [2 Mos. 2:22](https://runeberg.org/bibeln/02_02.html) | ett land **som** icke | ett land**, som** icke | [EFS 1927 GT s. 79](https://runeberg.org/bibeln/efs1927/gt/0079.html), höger |
+
 ## Så kontrolleras och återbyggs rättelserna
 
 Öppna sidlänken i varje rad och jämför både OCR-texten under bilden och själva trycksidan med utdragen **Före** och **Efter**. För de 23 R-raderna innehåller sidans OCR rätt ord efter sammanfogning av radbrytningar; R008 och R011 har också en skillnad i kommatering respektive versalisering, redovisad i tabellen. Haggais faksimil-OCR återger ofta kapitäl-HERREN som Herren; det är inte en ytterligare ändring i löptexten. För A-raderna måste själva bilden kontrolleras: OCR-texten kan upprepa felet och återger inte versgränserna tillförlitligt. A040 och A047 stöds även av sidans OCR. A049–A050 och A052–A053 flyttar ord till rätt vers utan att ändra den sammanhängande lydelsen; bilden visar gränserna. A071–A072 och A076–A077 återställer dessutom 11:19 och 13:18 i Tobit som egna versposter; texten låg tidigare i slutet av föregående vers.

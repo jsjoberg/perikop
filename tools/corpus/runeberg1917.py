@@ -19,6 +19,25 @@ RENUMBER={('25',1,21,2):22,('42',20,23,1):22}
 # E-text errors checked visually against the 1927 facsimile.
 # Page links, context and pending human review: docs/reports/sv1917-errata.md.
 REPLACE={
+ # Exodus 1-2 scan pass (EFS 1927 GT s. 77-79): E001-E018.
+ ('Exod',1,5):('utgjorde de som hade utgått från Jakobs länd sjuttio personer','utgjorde de, som hade utgått från Jakobs länd, sjuttio personer'),
+ ('Exod',1,10):('föröka sig; och om','föröka sig, och om'),
+ ('Exod',1,14):('på marken korteligen, med tvångsarbeten av alla slag, som de läto dem utföra','på marken, korteligen med tvångsarbeten av alla slag, som de läto dem utföra.'),
+ ('Exod',1,17):('gjorde icke såsom','gjorde icke, såsom'),
+ ('Exod',1,20):('hjälpkvinnorna; och folket','hjälpkvinnorna, och folket'),
+ ('Exod',1,22):('gossebarn- skolen I kasta i Nilfloden, men all flickebarn','gossebarn skolen I kasta i Nilfloden, men alla flickebarn'),
+ ('Exod',2,2):('Och hon såg att det','Och hon såg, att det'),
+ ('Exod',2,4):('därifrån, för att se huru det','därifrån för att se, huru det'),
+ ('Exod',2,6):('och såg att det var','och såg, att det var'),
+ ('Exod',2,7):('Vill du att jag skall gå och kalla hit till dig en hebreisk amma som kan','Vill du, att jag skall gå och kalla hit till dig en hebreisk amma, som kan'),
+ ('Exod',2,9):('med dig, och amma','med dig och amma'),
+ ('Exod',2,10):('upp; förde hon honom till Faraos dotter, och denna upptog honom såsom sin son och gav honom namnet Mose, »ty», sade hon','upp, förde hon honom till Faraos dotter, och denna upptog honom såsom sin son och gav honom namnet Mose, »ty» sade hon'),
+ ('Exod',2,11):('hände sig att Mose, sedan han hade blivit stor, gick ut till sina bröder och såg på deras trälarbete. Och han fick se att en egyptisk man slog en hebreisk man, en av hans bröder.','hände sig, att Mose, sedan han hade blivit stor, gick ut till sina bröder och såg på deras trälarbete. Och han fick se, att en egyptisk man slog en hebreisk man, en av hans bröder;'),
+ ('Exod',2,12):('då vände han sig åt alla sidor, och när han såg att ingen','Då vände han sig åt alla sidor, och när han såg, att ingen'),
+ ('Exod',2,13):('till den som gjorde orätt','till den, som gjorde orätt'),
+ ('Exod',2,15):('Också fick Farao höra om denna sak och ville dräpa Mose. Men Mose flydde bort undan Farao; och han stannade i Midjans land; där','Och så fick Farao höra om denna sak och ville dräpa Mose. Men Mose flydde bort undan Farao; och han stannade i Midjans land, där'),
+ ('Exod',2,20):('med oss».','med oss.»'),
+ ('Exod',2,22):('ett land som icke','ett land, som icke'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
