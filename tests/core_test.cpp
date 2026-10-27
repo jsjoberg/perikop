@@ -738,6 +738,18 @@ int main(int argc, char** argv) {
                   "the Byzantine doxology follows Romans 14:23");
             check(greek("Matt", {23, 13}) == Refs{{"Matt", {23, 14}}},
                   "the Byzantine text swaps Matthew 23:13-14");
+            check(!corpus.verse("sv1917", "Luke", {17, 36}) &&
+                      corpus.verse("sv1917", "Luke", {17, 37})->text.starts_with("Då frågade de honom:"),
+                  "both EFS prints number Luke's final question 17:37; 36 is a note only");
+            check(corpus.verse("sv1917", "Luke", {10, 2})->text.starts_with("Och han sade till dem: »Skörden"),
+                  "Luke 10:2 retains its introduction across the printed page break");
+            for (const auto* edition : {"grc-patriarchal", "en-web"}) {
+                check(corpus.counterparts("sv1917", edition, "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}} &&
+                          corpus.counterparts(edition, "sv1917", "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}},
+                      "Luke 17:37 maps to the printed number in both directions");
+            }
+            check(corpus.counterparts("grc-patriarchal", "sv1917", "Luke", {17, 36}).empty(),
+                  "the Greek Luke 17:36 has no Swedish running text");
             check(greek("Luke", {10, 6}) == Refs{{"Luke", {10, 6}}}, "unchanged verses keep their numbers");
             check(corpus.counterparts("sv1917", "en-web", "John", {11, 35}) == Refs{{"John", {11, 36}}},
                   "the WEB shares the John 11 division with the Greek");
@@ -1144,7 +1156,7 @@ int main(int argc, char** argv) {
                  {"Mark", {13, 34}, "bjuder portvaktaren att vaka.", "bjuder portvaktaren att vaka,"},
                  {"Mark", {16, 7}, "såsom han bar sagt eder", "såsom han har sagt eder"},
                  {"Luke", {1, 70}, "sin forntida heliga profeters mun", "sina forntida heliga profeters mun"},
-                 {"Luke", {1, 73}, "lovat för vår fader Abraham,", "lovat för vår fader Abraham."},
+                 {"Luke", {1, 73}, "lovat för vår fader Abraham,", "lovat vår fader Abraham."},
                  {"Luke", {3, 4}, "i öknen: Bereden vägen", "i öknen: 'Bereden vägen"},
                  {"Luke", {3, 14}, "Vad skola då vi göra? Han", "Vad skola då vi göra?» Han"},
                  {"Luke", {3, 16}, "tog till orda och sade: till dem alla:", "tog till orda och sade till dem alla:"},
@@ -1410,11 +1422,96 @@ int main(int argc, char** argv) {
                  {"Rev", {21, 5}, "dessa ord äro visa och sanna", "dessa ord äro vissa och sanna"},
                  {"Rev", {22, 1}, "en ström med vatten", "en ström med levande vatten"},
                  {"Rev", {22, 15}, "de måste alla stanna därutanför", "de måste stanna därutanför"},
+                 {"Matt", {13, 39}, "Skördemännen är änglar", "Skördemännen äro änglar"},
+                 {"Matt", {18, 20}, "två eller tre är församlade", "två eller tre äro församlade"},
+                 {"Matt", {18, 25}, "då denna icke kunde betala", "då denne icke kunde betala"},
+                 {"Matt", {24, 42}, "vår Herre", "eder Herre"},
+                 {"Matt", {25, 15}, "och for utrikes", "och for så utrikes"},
+                 {"Mark", {1, 43}, "Sedan vände Jesus", "Sedan visade Jesus"},
+                 {"Mark", {2, 14}, "Då steg han upp", "Då stod han upp"},
+                 {"Mark", {4, 15}, "Satan ock tager", "Satan och tager"},
+                 {"Mark", {5, 8}, "du orena ande", "du orene ande"},
+                 {"Mark", {6, 9}, "Sandaler finge de", "Sandaler fingo de"},
+                 {"Mark", {8, 6}, "Ock han tog", "Och han tog"},
+                 {"Mark", {13, 17}, "Och ve de som", "Och ve dem som"},
+                 {"Mark", {14, 23}, "tackade Gud ock gav", "tackade Gud och gav"},
+                 {"Mark", {15, 8}, "Folket kom ditupp", "Folket kom nu ditupp"},
+                 {"Luke", {1, 2}, "dem som själva", "dem som från begynnelsen själva"},
+                 {"Luke", {1, 9}, "hände det sig", "hände sig"},
+                 {"Luke", {1, 41}, "blev fylld av", "blev uppfylld av"},
+                 {"Luke", {1, 73}, "lovat för vår fader", "lovat vår fader"},
+                 {"Luke", {2, 20}, "såsom det blivit", "såsom det hade blivit"},
+                 {"Luke", {2, 24}, "ett par duvor eller två unga turturduvor", "ett par turturduvor eller två unga duvor"},
+                 {"Luke", {3, 9}, "kastat på elden", "kastat i elden"},
+                 {"Luke", {3, 11}, "och en som har matförråd", "och den som har matförråd"},
+                 {"Luke", {4, 18}, "Han har satt mig", "Han har sänt mig"},
+                 {"Luke", {4, 41}, "tillsade dem att icke säga", "tillstadde dem att icke säga"},
+                 {"Luke", {5, 3}, "undervisade folket från båten", "undervisade folket ifrån båten"},
+                 {"Luke", {6, 48}, "eftersom det var så byggt", "eftersom det var så väl byggt"},
+                 {"Luke", {8, 1}, "vandrade han igenom landet", "vandrade han genom landet"},
+                 {"Luke", {8, 36}, "de som hade sett händelsen", "de som hade åsett händelsen"},
+                 {"Luke", {9, 22}, "de skriftlärda", "de skriftlärde"},
+                 {"Luke", {9, 26}, "min Faders", "sin Faders"},
+                 {"Luke", {11, 27}, "och de bröst", "och det bröst"},
+                 {"Luke", {19, 33}, "frågade ägaren dem", "frågade ägarna dem"},
+                 {"Luke", {23, 16}, "medan jag har tuktat", "sedan jag har tuktat"},
+                 {"Luke", {23, 31}, "om han gör så", "om man gör så"},
+                 {"John", {1, 39}, "vid den tionde timmen", "vid tionde timmen"},
+                 {"John", {2, 10}, "alltid sätta fram", "alltid först sätta fram"},
+                 {"John", {2, 14}, "Och när han fick", "Och han fick"},
+                 {"John", {2, 21}, "tempel han talade", "tempel som han talade"},
+                 {"John", {3, 15}, "så att", "för att"},
+                 {"John", {3, 29}, "hör honom", "hör på honom"},
+                 {"John", {4, 6}, "vid den sjätte timmen", "vid sjätte timmen"},
+                 {"John", {4, 12}, "Icke är du väl", "Icke är väl du"},
+                 {"John", {4, 24}, "de som tillbedja måste", "de som tillbedja honom måste"},
+                 {"John", {4, 52}, "vid den sjunde timmen", "vid sjunde timmen"},
+                 {"John", {5, 21}, "uppväcker döda", "uppväcker de döda"},
+                 {"John", {6, 2}, "följde efter honom", "följde honom"},
+                 {"John", {6, 10}, "lägga sig här", "lägra sig här"},
+                 {"John", {6, 35}, "aldrig törsta", "aldrig någonsin törsta"},
+                 {"John", {7, 23}, "hel och frisk", "hel och hållen frisk"},
+                 {"John", {7, 46}, "människa talat", "människa så talat"},
+                 {"John", {8, 39}, "Jesus svarade till dem", "Jesus sade till dem"},
+                 {"John", {9, 22}, "fruktade judarna", "fruktade för judarna"},
+                 {"John", {10, 7}, "Åter sade Jesus", "Åter sade då Jesus"},
+                 {"John", {11, 25}, "Jesus svarade till henne", "Jesus sade till henne"},
+                 {"John", {11, 32}, "hade du varit där", "hade du varit här"},
+                 {"John", {11, 33}, "såg jämväl att de", "såg att jämväl de"},
+                 {"John", {11, 48}, "Om vi skola låta", "Om vi låta"},
+                 {"John", {11, 54}, "öppet bland judarna", "öppet omkring bland judarna"},
+                 {"John", {12, 35}, "var han går", "vart han går"},
+                 {"John", {12, 41}, "talade med honom", "talade om honom"},
+                 {"John", {13, 10}, "behöver allenast", "behöver sedan allenast"},
+                 {"John", {14, 21}, "och jag skall uppenbara", "och skall uppenbara"},
+                 {"John", {17, 3}, "den enda sanne Guden", "den ende sanne Guden"},
+                 {"John", {18, 13}, "överstepräst det året", "överstepräst för det året"},
+                 {"John", {18, 33}, "Pilatus gick åter in", "Pilatus gick då åter in"},
+                 {"John", {18, 37}, "Så sade Pilatus", "Då sade Pilatus"},
+                 {"John", {20, 1}, "på första veckodagen, medan", "på första veckodagen om morgonen, medan"},
+                 {"John", {20, 21}, "så sänder ock jag eder", "så sänder jag ock eder"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
+        }
+        check(corpus.verse("sv1917", "Matt", {12, 26})->text ==
+                  "Om nu Satan driver ut Satan, så har han kommit i strid med sig själv." &&
+                  corpus.verse("sv1917", "Matt", {12, 27})->text.starts_with(
+                      "Huru kan då hans rike hava bestånd? Och om det är med Beelsebul"),
+              "Matthew 12:26-27 follows both printed verse boundaries without losing words");
+        using PrintRefs = std::vector<std::pair<std::string, VerseRef>>;
+        for (const auto& other : {"grc-patriarchal", "en-web"}) {
+            check(corpus.counterparts("sv1917", other, "Matt", {12, 26}) ==
+                      PrintRefs{{"Matt", {12, 26}}} &&
+                      corpus.counterparts("sv1917", other, "Matt", {12, 27}) ==
+                          PrintRefs{{"Matt", {12, 26}}, {"Matt", {12, 27}}} &&
+                      corpus.counterparts(other, "sv1917", "Matt", {12, 26}) ==
+                          PrintRefs{{"Matt", {12, 26}}, {"Matt", {12, 27}}} &&
+                      corpus.counterparts(other, "sv1917", "Matt", {12, 27}) ==
+                          PrintRefs{{"Matt", {12, 27}}},
+                  "Matthew 12:26-27 partial verse overlap works in both directions");
         }
         check(corpus.verse("sv1917", "Acts", {2, 35})->text.ends_with("dig till en fotapall.'"),
               "Acts 2:35 retains the scan-verified inner quotation ending");
@@ -1452,7 +1549,7 @@ int main(int argc, char** argv) {
               "Rev 14:7 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Rev", {18, 19})->text.ends_with("I ett ögonblick har den nu blivit förödd.'"),
               "Rev 18:19 retains the scan-verified verse ending");
-        check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
+        check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat i elden.»"),
               "Luke 3:9 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),
               "Luke 7:40 retains the scan-verified verse ending");
@@ -1715,7 +1812,7 @@ int main(int argc, char** argv) {
                 {"väl",
                  "⟦v'E:l⟧",
                  "⟦v'El⟧",
-                 649,
+                 650,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
                   "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",
@@ -1744,7 +1841,7 @@ int main(int argc, char** argv) {
                   "Jer 4:10",    "Jer 6:14",    "Jer 7:23",    "Jer 8:11",    "Job 13:9",    "Job 34:16",
                   "Job 34:9",    "Job 5:27",    "Josh 24:20",  "Josh 6:18",   "Judg 3:25",   "Judg 9:16",
                   "Lam 1:5",     "Lev 19:17",   "Lev 24:22",   "Luke 15:29",  "Luke 4:10",   "Luke 4:24",
-                  "Luke 6:26",   "Luke 6:38",   "Mal 2:15",    "Mal 2:16",    "Mal 3:4",     "Mark 12:28",
+                  "Luke 6:26",   "Luke 6:38",   "Luke 6:48",   "Mal 2:15",    "Mal 2:16",    "Mal 3:4",     "Mark 12:28",
                   "Mark 7:37",   "Micah 3:5",   "Neh 2:20",    "Neh 4:12",    "Num 14:41",   "Num 9:14",
                   "Phil 4:14",   "Phil 4:18",   "PrAzar 1:7",  "Prov 11:1",   "Prov 11:10",  "Prov 11:14",
                   "Prov 11:17",  "Prov 11:20",  "Prov 12:22",  "Prov 14:35",  "Prov 15:8",   "Prov 16:13",

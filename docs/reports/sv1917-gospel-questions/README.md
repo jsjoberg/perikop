@@ -1,6 +1,6 @@
 # Sparade fotofrågor i evangelierna
 
-**Aktuellt:** Alla fyra evangelier är helt bildlästa. [Samlad fotolista i bok- och versordning](photo-checklist.md) gör det möjligt att samla närliggande frågor på samma foto eller uppslag. Totalt 113 öppna frågor i 56 kapitel; ingen åtgärd behövs nu. Fulla verser och bildbevis finns i [fotobunt 2, V010–V016](batch-2.md), [fotobunt 3, V017–V020](batch-3.md), [fotobunt 4, V021–V038](batch-4.md), [fotobunt 5, V039–V060](batch-5.md), [fotobunt 6, V061–V066](batch-6.md), [fotobunt 7, V067–V072](batch-7.md), [fotobunt 8, V073–V079](batch-8.md), [fotobunt 9, V080–V101](batch-9.md), [fotobunt 10, V102–V122](batch-10.md). De 33 kapitlen utan öppna frågor är verifierade; övriga räknas inte som färdiga.
+**Aktuellt 2026-10-27: inga öppna evangeliefrågor.** Alla fyra evangelier är verifierade: 89/89 kapitel och 3 767/3 767 versposter (100 %). V010–V122 är avgjorda mot [EFS 1926](../sv1917-efs1926-witnesses/README.md): 71 rättelser R354–R424, varav en ren nummerändring, samt 42 behållna läsningar. V007–V009 avgjordes tidigare mot användarens foton. Ingen fotoinsats behövs nu. Alla originalfrågor, utsnitt och beslut bevaras i bunt 1–10; tabellerna i avgjorda buntar visar jämförelsen före besluten. Hela NT:s 260 kapitel och 7 940 poster är nu verifierade. Nästa etapp är återstående GT; nya osäkerheter sparas för senare boktillgång.
 
 ## Fotobunt 1: tre lösta läsningar i Matteus
 

@@ -15,7 +15,7 @@ VERSE=re.compile(r'^\s{0,3}(\d+)\.\s(.*)$')
 # Placeholder for verses printed in another chapter, such as "6:1.  [1]".
 ELSEWHERE=re.compile(r'^\s*\d+:\d+\.\s*(?:\[\d+\])?$')
 # Misprinted verse numbers in the e-text: (book, chapter, printed number, occurrence) -> number.
-RENUMBER={('25',1,21,2):22,('42',20,23,1):22}
+RENUMBER={('25',1,21,2):22,('42',17,36,1):37,('42',20,23,1):22}
 # E-text errors checked visually against the 1927 facsimile.
 # Page links, context and pending human review: docs/reports/sv1917-errata.md.
 REPLACE={
@@ -76,9 +76,9 @@ REPLACE={
 
  # Luke 1-8 scan pass: R052-R074; printing questions are saved in photo batch 5.
  ('Luke', 1, 70):('sin forntida heliga profeters mun', 'sina forntida heliga profeters mun'),
- ('Luke', 1, 73):('lovat för vår fader Abraham,', 'lovat för vår fader Abraham.'),
+ ('Luke', 1, 73):('vad han med ed hade lovat för vår fader Abraham,', 'vad han med ed hade lovat vår fader Abraham.'),
  ('Luke', 3, 4):('i öknen: Bereden vägen', "i öknen: 'Bereden vägen"),
- ('Luke', 3, 9):('och kastat på elden.', 'och kastat på elden.»'),
+ ('Luke', 3, 9):('Redan är också yxan satt till roten på träden; så bliver då vart träd som icke bär god frukt avhugget och kastat på elden.', 'Redan är också yxan satt till roten på träden; så bliver då vart träd som icke bär god frukt avhugget och kastat i elden.»'),
  ('Luke', 3, 14):('Vad skola då vi göra? Han', 'Vad skola då vi göra?» Han'),
  ('Luke', 3, 16):('tog till orda och sade: till dem alla:', 'tog till orda och sade till dem alla:'),
  ('Luke', 3, 22):('över honom I lekamlig skepnad', 'över honom i lekamlig skepnad'),
@@ -104,7 +104,7 @@ REPLACE={
  ('Luke', 9, 10):('De tog han dem med sig', 'Då tog han dem med sig'),
  ('Luke', 9, 16):('och säg upp till himmelen', 'och såg upp till himmelen'),
  ('Luke', 9, 18):('var stadd i byn', 'var stadd i bön'),
- ('Luke', 9, 26):('när han kom mer i sin', 'när han kommer i sin'),
+ ('Luke', 9, 26):('Den som blyges för mig och för mina ord, för honom skall Människosonen blygas, när han kom mer i sin och min Faders och de heliga änglarnas härlighet.', 'Den som blyges för mig och för mina ord, för honom skall Människosonen blygas, när han kommer i sin och sin Faders och de heliga änglarnas härlighet.'),
  ('Luke', 9, 30):('Och de, två män stodo', 'Och se, två män stodo'),
  ('Luke', 9, 33):('Mästare, har är oss gott', 'Mästare, här är oss gott'),
  ('Luke', 9, 44):('bliva överlämnad i människors händer.', 'bliva överlämnad i människors händer.»'),
@@ -120,7 +120,7 @@ REPLACE={
  ('Luke', 10, 28):('Gör det, så får du leva,', 'Gör det, så får du leva.»'),
  ('Luke', 11, 7):('stå upp och göra dig något', 'stå upp och giva dig något'),
  ('Luke', 11, 11):('i stallet för en fisk', 'i stället för en fisk'),
- ('Luke', 11, 27):('hov en kvinna in folkhopen', 'hov en kvinna i folkhopen'),
+ ('Luke', 11, 27):('När han sade detta, hov en kvinna in folkhopen upp sin röst och ropade till honom: »Saligt är det moderssköte som har burit dig, och de bröst som du har diat.»', 'När han sade detta, hov en kvinna i folkhopen upp sin röst och ropade till honom: »Saligt är det moderssköte som har burit dig, och det bröst som du har diat.»'),
  ('Luke', 11, 28):('saliga är de som höra', 'saliga äro de som höra'),
  ('Luke', 11, 29):('ett ont släkte Det begär', 'ett ont släkte. Det begär'),
  ('Luke', 11, 31):('och se, har är vad som är mer än Salomo', 'och se, här är vad som är mer än Salomo'),
@@ -419,6 +419,81 @@ REPLACE={
  ('Rev', 21, 5):('dessa ord äro visa och sanna', 'dessa ord äro vissa och sanna'),
  ('Rev', 22, 1):('en ström med vatten', 'en ström med levande vatten'),
  ('Rev', 22, 15):('de måste alla stanna därutanför', 'de måste stanna därutanför'),
+
+ # Gospel questions resolved against EFS 1926: R354-R368.
+ ('Matt', 12, 26):(' Huru kan då hans rike hava bestånd?', ''),
+ ('Matt', 12, 27):('Och om det är med Beelsebul som jag driver ut de onda andarna, med vem driva då edra egna anhängare ut dem? De skola alltså vara edra domare.', 'Huru kan då hans rike hava bestånd? Och om det är med Beelsebul som jag driver ut de onda andarna, med vem driva då edra egna anhängare ut dem? De skola alltså vara edra domare.'),
+ ('Matt', 13, 39):('Skördemännen är änglar', 'Skördemännen äro änglar'),
+ ('Matt', 18, 20):('två eller tre är församlade', 'två eller tre äro församlade'),
+ ('Matt', 18, 25):('då denna icke kunde betala', 'då denne icke kunde betala'),
+ ('Matt', 24, 42):('vår Herre', 'eder Herre'),
+ ('Matt', 25, 15):('och for utrikes', 'och for så utrikes'),
+ ('Mark', 1, 43):('Sedan vände Jesus', 'Sedan visade Jesus'),
+ ('Mark', 2, 14):('Då steg han upp', 'Då stod han upp'),
+ ('Mark', 4, 15):('Satan ock tager', 'Satan och tager'),
+ ('Mark', 5, 8):('du orena ande', 'du orene ande'),
+ ('Mark', 6, 9):('Sandaler finge de', 'Sandaler fingo de'),
+ ('Mark', 8, 6):('Ock han tog', 'Och han tog'),
+ ('Mark', 13, 17):('Och ve de som', 'Och ve dem som'),
+ ('Mark', 14, 23):('tackade Gud ock gav', 'tackade Gud och gav'),
+ ('Mark', 15, 8):('Folket kom ditupp', 'Folket kom nu ditupp'),
+
+ # Luke 1-8 questions resolved against EFS 1926: R369-R382.
+ ('Luke', 1, 2):('dem som själva', 'dem som från begynnelsen själva'),
+ ('Luke', 1, 9):('hände det sig', 'hände sig'),
+ ('Luke', 1, 41):('blev fylld av', 'blev uppfylld av'),
+ ('Luke', 2, 20):('såsom det blivit', 'såsom det hade blivit'),
+ ('Luke', 2, 24):('ett par duvor eller två unga turturduvor', 'ett par turturduvor eller två unga duvor'),
+ ('Luke', 3, 11):('och en som har matförråd', 'och den som har matförråd'),
+ ('Luke', 4, 18):('Han har satt mig', 'Han har sänt mig'),
+ ('Luke', 4, 41):('tillsade dem att icke säga', 'tillstadde dem att icke säga'),
+ ('Luke', 5, 3):('undervisade folket från båten', 'undervisade folket ifrån båten'),
+ ('Luke', 6, 48):('eftersom det var så byggt', 'eftersom det var så väl byggt'),
+ ('Luke', 8, 1):('vandrade han igenom landet', 'vandrade han genom landet'),
+ ('Luke', 8, 36):('de som hade sett händelsen', 'de som hade åsett händelsen'),
+
+ # Remaining Luke questions resolved against EFS 1926: R383-R390.
+ ('Luke', 9, 22):('de skriftlärda', 'de skriftlärde'),
+ ('Luke', 10, 2):('»Skörden', 'Och han sade till dem: »Skörden'),
+ ('Luke', 19, 33):('frågade ägaren dem', 'frågade ägarna dem'),
+ ('Luke', 23, 16):('medan jag har tuktat', 'sedan jag har tuktat'),
+ ('Luke', 23, 31):('om han gör så', 'om man gör så'),
+
+ # John questions resolved against EFS 1926: R391-R424.
+ ('John', 1, 39):('vid den tionde timmen', 'vid tionde timmen'),
+ ('John', 2, 10):('alltid sätta fram', 'alltid först sätta fram'),
+ ('John', 2, 14):('Och när han fick', 'Och han fick'),
+ ('John', 2, 21):('tempel han talade', 'tempel som han talade'),
+ ('John', 3, 15):('så att', 'för att'),
+ ('John', 3, 29):('hör honom', 'hör på honom'),
+ ('John', 4, 6):('vid den sjätte timmen', 'vid sjätte timmen'),
+ ('John', 4, 12):('Icke är du väl', 'Icke är väl du'),
+ ('John', 4, 24):('de som tillbedja måste', 'de som tillbedja honom måste'),
+ ('John', 4, 52):('vid den sjunde timmen', 'vid sjunde timmen'),
+ ('John', 5, 21):('uppväcker döda', 'uppväcker de döda'),
+ ('John', 6, 2):('följde efter honom', 'följde honom'),
+ ('John', 6, 10):('lägga sig här', 'lägra sig här'),
+ ('John', 6, 35):('aldrig törsta', 'aldrig någonsin törsta'),
+ ('John', 7, 23):('hel och frisk', 'hel och hållen frisk'),
+ ('John', 7, 46):('människa talat', 'människa så talat'),
+ ('John', 8, 39):('Jesus svarade till dem', 'Jesus sade till dem'),
+ ('John', 9, 22):('fruktade judarna', 'fruktade för judarna'),
+ ('John', 10, 7):('Åter sade Jesus', 'Åter sade då Jesus'),
+ ('John', 11, 25):('Jesus svarade till henne', 'Jesus sade till henne'),
+ ('John', 11, 32):('hade du varit där', 'hade du varit här'),
+ ('John', 11, 33):('såg jämväl att de', 'såg att jämväl de'),
+ ('John', 11, 48):('Om vi skola låta', 'Om vi låta'),
+ ('John', 11, 54):('öppet bland judarna', 'öppet omkring bland judarna'),
+ ('John', 12, 35):('var han går', 'vart han går'),
+ ('John', 12, 41):('talade med honom', 'talade om honom'),
+ ('John', 13, 10):('behöver allenast', 'behöver sedan allenast'),
+ ('John', 14, 21):('och jag skall uppenbara', 'och skall uppenbara'),
+ ('John', 17, 3):('den enda sanne Guden', 'den ende sanne Guden'),
+ ('John', 18, 13):('överstepräst det året', 'överstepräst för det året'),
+ ('John', 18, 33):('Pilatus gick åter in', 'Pilatus gick då åter in'),
+ ('John', 18, 37):('Så sade Pilatus', 'Då sade Pilatus'),
+ ('John', 20, 1):('på första veckodagen, medan', 'på första veckodagen om morgonen, medan'),
+ ('John', 20, 21):('så sänder ock jag eder', 'så sänder jag ock eder'),
 
 }
 
