@@ -41,7 +41,7 @@ alla	3207	word
 Gud	3126	word	"g}:d
 ett	3068	word	"Et
 såsom	3057	word	"so:$sOm
-från	2941	word	"fro:n
+från	2940	word	"fro:n
 nu	2918	word	"n}:
 din	2897	word	"di:n
 åt	2855	word	"o:t
@@ -107,7 +107,7 @@ hela	1188	word	""he:$la
 gå	1153	word	"go:
 under	1151	word	"u0n$der
 inför	1150	word	In$"f2:r
-ifrån	1147	word	
+ifrån	1148	word	
 konung	1146	word	""ko:$nu0N
 folket	1145	word	"fOl$ket
 kom	1141	word	"kOm
@@ -1947,6 +1947,7 @@ Kirjat	35	name
 Lehem	35	name	
 Vilken	35	word	""vIl$ken
 afton	35	word	""af$tOn
+andras	35	word	""an$dras
 bedjen	35	word	""be:d$jen
 befäste	35	word	be$"fE$ste
 består	35	word	be$"sto:r
@@ -1992,7 +1993,6 @@ Manasses	34	name
 Nikanor	34	name	
 Uria	34	name	
 Välan	34	word	
-andras	34	word	""an$dras
 basun	34	word	ba$"s}:n
 behagade	34	word	be$"hA:$ga$de
 dagliga	34	word	""dA:$glI$ga
@@ -3519,7 +3519,6 @@ Serubbabel	17	name
 Suckot	17	name	
 Tacken	17	word	"ta$ken
 aktat	17	word	""ak$tat
-andres	17	word	""an$dres
 arbeten	17	word	""ar$be:$ten
 avföda	17	word	""A:v$%f2:$da
 avkomling	17	word	""A:v$%kOm$lIN
@@ -3660,6 +3659,7 @@ Skola	16	word	""sku:$la
 Sua	16	name	
 Ur	16	word	"}:r
 aktas	16	word	""ak$tas
+andres	16	word	""an$dres
 avfallit	16	word	
 avsides	16	word	
 avskrift	16	word	""A:v$%skrIft

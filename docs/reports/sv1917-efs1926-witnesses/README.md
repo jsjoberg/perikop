@@ -219,6 +219,10 @@ Tre fulla original-JPEG-sidor tillkommer: GT s. 1, 2 och 4. De stöder R425 (ifr
 
 Tre fulla originalbilder visar R426 i 5:13 och de behållna läsningarna i 5:29, 6:3, 6:5 och 8:17. Se [GT-rapporten](../sv1917-ot.md) för beslut och exakta hashvärden.
 
+## GT-uppföljning, Första Moseboken 9–13
+
+Fyra fulla originalbilder stöder rättelserna och de behållna tryckvarianterna. Se [GT-rapporten](../sv1917-ot.md) för beslut och exakta hashvärden.
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -345,3 +349,7 @@ Tre fulla originalbilder visar R426 i 5:13 och de behållna läsningarna i 5:29,
 - `gt0006.jpg`: full originalbild och bevarad fil SHA-256 `756e4575b2655029663fe5263846d5bcd627d74acf9f2e5b22545b84c2d35c36`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n17.jpg`.
 - `gt0007.jpg`: full originalbild och bevarad fil SHA-256 `10776a1982cacc7cad2fd802ec53fa86ce795343d69cfa776a7e7c3c9ef51450`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n18.jpg`.
 - `gt0009.jpg`: full originalbild och bevarad fil SHA-256 `160df59ba2aba8c8a1c8aeff537e1d2fd12a75a7133db8e6172c97b7918c8dab`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n20.jpg`.
+- `gt0010.jpg`: full originalbild och bevarad fil SHA-256 `4511c5001a3506351a2c5ff17288efae7f2a756e2aee29adb2015df1d038e0a3`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n21.jpg`.
+- `gt0011.jpg`: full originalbild och bevarad fil SHA-256 `5b9c6b146a9dc9eee2f936020bdd1c3e534d5d30139f00376a83fb8e86e3867f`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n22.jpg`.
+- `gt0013.jpg`: full originalbild och bevarad fil SHA-256 `3dcf5ce781853c8d39a1e6ad7dd4232afeef0cace8ea110837712db5e99fd05a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n24.jpg`.
+- `gt0014.jpg`: full originalbild och bevarad fil SHA-256 `f5622427521b7b333ec1f13396bdf3967861f27cac8f63144f13f55f0164bbbd`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n25.jpg`.
