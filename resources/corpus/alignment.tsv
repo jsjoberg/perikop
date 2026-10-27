@@ -934,7 +934,7 @@ en-kjv	sv1917	Mark	15:28	15:28	-	-	-	6
 en-kjv	sv1917	Mark	15:29	16:20	Mark	15:29	16:20	0
 en-kjv	sv1917	Luke	1:1	17:35	Luke	1:1	17:35	0
 en-kjv	sv1917	Luke	17:36	17:36	-	-	-	6
-en-kjv	sv1917	Luke	17:37	17:37	Luke	17:36	17:36	1
+en-kjv	sv1917	Luke	17:37	17:37	Luke	17:37	17:37	0
 en-kjv	sv1917	Luke	18:1	23:16	Luke	18:1	23:16	0
 en-kjv	sv1917	Luke	23:17	23:17	-	-	-	6
 en-kjv	sv1917	Luke	23:18	24:53	Luke	23:18	24:53	0
@@ -2765,7 +2765,7 @@ en-web	sv1917	Mark	11:27	15:27	Mark	11:27	15:27	0
 en-web	sv1917	Mark	15:28	15:28	-	-	-	6
 en-web	sv1917	Mark	15:29	16:20	Mark	15:29	16:20	0
 en-web	sv1917	Luke	1:1	17:35	Luke	1:1	17:35	0
-en-web	sv1917	Luke	17:37	17:37	Luke	17:36	17:36	1
+en-web	sv1917	Luke	17:37	17:37	Luke	17:37	17:37	0
 en-web	sv1917	Luke	18:1	23:16	Luke	18:1	23:16	0
 en-web	sv1917	Luke	23:17	23:17	-	-	-	6
 en-web	sv1917	Luke	23:18	24:53	Luke	23:18	24:53	0
@@ -5043,7 +5043,7 @@ grc-patriarchal	sv1917	Mark	15:28	15:28	-	-	-	6
 grc-patriarchal	sv1917	Mark	15:29	16:20	Mark	15:29	16:20	0
 grc-patriarchal	sv1917	Luke	1:1	17:35	Luke	1:1	17:35	0
 grc-patriarchal	sv1917	Luke	17:36	17:36	-	-	-	6
-grc-patriarchal	sv1917	Luke	17:37	17:37	Luke	17:36	17:36	1
+grc-patriarchal	sv1917	Luke	17:37	17:37	Luke	17:37	17:37	0
 grc-patriarchal	sv1917	Luke	18:1	23:16	Luke	18:1	23:16	0
 grc-patriarchal	sv1917	Luke	23:17	23:17	-	-	-	6
 grc-patriarchal	sv1917	Luke	23:18	24:53	Luke	23:18	24:53	0
@@ -5350,7 +5350,7 @@ sv1917	en-kjv	Mark	9:47	11:25	Mark	9:47	11:25	0
 sv1917	en-kjv	Mark	11:27	15:27	Mark	11:27	15:27	0
 sv1917	en-kjv	Mark	15:29	16:20	Mark	15:29	16:20	0
 sv1917	en-kjv	Luke	1:1	17:35	Luke	1:1	17:35	0
-sv1917	en-kjv	Luke	17:36	17:36	Luke	17:37	17:37	1
+sv1917	en-kjv	Luke	17:37	17:37	Luke	17:37	17:37	0
 sv1917	en-kjv	Luke	18:1	23:16	Luke	18:1	23:16	0
 sv1917	en-kjv	Luke	23:18	24:53	Luke	23:18	24:53	0
 sv1917	en-kjv	John	1:1	5:3	John	1:1	5:3	0
@@ -6440,7 +6440,7 @@ sv1917	en-web	Mark	9:47	11:25	Mark	9:47	11:25	0
 sv1917	en-web	Mark	11:27	15:27	Mark	11:27	15:27	0
 sv1917	en-web	Mark	15:29	16:20	Mark	15:29	16:20	0
 sv1917	en-web	Luke	1:1	17:35	Luke	1:1	17:35	0
-sv1917	en-web	Luke	17:36	17:36	Luke	17:37	17:37	1
+sv1917	en-web	Luke	17:37	17:37	Luke	17:37	17:37	0
 sv1917	en-web	Luke	18:1	23:16	Luke	18:1	23:16	0
 sv1917	en-web	Luke	23:18	24:53	Luke	23:18	24:53	0
 sv1917	en-web	John	1:1	5:3	John	1:1	5:3	0
@@ -7213,7 +7213,7 @@ sv1917	grc-patriarchal	Mark	9:47	11:25	Mark	9:47	11:25	0
 sv1917	grc-patriarchal	Mark	11:27	15:27	Mark	11:27	15:27	0
 sv1917	grc-patriarchal	Mark	15:29	16:20	Mark	15:29	16:20	0
 sv1917	grc-patriarchal	Luke	1:1	17:35	Luke	1:1	17:35	0
-sv1917	grc-patriarchal	Luke	17:36	17:36	Luke	17:37	17:37	1
+sv1917	grc-patriarchal	Luke	17:37	17:37	Luke	17:37	17:37	0
 sv1917	grc-patriarchal	Luke	18:1	23:16	Luke	18:1	23:16	0
 sv1917	grc-patriarchal	Luke	23:18	24:53	Luke	23:18	24:53	0
 sv1917	grc-patriarchal	John	1:1	1:37	John	1:1	1:37	0

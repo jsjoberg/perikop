@@ -1,21 +1,9 @@
 # Samlad fotolista för evangelierna
 
-**Uppdaterad 2026-10-27. Ingen omedelbar fotoinsats behövs.** Alla evangelier är bildlästa; Matteus och Markus är nu helt verifierade efter EFS 1926-jämförelser. **62 öppna frågor V061–V122 återstår i 29 Lukas-/Johanneskapitel.** Digitaliserade tryck prövas först medan användaren är borta från boken. Bara kvarstående osäkerhet sparas för senare foton. Listan visar endast de öppna frågorna; avgjorda V010–V060 finns med beslut och bevis i bunt 2–5. De två återstående versgränsfrågorna kräver även synliga nummer.
+**Uppdaterad 2026-10-27. Ingen omedelbar fotoinsats behövs.** Alla evangelier är bildlästa; Matteus, Markus och Lukas är nu helt verifierade efter EFS 1926-jämförelser. **43 öppna frågor V080–V122 återstår i 17 Johanneskapitel.** Digitaliserade tryck prövas först medan användaren är borta från boken. Bara kvarstående osäkerhet sparas för senare foton. Listan visar endast de öppna frågorna; avgjorda V010–V079 finns med beslut och bevis i bunt 2–8. Lukas 11:3–4 och 17:35–37 är avgjorda med synliga versnummer.
 
 | Bok och kapitel | Hela verser att fotografera | Sparade frågor |
 | --- | --- | --- |
-| Lukas 9 | 22, 26 | [V061](batch-6.md#v061), [V062](batch-6.md#v062) |
-| Lukas 10 | 2, 37 | [V063](batch-6.md#v063), [V064](batch-6.md#v064) |
-| Lukas 11 | 3–4, 27 | [V065](batch-6.md#v065), [V066](batch-6.md#v066) |
-| Lukas 13 | 12 | [V072](batch-7.md#v072) |
-| Lukas 14 | 7, 24 | [V067](batch-7.md#v067), [V068](batch-7.md#v068) |
-| Lukas 15 | 19 | [V069](batch-7.md#v069) |
-| Lukas 17 | 24, 35–37 (korpus 36) | [V070](batch-7.md#v070), [V071](batch-7.md#v071) |
-| Lukas 18 | 16 | [V073](batch-8.md#v073) |
-| Lukas 19 | 33 | [V074](batch-8.md#v074) |
-| Lukas 20 | 36 | [V075](batch-8.md#v075) |
-| Lukas 22 | 23, 59 | [V076](batch-8.md#v076), [V077](batch-8.md#v077) |
-| Lukas 23 | 16, 31 | [V078](batch-8.md#v078), [V079](batch-8.md#v079) |
 | Johannes 1 | 39 | [V080](batch-9.md#v080) |
 | Johannes 2 | 10, 14, 21 | [V081](batch-9.md#v081), [V082](batch-9.md#v082), [V083](batch-9.md#v083) |
 | Johannes 3 | 15, 29 | [V084](batch-9.md#v084), [V085](batch-9.md#v085) |

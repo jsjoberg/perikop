@@ -131,7 +131,7 @@ GRP='grc-patriarchal'
 NT=CANON[39:]
 NT_SHARED={'Matt':['Matt 12:26 > Matt 12:26','Matt 12:27 > Matt 12:26 Matt 12:27'],
  'John':['John 11:34 > John 11:34 John 11:35','John 11:35 > John 11:36','John 11:36 John 11:37 > John 11:37'],
- 'Luke':['Luke 17:36 > Luke 17:37','- > Luke 17:36'],
+ 'Luke':['- > Luke 17:36'],
  'Phil':['Phil 1:16 > Phil 1:17','Phil 1:17 > Phil 1:16'],
  'Rev':['Rev 2:27 > Rev 2:27','Rev 2:28 > Rev 2:27 Rev 2:28']}
 # The Byzantine text, followed by the WEB, swaps Matthew 23:13-14 and places the doxology at Romans 14:24-26.

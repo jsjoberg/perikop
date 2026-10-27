@@ -738,6 +738,18 @@ int main(int argc, char** argv) {
                   "the Byzantine doxology follows Romans 14:23");
             check(greek("Matt", {23, 13}) == Refs{{"Matt", {23, 14}}},
                   "the Byzantine text swaps Matthew 23:13-14");
+            check(!corpus.verse("sv1917", "Luke", {17, 36}) &&
+                      corpus.verse("sv1917", "Luke", {17, 37})->text.starts_with("Då frågade de honom:"),
+                  "both EFS prints number Luke's final question 17:37; 36 is a note only");
+            check(corpus.verse("sv1917", "Luke", {10, 2})->text.starts_with("Och han sade till dem: »Skörden"),
+                  "Luke 10:2 retains its introduction across the printed page break");
+            for (const auto* edition : {"grc-patriarchal", "en-web"}) {
+                check(corpus.counterparts("sv1917", edition, "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}} &&
+                          corpus.counterparts(edition, "sv1917", "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}},
+                      "Luke 17:37 maps to the printed number in both directions");
+            }
+            check(corpus.counterparts("grc-patriarchal", "sv1917", "Luke", {17, 36}).empty(),
+                  "the Greek Luke 17:36 has no Swedish running text");
             check(greek("Luke", {10, 6}) == Refs{{"Luke", {10, 6}}}, "unchanged verses keep their numbers");
             check(corpus.counterparts("sv1917", "en-web", "John", {11, 35}) == Refs{{"John", {11, 36}}},
                   "the WEB shares the John 11 division with the Greek");
@@ -1438,6 +1450,12 @@ int main(int argc, char** argv) {
                  {"Luke", {6, 48}, "eftersom det var så byggt", "eftersom det var så väl byggt"},
                  {"Luke", {8, 1}, "vandrade han igenom landet", "vandrade han genom landet"},
                  {"Luke", {8, 36}, "de som hade sett händelsen", "de som hade åsett händelsen"},
+                 {"Luke", {9, 22}, "de skriftlärda", "de skriftlärde"},
+                 {"Luke", {9, 26}, "min Faders", "sin Faders"},
+                 {"Luke", {11, 27}, "och de bröst", "och det bröst"},
+                 {"Luke", {19, 33}, "frågade ägaren dem", "frågade ägarna dem"},
+                 {"Luke", {23, 16}, "medan jag har tuktat", "sedan jag har tuktat"},
+                 {"Luke", {23, 31}, "om han gör så", "om man gör så"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

@@ -15,7 +15,7 @@ VERSE=re.compile(r'^\s{0,3}(\d+)\.\s(.*)$')
 # Placeholder for verses printed in another chapter, such as "6:1.  [1]".
 ELSEWHERE=re.compile(r'^\s*\d+:\d+\.\s*(?:\[\d+\])?$')
 # Misprinted verse numbers in the e-text: (book, chapter, printed number, occurrence) -> number.
-RENUMBER={('25',1,21,2):22,('42',20,23,1):22}
+RENUMBER={('25',1,21,2):22,('42',17,36,1):37,('42',20,23,1):22}
 # E-text errors checked visually against the 1927 facsimile.
 # Page links, context and pending human review: docs/reports/sv1917-errata.md.
 REPLACE={
@@ -104,7 +104,7 @@ REPLACE={
  ('Luke', 9, 10):('De tog han dem med sig', 'Då tog han dem med sig'),
  ('Luke', 9, 16):('och säg upp till himmelen', 'och såg upp till himmelen'),
  ('Luke', 9, 18):('var stadd i byn', 'var stadd i bön'),
- ('Luke', 9, 26):('när han kom mer i sin', 'när han kommer i sin'),
+ ('Luke', 9, 26):('Den som blyges för mig och för mina ord, för honom skall Människosonen blygas, när han kom mer i sin och min Faders och de heliga änglarnas härlighet.', 'Den som blyges för mig och för mina ord, för honom skall Människosonen blygas, när han kommer i sin och sin Faders och de heliga änglarnas härlighet.'),
  ('Luke', 9, 30):('Och de, två män stodo', 'Och se, två män stodo'),
  ('Luke', 9, 33):('Mästare, har är oss gott', 'Mästare, här är oss gott'),
  ('Luke', 9, 44):('bliva överlämnad i människors händer.', 'bliva överlämnad i människors händer.»'),
@@ -120,7 +120,7 @@ REPLACE={
  ('Luke', 10, 28):('Gör det, så får du leva,', 'Gör det, så får du leva.»'),
  ('Luke', 11, 7):('stå upp och göra dig något', 'stå upp och giva dig något'),
  ('Luke', 11, 11):('i stallet för en fisk', 'i stället för en fisk'),
- ('Luke', 11, 27):('hov en kvinna in folkhopen', 'hov en kvinna i folkhopen'),
+ ('Luke', 11, 27):('När han sade detta, hov en kvinna in folkhopen upp sin röst och ropade till honom: »Saligt är det moderssköte som har burit dig, och de bröst som du har diat.»', 'När han sade detta, hov en kvinna i folkhopen upp sin röst och ropade till honom: »Saligt är det moderssköte som har burit dig, och det bröst som du har diat.»'),
  ('Luke', 11, 28):('saliga är de som höra', 'saliga äro de som höra'),
  ('Luke', 11, 29):('ett ont släkte Det begär', 'ett ont släkte. Det begär'),
  ('Luke', 11, 31):('och se, har är vad som är mer än Salomo', 'och se, här är vad som är mer än Salomo'),
@@ -451,6 +451,13 @@ REPLACE={
  ('Luke', 6, 48):('eftersom det var så byggt', 'eftersom det var så väl byggt'),
  ('Luke', 8, 1):('vandrade han igenom landet', 'vandrade han genom landet'),
  ('Luke', 8, 36):('de som hade sett händelsen', 'de som hade åsett händelsen'),
+
+ # Remaining Luke questions resolved against EFS 1926: R383-R390.
+ ('Luke', 9, 22):('de skriftlärda', 'de skriftlärde'),
+ ('Luke', 10, 2):('»Skörden', 'Och han sade till dem: »Skörden'),
+ ('Luke', 19, 33):('frågade ägaren dem', 'frågade ägarna dem'),
+ ('Luke', 23, 16):('medan jag har tuktat', 'sedan jag har tuktat'),
+ ('Luke', 23, 31):('om han gör så', 'om man gör så'),
 
 }
 

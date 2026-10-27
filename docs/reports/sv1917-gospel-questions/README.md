@@ -1,6 +1,6 @@
 # Sparade fotofrågor i evangelierna
 
-**Aktuellt 2026-10-27:** Alla evangelier är helt bildlästa. Matteus, Markus och Lukas 1–8 är verifierade. **62 öppna frågor V061–V122 i 29 Lukas-/Johanneskapitel** finns i [den samlade listan](photo-checklist.md) och bunt 6–10. V010–V060 är avgjorda mot [EFS 1926](../sv1917-efs1926-witnesses/README.md): 29 rättelser R354–R382 i 30 versposter och 22 behållna läsningar. Båda verserna i Matt. 12:26–27 rättas som en gränsrättelse med partiella parallellmappningar i båda riktningar. Totalt 60/89 kapitel och 2 456/3 767 poster (65,2 %) verifierade. Ingen omedelbar fotoinsats begärs; fortsätt digitaliserade vittnen från Luk. 9:22 och spara fortsatt osäkerhet. Alla originalfrågor, utsnitt och beslut bevaras i bunt 2–10.
+**Aktuellt 2026-10-27:** Alla evangelier är helt bildlästa. Matteus, Markus och Lukas är verifierade. **43 öppna frågor V080–V122 i 17 Johanneskapitel** finns i [den samlade listan](photo-checklist.md) och bunt 9–10. V010–V079 är avgjorda mot [EFS 1926](../sv1917-efs1926-witnesses/README.md): 37 rättelser R354–R390, varav en ren nummerändring, samt 33 behållna läsningar. Totalt 72/89 kapitel och 3 016/3 767 poster (80,1 %) verifierade. Luk. 17:36 har flyttats till tryckets 17:37 med oförändrad text och sex rättade parallellmappningar. Ingen omedelbar fotoinsats begärs; fortsätt digitaliserade vittnen från Joh. 1:39 och spara fortsatt osäkerhet. Alla originalfrågor, utsnitt och beslut bevaras.
 
 ## Fotobunt 1: tre lösta läsningar i Matteus
 

@@ -1,14 +1,14 @@
 # form	occurrences	kind	nst_sampa
 och	39656	word	"Ok
 i	15968	word	
-till	15695	word	"tIl
+till	15696	word	"tIl
 som	14017	word	
 att	12742	word	"at
 han	12025	word	"han
-de	11740	word	
-det	8675	word	
+de	11739	word	
+det	8676	word	
 en	8480	word	"En
-Och	8354	word	"Ok
+Och	8355	word	"Ok
 skall	8264	word	"skal
 på	8256	word	
 icke	8179	word	""I$ke
@@ -18,7 +18,7 @@ den	7752	word
 med	7574	word	"me:d
 är	7543	word	"E:r
 av	7271	word	
-dem	6939	word	"dOm
+dem	6940	word	"dOm
 så	6855	word	"so:
 honom	6736	word	""hO$nOm
 har	6693	word	"hA:r
@@ -29,13 +29,13 @@ dig	4736	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4674	word	"mEj
 hade	4488	word	""ha$de
-sade	4210	word	""sA:$de
+sade	4211	word	""sA:$de
 hans	4179	word	"hans
 eder	3863	word	""e:$der
 om	3668	word	"Om
 var	3647	word	"vA:r
 då	3469	word	"do:
-sin	3465	word	"sIn
+sin	3466	word	"sIn
 Men	3400	word	"mEn
 alla	3207	word	
 Gud	3126	word	"g}:d
@@ -47,8 +47,8 @@ din	2897	word	"di:n
 åt	2855	word	"o:t
 upp	2824	word	"u0p
 över	2803	word	"2:$ver
-man	2675	word	"man
-min	2632	word	"mi:n
+man	2676	word	"man
+min	2631	word	"mi:n
 när	2558	word	"nE:r
 Då	2455	word	"do:
 vad	2422	word	"vA:d
@@ -132,7 +132,7 @@ ingen	1009	word	""IN$en
 svarade	1009	word	""svA:$ra$de
 något	990	word	""no:$gOt
 dag	980	word	"dA:g
-sedan	979	word	""se:$dan
+sedan	980	word	""se:$dan
 blivit	978	word	""bli:$vIt
 än	956	word	
 gick	945	word	"jIk
@@ -365,10 +365,10 @@ Nej	258	word	"nEj
 igen	258	word	I$"jEn
 Aron	256	name	"A:$rOn
 död	256	word	"d2:d
-medan	256	word	""me:$dan
 rättfärdighet	256	word	""rEt$fE:$d`Ig$%he:t
 Davids	255	name	""dA:$vIds
 länge	255	word	""lEN$e
+medan	255	word	""me:$dan
 öknen	255	word	"2:$knen
 Herrens	254	name	""hE$rens
 alltså	254	word	
@@ -1171,6 +1171,7 @@ profetera	65	word	prU$fe$"te:$ra
 präst	65	word	"prEst
 skara	65	word	""skA:$ra
 skatter	65	word	""ska$ter
+skriftlärde	65	word	""skrIft$%lE:$d`e
 templet	65	word	"tEm$plet
 vandrar	65	word	""van$drar
 vinna	65	word	""vI$na
@@ -1183,7 +1184,6 @@ inre	64	word	"In$re
 konungars	64	word	""ko:$nu0N$as`
 råda	64	word	""ro:$da
 skada	64	word	""skA:$da
-skriftlärde	64	word	""skrIft$%lE:$d`e
 tacka	64	word	""ta$ka
 trä	64	word	"trE:
 ålder	64	word	"Ol$der
@@ -7191,7 +7191,6 @@ våndas	7	word	""vOn$das
 yta	7	word	""y:$ta
 Älsken	7	word	
 Ängeln	7	word	""EN$eln
-ägaren	7	word	""E:$ga$ren
 ägg	7	word	"Eg
 ändens	7	word	""En$dens
 ängslas	7	word	""EN$slas
@@ -8045,6 +8044,7 @@ yrke	6	word	""Yr$ke
 yxa	6	word	""Yk$sa
 Östra	6	word	""9$stra
 ädle	6	word	""E:d$le
+ägaren	6	word	""E:$ga$ren
 äldstes	6	word	""El$stes
 älskog	6	word	""El$%sku:g
 ämnar	6	word	""Em$nar
@@ -16178,7 +16178,6 @@ skrapa	2	word	""skrA:$pa
 skrapar	2	word	""skrA:$par
 skrapat	2	word	""skrA:$pat
 skriftlig	2	word	""skrIft$lIg
-skriftlärda	2	word	""skrIft$%lE:$d`a
 skrin	2	word	"skri:n
 skrinet	2	word	"skri:$net
 skrivaren	2	word	""skri:$va$ren
@@ -25789,6 +25788,7 @@ skrid	1	word	"skri:d
 skrida	1	word	""skri:$da
 skriden	1	word	""skri:$den
 skrider	1	word	"skri:$der
+skriftlärda	1	word	""skrIft$%lE:$d`a
 skriftlärdom	1	word	
 skrifttecken	1	word	""skrIft$%tE$ken
 skrivare	1	word	""skri:$va$re
@@ -28056,6 +28056,7 @@ yxorna	1	word	""Yk$sU$n`a
 äckel	1	word	"E$kel
 ädlare	1	word	""E:d$la$re
 ägande	1	word	""E:$gan$de
+ägarna	1	word	""E:$ga$n`a
 ägen	1	word	
 äggen	1	word	"E$gen
 ägnad	1	word	""EN$nad
