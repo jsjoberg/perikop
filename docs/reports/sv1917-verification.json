@@ -7416,10 +7416,10 @@
     {
       "book": "Col",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 29,
-      "text_sha256": "603456f0a5b772c44dbcea1163abe05107ff39e13be30f4b548c4835a4438a3d",
-      "checked_at": "2026-10-26",
+      "text_sha256": "c2cc14c99a43a127c6a615d11851d1b9c048192aafb6c55102982472fa942ac8",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -7431,7 +7431,7 @@
           "sha256": "d8958287803115b6d2d105ae1d5674bd4c7504fe4c5e58b874f4fac6a2e71d06"
         }
       ],
-      "notes": "Hela 1:1–29 bildläst; 1:16 och 24 över sid- och spaltgränser kontrollerade. Hjälpverbet har i tryckets 1:23 sparas som V145. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V145 i sv1917-nt-questions/batch-7.md; inga ändringar av frågornas ord."
+      "notes": "Hela 1:1–29 bildläst; 1:16 och 24 över sid- och spaltgränser kontrollerade. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. V145 avgjord mot EFS 1926. EFS 1926 och 1927 har båda och som har blivit predikat. Det saknade hjälpverbet har återställs genom R329. Hela 1:23 är jämförd över spaltgränsen på samma tryckta 1926-sida 296. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "Col",
@@ -7580,10 +7580,10 @@
     {
       "book": "1Thess",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 28,
       "text_sha256": "71f98bd1b605168c2e33e01cd01486533e6b843eb757ae9f6aeae338c8447d9d",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -7595,15 +7595,15 @@
           "sha256": "1f31285f05429762b346be37aec7d200c7101593dc6297a6c59f9526511222bc"
         }
       ],
-      "notes": "Hela 5:1–28 bildläst; 5:9 över spaltgränsen och 5:22–23 över sidgränsen kontrollerade. Saknat i före mörker i 5:4 och saknat t i profetiskt i 5:20 rättas. Versgränsen 5:17–18 sparas som V146; orden behålls på sina nuvarande verser. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V146 i sv1917-nt-questions/batch-7.md; inga ändringar av frågornas ord. Införda rättelser: R268, R269."
+      "notes": "Hela 5:1–28 bildläst; 5:9 över spaltgränsen och 5:22–23 över sidgränsen kontrollerade. Saknat i före mörker i 5:4 och saknat t i profetiskt i 5:20 rättas. Versgränsen 5:17–18 avgjord som behållen tryckvariant. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R268, R269. V146 avgjord mot EFS 1926. Båda versnumren 17 och 18 samt hela deras text jämförda på tryckt s. 304. EFS 1926 har endast Bedjen oavlåtligen i v. 17 och börjar v. 18 med Tacken Gud i alla livets förhållanden, precis som korpusen. EFS 1927 har den senare satsen i v. 17. Ord och koordinater behålls som belagd tryckvariant. Vershashen avser 5:18; kapitelhashen låser även 5:17 och hela gränsen. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "2Thess",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 12,
-      "text_sha256": "7bd1e552f27bcb46f8ab05a02885618023a26615c09ec7d339ea3c70346ab69b",
-      "checked_at": "2026-10-26",
+      "text_sha256": "18cd19dfb70f1aac584304a26ea560f371ad012c45a17a89edaca828f2ab3d0d",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -7615,7 +7615,7 @@
           "sha256": "d243873df3c779f9ed094dce10f4a6553f174ee81e520c409b1426ef88d7248c"
         }
       ],
-      "notes": "Hela 1:1–12 bildläst; 1:5–6 över spaltgränsen och 1:11–12 över sidgränsen kontrollerade. Kommit till att tro / kommit till tro i 1:10 sparas som V147. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V147 i sv1917-nt-questions/batch-7.md; inga ändringar av frågornas ord."
+      "notes": "Hela 1:1–12 bildläst; 1:5–6 över spaltgränsen och 1:11–12 över sidgränsen kontrollerade. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. V147 avgjord mot EFS 1926. EFS 1926 och 1927 har båda kommit till tro. Det främmande att tas bort genom R330; inga andra ord ändras. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "2Thess",
@@ -7824,10 +7824,10 @@
     {
       "book": "2Tim",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 22,
       "text_sha256": "8b7f0fb73dcda2b0e16dd43d6928eb62a37e3fcf6fb3dd47538e9884d60cfbaf",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -7839,7 +7839,7 @@
           "sha256": "bda1749e781848fbb86da03a3dfa7c3912d28b5a755a729c577a261aac6314e8"
         }
       ],
-      "notes": "Hela 4:1–22 bildläst; 4:4–5 över sidgränsen och 4:13 över spaltgränsen kontrollerade. Korpusens och har begivit / tryckets och begivit i 4:10 sparas som V148. Båda slutönskningarna i 4:22 stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V148 i sv1917-nt-questions/batch-8.md; inga ändringar av frågornas ord."
+      "notes": "Hela 4:1–22 bildläst; 4:4–5 över sidgränsen och 4:13 över spaltgränsen kontrollerade. Båda slutönskningarna i 4:22 stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. V148 avgjord mot EFS 1926. EFS 1926 bekräftar korpusens och har begivit sig mot EFS 1927:s och begivit sig. Texten behålls som belagd tryckvariant; inget rättelse-ID. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "Titus",
@@ -8072,10 +8072,10 @@
     {
       "book": "Heb",
       "chapter": 9,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 28,
       "text_sha256": "e555387c748093fa032f397aff3abeead949cb5a1d456d2003508eb36935a706",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -8087,7 +8087,7 @@
           "sha256": "b4f43734a54e4f14939a7d4ed02f88d5f68b69c095ebcdaddc71c6406b5a3aa7"
         }
       ],
-      "notes": "Hela 9:1–28 bildläst; 9:4 över spaltgränsen, 9:12 över sidgränsen och 9:21–22 över spaltgränsen kontrollerade. Moses / Mose i 9:19 sparas som V149; övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V149 i sv1917-nt-questions/batch-9.md; inga ändringar av frågornas ord."
+      "notes": "Hela 9:1–28 bildläst; 9:4 över spaltgränsen, 9:12 över sidgränsen och 9:21–22 över spaltgränsen kontrollerade. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. V149 avgjord mot EFS 1926. EFS 1926 visar Mo-ses över radbrytningen, alltså Moses, och bekräftar korpusens av Moses kungjorda mot EFS 1927:s av Mose kungjorda. Texten behålls som belagd tryckvariant; inget rättelse-ID. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "Heb",
@@ -8180,10 +8180,10 @@
     {
       "book": "James",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 27,
       "text_sha256": "1e066a12f3b70295f54194e2bb789ecaa9a98d4bf7ced6d88d1fa469d098c3c4",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -8195,7 +8195,7 @@
           "sha256": "709c7b92b081b51d56e3c317f52db484310278899326bbe6766b0cf2c1384cda"
         }
       ],
-      "notes": "Hela 1:1–27 bildläst; 1:10–11 över spaltgränsen och 1:19–20 över sidgränsen kontrollerade. Faller / falla i 1:11 sparas som V150; övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V150 i sv1917-nt-questions/batch-9.md; inga ändringar av frågornas ord."
+      "notes": "Hela 1:1–27 bildläst; 1:10–11 över spaltgränsen och 1:19–20 över sidgränsen kontrollerade. Faller i 1:11 bekräftas som behållen tryckvariant; övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. V150 avgjord mot EFS 1926. EFS 1926 bekräftar korpusens dess blomster faller av mot EFS 1927:s falla. Texten behålls som belagd tryckvariant; inget rättelse-ID. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "James",
@@ -8240,10 +8240,10 @@
     {
       "book": "James",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 17,
-      "text_sha256": "33ec3ab3a5b2a39c7527c8aa0501689642fecef8d97672b7439c7db7c2f43386",
-      "checked_at": "2026-10-26",
+      "text_sha256": "4d2dabd83277c8fbe2e410521b9e28f61fd3bf457289b1cb7fbcc10f777b78e2",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -8255,7 +8255,7 @@
           "sha256": "8469457bc12a9f5001f31b14f55eba1c099eb31330762f6cfeb8c3934cdcc86f"
         }
       ],
-      "notes": "Hela 4:1–17 bildläst; 4:7–8 över sidgränsen kontrollerade. Eder lemmar i 4:1 rättas till edra lemmar, och vi får leva i 4:15 till vi få leva. Fastmera / fastmer i samma 4:15 sparas som V151; endast den säkra verbformen rättas. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V151 i sv1917-nt-questions/batch-9.md; inga ändringar av frågornas ord. Införda rättelser: R276, R277."
+      "notes": "Hela 4:1–17 bildläst; 4:7–8 över sidgränsen kontrollerade. Eder lemmar i 4:1 rättas till edra lemmar, och vi får leva i 4:15 till vi få leva. Även fastmera i 4:15 rättas nu till fastmer, R331; den tidigare verbformsrättelsen bevaras. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R276, R277. V151 avgjord mot EFS 1926. EFS 1926 och 1927 har båda I borden fastmer säga. Fastmera rättas till fastmer genom R331. Den tidigare rättelsen R277, vi får leva till vi få leva, bevaras i samma vers. Övrig kommatering harmoniseras inte. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "James",
@@ -8464,10 +8464,10 @@
     {
       "book": "1John",
       "chapter": 2,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 29,
-      "text_sha256": "d6d27675b9f32d3b2bd3e4d6139984f3043f1c0dd6ec214422f0f2f9bf371a81",
-      "checked_at": "2026-10-26",
+      "text_sha256": "9a6c92048776a8fd87a20dbda61c941aa73078b9a46ab7e0f8d68db2dedddcc8",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -8483,7 +8483,7 @@
           "sha256": "b01b286bc29878f8136cb41f386ced15c3711f91ac89a63ece05841214d7e066"
         }
       ],
-      "notes": "Hela 2:1–29 bildläst; gränsen 2:1–2 över sidgränsen, 2:12–13 över spaltgränsen och 2:21 över sidgränsen kontrollerade. Originalförstoring bekräftar all / alla kunskap i 2:20; sparas som V152 utan ordändring. Versalen Han i 2:6 och alla övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V152 i sv1917-nt-questions/batch-10.md; inga ändringar av frågornas ord."
+      "notes": "Hela 2:1–29 bildläst; gränsen 2:1–2 över sidgränsen, 2:12–13 över spaltgränsen och 2:21 över sidgränsen kontrollerade. Versalen Han i 2:6 och alla övriga ord och gränser stämmer. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. V152 avgjord mot EFS 1926. EFS 1926 och 1927 har båda I haven alla kunskap. Korpusens all rättas till alla genom R332. Läsningen alla avser mottagarna; båda synliga tryckvittnena stöder samma ord, utan påstående om oberoende redaktionell tradition. Ingen öppen fråga i kapitlet. Bevarad fullbild och exakt vershash under resolved_readings."
     },
     {
       "book": "1John",
@@ -9589,6 +9589,142 @@
       "photo_sha256": "887700f3c46c8ca14130d99dc783062baf38e81cf6e8404d4f86702e8fce77bc",
       "source": "Användarens exemplar av en senare tryckning, tryckt s. 364; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 4:12 och 4:13 med båda versnumren. I haven icke gjort mig något för när står sist i v. 12, precis som i korpusen; v. 13 börjar I veten ju att det var på grund av kroppslig svaghet. EFS 1927 lägger den föregående satsen i v. 13. Text och koordinater behålls som belagd tryckvariant; inget rättelse-ID. Verspostens hash låser 4:12; kapitelhashen låser också 4:13 och hela gränsen. Båda verserna är visuellt jämförda."
+    },
+    {
+      "id": "V145",
+      "correction_id": "R329",
+      "decision": "corrected",
+      "book": "Col",
+      "chapter": 1,
+      "verse": 23,
+      "status": "resolved",
+      "reading": "och som har blivit predikat",
+      "text_sha256": "169f729b17da19c947d5f61367dd320bc2b0dc99dcc26ab9221516c4b72570a6",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V145.jpg",
+      "photo_sha256": "e8fdabb82ecad31736505bc761fbf282c2a1038edeca8a105368ea764f5a209f",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 296. https://archive.org/download/bibelnellerdenhe0000unse/page/n1505.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 e8fdabb82ecad31736505bc761fbf282c2a1038edeca8a105368ea764f5a209f. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 och 1927 har båda och som har blivit predikat. Det saknade hjälpverbet har återställs genom R329. Hela 1:23 är jämförd över spaltgränsen på samma tryckta 1926-sida 296."
+    },
+    {
+      "id": "V146",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "1Thess",
+      "chapter": 5,
+      "verse": 18,
+      "status": "resolved",
+      "reading": "Tacken Gud i alla livets förhållanden.",
+      "text_sha256": "d9d59e3e297d25ba684392365735303bab6e0f2e2cef596f97ad128284053131",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V146.jpg",
+      "photo_sha256": "cf73089db55b62783c1876ba7eb220ae013cbadb203a3abee1a0f76ad7929f11",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 304. https://archive.org/download/bibelnellerdenhe0000unse/page/n1513.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 cf73089db55b62783c1876ba7eb220ae013cbadb203a3abee1a0f76ad7929f11. Titel och kolofon bevarade i samma mapp.",
+      "notes": "Båda versnumren 17 och 18 samt hela deras text jämförda på tryckt s. 304. EFS 1926 har endast Bedjen oavlåtligen i v. 17 och börjar v. 18 med Tacken Gud i alla livets förhållanden, precis som korpusen. EFS 1927 har den senare satsen i v. 17. Ord och koordinater behålls som belagd tryckvariant. Vershashen avser 5:18; kapitelhashen låser även 5:17 och hela gränsen."
+    },
+    {
+      "id": "V147",
+      "correction_id": "R330",
+      "decision": "corrected",
+      "book": "2Thess",
+      "chapter": 1,
+      "verse": 10,
+      "status": "resolved",
+      "reading": "kommit till tro",
+      "text_sha256": "5617824c00bd9e39c1e146d7bd4e900ac8598a45847fe821b4c117c0f471feb7",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V147.jpg",
+      "photo_sha256": "b7a35ac5255992b4cf811343b31b99138032961d9ed70d62472d8e1e146c3b62",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 305. https://archive.org/download/bibelnellerdenhe0000unse/page/n1514.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 b7a35ac5255992b4cf811343b31b99138032961d9ed70d62472d8e1e146c3b62. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 och 1927 har båda kommit till tro. Det främmande att tas bort genom R330; inga andra ord ändras."
+    },
+    {
+      "id": "V148",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "2Tim",
+      "chapter": 4,
+      "verse": 10,
+      "status": "resolved",
+      "reading": "och har begivit sig",
+      "text_sha256": "72d2fd65f25d8a3318d51b9e82c70f6a22f0454089973ed0fe66431838a8fa77",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V148.jpg",
+      "photo_sha256": "7b6c65a544eb7a27ad506d59f37b44f23aab8794084f5e449e7969116358e25c",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 317. https://archive.org/download/bibelnellerdenhe0000unse/page/n1526.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 7b6c65a544eb7a27ad506d59f37b44f23aab8794084f5e449e7969116358e25c. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 bekräftar korpusens och har begivit sig mot EFS 1927:s och begivit sig. Texten behålls som belagd tryckvariant; inget rättelse-ID."
+    },
+    {
+      "id": "V149",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Heb",
+      "chapter": 9,
+      "verse": 19,
+      "status": "resolved",
+      "reading": "av Moses kungjorda",
+      "text_sha256": "769c346e3fdb4ae6224b7798c513ed36b2756fef20616040f3903ee05afb16e6",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V149.jpg",
+      "photo_sha256": "0bbbd1622e9625048a4c7b060df7bf69cda4254f8371c0d3a691c1211f30695c",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 332. https://archive.org/download/bibelnellerdenhe0000unse/page/n1541.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 0bbbd1622e9625048a4c7b060df7bf69cda4254f8371c0d3a691c1211f30695c. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 visar Mo-ses över radbrytningen, alltså Moses, och bekräftar korpusens av Moses kungjorda mot EFS 1927:s av Mose kungjorda. Texten behålls som belagd tryckvariant; inget rättelse-ID."
+    },
+    {
+      "id": "V150",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "James",
+      "chapter": 1,
+      "verse": 11,
+      "status": "resolved",
+      "reading": "dess blomster faller av",
+      "text_sha256": "70781bc469dc5a9a360148977856d09a0f45d617e5aebcd75fd1dab624e8116c",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V150.jpg",
+      "photo_sha256": "f2c8a392355983878c9d4a8b310b6159ea8c8969172a05c1910ec4f0e1a9f842",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 359. https://archive.org/download/bibelnellerdenhe0000unse/page/n1568.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 f2c8a392355983878c9d4a8b310b6159ea8c8969172a05c1910ec4f0e1a9f842. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 bekräftar korpusens dess blomster faller av mot EFS 1927:s falla. Texten behålls som belagd tryckvariant; inget rättelse-ID."
+    },
+    {
+      "id": "V151",
+      "correction_id": "R331",
+      "decision": "corrected",
+      "book": "James",
+      "chapter": 4,
+      "verse": 15,
+      "status": "resolved",
+      "reading": "I borden fastmer säga",
+      "text_sha256": "b407ab33b07869c7057aaf130ae2e604cb02b6a6ba9e2bf419de457f41cd28b3",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V151.jpg",
+      "photo_sha256": "d712e96af619d892934862d0dc495a467b8d2f0ce778b14543a74a8458bb0ce5",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 363. https://archive.org/download/bibelnellerdenhe0000unse/page/n1572.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 d712e96af619d892934862d0dc495a467b8d2f0ce778b14543a74a8458bb0ce5. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 och 1927 har båda I borden fastmer säga. Fastmera rättas till fastmer genom R331. Den tidigare rättelsen R277, vi får leva till vi få leva, bevaras i samma vers. Övrig kommatering harmoniseras inte."
+    },
+    {
+      "id": "V152",
+      "correction_id": "R332",
+      "decision": "corrected",
+      "book": "1John",
+      "chapter": 2,
+      "verse": 20,
+      "status": "resolved",
+      "reading": "I haven alla kunskap",
+      "text_sha256": "80f4019edc3866711ba50483375486aa51e4b6196024da72173747cd2040ea0e",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med ytterligare inskannat tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/V152.jpg",
+      "photo_sha256": "4bfa8e310bddb4095293937d4538753aa23d2faa5a60dc34ff4dd1d348f9d437",
+      "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 351. https://archive.org/download/bibelnellerdenhe0000unse/page/n1560.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 4bfa8e310bddb4095293937d4538753aa23d2faa5a60dc34ff4dd1d348f9d437. Titel och kolofon bevarade i samma mapp.",
+      "notes": "EFS 1926 och 1927 har båda I haven alla kunskap. Korpusens all rättas till alla genom R332. Läsningen alla avser mottagarna; båda synliga tryckvittnena stöder samma ord, utan påstående om oberoende redaktionell tradition."
     }
   ]
 }

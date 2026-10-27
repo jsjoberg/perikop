@@ -3,7 +3,7 @@ och	39653	word	"Ok
 i	15966	word	
 till	15694	word	"tIl
 som	14018	word	
-att	12743	word	"at
+att	12742	word	"at
 han	12025	word	"han
 de	11741	word	
 det	8676	word	
@@ -21,7 +21,7 @@ av	7271	word
 dem	6938	word	"dOm
 så	6854	word	"so:
 honom	6737	word	""hO$nOm
-har	6692	word	"hA:r
+har	6693	word	"hA:r
 du	6353	word	"d}:
 sig	5119	word	"sEj
 I	4780	word	"i:
@@ -37,7 +37,7 @@ var	3648	word	"vA:r
 då	3469	word	"do:
 sin	3465	word	"sIn
 Men	3400	word	"mEn
-alla	3208	word	
+alla	3209	word	
 Gud	3126	word	"g}:d
 ett	3068	word	"Et
 såsom	3056	word	"so:$sOm
@@ -261,8 +261,8 @@ nämligen	395	word	""nEm$lI$gen
 själva	393	word	""x\El$va
 Detta	390	word	
 eld	390	word	"Eld
-all	389	word	"al
 människor	389	word	""mE$nI$x\Ur
+all	388	word	"al
 städer	388	word	"stE:$der
 stod	384	word	"stu:d
 HERRE	383	word	""hE$re
@@ -1607,6 +1607,7 @@ band	44	word	"band
 barnet	44	word	"bA:$n`et
 begrov	44	word	be$"gru:v
 dalen	44	word	"dA:$len
+fastmer	44	word	fast$"me:r
 föremål	44	word	""f2:$re$%mo:l
 hemlighet	44	word	""hEm$lIg$%he:t
 härefter	44	word	"hE:r$ef$ter
@@ -1641,7 +1642,6 @@ bröst	43	word	"br9st
 burit	43	word	""b}:$rIt
 båge	43	word	""bo:$ge
 egendom	43	word	""e:$gen$%dUm
-fastmer	43	word	fast$"me:r
 fattade	43	word	""fa$ta$de
 fotstycken	43	word	
 förrätta	43	word	f9r$"rE$ta
@@ -21383,7 +21383,6 @@ fastgjorde	1	word
 fastgjort	1	word	
 fasthålla	1	word	""fast$%hO$la
 fastklibbad	1	word	""fast$%klI$bad
-fastmera	1	word	fast$"me:$ra
 fastnagla	1	word	""fast$%nA:$gla
 fastnar	1	word	""fast$nar
 fastsatta	1	word	""fast$%sa$ta

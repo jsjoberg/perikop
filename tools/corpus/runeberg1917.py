@@ -330,7 +330,7 @@ REPLACE={
  # James full scan pass: R275-R277; NT photo batch 9.
  ('James', 2, 5):('Har icke Gud utvald just', 'Har icke Gud utvalt just'),
  ('James', 4, 1):('krig i eder lemmar', 'krig i edra lemmar'),
- ('James', 4, 15):('vi får leva', 'vi få leva'),
+ ('James', 4, 15):('I borden fastmera säga: »Om Herren vill, och vi får leva', 'I borden fastmer säga: »Om Herren vill, och vi få leva'),
 
  # Peter and John letters full scan pass: R278-R288; NT photo batch 10.
  ('1Peter', 2, 20):('välbehaglig för Gud.', 'välbehagligt för Gud.'),
@@ -392,6 +392,11 @@ REPLACE={
 
  # First Corinthians 7:23 confirmed by the user's photograph: R328 (V139).
  ('1Cor', 7, 23):('betalningen är given', 'betalning är given'),
+
+ # Further letter readings confirmed by EFS 1926: R329-R332 (James 4:15 above).
+ ('Col', 1, 23):('och som blivit predikat', 'och som har blivit predikat'),
+ ('2Thess', 1, 10):('kommit till att tro', 'kommit till tro'),
+ ('1John', 2, 20):('I haven all kunskap', 'I haven alla kunskap'),
 
 }
 

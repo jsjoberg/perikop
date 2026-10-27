@@ -17,25 +17,25 @@ Samma granskningskrav som i [huvudliggaren](sv1917-verification.md) gäller: hel
 | Galaterbrevet | 6/6 | 6/6 | 149/149 | 149/149 |
 | Efesierbrevet | 6/6 | 6/6 | 155/155 | 155/155 |
 | Filipperbrevet | 4/4 | 4/4 | 104/104 | 104/104 |
-| Kolosserbrevet | 4/4 | 3/4 | 95/95 | 66/95 |
-| Första Tessalonikerbrevet | 5/5 | 4/5 | 89/89 | 61/89 |
-| Andra Tessalonikerbrevet | 3/3 | 2/3 | 47/47 | 35/47 |
+| Kolosserbrevet | 4/4 | 4/4 | 95/95 | 95/95 |
+| Första Tessalonikerbrevet | 5/5 | 5/5 | 89/89 | 89/89 |
+| Andra Tessalonikerbrevet | 3/3 | 3/3 | 47/47 | 47/47 |
 | Första Timoteusbrevet | 6/6 | 6/6 | 113/113 | 113/113 |
-| Andra Timoteusbrevet | 4/4 | 3/4 | 83/83 | 61/83 |
+| Andra Timoteusbrevet | 4/4 | 4/4 | 83/83 | 83/83 |
 | Titus | 3/3 | 3/3 | 46/46 | 46/46 |
 | Filemon | 1/1 | 1/1 | 25/25 | 25/25 |
-| Hebreerbrevet | 13/13 | 12/13 | 303/303 | 275/303 |
-| Jakobs brev | 5/5 | 3/5 | 108/108 | 64/108 |
+| Hebreerbrevet | 13/13 | 13/13 | 303/303 | 303/303 |
+| Jakobs brev | 5/5 | 5/5 | 108/108 | 108/108 |
 | Första Petrusbrevet | 5/5 | 5/5 | 105/105 | 105/105 |
 | Andra Petrusbrevet | 3/3 | 3/3 | 61/61 | 61/61 |
-| Första Johannesbrevet | 5/5 | 4/5 | 105/105 | 76/105 |
+| Första Johannesbrevet | 5/5 | 5/5 | 105/105 | 105/105 |
 | Andra Johannesbrevet | 1/1 | 1/1 | 13/13 | 13/13 |
 | Tredje Johannesbrevet | 1/1 | 1/1 | 15/15 | 15/15 |
 | Judas brev | 1/1 | 1/1 | 25/25 | 25/25 |
 | Uppenbarelseboken | 22/22 | 6/22 | 405/405 | 109/405 |
-| **Övriga NT totalt** | **171/171** | **147/171** | **4 173/4 173 (100 %)** | **3 685/4 173 (88,3 %)** |
+| **Övriga NT totalt** | **171/171** | **155/171** | **4 173/4 173 (100 %)** | **3 877/4 173 (92,9 %)** |
 
-**Hela Apostlagärningarna är verifierad:** 28 kapitel, 1 002 versposter och 24 236 ord. Den fulla bildläsningen mot EFS 1927 kompletteras nu av tio riktade jämförelser mot [ett annat inskannat tryck, EFS 1926](sv1917-efs1926-witnesses/README.md). V123–V132 är avgjorda: sex rättelser R321–R326 och fyra behållna läsningar/versgränser. Inga användarfoton behövs för Apostlagärningarna. Hela NT-etappen omfattar 99 189 bildlästa ord (100 %) och 86 944 verifierade (87,7 %). Detta anger texttäckning, inte tidsåtgång eller förväntad felkvot.
+**Hela Apostlagärningarna är verifierad:** 28 kapitel, 1 002 versposter och 24 236 ord. Den fulla bildläsningen mot EFS 1927 kompletteras nu av tio riktade jämförelser mot [ett annat inskannat tryck, EFS 1926](sv1917-efs1926-witnesses/README.md). V123–V132 är avgjorda: sex rättelser R321–R326 och fyra behållna läsningar/versgränser. Inga användarfoton behövs för Apostlagärningarna. Hela NT-etappen omfattar 99 189 bildlästa ord (100 %) och 91 149 verifierade (91,9 %). Detta anger texttäckning, inte tidsåtgång eller förväntad felkvot.
 
 **R198–R216:** nitton rättade versposter. Bland annat ort → ord i 2:41, vad → var i 2:47, nå → då i 3:21, borttaget främmande i i 4:7, är → än i 4:19, uträcker → utsträcker i 4:30, du → de i 4:32, visst → visste i 5:24, den → dem i 5:25 och 9:41, han → hans i 7:4, och → om i 7:13, är äter → år åter i 7:30, och → ock i 7:38, gjord → gjort i 9:39, två citatavslut, semikolon i 10:32 och meningsinledande versal i 12:8. [Erratatabellen](sv1917-errata.md) länkar varje rättelse till trycksidan.
 
@@ -55,45 +55,45 @@ Samma granskningskrav som i [huvudliggaren](sv1917-verification.md) gäller: hel
 
 **Hela Filipperbrevet är verifierat:** alla 4 kapitel, 104 poster och 2 421 ord på NT s. 317–322, utan nya rättelser eller frågor. Slutönskans med eder ande i 4:23 stämmer; den får inte behandlas som ordskillnad. Gudsskepnad / Guds-skepnad i 2:6 antecknas som bindestrecksvariation.
 
-**Hela Kolosserbrevet är bildläst:** 4 kapitel, 95 poster och 2 129 ord på NT s. 323–328. **R264–R265:** skulla → skulle i 2:17 och kolon före uppräkningen i 3:8. Kapitel 2–4 är verifierade: 66 poster och 1 428 ord. Kapitel 1 väntar på V145, tryckets har i 1:23. Originalförstoring bekräftar oomskurenhet i 2:13 och och om i 4:10 utan foto.
+**Hela Kolosserbrevet är verifierat:** Alla 4 kapitel, 95 poster och 2 130 ord på NT s. 323–328 är verifierade. R264–R265 samt R329 återställer skulla → skulle, kolon före uppräkningen och hjälpverbet har i 1:23. V145 är avgjord mot EFS 1926:s tryckta s. 296, där hela versen fortsätter mellan spalterna. Oomskurenhet i 2:13 och och om i 4:10 är fortsatt bekräftade.
 
-**Hela Första Tessalonikerbrevet är bildläst:** 5 kapitel, 89 poster och 1 954 ord på NT s. 328–333. **R266–R269:** två tilltalspronomen i → I i 1:4 och 2:2, saknat i före mörker i 5:4 samt profetisk → profetiskt i 5:20. Kapitel 1–4 är verifierade: 61 poster och 1 533 ord. Kapitel 5 väntar på V146, versgränsen 5:17–18; orden Tacken Gud i alla livets förhållanden finns redan och flyttas inte utan ett annat tryck.
+**Hela Första Tessalonikerbrevet är verifierat:** Alla 5 kapitel, 89 poster och 1 954 ord på NT s. 328–333 är verifierade. R266–R269 är bevarade. V146 är avgjord mot EFS 1926 s. 304: v. 17 innehåller Bedjen oavlåtligen och v. 18 börjar Tacken Gud i alla livets förhållanden, som i korpusen. Båda versnumren och hela texten kontrollerade; ord och koordinater behålls.
 
-**Hela Andra Tessalonikerbrevet är bildläst:** 3 kapitel, 47 poster och 1 063 ord på NT s. 333–335. **R270:** om vad sätt → på vad sätt i 2:3. Kapitel 2–3 är verifierade: 35 poster och 766 ord. Kapitel 1 väntar på V147, kommit till att tro / kommit till tro i 1:10. Alla tre frågorna är sparade i fotobunt 7.
+**Hela Andra Tessalonikerbrevet är verifierat:** Alla 3 kapitel, 47 poster och 1 062 ord på NT s. 333–335 är verifierade. R270 bevaras; R330 tar bort det främmande att i kommit till att tro i 1:10 efter överensstämmande bilder från EFS 1926 och 1927. V147 avgjord.
 
 **Hela Första Timoteusbrevet är verifierat:** 6 kapitel, 113 poster och 2 473 ord på NT s. 336–342. **R271–R272:** dem → den i 3:5 samt kolon → semikolon i 4:4. Den ovanliga genitiven den läras i 4:6 stämmer och behålls. Bekännelsens alla rader i 3:16 och slutönskan i 6:21 kontrollerade.
 
-**Hela Andra Timoteusbrevet är bildläst:** 4 kapitel, 83 poster och 1 771 ord på NT s. 342–346, utan nya säkra rättelser. Kapitel 1–3 är verifierade: 61 poster och 1 333 ord. Kapitel 4 väntar på V148, korpusens och har begivit / tryckets och begivit i 4:10. Moses i 3:8 samt alla ord i 3:16 stämmer; kommaskillnaderna i 3:16 harmoniseras inte.
+**Hela Andra Timoteusbrevet är verifierat:** Alla 4 kapitel, 83 poster och 1 771 ord på NT s. 342–346 är verifierade, utan nya rättelser. EFS 1926 s. 317 bekräftar korpusens och har begivit i 4:10 mot EFS 1927:s och begivit; V148 avgjord som behållen tryckvariant. Moses i 3:8, ordalydelsen 3:16 och båda slutönskningarna i 4:22 är kontrollerade.
 
 **Hela Titus är verifierat:** 3 kapitel, 46 poster och 1 035 ord på NT s. 347–349, utan nya rättelser eller frågor. Originalförstoring bekräftar semikolonet i 2:15. Versgränsen 2:3–4, med fostra dem till tuktighet i 2:3, och slutönskan i 3:15 stämmer.
 
 **Hela Filemon är verifierat:** 1 kapitel, 25 poster och 520 ord på NT s. 349–350. **R273:** dubblerade var och till i 1:11 tas bort enligt trycket. Citatparen i 1:19–20 och slutönskan med eder ande i 1:25 stämmer. Övriga ord och versgränser är kontrollerade.
 
-**Hela Hebreerbrevet är bildläst:** 13 kapitel, 303 poster och 7 081 ord på NT s. 351–367. **R274:** alla aga → all aga i 12:11. Tolv kapitel, alla utom 9, är verifierade: 275 poster och 6 387 ord. Kapitel 9 väntar på V149, Moses / Mose i 9:19. De långa citaten och deras versgränser är kontrollerade; förstoringen bekräftar värdig i 11:38. Citattypografin i 10:7 och ordmellanrummet ickenyttigt / icke nyttigt i 13:17 harmoniseras inte.
+**Hela Hebreerbrevet är verifierat:** Alla 13 kapitel, 303 poster och 7 081 ord på NT s. 351–367 är verifierade. R274 bevaras. EFS 1926 s. 332 visar Mo-ses över radbrytningen och bekräftar korpusens Moses i 9:19; V149 avgjord som behållen tryckvariant. Långa citat och versgränser är kontrollerade; tidigare dokumenterad citattypografi och ickenyttigt / icke nyttigt harmoniseras inte.
 
-**Hela Jakobs brev är bildläst:** 5 kapitel, 108 poster och 2 365 ord på NT s. 386–391. **R275–R277:** utvald → utvalt i 2:5, eder lemmar → edra lemmar i 4:1 och vi får leva → vi få leva i 4:15. Kapitel 2, 3 och 5 är verifierade: 64 poster och 1 433 ord. Kapitel 1 och 4 väntar på V150–V151, faller / falla i 1:11 och fastmera / fastmer i 4:15. Den äldre formen tamd i 3:7 och den ovanliga versgränsen 5:13–14 är bekräftade i bilderna; inga frågor för dessa.
+**Hela Jakobs brev är verifierat:** Alla 5 kapitel, 108 poster och 2 365 ord på NT s. 386–391 är verifierade. R275–R277 bevaras; R331 rättar fastmera till fastmer i 4:15, samtidigt som den tidigare rättelsen vi får leva → vi få leva finns kvar. EFS 1926 bekräftar korpusens faller i 1:11, V150 behållen, och EFS 1927:s fastmer i 4:15, V151 rättad. Äldre tamd i 3:7 och gränsen 5:13–14 är bekräftade.
 
 **Hela Första Petrusbrevet är verifierat:** 5 kapitel, 105 poster och 2 504 ord på NT s. 368–374. **R278–R285:** välbehaglig → välbehagligt i 2:20, slutcitat i 2:22, tilltalspronomenet I och komma i 3:1, slutpunkt i 3:11, borttaget dubblerat gick han i 3:19, och → ock i 3:21, slutpunkt i 4:6 och semikolon i 4:11. Originalförstoringen bekräftar samtliga. Så som / såsom i 4:6 behandlas som ordmellanrum; den äldre formen väldige i 3:22 stämmer och behålls. Slutönskan inom 5:14 stämmer.
 
 **Hela Andra Petrusbrevet är verifierat:** 3 kapitel, 61 poster och 1 625 ord på NT s. 374–378. **R286:** slutpunkt efter synder i 1:9. Korpusens fadern mot tryckets Fadern i 1:17 behålls som uttrycklig versalskillnad. Alla ord, citat- och versgränser samt slutönskan 3:18 är jämförda.
 
-**Hela Första Johannesbrevet är bildläst:** 5 kapitel, 105 poster och 2 507 ord på NT s. 378–383. **R287–R288:** tilltalspronomenet I i 3:5 och slutpunkt i 3:11. Kapitel 1, 3–5 är verifierade: 76 poster och 1 785 ord. Kapitel 2 med 29 poster väntar på V152, all / alla kunskap i 2:20; båda formuleringarna är språkligt möjliga och lämnas till ytterligare tryckstöd. Den korta 5:7 och dess fortsättning i 5:8 stämmer med trycket; ingen extra text läggs till.
+**Hela Första Johannesbrevet är verifierat:** Alla 5 kapitel, 105 poster och 2 507 ord på NT s. 378–383 är verifierade. R287–R288 bevaras. EFS 1926 s. 351 och EFS 1927 visar båda I haven alla kunskap i 2:20; R332 rättar all till alla och avgör V152. Den korta 5:7 och fortsättningen i 5:8 stämmer; ingen extra text läggs till.
 
 **Hela Andra Johannesbrevet, Tredje Johannesbrevet och Judas brev är verifierade:** 3 kapitel, 53 poster och 1 369 ord på NT s. 384–385 och 391–393, utan nya rättelser eller frågor. Mina älskade i 3 Joh. 1:11 och avsaknaden av slutinterpunktion efter barmhärtiga i Jud. 1:22 stämmer. Samtliga spalt-/sidfortsättningar, citat och slutönskningar är jämförda. På delade NT s. 393 räknas bara Judas brev som granskad.
 
 **Hela Uppenbarelseboken är bildläst:** 22 kapitel, 405 poster och 11 096 ord på NT s. 393–417. **R289–R320:** 32 rättade versposter, inklusive dubbleringar, böjnings-/pronomenfel, vaken → varken i 14:11, trampade → trampades i 14:20 och saknade citatavslut/skiljetecken. Alla rättelser är kontrollerade i originalupplösning. Kapitel 3, 10–13 och 19 är verifierade: 109 poster och 3 056 ord. Sexton kapitel med 296 poster väntar på 25 frågor V153–V177 i [fotobunt 11](sv1917-nt-questions/batch-11.md). Originalförstoringen löser Huru i 6:10 och den som hade basunen i 9:14 utan foto. Versgränserna 18:22–24 och skadad trycksvärta i talade i 21:15 behöver ett annat exemplar. Inga ord eller koordinater ändras för dessa frågor. Normal kommatering, versaltypografi i 12:6, 16:5, 19:13 och 20:4 samt ordmellanrum i 22:3/12 är uttryckligen behållna i liggaren.
 
-**Hela NT:s första bildgenomgång är färdig:** evangeliernas 89 kapitel och 3 767 poster samt denna etapps 171 kapitel och 4 173 poster, totalt 260 kapitel och 7 940 poster. Efter kompletteringen är 180 kapitel och 4 935 poster verifierade. Evangeliernas 113 frågor och denna etapps 33 följs separat. Totalt 131 rättade versposter R198–R328 i denna NT-etapp. Ingen ytterligare läsning av redan jämförda kapitel räknas som ny täckning.
+**Hela NT:s första bildgenomgång är färdig:** evangeliernas 89 kapitel och 3 767 poster samt denna etapps 171 kapitel och 4 173 poster, totalt 260 kapitel och 7 940 poster. Nu är 188 kapitel och 5 127 poster verifierade. Evangeliernas 113 frågor följs separat. Denna etapp har 135 rättelser R198–R332 i 134 unika versposter och endast 25 öppna frågor, samtliga i Uppenbarelseboken. Ingen extra lästäckning räknas för riktade andratrycksjämförelser.
 
 ## Sparade läsningsfrågor
 
-**33 öppna frågor V145–V177** i [NT-fotoöversikten](sv1917-nt-questions/README.md). Tjugofyra helt bildlästa kapitel med 488 poster står som `needs-review`. Alla frågor har fulla aktuella verser, fulla sidlänkar, direkt originalutsnitt och TIFF-/utsnittshashar. V146 gäller två versers gräns; V171 behöver hela Upp. 18:22–24 med samtliga nummer. V123–V144 är avgjorda och bevaras som historik. Användaren har boken till hands och vill ta en fråga i taget.
+**25 öppna frågor V153–V177 i 16 kapitel och 296 poster, alla i Uppenbarelseboken**, finns i [bunt 11](sv1917-nt-questions/batch-11.md). De övriga 22 böckerna är verifierade. Frågorna har fulla verser, originalutsnitt, sidlänkar och exakta hashvärden. V171 gäller hela Upp. 18:22–24 med alla tre numren. V123–V152 är avgjorda och bevaras som historik.
 
 ## Återuppta här
 
-**Nästa fråga till användaren är V145, hela Kol. 1:23**, med synligt nummer; frågan gäller blivit / har blivit. Fortsätt en fråga och en bild i taget; Codex tolkar och dokumenterar. EFS 1926 finns också som kompletterande jämförelsestöd. Inga olästa böcker återstår i denna NT-etapp; återstående GT är separat senare arbete.
+**Användaren är åter borta från boken. Ingen omedelbar fotoinsats behövs.** Nästa steg är V153–V177 mot EFS 1926, med start Upp. 1:4. Spara allt som fortfarande är osäkert till nästa boktillgång. Användarens senare tryck kan också upptäcka delade fel i tidigare tryck; EFS-tryckens överensstämmelse får inte beskrivas som bevis på felfrihet. Evangelierna och återstående GT är separat arbete.
 
-**Den separata NT-PR:n ska vara öppet utkast tills alla dess 171 kapitel är bildlästa, införda rättelser klarar kontrollerna och alla dess sparade läsningsfrågor är avgjorda.** PR #65 behåller sina egna evangeliefrågor och sin befintliga avgränsning. Grenen har evangeliegrenen som bas; efter #65:s sammanslagning ska denna PR riktas mot main och vid behov ombaseras.
+**PR #68 ska vara öppet utkast tills alla dess sparade frågor är avgjorda, liggaren är aktuell och kontroller godkända.** Den fulla läsningen är färdig men Uppenbarelseboken är inte färdigverifierad. Grenen har evangeliegrenen som bas; efter #65:s sammanslagning ska denna PR riktas mot main och vid behov ombaseras. PR #64:s avslutade mål för utökade kanon och 0.2.1 påverkas inte.
 
 ## Arbetslogg
 
@@ -144,3 +144,5 @@ Samma granskningskrav som i [huvudliggaren](sv1917-verification.md) gäller: hel
 - **2026-10-27, fotokomplettering V143:** Användarens originalfoto av hela 2 Kor. 6:16 visuellt tolkat och bevarat byteidentiskt med SHA-256. Fotot visar ibland dem; jag skall vara utan och, samma som korpusen, mot EFS 1927:s och jag skall vara. Belagd tryckvariant behålls; inget rättelse-ID eller korpusändring. Det redan helt bildlästa 2 Kor. 6 färdigmarkerat: 18 poster och 379 ord. Hela Andra Korinthierbrevet nu verifierat, 13 kapitel, 256 poster och 6 872 ord; båda frågorna avgjorda. Övriga NT nu 146/171 kapitel och 3 654/4 173 poster (87,6 %) verifierade; 86 265/99 189 ord (87,0 %), fjorton hela böcker. 34 öppna frågor V144–V177 i 25 kapitel. Nästa foto Gal. 4:12–13 med båda numren. Hela liggaren 9 314 verifierade poster. Liggarens tester och bild-/vershashvalidering godkända; oförändrade korpusresurser och övriga liggarposter kontrollerade.
 
 - **2026-10-27, fotokomplettering V144:** Användarens originalfoto av hela Gal. 4:12–13, tryckt s. 364, visuellt tolkat och bevarat byteidentiskt med SHA-256. Båda numren bekräftar att I haven icke gjort mig något för när ligger i v. 12, som i korpusen, mot v. 13 i EFS 1927. Ord och koordinater behålls; inget rättelse-ID eller korpusändring. Det redan helt bildlästa Gal. 4 färdigmarkerat: 31 poster och 679 ord. Hela Galaterbrevet nu verifierat, 6 kapitel, 149 poster och 3 361 ord. Övriga NT nu 147/171 kapitel och 3 685/4 173 poster (88,3 %) verifierade; 86 944/99 189 ord (87,7 %), femton hela böcker. 33 öppna frågor V145–V177 i 24 kapitel. Nästa foto hela Kol. 1:23. Hela liggaren 9 345 verifierade poster. Liggarens tester och bild-/vershashvalidering godkända; oförändrade korpusresurser och övriga liggarposter kontrollerade.
+
+- **2026-10-27, NT13, fortsatt utan användarens bok:** Åtta kvarvarande brevfrågor V145–V152 avgjorda genom visuell jämförelse med EFS 1926. Åtta fulla original-JPEG-sidor bevarade byteidentiskt med hash och källadress; ingen genererad bild eller OCR används som läsningsbevis. Fyra rättelser R329–R332 införda: saknat har i Kol. 1:23, borttaget att i 2 Tess. 1:10, fastmera → fastmer i Jak. 4:15 och all → alla i 1 Joh. 2:20. Fyra befintliga läsningar/gränser bekräftade: 1 Tess. 5:17–18, och har begivit i 2 Tim. 4:10, Moses i Hebr. 9:19 och faller i Jak. 1:11. R277:s vi få leva bevaras i samma Jakobsvers. Åtta redan bildlästa kapitel med 192 poster färdigmarkerade; inga nya lästa poster räknas. Alla 22 böcker utom Uppenbarelseboken är nu verifierade i denna etapp: 155/171 kapitel och 3 877/4 173 poster (92,9 %), 91 149/99 189 ord (91,9 %). Totalt 135 rättelser R198–R332 i 134 unika versposter. Endast 25 frågor V153–V177 i 16 Upp.-kapitel med 296 poster återstår. Hela liggaren 9 537 verifierade poster. Nästa steg Upp. 1:4 mot EFS 1926; spara fortfarande osäkra läsningar, inga omedelbara foton begärs. PR #68 fortsatt öppet utkast. Liggare, kandidataudit, kärntest med fyra nya regressioner, sex OSB-metadatatest, 122 resurshashar, fonttäckning och blankstegs-/TSV-kontroll godkända. Exakt blockjämförelse bekräftar endast fyra avsedda versändringar, oförändrade övriga texter/koordinater/mappningar och lexikonbetydelser. Den nu oanvända SALDO-formkopplingen fastmera → fastmer avlägsnas; inga betydelser ändras. Hela NT-etappens 135 rättelser berör 134 unika versposter eftersom Jak. 4:15 har två separata rättelser. Åtta kapitel och åtta avgjorda frågor tillförda; övrig liggare bevarad. Alla 39 kompletterande bildhashar och 173 tidigare frågeutsnitt validerar; exakt 25 NT-frågor och 556 erratarader.
