@@ -207,6 +207,98 @@ V080–V122 är avgjorda: 34 rättelser R391–R424 och nio behållna läsningar
 | V121 | Joh. 20:1 | R423: på första veckodagen, medan → på första veckodagen om morgonen, medan | [NT s. 164](nt0164.jpg) | [n1373](https://archive.org/download/bibelnellerdenhe0000unse/page/n1373.jpg) |
 | V122 | Joh. 20:21 | R424: så sänder ock jag eder → så sänder jag ock eder | [NT s. 165](nt0165.jpg) | [n1374](https://archive.org/download/bibelnellerdenhe0000unse/page/n1374.jpg) |
 
+## GT-uppföljning, Första Moseboken 1–3
+
+Tre fulla original-JPEG-sidor tillkommer: GT s. 1, 2 och 4. De stöder R425 (ifrån i 1:7) och korpusens behållna semikolon i 1:24, utropstecken i 3:13 och slutcitat i 3:19. Se [GT-rapporten](../sv1917-ot.md) för hela beslut och exakta hashvärden. Inga öppna frågor eller extra lästäckning.
+
+## GT-uppföljning, Första Moseboken 4
+
+[GT s. 5](gt0005.jpg) visar tryckskillnaderna i 4:4, 4:7 och 4:9–11. Besluten finns i [GT-rapporten](../sv1917-ot.md); korpusen behålls.
+
+## GT-uppföljning, Första Moseboken 5–8
+
+Tre fulla originalbilder visar R426 i 5:13 och de behållna läsningarna i 5:29, 6:3, 6:5 och 8:17. Se [GT-rapporten](../sv1917-ot.md) för beslut och exakta hashvärden.
+
+## GT-uppföljning, Första Moseboken 9–13
+
+Fyra fulla originalbilder stöder rättelserna och de behållna tryckvarianterna. Se [GT-rapporten](../sv1917-ot.md) för beslut och exakta hashvärden.
+
+## GT-uppföljning, Första Moseboken 14–15
+
+Två fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 16–19
+
+Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 20–22
+
+Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 23–26
+
+Fulla originalbilder stöder behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 27–28
+
+Fulla originalbilder stöder rättelsen och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 29–31
+
+Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 32–33
+
+Fulla originalbilder stöder behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 34–36
+
+Fulla originalbilder stöder rättelsen och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 37–39
+
+Fulla originalbilder stöder de tre rättelserna och bevarade tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 40
+
+Full originalbild stöder R448. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 41
+
+Fulla originalbilder stöder R449 och tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 42
+
+Full originalbild stöder R450 och tryckvarianten. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 43
+
+Full originalbild stöder R451 och tryckvarianten. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 44
+
+Full originalbild stöder R452–R453 och tryckvarianterna. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 45
+
+Full originalbild stöder R454 och tryckvarianten. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 46
+
+Full originalbild stöder bibehållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 47
+
+Full originalbild stöder bibehållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 48
+
+Full originalbild stöder R455 och tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
+## GT-uppföljning, Första Moseboken 49–50
+
+Fulla originalbilder stöder rättelser och bevarade tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -326,3 +418,59 @@ V080–V122 är avgjorda: 34 rättelser R391–R424 och nio behållna läsningar
 - `nt0162.jpg`: full originalbild och bevarad fil SHA-256 `1a2d9f7b86571b78af66ccb9f232b77778e9cd28ad1aebe5fa2f52ba414bcb3b`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1371.jpg`.
 - `nt0164.jpg`: full originalbild och bevarad fil SHA-256 `7cebdd05f587265ced7cc472c0df3fd62e9294469901892ff6da2b9044f0deed`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1373.jpg`.
 - `nt0165.jpg`: full originalbild och bevarad fil SHA-256 `c6f43d1c23d84f948de722a9b961eb8b4f184a9579b8cc74870f885b7ca6dede`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1374.jpg`.
+- `gt0001.jpg`: full originalbild och bevarad fil SHA-256 `3d40ac17dd2ac7853a4b489f7d5626ded962bb6975b29887303c064594829ddc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n12.jpg`.
+- `gt0002.jpg`: full originalbild och bevarad fil SHA-256 `ba21237a8624072102a51233a98da54ff90633cb6db14e70b498f017f194b932`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n13.jpg`.
+- `gt0004.jpg`: full originalbild och bevarad fil SHA-256 `10879e9af195eb3a1c6640f1c740c16faf54c7d50e868d122cff7144dc1c404c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n15.jpg`.
+- `gt0005.jpg`: full originalbild, SHA-256 `bf49dd651dac68d7fb7b548b9b6846f7e0101595795dd0fdd0cda03e11b5772b`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n16.jpg`.
+- `gt0006.jpg`: full originalbild och bevarad fil SHA-256 `756e4575b2655029663fe5263846d5bcd627d74acf9f2e5b22545b84c2d35c36`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n17.jpg`.
+- `gt0007.jpg`: full originalbild och bevarad fil SHA-256 `10776a1982cacc7cad2fd802ec53fa86ce795343d69cfa776a7e7c3c9ef51450`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n18.jpg`.
+- `gt0009.jpg`: full originalbild och bevarad fil SHA-256 `160df59ba2aba8c8a1c8aeff537e1d2fd12a75a7133db8e6172c97b7918c8dab`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n20.jpg`.
+- `gt0010.jpg`: full originalbild och bevarad fil SHA-256 `4511c5001a3506351a2c5ff17288efae7f2a756e2aee29adb2015df1d038e0a3`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n21.jpg`.
+- `gt0011.jpg`: full originalbild och bevarad fil SHA-256 `5b9c6b146a9dc9eee2f936020bdd1c3e534d5d30139f00376a83fb8e86e3867f`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n22.jpg`.
+- `gt0013.jpg`: full originalbild och bevarad fil SHA-256 `3dcf5ce781853c8d39a1e6ad7dd4232afeef0cace8ea110837712db5e99fd05a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n24.jpg`.
+- `gt0014.jpg`: full originalbild och bevarad fil SHA-256 `f5622427521b7b333ec1f13396bdf3967861f27cac8f63144f13f55f0164bbbd`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n25.jpg`.
+- `gt0015.jpg`: full originalbild och bevarad fil SHA-256 `c20602ef130ef391f8296a56be70c8ccf24012f1f9ba736cd61da5e3a1eed417`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n26.jpg`.
+- `gt0016.jpg`: full originalbild och bevarad fil SHA-256 `395366581c17497a464fb348d8f18684ad9b796beaa5fa2b9b914898e54bf9f3`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n27.jpg`.
+- `gt0017.jpg`: full originalbild och bevarad fil SHA-256 `afae2bd3255697d1a0a59cf51da3aabb4a4fa32201585ceeee52c355eda5f8f2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n28.jpg`.
+- `gt0019.jpg`: full originalbild och bevarad fil SHA-256 `9efcb58e7fe7a4be8f31a5ccf9449c4439bda6a91db34d24abf279f40efa40e9`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n30.jpg`.
+- `gt0020.jpg`: full originalbild och bevarad fil SHA-256 `90053a64d2188c28c758e348359f70ebdd16a0d1f791bb2dbad33f783df0856e`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n31.jpg`.
+- `gt0021.jpg`: full originalbild och bevarad fil SHA-256 `278ce40bcdff3a4000e1baa6a5badebfc45cc29a7e672952fa665051b5a1d81a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n32.jpg`.
+- `gt0022.jpg`: full originalbild och bevarad fil SHA-256 `069accaf7f15599b59199642b803cb386321682631389f522d4c0b3af010c991`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n33.jpg`.
+- `gt0023.jpg`: full originalbild och bevarad fil SHA-256 `8603d2bb662beee1659d61c4986d7c04efe4420bb8cd093ad9e3bdeae551a723`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n34.jpg`.
+- `gt0024.jpg`: full originalbild och bevarad fil SHA-256 `b7c50e398e2faf7cf1756758c2f3e4c34297605f0de6a2e7a2a7c799c6f2bbb5`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n35.jpg`.
+- `gt0025.jpg`: full originalbild och bevarad fil SHA-256 `3e617dbaff8b1c172b8534f595d2bfe96b42dd038391d36c4a4eb79e4efe82a2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n36.jpg`.
+- `gt0026.jpg`: full originalbild och bevarad fil SHA-256 `39a9968d3219ec30c83b94a82a24ec3a9f2dbee894d0b9095d39be34b15993f4`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n37.jpg`.
+- `gt0027.jpg`: full originalbild och bevarad fil SHA-256 `031b4cd8d38eb058c16ee3e09e0824c97da642df2cfa6ee0850d8ac4d64bcd71`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n38.jpg`.
+- `gt0028.jpg`: full originalbild och bevarad fil SHA-256 `fa3dfcf89a0033aec0a5c8396412812e4851cc12398b4e10815990ed93c3e7d7`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n39.jpg`.
+- `gt0031.jpg`: full originalbild och bevarad fil SHA-256 `d86c6561b1f93785027f3c56e46a239ca710a94ee64e00bf239cb11333412e17`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n42.jpg`.
+- `gt0032.jpg`: full originalbild och bevarad fil SHA-256 `2307c9d53b27cc12e9edf548f6f99367704417629f047b5055f00dbadbde86fa`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n43.jpg`.
+- `gt0033.jpg`: full originalbild och bevarad fil SHA-256 `8d4ecbaad79e5e25b813f752eabf9d324c94d5b101d89060c2eb05ce4fff8a86`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n44.jpg`.
+- `gt0034.jpg`: full originalbild och bevarad fil SHA-256 `d796ab09fd458b1d6ba739cf09457f5681985eb48e0ea5494eefa08939000b66`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n45.jpg`.
+- `gt0035.jpg`: full originalbild och bevarad fil SHA-256 `28aa4083f1d441bf1a8b468524fb402bda1e9acf3293aa2b0d6c1ade12322315`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n46.jpg`.
+- `gt0036.jpg`: full originalbild och bevarad fil SHA-256 `c1d6d61d8e3866ab6dc1ba0e025b5c3abae1eb6943af2dc604c646fefe5fec49`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n47.jpg`.
+- `gt0037.jpg`: full originalbild och bevarad fil SHA-256 `24b58c866e1e15f3c71b8f0703f3099a8324be1ef8a4bb7eb18972d7ad79999d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n48.jpg`.
+- `gt0038.jpg`: full originalbild och bevarad fil SHA-256 `62666ed9b4edff989bc4797704ca69a612d7c228ada23e8a5145f0dcdeb55b2f`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n49.jpg`.
+- `gt0039.jpg`: full originalbild och bevarad fil SHA-256 `7b04ff410a5988b7c5f15390223fe0009bde1e27d29659c627b00bf4aa52cbbc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n50.jpg`.
+- `gt0040.jpg`: full originalbild och bevarad fil SHA-256 `168a9b96c7f9f45658aceb6183a74cddde2f2b0b71c4a9bc5df5f8bfb91f9b31`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n51.jpg`.
+- `gt0041.jpg`: full originalbild och bevarad fil SHA-256 `c9ad6391ebefa125f7082896fba39e41df17d1dc9195e3c2fd2c7f1572c4349d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n52.jpg`.
+- `gt0042.jpg`: full originalbild och bevarad fil SHA-256 `9124d0622f9aeedcea9e8e350e47c2fc2d4903e23d23de9fb5c87d29e1805375`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n53.jpg`.
+- `gt0043.jpg`: full originalbild och bevarad fil SHA-256 `132c12520473e8adad834878c880fbe5d3d77c44f95debe8f2bd66ee0e8d27d1`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n54.jpg`.
+- `gt0044.jpg`: full originalbild och bevarad fil SHA-256 `dbe794c8c30d5063663967a4925dde8b241a2db6700f50638bd6c152e56c9b92`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n55.jpg`.
+- `gt0045.jpg`: full originalbild och bevarad fil SHA-256 `69bb9ba65d47ff1a0c7f9911772d9a3e2a6699d9305b0f297bc93ff86e9602a3`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n56.jpg`.
+- `gt0047.jpg`: full originalbild och bevarad fil SHA-256 `0e22cad0f0702f232528b1c6f475a0676ad149eaabfba74e0784dc1b582de4f2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n58.jpg`.
+- `gt0048.jpg`: full originalbild och bevarad fil SHA-256 `f9b1e297833024179f15554eaadc8a6086998587f38f7d3ef211c2171eb95eb2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n59.jpg`.
+- `gt0049.jpg`: full originalbild och bevarad fil SHA-256 `35296cafc2fe7ce288bea3fac095c87b5f81a6fac72d5c2cce6d5c7bd3ae39c4`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n60.jpg`.
+- `gt0050.jpg`: full originalbild och bevarad fil SHA-256 `cb9656ee59ae32fbe8d1e21ee33ce5128c4341b49edc00ef3163ec6cf789f5f6`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n61.jpg`.
+- `gt0051.jpg`: full originalbild och bevarad fil SHA-256 `317f3b3c215fcdae881753f6dadbe9ac2404bf0c8d07c40151185f2fbe7eaa36`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n62.jpg`.
+- `gt0053.jpg`: full originalbild och bevarad fil SHA-256 `5d356a3cddb4e43eca86000d78a4c3fbd70cb0c05a07315d9a662dae7a18a817`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n64.jpg`.
+- `gt0054.jpg`: full originalbild SHA-256 `92d7a83da0c52a01feeece6dc0da250fba8b1bb0283e6b037b06082adb3c64ba`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n65.jpg`.
+- `gt0056.jpg`: full originalbild och bevarad fil SHA-256 `f94f9b42619b82614cbbf9c1765765acd2e2c001fd7ee66a006f4178ceb0c2cc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n67.jpg`.
+- `gt0057.jpg`: full originalbild och bevarad fil SHA-256 `dcfe84a425a5c93428a29b604b2d4f9d4ff706b4ff8545559c05270a0137ba42`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n68.jpg`.
+- `gt0059.jpg`: full originalbild och bevarad fil SHA-256 `2c2e99412d39a2263bb80a418b3356fe5a1ca2be2d09d5b7dd2b055c2f0e38f7`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n70.jpg`.
+- `gt0060.jpg`: full originalbild och bevarad fil SHA-256 `c6809e5545c3a5f38daa215c1e932d4f321aaba9e36e1c6eaff254fbd8d95cb2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n71.jpg`.
+- `gt0061.jpg`: full originalbild och bevarad fil SHA-256 `212c58be9ff04e41f98c81f148093920d1d5ebf111bf0cf8da4274ec786e9c30`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n72.jpg`.
+- `gt0063.jpg`: full originalbild och bevarad fil SHA-256 `5e8970c8de2dbba1c18b2393e7c3cd942b1757006981a7e21b2b133675d29987`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n74.jpg`.
+- `gt0064.jpg`: full originalbild SHA-256 `b5abac20c134b62a3c1d36d1f71d3934aadff6793df5ebb7dfc00610d191776c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n75.jpg`.
+- `gt0065.jpg`: full originalbild SHA-256 `71d9cc6cac83fb229c349caaa0f7614dce2382fed918d82af4a2ea095f99e77f`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n76.jpg`.
+- `gt0066.jpg`: full originalbild SHA-256 `9b029b2009664f14ea08ead4c0455a7f1bbb5b2664af83ce4c6bd1360d65eea1`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n77.jpg`.
+- `gt0067.jpg`: full originalbild SHA-256 `6eae17d6cad8afdf6df1226af55fd9c8ad3aa81be1dc9d84165186eac1004c0d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n78.jpg`.

@@ -743,6 +743,50 @@ int main(int argc, char** argv) {
                   "both EFS prints number Luke's final question 17:37; 36 is a note only");
             check(corpus.verse("sv1917", "Luke", {10, 2})->text.starts_with("Och han sade till dem: »Skörden"),
                   "Luke 10:2 retains its introduction across the printed page break");
+            check(corpus.verse("sv1917", "Gen", {35, 12})->text.ends_with("giva det landet.»"),
+                  "SV1917 Genesis 35 closes the quotation in verse 12");
+            check(corpus.verse("sv1917", "Gen", {37, 20})->text.starts_with("Upp, låt oss nu dräpa") &&
+                      corpus.verse("sv1917", "Gen", {37, 26})->text.ends_with("dölja hans blod?") &&
+                      corpus.verse("sv1917", "Gen", {37, 32})->text.find("Denna hava vi funnit") != std::string::npos,
+                  "SV1917 Genesis 37 preserves both words and the quotation spanning verses 26–27");
+            check(corpus.verse("sv1917", "Gen", {40, 1})->text.ends_with("sin herre, konungen i Egypten."),
+                  "SV1917 Genesis 40 preserves the preposition in the printed text");
+            check(corpus.verse("sv1917", "Gen", {41, 51})->text.ends_with("hela min faders hus»."),
+                  "SV1917 Genesis 41 places the sentence period after the quotation");
+            check(corpus.verse("sv1917", "Gen", {42, 34})->text.ends_with("omkring i landet.'»"),
+                  "SV1917 Genesis 42 closes both nested quotations before verse 35");
+            check(corpus.verse("sv1917", "Gen", {43, 5})->text.ends_with("eder broder är med eder.'»"),
+                  "SV1917 Genesis 43 closes Judah's speech after the nested quotation");
+            check(corpus.verse("sv1917", "Gen", {44, 16})->text.starts_with("Juda svarade: »Vad skola vi") &&
+                      corpus.verse("sv1917", "Gen", {44, 26})->text.ends_with("broder icke är med oss.'"),
+                  "SV1917 Genesis 44 preserves the opening and nested closing quotation marks");
+            check(corpus.verse("sv1917", "Gen", {45, 11})->text.ends_with("skall lida nöd.'"),
+                  "SV1917 Genesis 45 closes Joseph's quoted message before he continues speaking");
+            check(corpus.verse("sv1917", "Gen", {48, 5})->text.find("de skola nu vara mina; Efraim") != std::string::npos,
+                  "SV1917 Genesis 48 preserves the printed semicolon between the clauses");
+            check(corpus.verse("sv1917", "Gen", {49, 1})->text.find("och sade: »Församlen") != std::string::npos &&
+                      corpus.verse("sv1917", "Gen", {49, 25})->text.find("hjälpa dig, genom den Allsmäktige") != std::string::npos,
+                  "SV1917 Genesis 49 preserves the opening quotation and punctuation in the blessing");
+            check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
+                      corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
+                  "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");
+            check(corpus.verse("sv1917", "Gen", {17, 8})->text.ends_with("deras Gud.»") &&
+                      corpus.verse("sv1917", "Gen", {17, 9})->text.ends_with("släkte till släkte.") &&
+                      corpus.verse("sv1917", "Gen", {17, 14})->text.ends_with("mitt förbund.»"),
+                  "SV1917 Genesis 17 preserves both quotation boundaries");
+            check(corpus.verse("sv1917", "Gen", {18, 27})->text.ends_with("stoft och aska.") &&
+                      corpus.verse("sv1917", "Gen", {18, 28})->text.find("hela staden?»") != std::string::npos,
+                  "SV1917 Genesis 18 quotation continues through the next verse");
+            check(corpus.verse("sv1917", "Gen", {15, 13})->text.ends_with("fyra hundra år.") &&
+                      corpus.verse("sv1917", "Gen", {15, 16})->text.ends_with("missgärnings mått.»"),
+                  "SV1917 Genesis 15 quotation continues through verse 16");
+            check(corpus.verse("sv1917", "Gen", {13, 14})->text.ends_with("öster och väster.") &&
+                      corpus.verse("sv1917", "Gen", {13, 17})->text.ends_with("det.»"),
+                  "SV1917 Genesis 13 quotation continues through verse 17");
+            check(corpus.verse("sv1917", "Gen", {1, 24})->text.ends_with("så;") &&
+                      corpus.verse("sv1917", "Gen", {3, 13})->text.find("gjort!»") != std::string::npos &&
+                      corpus.verse("sv1917", "Gen", {3, 19})->text.ends_with("varda.»"),
+                  "EFS 1926 supports retaining the Genesis punctuation variants");
             for (const auto* edition : {"grc-patriarchal", "en-web"}) {
                 check(corpus.counterparts("sv1917", edition, "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}} &&
                           corpus.counterparts(edition, "sv1917", "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}},
@@ -1490,6 +1534,18 @@ int main(int argc, char** argv) {
                  {"John", {18, 37}, "Så sade Pilatus", "Då sade Pilatus"},
                  {"John", {20, 1}, "på första veckodagen, medan", "på första veckodagen om morgonen, medan"},
                  {"John", {20, 21}, "så sänder ock jag eder", "så sänder jag ock eder"},
+                 {"Gen", {1, 7}, "fästet från vattnet ovan fästet", "fästet ifrån vattnet ovan fästet"},
+                 {"Gen", {5, 13}, "sedan Kenan fött Mahalalel", "sedan Kenan hade fött Mahalalel"},
+                 {"Gen", {9, 5}, "den andres själ", "den andras själ"},
+                 {"Gen", {15, 12}, "och ett stort mörker", "och stort mörker"},
+                 {"Gen", {18, 26}, "så vill jag skona orten", "så vill jag skona hela orten"},
+                 {"Gen", {18, 28}, "finner fyrtiofem; så skall", "finner fyrtiofem, så skall"},
+                 {"Gen", {22, 9}, "lade veden därpå, sedan band han", "lade veden därpå; sedan band han"},
+                 {"Gen", {28, 17}, "en helig plats, här bor", "en helig plats; här bor"},
+                 {"Gen", {29, 13}, "fick höras talas om", "fick höra talas om"},
+                 {"Gen", {30, 33}, "vara mitt vittne; alla getter", "vara mitt vittne: alla getter"},
+                 {"Gen", {31, 8}, "då fick hela jorden strimmig avföda", "då fick hela hjorden strimmig avföda"},
+                 {"Gen", {13, 14}, "sedan Lot hade skilt sig från honom", "sedan Lot hade skilt sig ifrån honom"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

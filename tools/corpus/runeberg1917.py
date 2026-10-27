@@ -19,6 +19,55 @@ RENUMBER={('25',1,21,2):22,('42',17,36,1):37,('42',20,23,1):22}
 # E-text errors checked visually against the 1927 facsimile.
 # Page links, context and pending human review: docs/reports/sv1917-errata.md.
 REPLACE={
+ # Genesis 1-3 scan pass: R425; see sv1917-ot.md for retained print variants.
+ ('Gen',1,7):('fästet från vattnet ovan fästet','fästet ifrån vattnet ovan fästet'),
+ # Genesis 5-8 scan pass: restore an omitted word supported by both prints.
+ ('Gen',5,13):('sedan Kenan fött Mahalalel','sedan Kenan hade fött Mahalalel'),
+ # Genesis 9-13: both EFS prints support these readings.
+ ('Gen',9,5):('den andres själ','den andras själ'),
+ ('Gen',15,12):('och ett stort mörker','och stort mörker'),
+ ('Gen',15,13):('så skall ske i fyra hundra år.»','så skall ske i fyra hundra år.'),
+ # Genesis 16-19: restore print-supported quotation boundaries and words.
+ ('Gen',17,8):('och jag skall vara deras Gud.','och jag skall vara deras Gud.»'),
+ ('Gen',17,9):('från släkte till släkte.»','från släkte till släkte.'),
+ ('Gen',18,26):('så vill jag skona orten','så vill jag skona hela orten'),
+ ('Gen',18,27):('fastän jag är stoft och aska.»','fastän jag är stoft och aska.'),
+ ('Gen',18,28):('finner fyrtiofem; så skall','finner fyrtiofem, så skall'),
+ # Genesis 20-22: punctuation supported by the 1926 print.
+ ('Gen',20,7):('du själv och alla som tillhöra dig.','du själv och alla som tillhöra dig.»'),
+ ('Gen',22,9):('lade veden därpå, sedan band han','lade veden därpå; sedan band han'),
+ ('Gen',22,16):('icke undanhållit mig din ende son','icke undanhållit mig din ende son,'),
+ # Genesis 27-28: both prints separate the two clauses with a semicolon.
+ ('Gen',28,17):('en helig plats, här bor','en helig plats; här bor'),
+ # Genesis 29-31: both printings agree on these readings.
+ ('Gen',29,13):('fick höras talas om','fick höra talas om'),
+ ('Gen',30,33):('min rättfärdighet vara mitt vittne; alla getter','min rättfärdighet vara mitt vittne: alla getter'),
+ ('Gen',31,8):('då fick hela jorden strimmig avföda','då fick hela hjorden strimmig avföda'),
+ # Genesis 34-36: restore speech closure supported by both prints.
+ ('Gen',35,12):('åt din säd efter dig skall jag ock giva det landet.','åt din säd efter dig skall jag ock giva det landet.»'),
+ # Genesis 37: both printings agree on the words and quotation boundary.
+ ('Gen',37,20):('Upp, låt oss dräpa honom','Upp, låt oss nu dräpa honom'),
+ ('Gen',37,26):('dölja hans blod?»','dölja hans blod?'),
+ ('Gen',37,32):('Denna har vi funnit','Denna hava vi funnit'),
+ # Genesis 40: both printings read "konungen i Egypten".
+ ('Gen',40,1):('sin herre, konungen av Egypten','sin herre, konungen i Egypten'),
+ # Genesis 41: the explanatory quotation precedes the sentence period.
+ ('Gen',41,51):('hela min faders hus.»','hela min faders hus».'),
+ # Genesis 42: close the inner and outer quotations at the end of verse 34.
+ ('Gen',42,34):('fritt få draga omkring i landet.','fritt få draga omkring i landet.\'»'),
+ # Genesis 43: Judah's speech ends after the inner quotation.
+ ('Gen',43,5):('eder broder är med eder.\'','eder broder är med eder.\'»'),
+ # Genesis 44: restore the beginning of speech and an inner quotation ending.
+ ('Gen',44,16):('Juda svarade: Vad skola vi','Juda svarade: »Vad skola vi'),
+ ('Gen',44,26):('vår yngste broder icke är med oss.','vår yngste broder icke är med oss.\''),
+ # Genesis 45: close Joseph's message quoted within his speech.
+ ('Gen',45,11):('skall lida nöd.','skall lida nöd.\''),
+ # Genesis 48: both printings separate the clauses with a semicolon.
+ ('Gen',48,5):('de skola nu vara mina: Efraim','de skola nu vara mina; Efraim'),
+ # Genesis 49: the blessing opens with speech and continues across verses.
+ ('Gen',49,1):('och sade: Församlen eder','och sade: »Församlen eder'),
+ ('Gen',49,25):('han skall hjälpa dig. genom den Allsmäktige','han skall hjälpa dig, genom den Allsmäktige'),
+ ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
