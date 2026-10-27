@@ -9972,6 +9972,26 @@
         }
       ],
       "notes": "Hela 43:1–34 visuellt jämförd mot EFS 1927 GT s. 65–66. R451 återställer yttre citatslut i 43:5 enligt båda trycken. EFS 1926 s. 57 bekräftar semikolon i 43:18 mot 1927; korpusen behålls. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0057.jpg, SHA-256 dcfe84a425a5c93428a29b604b2d4f9d4ff706b4ff8545559c05270a0137ba42."
+    },
+    {
+      "book": "Gen",
+      "chapter": 44,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "63f18c2b0a65994136d207d853ba9528a7f2549f775722ece0b9577072cc4158",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0067.1.tif",
+          "sha256": "c6e4cf5d4e0585022eb723b4dc731aec121896b14a9f8abad75c5b01332d8567"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0068.1.tif",
+          "sha256": "000de773520566a871f91b996bf428fd3ac9db31fb6a126a0e8e6b37b59432ad"
+        }
+      ],
+      "notes": "Hela 44:1–34 visuellt jämförd mot EFS 1927 GT s. 67–68. R452–R453 återställer öppningscitatet i 44:16 och inre citatslutet i 44:26 enligt båda trycken. EFS 1926 s. 59 bekräftar utropstecken i 44:15 och har i 44:16 mot 1927; korpusen behålls. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0059.jpg, SHA-256 2c2e99412d39a2263bb80a418b3356fe5a1ca2be2d09d5b7dd2b055c2f0e38f7."
     }
   ],
   "unnumbered": [

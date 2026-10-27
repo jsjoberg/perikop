@@ -57,6 +57,9 @@ REPLACE={
  ('Gen',42,34):('fritt få draga omkring i landet.','fritt få draga omkring i landet.\'»'),
  # Genesis 43: Judah's speech ends after the inner quotation.
  ('Gen',43,5):('eder broder är med eder.\'','eder broder är med eder.\'»'),
+ # Genesis 44: restore the beginning of speech and an inner quotation ending.
+ ('Gen',44,16):('Juda svarade: Vad skola vi','Juda svarade: »Vad skola vi'),
+ ('Gen',44,26):('vår yngste broder icke är med oss.','vår yngste broder icke är med oss.\''),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),

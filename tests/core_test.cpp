@@ -757,6 +757,9 @@ int main(int argc, char** argv) {
                   "SV1917 Genesis 42 closes both nested quotations before verse 35");
             check(corpus.verse("sv1917", "Gen", {43, 5})->text.ends_with("eder broder är med eder.'»"),
                   "SV1917 Genesis 43 closes Judah's speech after the nested quotation");
+            check(corpus.verse("sv1917", "Gen", {44, 16})->text.starts_with("Juda svarade: »Vad skola vi") &&
+                      corpus.verse("sv1917", "Gen", {44, 26})->text.ends_with("broder icke är med oss.'"),
+                  "SV1917 Genesis 44 preserves the opening and nested closing quotation marks");
             check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
                       corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
                   "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");
