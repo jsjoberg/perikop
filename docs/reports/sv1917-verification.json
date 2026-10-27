@@ -9436,6 +9436,66 @@
         }
       ],
       "notes": "Hela 19:1–38 visuellt jämförd mot EFS 1927 GT s. 25–27, inklusive 19:3 över spalter, 19:13 och 19:33 över sidgränser. Namn, ord, versindelning och citat kontrollerade. EFS 1926 GT s. 21 bekräftar korpusens lik i 19:28 mot likt i 1927; den befintliga läsningen behålls. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0021.jpg, SHA-256 278ce40bcdff3a4000e1baa6a5badebfc45cc29a7e672952fa665051b5a1d81a."
+    },
+    {
+      "book": "Gen",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "52201f17b2bc4e5ee11966618b51e7316d7e150635b798e3f1f6f4f6f8b82836",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0027.1.tif",
+          "sha256": "68fc02d17a4ff549352316dfe0f853627a35c7bc4ea8e512f77b600d5e44359d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0028.1.tif",
+          "sha256": "b65b3c5b2b9c2366d6ba04ea14bddd2452a02bf8fd95beb202115b73c51b3c5c"
+        }
+      ],
+      "notes": "Hela 20:1–18 visuellt jämförd mot EFS 1927 GT s. 27–28. R437 återställer citatslut i 20:7 enligt EFS 1926 s. 22; 1927 saknar tecknet. EFS 1926 bekräftar befintligt utropstecken i 20:9 och inre citattecken i 20:13 mot 1927; de behålls. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0022.jpg, SHA-256 069accaf7f15599b59199642b803cb386321682631389f522d4c0b3af010c991."
+    },
+    {
+      "book": "Gen",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "79a5164c6a680d79e3ac5a344aa918992ed38b6727a4d97c6bd92d47a9fd9001",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0028.1.tif",
+          "sha256": "b65b3c5b2b9c2366d6ba04ea14bddd2452a02bf8fd95beb202115b73c51b3c5c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0029.1.tif",
+          "sha256": "cfdbcf0691d7a3f0282613aab95929ca4fcd3cac52682e813b83f9bb52d60c61"
+        }
+      ],
+      "notes": "Hela 21:1–34 visuellt jämförd mot EFS 1927 GT s. 28–29, med 21:7 och 21:29 över spalter samt 21:17 över sidgränsen. EFS 1926 s. 23 bekräftar hade tagit slut, kastade hon barnet ifrån sig i 21:15 mot 1927:s tagit slut, lade hon barnet. EFS 1926 bekräftar även från i 21:21 mot ifrån i 1927. Befintlig ordalydelse behålls. 1927 har separat nummer för 21:34; 1926 sammanför den texten med 21:33 utan nummer. Korpusens versindelning behålls. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0023.jpg, SHA-256 8603d2bb662beee1659d61c4986d7c04efe4420bb8cd093ad9e3bdeae551a723, docs/reports/sv1917-efs1926-witnesses/gt0024.jpg, SHA-256 b7c50e398e2faf7cf1756758c2f3e4c34297605f0de6a2e7a2a7c799c6f2bbb5."
+    },
+    {
+      "book": "Gen",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "b7853c8fdd970de14161ae4fe9410ad7bc36800b3168531e57553769e343813a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0029.1.tif",
+          "sha256": "cfdbcf0691d7a3f0282613aab95929ca4fcd3cac52682e813b83f9bb52d60c61"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0030.1.tif",
+          "sha256": "965aeba290ef78c88a200d226c05f158ae3122031431085beeb2cd1d83ee958d"
+        }
+      ],
+      "notes": "Hela 22:1–24 visuellt jämförd mot EFS 1927 GT s. 29–30. R438 ändrar komma till semikolon i 22:9; R439 återställer komma mellan 22:16 och fortsättningen i 22:17; båda trycken visar detta. EFS 1926 s. 24 bekräftar utropstecken i 22:1, 22:7 och 22:11 mot punkter i 1927. Båda trycken visar två sina tjänare i 22:3; lydelsen behålls. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0024.jpg, SHA-256 b7c50e398e2faf7cf1756758c2f3e4c34297605f0de6a2e7a2a7c799c6f2bbb5, docs/reports/sv1917-efs1926-witnesses/gt0025.jpg, SHA-256 3e617dbaff8b1c172b8534f595d2bfe96b42dd038391d36c4a4eb79e4efe82a2."
     }
   ],
   "unnumbered": [
