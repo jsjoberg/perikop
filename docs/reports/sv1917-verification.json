@@ -3444,6 +3444,30 @@
         }
       ],
       "notes": "Hela 3:1–22 jämförd mot EFS 1927 GT s. 79–81 och EFS 1926 GT s. 71–72 (Internet Archive bibelnellerdenhe0000unse, n82–n83). E013–E026 införda endast där båda trycken är överens mot e-texten: komma i 3:2, 3:3, 3:4, 3:5, 3:7, 3:8, 3:9, 3:16–17 och 3:19, semikolon för komma i 3:18, kolon för semikolon i 3:13, slutpunkt före slutcitat i 3:10, saknat slutcitat i 3:14 och det utelämnade ordet i i 3:16 (eder i Egypten). Behållna läsningar där bara ett tryck avviker: komma i 3:2 (eldslåga, som), 3:12 (jag, som), 3:16 (det, som) och 3:22 (1927 har komma), samt apostroferna kring Jag är i 3:14 och komma efter namn?' i 3:13 (1926 har dem, 1927 saknar). OLÖST: slutet på 3:18 har e-texten Gud.' med avslutande apostrof; 1927 visar Gud. utan apostrof och 1926 verkar ha komma, så läsningen är inte avgjord och kapitlet står som needs-review tills den bedömts. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "323b8d99d5dd8cb50afa60a2d9dd6ba87171ce6666cb35f30ef2b5e1b405ab61",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0081.1.tif",
+          "sha256": "f5f8ca9ad81c1b6d94d90a7adc5bd31d3ff66ff656cc7217a7df84e1e66f67f9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0082.1.tif",
+          "sha256": "1761d963a404863a70afaa26abe7375b4f9a184c24bd79bac68a056947b17f15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0083.1.tif",
+          "sha256": "c7c169e738b6019e666a9fa2b718b57981af19e970259c2f0d838ca283a39b92"
+        }
+      ],
+      "notes": "Hela 4:1–31 jämförd mot EFS 1927 GT s. 81–83 och EFS 1926 GT s. 72–74 (Internet Archive bibelnellerdenhe0000unse, n83–n85). E027–E037 införda endast där båda trycken är överens mot e-texten: komma i 4:5, 4:12, 4:14, 4:15, 4:18, 4:21, 4:24, 4:28 och 4:31, kolon för punkt i 4:7, saknat slutcitat i 4:5 och den tillagda bokstaven I i 4:10 (Ack I Herre; båda trycken saknar den). Behållna läsningar där bara ett tryck avviker: komma i 4:1, 4:2, 4:13 och 4:28–30 (allt, vad) där 1927 har komma, samt Jeter i 4:18 (e-texten och 1926; 1927 har Jetro). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
