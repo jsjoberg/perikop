@@ -22,6 +22,17 @@ wxString ScriptureView::source_label(const std::string& source, std::size_t head
     const auto found = std::ranges::find(source_catalog_, source, &Source::code);
     return ui::utf8(found == source_catalog_.end() ? source : found->name);
 }
+int ScriptureView::source_selector_top() const {
+    if (source_selector_top_)
+        return source_selector_top_;
+    wxClientDC dc(const_cast<ScriptureView*>(this));
+    dc.SetFont(body_font(28));
+    // The chapter number starts at 54 DIP; native font heights can exceed the old fixed gap.
+    source_selector_top_ =
+        std::max(FromDIP(zoomed(92)), FromDIP(zoomed(12)) + FromDIP(zoomed(42)) +
+                                          dc.GetTextExtent("0123456789").y + FromDIP(zoomed(6)));
+    return source_selector_top_;
+}
 wxRect ScriptureView::source_selector_rect(std::size_t heading, std::size_t pane) const {
     const bool stacked = stacked_columns();
     const int available = stacked ? GetClientSize().x - 2 * outside_margin() : column_stride();
@@ -35,8 +46,8 @@ wxRect ScriptureView::source_selector_rect(std::size_t heading, std::size_t pane
                                                        : outside_margin() + int(pane) * column_stride() +
                                                              column_width() / 2 + FromDIP(zoomed(15));
     return {center - width / 2,
-            int(std::lround(positions_[heading] - offset_)) +
-                FromDIP(zoomed(92 + (stacked ? 30 * int(pane) : 0))),
+            int(std::lround(positions_[heading] - offset_)) + source_selector_top() +
+                FromDIP(zoomed(stacked ? 30 * int(pane) : 0)),
             width, FromDIP(zoomed(26))};
 }
 void ScriptureView::position_source_selectors() {

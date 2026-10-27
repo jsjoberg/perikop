@@ -1,3 +1,4 @@
+#include "core/reading_plan.hpp"
 #include "speech/reading_speech.hpp"
 #include "ui/main_frame.hpp"
 #include "ui/scripture_view.hpp"
@@ -118,6 +119,22 @@ bool MainFrame::render_benchmark() {
     std::cout << "Settled pause: repaint_requests=" << idle_repaints
               << ", animation_timer=" << scripture_->animating() << '\n';
     ok = ok && idle_repaints == 0 && !scripture_->animating();
+    const auto plans_begin = Clock::now();
+    show_plans();
+    std::cout << "Open reading plans: ms="
+              << std::chrono::duration<double, std::milli>(Clock::now() - plans_begin).count() << '\n';
+    const auto& plan = reading_plans().front();
+    const auto reading = plan_reading(corpus_, plan.parts.front(), "sv");
+    std::vector<double> plan_returns;
+    for (int i = 0; i < 10; ++i) {
+        open_tracked(reading, {plan_key(plan, 0), plan.title});
+        const auto begin = Clock::now();
+        back();
+        plan_returns.push_back(std::chrono::duration<double, std::milli>(Clock::now() - begin).count());
+    }
+    std::sort(plan_returns.begin(), plan_returns.end());
+    std::cout << "Back to reading plans: median_ms=" << plan_returns[plan_returns.size() / 2]
+              << ", max_ms=" << plan_returns.back() << '\n';
     std::cout << (ok ? "Reader benchmark passed.\n" : "Reader benchmark failed.\n");
     return ok;
 }

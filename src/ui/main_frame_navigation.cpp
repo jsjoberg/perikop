@@ -118,10 +118,10 @@ void MainFrame::restore_navigation() {
         part_ = saved.part;
         scripture_->open_section(part_);
     }
-    present_navigation();
-    update_study();
     if (navigation_.current().screen == Screen::Plans)
         fill_plans(static_cast<wxScrolledWindow*>(current_page()));
+    present_navigation();
+    update_study();
     if (navigation_.current().screen == Screen::Settings)
         fill_settings(static_cast<wxScrolledWindow*>(current_page()));
     if (changed_reading || scripture_->scroll_position() != saved.scroll) {

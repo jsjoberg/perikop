@@ -97,6 +97,8 @@ void CorpusDb::load_imported(const std::filesystem::path& path) {
     if (!count.row() || count.number(0) != 31171 || count.number(1) != 66)
         throw std::runtime_error("Det lokala bibelinnehållet är ofullständigt. Importera PDF-filerna igen.");
     std::lock_guard lock(cache_mutex_);
+    legacy_srb_initials_ =
+        valid.text(0) == "06e9957d4b860bfdfc9e70b24df6f23c2332f19314e45c9d0cd88ae5035fc625";
     imported_ = std::move(candidate);
     versification_[srb_source] = "SRB2026";
     clear_imported_cache();
@@ -204,6 +206,10 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
                 entry->second.coordinates.push_back({query.number(0), query.number(1)});
                 entry->second.last_verses.push_back(query.number(1));
                 entry->second.texts.push_back(query.text(2));
+                // The 0.2.0 recipe omitted two Times New Roman drop capitals; keep old imports usable.
+                if (legacy_srb_initials_ && query.number(1) == 1 &&
+                    ((book == "Col" && query.number(0) == 2) || (book == "Jude" && query.number(0) == 1)))
+                    entry->second.texts.back().insert(0, "J");
             }
         }
         return entry->second;

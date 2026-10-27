@@ -159,8 +159,62 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                         if (!shortcuts.emplace(key->GetFlags(), key->GetKeyCode()).second)
                             fail(__LINE__);
             candidate->Show();
+            candidate->show_plans();
+            const auto window_size = candidate->GetClientSize();
+            for (const std::size_t part : {0, 1}) {
+                const auto& plan = reading_plans().front();
+                candidate->open_plan_part(plan, part);
+                wxTheApp->ProcessPendingEvents();
+                candidate->SetClientSize(FromDIP(wxSize(620, 650)));
+                candidate->Layout();
+                wxTheApp->Yield(true);
+                candidate->back();
+                if (profile.position(plan_key(plan, part)) ||
+                    profile.position(reading_key(corpus_, plan_reading(corpus_, plan.parts[part], "sv"))))
+                    fail(__LINE__);
+                candidate->SetClientSize(window_size);
+            }
+            candidate->back();
             candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
             candidate->Layout();
+            // Back before listening must not turn the initial viewport into progress.
+            // Programmatic positioning/reflow is not evidence that the user read anything.
+            candidate->scripture_->show_verse({1, 6});
+            candidate->back();
+            if (profile.position(key) || profile.position("plan:resume:0"))
+                fail(__LINE__);
+            candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            wxKeyEvent scroll_down(wxEVT_CHAR_HOOK);
+            scroll_down.m_keyCode = WXK_PAGEDOWN;
+            candidate->scripture_->GetEventHandler()->ProcessEvent(scroll_down);
+            candidate->back();
+            if (!profile.position(key) || profile.position(key)->percent == 0 ||
+                profile.position("plan:resume:0") != profile.position(key))
+                fail(__LINE__);
+            const auto manual_position = profile.position(key);
+            candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            candidate->scripture_->show_verse({1, 1});
+            candidate->back();
+            if (profile.position(key) != manual_position ||
+                profile.position("plan:resume:0") != manual_position)
+                fail(__LINE__);
+            candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            candidate->stop_speech();
+            candidate->play_or_pause();
+            if (engine->spoken.size() != 10 || engine->spoken.front().cue->verse != VerseRef{1, 1})
+                fail(__LINE__);
+            // No audio has played yet, even if following/reflow has moved the viewport.
+            engine->held = {SpeechState::Buffering, {}, 0, 0};
+            candidate->display_playback(engine->held);
+            candidate->scripture_->show_verse({1, 4});
+            candidate->back();
+            if (profile.position(key) || profile.position("plan:resume:0"))
+                fail(__LINE__);
+            candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            engine->spoken.clear();
+            candidate->play_or_pause();
+            if (engine->spoken.size() != 10 || engine->spoken.front().cue->verse != VerseRef{1, 1})
+                fail(__LINE__);
             candidate->playback_.start({reading});
             candidate->speech_tracked_ = candidate->tracked_;
             engine->held = {SpeechState::Playing, SpeechCue{0, 0, "John", "sv1917", {1, 4}, {1, 4}}, 0.6,
@@ -449,6 +503,75 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         if (!screenshot_path.empty())
             ok = image.SaveFile(screenshot_path.BeforeLast('.') + suffix + ".png", wxBITMAP_TYPE_PNG) && ok;
     };
+    // Native font heights vary: edition selectors must leave the whole chapter number visible.
+    {
+        const int previous_zoom = text_zoom;
+        ScriptureView probe(root_, corpus_);
+        probe.Hide();
+        for (const int zoom : {75, 100, 125, 150, 200})
+            for (const int width : {420, 1100}) {
+                text_zoom = zoom;
+                auto settings = settings_;
+                settings.text_zoom = zoom;
+                settings.split_view = true;
+                settings.word_study = false;
+                settings.theme = Theme::Light;
+                probe.SetSize(FromDIP(wxSize(width, 650)));
+                probe.apply(settings);
+                probe.open({ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}});
+                probe.restore_scroll(0);
+                wxBitmap bitmap(probe.GetClientSize());
+                int number_bottom = 0;
+                {
+                    wxMemoryDC dc(bitmap);
+                    dc.SetFont(body_font(28));
+                    number_bottom = FromDIP(zoomed(12)) + FromDIP(zoomed(42)) + dc.GetTextExtent("1").y;
+                    probe.render_to(dc, probe.GetClientSize());
+                }
+                const auto image = bitmap.ConvertToImage();
+                const auto surface = palette(settings.theme).surface;
+                int selector_top = image.GetHeight();
+                for (int y = 0; y < selector_top; ++y)
+                    for (int x = 0; x < image.GetWidth(); ++x)
+                        if (image.GetRed(x, y) == surface.Red() && image.GetGreen(x, y) == surface.Green() &&
+                            image.GetBlue(x, y) == surface.Blue()) {
+                            selector_top = y;
+                            break;
+                        }
+                if (selector_top == image.GetHeight() || selector_top < number_bottom + FromDIP(zoomed(6)))
+                    fail(__LINE__);
+                save(image, wxString::Format("-chapter-heading-%d-%d", zoom, width));
+            }
+        text_zoom = previous_zoom;
+        auto settings = settings_;
+        settings.split_view = true;
+        settings.word_study = false;
+        probe.SetSize(FromDIP(wxSize(420, 650)));
+        probe.apply(settings);
+        const Reading reading{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}};
+        probe.open(reading);
+        const auto snapshot = [&] {
+            probe.restore_scroll(0);
+            wxBitmap bitmap(probe.GetClientSize());
+            {
+                wxMemoryDC dc(bitmap);
+                probe.render_to(dc, probe.GetClientSize());
+            }
+            return bitmap.ConvertToImage();
+        };
+        snapshot();
+        // Changing pane mode must match a fresh layout, even when the viewport width stays fixed.
+        for (const bool study : {true, false}) {
+            settings.word_study = study;
+            probe.apply(settings);
+            const auto changed = snapshot();
+            probe.open(reading);
+            const auto fresh = snapshot();
+            const auto bytes = std::size_t(changed.GetWidth()) * changed.GetHeight() * 3;
+            if (!std::equal(changed.GetData(), changed.GetData() + bytes, fresh.GetData()))
+                fail(__LINE__);
+        }
+    }
     // Native drawing must use the same shaped widths as paragraph fitting.
     wxClientDC metrics(scripture_);
     metrics.SetFont(body_font(19));
@@ -1222,10 +1345,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         readings_->IsShown())
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
-    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {7, 1}, 23});
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
-    if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %"))
-        fail(__LINE__);
     // Wide windows show ten parts per row; narrow windows wrap without clipping labels.
     const auto plans_size = GetSize();
     const auto plan_columns = [&] {
@@ -1253,6 +1373,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     root_->Layout();
     if (plan_columns() < 1 || plan_columns() >= 10)
+        fail(__LINE__);
+    check_plan_fit();
+    // Progress labels must widen the existing grid immediately, without a resize to refresh it.
+    const auto plain_columns = plan_columns();
+    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {7, 1}, 23});
+    fill_plans(static_cast<wxScrolledWindow*>(current_page()));
+    if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %") || plan_columns() >= plain_columns)
         fail(__LINE__);
     check_plan_fit();
     const auto plans_zoom = settings_.text_zoom;
@@ -1302,6 +1429,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
     }
 #endif
+    auto* retained_plans = static_cast<wxScrolledWindow*>(current_page());
+    wxWeakRef<TextButton> retained_tile(plan_tiles().front());
+    retained_plans->Scroll(0, 10);
+    const auto retained_scroll = retained_plans->GetViewStart();
     if (const auto tiles = plan_tiles(); !tiles.empty()) {
         wxCommandEvent open_part(wxEVT_BUTTON, tiles.back()->GetId());
         tiles.back()->GetEventHandler()->ProcessEvent(open_part);
@@ -1309,9 +1440,19 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     }
     if (current_page() || !scripture_->IsShown() || !tracked_)
         fail(__LINE__);
+    const auto progress_key = plan_key(reading_plans().front(), 1);
+    const auto shared_progress_key =
+        reading_key(corpus_, plan_reading(corpus_, reading_plans().front().parts[2], "sv"));
+    user_.position(progress_key, {0, "Matt", "sv1917", {7, 1}, 41});
+    user_.position(shared_progress_key, {0, "Matt", "sv1917", {11, 1}, 57});
     back();
-    if (navigation_.current().screen != Screen::Plans)
+    if (navigation_.current().screen != Screen::Plans || current_page() != retained_plans || !retained_tile ||
+        plan_tiles().front() != retained_tile.get() || retained_plans->GetViewStart() != retained_scroll ||
+        plan_tiles()[1]->GetLabel() != ui::utf8("2 · 41 %") ||
+        plan_tiles()[2]->GetLabel() != ui::utf8("3 · 57 %"))
         fail(__LINE__);
+    user_.reset_position(progress_key);
+    user_.reset_position(shared_progress_key);
     back();
     if (!readings_->IsShown())
         fail(__LINE__);

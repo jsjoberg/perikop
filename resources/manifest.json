@@ -776,7 +776,7 @@
     },
     {
       "path": "resources/content/srb2026.recipe",
-      "sha256": "164c8fdc9b674c150caae3aa7bb04a771d15e7ca9f6c6d03852204d2814c93ca",
+      "sha256": "f4deea9127141e140d4e32804a1d6fc3d64d7eaf6a507a9b3704345a71c40285",
       "license": "MIT",
       "generated": "tools/content/build_srb_recipe.py"
     },
@@ -839,6 +839,14 @@
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
       "sha256": "76ec7bdcd897bf8aaa26f8e532df2dc4b2a9381e327e89376bb653dae19e2256"
+    },
+    {
+      "path": "resources/speech/nst-srb2026.tsv",
+      "sha256": "4e7f047384e91e1df059e64f67a5425695f42668862e1d4381af31db42118492",
+      "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
+      "license": "CC0-1.0",
+      "generated": "tools/content/build_srb_pronunciations.py",
+      "role": "Unambiguous NST pronunciations for additional SRB26 vocabulary; existing speech data and corrections retain priority"
     }
   ],
   "build_dependencies": [

@@ -435,7 +435,7 @@ void MainFrame::show_reading(const Reading& selected, bool preserve_sources) {
                          ui::utf8(passage_label(corpus_, {segments[i]})));
     part_ = 0;
     update_bar();
-    position_reset_ = false;
+    saved_scroll_revision_ = scripture_->manual_scroll_revision();
     scripture_->SetFocus();
 }
 void MainFrame::update_speakable() {
