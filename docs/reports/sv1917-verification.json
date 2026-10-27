@@ -3420,6 +3420,30 @@
         }
       ],
       "notes": "Hela 2:1–25 visuellt jämförd mot EFS 1927 GT s. 78–79 och EFS 1926 GT s. 70–71 (n81–n82), inklusive fortsättning över sid- och spaltgräns i 2:8 och 2:16–17. E004–E012 införda endast där båda trycken är överens mot e-texten: komma i 2:2, 2:4, 2:6, 2:7, 2:11 och 2:12, utan komma i 2:9, semikolon för komma i 2:10, semikolon i slutet av 2:11 samt punkt före slutcitatet i 2:20. Behållna läsningar där bara 1927 avviker: komma efter ty i 2:10, gemen då i 2:12 (1927 har versal), inget komma i 2:13 och 2:22, Också fick och land; i 2:15 (1927 har Och så fick och land,). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "5dd0791a3c35cb69fccb30e13c123b2cd89dfcc9b29418edbbdfbafd88298c5e",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0079.1.tif",
+          "sha256": "05b021ce70fac756fa0777f0355839665019b1a255b5e5c80f1f4450a6dc873d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0080.1.tif",
+          "sha256": "066d8d4bac3ef98ebeb96f1886dad311a0c2b7f8f3693022d35e457adfe77401"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0081.1.tif",
+          "sha256": "f5f8ca9ad81c1b6d94d90a7adc5bd31d3ff66ff656cc7217a7df84e1e66f67f9"
+        }
+      ],
+      "notes": "Hela 3:1–22 jämförd mot EFS 1927 GT s. 79–81 och EFS 1926 GT s. 71–72 (Internet Archive bibelnellerdenhe0000unse, n82–n83). E013–E026 införda endast där båda trycken är överens mot e-texten: komma i 3:2, 3:3, 3:4, 3:5, 3:7, 3:8, 3:9, 3:16–17 och 3:19, semikolon för komma i 3:18, kolon för semikolon i 3:13, slutpunkt före slutcitat i 3:10, saknat slutcitat i 3:14 och det utelämnade ordet i i 3:16 (eder i Egypten). Behållna läsningar där bara ett tryck avviker: komma i 3:2 (eldslåga, som), 3:12 (jag, som), 3:16 (det, som) och 3:22 (1927 har komma), samt apostroferna kring Jag är i 3:14 och komma efter namn?' i 3:13 (1926 har dem, 1927 saknar). OLÖST: slutet på 3:18 har e-texten Gud.' med avslutande apostrof; 1927 visar Gud. utan apostrof och 1926 verkar ha komma, så läsningen är inte avgjord och kapitlet står som needs-review tills den bedömts. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
