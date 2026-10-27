@@ -211,6 +211,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             if (profile.position(key) || profile.position("plan:resume:0"))
                 fail(__LINE__);
             candidate->open_tracked(reading, {"plan:resume:0", "Resume smoke test"});
+            engine->spoken.clear();
             candidate->play_or_pause();
             if (engine->spoken.size() != 10 || engine->spoken.front().cue->verse != VerseRef{1, 1})
                 fail(__LINE__);
@@ -1316,10 +1317,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         readings_->IsShown())
         fail(__LINE__);
     user_.complete(plan_key(reading_plans().front(), 0));
-    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {7, 1}, 23});
     fill_plans(static_cast<wxScrolledWindow*>(current_page()));
-    if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %"))
-        fail(__LINE__);
     // Wide windows show ten parts per row; narrow windows wrap without clipping labels.
     const auto plans_size = GetSize();
     const auto plan_columns = [&] {
@@ -1347,6 +1345,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
     Layout();
     root_->Layout();
     if (plan_columns() < 1 || plan_columns() >= 10)
+        fail(__LINE__);
+    check_plan_fit();
+    // Progress labels must widen the existing grid immediately, without a resize to refresh it.
+    const auto plain_columns = plan_columns();
+    user_.position(plan_key(reading_plans().front(), 1), {0, "Matt", "sv1917", {7, 1}, 23});
+    fill_plans(static_cast<wxScrolledWindow*>(current_page()));
+    if (plan_tiles()[1]->GetLabel() != ui::utf8("2 · 23 %") || plan_columns() >= plain_columns)
         fail(__LINE__);
     check_plan_fit();
     const auto plans_zoom = settings_.text_zoom;

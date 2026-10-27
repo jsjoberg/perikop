@@ -271,7 +271,8 @@ void MainFrame::layout_plans(wxScrolledWindow* page) {
         if (auto* grid = dynamic_cast<wxGridSizer*>(item->GetSizer())) {
             grids.push_back(grid);
             for (auto* cell : grid->GetChildren())
-                cell_width = std::max(cell_width, cell->GetMinSize().x);
+                if (auto* window = cell->GetWindow())
+                    cell_width = std::max(cell_width, window->GetMinSize().x);
         }
     const int gap = FromDIP(zoomed(6));
     const int available = std::max(1, page->GetClientSize().x - FromDIP(zoomed(64)));
