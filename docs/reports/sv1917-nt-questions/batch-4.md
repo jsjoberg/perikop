@@ -1,13 +1,13 @@
 # NT-fotobunt 4: Första Korinthierbrevet
 
-**Uppdaterad 2026-10-27.** V137 är löst mot användarens foto och kapitel 1 verifierat. Fyra frågor V138–V141 i kapitel 2, 7, 11 och 15 återstår; de är inte fastställda fel. Hela Första Korinthierbrevet är bildläst och tolv kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Uppdaterad 2026-10-27.** V137–V138 är lösta mot användarens foton och kapitel 1–2 verifierade. Tre frågor V139–V141 i kapitel 7, 11 och 15 återstår; de är inte fastställda fel. Hela Första Korinthierbrevet är bildläst och tretton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
 
 När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V141 visar en avvikande, möjligen felsatt sats i 15:19 över två trycksidor. Hela versen från ett annat tryck behövs. Frågornas ord och alla koordinater behålls. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
 
 | Fråga | Vers | Korpus / EFS 1927 |
 | --- | --- | --- |
 | [V137](#v137), löst | 1 Kor. 1:3 | frid ifrån Gud / frid från Gud |
-| [V138](#v138) | 1 Kor. 2:2 | och honom såsom korsfäst / och honom korsfäst |
+| [V138](#v138), löst | 1 Kor. 2:2 | och honom såsom korsfäst / och honom korsfäst |
 | [V139](#v139) | 1 Kor. 7:23 | och betalningen är given / och betalning är given |
 | [V140](#v140) | 1 Kor. 11:28 | och dricke av kalken / och dricke så av kalken |
 | [V141](#v141) | 1 Kor. 15:19 | och därav intet bliver / och intet värda bliver |
@@ -40,13 +40,17 @@ Originalfotots SHA-256 `681c60d3ad4f7c1bd7727ecf2dcd20596e92cba33b0701dcc9f45ec8
 
 **2:2:** Ty jag hade beslutit mig för, att medan jag var bland eder icke veta om något annat än Jesus Kristus, och honom såsom korsfäst.
 
-**Foto till senare:** hela 2:2 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 2:2 med synligt nummer. Ingen ytterligare bild behövs för V138.
 
 ![V138, direkt scanutsnitt från NT s. 264](V138.png)
 
 [Full sida, NT s. 264](https://runeberg.org/bibeln/efs1927/nt/0264.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0264.1.tif`; SHA-256 `62a8a685b36101757b7a66e4eaa16ee3fc29971b4eaf01f8d2779b9f2540ed12`. Utsnittets SHA-256 `067c3dfe1011dfac2d757a65296a47db541bf8f138945fc5b5a9738500035f7b`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-27. Användarens originalfoto visar hela 2:2 med synligt versnummer och läsningen och honom såsom korsfäst, samma som korpusen. EFS 1927 saknar såsom. Korpusens såsom behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; ingen annan ändring behövs.
+
+![V138, användarens bevarade originalfoto, tryckt s. 325](../sv1917-print-witnesses/V138.jpg)
+
+Originalfotots SHA-256 `2f3efcce57c82400517e48fe5626b7e4f8060e7c796b1a2e75bee0f9062e8dfd`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
 
 ## V139
 

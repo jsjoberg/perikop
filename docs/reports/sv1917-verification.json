@@ -6504,10 +6504,10 @@
     {
       "book": "1Cor",
       "chapter": 2,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 16,
       "text_sha256": "22b3e4e2012db0ae9b83fcdae31352f8adc596396ceccdb9d3ac84d49cdab0fc",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -6519,7 +6519,7 @@
           "sha256": "d062ab332b15cbfdc3ab1a3e540706420311e3b1f4147a7e78dcac45b5dfff28"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 2:4/5 över sidgränsen. V138 gäller såsom i 2:2. Slutpunkt/komma i 2:7 och citatpunkternas placering i 2:9 behålls. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V138 i sv1917-nt-questions/batch-4.md; inga ändringar av frågornas ord."
+      "notes": "Hela kapitlet jämfört, inklusive 2:4/5 över sidgränsen. V138 avgjord mot användarens originalfoto: korpusens såsom bekräftas och behålls mot EFS 1927:s utelämning. Slutpunkt/komma i 2:7 och citatpunkternas placering i 2:9 behålls. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V138."
     },
     {
       "book": "1Cor",
@@ -9470,6 +9470,23 @@
       "photo_sha256": "681c60d3ad4f7c1bd7727ecf2dcd20596e92cba33b0701dcc9f45ec8d22334bb",
       "source": "Användarens exemplar av en senare tryckning, tryckt s. 324; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 1:3 med synligt versnummer och läsningen frid ifrån Gud, samma som korpusen. EFS 1927 har frid från Gud. Korpusens ifrån behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; ingen annan ändring behövs."
+    },
+    {
+      "id": "V138",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "1Cor",
+      "chapter": 2,
+      "verse": 2,
+      "status": "resolved",
+      "reading": "och honom såsom korsfäst",
+      "text_sha256": "8ed15cd14d6d980117eae090bb2c4bc4b1c2f427991df9b3918770df325fd216",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V138.jpg",
+      "photo_sha256": "2f3efcce57c82400517e48fe5626b7e4f8060e7c796b1a2e75bee0f9062e8dfd",
+      "source": "Användarens exemplar av en senare tryckning, tryckt s. 325; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 2:2 med synligt versnummer och läsningen och honom såsom korsfäst, samma som korpusen. EFS 1927 saknar såsom. Korpusens såsom behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; ingen annan ändring behövs."
     }
   ]
 }
