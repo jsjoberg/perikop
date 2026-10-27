@@ -1,12 +1,12 @@
 # NT-fotobunt 4: Första Korinthierbrevet
 
-**Sparad 2026-10-26. Ingen åtgärd behövs nu.** Hela Första Korinthierbrevet är bildläst. Fem frågor i kapitel 1, 2, 7, 11 och 15 väntar på ett annat tryck; de är inte fem fastställda fel. Övriga elva kapitel är verifierade efter separata säkra rättelser R253–R259.
+**Uppdaterad 2026-10-27.** V137 är löst mot användarens foto och kapitel 1 verifierat. Fyra frågor V138–V141 i kapitel 2, 7, 11 och 15 återstår; de är inte fastställda fel. Hela Första Korinthierbrevet är bildläst och tolv kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
 
 När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V141 visar en avvikande, möjligen felsatt sats i 15:19 över två trycksidor. Hela versen från ett annat tryck behövs. Frågornas ord och alla koordinater behålls. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
 
 | Fråga | Vers | Korpus / EFS 1927 |
 | --- | --- | --- |
-| [V137](#v137) | 1 Kor. 1:3 | frid ifrån Gud / frid från Gud |
+| [V137](#v137), löst | 1 Kor. 1:3 | frid ifrån Gud / frid från Gud |
 | [V138](#v138) | 1 Kor. 2:2 | och honom såsom korsfäst / och honom korsfäst |
 | [V139](#v139) | 1 Kor. 7:23 | och betalningen är given / och betalning är given |
 | [V140](#v140) | 1 Kor. 11:28 | och dricke av kalken / och dricke så av kalken |
@@ -20,13 +20,17 @@ När boken finns till hands räcker foton av hela verserna med synliga versnumme
 
 **1:3:** Nåd vare med eder och frid ifrån Gud, vår Fader, och Herren Jesus Kristus.
 
-**Foto till senare:** hela 1:3 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 1:3 med synligt nummer. Ingen ytterligare bild behövs för V137.
 
 ![V137, direkt scanutsnitt från NT s. 263](V137.png)
 
 [Full sida, NT s. 263](https://runeberg.org/bibeln/efs1927/nt/0263.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0263.1.tif`; SHA-256 `8008bd0c2efee679ccade98e36d01a93e09145ff21ac8b919d74d696357fe09f`. Utsnittets SHA-256 `730055a435ca7cc6b94393d65d9a966a94a9121fc8dbc09088b49bbbca0025a0`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-27. Användarens originalfoto visar hela 1:3 med synligt versnummer och läsningen frid ifrån Gud, samma som korpusen. EFS 1927 har frid från Gud. Korpusens ifrån behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; ingen annan ändring behövs.
+
+![V137, användarens bevarade originalfoto, tryckt s. 324](../sv1917-print-witnesses/V137.jpg)
+
+Originalfotots SHA-256 `681c60d3ad4f7c1bd7727ecf2dcd20596e92cba33b0701dcc9f45ec8d22334bb`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
 
 ## V138
 

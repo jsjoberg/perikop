@@ -1,6 +1,6 @@
 # Ytterligare tryckvittnen från användarens exemplar
 
-Tretton originalfoton är bevarade. De första sex tillhandahölls och granskades av användaren 2026-10-25. Tre ytterligare foton, V007–V009, tillhandahölls för evangeliefrågorna; Codex tolkade dem visuellt 2026-10-26 utan att behöva begära transkription eller gemensam tolkning. Därefter skickade användaren foton för V133–V136, också visuellt tolkade av Codex 2026-10-26. Codex har jämfört samtliga foton visuellt med de angivna verserna. Förlag, tryckår och övrig bibliografi har inte uppgetts; sådana uppgifter får inte härledas från layouten. Bilderna är byteidentiska med bilagorna och har inte beskurits eller omkodats. Exakta SHA-256, vershashar, beslut och läsningar finns under `resolved_readings` i [JSON-liggaren](../sv1917-verification.json).
+Fjorton originalfoton är bevarade. De första sex tillhandahölls och granskades av användaren 2026-10-25. Tre ytterligare foton, V007–V009, tillhandahölls för evangeliefrågorna; Codex tolkade dem visuellt 2026-10-26 utan att behöva begära transkription eller gemensam tolkning. Därefter skickade användaren foton för V133–V136, också visuellt tolkade av Codex 2026-10-26. Codex har jämfört samtliga foton visuellt med de angivna verserna. Förlag, tryckår och övrig bibliografi har inte uppgetts; sådana uppgifter får inte härledas från layouten. Bilderna är byteidentiska med bilagorna och har inte beskurits eller omkodats. Exakta SHA-256, vershashar, beslut och läsningar finns under `resolved_readings` i [JSON-liggaren](../sv1917-verification.json).
 
 | Fråga | Vers | Bekräftad läsning | Rättelse |
 | --- | --- | --- | --- |
@@ -17,12 +17,13 @@ Tretton originalfoton är bevarade. De första sex tillhandahölls och granskade
 | [V134](V134.jpg) | Rom 6:20–21 | men vilken frukt skördaden I då därav? börjar v. 21 | Behållen text och versgräns, ingen rättelse |
 | [V135](V135.jpg) | Rom 9:15 | Han säger ju till Moses: | Behållen text, ingen rättelse |
 | [V136](V136.jpg) | Rom 16:26 | den evige Gudens befallning | R327 |
+| [V137](V137.jpg) | 1 Kor 1:3 | frid ifrån Gud | Behållen text, ingen rättelse |
 
 V001 stöder samma läsning som Runebergs 1927-bild. V002–V006 rättar fel som också finns i Runebergs inskannade tryck och är alltså inte OCR-rättelser. V002 omfattar både avbrott och återgå. Foto V003 visar dem, medan Runebergs fulla sida har med i höger spalt; den tidigare detaljbilden klippte delar av omgivningen.
 
 V007 och V009 stöder samma ordalydelse som EFS 1927. V007 saknar kommat efter han, vilket också är korpusens kommatering; endast ordet ändras. V008 visar olika, medan EFS 1927 har alla. Korpusens olika behålls som en dokumenterad tryckskillnad och får inget rättelse-ID.
 
-Dessa tretton foton ger kompletterande stöd för femton verser. De ersätter inte genomgång av hela kapitel. Fem redan fullständigt bildlästa AP-kapitel färdigmarkerades efter V002–V006. V007–V009 löser de sista frågorna i redan fullständigt bildlästa Matteus 1, 4 och 10; Matteus 1–10 är därmed verifierade. Jeremia 8 är ännu inte fullständigt granskat.
+Dessa fjorton foton ger kompletterande stöd för sexton verser. De ersätter inte genomgång av hela kapitel. Fem redan fullständigt bildlästa AP-kapitel färdigmarkerades efter V002–V006. V007–V009 löser de sista frågorna i redan fullständigt bildlästa Matteus 1, 4 och 10; Matteus 1–10 är därmed verifierade. Jeremia 8 är ännu inte fullständigt granskat.
 
 V133 bekräftar korpusens gräns mellan Rom. 3:7 och 3:8 mot EFS 1927. Båda verserna och numren syns i originalfotot; orden och koordinaterna behålls. Den avgjorda versposten avser 3:8 och hela kapitelhashen låser också 3:7. Det redan helt bildlästa Romarbrevet 3 är därmed verifierat.
 
@@ -31,3 +32,5 @@ V134 bekräftar korpusens gräns mellan Rom. 6:20 och 6:21 mot EFS 1927. Origina
 V135 bekräftar korpusens Moses i Rom. 9:15 mot EFS 1927:s Mose. Hela versen och numret syns. Texten behålls som dokumenterad tryckvariant och det redan bildlästa Romarbrevet 9 är därmed verifierat.
 
 V136 bekräftar EFS 1927:s evige i Rom. 16:26; korpusens eviga rättas genom R327. Hela versen och numret syns. Kapitel 16 är därmed verifierat och alla Romarbrevets 16 kapitel och 432 poster färdiga.
+
+V137, mottaget och visuellt tolkat 2026-10-27, bekräftar korpusens ifrån i 1 Kor. 1:3 mot EFS 1927:s från. Hela versen och numret syns på tryckt s. 324. Originalfotot bevaras byteidentiskt. Texten behålls som dokumenterad tryckvariant och det redan bildlästa Första Korinthierbrevet 1 är därmed verifierat.
