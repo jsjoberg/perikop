@@ -1,6 +1,6 @@
 # Ytterligare tryckvittnen från användarens exemplar
 
-Sjutton originalfoton är bevarade. De första sex tillhandahölls och granskades av användaren 2026-10-25. Tre ytterligare foton, V007–V009, tillhandahölls för evangeliefrågorna; Codex tolkade dem visuellt 2026-10-26 utan att behöva begära transkription eller gemensam tolkning. Därefter skickade användaren foton för V133–V136, också visuellt tolkade av Codex 2026-10-26. Codex har jämfört samtliga foton visuellt med de angivna verserna. Förlag, tryckår och övrig bibliografi har inte uppgetts; sådana uppgifter får inte härledas från layouten. Bilderna är byteidentiska med bilagorna och har inte beskurits eller omkodats. Exakta SHA-256, vershashar, beslut och läsningar finns under `resolved_readings` i [JSON-liggaren](../sv1917-verification.json).
+Arton originalfoton är bevarade. De första sex tillhandahölls och granskades av användaren 2026-10-25. Tre ytterligare foton, V007–V009, tillhandahölls för evangeliefrågorna; Codex tolkade dem visuellt 2026-10-26 utan att behöva begära transkription eller gemensam tolkning. Därefter skickade användaren foton för V133–V136, också visuellt tolkade av Codex 2026-10-26. Codex har jämfört samtliga foton visuellt med de angivna verserna. Förlag, tryckår och övrig bibliografi har inte uppgetts; sådana uppgifter får inte härledas från layouten. Bilderna är byteidentiska med bilagorna och har inte beskurits eller omkodats. Exakta SHA-256, vershashar, beslut och läsningar finns under `resolved_readings` i [JSON-liggaren](../sv1917-verification.json).
 
 | Fråga | Vers | Bekräftad läsning | Rättelse |
 | --- | --- | --- | --- |
@@ -21,12 +21,13 @@ Sjutton originalfoton är bevarade. De första sex tillhandahölls och granskade
 | [V138](V138.jpg) | 1 Kor 2:2 | och honom såsom korsfäst | Behållen text, ingen rättelse |
 | [V139](V139.jpg) | 1 Kor 7:23 | och betalning är given | R328 |
 | [V140](V140.jpg) | 1 Kor 11:28 | och dricke av kalken | Behållen text, ingen rättelse |
+| [V141](V141.jpg) | 1 Kor 15:19 | och därav intet bliver | Behållen text, ingen rättelse |
 
 V001 stöder samma läsning som Runebergs 1927-bild. V002–V006 rättar fel som också finns i Runebergs inskannade tryck och är alltså inte OCR-rättelser. V002 omfattar både avbrott och återgå. Foto V003 visar dem, medan Runebergs fulla sida har med i höger spalt; den tidigare detaljbilden klippte delar av omgivningen.
 
 V007 och V009 stöder samma ordalydelse som EFS 1927. V007 saknar kommat efter han, vilket också är korpusens kommatering; endast ordet ändras. V008 visar olika, medan EFS 1927 har alla. Korpusens olika behålls som en dokumenterad tryckskillnad och får inget rättelse-ID.
 
-Dessa sjutton foton ger kompletterande stöd för nitton verser. De ersätter inte genomgång av hela kapitel. Fem redan fullständigt bildlästa AP-kapitel färdigmarkerades efter V002–V006. V007–V009 löser de sista frågorna i redan fullständigt bildlästa Matteus 1, 4 och 10; Matteus 1–10 är därmed verifierade. Jeremia 8 är ännu inte fullständigt granskat.
+Dessa arton foton ger kompletterande stöd för tjugo verser. De ersätter inte genomgång av hela kapitel. Fem redan fullständigt bildlästa AP-kapitel färdigmarkerades efter V002–V006. V007–V009 löser de sista frågorna i redan fullständigt bildlästa Matteus 1, 4 och 10; Matteus 1–10 är därmed verifierade. Jeremia 8 är ännu inte fullständigt granskat.
 
 V133 bekräftar korpusens gräns mellan Rom. 3:7 och 3:8 mot EFS 1927. Båda verserna och numren syns i originalfotot; orden och koordinaterna behålls. Den avgjorda versposten avser 3:8 och hela kapitelhashen låser också 3:7. Det redan helt bildlästa Romarbrevet 3 är därmed verifierat.
 
@@ -43,3 +44,5 @@ V138, mottaget och visuellt tolkat 2026-10-27, bekräftar korpusens såsom i 1 K
 V139, mottaget och visuellt tolkat 2026-10-27, bekräftar EFS 1927:s betalning i 1 Kor. 7:23. Korpusens betalningen rättas genom R328. Hela versen och numret syns på tryckt s. 331. Originalfotot bevaras byteidentiskt. Det redan bildlästa Första Korinthierbrevet 7 är därmed verifierat.
 
 V140, mottaget och visuellt tolkat 2026-10-27, bekräftar korpusens och dricke av kalken i 1 Kor. 11:28 utan ett andra så. EFS 1927 har dricke så av kalken. Hela versen och numret syns. Originalfotot bevaras byteidentiskt. Texten behålls som dokumenterad tryckvariant och det redan bildlästa Första Korinthierbrevet 11 är därmed verifierat.
+
+V141, mottaget och visuellt tolkat 2026-10-27, bekräftar korpusens fulla och därav intet bliver i 1 Kor. 15:19 mot EFS 1927:s avvikande och intet värda bliver. Hela versen och numret syns. Originalfotot bevaras byteidentiskt. Kapitel 15 är därmed verifierat och alla Första Korinthierbrevets 16 kapitel och 437 poster färdiga.

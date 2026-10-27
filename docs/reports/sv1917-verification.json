@@ -6776,10 +6776,10 @@
     {
       "book": "1Cor",
       "chapter": 15,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 58,
       "text_sha256": "5594ce9ff350987ded49d00dbaa9097971667855dbaff1177058ebd18df69add",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -6795,7 +6795,7 @@
           "sha256": "b8c541c8e3ba573b22dd323a00fbeeb9fcf0b1c4485c46b047f5f8edb5b66775"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 15:19/39 över sidgränserna och 15:29/51 över spaltgränserna. R258 rättar undsätta till utsätta i 15:30. V141 gäller uttrycket efter vårt hopp i 15:19. Såframt/så framt i 15:2 är särskrivningsvariation. Bildvittnets och intet värda bliver kan vara ett tryckfel; korpusens sats behålls tills ett annat tryck har jämförts. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V141 i sv1917-nt-questions/batch-4.md; inga ändringar av frågornas ord. Införda rättelser: R258."
+      "notes": "Hela kapitlet jämfört, inklusive 15:19/39 över sidgränserna och 15:29/51 över spaltgränserna. R258 rättar undsätta till utsätta i 15:30. V141 avgjord mot användarens originalfoto: korpusens och därav intet bliver bekräftas och behålls. Såframt/så framt i 15:2 är särskrivningsvariation. EFS 1927:s avvikande och intet värda bliver kopieras inte till korpusen; den befintliga fulla satsen har nu bekräftats av kompletterande tryckfoto. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V141. Införda rättelser: R258."
     },
     {
       "book": "1Cor",
@@ -9521,6 +9521,23 @@
       "photo_sha256": "466e40b4f23e637557052730f44d5195371a7ced6fcc0f6a24cc393bda74c379",
       "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 11:28 med synligt versnummer. Det står och äte så av brödet och dricke av kalken, utan ett andra så före av kalken, precis som korpusen. EFS 1927 har dricke så av kalken. Korpusens text behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd."
+    },
+    {
+      "id": "V141",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "1Cor",
+      "chapter": 15,
+      "verse": 19,
+      "status": "resolved",
+      "reading": "och därav intet bliver",
+      "text_sha256": "8fae7e6775d21549e480293fde8c9d199143e9c17bb0f84626d2a2d1146d538e",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V141.jpg",
+      "photo_sha256": "65af293e21fff843aefe77b79b324ed39f667b760989fbd80edd6b1c929b2e3d",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 15:19 med synligt versnummer och läsningen och därav intet bliver, samma som korpusen. EFS 1927 har den avvikande tryckläsningen och intet värda bliver över två sidor. Korpusens fulla sats bekräftas och behålls; inget rättelse-ID. Hela versen är visuellt jämförd."
     }
   ]
 }

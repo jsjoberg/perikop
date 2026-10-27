@@ -1,8 +1,8 @@
 # NT-fotobunt 4: Första Korinthierbrevet
 
-**Uppdaterad 2026-10-27.** V137–V140 är lösta mot användarens foton och kapitel 1, 2, 7 och 11 verifierade. Endast V141 i kapitel 15 återstår; frågan är inte ett fastställt fel. Hela Första Korinthierbrevet är bildläst och femton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Alla fem frågor avgjorda 2026-10-27 mot användarens bevarade originalfoton. Hela Första Korinthierbrevet är verifierat: 16 kapitel och 437 versposter.** V137, V138, V140 och V141 bekräftar befintliga läsningar; V139 bekräftar EFS 1927:s betalning och inför R328. Inga fler foton behövs för denna bunt.
 
-När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V141 visar en avvikande, möjligen felsatt sats i 15:19 över två trycksidor. Hela versen från ett annat tryck behövs. Öppna frågors ord och alla koordinater behålls. Tabellen visar jämförelsen före besluten; fulla korpusverser nedan är uppdaterade efter införda rättelser. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
+Tabellen visar jämförelsen före besluten; de fulla korpusverserna nedan är uppdaterade efter rättelserna. Båda tryckens underlag och stabila V-ID bevaras för återkontroll.
 
 | Fråga | Vers | Korpus / EFS 1927 |
 | --- | --- | --- |
@@ -10,7 +10,7 @@ När boken finns till hands räcker foton av hela verserna med synliga versnumme
 | [V138](#v138), löst | 1 Kor. 2:2 | och honom såsom korsfäst / och honom korsfäst |
 | [V139](#v139), löst | 1 Kor. 7:23 | och betalningen är given / och betalning är given |
 | [V140](#v140), löst | 1 Kor. 11:28 | och dricke av kalken / och dricke så av kalken |
-| [V141](#v141) | 1 Kor. 15:19 | och därav intet bliver / och intet värda bliver |
+| [V141](#v141), löst | 1 Kor. 15:19 | och därav intet bliver / och intet värda bliver |
 
 ## V137
 
@@ -100,7 +100,7 @@ Originalfotots SHA-256 `466e40b4f23e637557052730f44d5195371a7ced6fcc0f6a24cc393b
 
 **15:19:** Om vi i detta livet hava i Kristus haft vårt hopp, och därav intet bliver, då äro vi de mest ömkansvärda av alla människor.
 
-**Foto till senare:** hela 15:19 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 15:19 med synligt nummer. Ingen ytterligare bild behövs för V141.
 
 ![V141, direkt scanutsnitt från NT s. 282](V141-1.png)
 
@@ -110,4 +110,8 @@ Originalfotots SHA-256 `466e40b4f23e637557052730f44d5195371a7ced6fcc0f6a24cc393b
 
 [Full sida, NT s. 283](https://runeberg.org/bibeln/efs1927/nt/0283.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0283.1.tif`; SHA-256 `e9fe78aafc38872c278644e610667942e90ead2cf5abe84b14075e567723c544`. Utsnittets SHA-256 `94fb85fae3819badafe02e2beb625fcdea94dec9b30c9a4de29faee379e6bf36`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-27. Användarens originalfoto visar hela 15:19 med synligt versnummer och läsningen och därav intet bliver, samma som korpusen. EFS 1927 har den avvikande tryckläsningen och intet värda bliver över två sidor. Korpusens fulla sats bekräftas och behålls; inget rättelse-ID. Hela versen är visuellt jämförd.
+
+![V141, användarens bevarade originalfoto](../sv1917-print-witnesses/V141.jpg)
+
+Originalfotots SHA-256 `65af293e21fff843aefe77b79b324ed39f667b760989fbd80edd6b1c929b2e3d`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
