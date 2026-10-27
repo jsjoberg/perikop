@@ -3386,7 +3386,7 @@
       "chapter": 1,
       "status": "verified",
       "verse_count": 22,
-      "text_sha256": "35b05af89acd960663c77de8ddf1e9ab6a7c1f9ebbac815165d9c2d8b42dc048",
+      "text_sha256": "2d5c7c9a2cb975044b00fc56b93b944b46debde875b183d7bc2c30c36e6d9bd5",
       "checked_at": "2026-10-27",
       "reviewer": "Claude, full visual scan comparison",
       "scans": [
@@ -3399,14 +3399,14 @@
           "sha256": "1abe5f5358cb2a6ff51b647357c3fadde6c64aa8fec22e9da26300faba6b9169"
         }
       ],
-      "notes": "Hela 1:1–22 visuellt jämförd mot EFS 1927 GT s. 77–78 (kap. 1 börjar nederst på s. 77). E001–E006: kommatering i 1:5, 1:10, 1:17 och 1:20, kommats plats och slutpunkt i 1:14, samt tryckfel gossebarn- och all i 1:22. Bilderna är inte incheckade; skanningsadress och hash anges här. Tankstrecket i 1:15 är typografi och lämnat."
+      "notes": "Hela 1:1–22 visuellt jämförd mot EFS 1927 GT s. 77–78 och EFS 1926 GT s. 69–70 (Internet Archive bibelnellerdenhe0000unse, sidbilder n80–n81). E001–E003 införda endast där båda trycken är överens mot e-texten: 1:14 komma efter marken och slutpunkt, 1:17 komma efter icke, 1:22 tryckfelen gossebarn- och all. Behållna läsningar där bara 1927 avviker (e-texten följer 1926): inget komma i 1:5 (de som, länd sjuttio), semikolon i 1:10 och 1:20 (1927 har komma) samt komma efter korteligen i 1:14 (1927 saknar). Tankstrecket i 1:15 är typografi; båda trycken har långt streck. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Exod",
       "chapter": 2,
       "status": "verified",
       "verse_count": 25,
-      "text_sha256": "9c2e2d101a31a7a49e9569100717214a2478f7952b5cf3fb343d1bc5213face9",
+      "text_sha256": "8e4b14cb8a3e38aaaef81135c163407bd836f86503c499cdffc836b083374255",
       "checked_at": "2026-10-27",
       "reviewer": "Claude, full visual scan comparison",
       "scans": [
@@ -3419,7 +3419,7 @@
           "sha256": "05b021ce70fac756fa0777f0355839665019b1a255b5e5c80f1f4450a6dc873d"
         }
       ],
-      "notes": "Hela 2:1–25 visuellt jämförd mot EFS 1927 GT s. 78–79, inklusive fortsättningen över sid- och spaltgräns i 2:8 och 2:16–17. E007–E018: kommatering i 2:2, 2:4, 2:6, 2:7, 2:9, 2:10, 2:11, 2:13, 2:20 och 2:22, semikolon i 2:11 och 2:15, Då i 2:12 och Och så fick i 2:15. Skanningsadress och hash anges här; bilderna är inte incheckade."
+      "notes": "Hela 2:1–25 visuellt jämförd mot EFS 1927 GT s. 78–79 och EFS 1926 GT s. 70–71 (n81–n82), inklusive fortsättning över sid- och spaltgräns i 2:8 och 2:16–17. E004–E012 införda endast där båda trycken är överens mot e-texten: komma i 2:2, 2:4, 2:6, 2:7, 2:11 och 2:12, utan komma i 2:9, semikolon för komma i 2:10, semikolon i slutet av 2:11 samt punkt före slutcitatet i 2:20. Behållna läsningar där bara 1927 avviker: komma efter ty i 2:10, gemen då i 2:12 (1927 har versal), inget komma i 2:13 och 2:22, Också fick och land; i 2:15 (1927 har Och så fick och land,). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

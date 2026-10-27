@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "d24e868005f62d5268eb7a9a1ea24f07df83d3789835226f15f5d01b116e32b4",
+      "sha256": "bdcb326748ec8ccf0e74dc688c736f0ff5fcd4a51a05cc604cf4da20ed5776a0",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -806,13 +806,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "e925eee6d4a5cc1323d387df3e9be484d63aa6cdf26ea0750d6356e5ed04e37e"
+      "sha256": "1c10f9f053f24311a8e14720d516eecf22977b1ce0f72e5ead2ad3cfabfa5d65"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "93e82e83a719dea37e43ac69df403ffc5b09a011623b29efc9671a319c379481"
+      "sha256": "25d9b7ed5f5bd9378dba346e0988f020d70463a65ece01bf898f95ad379bc612"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",
@@ -837,7 +837,7 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "f02e1c7c93f3b398d4403e5de8a7e5b7c10ed5c6c83d6d1181f1091398fb47cc",
+      "sha256": "cd6acaac80076f7a51fcb0757608811c0d72f1d908daa69cb6f81189143464be",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },

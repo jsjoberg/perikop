@@ -8,7 +8,7 @@ han	12031	word	"han
 de	11741	word	
 det	8674	word	
 en	8482	word	"En
-Och	8354	word	"Ok
+Och	8353	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
 icke	8179	word	""I$ke
@@ -19,7 +19,7 @@ med	7576	word	"me:d
 är	7547	word	"E:r
 av	7271	word	
 dem	6934	word	"dOm
-så	6857	word	"so:
+så	6856	word	"so:
 honom	6737	word	""hO$nOm
 har	6695	word	"hA:r
 du	6355	word	"d}:
@@ -35,7 +35,7 @@ eder	3862	word	""e:$der
 om	3668	word	"Om
 var	3649	word	"vA:r
 sin	3469	word	"sIn
-då	3466	word	"do:
+då	3467	word	"do:
 Men	3401	word	"mEn
 alla	3210	word	
 Gud	3126	word	"g}:d
@@ -50,7 +50,7 @@ upp	2824	word	"u0p
 man	2677	word	"man
 min	2631	word	"mi:n
 när	2558	word	"nE:r
-Då	2455	word	"do:
+Då	2454	word	"do:
 vad	2422	word	"vA:d
 hava	2415	word	""hA:$va
 skola	2386	word	""sku:$la
@@ -613,6 +613,7 @@ given	143	word	""ji:$ven
 hette	143	word	""hE$te
 lära	142	word	""lE:$ra
 Jesu	141	name	""je:$su0
+Också	141	word	"Ok$sO
 begav	141	word	be$"gA:v
 bjöd	141	word	"bj2:d
 evig	141	word	""e:$vIg
@@ -621,7 +622,6 @@ förgås	141	word	f9r$"go:s
 känner	141	word	"s'E$ner
 område	141	word	""Om$%ro:$de
 strax	141	word	"straks
-Också	140	word	"Ok$sO
 solen	140	word	"su:$len
 ting	140	word	"tIN
 främmande	139	word	""frE$man$de
