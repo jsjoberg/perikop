@@ -743,6 +743,9 @@ int main(int argc, char** argv) {
                   "both EFS prints number Luke's final question 17:37; 36 is a note only");
             check(corpus.verse("sv1917", "Luke", {10, 2})->text.starts_with("Och han sade till dem: »Skörden"),
                   "Luke 10:2 retains its introduction across the printed page break");
+            check(corpus.verse("sv1917", "Gen", {15, 13})->text.ends_with("fyra hundra år.") &&
+                      corpus.verse("sv1917", "Gen", {15, 16})->text.ends_with("missgärnings mått.»"),
+                  "SV1917 Genesis 15 quotation continues through verse 16");
             check(corpus.verse("sv1917", "Gen", {13, 14})->text.ends_with("öster och väster.") &&
                       corpus.verse("sv1917", "Gen", {13, 17})->text.ends_with("det.»"),
                   "SV1917 Genesis 13 quotation continues through verse 17");
@@ -1500,6 +1503,7 @@ int main(int argc, char** argv) {
                  {"Gen", {1, 7}, "fästet från vattnet ovan fästet", "fästet ifrån vattnet ovan fästet"},
                  {"Gen", {5, 13}, "sedan Kenan fött Mahalalel", "sedan Kenan hade fött Mahalalel"},
                  {"Gen", {9, 5}, "den andres själ", "den andras själ"},
+                 {"Gen", {15, 12}, "och ett stort mörker", "och stort mörker"},
                  {"Gen", {13, 14}, "sedan Lot hade skilt sig från honom", "sedan Lot hade skilt sig ifrån honom"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
