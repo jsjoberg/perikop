@@ -19,6 +19,8 @@ RENUMBER={('25',1,21,2):22,('42',17,36,1):37,('42',20,23,1):22}
 # E-text errors checked visually against the 1927 facsimile.
 # Page links, context and pending human review: docs/reports/sv1917-errata.md.
 REPLACE={
+ # Genesis 1-3 scan pass: R425; see sv1917-ot.md for retained print variants.
+ ('Gen',1,7):('fästet från vattnet ovan fästet','fästet ifrån vattnet ovan fästet'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),

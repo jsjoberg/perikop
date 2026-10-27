@@ -743,6 +743,10 @@ int main(int argc, char** argv) {
                   "both EFS prints number Luke's final question 17:37; 36 is a note only");
             check(corpus.verse("sv1917", "Luke", {10, 2})->text.starts_with("Och han sade till dem: »Skörden"),
                   "Luke 10:2 retains its introduction across the printed page break");
+            check(corpus.verse("sv1917", "Gen", {1, 24})->text.ends_with("så;") &&
+                      corpus.verse("sv1917", "Gen", {3, 13})->text.find("gjort!»") != std::string::npos &&
+                      corpus.verse("sv1917", "Gen", {3, 19})->text.ends_with("varda.»"),
+                  "EFS 1926 supports retaining the Genesis punctuation variants");
             for (const auto* edition : {"grc-patriarchal", "en-web"}) {
                 check(corpus.counterparts("sv1917", edition, "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}} &&
                           corpus.counterparts(edition, "sv1917", "Luke", {17, 37}) == Refs{{"Luke", {17, 37}}},
@@ -1490,6 +1494,7 @@ int main(int argc, char** argv) {
                  {"John", {18, 37}, "Så sade Pilatus", "Då sade Pilatus"},
                  {"John", {20, 1}, "på första veckodagen, medan", "på första veckodagen om morgonen, medan"},
                  {"John", {20, 21}, "så sänder ock jag eder", "så sänder jag ock eder"},
+                 {"Gen", {1, 7}, "fästet från vattnet ovan fästet", "fästet ifrån vattnet ovan fästet"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

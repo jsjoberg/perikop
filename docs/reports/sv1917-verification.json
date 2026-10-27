@@ -9044,6 +9044,66 @@
         }
       ],
       "notes": "Första bildgenomgångens anteckning (historik): Hela 22:1–21 bildläst; 22:6 över sidgränsen och 22:14 över spaltgränsen. Skall / skola före tjäna i 22:3 och kolon före Kom i 22:17 rättas. Levande i 22:1 och alla i 22:15 sparas. Där inne / därinne i 22:3 och efter som i 22:12 behandlas som ordmellanrum; hela slutönskan 22:21 bekräftad. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Införda rättelser: R319, R320. Avgörande 2026-10-27 mot EFS 1926: V176: EFS 1926 och 1927 har båda en ström med levande vatten. R352 rättar en ström med vatten till en ström med levande vatten. Hela den berörda versen visuellt jämförd; övriga ord och koordinater behålls. V177: EFS 1926 och 1927 har båda de måste stanna därutanför. R353 rättar de måste alla stanna därutanför till de måste stanna därutanför. Hela 22:15 jämförd över sidgränsen NT s. 388–389; båda fullbilderna bevarade. Det första alla, före som älska, behålls. Endast det extra alla efter de måste tas bort. Inga öppna frågor i kapitlet. Fulla originalbilder och exakta vershashar i resolved_readings."
+    },
+    {
+      "book": "Gen",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "8a90c6e956545dec545adc640273831160de99c5b4bbb26e9985c62f71f990ab",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0005.1.tif",
+          "sha256": "36bfbef0dd0f7c5db861657be7435c09df9c986442e790de180c11676a75c240"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0006.1.tif",
+          "sha256": "8ceb5fbc5449a2d13789c45c05a3f282cf2a3615a69b9495a9e5b9412d5acad4"
+        }
+      ],
+      "notes": "Hela 1:1–31 visuellt jämförd mot EFS 1927 s. 5–6, inklusive 1:12 mellan spalter och 1:31 mellan spalter på nästa sida. R425 rättar från till ifrån i 1:7; både EFS 1927 s. 5 och kompletterande EFS 1926 GT s. 1 visar ifrån. Korpusens semikolon efter skedde så i 1:24 behålls som belagd tryckvariant: EFS 1926 GT s. 2 har semikolon, EFS 1927 s. 6 punkt. Ingen olöst läsning. Vanlig kommatering harmoniseras inte: exempelvis efter fästet i 1:7, uppräkningarna i 1:12/21/24–25 och före som i 1:14. Citatglyfer och placering av punkt relativt citattecken behandlas som typografi. Kompletterande bevarade original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0001.jpg, SHA-256 3d40ac17dd2ac7853a4b489f7d5626ded962bb6975b29887303c064594829ddc, docs/reports/sv1917-efs1926-witnesses/gt0002.jpg, SHA-256 ba21237a8624072102a51233a98da54ff90633cb6db14e70b498f017f194b932."
+    },
+    {
+      "book": "Gen",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "26898da20909b4f03f3b4463f2a0bb6b8ba9a800f305c208ba82201d347ac02a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0006.1.tif",
+          "sha256": "8ceb5fbc5449a2d13789c45c05a3f282cf2a3615a69b9495a9e5b9412d5acad4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0007.1.tif",
+          "sha256": "64802759fcd48b0708b45045c282369f8cfac9f6364b14926ed21aa823f158ae"
+        }
+      ],
+      "notes": "Hela 2:1–25 visuellt jämförd mot EFS 1927 s. 6–7, inklusive sidfortsättningen efter 2:9 och spaltfortsättningen efter 2:21. Inga ord-, nummer- eller gränsrättelser och inga olösta läsningar. Pison, Gihon, Hiddekel, Frat, bdelliumharts och maninna lästa mot bilderna. Vanlig kommatering behålls, exempelvis 2:4 efter då, 2:9 före växa och efter marken samt 2:15 före till att. HERREN/kapitäl-Herren, spärrning, radslutsavstavning, citatglyfer och noter är typografisk återgivning."
+    },
+    {
+      "book": "Gen",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "19f2c9a1cfeaf78e29815aaf63abbd03d69f30202caa29bbdfda6abbf59096ee",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0007.1.tif",
+          "sha256": "64802759fcd48b0708b45045c282369f8cfac9f6364b14926ed21aa823f158ae"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0008.1.tif",
+          "sha256": "0b55e34aa4fe2491e2a1d6207b134f78a6492999df7d75697f06ce2e80b68a57"
+        }
+      ],
+      "notes": "Hela 3:1–24 visuellt jämförd mot EFS 1927 s. 7–8, inklusive sidfortsättningen efter 3:6 och spaltgränsen mellan 3:16–17. Inga nya rättelser. Korpusens utropstecken efter gjort i 3:13 och avslutande citattecken i 3:19 behålls med visuellt stöd av EFS 1926 GT s. 4, mot EFS 1927:s frågetecken respektive uteblivna citatavslut. Båda är avgjorda tryckvarianter, inte öppna frågor. Frågetecknet i EFS 1927:s 3:13 även kontrollerat i originalupplösning. Vanlig kommatering behålls, exempelvis 3:6 efter såg/ögonen, 3:7 efter varse, 3:12 efter kvinnan och 3:24 efter mannen. Ingen täckning tillgodoräknas för 4:1 på samma sida. Kompletterande bevarade original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0004.jpg, SHA-256 10879e9af195eb3a1c6640f1c740c16faf54c7d50e868d122cff7144dc1c404c."
     }
   ],
   "unnumbered": [

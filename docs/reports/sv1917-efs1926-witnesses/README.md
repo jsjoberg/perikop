@@ -207,6 +207,10 @@ V080–V122 är avgjorda: 34 rättelser R391–R424 och nio behållna läsningar
 | V121 | Joh. 20:1 | R423: på första veckodagen, medan → på första veckodagen om morgonen, medan | [NT s. 164](nt0164.jpg) | [n1373](https://archive.org/download/bibelnellerdenhe0000unse/page/n1373.jpg) |
 | V122 | Joh. 20:21 | R424: så sänder ock jag eder → så sänder jag ock eder | [NT s. 165](nt0165.jpg) | [n1374](https://archive.org/download/bibelnellerdenhe0000unse/page/n1374.jpg) |
 
+## GT-uppföljning, Första Moseboken 1–3
+
+Tre fulla original-JPEG-sidor tillkommer: GT s. 1, 2 och 4. De stöder R425 (ifrån i 1:7) och korpusens behållna semikolon i 1:24, utropstecken i 3:13 och slutcitat i 3:19. Se [GT-rapporten](../sv1917-ot.md) för hela beslut och exakta hashvärden. Inga öppna frågor eller extra lästäckning.
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -326,3 +330,6 @@ V080–V122 är avgjorda: 34 rättelser R391–R424 och nio behållna läsningar
 - `nt0162.jpg`: full originalbild och bevarad fil SHA-256 `1a2d9f7b86571b78af66ccb9f232b77778e9cd28ad1aebe5fa2f52ba414bcb3b`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1371.jpg`.
 - `nt0164.jpg`: full originalbild och bevarad fil SHA-256 `7cebdd05f587265ced7cc472c0df3fd62e9294469901892ff6da2b9044f0deed`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1373.jpg`.
 - `nt0165.jpg`: full originalbild och bevarad fil SHA-256 `c6f43d1c23d84f948de722a9b961eb8b4f184a9579b8cc74870f885b7ca6dede`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1374.jpg`.
+- `gt0001.jpg`: full originalbild och bevarad fil SHA-256 `3d40ac17dd2ac7853a4b489f7d5626ded962bb6975b29887303c064594829ddc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n12.jpg`.
+- `gt0002.jpg`: full originalbild och bevarad fil SHA-256 `ba21237a8624072102a51233a98da54ff90633cb6db14e70b498f017f194b932`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n13.jpg`.
+- `gt0004.jpg`: full originalbild och bevarad fil SHA-256 `10879e9af195eb3a1c6640f1c740c16faf54c7d50e868d122cff7144dc1c404c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n15.jpg`.
