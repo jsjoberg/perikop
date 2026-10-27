@@ -227,6 +227,10 @@ Fyra fulla originalbilder stöder rättelserna och de behållna tryckvarianterna
 
 Två fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
 
+## GT-uppföljning, Första Moseboken 16–19
+
+Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -359,3 +363,7 @@ Två fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [G
 - `gt0014.jpg`: full originalbild och bevarad fil SHA-256 `f5622427521b7b333ec1f13396bdf3967861f27cac8f63144f13f55f0164bbbd`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n25.jpg`.
 - `gt0015.jpg`: full originalbild och bevarad fil SHA-256 `c20602ef130ef391f8296a56be70c8ccf24012f1f9ba736cd61da5e3a1eed417`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n26.jpg`.
 - `gt0016.jpg`: full originalbild och bevarad fil SHA-256 `395366581c17497a464fb348d8f18684ad9b796beaa5fa2b9b914898e54bf9f3`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n27.jpg`.
+- `gt0017.jpg`: full originalbild och bevarad fil SHA-256 `afae2bd3255697d1a0a59cf51da3aabb4a4fa32201585ceeee52c355eda5f8f2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n28.jpg`.
+- `gt0019.jpg`: full originalbild och bevarad fil SHA-256 `9efcb58e7fe7a4be8f31a5ccf9449c4439bda6a91db34d24abf279f40efa40e9`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n30.jpg`.
+- `gt0020.jpg`: full originalbild och bevarad fil SHA-256 `90053a64d2188c28c758e348359f70ebdd16a0d1f791bb2dbad33f783df0856e`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n31.jpg`.
+- `gt0021.jpg`: full originalbild och bevarad fil SHA-256 `278ce40bcdff3a4000e1baa6a5badebfc45cc29a7e672952fa665051b5a1d81a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n32.jpg`.

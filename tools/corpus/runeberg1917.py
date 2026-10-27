@@ -27,6 +27,12 @@ REPLACE={
  ('Gen',9,5):('den andres själ','den andras själ'),
  ('Gen',15,12):('och ett stort mörker','och stort mörker'),
  ('Gen',15,13):('så skall ske i fyra hundra år.»','så skall ske i fyra hundra år.'),
+ # Genesis 16-19: restore print-supported quotation boundaries and words.
+ ('Gen',17,8):('och jag skall vara deras Gud.','och jag skall vara deras Gud.»'),
+ ('Gen',17,9):('från släkte till släkte.»','från släkte till släkte.'),
+ ('Gen',18,26):('så vill jag skona orten','så vill jag skona hela orten'),
+ ('Gen',18,27):('fastän jag är stoft och aska.»','fastän jag är stoft och aska.'),
+ ('Gen',18,28):('finner fyrtiofem; så skall','finner fyrtiofem, så skall'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
