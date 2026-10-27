@@ -3424,9 +3424,9 @@
     {
       "book": "Exod",
       "chapter": 3,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 22,
-      "text_sha256": "5dd0791a3c35cb69fccb30e13c123b2cd89dfcc9b29418edbbdfbafd88298c5e",
+      "text_sha256": "d4694569e15f8a748f3078dcd1cd67ea5b81749343f29dc8b13926d8a532a3fa",
       "checked_at": "2026-10-27",
       "reviewer": "Claude, full visual scan comparison",
       "scans": [
@@ -3443,7 +3443,7 @@
           "sha256": "f5f8ca9ad81c1b6d94d90a7adc5bd31d3ff66ff656cc7217a7df84e1e66f67f9"
         }
       ],
-      "notes": "Hela 3:1–22 jämförd mot EFS 1927 GT s. 79–81 och EFS 1926 GT s. 71–72 (Internet Archive bibelnellerdenhe0000unse, n82–n83). E013–E026 införda endast där båda trycken är överens mot e-texten: komma i 3:2, 3:3, 3:4, 3:5, 3:7, 3:8, 3:9, 3:16–17 och 3:19, semikolon för komma i 3:18, kolon för semikolon i 3:13, slutpunkt före slutcitat i 3:10, saknat slutcitat i 3:14 och det utelämnade ordet i i 3:16 (eder i Egypten). Behållna läsningar där bara ett tryck avviker: komma i 3:2 (eldslåga, som), 3:12 (jag, som), 3:16 (det, som) och 3:22 (1927 har komma), samt apostroferna kring Jag är i 3:14 och komma efter namn?' i 3:13 (1926 har dem, 1927 saknar). OLÖST: slutet på 3:18 har e-texten Gud.' med avslutande apostrof; 1927 visar Gud. utan apostrof och 1926 verkar ha komma, så läsningen är inte avgjord och kapitlet står som needs-review tills den bedömts. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Hela 3:1–22 jämförd mot EFS 1927 GT s. 79–81 och EFS 1926 GT s. 71–72 (Internet Archive bibelnellerdenhe0000unse, n82–n83). E013–E026 införda endast där båda trycken är överens mot e-texten: komma i 3:2, 3:3, 3:4, 3:5, 3:7, 3:8, 3:9, 3:16–17 och 3:19, semikolon för komma i 3:18, kolon för semikolon i 3:13, slutpunkt före slutcitat i 3:10, saknat slutcitat i 3:14 och det utelämnade ordet i i 3:16 (eder i Egypten). Behållna läsningar där bara ett tryck avviker: komma i 3:2 (eldslåga, som), 3:12 (jag, som), 3:16 (det, som) och 3:22 (1927 har komma), samt apostroferna kring Jag är i 3:14 och komma efter namn?' i 3:13 (1926 har dem, 1927 saknar). Slutet på 3:18 avgjort 2026-10-27: öppningsapostrofen före HERREN saknades i e-texten men finns i både EFS 1927 och EFS 1926 (E025 utökad). Slutapostrofen Gud.' finns i EFS 1926 och i användarens exemplar men saknas i EFS 1927; den behålls. Kompletterande tryck: VE001 och VE002. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Exod",
@@ -3632,6 +3632,40 @@
       "photo_sha256": "a12eebf44188631a27c82b68fad583a341cbefe173ca0a5519e3de54fd005a8c",
       "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
       "notes": "Användarens foto, tryckt s. 191, bekräftar konungens; kunungens är ett tryckfel i Runebergs förlaga."
+    },
+    {
+      "id": "VE001",
+      "correction_id": "E025",
+      "decision": "corrected",
+      "reading": "'HERREN, hebréernas Gud, har visat sig för oss;",
+      "photo_path": "docs/reports/sv1917-print-witnesses/VE001.jpg",
+      "photo_sha256": "f34040a162660297561af653932f4f1b2c7831d210e8d3b75ba49cd36d42df6a",
+      "notes": "Tryckt s. 102: öppningsapostrof före Herren i 3:18, som i EFS 1927 och EFS 1926. E025 lägger till den; e-texten saknade den.",
+      "book": "Exod",
+      "chapter": 3,
+      "verse": 18,
+      "status": "resolved",
+      "text_sha256": "26969c86c86ede5cbec9732be00aea2462721b7deadff6d8ea122e9fcdaedeaf",
+      "checked_at": "2026-10-27",
+      "reviewer": "Användarens foto; Claude, visuell kontroll av fotot",
+      "source": "Användarens exemplar av Andra Moseboken, en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning."
+    },
+    {
+      "id": "VE002",
+      "correction_id": null,
+      "decision": "retained",
+      "reading": "vår Gud.'",
+      "photo_path": "docs/reports/sv1917-print-witnesses/VE002.jpg",
+      "photo_sha256": "0030d42d714844e3a0fb25af4a92bd7bf05982a6b819ffdb55dd906c6d5db009",
+      "notes": "Tryckt s. 103: 3:18 slutar vår Gud.' med slutapostrof, som i EFS 1926 och e-texten. EFS 1927 saknar den. Apostrofen behålls.",
+      "book": "Exod",
+      "chapter": 3,
+      "verse": 18,
+      "status": "resolved",
+      "text_sha256": "26969c86c86ede5cbec9732be00aea2462721b7deadff6d8ea122e9fcdaedeaf",
+      "checked_at": "2026-10-27",
+      "reviewer": "Användarens foto; Claude, visuell kontroll av fotot",
+      "source": "Användarens exemplar av Andra Moseboken, en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning."
     }
   ]
 }

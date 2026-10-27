@@ -45,7 +45,7 @@ REPLACE={
  ('Exod',3,10):('ut ur Egypten»','ut ur Egypten.»'),
  ('Exod',3,16):("äldste i Israel, och säg till dem: HERREN, edra fäders Gud, Abrahams, Isaks och Jakobs Gud, har uppenbarat sig för mig, och han har sagt: 'Jag har sett till eder och har sett det som vederfares eder Egypten;","äldste i Israel och säg till dem: HERREN, edra fäders Gud, Abrahams, Isaks och Jakobs Gud, har uppenbarat sig för mig, och han har sagt: 'Jag har sett till eder och har sett det som vederfares eder i Egypten;"),
  ('Exod',3,17):('land, ett land som flyter av','land, ett land, som flyter av'),
- ('Exod',3,18):('visat sig för oss, så låt oss nu','visat sig för oss; så låt oss nu'),
+ ('Exod',3,18):("honom: HERREN, hebréernas Gud, har visat sig för oss, så låt oss nu","honom: 'HERREN, hebréernas Gud, har visat sig för oss; så låt oss nu"),
  ('Exod',3,19):('Dock vet jag att konungen','Dock vet jag, att konungen'),
  # Exodus 4 (EFS 1927 GT s. 81-83 and EFS 1926 GT s. 72–74): E027-E037, readings both prints agree on.
  ('Exod',4,5):('»Så skola de. tro att HERREN, deras fäders Gud, Abrahams Gud, Isaks Gud och Jakobs Gud, har uppenbarat sig för dig.','»Så skola de tro, att HERREN, deras fäders Gud, Abrahams Gud, Isaks Gud och Jakobs Gud, har uppenbarat sig för dig.»'),

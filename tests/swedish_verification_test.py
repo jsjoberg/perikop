@@ -71,6 +71,8 @@ with tempfile.TemporaryDirectory() as directory:
                'photo_path': 'witness.jpg', 'photo_sha256': hashlib.sha256(photo.read_bytes()).hexdigest()}
     assert validate_print_witnesses([witness], chapters, root) == {'V001'}
     assert validate_print_witnesses([], chapters, root) == set()
+    retained = witness | {'id': 'VE001', 'decision': 'retained', 'correction_id': None}
+    assert validate_print_witnesses([retained], chapters, root) == {'VE001'}
     for invalid in ([witness, witness], [witness | {'reading': 'Different'}],
                     [witness | {'verse': 2}], [witness | {'photo_path': '../outside.jpg'}],
                     [witness | {'photo_path': 'missing.jpg'}], [witness | {'photo_sha256': 'a' * 64}],
