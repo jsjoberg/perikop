@@ -235,6 +235,10 @@ Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rap
 
 Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
 
+## GT-uppföljning, Första Moseboken 23–26
+
+Fulla originalbilder stöder behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -375,3 +379,7 @@ Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rap
 - `gt0023.jpg`: full originalbild och bevarad fil SHA-256 `8603d2bb662beee1659d61c4986d7c04efe4420bb8cd093ad9e3bdeae551a723`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n34.jpg`.
 - `gt0024.jpg`: full originalbild och bevarad fil SHA-256 `b7c50e398e2faf7cf1756758c2f3e4c34297605f0de6a2e7a2a7c799c6f2bbb5`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n35.jpg`.
 - `gt0025.jpg`: full originalbild och bevarad fil SHA-256 `3e617dbaff8b1c172b8534f595d2bfe96b42dd038391d36c4a4eb79e4efe82a2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n36.jpg`.
+- `gt0026.jpg`: full originalbild och bevarad fil SHA-256 `39a9968d3219ec30c83b94a82a24ec3a9f2dbee894d0b9095d39be34b15993f4`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n37.jpg`.
+- `gt0027.jpg`: full originalbild och bevarad fil SHA-256 `031b4cd8d38eb058c16ee3e09e0824c97da642df2cfa6ee0850d8ac4d64bcd71`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n38.jpg`.
+- `gt0028.jpg`: full originalbild och bevarad fil SHA-256 `fa3dfcf89a0033aec0a5c8396412812e4851cc12398b4e10815990ed93c3e7d7`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n39.jpg`.
+- `gt0031.jpg`: full originalbild och bevarad fil SHA-256 `d86c6561b1f93785027f3c56e46a239ca710a94ee64e00bf239cb11333412e17`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n42.jpg`.
