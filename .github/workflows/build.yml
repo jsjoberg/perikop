@@ -408,8 +408,8 @@ jobs:
         with:
           name: publication-check
           path: |
-            build/release-check/SHA256SUMS.txt
-            build/release-check/releases.*.json
+            build/release-check/downloads/SHA256SUMS.txt
+            build/release-check/packages/releases.*.json
           if-no-files-found: error
   release:
     # Version tags require every check. Nightlies retain each successful platform package.
@@ -433,17 +433,18 @@ jobs:
           pattern: perikop-*
           path: packages
           merge-multiple: true
-      - name: Stage and publish native packages and update feeds
+      - name: Publish the downloads and stage the update packages
         id: publish
         env:
           GH_TOKEN: ${{ github.token }}
-          UPDATES_TOKEN: ${{ secrets.PERIKOP_UPDATES_TOKEN }}
+          ASSETS_TOKEN: ${{ secrets.PERIKOP_ASSETS_TOKEN }}
           MACOS_SANITIZERS: ${{ needs.sanitizers.result }}
           LINUX_SANITIZERS: ${{ needs.linux-sanitizers.result }}
           BUILD_VERSION: ${{ needs.nightly.outputs.version }}
         run: |
           set -euo pipefail
           mkdir -p packages/updates
+          complete=()
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
             tag=$GITHUB_REF_NAME
             version=${tag#v}
@@ -455,12 +456,17 @@ jobs:
             fi
             source="https://github.com/$GITHUB_REPOSITORY/blob/$tag"
             echo "See [the changes]($source/CHANGELOG.md) and [installation]($source/docs/using-perikop.md#installation)." > notes.md
-            options=()
+            python3 tools/ci/nightly.py downloads >> notes.md
+            # shortcut: 0.2.1 alone carries update packages for 0.2.0 copies; remove after 0.2.1.
+            if [ "$version" = 0.2.1 ]; then
+              printf '\nThe .nupkg and releases.*.json files update copies of Perikop 0.2.0; new installations do not need them.\n' >> notes.md
+            fi
+            options=(--verify-tag --draft --title "Perikop $version")
+            complete=(--complete)
           else
             day=$(TZ=Europe/Stockholm date +%F)
             tag="nightly-$day-${GITHUB_SHA:0:7}"
-            if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1 || \
-               GH_TOKEN="$UPDATES_TOKEN" gh release view "$tag" --repo jsjoberg/perikop-updates > /dev/null 2>&1; then
+            if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
               tag="$tag-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
             fi
             version=$BUILD_VERSION
@@ -471,13 +477,20 @@ jobs:
               echo 'No successful platform packages; no nightly was published.' >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
-            options=(--nightly)
+            options=(--target "$GITHUB_SHA" --prerelease --latest=false --title "Perikop nightly $day")
           fi
-          python3 tools/ci/publish_release.py stage --source packages/updates --output release-assets \
-            --version "$version" --tag "$tag" --notes notes.md --target "$GITHUB_SHA" "${options[@]}"
+          python3 tools/ci/update_packages.py assemble packages/updates release-assets "$version" "${complete[@]}"
+          # Packages go up first; installed copies see them only once publish updates the feeds.
+          GH_TOKEN="$ASSETS_TOKEN" python3 tools/ci/update_packages.py stage release-assets/packages --tag "$tag" --version "$version"
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" "${options[@]}" --notes-file notes.md release-assets/downloads/*
           if [ "$NIGHTLY" = true ]; then
-            python3 tools/ci/publish_release.py promote --tag "$tag" --nightly
+            GH_TOKEN="$ASSETS_TOKEN" python3 tools/ci/update_packages.py publish --tag "$tag"
           else
-            echo 'Both repositories have verified drafts. Run the Publish reviewed release workflow after review; see docs/releasing.md.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'The release is a draft. Publishing it runs the Publish updates workflow, which makes it available to installed copies.' >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
+      - name: Keep the latest seven nightlies
+        if: env.NIGHTLY == 'true' && steps.publish.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/ci/update_packages.py cleanup --repository "$GITHUB_REPOSITORY" --keep 7

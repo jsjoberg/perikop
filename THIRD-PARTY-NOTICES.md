@@ -91,12 +91,9 @@ The runtime names its commit (`--appimage-version`). The license texts are in
 LGPL-2.1, from libfuse 3.15.0), `libfuse-LICENSE.txt`, `squashfuse-LICENSE.txt`,
 `zstd-LICENSE.txt`, `zlib-LICENSE.txt`, `mimalloc-LICENSE.txt`, and `musl-COPYRIGHT.txt`.
 
-The LGPL-2.1 lets you modify libfuse and relink the runtime with your version. From 0.2.1,
-release notes beside each AppImage link to the public corresponding-source downloads in
-https://github.com/jsjoberg/perikop-updates/releases. `AppImage-runtime-source-3d17002.tar.gz`
-is retained there across nightly cleanup, with SHA-256 checksums. Earlier releases keep their
-original source assets. The corresponding source contains the runtime revision with its build
-scripts and the libfuse patch,
+The LGPL-2.1 lets you modify libfuse and relink the runtime with your version. Every release
+and nightly that carries AppImages also carries `AppImage-runtime-source-3d17002.tar.gz`,
+the corresponding source: the runtime revision with its build scripts and the libfuse patch,
 the libfuse 3.15.0 release, and the sources of every other library linked into the runtime. Its
 `README.md` explains how to rebuild the runtime, relink it with a modified libfuse, and put it in
 front of a Perikop AppImage. `tools/appimage_runtime.py` makes the archive from inputs pinned by

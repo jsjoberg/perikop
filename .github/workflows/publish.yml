@@ -1,18 +1,20 @@
-name: Publish reviewed release
+name: Publish updates
+# Publishing a reviewed release draft makes its staged update packages live for installed copies.
 on:
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       tag:
-        description: Verified draft tag to publish in both repositories
+        description: Published release tag whose staged updates to make live
         required: true
         type: string
 permissions:
   contents: read
 jobs:
   publish:
+    if: ${{ github.event_name == 'workflow_dispatch' || (startsWith(github.event.release.tag_name, 'v') && !github.event.release.prerelease) }}
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write
     concurrency:
       group: perikop-release-publication
       cancel-in-progress: false
@@ -21,9 +23,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/python
-      - name: Verify and publish the reviewed pair
+      - name: Merge the staged feed entries into the live feeds
         env:
-          GH_TOKEN: ${{ github.token }}
-          UPDATES_TOKEN: ${{ secrets.PERIKOP_UPDATES_TOKEN }}
-          RELEASE_TAG: ${{ inputs.tag }}
-        run: python3 tools/ci/publish_release.py promote --tag "$RELEASE_TAG"
+          GH_TOKEN: ${{ secrets.PERIKOP_ASSETS_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+        run: python3 tools/ci/update_packages.py publish --tag "$RELEASE_TAG"

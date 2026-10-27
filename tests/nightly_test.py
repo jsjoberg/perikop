@@ -39,7 +39,7 @@ class NightlyTest(unittest.TestCase):
             self.assertEqual(self.prepare(updates), TAG)
             notes = self.notes(updates)
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
-            self.assertIn("Available platforms:\n- macOS Apple Silicon\n- Windows x64", notes)
+            self.assertIn("Available platforms:\n- macOS Apple Silicon: `Perikop.pkg`\n- Windows x64: `Perikop-Setup.exe`", notes)
             self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64", notes)
             self.assertIn("Sanitizers:\n- macOS: **passed**\n- Linux: **passed**", notes)
             # The notes stay outside the publication, which ships every file in it.
@@ -103,7 +103,7 @@ class NightlyTest(unittest.TestCase):
             self.fixtures(updates, ["win-x64"])
             self.prepare(updates, version="0.1.1-nightly.20261016.7.1")
             self.assertIn("Version `0.1.1-nightly.20261016.7.1`.", self.notes(updates))
-            self.assertIn("Perikop-win-x64-0.1.1-nightly.20261016.7.1-Setup.exe", self.notes(updates))
+            self.assertIn("Windows x64: `Perikop-Setup.exe`", self.notes(updates))
             self.assertNotIn("win-x64-nightly-Setup.exe", self.notes(updates))
 
 

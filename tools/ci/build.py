@@ -77,7 +77,7 @@ def linux(package):
     # uv's standalone Python carries modern SQLite; no LD_PRELOAD or custom SQLite build is needed.
     python("tools/check_resources.py")
     checks("osb_metadata", "modern_lexicon", "srb_pronunciation", "icon", "linux_abi", "ci_dependencies", "ci_build", "windows_cross",
-           "appimage_licenses", "nightly", "update_packages", "publish_release")
+           "appimage_licenses", "nightly", "update_packages")
     if package:
         run("tools/prepare_appdir.sh", BUILD)
         python("tools/ci/velopack_linux_test.py", BUILD)
@@ -100,7 +100,7 @@ def macos(package):
     run("ctest", "--test-dir", BUILD, "--output-on-failure")
     run("cmake", "--build", BUILD, "--target", "tidy")
     python("tools/check_resources.py")
-    checks("osb_metadata", "icon", "linux_abi", "ci_dependencies", "ci_build", "macos_arch", "nightly", "update_packages", "publish_release")
+    checks("osb_metadata", "icon", "linux_abi", "ci_dependencies", "ci_build", "macos_arch", "nightly", "update_packages")
     if package or os.environ.get("GITHUB_EVENT_NAME") == "pull_request":
         run("cmake", "--install", BUILD, "--prefix", "build/stage", "--strip")
         bundle = ROOT / "build/stage/Perikop.app"

@@ -1,4 +1,4 @@
-"""Update publications remain verifiable and nightly cleanup never strands retained feeds."""
+"""Update publications remain verifiable, and the updates release never loses a package a feed names."""
 
 import hashlib
 import importlib.util
@@ -44,13 +44,13 @@ class UpdatePackagesTest(unittest.TestCase):
             [{"RelativeFileName": entry["FileName"], "Type": entry["Type"]} for entry in published]))
         return entries
 
-    def test_publication_has_verified_base_full_and_new_delta(self):
+    def test_publication_has_new_full_and_delta_but_does_not_duplicate_the_base(self):
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary)
             entries = self.fixture(source)
             destination = source / "publication"
             updates.finish(source, CHANNEL, "1.0.0-test.2", destination)
-            self.assertTrue((destination / entries[0]["FileName"]).is_file())
+            self.assertFalse((destination / entries[0]["FileName"]).exists())
             self.assertTrue((destination / entries[1]["FileName"]).is_file())
             self.assertTrue((destination / entries[2]["FileName"]).is_file())
             feed = json.loads((destination / f"releases.{CHANNEL}.json").read_text())
@@ -130,7 +130,7 @@ class UpdatePackagesTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     updates.feed_assets({"Assets": [entry]}, CHANNEL)
 
-    def test_assemble_checksums_cover_installers_feeds_and_update_packages(self):
+    def test_assemble_gives_downloads_plain_names_and_keeps_packages_apart(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             publication = root / "updates"
@@ -140,13 +140,38 @@ class UpdatePackagesTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "lacks its installer"):
                 updates.assemble(publication, root / "refused", "1.0.0-test.2")
             (publication / f"Perikop-{CHANNEL}-Setup.pkg").write_bytes(b"installer")
+            (publication / f"Perikop-{CHANNEL}-Portable.zip").write_bytes(b"portable")
             output = root / "release"
             updates.assemble(publication, output, "1.0.0-test.2")
-            lines = (output / "SHA256SUMS.txt").read_text().splitlines()
-            self.assertEqual(len(lines), 3)
+            downloads = output / "downloads"
+            self.assertEqual(sorted(path.name for path in downloads.iterdir()),
+                             ["Perikop-macOS-Portable.zip", "Perikop.pkg", "SHA256SUMS.txt"])
+            self.assertEqual(sorted(path.name for path in (output / "packages").iterdir()),
+                             [asset("1.0.0-test.2")["FileName"], f"releases.{CHANNEL}.json"])
+            lines = (downloads / "SHA256SUMS.txt").read_text().splitlines()
+            self.assertEqual(len(lines), 2)
             for line in lines:
                 digest, name = line.split("  ")
-                self.assertEqual(digest, hashlib.sha256((output / name).read_bytes()).hexdigest())
+                self.assertEqual(digest, hashlib.sha256((downloads / name).read_bytes()).hexdigest())
+            (publication / "notes.txt").write_text("stray")
+            with self.assertRaisesRegex(ValueError, "Unexpected release file"):
+                updates.assemble(publication, root / "stray", "1.0.0-test.2")
+
+    def test_only_0_2_1_carries_packages_for_0_2_0_copies(self):
+        channel = "win-x64-releases"
+        for version, bridged in (("0.2.1", True), ("0.2.2", False)):
+            with self.subTest(version=version), tempfile.TemporaryDirectory() as temporary:
+                publication = Path(temporary) / "updates"
+                publication.mkdir()
+                full = asset(version, channel=channel)
+                write_asset(publication, full)
+                (publication / f"releases.{channel}.json").write_text(json.dumps({"Assets": [full]}))
+                (publication / f"Perikop-{channel}-Setup.exe").write_bytes(b"installer")
+                updates.assemble(publication, Path(temporary) / "release", version)
+                downloads = {path.name for path in (Path(temporary) / "release/downloads").iterdir()}
+                self.assertIn("Perikop-Setup.exe", downloads)
+                self.assertEqual(f"releases.{channel}.json" in downloads, bridged)
+                self.assertEqual(full["FileName"] in downloads, bridged)
 
     def test_assemble_ships_the_appimage_runtime_source_beside_appimages(self):
         channel = "linux-x64-glibc239-nightly"
@@ -163,7 +188,8 @@ class UpdatePackagesTest(unittest.TestCase):
                 updates.assemble(publication, root / "refused", "1.0.0-test.2")
             (publication / "AppImage-runtime-source-3d17002.tar.gz").write_bytes(b"source")
             updates.assemble(publication, root / "release", "1.0.0-test.2")
-            checksums = (root / "release/SHA256SUMS.txt").read_text()
+            self.assertTrue((root / "release/downloads/Perikop-x86_64.AppImage").is_file())
+            checksums = (root / "release/downloads/SHA256SUMS.txt").read_text()
             self.assertIn(hashlib.sha256(b"source").hexdigest() + "  AppImage-runtime-source-3d17002.tar.gz\n",
                           checksums)
 
@@ -203,28 +229,30 @@ class UpdatePackagesTest(unittest.TestCase):
             self.assertEqual([path.name for path in packages], [asset("1.0.0-test.2")["FileName"]])
             self.assertNotIn(asset("1.0.0-test.3")["FileName"], downloaded)
 
-    def test_migration_restores_legacy_base_when_update_repository_is_empty(self):
+    def test_restore_prefers_the_updates_release_and_falls_back_to_the_main_repository(self):
         channel = "win-x64-releases"
-        entry = asset("0.2.0", channel=channel)
-        release = {"tag_name": "v0.2.0", "prerelease": False,
-                   "assets": [{"name": f"releases.{channel}.json"}, {"name": entry["FileName"]}]}
+        legacy, current = asset("0.2.0", channel=channel), asset("0.2.1", channel=channel)
+        hosts = {updates.UPDATES: [{"tag_name": updates.UPDATES_TAG, "prerelease": False, "assets": [
+                     {"name": f"releases.{channel}.json"}, {"name": current["FileName"]}]},
+                    {"tag_name": "ci-dependencies-abc", "prerelease": True, "assets": []}],
+                 "jsjoberg/perikop": [{"tag_name": "v0.2.0", "prerelease": False, "assets": [
+                     {"name": f"releases.{channel}.json"}, {"name": legacy["FileName"]}]}]}
+        feeds = {updates.UPDATES: current, "jsjoberg/perikop": legacy}
         downloaded = []
         def download(repository, tag, name, directory):
             downloaded.append((repository, name))
             if name.endswith(".json"):
-                (directory / name).write_text(json.dumps({"Assets": [entry]}))
+                (directory / name).write_text(json.dumps({"Assets": [feeds[repository]]}))
             else:
-                write_asset(directory, entry)
+                write_asset(directory, feeds[repository])
             return directory / name
-        def history(repository):
-            return [release] if repository == updates.LEGACY_REPOSITORY else []
-        with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, NIGHTLY="false"), \
-                patch.object(updates, "releases", side_effect=history), \
-                patch.object(updates, "download", side_effect=download):
-            updates.restore(updates.UPDATE_REPOSITORY, "Windows", Path(temporary), "0.2.1", updates.LEGACY_REPOSITORY)
-            updates.verify(Path(temporary) / channel / entry["FileName"], entry)
-        self.assertTrue(downloaded)
-        self.assertTrue(all(repository == updates.LEGACY_REPOSITORY for repository, _ in downloaded))
+        for version, expected in (("0.2.2", current), ("0.2.1", legacy)):
+            with self.subTest(version=version), tempfile.TemporaryDirectory() as temporary, \
+                    patch.dict(os.environ, NIGHTLY="false"), \
+                    patch.object(updates, "releases", side_effect=lambda repository: hosts[repository]), \
+                    patch.object(updates, "download", side_effect=download):
+                updates.restore("jsjoberg/perikop", "Windows", Path(temporary), version)
+                updates.verify(Path(temporary) / channel / expected["FileName"], expected)
 
     def test_versions_order_nightly_numbers_numerically_and_stable_above_prerelease(self):
         versions = ["1.0.0-alpha.1", "1.0.0-nightly.20261018.9.1", "1.0.0-nightly.20261018.10.1", "1.0.0", "1.0.1"]
@@ -256,156 +284,135 @@ class WindowsProbeTest(unittest.TestCase):
                 windows.wait_for_probe(probe, "1.0.0-test.2", lambda: "1.0.0-test.2")
 
 
-class RetentionTest(unittest.TestCase):
-    def test_retired_feeds_still_keep_their_referenced_packages(self):
-        for platform in ("osx-x64", "linux-x64", "linux-arm64", "linux-x64-glibc241", "linux-arm64-glibc241"):
-            with self.subTest(platform=platform):
-                releases, feeds, current = self.fixture()
-                channel = platform + "-nightly"
-                base = asset("1.0.0-nightly.2", channel=channel)
-                name = f"releases.{channel}.json"
-                releases[1]["assets"].append({"name": base["FileName"]})
-                releases[-1]["assets"].append({"name": name})
-                feeds[current, name] = {"Assets": [base]}
-                rescue, obsolete = updates.retention_plan(releases, feeds, current)
-                self.assertIn((releases[1]["tag_name"], base), rescue)
-                self.assertIn(releases[1]["tag_name"], obsolete)
+class FakeUpdates:
+    """The updates release as asset names and bytes, behind gh, releases and download."""
 
-    def fixture(self):
-        releases, feeds = [], {}
-        for number in range(1, 10):
-            tag = f"nightly-2026-10-{number:02d}-aaaaaaa"
-            entries = [asset(f"1.0.0-nightly.{number}")]
-            if number > 1:
-                entries += [asset(f"1.0.0-nightly.{number - 1}"), asset(f"1.0.0-nightly.{number}", "Delta")]
-            name = f"releases.{CHANNEL}.json"
-            feeds[tag, name] = {"Assets": entries}
-            releases.append({"tag_name": tag, "published_at": f"2026-10-{number:02d}T00:00:00Z",
-                             "draft": False, "prerelease": True,
-                             "assets": [{"name": name}, {"name": "SHA256SUMS.txt"}] + [{"name": entry["FileName"]} for entry in entries
-                                                          if entry["Version"] == f"1.0.0-nightly.{number}"]})
-        return releases, feeds, releases[-1]["tag_name"]
+    def __init__(self, assets=None):
+        self.assets = dict(assets or {})
+        self.exists = assets is not None
 
-    def test_oldest_retained_delta_base_is_rescued_before_its_release_is_removed(self):
-        releases, feeds, current = self.fixture()
-        rescue, obsolete = updates.retention_plan(releases, feeds, current)
-        self.assertEqual(obsolete, [releases[1]["tag_name"], releases[0]["tag_name"]])
-        self.assertEqual(rescue, [(releases[1]["tag_name"], asset("1.0.0-nightly.2"))])
-        self.assertNotIn(current, obsolete)
+    def releases(self, repository):
+        if repository != updates.UPDATES or not self.exists:
+            return []
+        return [{"tag_name": updates.UPDATES_TAG, "draft": False, "prerelease": False,
+                 "assets": [{"name": name} for name in self.assets]}]
 
-    def test_a_previously_rescued_base_needs_no_duplicate_upload(self):
-        releases, feeds, current = self.fixture()
-        releases[-1]["assets"].append({"name": asset("1.0.0-nightly.2")["FileName"]})
-        rescue, obsolete = updates.retention_plan(releases, feeds, current)
-        self.assertEqual(rescue, [])
-        self.assertEqual(len(obsolete), 2)
+    def download(self, repository, tag, name, directory):
+        path = directory / name
+        path.write_bytes(self.assets[name])
+        return path
 
-    def test_missing_base_or_missing_current_stops_cleanup(self):
-        releases, feeds, current = self.fixture()
-        releases[1]["assets"] = []
-        with self.assertRaisesRegex(ValueError, "missing package"):
-            updates.retention_plan(releases, feeds, current)
-        with self.assertRaisesRegex(ValueError, "Published nightly is missing"):
-            updates.retention_plan(releases, feeds, "nightly-2026-10-30-bbbbbbb")
-
-    def test_cleanup_never_deletes_stable_releases_drafts_or_dependency_snapshots(self):
-        releases, feeds, current = self.fixture()
-        extras = [{"tag_name": "v1.0.0", "draft": False, "prerelease": False},
-                  {"tag_name": "ci-dependencies-aaaaaaaaaaaa", "draft": False, "prerelease": True},
-                  {"tag_name": "nightly-2026-10-01-bbbbbbb", "draft": True, "prerelease": True}]
-        rescue, obsolete = updates.retention_plan(releases + extras, feeds, current)
-        self.assertEqual(set(obsolete), {releases[0]["tag_name"], releases[1]["tag_name"]})
-
-    def test_conflicting_feed_hashes_and_excess_retention_stop_cleanup(self):
-        releases, feeds, current = self.fixture()
-        name = f"releases.{CHANNEL}.json"
-        feeds[releases[-1]["tag_name"], name]["Assets"][1]["SHA256"] = "f" * 64
-        with self.assertRaisesRegex(ValueError, "disagree"):
-            updates.retention_plan(releases, feeds, current)
-        with self.assertRaisesRegex(ValueError, "one and nine"):
-            updates.retention_plan(releases, feeds, current, keep=10)
-
-    def test_rescue_upload_failure_deletes_no_release(self):
-        releases, feeds, current = self.fixture()
-        calls = []
-        def download(repository, tag, name, directory):
-            path = directory / name
-            if name == "SHA256SUMS.txt":
-                entries = [entry for entry in feeds[current, f"releases.{CHANNEL}.json"]["Assets"]
-                           if entry["Version"] == "1.0.0-nightly.9"]
-                values = {entry["FileName"]: entry["SHA256"] for entry in entries}
-                values[f"releases.{CHANNEL}.json"] = "f" * 64
-                path.write_text(updates.checksum_text(values))
-            elif name.endswith(".json"):
-                path.write_text(json.dumps(feeds[tag, name]))
-            else:
-                write_asset(directory, asset("1.0.0-nightly.2"))
-            return path
-        def gh(*arguments):
-            calls.append(arguments)
-            if arguments[:2] == ("release", "upload"):
-                raise RuntimeError("Upload failed")
+    def gh(self, *arguments):
+        arguments = list(map(str, arguments))
+        if arguments[:2] == ["release", "create"]:
+            self.exists = True
+        elif arguments[:2] == ["release", "upload"]:
+            path = Path(arguments[3])
+            if path.name in self.assets and "--clobber" not in arguments:
+                raise RuntimeError("asset exists")
+            self.assets[path.name] = path.read_bytes()
+        elif arguments[:2] == ["release", "delete-asset"]:
+            del self.assets[arguments[3]]
+        else:
             raise AssertionError(arguments)
-        with patch.object(updates, "releases", return_value=releases), \
-                patch.object(updates, "download", side_effect=download), patch.object(updates, "gh", side_effect=gh):
-            with self.assertRaisesRegex(RuntimeError, "Upload failed"):
-                updates.cleanup("owner/repo", current, 7)
-        self.assertFalse(any(arguments[:2] == ("release", "delete") for arguments in calls))
+        return ""
 
-    def test_rescued_package_checksum_is_uploaded_before_any_release_is_deleted(self):
-        releases, feeds, current = self.fixture()
-        calls, uploaded = [], {}
-        def download(repository, tag, name, directory):
-            path = directory / name
-            if name == "SHA256SUMS.txt":
-                entries = [entry for entry in feeds[current, f"releases.{CHANNEL}.json"]["Assets"]
-                           if entry["Version"] == "1.0.0-nightly.9"]
-                values = {entry["FileName"]: entry["SHA256"] for entry in entries}
-                values[f"releases.{CHANNEL}.json"] = "f" * 64
-                path.write_text(updates.checksum_text(values))
-            elif name.endswith(".json"):
-                path.write_text(json.dumps(feeds[tag, name]))
-            else:
-                write_asset(directory, asset("1.0.0-nightly.2"))
-            return path
-        def gh(*arguments):
-            calls.append(arguments)
-            if arguments[:2] == ("release", "upload"):
-                uploaded[Path(arguments[3]).name] = Path(arguments[3]).read_bytes()
-                return ""
-            if arguments[:2] == ("release", "view"):
-                names = {item["name"] for item in releases[-1]["assets"]} | set(uploaded)
-                return json.dumps({"assets": [{"name": name} for name in names]})
-            if arguments[:2] == ("release", "delete"):
-                return ""
-            raise AssertionError(arguments)
-        with patch.object(updates, "releases", return_value=releases), \
-                patch.object(updates, "download", side_effect=download), patch.object(updates, "gh", side_effect=gh):
-            updates.cleanup("owner/repo", current, 7)
-        checksums = updates.read_checksums(uploaded["SHA256SUMS.txt"].decode())
-        rescued = asset("1.0.0-nightly.2")
-        self.assertEqual(checksums[rescued["FileName"]], rescued["SHA256"])
-        checksum_upload = next(index for index, call in enumerate(calls)
-                               if call[:2] == ("release", "upload") and Path(call[3]).name == "SHA256SUMS.txt")
-        first_deletion = next(index for index, call in enumerate(calls) if call[:2] == ("release", "delete"))
-        self.assertLess(checksum_upload, first_deletion)
-        calls.clear()
-        uploaded.clear()
-        def reject_checksum(*arguments):
-            if arguments[:2] == ("release", "upload") and Path(arguments[3]).name == "SHA256SUMS.txt":
-                raise RuntimeError("Checksum upload failed")
-            return gh(*arguments)
-        with patch.object(updates, "releases", return_value=releases), \
-                patch.object(updates, "download", side_effect=download), patch.object(updates, "gh", side_effect=reject_checksum):
-            with self.assertRaisesRegex(RuntimeError, "Checksum upload failed"):
-                updates.cleanup("owner/repo", current, 7)
-        self.assertFalse(any(call[:2] == ("release", "delete") for call in calls))
+    def patch(self):
+        return patch.multiple(updates, releases=self.releases, download=self.download, gh=self.gh)
 
-    def test_invalid_checksum_records_are_rejected(self):
-        for text in ("", "invalid", "a" * 64 + "  ../escape\n", "a" * 64 + "  SHA256SUMS.txt\n"):
-            with self.assertRaises(ValueError):
-                updates.read_checksums(text)
+    def feed(self, channel=CHANNEL):
+        return json.loads(self.assets[f"releases.{channel}.json"])["Assets"]
 
+
+def stage_directory(directory, version, previous=None, channel=CHANNEL):
+    entries = [asset(version, channel=channel)]
+    if previous:
+        entries = [asset(previous, channel=channel)] + entries + [asset(version, "Delta", channel=channel)]
+    for entry in entries:
+        if entry["Version"] == version:
+            write_asset(directory, entry)
+    (directory / f"releases.{channel}.json").write_text(json.dumps({"Assets": entries}))
+    return entries
+
+
+def asset_bytes(*entries):
+    return {entry["FileName"]: (entry["Version"] + entry["Type"]).encode() for entry in entries}
+
+
+class UpdatesReleaseTest(unittest.TestCase):
+    def test_merge_keeps_the_newest_full_and_recent_deltas(self):
+        assets = [asset(f"1.0.{number}") for number in range(1, 10)]
+        assets += [asset(f"1.0.{number}", "Delta") for number in range(2, 10)]
+        merged = updates.merge(assets[:-1], [assets[8], assets[-1]])
+        self.assertEqual(merged[0], asset("1.0.9"))
+        self.assertEqual([entry["Version"] for entry in merged[1:]], [f"1.0.{n}" for n in range(9, 9 - updates.KEEP, -1)])
+        self.assertTrue(all(entry["Type"] == "Delta" for entry in merged[1:]))
+
+    def test_staged_packages_go_live_only_on_publish(self):
+        old = asset("1.0.0-test.1")
+        fake = FakeUpdates({**asset_bytes(old), f"releases.{CHANNEL}.json": json.dumps({"Assets": [old]}).encode()})
+        with tempfile.TemporaryDirectory() as temporary, fake.patch():
+            entries = stage_directory(Path(temporary), "1.0.0-test.2", "1.0.0-test.1")
+            updates.stage(Path(temporary), "nightly-tag", "1.0.0-test.2")
+            self.assertEqual(fake.feed(), [old])
+            self.assertIn(entries[1]["FileName"], fake.assets)
+            updates.publish("nightly-tag")
+        self.assertEqual(fake.feed(), [entries[1], entries[2]])
+        self.assertNotIn(f"nightly-tag.releases.{CHANNEL}.json", fake.assets)
+        # The old full package is no longer named by any feed.
+        self.assertNotIn(old["FileName"], fake.assets)
+
+    def test_first_stage_creates_the_updates_release(self):
+        fake = FakeUpdates()
+        with tempfile.TemporaryDirectory() as temporary, fake.patch():
+            entries = stage_directory(Path(temporary), "1.0.0-test.1")
+            updates.stage(Path(temporary), "nightly-tag", "1.0.0-test.1")
+            updates.publish("nightly-tag")
+        self.assertEqual(fake.feed(), entries)
+
+    def test_a_staged_release_keeps_its_packages_while_nightlies_publish(self):
+        fake = FakeUpdates({})
+        channel = "osx-arm64-releases"
+        with tempfile.TemporaryDirectory() as temporary, fake.patch():
+            release, nightly = Path(temporary) / "release", Path(temporary) / "nightly"
+            release.mkdir()
+            nightly.mkdir()
+            staged = stage_directory(release, "1.0.0", channel=channel)
+            stage_directory(nightly, "1.0.1-nightly.1")
+            updates.stage(release, "v1.0.0", "1.0.0")
+            updates.stage(nightly, "nightly-tag", "1.0.1-nightly.1")
+            updates.publish("nightly-tag")
+            self.assertIn(staged[0]["FileName"], fake.assets)
+            self.assertNotIn(f"releases.{channel}.json", fake.assets)
+            updates.publish("v1.0.0")
+        self.assertEqual(fake.feed(channel), staged)
+
+    def test_uploaded_bytes_are_never_replaced(self):
+        entry = asset("1.0.0-test.1")
+        fake = FakeUpdates({entry["FileName"]: b"other bytes"})
+        with tempfile.TemporaryDirectory() as temporary, fake.patch():
+            stage_directory(Path(temporary), "1.0.0-test.1")
+            with self.assertRaisesRegex(ValueError, "size"):
+                updates.stage(Path(temporary), "nightly-tag", "1.0.0-test.1")
+        self.assertEqual(fake.assets[entry["FileName"]], b"other bytes")
+
+    def test_a_retried_stage_accepts_the_same_bytes(self):
+        fake = FakeUpdates({})
+        with tempfile.TemporaryDirectory() as temporary, fake.patch():
+            stage_directory(Path(temporary), "1.0.0-test.1")
+            updates.stage(Path(temporary), "nightly-tag", "1.0.0-test.1")
+            updates.stage(Path(temporary), "nightly-tag", "1.0.0-test.1")
+
+    def test_cleanup_deletes_only_old_nightlies(self):
+        listed = [{"tag_name": f"nightly-2026-10-{day:02d}-aaaaaaa", "prerelease": True,
+                   "published_at": f"2026-10-{day:02d}T00:00:00Z"} for day in range(1, 11)]
+        listed += [{"tag_name": "v0.2.0", "prerelease": False, "published_at": "2026-10-05T00:00:00Z"},
+                   {"tag_name": "v0.2.0-alpha.1", "prerelease": True, "published_at": "2026-10-01T00:00:00Z"}]
+        deleted = []
+        with patch.object(updates, "releases", return_value=listed), \
+                patch.object(updates, "gh", side_effect=lambda *arguments: deleted.append(arguments[2])):
+            updates.cleanup("owner/repo", 7)
+        self.assertEqual(deleted, [f"nightly-2026-10-{day:02d}-aaaaaaa" for day in (3, 2, 1)])
 
 if __name__ == "__main__":
     unittest.main()

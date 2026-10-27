@@ -6,26 +6,26 @@ Perikop works offline after installation. The interface is in Swedish.
 
 Download the file for your system from [the releases](https://github.com/jsjoberg/perikop/releases).
 
-From 0.2.1, download filenames contain the version number. The examples below are for 0.2.1; each release lists the exact files to choose. Nightly prereleases include their full nightly version in the filename. Each updates itself from its selected channel; see [Updates](#updates). Additional compatibility packages on some releases are for installed updaters.
+Releases and nightly builds, published as prereleases, carry the files named below. Each copy updates itself from its selected channel; see [Updates](#updates). The 0.2.1 release also carries `.nupkg` and `releases.*.json` files for updating 0.2.0; new installations do not need them.
 
 ### Windows
-Requires Windows 10 or later, x86-64. Download `Perikop-win-x64-0.2.1-Setup.exe` and run it.
+Requires Windows 10 or later, x86-64. Download `Perikop-Setup.exe` and run it.
 If you installed the older `windows-x64.exe` NSIS package, uninstall it once first. Your reading profile is outside the application files and is kept.
 The installer is unsigned. If Microsoft Defender SmartScreen blocks it, select *More info* → *Run anyway*.
 
 ### macOS
 Requires macOS 15 or later on an Apple Silicon Mac (M-series). Intel Macs are no longer supported. **About This Mac** shows whether your Mac has an Apple chip or an Intel processor.
-Download `Perikop-osx-arm64-0.2.1-Setup.pkg` and open it. The package is unsigned and not notarized: if macOS blocks it, go to *System Settings* → *Privacy & Security* and select *Open Anyway*. The app has an ad-hoc signature, and the same applies on its first launch.
+Download `Perikop.pkg` and open it. The package is unsigned and not notarized: if macOS blocks it, go to *System Settings* → *Privacy & Security* and select *Open Anyway*. The app has an ad-hoc signature, and the same applies on its first launch.
 A copy installed from the older DMG cannot update itself; install the package once. See [update validation](updating.md#packaging-and-validation) for the release checks.
 
 ### Linux
-Requires x86-64 and glibc 2.39 or later: Debian 13, Enterprise Linux 10 (AlmaLinux, Rocky Linux, RHEL), Ubuntu 26.04, Fedora 40, or newer, and rolling distributions such as Arch. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-linux-x64-glibc239-0.2.1.AppImage`.
-Make it executable (`chmod +x Perikop-linux-x64-glibc239-0.2.1.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
+Requires x86-64 and glibc 2.39 or later: Debian 13, Enterprise Linux 10 (AlmaLinux, Rocky Linux, RHEL), Ubuntu 26.04, Fedora 40, or newer, and rolling distributions such as Arch. Ubuntu 24.04, Debian 12, and Enterprise Linux 9 are not supported. Download `Perikop-x86_64.AppImage`.
+Make it executable (`chmod +x Perikop-x86_64.AppImage`), then run it. Keep the AppImage in a directory your user can write so it can replace itself.
 The 0.2.0 glibc 2.39 AppImage can update to 0.2.1 normally. If you use a Linux build from before that compatibility boundary, download this AppImage once on a supported system. Those retired feeds do not receive it through in-app updates, to keep an incompatible update from replacing a working copy on an older system. Your reading profile is kept.
 
 ### Raspberry Pi 3, 4 and 5
 
-All three models use the same ARM64 download: `Perikop-linux-arm64-glibc239-0.2.1.AppImage`. It targets **64-bit Raspberry Pi OS Trixie (Debian 13), with a desktop**, and glibc 2.39 or later. Raspberry Pi OS Bookworm and 32-bit installations cannot run this package, even on a 64-bit Pi. `dpkg --print-architecture` must report `arm64`.
+All three models use the same ARM64 download: `Perikop-aarch64.AppImage`. It targets **64-bit Raspberry Pi OS Trixie (Debian 13), with a desktop**, and glibc 2.39 or later. Raspberry Pi OS Bookworm and 32-bit installations cannot run this package, even on a 64-bit Pi. `dpkg --print-architecture` must report `arm64`.
 
 Make the AppImage executable and run it as described under Linux. The 0.2.0 glibc 2.39 package updates normally; a build using an earlier Linux feed needs the one-time manual download on a compatible OS. Your reading profile is kept.
 
@@ -71,6 +71,7 @@ The day page shows the selected date's readings and three reading plans. Press *
 
 **Inställningar → Uppdateringar** shows the installed version, update status, and **Sök efter uppdateringar** button. **Uppdateringskanal** selects **Utgåvor** (releases, the default) or **Nattbyggen** (experimental nightly builds). Opening the page or changing the channel makes no network requests.
 **⋮ → Sök efter uppdateringar…** opens that page and checks the chosen channel on GitHub. Each following step waits for you: **Hämta version …** downloads it, and **Starta om och installera** installs it and restarts Perikop. Checks and downloads can continue while you visit another page; return to Updates for the result or to cancel.
+A check sends GitHub the app name, the installed version and a random ID that the update library creates once per installation.
 In-app updates work in the downloads listed above. Copies from the DMG, the NSIS installer or the older AppImage, which 0.1.x offered, explain that they need a manual download instead. The feed becomes available when its GitHub release is published.
 The updater uses deltas when a suitable cached base exists, and otherwise downloads the full package. Updating or removing the application keeps your settings and reading progress. No check, download, or installation starts automatically.
 

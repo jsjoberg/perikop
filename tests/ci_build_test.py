@@ -62,8 +62,9 @@ class BuildTest(unittest.TestCase):
         reviewed = (ROOT / ".github/workflows/publish.yml").read_text()
         for workflow in (automatic, reviewed):
             self.assertIn("group: perikop-release-publication", workflow)
-            self.assertIn("UPDATES_TOKEN: ${{ secrets.PERIKOP_UPDATES_TOKEN }}", workflow)
-        self.assertIn('publish_release.py promote --tag "$RELEASE_TAG"', reviewed)
+            self.assertIn("${{ secrets.PERIKOP_ASSETS_TOKEN }}", workflow)
+        self.assertIn('update_packages.py publish --tag "$RELEASE_TAG"', reviewed)
+        self.assertIn("types: [published]", reviewed)
         self.assertIn("persist-credentials: false", reviewed)
         self.assertIn("persist-credentials: false", automatic.split("\n  release:\n", 1)[1])
 

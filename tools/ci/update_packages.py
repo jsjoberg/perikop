@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Restore verified delta bases, collect Velopack outputs, and preserve feeds during nightly cleanup."""
+"""Restore verified delta bases, collect Velopack outputs, publish them to the updates release, and trim nightlies."""
 
 import argparse
-from functools import partial
 import hashlib
 import json
 import os
@@ -13,18 +12,21 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
-UPDATE_REPOSITORY = "jsjoberg/perikop-updates"
-LEGACY_REPOSITORY = "jsjoberg/perikop"
-# The pinned SDK fetches ten releases before filtering prereleases. Seven nightlies leave
-# three stable slots; a bridge must be in the preceding two stable releases before adding one.
-SDK_RELEASE_WINDOW = 10
-NIGHTLY_RETENTION = 7
-STABLE_BRIDGE_LOOKBACK = SDK_RELEASE_WINDOW - NIGHTLY_RETENTION - 1
+# Every channel's feed and packages live on one fixed release; the app reads it through Velopack's HTTP source.
+UPDATES = "jsjoberg/perikop-assets"
+UPDATES_TAG = "updates"
+# Feeds keep the newest full package and the deltas of this many newest versions.
+KEEP = 7
 PLATFORMS = {"Linux": "linux-x64-glibc239", "Linux-arm64": "linux-arm64-glibc239", "Windows": "win-x64",
              "macOS-arm64": "osx-arm64"}
 # What Velopack makes for people to install from, as Perikop-<channel><suffix>, beside each feed.
 INSTALLERS = {"linux-x64-glibc239": ".AppImage", "linux-arm64-glibc239": ".AppImage", "win-x64": "-Setup.exe",
               "osx-arm64": "-Setup.pkg"}
+# The plain names people download, by Velopack suffix.
+DOWNLOADS = {"linux-x64-glibc239": {".AppImage": "Perikop-x86_64.AppImage"},
+             "linux-arm64-glibc239": {".AppImage": "Perikop-aarch64.AppImage"},
+             "win-x64": {"-Setup.exe": "Perikop-Setup.exe", "-Portable.zip": "Perikop-Windows-Portable.zip"},
+             "osx-arm64": {"-Setup.pkg": "Perikop.pkg", "-Portable.zip": "Perikop-macOS-Portable.zip"}}
 NIGHTLY = re.compile(r"nightly-\d{4}-\d{2}-\d{2}(?:-[0-9a-f]{7}(?:-\d+(?:-\d+)?)?)?")
 SEMVER = re.compile(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z.-]+))?")
 
@@ -100,27 +102,24 @@ def verify(path, asset):
         raise ValueError("Package checksum mismatch: " + str(path))
 
 
-def gh(*arguments, token=None):
-    environment = dict(os.environ)
-    if token is not None:
-        environment["GH_TOKEN"] = token
-    return subprocess.check_output(["gh", *map(str, arguments)], text=True, env=environment)
+def gh(*arguments):
+    return subprocess.check_output(["gh", *map(str, arguments)], text=True)
 
 
-def releases(repository, token=None):
-    pages = json.loads(gh("api", "--paginate", "--slurp", f"repos/{repository}/releases?per_page=100", token=token))
+def releases(repository):
+    pages = json.loads(gh("api", "--paginate", "--slurp", f"repos/{repository}/releases?per_page=100"))
     return [release for page in pages for release in page if not release["draft"]]
 
 
-def download(repository, tag, name, destination, token=None):
+def download(repository, tag, name, destination):
     # All downloads stay within the chosen repository; feed URLs are never executed or fetched.
     if Path(name).name != name or name.startswith("-"):
         raise ValueError("Unsafe release asset name")
-    gh("release", "download", tag, "--repo", repository, "--pattern", name, "--dir", destination, token=token)
+    gh("release", "download", tag, "--repo", repository, "--pattern", name, "--dir", destination)
     return destination / name
 
 
-def restore(repository, platform, output, version, fallback=None):
+def restore(repository, platform, output, version):
     channel = channel_for(platform)
     target = precedence(version)
     output = output / channel
@@ -129,29 +128,30 @@ def restore(repository, platform, output, version, fallback=None):
         raise ValueError("Delta base directory must be empty: " + str(output))
     name = f"releases.{channel}.json"
     best = None
-    published = [(repo, release) for repo in (repository, fallback) if repo for release in releases(repo)]
-    for repo, release in published:
+    # shortcut: the main repository's releases hold the bases from before the updates release; drop them after 0.2.1.
+    published = [(UPDATES, release) for release in releases(UPDATES) if release["tag_name"] == UPDATES_TAG]
+    published += [(repository, release) for release in releases(repository)]
+    for source, release in published:
         if channel.endswith("-releases") and release["prerelease"]:
             continue
         if name not in {asset["name"] for asset in release["assets"]}:
             continue
         with tempfile.TemporaryDirectory() as temporary:
-            feed = json.loads(download(repo, release["tag_name"], name, Path(temporary)).read_text())
+            feed = json.loads(download(source, release["tag_name"], name, Path(temporary)).read_text())
         for asset in feed_assets(feed, channel):
             key = precedence(asset["Version"])
             if asset["Type"] == "Full" and key < target and (best is None or key > best[0]):
-                best = key, asset, repo
+                best = key, asset, source
     if best is None:
         print(f"{channel}: no earlier published full package; the first package has no delta")
         return
-    asset = best[1]
-    # A feed may name a base hosted by another release, including a base rescued during cleanup.
-    repository = best[2]
-    host = next((release for repo, release in published if repo == repository
-                 if asset["FileName"] in {item["name"] for item in release["assets"]}), None)
+    _, asset, source = best
+    # A feed may name a base hosted by another release of its repository.
+    host = next((release for repo, release in published if repo == source
+                 and asset["FileName"] in {item["name"] for item in release["assets"]}), None)
     if host is None:
         raise ValueError("Published delta base is missing: " + asset["FileName"])
-    path = download(repository, host["tag_name"], asset["FileName"], output)
+    path = download(source, host["tag_name"], asset["FileName"], output)
     verify(path, asset)
     (output / name).write_text(json.dumps({"Assets": [asset]}) + "\n")
     print(f"{channel}: verified delta base {asset['Version']}")
@@ -192,7 +192,6 @@ def finish(directory, channel, version, destination):
         verify(directory / asset["FileName"], asset)
     for asset in bases:
         verify(directory / asset["FileName"], asset)
-        names.add(asset["FileName"])
     # Each publication includes only its new delta. Repeating older deltas in GitHub feeds would
     # make the pinned SDK try to apply the same patch twice when it combines release feeds.
     feed = {"Assets": bases + current}
@@ -209,11 +208,11 @@ def assemble(updates, output, version, complete=False):
     if not feeds:
         raise ValueError("Publication needs update feeds")
     present = set()
-    tracks = set()
+    if len({feed.name.rsplit("-", 1)[1] for feed in feeds}) != 1:
+        raise ValueError("Publication mixes release and nightly channels")
     for feed in feeds:
         channel = feed.name[len("releases."):-len(".json")]
         platform = channel.rsplit("-", 1)[0]
-        tracks.add(channel.rsplit("-", 1)[1])
         if platform not in INSTALLERS:
             raise ValueError("Publication contains a retired platform: " + platform)
         assets = feed_assets(json.loads(feed.read_text()), channel)
@@ -225,9 +224,8 @@ def assemble(updates, output, version, complete=False):
         if not (updates / f"Perikop-{channel}{INSTALLERS[platform]}").is_file():
             raise ValueError("Update feed lacks its installer: " + channel)
         for asset in assets:
-            verify(updates / asset["FileName"], asset)
-    if len(tracks) != 1:
-        raise ValueError("Publication mixes release and nightly channels")
+            if asset["Version"] == version:
+                verify(updates / asset["FileName"], asset)
     if complete and present != set(INSTALLERS):
         raise ValueError("A release needs every platform; missing " + ", ".join(sorted(set(INSTALLERS) - present)))
     files = sorted(updates.iterdir())
@@ -238,125 +236,127 @@ def assemble(updates, output, version, complete=False):
     output.mkdir(parents=True, exist_ok=True)
     if list(output.iterdir()):
         raise ValueError("Release staging directory must be empty")
+    downloads, packages = output / "downloads", output / "packages"
+    downloads.mkdir()
+    packages.mkdir()
+    renames = {f"Perikop-{platform}-{track}{suffix}": name for platform, names in DOWNLOADS.items()
+               for suffix, name in names.items() for track in ("releases", "nightly")}
     for file in files:
         if not file.is_file():
             raise ValueError("Invalid release file: " + file.name)
-        shutil.copy2(file, output / file.name)
+        if file.name in renames:
+            shutil.copy2(file, downloads / renames[file.name])
+        elif file in runtime_sources:
+            shutil.copy2(file, downloads / file.name)
+        elif file.name.endswith(".nupkg") or file.name.startswith("releases."):
+            shutil.copy2(file, packages / file.name)
+            # shortcut: 0.2.1 also carries its feeds and packages so 0.2.0's GitHub source finds it; remove after 0.2.1.
+            if version == "0.2.1":
+                shutil.copy2(file, downloads / file.name)
+        else:
+            raise ValueError("Unexpected release file: " + file.name)
     checksums = []
-    for file in sorted(output.iterdir()):
+    for file in sorted(downloads.iterdir()):
         with file.open("rb") as stream:
             digest = hashlib.file_digest(stream, "sha256").hexdigest()
         checksums.append(digest + "  " + file.name + "\n")
-    (output / "SHA256SUMS.txt").write_text("".join(checksums))
+    (downloads / "SHA256SUMS.txt").write_text("".join(checksums))
 
 
-def retention_plan(all_releases, feeds, current, keep=NIGHTLY_RETENTION):
-    if keep < 1 or keep >= SDK_RELEASE_WINDOW:
-        raise ValueError("Keep between one and nine nightlies so the SDK can discover releases")
-    nightlies = sorted((release for release in all_releases if not release["draft"] and release["prerelease"]
+def merge(assets, new):
+    """The newest full package and the deltas of the KEEP newest versions.
+
+    shortcut: the SDK applies every delta above the installed version, so a copy older than the oldest
+    delta's base gets an incomplete chain and falls back to the full package only if patching fails, as
+    with the GitHub source's ten-release window before; keep every delta if that becomes a problem.
+    """
+    versions = {asset["Version"] for asset in new}
+    newest = sorted([asset for asset in assets if asset["Version"] not in versions] + new,
+                    key=lambda asset: precedence(asset["Version"]), reverse=True)
+    full = next(asset for asset in newest if asset["Type"] == "Full")
+    return [full] + [asset for asset in newest if asset["Type"] == "Delta"][:KEEP]
+
+
+def updates_assets():
+    """The asset names on the updates release, which is created on first use."""
+    found = [release for release in releases(UPDATES) if release["tag_name"] == UPDATES_TAG]
+    if not found:
+        gh("release", "create", UPDATES_TAG, "--repo", UPDATES, "--latest=false", "--title", "Perikop updates",
+           "--notes", "Feeds and packages that installed copies of Perikop update from. "
+           "Downloads are at https://github.com/jsjoberg/perikop/releases.")
+        return set()
+    return {item["name"] for item in found[0]["assets"]}
+
+
+def feed_channel(name):
+    return name[name.index("releases.") + len("releases."):-len(".json")]
+
+
+def stage(packages, tag, version):
+    """Upload the new packages, and the feed entries that publish adds as <tag>.releases.<channel>.json."""
+    names = updates_assets()
+    for feed in sorted(packages.glob("releases.*.json")):
+        channel = feed_channel(feed.name)
+        current = [asset for asset in feed_assets(json.loads(feed.read_text()), channel) if asset["Version"] == version]
+        for asset in current:
+            path = packages / asset["FileName"]
+            verify(path, asset)
+            if asset["FileName"] not in names:
+                gh("release", "upload", UPDATES_TAG, path, "--repo", UPDATES)
+                continue
+            # A retry: a live feed may already name these bytes, so they are never replaced.
+            with tempfile.TemporaryDirectory() as temporary:
+                verify(download(UPDATES, UPDATES_TAG, asset["FileName"], Path(temporary)), asset)
+        staged = packages / f"{tag}.{feed.name}"
+        staged.write_text(json.dumps({"Assets": current}) + "\n")
+        gh("release", "upload", UPDATES_TAG, staged, "--repo", UPDATES, "--clobber")
+
+
+def publish(tag):
+    """Merge the entries staged for tag into the live feeds, then delete the packages no feed names."""
+    names = updates_assets()
+    staged = sorted(name for name in names if name.startswith(tag + ".releases."))
+    if not staged:
+        print(f"Nothing is staged for {tag}")
+    with tempfile.TemporaryDirectory(prefix="perikop-updates-") as temporary:
+        work = Path(temporary)
+        for name in staged:
+            live, channel = name[len(tag) + 1:], feed_channel(name)
+            directory = work / name
+            directory.mkdir()
+            new = feed_assets(json.loads(download(UPDATES, UPDATES_TAG, name, directory).read_text()), channel)
+            for asset in new:
+                verify(download(UPDATES, UPDATES_TAG, asset["FileName"], directory), asset)
+            assets = []
+            if live in names:
+                assets = feed_assets(json.loads(download(UPDATES, UPDATES_TAG, live, directory).read_text()), channel)
+            feed = work / live
+            feed.write_text(json.dumps({"Assets": merge(assets, new)}) + "\n")
+            gh("release", "upload", UPDATES_TAG, feed, "--repo", UPDATES, "--clobber")
+            gh("release", "delete-asset", UPDATES_TAG, name, "--repo", UPDATES, "--yes")
+            print(f"{channel}: published {new[0]['Version']}")
+        # Packages named by live or still-staged feeds stay.
+        names = updates_assets()
+        referenced = set()
+        for name in names:
+            if name.endswith(".json") and "releases." in name:
+                directory = work / "feeds" / name
+                directory.mkdir(parents=True)
+                feed = json.loads(download(UPDATES, UPDATES_TAG, name, directory).read_text())
+                referenced |= {asset["FileName"] for asset in feed_assets(feed, feed_channel(name))}
+        for name in sorted(names):
+            if name.endswith(".nupkg") and name not in referenced:
+                gh("release", "delete-asset", UPDATES_TAG, name, "--repo", UPDATES, "--yes")
+
+
+def cleanup(repository, keep):
+    """Delete all but the newest nightlies; installed copies update from the updates release."""
+    nightlies = sorted((release for release in releases(repository) if release["prerelease"]
                         and NIGHTLY.fullmatch(release["tag_name"])),
                        key=lambda release: (release["published_at"], release["tag_name"]), reverse=True)
-    retained = nightlies[:keep]
-    if current not in {release["tag_name"] for release in retained}:
-        raise ValueError("Published nightly is missing from the retained releases; cleanup stopped")
-    available = {asset["name"] for release in retained for asset in release["assets"]}
-    references = {}
-    for release in retained:
-        for item in release["assets"]:
-            name = item["name"]
-            if not name.startswith("releases.") or not name.endswith("-nightly.json"):
-                continue
-            channel = name[len("releases."):-len(".json")]
-            for asset in feed_assets(feeds[(release["tag_name"], name)], channel):
-                previous = references.setdefault(asset["FileName"], asset)
-                if (previous["SHA256"].lower(), previous["Size"]) != (asset["SHA256"].lower(), asset["Size"]):
-                    raise ValueError("Retained feeds disagree about an update package")
-    rescue = []
-    for name, asset in sorted(references.items()):
-        if name in available:
-            continue
-        host = next((release for release in all_releases if not release["draft"]
-                     and name in {item["name"] for item in release["assets"]}), None)
-        if host is None:
-            raise ValueError("A retained feed references a missing package: " + name)
-        rescue.append((host["tag_name"], asset))
-    return rescue, [release["tag_name"] for release in nightlies[keep:]]
-
-
-def read_checksums(text):
-    result = {}
-    for line in text.splitlines():
-        match = re.fullmatch(r"([0-9a-fA-F]{64})  (.+)", line)
-        if not match or Path(match[2]).name != match[2] or match[2] in result or match[2] == "SHA256SUMS.txt":
-            raise ValueError("Invalid release checksums")
-        result[match[2]] = match[1].lower()
-    if not result:
-        raise ValueError("Release checksums are empty")
-    return result
-
-
-def checksum_text(checksums):
-    return "".join(checksums[name] + "  " + name + "\n" for name in sorted(checksums))
-
-
-def cleanup(repository, current, keep, token=None):
-    run = partial(gh, token=token) if token is not None else gh
-    fetch = partial(download, token=token) if token is not None else download
-    all_releases = releases(repository, token=token) if token is not None else releases(repository)
-    nightlies = sorted((release for release in all_releases if release["prerelease"]
-                        and NIGHTLY.fullmatch(release["tag_name"])),
-                       key=lambda release: (release["published_at"], release["tag_name"]), reverse=True)[:keep]
-    feeds = {}
-    with tempfile.TemporaryDirectory(prefix="perikop-nightly-cleanup-") as temporary:
-        work = Path(temporary)
-        for release in nightlies:
-            directory = work / release["tag_name"]
-            directory.mkdir()
-            for asset in release["assets"]:
-                name = asset["name"]
-                if name.startswith("releases.") and name.endswith("-nightly.json"):
-                    feeds[(release["tag_name"], name)] = json.loads(
-                        fetch(repository, release["tag_name"], name, directory).read_text())
-        rescue, obsolete = retention_plan(all_releases, feeds, current, keep)
-        current_names = {item["name"] for release in all_releases if release["tag_name"] == current
-                         for item in release["assets"]}
-        checksum_dir = work / "checksums"
-        checksum_dir.mkdir()
-        checksum_file = fetch(repository, current, "SHA256SUMS.txt", checksum_dir)
-        original_checksums = checksum_file.read_text()
-        checksums = read_checksums(original_checksums)
-        references = {asset["FileName"]: asset for feed in feeds.values() for asset in feed["Assets"]}
-        for name in current_names - {"SHA256SUMS.txt"}:
-            if name in checksums:
-                if name in references and checksums[name] != references[name]["SHA256"].lower():
-                    raise ValueError("Release checksums disagree with its feeds")
-                continue
-            # Repair an attempt that uploaded a rescued base but failed before replacing the
-            # checksum list. Verify its bytes before adding its checksum.
-            if name not in references:
-                raise ValueError("An uploaded asset has no checksum or feed metadata: " + name)
-            path = fetch(repository, current, name, checksum_dir)
-            verify(path, references[name])
-            checksums[name] = references[name]["SHA256"].lower()
-        rescue_dir = work / "rescue"
-        rescue_dir.mkdir()
-        for tag, asset in rescue:
-            path = fetch(repository, tag, asset["FileName"], rescue_dir)
-            verify(path, asset)
-            run("release", "upload", current, path, "--repo", repository)
-            checksums[asset["FileName"]] = asset["SHA256"].lower()
-        updated_checksums = checksum_text(checksums)
-        if updated_checksums != original_checksums:
-            checksum_file.write_text(updated_checksums)
-            run("release", "upload", current, checksum_file, "--repo", repository, "--clobber")
-        # Confirm every referenced rescue asset is present before deleting any old release/tag.
-        names = {item["name"] for item in json.loads(run("release", "view", current, "--repo", repository,
-                                                       "--json", "assets"))["assets"]}
-        if "SHA256SUMS.txt" not in names or set(checksums) - names:
-            raise ValueError("Checksummed packages are missing; no nightly releases were deleted")
-        for tag in obsolete:
-            run("release", "delete", tag, "--repo", repository, "--cleanup-tag", "--yes")
-        print(f"Retained {min(keep, len(nightlies))} nightlies; rescued {len(rescue)} referenced packages")
+    for release in nightlies[keep:]:
+        gh("release", "delete", release["tag_name"], "--repo", repository, "--cleanup-tag", "--yes")
+    print(f"Retained {min(keep, len(nightlies))} nightlies")
 
 
 def main():
@@ -364,9 +364,7 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("version")
     restoring = commands.add_parser("restore")
-    restoring.add_argument("--repository", default=UPDATE_REPOSITORY)
-    restoring.add_argument("--fallback", default=LEGACY_REPOSITORY,
-                           help="Read-only legacy source for migration delta bases")
+    restoring.add_argument("--repository", default=os.environ.get("GITHUB_REPOSITORY"), required=False)
     restoring.add_argument("--platform", choices=PLATFORMS, required=True)
     restoring.add_argument("--output", type=Path, default=ROOT / "build/update-base")
     restoring.add_argument("--version")
@@ -383,23 +381,34 @@ def main():
         staging.add_argument(argument, type=Path)
     staging.add_argument("version")
     staging.add_argument("--complete", action="store_true", help="Require every platform, as a release does")
+    uploading = commands.add_parser("stage")
+    uploading.add_argument("packages", type=Path)
+    uploading.add_argument("--tag", required=True)
+    uploading.add_argument("--version", required=True)
+    publishing = commands.add_parser("publish")
+    publishing.add_argument("--tag", required=True)
     cleaning = commands.add_parser("cleanup")
     cleaning.add_argument("--repository", required=True)
-    cleaning.add_argument("--current", required=True)
-    cleaning.add_argument("--keep", type=int, default=NIGHTLY_RETENTION)
+    cleaning.add_argument("--keep", type=int, default=7)
     args = parser.parse_args()
     if args.command == "version":
         print(build_version())
     elif args.command == "restore":
-        restore(args.repository, args.platform, args.output, args.version or build_version(), args.fallback)
+        if not args.repository:
+            parser.error("restore needs --repository or GITHUB_REPOSITORY")
+        restore(args.repository, args.platform, args.output, args.version or build_version())
     elif args.command == "seed":
         seed(args.base, args.output)
     elif args.command == "finish":
         finish(args.directory, args.channel, args.version, args.destination)
     elif args.command == "assemble":
         assemble(args.updates, args.output, args.version, args.complete)
+    elif args.command == "stage":
+        stage(args.packages, args.tag, args.version)
+    elif args.command == "publish":
+        publish(args.tag)
     else:
-        cleanup(args.repository, args.current, args.keep)
+        cleanup(args.repository, args.keep)
 
 
 if __name__ == "__main__":
