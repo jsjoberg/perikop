@@ -760,6 +760,8 @@ int main(int argc, char** argv) {
             check(corpus.verse("sv1917", "Gen", {44, 16})->text.starts_with("Juda svarade: »Vad skola vi") &&
                       corpus.verse("sv1917", "Gen", {44, 26})->text.ends_with("broder icke är med oss.'"),
                   "SV1917 Genesis 44 preserves the opening and nested closing quotation marks");
+            check(corpus.verse("sv1917", "Gen", {45, 11})->text.ends_with("skall lida nöd.'"),
+                  "SV1917 Genesis 45 closes Joseph's quoted message before he continues speaking");
             check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
                       corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
                   "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");

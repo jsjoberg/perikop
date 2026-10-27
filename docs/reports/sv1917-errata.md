@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-26. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 677 granskningsrader med rättelser, återställningar eller omnumreringar efter sextioåtta granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 678 granskningsrader med rättelser, återställningar eller omnumreringar efter sextionio granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -699,6 +699,7 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | R451 | [1 Mos. 43:5](https://runeberg.org/bibeln/01_43.html) | med eder.' | med eder.'» | Två bildvittnen överens | [EFS 1927 GT s. 65](https://runeberg.org/bibeln/efs1927/gt/0065.html), [EFS 1926 GT s. 57](sv1917-efs1926-witnesses/gt0057.jpg) |
 | [ ] | R452 | [1 Mos. 44:16](https://runeberg.org/bibeln/01_44.html) | svarade: Vad | svarade: »Vad | Två bildvittnen överens | [EFS 1927 GT s. 67](https://runeberg.org/bibeln/efs1927/gt/0067.html), [EFS 1926 GT s. 59](sv1917-efs1926-witnesses/gt0059.jpg) |
 | [ ] | R453 | [1 Mos. 44:26](https://runeberg.org/bibeln/01_44.html) | med oss. | med oss.' | Två bildvittnen överens | [EFS 1927 GT s. 68](https://runeberg.org/bibeln/efs1927/gt/0068.html), [EFS 1926 GT s. 59](sv1917-efs1926-witnesses/gt0059.jpg) |
+| [ ] | R454 | [1 Mos. 45:11](https://runeberg.org/bibeln/01_45.html) | lida nöd. | lida nöd.' | Två bildvittnen överens | [EFS 1927 GT s. 69](https://runeberg.org/bibeln/efs1927/gt/0069.html), [EFS 1926 GT s. 60](sv1917-efs1926-witnesses/gt0060.jpg) |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -940,3 +941,5 @@ Sextiosjätte omgången. **2026-10-27, GT16, Första Moseboken 42:** 38 verspost
 Sextiosjunde omgången. **2026-10-27, GT17, Första Moseboken 43:** 34 versposter och 963 ord visuellt jämförda mot EFS 1927 GT s. 65–66. R451 återställer yttre citatslut i 43:5 enligt båda trycken. EFS 1926 bekräftar semikolon i 43:18 mot 1927. Inga öppna frågor. Originalbild, primärbilder och kapiteltext har dokumenterade hashvärden. Första Moseboken 1–43: 1 325/1 533 poster (86,4 %). GT totalt 45/929 kapitel och 1 363/23 210 poster (5,87 %); 884 kapitel återstår. Hela liggaren 13 675 verifierade poster. Nästa kapitel 44, från GT s. 67.
 
 Sextioåttonde omgången. **2026-10-27, GT18, Första Moseboken 44:** 34 versposter och 859 ord visuellt jämförda mot EFS 1927 GT s. 67–68. R452–R453 återställer öppningscitat i 44:16 och inre citatslut i 44:26 enligt båda trycken. EFS 1926 bekräftar utropstecken i 44:15 och har i 44:16 mot 1927. Inga öppna frågor. Originalbild, primärbilder och kapiteltext har dokumenterade hashvärden. Första Moseboken 1–44: 1 359/1 533 poster (88,6 %). GT totalt 46/929 kapitel och 1 397/23 210 poster (6,02 %); 883 kapitel återstår. Hela liggaren 13 709 verifierade poster. Nästa kapitel 45, från GT s. 68.
+
+Sextionionde omgången. **2026-10-27, GT19, Första Moseboken 45:** 28 versposter och 704 ord visuellt jämförda mot EFS 1927 GT s. 68–69. R454 återställer inre citatslut i 45:11 enligt båda trycken. EFS 1926 bekräftar citatslutet i 45:3 mot 1927. Inga öppna frågor. Originalbild, primärbilder och kapiteltext har dokumenterade hashvärden. Första Moseboken 1–45: 1 387/1 533 poster (90,5 %). GT totalt 47/929 kapitel och 1 425/23 210 poster (6,14 %); 882 kapitel återstår. Hela liggaren 13 737 verifierade poster. Nästa kapitel 46, från GT s. 69.
