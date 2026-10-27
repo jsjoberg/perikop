@@ -243,6 +243,10 @@ Fulla originalbilder stöder behållna tryckvarianter. Se [GT-rapporten](../sv19
 
 Fulla originalbilder stöder rättelsen och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
 
+## GT-uppföljning, Första Moseboken 29–31
+
+Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -391,3 +395,9 @@ Fulla originalbilder stöder rättelsen och behållna tryckvarianter. Se [GT-rap
 - `gt0033.jpg`: full originalbild och bevarad fil SHA-256 `8d4ecbaad79e5e25b813f752eabf9d324c94d5b101d89060c2eb05ce4fff8a86`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n44.jpg`.
 - `gt0034.jpg`: full originalbild och bevarad fil SHA-256 `d796ab09fd458b1d6ba739cf09457f5681985eb48e0ea5494eefa08939000b66`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n45.jpg`.
 - `gt0035.jpg`: full originalbild och bevarad fil SHA-256 `28aa4083f1d441bf1a8b468524fb402bda1e9acf3293aa2b0d6c1ade12322315`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n46.jpg`.
+- `gt0036.jpg`: full originalbild och bevarad fil SHA-256 `c1d6d61d8e3866ab6dc1ba0e025b5c3abae1eb6943af2dc604c646fefe5fec49`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n47.jpg`.
+- `gt0037.jpg`: full originalbild och bevarad fil SHA-256 `24b58c866e1e15f3c71b8f0703f3099a8324be1ef8a4bb7eb18972d7ad79999d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n48.jpg`.
+- `gt0038.jpg`: full originalbild och bevarad fil SHA-256 `62666ed9b4edff989bc4797704ca69a612d7c228ada23e8a5145f0dcdeb55b2f`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n49.jpg`.
+- `gt0039.jpg`: full originalbild och bevarad fil SHA-256 `7b04ff410a5988b7c5f15390223fe0009bde1e27d29659c627b00bf4aa52cbbc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n50.jpg`.
+- `gt0040.jpg`: full originalbild och bevarad fil SHA-256 `168a9b96c7f9f45658aceb6183a74cddde2f2b0b71c4a9bc5df5f8bfb91f9b31`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n51.jpg`.
+- `gt0041.jpg`: full originalbild och bevarad fil SHA-256 `c9ad6391ebefa125f7082896fba39e41df17d1dc9195e3c2fd2c7f1572c4349d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n52.jpg`.

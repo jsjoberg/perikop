@@ -1518,6 +1518,9 @@ int main(int argc, char** argv) {
                  {"Gen", {18, 28}, "finner fyrtiofem; så skall", "finner fyrtiofem, så skall"},
                  {"Gen", {22, 9}, "lade veden därpå, sedan band han", "lade veden därpå; sedan band han"},
                  {"Gen", {28, 17}, "en helig plats, här bor", "en helig plats; här bor"},
+                 {"Gen", {29, 13}, "fick höras talas om", "fick höra talas om"},
+                 {"Gen", {30, 33}, "vara mitt vittne; alla getter", "vara mitt vittne: alla getter"},
+                 {"Gen", {31, 8}, "då fick hela jorden strimmig avföda", "då fick hela hjorden strimmig avföda"},
                  {"Gen", {13, 14}, "sedan Lot hade skilt sig från honom", "sedan Lot hade skilt sig ifrån honom"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;

@@ -148,7 +148,7 @@ kan	866	word	"kA:n
 män	866	word	"mEn
 De	852	word	"dE
 tid	821	word	"ti:d
-jorden	819	word	"ju:$d`en
+jorden	818	word	"ju:$d`en
 själv	815	word	"x\Elv
 Jerusalem	812	name	je$""r}:$sa$%lEm
 Jesus	809	name	""je:$su0s
@@ -193,7 +193,7 @@ tusen	618	word	"t}:$sen
 år	618	word	"o:r
 bliver	603	word	"bli:$ver
 Det	597	word	
-höra	594	word	""h2:$ra
+höra	595	word	""h2:$ra
 fick	593	word	"fIk
 Se	586	word	"se:
 staden	586	word	"stA:$den
@@ -2504,6 +2504,7 @@ gravar	26	word	""grA:$var
 gudstjänst	26	word	""gu0ts$%s'Enst
 gömde	26	word	""j9m$de
 hednafolken	26	word	""he:d$na$%fOl$ken
+hjorden	26	word	"ju:$d`en
 hustrun	26	word	""hu0$str}:n
 hårda	26	word	""ho:$d`a
 hövitsmän	26	word	""h2:$vIts$%mEn
@@ -2581,11 +2582,9 @@ grunden	25	word	"gru0n$den
 gräshoppor	25	word	""grE:s$%hO$pUr
 harpor	25	word	""har$pUr
 himmelriket	25	word	""hI$mel$%ri:$ket
-hjorden	25	word	"ju:$d`en
 högtiden	25	word	
 högtider	25	word	
 höjde	25	word	""h9j$de
-höras	25	word	""h2:$ras
 hövitsmannen	25	word	""h2:$vIts$%ma$nen
 konungadömet	25	word	""ko:$nu0N$a$%d9$met
 krigsfolket	25	word	""krIks$%fOl$ket
@@ -2693,6 +2692,7 @@ heta	24	word	""he:$ta
 hjälpare	24	word	""jEl$pa$re
 hjältarna	24	word	""jEl$ta$n`a
 hov	24	word	"ho:v
+höras	24	word	""h2:$ras
 ingalunda	24	word	""IN$a$%lu0n$da
 jämra	24	word	""jEm$ra
 kläderna	24	word	"klE:$de$n`a

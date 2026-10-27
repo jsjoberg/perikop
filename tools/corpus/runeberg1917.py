@@ -39,6 +39,10 @@ REPLACE={
  ('Gen',22,16):('icke undanhållit mig din ende son','icke undanhållit mig din ende son,'),
  # Genesis 27-28: both prints separate the two clauses with a semicolon.
  ('Gen',28,17):('en helig plats, här bor','en helig plats; här bor'),
+ # Genesis 29-31: both printings agree on these readings.
+ ('Gen',29,13):('fick höras talas om','fick höra talas om'),
+ ('Gen',30,33):('min rättfärdighet vara mitt vittne; alla getter','min rättfärdighet vara mitt vittne: alla getter'),
+ ('Gen',31,8):('då fick hela jorden strimmig avföda','då fick hela hjorden strimmig avföda'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
