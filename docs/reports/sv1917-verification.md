@@ -65,7 +65,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 ## Nästa arbetsblock
 
-1. **Återstående GT**, från Första Moseboken 4 i kanonisk ordning. Haggai är redan verifierad; dess poster bevaras. Hela kapitel jämförs visuellt, och osäkra läsningar får sparade frågor för senare boktillgång.
+1. **Återstående GT**, från Första Moseboken 4 i kanonisk ordning, i nya små PR:er. PR #72 är avgränsad till Första Moseboken 1–3; GT ingår inte i NT-/evangelieleveransen. Haggai är redan verifierad; dess poster bevaras. Hela kapitel jämförs visuellt, och osäkra läsningar får sparade frågor för senare boktillgång.
 2. Hela NT:s 260 kapitel och 7 940 poster är verifierade. PR #65, #68 och #71 lämnas öppna för granskning; inga sammanslagningar eller stängningar utförs. Kvarvarande mänskliga erratakryss fylls inte i av Codex.
 3. Utökade kanon är avslutad i sammanslagna #64. GT- och NT-uppföljningen ändrar inte dess avslutade textgranskningsmål för 0.2.1.
 
