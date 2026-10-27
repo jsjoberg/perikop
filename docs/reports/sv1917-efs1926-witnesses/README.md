@@ -271,6 +271,10 @@ Fulla originalbilder stöder R449 och tryckvarianter. Se [GT-rapporten](../sv191
 
 Full originalbild stöder R450 och tryckvarianten. Se [GT-rapporten](../sv1917-ot.md).
 
+## GT-uppföljning, Första Moseboken 43
+
+Full originalbild stöder R451 och tryckvarianten. Se [GT-rapporten](../sv1917-ot.md).
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -437,3 +441,4 @@ Full originalbild stöder R450 och tryckvarianten. Se [GT-rapporten](../sv1917-o
 - `gt0053.jpg`: full originalbild och bevarad fil SHA-256 `5d356a3cddb4e43eca86000d78a4c3fbd70cb0c05a07315d9a662dae7a18a817`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n64.jpg`.
 - `gt0054.jpg`: full originalbild SHA-256 `92d7a83da0c52a01feeece6dc0da250fba8b1bb0283e6b037b06082adb3c64ba`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n65.jpg`.
 - `gt0056.jpg`: full originalbild och bevarad fil SHA-256 `f94f9b42619b82614cbbf9c1765765acd2e2c001fd7ee66a006f4178ceb0c2cc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n67.jpg`.
+- `gt0057.jpg`: full originalbild och bevarad fil SHA-256 `dcfe84a425a5c93428a29b604b2d4f9d4ff706b4ff8545559c05270a0137ba42`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n68.jpg`.

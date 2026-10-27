@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-26. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 674 granskningsrader med rättelser, återställningar eller omnumreringar efter sextiosex granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 675 granskningsrader med rättelser, återställningar eller omnumreringar efter sextiosju granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -696,6 +696,7 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | R448 | [1 Mos. 40:1](https://runeberg.org/bibeln/01_40.html) | konungen av Egypten | konungen i Egypten | Två bildvittnen överens | [EFS 1927 GT s. 59](https://runeberg.org/bibeln/efs1927/gt/0059.html), [EFS 1926 GT s. 51](sv1917-efs1926-witnesses/gt0051.jpg) |
 | [ ] | R449 | [1 Mos. 41:51](https://runeberg.org/bibeln/01_41.html) | min faders hus.» | min faders hus». | Två bildvittnen överens | [EFS 1927 GT s. 62](https://runeberg.org/bibeln/efs1927/gt/0062.html), [EFS 1926 GT s. 54](sv1917-efs1926-witnesses/gt0054.jpg) |
 | [ ] | R450 | [1 Mos. 42:34](https://runeberg.org/bibeln/01_42.html) | i landet. | i landet.'» | Två bildvittnen överens | [EFS 1927 GT s. 64](https://runeberg.org/bibeln/efs1927/gt/0064.html), [EFS 1926 GT s. 56](sv1917-efs1926-witnesses/gt0056.jpg) |
+| [ ] | R451 | [1 Mos. 43:5](https://runeberg.org/bibeln/01_43.html) | med eder.' | med eder.'» | Två bildvittnen överens | [EFS 1927 GT s. 65](https://runeberg.org/bibeln/efs1927/gt/0065.html), [EFS 1926 GT s. 57](sv1917-efs1926-witnesses/gt0057.jpg) |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -933,3 +934,5 @@ Sextiofjärde omgången. **2026-10-27, GT14, Första Moseboken 40:** 23 verspost
 Sextiofemte omgången. **2026-10-27, GT15, Första Moseboken 41:** 57 versposter och 1 279 ord visuellt jämförda mot EFS 1927 GT s. 60–63. R449 flyttar punkten efter citatet i 41:51 enligt båda trycken. EFS 1926 bekräftar jag i 41:19 samt Ande och avsaknaden av extra slutcitat i 41:38 och 41:43 mot 1927. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–41: 1 253/1 533 poster (81,7 %). GT totalt 43/929 kapitel och 1 291/23 210 poster (5,56 %); 886 kapitel återstår. Hela liggaren 13 603 verifierade poster. Nästa kapitel 42, från GT s. 63.
 
 Sextiosjätte omgången. **2026-10-27, GT16, Första Moseboken 42:** 38 versposter och 1 019 ord visuellt jämförda mot EFS 1927 GT s. 63–65. R450 återställer de två saknade citatsluten i 42:34 enligt båda trycken. EFS 1926 bekräftar själva kommit i 42:21 mot 1927; båda trycken har lyssnaden i 42:22. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–42: 1 291/1 533 poster (84,2 %). GT totalt 44/929 kapitel och 1 329/23 210 poster (5,73 %); 885 kapitel återstår. Hela liggaren 13 641 verifierade poster. Nästa kapitel 43, från GT s. 65.
+
+Sextiosjunde omgången. **2026-10-27, GT17, Första Moseboken 43:** 34 versposter och 963 ord visuellt jämförda mot EFS 1927 GT s. 65–66. R451 återställer yttre citatslut i 43:5 enligt båda trycken. EFS 1926 bekräftar semikolon i 43:18 mot 1927. Inga öppna frågor. Originalbild, primärbilder och kapiteltext har dokumenterade hashvärden. Första Moseboken 1–43: 1 325/1 533 poster (86,4 %). GT totalt 45/929 kapitel och 1 363/23 210 poster (5,87 %); 884 kapitel återstår. Hela liggaren 13 675 verifierade poster. Nästa kapitel 44, från GT s. 67.
