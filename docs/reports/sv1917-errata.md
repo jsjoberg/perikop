@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-26. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 679 granskningsrader med rättelser, återställningar eller omnumreringar efter sjuttio granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 681 granskningsrader med rättelser, återställningar eller omnumreringar efter sjuttioen granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -701,6 +701,8 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | R453 | [1 Mos. 44:26](https://runeberg.org/bibeln/01_44.html) | med oss. | med oss.' | Två bildvittnen överens | [EFS 1927 GT s. 68](https://runeberg.org/bibeln/efs1927/gt/0068.html), [EFS 1926 GT s. 59](sv1917-efs1926-witnesses/gt0059.jpg) |
 | [ ] | R454 | [1 Mos. 45:11](https://runeberg.org/bibeln/01_45.html) | lida nöd. | lida nöd.' | Två bildvittnen överens | [EFS 1927 GT s. 69](https://runeberg.org/bibeln/efs1927/gt/0069.html), [EFS 1926 GT s. 60](sv1917-efs1926-witnesses/gt0060.jpg) |
 | [ ] | R455 | [1 Mos. 48:5](https://runeberg.org/bibeln/01_48.html) | vara mina: Efraim | vara mina; Efraim | Två bildvittnen överens | [EFS 1927 GT s. 73](https://runeberg.org/bibeln/efs1927/gt/0073.html), [EFS 1926 GT s. 64](sv1917-efs1926-witnesses/gt0064.jpg) |
+| [ ] | R456 | [1 Mos. 49:1](https://runeberg.org/bibeln/01_49.html) | sade: Församlen | sade: »Församlen | Två bildvittnen överens | [EFS 1927 GT s. 74](https://runeberg.org/bibeln/efs1927/gt/0074.html), [EFS 1926 GT s. 65](sv1917-efs1926-witnesses/gt0065.jpg) |
+| [ ] | R457 | [1 Mos. 49:25](https://runeberg.org/bibeln/01_49.html) | hjälpa dig. genom | hjälpa dig, genom | Två bildvittnen överens | [EFS 1927 GT s. 75](https://runeberg.org/bibeln/efs1927/gt/0075.html), [EFS 1926 GT s. 66](sv1917-efs1926-witnesses/gt0066.jpg) |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -946,3 +948,5 @@ Sextioåttonde omgången. **2026-10-27, GT18, Första Moseboken 44:** 34 verspos
 Sextionionde omgången. **2026-10-27, GT19, Första Moseboken 45:** 28 versposter och 704 ord visuellt jämförda mot EFS 1927 GT s. 68–69. R454 återställer inre citatslut i 45:11 enligt båda trycken. EFS 1926 bekräftar citatslutet i 45:3 mot 1927. Inga öppna frågor. Originalbild, primärbilder och kapiteltext har dokumenterade hashvärden. Första Moseboken 1–45: 1 387/1 533 poster (90,5 %). GT totalt 47/929 kapitel och 1 425/23 210 poster (6,14 %); 882 kapitel återstår. Hela liggaren 13 737 verifierade poster. Nästa kapitel 46, från GT s. 69.
 
 Sjutionde omgången. **2026-10-27, GT22, Första Moseboken 48:** 22 versposter och 629 ord visuellt jämförda mot EFS 1927 GT s. 73–74. R455 rättar kolon till semikolon i 48:5 enligt båda trycken. EFS 1926 stöder är i 48:18 och semikolon i 48:19 mot 1927. Inga öppna frågor. Bild- och kapitelhashar dokumenterade. Första Moseboken 1–48: 1 474/1 533 poster (96,2 %). GT totalt 50/929 kapitel och 1 512/23 210 poster (6,51 %); 879 kapitel återstår. Hela liggaren 13 824 verifierade poster. Nästa kapitel 49, från GT s. 74.
+
+Sjuttioförsta omgången. **2026-10-27, GT23, Första Moseboken 49–50:** 59 versposter och 1 322 ord visuellt jämförda mot EFS 1927 GT s. 74–77. R456 återställer öppningscitat i 49:1; R457 rättar punkt till komma i 49:25. EFS 1926 stöder vinträdet och druvors i 49:11, av i 49:30 och punkt före citatslut i 50:11 mot 1927; 1927 stöder Hans i 49:12 mot 1926. Inga öppna frågor. Originalbilder, primärbilder och kapiteltexter har dokumenterade hashvärden. Hela Första Moseboken: 50/50 kapitel, 1 533/1 533 versposter (100 %). GT totalt 52/929 kapitel och 1 571/23 210 poster (6,77 %); 877 kapitel återstår. Hela liggaren 13 883 verifierade poster. Övriga GT fortsätter i separata PR:er.

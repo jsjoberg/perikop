@@ -764,6 +764,9 @@ int main(int argc, char** argv) {
                   "SV1917 Genesis 45 closes Joseph's quoted message before he continues speaking");
             check(corpus.verse("sv1917", "Gen", {48, 5})->text.find("de skola nu vara mina; Efraim") != std::string::npos,
                   "SV1917 Genesis 48 preserves the printed semicolon between the clauses");
+            check(corpus.verse("sv1917", "Gen", {49, 1})->text.find("och sade: »Församlen") != std::string::npos &&
+                      corpus.verse("sv1917", "Gen", {49, 25})->text.find("hjälpa dig, genom den Allsmäktige") != std::string::npos,
+                  "SV1917 Genesis 49 preserves the opening quotation and punctuation in the blessing");
             check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
                       corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
                   "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");
