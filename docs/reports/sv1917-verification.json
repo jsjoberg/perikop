@@ -9880,6 +9880,26 @@
         }
       ],
       "notes": "Hela 39:1–23 visuellt jämförd mot EFS 1927 GT s. 58–59, inklusive 39:1 över spalt och sidgräns. Inga rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt."
+    },
+    {
+      "book": "Gen",
+      "chapter": 40,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "d7ba7e35f4e8bc0deebdc2603819b8de77b00e7d63b8af45898ec40acbd2269f",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0059.1.tif",
+          "sha256": "3354e3d1a566e04fb077683d4f577bf6df6b2152bbdf8a37c4672520d3d6f964"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0060.1.tif",
+          "sha256": "d58ded980a1fc10d8f09dc3ed3df9a8afe3e891ed6c01a264151942f3fdabd47"
+        }
+      ],
+      "notes": "Hela 40:1–23 visuellt jämförd mot EFS 1927 GT s. 59–60. R448 rättar av till i i 40:1; även EFS 1926 s. 51 visar i. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0051.jpg, SHA-256 317f3b3c215fcdae881753f6dadbe9ac2404bf0c8d07c40151185f2fbe7eaa36."
     }
   ],
   "unnumbered": [

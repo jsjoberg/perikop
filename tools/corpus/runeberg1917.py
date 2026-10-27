@@ -49,6 +49,8 @@ REPLACE={
  ('Gen',37,20):('Upp, låt oss dräpa honom','Upp, låt oss nu dräpa honom'),
  ('Gen',37,26):('dölja hans blod?»','dölja hans blod?'),
  ('Gen',37,32):('Denna har vi funnit','Denna hava vi funnit'),
+ # Genesis 40: both printings read "konungen i Egypten".
+ ('Gen',40,1):('sin herre, konungen av Egypten','sin herre, konungen i Egypten'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
