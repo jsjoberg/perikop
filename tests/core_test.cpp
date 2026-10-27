@@ -1144,7 +1144,7 @@ int main(int argc, char** argv) {
                  {"Mark", {13, 34}, "bjuder portvaktaren att vaka.", "bjuder portvaktaren att vaka,"},
                  {"Mark", {16, 7}, "såsom han bar sagt eder", "såsom han har sagt eder"},
                  {"Luke", {1, 70}, "sin forntida heliga profeters mun", "sina forntida heliga profeters mun"},
-                 {"Luke", {1, 73}, "lovat för vår fader Abraham,", "lovat för vår fader Abraham."},
+                 {"Luke", {1, 73}, "lovat för vår fader Abraham,", "lovat vår fader Abraham."},
                  {"Luke", {3, 4}, "i öknen: Bereden vägen", "i öknen: 'Bereden vägen"},
                  {"Luke", {3, 14}, "Vad skola då vi göra? Han", "Vad skola då vi göra?» Han"},
                  {"Luke", {3, 16}, "tog till orda och sade: till dem alla:", "tog till orda och sade till dem alla:"},
@@ -1424,6 +1424,20 @@ int main(int argc, char** argv) {
                  {"Mark", {13, 17}, "Och ve de som", "Och ve dem som"},
                  {"Mark", {14, 23}, "tackade Gud ock gav", "tackade Gud och gav"},
                  {"Mark", {15, 8}, "Folket kom ditupp", "Folket kom nu ditupp"},
+                 {"Luke", {1, 2}, "dem som själva", "dem som från begynnelsen själva"},
+                 {"Luke", {1, 9}, "hände det sig", "hände sig"},
+                 {"Luke", {1, 41}, "blev fylld av", "blev uppfylld av"},
+                 {"Luke", {1, 73}, "lovat för vår fader", "lovat vår fader"},
+                 {"Luke", {2, 20}, "såsom det blivit", "såsom det hade blivit"},
+                 {"Luke", {2, 24}, "ett par duvor eller två unga turturduvor", "ett par turturduvor eller två unga duvor"},
+                 {"Luke", {3, 9}, "kastat på elden", "kastat i elden"},
+                 {"Luke", {3, 11}, "och en som har matförråd", "och den som har matförråd"},
+                 {"Luke", {4, 18}, "Han har satt mig", "Han har sänt mig"},
+                 {"Luke", {4, 41}, "tillsade dem att icke säga", "tillstadde dem att icke säga"},
+                 {"Luke", {5, 3}, "undervisade folket från båten", "undervisade folket ifrån båten"},
+                 {"Luke", {6, 48}, "eftersom det var så byggt", "eftersom det var så väl byggt"},
+                 {"Luke", {8, 1}, "vandrade han igenom landet", "vandrade han genom landet"},
+                 {"Luke", {8, 36}, "de som hade sett händelsen", "de som hade åsett händelsen"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
@@ -1483,7 +1497,7 @@ int main(int argc, char** argv) {
               "Rev 14:7 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Rev", {18, 19})->text.ends_with("I ett ögonblick har den nu blivit förödd.'"),
               "Rev 18:19 retains the scan-verified verse ending");
-        check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat på elden.»"),
+        check(corpus.verse("sv1917", "Luke", {3, 9})->text.ends_with("och kastat i elden.»"),
               "Luke 3:9 retains the scan-verified verse ending");
         check(corpus.verse("sv1917", "Luke", {7, 40})->text.ends_with("»Mästare, säg det.»"),
               "Luke 7:40 retains the scan-verified verse ending");
@@ -1746,7 +1760,7 @@ int main(int argc, char** argv) {
                 {"väl",
                  "⟦v'E:l⟧",
                  "⟦v'El⟧",
-                 649,
+                 650,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
                   "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",
@@ -1775,7 +1789,7 @@ int main(int argc, char** argv) {
                   "Jer 4:10",    "Jer 6:14",    "Jer 7:23",    "Jer 8:11",    "Job 13:9",    "Job 34:16",
                   "Job 34:9",    "Job 5:27",    "Josh 24:20",  "Josh 6:18",   "Judg 3:25",   "Judg 9:16",
                   "Lam 1:5",     "Lev 19:17",   "Lev 24:22",   "Luke 15:29",  "Luke 4:10",   "Luke 4:24",
-                  "Luke 6:26",   "Luke 6:38",   "Mal 2:15",    "Mal 2:16",    "Mal 3:4",     "Mark 12:28",
+                  "Luke 6:26",   "Luke 6:38",   "Luke 6:48",   "Mal 2:15",    "Mal 2:16",    "Mal 3:4",     "Mark 12:28",
                   "Mark 7:37",   "Micah 3:5",   "Neh 2:20",    "Neh 4:12",    "Num 14:41",   "Num 9:14",
                   "Phil 4:14",   "Phil 4:18",   "PrAzar 1:7",  "Prov 11:1",   "Prov 11:10",  "Prov 11:14",
                   "Prov 11:17",  "Prov 11:20",  "Prov 12:22",  "Prov 14:35",  "Prov 15:8",   "Prov 16:13",

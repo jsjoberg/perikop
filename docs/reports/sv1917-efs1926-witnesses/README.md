@@ -4,7 +4,7 @@
 
 Detta är ett annat fysiskt tryck och en annan sättning än Runebergs EFS 1927: exempelvis finns Apg. 2:2 på tryckt NT s. 168 respektive 187. Samma förlag innebär inte bevis för oberoende redaktionell texttradition eller felfrihet. Källan används för riktade bedömningar av sparade frågor, inte för en automatisk harmonisering. OCR används bara för att hitta sidorna; besluten nedan bygger på de synliga tryckbilderna. Ingen ny fullständig kapitelläsning eller extra täckning räknas för detta vittne.
 
-Tio frågor V123–V132 avgjorda: sex rättelser R321–R326 stöds av båda trycken; fyra befintliga läsningar/versgränser bekräftas av 1926 mot avvikande 1927. Därmed är hela den redan bildlästa Apostlagärningarna verifierad. Inga användarfoton behövs för dessa frågor. V133–V144 har därefter avgjorts mot användarens foton. Nu är även V145–V152 avgjorda mot EFS 1926: fyra rättelser R329–R332 och fyra behållna läsningar/gränser. Även Uppenbarelsebokens 25 frågor V153–V177 är nu avgjorda: 21 rättelser R333–R353 och fyra behållna läsningar/gränser. Inga olösta frågor återstår i NT-etappen utanför evangelierna. Evangeliernas frågor prövas nu på separat uppföljningsgren ovanpå det avslutade övriga NT. V010–V038 är avgjorda: 15 rättelser R354–R368 och 14 behållna läsningar. Hela Matteus och Markus är verifierade; 84 Lukas-/Johannesfrågor återstår.
+Tio frågor V123–V132 avgjorda: sex rättelser R321–R326 stöds av båda trycken; fyra befintliga läsningar/versgränser bekräftas av 1926 mot avvikande 1927. Därmed är hela den redan bildlästa Apostlagärningarna verifierad. Inga användarfoton behövs för dessa frågor. V133–V144 har därefter avgjorts mot användarens foton. Nu är även V145–V152 avgjorda mot EFS 1926: fyra rättelser R329–R332 och fyra behållna läsningar/gränser. Även Uppenbarelsebokens 25 frågor V153–V177 är nu avgjorda: 21 rättelser R333–R353 och fyra behållna läsningar/gränser. Inga olösta frågor återstår i NT-etappen utanför evangelierna. Evangeliernas frågor prövas nu på separat uppföljningsgren ovanpå det avslutade övriga NT. V010–V038 är avgjorda: 15 rättelser R354–R368 och 14 behållna läsningar. Hela Matteus och Markus är verifierade; 62 Lukas-/Johannesfrågor återstår efter uppföljningen av Lukas 1–8.
 
 V123–V132 nedan är direkt beskurna hämtade JPEG-bilder utan storleksändring, retuschering, OCR eller rekonstruerade tecken. URL:ens `n` är bildidentifieraren i hämtadressen, inte ett antaget tryckt sidnummer eller ett härlett XML-lövnummer. Fullsidan är visuellt kontrollerad; tryckt sidnummer anges separat. Originalbildens och utsnittets SHA-256 gör underlaget återkontrollerbart. Varje utsnitt och den exakta avgjorda versen valideras också av `resolved_readings` i [JSON-liggaren](../sv1917-verification.json). För V131 visar utsnittet båda versnumren 6 och 7; dess post låser 17:7, medan kapitelhashen låser båda verserna och resten av kapitlet.
 
@@ -99,6 +99,36 @@ V153–V177 använder 16 fulla, byteidentiska original-JPEG-sidor. Gemensamma si
 
 Tjugoen fulla original-JPEG-sidor är bevarade byteidentiskt; gemensamma sidor delas mellan frågor. V012 visar båda numren 26–27. V031 omfattar även fortsättningen på [NT s. 64](nt0064.jpg). Andratryckskontrollerna ger ingen ny lästäckning; endast tidigare bildlästa kapitel kan färdigmarkeras.
 
+
+## Evangeliernas uppföljning, Lukas 1–8
+
+V039–V060 är avgjorda: 14 rättelser R369–R382 och åtta behållna läsningar. Fjorton fulla byteidentiska original-JPEG-sidor bevarade; V056 omfattar båda sidorna 91–92. R053 och R055 bevaras i samma versbundna ersättningar. Ingen extra lästäckning räknas.
+
+| Fråga | Vers | Beslut | Fullsida | Original |
+| --- | --- | --- | --- | --- |
+| V039 | Luk. 1:2 | R369: dem som själva → dem som från begynnelsen själva | [NT s. 79](nt0079.jpg) | [n1288](https://archive.org/download/bibelnellerdenhe0000unse/page/n1288.jpg) |
+| V040 | Luk. 1:9 | R370: hände det sig → hände sig | [NT s. 79](nt0079.jpg) | [n1288](https://archive.org/download/bibelnellerdenhe0000unse/page/n1288.jpg) |
+| V041 | Luk. 1:41 | R371: blev fylld av → blev uppfylld av | [NT s. 80](nt0080.jpg) | [n1289](https://archive.org/download/bibelnellerdenhe0000unse/page/n1289.jpg) |
+| V042 | Luk. 1:57 | Behållen läsning: för Elisabet tiden inne | [NT s. 81](nt0081.jpg) | [n1290](https://archive.org/download/bibelnellerdenhe0000unse/page/n1290.jpg) |
+| V043 | Luk. 1:73 | R372: lovat för vår fader → lovat vår fader | [NT s. 82](nt0082.jpg) | [n1291](https://archive.org/download/bibelnellerdenhe0000unse/page/n1291.jpg) |
+| V044 | Luk. 2:15 | Behållen läsning: det som där har skett | [NT s. 82](nt0082.jpg) | [n1291](https://archive.org/download/bibelnellerdenhe0000unse/page/n1291.jpg) |
+| V045 | Luk. 2:20 | R373: såsom det blivit → såsom det hade blivit | [NT s. 83](nt0083.jpg) | [n1292](https://archive.org/download/bibelnellerdenhe0000unse/page/n1292.jpg) |
+| V046 | Luk. 2:24 | R374: ett par duvor eller två unga turturduvor → ett par turturduvor eller två unga duvor | [NT s. 83](nt0083.jpg) | [n1292](https://archive.org/download/bibelnellerdenhe0000unse/page/n1292.jpg) |
+| V047 | Luk. 3:9 | R375: kastat på elden → kastat i elden | [NT s. 84](nt0084.jpg) | [n1293](https://archive.org/download/bibelnellerdenhe0000unse/page/n1293.jpg) |
+| V048 | Luk. 3:11 | R376: och en som har matförråd → och den som har matförråd | [NT s. 84](nt0084.jpg) | [n1293](https://archive.org/download/bibelnellerdenhe0000unse/page/n1293.jpg) |
+| V049 | Luk. 4:10 | Behållen läsning: att de skola väl bevara dig | [NT s. 86](nt0086.jpg) | [n1295](https://archive.org/download/bibelnellerdenhe0000unse/page/n1295.jpg) |
+| V050 | Luk. 4:18 | R377: Han har satt mig → Han har sänt mig | [NT s. 86](nt0086.jpg) | [n1295](https://archive.org/download/bibelnellerdenhe0000unse/page/n1295.jpg) |
+| V051 | Luk. 4:41 | R378: tillsade dem att icke säga → tillstadde dem att icke säga | [NT s. 87](nt0087.jpg) | [n1296](https://archive.org/download/bibelnellerdenhe0000unse/page/n1296.jpg) |
+| V052 | Luk. 5:1 | Behållen läsning: Gennesarets sjö | [NT s. 88](nt0088.jpg) | [n1297](https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg) |
+| V053 | Luk. 5:3 | R379: undervisade folket från båten → undervisade folket ifrån båten | [NT s. 88](nt0088.jpg) | [n1297](https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg) |
+| V054 | Luk. 5:7 | Behållen läsning: de begynte sjunka | [NT s. 88](nt0088.jpg) | [n1297](https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg) |
+| V055 | Luk. 6:17 | Behållen läsning: Dessa tog han nu med sig | [NT s. 90](nt0090.jpg) | [n1299](https://archive.org/download/bibelnellerdenhe0000unse/page/n1299.jpg) |
+| V056 | Luk. 6:48 | R380: eftersom det var så byggt → eftersom det var så väl byggt | [NT s. 92](nt0092.jpg) | [n1301](https://archive.org/download/bibelnellerdenhe0000unse/page/n1301.jpg) |
+| V057 | Luk. 8:1 | R381: vandrade han igenom landet → vandrade han genom landet | [NT s. 94](nt0094.jpg) | [n1303](https://archive.org/download/bibelnellerdenhe0000unse/page/n1303.jpg) |
+| V058 | Luk. 8:35 | Behållen läsning: När de då kommo till Jesus | [NT s. 96](nt0096.jpg) | [n1305](https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg) |
+| V059 | Luk. 8:36 | R382: de som hade sett händelsen → de som hade åsett händelsen | [NT s. 96](nt0096.jpg) | [n1305](https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg) |
+| V060 | Luk. 8:37 | Behållen läsning: gerasenernas land | [NT s. 96](nt0096.jpg) | [n1305](https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg) |
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -158,3 +188,17 @@ Tjugoen fulla original-JPEG-sidor är bevarade byteidentiskt; gemensamma sidor d
 - `nt0074.jpg`: full originalbild och bevarad fil SHA-256 `ce3665ebee68e75273a9e520e83bb0e62a44a49a3015a93309aa50c13d3c42e9`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1283.jpg`.
 - `nt0076.jpg`: full originalbild och bevarad fil SHA-256 `985902e692192668c45638331c82fa7ef85d3263048f44715fc9439e9325688c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1285.jpg`.
 - `nt0078.jpg`: full originalbild och bevarad fil SHA-256 `8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1287.jpg`.
+- `nt0079.jpg`: full originalbild och bevarad fil SHA-256 `652df0eccf3fc5a07e8e0cecbec5242a49067e3544b5ebb9783b5de8f9579e7c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1288.jpg`.
+- `nt0080.jpg`: full originalbild och bevarad fil SHA-256 `68d6e37cd186db4eee5292e514b1148970300904b322d04a1d82033417598a2e`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1289.jpg`.
+- `nt0081.jpg`: full originalbild och bevarad fil SHA-256 `c833e091091713d453241fbc26db852277a880d3a1a70df184399280c0613359`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1290.jpg`.
+- `nt0082.jpg`: full originalbild och bevarad fil SHA-256 `2af75fb2d06d7e36d8bdc29b554d941d17ba71426c743efaa601e60163025e7c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1291.jpg`.
+- `nt0083.jpg`: full originalbild och bevarad fil SHA-256 `127fe88b57ff1b4f7e7829ca90af8927b90dc9528d063d61405417335d2872dc`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1292.jpg`.
+- `nt0084.jpg`: full originalbild och bevarad fil SHA-256 `47fd0cb5852ed64682338751811f77970ac96d0cd6ccb9296f96716c3ac5697d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1293.jpg`.
+- `nt0086.jpg`: full originalbild och bevarad fil SHA-256 `4144ebe743bf99ed05df739932ec9dd7e10fb85228d1190069cf267bc972e288`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1295.jpg`.
+- `nt0087.jpg`: full originalbild och bevarad fil SHA-256 `210958404b491957258c41016565a92bb9c16519b868c0f101b205ac592b3859`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1296.jpg`.
+- `nt0088.jpg`: full originalbild och bevarad fil SHA-256 `a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg`.
+- `nt0090.jpg`: full originalbild och bevarad fil SHA-256 `c5f8a9f6fac0a23c8f4abbb7ba09265ec021e7ade80a8d774a899eaf24916cbf`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1299.jpg`.
+- `nt0091.jpg`: full originalbild och bevarad fil SHA-256 `04e8d8eab74034c8878cc47a7df621372963d372d34400b2c39cf4d28b70c377`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1300.jpg`.
+- `nt0092.jpg`: full originalbild och bevarad fil SHA-256 `a0435a8341e284c90bcaae511f1c012e761e2052b810e46f2172104714e04a99`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1301.jpg`.
+- `nt0094.jpg`: full originalbild och bevarad fil SHA-256 `01fd2d89d4d1f0964ec78098c0394a20c59f7574d3e9e8ce24a04e195060cacb`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1303.jpg`.
+- `nt0096.jpg`: full originalbild och bevarad fil SHA-256 `a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg`.

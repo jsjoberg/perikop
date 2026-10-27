@@ -1,16 +1,9 @@
 # Samlad fotolista för evangelierna
 
-**Uppdaterad 2026-10-27. Ingen omedelbar fotoinsats behövs.** Alla evangelier är bildlästa; Matteus och Markus är nu helt verifierade efter EFS 1926-jämförelser. **84 öppna frågor V039–V122 återstår i 36 Lukas-/Johanneskapitel.** Digitaliserade tryck prövas först medan användaren är borta från boken. Bara kvarstående osäkerhet sparas för senare foton. Listan visar endast de öppna frågorna; avgjorda V010–V038 finns med beslut och bevis i bunt 2–4. De två återstående versgränsfrågorna kräver även synliga nummer.
+**Uppdaterad 2026-10-27. Ingen omedelbar fotoinsats behövs.** Alla evangelier är bildlästa; Matteus och Markus är nu helt verifierade efter EFS 1926-jämförelser. **62 öppna frågor V061–V122 återstår i 29 Lukas-/Johanneskapitel.** Digitaliserade tryck prövas först medan användaren är borta från boken. Bara kvarstående osäkerhet sparas för senare foton. Listan visar endast de öppna frågorna; avgjorda V010–V060 finns med beslut och bevis i bunt 2–5. De två återstående versgränsfrågorna kräver även synliga nummer.
 
 | Bok och kapitel | Hela verser att fotografera | Sparade frågor |
 | --- | --- | --- |
-| Lukas 1 | 2, 9, 41, 57, 73 | [V039](batch-5.md#v039), [V040](batch-5.md#v040), [V041](batch-5.md#v041), [V042](batch-5.md#v042), [V043](batch-5.md#v043) |
-| Lukas 2 | 15, 20, 24 | [V044](batch-5.md#v044), [V045](batch-5.md#v045), [V046](batch-5.md#v046) |
-| Lukas 3 | 9, 11 | [V047](batch-5.md#v047), [V048](batch-5.md#v048) |
-| Lukas 4 | 10, 18, 41 | [V049](batch-5.md#v049), [V050](batch-5.md#v050), [V051](batch-5.md#v051) |
-| Lukas 5 | 1, 3, 7 | [V052](batch-5.md#v052), [V053](batch-5.md#v053), [V054](batch-5.md#v054) |
-| Lukas 6 | 17, 48 | [V055](batch-5.md#v055), [V056](batch-5.md#v056) |
-| Lukas 8 | 1, 35, 36, 37 | [V057](batch-5.md#v057), [V058](batch-5.md#v058), [V059](batch-5.md#v059), [V060](batch-5.md#v060) |
 | Lukas 9 | 22, 26 | [V061](batch-6.md#v061), [V062](batch-6.md#v062) |
 | Lukas 10 | 2, 37 | [V063](batch-6.md#v063), [V064](batch-6.md#v064) |
 | Lukas 11 | 3–4, 27 | [V065](batch-6.md#v065), [V066](batch-6.md#v066) |

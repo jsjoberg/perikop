@@ -76,9 +76,9 @@ REPLACE={
 
  # Luke 1-8 scan pass: R052-R074; printing questions are saved in photo batch 5.
  ('Luke', 1, 70):('sin forntida heliga profeters mun', 'sina forntida heliga profeters mun'),
- ('Luke', 1, 73):('lovat för vår fader Abraham,', 'lovat för vår fader Abraham.'),
+ ('Luke', 1, 73):('vad han med ed hade lovat för vår fader Abraham,', 'vad han med ed hade lovat vår fader Abraham.'),
  ('Luke', 3, 4):('i öknen: Bereden vägen', "i öknen: 'Bereden vägen"),
- ('Luke', 3, 9):('och kastat på elden.', 'och kastat på elden.»'),
+ ('Luke', 3, 9):('Redan är också yxan satt till roten på träden; så bliver då vart träd som icke bär god frukt avhugget och kastat på elden.', 'Redan är också yxan satt till roten på träden; så bliver då vart träd som icke bär god frukt avhugget och kastat i elden.»'),
  ('Luke', 3, 14):('Vad skola då vi göra? Han', 'Vad skola då vi göra?» Han'),
  ('Luke', 3, 16):('tog till orda och sade: till dem alla:', 'tog till orda och sade till dem alla:'),
  ('Luke', 3, 22):('över honom I lekamlig skepnad', 'över honom i lekamlig skepnad'),
@@ -437,6 +437,20 @@ REPLACE={
  ('Mark', 13, 17):('Och ve de som', 'Och ve dem som'),
  ('Mark', 14, 23):('tackade Gud ock gav', 'tackade Gud och gav'),
  ('Mark', 15, 8):('Folket kom ditupp', 'Folket kom nu ditupp'),
+
+ # Luke 1-8 questions resolved against EFS 1926: R369-R382.
+ ('Luke', 1, 2):('dem som själva', 'dem som från begynnelsen själva'),
+ ('Luke', 1, 9):('hände det sig', 'hände sig'),
+ ('Luke', 1, 41):('blev fylld av', 'blev uppfylld av'),
+ ('Luke', 2, 20):('såsom det blivit', 'såsom det hade blivit'),
+ ('Luke', 2, 24):('ett par duvor eller två unga turturduvor', 'ett par turturduvor eller två unga duvor'),
+ ('Luke', 3, 11):('och en som har matförråd', 'och den som har matförråd'),
+ ('Luke', 4, 18):('Han har satt mig', 'Han har sänt mig'),
+ ('Luke', 4, 41):('tillsade dem att icke säga', 'tillstadde dem att icke säga'),
+ ('Luke', 5, 3):('undervisade folket från båten', 'undervisade folket ifrån båten'),
+ ('Luke', 6, 48):('eftersom det var så byggt', 'eftersom det var så väl byggt'),
+ ('Luke', 8, 1):('vandrade han igenom landet', 'vandrade han genom landet'),
+ ('Luke', 8, 36):('de som hade sett händelsen', 'de som hade åsett händelsen'),
 
 }
 

@@ -4408,10 +4408,10 @@
     {
       "book": "Luke",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 80,
-      "text_sha256": "e2f5b7734a0e8220932cd2167466025013bcfe0c70b448c1f76ddb983bbb14c0",
-      "checked_at": "2026-10-26",
+      "text_sha256": "757610ebc25cefeffd0f3f33c3bcd4f17b4be5440431db9c61688923970d5653",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4431,15 +4431,15 @@
           "sha256": "7dca5bee022de7344903655951d5342d5bcdad60746f4f73a095c79e6d2daa31"
         }
       ],
-      "notes": "Hela 1:1–80 bildjämförd. Sidgränser mellan 1:16–17, i 1:39 och mellan 1:65–66; spaltfortsättning i 1:27, mellan 1:52–53 och 1:77–78. R052 sin→sina i 1:70 och R053 avslutande punkt i 1:73 bekräftade i originalupplösning. V039 från begynnelsen i 1:2, V040 det i 1:9, V041 fylld/uppfylld i 1:41, V042 Elisabet/Elisabeth i 1:57 och V043 för i 1:73 sparade till annat tryck. 1:28 högtbenådade/högt benådade och Magnificats citattypografi 1:46 behållna; vanliga kommaskillnader bevarade."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 1:1–80 bildjämförd. Sidgränser mellan 1:16–17, i 1:39 och mellan 1:65–66; spaltfortsättning i 1:27, mellan 1:52–53 och 1:77–78. R052 sin→sina i 1:70 och R053 avslutande punkt i 1:73 bekräftade i originalupplösning. V039 från begynnelsen i 1:2, V040 det i 1:9, V041 fylld/uppfylld i 1:41, V042 Elisabet/Elisabeth i 1:57 och V043 för i 1:73 sparade till annat tryck. 1:28 högtbenådade/högt benådade och Magnificats citattypografi 1:46 behållna; vanliga kommaskillnader bevarade. Avgörande 2026-10-27 mot EFS 1926: V039: EFS 1926 och 1927 visar båda dem som från begynnelsen själva. R369 rättar dem som själva till dem som från begynnelsen själva. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V040: EFS 1926 och 1927 visar båda hände sig. R370 rättar hände det sig till hände sig. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V041: EFS 1926 och 1927 visar båda blev uppfylld av. R371 rättar blev fylld av till blev uppfylld av. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V042: EFS 1926 bekräftar Elisabet utan h, som i korpusen, mot EFS 1927:s Elisabeth i denna vers. Namnet behålls som belagd tryckvariant. V043: EFS 1926 och 1927 saknar för före vår fader. R372 tar bort det främmande för; R053:s tidigare slutpunkt bevaras i samma versbundna ersättning. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
       "chapter": 2,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 52,
-      "text_sha256": "801fc159f3c5e8f7c33029d37e4630909940f35247dfcd14f5841cae429de42a",
-      "checked_at": "2026-10-26",
+      "text_sha256": "b789dddcaf386681bff44233321840aabf654f746a0249a5853a9e3992169c64",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4455,15 +4455,15 @@
           "sha256": "ece1d53c8459936e871989fd59a4d330faf59b3c168a2c3a0351b16d629e6b4c"
         }
       ],
-      "notes": "Hela 2:1–52 bildjämförd, sidfortsättning i 2:7 och mellan 2:30–31, spaltgräns i 2:20 och mellan 2:40–41. V044 där i 2:15, V045 hade i 2:20, V046 duvor/turturduvor i 2:24. Kvirinius, reningsdagar, Simeon, Fanuels, Asers och övriga ord bekräftade. Normal kommatering och citattypografi (2:35) behållna; alternativnoten till 2:52 är inte löptext."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 2:1–52 bildjämförd, sidfortsättning i 2:7 och mellan 2:30–31, spaltgräns i 2:20 och mellan 2:40–41. V044 där i 2:15, V045 hade i 2:20, V046 duvor/turturduvor i 2:24. Kvirinius, reningsdagar, Simeon, Fanuels, Asers och övriga ord bekräftade. Normal kommatering och citattypografi (2:35) behållna; alternativnoten till 2:52 är inte löptext. Avgörande 2026-10-27 mot EFS 1926: V044: EFS 1926 bekräftar det som där har skett, som i korpusen; där saknas endast i EFS 1927. Befintlig text behålls. V045: EFS 1926 och 1927 visar båda såsom det hade blivit. R373 rättar såsom det blivit till såsom det hade blivit. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V046: EFS 1926 och 1927 visar båda ett par turturduvor eller två unga duvor. R374 rättar ett par duvor eller två unga turturduvor till ett par turturduvor eller två unga duvor. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
       "chapter": 3,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 38,
-      "text_sha256": "8596abdfaa44cddda871f7e72c083f5787db3f1cccc530bd57bdf3ca366c3849",
-      "checked_at": "2026-10-26",
+      "text_sha256": "ba9dcc8d7044caecd1424129c51d2f7f37c21c0f8b2a63d8d372630716d58208",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4475,15 +4475,15 @@
           "sha256": "de27edb5db7f8b3b8d568dc8b0b0ee1c675aabda38beff0dc28c173dc96c18ee"
         }
       ],
-      "notes": "Hela 3:1–38 bildjämförd inklusive alla släkttavlans namn. Sidgräns mellan 3:17–18; spaltfortsättningar i 3:8 och 3:28. R054 öppnande inre apostrof i 3:4, R055 avslutande citat i 3:9, R056 avslut efter frågan i 3:14, R057 främmande kolon i 3:16 och R058 I→i i 3:22. V048 en/den i 3:11. Trakonitis-landet/Trakonitislandet särskrivning med bindestreck, stort Ty efter semikolon i 3:8, kommatering efter Jaret i 3:37 och slutpunkt mot komma 3:38 behållna som typografiska/interpunktionsskillnader. V047 på/i i 3:9 sparat; R055 återställer endast citatavslutet."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 3:1–38 bildjämförd inklusive alla släkttavlans namn. Sidgräns mellan 3:17–18; spaltfortsättningar i 3:8 och 3:28. R054 öppnande inre apostrof i 3:4, R055 avslutande citat i 3:9, R056 avslut efter frågan i 3:14, R057 främmande kolon i 3:16 och R058 I→i i 3:22. V048 en/den i 3:11. Trakonitis-landet/Trakonitislandet särskrivning med bindestreck, stort Ty efter semikolon i 3:8, kommatering efter Jaret i 3:37 och slutpunkt mot komma 3:38 behållna som typografiska/interpunktionsskillnader. V047 på/i i 3:9 sparat; R055 återställer endast citatavslutet. Avgörande 2026-10-27 mot EFS 1926: V047: EFS 1926 och 1927 visar kastat i elden. R375 rättar på till i; R055:s tidigare citatavslut bevaras i samma versbundna ersättning. V048: EFS 1926 och 1927 visar båda och den som har matförråd. R376 rättar och en som har matförråd till och den som har matförråd. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 44,
-      "text_sha256": "4d4c2d1ffa03640bedce20dcd132cb9ee6e856dec11a16f054320a32a4cd752a",
-      "checked_at": "2026-10-26",
+      "text_sha256": "1ba313f717042e87a97815414bf692fc6ebfa1fed89ce4204a124b179e15cfa8",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4499,15 +4499,15 @@
           "sha256": "0e1ca0ab8a0051194ddcd689ac182ef51536f73f7754045490cc6ed3208fb8f0"
         }
       ],
-      "notes": "Hela 4:1–44 bildjämförd; sidgräns mellan 4:21–22 och fortsättning i 4:41, spaltgräns mellan 4:10–11 och fortsättning i 4:32. R059 kolon→semikolon i 4:16 och R060 återställt första tankstreck för inskottet i 4:25. V049 att/och i 4:10, V050 satt/sänt i 4:18 och V051 tillsade/tillstadde i 4:41. Sarepta, Sidons land, Naiman, Judeen i 4:44 och övriga ord bekräftade. Normala komma- och citattypografiska skillnader bevarade."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 4:1–44 bildjämförd; sidgräns mellan 4:21–22 och fortsättning i 4:41, spaltgräns mellan 4:10–11 och fortsättning i 4:32. R059 kolon→semikolon i 4:16 och R060 återställt första tankstreck för inskottet i 4:25. V049 att/och i 4:10, V050 satt/sänt i 4:18 och V051 tillsade/tillstadde i 4:41. Sarepta, Sidons land, Naiman, Judeen i 4:44 och övriga ord bekräftade. Normala komma- och citattypografiska skillnader bevarade. Avgörande 2026-10-27 mot EFS 1926: V049: EFS 1926 bekräftar att de skola väl bevara dig mot EFS 1927:s och. Texten behålls som belagd tryckvariant. V050: EFS 1926 och 1927 visar båda Han har sänt mig. R377 rättar Han har satt mig till Han har sänt mig. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V051: EFS 1926 och 1927 visar båda tillstadde dem att icke säga. R378 rättar tillsade dem att icke säga till tillstadde dem att icke säga. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 39,
-      "text_sha256": "735b2d914d195f81d334bf24220002fc2cf7cbc5ac812f8e1e3fea7d0334ec7a",
-      "checked_at": "2026-10-26",
+      "text_sha256": "026aaa1dfd829e5bf49699588c94591ab813843719686870eb486dbfa6cccfb6",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4523,15 +4523,15 @@
           "sha256": "a28d4e6a5c4df3187d04478f02cb3b8ba476143d676d2ac11a93037b9ef4fc90"
         }
       ],
-      "notes": "Hela 5:1–39 bildjämförd, sidfortsättningar i 5:17 och 5:37, spaltfortsättningar i 5:7 och 5:27. R061 De→Det i 5:31. V052 Gennesarets/Genesarets i 5:1, V053 från/ifrån i 5:3 och V054 begynte/begynta i 5:7 bekräftade i originalupplösning och sparade till annat tryck. Källa och e-text saknar båda citatavslut vid 5:32; inget skapas före ytterligare tryckstöd. Normal kommatering och källans fördelning av repliken i 5:24 behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 5:1–39 bildjämförd, sidfortsättningar i 5:17 och 5:37, spaltfortsättningar i 5:7 och 5:27. R061 De→Det i 5:31. V052 Gennesarets/Genesarets i 5:1, V053 från/ifrån i 5:3 och V054 begynte/begynta i 5:7 bekräftade i originalupplösning och sparade till annat tryck. Källa och e-text saknar båda citatavslut vid 5:32; inget skapas före ytterligare tryckstöd. Normal kommatering och källans fördelning av repliken i 5:24 behållna. Avgörande 2026-10-27 mot EFS 1926: V052: EFS 1926 har Gennesarets med nn, som i korpusen; EFS 1927 har Genesarets. Namnet behålls. V053: EFS 1926 och 1927 har från land i första meningen och ifrån båten i den andra. R379 ändrar endast andra från till ifrån; första från bevaras. V054: EFS 1926 bekräftar de begynte sjunka mot EFS 1927:s begynta. Befintlig text behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
       "chapter": 6,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 49,
-      "text_sha256": "cc51179d9f0925c82d5cdd0759448db477810655d0d2b88826ae9a83dd78f8f9",
-      "checked_at": "2026-10-26",
+      "text_sha256": "0319b8c32ee38d4ec24a5f31544ec37f0ef57a476f136184c5c863a0cb4b6e92",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4547,7 +4547,7 @@
           "sha256": "5dec45263f5b0bb6ca95d0a88d811e4fb5d0f97dad778f58c42bdecf6cece21e"
         }
       ],
-      "notes": "Hela 6:1–49 bildjämförd, sidgräns mellan 6:17–18 och fortsättning i 6:38; spaltgräns mellan 6:7–8, fortsättning i 6:28 och 6:47. R062 kolon och citatavslut i 6:2, R063 säg→såg i 6:20, R064 satt→sätt i 6:23, R065 fader→fäder i 6:26 samt R066 tala→taga i 6:42. V055 nu i 6:17 och V056 väl i 6:48. Apostlanamnen, ursinniga, hugnad och hälleberget bekräftade. Paragrafens upprepade citatöppning i tryckets 6:27 harmoniseras inte; övriga normala kommaskillnader behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 6:1–49 bildjämförd, sidgräns mellan 6:17–18 och fortsättning i 6:38; spaltgräns mellan 6:7–8, fortsättning i 6:28 och 6:47. R062 kolon och citatavslut i 6:2, R063 säg→såg i 6:20, R064 satt→sätt i 6:23, R065 fader→fäder i 6:26 samt R066 tala→taga i 6:42. V055 nu i 6:17 och V056 väl i 6:48. Apostlanamnen, ursinniga, hugnad och hälleberget bekräftade. Paragrafens upprepade citatöppning i tryckets 6:27 harmoniseras inte; övriga normala kommaskillnader behållna. Avgörande 2026-10-27 mot EFS 1926: V055: EFS 1926 bekräftar Dessa tog han nu med sig. Nu saknas endast i EFS 1927 och behålls. V056: EFS 1926 och 1927 har så väl byggt. R380 återställer väl. Hela 6:48 visuellt jämförd över tryckta s. 91–92; båda fullbilderna bevaras, med fortsättningsbildens hash i källnoten. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
@@ -4580,10 +4580,10 @@
     {
       "book": "Luke",
       "chapter": 8,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 56,
-      "text_sha256": "9fd92af62bfc62b86499b2a92e28ae1438d2f599df1ad069dcac7d922bbaa4ad",
-      "checked_at": "2026-10-26",
+      "text_sha256": "2dbef0d45e215e45681b18ed860af4256f2c94a7ce692f1b35e289eb471398b5",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4599,7 +4599,7 @@
           "sha256": "13507cb7115b8b0e5d84c9f83d50528fdfa1a3e6bd27aeda102077e7201a7212"
         }
       ],
-      "notes": "Hela 8:1–56 bildjämförd, sidfortsättning i 8:16 och gräns mellan 8:34–35, spaltgräns mellan 8:6–7, fortsättning i 8:25 och 8:44. R072 öppnande inre apostrof i 8:10, R073 broder→bröder i 8:20 och R074 meningspunkt i 8:44. V057 igenom/genom i 8:1, V058 då i 8:35, V059 sett/åsett i 8:36, V060 gerasenernas/gerassenernas i 8:37 bekräftade i originalupplösning och sparade till annat tryck. Kusas, Susanna, Legion, Jairus, tillstädja och övriga ord bekräftade; son/Son i 8:28 och vanliga komma-/citatskillnader behållna. Originalupplösningen bekräftar ditin i 8:51 utan foto."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 8:1–56 bildjämförd, sidfortsättning i 8:16 och gräns mellan 8:34–35, spaltgräns mellan 8:6–7, fortsättning i 8:25 och 8:44. R072 öppnande inre apostrof i 8:10, R073 broder→bröder i 8:20 och R074 meningspunkt i 8:44. V057 igenom/genom i 8:1, V058 då i 8:35, V059 sett/åsett i 8:36, V060 gerasenernas/gerassenernas i 8:37 bekräftade i originalupplösning och sparade till annat tryck. Kusas, Susanna, Legion, Jairus, tillstädja och övriga ord bekräftade; son/Son i 8:28 och vanliga komma-/citatskillnader behållna. Originalupplösningen bekräftar ditin i 8:51 utan foto. Avgörande 2026-10-27 mot EFS 1926: V057: EFS 1926 och 1927 visar båda vandrade han genom landet. R381 rättar vandrade han igenom landet till vandrade han genom landet. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V058: EFS 1926 bekräftar När de då kommo till Jesus. Då saknas endast i EFS 1927 och behålls. V059: EFS 1926 och 1927 visar båda de som hade åsett händelsen. R382 rättar de som hade sett händelsen till de som hade åsett händelsen. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V060: EFS 1926 har gerasenernas med ett s, som i korpusen, mot EFS 1927:s gerassenernas. Namnet behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
@@ -10643,6 +10643,380 @@
       "photo_sha256": "8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c",
       "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 78. https://archive.org/download/bibelnellerdenhe0000unse/page/n1287.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c. Titel och kolofon i samma mapp.",
       "notes": "EFS 1926 bekräftar när de lågo till bords mot EFS 1927:s där. Korpusens när behålls."
+    },
+    {
+      "id": "V039",
+      "correction_id": "R369",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 1,
+      "verse": 2,
+      "status": "resolved",
+      "reading": "dem som från begynnelsen själva",
+      "text_sha256": "4cd6d9c916e0d0a7ed2f65b5a9952653654f74ab4ee4d26ed558d74678b0dbcc",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0079.jpg",
+      "photo_sha256": "652df0eccf3fc5a07e8e0cecbec5242a49067e3544b5ebb9783b5de8f9579e7c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 79. https://archive.org/download/bibelnellerdenhe0000unse/page/n1288.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 652df0eccf3fc5a07e8e0cecbec5242a49067e3544b5ebb9783b5de8f9579e7c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda dem som från begynnelsen själva. R369 rättar dem som själva till dem som från begynnelsen själva. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V040",
+      "correction_id": "R370",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 1,
+      "verse": 9,
+      "status": "resolved",
+      "reading": "hände sig",
+      "text_sha256": "f8968ccd59d70408cb58958d23bb449394b76302ce75eee94bd8767dd8c098bb",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0079.jpg",
+      "photo_sha256": "652df0eccf3fc5a07e8e0cecbec5242a49067e3544b5ebb9783b5de8f9579e7c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 79. https://archive.org/download/bibelnellerdenhe0000unse/page/n1288.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 652df0eccf3fc5a07e8e0cecbec5242a49067e3544b5ebb9783b5de8f9579e7c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda hände sig. R370 rättar hände det sig till hände sig. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V041",
+      "correction_id": "R371",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 1,
+      "verse": 41,
+      "status": "resolved",
+      "reading": "blev uppfylld av",
+      "text_sha256": "832a76f62257e816d5327096998e5907833eb949b2079df25d0fa7066a72f28d",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0080.jpg",
+      "photo_sha256": "68d6e37cd186db4eee5292e514b1148970300904b322d04a1d82033417598a2e",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 80. https://archive.org/download/bibelnellerdenhe0000unse/page/n1289.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 68d6e37cd186db4eee5292e514b1148970300904b322d04a1d82033417598a2e. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda blev uppfylld av. R371 rättar blev fylld av till blev uppfylld av. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V042",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 1,
+      "verse": 57,
+      "status": "resolved",
+      "reading": "för Elisabet tiden inne",
+      "text_sha256": "c8c6802c4d526e8882cdb142a18fc8d1e230a7a839d3fec6d97022668dcdc8f1",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0081.jpg",
+      "photo_sha256": "c833e091091713d453241fbc26db852277a880d3a1a70df184399280c0613359",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 81. https://archive.org/download/bibelnellerdenhe0000unse/page/n1290.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 c833e091091713d453241fbc26db852277a880d3a1a70df184399280c0613359. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar Elisabet utan h, som i korpusen, mot EFS 1927:s Elisabeth i denna vers. Namnet behålls som belagd tryckvariant."
+    },
+    {
+      "id": "V043",
+      "correction_id": "R372",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 1,
+      "verse": 73,
+      "status": "resolved",
+      "reading": "lovat vår fader",
+      "text_sha256": "d0a46eb5fdb1492aa15d4bbbd33c33f5f0fd67de3b5600eb24c37740bd837df7",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0082.jpg",
+      "photo_sha256": "2af75fb2d06d7e36d8bdc29b554d941d17ba71426c743efaa601e60163025e7c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 82. https://archive.org/download/bibelnellerdenhe0000unse/page/n1291.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 2af75fb2d06d7e36d8bdc29b554d941d17ba71426c743efaa601e60163025e7c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 saknar för före vår fader. R372 tar bort det främmande för; R053:s tidigare slutpunkt bevaras i samma versbundna ersättning."
+    },
+    {
+      "id": "V044",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 2,
+      "verse": 15,
+      "status": "resolved",
+      "reading": "det som där har skett",
+      "text_sha256": "be53d0a9626d0b393d671c5c1e87b7e682ad1f1388ea6b127badbf6137246d52",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0082.jpg",
+      "photo_sha256": "2af75fb2d06d7e36d8bdc29b554d941d17ba71426c743efaa601e60163025e7c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 82. https://archive.org/download/bibelnellerdenhe0000unse/page/n1291.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 2af75fb2d06d7e36d8bdc29b554d941d17ba71426c743efaa601e60163025e7c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar det som där har skett, som i korpusen; där saknas endast i EFS 1927. Befintlig text behålls."
+    },
+    {
+      "id": "V045",
+      "correction_id": "R373",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 2,
+      "verse": 20,
+      "status": "resolved",
+      "reading": "såsom det hade blivit",
+      "text_sha256": "19ef27252303ec3749989cb775ec85d1fc5acaf16d0f7c1c2cd3388b138b6fcc",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0083.jpg",
+      "photo_sha256": "127fe88b57ff1b4f7e7829ca90af8927b90dc9528d063d61405417335d2872dc",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 83. https://archive.org/download/bibelnellerdenhe0000unse/page/n1292.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 127fe88b57ff1b4f7e7829ca90af8927b90dc9528d063d61405417335d2872dc. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda såsom det hade blivit. R373 rättar såsom det blivit till såsom det hade blivit. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V046",
+      "correction_id": "R374",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 2,
+      "verse": 24,
+      "status": "resolved",
+      "reading": "ett par turturduvor eller två unga duvor",
+      "text_sha256": "b22f8b7f37282a2b2fd79603ea4a71c56df6f8d1d1e19f37ee0bb124227ff1d5",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0083.jpg",
+      "photo_sha256": "127fe88b57ff1b4f7e7829ca90af8927b90dc9528d063d61405417335d2872dc",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 83. https://archive.org/download/bibelnellerdenhe0000unse/page/n1292.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 127fe88b57ff1b4f7e7829ca90af8927b90dc9528d063d61405417335d2872dc. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda ett par turturduvor eller två unga duvor. R374 rättar ett par duvor eller två unga turturduvor till ett par turturduvor eller två unga duvor. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V047",
+      "correction_id": "R375",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 3,
+      "verse": 9,
+      "status": "resolved",
+      "reading": "kastat i elden",
+      "text_sha256": "3cab2ded40775bff58bb2e862cd21af4c6e81e8d6fe5e379aa326397b77c686c",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0084.jpg",
+      "photo_sha256": "47fd0cb5852ed64682338751811f77970ac96d0cd6ccb9296f96716c3ac5697d",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 84. https://archive.org/download/bibelnellerdenhe0000unse/page/n1293.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 47fd0cb5852ed64682338751811f77970ac96d0cd6ccb9296f96716c3ac5697d. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar kastat i elden. R375 rättar på till i; R055:s tidigare citatavslut bevaras i samma versbundna ersättning."
+    },
+    {
+      "id": "V048",
+      "correction_id": "R376",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 3,
+      "verse": 11,
+      "status": "resolved",
+      "reading": "och den som har matförråd",
+      "text_sha256": "8677ca6ad87b193f468a1366d90c30bef61fef87c7d8e0008d5498e1cc1ec6f5",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0084.jpg",
+      "photo_sha256": "47fd0cb5852ed64682338751811f77970ac96d0cd6ccb9296f96716c3ac5697d",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 84. https://archive.org/download/bibelnellerdenhe0000unse/page/n1293.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 47fd0cb5852ed64682338751811f77970ac96d0cd6ccb9296f96716c3ac5697d. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda och den som har matförråd. R376 rättar och en som har matförråd till och den som har matförråd. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V049",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 4,
+      "verse": 10,
+      "status": "resolved",
+      "reading": "att de skola väl bevara dig",
+      "text_sha256": "c63425f292b1ddb3c36861622237c706be0171a2764441884aaf2557fb720345",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0086.jpg",
+      "photo_sha256": "4144ebe743bf99ed05df739932ec9dd7e10fb85228d1190069cf267bc972e288",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 86. https://archive.org/download/bibelnellerdenhe0000unse/page/n1295.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 4144ebe743bf99ed05df739932ec9dd7e10fb85228d1190069cf267bc972e288. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar att de skola väl bevara dig mot EFS 1927:s och. Texten behålls som belagd tryckvariant."
+    },
+    {
+      "id": "V050",
+      "correction_id": "R377",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 4,
+      "verse": 18,
+      "status": "resolved",
+      "reading": "Han har sänt mig",
+      "text_sha256": "86aa06caa1d92818339d58c24c7e3630f3f8711f7ff5b6c7b8f2968c6d712dde",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0086.jpg",
+      "photo_sha256": "4144ebe743bf99ed05df739932ec9dd7e10fb85228d1190069cf267bc972e288",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 86. https://archive.org/download/bibelnellerdenhe0000unse/page/n1295.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 4144ebe743bf99ed05df739932ec9dd7e10fb85228d1190069cf267bc972e288. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Han har sänt mig. R377 rättar Han har satt mig till Han har sänt mig. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V051",
+      "correction_id": "R378",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 4,
+      "verse": 41,
+      "status": "resolved",
+      "reading": "tillstadde dem att icke säga",
+      "text_sha256": "f0a73cc7784b60d7af3ff3c1a3c87099fc373197cb347a35c9102fcb2f88a467",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0087.jpg",
+      "photo_sha256": "210958404b491957258c41016565a92bb9c16519b868c0f101b205ac592b3859",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 87. https://archive.org/download/bibelnellerdenhe0000unse/page/n1296.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 210958404b491957258c41016565a92bb9c16519b868c0f101b205ac592b3859. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda tillstadde dem att icke säga. R378 rättar tillsade dem att icke säga till tillstadde dem att icke säga. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V052",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 5,
+      "verse": 1,
+      "status": "resolved",
+      "reading": "Gennesarets sjö",
+      "text_sha256": "bf41a125c627c000b2444b285b6c6a5921f08484a8660df16c3e7c28e9536cb4",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0088.jpg",
+      "photo_sha256": "a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 88. https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 har Gennesarets med nn, som i korpusen; EFS 1927 har Genesarets. Namnet behålls."
+    },
+    {
+      "id": "V053",
+      "correction_id": "R379",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 5,
+      "verse": 3,
+      "status": "resolved",
+      "reading": "undervisade folket ifrån båten",
+      "text_sha256": "8df8771283db129347d28ee52ceb7f69465b3643eb65957c494206523985e2e5",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0088.jpg",
+      "photo_sha256": "a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 88. https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 har från land i första meningen och ifrån båten i den andra. R379 ändrar endast andra från till ifrån; första från bevaras."
+    },
+    {
+      "id": "V054",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 5,
+      "verse": 7,
+      "status": "resolved",
+      "reading": "de begynte sjunka",
+      "text_sha256": "96a19a3296dc6a5a3d2283b157ab0eadd682e14113a7422d8c51a8ef6670d8f9",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0088.jpg",
+      "photo_sha256": "a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 88. https://archive.org/download/bibelnellerdenhe0000unse/page/n1297.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a2cddadb1e61431a2644fe96215337357f8d45086f912c5fca25ea9334275d67. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar de begynte sjunka mot EFS 1927:s begynta. Befintlig text behålls."
+    },
+    {
+      "id": "V055",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 6,
+      "verse": 17,
+      "status": "resolved",
+      "reading": "Dessa tog han nu med sig",
+      "text_sha256": "578956f95a9ac25bf09e0455d535ec7bf2e0ec39841c7f7015fc5e40918238c7",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0090.jpg",
+      "photo_sha256": "c5f8a9f6fac0a23c8f4abbb7ba09265ec021e7ade80a8d774a899eaf24916cbf",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 90. https://archive.org/download/bibelnellerdenhe0000unse/page/n1299.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 c5f8a9f6fac0a23c8f4abbb7ba09265ec021e7ade80a8d774a899eaf24916cbf. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar Dessa tog han nu med sig. Nu saknas endast i EFS 1927 och behålls."
+    },
+    {
+      "id": "V056",
+      "correction_id": "R380",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 6,
+      "verse": 48,
+      "status": "resolved",
+      "reading": "eftersom det var så väl byggt",
+      "text_sha256": "95884020e5cddf99ac4bfd3699cf9381c3a054626ed7f636cc1a1314eace4239",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0092.jpg",
+      "photo_sha256": "a0435a8341e284c90bcaae511f1c012e761e2052b810e46f2172104714e04a99",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 92. https://archive.org/download/bibelnellerdenhe0000unse/page/n1301.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a0435a8341e284c90bcaae511f1c012e761e2052b810e46f2172104714e04a99. Titel och kolofon i samma mapp. Versens början: https://archive.org/download/bibelnellerdenhe0000unse/page/n1300.jpg ; docs/reports/sv1917-efs1926-witnesses/nt0091.jpg, SHA-256 04e8d8eab74034c8878cc47a7df621372963d372d34400b2c39cf4d28b70c377.",
+      "notes": "EFS 1926 och 1927 har så väl byggt. R380 återställer väl. Hela 6:48 visuellt jämförd över tryckta s. 91–92; båda fullbilderna bevaras, med fortsättningsbildens hash i källnoten."
+    },
+    {
+      "id": "V057",
+      "correction_id": "R381",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 8,
+      "verse": 1,
+      "status": "resolved",
+      "reading": "vandrade han genom landet",
+      "text_sha256": "a4a55b378c7dc72f7a1a32805fe65eba41fbe14f0f6019d8175a0ad96a869bf9",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0094.jpg",
+      "photo_sha256": "01fd2d89d4d1f0964ec78098c0394a20c59f7574d3e9e8ce24a04e195060cacb",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 94. https://archive.org/download/bibelnellerdenhe0000unse/page/n1303.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 01fd2d89d4d1f0964ec78098c0394a20c59f7574d3e9e8ce24a04e195060cacb. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda vandrade han genom landet. R381 rättar vandrade han igenom landet till vandrade han genom landet. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V058",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 8,
+      "verse": 35,
+      "status": "resolved",
+      "reading": "När de då kommo till Jesus",
+      "text_sha256": "40385351ed66b7712a2e5ccf74abe9b7ee8c036cf6c7522a1226d27c2a8eeba6",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0096.jpg",
+      "photo_sha256": "a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 96. https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar När de då kommo till Jesus. Då saknas endast i EFS 1927 och behålls."
+    },
+    {
+      "id": "V059",
+      "correction_id": "R382",
+      "decision": "corrected",
+      "book": "Luke",
+      "chapter": 8,
+      "verse": 36,
+      "status": "resolved",
+      "reading": "de som hade åsett händelsen",
+      "text_sha256": "01fe48fc15d187fead04703e58981ef34a671e856e6b8be28beada982474ee15",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0096.jpg",
+      "photo_sha256": "a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 96. https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda de som hade åsett händelsen. R382 rättar de som hade sett händelsen till de som hade åsett händelsen. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V060",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Luke",
+      "chapter": 8,
+      "verse": 37,
+      "status": "resolved",
+      "reading": "gerasenernas land",
+      "text_sha256": "e74a660296042a9e11e86965c848417753c3f75f10fa3f0014364b134a51de14",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0096.jpg",
+      "photo_sha256": "a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 96. https://archive.org/download/bibelnellerdenhe0000unse/page/n1305.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a1f5ecf6a801e4f4fb7e32327bcf4c6c53ac3161597dfce10a9637c3e6dc6202. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 har gerasenernas med ett s, som i korpusen, mot EFS 1927:s gerassenernas. Namnet behålls."
     }
   ]
 }
