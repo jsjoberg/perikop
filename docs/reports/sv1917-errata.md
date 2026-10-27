@@ -2,7 +2,7 @@
 
 **Granskningsutkast, 2026-10-26. Inte insänt till Projekt Runeberg.**
 
-Patchtabellen omfattar nu 672 granskningsrader med rättelser, återställningar eller omnumreringar efter sextiofyra granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
+Patchtabellen omfattar nu 673 granskningsrader med rättelser, återställningar eller omnumreringar efter sextiofem granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
 ## Underlag
 
@@ -694,6 +694,7 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 | [ ] | R446 | [1 Mos. 37:26](https://runeberg.org/bibeln/01_37.html) | dölja hans blod?» | dölja hans blod? | Två bildvittnen överens | [EFS 1927 GT s. 56](https://runeberg.org/bibeln/efs1927/gt/0056.html), [EFS 1926 GT s. 48](sv1917-efs1926-witnesses/gt0048.jpg); citatet slutar i v. 27 |
 | [ ] | R447 | [1 Mos. 37:32](https://runeberg.org/bibeln/01_37.html) | Denna har vi funnit | Denna hava vi funnit | Två bildvittnen överens | [EFS 1927 GT s. 56](https://runeberg.org/bibeln/efs1927/gt/0056.html), [EFS 1926 GT s. 49](sv1917-efs1926-witnesses/gt0049.jpg) |
 | [ ] | R448 | [1 Mos. 40:1](https://runeberg.org/bibeln/01_40.html) | konungen av Egypten | konungen i Egypten | Två bildvittnen överens | [EFS 1927 GT s. 59](https://runeberg.org/bibeln/efs1927/gt/0059.html), [EFS 1926 GT s. 51](sv1917-efs1926-witnesses/gt0051.jpg) |
+| [ ] | R449 | [1 Mos. 41:51](https://runeberg.org/bibeln/01_41.html) | min faders hus.» | min faders hus». | Två bildvittnen överens | [EFS 1927 GT s. 62](https://runeberg.org/bibeln/efs1927/gt/0062.html), [EFS 1926 GT s. 54](sv1917-efs1926-witnesses/gt0054.jpg) |
 
 ## Så kontrolleras och återbyggs rättelserna
 
@@ -927,3 +928,5 @@ Sextioandra omgången. **2026-10-27, GT12, Första Moseboken 34–36:** 103 vers
 Sextiotredje omgången. **2026-10-27, GT13, Första Moseboken 37–39:** 89 versposter och 2 279 ord visuellt jämförda mot EFS 1927 GT s. 55–59. R445–R447 återställer nu i 37:20, tar bort för tidigt citatslut i 37:26 och rättar hava i 37:32, belagt i båda trycken. EFS 1926 stöder bevarad punkt och öppningscitat i 37:13,15 samt öppningscitat och och i 38:23–24 mot 1927. Inga olösta frågor. Tre fulla original-JPEG-bilder bevarade med hash; primärbildernas och kapiteltexternas hashvärden finns i liggaren. Första Moseboken 1–39: 1 173/1 533 poster (76,5 %). GT totalt 41/929 kapitel och 1 211/23 210 poster (5,22 %); 888 kapitel återstår. Hela liggaren 13 523 verifierade poster. Nästa kapitel 40, från GT s. 59.
 
 Sextiofjärde omgången. **2026-10-27, GT14, Första Moseboken 40:** 23 versposter och 494 ord visuellt jämförda mot EFS 1927 GT s. 59–60. R448 rättar konungen av Egypten till konungen i Egypten i 40:1 enligt båda trycken. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–40: 1 196/1 533 poster (78,0 %). GT totalt 42/929 kapitel och 1 234/23 210 poster (5,32 %); 887 kapitel återstår. Hela liggaren 13 546 verifierade poster. Nästa kapitel 41, från GT s. 60.
+
+Sextiofemte omgången. **2026-10-27, GT15, Första Moseboken 41:** 57 versposter och 1 279 ord visuellt jämförda mot EFS 1927 GT s. 60–63. R449 flyttar punkten efter citatet i 41:51 enligt båda trycken. EFS 1926 bekräftar jag i 41:19 samt Ande och avsaknaden av extra slutcitat i 41:38 och 41:43 mot 1927. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–41: 1 253/1 533 poster (81,7 %). GT totalt 43/929 kapitel och 1 291/23 210 poster (5,56 %); 886 kapitel återstår. Hela liggaren 13 603 verifierade poster. Nästa kapitel 42, från GT s. 63.

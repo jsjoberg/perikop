@@ -9900,6 +9900,34 @@
         }
       ],
       "notes": "Hela 40:1–23 visuellt jämförd mot EFS 1927 GT s. 59–60. R448 rättar av till i i 40:1; även EFS 1926 s. 51 visar i. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0051.jpg, SHA-256 317f3b3c215fcdae881753f6dadbe9ac2404bf0c8d07c40151185f2fbe7eaa36."
+    },
+    {
+      "book": "Gen",
+      "chapter": 41,
+      "status": "verified",
+      "verse_count": 57,
+      "text_sha256": "91f44734388be044f35f6d6b19d39aa1ac65dcc1095c380658b103889778f903",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0060.1.tif",
+          "sha256": "d58ded980a1fc10d8f09dc3ed3df9a8afe3e891ed6c01a264151942f3fdabd47"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0061.1.tif",
+          "sha256": "48ffd001cde4aa3abf29f36a57ecd408670e75e14beb592ba2d058d00e7ad81d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0062.1.tif",
+          "sha256": "ea787292304c86a1f41ad4ea07aa5b86f59cba814b5aaab6be57b7debb9f31b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0063.1.tif",
+          "sha256": "93a45f77a20cd222d023608bd3c7a6ad7e1df369f2a64ad69c75b8a5f97521ff"
+        }
+      ],
+      "notes": "Hela 41:1–57 visuellt jämförd mot EFS 1927 GT s. 60–63. R449 flyttar punkten efter slutcitatet i 41:51 enligt båda trycken. EFS 1926 s. 53 bekräftar jag i 41:19 mot avvikande 1927; EFS 1926 s. 54 bekräftar Ande och avsaknaden av extra slutcitat i 41:38 och 41:43. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0053.jpg, SHA-256 5d356a3cddb4e43eca86000d78a4c3fbd70cb0c05a07315d9a662dae7a18a817; docs/reports/sv1917-efs1926-witnesses/gt0054.jpg, SHA-256 92d7a83da0c52a01feeece6dc0da250fba8b1bb0283e6b037b06082adb3c64ba."
     }
   ],
   "unnumbered": [

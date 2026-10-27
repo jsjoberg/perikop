@@ -751,6 +751,8 @@ int main(int argc, char** argv) {
                   "SV1917 Genesis 37 preserves both words and the quotation spanning verses 26–27");
             check(corpus.verse("sv1917", "Gen", {40, 1})->text.ends_with("sin herre, konungen i Egypten."),
                   "SV1917 Genesis 40 preserves the preposition in the printed text");
+            check(corpus.verse("sv1917", "Gen", {41, 51})->text.ends_with("hela min faders hus»."),
+                  "SV1917 Genesis 41 places the sentence period after the quotation");
             check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
                       corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
                   "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");
