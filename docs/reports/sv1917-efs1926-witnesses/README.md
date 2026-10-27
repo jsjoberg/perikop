@@ -239,6 +239,10 @@ Fulla originalbilder stöder rättelser och behållna tryckvarianter. Se [GT-rap
 
 Fulla originalbilder stöder behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
 
+## GT-uppföljning, Första Moseboken 27–28
+
+Fulla originalbilder stöder rättelsen och behållna tryckvarianter. Se [GT-rapporten](../sv1917-ot.md).
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -383,3 +387,7 @@ Fulla originalbilder stöder behållna tryckvarianter. Se [GT-rapporten](../sv19
 - `gt0027.jpg`: full originalbild och bevarad fil SHA-256 `031b4cd8d38eb058c16ee3e09e0824c97da642df2cfa6ee0850d8ac4d64bcd71`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n38.jpg`.
 - `gt0028.jpg`: full originalbild och bevarad fil SHA-256 `fa3dfcf89a0033aec0a5c8396412812e4851cc12398b4e10815990ed93c3e7d7`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n39.jpg`.
 - `gt0031.jpg`: full originalbild och bevarad fil SHA-256 `d86c6561b1f93785027f3c56e46a239ca710a94ee64e00bf239cb11333412e17`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n42.jpg`.
+- `gt0032.jpg`: full originalbild och bevarad fil SHA-256 `2307c9d53b27cc12e9edf548f6f99367704417629f047b5055f00dbadbde86fa`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n43.jpg`.
+- `gt0033.jpg`: full originalbild och bevarad fil SHA-256 `8d4ecbaad79e5e25b813f752eabf9d324c94d5b101d89060c2eb05ce4fff8a86`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n44.jpg`.
+- `gt0034.jpg`: full originalbild och bevarad fil SHA-256 `d796ab09fd458b1d6ba739cf09457f5681985eb48e0ea5494eefa08939000b66`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n45.jpg`.
+- `gt0035.jpg`: full originalbild och bevarad fil SHA-256 `28aa4083f1d441bf1a8b468524fb402bda1e9acf3293aa2b0d6c1ade12322315`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n46.jpg`.

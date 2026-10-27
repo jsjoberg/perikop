@@ -37,6 +37,8 @@ REPLACE={
  ('Gen',20,7):('du själv och alla som tillhöra dig.','du själv och alla som tillhöra dig.»'),
  ('Gen',22,9):('lade veden därpå, sedan band han','lade veden därpå; sedan band han'),
  ('Gen',22,16):('icke undanhållit mig din ende son','icke undanhållit mig din ende son,'),
+ # Genesis 27-28: both prints separate the two clauses with a semicolon.
+ ('Gen',28,17):('en helig plats, här bor','en helig plats; här bor'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),

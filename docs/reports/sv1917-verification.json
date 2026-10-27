@@ -9592,6 +9592,50 @@
         }
       ],
       "notes": "Hela 26:1–35 visuellt jämförd mot EFS 1927 GT s. 36–38, inklusive 26:20 över spalter. EFS 1926 s. 31 bekräftar korpusens interpunktion i 26:10 och 26:22, kastat i 26:18 samt komma i 26:28 mot avvikande 1927; läsningarna behålls. Namn, tal och citat jämförda. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader, ordmellanrum och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0031.jpg, SHA-256 d86c6561b1f93785027f3c56e46a239ca710a94ee64e00bf239cb11333412e17."
+    },
+    {
+      "book": "Gen",
+      "chapter": 27,
+      "status": "verified",
+      "verse_count": 46,
+      "text_sha256": "a1633cbc40f1fad4e30b0120e4f7ce0069dd7c3848c7de44d429506937b5b097",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0038.1.tif",
+          "sha256": "6f2f802888b3bbc5d1516dc3700a283beb4f76c57004a44645de5b5ac0bdcc5a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0039.1.tif",
+          "sha256": "65263bf8e8c6d34c980dd5387339638dcf13ec75c2d43e7ade596502e37b77fa"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0040.1.tif",
+          "sha256": "9fcccb42deb6abea9c60baa73e724308bade633635a1fd68fe1a0913ab6ba983"
+        }
+      ],
+      "notes": "Hela 27:1–46 visuellt jämförd mot EFS 1927 GT s. 38–40, inklusive 27:19 och 27:37 över sidgränser och 27:7 samt 27:45 över spalter. EFS 1926 s. 32 bekräftar korpusens utropstecken i 27:1 och 27:18 samt öppningscitat i 27:11. EFS 1926 s. 33 bekräftar öppningscitat i 27:21. EFS 1926 s. 34 bekräftar punkt i 27:39 och att citatet i 27:42 fortsätter till 27:45; korpusens läsningar behålls mot avvikande 1927. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0032.jpg, SHA-256 2307c9d53b27cc12e9edf548f6f99367704417629f047b5055f00dbadbde86fa, docs/reports/sv1917-efs1926-witnesses/gt0033.jpg, SHA-256 8d4ecbaad79e5e25b813f752eabf9d324c94d5b101d89060c2eb05ce4fff8a86, docs/reports/sv1917-efs1926-witnesses/gt0034.jpg, SHA-256 d796ab09fd458b1d6ba739cf09457f5681985eb48e0ea5494eefa08939000b66."
+    },
+    {
+      "book": "Gen",
+      "chapter": 28,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "3ceced2fbf29101abdc33a67da0a1a7932dab0bae9f9e95f97736927c4ad32a2",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0040.1.tif",
+          "sha256": "9fcccb42deb6abea9c60baa73e724308bade633635a1fd68fe1a0913ab6ba983"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0041.1.tif",
+          "sha256": "976d284cd47d48e48bf076463d8bfbb8ce7ffac3a8803469fd5ac51f80294495"
+        }
+      ],
+      "notes": "Hela 28:1–22 visuellt jämförd mot EFS 1927 GT s. 40–41, inklusive 28:6–7 över sidgränsen och 28:16–17 över spalter. R440 rättar komma till semikolon i 28:17; båda trycken visar semikolon. Namn, ord och citat kontrollerade. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0035.jpg, SHA-256 28aa4083f1d441bf1a8b468524fb402bda1e9acf3293aa2b0d6c1ade12322315."
     }
   ],
   "unnumbered": [
