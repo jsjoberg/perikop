@@ -215,6 +215,10 @@ Tre fulla original-JPEG-sidor tillkommer: GT s. 1, 2 och 4. De stöder R425 (ifr
 
 [GT s. 5](gt0005.jpg) visar tryckskillnaderna i 4:4, 4:7 och 4:9–11. Besluten finns i [GT-rapporten](../sv1917-ot.md); korpusen behålls.
 
+## GT-uppföljning, Första Moseboken 5–8
+
+Tre fulla originalbilder visar R426 i 5:13 och de behållna läsningarna i 5:29, 6:3, 6:5 och 8:17. Se [GT-rapporten](../sv1917-ot.md) för beslut och exakta hashvärden.
+
 ## Exakta bildhashar
 
 - `title.jpg`: SHA-256 `efd0a9ef659b6a2fb13b4d092d8d95f26bc68866bd67128556946a964f33f60a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n6.jpg`.
@@ -338,3 +342,6 @@ Tre fulla original-JPEG-sidor tillkommer: GT s. 1, 2 och 4. De stöder R425 (ifr
 - `gt0002.jpg`: full originalbild och bevarad fil SHA-256 `ba21237a8624072102a51233a98da54ff90633cb6db14e70b498f017f194b932`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n13.jpg`.
 - `gt0004.jpg`: full originalbild och bevarad fil SHA-256 `10879e9af195eb3a1c6640f1c740c16faf54c7d50e868d122cff7144dc1c404c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n15.jpg`.
 - `gt0005.jpg`: full originalbild, SHA-256 `bf49dd651dac68d7fb7b548b9b6846f7e0101595795dd0fdd0cda03e11b5772b`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n16.jpg`.
+- `gt0006.jpg`: full originalbild och bevarad fil SHA-256 `756e4575b2655029663fe5263846d5bcd627d74acf9f2e5b22545b84c2d35c36`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n17.jpg`.
+- `gt0007.jpg`: full originalbild och bevarad fil SHA-256 `10776a1982cacc7cad2fd802ec53fa86ce795343d69cfa776a7e7c3c9ef51450`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n18.jpg`.
+- `gt0009.jpg`: full originalbild och bevarad fil SHA-256 `160df59ba2aba8c8a1c8aeff537e1d2fd12a75a7133db8e6172c97b7918c8dab`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n20.jpg`.
