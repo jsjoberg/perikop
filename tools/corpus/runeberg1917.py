@@ -43,6 +43,8 @@ REPLACE={
  ('Gen',29,13):('fick höras talas om','fick höra talas om'),
  ('Gen',30,33):('min rättfärdighet vara mitt vittne; alla getter','min rättfärdighet vara mitt vittne: alla getter'),
  ('Gen',31,8):('då fick hela jorden strimmig avföda','då fick hela hjorden strimmig avföda'),
+ # Genesis 34-36: restore speech closure supported by both prints.
+ ('Gen',35,12):('åt din säd efter dig skall jag ock giva det landet.','åt din säd efter dig skall jag ock giva det landet.»'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),

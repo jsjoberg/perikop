@@ -5,7 +5,7 @@
   "nt_coordinates": 7957,
   "reviewed_points": 106,
   "inputs": {
-    "resources/corpus/corpus.db": "1064ca7bfaa1a6815312c2fe0e55cd112619699ea0783c8cc8b126837ceb8fa3",
+    "resources/corpus/corpus.db": "c1e3d53b7cb0ec1cbd93b8537f6da96dc3ebffb9febdd38e15339a2875c35ee7",
     "resources/corpus/alignment.tsv": "daaee168a6c83780e7a501d90c307f96d4e74dd80a6f3e8fa5d3425dad87de14",
     "resources/corpus/books.tsv": "80057b866c13fb666b64aaef4ce3540aee9d98938a9b4416f8aba45818fc952a",
     "resources/corpus/input/KJV.json": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c",

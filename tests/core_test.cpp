@@ -743,6 +743,8 @@ int main(int argc, char** argv) {
                   "both EFS prints number Luke's final question 17:37; 36 is a note only");
             check(corpus.verse("sv1917", "Luke", {10, 2})->text.starts_with("Och han sade till dem: »Skörden"),
                   "Luke 10:2 retains its introduction across the printed page break");
+            check(corpus.verse("sv1917", "Gen", {35, 12})->text.ends_with("giva det landet.»"),
+                  "SV1917 Genesis 35 closes the quotation in verse 12");
             check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
                       corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
                   "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");

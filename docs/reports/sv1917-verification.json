@@ -9752,6 +9752,74 @@
         }
       ],
       "notes": "Hela 33:1–20 visuellt jämförd mot EFS 1927 GT s. 49–50, inklusive 33:5 över sidgränsen. Namn, antal och citat jämförda. EFS 1926 s. 43 bekräftar öppningscitat i 33:12 som saknas i 1927. I 33:18 behålls Paddan-Aram enligt 1927 mot 1926:s Paddam-Aram. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarade fulla original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0043.jpg, SHA-256 132c12520473e8adad834878c880fbe5d3d77c44f95debe8f2bd66ee0e8d27d1."
+    },
+    {
+      "book": "Gen",
+      "chapter": 34,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "63666734cf0e0559df236bd48c18e7529d64ab07eca2583075a9e279932a3ac1",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0050.1.tif",
+          "sha256": "7e415d76913aef3f5445ada86f50e5dc77699640141729fb7c816ec693cb9f87"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0051.1.tif",
+          "sha256": "615377ee1318c95026ced95be8b856bc77f70099ced56e3afe61410903c58728"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0052.1.tif",
+          "sha256": "d160b0a7fe14c12c374cff9e068d28528b6a01203714c37ee36aa738fe28b8ad"
+        }
+      ],
+      "notes": "Hela 34:1–31 visuellt jämförd mot EFS 1927 GT s. 50–52, inklusive 34:7 och 34:29 över sidgränser. EFS 1926 s. 44 bekräftar komma i 34:18 och punkt före citatslut i 34:23 mot 1927; korpusens läsningar behålls. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0044.jpg, SHA-256 dbe794c8c30d5063663967a4925dde8b241a2db6700f50638bd6c152e56c9b92."
+    },
+    {
+      "book": "Gen",
+      "chapter": 35,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "91d692a0de6b0989b49092168cfeda0fb79fbc41ad9ab218d71bef455d352a7d",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0052.1.tif",
+          "sha256": "d160b0a7fe14c12c374cff9e068d28528b6a01203714c37ee36aa738fe28b8ad"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0053.1.tif",
+          "sha256": "75607255d5603212fa8d0820c5ee5ca69a363e276e15aeac2b1d34b3a5a3b4e1"
+        }
+      ],
+      "notes": "Hela 35:1–29 visuellt jämförd mot EFS 1927 GT s. 52–53, inklusive 35:6 över spalter. R444 återställer saknat avslutande citattecken i 35:12; båda trycken har citatslutet. Namn, åldrar och versgränser kontrollerade. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0045.jpg, SHA-256 69bb9ba65d47ff1a0c7f9911772d9a3e2a6699d9305b0f297bc93ff86e9602a3."
+    },
+    {
+      "book": "Gen",
+      "chapter": 36,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "88b703fd3f4bce2c3791fee1bb01fb0a6e77c16f2693810d07fe093ae14e1fd2",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0053.1.tif",
+          "sha256": "75607255d5603212fa8d0820c5ee5ca69a363e276e15aeac2b1d34b3a5a3b4e1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0054.1.tif",
+          "sha256": "d5ff277f6bf6a4e9678811d900161f04c49ff300f492f7b5c9e992589f83b2f1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0055.1.tif",
+          "sha256": "3f0d40630769541b6443febb301897168db45098fb5d5023b2f721c3a97fa2b0"
+        }
+      ],
+      "notes": "Hela 36:1–43 visuellt jämförd mot EFS 1927 GT s. 53–55, inklusive släktnamn och 36:39–40 över sidgränsen. EFS 1926 s. 47 bekräftar Bilhan i 36:27 mot Bilnan i 1927; korpusens Bilhan behålls. Båda trycken har Disans i 36:26 och 36:28; dessa läsningar behålls. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0047.jpg, SHA-256 0e22cad0f0702f232528b1c6f475a0676ad149eaabfba74e0784dc1b582de4f2."
     }
   ],
   "unnumbered": [
