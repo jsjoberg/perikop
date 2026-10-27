@@ -368,7 +368,7 @@ REPLACE={
  ('Rev', 14, 11):('ingen ro, vaken dag eller natt', 'ingen ro, varken dag eller natt'),
  ('Rev', 14, 18):('lien; han sade »', 'lien; han sade: »'),
  ('Rev', 14, 20):('Och vinpressen trampade utanför staden', 'Och vinpressen trampades utanför staden'),
- ('Rev', 16, 17):('och sade »Det är gjort.»', 'och sade: »Det är gjort.»'),
+ ('Rev', 16, 17):('Och den sjunde göt ut sin skål i luften. Då gick en stark röst ut från tronen i templet och sade »Det är gjort.»', 'Och den sjunde göt ut sin skål i luften. Då gick en stark röst ut ifrån tronen i templet och sade: »Det är gjort.»'),
  ('Rev', 18, 7):('drottning och och sitter', 'drottning och sitter'),
  ('Rev', 18, 18):('och när de ser röken', 'och när de se röken'),
  ('Rev', 18, 19):('I ett ögonblick har den nu blivit förödd.', "I ett ögonblick har den nu blivit förödd.'"),
@@ -397,6 +397,28 @@ REPLACE={
  ('Col', 1, 23):('och som blivit predikat', 'och som har blivit predikat'),
  ('2Thess', 1, 10):('kommit till att tro', 'kommit till tro'),
  ('1John', 2, 20):('I haven all kunskap', 'I haven alla kunskap'),
+
+ # Revelation questions resolved against EFS 1926 and 1927: R333-R353.
+ ('Rev', 1, 4):('frid från honom', 'frid ifrån honom'),
+ ('Rev', 2, 14):('en stötesten för Israels barn', 'en stötesten till fall för Israels barn'),
+ ('Rev', 4, 3):('såsom en smaragd', 'såsom smaragd'),
+ ('Rev', 4, 9):('och tillbedja honom som lever', 'och som lever'),
+ ('Rev', 5, 4):('befanns vara värdig', 'befanns värdig'),
+ ('Rev', 6, 4):('friden bort från jorden', 'friden bort ifrån jorden'),
+ ('Rev', 6, 11):('och åt dem blev tillsagt att de ännu en liten tid skulle giva sig till ro', 'och dem blev tillsagt att de ännu en liten tid skulle giva sig ro'),
+ ('Rev', 6, 12):('svart som en sorgdräkt', 'svart såsom en sorgdräkt'),
+ ('Rev', 6, 15):('och alla de rika', 'och de rika'),
+ ('Rev', 7, 14):('du vet själv det', 'du själv vet det'),
+ ('Rev', 8, 3):('rökelse var given åt honom', 'rökelse blev given åt honom'),
+ ('Rev', 8, 10):('Då föll från himmelen', 'Då föll ifrån himmelen'),
+ ('Rev', 9, 17):('tedde sig för min syn', 'tedde sig för mig i min syn'),
+ ('Rev', 14, 1):('på Sions berg jämte det', 'på Sions berg och jämte det'),
+ ('Rev', 15, 8):('hade fått sin fullbordan', 'hade nått sin fullbordan'),
+ ('Rev', 17, 1):('kom och talade med mig', 'kom och talade till mig'),
+ ('Rev', 20, 4):('och icke heller tagit dess märke', 'och icke hade tagit dess märke'),
+ ('Rev', 21, 5):('dessa ord äro visa och sanna', 'dessa ord äro vissa och sanna'),
+ ('Rev', 22, 1):('en ström med vatten', 'en ström med levande vatten'),
+ ('Rev', 22, 15):('de måste alla stanna därutanför', 'de måste stanna därutanför'),
 
 }
 

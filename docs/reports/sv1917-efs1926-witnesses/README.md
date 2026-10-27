@@ -4,7 +4,7 @@
 
 Detta är ett annat fysiskt tryck och en annan sättning än Runebergs EFS 1927: exempelvis finns Apg. 2:2 på tryckt NT s. 168 respektive 187. Samma förlag innebär inte bevis för oberoende redaktionell texttradition eller felfrihet. Källan används för riktade bedömningar av sparade frågor, inte för en automatisk harmonisering. OCR används bara för att hitta sidorna; besluten nedan bygger på de synliga tryckbilderna. Ingen ny fullständig kapitelläsning eller extra täckning räknas för detta vittne.
 
-Tio frågor V123–V132 avgjorda: sex rättelser R321–R326 stöds av båda trycken; fyra befintliga läsningar/versgränser bekräftas av 1926 mot avvikande 1927. Därmed är hela den redan bildlästa Apostlagärningarna verifierad. Inga användarfoton behövs för dessa frågor. V133–V144 har därefter avgjorts mot användarens foton. Nu är även V145–V152 avgjorda mot EFS 1926: fyra rättelser R329–R332 och fyra behållna läsningar/gränser. Endast Uppenbarelsebokens 25 frågor V153–V177 återstår i denna NT-etapp; de är ännu inte avgjorda mot detta vittne. Evangeliernas separata frågor och PR påverkas inte.
+Tio frågor V123–V132 avgjorda: sex rättelser R321–R326 stöds av båda trycken; fyra befintliga läsningar/versgränser bekräftas av 1926 mot avvikande 1927. Därmed är hela den redan bildlästa Apostlagärningarna verifierad. Inga användarfoton behövs för dessa frågor. V133–V144 har därefter avgjorts mot användarens foton. Nu är även V145–V152 avgjorda mot EFS 1926: fyra rättelser R329–R332 och fyra behållna läsningar/gränser. Även Uppenbarelsebokens 25 frågor V153–V177 är nu avgjorda: 21 rättelser R333–R353 och fyra behållna läsningar/gränser. Inga olösta frågor återstår i NT-etappen utanför evangelierna. Evangeliernas separata frågor och PR påverkas inte.
 
 V123–V132 nedan är direkt beskurna hämtade JPEG-bilder utan storleksändring, retuschering, OCR eller rekonstruerade tecken. URL:ens `n` är bildidentifieraren i hämtadressen, inte ett antaget tryckt sidnummer eller ett härlett XML-lövnummer. Fullsidan är visuellt kontrollerad; tryckt sidnummer anges separat. Originalbildens och utsnittets SHA-256 gör underlaget återkontrollerbart. Varje utsnitt och den exakta avgjorda versen valideras också av `resolved_readings` i [JSON-liggaren](../sv1917-verification.json). För V131 visar utsnittet båda versnumren 6 och 7; dess post låser 17:7, medan kapitelhashen låser båda verserna och resten av kapitlet.
 
@@ -20,7 +20,6 @@ V123–V132 nedan är direkt beskurna hämtade JPEG-bilder utan storleksändring
 | V130 | Apg. 15:24 | Behållen text/gräns: kommit från oss | [V130](V130.png) | [NT s. 192](https://archive.org/download/bibelnellerdenhe0000unse/page/n1401.jpg) |
 | V131 | Apg. 17:6–7 | Behållen text/gräns: och Jason har tagit emot dem i sitt hus. | [V131](V131.png) | [NT s. 195](https://archive.org/download/bibelnellerdenhe0000unse/page/n1404.jpg) |
 | V132 | Apg. 25:26 | Behållen text/gräns: rannsakning har blivit hållen | [V132](V132.png) | [NT s. 209](https://archive.org/download/bibelnellerdenhe0000unse/page/n1418.jpg) |
-
 | V145 | Col 1:23 | R329: och som blivit predikat → och som har blivit predikat | [V145, fullsida](V145.jpg) | [NT s. 296](https://archive.org/download/bibelnellerdenhe0000unse/page/n1505.jpg) |
 | V146 | 1Thess 5:17–18 | Behållen text/gräns: Tacken Gud i alla livets förhållanden. | [V146, fullsida](V146.jpg) | [NT s. 304](https://archive.org/download/bibelnellerdenhe0000unse/page/n1513.jpg) |
 | V147 | 2Thess 1:10 | R330: kommit till att tro → kommit till tro | [V147, fullsida](V147.jpg) | [NT s. 305](https://archive.org/download/bibelnellerdenhe0000unse/page/n1514.jpg) |
@@ -31,6 +30,37 @@ V123–V132 nedan är direkt beskurna hämtade JPEG-bilder utan storleksändring
 | V152 | 1John 2:20 | R332: I haven all kunskap → I haven alla kunskap | [V152, fullsida](V152.jpg) | [NT s. 351](https://archive.org/download/bibelnellerdenhe0000unse/page/n1560.jpg) |
 
 V145–V152 är åtta fulla originalbilder, byteidentiska med de hämtade JPEG-sidorna, utan beskärning, omkodning, retuschering eller omskapade tecken. Hela de berörda verserna är visuellt jämförda. Kol. 1:23 fortsätter från vänster spalts nederkant till höger spalts överkant på samma tryckta s. 296. V146 visar både 5:17 och 5:18; dess vershash låser 5:18 och kapitelhashen låser även 5:17. Liggaren validerar bild- och vershashar.
+
+
+| Fråga | Vers | Beslut | Bevarad fullsida | Originalbild |
+| --- | --- | --- | --- | --- |
+| V153 | Upp. 1:4 | R333: frid från honom → frid ifrån honom | [NT s. 367](nt0367.jpg) | [n1576](https://archive.org/download/bibelnellerdenhe0000unse/page/n1576.jpg) |
+| V154 | Upp. 2:14 | R334: en stötesten för Israels barn → en stötesten till fall för Israels barn | [NT s. 369](nt0369.jpg) | [n1578](https://archive.org/download/bibelnellerdenhe0000unse/page/n1578.jpg) |
+| V155 | Upp. 4:3 | R335: såsom en smaragd → såsom smaragd | [NT s. 371](nt0371.jpg) | [n1580](https://archive.org/download/bibelnellerdenhe0000unse/page/n1580.jpg) |
+| V156 | Upp. 4:9 | R336: och tillbedja honom som lever → och som lever | [NT s. 371](nt0371.jpg) | [n1580](https://archive.org/download/bibelnellerdenhe0000unse/page/n1580.jpg) |
+| V157 | Upp. 5:4 | R337: befanns vara värdig → befanns värdig | [NT s. 372](nt0372.jpg) | [n1581](https://archive.org/download/bibelnellerdenhe0000unse/page/n1581.jpg) |
+| V158 | Upp. 6:4 | R338: friden bort från jorden → friden bort ifrån jorden | [NT s. 372](nt0372.jpg) | [n1581](https://archive.org/download/bibelnellerdenhe0000unse/page/n1581.jpg) |
+| V159 | Upp. 6:11 | R339: och åt dem blev tillsagt att de ännu en liten tid skulle giva sig till ro → och dem blev tillsagt att de ännu en liten tid skulle giva sig ro | [NT s. 373](nt0373.jpg) | [n1582](https://archive.org/download/bibelnellerdenhe0000unse/page/n1582.jpg) |
+| V160 | Upp. 6:12 | R340: svart som en sorgdräkt → svart såsom en sorgdräkt | [NT s. 373](nt0373.jpg) | [n1582](https://archive.org/download/bibelnellerdenhe0000unse/page/n1582.jpg) |
+| V161 | Upp. 6:15 | R341: och alla de rika → och de rika | [NT s. 373](nt0373.jpg) | [n1582](https://archive.org/download/bibelnellerdenhe0000unse/page/n1582.jpg) |
+| V162 | Upp. 7:8 | Behållen text/gräns: av Sabulons stam | [NT s. 374](nt0374.jpg) | [n1583](https://archive.org/download/bibelnellerdenhe0000unse/page/n1583.jpg) |
+| V163 | Upp. 7:14 | R342: du vet själv det → du själv vet det | [NT s. 374](nt0374.jpg) | [n1583](https://archive.org/download/bibelnellerdenhe0000unse/page/n1583.jpg) |
+| V164 | Upp. 8:3 | R343: rökelse var given åt honom → rökelse blev given åt honom | [NT s. 374](nt0374.jpg) | [n1583](https://archive.org/download/bibelnellerdenhe0000unse/page/n1583.jpg) |
+| V165 | Upp. 8:10 | R344: Då föll från himmelen → Då föll ifrån himmelen | [NT s. 375](nt0375.jpg) | [n1584](https://archive.org/download/bibelnellerdenhe0000unse/page/n1584.jpg) |
+| V166 | Upp. 9:17 | R345: tedde sig för min syn → tedde sig för mig i min syn | [NT s. 376](nt0376.jpg) | [n1585](https://archive.org/download/bibelnellerdenhe0000unse/page/n1585.jpg) |
+| V167 | Upp. 14:1 | R346: på Sions berg jämte det → på Sions berg och jämte det | [NT s. 379](nt0379.jpg) | [n1588](https://archive.org/download/bibelnellerdenhe0000unse/page/n1588.jpg) |
+| V168 | Upp. 15:8 | R347: hade fått sin fullbordan → hade nått sin fullbordan | [NT s. 381](nt0381.jpg) | [n1590](https://archive.org/download/bibelnellerdenhe0000unse/page/n1590.jpg) |
+| V169 | Upp. 16:17 | R348: ut från tronen i templet → ut ifrån tronen i templet | [NT s. 382](nt0382.jpg) | [n1591](https://archive.org/download/bibelnellerdenhe0000unse/page/n1591.jpg) |
+| V170 | Upp. 17:1 | R349: kom och talade med mig → kom och talade till mig | [NT s. 382](nt0382.jpg) | [n1591](https://archive.org/download/bibelnellerdenhe0000unse/page/n1591.jpg) |
+| V171 | Upp. 18:22–24 | Behållen text/gräns: bullret av en kvarn skall aldrig mer höras i dig | [NT s. 384](nt0384.jpg) | [n1593](https://archive.org/download/bibelnellerdenhe0000unse/page/n1593.jpg) |
+| V172 | Upp. 20:4 | R350: och icke heller tagit dess märke → och icke hade tagit dess märke | [NT s. 386](nt0386.jpg) | [n1595](https://archive.org/download/bibelnellerdenhe0000unse/page/n1595.jpg) |
+| V173 | Upp. 20:8 | Behållen text/gräns: bo vid jordens fyra hörn | [NT s. 386](nt0386.jpg) | [n1595](https://archive.org/download/bibelnellerdenhe0000unse/page/n1595.jpg) |
+| V174 | Upp. 21:5 | R351: dessa ord äro visa och sanna → dessa ord äro vissa och sanna | [NT s. 387](nt0387.jpg) | [n1596](https://archive.org/download/bibelnellerdenhe0000unse/page/n1596.jpg) |
+| V175 | Upp. 21:15 | Behållen text/gräns: talade till mig | [NT s. 387](nt0387.jpg) | [n1596](https://archive.org/download/bibelnellerdenhe0000unse/page/n1596.jpg) |
+| V176 | Upp. 22:1 | R352: en ström med vatten → en ström med levande vatten | [NT s. 388](nt0388.jpg) | [n1597](https://archive.org/download/bibelnellerdenhe0000unse/page/n1597.jpg) |
+| V177 | Upp. 22:15 | R353: de måste alla stanna därutanför → de måste stanna därutanför | [NT s. 389](nt0389.jpg) | [n1598](https://archive.org/download/bibelnellerdenhe0000unse/page/n1598.jpg) |
+
+V153–V177 använder 16 fulla, byteidentiska original-JPEG-sidor. Gemensamma sidor delas mellan frågorna. V171 visar alla tre nummer 18:22–24 och bekräftar korpusens versgränser; V177 omfattar både [s. 388](nt0388.jpg) och [s. 389](nt0389.jpg). Fyra behållna läsningar/gränser är Sabulons i 7:8, 18:22–24, vid i 20:8 samt tydligt talade i 21:15. Tidigare R311 i 16:17 bevaras. Ingen extra kapitellästäckning räknas.
 
 ## Exakta bildhashar
 
@@ -54,3 +84,19 @@ V145–V152 är åtta fulla originalbilder, byteidentiska med de hämtade JPEG-s
 - `V150.jpg`: full originalbild och bevarad fil SHA-256 `f2c8a392355983878c9d4a8b310b6159ea8c8969172a05c1910ec4f0e1a9f842`.
 - `V151.jpg`: full originalbild och bevarad fil SHA-256 `d712e96af619d892934862d0dc495a467b8d2f0ce778b14543a74a8458bb0ce5`.
 - `V152.jpg`: full originalbild och bevarad fil SHA-256 `4bfa8e310bddb4095293937d4538753aa23d2faa5a60dc34ff4dd1d348f9d437`.
+- `nt0367.jpg`: full originalbild och bevarad fil SHA-256 `545a55335e286d96485a3cc25314aa9897c0c81af2308c35b056975f207982f2`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1576.jpg`.
+- `nt0369.jpg`: full originalbild och bevarad fil SHA-256 `5f533a6aa2da75cb1e494a07bac6fb41f2ecc63f2c9f25a343f972df344bac2a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1578.jpg`.
+- `nt0371.jpg`: full originalbild och bevarad fil SHA-256 `d552b4b6d0fc2238ee6c6703dd8aa1005ed2d21d579b8ee0a3c7f686c5804291`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1580.jpg`.
+- `nt0372.jpg`: full originalbild och bevarad fil SHA-256 `9dd89f84c754991ef7607ea62dee6fc930c1931fb11f1cb588796f733100477b`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1581.jpg`.
+- `nt0373.jpg`: full originalbild och bevarad fil SHA-256 `9847b752069c30bef2662cd1d26fb28f743025dd8e7765475987ab76e3409016`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1582.jpg`.
+- `nt0374.jpg`: full originalbild och bevarad fil SHA-256 `1dee566376d74fa66113f06bfca6879c8dd518b2dabce4320eaa790aeb924452`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1583.jpg`.
+- `nt0375.jpg`: full originalbild och bevarad fil SHA-256 `f5514bc9517e709462d7540d3d5ceb54bd8d23d71232380bf703d2f3497a4527`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1584.jpg`.
+- `nt0376.jpg`: full originalbild och bevarad fil SHA-256 `93eba43b4c372c16223b03292da805e448d89cfeb38b4855d4f71d77dfc9c36c`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1585.jpg`.
+- `nt0379.jpg`: full originalbild och bevarad fil SHA-256 `379ae1080047b3ec126da1405dc03f1ad07f2f29b8a056aad59e83f15d56eed7`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1588.jpg`.
+- `nt0381.jpg`: full originalbild och bevarad fil SHA-256 `2d276a6432caa4ece3f69f3d50534cab3bafe29e830f072afa160045f4662fe7`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1590.jpg`.
+- `nt0382.jpg`: full originalbild och bevarad fil SHA-256 `8a3a4fecb578b279f4c78558e76892b07ec16c55581ffb34f43dfb2836e5ecaa`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1591.jpg`.
+- `nt0384.jpg`: full originalbild och bevarad fil SHA-256 `c1a6b2b7b9da8d1922cb19ee02f7fbbafdbce869a7eb3a674d5af1cf16fbb3fd`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1593.jpg`.
+- `nt0386.jpg`: full originalbild och bevarad fil SHA-256 `40d2e6a8fe54b464d93e2b4bb84b4f0c1f61c45ba75b465c44673c9b0d8da7c9`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1595.jpg`.
+- `nt0387.jpg`: full originalbild och bevarad fil SHA-256 `ceebab5df986cdde2ce48609a1a123960b15618df49817671d5aa82a48a3824a`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1596.jpg`.
+- `nt0388.jpg`: full originalbild och bevarad fil SHA-256 `06fde2f8ae281aed18c10f3a350f9d2f5d9493497d2f504a2b0fbd27709e6e3d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1597.jpg`.
+- `nt0389.jpg`: full originalbild och bevarad fil SHA-256 `e96cf226d11823b50e0b039be95d74923b923c341e0a6c8c0afd17cf4286a76d`; original `https://archive.org/download/bibelnellerdenhe0000unse/page/n1598.jpg`.
