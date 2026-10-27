@@ -37,7 +37,7 @@ Linux channels retain `-glibc239`. Never publish a new AppImage to the older Lin
 
 ### Recovery and verification
 
-A missing package, feed or installer, a wrong hash, or a failed upload stops publication. A rerun of the release job reuses the uploaded packages only when their bytes match; it never replaces a package, because a live feed may already name it. If the bytes differ, delete the draft and the staged assets for that tag on the `updates` release, then rerun. If the **Publish updates** workflow fails, fix the cause and run it again:
+A missing package, feed or installer, a wrong hash, or a failed upload stops publication. A rerun of the release job reuses the uploaded packages only when their bytes match; it never replaces a package, because a live feed may already name it. If the bytes differ, delete the draft. On the `updates` release, delete the `<tag>.releases.*.json` entries and that version's `.nupkg` files, then rerun. Never delete a package that a live `releases.<channel>.json` names. If the **Publish updates** workflow fails, fix the cause and run it again:
 
 ```sh
 gh workflow run publish.yml --repo jsjoberg/perikop -f tag=v0.2.1
