@@ -129,7 +129,8 @@ OVERRIDES[(SV,WEB)]={'EsthGr':['EsthGr 1:1-17 > EsthGr 1:1','EsthGr 2:1-7 > Esth
 # Patriarchal Greek text, the KJV and the WEB (which numbers like the Greek).
 GRP='grc-patriarchal'
 NT=CANON[39:]
-NT_SHARED={'John':['John 11:34 > John 11:34 John 11:35','John 11:35 > John 11:36','John 11:36 John 11:37 > John 11:37'],
+NT_SHARED={'Matt':['Matt 12:26 > Matt 12:26','Matt 12:27 > Matt 12:26 Matt 12:27'],
+ 'John':['John 11:34 > John 11:34 John 11:35','John 11:35 > John 11:36','John 11:36 John 11:37 > John 11:37'],
  'Luke':['Luke 17:36 > Luke 17:37','- > Luke 17:36'],
  'Phil':['Phil 1:16 > Phil 1:17','Phil 1:17 > Phil 1:16'],
  'Rev':['Rev 2:27 > Rev 2:27','Rev 2:28 > Rev 2:27 Rev 2:28']}

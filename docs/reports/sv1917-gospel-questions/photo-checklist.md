@@ -1,31 +1,9 @@
 # Samlad fotolista för evangelierna
 
-**Sparad 2026-10-26. Ingen åtgärd behövs nu.** Alla fyra evangelier är helt bildlästa. 113 öppna läsfrågor i 56 kapitel väntar på kompletterande tryck. Listan samlar dem i bok- och versordning så att boken bara behöver bläddras framåt. Frågorna är inte 113 fastställda fel.
-
-När boken finns till hands: fotografera de angivna hela verserna. Ingen transkription, feldiagnos eller markering behövs; Codex tolkar fotona. Närliggande verser kan tas på samma foto eller uppslag om texten förblir läsbar. Det behöver inte vara ett foto per fråge-ID. För Matt. 12:26–27, Luk. 11:3–4 och Luk. 17:35–37 ska även versnumren synas. Varje frågelänk visar hela aktuella korpusversen, scanutsnittet och vad jämförelsen gäller. Ingen ordändring görs för en fråga innan tryckvittnet har bedömts.
+**Uppdaterad 2026-10-27. Ingen omedelbar fotoinsats behövs.** Alla evangelier är bildlästa; Matteus och Markus är nu helt verifierade efter EFS 1926-jämförelser. **84 öppna frågor V039–V122 återstår i 36 Lukas-/Johanneskapitel.** Digitaliserade tryck prövas först medan användaren är borta från boken. Bara kvarstående osäkerhet sparas för senare foton. Listan visar endast de öppna frågorna; avgjorda V010–V038 finns med beslut och bevis i bunt 2–4. De två återstående versgränsfrågorna kräver även synliga nummer.
 
 | Bok och kapitel | Hela verser att fotografera | Sparade frågor |
 | --- | --- | --- |
-| Matteus 11 | 10, 23 | [V010](batch-2.md#v010), [V011](batch-2.md#v011) |
-| Matteus 12 | 26, 27 | [V012](batch-2.md#v012) |
-| Matteus 13 | 34, 39 | [V013](batch-2.md#v013), [V014](batch-2.md#v014) |
-| Matteus 18 | 20, 25 | [V015](batch-2.md#v015), [V016](batch-2.md#v016) |
-| Matteus 20 | 23 | [V017](batch-3.md#v017) |
-| Matteus 24 | 29, 42 | [V018](batch-3.md#v018), [V019](batch-3.md#v019) |
-| Matteus 25 | 15 | [V020](batch-3.md#v020) |
-| Markus 1 | 43 | [V021](batch-4.md#v021) |
-| Markus 2 | 14 | [V022](batch-4.md#v022) |
-| Markus 3 | 29 | [V023](batch-4.md#v023) |
-| Markus 4 | 1, 15 | [V024](batch-4.md#v024), [V025](batch-4.md#v025) |
-| Markus 5 | 8 | [V026](batch-4.md#v026) |
-| Markus 6 | 5, 9 | [V027](batch-4.md#v027), [V028](batch-4.md#v028) |
-| Markus 7 | 27 | [V029](batch-4.md#v029) |
-| Markus 8 | 6 | [V030](batch-4.md#v030) |
-| Markus 9 | 18 | [V031](batch-4.md#v031) |
-| Markus 13 | 17 | [V032](batch-4.md#v032) |
-| Markus 14 | 6, 11, 23 | [V033](batch-4.md#v033), [V034](batch-4.md#v034), [V035](batch-4.md#v035) |
-| Markus 15 | 8 | [V036](batch-4.md#v036) |
-| Markus 16 | 5, 14 | [V037](batch-4.md#v037), [V038](batch-4.md#v038) |
 | Lukas 1 | 2, 9, 41, 57, 73 | [V039](batch-5.md#v039), [V040](batch-5.md#v040), [V041](batch-5.md#v041), [V042](batch-5.md#v042), [V043](batch-5.md#v043) |
 | Lukas 2 | 15, 20, 24 | [V044](batch-5.md#v044), [V045](batch-5.md#v045), [V046](batch-5.md#v046) |
 | Lukas 3 | 9, 11 | [V047](batch-5.md#v047), [V048](batch-5.md#v048) |

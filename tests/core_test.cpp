@@ -1410,11 +1410,42 @@ int main(int argc, char** argv) {
                  {"Rev", {21, 5}, "dessa ord äro visa och sanna", "dessa ord äro vissa och sanna"},
                  {"Rev", {22, 1}, "en ström med vatten", "en ström med levande vatten"},
                  {"Rev", {22, 15}, "de måste alla stanna därutanför", "de måste stanna därutanför"},
+                 {"Matt", {13, 39}, "Skördemännen är änglar", "Skördemännen äro änglar"},
+                 {"Matt", {18, 20}, "två eller tre är församlade", "två eller tre äro församlade"},
+                 {"Matt", {18, 25}, "då denna icke kunde betala", "då denne icke kunde betala"},
+                 {"Matt", {24, 42}, "vår Herre", "eder Herre"},
+                 {"Matt", {25, 15}, "och for utrikes", "och for så utrikes"},
+                 {"Mark", {1, 43}, "Sedan vände Jesus", "Sedan visade Jesus"},
+                 {"Mark", {2, 14}, "Då steg han upp", "Då stod han upp"},
+                 {"Mark", {4, 15}, "Satan ock tager", "Satan och tager"},
+                 {"Mark", {5, 8}, "du orena ande", "du orene ande"},
+                 {"Mark", {6, 9}, "Sandaler finge de", "Sandaler fingo de"},
+                 {"Mark", {8, 6}, "Ock han tog", "Och han tog"},
+                 {"Mark", {13, 17}, "Och ve de som", "Och ve dem som"},
+                 {"Mark", {14, 23}, "tackade Gud ock gav", "tackade Gud och gav"},
+                 {"Mark", {15, 8}, "Folket kom ditupp", "Folket kom nu ditupp"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
+        }
+        check(corpus.verse("sv1917", "Matt", {12, 26})->text ==
+                  "Om nu Satan driver ut Satan, så har han kommit i strid med sig själv." &&
+                  corpus.verse("sv1917", "Matt", {12, 27})->text.starts_with(
+                      "Huru kan då hans rike hava bestånd? Och om det är med Beelsebul"),
+              "Matthew 12:26-27 follows both printed verse boundaries without losing words");
+        using PrintRefs = std::vector<std::pair<std::string, VerseRef>>;
+        for (const auto& other : {"grc-patriarchal", "en-web"}) {
+            check(corpus.counterparts("sv1917", other, "Matt", {12, 26}) ==
+                      PrintRefs{{"Matt", {12, 26}}} &&
+                      corpus.counterparts("sv1917", other, "Matt", {12, 27}) ==
+                          PrintRefs{{"Matt", {12, 26}}, {"Matt", {12, 27}}} &&
+                      corpus.counterparts(other, "sv1917", "Matt", {12, 26}) ==
+                          PrintRefs{{"Matt", {12, 26}}, {"Matt", {12, 27}}} &&
+                      corpus.counterparts(other, "sv1917", "Matt", {12, 27}) ==
+                          PrintRefs{{"Matt", {12, 27}}},
+                  "Matthew 12:26-27 partial verse overlap works in both directions");
         }
         check(corpus.verse("sv1917", "Acts", {2, 35})->text.ends_with("dig till en fotapall.'"),
               "Acts 2:35 retains the scan-verified inner quotation ending");

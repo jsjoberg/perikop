@@ -5,8 +5,8 @@
   "nt_coordinates": 7957,
   "reviewed_points": 106,
   "inputs": {
-    "resources/corpus/corpus.db": "33b045c07e5f9346339b84f57733fd817528336bd5809c250d36b779b70ebcc1",
-    "resources/corpus/alignment.tsv": "2845f5ee947d2cf6ff929e023c45faeabcf7ebfdf5e4f6dae63d33c9d7cc3739",
+    "resources/corpus/corpus.db": "8fc38e75ef99b0f54a9082cfd2bae4db0e235f1a5c3693f9a5ed299950eda753",
+    "resources/corpus/alignment.tsv": "c69844a10790b9f254611ed32bb65d0bcfe276bc72880666c73e898c67ffd726",
     "resources/corpus/books.tsv": "80057b866c13fb666b64aaef4ce3540aee9d98938a9b4416f8aba45818fc952a",
     "resources/corpus/input/KJV.json": "f0b09dc49dfb97bb84f03aae1fbf026485048c3cab31a7a41017e2d86ac1d11c",
     "resources/corpus/input/eng-Brenton_usfm.zip": "5813078f2213e472a3d4946ccf468a6e17cf145f7b0f7afd154dced36203c6d3",
@@ -14,7 +14,7 @@
     "resources/content/srb2026-chapters.tsv": "68d098aea71029ae6c4b2c34c578476900721d6b415cca78545755811c3a1485",
     "tools/corpus/build_osb_reference.py": "6810fdce3a2cd6857bdb871873d84015c66d944d668c651528f5ef92ef34caa4",
     "tools/corpus/align_editions.py": "40bf7e296de1362d01abcb1cb9ffe19dfa4884e8a3bb9c522dc72bea5ef310a4",
-    "tools/corpus/align_rules.py": "3ea4eba58b3ae9072c6b1031dd3c2edca96618a3baf215722e8e901b9529aeaf",
+    "tools/corpus/align_rules.py": "0e796cf64521a47d66b24c43fa15c5eb631a807658e99ba7f2f3516f3345df5a",
     "tools/corpus/mapping.py": "d39939d37f552213297ad5094903f1b1258d875c990853a56f10cc109fe31fb9",
     "tools/content/srb_alignment.py": "5e68c1c27a1e662018fd690f6169c6ef59b66ebbe55d22fdf349f16e52d878e4",
     "resources/corpus/osb-frame.tsv": "76ec7bdcd897bf8aaa26f8e532df2dc4b2a9381e327e89376bb653dae19e2256"

@@ -3600,10 +3600,10 @@
     {
       "book": "Matt",
       "chapter": 11,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 30,
       "text_sha256": "bbe4a48f600f0d6f8f129a2520cf8f7ad0929b641bfffaadaaa5eb98a9f77a7f",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3619,15 +3619,15 @@
           "sha256": "e96f2177c3fa9b6c92ae170f84e84c91285cef3b7efea3292d34c8634ed18b20"
         }
       ],
-      "notes": "Hela 11:1–30 ord- och interpunktionsjämförd, inklusive kapitelöppningen på delad s. 17, sidfortsättningen i 11:23 och spaltfortsättningen mellan 11:12–13. V010: korpusens om vilken i 11:10 mot tryckets om vilket. V011: korpusens det hava stått i 11:23 mot tryckets de hava stått. Båda ordskillnaderna sparas för senare foto; ingen rättelse görs på grammatisk gissning. Namn, citat och övriga ord bekräftade. Kommaskillnader i 11:3–4, 11:6–7, 11:10–11, 11:16, 11:19–21, 11:23–25 och 11:27–28 behålls. Kapitlet väntar på V010–V011."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 11:1–30 ord- och interpunktionsjämförd, inklusive kapitelöppningen på delad s. 17, sidfortsättningen i 11:23 och spaltfortsättningen mellan 11:12–13. V010: korpusens om vilken i 11:10 mot tryckets om vilket. V011: korpusens det hava stått i 11:23 mot tryckets de hava stått. Båda ordskillnaderna sparas för senare foto; ingen rättelse görs på grammatisk gissning. Namn, citat och övriga ord bekräftade. Kommaskillnader i 11:3–4, 11:6–7, 11:10–11, 11:16, 11:19–21, 11:23–25 och 11:27–28 behålls. Kapitlet väntar på V010–V011. Avgörande 2026-10-27 mot EFS 1926: V010: EFS 1926 visar om vilken, som i korpusen, mot EFS 1927:s om vilket. Orden behålls som belagd tryckvariant. V011: EFS 1926 visar så skulle det hava stått ännu i dag, som i korpusen, mot EFS 1927:s de. Hela versen synlig på samma sida; orden behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
       "chapter": 12,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 50,
-      "text_sha256": "2b8eef8fce4edc64c2b77f2d9913a92e46c78498f5189a30440df9bd2d5bdbbb",
-      "checked_at": "2026-10-26",
+      "text_sha256": "dccc8145a8ce072ac945804eae23de8eed0eef00cd9be8e5a491a179239ee464",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3643,15 +3643,15 @@
           "sha256": "5110273e48f7837a6c1f65995d6d0ede055ac26468e85ed794a408507254de04"
         }
       ],
-      "notes": "Hela 12:1–50 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 12:13 och 12:34 och spaltfortsättningarna i 12:2 och 12:43. V012: EFS 1927 placerar versnummer 27 före Huru kan då hans rike hava bestånd?, medan korpusen har frågan sist i 12:26 och börjar 12:27 med Och om det är med Beelsebul. Ordalydelse och befintliga koordinater/mappningar behålls tills foto av båda verserna kan jämföras. Inga nya ordändringar. Tryckets så framt i 12:29 mot korpusens såframt antecknas som särskrivningsvariant, ingen automatisk harmonisering. Citat, Beelsebul, Ninevitiska och Söderlandet bekräftade. Kommaskillnader i 12:2–7, 12:10, 12:12, 12:24–25, 12:27–31, 12:36, 12:41–43 och 12:46–50 behålls. Kapitlet väntar på V012."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 12:1–50 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 12:13 och 12:34 och spaltfortsättningarna i 12:2 och 12:43. V012: EFS 1927 placerar versnummer 27 före Huru kan då hans rike hava bestånd?, medan korpusen har frågan sist i 12:26 och börjar 12:27 med Och om det är med Beelsebul. Ordalydelse och befintliga koordinater/mappningar behålls tills foto av båda verserna kan jämföras. Inga nya ordändringar. Tryckets så framt i 12:29 mot korpusens såframt antecknas som särskrivningsvariant, ingen automatisk harmonisering. Citat, Beelsebul, Ninevitiska och Söderlandet bekräftade. Kommaskillnader i 12:2–7, 12:10, 12:12, 12:24–25, 12:27–31, 12:36, 12:41–43 och 12:46–50 behålls. Kapitlet väntar på V012. Avgörande 2026-10-27 mot EFS 1926: V012: Båda trycken placerar nummer 27 före Huru kan då hans rike hava bestånd? Hela 12:26–27 och båda versnumren är visuellt jämförda. Frågan flyttas från slutet av 12:26 till början av 12:27 utan ändring av sammanhängande text. Båda existerande koordinaterna behålls. Parallellerna till grekiska, WEB och KJV får uttrycklig partiell överlappning i båda riktningar: svensk 26 motsvarar 26, svensk 27 motsvarar 26–27. Denna vershash låser 27; kapitelhashen även 26. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
       "chapter": 13,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 58,
-      "text_sha256": "717d14ffa99fe037eb8ef808b8a3f8c0bd4727e6c5853d6ebe2b38f96d5fa5e4",
-      "checked_at": "2026-10-26",
+      "text_sha256": "8e981034b52d634f67c05a5d6815f58038b07651f1de22b09b01ecf37ea1607c",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3671,7 +3671,7 @@
           "sha256": "8aa147196e53ffde4fbd7b4b78837d1af62934d96e2b14bf6e5f7d27b5ee6686"
         }
       ],
-      "notes": "Hela 13:1–58 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 13:2–3, i 13:23 och mellan 13:42–43 och spaltfortsättningarna mellan 13:14–15, i 13:32 och 13:54. R031 återställer avslutande apostrof efter mig. i 13:15; R032 återställer avslutande apostrof efter ogräs? i 13:27. Båda tydliga i originalupplösning och kräver inget kompletterande foto. V013: utan liknelser i 13:34 mot tryckets utan liknelse. V014: Skördemännen är i 13:39 mot tryckets Skördemännen äro. Dessa ordskillnader lämnas oförändrade för senare foto. Namn, övriga ord och alla versgränser bekräftade. Kommaskillnader i 13:1, 13:12–15, 13:17–24, 13:28, 13:31–35, 13:37, 13:41, 13:44–45, 13:47 och 13:52 behålls. Talets/nästlade citats typografiska utförande harmoniseras inte. Kapitlet väntar på V013–V014."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 13:1–58 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 13:2–3, i 13:23 och mellan 13:42–43 och spaltfortsättningarna mellan 13:14–15, i 13:32 och 13:54. R031 återställer avslutande apostrof efter mig. i 13:15; R032 återställer avslutande apostrof efter ogräs? i 13:27. Båda tydliga i originalupplösning och kräver inget kompletterande foto. V013: utan liknelser i 13:34 mot tryckets utan liknelse. V014: Skördemännen är i 13:39 mot tryckets Skördemännen äro. Dessa ordskillnader lämnas oförändrade för senare foto. Namn, övriga ord och alla versgränser bekräftade. Kommaskillnader i 13:1, 13:12–15, 13:17–24, 13:28, 13:31–35, 13:37, 13:41, 13:44–45, 13:47 och 13:52 behålls. Talets/nästlade citats typografiska utförande harmoniseras inte. Kapitlet väntar på V013–V014. Avgörande 2026-10-27 mot EFS 1926: V013: EFS 1926 bekräftar korpusens utan liknelser mot EFS 1927:s utan liknelse. Orden behålls som belagd tryckvariant. V014: EFS 1926 och 1927 visar båda Skördemännen äro änglar. R355 rättar Skördemännen är änglar till Skördemännen äro änglar. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
@@ -3760,10 +3760,10 @@
     {
       "book": "Matt",
       "chapter": 18,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
-      "text_sha256": "7020ae72e8dc3c5105c804d5f7ec2f9c10dc97f4f00cc84c0f6d37645ed2a928",
-      "checked_at": "2026-10-26",
+      "text_sha256": "d41b77d8f27e0ef4c65d8a2bb0bd2eaf73d57eae967bb7967ae0ee97ce3dfa2a",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3775,7 +3775,7 @@
           "sha256": "34f1ed91c62ec36b6c8dda8ac20b427efa5c7bc1c560945dc1a25daaadc90952"
         }
       ],
-      "notes": "Hela 18:1–35:s löptext, 34 versposter, ord- och interpunktionsjämförd, inklusive sidfortsättningen i 18:18 och spaltfortsättningarna i 18:9 och 18:28. R035 rättar prepositionens I till i i 18:5. V015: två eller tre är i 18:20 mot tryckets två eller tre äro. V016: då denna i 18:25 mot tryckets då denne. Ordskillnaderna sparas för senare foto utan att grammatiken avgör en ändring. Versnummer 11 har bara en nothänvisning och saknar löptext i trycket; ingen vers skapas från noten. Tryckets lilla i i tilltalet 18:10 mot korpusens I, kommaskillnader i 18:6, 18:8, 18:10, 18:12–14, 18:18–19, 18:21, 18:24–25, 18:28, 18:30 och 18:34 behålls. Övriga ord och versgränser bekräftade. Kapitlet väntar på V015–V016."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 18:1–35:s löptext, 34 versposter, ord- och interpunktionsjämförd, inklusive sidfortsättningen i 18:18 och spaltfortsättningarna i 18:9 och 18:28. R035 rättar prepositionens I till i i 18:5. V015: två eller tre är i 18:20 mot tryckets två eller tre äro. V016: då denna i 18:25 mot tryckets då denne. Ordskillnaderna sparas för senare foto utan att grammatiken avgör en ändring. Versnummer 11 har bara en nothänvisning och saknar löptext i trycket; ingen vers skapas från noten. Tryckets lilla i i tilltalet 18:10 mot korpusens I, kommaskillnader i 18:6, 18:8, 18:10, 18:12–14, 18:18–19, 18:21, 18:24–25, 18:28, 18:30 och 18:34 behålls. Övriga ord och versgränser bekräftade. Kapitlet väntar på V015–V016. Avgörande 2026-10-27 mot EFS 1926: V015: EFS 1926 och 1927 visar båda två eller tre äro församlade. R356 rättar två eller tre är församlade till två eller tre äro församlade. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. V016: EFS 1926 och 1927 visar båda då denne icke kunde betala. R357 rättar då denna icke kunde betala till då denne icke kunde betala. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
@@ -3804,10 +3804,10 @@
     {
       "book": "Matt",
       "chapter": 20,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
       "text_sha256": "5d596708d0aff68de2af45e8b63ca1837aa6dd860b5e0e55ef7b778067280f32",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3823,7 +3823,7 @@
           "sha256": "48338a1d5b5877fb5c30b11dbb74e8fd8a0cde8f12d5bfbdbd23ae7d0b10dc98"
         }
       ],
-      "notes": "Hela 20:1–34 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 20:10 och 20:31 och spaltfortsättningen i 20:21. R036 tar bort en främmande slutpunkt efter husbonden i 20:11; satsen fortsätter med och sade i 20:12, och bilden saknar slutpunkten. V017: korpusen väl skolen I få dricka min kalk i 20:23 mot tryckets väl skolen I dricka min kalk. Ingen ordändring innan annat tryck bedömts. Korpusens kommaskillnader i 20:10, 20:14, 20:21–23, 20:25, 20:30–32 behålls. Kapitlet väntar på V017."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 20:1–34 ord- och interpunktionsjämförd, inklusive sidfortsättningarna i 20:10 och 20:31 och spaltfortsättningen i 20:21. R036 tar bort en främmande slutpunkt efter husbonden i 20:11; satsen fortsätter med och sade i 20:12, och bilden saknar slutpunkten. V017: korpusen väl skolen I få dricka min kalk i 20:23 mot tryckets väl skolen I dricka min kalk. Ingen ordändring innan annat tryck bedömts. Korpusens kommaskillnader i 20:10, 20:14, 20:21–23, 20:25, 20:30–32 behålls. Kapitlet väntar på V017. Avgörande 2026-10-27 mot EFS 1926: V017: EFS 1926 bekräftar korpusens väl skolen I få dricka; få saknas endast i EFS 1927. Ordet behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
@@ -3900,10 +3900,10 @@
     {
       "book": "Matt",
       "chapter": 24,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 51,
-      "text_sha256": "77e00d3033bc57a3fec80384eb9b71b4853538e258380131c5c6042611199e01",
-      "checked_at": "2026-10-26",
+      "text_sha256": "814e2426aae4efa0d1261da3b240f42fb3088105a07dec5072f70439741ca235",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3919,15 +3919,15 @@
           "sha256": "5e25b940867b6cdad90c65ec1f0d96c17b80a913449573135613a29fad13029e"
         }
       ],
-      "notes": "Hela 24:1–51 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 24:10–11 och i 24:32 och spaltfortsättningen i 24:1, mellan 24:23–24 och mellan 24:43–44. V018: korpusens strax i 24:29 mot tydligt tryckt stax i originalupplösning; korpusens normala form behålls i väntan på annat tryck. V019: korpusens vår Herre i 24:42 mot tryckets eder Herre. Ingen ordändring för dessa frågor. Förråda, save, födslovåndorna och alla övriga ord/gränser bekräftade. Kommaskillnader i 24:3, 24:9, 24:13, 24:16–18, 24:20, 24:23–24, 24:26, 24:33, 24:39, 24:43–44, 24:47 och 24:49–50 behålls utan harmonisering. Kapitlet väntar på V018–V019."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 24:1–51 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 24:10–11 och i 24:32 och spaltfortsättningen i 24:1, mellan 24:23–24 och mellan 24:43–44. V018: korpusens strax i 24:29 mot tydligt tryckt stax i originalupplösning; korpusens normala form behålls i väntan på annat tryck. V019: korpusens vår Herre i 24:42 mot tryckets eder Herre. Ingen ordändring för dessa frågor. Förråda, save, födslovåndorna och alla övriga ord/gränser bekräftade. Kommaskillnader i 24:3, 24:9, 24:13, 24:16–18, 24:20, 24:23–24, 24:26, 24:33, 24:39, 24:43–44, 24:47 och 24:49–50 behålls utan harmonisering. Kapitlet väntar på V018–V019. Avgörande 2026-10-27 mot EFS 1926: V018: EFS 1926 har tydligt strax. Korpusens strax behålls mot EFS 1927:s stax; ingen gissad bokstav eller ny rättelse. V019: EFS 1926 och 1927 visar båda eder Herre. R358 rättar vår Herre till eder Herre. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
       "chapter": 25,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 46,
-      "text_sha256": "f4127c3bdfaea06876c3139ebfef9d53e06ed447eb96a2e2c6bdb606c4fb1cad",
-      "checked_at": "2026-10-26",
+      "text_sha256": "cffce2a88f8e88f9c21dd1e8dbb7565ae89e4752600b57c7289356d60176240d",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -3943,7 +3943,7 @@
           "sha256": "4128d6a130651a761ed8ddd106937b7d1d7d2ca7fc2d3eddcf456caf3f81edf3"
         }
       ],
-      "notes": "Hela 25:1–46 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 25:4–5 och 25:26–27 och spaltfortsättningarna i 25:17 och 25:36. R040 rättar andra då till gå i dessa skola då gå bort i 25:46; tydligt belagt i originalupplösning. V020: korpusens och for utrikes i 25:15 mot tryckets och for så utrikes. Inget så tillagt innan annat tryck bedömts. Citat och övriga ord/gränser bekräftade. Kommaskillnader i 25:6, 25:9–10, 25:14, 25:16–19, 25:21, 25:23, 25:25–26, 25:28–29, 25:32–34, 25:37–38, 25:41 och 25:43 behålls. Kapitlet väntar på V020."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 25:1–46 ord- och interpunktionsjämförd, inklusive sidfortsättningarna mellan 25:4–5 och 25:26–27 och spaltfortsättningarna i 25:17 och 25:36. R040 rättar andra då till gå i dessa skola då gå bort i 25:46; tydligt belagt i originalupplösning. V020: korpusens och for utrikes i 25:15 mot tryckets och for så utrikes. Inget så tillagt innan annat tryck bedömts. Citat och övriga ord/gränser bekräftade. Kommaskillnader i 25:6, 25:9–10, 25:14, 25:16–19, 25:21, 25:23, 25:25–26, 25:28–29, 25:32–34, 25:37–38, 25:41 och 25:43 behålls. Kapitlet väntar på V020. Avgörande 2026-10-27 mot EFS 1926: V020: EFS 1926 och 1927 visar båda och for så utrikes. R359 rättar och for utrikes till och for så utrikes. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Matt",
@@ -4024,10 +4024,10 @@
     {
       "book": "Mark",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 45,
-      "text_sha256": "2ad4b62a36ec9eccf3b58e6c7a1f307b844665a9671dac44b41a70fc651660cd",
-      "checked_at": "2026-10-26",
+      "text_sha256": "4436912187a58df94639d47a868dffcf86266b01ddc43fef3d81a6a8fc6393b4",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4043,15 +4043,15 @@
           "sha256": "e58fa98c3817d473a083a8a19be2cc6f4f0f9ce89c570b9a1ca4d6a7e96facab"
         }
       ],
-      "notes": "Hela 1:1–45 jämförd på s. 55–57, sidgränser mellan 1:18–19 och 1:40–41, spaltfortsättning mellan 1:8–9 och i 1:29. V021: vände i 1:43 mot visade. Övriga ord bekräftade, helig ande i 1:8 båda liten, e-textens kommaskillnader 1:5,1:10,1:21–24,1:27,1:29,1:32,1:34–36,1:44–45 behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 1:1–45 jämförd på s. 55–57, sidgränser mellan 1:18–19 och 1:40–41, spaltfortsättning mellan 1:8–9 och i 1:29. V021: vände i 1:43 mot visade. Övriga ord bekräftade, helig ande i 1:8 båda liten, e-textens kommaskillnader 1:5,1:10,1:21–24,1:27,1:29,1:32,1:34–36,1:44–45 behållna. Avgörande 2026-10-27 mot EFS 1926: V021: EFS 1926 och 1927 visar båda Sedan visade Jesus. R360 rättar Sedan vände Jesus till Sedan visade Jesus. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 2,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 28,
-      "text_sha256": "ac66639c0d03e4dfee987ff15b8e46934851d4cd0eeaf6f5fb392c178dce3d62",
-      "checked_at": "2026-10-26",
+      "text_sha256": "2e9c9e42423801ab75d14a5782a98e72758b4ffeceae06109ffc58f2fe51a6fc",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4063,15 +4063,15 @@
           "sha256": "f5142a3afe435f5dfab4e28e152c50f1f59409fe62d7a55d985290ff7631e97b"
         }
       ],
-      "notes": "Hela 2:1–28 jämförd på s. 57–58, sidfortsättning i 2:16, spaltfortsättning i 2:5 och 2:25. R042 år→är 2:28. V022: steg upp i 2:14 mot stod upp. Abjatar bekräftat. Övriga ord och gränser bekräftade; kommaskillnader 2:1,2:4,2:8,2:10,2:14,2:16–17,2:23–27 behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 2:1–28 jämförd på s. 57–58, sidfortsättning i 2:16, spaltfortsättning i 2:5 och 2:25. R042 år→är 2:28. V022: steg upp i 2:14 mot stod upp. Abjatar bekräftat. Övriga ord och gränser bekräftade; kommaskillnader 2:1,2:4,2:8,2:10,2:14,2:16–17,2:23–27 behållna. Avgörande 2026-10-27 mot EFS 1926: V022: EFS 1926 och 1927 visar båda Då stod han upp. R361 rättar Då steg han upp till Då stod han upp. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 3,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 35,
       "text_sha256": "3754b5a450bd05b2b5e98a029e6726af473fdcd14102c7cb8989510e08bbc609",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4087,15 +4087,15 @@
           "sha256": "2965ec8a3e2da7044d417f124b6335b0846c5ebf9777546515e297e844859fbf"
         }
       ],
-      "notes": "Hela 3:1–35 jämförd s. 58–60, sidfortsättning i 3:6 och mellan 3:28–29, spaltfortsättning mellan 3:17–18. R043 tar bort dubbelt och i 3:11. R044 återställer öppnande » i 3:33. V023 någonsin/ någon 3:29. Boanerges/tordönsmän och bota sjuka i 3:15 bekräftade. Citattypografi och kommaskillnader 3:1,3:3–4,3:9–10,3:13–14,3:21–22,3:29–30,3:32–35 behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 3:1–35 jämförd s. 58–60, sidfortsättning i 3:6 och mellan 3:28–29, spaltfortsättning mellan 3:17–18. R043 tar bort dubbelt och i 3:11. R044 återställer öppnande » i 3:33. V023 någonsin/ någon 3:29. Boanerges/tordönsmän och bota sjuka i 3:15 bekräftade. Citattypografi och kommaskillnader 3:1,3:3–4,3:9–10,3:13–14,3:21–22,3:29–30,3:32–35 behållna. Avgörande 2026-10-27 mot EFS 1926: V023: EFS 1926 har icke någonsin förlåtelse, som i korpusen; EFS 1927 har någon. Befintlig text behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 41,
-      "text_sha256": "9a8aadcaa06f0d30b4f6c0c21677414ae0ec268128b85798ee50bdec8be5ecf3",
-      "checked_at": "2026-10-26",
+      "text_sha256": "85be73cf5841d5933676c7fabdd8d96985fb9196679f4457b5bfd289336c80de",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4111,15 +4111,15 @@
           "sha256": "7e91af547c6b826f363550cd6fce7830ebdc1111af00b57a6bc3d0d3fc505c84"
         }
       ],
-      "notes": "Hela 4:1–41 bildjämförd, sidfortsättning mellan 4:16–17 och i 4:38, spaltgränser mellan 4:4–5 och i 4:26. V024 en stor hop/en hop och V025 ock/och. Övriga ord och gränser bekräftade; vanliga komma- och citattypografiska skillnader behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 4:1–41 bildjämförd, sidfortsättning mellan 4:16–17 och i 4:38, spaltgränser mellan 4:4–5 och i 4:26. V024 en stor hop/en hop och V025 ock/och. Övriga ord och gränser bekräftade; vanliga komma- och citattypografiska skillnader behållna. Avgörande 2026-10-27 mot EFS 1926: V024: EFS 1926 bekräftar en stor hop folk; stor saknas i EFS 1927. Befintlig text behålls. V025: EFS 1926 och 1927 visar båda Satan och tager. R362 rättar Satan ock tager till Satan och tager. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 43,
-      "text_sha256": "a1dbcc975508082cf5540efc96f4604b7a38ecc4bc8dccf56ace6beb79d2be7e",
-      "checked_at": "2026-10-26",
+      "text_sha256": "68c7837ba44274abd4e22701d66ade5b8ca50c7db012976294436cef771c74fe",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4135,15 +4135,15 @@
           "sha256": "bda715ff523ea8355e15dbd5db3ba57104a018d17fc9dc772570586f9611044e"
         }
       ],
-      "notes": "Hela 5:1–43 bildjämförd, sidfortsättning i 5:19 och mellan 5:40–41, spaltgränser mellan 5:7–8 och i 5:30. V026 orena/orene i 5:8. Originalupplösningen bekräftar dem i 5:10; ingen fråga där. Gerasenernas, Dekapolis, Jairus och Talita kum bekräftade. Blods källa/blodskälla i 5:29 och vanliga komma-/citatskillnader behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 5:1–43 bildjämförd, sidfortsättning i 5:19 och mellan 5:40–41, spaltgränser mellan 5:7–8 och i 5:30. V026 orena/orene i 5:8. Originalupplösningen bekräftar dem i 5:10; ingen fråga där. Gerasenernas, Dekapolis, Jairus och Talita kum bekräftade. Blods källa/blodskälla i 5:29 och vanliga komma-/citatskillnader behållna. Avgörande 2026-10-27 mot EFS 1926: V026: EFS 1926 och 1927 visar båda du orene ande. R363 rättar du orena ande till du orene ande. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 6,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 56,
-      "text_sha256": "5b7d8e24d15e8ce680e43fecc17bef380abb1efe5a1d74e62bbfddadd4d91024",
-      "checked_at": "2026-10-26",
+      "text_sha256": "02b4590308ac1ef3b3d6a65d2a9c8f38296bff058122329598ed2b6ec98307af",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4159,15 +4159,15 @@
           "sha256": "8257bdecc0df7dc2a220997515dbd8ed4e65052efe05d5dbffe948a11dccbf91"
         }
       ],
-      "notes": "Hela 6:1–56 bildjämförd, sidfortsättningar i 6:16 och 6:35, spaltgränser mellan 6:5–6, 6:25–26 och 6:47–48. R045 bar→har i 6:16 och R046 Herodes/han→Herodias/hon i 6:19 entydigt bildbekräftade. V027 där i 6:5 och V028 finge/fingo i 6:9 väntar på annat tryck. Gennesarets, Betsaida, hörntofsen och hulpna bekräftade. Vadhelst/vad helst samt vanliga kommaskillnader behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 6:1–56 bildjämförd, sidfortsättningar i 6:16 och 6:35, spaltgränser mellan 6:5–6, 6:25–26 och 6:47–48. R045 bar→har i 6:16 och R046 Herodes/han→Herodias/hon i 6:19 entydigt bildbekräftade. V027 där i 6:5 och V028 finge/fingo i 6:9 väntar på annat tryck. Gennesarets, Betsaida, hörntofsen och hulpna bekräftade. Vadhelst/vad helst samt vanliga kommaskillnader behållna. Avgörande 2026-10-27 mot EFS 1926: V027: EFS 1926 bekräftar utom att han botade utan ett andra där, som i korpusen. EFS 1927:s tillägg kopieras inte. V028: EFS 1926 och 1927 visar båda Sandaler fingo de. R364 rättar Sandaler finge de till Sandaler fingo de. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 7,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 36,
       "text_sha256": "95a5282c9859fc847eef186ea2a552b8636950c46130afb6a8b16f66d3d56f6e",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4183,15 +4183,15 @@
           "sha256": "9839e515026bc1ccf0d28943fb11c86f897f5f4c6efcfd34e7be78d913fa0fc1"
         }
       ],
-      "notes": "Hela 7:1–37 bildjämförd, 36 levande versposter: 7:16 är en nothänvisning, ingen löptext skapas. Sidfortsättningar i 7:1 och 7:24, spaltfortsättningar i 7:11 och 7:36. V029 ju i 7:27. Korban, offergåva, syrofenicisk, Dekapolis och Effata bekräftade. 7:37 semikolon/kolon och övrig normal interpunktion behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 7:1–37 bildjämförd, 36 levande versposter: 7:16 är en nothänvisning, ingen löptext skapas. Sidfortsättningar i 7:1 och 7:24, spaltfortsättningar i 7:11 och 7:36. V029 ju i 7:27. Korban, offergåva, syrofenicisk, Dekapolis och Effata bekräftade. 7:37 semikolon/kolon och övrig normal interpunktion behållna. Avgörande 2026-10-27 mot EFS 1926: V029: EFS 1926 bekräftar det är ju otillbörligt. Ju saknas endast i EFS 1927 och behålls i korpusen. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 8,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 38,
-      "text_sha256": "683f2b5038468a47356fea431906b8dace3ff4c0a52ef6bedd23b40c38d68a5a",
-      "checked_at": "2026-10-26",
+      "text_sha256": "3199b05d1faa2102bc07c99e104af12c8557d0a381a4fed1e4815273a6bb2f60",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4207,15 +4207,15 @@
           "sha256": "77af20a9af2ec2062697dde28b940ee5e88e1c85a7154b81e061c9d163063483"
         }
       ],
-      "notes": "Hela 8:1–38 bildjämförd, sidgräns mellan 8:7–8 och i 8:31, spaltgräns mellan 8:19–20. V030 Ock/Och i 8:6. Dalmanuta och Cesarea Filippi samt övriga ord bekräftade; vanliga kommaskillnader behållna. 9:1 står nederst till vänster på s. 70 och räknas korrekt till kapitel 9."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 8:1–38 bildjämförd, sidgräns mellan 8:7–8 och i 8:31, spaltgräns mellan 8:19–20. V030 Ock/Och i 8:6. Dalmanuta och Cesarea Filippi samt övriga ord bekräftade; vanliga kommaskillnader behållna. 9:1 står nederst till vänster på s. 70 och räknas korrekt till kapitel 9. Avgörande 2026-10-27 mot EFS 1926: V030: EFS 1926 och 1927 visar båda Och han tog. R365 rättar Ock han tog till Och han tog. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 9,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 48,
       "text_sha256": "a03a79d312924d60eebd627b341c76854b73f44e3c948d4785f33525d135df39",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4231,7 +4231,7 @@
           "sha256": "8e82ce7c20bb97539865fd6c4bdf53b966e982f4d045bab1bd2584cbc50b4283"
         }
       ],
-      "notes": "Hela 9:1–50 bildjämförd, 48 levande versposter; 9:44 och 9:46 är bara nothänvisningar. 9:1 står i vänsterspaltens slut på s. 70, kapitelrubriken före 9:2 till höger flyttar inte versen. Sidfortsättningar mellan 9:10–11 och i 9:31, spaltfortsättningar i 9:20 och mellan 9:40–41. V031 får/fått i 9:18. Bön och fasta i 9:29 bekräftat; övriga ord och gränser samt normala kommaskillnader bevarade."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 9:1–50 bildjämförd, 48 levande versposter; 9:44 och 9:46 är bara nothänvisningar. 9:1 står i vänsterspaltens slut på s. 70, kapitelrubriken före 9:2 till höger flyttar inte versen. Sidfortsättningar mellan 9:10–11 och i 9:31, spaltfortsättningar i 9:20 och mellan 9:40–41. V031 får/fått i 9:18. Bön och fasta i 9:29 bekräftat; övriga ord och gränser samt normala kommaskillnader bevarade. Avgörande 2026-10-27 mot EFS 1926: V031: EFS 1926 har får fatt som i korpusen, mot EFS 1927:s fått fatt. Hela 9:18 visuellt jämförd över s. 63–64. Båda fullsidorna bevaras; källnoten anger även fortsättningsbildens hash. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
@@ -4308,10 +4308,10 @@
     {
       "book": "Mark",
       "chapter": 13,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 37,
-      "text_sha256": "bdc21337a8d29dbaad514f1b5e73cc09fd2ec2e1d3c3ff714cca5b6cbc568125",
-      "checked_at": "2026-10-26",
+      "text_sha256": "464f32bcdb0a2384651679dfa3a28b66c3cc736d0ba01239e0ad2d68db85e131",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4327,15 +4327,15 @@
           "sha256": "b8a6f83ee1dbd0ed6dddcf2deab9a9622316f4a6dff22343b68c8ea8f38877c1"
         }
       ],
-      "notes": "Hela 13:1–37 bildjämförd, sidgräns mellan 13:6–7 och i 13:26, spaltgräns mellan 13:14–15. R050 punkt→komma i 13:34 återställer den fortsatta meningen i 13:35. V032 de/dem i 13:17. Födslovåndorna, förödelsens styggelse, save, hanegället och övriga ord bekräftade. Normal komma- och citattypografi behållen."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 13:1–37 bildjämförd, sidgräns mellan 13:6–7 och i 13:26, spaltgräns mellan 13:14–15. R050 punkt→komma i 13:34 återställer den fortsatta meningen i 13:35. V032 de/dem i 13:17. Födslovåndorna, förödelsens styggelse, save, hanegället och övriga ord bekräftade. Normal komma- och citattypografi behållen. Avgörande 2026-10-27 mot EFS 1926: V032: EFS 1926 och 1927 visar båda Och ve dem som. R366 rättar Och ve de som till Och ve dem som. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 14,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 72,
-      "text_sha256": "d79ee726dcb6ebe24984991403928249d7b8ef1e19a7fe2d4f67261ca338a06a",
-      "checked_at": "2026-10-26",
+      "text_sha256": "d6f002ac1ccc504ee6d510211b71329df78692bd6bede1e94a0eabfa45498a15",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4355,15 +4355,15 @@
           "sha256": "666d038a9cdd8fe8a35f596b8c90e4b933fb033a26a2b05f5c0c1af1e7d21392"
         }
       ],
-      "notes": "Hela 14:1–72 bildjämförd, sidfortsättningar i 14:9, 14:30 och mellan 14:52–53, spaltfortsättningar i 14:19 och 14:41, gräns mellan 14:63–64. V033 ju i 14:6, V034 att i 14:11 och V035 ock/och i 14:23 sparade. Ord och versgränser i övrigt bekräftade; texten om Getsemane i 14:31 och repliken i 14:32 följer källan. Normal kommasättning, närhelst/när helst och citattypografi behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 14:1–72 bildjämförd, sidfortsättningar i 14:9, 14:30 och mellan 14:52–53, spaltfortsättningar i 14:19 och 14:41, gräns mellan 14:63–64. V033 ju i 14:6, V034 att i 14:11 och V035 ock/och i 14:23 sparade. Ord och versgränser i övrigt bekräftade; texten om Getsemane i 14:31 och repliken i 14:32 följer källan. Normal kommasättning, närhelst/när helst och citattypografi behållna. Avgörande 2026-10-27 mot EFS 1926: V033: EFS 1926 visar Det är en god gärning utan ju, precis som korpusen. EFS 1927:s ju kopieras inte. V034: EFS 1926 bekräftar lovade att giva; att saknas endast i EFS 1927. Hela versen synlig på samma sida, korpusen behålls. V035: EFS 1926 och 1927 visar båda tackade Gud och gav. R367 rättar tackade Gud ock gav till tackade Gud och gav. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 15,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 46,
-      "text_sha256": "417b00c2d8c2991ac7520d63cd01f1e5aa67a2a6048809b70b92a917ef75d693",
-      "checked_at": "2026-10-26",
+      "text_sha256": "82099981e9e910dd2e28436e8320188e06c55602068f99ab581222ad0fe9bf15",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4383,15 +4383,15 @@
           "sha256": "3cb5fa9603afc505bd398394174710786fe3ef02224b3d5e2abbe7981c46455f"
         }
       ],
-      "notes": "Hela 15:1–47 bildjämförd, 46 levande versposter; 15:28 är bara nothänvisning. Sidfortsättningar i 15:1, mellan 15:25–26 och i 15:46, spaltgränser mellan 15:13–14 och i 15:36. V036 nu i 15:8. Barabbas, Cyrene, Alexanders, Rufus, Golgataplatsen och Eloi/lema sabaktani bekräftade. Normala komma-, citat- och utropsteckensskillnader behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 15:1–47 bildjämförd, 46 levande versposter; 15:28 är bara nothänvisning. Sidfortsättningar i 15:1, mellan 15:25–26 och i 15:46, spaltgränser mellan 15:13–14 och i 15:36. V036 nu i 15:8. Barabbas, Cyrene, Alexanders, Rufus, Golgataplatsen och Eloi/lema sabaktani bekräftade. Normala komma-, citat- och utropsteckensskillnader behållna. Avgörande 2026-10-27 mot EFS 1926: V036: EFS 1926 och 1927 visar båda Folket kom nu ditupp. R368 rättar Folket kom ditupp till Folket kom nu ditupp. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Mark",
       "chapter": 16,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 20,
       "text_sha256": "822ee25975f5098a1df62c7230ee76442dab4e38b2098d05e10ec2d4a3eb15ba",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -4403,7 +4403,7 @@
           "sha256": "36f31ebf5e21e67ae47b93f04978ec23694771ebcbe56a7b9b1adeb72eab6c8d"
         }
       ],
-      "notes": "Hela 16:1–20 bildjämförd, sidgräns mellan 16:17–18, spaltgräns mellan 16:7–8 och inne i 16:19. R051 bar→har i 16:7. V037 vit i 16:5 och V038 när/där i 16:14 sparade. Hakparentes mot rund parentes runt 16:9–20 bevaras enligt befintlig e-textnotation; noterna importeras inte som verser. Normala komma- och citattypografiska skillnader behållna."
+      "notes": "Första bildgenomgångens anteckning (historik): Hela 16:1–20 bildjämförd, sidgräns mellan 16:17–18, spaltgräns mellan 16:7–8 och inne i 16:19. R051 bar→har i 16:7. V037 vit i 16:5 och V038 när/där i 16:14 sparade. Hakparentes mot rund parentes runt 16:9–20 bevaras enligt befintlig e-textnotation; noterna importeras inte som verser. Normala komma- och citattypografiska skillnader behållna. Avgörande 2026-10-27 mot EFS 1926: V037: EFS 1926 bekräftar en vit fotsid klädnad; vit saknas endast i EFS 1927. Hela versen och ordet vit synliga, texten behålls. V038: EFS 1926 bekräftar när de lågo till bords mot EFS 1927:s där. Korpusens när behålls. Inga öppna frågor i kapitlet. Bevarade originalbilder och exakta vershashar i resolved_readings."
     },
     {
       "book": "Luke",
@@ -10150,6 +10150,499 @@
       "photo_sha256": "e96cf226d11823b50e0b039be95d74923b923c341e0a6c8c0afd17cf4286a76d",
       "source": "EFS, Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 389. https://archive.org/download/bibelnellerdenhe0000unse/page/n1598.jpg ; full originalbild bevarad byteidentiskt utan beskärning eller omkodning, SHA-256 e96cf226d11823b50e0b039be95d74923b923c341e0a6c8c0afd17cf4286a76d. Titel och kolofon bevarade i samma mapp. Versens början på NT s. 388: https://archive.org/download/bibelnellerdenhe0000unse/page/n1597.jpg ; bevarad i docs/reports/sv1917-efs1926-witnesses/nt0388.jpg, SHA-256 06fde2f8ae281aed18c10f3a350f9d2f5d9493497d2f504a2b0fbd27709e6e3d.",
       "notes": "EFS 1926 och 1927 har båda de måste stanna därutanför. R353 rättar de måste alla stanna därutanför till de måste stanna därutanför. Hela 22:15 jämförd över sidgränsen NT s. 388–389; båda fullbilderna bevarade. Det första alla, före som älska, behålls. Endast det extra alla efter de måste tas bort."
+    },
+    {
+      "id": "V010",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Matt",
+      "chapter": 11,
+      "verse": 10,
+      "status": "resolved",
+      "reading": "om vilken",
+      "text_sha256": "272a2b50aeb4dea58fde0c2049666e770963b8f3ac6e0db7203030815014441e",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0015.jpg",
+      "photo_sha256": "e74fb570cafc09ecba554f4ff3b372a704bf262bd93b946c20a8c30b62205139",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 15. https://archive.org/download/bibelnellerdenhe0000unse/page/n1224.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 e74fb570cafc09ecba554f4ff3b372a704bf262bd93b946c20a8c30b62205139. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 visar om vilken, som i korpusen, mot EFS 1927:s om vilket. Orden behålls som belagd tryckvariant."
+    },
+    {
+      "id": "V011",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Matt",
+      "chapter": 11,
+      "verse": 23,
+      "status": "resolved",
+      "reading": "så skulle det hava stått",
+      "text_sha256": "195a6b2f18c2621c574bbeb4f6abccbd0f1512ed0996aabcc1b12442aac8b64e",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0016.jpg",
+      "photo_sha256": "114fd235c322e24e0327ef98144b6d9e5e5bbb73b95c535ce5373a8857a8ee91",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 16. https://archive.org/download/bibelnellerdenhe0000unse/page/n1225.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 114fd235c322e24e0327ef98144b6d9e5e5bbb73b95c535ce5373a8857a8ee91. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 visar så skulle det hava stått ännu i dag, som i korpusen, mot EFS 1927:s de. Hela versen synlig på samma sida; orden behålls."
+    },
+    {
+      "id": "V012",
+      "correction_id": "R354",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 12,
+      "verse": 27,
+      "status": "resolved",
+      "reading": "Huru kan då hans rike hava bestånd?",
+      "text_sha256": "ab03addff5e34ac5c8099bced1656b060a633280a9578e806cd28fadfa9134df",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0017.jpg",
+      "photo_sha256": "a65be2ae8abff494ae543ccf42b4d767645f257ff66d51ad8c79ae00102a002a",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 17. https://archive.org/download/bibelnellerdenhe0000unse/page/n1226.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 a65be2ae8abff494ae543ccf42b4d767645f257ff66d51ad8c79ae00102a002a. Titel och kolofon i samma mapp.",
+      "notes": "Båda trycken placerar nummer 27 före Huru kan då hans rike hava bestånd? Hela 12:26–27 och båda versnumren är visuellt jämförda. Frågan flyttas från slutet av 12:26 till början av 12:27 utan ändring av sammanhängande text. Båda existerande koordinaterna behålls. Parallellerna till grekiska, WEB och KJV får uttrycklig partiell överlappning i båda riktningar: svensk 26 motsvarar 26, svensk 27 motsvarar 26–27. Denna vershash låser 27; kapitelhashen även 26."
+    },
+    {
+      "id": "V013",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Matt",
+      "chapter": 13,
+      "verse": 34,
+      "status": "resolved",
+      "reading": "utan liknelser",
+      "text_sha256": "1241705aec7c0c85bc8fec9b3c21fa4f03e698f3566bb094ab92354edd0606f6",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0020.jpg",
+      "photo_sha256": "77b63a359b51b6af096106ab4872320d69bf08d28db473050411c8e12992c122",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 20. https://archive.org/download/bibelnellerdenhe0000unse/page/n1229.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 77b63a359b51b6af096106ab4872320d69bf08d28db473050411c8e12992c122. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar korpusens utan liknelser mot EFS 1927:s utan liknelse. Orden behålls som belagd tryckvariant."
+    },
+    {
+      "id": "V014",
+      "correction_id": "R355",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 13,
+      "verse": 39,
+      "status": "resolved",
+      "reading": "Skördemännen äro änglar",
+      "text_sha256": "0e424aeaa11b9379b7bade8419b15bc07f7cd274aed32fa523b6892fa8a75e01",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0020.jpg",
+      "photo_sha256": "77b63a359b51b6af096106ab4872320d69bf08d28db473050411c8e12992c122",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 20. https://archive.org/download/bibelnellerdenhe0000unse/page/n1229.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 77b63a359b51b6af096106ab4872320d69bf08d28db473050411c8e12992c122. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Skördemännen äro änglar. R355 rättar Skördemännen är änglar till Skördemännen äro änglar. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V015",
+      "correction_id": "R356",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 18,
+      "verse": 20,
+      "status": "resolved",
+      "reading": "två eller tre äro församlade",
+      "text_sha256": "583195fe7a70a3b4f26037017b88a958f97b6c09bf9f7a33b390c337832d8dd8",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0028.jpg",
+      "photo_sha256": "dd15e5a768528f140843a1e5f51bb628e7f1e22c40abe9cf6a327f9c6771f2f2",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 28. https://archive.org/download/bibelnellerdenhe0000unse/page/n1237.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 dd15e5a768528f140843a1e5f51bb628e7f1e22c40abe9cf6a327f9c6771f2f2. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda två eller tre äro församlade. R356 rättar två eller tre är församlade till två eller tre äro församlade. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V016",
+      "correction_id": "R357",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 18,
+      "verse": 25,
+      "status": "resolved",
+      "reading": "då denne icke kunde betala",
+      "text_sha256": "90c50da5be8981081e1da31b4244a253bb5d2d579bf0d48c018b952e9e30988d",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0028.jpg",
+      "photo_sha256": "dd15e5a768528f140843a1e5f51bb628e7f1e22c40abe9cf6a327f9c6771f2f2",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 28. https://archive.org/download/bibelnellerdenhe0000unse/page/n1237.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 dd15e5a768528f140843a1e5f51bb628e7f1e22c40abe9cf6a327f9c6771f2f2. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda då denne icke kunde betala. R357 rättar då denna icke kunde betala till då denne icke kunde betala. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V017",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Matt",
+      "chapter": 20,
+      "verse": 23,
+      "status": "resolved",
+      "reading": "väl skolen I få dricka",
+      "text_sha256": "44afaa2029ed8513b7963530b403e15bb871c017cb079f655d3cd0670862b2e4",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0031.jpg",
+      "photo_sha256": "fed26662223d40224e0997ec12c6b6b90a1ddca0106d7e691d041c0971135f1c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 31. https://archive.org/download/bibelnellerdenhe0000unse/page/n1240.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 fed26662223d40224e0997ec12c6b6b90a1ddca0106d7e691d041c0971135f1c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar korpusens väl skolen I få dricka; få saknas endast i EFS 1927. Ordet behålls."
+    },
+    {
+      "id": "V018",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Matt",
+      "chapter": 24,
+      "verse": 29,
+      "status": "resolved",
+      "reading": "Men strax efter",
+      "text_sha256": "4e10e8991adba05cc66cf34ff9cf8c205bec3c8e957efdf0eaf49518b14a56bf",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0038.jpg",
+      "photo_sha256": "5f2c0e067c036d8d480257b7dc2f6539922b0d7505e125a4075a900a576bb7d9",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 38. https://archive.org/download/bibelnellerdenhe0000unse/page/n1247.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 5f2c0e067c036d8d480257b7dc2f6539922b0d7505e125a4075a900a576bb7d9. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 har tydligt strax. Korpusens strax behålls mot EFS 1927:s stax; ingen gissad bokstav eller ny rättelse."
+    },
+    {
+      "id": "V019",
+      "correction_id": "R358",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 24,
+      "verse": 42,
+      "status": "resolved",
+      "reading": "eder Herre",
+      "text_sha256": "5d49caf9d7e4c6bd8cdeaa95f7047096608f6aa39fb7ae4e34dac13bd1153fb0",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0039.jpg",
+      "photo_sha256": "5413245f998b9a84dd4ac6078e85430454cb9796b521b4085667f584201f09d5",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 39. https://archive.org/download/bibelnellerdenhe0000unse/page/n1248.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 5413245f998b9a84dd4ac6078e85430454cb9796b521b4085667f584201f09d5. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda eder Herre. R358 rättar vår Herre till eder Herre. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V020",
+      "correction_id": "R359",
+      "decision": "corrected",
+      "book": "Matt",
+      "chapter": 25,
+      "verse": 15,
+      "status": "resolved",
+      "reading": "och for så utrikes",
+      "text_sha256": "d524bdd542feb124c09f7c53a8d0c8ecef3e5b91992f3aabf076147a959afc5a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0039.jpg",
+      "photo_sha256": "5413245f998b9a84dd4ac6078e85430454cb9796b521b4085667f584201f09d5",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 39. https://archive.org/download/bibelnellerdenhe0000unse/page/n1248.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 5413245f998b9a84dd4ac6078e85430454cb9796b521b4085667f584201f09d5. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda och for så utrikes. R359 rättar och for utrikes till och for så utrikes. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V021",
+      "correction_id": "R360",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 1,
+      "verse": 43,
+      "status": "resolved",
+      "reading": "Sedan visade Jesus",
+      "text_sha256": "d92e2ef2956ddc61dea0955251f536d26dbe9a4f5160b45b78089c8779195643",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0051.jpg",
+      "photo_sha256": "7f9db22064a7ee92f7e950b5a8adc6171a1680913e421d38b56e243aefb0b3b5",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 51. https://archive.org/download/bibelnellerdenhe0000unse/page/n1260.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 7f9db22064a7ee92f7e950b5a8adc6171a1680913e421d38b56e243aefb0b3b5. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Sedan visade Jesus. R360 rättar Sedan vände Jesus till Sedan visade Jesus. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V022",
+      "correction_id": "R361",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 2,
+      "verse": 14,
+      "status": "resolved",
+      "reading": "Då stod han upp",
+      "text_sha256": "bd0c280678ef399049564dbcbccf7792697335268ac09cde37336e4514499ddd",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0051.jpg",
+      "photo_sha256": "7f9db22064a7ee92f7e950b5a8adc6171a1680913e421d38b56e243aefb0b3b5",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 51. https://archive.org/download/bibelnellerdenhe0000unse/page/n1260.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 7f9db22064a7ee92f7e950b5a8adc6171a1680913e421d38b56e243aefb0b3b5. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Då stod han upp. R361 rättar Då steg han upp till Då stod han upp. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V023",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 3,
+      "verse": 29,
+      "status": "resolved",
+      "reading": "icke någonsin förlåtelse",
+      "text_sha256": "43216f52b632fbabba1a4b5407fbb02e9655913e07d434410189e92a73db23e7",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0053.jpg",
+      "photo_sha256": "00c6ce70ae35315c7baad27bd3285cbfaf2aff69136851f87f33be4550164b55",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 53. https://archive.org/download/bibelnellerdenhe0000unse/page/n1262.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 00c6ce70ae35315c7baad27bd3285cbfaf2aff69136851f87f33be4550164b55. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 har icke någonsin förlåtelse, som i korpusen; EFS 1927 har någon. Befintlig text behålls."
+    },
+    {
+      "id": "V024",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 4,
+      "verse": 1,
+      "status": "resolved",
+      "reading": "en stor hop folk",
+      "text_sha256": "5fbdf8cffaf24197ff4dbfbb6881579a169a2354ff72d3921b4791e08d12bf30",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0054.jpg",
+      "photo_sha256": "75dced4535796d320dc36cad6184dca6b4e63087930db7b64deb7e00002f247b",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 54. https://archive.org/download/bibelnellerdenhe0000unse/page/n1263.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 75dced4535796d320dc36cad6184dca6b4e63087930db7b64deb7e00002f247b. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar en stor hop folk; stor saknas i EFS 1927. Befintlig text behålls."
+    },
+    {
+      "id": "V025",
+      "correction_id": "R362",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 4,
+      "verse": 15,
+      "status": "resolved",
+      "reading": "Satan och tager",
+      "text_sha256": "d0f9d0316747040eee4213a8433b21512dd0097b4493030122e75ffda55d5e4a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0054.jpg",
+      "photo_sha256": "75dced4535796d320dc36cad6184dca6b4e63087930db7b64deb7e00002f247b",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 54. https://archive.org/download/bibelnellerdenhe0000unse/page/n1263.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 75dced4535796d320dc36cad6184dca6b4e63087930db7b64deb7e00002f247b. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Satan och tager. R362 rättar Satan ock tager till Satan och tager. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V026",
+      "correction_id": "R363",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 5,
+      "verse": 8,
+      "status": "resolved",
+      "reading": "du orene ande",
+      "text_sha256": "a58656923d9e5b69481d61db49f0e49348468501f7868534035a5e25290fb054",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0055.jpg",
+      "photo_sha256": "fce9f5176020f0e34bf43bae1e8241b27dffbfede3e72a712de8412b97b91a46",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 55. https://archive.org/download/bibelnellerdenhe0000unse/page/n1264.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 fce9f5176020f0e34bf43bae1e8241b27dffbfede3e72a712de8412b97b91a46. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda du orene ande. R363 rättar du orena ande till du orene ande. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V027",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 6,
+      "verse": 5,
+      "status": "resolved",
+      "reading": "utom att han botade",
+      "text_sha256": "dd78cc062134a16a3c0debd8a51c6fc7987d0c94e8862dddc3c98a1d612585ae",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0057.jpg",
+      "photo_sha256": "9c95bff374d12635882bc2fb1dd76c795a2a3361c4cf266b9bd4ff71d462f114",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 57. https://archive.org/download/bibelnellerdenhe0000unse/page/n1266.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 9c95bff374d12635882bc2fb1dd76c795a2a3361c4cf266b9bd4ff71d462f114. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar utom att han botade utan ett andra där, som i korpusen. EFS 1927:s tillägg kopieras inte."
+    },
+    {
+      "id": "V028",
+      "correction_id": "R364",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 6,
+      "verse": 9,
+      "status": "resolved",
+      "reading": "Sandaler fingo de",
+      "text_sha256": "4a282acdbc6ae1a08ba2de83d9d8f600f5b08d53a4385f69274e8b968b328a60",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0057.jpg",
+      "photo_sha256": "9c95bff374d12635882bc2fb1dd76c795a2a3361c4cf266b9bd4ff71d462f114",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 57. https://archive.org/download/bibelnellerdenhe0000unse/page/n1266.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 9c95bff374d12635882bc2fb1dd76c795a2a3361c4cf266b9bd4ff71d462f114. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Sandaler fingo de. R364 rättar Sandaler finge de till Sandaler fingo de. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V029",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 7,
+      "verse": 27,
+      "status": "resolved",
+      "reading": "det är ju otillbörligt",
+      "text_sha256": "970ec49eb90815b48c0ab48970baccbd210f41635cbb76e9bf208ed90b0214b5",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0061.jpg",
+      "photo_sha256": "639b9f617f50f6fec0091205357d9e3407f8e89414d8c35c87e69fb786f5148b",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 61. https://archive.org/download/bibelnellerdenhe0000unse/page/n1270.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 639b9f617f50f6fec0091205357d9e3407f8e89414d8c35c87e69fb786f5148b. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar det är ju otillbörligt. Ju saknas endast i EFS 1927 och behålls i korpusen."
+    },
+    {
+      "id": "V030",
+      "correction_id": "R365",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 8,
+      "verse": 6,
+      "status": "resolved",
+      "reading": "Och han tog",
+      "text_sha256": "1ed77410a30074195724080aed67ab356d48ea75faa296d42f12fd83b6ee2c51",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0061.jpg",
+      "photo_sha256": "639b9f617f50f6fec0091205357d9e3407f8e89414d8c35c87e69fb786f5148b",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 61. https://archive.org/download/bibelnellerdenhe0000unse/page/n1270.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 639b9f617f50f6fec0091205357d9e3407f8e89414d8c35c87e69fb786f5148b. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Och han tog. R365 rättar Ock han tog till Och han tog. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V031",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 9,
+      "verse": 18,
+      "status": "resolved",
+      "reading": "denne får fatt i honom",
+      "text_sha256": "fe8b1d286712b1b3585dc8131c2b2ae50229597be5239a865cf606ffc823d3de",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0063.jpg",
+      "photo_sha256": "e9ec3e2e6857abc030ec7835cfd3056ec0f9a1ae9f80e08f687f11831fbc9f75",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 63. https://archive.org/download/bibelnellerdenhe0000unse/page/n1272.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 e9ec3e2e6857abc030ec7835cfd3056ec0f9a1ae9f80e08f687f11831fbc9f75. Titel och kolofon i samma mapp. Fortsättning: https://archive.org/download/bibelnellerdenhe0000unse/page/n1273.jpg ; docs/reports/sv1917-efs1926-witnesses/nt0064.jpg, SHA-256 1c17e601c683e00516beefb6c45722e7d220c3d9bd88af3e5441994f7b3c1c1e.",
+      "notes": "EFS 1926 har får fatt som i korpusen, mot EFS 1927:s fått fatt. Hela 9:18 visuellt jämförd över s. 63–64. Båda fullsidorna bevaras; källnoten anger även fortsättningsbildens hash."
+    },
+    {
+      "id": "V032",
+      "correction_id": "R366",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 13,
+      "verse": 17,
+      "status": "resolved",
+      "reading": "Och ve dem som",
+      "text_sha256": "6a077c4aa25b180e0014d202e11ba3d5599b1af4358cc0661ea0ccc8259bdba4",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0072.jpg",
+      "photo_sha256": "b75890fbf0c36cfbb5ff12aa518165bb7503cd7c41c510c678e34b6aa3876299",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 72. https://archive.org/download/bibelnellerdenhe0000unse/page/n1281.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 b75890fbf0c36cfbb5ff12aa518165bb7503cd7c41c510c678e34b6aa3876299. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Och ve dem som. R366 rättar Och ve de som till Och ve dem som. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V033",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 14,
+      "verse": 6,
+      "status": "resolved",
+      "reading": "Det är en god gärning",
+      "text_sha256": "18a0d5e48ac91ad8b74296d8cf1838aabca024ad667e3a1149f31409162d24fd",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0073.jpg",
+      "photo_sha256": "4bcd8a4e12ecf947f20ed5397ca4492abb80e1d2930d61f5619599c6c9872a88",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 73. https://archive.org/download/bibelnellerdenhe0000unse/page/n1282.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 4bcd8a4e12ecf947f20ed5397ca4492abb80e1d2930d61f5619599c6c9872a88. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 visar Det är en god gärning utan ju, precis som korpusen. EFS 1927:s ju kopieras inte."
+    },
+    {
+      "id": "V034",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 14,
+      "verse": 11,
+      "status": "resolved",
+      "reading": "lovade att giva",
+      "text_sha256": "d2dd7c4e184cd7177ce10253dc346037436336a8f4825e9f7a0196f3e026af27",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0073.jpg",
+      "photo_sha256": "4bcd8a4e12ecf947f20ed5397ca4492abb80e1d2930d61f5619599c6c9872a88",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 73. https://archive.org/download/bibelnellerdenhe0000unse/page/n1282.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 4bcd8a4e12ecf947f20ed5397ca4492abb80e1d2930d61f5619599c6c9872a88. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar lovade att giva; att saknas endast i EFS 1927. Hela versen synlig på samma sida, korpusen behålls."
+    },
+    {
+      "id": "V035",
+      "correction_id": "R367",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 14,
+      "verse": 23,
+      "status": "resolved",
+      "reading": "tackade Gud och gav",
+      "text_sha256": "3b44648f95678c0731d15ad6dfe4eacd94c0c64a39b6fb2369088011af240f0a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0074.jpg",
+      "photo_sha256": "ce3665ebee68e75273a9e520e83bb0e62a44a49a3015a93309aa50c13d3c42e9",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 74. https://archive.org/download/bibelnellerdenhe0000unse/page/n1283.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 ce3665ebee68e75273a9e520e83bb0e62a44a49a3015a93309aa50c13d3c42e9. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda tackade Gud och gav. R367 rättar tackade Gud ock gav till tackade Gud och gav. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V036",
+      "correction_id": "R368",
+      "decision": "corrected",
+      "book": "Mark",
+      "chapter": 15,
+      "verse": 8,
+      "status": "resolved",
+      "reading": "Folket kom nu ditupp",
+      "text_sha256": "e91b3b6150eb8689974e9cb7e8388e1e966f9dceb74f5b261db2885475d05b4d",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0076.jpg",
+      "photo_sha256": "985902e692192668c45638331c82fa7ef85d3263048f44715fc9439e9325688c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 76. https://archive.org/download/bibelnellerdenhe0000unse/page/n1285.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 985902e692192668c45638331c82fa7ef85d3263048f44715fc9439e9325688c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 och 1927 visar båda Folket kom nu ditupp. R368 rättar Folket kom ditupp till Folket kom nu ditupp. Hela versen visuellt jämförd. Vanlig kommatering och övriga ord behålls."
+    },
+    {
+      "id": "V037",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 16,
+      "verse": 5,
+      "status": "resolved",
+      "reading": "en vit fotsid klädnad",
+      "text_sha256": "8084382029bb52c059c23ddf2fa5d353b479a1d76aa756239ac6fac50995da2a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0078.jpg",
+      "photo_sha256": "8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 78. https://archive.org/download/bibelnellerdenhe0000unse/page/n1287.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar en vit fotsid klädnad; vit saknas endast i EFS 1927. Hela versen och ordet vit synliga, texten behålls."
+    },
+    {
+      "id": "V038",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "Mark",
+      "chapter": 16,
+      "verse": 14,
+      "status": "resolved",
+      "reading": "när de lågo till bords",
+      "text_sha256": "81ffb70734df918f54767dcc343441b5b2ba3b996fac0f364129aa7dc5067219",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell jämförelse med kompletterande tryck",
+      "photo_path": "docs/reports/sv1917-efs1926-witnesses/nt0078.jpg",
+      "photo_sha256": "8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c",
+      "source": "EFS Stockholm 1926, A.-B. P. Herzog & Söner; Internet Archive bibelnellerdenhe0000unse, tryckt NT s. 78. https://archive.org/download/bibelnellerdenhe0000unse/page/n1287.jpg ; full original-JPEG bevarad byteidentiskt, SHA-256 8571f91e5a4f0048557232352ff7ed2053ff3204a17482d7077d3cf449b58c1c. Titel och kolofon i samma mapp.",
+      "notes": "EFS 1926 bekräftar när de lågo till bords mot EFS 1927:s där. Korpusens när behålls."
     }
   ]
 }

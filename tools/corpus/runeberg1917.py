@@ -420,6 +420,24 @@ REPLACE={
  ('Rev', 22, 1):('en ström med vatten', 'en ström med levande vatten'),
  ('Rev', 22, 15):('de måste alla stanna därutanför', 'de måste stanna därutanför'),
 
+ # Gospel questions resolved against EFS 1926: R354-R368.
+ ('Matt', 12, 26):(' Huru kan då hans rike hava bestånd?', ''),
+ ('Matt', 12, 27):('Och om det är med Beelsebul som jag driver ut de onda andarna, med vem driva då edra egna anhängare ut dem? De skola alltså vara edra domare.', 'Huru kan då hans rike hava bestånd? Och om det är med Beelsebul som jag driver ut de onda andarna, med vem driva då edra egna anhängare ut dem? De skola alltså vara edra domare.'),
+ ('Matt', 13, 39):('Skördemännen är änglar', 'Skördemännen äro änglar'),
+ ('Matt', 18, 20):('två eller tre är församlade', 'två eller tre äro församlade'),
+ ('Matt', 18, 25):('då denna icke kunde betala', 'då denne icke kunde betala'),
+ ('Matt', 24, 42):('vår Herre', 'eder Herre'),
+ ('Matt', 25, 15):('och for utrikes', 'och for så utrikes'),
+ ('Mark', 1, 43):('Sedan vände Jesus', 'Sedan visade Jesus'),
+ ('Mark', 2, 14):('Då steg han upp', 'Då stod han upp'),
+ ('Mark', 4, 15):('Satan ock tager', 'Satan och tager'),
+ ('Mark', 5, 8):('du orena ande', 'du orene ande'),
+ ('Mark', 6, 9):('Sandaler finge de', 'Sandaler fingo de'),
+ ('Mark', 8, 6):('Ock han tog', 'Och han tog'),
+ ('Mark', 13, 17):('Och ve de som', 'Och ve dem som'),
+ ('Mark', 14, 23):('tackade Gud ock gav', 'tackade Gud och gav'),
+ ('Mark', 15, 8):('Folket kom ditupp', 'Folket kom nu ditupp'),
+
 }
 
 def chapter_number(name):

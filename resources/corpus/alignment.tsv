@@ -910,7 +910,9 @@ en-kjv	sv1917	Hag	1:15	1:15	Hag	2:1	2:1	1
 en-kjv	sv1917	Hag	2:1	2:23	Hag	2:2	2:24	1
 en-kjv	sv1917	Zech	1:1	14:21	Zech	1:1	14:21	0
 en-kjv	sv1917	Mal	1:1	4:6	Mal	1:1	4:6	0
-en-kjv	sv1917	Matt	1:1	17:20	Matt	1:1	17:20	0
+en-kjv	sv1917	Matt	1:1	12:25	Matt	1:1	12:25	0
+en-kjv	sv1917	Matt	12:26	12:26	Matt	12:26	12:27	2
+en-kjv	sv1917	Matt	12:27	17:20	Matt	12:27	17:20	0
 en-kjv	sv1917	Matt	17:21	17:21	-	-	-	6
 en-kjv	sv1917	Matt	17:22	18:10	Matt	17:22	18:10	0
 en-kjv	sv1917	Matt	18:11	18:11	-	-	-	6
@@ -2739,7 +2741,9 @@ en-web	sv1917	Baruch	6:73	6:73	Baruch	6:72	6:72	1
 en-web	sv1917	1Macc	1:1	16:24	1Macc	1:1	16:24	0
 en-web	sv1917	2Macc	1:1	15:39	2Macc	1:1	15:39	0
 en-web	sv1917	PrMan	1:1	1:15	PrMan	1:1	1:15	0
-en-web	sv1917	Matt	1:1	17:20	Matt	1:1	17:20	0
+en-web	sv1917	Matt	1:1	12:25	Matt	1:1	12:25	0
+en-web	sv1917	Matt	12:26	12:26	Matt	12:26	12:27	2
+en-web	sv1917	Matt	12:27	17:20	Matt	12:27	17:20	0
 en-web	sv1917	Matt	17:21	17:21	-	-	-	6
 en-web	sv1917	Matt	17:22	18:10	Matt	17:22	18:10	0
 en-web	sv1917	Matt	18:11	18:11	-	-	-	6
@@ -5015,7 +5019,9 @@ grc-patriarchal	en-web	3John	1:14	1:15	3John	1:14	1:14	3
 grc-patriarchal	en-web	Jude	1:1	1:25	Jude	1:1	1:25	0
 grc-patriarchal	en-web	Rev	1:1	22:21	Rev	1:1	22:21	0
 grc-patriarchal	en-web	Rev	15:8	15:9	Rev	15:8	15:8	3
-grc-patriarchal	sv1917	Matt	1:1	17:20	Matt	1:1	17:20	0
+grc-patriarchal	sv1917	Matt	1:1	12:25	Matt	1:1	12:25	0
+grc-patriarchal	sv1917	Matt	12:26	12:26	Matt	12:26	12:27	2
+grc-patriarchal	sv1917	Matt	12:27	17:20	Matt	12:27	17:20	0
 grc-patriarchal	sv1917	Matt	17:21	17:21	-	-	-	6
 grc-patriarchal	sv1917	Matt	17:22	18:10	Matt	17:22	18:10	0
 grc-patriarchal	sv1917	Matt	18:11	18:11	-	-	-	6
@@ -5330,7 +5336,9 @@ sv1917	en-kjv	Hag	2:1	2:1	Hag	1:15	1:15	1
 sv1917	en-kjv	Hag	2:2	2:24	Hag	2:1	2:23	1
 sv1917	en-kjv	Zech	1:1	14:21	Zech	1:1	14:21	0
 sv1917	en-kjv	Mal	1:1	4:6	Mal	1:1	4:6	0
-sv1917	en-kjv	Matt	1:1	17:20	Matt	1:1	17:20	0
+sv1917	en-kjv	Matt	1:1	12:26	Matt	1:1	12:26	0
+sv1917	en-kjv	Matt	12:27	12:27	Matt	12:26	12:27	2
+sv1917	en-kjv	Matt	12:28	17:20	Matt	12:28	17:20	0
 sv1917	en-kjv	Matt	17:22	18:10	Matt	17:22	18:10	0
 sv1917	en-kjv	Matt	18:12	21:43	Matt	18:12	21:43	0
 sv1917	en-kjv	Matt	21:45	23:13	Matt	21:45	23:13	0
@@ -6417,7 +6425,9 @@ sv1917	en-web	Bel	1:1	1:42	DanGr	14:1	14:42	1
 sv1917	en-web	1Macc	1:1	16:24	1Macc	1:1	16:24	0
 sv1917	en-web	2Macc	1:1	15:39	2Macc	1:1	15:39	0
 sv1917	en-web	PrMan	1:1	1:15	PrMan	1:1	1:15	0
-sv1917	en-web	Matt	1:1	17:20	Matt	1:1	17:20	0
+sv1917	en-web	Matt	1:1	12:26	Matt	1:1	12:26	0
+sv1917	en-web	Matt	12:27	12:27	Matt	12:26	12:27	2
+sv1917	en-web	Matt	12:28	17:20	Matt	12:28	17:20	0
 sv1917	en-web	Matt	17:22	18:10	Matt	17:22	18:10	0
 sv1917	en-web	Matt	18:12	21:43	Matt	18:12	21:43	0
 sv1917	en-web	Matt	21:45	23:12	Matt	21:45	23:12	0
@@ -7188,7 +7198,9 @@ sv1917	grc-lxx	Bel	1:1	1:42	Bel	1:1	1:42	0
 sv1917	grc-lxx	1Macc	1:1	16:24	1Macc	1:1	16:24	0
 sv1917	grc-lxx	2Macc	1:1	15:39	2Macc	1:1	15:39	0
 sv1917	grc-lxx	PrMan	1:1	1:15	PrMan	1:1	1:15	0
-sv1917	grc-patriarchal	Matt	1:1	17:20	Matt	1:1	17:20	0
+sv1917	grc-patriarchal	Matt	1:1	12:26	Matt	1:1	12:26	0
+sv1917	grc-patriarchal	Matt	12:27	12:27	Matt	12:26	12:27	2
+sv1917	grc-patriarchal	Matt	12:28	17:20	Matt	12:28	17:20	0
 sv1917	grc-patriarchal	Matt	17:22	18:10	Matt	17:22	18:10	0
 sv1917	grc-patriarchal	Matt	18:12	21:43	Matt	18:12	21:43	0
 sv1917	grc-patriarchal	Matt	21:45	23:12	Matt	21:45	23:12	0
