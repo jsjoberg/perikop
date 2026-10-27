@@ -368,6 +368,7 @@ void ScriptureView::apply(const Settings& settings) {
         settings_.secondary_sources != settings.secondary_sources)
         chapter_overrides_.clear();
     const bool metrics_changed = sources_changed || settings_.text_zoom != settings.text_zoom ||
+                                 settings_.word_study != settings.word_study ||
                                  settings_.split_view != settings.split_view ||
                                  settings_.primary_sources != settings.primary_sources ||
                                  settings_.secondary_sources != settings.secondary_sources;

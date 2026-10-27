@@ -543,6 +543,34 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 save(image, wxString::Format("-chapter-heading-%d-%d", zoom, width));
             }
         text_zoom = previous_zoom;
+        auto settings = settings_;
+        settings.split_view = true;
+        settings.word_study = false;
+        probe.SetSize(FromDIP(wxSize(420, 650)));
+        probe.apply(settings);
+        const Reading reading{ReadingKind::Gospel, {"John", {1, 1}, {1, 10}}};
+        probe.open(reading);
+        const auto snapshot = [&] {
+            probe.restore_scroll(0);
+            wxBitmap bitmap(probe.GetClientSize());
+            {
+                wxMemoryDC dc(bitmap);
+                probe.render_to(dc, probe.GetClientSize());
+            }
+            return bitmap.ConvertToImage();
+        };
+        snapshot();
+        // Changing pane mode must match a fresh layout, even when the viewport width stays fixed.
+        for (const bool study : {true, false}) {
+            settings.word_study = study;
+            probe.apply(settings);
+            const auto changed = snapshot();
+            probe.open(reading);
+            const auto fresh = snapshot();
+            const auto bytes = std::size_t(changed.GetWidth()) * changed.GetHeight() * 3;
+            if (!std::equal(changed.GetData(), changed.GetData() + bytes, fresh.GetData()))
+                fail(__LINE__);
+        }
     }
     // Native drawing must use the same shaped widths as paragraph fitting.
     wxClientDC metrics(scripture_);
