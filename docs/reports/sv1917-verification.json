@@ -6692,10 +6692,10 @@
     {
       "book": "1Cor",
       "chapter": 11,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
       "text_sha256": "c0ab6a7d0e5bbbffec2c0d1e7dab1dbc234c766cfe50d90394530c0d8e00b9cf",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -6707,7 +6707,7 @@
           "sha256": "6e995cce1717991579ba484723392750349b35df7ca2629c0967100e0247bd55"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive vers 1 före kapitelrubriken, 11:2/3 över spaltgränsen och 11:14/15 över sidgränsen. R255–R257 rättar kvinnan/kvinna, mån/må och ock/och. V140 gäller så i 11:28. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V140 i sv1917-nt-questions/batch-4.md; inga ändringar av frågornas ord. Införda rättelser: R255, R256, R257."
+      "notes": "Hela kapitlet jämfört, inklusive vers 1 före kapitelrubriken, 11:2/3 över spaltgränsen och 11:14/15 över sidgränsen. R255–R257 rättar kvinnan/kvinna, mån/må och ock/och. V140 avgjord mot användarens originalfoto: korpusens dricke av kalken utan andra så bekräftas och behålls som tryckvariant. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V140. Införda rättelser: R255, R256, R257."
     },
     {
       "book": "1Cor",
@@ -9504,6 +9504,23 @@
       "photo_sha256": "20ff2a6ea6453dacf4640105b109e6bc179152161e6beaec774bf264726a6f7c",
       "source": "Användarens exemplar av en senare tryckning, tryckt s. 331; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 7:23 med synligt versnummer och läsningen och betalning är given, samma som EFS 1927. Korpusens betalningen rättas till betalning genom R328. Hela versen är visuellt jämförd; övriga ord och skiljetecken stämmer."
+    },
+    {
+      "id": "V140",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "1Cor",
+      "chapter": 11,
+      "verse": 28,
+      "status": "resolved",
+      "reading": "och dricke av kalken",
+      "text_sha256": "cb2b44ee6d720f9dc924109f3f5f50f613987893ca2e256279700c25000dd33f",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V140.jpg",
+      "photo_sha256": "466e40b4f23e637557052730f44d5195371a7ced6fcc0f6a24cc393bda74c379",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 11:28 med synligt versnummer. Det står och äte så av brödet och dricke av kalken, utan ett andra så före av kalken, precis som korpusen. EFS 1927 har dricke så av kalken. Korpusens text behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd."
     }
   ]
 }

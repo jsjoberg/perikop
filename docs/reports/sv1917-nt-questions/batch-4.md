@@ -1,6 +1,6 @@
 # NT-fotobunt 4: Första Korinthierbrevet
 
-**Uppdaterad 2026-10-27.** V137–V139 är lösta mot användarens foton och kapitel 1, 2 och 7 verifierade. Två frågor V140–V141 i kapitel 11 och 15 återstår; de är inte fastställda fel. Hela Första Korinthierbrevet är bildläst och fjorton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Uppdaterad 2026-10-27.** V137–V140 är lösta mot användarens foton och kapitel 1, 2, 7 och 11 verifierade. Endast V141 i kapitel 15 återstår; frågan är inte ett fastställt fel. Hela Första Korinthierbrevet är bildläst och femton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
 
 När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V141 visar en avvikande, möjligen felsatt sats i 15:19 över två trycksidor. Hela versen från ett annat tryck behövs. Öppna frågors ord och alla koordinater behålls. Tabellen visar jämförelsen före besluten; fulla korpusverser nedan är uppdaterade efter införda rättelser. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
 
@@ -9,7 +9,7 @@ När boken finns till hands räcker foton av hela verserna med synliga versnumme
 | [V137](#v137), löst | 1 Kor. 1:3 | frid ifrån Gud / frid från Gud |
 | [V138](#v138), löst | 1 Kor. 2:2 | och honom såsom korsfäst / och honom korsfäst |
 | [V139](#v139), löst | 1 Kor. 7:23 | och betalningen är given / och betalning är given |
-| [V140](#v140) | 1 Kor. 11:28 | och dricke av kalken / och dricke så av kalken |
+| [V140](#v140), löst | 1 Kor. 11:28 | och dricke av kalken / och dricke så av kalken |
 | [V141](#v141) | 1 Kor. 15:19 | och därav intet bliver / och intet värda bliver |
 
 ## V137
@@ -80,13 +80,17 @@ Originalfotots SHA-256 `20ff2a6ea6453dacf4640105b109e6bc179152161e6beaec774bf264
 
 **11:28:** Pröve då människan sig själv, och äte så av brödet och dricke av kalken.
 
-**Foto till senare:** hela 11:28 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 11:28 med synligt nummer. Ingen ytterligare bild behövs för V140.
 
 ![V140, direkt scanutsnitt från NT s. 277](V140.png)
 
 [Full sida, NT s. 277](https://runeberg.org/bibeln/efs1927/nt/0277.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0277.1.tif`; SHA-256 `6e995cce1717991579ba484723392750349b35df7ca2629c0967100e0247bd55`. Utsnittets SHA-256 `c9a3a50b49030c8767205aa8f36f3e367cec6cd5b4a97932b1ffcb70456d6893`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-27. Användarens originalfoto visar hela 11:28 med synligt versnummer. Det står och äte så av brödet och dricke av kalken, utan ett andra så före av kalken, precis som korpusen. EFS 1927 har dricke så av kalken. Korpusens text behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd.
+
+![V140, användarens bevarade originalfoto](../sv1917-print-witnesses/V140.jpg)
+
+Originalfotots SHA-256 `466e40b4f23e637557052730f44d5195371a7ced6fcc0f6a24cc393bda74c379`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
 
 ## V141
 
