@@ -53,6 +53,8 @@ REPLACE={
  ('Gen',40,1):('sin herre, konungen av Egypten','sin herre, konungen i Egypten'),
  # Genesis 41: the explanatory quotation precedes the sentence period.
  ('Gen',41,51):('hela min faders hus.»','hela min faders hus».'),
+ # Genesis 42: close the inner and outer quotations at the end of verse 34.
+ ('Gen',42,34):('fritt få draga omkring i landet.','fritt få draga omkring i landet.\'»'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),

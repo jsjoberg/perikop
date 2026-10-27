@@ -9928,6 +9928,30 @@
         }
       ],
       "notes": "Hela 41:1–57 visuellt jämförd mot EFS 1927 GT s. 60–63. R449 flyttar punkten efter slutcitatet i 41:51 enligt båda trycken. EFS 1926 s. 53 bekräftar jag i 41:19 mot avvikande 1927; EFS 1926 s. 54 bekräftar Ande och avsaknaden av extra slutcitat i 41:38 och 41:43. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0053.jpg, SHA-256 5d356a3cddb4e43eca86000d78a4c3fbd70cb0c05a07315d9a662dae7a18a817; docs/reports/sv1917-efs1926-witnesses/gt0054.jpg, SHA-256 92d7a83da0c52a01feeece6dc0da250fba8b1bb0283e6b037b06082adb3c64ba."
+    },
+    {
+      "book": "Gen",
+      "chapter": 42,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "07627823416f1aaa8542367e6bdcd84881e555818bcf0fb76404f39aeb2df791",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0063.1.tif",
+          "sha256": "93a45f77a20cd222d023608bd3c7a6ad7e1df369f2a64ad69c75b8a5f97521ff"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0064.1.tif",
+          "sha256": "fb6316985e5103f06c32138a2cab0892e4aa631e41eae0b5122fa27b1da3dfb5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0065.1.tif",
+          "sha256": "1333f05df27d84c945a117fd9b7dc4318edb6071a130c3ac4f3b01cada280997"
+        }
+      ],
+      "notes": "Hela 42:1–38 visuellt jämförd mot EFS 1927 GT s. 63–65. R450 återställer två citatslut i 42:34 enligt båda trycken. EFS 1926 s. 56 bekräftar själva kommit i 42:21 mot avvikande 1927. Båda trycken har lyssnaden i 42:22; detta behålls. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0056.jpg, SHA-256 f94f9b42619b82614cbbf9c1765765acd2e2c001fd7ee66a006f4178ceb0c2cc."
     }
   ],
   "unnumbered": [

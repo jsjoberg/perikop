@@ -27,11 +27,11 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
 | Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
-| GT utan apokryfer | 1 / 39 | 43 / 929 | 1 291 / 23 210 |
+| GT utan apokryfer | 1 / 39 | 44 / 929 | 1 329 / 23 210 |
 | Evangelierna, separat etapp | 4 / 4 | 89 / 89 | 3 767 / 3 767 |
 | Övriga NT, avslutad textgranskning | 23 / 23 | 171 / 171 | 4 173 / 4 173 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** GT och apokryfer har 5 663 färdiga versposter, inklusive Haggai och Första Moseboken 1–41; evangelieetappen tillför separat 3 767 och övriga NT ytterligare 4 173, totalt 13 603 i hela liggaren. GT-/AP-delens 5 663 poster motsvarar 20,5 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 5,56 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** GT och apokryfer har 5 701 färdiga versposter, inklusive Haggai och Första Moseboken 1–42; evangelieetappen tillför separat 3 767 och övriga NT ytterligare 4 173, totalt 13 641 i hela liggaren. GT-/AP-delens 5 701 poster motsvarar 20,7 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 5,73 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -57,15 +57,15 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 **Apokryfer:** inga olästa kapitel eller olösta läsningsfrågor återstår i den svenska utökade kanon. Alla tolv böcker är verifierade. Detta gäller inte andra språk eller böcker som saknar svensk text.
 
-**Senare uppföljning, GT:** Haggai och Första Moseboken 1–41 är verifierade; resten av GT återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
+**Senare uppföljning, GT:** Haggai och Första Moseboken 1–42 är verifierade; resten av GT återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
-**Läsningsfrågor:** alla V001–V177 är avgjorda med bevarade beslut och bild-/vershashar. Inga öppna frågor eller omedelbara fotobegäranden återstår. Evangelierna och övriga NT är verifierade: 27 böcker, 260 kapitel och 7 940 poster. Nästa steg är Första Moseboken 42. Nya osäkerheter sparas för senare boktillgång; ett kapitel med olöst fråga räknas inte som färdigt.
+**Läsningsfrågor:** alla V001–V177 är avgjorda med bevarade beslut och bild-/vershashar. Inga öppna frågor eller omedelbara fotobegäranden återstår. Evangelierna och övriga NT är verifierade: 27 böcker, 260 kapitel och 7 940 poster. Nästa steg är Första Moseboken 43. Nya osäkerheter sparas för senare boktillgång; ett kapitel med olöst fråga räknas inte som färdigt.
 
 **Liggarens totala omfattning:** svenska 1917/1921-texten, nu även NT: 78 böcker och 35 522 versposter. GT och apokryfer omfattar separat 51 böcker och 27 582 versposter. PR #64:s och 0.2.1:s textgranskningsmål är de tolv apokryfböckerna; GT-kolumnen visar separat uppföljningsstatus. NT-etappen redovisas i egna rader och ändrar inte AP-/GT-täckningen. Grekiska och engelska utgåvor räknas inte som granskade genom detta arbete. Ortodoxa extraböcker som saknar svensk text kan inte markeras verifierade genom att kontrollera en annan språkversion.
 
 ## Nästa arbetsblock
 
-1. **Återstående GT**, från Första Moseboken 42 i kanonisk ordning, i separata PR:er. PR #72 kan omfatta hela Första Moseboken; GT ingår inte i NT-/evangelieleveransen. Haggai är redan verifierad; dess poster bevaras. Hela kapitel jämförs visuellt, och osäkra läsningar får sparade frågor för senare boktillgång.
+1. **Återstående GT**, från Första Moseboken 43 i kanonisk ordning, i separata PR:er. PR #72 kan omfatta hela Första Moseboken; GT ingår inte i NT-/evangelieleveransen. Haggai är redan verifierad; dess poster bevaras. Hela kapitel jämförs visuellt, och osäkra läsningar får sparade frågor för senare boktillgång.
 2. Hela NT:s 260 kapitel och 7 940 poster är verifierade. PR #65, #68 och #71 lämnas öppna för granskning; inga sammanslagningar eller stängningar utförs. Kvarvarande mänskliga erratakryss fylls inte i av Codex.
 3. Utökade kanon är avslutad i sammanslagna #64. GT- och NT-uppföljningen ändrar inte dess avslutade textgranskningsmål för 0.2.1.
 
@@ -220,3 +220,5 @@ Kontrollanmärkning E7: första core-storage-speech-körningen upptäckte ett in
 - **2026-10-27, GT14, Första Moseboken 40:** 23 versposter och 494 ord visuellt jämförda mot EFS 1927 GT s. 59–60. R448 rättar konungen av Egypten till konungen i Egypten i 40:1 enligt båda trycken. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–40: 1 196/1 533 poster (78,0 %). GT totalt 42/929 kapitel och 1 234/23 210 poster (5,32 %); 887 kapitel återstår. Hela liggaren 13 546 verifierade poster. Nästa kapitel 41, från GT s. 60.
 
 - **2026-10-27, GT15, Första Moseboken 41:** 57 versposter och 1 279 ord visuellt jämförda mot EFS 1927 GT s. 60–63. R449 flyttar punkten efter citatet i 41:51 enligt båda trycken. EFS 1926 bekräftar jag i 41:19 samt Ande och avsaknaden av extra slutcitat i 41:38 och 41:43 mot 1927. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–41: 1 253/1 533 poster (81,7 %). GT totalt 43/929 kapitel och 1 291/23 210 poster (5,56 %); 886 kapitel återstår. Hela liggaren 13 603 verifierade poster. Nästa kapitel 42, från GT s. 63.
+
+- **2026-10-27, GT16, Första Moseboken 42:** 38 versposter och 1 019 ord visuellt jämförda mot EFS 1927 GT s. 63–65. R450 återställer de två saknade citatsluten i 42:34 enligt båda trycken. EFS 1926 bekräftar själva kommit i 42:21 mot 1927; båda trycken har lyssnaden i 42:22. Inga öppna frågor. EFS 1926:s originalbild, primärbilderna och kapiteltexten har dokumenterade hashvärden. Första Moseboken 1–42: 1 291/1 533 poster (84,2 %). GT totalt 44/929 kapitel och 1 329/23 210 poster (5,73 %); 885 kapitel återstår. Hela liggaren 13 641 verifierade poster. Nästa kapitel 43, från GT s. 65.
