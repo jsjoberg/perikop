@@ -1384,6 +1384,7 @@ int main(int argc, char** argv) {
                  {"Acts", {5, 13}, "folket höll dem i ära", "folket höll dem i stor ära"},
                  {"Acts", {13, 16}, "I män av Israels hus", "I män av Israel"},
                  {"Rom", {16, 26}, "den eviga Gudens", "den evige Gudens"},
+                 {"1Cor", {7, 23}, "betalningen är given", "betalning är given"},
                  {"Sir", {5, 12}, "handen på munnen,", "handen på munnen."}}) {
             const auto text = corpus.verse("sv1917", correction.book, correction.ref)->text;
             check(text.find(correction.after) != std::string::npos &&

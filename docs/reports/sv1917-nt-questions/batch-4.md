@@ -1,14 +1,14 @@
 # NT-fotobunt 4: Första Korinthierbrevet
 
-**Uppdaterad 2026-10-27.** V137–V138 är lösta mot användarens foton och kapitel 1–2 verifierade. Tre frågor V139–V141 i kapitel 7, 11 och 15 återstår; de är inte fastställda fel. Hela Första Korinthierbrevet är bildläst och tretton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
+**Uppdaterad 2026-10-27.** V137–V139 är lösta mot användarens foton och kapitel 1, 2 och 7 verifierade. Två frågor V140–V141 i kapitel 11 och 15 återstår; de är inte fastställda fel. Hela Första Korinthierbrevet är bildläst och fjorton kapitel verifierade. Användaren har boken till hands och vill ta en fråga i taget.
 
-När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V141 visar en avvikande, möjligen felsatt sats i 15:19 över två trycksidor. Hela versen från ett annat tryck behövs. Frågornas ord och alla koordinater behålls. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
+När boken finns till hands räcker foton av hela verserna med synliga versnummer. Ingen transkription eller egen diagnos behövs. Codex tolkar bilderna och frågar bara om osäkerheten kvarstår. V141 visar en avvikande, möjligen felsatt sats i 15:19 över två trycksidor. Hela versen från ett annat tryck behövs. Öppna frågors ord och alla koordinater behålls. Tabellen visar jämförelsen före besluten; fulla korpusverser nedan är uppdaterade efter införda rättelser. Utsnitten är direkt beskurna originalbilder, utan OCR eller rekonstruerade bokstäver.
 
 | Fråga | Vers | Korpus / EFS 1927 |
 | --- | --- | --- |
 | [V137](#v137), löst | 1 Kor. 1:3 | frid ifrån Gud / frid från Gud |
 | [V138](#v138), löst | 1 Kor. 2:2 | och honom såsom korsfäst / och honom korsfäst |
-| [V139](#v139) | 1 Kor. 7:23 | och betalningen är given / och betalning är given |
+| [V139](#v139), löst | 1 Kor. 7:23 | och betalningen är given / och betalning är given |
 | [V140](#v140) | 1 Kor. 11:28 | och dricke av kalken / och dricke så av kalken |
 | [V141](#v141) | 1 Kor. 15:19 | och därav intet bliver / och intet värda bliver |
 
@@ -58,15 +58,19 @@ Originalfotots SHA-256 `2f3efcce57c82400517e48fe5626b7e4f8060e7c796b1a2e75bee0f9
 
 **Korpustext:**
 
-**7:23:** I ären köpta, och betalningen är given; bliven icke människors trälar.
+**7:23:** I ären köpta, och betalning är given; bliven icke människors trälar.
 
-**Foto till senare:** hela 7:23 med synliga versnummer. Ingen rättelse införs enbart från skillnaden mot EFS 1927.
+**Kompletterande foto mottaget:** hela 7:23 med synligt nummer. Ingen ytterligare bild behövs för V139.
 
 ![V139, direkt scanutsnitt från NT s. 271](V139.png)
 
 [Full sida, NT s. 271](https://runeberg.org/bibeln/efs1927/nt/0271.html). TIFF: `https://runeberg.org/img/bibeln/efs1927/nt/0271.1.tif`; SHA-256 `780e1a34a465a686c8cc14162e2a1abf52f9586b0e9c6961aa3bede584213bee`. Utsnittets SHA-256 `372559e221f4c98b4f07c07b648cd8d7a9c5e85c894b4cbedd43983ff2bdf388`.
 
-**Beslut:** öppet; inget rättelse-ID för frågan.
+**Beslut:** löst 2026-10-27. Användarens originalfoto visar hela 7:23 med synligt versnummer och läsningen och betalning är given, samma som EFS 1927. Korpusens betalningen rättas till betalning genom R328. Hela versen är visuellt jämförd; övriga ord och skiljetecken stämmer.
+
+![V139, användarens bevarade originalfoto, tryckt s. 331](../sv1917-print-witnesses/V139.jpg)
+
+Originalfotots SHA-256 `20ff2a6ea6453dacf4640105b109e6bc179152161e6beaec774bf264726a6f7c`. Exakt vershash och beslut i JSON-liggarens `resolved_readings`.
 
 ## V140
 

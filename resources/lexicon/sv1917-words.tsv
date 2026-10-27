@@ -2658,6 +2658,7 @@ avsikt	24	word	""A:v$%sIkt
 bakhåll	24	word	""bA:k$%hOl
 begynt	24	word	be$"jYnt
 bereder	24	word	be$"re:$der
+betalning	24	word	be$"tA:l$nIN
 bett	24	word	"bEt
 bommar	24	word	""bU$mar
 bon	24	word	"bu:n
@@ -2767,7 +2768,6 @@ allmosor	23	word	""al$%mu:$sUr
 bedraga	23	word	be$"drA:$ga
 besatt	23	word	be$"sat
 bestånd	23	word	be$"stOnd
-betalning	23	word	be$"tA:l$nIN
 danat	23	word	
 dånet	23	word	"do:$net
 elva	23	word	
@@ -8365,7 +8365,6 @@ besvärlig	5	word	be$"svE:$l`Ig
 besättningar	5	word	be$"sEt$nIN$ar
 beså	5	word	be$"so:
 besök	5	word	be$"s2:k
-betalningen	5	word	be$"tA:l$nIN$en
 betesmarkerna	5	word	""be:$tes$%mar$ke$n`a
 betrott	5	word	be$"trUt
 betsel	5	word	"bEt$sel
@@ -9590,6 +9589,7 @@ besvor	4	word	be$"svu:r
 besvärjarna	4	word	be$"svEr$ja$n`a
 besåg	4	word	be$"so:g
 betade	4	word	""be:$ta$de
+betalningen	4	word	be$"tA:l$nIN$en
 betalt	4	word	be$"tA:lt
 betedde	4	word	be$"tE$de
 betrycktas	4	word	

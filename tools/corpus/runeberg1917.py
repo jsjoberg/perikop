@@ -390,6 +390,9 @@ REPLACE={
  # Romans 16:26 confirmed by the user's print photograph: R327 (V136).
  ('Rom', 16, 26):('den eviga Gudens', 'den evige Gudens'),
 
+ # First Corinthians 7:23 confirmed by the user's photograph: R328 (V139).
+ ('1Cor', 7, 23):('betalningen är given', 'betalning är given'),
+
 }
 
 def chapter_number(name):

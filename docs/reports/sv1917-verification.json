@@ -6604,10 +6604,10 @@
     {
       "book": "1Cor",
       "chapter": 7,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 40,
-      "text_sha256": "2633b501e75576d78653fed908527099117bcdbb8d76c4da4873553a93fe1369",
-      "checked_at": "2026-10-26",
+      "text_sha256": "957412168ff6e48e33985f0b054539f770c325bde01f3c6359ae4b2dc7653289",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -6623,7 +6623,7 @@
           "sha256": "753c2f81c8104fff53295fb7737652b0b64f13242b57848469729b1f6819c984"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 7:7/17/35 över spalt-/sidgränser. V139 gäller betalningen/betalning i 7:23. Kolon/semikolon och tankstrecksplacering i 7:10 behålls. Tryckets ensamma citattecken före Om i 7:12 saknar avslut i kapitlet och kopieras inte. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V139 i sv1917-nt-questions/batch-4.md; inga ändringar av frågornas ord."
+      "notes": "Hela kapitlet jämfört, inklusive 7:7/17/35 över spalt-/sidgränser. V139 avgjord mot användarens originalfoto: betalning bekräftar EFS 1927 och införs genom R328. Kolon/semikolon och tankstrecksplacering i 7:10 behålls. Tryckets ensamma citattecken före Om i 7:12 saknar avslut i kapitlet och kopieras inte. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V139. Införd rättelse: R328."
     },
     {
       "book": "1Cor",
@@ -9487,6 +9487,23 @@
       "photo_sha256": "2f3efcce57c82400517e48fe5626b7e4f8060e7c796b1a2e75bee0f9062e8dfd",
       "source": "Användarens exemplar av en senare tryckning, tryckt s. 325; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 2:2 med synligt versnummer och läsningen och honom såsom korsfäst, samma som korpusen. EFS 1927 saknar såsom. Korpusens såsom behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd; ingen annan ändring behövs."
+    },
+    {
+      "id": "V139",
+      "correction_id": "R328",
+      "decision": "corrected",
+      "book": "1Cor",
+      "chapter": 7,
+      "verse": 23,
+      "status": "resolved",
+      "reading": "och betalning är given",
+      "text_sha256": "851c2be8c65ce30cc5315bc13e6580223cb38388469fd52e593682771db7c4e2",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V139.jpg",
+      "photo_sha256": "20ff2a6ea6453dacf4640105b109e6bc179152161e6beaec774bf264726a6f7c",
+      "source": "Användarens exemplar av en senare tryckning, tryckt s. 331; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 7:23 med synligt versnummer och läsningen och betalning är given, samma som EFS 1927. Korpusens betalningen rättas till betalning genom R328. Hela versen är visuellt jämförd; övriga ord och skiljetecken stämmer."
     }
   ]
 }
