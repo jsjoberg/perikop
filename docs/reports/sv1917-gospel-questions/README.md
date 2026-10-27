@@ -1,6 +1,6 @@
 # Sparade fotofrågor i evangelierna
 
-**Aktuellt 2026-10-27:** Alla evangelier är helt bildlästa. Matteus, Markus och Lukas är verifierade. **43 öppna frågor V080–V122 i 17 Johanneskapitel** finns i [den samlade listan](photo-checklist.md) och bunt 9–10. V010–V079 är avgjorda mot [EFS 1926](../sv1917-efs1926-witnesses/README.md): 37 rättelser R354–R390, varav en ren nummerändring, samt 33 behållna läsningar. Totalt 72/89 kapitel och 3 016/3 767 poster (80,1 %) verifierade. Luk. 17:36 har flyttats till tryckets 17:37 med oförändrad text och sex rättade parallellmappningar. Ingen omedelbar fotoinsats begärs; fortsätt digitaliserade vittnen från Joh. 1:39 och spara fortsatt osäkerhet. Alla originalfrågor, utsnitt och beslut bevaras.
+**Aktuellt 2026-10-27: inga öppna evangeliefrågor.** Alla fyra evangelier är verifierade: 89/89 kapitel och 3 767/3 767 versposter (100 %). V010–V122 är avgjorda mot [EFS 1926](../sv1917-efs1926-witnesses/README.md): 71 rättelser R354–R424, varav en ren nummerändring, samt 42 behållna läsningar. V007–V009 avgjordes tidigare mot användarens foton. Ingen fotoinsats behövs nu. Alla originalfrågor, utsnitt och beslut bevaras i bunt 1–10; tabellerna i avgjorda buntar visar jämförelsen före besluten. Hela NT:s 260 kapitel och 7 940 poster är nu verifierade. Nästa etapp är återstående GT; nya osäkerheter sparas för senare boktillgång.
 
 ## Fotobunt 1: tre lösta läsningar i Matteus
 

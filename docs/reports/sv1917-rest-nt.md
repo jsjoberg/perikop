@@ -83,7 +83,7 @@ Samma granskningskrav som i [huvudliggaren](sv1917-verification.md) gäller: hel
 
 **Hela Uppenbarelseboken är verifierad:** 22 kapitel, 405 poster och 11 094 ord på NT s. 393–417. R289–R320 från första bildgenomgången bevaras; R333–R353 tillför 21 rättelser efter jämförelse med EFS 1926. Sammanlagt 53 rättelser i 52 unika versposter, eftersom 16:17 har både tidigare kolonrättelse och nu från → ifrån. Alla 25 frågor V153–V177 är avgjorda. Fyra läsningar/gränser behålls: Sabulons i 7:8, gränserna 18:22–24, vid i 20:8 och talade i 21:15. Båda extra orden i 6:11 tas bort; 22:15 är jämförd över båda 1926-sidorna 388–389. Fulla originalbilder finns i [vittnesförteckningen](sv1917-efs1926-witnesses/README.md); varje beslut och vershash i liggaren. Tidigare uttryckligen dokumenterade kommaskillnader, versaltypografi och ordmellanrum harmoniseras inte.
 
-**Hela denna NT-etapp är färdigverifierad:** 23 böcker, 171 kapitel, 4 173 poster och 99 187 ord (100 %). Totalt 156 rättelser R198–R353 i 154 unika versposter; Jak. 4:15 och Upp. 16:17 har vardera två rättelser. Tillsammans med evangelierna är hela NT:s första bildläsning klar: 260 kapitel och 7 940 poster, varav 243 kapitel och 7 189 poster verifierade. Evangeliernas 43 kvarvarande frågor i 17 Lukas-/Johanneskapitel följs på uppföljningsgrenen ovanpå #68 och #65. Ingen extra lästäckning räknas för riktade andratrycksjämförelser.
+**Hela NT är verifierat efter evangelieuppföljningen i [PR #71](https://github.com/jsjoberg/perikop/pull/71): 27 böcker, 260 kapitel och 7 940 versposter.** Alla V001–V177 är avgjorda. Nästa etapp är återstående GT; inga omedelbara foton behövs. PR #65, #68 och #71 hålls öppna för granskning.
 
 ## Sparade läsningsfrågor
 
@@ -91,7 +91,7 @@ Samma granskningskrav som i [huvudliggaren](sv1917-verification.md) gäller: hel
 
 ## Återuppta här
 
-**Användaren är åter borta från boken. Ingen omedelbar fotoinsats behövs.** Nästa textarbete är evangeliernas 43 kvarvarande Johannesfrågor mot tillgängliga digitaliserade tryck, med start Joh. 1:39 i den samlade frågelistan. Spara det som fortfarande är osäkert till nästa boktillgång. Användarens senare tryck kan också upptäcka delade fel i tidigare tryck; EFS-tryckens överensstämmelse är inget bevis på felfrihet. Återstående GT är separat senare arbete.
+
 
 **PR #68 behålls som öppet utkast; ingen sammanslagning eller stängning görs.** Dess textgranskningsmål är uppnått, med samtliga frågor avgjorda och aktuell liggare. Grenen har evangeliegrenen som bas; efter #65:s sammanslagning ska denna PR riktas mot main och vid behov ombaseras. PR #64:s avslutade mål för utökade kanon och 0.2.1 påverkas inte.
 
