@@ -9712,6 +9712,46 @@
         }
       ],
       "notes": "Hela 31:1–55 visuellt jämförd mot EFS 1927 GT s. 45–48, inklusive 31:12 och 31:42 över sid- eller spaltgränser. R443 rättar jorden till hjorden i 31:8 enligt båda trycken. EFS 1926 s. 39–41 bekräftar utropstecken i 31:11, avslutande citat i 31:42, punkt i 31:47 samt tankstreck i 31:51 mot avvikande 1927. Befintliga läsningar behålls. Inga öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarade fulla original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0039.jpg, SHA-256 7b04ff410a5988b7c5f15390223fe0009bde1e27d29659c627b00bf4aa52cbbc, docs/reports/sv1917-efs1926-witnesses/gt0040.jpg, SHA-256 168a9b96c7f9f45658aceb6183a74cddde2f2b0b71c4a9bc5df5f8bfb91f9b31, docs/reports/sv1917-efs1926-witnesses/gt0041.jpg, SHA-256 c9ad6391ebefa125f7082896fba39e41df17d1dc9195e3c2fd2c7f1572c4349d."
+    },
+    {
+      "book": "Gen",
+      "chapter": 32,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "b250d0a68c6ac6e66f9f4a7746faa877758f9514bc14cadfed60d3c4312530a1",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0048.1.tif",
+          "sha256": "babdc9413181cb89cd0a294d0601f5c59daa0101d453478e0bf19521010912a3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0049.1.tif",
+          "sha256": "446f78c8a8623e734be48ae06189f1f6292f8c7a91cea98f58dc178d7721bb80"
+        }
+      ],
+      "notes": "Hela 32:1–32 visuellt jämförd mot EFS 1927 GT s. 48–49, inklusive 32:8 över spalter och 32:17–18 samt 32:28 över sid- eller spaltgränser. Tal, ortnamn och citat jämförda. EFS 1926 s. 41 bekräftar korpusens till i 32:13 mot 1927:s ut skänker. EFS 1926 s. 42 bekräftar komma efter inre citat i 32:17 och punkt innanför avslutande citat i 32:27. I 32:30 följer korpusen 1927:s punkt efter citatet mot 1926:s punkt före. Befintliga läsningar behålls. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarade fulla original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0041.jpg, SHA-256 c9ad6391ebefa125f7082896fba39e41df17d1dc9195e3c2fd2c7f1572c4349d, docs/reports/sv1917-efs1926-witnesses/gt0042.jpg, SHA-256 9124d0622f9aeedcea9e8e350e47c2fc2d4903e23d23de9fb5c87d29e1805375."
+    },
+    {
+      "book": "Gen",
+      "chapter": 33,
+      "status": "verified",
+      "verse_count": 20,
+      "text_sha256": "85c0f42d9f08ea9002815449a619fcbbd68693a1c114160146d36bd87390b016",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0049.1.tif",
+          "sha256": "446f78c8a8623e734be48ae06189f1f6292f8c7a91cea98f58dc178d7721bb80"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0050.1.tif",
+          "sha256": "7e415d76913aef3f5445ada86f50e5dc77699640141729fb7c816ec693cb9f87"
+        }
+      ],
+      "notes": "Hela 33:1–20 visuellt jämförd mot EFS 1927 GT s. 49–50, inklusive 33:5 över sidgränsen. Namn, antal och citat jämförda. EFS 1926 s. 43 bekräftar öppningscitat i 33:12 som saknas i 1927. I 33:18 behålls Paddan-Aram enligt 1927 mot 1926:s Paddam-Aram. Inga nya rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarade fulla original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0043.jpg, SHA-256 132c12520473e8adad834878c880fbe5d3d77c44f95debe8f2bd66ee0e8d27d1."
     }
   ],
   "unnumbered": [
