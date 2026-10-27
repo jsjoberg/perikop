@@ -6900,10 +6900,10 @@
     {
       "book": "2Cor",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 21,
       "text_sha256": "e6daae1bb33d82888fa81b5150608b1fd482f3a3e528fe0360b49c09c912a0fb",
-      "checked_at": "2026-10-26",
+      "checked_at": "2026-10-27",
       "reviewer": "Codex, full visual scan comparison",
       "scans": [
         {
@@ -6915,7 +6915,7 @@
           "sha256": "5f372e958b6d9fa611449a2422f67fded0a49b2710b96c8c1e27f8b87f1baa3a"
         }
       ],
-      "notes": "Hela kapitlet jämfört, inklusive 5:7/8 över sidgränsen och 5:16 över spaltgränsen. V142 gäller oss i 5:14. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Öppna frågor: V142 i sv1917-nt-questions/batch-5.md; inga ändringar av frågornas ord."
+      "notes": "Hela kapitlet jämfört, inklusive 5:7/8 över sidgränsen och 5:16 över spaltgränsen. V142 avgjord mot användarens originalfoto: korpusens en har dött för alla utan oss bekräftas och behålls som tryckvariant. Vanliga kommaskillnader, radslutsavstavning och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor i kapitlet. Originalfoto och vershash under resolved_readings/V142."
     },
     {
       "book": "2Cor",
@@ -9538,6 +9538,23 @@
       "photo_sha256": "65af293e21fff843aefe77b79b324ed39f667b760989fbd80edd6b1c929b2e3d",
       "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
       "notes": "Användarens originalfoto visar hela 15:19 med synligt versnummer och läsningen och därav intet bliver, samma som korpusen. EFS 1927 har den avvikande tryckläsningen och intet värda bliver över två sidor. Korpusens fulla sats bekräftas och behålls; inget rättelse-ID. Hela versen är visuellt jämförd."
+    },
+    {
+      "id": "V142",
+      "correction_id": null,
+      "decision": "retained",
+      "book": "2Cor",
+      "chapter": 5,
+      "verse": 14,
+      "status": "resolved",
+      "reading": "en har dött för alla",
+      "text_sha256": "a30bb20af244110a3fde5d8a6e04c67838db0e68a283c58a7626c39e35cf15da",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, visuell tolkning av användarens kompletterande originalfoto",
+      "photo_path": "docs/reports/sv1917-print-witnesses/V142.jpg",
+      "photo_sha256": "cb13ebfde79c5e908f9701b0da850d208fe6b7bf364db2f35969c5ea54c4a2b7",
+      "source": "Användarens exemplar av en senare tryckning; bibliografiska uppgifter ej lämnade. Originalfotot från 2026-10-27 är bevarat byteidentiskt utan beskärning eller omkodning.",
+      "notes": "Användarens originalfoto visar hela 5:14 med synligt versnummer och läsningen en har dött för alla, utan oss före alla, samma som korpusen. EFS 1927 har en har dött för oss alla. Korpusens text behålls som belagd tryckvariant; inget rättelse-ID. Hela versen är visuellt jämförd."
     }
   ]
 }
