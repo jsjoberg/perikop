@@ -45,6 +45,10 @@ REPLACE={
  ('Gen',31,8):('då fick hela jorden strimmig avföda','då fick hela hjorden strimmig avföda'),
  # Genesis 34-36: restore speech closure supported by both prints.
  ('Gen',35,12):('åt din säd efter dig skall jag ock giva det landet.','åt din säd efter dig skall jag ock giva det landet.»'),
+ # Genesis 37: both printings agree on the words and quotation boundary.
+ ('Gen',37,20):('Upp, låt oss dräpa honom','Upp, låt oss nu dräpa honom'),
+ ('Gen',37,26):('dölja hans blod?»','dölja hans blod?'),
+ ('Gen',37,32):('Denna har vi funnit','Denna hava vi funnit'),
  ('Gen',13,14):('sedan Lot hade skilt sig från honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.»','sedan Lot hade skilt sig ifrån honom: »Lyft upp dina ögon och se, från den plats där du står, mot norr och söder och öster och väster.'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),

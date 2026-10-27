@@ -745,6 +745,10 @@ int main(int argc, char** argv) {
                   "Luke 10:2 retains its introduction across the printed page break");
             check(corpus.verse("sv1917", "Gen", {35, 12})->text.ends_with("giva det landet.»"),
                   "SV1917 Genesis 35 closes the quotation in verse 12");
+            check(corpus.verse("sv1917", "Gen", {37, 20})->text.starts_with("Upp, låt oss nu dräpa") &&
+                      corpus.verse("sv1917", "Gen", {37, 26})->text.ends_with("dölja hans blod?") &&
+                      corpus.verse("sv1917", "Gen", {37, 32})->text.find("Denna hava vi funnit") != std::string::npos,
+                  "SV1917 Genesis 37 preserves both words and the quotation spanning verses 26–27");
             check(corpus.verse("sv1917", "Gen", {20, 7})->text.ends_with("som tillhöra dig.»") &&
                       corpus.verse("sv1917", "Gen", {22, 16})->text.ends_with("din ende son,"),
                   "SV1917 Genesis 20 and 22 preserve speech and verse boundaries");
