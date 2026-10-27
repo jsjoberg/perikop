@@ -10060,6 +10060,26 @@
         }
       ],
       "notes": "Hela 47:1–31 visuellt jämförd mot EFS 1927 GT s. 71–73. EFS 1926 s. 63 bekräftar semikolon i 47:15 mot 1927. Inga rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0063.jpg, SHA-256 5e8970c8de2dbba1c18b2393e7c3cd942b1757006981a7e21b2b133675d29987."
+    },
+    {
+      "book": "Gen",
+      "chapter": 48,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "218d62935be02aa4245c1330c4b3916e4f36b02899f2c684ad3ffb4049c2e01e",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0073.1.tif",
+          "sha256": "28e80ec2c7d2f1cf2e1b65e099b6c0db72968256231edba5276f285c55a2af18"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0074.1.tif",
+          "sha256": "9dc9f805d3b7670395891fd67f97ed841689479077683e90509131a415645546"
+        }
+      ],
+      "notes": "Hela 48:1–22 visuellt jämförd mot EFS 1927 GT s. 73–74. R455 rättar kolon till semikolon i 48:5 enligt båda trycken. EFS 1926 s. 64 bekräftar är i 48:18 och semikolon i 48:19 mot 1927; korpusen behålls. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Inga öppna frågor. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0064.jpg, SHA-256 b5abac20c134b62a3c1d36d1f71d3934aadff6793df5ebb7dfc00610d191776c."
     }
   ],
   "unnumbered": [
