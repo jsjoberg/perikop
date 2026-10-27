@@ -10036,6 +10036,30 @@
         }
       ],
       "notes": "Hela 46:1–34 visuellt jämförd mot EFS 1927 GT s. 69–71, inklusive samtliga namn och antalsuppgifter. EFS 1926 s. 61 bekräftar utropstecknen i 46:2 och citatslutet i 46:4 mot 1927. Inga rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0061.jpg, SHA-256 212c58be9ff04e41f98c81f148093920d1d5ebf111bf0cf8da4274ec786e9c30."
+    },
+    {
+      "book": "Gen",
+      "chapter": 47,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "bfa0ee97193cf46c0e4e9b7aa5629a432a2cfe8c99f3dc4f6704e7d834725e3d",
+      "checked_at": "2026-10-27",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0071.1.tif",
+          "sha256": "aeb7725346aba050b54f9aa8aceeeb6f523b625d8d59bc94c73fda07c30828ef"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0072.1.tif",
+          "sha256": "f4482f8ab672bbfdf6c7d27b83ca658408bb75b1d70751a80dffaa47f77599e9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0073.1.tif",
+          "sha256": "28e80ec2c7d2f1cf2e1b65e099b6c0db72968256231edba5276f285c55a2af18"
+        }
+      ],
+      "notes": "Hela 47:1–31 visuellt jämförd mot EFS 1927 GT s. 71–73. EFS 1926 s. 63 bekräftar semikolon i 47:15 mot 1927. Inga rättelser eller öppna frågor. Vanliga kommaskillnader och citatglyfer harmoniseras inte automatiskt. Bevarad full original-JPEG: docs/reports/sv1917-efs1926-witnesses/gt0063.jpg, SHA-256 5e8970c8de2dbba1c18b2393e7c3cd942b1757006981a7e21b2b133675d29987."
     }
   ],
   "unnumbered": [
