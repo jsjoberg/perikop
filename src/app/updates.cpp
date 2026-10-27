@@ -10,7 +10,8 @@ namespace {
 const char* const not_installed = "Den här kopian uppdateras inte inifrån programmet. Nya versioner finns på "
                                   "github.com/jsjoberg/perikop/releases.";
 #ifdef PERIKOP_UPDATES
-const char* const repository = "https://github.com/jsjoberg/perikop";
+// One fixed release holds every channel's feed and packages; see docs/updating.md.
+const char* const feeds = "https://github.com/jsjoberg/perikop-assets/releases/download/updates";
 // Linux feeds include the glibc baseline so older clients cannot receive incompatible AppImages.
 #if defined(_WIN32) && defined(__aarch64__)
 const char* const platform = "win-arm64";
@@ -27,7 +28,7 @@ const char* const platform = "linux-x64-glibc239";
 // The manager finds an installed program from its files alone, with no network; it throws when there is none.
 bool installed() {
     try {
-        Velopack::UpdateManager manager(std::make_unique<Velopack::GithubSource>(repository));
+        Velopack::UpdateManager manager(std::make_unique<Velopack::HttpSource>(feeds));
         return true;
     } catch (const std::exception&) {
         return false;
@@ -116,9 +117,9 @@ void start_updates() {
 std::unique_ptr<UpdateBackend> make_update_backend() {
 #ifdef PERIKOP_UPDATES
     return std::make_unique<VelopackBackend>(
-        [](bool nightly) {
-            // The GitHub source sends no identifier; nightlies are prereleases.
-            return std::make_unique<Velopack::GithubSource>(repository, "", nightly);
+        [](bool) {
+            // The channel names the feed file; the SDK adds a random per-installation stagingId to the request.
+            return std::make_unique<Velopack::HttpSource>(feeds);
         },
         true);
 #else

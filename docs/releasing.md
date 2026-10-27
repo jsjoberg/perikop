@@ -4,19 +4,48 @@ See the [update migration plan](updating.md) for platform validation and user-co
 
 ## Release
 
-Set the version in `project()` in `CMakeLists.txt`, then push a matching tag:
+| Where | Assets |
+| --- | --- |
+| `jsjoberg/perikop` releases | `Perikop-Setup.exe`, `Perikop-Windows-Portable.zip`, `Perikop.pkg`, `Perikop-macOS-Portable.zip`, `Perikop-x86_64.AppImage`, `Perikop-aarch64.AppImage`, the AppImage runtime source, and `SHA256SUMS.txt` |
+| `jsjoberg/perikop-assets`, release `updates` | Every channel's `releases.<channel>.json` feed, its full package and recent deltas, and feed entries staged for a release draft |
+| `jsjoberg/perikop-assets`, other releases | CI dependency snapshots |
+
+Installed copies read `https://github.com/jsjoberg/perikop-assets/releases/download/updates/releases.<channel>.json` through Velopack's HTTP source, and download packages from the same place. The download names have no version, so `https://github.com/jsjoberg/perikop/releases/latest/download/Perikop-Setup.exe` always gives the newest release.
+
+### One-time setup
+
+Create a fine-grained PAT restricted to **only** `jsjoberg/perikop-assets`, with **Contents: read and write**. Save it in `jsjoberg/perikop` as the Actions secret **`PERIKOP_ASSETS_TOKEN`**. The job's own `GITHUB_TOKEN` cannot write to another repository. Rotate the PAT before it expires; an expired or missing token stops publication. The first publication creates the `updates` release.
+
+### Stage and publish
+
+Keep the version bump in a separate release-preparation commit: update `project()` in `CMakeLists.txt` and the tooling version in `pyproject.toml`/`uv.lock`, then push the matching version tag:
 
 ```sh
-git tag v0.2.0 && git push origin v0.2.0
+git tag v0.2.1 && git push origin v0.2.1
 ```
 
-CI builds, tests, and packages four targets: Windows x64, Linux x64, Linux ARM64, and macOS Apple Silicon (macOS 15+).
-Linux channels include `-glibc239` after the architecture. Publish Debian 13 builds only to these feeds, never to the earlier Linux feeds; users moving from an earlier build download the new AppImage once on a supported system. See [the Linux migration boundary](updating.md#versions-and-channels).
-It then creates a draft release containing, for each target, the Velopack download (`Perikop-<channel>-Setup.exe`, `Perikop-<channel>-Setup.pkg` or `Perikop-<channel>.AppImage`), portable packages where Velopack makes them, a full update package and channel feed, a delta where a previous package exists, and `SHA256SUMS.txt` covering every uploaded file. A release needs all four targets; `update_packages.py assemble --complete` refuses one without them.
-Releases with AppImages also carry `AppImage-runtime-source-<commit>.tar.gz`, listed in `SHA256SUMS.txt`: the corresponding source of the AppImage runtime, which statically links libfuse (LGPL-2.1). Both Linux jobs make it with `tools/appimage_runtime.py source` from pinned inputs, and `update_packages.py assemble` refuses AppImages without it; see [the report](reports/appimage-runtime-lgpl-2026-10-18.md).
-The tag's version, such as `0.2.0`, goes into the update packages. CI stops if the tag does not match `CMakeLists.txt`.
-Write the release notes on GitHub, then publish the draft.
-The updater cannot see a draft. Release-channel feeds use `*-releases`; nightly feeds use `*-nightly`. The release channel excludes GitHub prereleases.
+CI builds, tests and packages Windows x64, Linux x64, Linux ARM64 and macOS Apple Silicon (macOS 15+). Tag builds require all four targets and both sanitizer jobs. CI rejects a tag whose base version differs from `CMakeLists.txt`. The release job then:
+
+1. Uploads the new full packages and deltas to the `updates` release, and the feed entries for the release as `<tag>.releases.<channel>.json`. Installed copies do not read these staged entries.
+2. Creates a draft in `jsjoberg/perikop` with the plain-named downloads. Its notes list the files for each system and the Raspberry Pi requirements.
+
+Review the draft and publish it with GitHub's **Publish release** button. Publishing runs the **Publish updates** workflow (`.github/workflows/publish.yml`). It downloads the staged entries and their packages, checks each package's size and SHA-256, and merges the entries into the live feeds. It then deletes the staged entries and every package that no live or staged feed names. Each feed keeps its newest full package and the deltas of the seven newest versions.
+
+`v0.2.1` alone also carries its feeds and full packages and deltas on the `jsjoberg/perikop` release. 0.2.0 copies read releases through Velopack's GitHub source, find 0.2.1 there, and after the update use the new HTTP source. 0.2.0 copies that skip 0.2.1 until it leaves the ten newest releases must be reinstalled once. Remove this one-time copy, marked `shortcut:` in `tools/ci/update_packages.py` and `.github/workflows/build.yml`, after 0.2.1.
+
+Linux channels retain `-glibc239`. Never publish a new AppImage to the older Linux feeds; earlier retired-channel builds require a one-time download on a supported host. See [the compatibility boundary](updating.md#versions-and-channels).
+
+### Recovery and verification
+
+A missing package, feed or installer, a wrong hash, or a failed upload stops publication. A rerun of the release job reuses the uploaded packages only when their bytes match; it never replaces a package, because a live feed may already name it. If the bytes differ, delete the draft. On the `updates` release, delete the `<tag>.releases.*.json` entries and that version's `.nupkg` files, then rerun. Never delete a package that a live `releases.<channel>.json` names. If the **Publish updates** workflow fails, fix the cause and run it again:
+
+```sh
+gh workflow run publish.yml --repo jsjoberg/perikop -f tag=v0.2.1
+```
+
+Replacing a feed deletes and uploads it again; a check in that moment fails and succeeds when the user tries again.
+
+Before first deployment, test an installed `0.2.0` copy against the published 0.2.1 release, then an update from 0.2.1 through the HTTP source. Local fixtures do not establish either. See [update validation](updating.md#packaging-and-validation).
 
 ## Nightly builds
 
@@ -31,13 +60,11 @@ Retries on the same day add the run ID and attempt number to the release tag.
 If all platforms fail, CI publishes no nightly.
 Version-tagged releases and manual publication checks require all four targets and both sanitizer jobs to pass.
 
-Every successful platform contributes its Velopack download, full package, optional delta, and `releases.<channel>.json` feed together. A platform whose packaging or update test fails contributes none of them. Full packages remain available for first upgrades, interrupted delta chains, and recovery.
+Every successful platform contributes its downloads to the nightly release, and its full package, optional delta and feed entry to the `updates` release, together. A platform whose packaging or update test fails contributes none of them. A nightly makes its feed entries live as soon as its release exists; there is no draft. CI then deletes all but the seven newest nightly releases. The `updates` release keeps the packages, so this removes downloads only.
 
-Before offline compilation/packaging, `tools/ci/update_packages.py restore` downloads the newest earlier full package in the same channel from published GitHub releases and verifies its SHA-256 and size against the feed. Packing uses that base with `--delta BestSpeed`. The first package in a channel has no delta. Restoring the base is an explicit network step; builds and packing remain offline. macOS packing also needs `zstd` on the runner.
+Before offline compilation/packaging, `tools/ci/update_packages.py restore` downloads the newest earlier full package in the same channel and verifies its SHA-256 and size against the feed. It reads the `updates` release first, then the `jsjoberg/perikop` releases, which held the packages before 0.2.1. Packing uses that base with `--delta BestSpeed`. The first package in a channel has no delta. Restoring the base is an explicit network step; builds and packing remain offline. macOS packing also needs `zstd` on the runner.
 
-Each published feed includes the current full package, its new delta, and the previous full package's metadata. Previous full packages are not uploaded again by each build. Historical deltas are excluded from the new feed, because the pinned SDK combines feeds from multiple releases and would otherwise try the same patch twice.
-
-Cleanup reads every feed in the seven retained nightlies. If a referenced package exists only on an older release, it downloads and hash-checks that package, uploads it to the new nightly, updates `SHA256SUMS.txt`, and confirms every checksummed file is present before deleting old nightly releases and tags. Missing or conflicting feed/checksum data and failed package or checksum uploads stop cleanup before any release is deleted. An interrupted attempt that uploaded a base without its checksum is verified and repaired on retry. Cleanup does not delete version releases, drafts, or dependency snapshots. Keeping seven nightlies preserves room for release discovery within the SDK's ten-release API window.
+Nightly copies installed before 0.2.1 read nightlies through the GitHub source, so they no longer receive updates: install a new nightly once.
 
 To start a nightly now:
 
@@ -65,7 +92,7 @@ The AppImage needs `dpkg-dev` on Debian and Ubuntu. Build release AppImages in t
 
 Application dependencies never fall back to upstream servers during ordinary CI. They use snapshot archives published as `ci-dependencies-<commit>` prereleases in [jsjoberg/perikop-assets](https://github.com/jsjoberg/perikop-assets) and pinned in `ci/dependencies-lock.json`.
 The separate Python tooling bootstrap downloads pinned uv/Python before the offline build.
-Snapshots are kept out of this repository's releases because the in-app updater reads only the newest releases here.
+Snapshots are kept out of `jsjoberg/perikop`, whose ten newest releases 0.2.0 copies read.
 To update a dependency:
 
 1. Edit `ci/upstreams.json` and the native dependency declaration, or `ci/linux.Dockerfile`. Commit and push.

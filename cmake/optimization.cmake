@@ -5,6 +5,9 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|amd64)$" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
         # SSE4.2 and POPCNT fit X220-era CPUs without requiring AVX or AVX2.
         add_compile_options(-march=x86-64-v2 -mtune=generic)
+    elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
+        # One ARM64 package for Raspberry Pi 3, 4 and 5; do not target the CI runner's newer CPU.
+        add_compile_options(-march=armv8-a -mtune=generic)
     endif()
     if(MINGW OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
         add_compile_options("$<$<CONFIG:Release,MinSizeRel>:-ffunction-sections>"

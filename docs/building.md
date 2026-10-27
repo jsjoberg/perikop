@@ -26,6 +26,8 @@ The default build type is MinSizeRel with link-time optimization. Useful options
 - `-DORTHO_SYSTEM_WX=ON` to use an installed wxWidgets.
 - macOS builds target `arm64` only. Check the bundle with `uv run --locked tools/check_macos_arch.py build/cmake/bin/Perikop.app --architecture arm64`.
 
+Linux ARM64 compilation uses `-march=armv8-a -mtune=generic` for the shared Raspberry Pi 3/4/5 target, rather than a Pi 5 or CI-host CPU target. Packages require 64-bit Raspberry Pi OS Trixie desktop and glibc 2.39 or later. Changing speech engines does not lower the OS baseline. [Physical-device checks](testing.md#raspberry-pi-3-4-and-5) are still needed for Pi 3/4.
+
 CI builds Apple Silicon on macOS 15. Intel and universal Mac builds are rejected. macOS compilation, signing, and packaging stay native; there is no macOS cross-compilation migration to maintain.
 
 The shared `tools/ci/build.py` entry point runs `linux`, `macos`, `windows` (cross-build), `sanitizers` (macOS), or `linux-sanitizers`. `.github/actions/python` installs uv 0.13.1 and the pinned Python before any network-denied build. Host checks use that interpreter; Linux containers mount its relocatable installation read-only. Its bundled SQLite reads STRICT tables without compiling or injecting a replacement library. This tooling bootstrap can download from upstream; application dependencies still come only from verified snapshots, and compilation/packaging run offline.

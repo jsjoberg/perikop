@@ -3,9 +3,11 @@
 import importlib.util
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools/ci"))
 spec = importlib.util.spec_from_file_location("nightly", ROOT / "tools/ci/nightly.py")
 nightly = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(nightly)
@@ -37,7 +39,7 @@ class NightlyTest(unittest.TestCase):
             self.assertEqual(self.prepare(updates), TAG)
             notes = self.notes(updates)
             self.assertIn("<!-- perikop-nightly: partial -->", notes)
-            self.assertIn("Available platforms:\n- macOS Apple Silicon\n- Windows x64", notes)
+            self.assertIn("Available platforms:\n- macOS Apple Silicon: `Perikop.pkg`\n- Windows x64: `Perikop-Setup.exe`", notes)
             self.assertIn("Unavailable platforms:\n- Linux x64\n- Linux ARM64", notes)
             self.assertIn("Sanitizers:\n- macOS: **passed**\n- Linux: **passed**", notes)
             # The notes stay outside the publication, which ships every file in it.
@@ -54,6 +56,10 @@ class NightlyTest(unittest.TestCase):
             self.assertNotIn("Unavailable platforms", notes)
             self.assertNotIn("Incomplete nightly", notes)
             self.assertIn("download the new AppImage once on a supported system", notes)
+            self.assertIn("Raspberry Pi 3, 4 and 5 use the same ARM64 download", notes)
+            self.assertIn("64-bit Raspberry Pi OS Trixie", notes)
+            self.assertIn("sudo apt install libespeak-ng1", notes)
+            self.assertIn("have not yet been verified", notes)
 
     def test_sanitizer_failure_remains_visible_even_with_all_platforms(self):
         for platform in ("macos", "linux"):
@@ -97,6 +103,8 @@ class NightlyTest(unittest.TestCase):
             self.fixtures(updates, ["win-x64"])
             self.prepare(updates, version="0.1.1-nightly.20261016.7.1")
             self.assertIn("Version `0.1.1-nightly.20261016.7.1`.", self.notes(updates))
+            self.assertIn("Windows x64: `Perikop-Setup.exe`", self.notes(updates))
+            self.assertNotIn("win-x64-nightly-Setup.exe", self.notes(updates))
 
 
 def precedence(version):

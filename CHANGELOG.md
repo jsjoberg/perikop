@@ -10,6 +10,12 @@ Builds between releases show the version and the commit, such as `0.1.0-bffaaa0`
 
 For 0.2.1, the Swedish extended-canon books absent from SRB26 have been compared in full against printed scans: 12 books, 148 chapters and 4,372 verse records. The [verification ledger](docs/reports/sv1917-verification.md) records evidence, corrections and separate follow-up work for the remaining 1917 OT and a future NT review.
 
+### Changed
+
+- The shared ARM64 AppImage now targets Raspberry Pi 3, 4 and 5 on 64-bit Raspberry Pi OS Trixie desktop, using a generic ARMv8-A CPU baseline and separately installed eSpeak NG. Pi 3/4 hardware performance and audio remain unverified.
+
+- Plain download names, such as `Perikop-Setup.exe` and `Perikop.pkg`. Update feeds and packages move off the releases page to one `updates` release in `jsjoberg/perikop-assets`, read through Velopack's HTTP source; its feed requests carry a random per-installation ID. 0.2.0 copies update once from 0.2.1's release and then use the new source. Nightly copies from before 0.2.1 must be reinstalled once.
+
 ### Fixed
 
 - Restored missing opening letters in SRB26 Colossians 2:1 and Jude 1:1, including existing imports; added 4,144 unambiguous NST pronunciations for additional SRB26 forms such as klentrogna.

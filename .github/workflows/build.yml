@@ -47,7 +47,7 @@ jobs:
              [.[][] | select(.draft == false and .prerelease == true)
               | select(.tag_name | test("^nightly-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9a-f]{7}(-[0-9]+(-[0-9]+)?)?)?$"))
               | select(((.body // "") | contains("<!-- perikop-nightly: partial -->")) | not)
-              | select([.assets[]? | select(.name | test("^releases\\.(linux-(x64|arm64)|win-x64|osx-arm64)-nightly\\.json$"))] | length == 4)]
+              | select((.body // "") | contains("<!-- perikop-nightly: complete -->"))]
             | sort_by(.published_at, .tag_name) | last | .tag_name // empty
           ' releases.json)
           if [ -n "$latest" ]; then
@@ -80,7 +80,7 @@ jobs:
       matrix:
         include:
           - {name: Linux x64 (Debian 13), os: ubuntu-24.04, platform: Linux}
-          # The Raspberry Pi 5 package, for 64-bit Raspberry Pi OS.
+          # Keep this required-check name stable; the ARM64 package targets Pi 3/4/5 on Trixie desktop.
           - {name: Linux arm64 (Debian 13), os: ubuntu-24.04-arm, platform: Linux-arm64}
           - {name: macOS arm64, os: macos-15, platform: macOS-arm64, dependencies: macOS, architecture: arm64}
     name: ${{ matrix.name }}
@@ -408,18 +408,23 @@ jobs:
         with:
           name: publication-check
           path: |
-            build/release-check/SHA256SUMS.txt
-            build/release-check/releases.*.json
+            build/release-check/downloads/SHA256SUMS.txt
+            build/release-check/packages/releases.*.json
           if-no-files-found: error
   release:
     # Version tags require every check. Nightlies retain each successful platform package.
     if: ${{ !cancelled() && ((startsWith(github.ref, 'refs/tags/v') && needs.unix.result == 'success' && needs.windows.result == 'success' && needs.sanitizers.result == 'success' && needs.linux-sanitizers.result == 'success') || (!startsWith(github.ref, 'refs/tags/v') && (github.event_name == 'schedule' || inputs.nightly == true) && needs.nightly.outputs.build == 'true')) }}
     needs: [nightly, unix, windows, sanitizers, linux-sanitizers]
+    concurrency:
+      group: perikop-release-publication
+      cancel-in-progress: false
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set up Python tooling
         id: python
         uses: ./.github/actions/python
@@ -428,10 +433,11 @@ jobs:
           pattern: perikop-*
           path: packages
           merge-multiple: true
-      - name: Stage and publish native packages and update feeds
+      - name: Publish the downloads and stage the update packages
         id: publish
         env:
           GH_TOKEN: ${{ github.token }}
+          ASSETS_TOKEN: ${{ secrets.PERIKOP_ASSETS_TOKEN }}
           MACOS_SANITIZERS: ${{ needs.sanitizers.result }}
           LINUX_SANITIZERS: ${{ needs.linux-sanitizers.result }}
           BUILD_VERSION: ${{ needs.nightly.outputs.version }}
@@ -450,6 +456,11 @@ jobs:
             fi
             source="https://github.com/$GITHUB_REPOSITORY/blob/$tag"
             echo "See [the changes]($source/CHANGELOG.md) and [installation]($source/docs/using-perikop.md#installation)." > notes.md
+            python3 tools/ci/nightly.py downloads >> notes.md
+            # shortcut: 0.2.1 alone carries update packages for 0.2.0 copies; remove after 0.2.1.
+            if [ "$version" = 0.2.1 ]; then
+              printf '\nThe .nupkg and releases.*.json files update copies of Perikop 0.2.0; new installations do not need them.\n' >> notes.md
+            fi
             options=(--verify-tag --draft --title "Perikop $version")
             complete=(--complete)
           else
@@ -469,11 +480,17 @@ jobs:
             options=(--target "$GITHUB_SHA" --prerelease --latest=false --title "Perikop nightly $day")
           fi
           python3 tools/ci/update_packages.py assemble packages/updates release-assets "$version" "${complete[@]}"
-          gh release create "$tag" --repo "$GITHUB_REPOSITORY" "${options[@]}" --notes-file notes.md release-assets/*
+          # Packages go up first; installed copies see them only once publish updates the feeds.
+          GH_TOKEN="$ASSETS_TOKEN" python3 tools/ci/update_packages.py stage release-assets/packages --tag "$tag" --version "$version"
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" "${options[@]}" --notes-file notes.md release-assets/downloads/*
+          if [ "$NIGHTLY" = true ]; then
+            GH_TOKEN="$ASSETS_TOKEN" python3 tools/ci/update_packages.py publish --tag "$tag"
+          else
+            echo 'The release is a draft. Publishing it runs the Publish updates workflow, which makes it available to installed copies.' >> "$GITHUB_STEP_SUMMARY"
+          fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
-      - name: Preserve referenced packages and keep the latest seven nightlies
+      - name: Keep the latest seven nightlies
         if: env.NIGHTLY == 'true' && steps.publish.outputs.tag != ''
         env:
           GH_TOKEN: ${{ github.token }}
-          NIGHTLY_TAG: ${{ steps.publish.outputs.tag }}
-        run: python3 tools/ci/update_packages.py cleanup --repository "$GITHUB_REPOSITORY" --current "$NIGHTLY_TAG" --keep 7
+        run: python3 tools/ci/update_packages.py cleanup --repository "$GITHUB_REPOSITORY" --keep 7
