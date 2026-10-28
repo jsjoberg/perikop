@@ -60,6 +60,36 @@ int main(int argc, char** argv) {
             });
             check(result.books == 66 && result.verses == 31171 && last_progress == 100, "Incomplete import");
             corpus.load_imported(destination);
+            {
+                auto db = ortho::storage::open(destination, SQLITE_OPEN_READONLY);
+                ortho::storage::Statement headings(db.get(),
+                                                   "SELECT text FROM imported_heading ORDER BY ordinal");
+                std::string complete;
+                int count = 0;
+                while (headings.row()) {
+                    complete += headings.text(0) + '\n';
+                    ++count;
+                }
+                check(count == 1184 && picosha2::hash256_hex_string(complete) ==
+                                           "a82b6db6a76b9a583d393c97c0249ba1879ec599435044dfb4ded46efeb489df",
+                      "Audited heading text changed or headings are missing");
+            }
+            const auto psalm_opening = corpus.verse(ortho::srb_source, "Ps", {119, 1});
+            check(psalm_opening && psalm_opening->headings.size() == 2,
+                  "Psalm 119 lost its chapter summary or first alphabet heading");
+            for (int verse = 9; verse <= 169; verse += 8) {
+                const auto section = corpus.verse(ortho::srb_source, "Ps", {119, verse});
+                const auto preceding = corpus.verse(ortho::srb_source, "Ps", {119, verse - 1});
+                check(section && section->headings.size() == 1 && preceding && preceding->headings.empty(),
+                      "Alphabet heading was lost or attached to the preceding verse");
+            }
+            const auto mapped_heading = corpus.parallel_verse("grc-lxx", ortho::srb_source, "Ps", {118, 9});
+            check(mapped_heading &&
+                      mapped_heading->headings == corpus.verse(ortho::srb_source, "Ps", {119, 9})->headings,
+                  "Parallel numbering dropped a section heading");
+            for (const auto* book : {"Gen", "Matt", "Mark", "Luke", "John"})
+                check(!corpus.verse(ortho::srb_source, book, {1, 1})->headings.empty(),
+                      "Chapter summaries are missing from the heading metadata");
             check(corpus.has_imported() && corpus.read_only(), "Local import changed base corpus policy");
             check(corpus.sources().size() == 6, "Combined edition is not available");
             const auto john = corpus.verse(ortho::srb_source, "John", {3, 16});
@@ -70,7 +100,8 @@ int main(int argc, char** argv) {
                       jude->text.starts_with("Judas, "),
                   "Times New Roman chapter drop capitals were discarded");
             const auto legacy = temporary / "legacy-srb.db";
-            const std::array<std::tuple<const char*, int, int, const char*>, 14> verified_verses{{
+            const std::array<std::tuple<const char*, int, int, const char*>, 15> verified_verses{{
+                {"Lev", 11, 1, "379692a2d4863312ef527878345fe3bb45e8f965ce9eaeb3be65ba7c70da0d80"},
                 {"Exod", 15, 7, "f9e1fe691b91bb3a1d820aab830ae2b68be547f36432aa7543baa421a721413c"},
                 {"Exod", 24, 3, "dd83ee607ff5593aa3dae9fcae2ba540d465f234baee412cf53126c464d2d67c"},
                 {"Luke", 13, 3, "585973c2bd136216328f5f2f1c60ab3b7fdac0de671552911d21082c3c5eaa68"},
@@ -98,6 +129,7 @@ int main(int argc, char** argv) {
                                            std::filesystem::copy_options::overwrite_existing);
                 {
                     auto db = ortho::storage::open(legacy, SQLITE_OPEN_READWRITE);
+                    ortho::storage::exec(db.get(), "DROP TABLE imported_heading");
                     // Invert every edit using placeholder bytes for deleted headings. No Bible text is
                     // bundled.
                     for (auto it = ortho::srb_text_repairs.rbegin(); it != ortho::srb_text_repairs.rend();
@@ -132,6 +164,8 @@ int main(int argc, char** argv) {
                 const auto legacy_hash = hash_file(legacy);
                 ortho::CorpusDb previous(corpus_file);
                 previous.load_imported(legacy);
+                check(previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty(),
+                      "Older databases without headings no longer load");
                 auto expected = ortho::storage::open(known ? destination : legacy, SQLITE_OPEN_READONLY);
                 ortho::storage::Statement verses(expected.get(),
                                                  "SELECT book,chapter,verse,text FROM imported_verse");

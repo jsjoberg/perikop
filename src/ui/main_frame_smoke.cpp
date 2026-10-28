@@ -1609,6 +1609,11 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                           "WITH RECURSIVE padding(n) AS (SELECT 1 UNION ALL SELECT n+1 FROM padding "
                           "WHERE n<31171-(SELECT count(*) FROM imported_verse)) "
                           "INSERT INTO imported_verse SELECT 'Gen',999,n,'Test padding' FROM padding");
+            storage::exec(db.get(),
+                          "CREATE TABLE imported_heading(book TEXT,chapter INTEGER,verse INTEGER,ordinal "
+                          "INTEGER,text TEXT);"
+                          "INSERT INTO imported_heading VALUES('John',1,50,0,'Test section heading');"
+                          "INSERT INTO imported_heading VALUES('John',2,1,1,'Test chapter summary');");
             transaction.commit();
         }
         CorpusDb corpus(resources_ / "corpus/corpus.db");
@@ -1632,6 +1637,10 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         const Reading reading{ReadingKind::Gospel, {"John", {1, 50}, {2, 3}}};
         candidate->open_reading(reading);
         candidate->scripture_->chapter_source(2, 0, "sv1917");
+        const auto before_reload = candidate->scripture_->render_stats().layout_builds;
+        candidate->scripture_->apply(candidate->settings_, true);
+        if (candidate->scripture_->render_stats().layout_builds <= before_reload)
+            fail(__LINE__); // Reimporting the same edition must refresh text and heading layouts.
         const auto check_sources = [&](bool srb_first, VerseRef last) {
             if (engine->spoken.empty() ||
                 engine->spoken.front().display_text !=
@@ -1652,6 +1661,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
         check_sources(true, {2, 3});
         candidate->stop_speech(false);
         candidate->scripture_->select_verses({1, 50}, {2, 2});
+        if (candidate->scripture_->selected_text().find("Test section heading") != std::string::npos ||
+            candidate->scripture_->selected_text().find("Test chapter summary") != std::string::npos)
+            fail(__LINE__);
         candidate->play_or_pause();
         check_sources(true, {2, 2});
         candidate->stop_speech(false);
@@ -1700,7 +1712,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
             if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
                 !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
-                import_button->IsEnabled() == installed || remove_button->IsEnabled() != installed)
+                !import_button->IsEnabled() || remove_button->IsEnabled() != installed)
                 fail(__LINE__);
         };
         check_import_controls(true);

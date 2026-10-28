@@ -30,8 +30,12 @@ previous installation. The database is local user data and must not be packaged.
 ## What is extracted
 
 The body text includes the words printed in italics. Superscript note markers,
-footnotes, cross-references, page furniture, chapter summaries and book introductions
-are excluded. Italic styling itself is not retained. Psalm superscriptions that have
+footnotes, cross-references, page furniture and book introductions are excluded.
+The 1,184 printed chapter summaries and section headings are stored separately
+and displayed in centered italics before the verses they introduce. Psalm 119's
+22 Hebrew letter names introduce verses 1, 9, 17, …, 169. Headings are excluded
+from verse copying, word study and read-aloud. Italic styling within Scripture
+itself is not retained. Psalm superscriptions that have
 verse numbers are Scripture records and remain included. Footnotes can be added in
 a later feature; mixing them into Scripture or read-aloud would be incorrect.
 
@@ -50,12 +54,18 @@ modifying the imported database or requiring the PDFs again.
 
 The complete text audit compared all 31,171 verses with an independent Poppler
 extraction of both pinned PDFs. It also repairs four missing spaces, removes
-chapter/section furniture from 44 verse records, and corrects punctuation,
+chapter/section headings from 45 verse records, and corrects punctuation,
 hyphenation and spacing defects in ten further records. All discrepancies were
 visually reviewed, including the encoded word-break anomaly in Revelation 16:21.
-The three known older import checksums receive the same corrections when read,
+The four known older import checksums receive the same corrections when read,
 without modifying the local database or requiring the PDFs again. See the
 [complete audit](reports/srb2026-audit.md#complete-bible-text-comparison).
+
+Older databases continue to work without headings. To add the headings, import
+the two PDFs again in Settings; replacement is transactional and preserves the
+previous installation if it fails. No heading text is shipped with the application:
+the updated text-free recipe extracts it from the user's pinned PDFs and verifies
+its own aggregate checksum before installation.
 
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers

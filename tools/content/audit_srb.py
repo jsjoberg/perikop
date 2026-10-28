@@ -98,6 +98,9 @@ def extract(root, half):
                 body = False
             if not (body or numeric or punctuation) or not key or not s.strip():
                 continue
+            # This one full-sized italic summary is printed above the chapter's drop capital.
+            if key == ("Lev", 11, 1) and not text and not line and p == 152 and y == 94:
+                continue
             if line_at and (line_at[0] != p or
                             (abs(line_at[1] - y) > 2 and not punctuation) or
                             (x < last_end - 10 and not punctuation)):

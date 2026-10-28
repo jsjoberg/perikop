@@ -201,6 +201,16 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
     }
     if (source == srb_source) {
         if (imported_) {
+            Statement schema(imported_.get(),
+                             "SELECT 1 FROM sqlite_master WHERE type='table' AND name='imported_heading'");
+            if (schema.row()) {
+                Statement headings(imported_.get(), "SELECT chapter,verse,text FROM imported_heading WHERE "
+                                                    "book=? ORDER BY chapter,verse,ordinal");
+                headings.text(1, book);
+                while (headings.row())
+                    entry->second.headings[{headings.number(0), headings.number(1)}].push_back(
+                        headings.text(2));
+            }
             Statement query(
                 imported_.get(),
                 "SELECT chapter,verse,text FROM imported_verse WHERE book=? ORDER BY chapter,verse");
@@ -244,12 +254,15 @@ std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, con
     while (at != refs.begin() && (at - 1)->chapter == ref.chapter) {
         --at;
         const auto i = std::size_t(at - refs.begin());
-        if (at->suffix == ref.suffix && text.last_verses[i] >= ref.verse)
+        if (at->suffix == ref.suffix && text.last_verses[i] >= ref.verse) {
+            const auto headings = text.headings.find(*at);
             return Verse{*at, text.texts[i],
                          text.last_verses[i] == at->verse
                              ? std::nullopt
                              : std::optional<VerseRef>{{ref.chapter, text.last_verses[i]}},
-                         book};
+                         book,
+                         headings == text.headings.end() ? std::vector<std::string>{} : headings->second};
+        }
     }
     return std::unexpected("Text saknas i denna utgåva");
 }
@@ -467,6 +480,7 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
         if (!result.text.empty())
             result.text += ' ';
         result.text += part->text;
+        result.headings.insert(result.headings.end(), part->headings.begin(), part->headings.end());
         if (targets.size() == 1)
             result.last = part->last;
     }

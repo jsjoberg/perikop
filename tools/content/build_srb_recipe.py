@@ -2,7 +2,7 @@
 """Build a text-free extraction recipe for two pinned SRB 2026 PDFs (pypdf 6.10).
 
 PDFs and extracted text are local inputs/diagnostics only, never distribution resources.
-The recipe holds byte positions, generic font mappings, and verse coordinates.
+The recipe holds byte positions, generic font mappings, and verse/heading coordinates.
 """
 import argparse, hashlib, json, re, struct, zlib
 from pathlib import Path
@@ -180,26 +180,49 @@ class Extractor:
         self.body_y = None
         self.body_last = ""
         self.body_drop = False
+        self.headings = []
+        self.pending_headings = []
+        self.heading_end = None
+        self.heading_y = None
+
+    def add_heading(self, chars, y, x, end_x, section=False):
+        if not chars or not any(c[4].strip() for c in chars):
+            return
+        if not self.pending_headings or self.pending_headings[-1][0] != section:
+            self.pending_headings.append((section, []))
+            self.heading_y = None
+        current = self.pending_headings[-1][1]
+        if current and self.heading_y is not None:
+            if abs(y - self.heading_y) > 2:
+                while current and current[-1][4].isspace():
+                    current.pop()
+                if current and current[-1][4] == "-" and chars[0][4].islower():
+                    current.pop()
+                elif current and not chars[0][4].isspace():
+                    current.append((0, 0, 1, 255, " "))
+            elif self.heading_end is not None and x - self.heading_end > 1.1 and not current[-1][4].isspace() and not chars[0][4].isspace():
+                current.append((0, 0, 1, 255, " "))
+        current.extend(chars)
+        self.heading_y, self.heading_end = y, end_x
+
+    @staticmethod
+    def encoded(chars):
+        text = " ".join("".join(x[4] for x in chars).split())
+        pieces = []
+        for stream, off, n, font, char in chars:
+            if pieces and stream == pieces[-1][0] and font == pieces[-1][3] and off == pieces[-1][1] + pieces[-1][2]:
+                pieces[-1][2] += n
+            else:
+                pieces.append([stream, off, n, font])
+        return pieces, text
 
     def flush(self):
         if self.key is None:
             return
         while self.current and self.current[-1][4].isspace():
             self.current.pop()
-        text = " ".join("".join(x[4] for x in self.current).split())
+        pieces, text = self.encoded(self.current)
         assert text.strip(), self.key
-        # Convert consecutive bytes with one map into one copy operation.
-        pieces = []
-        for stream, off, n, font, char in self.current:
-            if (
-                pieces
-                and stream == pieces[-1][0]
-                and font == pieces[-1][3]
-                and off == pieces[-1][1] + pieces[-1][2]
-            ):
-                pieces[-1][2] += n
-            else:
-                pieces.append([stream, off, n, font])
         self.verses.append((self.key, pieces, text))
         self.current = []
 
@@ -215,6 +238,11 @@ class Extractor:
     def add(self, chars, y, drop=False):
         if not chars:
             return
+        for _, heading in self.pending_headings:
+            pieces, text = self.encoded(heading)
+            assert self.key is not None and text
+            self.headings.append((self.key, pieces, text))
+        self.pending_headings.clear()
         if self.pending_dot:
             while chars and chars[0][4] in ". ":
                 chars.pop(0)
@@ -324,6 +352,8 @@ class Extractor:
                 ).stm_crypt.alg.key
                 self.streams.append((half, offset, length, len(decoded), key))
             maps = {}
+            wide_maps = {}
+            wide_encodings = {}
             names = {}
             for name, f in page["/Resources"]["/Font"].items():
                 f = f.get_object()
@@ -348,6 +378,8 @@ class Extractor:
                 if mapping not in self.fonts:
                     self.fonts.append(mapping)
                 maps[name] = self.fonts.index(mapping)
+                if enc == "utf-16-be":
+                    wide_maps[name] = cmap
             font = None
             size = 1
             tm = [1, 0, 0, 1, 0, 0]
@@ -408,8 +440,22 @@ class Extractor:
                 for part, ((sid, start), b) in enumerate(refs):
                     if part in numeric_gaps:
                         chars.append((0, 0, 1, 255, " "))
-                    for j, c in enumerate(b):
-                        chars.append((sid, start + j, 1, fid, mapping[c]))
+                    if font in wide_maps:
+                        assert len(b) % 2 == 0
+                        for j in range(0, len(b), 2):
+                            # A CID's high byte selects a generic map; copy its low byte.
+                            high, low = b[j:j + 2]
+                            if (font, high) not in wide_encodings:
+                                cmap = wide_maps[font]
+                                wide = [cmap.get(chr(high * 256 + c), chr(high * 256 + c)).replace("\u00ad", "-").replace("\u00a0", " ") for c in range(256)]
+                                if wide not in self.fonts:
+                                    self.fonts.append(wide)
+                                wide_encodings[font, high] = self.fonts.index(wide)
+                            wid = wide_encodings[font, high]
+                            chars.append((sid, start + j + 1, 1, wid, self.fonts[wid][low]))
+                    else:
+                        for j, c in enumerate(b):
+                            chars.append((sid, start + j, 1, fid, mapping[c]))
                 text = "".join(x[4] for x in chars)
                 x = tm[4] + advance * tm[0]
                 f = page["/Resources"]["/Font"][font].get_object()
@@ -437,6 +483,29 @@ class Extractor:
                     ) or value.__class__.__name__ in ("FloatObject", "NumberObject"):
                         advance -= float(value) / 1000 * size
                 end_x = tm[4] + advance * tm[0]
+                adjacent_punctuation = (
+                    text.strip() and all(c in ",.;:!?" for c in text.strip())
+                    and self.body_y is not None and abs(y - self.body_y) < 2
+                    and self.body_end is not None and abs(x - self.body_end) < 2
+                )
+                heading = ("TimesNewRomanPS-ItalicMT" in name and 8.8 <= fs < 9.8) or (
+                    "TimesNewRomanPSMT" in name and 8.8 <= fs < 9.8
+                    and self.key and self.key[2] == 1 and not self.current and not self.gt_line
+                    and (any(c.isalpha() for c in text) or self.pending_headings)
+                    and not text.strip().isdigit()
+                ) or (
+                    "Sabon" in name and 8.8 <= fs < 9.8 and not adjacent_punctuation
+                    and (any(c.isalpha() for c in text) or self.pending_headings)
+                    and not text.strip().isdigit()
+                ) or ("Italic-SC" in name and self.pending_headings and 7 <= fs < 8.8)
+                # Leviticus 11's printed summary alone uses the full-sized body italic.
+                heading = heading or (bi == 2 and chapter == 11 and self.key == (2, 11, 1)
+                    and not self.current and not self.gt_line and "SabonLTStd-Italic" in name and fs == 10.5)
+                if heading and chapter and y < 555:
+                    if half == 0:
+                        self.flush_gt()
+                    self.add_heading(chars, y, x, end_x, section=BOOKS[bi] == "Ps" and chapter == 119 and fs == 9 and "Sabon" in name)
+                    continue
                 if (
                     half == 0
                     and "BoldMT" in name
@@ -536,6 +605,7 @@ class Extractor:
                 self.flush_gt()
             assert token == len(tokens), (pno, token, len(tokens))
         self.flush()
+        assert not self.pending_headings, "Heading has no following verse"
         self.key = None
 
 
@@ -585,13 +655,21 @@ def main():
     (args.diagnostics / "unclassified.json").write_text(
         json.dumps(ex.diagnostics, ensure_ascii=False, indent=1)
     )
+    verse_keys = {key for key, _, _ in ex.verses}
+    assert all(key in verse_keys for key, _, _ in ex.headings)
+    assert len(ex.headings) == 1184 and len({key[:2] for key, _, _ in ex.headings}) == 1162
+    psalm_sections = [key[2] for key, _, _ in ex.headings if key[:2] == (18, 119)]
+    assert psalm_sections == [1] + list(range(1, 170, 8)), "Psalm 119 heading anchors changed"
+    assert all(not any(ord(c) < 32 for c in text) for _, _, text in ex.headings)
+    (args.diagnostics / "headings.json").write_text(json.dumps(
+        [(BOOKS[b], c, v, text) for (b, c, v), _, text in ex.headings], ensure_ascii=False, indent=1))
     # Reject duplicate coordinates before encoding the recipe.
     expected = {}
     for (b, c, v), pieces, text in ex.verses:
         if (b, c, v) in expected:
             raise ValueError(("Duplicate verse", BOOKS[b], c, v))
         expected[b, c, v] = text
-    data = bytearray(b"SRB1")
+    data = bytearray(b"SRB2")
     data += struct.pack("<H", len(ex.fonts))
     for mapping in ex.fonts:
         for text in mapping:
@@ -622,6 +700,12 @@ def main():
         )
         for c, v, suffix in (f0, f1, t0, t1):
             data += struct.pack("<HH", c, v) + string(suffix)
+    data += struct.pack("<I", len(ex.headings))
+    for (book, ch, v), pieces, _ in ex.headings:
+        data += struct.pack("<BBBH", book, ch, v, len(pieces))
+        for stream, offset, n, font in pieces:
+            data += struct.pack("<HIHB", stream, offset, n, font)
+    data += hashlib.sha256("".join(text + "\n" for _, _, text in ex.headings).encode()).hexdigest().encode()
     data += (
         hashlib.sha256("".join(text + "\n" for _, _, text in ex.verses).encode())
         .hexdigest()

@@ -564,7 +564,10 @@ void draw_paragraph(wxDC& dc, const TextLayout& layout, int x, int y,
             for (const auto& run : line.runs) {
                 const auto chosen = colour ? colour(run) : std::nullopt;
                 const auto text_colour = chosen ? *chosen : ink;
-                const auto parts = shaped_parts(run.marker ? marker_font(base) : base, run.text);
+                const auto parts = shaped_parts(run.heading  ? base.Italic()
+                                                : run.marker ? marker_font(base)
+                                                             : base,
+                                                run.text);
                 double part_x = x + run.x;
                 for (std::size_t i = 0; i < parts.size(); ++i) {
                     // Smaller capitals sit on the base font's baseline.
@@ -634,7 +637,10 @@ void draw_paragraph(wxGraphicsContext& gc, const TextLayout& layout, const wxFon
         for (const auto& run : layout.lines[line].runs) {
             const auto chosen = colour ? colour(run) : std::nullopt;
             const auto text_colour = chosen ? *chosen : ink;
-            const auto parts = shaped_parts(run.marker ? marker_font(base) : base, run.text);
+            const auto parts = shaped_parts(run.heading  ? base.Italic()
+                                            : run.marker ? marker_font(base)
+                                                         : base,
+                                            run.text);
             double part_x = x + run.x;
             for (std::size_t i = 0; i < parts.size(); ++i) {
                 // The layout places whole runs; measure a part only to place the next one.

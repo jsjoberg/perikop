@@ -2,6 +2,7 @@
 #include "storage/database.hpp"
 #include "ui/controls.hpp"
 #include "ui/main_frame.hpp"
+#include "ui/scripture_view.hpp"
 #include <algorithm>
 #include <wx/filedlg.h>
 #include <wx/hyperlink.h>
@@ -26,14 +27,13 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     page->SetFont(ui_font());
     entries->Add(page, 0, wxBOTTOM, FromDIP(zoomed(8)));
     paragraph("Hämta där SRB Hela GT och SRB NT med UN noter och importera dem sedan här. "
-              "Fotnoter, korshänvisningar och kapitelrubriker importeras inte.");
+              "Avsnittsrubriker visas separat från verserna. Fotnoter och korshänvisningar importeras inte.");
     auto* button = ui::button(content, ui::utf8("Importera båda PDF-filerna…"), [this] {
         CallAfter([this] {
             import_content();
         });
     });
     button->SetToolTip(ui::utf8("Välj först Gamla och sedan Nya testamentets PDF från bibel.se"));
-    button->Enable(!corpus_.has_imported());
     entries->Add(button, 0, wxBOTTOM, FromDIP(zoomed(8)));
     auto* remove = ui::button(content, ui::utf8("Ta bort importerad text…"), [this] {
         CallAfter([this] {
@@ -44,7 +44,8 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     entries->Add(remove, 0, wxBOTTOM, FromDIP(zoomed(8)));
     paragraph(corpus_.has_imported()
                   ? "Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och textkällor "
-                    "och välj dess prioritet. Du kan ta bort texten och importera den igen senare."
+                    "och välj dess prioritet. Importera PDF-filerna igen för att lägga till rubriker "
+                    "i en äldre import."
                   : "Reformationsbibeln 2026 är inte importerad.");
     entries->AddSpacer(FromDIP(zoomed(22)));
 }
@@ -72,11 +73,14 @@ void MainFrame::import_content() {
                     }
                 });
         }
+        stop_speech(false);
         corpus_.load_imported(data_ / "content/srb2026.db");
         for (auto* preferences : {&settings_.primary_sources, &settings_.secondary_sources})
             if (std::ranges::find(*preferences, srb_source, &SourcePreference::source) == preferences->end())
                 preferences->push_back({srb_source, false});
         apply_settings();
+        // A replacement keeps the edition list but changes its cached text and headings.
+        scripture_->apply(settings_, true);
         if (navigation_.current().screen == Screen::Settings)
             fill_settings(static_cast<wxScrolledWindow*>(current_page()));
         wxMessageBox(ui::utf8("Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och "

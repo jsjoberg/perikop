@@ -63,21 +63,22 @@ The Gospel pass repaired four missing spaces across the shared extractor:
 24:3. This is why Exodus appeared in the Gospel report; those two passages were
 checked individually before this complete Old Testament comparison.
 
-The complete comparison corrects **54 additional verse records**:
+The complete comparison and subsequent heading review correct **55 additional verse records**:
 
 | Defect | Verses | References |
 | --- | ---: | --- |
-| Chapter/section furniture mixed into Scripture | 44 | 1 Samuel 22:1; 2 Samuel 12:1, 13:1, 14:1; 1 Chronicles 1:1, 2:1, 4:1, 13:1, 22:1, 25:1; Psalm 28:1; Psalm 119:1 and 8, 16, …, 168; Proverbs 2–10, 30 and 31 (verse 1) |
+| Chapter/section headings mixed into Scripture | 45 | Leviticus 11:1; 1 Samuel 22:1; 2 Samuel 12:1, 13:1, 14:1; 1 Chronicles 1:1, 2:1, 4:1, 13:1, 22:1, 25:1; Psalm 28:1; Psalm 119:1 and 8, 16, …, 168; Proverbs 2–10, 30 and 31 (verse 1) |
 | Standalone dashes mistaken for word hyphenation | 5 | Joshua 18:28, 19:7, 21:29, 21:32; Isaiah 7:20 |
 | Cross-reference punctuation appended to Scripture | 2 | Genesis 37:28; Numbers 33:9 |
 | Spaces splitting a word | 2 | Jeremiah 29:17; Revelation 16:21 |
 | Missing thousands separator | 1 | Revelation 11:3 |
 
-All affected printed passages were rendered and inspected. The 44 furniture
+All affected printed passages were rendered and inspected. The 45 heading
 records include incomplete chapter-summary fragments and the 22 Hebrew alphabet
 section labels in Psalm 119. The latter had mostly been appended to the *preceding*
 verse. They are unnumbered headings; numbered Psalm superscriptions remain
-Scripture and are retained.
+Scripture and are retained. Headings are now preserved as separate display
+metadata, rather than discarded (see below).
 
 The root causes and repairs are:
 
@@ -99,10 +100,36 @@ The root causes and repairs are:
   exception joins this word; it is not a missing parenthetical dash. All body
   line endings with a space before a hyphen were inspected for this distinction.
 
-Relative to the original import, the total repair covers **60 verse records**:
-these 54, the four spaces from the Gospel pass, and the two previously restored
+Relative to the original import, the total repair covers **61 verse records**:
+these 55, the four spaces from the Gospel pass, and the two previously restored
 initial Js. No book/chapter/verse coordinates change, and no Scripture words are
-added or removed. The removed words are chapter/section furniture.
+added or removed. The removed words are chapter/section headings.
+
+### Preserved section headings
+
+The SRB2 recipe also extracts **1,184 headings across 1,162 chapters**. Chapter
+summaries and Psalm 119's 22 Hebrew alphabet labels are stored in a separate
+`imported_heading` table, anchored before the following verse. The reader renders
+them in centered italics within the selected edition's column. They do not become
+verse text, selection targets, word-study words, clipboard text or spoken text.
+Numbered Psalm superscriptions retain their existing Scripture status.
+
+The labels in Psalm 119 introduce verses 1, 9, 17, …, 169; they are no longer
+attached to the preceding verse. The chapter summary and first alphabet label
+both precede verse 1. The same support preserves summaries throughout both
+testaments, including those shown in the user's photos of Psalms 120–125.
+
+Heading extraction handles mixed Times/Sabon fonts and two-byte CID glyphs.
+A separate Poppler heading extraction found the same 1,184 records, with all
+heading text matching after ignoring whitespace and case. This follow-up found
+one additional summary in Leviticus 11:1 that both earlier verse extractors had
+accepted because it uses the full-sized body italic. It is now a heading; every
+other audited verse remains unchanged. The independent verse comparison retains
+the same 90 previously reviewed residual differences.
+
+Only glyph maps, PDF byte spans, anchors and verification hashes are distributed.
+Heading text stays in the user's imported database. Existing databases without
+the heading table remain readable; importing the PDFs again adds the headings.
 
 ### Remaining differences and scope
 
@@ -133,12 +160,13 @@ translation or a collation against another complete edition.
 ### Compatibility and validation
 
 The final aggregate text SHA-256 is
-`b49864c521ff402b4a467f6f1dbd87523b1d12f29c2891d16f80e4f9d4f4c72c`.
-Read-time recovery supports exactly these three older import checksums:
+`00265ca6f9c2c5c86a570c50ff091475eaaa643dbac51d9797767ecad08df5e2`.
+Read-time recovery supports exactly these four older import checksums:
 
 - `06e9957d4b860bfdfc9e70b24df6f23c2332f19314e45c9d0cd88ae5035fc625`
 - `8c5d5d59ee520d2afd8444e82ed55f4bbb787c65a6404ece6f36e640262da65c`
 - `74c69d2a991658418cdb0ba9050cd76e19624a36ca55321a7b3f58e03180ceec`
+- `b49864c521ff402b4a467f6f1dbd87523b1d12f29c2891d16f80e4f9d4f4c72c`
 
 The generated compatibility table contains only coordinates, byte offsets,
 deletion lengths and generic space/dash/J insertions. It contains no Bible or
@@ -147,13 +175,17 @@ the current text exactly. Existing user databases are not rewritten, and the PDF
 are not needed again for these repairs. Unknown checksums receive no edits.
 
 Real-PDF integration checks import all 31,171 verses, pin representative corrected
-verses and smaller-font Scripture, and exercise all three older repair paths.
+verses and smaller-font Scripture, and exercise all four older repair paths.
 Synthetic old byte ranges use placeholder bytes for removed furniture. For each
 path, all 31,171 runtime verses must equal the current import and the database file
 must remain unchanged. An unknown-checksum case must retain its original data.
 The independent checker also has offline regression tests for unfamiliar fonts,
 italic words, notes, punctuation gaps, orphan periods, hyphenation, smaller body
 text, Psalm superscriptions, skipped verse numbers and UTF-8 byte repairs.
+The real import tests also verify all 22 alphabet heading anchors, chapter
+summaries in Genesis and the Gospels, and preservation through parallel verse
+mapping. Native UI smoke tests cover headings inside a paragraph and at a chapter
+opening, including their exclusion from copying and speech.
 
 ### Reproduce the complete comparison
 

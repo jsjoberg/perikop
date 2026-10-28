@@ -97,6 +97,7 @@ private:
         std::vector<VerseRef> coordinates;
         std::vector<int> last_verses;
         std::vector<std::string> texts;
+        std::map<VerseRef, std::vector<std::string>> headings;
         std::map<VerseRef, std::size_t> order;
     };
     const BookText& book_text(const std::string& source, const std::string& book) const;
