@@ -3556,6 +3556,26 @@
         }
       ],
       "notes": "Hela 8:1–32 jämförd mot EFS 1927 GT s. 86–88 och EFS 1926 GT s. 77–78 (Internet Archive bibelnellerdenhe0000unse, n88–n89; båda sidorna lästa mot bild). E057–E067 införda endast där båda trycken är överens mot e-texten: komma borttaget i 8:3 (säng och in, folk och i) och 8:9 (jag genom, folk skall), komma tillagt i 8:9 (tid, inom), 8:10, 8:13, 8:15, 8:21 (marken, på), 8:22, 8:26 och 8:31, slutcitat tillagt i 8:9 och 8:28, 8:20 Så säger och gudstjänst, 8:21 se för de, 8:31 hade för sade. Behållna läsningar där bara ett tryck avviker: 8:5 (1927 sjöarna,), 8:12 (1927 paddorna,), 8:20 (1927 saknar komma efter folk), 8:26 (1927 sådant,), 8:28 (1927 allt för), 8:29 (1926 har slutcitat, 1927 och e-texten saknar det). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "2934365c8394e61b01cbcde21adeb8451893009c09ff1fd6379fb453333d739a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0088.1.tif",
+          "sha256": "132b50c71984c9727d743326295d4a08b4500422147c535766f14d7ffc2ee07f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0089.1.tif",
+          "sha256": "4f54897c757c1142b8f0536fab7132fac770a3a216c0905b96e4e35ea76aaa61"
+        }
+      ],
+      "notes": "Hela 9:1–35 jämförd mot EFS 1927 GT s. 88–89 och EFS 1926 GT s. 79–80 (Internet Archive bibelnellerdenhe0000unse, n90–n91; båda sidorna lästa mot bild). E068–E077 införda endast där båda trycken är överens mot e-texten: komma tillagt i 9:14, 9:19, 9:27, 9:29, 9:30, 9:31 och 9:34, slutpunkt tillagd i 9:7, semikolon för komma i 9:23 och hand för land i 9:15. Behållna läsningar där bara ett tryck avviker: 9:2 (1927 saknar komma efter dem), 9:4, 9:9–9:10, 9:19–9:21 och 9:25 (kommatecken som bara 1927 har), 9:15 (1927 har, e-text och 1926 hade), 9:18 (1926 sådant,), 9:27 (1927 rättfärdig,) och 9:28 (1927 hava). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
