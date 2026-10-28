@@ -180,6 +180,13 @@ REPLACE={
  ('Exod',18,14):('ensam under det att','ensam, under det att'),
  ('Exod',18,21):('dugande män som frukta Gud, pålitliga män som hata','dugande män, som frukta Gud, pålitliga män, som hata'),
  ('Exod',18,25):('föreståndare somliga','föreståndare, somliga'),
+ # Exodus 19 (EFS 1927 GT s. 103-104 and EFS 1926 GT s. 93-94): E145-E150, readings both prints agree on.
+ ('Exod',19,1):('På den dag då den tredje månaden ingick efter Israels barns uttåg ur Egyptens land kommo','På den dag, då den tredje månaden ingick efter Israels barns uttåg ur Egyptens land, kommo'),
+ ('Exod',19,4):('själva sett vad jag','själva sett, vad jag'),
+ ('Exod',19,6):('Detta är vad du','Detta är, vad du'),
+ ('Exod',19,10):('Gå till folket, och helga dem i dag och i morgon, och I åt dem','Gå till folket och helga dem i dag och i morgon, och låt dem'),
+ ('Exod',19,23):('och sagt att jag','och sagt, att jag'),
+ ('Exod',19,24):('Gå ditned, och kom sedan åter upp och hav Aron med dig. Men prästerna och folket må icke tränga sig fram för att stiga upp till HERREN på det att','Gå ditned och kom sedan åter upp och hav Aron med dig. Men prästerna och folket må icke tränga sig fram för att stiga upp till HERREN, på det att'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
