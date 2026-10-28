@@ -3944,6 +3944,26 @@
         }
       ],
       "notes": "Hela 26:1–37 jämförd mot EFS 1927 GT s. 113–115 och EFS 1926 GT s. 102–104 (Internet Archive bibelnellerdenhe0000unse, n113–n115; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *våd* för *vad* i 26:8, *sätta* för *satta* i 26:10, *hakar* för *bakar* i 26:32, komma tillagt i 26:12 (två ställen), komma borttaget i 26:9, 26:31, 26:33 och 26:35. Behållna läsningar där bara ett tryck avviker: 26:18–26:20 (*tjugo* i 1927, *tjugu* i e-texten och 1926), 26:24 (*nedtill och* i 1927), 26:35 (*bordet,* i 1927) och 26:1 (OCR-skillnader som inte är läsningar). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 27,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "1ab5469d1df1cdba790392fa1c186f7be15baed4ab644f475ade57a75c3081a7",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0115.1.tif",
+          "sha256": "ecc33b5d6f47f355a60656bc2ce45d9a9c389f3946232015fe37995b39ce0315"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0116.1.tif",
+          "sha256": "485a064ae5ad2539fcda4d762f72ae9082096793a35e6bd3127c284b2c9cd8b2"
+        }
+      ],
+      "notes": "Hela 27:1–21 jämförd mot EFS 1927 GT s. 115–116 och EFS 1926 GT s. 104–105 (Internet Archive bibelnellerdenhe0000unse, n115–n116; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* och gemen *som* i 27:2, *hornen* för *hörnen* i 27:2, gemen *och* i 27:10, komma tillagt i 27:12, 27:15 och 27:16, *framsidan* i ett ord och punkt i 27:13 samt *förgården* i ett ord i 27:17. Behållna läsningar där bara ett tryck avviker: 27:3 (*dessa* i 1927, *dess* i e-texten och 1926), 27:10–27:11 och 27:16 (*tjugo* i 1927, *tjugu* i e-texten och 1926) samt 27:21 (*förlåt,* i 1927); de långa tankstrecken i 27:1 och 27:9 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

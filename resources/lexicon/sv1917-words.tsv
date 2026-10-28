@@ -1,18 +1,18 @@
 # form	occurrences	kind	nst_sampa
-och	39658	word	"Ok
+och	39659	word	"Ok
 i	15973	word	
 till	15695	word	"tIl
-som	14020	word	
+som	14021	word	
 att	12743	word	"at
 han	12032	word	"han
 de	11738	word	
 det	8676	word	
 en	8482	word	"En
-Och	8352	word	"Ok
+Och	8351	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
 icke	8179	word	""I$ke
-för	8153	word	"f2:r
+för	8152	word	"f2:r
 jag	8126	word	"jA:g
 den	7757	word	
 med	7576	word	"me:d
@@ -90,7 +90,7 @@ göra	1460	word	""j2:$ra
 komma	1437	word	""kO$ma
 Jag	1418	word	"jA:g
 må	1417	word	"mo:
-fram	1403	word	"fram
+fram	1402	word	"fram
 vill	1400	word	"vIl
 utan	1382	word	""}:$tan
 någon	1374	word	
@@ -310,10 +310,10 @@ mun	319	word	"mu0n
 Jakob	317	name	""jA:$kOp
 Saul	315	name	"sa*Ul
 ära	308	word	""E:$ra
-sidan	305	word	""si:$dan
 sätt	305	word	"sEt
 vände	305	word	""vEn$de
 makt	304	word	"makt
+sidan	304	word	""si:$dan
 födde	301	word	""f9$de
 själ	301	word	"x\E:l
 leva	300	word	""le:$va
@@ -1083,6 +1083,7 @@ bok	71	word	"bu:k
 förutom	71	word	f9r$""}:$tOm
 grav	71	word	"grA:v
 gränsen	71	word	"grEn$sen
+horn	71	word	"hu:n`
 ljuset	71	word	"j}:$set
 sanningen	71	word	""sa$nIN$en
 sätter	71	word	"sE$ter
@@ -1093,7 +1094,6 @@ Efter	70	word
 Seba	70	name	
 beder	70	word	"be:$der
 begått	70	word	be$"gOt
-horn	70	word	"hu:n`
 låten	70	word	"lo:$ten
 muren	70	word	"m}:$ren
 norr	70	word	"nOr
@@ -1194,6 +1194,7 @@ Abimelek	63	name
 bevisa	63	word	be$"vi:$sa
 bäcken	63	word	"bE$ken
 fångar	63	word	""fON$ar
+förgården	63	word	""f2:r$%go:$d`en
 menighet	63	word	""me:$nIg$%he:t
 mycken	63	word	""mY$ken
 styggelser	63	word	""stY$gel$ser
@@ -1206,7 +1207,6 @@ bergsbygd	62	word
 dödade	62	word	""d2:$da$de
 dör	62	word	"d2:r
 funno	62	word	""fu0$nU
-förgården	62	word	""f2:r$%go:$d`en
 glada	62	word	""glA:$da
 gräns	62	word	"grEns
 nådig	62	word	""no:$dIg
@@ -1961,7 +1961,6 @@ godhet	35	word	""gu:d$%he:t
 grepo	35	word	
 gärd	35	word	"jE:d`
 halv	35	word	"halv
-hörn	35	word	"h2:n`
 ihjäl	35	word	I$"jE:l
 kaldéerna	35	word	kal$"de:$e$n`a
 klädnad	35	word	""klE:d$nad
@@ -2010,6 +2009,7 @@ förtröstar	34	word	f9$"t`r9$star
 föröka	34	word	f9r$"2:$ka
 grät	34	word	"grE:t
 hållas	34	word	""hO$las
+hörn	34	word	"h2:n`
 intaga	34	word	""In$%tA:$ga
 kalk	34	word	"kalk
 kameler	34	word	ka$"me:$ler
@@ -3419,6 +3419,7 @@ harpa	18	word	""har$pa
 hetiten	18	word	
 hitupp	18	word	
 hoppet	18	word	"hO$pet
+hornen	18	word	"hu:$n`en
 hugnad	18	word	""h}:$gnad
 hundarna	18	word	""hu0n$da$n`a
 hämnas	18	word	""hEm$nas
@@ -3561,7 +3562,6 @@ gensträvigt	17	word	""je:n$%strE:$vIkt
 griper	17	word	"gri:$per
 gräset	17	word	"grE:$set
 hankön	17	word	""hA:n$%s'2:n
-hornen	17	word	"hu:$n`en
 håg	17	word	"ho:g
 insegel	17	word	""In$%se:$gel
 kalvar	17	word	""kal$var
@@ -3938,7 +3938,6 @@ glänsande	15	word	""glEn$san$de
 gode	15	word	""gu:$de
 grävde	15	word	""grE:v$de
 gudars	15	word	""g}:$das`
-gården	15	word	"go:$d`en
 hastigt	15	word	""ha$stIkt
 havsländerna	15	word	
 helgad	15	word	
@@ -4163,6 +4162,7 @@ gemensamt	14	word	je$"me:n$samt
 gossebarn	14	word	""gO$se$%bA:n`
 greker	14	word	"gre:$ker
 gripen	14	word	""gri:$pen
+gården	14	word	"go:$d`en
 gömmer	14	word	"j9$mer
 handlar	14	word	""hand$lar
 harm	14	word	"harm
@@ -4696,7 +4696,6 @@ högheliga	12	word
 högste	12	word	""h9k$ste
 höljda	12	word	
 hörden	12	word	
-hörnen	12	word	"h2:$n`en
 insatt	12	word	""In$%sat
 instrumenter	12	word	
 insåg	12	word	""In$%so:g
@@ -4992,6 +4991,7 @@ häri	11	word	"hE:r$i:
 härska	11	word	""hE$s`ka
 hård	11	word	"ho:d`
 högst	11	word	
+hörnen	11	word	"h2:$n`en
 hörnsten	11	word	""h2:n`$%s`t`e:n
 iklätt	11	word	""i:$%klEt
 invigning	11	word	""In$%vi:$gnIN
@@ -5273,6 +5273,7 @@ fjärdedels	10	word	""fjE:$d`e$%de:ls
 fortsatte	10	word	""fu:t`$%s`a$te
 fots	10	word	"fu:ts
 frambäras	10	word	""fram$%bE:$ras
+framsidan	10	word	""fram$%si:$dan
 fruktsam	10	word	""fru0kt$%sam
 fullhet	10	word	""fu0l$%he:t
 funnes	10	word	
@@ -5701,7 +5702,6 @@ foder	9	word	"fu:$der
 fogdar	9	word	""fUg$dar
 forntidens	9	word	""fu:n`$%t`i:$dens
 framdeles	9	word	""fram$%de:$les
-framsidan	9	word	""fram$%si:$dan
 fresta	9	word	""frE$sta
 frestelse	9	word	""frE$stel$se
 from	9	word	"frUm
@@ -9471,7 +9471,6 @@ Slätten	4	word	"slE$ten
 Soans	4	name	
 Sobab	4	name	
 Sofar	4	name	
-Som	4	word	
 Sorobabel	4	name	
 Stundom	4	word	""stu0n$dOm
 Ställen	4	word	"stE$len
@@ -11058,6 +11057,7 @@ Sköna	3	word	""x\2:$na
 Släkte	3	word	""slEk$te
 Soan	3	name	
 Sobals	3	name	
+Som	3	word	
 Spanien	3	name	"spa$nI$en
 Sparta	3	name	""spa$t`a
 Stefanas	3	name	
