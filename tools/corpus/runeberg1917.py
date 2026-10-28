@@ -169,6 +169,11 @@ REPLACE={
  ('Exod',16,32):('det bröd som jag gav','det bröd, som jag gav'),
  ('Exod',16,33):('en gomer manna, och ställ','en gomer manna och ställ'),
  ('Exod',16,34):('Då gjorde man såsom','Då gjorde man, såsom'),
+ # Exodus 17 (EFS 1927 GT s. 101-101 and EFS 1926 GT s. 91-91): E136-E139, readings both prints agree on.
+ ('Exod',17,5):('folket, och tag med dig några av de äldste i Israel. Och tag i din hand staven med vilken','folket och tag med dig några av de äldste i Israel. Och tag i din hand staven, med vilken'),
+ ('Exod',17,9):('åt oss, och drag så åstad till strid mot Amalek. I morgon skall jag ställa mig överst på höjden, med Guds','åt oss och drag så åstad till strid mot Amalek. I morgon skall jag ställa mig överst på höjden med Guds'),
+ ('Exod',17,10):('Josua gjorde såsom','Josua gjorde, såsom'),
+ ('Exod',17,16):('betygar att HERREN','betygar, att HERREN'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
