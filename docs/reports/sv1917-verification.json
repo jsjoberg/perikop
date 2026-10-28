@@ -4144,6 +4144,26 @@
         }
       ],
       "notes": "Hela 35:1–35 jämförd mot EFS 1927 GT s. 128–129 och EFS 1926 GT s. 116–117 (Internet Archive bibelnellerdenhe0000unse, n127–n128; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: kolon borttaget och slutcitat tillagt i 35:3, *gärd* i 35:5, komma tillagt i 35:12, 35:26 (två ställen) och 35:29, komma borttaget i 35:27, *Och* i 35:30, *snida* för *smida* och kolon borttaget i 35:33. Behållna läsningar där bara ett tryck avviker: 35:2, 35:5, 35:10, 35:21–35:24 och 35:29 (*en,* och liknande kommatecken som bara 1927 har), 35:25 och 35:35 (*korteligen,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 36,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "95810e5508d546aa1d20bf64b5f7ddd3e68c444d9d4000f0a2057013c4df59c3",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0130.1.tif",
+          "sha256": "b4b2d4431008bb30247548365a2513c9ec46b2aa65a781bcc4751669dd688801"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0131.1.tif",
+          "sha256": "efa7ab864337564471dbf94218882f000489d19c8f02813410da93fa884f034f"
+        }
+      ],
+      "notes": "Hela 36:1–38 jämförd mot EFS 1927 GT s. 130–131 och EFS 1926 GT s. 118–119 (Internet Archive bibelnellerdenhe0000unse, n129–n130; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 36:1, 36:3, 36:4, 36:5 och 36:6, *giva* för *göra* i 36:6, *ock* för *och* i 36:14, semikolon för komma i 36:15 och komma borttaget i 36:16 och 36:19. Behållna läsningar där bara ett tryck avviker: 36:4 (*arbete,* i 1927), 36:8 (*på, i* i 1926), 36:11–36:12 och 36:31–36:32 (*bräder,* och liknande kommatecken som bara 1927 har), 36:18 (*hektor* i 1927), 36:23 (*takernaklets* i 1927, tryckfel), 36:24–36:25 (*tjugo* i 1927), 36:29 (*nedtill,* i 1926) och 36:29 (*upp till* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
