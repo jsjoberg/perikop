@@ -5,8 +5,6 @@
 
 namespace ortho {
 inline constexpr const char* srb_source = "sv-srb2026";
-// Bump when extraction or mapping semantics change, independently of app or recipe format versions.
-inline constexpr int srb_import_revision = 1;
 // The two publisher files are required together. Nothing is downloaded by this API.
 // Validation and extraction finish before a transaction replaces local content.
 struct ContentImportResult {

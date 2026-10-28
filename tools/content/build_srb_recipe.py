@@ -537,14 +537,7 @@ class Extractor:
                         number_pending += text
                         continue
                     # Smaller Sabon is chapter/section furniture; retain only adjacent body punctuation.
-                    if fs < 9.8 and not (
-                        text.strip()
-                        and all(c in ",.;:!?" for c in text.strip())
-                        and self.body_y is not None
-                        and abs(y - self.body_y) < 2
-                        and self.body_end is not None
-                        and abs(x - self.body_end) < 2
-                    ):
+                    if fs < 9.8 and not adjacent_punctuation:
                         continue
                     if text.strip() and all(c in ",.;:!?-" for c in text.strip()) and not (
                         (self.body_y is not None and abs(y - self.body_y) < 3

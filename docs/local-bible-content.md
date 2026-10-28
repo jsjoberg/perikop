@@ -67,15 +67,9 @@ previous installation if it fails. No heading text is shipped with the applicati
 the updated text-free recipe extracts it from the user's pinned PDFs and verifies
 its own aggregate checksum before installation.
 
-Settings says whether the installed text is up to date or a better import is
-available, with an invitation to reimport when convenient. This compares a
-separate integer counter stored in
-`content_metadata` under the `importer_revision` key at import time. Imports
-without this value are version 0. The number is informational: it does not select
-different reading paths or trigger upgrades. Reimporting replaces the data and
-records the current number. Bump `srb_import_revision` in
-`src/storage/content_import.hpp` when extraction or mapping semantics change;
-it is independent of the application version and binary recipe format.
+The import button stays enabled after installation, so the same PDFs can be
+imported again at any time. No importer version is stored; an improved recipe
+is applied only by reimporting.
 
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers

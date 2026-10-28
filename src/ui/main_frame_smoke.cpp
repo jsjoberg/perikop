@@ -1710,13 +1710,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);
             auto* link =
                 wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
-            auto* reimport_notice = wxWindow::FindWindowByName("Importstatus", page);
             if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
                 !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
-                !import_button->IsEnabled() || remove_button->IsEnabled() != installed ||
-                bool(reimport_notice) != installed ||
-                (reimport_notice &&
-                 !reimport_notice->GetLabel().StartsWith(ui::utf8("En förbättrad import"))))
+                !import_button->IsEnabled() || remove_button->IsEnabled() != installed)
                 fail(__LINE__);
         };
         check_import_controls(true);
@@ -1758,25 +1754,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         // Reinstalling clears the empty lookups cached after removal.
         std::filesystem::copy_file(backup, imported);
-        {
-            auto db = storage::open(imported, SQLITE_OPEN_READWRITE);
-            storage::Statement revision(db.get(),
-                                        "INSERT INTO content_metadata VALUES('importer_revision',?)");
-            revision.number(1, srb_import_revision);
-            revision.row();
-        }
         corpus.load_imported(imported);
         const auto reimported = corpus.verse(srb_source, "John", {1, 50});
         if (!corpus.has_imported() || !reimported || reimported->text != "SRB test John 1:50" ||
             !before_import.empty() || !removed_coordinates.empty() ||
             installed_coordinates != saved_coordinates)
             fail(__LINE__);
-        candidate->show_settings();
-        auto* import_status = wxWindow::FindWindowByName("Importstatus", candidate->current_page());
-        if (!import_status ||
-            !import_status->GetLabel().StartsWith(ui::utf8("Din importerade text är uppdaterad.")))
-            fail(__LINE__);
-        settings_snapshot(candidate.get(), "-import-versioned");
         candidate->Hide();
     }
     // The text size steps like Chrome's zoom, reaches every page, and returns to its default.

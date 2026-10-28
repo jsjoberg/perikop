@@ -51,7 +51,6 @@ int main(int argc, char** argv) {
             const auto gt = directory / "SRBhelaGT.pdf", nt = directory / "SRBNT-UNnoter.pdf";
             const auto original = hash_file(corpus_file);
             ortho::CorpusDb corpus(corpus_file);
-            check(corpus.import_revision() == 0, "Missing import should report revision zero");
             check(corpus.coordinates(ortho::srb_source, "John").empty(), "SRB is bundled before import");
             int last_progress = -1;
             const auto result = ortho::import_reformationsbibeln(gt, nt, recipe, destination, [&](int value) {
@@ -60,8 +59,6 @@ int main(int argc, char** argv) {
             });
             check(result.books == 66 && result.verses == 31171 && last_progress == 100, "Incomplete import");
             corpus.load_imported(destination);
-            check(corpus.import_revision() == ortho::srb_import_revision,
-                  "Import did not record the current importer revision");
             {
                 auto db = ortho::storage::open(destination, SQLITE_OPEN_READONLY);
                 ortho::storage::Statement headings(db.get(),
@@ -129,14 +126,12 @@ int main(int argc, char** argv) {
             {
                 auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
                 ortho::storage::exec(db.get(), "DROP TABLE imported_heading;"
-                                               "DELETE FROM content_metadata WHERE key='importer_revision';"
                                                "UPDATE imported_verse SET text='Unchanged local text' WHERE "
                                                "book='Col' AND chapter=2 AND verse=1");
             }
             const auto existing_hash = hash_file(existing);
             ortho::CorpusDb previous(corpus_file);
             previous.load_imported(existing);
-            check(previous.import_revision() == 0, "Unversioned import should report revision zero");
             const auto stored = previous.verse(ortho::srb_source, "Col", {2, 1});
             check(stored && stored->text == "Unchanged local text" &&
                       previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty() &&
@@ -144,8 +139,6 @@ int main(int argc, char** argv) {
                   "Reading an existing import modified its text or database");
             ortho::import_reformationsbibeln(gt, nt, recipe, existing);
             previous.load_imported(existing);
-            check(previous.import_revision() == ortho::srb_import_revision,
-                  "Reimport did not record the current importer revision");
             int checked = 0;
             for (const auto& book : corpus.source_books(ortho::srb_source))
                 for (const auto& ref : corpus.coordinates(ortho::srb_source, book)) {
@@ -207,8 +200,6 @@ int main(int argc, char** argv) {
             check(preserved && preserved->text == john->text, "Failed import lost the existing edition");
             check(reopened.verse(ortho::srb_source, "Ps", {119, 1})->headings == psalm_opening->headings,
                   "Failed import lost the existing headings");
-            check(reopened.import_revision() == ortho::srb_import_revision,
-                  "Failed import lost the existing importer revision");
             {
                 // Without the failing trigger, so that only the swapped files can reject the import.
                 auto db = ortho::storage::open(destination, SQLITE_OPEN_READWRITE);
