@@ -73,8 +73,8 @@ ock	1775	word	"Ok
 Ty	1734	word	"ty:
 HERRENS	1705	name	""hE$rens
 eller	1704	word	"E$ler
-sitt	1609	word	"sIt
 Israels	1608	name	Is$ra$"e:ls
+sitt	1608	word	"sIt
 vara	1605	word	""vA:$ra
 skulle	1585	word	""sku0$le
 hus	1579	word	"h}:s
@@ -1038,6 +1038,7 @@ far	75	word	"fA:r
 gud	75	word	"g}:d
 helige	75	word	""he:$lI$ge
 hjärtat	75	word	""jE$t`at
+horn	75	word	"hu:n`
 järn	75	word	"jE:n`
 mörkret	75	word	"m9r$kret
 omtalade	75	word	""Om$%tA:$la$de
@@ -1047,7 +1048,6 @@ Gån	74	word	"go:n
 blygd	74	word	"blYgd
 gåvor	74	word	""go:$vUr
 helgedom	74	word	""hEl$ge$%dUm
-horn	74	word	"hu:n`
 hände	74	word	""hEn$de
 kallas	74	word	""ka$las
 mans	74	word	"mans
@@ -1379,6 +1379,7 @@ tackoffer	54	word	""tak$%O$fer
 träl	54	word	"trE:l
 vakt	54	word	"vakt
 visar	54	word	""vi:$sar
+vitt	54	word	"vIt
 världens	54	word	"vE:$d`ens
 åminnelse	54	word	""o:$%mI$nel$se
 Abram	53	name	
@@ -1405,7 +1406,6 @@ tjänade	53	word	""s'E:$na$de
 uppe	53	word	""u0$pe
 utvalda	53	word	""}:t$%vA:l$da
 vinden	53	word	"vIn$den
-vitt	53	word	"vIt
 Jehu	52	name	je$"h}:
 Kommen	52	word	
 Maria	52	name	ma$""ri:$a
@@ -2182,7 +2182,6 @@ gläder	31	word	""glE:$der
 gräs	31	word	"grE:s
 hednafolk	31	word	""he:d$na$%fOlk
 hud	31	word	"h}:d
-hörn	31	word	"h2:n`
 jubla	31	word	""j}:$bla
 länd	31	word	"lEnd
 lätt	31	word	"lEt
@@ -2248,6 +2247,7 @@ herdar	30	word	""he:$d`ar
 hindra	30	word	""hIn$dra
 husen	30	word	"h}:$sen
 högmod	30	word	""h2:g$%mu:d
+hörn	30	word	"h2:n`
 ingå	30	word	""IN$%go:
 innersta	30	word	"I$ne$s`t`a
 intogo	30	word	
@@ -3263,6 +3263,7 @@ gällande	19	word	""jE$land$de
 gömt	19	word	"j9mt
 hitned	19	word	
 hjulen	19	word	"j}:$len
+hornen	19	word	"hu:$n`en
 hungersnöden	19	word	""hu0N$es`$%n`2:$den
 hustrus	19	word	""hu0$str}:s
 härskarornas	19	word	""hE:$%s`kA:$rU$n`as
@@ -3418,7 +3419,6 @@ harpa	18	word	""har$pa
 hetiten	18	word	
 hitupp	18	word	
 hoppet	18	word	"hO$pet
-hornen	18	word	"hu:$n`en
 hugnad	18	word	""h}:$gnad
 hundarna	18	word	""hu0n$da$n`a
 hämnas	18	word	""hEm$nas
@@ -4991,7 +4991,6 @@ häri	11	word	"hE:r$i:
 härska	11	word	""hE$s`ka
 hård	11	word	"ho:d`
 högst	11	word	
-hörnen	11	word	"h2:$n`en
 hörnsten	11	word	""h2:n`$%s`t`e:n
 iklätt	11	word	""i:$%klEt
 invigning	11	word	""In$%vi:$gnIN
@@ -5329,6 +5328,7 @@ hängivet	10	word	""hE$%nji:$vet
 härhövitsmannen	10	word	
 hårdnackade	10	word	""ho:d`$%n`a$ka$de
 höllos	10	word	
+hörnen	10	word	"h2:$n`en
 inbjöd	10	word	""In$%bj2:d
 inbyggarna	10	word	""In$%bY$ga$n`a
 ingått	10	word	""IN$%gOt

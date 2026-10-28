@@ -4188,6 +4188,26 @@
         }
       ],
       "notes": "Hela 37:1–29 jämförd mot EFS 1927 GT s. 131–133 och EFS 1926 GT s. 119–120 (Internet Archive bibelnellerdenhe0000unse, n130–n131; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: kolon borttaget i 37:3, komma tillagt i 37:16, slutpunkt tillagd i 37:19 och *horn* för *hörn* i 37:26. Behållna läsningar där bara ett tryck avviker: 37:2–37:15 (1927 har tydligen samma text; bara OCR-skillnader), 37:17 (*med dem* i 1927, *med den* i e-texten och 1926), 37:19 (*armar, som* i 1927) och 37:21 (*armparet, som … ljusstaken i ett stycke* i 1927, komma efter *ljusstaken* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 38,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "1950f1f917d2c76398aae31ee680096cd5ea0974a8a4d259294c7480464834ad",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0133.1.tif",
+          "sha256": "3dcfbf8d6778ff916d3d29af35baa23d265c192115a927b78b58fd7e0619a7ab"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0134.1.tif",
+          "sha256": "93e71a83d0dc0c0e3993fc5325924e6ba6735f7029a5457b37e0d74f598d7920"
+        }
+      ],
+      "notes": "Hela 38:1–31 jämförd mot EFS 1927 GT s. 133–134 och EFS 1926 GT s. 120–121 (Internet Archive bibelnellerdenhe0000unse, n131–n132; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* i 38:2 (två ställen), *vitt* för *sitt* i 38:9, komma borttaget i 38:10, 38:11 (två ställen vardera), 38:12 och 38:19, komma tillagt i 38:12, 38:25 och 38:29 (två ställen). Behållna läsningar där bara ett tryck avviker: 38:3 (*dessa* i 1927), 38:21 och 38:31 (kommatecken som bara 1926 har), 38:22 (*allt, vad* i 1927), 38:24 (*arbetet, vid* i 1927 men inte i 1926) samt 38:14–38:16 (1927 delar verserna annorlunda än e-texten och 1926; e-texten behålls); de långa tankstrecken i 38:1 och 38:14 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
