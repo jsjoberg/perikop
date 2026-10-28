@@ -6,7 +6,7 @@ som	14022	word
 att	12743	word	"at
 han	12033	word	"han
 de	11738	word	
-det	8676	word	
+det	8675	word	
 en	8482	word	"En
 Och	8351	word	"Ok
 skall	8264	word	"skal
@@ -22,7 +22,7 @@ dem	6934	word	"dOm
 så	6856	word	"so:
 honom	6737	word	""hO$nOm
 har	6695	word	"hA:r
-du	6355	word	"d}:
+du	6356	word	"d}:
 sig	5118	word	"sEj
 I	4769	word	"i:
 dig	4735	word	"dEj
@@ -225,7 +225,7 @@ talade	482	word	""tA:$la$de
 hålla	478	word	""hO$la
 såg	478	word	"so:g
 kvar	477	word	"kvA:r
-äta	473	word	""E:$ta
+äta	474	word	""E:$ta
 måste	472	word	""mO$ste
 förde	468	word	""f2:$d`e
 väg	464	word	"vE:g
@@ -973,6 +973,7 @@ varder	82	word	"vA:$d`er
 öde	82	word	""2:$de
 Benjamins	81	name	""be:$nja$mIns
 Samaria	81	name	
+blodet	81	word	"blu:$det
 evighet	81	word	""e:$vIg$%he:t
 fint	81	word	"fi:nt
 förbliver	81	word	f9r$"bli:$ver
@@ -983,7 +984,6 @@ prisa	81	word	""pri:$sa
 stilla	81	word	""stI$la
 Benjamin	80	name	""be:$nja$mIn
 Josafat	80	name	
-blodet	80	word	"blu:$det
 buro	80	word	
 fulla	80	word	""fu0$la
 utföra	80	word	""}:t$%f2:$ra
@@ -1068,6 +1068,7 @@ människan	73	word	""mE$nI$x\an
 slaktoffer	73	word	""slakt$%O$fer
 utrota	73	word	""}:t$%ru:$ta
 översteprästen	73	word	""2:$ve$s`t`e$%prE$sten
+horn	72	word	"hu:n`
 hövdingar	72	word	""h9v$dIN$ar
 landets	72	word	"land$dets
 lögn	72	word	"l9Nn
@@ -1083,7 +1084,6 @@ bok	71	word	"bu:k
 förutom	71	word	f9r$""}:$tOm
 grav	71	word	"grA:v
 gränsen	71	word	"grEn$sen
-horn	71	word	"hu:n`
 ljuset	71	word	"j}:$set
 sanningen	71	word	""sa$nIN$en
 sätter	71	word	"sE$ter
@@ -2009,7 +2009,6 @@ förtröstar	34	word	f9$"t`r9$star
 föröka	34	word	f9r$"2:$ka
 grät	34	word	"grE:t
 hållas	34	word	""hO$las
-hörn	34	word	"h2:n`
 intaga	34	word	""In$%tA:$ga
 kalk	34	word	"kalk
 kameler	34	word	ka$"me:$ler
@@ -2061,6 +2060,7 @@ hunnit	33	word	""hu0$nIt
 härmed	33	word	"hE:r$me:d
 härtill	33	word	"hE:$t`Il
 högre	33	word	
+hörn	33	word	"h2:n`
 krets	33	word	"krEts
 lidande	33	word	""li:$dan$de
 ljud	33	word	"j}:d
@@ -16524,7 +16524,6 @@ söndersmulat	2	word
 sönderspruckna	2	word	
 sönderstötta	2	word	
 söndertröska	2	word	
-ta	2	word	"tA:
 tabernakelrummet	2	word	
 tackoffersdjuret	2	word	
 tackoffersköttet	2	word	
@@ -26657,6 +26656,7 @@ söndrigt	1	word	""s9n$drIkt
 söta	1	word	""s2:$ta
 sötaste	1	word	""s2:$ta$ste
 sötman	1	word	""s9t$man
+ta	1	word	"tA:
 tabernakels	1	word	ta$be$"n`A:$kels
 tackoffers	1	word	""tak$%O$fes`
 tackoffersdjuren	1	word	
