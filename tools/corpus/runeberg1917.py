@@ -148,6 +148,11 @@ REPLACE={
  ('Exod',14,27):('och egyptierna som flydde möttes','och egyptierna, som flydde, möttes'),
  ('Exod',14,28):('Och vattnet som vände tillbaka övertäckte','Och vattnet, som vände tillbaka, övertäckte'),
  ('Exod',14,31):('när Israel såg huru','när Israel såg, huru'),
+ # Exodus 15 (EFS 1927 GT s. 97-99 and EFS 1926 GT s. 87-89): E117-E120, readings both prints agree on.
+ ('Exod',15,2):('min lovsång, Och han','min lovsång, och han'),
+ ('Exod',15,8):('samlades hög','samlades i hög'),
+ ('Exod',15,16):('o HERRE medan','o HERRE, medan'),
+ ('Exod',15,26):('och gör vad rätt','och gör, vad rätt'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),

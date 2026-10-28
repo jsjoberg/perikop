@@ -3684,6 +3684,30 @@
         }
       ],
       "notes": "Hela 14:1–31 jämförd mot EFS 1927 GT s. 96–97 och EFS 1926 GT s. 86–87 (Internet Archive bibelnellerdenhe0000unse, n97–n98; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 14:2, 14:3, 14:4, 14:5, 14:10, 14:13, 14:15, 14:18, 14:27 (två ställen), 14:28 (två ställen) och 14:31, flyttat i 14:7, borttaget två gånger i 14:16. Behållna läsningar där bara ett tryck avviker: 14:12 (*må* och *Egypten!* i 1927), 14:15 (inget kolon efter *Mose* i 1927), 14:16 (*i tu* i 1927), 14:21 (*östanvind,* i 1927) och 14:25 (*Låtom* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "33426f1083af1e42930c65bef9f7487d85534c46141a991d17e69a19b3c326d2",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0097.1.tif",
+          "sha256": "238285c55df5c438f2d59f1c1482f04b5b3748fcf4598b89a0a0cc6f68c9aff1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0098.1.tif",
+          "sha256": "f7af3f6b3f55709591c6467fd75ca9eff390f9080936f33ce1cc6fabf7d51ddf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0099.1.tif",
+          "sha256": "3c9a5efa4428953328a00e8c473dd42d7e2dfbfcdfb70acfb22fc69bf0859008"
+        }
+      ],
+      "notes": "Hela 15:1–27 jämförd mot EFS 1927 GT s. 97–99 och EFS 1926 GT s. 87–89 (Internet Archive bibelnellerdenhe0000unse, n98–n100; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *och* med gemen i 15:2, utelämnat *i* i 15:8, komma tillagt i 15:16 och 15:26. Behållna läsningar där bara ett tryck avviker: 15:2 (*honom.* i 1927, *honom,* i e-texten och 1926) och 15:26 (*sjukdomar,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
