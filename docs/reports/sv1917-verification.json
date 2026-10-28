@@ -3620,6 +3620,30 @@
         }
       ],
       "notes": "Hela 11:1–10 jämförd mot EFS 1927 GT s. 91–92 och EFS 1926 GT s. 82 (Internet Archive bibelnellerdenhe0000unse, n93; sidan läst mot bild; 1927 s. 92 jämförd mot OCR). {E} införda endast där båda trycken är överens mot e-texten: komma efter säg i stället för efter folket i 11:2 och komma före att i 11:7. Behållen läsning där bara ett tryck avviker: 11:8 (folket, som i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 51,
+      "text_sha256": "3d7af06f5c011f8dcefe0bbbe99df2b1c906323d389ed529f34e717a165a189f",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0092.1.tif",
+          "sha256": "b3bc87a0d56619c018faa03ba8bcbd60a2692836c2b01989b1e9383eb036f517"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0093.1.tif",
+          "sha256": "af8c59fc14ef0497879603bd184279b9af19ba24fc4ee82f41795e7c36e79c55"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0094.1.tif",
+          "sha256": "c294943c0210130e9f530ac454ac44972f09cb7a420be0167bd102d5790fee66"
+        }
+      ],
+      "notes": "Hela 12:1–51 jämförd mot EFS 1927 GT s. 92–94 och EFS 1926 GT s. 82–84 (Internet Archive bibelnellerdenhe0000unse, n93–n95; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 12:7, 12:13, 12:20, 12:28, 12:35, 12:36, 12:41 (två ställen) och 12:44 (två ställen), borttaget komma i 12:21, påsk med gemen i 12:11, som för son i 12:19, dörrträet och husdörr i ett ord i 12:22, han för ha och in för i i 12:23, har för ha i 12:44. Behållna läsningar där bara ett tryck avviker: 12:13 (ären, ty i 1927), 12:19 (en, som i 1927), 12:22 (kommatecken som bara 1927 har), 12:27 (Egypten, bara i 1926), 12:33 (allesammans i 1927). De långa tankstrecken i 12:6 lämnas till den korpusövergripande typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

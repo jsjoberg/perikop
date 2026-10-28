@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "d98278c86a2f59f3bbe4ed56e79fa89f70aa048f11b1901e02899af09a8973ca",
+      "sha256": "ce5fabd02717ffa003bd2f5986aa719e0f5098919948d201fa2a0d538fa9acea",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -806,13 +806,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "5b5383ecc3f2a248d759c3af0045d545c328932ca2aeec1544f0b85f9ec14987"
+      "sha256": "3f2ca5e633b373932480d8f1e400c81c5a5b79aa5b40ff47d2e51931426b42b1"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "493407a995edc78cb716d3a943efab7f01b9571db512244236c84097d5b0f977"
+      "sha256": "a59e7d08fa4d339941f143ce12ac04df6b213132f5f328e309dd30b964e854bf"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",
@@ -837,14 +837,14 @@
     {
       "path": "resources/lexicon/sv1917-words.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "2b53806154fce213cf521ab5178417c961412d393d5a6672cef0d52a115d1a90",
+      "sha256": "99bdb74a91884fdc315160c77120ee7c49042ea05d5ec9e308dfd9b834c7ab32",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 word forms with NST SAMPA references"
     },
     {
       "path": "resources/lexicon/sv1917-homographs.tsv",
       "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "69ceb41d0e325ea1612b645c0d0f9ead907fa5ed77eed9b5893f108348e88f70",
+      "sha256": "68897e2ee413b1fdeb2ad1ece0a1edf8cd6a8fa8cee9e7ca9d6cb9b8aa0da0ad",
       "license": "CC0-1.0 (NST); public-domain corpus word counts",
       "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     }
