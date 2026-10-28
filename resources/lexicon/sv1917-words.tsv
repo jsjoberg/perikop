@@ -6,7 +6,7 @@ som	14022	word
 att	12743	word	"at
 han	12033	word	"han
 de	11738	word	
-det	8675	word	
+det	8676	word	
 en	8482	word	"En
 Och	8351	word	"Ok
 skall	8264	word	"skal
@@ -24,7 +24,7 @@ honom	6737	word	""hO$nOm
 har	6695	word	"hA:r
 du	6356	word	"d}:
 sig	5118	word	"sEj
-I	4769	word	"i:
+I	4770	word	"i:
 dig	4735	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
@@ -474,11 +474,11 @@ håller	197	word	"hO$ler
 säd	197	word	"sE:d
 djur	196	word	"j}:r
 stodo	196	word	""stu:$dU
-del	195	word	"de:l
 högra	195	word	
 sänt	195	word	"sEnt
 tagit	195	word	""tA:$gIt
 besittning	194	word	be$"sIt$nIN
+del	194	word	"de:l
 drogo	194	word	""dru:$gU
 kvinnor	194	word	""kvI$nUr
 Nu	193	word	"n}:
@@ -1063,12 +1063,12 @@ därigenom	73	word	"dE:r$I$je:$nOm
 egyptierna	73	word	e$"jYpt$sI$e$n`a
 fjärde	73	word	""fjE:$d`e
 främlingar	73	word	""frEm$lIN$ar
+horn	73	word	"hu:n`
 lärjungarna	73	word	""lE:r$%ju0N$a$n`a
 människan	73	word	""mE$nI$x\an
 slaktoffer	73	word	""slakt$%O$fer
 utrota	73	word	""}:t$%ru:$ta
 översteprästen	73	word	""2:$ve$s`t`e$%prE$sten
-horn	72	word	"hu:n`
 hövdingar	72	word	""h9v$dIN$ar
 landets	72	word	"land$dets
 lögn	72	word	"l9Nn
@@ -2060,7 +2060,6 @@ hunnit	33	word	""hu0$nIt
 härmed	33	word	"hE:r$me:d
 härtill	33	word	"hE:$t`Il
 högre	33	word	
-hörn	33	word	"h2:n`
 krets	33	word	"krEts
 lidande	33	word	""li:$dan$de
 ljud	33	word	"j}:d
@@ -2114,6 +2113,7 @@ fören	32	word	""f2:$ren
 gent	32	word	
 hedningarnas	32	word	""he:d$nIN$a$n`as
 hänt	32	word	"hEnt
+hörn	32	word	"h2:n`
 knän	32	word	"knE:n
 källa	32	word	""s'E$la
 lemmar	32	word	""lE$mar

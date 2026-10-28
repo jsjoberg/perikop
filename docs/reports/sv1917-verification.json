@@ -4012,6 +4012,30 @@
         }
       ],
       "notes": "Hela 29:1–46 jämförd mot EFS 1927 GT s. 118–120 och EFS 1926 GT s. 107–109 (Internet Archive bibelnellerdenhe0000unse, n118–n120; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* och *blodet* tillagt i 29:12, komma tillagt i 29:13, 29:22 och 29:25, *du* för *det* i 29:20, kolon eller semikolon borttaget i 29:25, 29:28 och 29:32 och *äta* för *ta* i 29:33. Behållna läsningar där bara ett tryck avviker: 29:1 (*är, vad* i 1926 men inte i 1927), 29:13 (andra *fett,* i 1927), 29:22 (*lårstycket;* i 1927, *lårstycket,* i 1926), 29:32 (*brödet, … korgen,* i 1927), 29:34 (*detta,* i 1927) och 29:28 (*Iraels* i 1927, tryckfel). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 30,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "f79259824f09085851d6ca8c38fbc54b9f7047b674e87f113691654488c19e4b",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0120.1.tif",
+          "sha256": "1bfff3942d939269cae88ccc3d95a4fc8c38c3efd79ab43614e485fcc4eb780a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0121.1.tif",
+          "sha256": "4c66c0705c9f2a6144235a3cd8e996562bd6cf52f60caf5332fd1d5051994c1b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0122.1.tif",
+          "sha256": "1c279ba08df91e5d6fa5aca3d0ac0e6b5c2304e59be6f58c7c1b4caf0f7cedae"
+        }
+      ],
+      "notes": "Hela 30:1–38 jämförd mot EFS 1927 GT s. 120–122 och EFS 1926 GT s. 109–110 (Internet Archive bibelnellerdenhe0000unse, n120–n121; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: semikolon för komma i 30:1, *horn* för *hörn* i 30:3, komma borttaget i 30:8 och 30:15, *I* tillagt i 30:9, punkt för komma i 30:13 och *det* för *del* i 30:20. Behållna läsningar där bara ett tryck avviker: 30:6 (*förlåt,* i 1927), 30:13–30:14 (*en,* och *tjugo* i 1927), 30:14 (*Var och en, som* i 1927), 30:29 och 30:33 (kommatecken som bara 1927 har) och 30:37 (*eder, så* i 1927, *sammansatt, som* i 1926); de långa tankstrecken i 30:2 och 30:13 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
