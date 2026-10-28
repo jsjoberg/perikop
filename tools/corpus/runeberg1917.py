@@ -174,6 +174,12 @@ REPLACE={
  ('Exod',17,9):('åt oss, och drag så åstad till strid mot Amalek. I morgon skall jag ställa mig överst på höjden, med Guds','åt oss och drag så åstad till strid mot Amalek. I morgon skall jag ställa mig överst på höjden med Guds'),
  ('Exod',17,10):('Josua gjorde såsom','Josua gjorde, såsom'),
  ('Exod',17,16):('betygar att HERREN','betygar, att HERREN'),
+ # Exodus 18 (EFS 1927 GT s. 101-103 and EFS 1926 GT s. 91-92): E140-E144, readings both prints agree on.
+ ('Exod',18,8):('de vedermödor som de hade','de vedermödor, som de hade'),
+ ('Exod',18,11):('Nu vet jag att HERREN','Nu vet jag, att HERREN'),
+ ('Exod',18,14):('ensam under det att','ensam, under det att'),
+ ('Exod',18,21):('dugande män som frukta Gud, pålitliga män som hata','dugande män, som frukta Gud, pålitliga män, som hata'),
+ ('Exod',18,25):('föreståndare somliga','föreståndare, somliga'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),

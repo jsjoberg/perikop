@@ -3744,6 +3744,30 @@
         }
       ],
       "notes": "Hela 17:1–16 jämförd mot EFS 1927 GT s. 101 och EFS 1926 GT s. 91 (Internet Archive bibelnellerdenhe0000unse, n102; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 17:5, 17:10 och 17:16, komma borttaget i 17:5 och två gånger i 17:9. Behållna läsningar där bara ett tryck avviker: 17:1–17:3 (sidan n101) jämfördes bara mot OCR, inte mot bild; inga kommatecken som bara 1927 har behålls i det här kapitlet. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "7bf7039e18370612e2518467d44d83f1a179aca64bad68daf7a9eb404f2f886b",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0101.1.tif",
+          "sha256": "4142a04572654ce79caa39f4b5a52fc402b4853c5483cdd7558fe39e6e484226"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0102.1.tif",
+          "sha256": "dd4a34d756432d9bc71c343c28a38f0fb16f37839fdf2cff2c8bf20b9b17d4b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0103.1.tif",
+          "sha256": "fc8d9acb9d480afc37b52db6ba1355247b87f5c3c9376faed6fb2c96deaefa23"
+        }
+      ],
+      "notes": "Hela 18:1–27 jämförd mot EFS 1927 GT s. 101–103 och EFS 1926 GT s. 91–92 (Internet Archive bibelnellerdenhe0000unse, n102–n103; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 18:8, 18:11, 18:14, 18:21 (två ställen) och 18:25. Behållna läsningar där bara ett tryck avviker: 18:1, 18:8, 18:14, 18:24 (*allt, vad* och liknande kommatecken som bara 1927 har), 18:3 (*land, som* i 1927), 18:20 (*väg, de … vandra, och* i 1927) och 18:22 (*lättare därigenom* i 1927); de långa tankstrecken i 18:3 och 18:4 lämnas till den korpusövergripande typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
