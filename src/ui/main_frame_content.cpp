@@ -14,10 +14,11 @@
 namespace ortho {
 void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     entries->Add(ui::label(content, ui::utf8("LOKALT BIBELINNEHÅLL"), 10), 0, wxBOTTOM, FromDIP(zoomed(8)));
-    const auto paragraph = [&](const std::string& text) {
+    const auto paragraph = [&](const char* text) {
         auto* label = ui::label(content, ui::utf8(text));
         label->Wrap(FromDIP(zoomed(440)));
         entries->Add(label, 0, wxBOTTOM, FromDIP(zoomed(8)));
+        return label;
     };
     paragraph("Reformationsbibeln 2026 kan läggas till från två PDF-filer som du själv hämtar från "
               "Svenska Reformationsbibelsällskapet. Texten sparas bara i din profil.");
@@ -44,12 +45,14 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     entries->Add(remove, 0, wxBOTTOM, FromDIP(zoomed(8)));
     paragraph(corpus_.has_imported()
                   ? "Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och textkällor "
-                    "och välj dess prioritet. Importera PDF-filerna igen för att läsa in rättad text "
-                    "och avsnittsrubriker."
+                    "och välj dess prioritet."
                   : "Reformationsbibeln 2026 är inte importerad.");
     if (corpus_.has_imported())
-        paragraph("Importversion för installerad text: " + std::to_string(corpus_.import_revision()) + ".");
-    paragraph("Aktuell importversion: " + std::to_string(srb_import_revision) + ".");
+        paragraph(corpus_.import_revision() == srb_import_revision
+                      ? "Din importerade text är uppdaterad. Du behöver inte importera PDF-filerna igen."
+                      : "En förbättrad import är tillgänglig. Du kan importera samma två PDF-filer igen "
+                        "när det passar dig.")
+            ->SetName("Importstatus");
     entries->AddSpacer(FromDIP(zoomed(22)));
 }
 void MainFrame::import_content() {

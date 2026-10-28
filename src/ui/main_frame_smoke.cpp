@@ -1710,14 +1710,13 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);
             auto* link =
                 wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
-            auto* current_revision = wxWindow::FindWindowByLabel(
-                wxString::Format("Aktuell importversion: %d.", srb_import_revision), page);
-            auto* previous_revision =
-                wxWindow::FindWindowByLabel(ui::utf8("Importversion för installerad text: 0."), page);
+            auto* reimport_notice = wxWindow::FindWindowByName("Importstatus", page);
             if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
                 !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
-                !import_button->IsEnabled() || remove_button->IsEnabled() != installed || !current_revision ||
-                bool(previous_revision) != installed)
+                !import_button->IsEnabled() || remove_button->IsEnabled() != installed ||
+                bool(reimport_notice) != installed ||
+                (reimport_notice &&
+                 !reimport_notice->GetLabel().StartsWith(ui::utf8("En förbättrad import"))))
                 fail(__LINE__);
         };
         check_import_controls(true);
@@ -1773,9 +1772,9 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             installed_coordinates != saved_coordinates)
             fail(__LINE__);
         candidate->show_settings();
-        if (!wxWindow::FindWindowByLabel(ui::utf8("Importversion för installerad text: ") +
-                                             wxString::Format("%d.", srb_import_revision),
-                                         candidate->current_page()))
+        auto* import_status = wxWindow::FindWindowByName("Importstatus", candidate->current_page());
+        if (!import_status ||
+            !import_status->GetLabel().StartsWith(ui::utf8("Din importerade text är uppdaterad.")))
             fail(__LINE__);
         settings_snapshot(candidate.get(), "-import-versioned");
         candidate->Hide();
