@@ -128,6 +128,12 @@ REPLACE={
  ('Exod',12,36):('de gåvo dem vad','de gåvo dem, vad'),
  ('Exod',12,41):('på den dag då de fyra hundra trettio åren voro förlidna drogo','på den dag, då de fyra hundra trettio åren voro förlidna, drogo'),
  ('Exod',12,44):('men en träl som är köpt för penningar må äta därav, sedan du ha omskurit','men en träl, som är köpt för penningar, må äta därav, sedan du har omskurit'),
+ # Exodus 13 (EFS 1927 GT s. 94-95 and EFS 1926 GT s. 85-86): E099-E103, readings both prints agree on.
+ ('Exod',13,5):('ett land som flyter','ett land, som flyter'),
+ ('Exod',13,7):('hos dig, i hela','hos dig i hela'),
+ ('Exod',13,13):('bland åsnor som öppnar','bland åsnor, som öppnar'),
+ ('Exod',13,17):('Gud tänkte att folket','Gud tänkte, att folket'),
+ ('Exod',13,21):('i en molnstod, för att leda dem på vägen, och om natten i en eldstod, för att lysa','i en molnstod för att leda dem på vägen, och om natten i en eldstod för att lysa'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),

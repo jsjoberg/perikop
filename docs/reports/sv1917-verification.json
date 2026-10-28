@@ -3644,6 +3644,26 @@
         }
       ],
       "notes": "Hela 12:1–51 jämförd mot EFS 1927 GT s. 92–94 och EFS 1926 GT s. 82–84 (Internet Archive bibelnellerdenhe0000unse, n93–n95; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 12:7, 12:13, 12:20, 12:28, 12:35, 12:36, 12:41 (två ställen) och 12:44 (två ställen), borttaget komma i 12:21, påsk med gemen i 12:11, som för son i 12:19, dörrträet och husdörr i ett ord i 12:22, han för ha och in för i i 12:23, har för ha i 12:44. Behållna läsningar där bara ett tryck avviker: 12:13 (ären, ty i 1927), 12:19 (en, som i 1927), 12:22 (kommatecken som bara 1927 har), 12:27 (Egypten, bara i 1926), 12:33 (allesammans i 1927). De långa tankstrecken i 12:6 lämnas till den korpusövergripande typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "f85792467f251187306c624ed17fe175f4ce7a3c450d1ba2e394c3bb35e7dbbc",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0094.1.tif",
+          "sha256": "c294943c0210130e9f530ac454ac44972f09cb7a420be0167bd102d5790fee66"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0095.1.tif",
+          "sha256": "871954b1218d0d6433222281922dfe4c06916f466d3c5c534d3d334670fccde6"
+        }
+      ],
+      "notes": "Hela 13:1–22 jämförd mot EFS 1927 GT s. 94–95 och EFS 1926 GT s. 85–86 (Internet Archive bibelnellerdenhe0000unse, n96–n97; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 13:5, 13:13 och 13:17, komma borttaget i 13:7 och två gånger i 13:21. Behållna läsningar där bara ett tryck avviker: 13:3 (*därifrån; fördenskull* i 1927, *därifrån. Fördenskull* i e-texten och 1926), 13:3 (*träldomshuset,* i 1927), 13:12–13:13 (kommatecken som bara 1927 har) och 13:17 (*väg,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
