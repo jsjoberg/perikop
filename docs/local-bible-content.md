@@ -48,6 +48,15 @@ recipe omitted the opening J in Colossians 2:1 and Jude 1:1. Existing imports wi
 that recipe's exact text checksum recover these two initials when read, without
 modifying the imported database or requiring the PDFs again.
 
+The complete text audit compared all 31,171 verses with an independent Poppler
+extraction of both pinned PDFs. It also repairs four missing spaces, removes
+chapter/section furniture from 44 verse records, and corrects punctuation,
+hyphenation and spacing defects in ten further records. All discrepancies were
+visually reviewed, including the encoded word-break anomaly in Revelation 16:21.
+The three known older import checksums receive the same corrections when read,
+without modifying the local database or requiring the PDFs again. See the
+[complete audit](reports/srb2026-audit.md#complete-bible-text-comparison).
+
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers
 provide AES, SHA-256 and Flate inflation. Their pins and licenses are in

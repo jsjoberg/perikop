@@ -2,6 +2,7 @@
 #include "storage/content_import.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
+#include "storage/srb2026_repairs.hpp"
 #include <algorithm>
 #include <map>
 #include <stdexcept>
@@ -97,8 +98,10 @@ void CorpusDb::load_imported(const std::filesystem::path& path) {
     if (!count.row() || count.number(0) != 31171 || count.number(1) != 66)
         throw std::runtime_error("Det lokala bibelinnehållet är ofullständigt. Importera PDF-filerna igen.");
     std::lock_guard lock(cache_mutex_);
-    legacy_srb_initials_ =
-        valid.text(0) == "06e9957d4b860bfdfc9e70b24df6f23c2332f19314e45c9d0cd88ae5035fc625";
+    legacy_srb_recipe_ = 0;
+    for (std::size_t i = 0; i < srb_old_checksums.size(); ++i)
+        if (valid.text(0) == srb_old_checksums[i])
+            legacy_srb_recipe_ = 1U << i;
     imported_ = std::move(candidate);
     versification_[srb_source] = "SRB2026";
     clear_imported_cache();
@@ -206,10 +209,12 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
                 entry->second.coordinates.push_back({query.number(0), query.number(1)});
                 entry->second.last_verses.push_back(query.number(1));
                 entry->second.texts.push_back(query.text(2));
-                // The 0.2.0 recipe omitted two Times New Roman drop capitals; keep old imports usable.
-                if (legacy_srb_initials_ && query.number(1) == 1 &&
-                    ((book == "Col" && query.number(0) == 2) || (book == "Jude" && query.number(0) == 1)))
-                    entry->second.texts.back().insert(0, "J");
+                // Exact older checksums receive reviewed byte edits without rewriting local data.
+                if (legacy_srb_recipe_)
+                    for (const auto& repair : srb_text_repairs)
+                        if ((repair.recipes & legacy_srb_recipe_) && book == repair.book &&
+                            query.number(0) == repair.chapter && query.number(1) == repair.verse)
+                            entry->second.texts.back().replace(repair.offset, repair.erase, repair.insert);
             }
         }
         return entry->second;

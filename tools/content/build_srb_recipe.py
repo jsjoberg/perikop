@@ -234,8 +234,16 @@ class Extractor:
             if not chars:
                 return
             if self.current[-1][4] == "-":
-                if chars[0][4].islower():
+                # Rev 16:21 encodes a stray space inside a visibly hyphenated word.
+                word_break = len(self.current) > 1 and (
+                    self.current[-2][4].isalpha() or self.key == (65, 16, 21)
+                )
+                if word_break and chars[0][4].islower():
                     self.current.pop()
+                    while self.current and self.current[-1][4].isspace():
+                        self.current.pop()
+                elif len(self.current) > 1 and self.current[-2][4].isspace():
+                    self.current.append((0, 0, 1, 255, " "))
             elif not self.current[-1][4].isspace() and not chars[0][4].isspace():
                 self.current.append((0, 0, 1, 255, " "))
         # Soft hyphens are discretionary PDF typesetting; never speak them.
@@ -384,7 +392,22 @@ class Extractor:
                 chars = []
                 fid = maps[font]
                 mapping = self.fonts[fid]
-                for (sid, start), b in refs:
+                numeric_gaps = set()
+                if op == b"TJ":
+                    part = 0
+                    for index, value in enumerate(args[0]):
+                        if isinstance(value, (TextStringObject, ByteStringObject)):
+                            # A large explicit advance between digits is a thousands separator.
+                            if (index >= 2 and isinstance(value, TextStringObject)
+                                and isinstance(args[0][index - 2], TextStringObject)
+                                and not isinstance(args[0][index - 1], (TextStringObject, ByteStringObject))
+                                and args[0][index - 2][-1:].isdigit() and value[:1].isdigit()
+                                and float(args[0][index - 1]) < -150):
+                                numeric_gaps.add(part)
+                            part += 1
+                for part, ((sid, start), b) in enumerate(refs):
+                    if part in numeric_gaps:
+                        chars.append((0, 0, 1, 255, " "))
                     for j, c in enumerate(b):
                         chars.append((sid, start + j, 1, fid, mapping[c]))
                 text = "".join(x[4] for x in chars)
@@ -444,6 +467,24 @@ class Extractor:
                     if half == 1 and 9 <= fs <= 10 and text.isdigit():
                         number_pending += text
                         continue
+                    # Smaller Sabon is chapter/section furniture; retain only adjacent body punctuation.
+                    if fs < 9.8 and not (
+                        text.strip()
+                        and all(c in ",.;:!?" for c in text.strip())
+                        and self.body_y is not None
+                        and abs(y - self.body_y) < 2
+                        and self.body_end is not None
+                        and abs(x - self.body_end) < 2
+                    ):
+                        continue
+                    if text.strip() and all(c in ",.;:!?-" for c in text.strip()) and not (
+                        (self.body_y is not None and abs(y - self.body_y) < 3
+                         and self.body_end is not None and abs(x - self.body_end) < 10)
+                        or (half == 0 and self.gt_line and abs(y - self.gt_y) < 3
+                            and re.fullmatch(r"\s*\d+\.?\s*", "".join(c[4] for c in self.gt_line)))
+                        or number_pending
+                    ):
+                        continue  # Stray Sabon periods on cross-reference lines are not Scripture.
                     if number_pending:
                         self.begin(bi, chapter, int(number_pending))
                         self.pending_dot = True
@@ -457,9 +498,9 @@ class Extractor:
                         and self.body_y is not None
                         and abs(y - self.body_y) < 2
                         and not self.body_drop
-                        and x - self.body_end > 1.0
+                        and x - self.body_end > 1.1
                         and self.body_last
-                        and self.body_last[-1].isalpha()
+                        and (self.body_last[-1].isalpha() or self.body_last[-1] in ",.;:!?")
                         and chars[0][4]
                         and chars[0][4][0].isalpha()
                     ):
