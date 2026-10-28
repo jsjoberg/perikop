@@ -3532,6 +3532,30 @@
         }
       ],
       "notes": "Hela 7:1–25 jämförd mot EFS 1927 GT s. 85–86 och EFS 1926 GT s. 76–77 (Internet Archive bibelnellerdenhe0000unse, n87–n88; båda sidorna lästa mot bild). E050–E056 införda endast där båda trycken är överens mot e-texten: komma i 7:5, 7:6, 7:10, 7:15 (staven, som), 7:17 (förnimma, att) och 7:20 (gjorde, såsom), komma borttaget i 7:19 (din stav och räck) samt det utelämnade i i 7:20 (allt vatten i floden). Behållna läsningar där bara ett tryck avviker: 7:2 (1927 allt, vad), 7:11 (1927 visa, e-text och 1926 vise), 7:15 (1927 saknar komma efter väg), 7:17 (1927 staven, som; hand,) och 7:25 (1927 dagar,). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "acf21686ea71531169e6d6119a31a92db939496fbf75aeb8b524bed8df1d28d2",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0086.1.tif",
+          "sha256": "1d831ad56b489f2a6e0ae4be4b37b6808ea1cd3d93387b5481e0aabd305ede75"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0087.1.tif",
+          "sha256": "5e8e78396f23bfe128ab5fb7e25402a581dcf828a80c67b24460ad5904cd75bc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0088.1.tif",
+          "sha256": "132b50c71984c9727d743326295d4a08b4500422147c535766f14d7ffc2ee07f"
+        }
+      ],
+      "notes": "Hela 8:1–32 jämförd mot EFS 1927 GT s. 86–88 och EFS 1926 GT s. 77–78 (Internet Archive bibelnellerdenhe0000unse, n88–n89; båda sidorna lästa mot bild). E057–E067 införda endast där båda trycken är överens mot e-texten: komma borttaget i 8:3 (säng och in, folk och i) och 8:9 (jag genom, folk skall), komma tillagt i 8:9 (tid, inom), 8:10, 8:13, 8:15, 8:21 (marken, på), 8:22, 8:26 och 8:31, slutcitat tillagt i 8:9 och 8:28, 8:20 Så säger och gudstjänst, 8:21 se för de, 8:31 hade för sade. Behållna läsningar där bara ett tryck avviker: 8:5 (1927 sjöarna,), 8:12 (1927 paddorna,), 8:20 (1927 saknar komma efter folk), 8:26 (1927 sådant,), 8:28 (1927 allt för), 8:29 (1926 har slutcitat, 1927 och e-texten saknar det). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

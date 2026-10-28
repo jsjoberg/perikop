@@ -5,7 +5,7 @@ till	15695	word	"tIl
 som	14019	word	
 att	12743	word	"at
 han	12031	word	"han
-de	11741	word	
+de	11740	word	
 det	8674	word	
 en	8482	word	"En
 Och	8353	word	"Ok
@@ -19,7 +19,7 @@ med	7576	word	"me:d
 är	7547	word	"E:r
 av	7271	word	
 dem	6934	word	"dOm
-så	6856	word	"so:
+så	6855	word	"so:
 honom	6737	word	""hO$nOm
 har	6695	word	"hA:r
 du	6355	word	"d}:
@@ -28,8 +28,8 @@ I	4770	word	"i:
 dig	4735	word	"dEj
 HERREN	4698	word	""hE$ren
 mig	4673	word	"mEj
-hade	4486	word	""ha$de
-sade	4210	word	""sA:$de
+hade	4487	word	""ha$de
+sade	4209	word	""sA:$de
 hans	4174	word	"hans
 eder	3862	word	""e:$der
 om	3668	word	"Om
@@ -78,7 +78,7 @@ Israels	1608	name	Is$ra$"e:ls
 vara	1606	word	""vA:$ra
 skulle	1585	word	""sku0$le
 hus	1580	word	"h}:s
-Så	1577	word	"so:
+Så	1578	word	"so:
 äro	1565	word	""E:$rU
 folk	1560	word	"fOlk
 genom	1552	word	"je:$nOm
@@ -100,7 +100,7 @@ konungen	1296	word	""ko:$nu0N$en
 voro	1294	word	""vu:$rU
 dess	1280	word	"dEs
 få	1276	word	
-se	1232	word	"se:
+se	1233	word	"se:
 ditt	1203	word	"dIt
 ned	1203	word	"ne:d
 hela	1188	word	""he:$la
@@ -505,7 +505,7 @@ fråga	184	word	""fro:$ga
 vin	184	word	"vi:n
 lever	183	word	"le:$ver
 o	183	word	
-tjänst	183	word	"s'Enst
+tjänst	182	word	"s'Enst
 fastän	181	word	"fa$stEn
 leviterna	181	word	le$"vi:$te$n`a
 låg	181	word	"lo:g
@@ -2435,6 +2435,7 @@ förblev	27	word	f9r$"ble:v
 förstöra	27	word	f9$"s`t`2:$ra
 givna	27	word	""ji:v$na
 godo	27	word	""gu:$dU
+gudstjänst	27	word	""gu0ts$%s'Enst
 gällde	27	word	""jEl$de
 göt	27	word	"j2:t
 höjer	27	word	"h9$jer
@@ -2501,7 +2502,6 @@ gatorna	26	word	""gA:$tU$n`a
 give	26	word	"gIv
 glans	26	word	"glA:ns
 gravar	26	word	""grA:$var
-gudstjänst	26	word	""gu0ts$%s'Enst
 gömde	26	word	""j9m$de
 hednafolken	26	word	""he:d$na$%fOl$ken
 hustrun	26	word	""hu0$str}:n
@@ -4687,7 +4687,6 @@ gjord	12	word	"ju:d`
 glömde	12	word	""gl9m$de
 gosse	12	word	""gO$se
 gråten	12	word	""gro:$ten
-guds	12	word	
 halva	12	word	""hal$va
 hedar	12	word	""he:$dar
 hemligen	12	word	""hEm$lI$gen
@@ -4973,6 +4972,7 @@ grundat	11	word	""gru0n$dat
 grytan	11	word	""gry:$tan
 gråtande	11	word	""gro:$tan$de
 gudarna	11	word	""g}:$da$n`a
+guds	11	word	
 gärningars	11	word	""jE:$n`IN$as`
 gåvorna	11	word	""go:$vU$n`a
 halsen	11	word	"hal$sen
