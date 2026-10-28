@@ -4080,6 +4080,26 @@
         }
       ],
       "notes": "Hela 32:1–35 jämförd mot EFS 1927 GT s. 123–125 och EFS 1926 GT s. 111–113 (Internet Archive bibelnellerdenhe0000unse, n122–n124; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 32:1 (två ställen), 32:3, 32:9, 32:13 (två ställen), 32:14, 32:17, 32:20, 32:22, 32:23 (två ställen), 32:25, 32:27, 32:28 och 32:32, slutcitat tillagt i 32:2, semikolon för komma i 32:6 och 32:13, komma borttaget i 32:8 och 32:12, semikolon tillagt i 32:15. Behållna läsningar där bara ett tryck avviker: 32:1 och 32:23 (*honom, som* i 1927), 32:7 (*dit ned* i 1927), 32:8, 32:11, 32:12, 32:20 och 32:26 (kommatecken som bara 1927 har), 32:23 (*oss, ty* i 1927), 32:24 (*Den, som … guld,* i 1927), 32:28 (*sagt:* i 1927) och 32:34 (*folket, dit* i 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 33,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "0b9b5ef441a9ae79b0cf57cfa9356c509deb3b8e0adba5431eacb1949890c584",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0125.1.tif",
+          "sha256": "9990ec63dcf9475eb5eda07baf0ab8785067bca3f6ebb46fa1991fa7c16325f0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0126.1.tif",
+          "sha256": "b322ec7472ca9f0eab7c1d56ebf5b8404ca8da46d5434eaf06beace810062389"
+        }
+      ],
+      "notes": "Hela 33:1–23 jämförd mot EFS 1927 GT s. 125–126 och EFS 1926 GT s. 113–114 (Internet Archive bibelnellerdenhe0000unse, n124–n125; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 33:12, 33:16 och 33:19, punkt tillagd i 33:12, komma borttaget och slutcitat tillagt i 33:19. Behållna läsningar där bara ett tryck avviker: 33:1 (slutcitatet saknas i 1927 men finns i 1926), 33:1 (*folket,* och *land,* i 1927), 33:7 (*en,* i 1927) och 33:12 (*dit upp* i 1927, *ditupp* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

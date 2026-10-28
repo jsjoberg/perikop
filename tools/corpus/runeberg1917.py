@@ -314,6 +314,10 @@ REPLACE={
  ('Exod',32,27):('den andra, Och dräpen vem I finnen','den andra, och dräpen, vem I finnen'),
  ('Exod',32,28):('Och Levi barn gjorde såsom','Och Levi barn gjorde, såsom'),
  ('Exod',32,32):('deras synd; varom icke','deras synd, varom icke'),
+ # Exodus 33 (EFS 1927 GT s. 125-126 and EFS 1926 GT s. 113-114): E265-E267, readings both prints agree on.
+ ('Exod',33,12):('låtit mig veta vem du vill sända med mig Du har','låtit mig veta, vem du vill sända med mig. Du har'),
+ ('Exod',33,16):('kunna veta att jag','kunna veta, att jag'),
+ ('Exod',33,19):("förbi dig där du står, och jag skall utropa namnet 'HERREN' inför dig; jag skall vara nådig mot den jag vill vara nådig emot, och skall förbarma mig över den jag vill förbarma mig över.","förbi dig, där du står, och jag skall utropa namnet 'HERREN' inför dig; jag skall vara nådig mot den jag vill vara nådig emot och skall förbarma mig över den jag vill förbarma mig över.»"),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
