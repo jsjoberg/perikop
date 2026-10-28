@@ -1,5 +1,5 @@
 # form	occurrences	kind	nst_sampa
-och	39659	word	"Ok
+och	39658	word	"Ok
 i	15974	word	
 till	15695	word	"tIl
 som	14022	word	
@@ -8,7 +8,7 @@ han	12033	word	"han
 de	11738	word	
 det	8676	word	
 en	8482	word	"En
-Och	8350	word	"Ok
+Och	8351	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
 icke	8179	word	""I$ke
@@ -1919,6 +1919,7 @@ dagarna	36	word	""dA:$ga$n`a
 dricker	36	word	"drI$ker
 förste	36	word	""f9$s`t`e
 gråta	36	word	""gro:$ta
+gärd	36	word	"jE:d`
 handlat	36	word	""hand$lat
 ingång	36	word	""IN$%gON
 israeliter	36	word	Is$ra$e$"li:$ter
@@ -1959,7 +1960,6 @@ förstod	35	word	f9$"s`t`u:d
 glöd	35	word	"gl2:d
 godhet	35	word	""gu:d$%he:t
 grepo	35	word	
-gärd	35	word	"jE:d`
 halv	35	word	"halv
 ihjäl	35	word	I$"jE:l
 kaldéerna	35	word	kal$"de:$e$n`a
@@ -5305,7 +5305,6 @@ gräshopporna	10	word	""grE:s$%hO$pU$n`a
 gråter	10	word	"gro:$ter
 grödan	10	word	""gr2:$dan
 gudstjänsten	10	word	""gu0ts$%s'En$sten
-gård	10	word	"go:d`
 gömd	10	word	"j9md
 haglet	10	word	"hA:$glet
 handel	10	word	"han$del
@@ -5768,6 +5767,7 @@ grenarna	9	word	""gre:$na$n`a
 gripit	9	word	""gri:$pIt
 gudlösa	9	word	""g}:d$%l2:$sa
 gäster	9	word	""jE$ster
+gård	9	word	"go:d`
 gårdarna	9	word	""go:$d`a$n`a
 gåvos	9	word	
 gödda	9	word	
@@ -10335,6 +10335,7 @@ smakat	4	word	""smA:$kat
 smugit	4	word	""sm}:$gIt
 smutsen	4	word	"smu0t$sen
 smörjelsen	4	word	""sm9r$jel$sen
+snida	4	word	""sni:$da
 snidverk	4	word	
 snodder	4	word	""snU$der
 snön	4	word	"sn9n
@@ -12425,7 +12426,6 @@ smakliga	3	word	""smA:$klI$ga
 smal	3	word	"smA:l
 smeden	3	word	"sme:$den
 smederna	3	word	""sme:$de$n`a
-smida	3	word	""smi:$da
 smyckade	3	word	""smY$ka$de
 smädande	3	word	""smE:$dan$de
 smälekens	3	word	""smE:$%le:$kens
@@ -12434,7 +12434,6 @@ smältugn	3	word	""smElt$%u0Nn
 småboskaps	3	word	""smo:$bu:$%skA:ps
 snarligen	3	word	""snA:$l`I$gen
 snarsticken	3	word	
-snida	3	word	""sni:$da
 snärjas	3	word	""snEr$jas
 snöpte	3	word	
 solnedgången	3	word	""su:l$ne:d$%gON$en
@@ -16275,6 +16274,7 @@ smaken	2	word	"smA:$ken
 smed	2	word	"sme:d
 smeder	2	word	""sme:$der
 smekte	2	word	""sme:k$te
+smida	2	word	""smi:$da
 smide	2	word	""smi:$de
 smink	2	word	"smINk
 smyckar	2	word	""smY$kar

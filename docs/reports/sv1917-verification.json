@@ -4124,6 +4124,26 @@
         }
       ],
       "notes": "Hela 34:1–35 jämförd mot EFS 1927 GT s. 126–128 och EFS 1926 GT s. 114–116 (Internet Archive bibelnellerdenhe0000unse, n125–n127; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 34:1, 34:4, 34:10 (tre ställen), 34:11, 34:12, 34:29 och 34:30, semikolon för komma i 34:2, *får* för *för* i 34:3, komma borttaget i 34:18 och 34:29, *lösa* för *läsa* i 34:20, *Herres* i 34:23 och *hy* för *by* i 34:35. Behållna läsningar där bara ett tryck avviker: 34:6 (slutcitatet efter första *HERREN!* finns i 1926 men inte i 1927; långt tankstreck lämnas till typografifrågan), 34:7 (*ostraffad,* i 1927), 34:9 (*Herren* i 1927), 34:13 (*stöder* i 1927), 34:15 (*gudar,* i 1927), 34:19–34:20 (kommatecken som bara 1927 har) och 34:32 och 34:34 (*bud, som*, *det, som* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 35,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "e17699a77c2d4cad7aa2895367b7ed6c374cce3b501528e99ef3cbed6a20c151",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0128.1.tif",
+          "sha256": "9f2913059a0ebd891ef86a5b560f3b79cf65f8c97def05005f96b570c17bb242"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0129.1.tif",
+          "sha256": "b257380be7b9514421b42c00f64471bac4478285909f2becfe057db4f4401a6e"
+        }
+      ],
+      "notes": "Hela 35:1–35 jämförd mot EFS 1927 GT s. 128–129 och EFS 1926 GT s. 116–117 (Internet Archive bibelnellerdenhe0000unse, n127–n128; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: kolon borttaget och slutcitat tillagt i 35:3, *gärd* i 35:5, komma tillagt i 35:12, 35:26 (två ställen) och 35:29, komma borttaget i 35:27, *Och* i 35:30, *snida* för *smida* och kolon borttaget i 35:33. Behållna läsningar där bara ett tryck avviker: 35:2, 35:5, 35:10, 35:21–35:24 och 35:29 (*en,* och liknande kommatecken som bara 1927 har), 35:25 och 35:35 (*korteligen,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
