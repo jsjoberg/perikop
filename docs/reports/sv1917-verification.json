@@ -3708,6 +3708,26 @@
         }
       ],
       "notes": "Hela 15:1–27 jämförd mot EFS 1927 GT s. 97–99 och EFS 1926 GT s. 87–89 (Internet Archive bibelnellerdenhe0000unse, n98–n100; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *och* med gemen i 15:2, utelämnat *i* i 15:8, komma tillagt i 15:16 och 15:26. Behållna läsningar där bara ett tryck avviker: 15:2 (*honom.* i 1927, *honom,* i e-texten och 1926) och 15:26 (*sjukdomar,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "d7c7da4e69e8707f39312983118390a191bf09d0f05b37e302f0da2ad487de98",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0099.1.tif",
+          "sha256": "3c9a5efa4428953328a00e8c473dd42d7e2dfbfcdfb70acfb22fc69bf0859008"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0100.1.tif",
+          "sha256": "c256fefe2e24864876e80e0f8929e40b507ec8abd38d56082c1b8f5df88cc62c"
+        }
+      ],
+      "notes": "Hela 16:1–36 jämförd mot EFS 1927 GT s. 99–100 och EFS 1926 GT s. 89–90 (Internet Archive bibelnellerdenhe0000unse, n100–n101; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 16:5, 16:6 (två ställen), 16:7, 16:8, 16:9, 16:12 (tre ställen), 16:14 (två ställen), 16:15 (två ställen), 16:21, 16:23 (två ställen), 16:32 och 16:34, flyttat i 16:4, kolon i 16:9, semikolon i 16:7, komma borttaget i 16:8 och 16:33 samt *den* för *de* i 16:18. Behållna läsningar där bara ett tryck avviker: 16:3 (*Ack,* i 1927), 16:4 (*dag,* i 1927), 16:5 (*dubbelt,* i 1927), 16:8 (*därigenom,* och *knorren utan* i 1927), 16:18 (kommatecken som bara 1927 har), 16:20 (*illaluktande; och* i 1927), 16:21 (*mat; men* i 1927) och 16:23 (*allt,* och *överlopps,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
