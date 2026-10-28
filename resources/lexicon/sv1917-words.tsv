@@ -6,7 +6,7 @@ som	14020	word
 att	12743	word	"at
 han	12032	word	"han
 de	11738	word	
-det	8675	word	
+det	8676	word	
 en	8482	word	"En
 Och	8352	word	"Ok
 skall	8264	word	"skal
@@ -472,9 +472,9 @@ brännoffer	198	word	""brEn$%O$fer
 evinnerligen	198	word	e$"vI$ne$l`I$gen
 håller	197	word	"hO$ler
 säd	197	word	"sE:d
-del	196	word	"de:l
 djur	196	word	"j}:r
 stodo	196	word	""stu:$dU
+del	195	word	"de:l
 högra	195	word	
 sänt	195	word	"sEnt
 tagit	195	word	""tA:$gIt
@@ -1704,6 +1704,7 @@ vänstra	42	word	""vEn$stra
 Gibea	41	name	
 Joram	41	name	
 Vänd	41	word	"vEnd
+armar	41	word	""ar$mar
 begiva	41	word	be$"ji:$va
 begärde	41	word	be$"jE:$d`e
 blygas	41	word	""bly:$gas
@@ -1743,7 +1744,6 @@ Esaus	40	name
 Gilgal	40	name	
 Sen	40	word	"sEn
 anseende	40	word	""an$%se:$en$de
-armar	40	word	""ar$mar
 bergsbygden	40	word	
 betala	40	word	be$"tA:$la
 brinnande	40	word	""brI$nan$de
@@ -2981,7 +2981,6 @@ Ruben	21	name	"r}:$ben
 Sallum	21	name	
 Semes	21	name	
 antända	21	word	""an$%tEn$da
-arma	21	word	""ar$ma
 besked	21	word	be$"x\e:d
 besöka	21	word	be$"s2:$ka
 bevisar	21	word	be$"vi:$sar
@@ -3099,6 +3098,7 @@ andliga	20	word	""and$lI$ga
 anfall	20	word	""an$%fal
 anklaga	20	word	""an$%klA:$ga
 apostel	20	word	a$"pO$stel
+arma	20	word	""ar$ma
 avföll	20	word	
 begrovo	20	word	
 begärt	20	word	be$"jE:t`

@@ -3896,6 +3896,30 @@
         }
       ],
       "notes": "Hela 24:1–18 jämförd mot EFS 1927 GT s. 110–111 och EFS 1926 GT s. 99–100 (Internet Archive bibelnellerdenhe0000unse, n110–n111; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: slutcitat tillagt efter *lyda.* i 24:7 och komma borttaget efter *och* där, komma tillagt i 24:8 och 24:12, komma borttaget i 24:17. Behållna läsningar där bara ett tryck avviker: 24:3 (*ord, HERREN har talat,* i 1927), 24:4 (*stoder,* i 1927), 24:7 (*Allt,* och *sagt,* i 1927), 24:8 (*eder, i* i 1926), 24:12 (*skrivit,* i 1927) och 24:2 (*dit upp* i 1927, *ditupp* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 25,
+      "status": "verified",
+      "verse_count": 40,
+      "text_sha256": "f1f60a784defddc7a6692baf3465eaff3d596a4c279ca4db77dcb46c6656702f",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0111.1.tif",
+          "sha256": "afaa92f2c65ccf32e76a4b2ddb83c1284c18ad41c30338b9e8085c13ccc3eaa2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0112.1.tif",
+          "sha256": "1268278762a65b68d599fac5dddd06b6891281c402a76fcbb041e390b1a6b56c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0113.1.tif",
+          "sha256": "2854174b120b42d7f50b541d6198a3a7f33fbc623a9f31bd3fdcee3abfa2a159"
+        }
+      ],
+      "notes": "Hela 25:1–40 jämförd mot EFS 1927 GT s. 111–113 och EFS 1926 GT s. 100–102 (Internet Archive bibelnellerdenhe0000unse, n111–n113; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 25:3 och 25:31, komma borttaget i 25:7, 25:19 och 25:31, punkt tillagd i 25:24, semikolon i 25:33, *armar* för *arma* i 25:33, *det* för *del* i 25:35 och kolon borttaget i 25:36. Behållna läsningar där bara ett tryck avviker: 25:2 (*en, som … hjärta,* i 1927), 25:6 (*smörjelseolja* i 1927), 25:9 och 25:40 (*mönsterbilder,* i 1927), 25:22 (*bud,* i 1927), 25:33 (*armar,* i 1927) och 25:35 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
