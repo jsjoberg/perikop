@@ -3664,6 +3664,26 @@
         }
       ],
       "notes": "Hela 13:1–22 jämförd mot EFS 1927 GT s. 94–95 och EFS 1926 GT s. 85–86 (Internet Archive bibelnellerdenhe0000unse, n96–n97; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 13:5, 13:13 och 13:17, komma borttaget i 13:7 och två gånger i 13:21. Behållna läsningar där bara ett tryck avviker: 13:3 (*därifrån; fördenskull* i 1927, *därifrån. Fördenskull* i e-texten och 1926), 13:3 (*träldomshuset,* i 1927), 13:12–13:13 (kommatecken som bara 1927 har) och 13:17 (*väg,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "3998c2a5d7f6de470c0f9398409172292ad01825285b30137cadd96f44dd7f0d",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0096.1.tif",
+          "sha256": "b0cf22d0cac00cc0064c958cce91c41729c81b6bad3fedf0f14c644613d45eba"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0097.1.tif",
+          "sha256": "238285c55df5c438f2d59f1c1482f04b5b3748fcf4598b89a0a0cc6f68c9aff1"
+        }
+      ],
+      "notes": "Hela 14:1–31 jämförd mot EFS 1927 GT s. 96–97 och EFS 1926 GT s. 86–87 (Internet Archive bibelnellerdenhe0000unse, n97–n98; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 14:2, 14:3, 14:4, 14:5, 14:10, 14:13, 14:15, 14:18, 14:27 (två ställen), 14:28 (två ställen) och 14:31, flyttat i 14:7, borttaget två gånger i 14:16. Behållna läsningar där bara ett tryck avviker: 14:12 (*må* och *Egypten!* i 1927), 14:15 (inget kolon efter *Mose* i 1927), 14:16 (*i tu* i 1927), 14:21 (*östanvind,* i 1927) och 14:25 (*Låtom* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
