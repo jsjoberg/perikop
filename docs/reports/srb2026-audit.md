@@ -38,9 +38,17 @@ the reviewed differences.
 The requested [srbibeln.net reader](https://srbibeln.net/biblereader.php) showed
 visitor verification. The publisher also
 [links to Bibelonline](https://bibel.se/wordpress/index.php/bibelonline/), whose
-start page identifies its edition as **Reformationsbibeln 2016**. Matthew 1 and
-Luke 13 were inspected there during the first pass. A complete online comparison
-was not performed: the publisher's pinned 2026 PDFs are the edition authority.
+start-page title still says **Reformationsbibeln 2016**. That label alone does
+not identify the edition of the current text. Follow-up checks found that the
+online reader matches the 2026 PDF at two places where the publisher's actual
+[2016 NT PDF](https://www.bibel.se/objfiles/1/SRBNTmedUNnoter_-774953843.pdf)
+differs: Matthew 1:6 uses `genom Urias hustru` rather than `med Urias hustru`,
+and Matthew 4:7 uses `fresta Herren din Gud` rather than `sätta Herren, din Gud,
+på prov`. This supports a stale page title, not a demonstrated 2016-only text.
+Matthew 1 and Luke 13 were inspected online during the first pass; further spot
+checks covered Psalm 119:1–9, 1 Chronicles 1:1 and Revelation 16:21. A complete
+online comparison was not performed: the publisher's pinned 2026 PDFs remain the
+edition authority for this audit.
 
 | Testament | Books | Chapters | Verses | Exact matches after repair | Reviewed layout differences |
 | --- | ---: | ---: | ---: | ---: | ---: |
