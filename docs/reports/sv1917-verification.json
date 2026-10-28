@@ -3876,6 +3876,26 @@
         }
       ],
       "notes": "Hela 23:1–33 jämförd mot EFS 1927 GT s. 109–110 och EFS 1926 GT s. 98–99 (Internet Archive bibelnellerdenhe0000unse, n109–n110; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 23:4, 23:9, 23:13 (två ställen), 23:24 och 23:26, komma borttaget i 23:2 och 23:12 samt semikolon för komma i 23:21. Behållna läsningar där bara ett tryck avviker: 23:5 (*ohulpen,* i 1926), 23:6, 23:7, 23:20, 23:22 och 23:27 (kommatecken som bara 1927 har) samt 23:25 och 23:28–23:33 (OCR-skillnader som inte är läsningar). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "42ad38aa5ec5fd069de654dddd8e5f3c1d6da09542ee082261e8abc724382bbe",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0110.1.tif",
+          "sha256": "8f4aabe4ce3460901492c7febaa2aeb2bb33bd609cfdc4c10b02eec5cdc53fb1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0111.1.tif",
+          "sha256": "afaa92f2c65ccf32e76a4b2ddb83c1284c18ad41c30338b9e8085c13ccc3eaa2"
+        }
+      ],
+      "notes": "Hela 24:1–18 jämförd mot EFS 1927 GT s. 110–111 och EFS 1926 GT s. 99–100 (Internet Archive bibelnellerdenhe0000unse, n110–n111; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: slutcitat tillagt efter *lyda.* i 24:7 och komma borttaget efter *och* där, komma tillagt i 24:8 och 24:12, komma borttaget i 24:17. Behållna läsningar där bara ett tryck avviker: 24:3 (*ord, HERREN har talat,* i 1927), 24:4 (*stoder,* i 1927), 24:7 (*Allt,* och *sagt,* i 1927), 24:8 (*eder, i* i 1926), 24:12 (*skrivit,* i 1927) och 24:2 (*dit upp* i 1927, *ditupp* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

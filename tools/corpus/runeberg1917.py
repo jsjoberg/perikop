@@ -227,6 +227,11 @@ REPLACE={
  ('Exod',23,21):('mot honom, han skall','mot honom; han skall'),
  ('Exod',23,24):('eller göra såsom','eller göra, såsom'),
  ('Exod',23,26):('någon kvinna som föder','någon kvinna, som föder'),
+ # Exodus 24 (EFS 1927 GT s. 110-111 and EFS 1926 GT s. 99-100): E187-E190, readings both prints agree on.
+ ('Exod',24,7):('förbundsboken och, föreläste den för folket. Och de sade: »Allt vad HERREN har sagt vilja vi göra och lyda.','förbundsboken och föreläste den för folket. Och de sade: »Allt vad HERREN har sagt vilja vi göra och lyda.»'),
+ ('Exod',24,8):('det förbunds som HERREN','det förbunds, som HERREN'),
+ ('Exod',24,12):('och budorden som jag har','och budorden, som jag har'),
+ ('Exod',24,17):('en förtärande eld, på toppen','en förtärande eld på toppen'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
