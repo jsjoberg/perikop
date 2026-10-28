@@ -187,6 +187,10 @@ REPLACE={
  ('Exod',19,10):('Gå till folket, och helga dem i dag och i morgon, och I åt dem','Gå till folket och helga dem i dag och i morgon, och låt dem'),
  ('Exod',19,23):('och sagt att jag','och sagt, att jag'),
  ('Exod',19,24):('Gå ditned, och kom sedan åter upp och hav Aron med dig. Men prästerna och folket må icke tränga sig fram för att stiga upp till HERREN på det att','Gå ditned och kom sedan åter upp och hav Aron med dig. Men prästerna och folket må icke tränga sig fram för att stiga upp till HERREN, på det att'),
+ # Exodus 20 (EFS 1927 GT s. 104-105 and EFS 1926 GT s. 94-95): E151-E153, readings both prints agree on.
+ ('Exod',20,10):('främlingen som är hos dig','främlingen, som är hos dig'),
+ ('Exod',20,22):('förnummit att jag','förnummit, att jag'),
+ ('Exod',20,24):('på den plats där jag stiftar en åminnelse åt mitt namn skall jag','på den plats, där jag stiftar en åminnelse åt mitt namn, skall jag'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
