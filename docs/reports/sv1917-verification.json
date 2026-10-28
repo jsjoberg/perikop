@@ -4232,6 +4232,30 @@
         }
       ],
       "notes": "Hela 39:1–43 jämförd mot EFS 1927 GT s. 134–136 och EFS 1926 GT s. 122–123 (Internet Archive bibelnellerdenhe0000unse, n133–n134; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 39:1, 39:32, 39:34, 39:35, 39:37 (två ställen), 39:40, 39:42 och 39:43 (två ställen), komma borttaget i 39:6 och 39:17, *stolpar* i 39:33, komma för punkt i 39:39 och slutpunkt tillagd i 39:43. Behållna läsningar där bara ett tryck avviker: 39:2, 39:4, 39:20 och 39:30 (kommatecken som bara 1927 har), 39:22 och 39:27 (*väft* i 1927), 39:27 (*livkläderna* i 1927) och 39:32 och 39:43 (*arbete* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 40,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "79e00307161a3ca92034ef0621ea0412fa089353310d9127f9da3a9dc0e1c8ba",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0136.1.tif",
+          "sha256": "b56e4d59c034a5307566353f6d0d7c5ad039bb5c9d51d17e2993ec097e8db574"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0137.1.tif",
+          "sha256": "2cc871a9f977cb0384b4c1fce1c2fe5746cf4c50ff74e4bf49f0c907f4610cd5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0138.1.tif",
+          "sha256": "469ee645342600580fcdb51d215992c7d4a7ac792da1b6a17c670528b34d4c25"
+        }
+      ],
+      "notes": "Hela 40:1–38 jämförd mot EFS 1927 GT s. 136–138 och EFS 1926 GT s. 124–125 (Internet Archive bibelnellerdenhe0000unse, n135–n136; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 40:4, 40:16, 40:19, 40:21, 40:23 och 40:37, *de* för *del* och komma borttaget och slutpunkt i 40:13, slutcitat tillagt i 40:15 och komma borttaget i 40:33. Behållna läsningar där bara ett tryck avviker: 40:4 (*dit in* i 1927), 40:9 och 40:35 (kommatecken som bara 1927 har), 40:26 (*förlåten,* i 1926 men inte i 1927) och 40:37 (*upp, utan* i 1926 men inte i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
