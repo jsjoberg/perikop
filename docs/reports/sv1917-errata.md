@@ -270,7 +270,7 @@ R-raderna rättar den kanoniska e-texten; A-raderna rättar apokryfernas OCR-tex
 
 ## Andra Moseboken (E-rader)
 
-Granskat 2026-10-27 av Claude mot EFS 1927 GT s. 77–81 och EFS 1926 GT s. 69–72. Raderna numreras E001–E049 så att de inte kolliderar med R/A-numren i andra öppna grenar. **De är inte granskade av en människa:** att de är bekräftade är granskarens egen uppgift.
+Granskat 2026-10-27 av Claude mot EFS 1927 GT s. 77–86 och EFS 1926 GT s. 69–77. Raderna numreras E001–E056 så att de inte kolliderar med R/A-numren i andra öppna grenar. **De är inte granskade av en människa:** att de är bekräftade är granskarens egen uppgift.
 
 **Regel:** en läsning ändras bara när **båda** trycken avviker från e-texten på samma sätt. E-texten följer i stort 1926 års tryckning, som har färre kommatecken än 1927 års; där bara ett tryck avviker behålls e-texten och skillnaden antecknas i ledgern (se nedan). Kandidaterna hittades först genom att jämföra e-texten med Runebergs OCR av 1927 och Internet Archives OCR av 1926, och därefter lästes varje träff mot sidbilderna. Bildfilerna är inte incheckade; skanningsadress och hash står i liggaren.
 
@@ -325,8 +325,15 @@ Granskat 2026-10-27 av Claude mot EFS 1927 GT s. 77–81 och EFS 1926 GT s. 69�
 | [ ] | E047 | [2 Mos. 6:8](https://runeberg.org/bibeln/02_06.html) | Jag är HERREN.'» | Jag är HERREN.» | [EFS 1927 GT s. 83–85](https://runeberg.org/bibeln/efs1927/gt/0083.html) | [EFS 1926 GT s. 74–75](https://archive.org/download/bibelnellerdenhe0000unse/page/n85.jpg) |
 | [ ] | E048 | [2 Mos. 6:14](https://runeberg.org/bibeln/02_06.html) | deras familjer. Rubens, Israels | deras familjer: Rubens, Israels | [EFS 1927 GT s. 83–85](https://runeberg.org/bibeln/efs1927/gt/0083.html) | [EFS 1926 GT s. 74–75](https://archive.org/download/bibelnellerdenhe0000unse/page/n85.jpg) |
 | [ ] | E049 | [2 Mos. 6:27](https://runeberg.org/bibeln/02_06.html) | Mose och Aron, | Mose och Aron. | [EFS 1927 GT s. 83–85](https://runeberg.org/bibeln/efs1927/gt/0083.html) | [EFS 1926 GT s. 74–75](https://archive.org/download/bibelnellerdenhe0000unse/page/n85.jpg) |
+| [ ] | E050 | [2 Mos. 7:5](https://runeberg.org/bibeln/02_07.html) | skola förnimma att jag är | skola förnimma, att jag är | [EFS 1927 GT s. 85](https://runeberg.org/bibeln/efs1927/gt/0085.html) | [EFS 1926 GT s. 76](https://archive.org/download/bibelnellerdenhe0000unse/page/n87.jpg) |
+| [ ] | E051 | [2 Mos. 7:6](https://runeberg.org/bibeln/02_07.html) | de gjorde såsom HERREN | de gjorde, såsom HERREN | [EFS 1927 GT s. 85](https://runeberg.org/bibeln/efs1927/gt/0085.html) | [EFS 1926 GT s. 76](https://archive.org/download/bibelnellerdenhe0000unse/page/n87.jpg) |
+| [ ] | E052 | [2 Mos. 7:10](https://runeberg.org/bibeln/02_07.html) | Farao och gjorde såsom HERREN | Farao och gjorde, såsom HERREN | [EFS 1927 GT s. 85](https://runeberg.org/bibeln/efs1927/gt/0085.html) | [EFS 1926 GT s. 76](https://archive.org/download/bibelnellerdenhe0000unse/page/n87.jpg) |
+| [ ] | E053 | [2 Mos. 7:15](https://runeberg.org/bibeln/02_07.html) | din hand staven som | din hand staven, som | [EFS 1927 GT s. 85](https://runeberg.org/bibeln/efs1927/gt/0085.html) | [EFS 1926 GT s. 76](https://archive.org/download/bibelnellerdenhe0000unse/page/n87.jpg) |
+| [ ] | E054 | [2 Mos. 7:17](https://runeberg.org/bibeln/02_07.html) | skall du förnimma att jag | skall du förnimma, att jag | [EFS 1927 GT s. 86](https://runeberg.org/bibeln/efs1927/gt/0086.html) | [EFS 1926 GT s. 77](https://archive.org/download/bibelnellerdenhe0000unse/page/n88.jpg) |
+| [ ] | E055 | [2 Mos. 7:19](https://runeberg.org/bibeln/02_07.html) | din stav, och räck | din stav och räck | [EFS 1927 GT s. 86](https://runeberg.org/bibeln/efs1927/gt/0086.html) | [EFS 1926 GT s. 77](https://archive.org/download/bibelnellerdenhe0000unse/page/n88.jpg) |
+| [ ] | E056 | [2 Mos. 7:20](https://runeberg.org/bibeln/02_07.html) | gjorde såsom HERREN hade bjudit. … allt vatten floden till blod. | gjorde, såsom HERREN hade bjudit. … allt vatten i floden till blod. | [EFS 1927 GT s. 86](https://runeberg.org/bibeln/efs1927/gt/0086.html) | [EFS 1926 GT s. 77](https://archive.org/download/bibelnellerdenhe0000unse/page/n88.jpg) |
 
-**Behållna skillnader, där bara 1927 avviker (e-texten följer 1926):** 1:5 (*de, som … länd, sjuttio*), 1:10 och 1:20 (komma för semikolon), 1:14 (ingen komma efter *korteligen*), 2:10 (ingen komma efter *ty*), 2:12 (versalt *Då*), 2:13 (*den, som*), 2:15 (*Och så fick*, *land,*) och 2:22 (*land, som*).
+**Behållna skillnader, där bara 1927 avviker (e-texten följer 1926):** 1:5 (*de, som … länd, sjuttio*), 1:10 och 1:20 (komma för semikolon), 1:14 (ingen komma efter *korteligen*), 2:10 (ingen komma efter *ty*), 2:12 (versalt *Då*), 2:13 (*den, som*), 2:15 (*Och så fick*, *land,*) och 2:22 (*land, som*). I kapitel 7 behålls 7:2 (*allt, vad*), 7:11 (*visa* i 1927, *vise* i e-texten och 1926), 7:15 (*väg,* står i 1926 men inte i 1927), 7:17 (*staven, som*, *hand,*) och 7:25 (*dagar,*).
 
 ## Så kontrolleras och återbyggs rättelserna
 

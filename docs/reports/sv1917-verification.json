@@ -3512,6 +3512,26 @@
         }
       ],
       "notes": "Hela 6:1–30 jämförd mot EFS 1927 GT s. 83–85 och EFS 1926 GT s. 74–75 (n85–n86). E044–E049 införda endast där båda trycken är överens mot e-texten: komma i 6:1, 6:4 och 6:7 (förnimma, att … HERREN, eder Gud), kolon i 6:14, punkt i 6:27 och det felaktiga avslutande apostrofen i 6:8. Behållna läsningar där bara ett tryck avviker: hon i 6:23 (1926 har och hon födde, 1927 saknar hon), komma i 6:12 och 6:29 samt tankstrecket i 6:12. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "3f1765d9db8a23f276766cce7478044fa9ea63b642e3f2972a450e60ed7cdcfe",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0085.1.tif",
+          "sha256": "1f50c33710345542358c2b16bb2d9593138a8049a2a59b687b28c6e6f5884ab8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0086.1.tif",
+          "sha256": "1d831ad56b489f2a6e0ae4be4b37b6808ea1cd3d93387b5481e0aabd305ede75"
+        }
+      ],
+      "notes": "Hela 7:1–25 jämförd mot EFS 1927 GT s. 85–86 och EFS 1926 GT s. 76–77 (Internet Archive bibelnellerdenhe0000unse, n87–n88; båda sidorna lästa mot bild). E050–E056 införda endast där båda trycken är överens mot e-texten: komma i 7:5, 7:6, 7:10, 7:15 (staven, som), 7:17 (förnimma, att) och 7:20 (gjorde, såsom), komma borttaget i 7:19 (din stav och räck) samt det utelämnade i i 7:20 (allt vatten i floden). Behållna läsningar där bara ett tryck avviker: 7:2 (1927 allt, vad), 7:11 (1927 visa, e-text och 1926 vise), 7:15 (1927 saknar komma efter väg), 7:17 (1927 staven, som; hand,) och 7:25 (1927 dagar,). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
