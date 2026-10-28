@@ -12,7 +12,7 @@ Och	8350	word	"Ok
 skall	8264	word	"skal
 på	8257	word	
 icke	8179	word	""I$ke
-för	8152	word	"f2:r
+för	8151	word	"f2:r
 jag	8126	word	"jA:g
 den	7757	word	
 med	7576	word	"me:d
@@ -167,8 +167,8 @@ hos	740	word	"hu:s
 tillbaka	739	word	tIl$"bA:$ka
 lät	732	word	"lE:t
 vår	726	word	"vo:r
+får	719	word	"fo:r
 Mose	718	name	
-får	718	word	"fo:r
 två	715	word	"tvo:
 gav	688	word	"gA:v
 fader	682	word	""fA:$der
@@ -1257,7 +1257,6 @@ frukten	59	word	"fru0k$ten
 förföljde	59	word	f9r$"f9lj$de
 glädja	59	word	""glE:d$ja
 gråt	59	word	"gro:t
-herres	59	word	""hE$res
 härom	59	word	
 hår	59	word	"ho:r
 markens	59	word	"mar$kens
@@ -1275,6 +1274,7 @@ efa	58	word
 fattige	58	word	""fa$tI$ge
 givas	58	word	""ji:$vas
 helgat	58	word	""hEl$gat
+herres	58	word	""hE$res
 likaledes	58	word	""li:$ka$%le:$des
 lova	58	word	""lo:$va
 psalm	58	word	"salm
@@ -1860,6 +1860,7 @@ visst	38	word	"vIst
 Att	37	word	"at
 Ben	37	word	"bEn
 Dan	37	name	"dA:n
+Herres	37	word	""hE$res
 Jesaja	37	name	
 Mispa	37	name	
 Natan	37	name	""nA:$tan
@@ -1904,7 +1905,6 @@ Amasja	36	name
 Ditt	36	word	"dIt
 Gileads	36	name	
 Hadad	36	name	ha$"dad
-Herres	36	word	""hE$res
 Hesbon	36	name	
 Rama	36	name	""rA:$ma
 Semaja	36	name	
@@ -2186,6 +2186,7 @@ hud	31	word	"h}:d
 jubla	31	word	""j}:$bla
 länd	31	word	"lEnd
 lätt	31	word	"lEt
+lösa	31	word	""l2:$sa
 moln	31	word	"mo:ln
 olika	31	word	""u:$%li:$ka
 omkull	31	word	Om$"ku0l
@@ -2252,7 +2253,6 @@ innersta	30	word	"I$ne$s`t`a
 intogo	30	word	
 lyckosam	30	word	""lY$kU$%sam
 lärde	30	word	""lE:$d`e
-lösa	30	word	""l2:$sa
 misskund	30	word	""mI$%sku0nd
 njuta	30	word	""nj}:$ta
 norra	30	word	""nO$ra
@@ -3279,7 +3279,6 @@ lamporna	19	word	""lam$pU$n`a
 livsfrukt	19	word	""lIfs$%fru0kt
 ljuvligt	19	word	""j}:v$lIkt
 lopp	19	word	"lOp
-läsa	19	word	""lE:$sa
 mannens	19	word	"ma$nens
 manteln	19	word	""man$teln
 maten	19	word	""mA:$ten
@@ -3441,6 +3440,7 @@ ler	18	word	"le:r
 lyda	18	word	""ly:$da
 läggas	18	word	""lE$gas
 längst	18	word	"lENst
+läsa	18	word	""lE:$sa
 låder	18	word	"lo:$der
 menade	18	word	""me:$na$de
 menen	18	word	"me:$nen
@@ -3896,7 +3896,6 @@ bleven	15	word
 blive	15	word	
 botad	15	word	
 budet	15	word	"b}:$det
-by	15	word	"by:
 bågar	15	word	""bo:$gar
 dalar	15	word	""dA:$lar
 delen	15	word	"de:$len
@@ -4122,6 +4121,7 @@ brudgummen	14	word	""br}:d$%gu0$men
 bruk	14	word	"br}:k
 bröders	14	word	"br2:$des`
 buden	14	word	"b}:$den
+by	14	word	"by:
 bäckenställen	14	word	
 dricken	14	word	
 dräkt	14	word	"drEkt
@@ -7664,6 +7664,7 @@ hotade	6	word	""hu:$ta$de
 hungerns	6	word	"hu0N$en`s`
 hungriga	6	word	""hu0N$rI$ga
 husgudarna	6	word	""h}:s$%g}:$da$n`a
+hy	6	word	"hy:
 hädar	6	word	""hE:$dar
 hädelse	6	word	""hE:$del$se
 häktor	6	word	""hEk$tUr
@@ -8647,7 +8648,6 @@ hungrande	5	word
 husatiten	5	word	
 husgudar	5	word	""h}:s$%g}:$dar
 hustrurs	5	word	""hu0$str}:s`
-hy	5	word	"hy:
 hädade	5	word	""hE:$da$de
 hägnad	5	word	""hEN$nad
 härarna	5	word	""hE:$ra$n`a
