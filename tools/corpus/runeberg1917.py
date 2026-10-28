@@ -291,6 +291,10 @@ REPLACE={
  ('Exod',30,13):('såsom offergärd åt HERREN,','såsom offergärd åt HERREN.'),
  ('Exod',30,15):('åt HERREN, till att bringa','åt HERREN till att bringa'),
  ('Exod',30,20):('på del att de icke','på det att de icke'),
+ # Exodus 31 (EFS 1927 GT s. 122-123 and EFS 1926 GT s. 110-111): E244-E246, readings both prints agree on.
+ ('Exod',31,10):('kläder, så och hans','kläder, så ock hans'),
+ ('Exod',31,11):('i alla stycken såsom','i alla stycken, såsom'),
+ ('Exod',31,13):('mellan mig och eder, från släkte till släkte, för att I skolen veta att jag','mellan mig och eder från släkte till släkte, för att I skolen veta, att jag'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),

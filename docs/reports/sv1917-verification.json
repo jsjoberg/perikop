@@ -4036,6 +4036,26 @@
         }
       ],
       "notes": "Hela 30:1–38 jämförd mot EFS 1927 GT s. 120–122 och EFS 1926 GT s. 109–110 (Internet Archive bibelnellerdenhe0000unse, n120–n121; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: semikolon för komma i 30:1, *horn* för *hörn* i 30:3, komma borttaget i 30:8 och 30:15, *I* tillagt i 30:9, punkt för komma i 30:13 och *det* för *del* i 30:20. Behållna läsningar där bara ett tryck avviker: 30:6 (*förlåt,* i 1927), 30:13–30:14 (*en,* och *tjugo* i 1927), 30:14 (*Var och en, som* i 1927), 30:29 och 30:33 (kommatecken som bara 1927 har) och 30:37 (*eder, så* i 1927, *sammansatt, som* i 1926); de långa tankstrecken i 30:2 och 30:13 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 31,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "efa607c9c95750d6a4c059350775c2386a955b4bf460c715e208680302206cc0",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0122.1.tif",
+          "sha256": "1c279ba08df91e5d6fa5aca3d0ac0e6b5c2304e59be6f58c7c1b4caf0f7cedae"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0123.1.tif",
+          "sha256": "da4a59767768a2562c410f6521f02e86679cf1cfb454fafb31b499103af2b1f3"
+        }
+      ],
+      "notes": "Hela 31:1–18 jämförd mot EFS 1927 GT s. 122–123 och EFS 1926 GT s. 110–111 (Internet Archive bibelnellerdenhe0000unse, n121–n122; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *ock* för *och* i 31:10, komma tillagt i 31:11 och 31:13, komma borttaget i 31:13. Behållna läsningar där bara ett tryck avviker: 31:3 (*ande* i 1927), 31:6, 31:14 och 31:15 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
