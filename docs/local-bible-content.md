@@ -68,12 +68,11 @@ the updated text-free recipe extracts it from the user's pinned PDFs and verifie
 its own aggregate checksum before installation.
 
 The import page says whether the installed text is up to date or a better import
-is available. It compares the text checksum already stored at import time and
-the installed heading text with the current recipe's fingerprints. These hashes
-are generated with the recipe; no importer version or migration is stored.
-Older imports and missing or changed headings receive the reimport message.
-The check only reads data. The import button stays enabled so the user can
-reimport the same PDFs when convenient.
+is available. A single probe checks the latest known defect: Leviticus 11:1
+must have its corrected verse text and a separate heading. No importer version,
+migration or full-content scan is needed. This is a representative check, not
+a complete integrity audit; update the probe when fixing an independent defect.
+The user can reimport the same PDFs when convenient.
 
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers

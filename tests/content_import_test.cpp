@@ -127,18 +127,15 @@ int main(int argc, char** argv) {
             std::filesystem::copy_file(destination, existing);
             {
                 auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
-                ortho::storage::exec(db.get(), "DROP TABLE imported_heading;"
-                                               "UPDATE imported_verse SET text='Unchanged local text' WHERE "
-                                               "book='Col' AND chapter=2 AND verse=1");
+                ortho::storage::exec(db.get(), "UPDATE imported_verse SET text='Unchanged local text' WHERE "
+                                               "book='Lev' AND chapter=11 AND verse=1");
             }
             const auto existing_hash = hash_file(existing);
             ortho::CorpusDb previous(corpus_file);
             previous.load_imported(existing);
-            check(!previous.import_is_current(), "Import without headings is reported as current");
-            const auto stored = previous.verse(ortho::srb_source, "Col", {2, 1});
-            check(stored && stored->text == "Unchanged local text" &&
-                      previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty() &&
-                      hash_file(existing) == existing_hash,
+            check(!previous.import_is_current(), "Known import defect is reported as fixed");
+            const auto stored = previous.verse(ortho::srb_source, "Lev", {11, 1});
+            check(stored && stored->text == "Unchanged local text" && hash_file(existing) == existing_hash,
                   "Reading an existing import modified its text or database");
             ortho::import_reformationsbibeln(gt, nt, recipe, existing);
             previous.load_imported(existing);
@@ -156,24 +153,12 @@ int main(int argc, char** argv) {
             check(checked == 31171, "Reimport missed verses");
             {
                 auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
-                ortho::storage::exec(
-                    db.get(), "UPDATE content_metadata SET value=printf('%064d',0) WHERE key='srb2026'");
-                check(!previous.import_is_current(), "Older text fingerprint is reported as current");
+                ortho::storage::exec(db.get(), "DROP TABLE imported_heading");
             }
-            {
-                auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
-                auto current = ortho::storage::open(destination, SQLITE_OPEN_READONLY);
-                ortho::storage::Statement read(current.get(),
-                                               "SELECT value FROM content_metadata WHERE key='srb2026'");
-                check(read.row(), "Fresh import has no fingerprint");
-                ortho::storage::Statement restore(db.get(),
-                                                  "UPDATE content_metadata SET value=? WHERE key='srb2026'");
-                restore.text(1, read.text(0));
-                restore.row();
-                ortho::storage::exec(db.get(), "UPDATE imported_heading SET text='Stale test heading' WHERE "
-                                               "book='Ps' AND chapter=119 AND verse=9");
-                check(!previous.import_is_current(), "Changed headings are reported as current");
-            }
+            previous.load_imported(existing);
+            check(!previous.import_is_current() &&
+                      previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty(),
+                  "Import without headings is reported as current");
             const auto genesis = corpus.verse(ortho::srb_source, "Gen", {1, 1});
             check(genesis && picosha2::hash256_hex_string(genesis->text) ==
                                  "0bd7cd4901c1c4a628564c789efc1b0aa0c3dc6e1c9f57973853712c9dcbe235",
