@@ -4,6 +4,7 @@
 #include "storage/sqlite.hpp"
 #include <algorithm>
 #include <map>
+#include <picosha2.h>
 #include <stdexcept>
 namespace ortho {
 using storage::exec;
@@ -79,6 +80,13 @@ std::string CorpusDb::source_for_language(const std::string& language, const std
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
 }
+bool CorpusDb::import_is_current() const {
+    // shortcut: This is the latest known import defect; update the probe for a later independent fix.
+    const auto probe = verse(srb_source, "Lev", {11, 1});
+    return probe && !probe->headings.empty() &&
+           picosha2::hash256_hex_string(probe->text) ==
+               "379692a2d4863312ef527878345fe3bb45e8f965ce9eaeb3be65ba7c70da0d80";
+}
 void CorpusDb::load_imported(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path))
         return;
@@ -97,8 +105,6 @@ void CorpusDb::load_imported(const std::filesystem::path& path) {
     if (!count.row() || count.number(0) != 31171 || count.number(1) != 66)
         throw std::runtime_error("Det lokala bibelinnehållet är ofullständigt. Importera PDF-filerna igen.");
     std::lock_guard lock(cache_mutex_);
-    legacy_srb_initials_ =
-        valid.text(0) == "06e9957d4b860bfdfc9e70b24df6f23c2332f19314e45c9d0cd88ae5035fc625";
     imported_ = std::move(candidate);
     versification_[srb_source] = "SRB2026";
     clear_imported_cache();
@@ -198,6 +204,16 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
     }
     if (source == srb_source) {
         if (imported_) {
+            Statement schema(imported_.get(),
+                             "SELECT 1 FROM sqlite_master WHERE type='table' AND name='imported_heading'");
+            if (schema.row()) {
+                Statement headings(imported_.get(), "SELECT chapter,verse,text FROM imported_heading WHERE "
+                                                    "book=? ORDER BY chapter,verse,ordinal");
+                headings.text(1, book);
+                while (headings.row())
+                    entry->second.headings[{headings.number(0), headings.number(1)}].push_back(
+                        headings.text(2));
+            }
             Statement query(
                 imported_.get(),
                 "SELECT chapter,verse,text FROM imported_verse WHERE book=? ORDER BY chapter,verse");
@@ -206,10 +222,6 @@ const CorpusDb::BookText& CorpusDb::book_text(const std::string& source, const s
                 entry->second.coordinates.push_back({query.number(0), query.number(1)});
                 entry->second.last_verses.push_back(query.number(1));
                 entry->second.texts.push_back(query.text(2));
-                // The 0.2.0 recipe omitted two Times New Roman drop capitals; keep old imports usable.
-                if (legacy_srb_initials_ && query.number(1) == 1 &&
-                    ((book == "Col" && query.number(0) == 2) || (book == "Jude" && query.number(0) == 1)))
-                    entry->second.texts.back().insert(0, "J");
             }
         }
         return entry->second;
@@ -239,12 +251,15 @@ std::expected<Verse, std::string> CorpusDb::verse(const std::string& source, con
     while (at != refs.begin() && (at - 1)->chapter == ref.chapter) {
         --at;
         const auto i = std::size_t(at - refs.begin());
-        if (at->suffix == ref.suffix && text.last_verses[i] >= ref.verse)
+        if (at->suffix == ref.suffix && text.last_verses[i] >= ref.verse) {
+            const auto headings = text.headings.find(*at);
             return Verse{*at, text.texts[i],
                          text.last_verses[i] == at->verse
                              ? std::nullopt
                              : std::optional<VerseRef>{{ref.chapter, text.last_verses[i]}},
-                         book};
+                         book,
+                         headings == text.headings.end() ? std::vector<std::string>{} : headings->second};
+        }
     }
     return std::unexpected("Text saknas i denna utgåva");
 }
@@ -462,6 +477,7 @@ std::expected<Verse, std::string> CorpusDb::parallel_verse(const std::string& fr
         if (!result.text.empty())
             result.text += ' ';
         result.text += part->text;
+        result.headings.insert(result.headings.end(), part->headings.begin(), part->headings.end());
         if (targets.size() == 1)
             result.last = part->last;
     }

@@ -39,6 +39,7 @@ public:
     bool has_imported() const {
         return bool(imported_);
     }
+    bool import_is_current() const;
     std::vector<Source> sources() const;
     std::vector<std::string> source_books(const std::string& source) const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,
@@ -97,6 +98,7 @@ private:
         std::vector<VerseRef> coordinates;
         std::vector<int> last_verses;
         std::vector<std::string> texts;
+        std::map<VerseRef, std::vector<std::string>> headings;
         std::map<VerseRef, std::size_t> order;
     };
     const BookText& book_text(const std::string& source, const std::string& book) const;
@@ -106,7 +108,6 @@ private:
                                                  const std::string& book) const;
     DatabaseHandle db_;
     DatabaseHandle imported_;
-    bool legacy_srb_initials_ = false;
     DatabaseHandle study_;
     DatabaseHandle reference_;
     void load_reference(const std::filesystem::path&);

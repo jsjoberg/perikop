@@ -280,8 +280,16 @@ void ScriptureView::center_passage() {
                            within_refs(displayed_.first, column.verses[run.tag].first,
                                        column.verses[run.tag].second);
                 })) {
-                if (line > 2)
-                    position = positions_[index] + (line - 2) * text.line_height;
+                auto context = line;
+                while (context && std::all_of(text.lines[context - 1].runs.begin(),
+                                              text.lines[context - 1].runs.end(), [](const auto& run) {
+                                                  return run.tag < 0;
+                                              }))
+                    --context;
+                // Keep the whole introductory heading when opening its first verse.
+                const auto start = std::min(context, line > 2 ? line - 2 : 0);
+                if (start)
+                    position = positions_[index] + start * text.line_height;
                 break;
             }
     }
@@ -355,11 +363,11 @@ bool ScriptureView::passage_in_view() const {
             return true;
     return false;
 }
-void ScriptureView::apply(const Settings& settings) {
+void ScriptureView::apply(const Settings& settings, bool content_changed) {
     auto sources = corpus_.sources();
     const bool sources_changed = sources.size() != source_catalog_.size();
     source_catalog_ = std::move(sources);
-    if (sources_changed) {
+    if (sources_changed || content_changed) {
         available_sources_.clear();
         orphans_.clear();
         swedish_editions_.clear();
@@ -367,11 +375,11 @@ void ScriptureView::apply(const Settings& settings) {
     if (sources_changed || settings_.primary_sources != settings.primary_sources ||
         settings_.secondary_sources != settings.secondary_sources)
         chapter_overrides_.clear();
-    const bool metrics_changed = sources_changed || settings_.text_zoom != settings.text_zoom ||
-                                 settings_.word_study != settings.word_study ||
-                                 settings_.split_view != settings.split_view ||
-                                 settings_.primary_sources != settings.primary_sources ||
-                                 settings_.secondary_sources != settings.secondary_sources;
+    const bool metrics_changed =
+        sources_changed || content_changed || settings_.text_zoom != settings.text_zoom ||
+        settings_.word_study != settings.word_study || settings_.split_view != settings.split_view ||
+        settings_.primary_sources != settings.primary_sources ||
+        settings_.secondary_sources != settings.secondary_sources;
     if (settings_.word_study != settings.word_study) {
         highlighted_.reset();
         highlighted_verse_.reset();
@@ -451,9 +459,43 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
             column.language = language;
             column.source = source;
             std::vector<TextFragment> fragments;
+            const double letter = alphabet_width() / 26;
+            ParagraphStyle style;
+            style.ragged = stanza || column_width() < 40 * letter;
+            style.hanging_indent = stanza ? 3 * letter : 0;
+            const auto append_paragraph = [&] {
+                if (fragments.empty())
+                    return;
+                auto paragraph =
+                    layout_paragraph(dc, fragments, std::max(80, column_width()), language, style);
+                column.text.line_height = paragraph.line_height;
+                for (auto& line : paragraph.lines)
+                    column.text.lines.push_back(std::move(line));
+                fragments.clear();
+            };
             std::optional<std::pair<std::string, VerseRef>> previous;
             const auto add = [&](const wxString& text, const wxString& label, VerseRef first, VerseRef last,
-                                 bool faint, bool hebrew) {
+                                 bool faint, bool hebrew, const std::vector<std::string>& headings = {}) {
+                if (!headings.empty()) {
+                    append_paragraph();
+                    if (!column.text.lines.empty())
+                        column.text.lines.emplace_back();
+                    dc.SetFont(body_font(reading_points).Italic());
+                    for (const auto& heading : headings) {
+                        auto paragraph =
+                            layout_paragraph(dc, {{ui::utf8(heading), {}, -1}}, std::max(80, column_width()),
+                                             language, {.ragged = true});
+                        for (auto& line : paragraph.lines) {
+                            for (auto& run : line.runs) {
+                                run.heading = true;
+                                run.x += std::max(0.0, (column_width() - line.width) / 2);
+                            }
+                            column.text.lines.push_back(std::move(line));
+                        }
+                    }
+                    dc.SetFont(body_font(reading_points));
+                    column.text.lines.emplace_back();
+                }
                 column.verses.emplace_back(first, last);
                 column.faint.push_back(faint);
                 column.hebrew.push_back(hebrew);
@@ -501,7 +543,8 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                         number += " (" + mark + ")";
                     }
                 }
-                add(ui::utf8(verse ? verse->text : verse.error()), number, ref, last, !verse, false);
+                add(ui::utf8(verse ? verse->text : verse.error()), number, ref, last, !verse, false,
+                    verse ? verse->headings : std::vector<std::string>{});
                 if (source != frame_)
                     if (auto extra = orphans(source).find(ref); extra != orphans(source).end())
                         for (const auto& [book, own] : extra->second)
@@ -510,17 +553,12 @@ const ScriptureView::Layout& ScriptureView::row_layout(std::size_t index) const 
                                     ui::utf8("Utan OSB-ref · " + corpus_.book_abbreviation(book) + " ") +
                                         wxString::Format("%d:%d", own.chapter, own.verse) +
                                         ui::utf8(own.suffix),
-                                    ref, ref, true, true);
+                                    ref, ref, true, true, text->headings);
             }
             const auto typeset_begin = std::chrono::steady_clock::now();
             render_stats_.fragment_ms +=
                 std::chrono::duration<double, std::milli>(typeset_begin - fetch_begin).count();
-            // Poetry, and columns of under about 40 characters, are set ragged right.
-            const double letter = alphabet_width() / 26;
-            ParagraphStyle style;
-            style.ragged = stanza || column_width() < 40 * letter;
-            style.hanging_indent = stanza ? 3 * letter : 0;
-            column.text = layout_paragraph(dc, fragments, std::max(80, column_width()), language, style);
+            append_paragraph();
             render_stats_.typesetting_ms +=
                 std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - typeset_begin)
                     .count();

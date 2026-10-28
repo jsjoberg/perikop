@@ -174,6 +174,8 @@ void ScriptureView::draw(wxDC& dc, wxSize size, std::size_t begin, std::size_t e
                     gc->Flush();
                 } else {
                     const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {
+                        if (run.heading)
+                            return colors.muted;
                         if (run.tag >= 0 && size_t(run.tag) < column.faint.size() && column.faint[run.tag])
                             return colors.muted;
                         if (run.marker)

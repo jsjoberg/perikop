@@ -76,7 +76,7 @@ def linux(package):
         run("cmake", "--build", BUILD, "--target", "tidy")
     # uv's standalone Python carries modern SQLite; no LD_PRELOAD or custom SQLite build is needed.
     python("tools/check_resources.py")
-    checks("osb_metadata", "modern_lexicon", "srb_pronunciation", "icon", "linux_abi", "ci_dependencies", "ci_build", "windows_cross",
+    checks("osb_metadata", "modern_lexicon", "srb_pronunciation", "srb_audit", "icon", "linux_abi", "ci_dependencies", "ci_build", "windows_cross",
            "appimage_licenses", "nightly", "update_packages")
     if package:
         run("tools/prepare_appdir.sh", BUILD)

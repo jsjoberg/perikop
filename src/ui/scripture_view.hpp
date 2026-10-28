@@ -18,7 +18,7 @@ public:
     bool Show(bool show = true) override;
     void open(const Reading&, bool preserve_sources = false);
     void open_section(std::size_t index);
-    void apply(const Settings&);
+    void apply(const Settings&, bool content_changed = false);
     void center_passage();
     const Reading& reading() const {
         return reading_;

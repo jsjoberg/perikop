@@ -776,7 +776,7 @@
     },
     {
       "path": "resources/content/srb2026.recipe",
-      "sha256": "f4deea9127141e140d4e32804a1d6fc3d64d7eaf6a507a9b3704345a71c40285",
+      "sha256": "e461bea5a94de630cc2a9f9e63d9103640137ceff37d634ea4d9ee75d28ce286",
       "license": "MIT",
       "generated": "tools/content/build_srb_recipe.py"
     },

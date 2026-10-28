@@ -39,6 +39,8 @@ void ScriptureView::draw_text(wxGraphicsContext& gc, wxDC& dc, const Column& col
     const auto first = std::size_t(std::max(0, (-y - pad) / line_height)) / tile_lines;
     const auto count = (text.lines.size() + tile_lines - 1) / tile_lines;
     const auto colour = [&](const TextRun& run) -> std::optional<wxColour> {
+        if (run.heading)
+            return colors.muted;
         if (run.tag >= 0 && std::size_t(run.tag) < column.faint.size() && column.faint[run.tag])
             return colors.muted;
         if (run.marker)

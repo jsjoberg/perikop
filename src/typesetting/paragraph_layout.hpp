@@ -11,6 +11,7 @@ struct TextRun {
     double x = 0, width = 0;
     int tag = -1;
     bool marker = false;
+    bool heading = false;
 };
 struct TextFragment {
     wxString text, label;
