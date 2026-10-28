@@ -51,7 +51,7 @@ man	2677	word	"man
 min	2631	word	"mi:n
 när	2558	word	"nE:r
 Då	2454	word	"do:
-vad	2422	word	"vA:d
+vad	2421	word	"vA:d
 hava	2415	word	""hA:$va
 skola	2386	word	""sku:$la
 deras	2223	word	""de:$ras
@@ -380,7 +380,7 @@ gång	251	word	"gON
 prästerna	251	word	""prE$ste$n`a
 barns	250	word	"bA:n`s`
 likasom	250	word	li:$ka$"sOm
-sätta	249	word	""sE$ta
+sätta	250	word	""sE$ta
 tron	249	word	"tru:n
 Dessa	248	word	""dE$sa
 Salomo	247	name	""sA:$lU$mU
@@ -4814,6 +4814,7 @@ värdet	12	word	""vE:$d`et
 värdighet	12	word	""vE:$d`Ig$%he:t
 vävda	12	word	""vE:v$da
 vävnad	12	word	""vE:v$nad
+våd	12	word	"vo:d
 vånda	12	word	""vOn$da
 vården	12	word	"vo:$d`en
 äntligen	12	word	""Ent$lI$gen
@@ -4975,6 +4976,7 @@ gudarna	11	word	""g}:$da$n`a
 guds	11	word	
 gärningars	11	word	""jE:$n`IN$as`
 gåvorna	11	word	""go:$vU$n`a
+hakar	11	word	""hA:$kar
 halsen	11	word	"hal$sen
 helgelse	11	word	""hEl$gel$se
 hemsökelser	11	word	""hEm$%s2:$kel$ser
@@ -5139,7 +5141,6 @@ väldigt	11	word	""vEl$dIkt
 välsigne	11	word	vEl$"sIN$ne
 väpnad	11	word	
 växt	11	word	"vEkst
-våd	11	word	"vo:d
 våningen	11	word	""vo:$nIN$en
 ytterst	11	word	"Y$tes`t`
 ätter	11	word	""E$ter
@@ -5307,7 +5308,6 @@ gudstjänsten	10	word	""gu0ts$%s'En$sten
 gård	10	word	"go:d`
 gömd	10	word	"j9md
 haglet	10	word	"hA:$glet
-hakar	10	word	""hA:$kar
 handel	10	word	"han$del
 hanen	10	word	""hA:$nen
 hedmarken	10	word	""he:d$%mar$ken
@@ -7853,7 +7853,6 @@ saft	6	word	"saft
 sakta	6	word	""sak$ta
 samfällt	6	word	""sam$%fElt
 samtal	6	word	""sam$%tA:l
-satta	6	word	""sa$ta
 sextiosex	6	word	sek$stI$U$"sEks
 sinnad	6	word	""sI$nad
 sittande	6	word	
@@ -8918,6 +8917,7 @@ samveten	5	word	""sam$%ve:$ten
 samvetets	5	word	""sam$%ve:$tets
 sanne	5	word	""sa$ne
 sannfärdiga	5	word	""san$%fE:$d`I$ga
+satta	5	word	""sa$ta
 sedd	5	word	"sEd
 sedda	5	word	""sE$da
 segla	5	word	""se:$gla
@@ -14064,7 +14064,6 @@ babyloniernas	2	word	ba$bY$"lu:$nI$e$n`as
 backe	2	word	""ba$ke
 badet	2	word	"bA:$det
 bagare	2	word	""bA:$ga$re
-bakar	2	word	""bA:$kar
 bakaträden	2	word	
 bakaträdens	2	word	
 bakdelar	2	word	""bA:k$%de:$lar
@@ -20327,6 +20326,7 @@ bagarens	1	word	""bA:$ga$rens
 bagerskor	1	word	""bA:$ge$s`kUr
 baharumiten	1	word	
 bak	1	word	"bA:k
+bakar	1	word	""bA:$kar
 bakefter	1	word	bA:k$"Ef$ter
 bakskallighet	1	word	
 bakstammen	1	word	""bA:k$%sta$men

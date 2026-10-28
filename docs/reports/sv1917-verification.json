@@ -3920,6 +3920,30 @@
         }
       ],
       "notes": "Hela 25:1–40 jämförd mot EFS 1927 GT s. 111–113 och EFS 1926 GT s. 100–102 (Internet Archive bibelnellerdenhe0000unse, n111–n113; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 25:3 och 25:31, komma borttaget i 25:7, 25:19 och 25:31, punkt tillagd i 25:24, semikolon i 25:33, *armar* för *arma* i 25:33, *det* för *del* i 25:35 och kolon borttaget i 25:36. Behållna läsningar där bara ett tryck avviker: 25:2 (*en, som … hjärta,* i 1927), 25:6 (*smörjelseolja* i 1927), 25:9 och 25:40 (*mönsterbilder,* i 1927), 25:22 (*bud,* i 1927), 25:33 (*armar,* i 1927) och 25:35 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 26,
+      "status": "verified",
+      "verse_count": 37,
+      "text_sha256": "cc7338272eb928a9441210f4df0ac092e89830d98bd2df7d039aaf99b413ca31",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0113.1.tif",
+          "sha256": "2854174b120b42d7f50b541d6198a3a7f33fbc623a9f31bd3fdcee3abfa2a159"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0114.1.tif",
+          "sha256": "d3f121442bf3ff28df79216ff06f90ab1e5f60c8d47cc7e3ba0da4d7227592ad"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0115.1.tif",
+          "sha256": "ecc33b5d6f47f355a60656bc2ce45d9a9c389f3946232015fe37995b39ce0315"
+        }
+      ],
+      "notes": "Hela 26:1–37 jämförd mot EFS 1927 GT s. 113–115 och EFS 1926 GT s. 102–104 (Internet Archive bibelnellerdenhe0000unse, n113–n115; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *våd* för *vad* i 26:8, *sätta* för *satta* i 26:10, *hakar* för *bakar* i 26:32, komma tillagt i 26:12 (två ställen), komma borttaget i 26:9, 26:31, 26:33 och 26:35. Behållna läsningar där bara ett tryck avviker: 26:18–26:20 (*tjugo* i 1927, *tjugu* i e-texten och 1926), 26:24 (*nedtill och* i 1927), 26:35 (*bordet,* i 1927) och 26:1 (OCR-skillnader som inte är läsningar). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
