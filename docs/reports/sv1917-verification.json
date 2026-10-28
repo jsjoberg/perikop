@@ -4164,6 +4164,30 @@
         }
       ],
       "notes": "Hela 36:1–38 jämförd mot EFS 1927 GT s. 130–131 och EFS 1926 GT s. 118–119 (Internet Archive bibelnellerdenhe0000unse, n129–n130; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 36:1, 36:3, 36:4, 36:5 och 36:6, *giva* för *göra* i 36:6, *ock* för *och* i 36:14, semikolon för komma i 36:15 och komma borttaget i 36:16 och 36:19. Behållna läsningar där bara ett tryck avviker: 36:4 (*arbete,* i 1927), 36:8 (*på, i* i 1926), 36:11–36:12 och 36:31–36:32 (*bräder,* och liknande kommatecken som bara 1927 har), 36:18 (*hektor* i 1927), 36:23 (*takernaklets* i 1927, tryckfel), 36:24–36:25 (*tjugo* i 1927), 36:29 (*nedtill,* i 1926) och 36:29 (*upp till* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 37,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "b05d3edcae4d0e1664d2212ae6f107bdb7cfec4ec761ff73e7bd0d893291084b",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0131.1.tif",
+          "sha256": "efa7ab864337564471dbf94218882f000489d19c8f02813410da93fa884f034f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0132.1.tif",
+          "sha256": "e15b190cb9828e346de60c36ac85978301b20f66b79df3d14122a0b7691c8cf2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0133.1.tif",
+          "sha256": "3dcfbf8d6778ff916d3d29af35baa23d265c192115a927b78b58fd7e0619a7ab"
+        }
+      ],
+      "notes": "Hela 37:1–29 jämförd mot EFS 1927 GT s. 131–133 och EFS 1926 GT s. 119–120 (Internet Archive bibelnellerdenhe0000unse, n130–n131; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: kolon borttaget i 37:3, komma tillagt i 37:16, slutpunkt tillagd i 37:19 och *horn* för *hörn* i 37:26. Behållna läsningar där bara ett tryck avviker: 37:2–37:15 (1927 har tydligen samma text; bara OCR-skillnader), 37:17 (*med dem* i 1927, *med den* i e-texten och 1926), 37:19 (*armar, som* i 1927) och 37:21 (*armparet, som … ljusstaken i ett stycke* i 1927, komma efter *ljusstaken* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

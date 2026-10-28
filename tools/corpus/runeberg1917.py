@@ -351,6 +351,11 @@ REPLACE={
  ('Exod',36,15):('alnar bred, de elva','alnar bred; de elva'),
  ('Exod',36,16):('särskilt stycke,','särskilt stycke'),
  ('Exod',36,19):('till täckelset, och ytterligare','till täckelset och ytterligare'),
+ # Exodus 37 (EFS 1927 GT s. 131-133 and EFS 1926 GT s. 119-120): E298-E301, readings both prints agree on.
+ ('Exod',37,3):('fyra ringar: av guld','fyra ringar av guld'),
+ ('Exod',37,16):('kannorna med vilka','kannorna, med vilka'),
+ ('Exod',37,19):('som utgingo från ljusstaken','som utgingo från ljusstaken.'),
+ ('Exod',37,26):('dess hörn;','dess horn;'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
