@@ -3832,6 +3832,30 @@
         }
       ],
       "notes": "Hela 21:1–36 jämförd mot EFS 1927 GT s. 105–107 och EFS 1926 GT s. 95–96 (Internet Archive bibelnellerdenhe0000unse, n106–n107; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 21:1, 21:7, 21:13, 21:14, 21:22 (två ställen) och 21:31 och 21:36, komma borttaget i 21:2, 21:11, 21:18, 21:22, 21:29 och 21:33, samt *vare* för *vara* i 21:28. Behållna läsningar där bara ett tryck avviker: 21:4 (*har* saknas i 1927), 21:6 (*dörrposten;* i 1927), 21:8, 21:10 (*förres* i 1927), 21:16 (*stulne* utan komma i 1927), 21:18 (*dör men* utan komma i 1927), 21:19 (kommatecken som bara 1927 har), 21:26–21:27 (*fri,* och *Sammalunda,* i 1926 men inte i 1927) och 21:29–21:30 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "988c087477587d1b36ed8105892935682f72b8405f037731fc9dcc8d448e1953",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0107.1.tif",
+          "sha256": "9baa446f8f253f4cce1b90d84dfcc066f9627092ab21739844fc91a71fccbe25"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0108.1.tif",
+          "sha256": "8cc052de3409c32bb5bf49f93e82f9bfbe571c5f906aa443bf06555ad8ad3297"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0109.1.tif",
+          "sha256": "9b367ea3fd4a971b4f56c4e6c9cbff149f4de8aab00b64185845fce9f0748628"
+        }
+      ],
+      "notes": "Hela 22:1–31 jämförd mot EFS 1927 GT s. 107–109 och EFS 1926 GT s. 97–98 (Internet Archive bibelnellerdenhe0000unse, n108–n109; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 22:8, 22:9, 22:11 (två ställen), 22:16 (två ställen), 22:17 och 22:24, komma borttaget i 22:3, 22:5, 22:6, 22:7 och 22:14 (två ställen), *det* för *de* i 22:3, *så* med gemen i 22:11 och kolon borttaget i 22:31. Behållna läsningar där bara ett tryck avviker: 22:1 (inte kontrollerat mot 1926-bild), 22:6 (*den, som … branden,* i 1927), 22:9 (*annat,* i 1927), 22:19 och 22:29–22:31 (kommatecken som bara 1927 har), 22:23 (*för visso* och *mig,* i 1927) och 22:9 (långa tankstreck, se typografifrågan). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
