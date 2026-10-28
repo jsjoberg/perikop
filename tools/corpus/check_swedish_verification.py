@@ -29,7 +29,7 @@ def validate_evidence(record, key):
     for scan in record['scans']:
         url = urlparse(scan['url'])
         if (url.scheme != 'https' or url.netloc != 'runeberg.org'
-                or not re.fullmatch(r'/img/(?:apokryf/\d{4}|bibeln/efs1927/gt/\d{4})\.1\.tif', url.path)
+                or not re.fullmatch(r'/img/(?:apokryf/\d{4}|bibeln/efs1927/(?:gt|nt)/\d{4})\.1\.tif', url.path)
                 or not re.fullmatch(r'[0-9a-f]{64}', scan['sha256'])):
             raise ValueError('Invalid scan witness: %s' % (key,))
 
@@ -80,10 +80,15 @@ def validate_print_witnesses(records, chapters, root=ROOT):
         rows = [row for row in chapters.get(key, []) if row[2] == record['verse']]
         path = (root / record['photo_path']).resolve()
         datetime.date.fromisoformat(record['checked_at'])
+        decision = record.get('decision', 'corrected')
+        correction = record.get('correction_id')
         if (record['id'] in seen or not re.fullmatch(r'V\d{3}', record['id'])
                 or record['status'] != 'resolved' or not record['reviewer'].strip()
                 or not record['source'].strip() or not record['notes'].strip()
-                or not re.fullmatch(r'[RA]\d{3}', record['correction_id'])
+                or decision not in ('corrected', 'retained')
+                or (decision == 'corrected' and
+                    (not isinstance(correction, str) or not re.fullmatch(r'[RA]\d{3}', correction)))
+                or (decision == 'retained' and correction is not None)
                 or len(rows) != 1 or not record['reading'] or record['reading'] not in rows[0][3]
                 or record['text_sha256'] != text_hash(rows)):
             raise ValueError('Invalid or changed print-witness reading: %s' % record['id'])
@@ -98,9 +103,11 @@ def validate_print_witnesses(records, chapters, root=ROOT):
 def main():
     with sqlite3.connect((ROOT / 'resources/corpus/corpus.db').as_uri() + '?mode=ro', uri=True) as db:
         rows = db.execute("""SELECT b.code,v.chapter,v.verse,v.text,
-            CASE WHEN b.deuterocanonical THEN 'AP' ELSE 'GT' END,b.name_sv
+            CASE WHEN b.code IN ('Matt','Mark','Luke','John') THEN 'Gospels'
+                 WHEN b.new_testament THEN 'Other NT'
+                 WHEN b.deuterocanonical THEN 'AP' ELSE 'GT' END,b.name_sv
             FROM verse v JOIN book b ON b.id=v.book_id JOIN source s ON s.id=v.source_id
-            WHERE s.code='sv1917' AND NOT b.new_testament
+            WHERE s.code='sv1917'
             ORDER BY b.canonical_order,v.chapter,v.verse""").fetchall()
     chapters = collections.defaultdict(list)
     books = {}
@@ -119,7 +126,7 @@ def main():
         total = sum(len(chapters[key]) for key in keys)
         status = 'complete' if done == keys else 'partial' if done else 'unverified'
         print('%s\t%s\t%d\t%d\t%d\t%d\t%s' % (book, section, len(done), len(keys), count, total, status))
-    for section in ('AP', 'GT'):
+    for section in ('AP', 'Gospels', 'Other NT', 'GT'):
         keys = {key for key in chapters if books[key[0]][0] == section}
         done = keys & covered
         count = sum(len(chapters[key]) for key in done)
