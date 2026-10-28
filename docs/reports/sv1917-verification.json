@@ -3384,11 +3384,11 @@
     {
       "book": "Lev",
       "chapter": 1,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 17,
       "text_sha256": "6b1e59ea920c6299ea97730c5e27a8b9cc223f23e9b99d44f2f6c8400b51b6dc",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0138.1.tif",
@@ -3399,16 +3399,16 @@
           "sha256": "d4a9847b6cfaa07b2bddfcf102632d72e5c310e9b517cab1400ecbbc3e81262b"
         }
       ],
-      "notes": "Tredje Moseboken 1:1–17 jämförd som OCR-text mot EFS 1927 GT s. 138–139 och EFS 1926 GT s. 126–127 (Internet Archive bibelnellerdenhe0000unse, n137–n138). 1 versposter rättade (L001), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilder lästa för 1927 s. 138 resp. 140 och 1926 n137 resp. n139, inte för resten; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 1:1–17 jämförd som OCR-text mot EFS 1927 GT s. 138–139 och EFS 1926 GT s. 126–127 (Internet Archive bibelnellerdenhe0000unse, n137–n138). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 2,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 16,
-      "text_sha256": "150a0f37a7ff4cc9ee732b57b56727f983bdb51cf4ef005732b44720a9b5172a",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "37c9261562180db1782f12e5fee38d8765b7734f9638435ec3bde1db9da9b929",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0139.1.tif",
@@ -3419,32 +3419,32 @@
           "sha256": "b3eb3f478bdd3111e530136b8a37532a6b53fbdab91b7160c1d923704ae4a72e"
         }
       ],
-      "notes": "Tredje Moseboken 2:1–16 jämförd som OCR-text mot EFS 1927 GT s. 139–140 och EFS 1926 GT s. 127–127 (Internet Archive bibelnellerdenhe0000unse, n138–n138). 6 versposter rättade (L002, L007), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 2:1–16 jämförd som OCR-text mot EFS 1927 GT s. 139–140 och EFS 1926 GT s. 127–127 (Internet Archive bibelnellerdenhe0000unse, n138–n138). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 3,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 17,
       "text_sha256": "7bc8bc00791d766827bcceca1749ed62bdcaf0f3207bb21b965e59fc0f03b5dc",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0140.1.tif",
           "sha256": "b3eb3f478bdd3111e530136b8a37532a6b53fbdab91b7160c1d923704ae4a72e"
         }
       ],
-      "notes": "Tredje Moseboken 3:1–17 jämförd som OCR-text mot EFS 1927 GT s. 140–140 och EFS 1926 GT s. 127–128 (Internet Archive bibelnellerdenhe0000unse, n138–n139). 6 versposter rättade (L008, L013), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilder lästa för 1927 s. 138 resp. 140 och 1926 n137 resp. n139, inte för resten; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 3:1–17 jämförd som OCR-text mot EFS 1927 GT s. 140–140 och EFS 1926 GT s. 127–128 (Internet Archive bibelnellerdenhe0000unse, n138–n139). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 4,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 35,
-      "text_sha256": "d42d9ee8292798bace267f31268f9c21640485215964429b251bbdcaa54d5040",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "777b9cd7fe26b9a821976ed1a8a6afb2ce23435ddd2f2a83245284072aa74ecd",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0140.1.tif",
@@ -3459,16 +3459,16 @@
           "sha256": "975efb28ae9e07fa3f8e13e65f3d4e7d9434183e25ff6551e466679001cfc0a9"
         }
       ],
-      "notes": "Tredje Moseboken 4:1–35 jämförd som OCR-text mot EFS 1927 GT s. 140–142 och EFS 1926 GT s. 128–130 (Internet Archive bibelnellerdenhe0000unse, n139–n141). 13 versposter rättade (L014, L026), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 4:1–35 jämförd som OCR-text mot EFS 1927 GT s. 140–142 och EFS 1926 GT s. 128–130 (Internet Archive bibelnellerdenhe0000unse, n139–n141). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 5,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 19,
       "text_sha256": "88a69e857e2d105c26adf2a926ab0c2556135351fe7be3a5b90b344da1e0ac21",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0142.1.tif",
@@ -3483,16 +3483,16 @@
           "sha256": "45b6d6b08fe9976028ad53fd4a6b85f0dc8662099dcd6573ad834c96aa932627"
         }
       ],
-      "notes": "Tredje Moseboken 5:1–19 jämförd som OCR-text mot EFS 1927 GT s. 142–144 och EFS 1926 GT s. 130–131 (Internet Archive bibelnellerdenhe0000unse, n141–n142). 6 versposter rättade (L027, L032), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 5:1–19 jämförd som OCR-text mot EFS 1927 GT s. 142–144 och EFS 1926 GT s. 130–131 (Internet Archive bibelnellerdenhe0000unse, n141–n142). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 6,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 30,
-      "text_sha256": "00a3fbb4126cdddbefceb1667dda450f493bf57583ab7c1a895430a99b8c1502",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "5547187cb3a35e926277a179b5cefbead69150c189209d0daec954b932c463af",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0144.1.tif",
@@ -3503,16 +3503,16 @@
           "sha256": "9a38389a96e0f865bc8251fc02f0ed2ddfaadb91d2a2984811a4063dd7b9f53b"
         }
       ],
-      "notes": "Tredje Moseboken 6:1–30 jämförd som OCR-text mot EFS 1927 GT s. 144–145 och EFS 1926 GT s. 131–132 (Internet Archive bibelnellerdenhe0000unse, n142–n143). 11 versposter rättade (L033, L043), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 6:1–30 jämförd som OCR-text mot EFS 1927 GT s. 144–145 och EFS 1926 GT s. 131–132 (Internet Archive bibelnellerdenhe0000unse, n142–n143). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 7,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 38,
-      "text_sha256": "e532e4abd263bf54116ed676439b73f11b0676536ed5e9b0b01ca9c556c5e7d7",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "da71789afb1aeb1358c05fe0a4602932be4b1bbf8b6b6ad59aab291deb2a2661",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0145.1.tif",
@@ -3527,16 +3527,16 @@
           "sha256": "722b7f3f05c06a41aa3d0ef8fb14cd02120b09e307914fde89c2ec96353672b5"
         }
       ],
-      "notes": "Tredje Moseboken 7:1–38 jämförd som OCR-text mot EFS 1927 GT s. 145–147 och EFS 1926 GT s. 133–134 (Internet Archive bibelnellerdenhe0000unse, n144–n145). 12 versposter rättade (L044, L055), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 7:1–38 jämförd som OCR-text mot EFS 1927 GT s. 145–147 och EFS 1926 GT s. 133–134 (Internet Archive bibelnellerdenhe0000unse, n144–n145). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 8,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 36,
-      "text_sha256": "056cd5ecb5d8db7df503dd98a78f7d47056340c19b47af6a81df8053639ed852",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "7265d2d4d274c4445f79c6b2b8272954f6efd0f4f9d42d9bc11d70c8dd3f5cdb",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0147.1.tif",
@@ -3551,16 +3551,16 @@
           "sha256": "48174faa5e167db6acc5288917944a8ccc662ad7015336ee365f4c67ad8873ce"
         }
       ],
-      "notes": "Tredje Moseboken 8:1–36 jämförd som OCR-text mot EFS 1927 GT s. 147–149 och EFS 1926 GT s. 134–136 (Internet Archive bibelnellerdenhe0000unse, n145–n147). 5 versposter rättade (L056, L060), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 8:1–36 jämförd som OCR-text mot EFS 1927 GT s. 147–149 och EFS 1926 GT s. 134–136 (Internet Archive bibelnellerdenhe0000unse, n145–n147). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 9,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 24,
       "text_sha256": "cfe6775b13dcee0e3063646ffa9ca505fa50b6dc9dabb4d30701ff4dbba5761e",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0149.1.tif",
@@ -3571,16 +3571,16 @@
           "sha256": "502f694c34fcf77ef1ed8e129d605989b6231e2b29bc65b48e0b9002e8854ae9"
         }
       ],
-      "notes": "Tredje Moseboken 9:1–24 jämförd som OCR-text mot EFS 1927 GT s. 149–150 och EFS 1926 GT s. 136–139 (Internet Archive bibelnellerdenhe0000unse, n147–n150). 4 versposter rättade (L061, L064), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 9:1–24 jämförd som OCR-text mot EFS 1927 GT s. 149–150 och EFS 1926 GT s. 136–139 (Internet Archive bibelnellerdenhe0000unse, n147–n150). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 10,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 20,
-      "text_sha256": "df8e56bc1b1008529abb7c0b8f975ec0895eca25aba8932b404ee88447fe6513",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "2ddf483c8234972bd20683cb932d26a81dae19d00bb3c6bd2a6ee99a63f5e2bf",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0150.1.tif",
@@ -3591,16 +3591,16 @@
           "sha256": "489429a678c16e47e083b384d65156a517302520f9c14cddab017b8be639366d"
         }
       ],
-      "notes": "Tredje Moseboken 10:1–20 jämförd som OCR-text mot EFS 1927 GT s. 150–151 och EFS 1926 GT s. 139–139 (Internet Archive bibelnellerdenhe0000unse, n150–n150). 5 versposter rättade (L065, L069), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 10:1–20 jämförd som OCR-text mot EFS 1927 GT s. 150–151 och EFS 1926 GT s. 139–139 (Internet Archive bibelnellerdenhe0000unse, n150–n150). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 11,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 47,
-      "text_sha256": "2c5a7e9bb6ab5add60468a9cf69d88274d4593879ebed8a117f8bd4b14aba0a4",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "4ad38eaed6137f9027492acd0885bf216d32616a4778727b02ef8634dbbeccbf",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0151.1.tif",
@@ -3615,16 +3615,16 @@
           "sha256": "561856620a3fac9cb955827077c29e5a54ce2d20c997eee2cbae16c2053da12f"
         }
       ],
-      "notes": "Tredje Moseboken 11:1–47 jämförd som OCR-text mot EFS 1927 GT s. 151–153 och EFS 1926 GT s. 139–140 (Internet Archive bibelnellerdenhe0000unse, n150–n151). 12 versposter rättade (L070, L081), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 11:1–47 jämförd som OCR-text mot EFS 1927 GT s. 151–153 och EFS 1926 GT s. 139–140 (Internet Archive bibelnellerdenhe0000unse, n150–n151). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 12,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 8,
-      "text_sha256": "88d98ece3d2d7945c9843f0abc4491956f1364720056660604300c1e5b9314a2",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "883ea607280c8fd3b08d0e62ea6294490837a30fecd9a6f416573996dd4d6863",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0153.1.tif",
@@ -3635,16 +3635,16 @@
           "sha256": "cb8d074a69924bda896f86a9e899423c63e28098b1c1883bfafe5f5dfd44bc29"
         }
       ],
-      "notes": "Tredje Moseboken 12:1–8 jämförd som OCR-text mot EFS 1927 GT s. 153–154 och EFS 1926 GT s. 140–140 (Internet Archive bibelnellerdenhe0000unse, n151–n151). 2 versposter rättade (L082, L083), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 12:1–8 jämförd som OCR-text mot EFS 1927 GT s. 153–154 och EFS 1926 GT s. 140–140 (Internet Archive bibelnellerdenhe0000unse, n151–n151). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 13,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 59,
-      "text_sha256": "515d29a5b9b281baad7e69e3cb4f10d9072c276a2e9ebcf1bde3a15685e6c8d7",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "6d1906a8e62b0a392637c856d0a5a064565e7fa94b04c677605820f34b3b54b4",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0154.1.tif",
@@ -3663,16 +3663,16 @@
           "sha256": "73d4ba2124f1f7f0038698e58ecbe9d44b329ca5e954f504c0b1ec9fefbd5bc3"
         }
       ],
-      "notes": "Tredje Moseboken 13:1–59 jämförd som OCR-text mot EFS 1927 GT s. 154–157 och EFS 1926 GT s. 140–143 (Internet Archive bibelnellerdenhe0000unse, n151–n154). 34 versposter rättade (L084, L117), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 13:1–59 jämförd som OCR-text mot EFS 1927 GT s. 154–157 och EFS 1926 GT s. 140–143 (Internet Archive bibelnellerdenhe0000unse, n151–n154). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 14,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 57,
-      "text_sha256": "0193ee116fe2c1e1273a7dd1f7fb56c7c659aabbd2f89f95cc0269faa810c7c2",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "15f8205d3f981b784b5bc0dd7bdf32cb61ea5a7aac1aea60fb5ba7a175118509",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0157.1.tif",
@@ -3691,16 +3691,16 @@
           "sha256": "cda48eba6e1ea38daba81567ceb3b7a31e87862ec94204674f46dc69f0b8d855"
         }
       ],
-      "notes": "Tredje Moseboken 14:1–57 jämförd som OCR-text mot EFS 1927 GT s. 157–160 och EFS 1926 GT s. 143–146 (Internet Archive bibelnellerdenhe0000unse, n154–n157). 16 versposter rättade (L118, L133), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 14:1–57 jämförd som OCR-text mot EFS 1927 GT s. 157–160 och EFS 1926 GT s. 143–146 (Internet Archive bibelnellerdenhe0000unse, n154–n157). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 15,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 33,
-      "text_sha256": "e72c0ea6021d3d03832f674d5ad3c89172395faa42f726284a1499fd1c1a6e2b",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "d723ecd276cc9524a38fb1bdec05af5040ef89e8cc1ba991cfe592bbf4e0c19d",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0160.1.tif",
@@ -3711,16 +3711,16 @@
           "sha256": "a68e550db9e4cbe6edc4966d10b9249351affc7b525c4c968767125f67e95297"
         }
       ],
-      "notes": "Tredje Moseboken 15:1–33 jämförd som OCR-text mot EFS 1927 GT s. 160–161 och EFS 1926 GT s. 146–147 (Internet Archive bibelnellerdenhe0000unse, n157–n158). 13 versposter rättade (L134, L146), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 15:1–33 jämförd som OCR-text mot EFS 1927 GT s. 160–161 och EFS 1926 GT s. 146–147 (Internet Archive bibelnellerdenhe0000unse, n157–n158). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 16,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
-      "text_sha256": "ecfe50fa3579e647cd2cb13c463c42022a8d94f0f534289b00365e1a088b09a4",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "62b7b3cbc952a15061fd011b07c627c3ba2ef38f023ef28d8efe555bc09722f5",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0162.1.tif",
@@ -3731,16 +3731,16 @@
           "sha256": "c55659e5557510e23f6171122ac14cd8de82a684a5aa22251898b049a9773e42"
         }
       ],
-      "notes": "Tredje Moseboken 16:1–34 jämförd som OCR-text mot EFS 1927 GT s. 162–163 och EFS 1926 GT s. 147–149 (Internet Archive bibelnellerdenhe0000unse, n158–n160). 14 versposter rättade (L147, L160), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 16:1–34 jämförd som OCR-text mot EFS 1927 GT s. 162–163 och EFS 1926 GT s. 147–149 (Internet Archive bibelnellerdenhe0000unse, n158–n160). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 17,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 16,
       "text_sha256": "f29f2fe588a93d1d70dbd1775dd1820a9d87f3c90246e921c4e897583f54048d",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0163.1.tif",
@@ -3751,16 +3751,16 @@
           "sha256": "8ac7de6ea44f52f44450946ab42fac617120777751f0a1e32e842bf5eacd3902"
         }
       ],
-      "notes": "Tredje Moseboken 17:1–16 jämförd som OCR-text mot EFS 1927 GT s. 163–164 och EFS 1926 GT s. 149–150 (Internet Archive bibelnellerdenhe0000unse, n160–n161). 8 versposter rättade (L161, L168), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 17:1–16 jämförd som OCR-text mot EFS 1927 GT s. 163–164 och EFS 1926 GT s. 149–150 (Internet Archive bibelnellerdenhe0000unse, n160–n161). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 18,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 30,
       "text_sha256": "d6003da7e4eed46f64f4a8d9aac2fd50cb69b1661d7718161fa35a5c0a4be178",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0164.1.tif",
@@ -3775,16 +3775,16 @@
           "sha256": "3979c920ef496fdcda6826f988b264f60f7c680ab8070b6837a54323a544000c"
         }
       ],
-      "notes": "Tredje Moseboken 18:1–30 jämförd som OCR-text mot EFS 1927 GT s. 164–166 och EFS 1926 GT s. 150–151 (Internet Archive bibelnellerdenhe0000unse, n161–n162). 9 versposter rättade (L169, L177), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 18:1–30 jämförd som OCR-text mot EFS 1927 GT s. 164–166 och EFS 1926 GT s. 150–151 (Internet Archive bibelnellerdenhe0000unse, n161–n162). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 19,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 37,
-      "text_sha256": "7aad3bd641b15f1a4ba83bcfae25512adb20058a68dc54d9149e46b9792ede75",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "59f3f54d4d74c615a70a5df98572d060905c806ea380db3f5176cc83f7d77447",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0166.1.tif",
@@ -3795,16 +3795,16 @@
           "sha256": "8bd0881f361bcab6d2a1e886af1a7769ec642f548a1ba72445a78604b031fac9"
         }
       ],
-      "notes": "Tredje Moseboken 19:1–37 jämförd som OCR-text mot EFS 1927 GT s. 166–167 och EFS 1926 GT s. 151–153 (Internet Archive bibelnellerdenhe0000unse, n162–n164). 4 versposter rättade (L178, L181), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 19:1–37 jämförd som OCR-text mot EFS 1927 GT s. 166–167 och EFS 1926 GT s. 151–153 (Internet Archive bibelnellerdenhe0000unse, n162–n164). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 20,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 27,
-      "text_sha256": "20da0580ff76f2523d06245ebb6013db0eaab57cbbf1faabd5dfd65084605400",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "1561519c64f30ac97d52789c27dc3678b6e14e004a81116f0e2aa32b810c0ce8",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0168.1.tif",
@@ -3815,16 +3815,16 @@
           "sha256": "24e4c82edb82afde01f63f511b5c81a1b36114d7db47f005715da7e794c9aaf6"
         }
       ],
-      "notes": "Tredje Moseboken 20:1–27 jämförd som OCR-text mot EFS 1927 GT s. 168–169 och EFS 1926 GT s. 153–154 (Internet Archive bibelnellerdenhe0000unse, n164–n165). 11 versposter rättade (L182, L192), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 20:1–27 jämförd som OCR-text mot EFS 1927 GT s. 168–169 och EFS 1926 GT s. 153–154 (Internet Archive bibelnellerdenhe0000unse, n164–n165). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 21,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 24,
-      "text_sha256": "6807cf247d2dabd7695decb2c8105d61842dc771f44a3549776aa2c9bdfd284f",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "1f3a3f321ac0cc716f535309d9c9331c8c9a1bbb64bae658677f951c8a7e054a",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0169.1.tif",
@@ -3835,16 +3835,16 @@
           "sha256": "2dae4c1967acc2f29f9c77d5aac059e6484f98451aab954638d9f8fc7c9ac3e8"
         }
       ],
-      "notes": "Tredje Moseboken 21:1–24 jämförd som OCR-text mot EFS 1927 GT s. 169–170 och EFS 1926 GT s. 155–155 (Internet Archive bibelnellerdenhe0000unse, n166–n166). 4 versposter rättade (L193, L196), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 21:1–24 jämförd som OCR-text mot EFS 1927 GT s. 169–170 och EFS 1926 GT s. 155–155 (Internet Archive bibelnellerdenhe0000unse, n166–n166). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 22,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 33,
       "text_sha256": "e61250f5063b0febd28c34a72e3ef8dab61883c2c2ba1fc95ae3b6a6f03f249c",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0170.1.tif",
@@ -3859,16 +3859,16 @@
           "sha256": "5b885ed4b1a4616b8cd9a918d750fdea2632ec4d8deb2094db969a99cc74b652"
         }
       ],
-      "notes": "Tredje Moseboken 22:1–33 jämförd som OCR-text mot EFS 1927 GT s. 170–172 och EFS 1926 GT s. 156–157 (Internet Archive bibelnellerdenhe0000unse, n167–n168). 12 versposter rättade (L197, L208), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 22:1–33 jämförd som OCR-text mot EFS 1927 GT s. 170–172 och EFS 1926 GT s. 156–157 (Internet Archive bibelnellerdenhe0000unse, n167–n168). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 23,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 44,
-      "text_sha256": "5d23140bd07f27b5a2c3f43edcc5db10a882dd3aeb114e4b7df641314e3e1552",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "700c3191db1ac39dc17b706d3eb42347526e5d86bc52f59b7382abc27376fefb",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0172.1.tif",
@@ -3883,16 +3883,16 @@
           "sha256": "98c387ae743956c0cd5b811add9c0efa75e6976469d834c264139f380f388885"
         }
       ],
-      "notes": "Tredje Moseboken 23:1–44 jämförd som OCR-text mot EFS 1927 GT s. 172–174 och EFS 1926 GT s. 157–159 (Internet Archive bibelnellerdenhe0000unse, n168–n170). 9 versposter rättade (L209, L217), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 23:1–44 jämförd som OCR-text mot EFS 1927 GT s. 172–174 och EFS 1926 GT s. 157–159 (Internet Archive bibelnellerdenhe0000unse, n168–n170). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 24,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 23,
       "text_sha256": "fc91f425ba96b82d008b2b5d4f04953c4998b71c4cc29576ba6e9152ed782bfe",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0174.1.tif",
@@ -3903,16 +3903,16 @@
           "sha256": "1a8f2605e51367d83cdf0964c4243014fc14fa1b99ee57e8ce0c71b805d9972c"
         }
       ],
-      "notes": "Tredje Moseboken 24:1–23 jämförd som OCR-text mot EFS 1927 GT s. 174–175 och EFS 1926 GT s. 159–160 (Internet Archive bibelnellerdenhe0000unse, n170–n171). 6 versposter rättade (L218, L223), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 24:1–23 jämförd som OCR-text mot EFS 1927 GT s. 174–175 och EFS 1926 GT s. 159–160 (Internet Archive bibelnellerdenhe0000unse, n170–n171). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 25,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 55,
-      "text_sha256": "0b696a9c93ad8827ea56fa9dc6af293a2da28e86862377ca58eb7893d0cf6843",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "6a0f042a24eab8dc70092cf40bc3ad32802fbcd8cfaffa2ed610c4c000aaca95",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0175.1.tif",
@@ -3931,16 +3931,16 @@
           "sha256": "dc4b1851a1170080089a2ed01e2619dd1e76540fa1db91b1dd5760bedb0d0b98"
         }
       ],
-      "notes": "Tredje Moseboken 25:1–55 jämförd som OCR-text mot EFS 1927 GT s. 175–178 och EFS 1926 GT s. 160–163 (Internet Archive bibelnellerdenhe0000unse, n171–n174). 12 versposter rättade (L224, L235), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 25:1–55 jämförd som OCR-text mot EFS 1927 GT s. 175–178 och EFS 1926 GT s. 160–163 (Internet Archive bibelnellerdenhe0000unse, n171–n174). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 26,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 46,
-      "text_sha256": "00d6c4ca8061175fb65553cdd1f1752b21d66b9f372d8593c848882856cbaf56",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "2e66c589f83dedcad336831d6ad8e52cd3da74e360189f2740d09e4464636af0",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0178.1.tif",
@@ -3955,16 +3955,16 @@
           "sha256": "0281ac1d41f1d0f90d8ec9044c25f3b6497d2914336d85181b402b552b49f544"
         }
       ],
-      "notes": "Tredje Moseboken 26:1–46 jämförd som OCR-text mot EFS 1927 GT s. 178–180 och EFS 1926 GT s. 163–165 (Internet Archive bibelnellerdenhe0000unse, n174–n176). 2 versposter rättade (L236, L237), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 26:1–46 jämförd som OCR-text mot EFS 1927 GT s. 178–180 och EFS 1926 GT s. 163–165 (Internet Archive bibelnellerdenhe0000unse, n174–n176). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     },
     {
       "book": "Lev",
       "chapter": 27,
-      "status": "needs-review",
+      "status": "verified",
       "verse_count": 34,
-      "text_sha256": "c1370306247f284e9e8a3adf94cf8d6172d21d7ed1bed507738f05534cd81a8d",
-      "checked_at": "2026-10-28",
-      "reviewer": "Claude, OCR comparison of both prints",
+      "text_sha256": "8a560bb64a4d340aa88e5d7215c97bed6fe7b0a60631060b3f1daef9d30ca897",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, page-image pass over EFS 1927 and EFS 1926; not human-checked",
       "scans": [
         {
           "url": "https://runeberg.org/img/bibeln/efs1927/gt/0180.1.tif",
@@ -3979,7 +3979,7 @@
           "sha256": "6534e8ddbdba5ccd101bf9019d537ed1b9b179c01671707ad6ea8d80b846ded2"
         }
       ],
-      "notes": "Tredje Moseboken 27:1–34 jämförd som OCR-text mot EFS 1927 GT s. 180–182 och EFS 1926 GT s. 165–166 (Internet Archive bibelnellerdenhe0000unse, n176–n177). 9 versposter rättade (L238, L246), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är inte läst för detta kapitel utom där det anges i errata-filen; kapitlet är därför `needs-review`. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Tredje Moseboken 27:1–34 jämförd som OCR-text mot EFS 1927 GT s. 180–182 och EFS 1926 GT s. 165–166 (Internet Archive bibelnellerdenhe0000unse, n176–n177). Rättelser enligt errata-filen (docs/reports/sv1917-errata-leviticus.md), endast där båda trycken är överens mot e-texten. Behållna: kommatecken och stavning som bara 1927 har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna för EFS 1927 (alla sidor) och EFS 1926 är lästa mot e-texten; avvikelser som bara ett tryck har är behållna och antecknade i errata-filen. Genomläsningen är gjord av Claude, inte av människa. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

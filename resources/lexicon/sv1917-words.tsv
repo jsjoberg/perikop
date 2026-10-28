@@ -8,16 +8,16 @@ han	12031	word	"han
 de	11741	word	
 det	8673	word	
 en	8482	word	"En
-Och	8353	word	"Ok
+Och	8352	word	"Ok
 skall	8264	word	"skal
-på	8257	word	
+på	8256	word	
 icke	8179	word	""I$ke
 för	8155	word	"f2:r
 jag	8126	word	"jA:g
 den	7755	word	
 med	7577	word	"me:d
 är	7550	word	"E:r
-av	7271	word	
+av	7270	word	
 dem	6935	word	"dOm
 så	6856	word	"so:
 honom	6737	word	""hO$nOm
@@ -34,13 +34,13 @@ hans	4174	word	"hans
 eder	3862	word	""e:$der
 om	3668	word	"Om
 var	3649	word	"vA:r
-sin	3469	word	"sIn
-då	3467	word	"do:
+då	3468	word	"do:
+sin	3468	word	"sIn
 Men	3401	word	"mEn
 alla	3209	word	
-Gud	3126	word	"g}:d
+Gud	3127	word	"g}:d
 ett	3067	word	"Et
-såsom	3055	word	"so:$sOm
+såsom	3056	word	"so:$sOm
 från	2946	word	"fro:n
 nu	2916	word	"n}:
 din	2896	word	"di:n
@@ -75,7 +75,7 @@ HERRENS	1708	name	""hE$rens
 eller	1704	word	"E$ler
 sitt	1609	word	"sIt
 Israels	1608	name	Is$ra$"e:ls
-vara	1606	word	""vA:$ra
+vara	1607	word	""vA:$ra
 skulle	1585	word	""sku0$le
 hus	1580	word	"h}:s
 Så	1577	word	"so:
@@ -115,7 +115,7 @@ ur	1141	word	"}:r
 När	1133	word	"nE:r
 blev	1127	word	"ble:v
 in	1120	word	"In
-Guds	1119	word	"g}:ds
+Guds	1118	word	"g}:ds
 bort	1115	word	
 Han	1104	word	"hA:n
 andra	1093	word	""an$dra
@@ -269,7 +269,7 @@ stod	384	word	"stu:d
 HERRE	383	word	""hE$re
 vilken	383	word	""vIl$ken
 herre	375	word	""hE$re
-broder	374	word	""bru:$der
+broder	373	word	""bru:$der
 heliga	373	word	""he:$lI$ga
 bo	367	word	"bu:
 dit	367	word	"di:t
@@ -347,7 +347,7 @@ människa	275	word	""mE$nI$x\a
 kraft	274	word	"kraft
 vet	274	word	"ve:t
 arvedel	273	word	""ar$ve$%de:l
-dotter	273	word	""dO$ter
+dotter	272	word	""dO$ter
 tillsammans	272	word	tIl$"sa$mans
 fem	270	word	"fEm
 mannen	269	word	"ma$nen
@@ -414,7 +414,7 @@ glädje	227	word	""glE:d$je
 kvinna	227	word	""kvI$na
 lägga	227	word	""lE$ga
 altaret	226	word	""al$ta$ret
-gudar	226	word	""g}:$dar
+gudar	225	word	""g}:$dar
 hjärtan	225	word	""jE$t`an
 månaden	224	word	""mo:$na$den
 verk	224	word	"vErk
@@ -516,7 +516,7 @@ stället	180	word	""stE$let
 söka	179	word	""s2:$ka
 fanns	178	word	"fans
 gammal	178	word	""ga$mal
-stadgar	177	word	""stad$gar
+stadgar	176	word	""stad$gar
 följde	174	word	""f9lj$de
 tecken	174	word	"tE$ken
 helgedomen	173	word	""hEl$ge$%dU$men
@@ -595,9 +595,9 @@ långt	153	word	"lONt
 profeten	152	word	prU$"fe:$ten
 stort	152	word	
 barmhärtighet	151	word	barm$"hE$t`Ig$he:t
-Såsom	149	word	"so:$sOm
 furstar	149	word	""fu0$s`t`ar
 olja	149	word	""Ol$ja
+Såsom	148	word	"so:$sOm
 stannade	148	word	""sta$na$de
 Hon	147	word	"hu:n
 Hans	146	word	"hA:ns
@@ -655,11 +655,11 @@ hustrur	131	word	""hu0$str}:r
 lägret	131	word	"lE:$gret
 vän	131	word	"vE:n
 ens	130	word	"Ens
-for	130	word	"fu:r
 inom	130	word	""In$%Om
 människorna	130	word	""mE$nI$x\U$n`a
 bad	129	word	"bA:d
 behag	129	word	be$"hA:g
+for	129	word	"fu:r
 högt	129	word	
 levde	129	word	""le:v$de
 penningar	129	word	""pE$nIN$ar
@@ -839,6 +839,7 @@ tält	98	word	"tElt
 ändå	98	word	En$"do:
 Genom	97	word	"je:$nOm
 Sauls	97	name	
+avgudar	97	word	""A:v$%g}:$dar
 ingången	97	word	""IN$%gON$en
 kunnen	97	word	
 köttet	97	word	"s'9$tet
@@ -847,7 +848,6 @@ skåda	97	word	""sko:$da
 Sannerligen	96	word	""sa$ne$l`i:$gen
 Sela	96	name	""se:$la
 akta	96	word	""ak$ta
-avgudar	96	word	""A:v$%g}:$dar
 följa	96	word	""f9l$ja
 fördärv	96	word	f9$"d`Erv
 lejon	96	word	""lE$jOn
@@ -1956,6 +1956,7 @@ båten	35	word	"bo:$ten
 fordom	35	word	""fu:$%d`u:m
 förbränna	35	word	f9r$"brE$na
 förstod	35	word	f9$"s`t`u:d
+föröka	35	word	f9r$"2:$ka
 glöd	35	word	"gl2:d
 godhet	35	word	""gu:d$%he:t
 grepo	35	word	
@@ -2007,7 +2008,6 @@ förgäta	34	word	f9r$"jE:$ta
 förkunnat	34	word	f9r$"ku0$nat
 förmådde	34	word	f9r$"mO$de
 förtröstar	34	word	f9$"t`r9$star
-föröka	34	word	f9r$"2:$ka
 grät	34	word	"grE:t
 hållas	34	word	""hO$las
 intaga	34	word	""In$%tA:$ga
@@ -12965,7 +12965,6 @@ yppighet	3	word	""Y$pIg$%he:t
 ödelägger	3	word	""2:$de$%lE$ger
 ödmjukas	3	word	""2:d$%mj}:$kas
 öglorna	3	word	
-öka	3	word	""2:$ka
 ökade	3	word	""2:$ka$de
 ökar	3	word	""2:$kar
 ökenhundar	3	word	
@@ -17180,6 +17179,7 @@ yxor	2	word	""Yk$sUr
 ödsligheten	2	word	""2:d$slIg$%he:$ten
 ögonbryn	2	word	""2:$gOn$%bry:n
 ögontjänst	2	word	
+öka	2	word	""2:$ka
 ökad	2	word	
 ökat	2	word	""2:$kat
 ökendjur	2	word	""2:$ken$%j}:r
