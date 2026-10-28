@@ -111,6 +111,9 @@ REPLACE={
  ('Exod',10,7):('icke ännu att','icke ännu, att'),
  ('Exod',10,10):('Må HERREN: vara med eder lika visst som jag släpper eder med edra kvinnor och barn! Där ser man att I','Må HERREN vara med eder lika visst som jag släpper eder med edra kvinnor och barn! Där ser man, att I'),
  ('Exod',10,23):('hade ljust där','hade ljust, där'),
+ # Exodus 11 (EFS 1927 GT s. 91-92 and EFS 1926 GT s. 82-82): E084-E085, readings both prints agree on.
+ ('Exod',11,2):('folket, och säg att var','folket och säg, att var'),
+ ('Exod',11,7):('förnimma att HERREN','förnimma, att HERREN'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),

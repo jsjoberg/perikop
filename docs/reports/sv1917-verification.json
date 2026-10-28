@@ -3600,6 +3600,26 @@
         }
       ],
       "notes": "Hela 10:1–29 jämförd mot EFS 1927 GT s. 89–91 och EFS 1926 GT s. 80–82 (Internet Archive bibelnellerdenhe0000unse, n91–n93; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 10:2 (två ställen), 10:5, 10:7, 10:10 och 10:23, fäders för faders i 10:6 och borttaget kolon efter HERREN i 10:10. Behållna läsningar där bara ett tryck avviker: 10:5 (andra marken, i 1927), 10:8 (de, som och Gud, men i 1927), 10:9 (gå, i 1927), 10:10 (eder, i 1927) och 10:26 (icke, i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 10,
+      "text_sha256": "af44478f37daa6861b1ec216218238df98ab64340c46eaba47c25a8d0c075e53",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0091.1.tif",
+          "sha256": "5f43449c78ef96f786a126ca23ee2fc10b0b4303025943bca0c70f67e2f7bf70"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0092.1.tif",
+          "sha256": "b3bc87a0d56619c018faa03ba8bcbd60a2692836c2b01989b1e9383eb036f517"
+        }
+      ],
+      "notes": "Hela 11:1–10 jämförd mot EFS 1927 GT s. 91–92 och EFS 1926 GT s. 82 (Internet Archive bibelnellerdenhe0000unse, n93; sidan läst mot bild; 1927 s. 92 jämförd mot OCR). {E} införda endast där båda trycken är överens mot e-texten: komma efter säg i stället för efter folket i 11:2 och komma före att i 11:7. Behållen läsning där bara ett tryck avviker: 11:8 (folket, som i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
