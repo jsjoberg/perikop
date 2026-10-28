@@ -4056,6 +4056,30 @@
         }
       ],
       "notes": "Hela 31:1–18 jämförd mot EFS 1927 GT s. 122–123 och EFS 1926 GT s. 110–111 (Internet Archive bibelnellerdenhe0000unse, n121–n122; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *ock* för *och* i 31:10, komma tillagt i 31:11 och 31:13, komma borttaget i 31:13. Behållna läsningar där bara ett tryck avviker: 31:3 (*ande* i 1927), 31:6, 31:14 och 31:15 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 32,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "ceafba5923ca40550dbe4b09a11f08cccf0c100fba66428230949d2ceb0f2109",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0123.1.tif",
+          "sha256": "da4a59767768a2562c410f6521f02e86679cf1cfb454fafb31b499103af2b1f3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0124.1.tif",
+          "sha256": "72c78b2a372145c03f7376369b5eac0f798b2eee184fac7b71424030f8b4307a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0125.1.tif",
+          "sha256": "9990ec63dcf9475eb5eda07baf0ab8785067bca3f6ebb46fa1991fa7c16325f0"
+        }
+      ],
+      "notes": "Hela 32:1–35 jämförd mot EFS 1927 GT s. 123–125 och EFS 1926 GT s. 111–113 (Internet Archive bibelnellerdenhe0000unse, n122–n124; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 32:1 (två ställen), 32:3, 32:9, 32:13 (två ställen), 32:14, 32:17, 32:20, 32:22, 32:23 (två ställen), 32:25, 32:27, 32:28 och 32:32, slutcitat tillagt i 32:2, semikolon för komma i 32:6 och 32:13, komma borttaget i 32:8 och 32:12, semikolon tillagt i 32:15. Behållna läsningar där bara ett tryck avviker: 32:1 och 32:23 (*honom, som* i 1927), 32:7 (*dit ned* i 1927), 32:8, 32:11, 32:12, 32:20 och 32:26 (kommatecken som bara 1927 har), 32:23 (*oss, ty* i 1927), 32:24 (*Den, som … guld,* i 1927), 32:28 (*sagt:* i 1927) och 32:34 (*folket, dit* i 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
