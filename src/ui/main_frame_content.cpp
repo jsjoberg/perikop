@@ -14,7 +14,7 @@
 namespace ortho {
 void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     entries->Add(ui::label(content, ui::utf8("LOKALT BIBELINNEHÅLL"), 10), 0, wxBOTTOM, FromDIP(zoomed(8)));
-    const auto paragraph = [&](const char* text) {
+    const auto paragraph = [&](const std::string& text) {
         auto* label = ui::label(content, ui::utf8(text));
         label->Wrap(FromDIP(zoomed(440)));
         entries->Add(label, 0, wxBOTTOM, FromDIP(zoomed(8)));
@@ -47,6 +47,9 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
                     "och välj dess prioritet. Importera PDF-filerna igen för att läsa in rättad text "
                     "och avsnittsrubriker."
                   : "Reformationsbibeln 2026 är inte importerad.");
+    if (corpus_.has_imported())
+        paragraph("Importversion för installerad text: " + std::to_string(corpus_.import_revision()) + ".");
+    paragraph("Aktuell importversion: " + std::to_string(srb_import_revision) + ".");
     entries->AddSpacer(FromDIP(zoomed(22)));
 }
 void MainFrame::import_content() {

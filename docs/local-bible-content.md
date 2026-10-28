@@ -67,6 +67,15 @@ previous installation if it fails. No heading text is shipped with the applicati
 the updated text-free recipe extracts it from the user's pinned PDFs and verifies
 its own aggregate checksum before installation.
 
+Settings shows the installed text's **import version** beside the current
+importer's version. This is a separate integer counter stored in
+`content_metadata` under the `importer_revision` key at import time. Imports
+without this value are version 0. The number is informational: it does not select
+different reading paths or trigger upgrades. Reimporting replaces the data and
+records the current number. Bump `srb_import_revision` in
+`src/storage/content_import.hpp` when extraction or mapping semantics change;
+it is independent of the application version and binary recipe format.
+
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers
 provide AES, SHA-256 and Flate inflation. Their pins and licenses are in

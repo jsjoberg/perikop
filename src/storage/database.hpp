@@ -39,6 +39,8 @@ public:
     bool has_imported() const {
         return bool(imported_);
     }
+    // Zero for an absent import or one made before importer revisions were recorded.
+    int import_revision() const;
     std::vector<Source> sources() const;
     std::vector<std::string> source_books(const std::string& source) const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,

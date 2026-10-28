@@ -380,6 +380,9 @@ ContentImportResult import_reformationsbibeln(const std::filesystem::path& old_t
     storage::Statement metadata(db.get(), "INSERT INTO content_metadata VALUES('srb2026',?)");
     metadata.text(1, expected_text);
     metadata.row();
+    storage::Statement revision(db.get(), "INSERT INTO content_metadata VALUES('importer_revision',?)");
+    revision.number(1, srb_import_revision);
+    revision.row();
     transaction.commit();
     report(100);
     return {66, int(verses.size())};

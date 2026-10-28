@@ -79,6 +79,13 @@ std::string CorpusDb::source_for_language(const std::string& language, const std
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
 }
+int CorpusDb::import_revision() const {
+    std::lock_guard lock(cache_mutex_);
+    if (!imported_)
+        return 0;
+    Statement query(imported_.get(), "SELECT value FROM content_metadata WHERE key='importer_revision'");
+    return query.row() ? query.number(0) : 0;
+}
 void CorpusDb::load_imported(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path))
         return;

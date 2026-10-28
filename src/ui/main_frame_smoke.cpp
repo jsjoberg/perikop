@@ -1710,9 +1710,14 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);
             auto* link =
                 wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
+            auto* current_revision = wxWindow::FindWindowByLabel(
+                wxString::Format("Aktuell importversion: %d.", srb_import_revision), page);
+            auto* previous_revision =
+                wxWindow::FindWindowByLabel(ui::utf8("Importversion för installerad text: 0."), page);
             if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
                 !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
-                !import_button->IsEnabled() || remove_button->IsEnabled() != installed)
+                !import_button->IsEnabled() || remove_button->IsEnabled() != installed || !current_revision ||
+                bool(previous_revision) != installed)
                 fail(__LINE__);
         };
         check_import_controls(true);
@@ -1754,12 +1759,25 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             fail(__LINE__);
         // Reinstalling clears the empty lookups cached after removal.
         std::filesystem::copy_file(backup, imported);
+        {
+            auto db = storage::open(imported, SQLITE_OPEN_READWRITE);
+            storage::Statement revision(db.get(),
+                                        "INSERT INTO content_metadata VALUES('importer_revision',?)");
+            revision.number(1, srb_import_revision);
+            revision.row();
+        }
         corpus.load_imported(imported);
         const auto reimported = corpus.verse(srb_source, "John", {1, 50});
         if (!corpus.has_imported() || !reimported || reimported->text != "SRB test John 1:50" ||
             !before_import.empty() || !removed_coordinates.empty() ||
             installed_coordinates != saved_coordinates)
             fail(__LINE__);
+        candidate->show_settings();
+        if (!wxWindow::FindWindowByLabel(ui::utf8("Importversion för installerad text: ") +
+                                             wxString::Format("%d.", srb_import_revision),
+                                         candidate->current_page()))
+            fail(__LINE__);
+        settings_snapshot(candidate.get(), "-import-versioned");
         candidate->Hide();
     }
     // The text size steps like Chrome's zoom, reaches every page, and returns to its default.
