@@ -48,17 +48,17 @@ and joins words broken across typeset lines. An aggregate SHA-256 verifies the
 resulting normalized verse text before any database writes.
 
 The recipe includes drop capitals in both Sabon and Times New Roman. The 0.2.0
-recipe omitted the opening J in Colossians 2:1 and Jude 1:1. Existing imports with
-that recipe's exact text checksum recover these two initials when read, without
-modifying the imported database or requiring the PDFs again.
+recipe omitted the opening J in Colossians 2:1 and Jude 1:1. Importing the PDFs
+again with the corrected recipe restores those initials.
 
 The complete text audit compared all 31,171 verses with an independent Poppler
 extraction of both pinned PDFs. It also repairs four missing spaces, removes
 chapter/section headings from 45 verse records, and corrects punctuation,
 hyphenation and spacing defects in ten further records. All discrepancies were
 visually reviewed, including the encoded word-break anomaly in Revelation 16:21.
-The four known older import checksums receive the same corrections when read,
-without modifying the local database or requiring the PDFs again. See the
+Existing imports are read exactly as stored. To apply extraction fixes, import
+the same two PDFs again in Settings. There are no automatic text patches or data
+migrations. See the
 [complete audit](reports/srb2026-audit.md#complete-bible-text-comparison).
 
 Older databases continue to work without headings. To add the headings, import

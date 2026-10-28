@@ -107,7 +107,6 @@ private:
                                                  const std::string& book) const;
     DatabaseHandle db_;
     DatabaseHandle imported_;
-    unsigned legacy_srb_recipe_ = 0;
     DatabaseHandle study_;
     DatabaseHandle reference_;
     void load_reference(const std::filesystem::path&);

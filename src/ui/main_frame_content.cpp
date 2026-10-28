@@ -44,8 +44,8 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     entries->Add(remove, 0, wxBOTTOM, FromDIP(zoomed(8)));
     paragraph(corpus_.has_imported()
                   ? "Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och textkällor "
-                    "och välj dess prioritet. Importera PDF-filerna igen för att lägga till rubriker "
-                    "i en äldre import."
+                    "och välj dess prioritet. Importera PDF-filerna igen för att läsa in rättad text "
+                    "och avsnittsrubriker."
                   : "Reformationsbibeln 2026 är inte importerad.");
     entries->AddSpacer(FromDIP(zoomed(22)));
 }

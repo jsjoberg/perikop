@@ -3,7 +3,6 @@
 #include "storage/content_import.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
-#include "storage/srb2026_repairs.hpp"
 #include <algorithm>
 #include <array>
 #include <filesystem>
@@ -99,7 +98,6 @@ int main(int argc, char** argv) {
             check(colossians && colossians->text.starts_with("Jag ") && jude &&
                       jude->text.starts_with("Judas, "),
                   "Times New Roman chapter drop capitals were discarded");
-            const auto legacy = temporary / "legacy-srb.db";
             const std::array<std::tuple<const char*, int, int, const char*>, 15> verified_verses{{
                 {"Lev", 11, 1, "379692a2d4863312ef527878345fe3bb45e8f965ce9eaeb3be65ba7c70da0d80"},
                 {"Exod", 15, 7, "f9e1fe691b91bb3a1d820aab830ae2b68be547f36432aa7543baa421a721413c"},
@@ -122,64 +120,36 @@ int main(int argc, char** argv) {
                 check(value && picosha2::hash256_hex_string(value->text) == hash,
                       "Audited Scripture changed, or chapter furniture leaked into a verse");
             }
-            for (std::size_t recipe = 0; recipe <= ortho::srb_old_checksums.size(); ++recipe) {
-                const bool known = recipe < ortho::srb_old_checksums.size();
-                const unsigned mask = 1U << (known ? recipe : 0);
-                std::filesystem::copy_file(destination, legacy,
-                                           std::filesystem::copy_options::overwrite_existing);
-                {
-                    auto db = ortho::storage::open(legacy, SQLITE_OPEN_READWRITE);
-                    ortho::storage::exec(db.get(), "DROP TABLE imported_heading");
-                    // Invert every edit using placeholder bytes for deleted headings. No Bible text is
-                    // bundled.
-                    for (auto it = ortho::srb_text_repairs.rbegin(); it != ortho::srb_text_repairs.rend();
-                         ++it) {
-                        const auto& repair = *it;
-                        if (!(repair.recipes & mask))
-                            continue;
-                        ortho::storage::Statement read(
-                            db.get(),
-                            "SELECT text FROM imported_verse WHERE book=? AND chapter=? AND verse=?");
-                        read.text(1, std::string(repair.book));
-                        read.number(2, repair.chapter);
-                        read.number(3, repair.verse);
-                        check(read.row(), "Repair points to a missing verse");
-                        auto text = read.text(0);
-                        text.replace(repair.offset, repair.insert.size(), std::string(repair.erase, 'x'));
-                        ortho::storage::Statement write(
-                            db.get(),
-                            "UPDATE imported_verse SET text=? WHERE book=? AND chapter=? AND verse=?");
-                        write.text(1, text);
-                        write.text(2, std::string(repair.book));
-                        write.number(3, repair.chapter);
-                        write.number(4, repair.verse);
-                        write.row();
-                    }
-                    ortho::storage::Statement metadata(
-                        db.get(), "UPDATE content_metadata SET value=? WHERE key='srb2026'");
-                    metadata.text(1, known ? std::string(ortho::srb_old_checksums[recipe])
-                                           : std::string(64, '0'));
-                    metadata.row();
-                }
-                const auto legacy_hash = hash_file(legacy);
-                ortho::CorpusDb previous(corpus_file);
-                previous.load_imported(legacy);
-                check(previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty(),
-                      "Older databases without headings no longer load");
-                auto expected = ortho::storage::open(known ? destination : legacy, SQLITE_OPEN_READONLY);
-                ortho::storage::Statement verses(expected.get(),
-                                                 "SELECT book,chapter,verse,text FROM imported_verse");
-                int checked = 0;
-                while (verses.row()) {
-                    const auto actual = previous.verse(ortho::srb_source, verses.text(0),
-                                                       {verses.number(1), verses.number(2)});
-                    check(actual && actual->text == verses.text(3),
-                          "Legacy repairs differ from the audited import, or changed an unknown checksum");
+            // Existing imports are read as stored; only an explicit reimport replaces their data.
+            const auto existing = temporary / "previous-srb.db";
+            std::filesystem::copy_file(destination, existing);
+            {
+                auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
+                ortho::storage::exec(db.get(), "DROP TABLE imported_heading;"
+                                               "UPDATE imported_verse SET text='Unchanged local text' WHERE "
+                                               "book='Col' AND chapter=2 AND verse=1");
+            }
+            const auto existing_hash = hash_file(existing);
+            ortho::CorpusDb previous(corpus_file);
+            previous.load_imported(existing);
+            const auto stored = previous.verse(ortho::srb_source, "Col", {2, 1});
+            check(stored && stored->text == "Unchanged local text" &&
+                      previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty() &&
+                      hash_file(existing) == existing_hash,
+                  "Reading an existing import modified its text or database");
+            ortho::import_reformationsbibeln(gt, nt, recipe, existing);
+            previous.load_imported(existing);
+            int checked = 0;
+            for (const auto& book : corpus.source_books(ortho::srb_source))
+                for (const auto& ref : corpus.coordinates(ortho::srb_source, book)) {
+                    const auto expected = corpus.verse(ortho::srb_source, book, ref);
+                    const auto actual = previous.verse(ortho::srb_source, book, ref);
+                    check(actual && expected && actual->text == expected->text &&
+                              actual->headings == expected->headings,
+                          "Explicit reimport did not replace the stored text and headings");
                     ++checked;
                 }
-                check(checked == 31171 && hash_file(legacy) == legacy_hash,
-                      "Read-time repairs modified the database or missed verses");
-            }
+            check(checked == 31171, "Reimport missed verses");
             const auto genesis = corpus.verse(ortho::srb_source, "Gen", {1, 1});
             check(genesis && picosha2::hash256_hex_string(genesis->text) ==
                                  "0bd7cd4901c1c4a628564c789efc1b0aa0c3dc6e1c9f57973853712c9dcbe235",
@@ -228,6 +198,8 @@ int main(int argc, char** argv) {
             reopened.load_imported(destination);
             const auto preserved = reopened.verse(ortho::srb_source, "John", {3, 16});
             check(preserved && preserved->text == john->text, "Failed import lost the existing edition");
+            check(reopened.verse(ortho::srb_source, "Ps", {119, 1})->headings == psalm_opening->headings,
+                  "Failed import lost the existing headings");
             {
                 // Without the failing trigger, so that only the swapped files can reject the import.
                 auto db = ortho::storage::open(destination, SQLITE_OPEN_READWRITE);

@@ -207,8 +207,7 @@ ContentImportResult import_reformationsbibeln(const std::filesystem::path& old_t
     const auto unpacked_size = header.number(4);
     const auto unpacked = inflate(std::span(packed).subspan(4), unpacked_size);
     Reader input{unpacked};
-    const auto version = input.string(4);
-    if (version != "SRB1" && version != "SRB2")
+    if (input.string(4) != "SRB2")
         invalid("Fel version av importmallen.");
     const auto font_count = input.number(2);
     if (font_count > 254)
@@ -300,25 +299,23 @@ ContentImportResult import_reformationsbibeln(const std::filesystem::path& old_t
              {static_cast<AlignmentKind>(kind), {book, first, last}, {target, target_first, target_last}}});
     }
     std::vector<ImportedVerse> headings;
-    if (version == "SRB2") {
-        const auto heading_count = input.number(4);
-        if (heading_count > 10000)
-            invalid("För många avsnittsrubriker.");
-        std::string complete_headings;
-        for (unsigned n = 0; n < heading_count; ++n) {
-            ImportedVerse heading{input.number(1), input.number(1), input.number(1), {}};
-            heading.text = text_pieces();
-            if (heading.text.empty() || !std::ranges::any_of(verses, [&](const auto& verse) {
-                    return verse.book == heading.book && verse.chapter == heading.chapter &&
-                           verse.verse == heading.verse;
-                }))
-                invalid("En avsnittsrubrik saknar text eller tillhörande vers.");
-            complete_headings += heading.text + '\n';
-            headings.push_back(std::move(heading));
-        }
-        if (input.string(64) != picosha2::hash256_hex_string(complete_headings))
-            invalid("Kontrollen av avsnittsrubriker misslyckades.");
+    const auto heading_count = input.number(4);
+    if (heading_count > 10000)
+        invalid("För många avsnittsrubriker.");
+    std::string complete_headings;
+    for (unsigned n = 0; n < heading_count; ++n) {
+        ImportedVerse heading{input.number(1), input.number(1), input.number(1), {}};
+        heading.text = text_pieces();
+        if (heading.text.empty() || !std::ranges::any_of(verses, [&](const auto& verse) {
+                return verse.book == heading.book && verse.chapter == heading.chapter &&
+                       verse.verse == heading.verse;
+            }))
+            invalid("En avsnittsrubrik saknar text eller tillhörande vers.");
+        complete_headings += heading.text + '\n';
+        headings.push_back(std::move(heading));
     }
+    if (input.string(64) != picosha2::hash256_hex_string(complete_headings))
+        invalid("Kontrollen av avsnittsrubriker misslyckades.");
     const auto expected_text = input.string(64);
     if (input.at != input.data.size() || picosha2::hash256_hex_string(complete_text) != expected_text)
         invalid("Textkontrollen misslyckades. Inget innehåll har installerats.");

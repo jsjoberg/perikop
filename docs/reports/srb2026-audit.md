@@ -18,11 +18,8 @@ J. All 66 books, 1,189 chapters, verse inventories and numbering remain unchange
 The generator now rejects a lowercase chapter opening, which catches these losses.
 This is a check of chapter initials, not a complete transcription review.
 
-The runtime also corrects reads of the exact old import checksum
-`06e9957d4b860bfdfc9e70b24df6f23c2332f19314e45c9d0cd88ae5035fc625`.
-It does not modify local databases; new imports use the corrected recipe directly.
-The real-PDF integration test checks both paths and confirms the legacy file stays
-unchanged.
+The corrected recipe restores both initials during import. Existing imports are
+read as stored; importing the same two PDFs again applies the extraction fixes.
 
 ## Complete Bible text comparison
 
@@ -157,31 +154,25 @@ hyphenation, punctuation spacing and exceptional font sizes were reviewed. This
 verifies extraction from the pinned PDF, not editorial accuracy of the publisher's
 translation or a collation against another complete edition.
 
-### Compatibility and validation
+### Reimport and validation
 
 The final aggregate text SHA-256 is
 `00265ca6f9c2c5c86a570c50ff091475eaaa643dbac51d9797767ecad08df5e2`.
-Read-time recovery supports exactly these four older import checksums:
-
-- `06e9957d4b860bfdfc9e70b24df6f23c2332f19314e45c9d0cd88ae5035fc625`
-- `8c5d5d59ee520d2afd8444e82ed55f4bbb787c65a6404ece6f36e640262da65c`
-- `74c69d2a991658418cdb0ba9050cd76e19624a36ca55321a7b3f58e03180ceec`
-- `b49864c521ff402b4a467f6f1dbd87523b1d12f29c2891d16f80e4f9d4f4c72c`
-
-The generated compatibility table contains only coordinates, byte offsets,
-deletion lengths and generic space/dash/J insertions. It contains no Bible or
-summary text. The repair generator verifies each older diagnostic text becomes
-the current text exactly. Existing user databases are not rewritten, and the PDFs
-are not needed again for these repairs. Unknown checksums receive no edits.
+The Bible edition is fixed. Existing imports are read exactly as stored, without
+automatic text patches or migrations. To apply extraction fixes and add headings,
+the user imports the same two PDFs again in Settings. The installed application
+uses only its current SRB2 recipe; the PDFs and extracted text are never bundled.
+Reimport replaces the local text, headings and mappings in one transaction, and
+a failed replacement preserves the existing installation.
 
 Real-PDF integration checks import all 31,171 verses, pin representative corrected
-verses and smaller-font Scripture, and exercise all four older repair paths.
-Synthetic old byte ranges use placeholder bytes for removed furniture. For each
-path, all 31,171 runtime verses must equal the current import and the database file
-must remain unchanged. An unknown-checksum case must retain its original data.
+verses and smaller-font Scripture. An existing import without headings is read
+unchanged, including its original stored text and database bytes. Explicit
+reimport must then reproduce all 31,171 verses and all headings from a fresh
+import, including when the reader has already cached the previous data.
 The independent checker also has offline regression tests for unfamiliar fonts,
 italic words, notes, punctuation gaps, orphan periods, hyphenation, smaller body
-text, Psalm superscriptions, skipped verse numbers and UTF-8 byte repairs.
+text, Psalm superscriptions and skipped verse numbers.
 The real import tests also verify all 22 alphabet heading anchors, chapter
 summaries in Genesis and the Gospels, and preservation through parallel verse
 mapping. Native UI smoke tests cover headings inside a paragraph and at a chapter
@@ -201,9 +192,6 @@ python tools/content/audit_srb.py build/srb \
 The checker exits 1 for differences requiring review, including the 90 documented
 layout differences. Its `comparison.json` contains per-book counts and every
 remaining discrepancy. PDFs and full-text diagnostics must remain untracked.
-`tools/content/build_srb_repairs.py` regenerates the compatibility header from
-local previous/current `verses.json` snapshots, whose aggregate hashes it records;
-those text snapshots are not distribution resources.
 
 ## Pronunciation coverage (2026-10-27)
 

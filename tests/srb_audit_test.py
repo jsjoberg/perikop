@@ -7,7 +7,6 @@ import xml.etree.ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools/content"))
 from audit_srb import extract
-from build_srb_repairs import edits
 
 
 class SrbAuditTest(unittest.TestCase):
@@ -70,18 +69,6 @@ class SrbAuditTest(unittest.TestCase):
           <text top="180" left="40" width="100" height="18" font="b">2. Text.</text>
         </page></pdf2xml>''')
         self.assertEqual(extract(root, 0)[0], {("Ps", 1, 1): "Superscription.", ("Ps", 1, 2): "Text."})
-
-    def test_repairs_use_byte_offsets_and_generic_insertions(self):
-        old = "Heading Å s å"
-        new = "Å så"
-        patches = edits([["Gen", 1, 1, old]], [["Gen", 1, 1, new]])
-        value = old.encode()
-        for _, _, _, offset, erase, insert in patches:
-            value = value[:offset] + insert.encode() + value[offset + erase:]
-        self.assertEqual(value.decode(), new)
-        with self.assertRaises(AssertionError):
-            edits([["Gen", 1, 1, ""]], [["Gen", 1, 1, "Non-generic text"]])
-
 
 if __name__ == "__main__":
     unittest.main()
