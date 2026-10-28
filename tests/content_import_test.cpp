@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
             const auto gt = directory / "SRBhelaGT.pdf", nt = directory / "SRBNT-UNnoter.pdf";
             const auto original = hash_file(corpus_file);
             ortho::CorpusDb corpus(corpus_file);
+            check(!corpus.import_is_current(), "Absent import is reported as current");
             check(corpus.coordinates(ortho::srb_source, "John").empty(), "SRB is bundled before import");
             int last_progress = -1;
             const auto result = ortho::import_reformationsbibeln(gt, nt, recipe, destination, [&](int value) {
@@ -59,6 +60,7 @@ int main(int argc, char** argv) {
             });
             check(result.books == 66 && result.verses == 31171 && last_progress == 100, "Incomplete import");
             corpus.load_imported(destination);
+            check(corpus.import_is_current(), "Fresh import does not match the current content");
             {
                 auto db = ortho::storage::open(destination, SQLITE_OPEN_READONLY);
                 ortho::storage::Statement headings(db.get(),
@@ -132,6 +134,7 @@ int main(int argc, char** argv) {
             const auto existing_hash = hash_file(existing);
             ortho::CorpusDb previous(corpus_file);
             previous.load_imported(existing);
+            check(!previous.import_is_current(), "Import without headings is reported as current");
             const auto stored = previous.verse(ortho::srb_source, "Col", {2, 1});
             check(stored && stored->text == "Unchanged local text" &&
                       previous.verse(ortho::srb_source, "Ps", {119, 1})->headings.empty() &&
@@ -139,6 +142,7 @@ int main(int argc, char** argv) {
                   "Reading an existing import modified its text or database");
             ortho::import_reformationsbibeln(gt, nt, recipe, existing);
             previous.load_imported(existing);
+            check(previous.import_is_current(), "Reimport did not restore the current content");
             int checked = 0;
             for (const auto& book : corpus.source_books(ortho::srb_source))
                 for (const auto& ref : corpus.coordinates(ortho::srb_source, book)) {
@@ -150,6 +154,26 @@ int main(int argc, char** argv) {
                     ++checked;
                 }
             check(checked == 31171, "Reimport missed verses");
+            {
+                auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
+                ortho::storage::exec(
+                    db.get(), "UPDATE content_metadata SET value=printf('%064d',0) WHERE key='srb2026'");
+                check(!previous.import_is_current(), "Older text fingerprint is reported as current");
+            }
+            {
+                auto db = ortho::storage::open(existing, SQLITE_OPEN_READWRITE);
+                auto current = ortho::storage::open(destination, SQLITE_OPEN_READONLY);
+                ortho::storage::Statement read(current.get(),
+                                               "SELECT value FROM content_metadata WHERE key='srb2026'");
+                check(read.row(), "Fresh import has no fingerprint");
+                ortho::storage::Statement restore(db.get(),
+                                                  "UPDATE content_metadata SET value=? WHERE key='srb2026'");
+                restore.text(1, read.text(0));
+                restore.row();
+                ortho::storage::exec(db.get(), "UPDATE imported_heading SET text='Stale test heading' WHERE "
+                                               "book='Ps' AND chapter=119 AND verse=9");
+                check(!previous.import_is_current(), "Changed headings are reported as current");
+            }
             const auto genesis = corpus.verse(ortho::srb_source, "Gen", {1, 1});
             check(genesis && picosha2::hash256_hex_string(genesis->text) ==
                                  "0bd7cd4901c1c4a628564c789efc1b0aa0c3dc6e1c9f57973853712c9dcbe235",

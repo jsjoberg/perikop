@@ -1710,9 +1710,12 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             auto* remove_button = wxWindow::FindWindowByLabel(ui::utf8("Ta bort importerad text…"), page);
             auto* link =
                 wxWindow::FindWindowByLabel(ui::utf8("Öppna Nerladdningsbara bibelböcker på bibel.se"), page);
+            auto* import_status = wxWindow::FindWindowByName("Importstatus", page);
             if (!import_button || !remove_button || !link || !import_button->IsShownOnScreen() ||
                 !remove_button->IsShownOnScreen() || !link->IsShownOnScreen() ||
-                !import_button->IsEnabled() || remove_button->IsEnabled() != installed)
+                !import_button->IsEnabled() || remove_button->IsEnabled() != installed ||
+                bool(import_status) != installed ||
+                (import_status && !import_status->GetLabel().StartsWith(ui::utf8("En förbättrad import"))))
                 fail(__LINE__);
         };
         check_import_controls(true);

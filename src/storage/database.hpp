@@ -39,6 +39,7 @@ public:
     bool has_imported() const {
         return bool(imported_);
     }
+    bool import_is_current() const;
     std::vector<Source> sources() const;
     std::vector<std::string> source_books(const std::string& source) const;
     std::expected<Verse, std::string> verse(const std::string& source, const std::string& book,

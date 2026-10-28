@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
 """The independent audit must retain unfamiliar fonts, italics and word gaps."""
 from pathlib import Path
+import re
 import sys
 import unittest
 import xml.etree.ElementTree as ET
+import zlib
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools/content"))
 from audit_srb import extract
 
 
 class SrbAuditTest(unittest.TestCase):
+    def test_fingerprints_match_the_bundled_recipe(self):
+        root = Path(__file__).resolve().parents[1]
+        recipe = zlib.decompress((root / "resources/content/srb2026.recipe").read_bytes()[4:])
+        header = (root / "src/storage/srb2026_fingerprint.hpp").read_text()
+        self.assertEqual(re.search(r'srb_heading_sha256\s*=\s*"([a-f0-9]{64})"', header)[1], recipe[-128:-64].decode())
+        self.assertEqual(re.search(r'srb_verse_sha256\s*=\s*"([a-f0-9]{64})"', header)[1], recipe[-64:].decode())
+
     def test_fonts_notes_and_punctuation_gap(self):
         root = ET.fromstring('''<pdf2xml><page number="4">
           <fontspec id="h" size="18" family="Heading"/>

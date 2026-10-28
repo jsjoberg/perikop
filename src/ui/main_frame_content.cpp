@@ -18,6 +18,7 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
         auto* label = ui::label(content, ui::utf8(text));
         label->Wrap(FromDIP(zoomed(440)));
         entries->Add(label, 0, wxBOTTOM, FromDIP(zoomed(8)));
+        return label;
     };
     paragraph("Reformationsbibeln 2026 kan läggas till från två PDF-filer som du själv hämtar från "
               "Svenska Reformationsbibelsällskapet. Texten sparas bara i din profil.");
@@ -44,9 +45,14 @@ void MainFrame::add_content_loader(wxWindow* content, wxBoxSizer* entries) {
     entries->Add(remove, 0, wxBOTTOM, FromDIP(zoomed(8)));
     paragraph(corpus_.has_imported()
                   ? "Reformationsbibeln 2026 är importerad. Aktivera den under Böcker och textkällor "
-                    "och välj dess prioritet. Du kan importera samma två PDF-filer igen när som helst "
-                    "för att uppdatera texten."
+                    "och välj dess prioritet."
                   : "Reformationsbibeln 2026 är inte importerad.");
+    if (corpus_.has_imported())
+        paragraph(corpus_.import_is_current()
+                      ? "Din importerade text är uppdaterad. Du behöver inte importera PDF-filerna igen."
+                      : "En förbättrad import är tillgänglig. Du kan importera samma två PDF-filer igen "
+                        "när det passar dig.")
+            ->SetName("Importstatus");
     entries->AddSpacer(FromDIP(zoomed(22)));
 }
 void MainFrame::import_content() {

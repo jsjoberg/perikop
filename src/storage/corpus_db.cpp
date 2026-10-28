@@ -2,8 +2,10 @@
 #include "storage/content_import.hpp"
 #include "storage/database.hpp"
 #include "storage/sqlite.hpp"
+#include "storage/srb2026_fingerprint.hpp"
 #include <algorithm>
 #include <map>
+#include <picosha2.h>
 #include <stdexcept>
 namespace ortho {
 using storage::exec;
@@ -78,6 +80,23 @@ std::string CorpusDb::source_for_language(const std::string& language, const std
 }
 bool CorpusDb::read_only() const {
     return sqlite3_db_readonly(db_.get(), "main") == 1;
+}
+bool CorpusDb::import_is_current() const {
+    std::lock_guard lock(cache_mutex_);
+    if (!imported_)
+        return false;
+    Statement metadata(imported_.get(), "SELECT value FROM content_metadata WHERE key='srb2026'");
+    if (!metadata.row() || metadata.text(0) != srb_verse_sha256)
+        return false;
+    Statement schema(imported_.get(),
+                     "SELECT 1 FROM sqlite_master WHERE type='table' AND name='imported_heading'");
+    if (!schema.row())
+        return false;
+    Statement headings(imported_.get(), "SELECT text FROM imported_heading ORDER BY ordinal");
+    std::string complete;
+    while (headings.row())
+        complete += headings.text(0) + '\n';
+    return picosha2::hash256_hex_string(complete) == srb_heading_sha256;
 }
 void CorpusDb::load_imported(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path))
