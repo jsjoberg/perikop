@@ -3576,6 +3576,30 @@
         }
       ],
       "notes": "Hela 9:1–35 jämförd mot EFS 1927 GT s. 88–89 och EFS 1926 GT s. 79–80 (Internet Archive bibelnellerdenhe0000unse, n90–n91; båda sidorna lästa mot bild). E068–E077 införda endast där båda trycken är överens mot e-texten: komma tillagt i 9:14, 9:19, 9:27, 9:29, 9:30, 9:31 och 9:34, slutpunkt tillagd i 9:7, semikolon för komma i 9:23 och hand för land i 9:15. Behållna läsningar där bara ett tryck avviker: 9:2 (1927 saknar komma efter dem), 9:4, 9:9–9:10, 9:19–9:21 och 9:25 (kommatecken som bara 1927 har), 9:15 (1927 har, e-text och 1926 hade), 9:18 (1926 sådant,), 9:27 (1927 rättfärdig,) och 9:28 (1927 hava). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "45e1592451e847d4bee35e11544fbbb4ae7fd5745526c92fc36017bae1b785b9",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0089.1.tif",
+          "sha256": "4f54897c757c1142b8f0536fab7132fac770a3a216c0905b96e4e35ea76aaa61"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0090.1.tif",
+          "sha256": "f0f1a921f8b9a2e996b3ab8927e5c5c1156fdc78eab5ea4cee59194dd07a6275"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0091.1.tif",
+          "sha256": "5f43449c78ef96f786a126ca23ee2fc10b0b4303025943bca0c70f67e2f7bf70"
+        }
+      ],
+      "notes": "Hela 10:1–29 jämförd mot EFS 1927 GT s. 89–91 och EFS 1926 GT s. 80–82 (Internet Archive bibelnellerdenhe0000unse, n91–n93; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 10:2 (två ställen), 10:5, 10:7, 10:10 och 10:23, fäders för faders i 10:6 och borttaget kolon efter HERREN i 10:10. Behållna läsningar där bara ett tryck avviker: 10:5 (andra marken, i 1927), 10:8 (de, som och Gud, men i 1927), 10:9 (gå, i 1927), 10:10 (eder, i 1927) och 10:26 (icke, i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

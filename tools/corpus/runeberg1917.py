@@ -104,6 +104,13 @@ REPLACE={
  ('Exod',9,30):('Dock vet jag väl att du','Dock vet jag väl, att du'),
  ('Exod',9,31):('hade gått i ax och linet','hade gått i ax, och linet'),
  ('Exod',9,34):('Farao såg att regnet','Farao såg, att regnet'),
+ # Exodus 10 (EFS 1927 GT s. 89-91 and EFS 1926 GT s. 80-82): E078-E083, readings both prints agree on.
+ ('Exod',10,2):('din sonson vilka stora gärningar jag har utfört bland egyptierna, och vilka tecken jag har gjort bland dem, så att I förnimmen att jag','din sonson, vilka stora gärningar jag har utfört bland egyptierna, och vilka tecken jag har gjort bland dem, så att I förnimmen, att jag'),
+ ('Exod',10,5):('övertäcka marken så','övertäcka marken, så'),
+ ('Exod',10,6):('dina faders fäder','dina fäders fäder'),
+ ('Exod',10,7):('icke ännu att','icke ännu, att'),
+ ('Exod',10,10):('Må HERREN: vara med eder lika visst som jag släpper eder med edra kvinnor och barn! Där ser man att I','Må HERREN vara med eder lika visst som jag släpper eder med edra kvinnor och barn! Där ser man, att I'),
+ ('Exod',10,23):('hade ljust där','hade ljust, där'),
  ('2Kgs',18,21):('förtröstar val nu','förtröstar väl nu'),
  ('Job',9,35):('med min själv','med mig själv'),
  ('Ps',22,30):('sin själv vid liv','sin själ vid liv'),
