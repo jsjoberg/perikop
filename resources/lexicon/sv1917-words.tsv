@@ -2257,7 +2257,6 @@ misskund	30	word	""mI$%sku0nd
 njuta	30	word	""nj}:$ta
 norra	30	word	""nO$ra
 onde	30	word	""Un$de
-par	30	word	"pA:r
 slutit	30	word	""sl}:$tIt
 stått	30	word	"stOt
 stötesten	30	word	""st2:$te$%ste:n
@@ -2313,6 +2312,7 @@ mäktiga	29	word	""mEk$tI$ga
 nät	29	word	"nE:t
 ogudaktighet	29	word	""u:$g}:d$ak$tIg$%he:t
 orenlighet	29	word	""u:$re:n$lIg$%he:t
+par	29	word	"pA:r
 platser	29	word	""plat$ser
 psaltare	29	word	""sal$ta$re
 rosenrött	29	word	""ru:$sen$%r9t
@@ -3059,6 +3059,7 @@ sonen	21	word	"so:$nen
 spis	21	word	"spi:s
 starkhet	21	word	""stark$%he:t
 stiger	21	word	"sti:$ger
+stolpar	21	word	""stOl$par
 ström	21	word	"str9m
 ståndaktighet	21	word	""stOnd$ak$tIg$%he:t
 synen	21	word	"sy:$nen
@@ -3177,7 +3178,6 @@ skriv	20	word	"skri:v
 skådade	20	word	""sko:$da$de
 smädelser	20	word	""smE:$del$ser
 stadgat	20	word	""stad$gat
-stolpar	20	word	""stOl$par
 sträckte	20	word	""strEk$te
 stycket	20	word	""stY$ket
 stöter	20	word	"st2:$ter
@@ -5081,7 +5081,6 @@ spela	11	word	""spe:$la
 stamfurstar	11	word	
 stillar	11	word	""stI$lar
 stillhet	11	word	""stIl$%he:t
-stol	11	word	"stu:l
 straffe	11	word	
 stridsman	11	word	""strIts$%man
 sträng	11	word	"strEN
@@ -5457,6 +5456,7 @@ spärra	10	word	""spE$ra
 stack	10	word	"stak
 stappla	10	word	""sta$pla
 starke	10	word	""star$ke
+stol	10	word	"stu:l
 stormade	10	word	""stOr$ma$de
 stryka	10	word	""stry:$ka
 strängeligen	10	word	""strEN$e$li:$gen

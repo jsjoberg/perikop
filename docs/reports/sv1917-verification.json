@@ -4208,6 +4208,30 @@
         }
       ],
       "notes": "Hela 38:1–31 jämförd mot EFS 1927 GT s. 133–134 och EFS 1926 GT s. 120–121 (Internet Archive bibelnellerdenhe0000unse, n131–n132; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* i 38:2 (två ställen), *vitt* för *sitt* i 38:9, komma borttaget i 38:10, 38:11 (två ställen vardera), 38:12 och 38:19, komma tillagt i 38:12, 38:25 och 38:29 (två ställen). Behållna läsningar där bara ett tryck avviker: 38:3 (*dessa* i 1927), 38:21 och 38:31 (kommatecken som bara 1926 har), 38:22 (*allt, vad* i 1927), 38:24 (*arbetet, vid* i 1927 men inte i 1926) samt 38:14–38:16 (1927 delar verserna annorlunda än e-texten och 1926; e-texten behålls); de långa tankstrecken i 38:1 och 38:14 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 39,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "1a550257abc3ca7f8be27fe6ed5c829d61700f449faf67c507f0e0f8005ed29f",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0134.1.tif",
+          "sha256": "93e71a83d0dc0c0e3993fc5325924e6ba6735f7029a5457b37e0d74f598d7920"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0135.1.tif",
+          "sha256": "f713170af26443f905e80a80e20dc8c27e7faae38efc7137036af82e5ea865dc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0136.1.tif",
+          "sha256": "b56e4d59c034a5307566353f6d0d7c5ad039bb5c9d51d17e2993ec097e8db574"
+        }
+      ],
+      "notes": "Hela 39:1–43 jämförd mot EFS 1927 GT s. 134–136 och EFS 1926 GT s. 122–123 (Internet Archive bibelnellerdenhe0000unse, n133–n134; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 39:1, 39:32, 39:34, 39:35, 39:37 (två ställen), 39:40, 39:42 och 39:43 (två ställen), komma borttaget i 39:6 och 39:17, *stolpar* i 39:33, komma för punkt i 39:39 och slutpunkt tillagd i 39:43. Behållna läsningar där bara ett tryck avviker: 39:2, 39:4, 39:20 och 39:30 (kommatecken som bara 1927 har), 39:22 och 39:27 (*väft* i 1927), 39:27 (*livkläderna* i 1927) och 39:32 och 39:43 (*arbete* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

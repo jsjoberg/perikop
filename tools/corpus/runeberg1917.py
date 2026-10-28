@@ -372,7 +372,7 @@ REPLACE={
  ('Exod',39,32):('alla stycken såsom','alla stycken, såsom'),
  ('Exod',39,33):('stol par','stolpar'),
  ('Exod',39,34):('den förlåt som skulle','den förlåt, som skulle'),
- ('Exod',39,35):('arken, vidare vittnesbördets','arken, vidare, vittnesbördets'),
+ ('Exod',39,35):('vidare vittnesbördets','vidare, vittnesbördets'),
  ('Exod',39,37):('lamporna som skulle sättas på den och alla','lamporna, som skulle sättas på den, och alla'),
  ('Exod',39,39):('med dess fotställning.','med dess fotställning,'),
  ('Exod',39,40):('uppenbarelsetältets tabernakel','uppenbarelsetältets tabernakel,'),
