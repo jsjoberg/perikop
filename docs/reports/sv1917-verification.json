@@ -3808,6 +3808,30 @@
         }
       ],
       "notes": "Hela 20:1–26 jämförd mot EFS 1927 GT s. 104–105 och EFS 1926 GT s. 94–95 (Internet Archive bibelnellerdenhe0000unse, n105–n106; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 20:10, 20:22 och 20:24 (två ställen). Behållna läsningar där bara ett tryck avviker: 20:4, 20:11, 20:12 och 20:17 (kommatecken som bara 1927 har), 20:7 (inget komma efter *HERRENS* i 1927), 20:20 (inget komma efter *prov* i 1927) och 20:21 (*töcknet, i vilket* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "4867a28603652dffeb93aec4c7bcc352d02d7a740696407f08c958747f1c2aa5",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0105.1.tif",
+          "sha256": "84bd7fb1e93c84f52fc5df7a1a16d0c8647c51b1f5cb34c1bbbb3bf5ad02a810"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0106.1.tif",
+          "sha256": "88074eca8466808116b162ca8aa03b12e965ae2b07ed689eda72232bc009ec95"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0107.1.tif",
+          "sha256": "9baa446f8f253f4cce1b90d84dfcc066f9627092ab21739844fc91a71fccbe25"
+        }
+      ],
+      "notes": "Hela 21:1–36 jämförd mot EFS 1927 GT s. 105–107 och EFS 1926 GT s. 95–96 (Internet Archive bibelnellerdenhe0000unse, n106–n107; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 21:1, 21:7, 21:13, 21:14, 21:22 (två ställen) och 21:31 och 21:36, komma borttaget i 21:2, 21:11, 21:18, 21:22, 21:29 och 21:33, samt *vare* för *vara* i 21:28. Behållna läsningar där bara ett tryck avviker: 21:4 (*har* saknas i 1927), 21:6 (*dörrposten;* i 1927), 21:8, 21:10 (*förres* i 1927), 21:16 (*stulne* utan komma i 1927), 21:18 (*dör men* utan komma i 1927), 21:19 (kommatecken som bara 1927 har), 21:26–21:27 (*fri,* och *Sammalunda,* i 1926 men inte i 1927) och 21:29–21:30 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
