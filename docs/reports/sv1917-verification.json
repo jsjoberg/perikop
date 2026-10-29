@@ -3380,6 +3380,826 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Num",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 54,
+      "text_sha256": "3c2cd20c77f966327c97052c6ff39afbec19a13b42f0e348897d5380135f88d6",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0182.1.tif",
+          "sha256": "6534e8ddbdba5ccd101bf9019d537ed1b9b179c01671707ad6ea8d80b846ded2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0183.1.tif",
+          "sha256": "5b270b9ffc24a454a2b6721027b3d6fef41f13227556b208a88850335b9de9ae"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0184.1.tif",
+          "sha256": "0cae4a6223ff9e244955b9fd004f8bd81a82174e652417bd1a7af95c3937e1b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0185.1.tif",
+          "sha256": "d2da20285632b0ff019a5a162fbe4b816ea6ed690fee682bdf6994b460299301"
+        }
+      ],
+      "notes": "Fjärde Moseboken 1:1–54 jämförd som OCR-text mot EFS 1927 GT s. 182–185 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 13 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 34,
+      "text_sha256": "01c4b0f74a77d1a7b1fd79ee50a793c717d8c03e04666d5fc4bf8fa5498c07e4",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0185.1.tif",
+          "sha256": "d2da20285632b0ff019a5a162fbe4b816ea6ed690fee682bdf6994b460299301"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0186.1.tif",
+          "sha256": "6272e211380c6dad811f8f4c7bb5b9a416845b1a1525fb686a61d2e915b5080e"
+        }
+      ],
+      "notes": "Fjärde Moseboken 2:1–34 jämförd som OCR-text mot EFS 1927 GT s. 185–186 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 9 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 51,
+      "text_sha256": "b48b783754b32780191eec2edc4dd67d388e6519b8c5542f03a4e09c0cdd2027",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0186.1.tif",
+          "sha256": "6272e211380c6dad811f8f4c7bb5b9a416845b1a1525fb686a61d2e915b5080e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0187.1.tif",
+          "sha256": "a171dd79ba54156407b5cb46ae51475f84fd4fdcfe2c5e2a6393b53a567921ea"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0188.1.tif",
+          "sha256": "7036a0387f92f4d6e8d5d546b0dcda361f30ff96e57a0b8ad86ce94785ed3d61"
+        }
+      ],
+      "notes": "Fjärde Moseboken 3:1–51 jämförd som OCR-text mot EFS 1927 GT s. 186–188 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 13 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 49,
+      "text_sha256": "689a4b10b61a9d9401252b57ce26512ececd9aef1a4326878b561bb24e8e52b1",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0188.1.tif",
+          "sha256": "7036a0387f92f4d6e8d5d546b0dcda361f30ff96e57a0b8ad86ce94785ed3d61"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0189.1.tif",
+          "sha256": "b59564209a5d83d254c77528318900209f5eb0466296b9e869483ef99ab4f021"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0190.1.tif",
+          "sha256": "d7aa2daa71d90224c2f4b636b8019ccdb2032fcb98d086054337caca2080b7a4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0191.1.tif",
+          "sha256": "2b28f2ec0e085e4e6b248db8a3b57dad41b8e67dfdd16d8db9f30fd93405b16f"
+        }
+      ],
+      "notes": "Fjärde Moseboken 4:1–49 jämförd som OCR-text mot EFS 1927 GT s. 188–191 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 24 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "558e54ecb9a9439a11e629092170c7827fbea5985e09d37f630da061dd3b6f8e",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0191.1.tif",
+          "sha256": "2b28f2ec0e085e4e6b248db8a3b57dad41b8e67dfdd16d8db9f30fd93405b16f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0192.1.tif",
+          "sha256": "b83c2a0fe2b77227a4b528103175434a9ecfa189096e30f1d03ec4bae363d7d8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0193.1.tif",
+          "sha256": "b56b5c35ba8700c6cd1d1d9df9c405134f58ef8725b368bcd90993faffb424ee"
+        }
+      ],
+      "notes": "Fjärde Moseboken 5:1–31 jämförd som OCR-text mot EFS 1927 GT s. 191–193 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 27,
+      "text_sha256": "5d8a4e0bc4f5c4cef5a8f0e317d66a37dd69c8ef5a21788f5103889f4de0030d",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0193.1.tif",
+          "sha256": "b56b5c35ba8700c6cd1d1d9df9c405134f58ef8725b368bcd90993faffb424ee"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0194.1.tif",
+          "sha256": "3a279b5b5fff01768828f8ef9cdb0bbff46d0f4c9ee1add3f6662aa14c50af8a"
+        }
+      ],
+      "notes": "Fjärde Moseboken 6:1–27 jämförd som OCR-text mot EFS 1927 GT s. 193–194 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 89,
+      "text_sha256": "889a0c437e8e6caa51c495ba99bc420bc398d2a96971223813e7926fa3c90069",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0194.1.tif",
+          "sha256": "3a279b5b5fff01768828f8ef9cdb0bbff46d0f4c9ee1add3f6662aa14c50af8a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0195.1.tif",
+          "sha256": "9899a337a76dbe9d0af174df06b34d97f3e6383932c4e5de76606b7dc4a5483a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0196.1.tif",
+          "sha256": "0a585a94bebe5a4c841e33bd64e8d9cfc3b628884342918f983be0626737808b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0197.1.tif",
+          "sha256": "662b13b18965f2f53653760c326abdad07b5d12b2815d3542ceefa9836933f41"
+        }
+      ],
+      "notes": "Fjärde Moseboken 7:1–89 jämförd som OCR-text mot EFS 1927 GT s. 194–197 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 17 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 26,
+      "text_sha256": "d5165e6bf3acfef0de10b79e49c8932013831777afd88c4236d6f70c5a2889d6",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0197.1.tif",
+          "sha256": "662b13b18965f2f53653760c326abdad07b5d12b2815d3542ceefa9836933f41"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0198.1.tif",
+          "sha256": "2aed02b2ab99867bf0585b13fc08c9e99cb7780c120b9a7dcab5cbaf1bfa8df2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0199.1.tif",
+          "sha256": "88be1697984da74837bf9ff4a26bfd73317039d82ca71d0df1b54db61fe75c54"
+        }
+      ],
+      "notes": "Fjärde Moseboken 8:1–26 jämförd som OCR-text mot EFS 1927 GT s. 197–199 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 9,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "9130986d3a88ac0719a110bf39cff9ff117c68bfbea9440283650681e30cc6a7",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0199.1.tif",
+          "sha256": "88be1697984da74837bf9ff4a26bfd73317039d82ca71d0df1b54db61fe75c54"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0200.1.tif",
+          "sha256": "476af758d1c24875f72b23ee7ab0adbb88bdfc546a46d4ec0d41d33f8df86cc9"
+        }
+      ],
+      "notes": "Fjärde Moseboken 9:1–23 jämförd som OCR-text mot EFS 1927 GT s. 199–200 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 14 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 10,
+      "status": "needs-review",
+      "verse_count": 36,
+      "text_sha256": "151680f30994071fdda6da6225546d354444210aaee548da023b8dc3653cb5fc",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0200.1.tif",
+          "sha256": "476af758d1c24875f72b23ee7ab0adbb88bdfc546a46d4ec0d41d33f8df86cc9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0201.1.tif",
+          "sha256": "a955bc08fb2b4dfc3a0aff9cffac32402ca9aa6ee3082008fbdf8137de046f0b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0202.1.tif",
+          "sha256": "d11a844cc5cdda79b3de9d2a0c6378b14edd0c8ba4d25b141bd4e1f583ae4143"
+        }
+      ],
+      "notes": "Fjärde Moseboken 10:1–36 jämförd som OCR-text mot EFS 1927 GT s. 200–202 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 11,
+      "status": "needs-review",
+      "verse_count": 35,
+      "text_sha256": "0ad943edce6d39e1ac4d7185fb96c38568b2731af9911009705b02b05270ab88",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0202.1.tif",
+          "sha256": "d11a844cc5cdda79b3de9d2a0c6378b14edd0c8ba4d25b141bd4e1f583ae4143"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0203.1.tif",
+          "sha256": "4cfc3108ca3e874b98f6b31fefb5d2134eb75479187055bf31f34085dcc80291"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0204.1.tif",
+          "sha256": "fb1e5ef00c10f1e77f83d4eb158d04b6228a609f0f6dbd1a139cdf83dd14cb44"
+        }
+      ],
+      "notes": "Fjärde Moseboken 11:1–35 jämförd som OCR-text mot EFS 1927 GT s. 202–204 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 12 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 12,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "62abef4dbeec2cb43631a8e826fde90db1bfb5c59992e885388e27b827ba2810",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0204.1.tif",
+          "sha256": "fb1e5ef00c10f1e77f83d4eb158d04b6228a609f0f6dbd1a139cdf83dd14cb44"
+        }
+      ],
+      "notes": "Fjärde Moseboken 12:1–15 jämförd som OCR-text mot EFS 1927 GT s. 204–204 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 13,
+      "status": "needs-review",
+      "verse_count": 34,
+      "text_sha256": "81f8918894e60ae7f15d7b168b01e093dad26cefbf2f89fc200eb849de6b20f7",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0204.1.tif",
+          "sha256": "fb1e5ef00c10f1e77f83d4eb158d04b6228a609f0f6dbd1a139cdf83dd14cb44"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0205.1.tif",
+          "sha256": "1e87c721c5e18c662fd4abb26a13d0c7d9cf95b7c6c0beb98cd1362398b24494"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0206.1.tif",
+          "sha256": "9e4afe94a658e06eab2ff5f283c322f7bb4b8a1734fdd1bc3c37fa781659aabb"
+        }
+      ],
+      "notes": "Fjärde Moseboken 13:1–34 jämförd som OCR-text mot EFS 1927 GT s. 204–206 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 45,
+      "text_sha256": "348f6d0c9aaaf42427510a4773ba3f881cc137ba64c5e4156bca36f82e5eaf65",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0206.1.tif",
+          "sha256": "9e4afe94a658e06eab2ff5f283c322f7bb4b8a1734fdd1bc3c37fa781659aabb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0207.1.tif",
+          "sha256": "a890751d39936bdd1a5df9a3ebb95909ac1a2a89bf4b0b78b8e42e84504c59c3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0208.1.tif",
+          "sha256": "48380640be720661d98fd68a91bef69abb1663be9cad3f03cc5b2ac85a4ce35e"
+        }
+      ],
+      "notes": "Fjärde Moseboken 14:1–45 jämförd som OCR-text mot EFS 1927 GT s. 206–208 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 18 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 15,
+      "status": "needs-review",
+      "verse_count": 41,
+      "text_sha256": "7521ad409ae41783fee7b954f676234ac215497a2932e05b09c360432b8faf47",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0208.1.tif",
+          "sha256": "48380640be720661d98fd68a91bef69abb1663be9cad3f03cc5b2ac85a4ce35e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0209.1.tif",
+          "sha256": "ce5aced74bd3c74f5f1fbc9d9d27a3074a966ac50bf7338a0a52b0924b5ffcb3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0210.1.tif",
+          "sha256": "d4a4ad2da58958d8aa4b466049646d6acf9ca8e58ec9d8d445f138f2bde7ec8b"
+        }
+      ],
+      "notes": "Fjärde Moseboken 15:1–41 jämförd som OCR-text mot EFS 1927 GT s. 208–210 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 13 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 16,
+      "status": "needs-review",
+      "verse_count": 50,
+      "text_sha256": "1a282d07c83429f2083b0f25ffb8f6c15b3bda59cd3084b4aec2026c74b8c314",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0210.1.tif",
+          "sha256": "d4a4ad2da58958d8aa4b466049646d6acf9ca8e58ec9d8d445f138f2bde7ec8b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0211.1.tif",
+          "sha256": "f7f0d24a92ac45ec8e76446a83a22b237ee1487ae44779da96a5515f18321db1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0212.1.tif",
+          "sha256": "d0423d93013b301e1c20174dcce03c707cfcadd142ce29a6576c8c755c1baabf"
+        }
+      ],
+      "notes": "Fjärde Moseboken 16:1–50 jämförd som OCR-text mot EFS 1927 GT s. 210–212 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 18 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 17,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "1712b69071a2de30f8f2acea529c7ead228a9a1564c5970f08e853d942673d86",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0212.1.tif",
+          "sha256": "d0423d93013b301e1c20174dcce03c707cfcadd142ce29a6576c8c755c1baabf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0213.1.tif",
+          "sha256": "759715adfc9472f9ba0ae765db2442839ba07b076c91ed06451aa85ed54d4c3d"
+        }
+      ],
+      "notes": "Fjärde Moseboken 17:1–13 jämförd som OCR-text mot EFS 1927 GT s. 212–213 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 18,
+      "status": "needs-review",
+      "verse_count": 32,
+      "text_sha256": "b1acd0dab4fe931d5d6a0a1e3d8745e77dd715e5ef74805ce5c58e6ab9181858",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0213.1.tif",
+          "sha256": "759715adfc9472f9ba0ae765db2442839ba07b076c91ed06451aa85ed54d4c3d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0214.1.tif",
+          "sha256": "a5f61f892a03bd19c5da68e0e5537a06c76164b8c1c60d35ba63d1ce797d32fc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0215.1.tif",
+          "sha256": "984a2b4fccf90a029e16ef0211f343d0ad318ddbaf19a52e56785c94625c15c6"
+        }
+      ],
+      "notes": "Fjärde Moseboken 18:1–32 jämförd som OCR-text mot EFS 1927 GT s. 213–215 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 19,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "f590b8f32f4021108585f4c2060833e0ef5f34089823d95eabe4dd53745fe388",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0215.1.tif",
+          "sha256": "984a2b4fccf90a029e16ef0211f343d0ad318ddbaf19a52e56785c94625c15c6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0216.1.tif",
+          "sha256": "4a4743c6d3126d224f5cfad1425469f39326bd3cd43b31fa21d4085e4abf05bd"
+        }
+      ],
+      "notes": "Fjärde Moseboken 19:1–22 jämförd som OCR-text mot EFS 1927 GT s. 215–216 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 9 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 20,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "353ca11520132825a21124f890a9263f3cfb699131b93d68048e1799e1b30caa",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0216.1.tif",
+          "sha256": "4a4743c6d3126d224f5cfad1425469f39326bd3cd43b31fa21d4085e4abf05bd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0217.1.tif",
+          "sha256": "1c431c77135c3d6ffe6a4476152fd4522643ccd4a7913259cabaa8006ec0832f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0218.1.tif",
+          "sha256": "3f12f927091d2db3377a9c0f88f1a84cb8087dae944a4a277cdd6865fbecde65"
+        }
+      ],
+      "notes": "Fjärde Moseboken 20:1–29 jämförd som OCR-text mot EFS 1927 GT s. 216–218 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 21,
+      "status": "needs-review",
+      "verse_count": 35,
+      "text_sha256": "73c1d14f5f67c549c19421b06d9032027ae26a89a99ba36d46fe6bbae7f987be",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0218.1.tif",
+          "sha256": "3f12f927091d2db3377a9c0f88f1a84cb8087dae944a4a277cdd6865fbecde65"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0219.1.tif",
+          "sha256": "55f6fbf73af2b2a30e5a8f5f3dfb894e1b6e271ad439c1562b1c67c6b0a811a7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0220.1.tif",
+          "sha256": "e6009c48e784d2fb4b9e7480fbbefc8a3ca5eecdaa2f3650446d2605c9057b0d"
+        }
+      ],
+      "notes": "Fjärde Moseboken 21:1–35 jämförd som OCR-text mot EFS 1927 GT s. 218–220 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 22,
+      "status": "needs-review",
+      "verse_count": 41,
+      "text_sha256": "b86297efd9057e233bae76f524ec4d36aef76b9bd3615aa69a61d92977ca232a",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0220.1.tif",
+          "sha256": "e6009c48e784d2fb4b9e7480fbbefc8a3ca5eecdaa2f3650446d2605c9057b0d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0221.1.tif",
+          "sha256": "0e1a3bbbc40c742c23942dbbd55ed1332b0d9c7b87c4960337609f9514a677db"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0222.1.tif",
+          "sha256": "04301c701777c857eba26642a89edfe465633474e24b2ab1adba2891b437e2dd"
+        }
+      ],
+      "notes": "Fjärde Moseboken 22:1–41 jämförd som OCR-text mot EFS 1927 GT s. 220–222 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 23,
+      "status": "needs-review",
+      "verse_count": 30,
+      "text_sha256": "8848e16d5a85c794f51a8daa919b53acc68a38f08b54430fa68111a32e5016b6",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0222.1.tif",
+          "sha256": "04301c701777c857eba26642a89edfe465633474e24b2ab1adba2891b437e2dd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0223.1.tif",
+          "sha256": "149af45d13939fa0fa9a2a06194b7013dd9990af7d9d8706fbd1a374f7fe4a10"
+        }
+      ],
+      "notes": "Fjärde Moseboken 23:1–30 jämförd som OCR-text mot EFS 1927 GT s. 222–223 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 14 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 24,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "528a4306c82faea0c4c9d23c168158c0bbc5b9a8394c7dcd3266a8f5cb8a065a",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0223.1.tif",
+          "sha256": "149af45d13939fa0fa9a2a06194b7013dd9990af7d9d8706fbd1a374f7fe4a10"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0224.1.tif",
+          "sha256": "6d1c1e89bdf6d4f9c7c21af659879f65829e58350eb605dfacf6fa58db543016"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0225.1.tif",
+          "sha256": "c6fcdbe5e511c4eafe19db54f02e8511d74df4f3d9b40a325fe335aa275a0cdd"
+        }
+      ],
+      "notes": "Fjärde Moseboken 24:1–25 jämförd som OCR-text mot EFS 1927 GT s. 223–225 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 25,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "a9942f0a85e288ef67ba71257e32333a9de2c44c21df1651655972fec6765f51",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0225.1.tif",
+          "sha256": "c6fcdbe5e511c4eafe19db54f02e8511d74df4f3d9b40a325fe335aa275a0cdd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0226.1.tif",
+          "sha256": "836a153aecff4074c2a9c96c6c3271f9010ff97bbe856a3b409ff88166f3ac90"
+        }
+      ],
+      "notes": "Fjärde Moseboken 25:1–18 jämförd som OCR-text mot EFS 1927 GT s. 225–226 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 26,
+      "status": "needs-review",
+      "verse_count": 65,
+      "text_sha256": "67a5b65f012df67d2e5cf285c449373cdeabe7c803579dad5e60243684947a89",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0226.1.tif",
+          "sha256": "836a153aecff4074c2a9c96c6c3271f9010ff97bbe856a3b409ff88166f3ac90"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0227.1.tif",
+          "sha256": "23a4ad430605192203bde4118d32f77b1b15816b5792fd3146946183b7037f17"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0228.1.tif",
+          "sha256": "46523c366d8f65628e8d0ee1fcafa6328d2e3b613f49403ed646462769a39cf2"
+        }
+      ],
+      "notes": "Fjärde Moseboken 26:1–65 jämförd som OCR-text mot EFS 1927 GT s. 226–228 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 20 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 27,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "b97b1e2bd8843803a42ea4d68e9621d19543e6494d3b849eea814e627bb72d70",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0228.1.tif",
+          "sha256": "46523c366d8f65628e8d0ee1fcafa6328d2e3b613f49403ed646462769a39cf2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0229.1.tif",
+          "sha256": "ba6942ee47ac1d874349591d683556a7f70104124686788d00bb6c46b692b091"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0230.1.tif",
+          "sha256": "4ce836b79944dfb87f83152c7a3bbeac8896f5b9dd5d32b890fd5de129f3f9e8"
+        }
+      ],
+      "notes": "Fjärde Moseboken 27:1–23 jämförd som OCR-text mot EFS 1927 GT s. 228–230 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 8 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 28,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "ebffe08784cbedbc1fb99e088068f6877373fdee114e859d698ee3c42fa8274b",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0230.1.tif",
+          "sha256": "4ce836b79944dfb87f83152c7a3bbeac8896f5b9dd5d32b890fd5de129f3f9e8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0231.1.tif",
+          "sha256": "7c7f2950342cc8e8ad0627c498138211002f92b270498c0385d903e9c8fc383e"
+        }
+      ],
+      "notes": "Fjärde Moseboken 28:1–31 jämförd som OCR-text mot EFS 1927 GT s. 230–231 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 29,
+      "status": "needs-review",
+      "verse_count": 39,
+      "text_sha256": "53e667af8d91b67e26aeb2c8a32d6f07424242649b42faddecec7a8aff5e149d",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0230.1.tif",
+          "sha256": "4ce836b79944dfb87f83152c7a3bbeac8896f5b9dd5d32b890fd5de129f3f9e8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0231.1.tif",
+          "sha256": "7c7f2950342cc8e8ad0627c498138211002f92b270498c0385d903e9c8fc383e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0232.1.tif",
+          "sha256": "a9517a7bb0e7ab89fd87d4d190b5d41579bf386ca058f75e3a19e2c727973db9"
+        }
+      ],
+      "notes": "Fjärde Moseboken 29:1–39 jämförd som OCR-text mot EFS 1927 GT s. 230–232 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 30,
+      "status": "needs-review",
+      "verse_count": 17,
+      "text_sha256": "7a91185ba8c226b930848af19f124ed7a57463cc9679b1524800ed86d15f5d34",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0233.1.tif",
+          "sha256": "39628c8543059457da7f6d8ce6808496671e5ccc5af2fe18ba99828522a75f0f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0234.1.tif",
+          "sha256": "06e916f94bd26f8ba2391da33a8b6522b1c820ad9dacb3b04a699788d9e34bc0"
+        }
+      ],
+      "notes": "Fjärde Moseboken 30:1–17 jämförd som OCR-text mot EFS 1927 GT s. 233–234 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 31,
+      "status": "needs-review",
+      "verse_count": 54,
+      "text_sha256": "4a96cdc89a86f38da71e1af61f2b0e6d7756c80d1a0126f62500d9648ecdd606",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0234.1.tif",
+          "sha256": "06e916f94bd26f8ba2391da33a8b6522b1c820ad9dacb3b04a699788d9e34bc0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0235.1.tif",
+          "sha256": "074bed69e524a316c2be53f4f1efb4c48fde587e7e6f35b2746d599f7693e320"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0236.1.tif",
+          "sha256": "e6c4be52ee0762875b824ed589c9cc869bffe4b09dd1005a54a10216e12e8f53"
+        }
+      ],
+      "notes": "Fjärde Moseboken 31:1–54 jämförd som OCR-text mot EFS 1927 GT s. 234–236 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 18 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 32,
+      "status": "needs-review",
+      "verse_count": 42,
+      "text_sha256": "58c3ae9999b50ab727c3f1eeaad7e163addcecc3e495be221acd30f587b55540",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0236.1.tif",
+          "sha256": "e6c4be52ee0762875b824ed589c9cc869bffe4b09dd1005a54a10216e12e8f53"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0237.1.tif",
+          "sha256": "822052aac6f1b5f5ab9e72d1646f55f4e70ff5291f78e800d6f4e77c33403f75"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0238.1.tif",
+          "sha256": "517ce2f5e91de2f8b79004622dca271bba5c76b5067debc2492800183bc3cd17"
+        }
+      ],
+      "notes": "Fjärde Moseboken 32:1–42 jämförd som OCR-text mot EFS 1927 GT s. 236–238 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 16 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 33,
+      "status": "needs-review",
+      "verse_count": 56,
+      "text_sha256": "dc4391be3d4030dcfdc8759188a2c5ada4e1fb3886d5ac9a05d03b03cb0dc6cc",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0238.1.tif",
+          "sha256": "517ce2f5e91de2f8b79004622dca271bba5c76b5067debc2492800183bc3cd17"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0239.1.tif",
+          "sha256": "9bd94d06ca19ac507f1f7b57beb207b89edbeee79f46bd83868c717df2f57458"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0240.1.tif",
+          "sha256": "ea29fc7c822a3023b26f34ea9913beb378f9159497d2a385453d7200371f92e9"
+        }
+      ],
+      "notes": "Fjärde Moseboken 33:1–56 jämförd som OCR-text mot EFS 1927 GT s. 238–240 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 34,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "8ee12d4ae1636b856e4318df3101681224a94ec47b60584d85bd28d65f2e589b",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0240.1.tif",
+          "sha256": "ea29fc7c822a3023b26f34ea9913beb378f9159497d2a385453d7200371f92e9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0241.1.tif",
+          "sha256": "b375bcba3b38dff0e6b656d4d4c80fc4308126840e3e8ea5a5cda357fa48f14e"
+        }
+      ],
+      "notes": "Fjärde Moseboken 34:1–29 jämförd som OCR-text mot EFS 1927 GT s. 240–241 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 6 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 35,
+      "status": "needs-review",
+      "verse_count": 34,
+      "text_sha256": "e4880659f9ac292be64ebf3624c12d4eb6af97a57bbb8645e4d9be48da452fe8",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0241.1.tif",
+          "sha256": "b375bcba3b38dff0e6b656d4d4c80fc4308126840e3e8ea5a5cda357fa48f14e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0242.1.tif",
+          "sha256": "ee658508196e73569f6a322d5c5007aa7af06a4a03854c3e8d6d24f1aee853b7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0243.1.tif",
+          "sha256": "9aa42bfda7bbd9a49bc12d4130f74e3a7c56fb7c5eab165e37942b4ab29c5aac"
+        }
+      ],
+      "notes": "Fjärde Moseboken 35:1–34 jämförd som OCR-text mot EFS 1927 GT s. 241–243 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 18 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Num",
+      "chapter": 36,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "0996ff8ae1b7cdfb675cd0532e661f476ebb72949f6bb99757e20b3202954c34",
+      "checked_at": "2026-10-29",
+      "reviewer": "Claude, OCR comparison of both prints plus partial page-image check; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0243.1.tif",
+          "sha256": "9aa42bfda7bbd9a49bc12d4130f74e3a7c56fb7c5eab165e37942b4ab29c5aac"
+        }
+      ],
+      "notes": "Fjärde Moseboken 36:1–13 jämförd som OCR-text mot EFS 1927 GT s. 243–243 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-numbers.md. Behållna: kommatecken och stavning som bara ett tryck har, samt ord där 1926-skanningens högerkant är beskuren. Sidbilderna är bara delvis lästa mot e-texten, kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
