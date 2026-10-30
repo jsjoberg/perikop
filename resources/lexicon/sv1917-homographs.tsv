@@ -1,15 +1,15 @@
 # form	occurrences	voice	alternatives
 han	13135	h'A:n	h'A:n=namn|h'an=pronomen
-en	8906	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
+en	8907	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
 du	7143	d'y:	d'u-=pronomen|d'y:=namn
 men	5525	m'En	m'En=konjunktion|m'e:n=substantiv
 hans	4320	h'A:ns	h'A:ns=namn|h'ans=pronomen
 din	2998	d'i:n	d'In=pronomen|d'i:n=okänd, substantiv
-vad	2904	v'A:d	v'A:d=substantiv, böjd form|v'ad=pronomen, substantiv
+vad	2905	v'A:d	v'A:d=substantiv, böjd form|v'ad=pronomen, substantiv
 min	2865	m'i:n	m'In=pronomen|m'i:n=substantiv
 man	2759	m'an	m'A:n=substantiv|m'an=substantiv
 vi	2333	s'Eks	s'Eks=räkneord|v'i:=pronomen
-son	2109	s'u:n	s'o:n=substantiv|s'u:n=substantiv
+son	2108	s'u:n	s'o:n=substantiv|s'u:n=substantiv
 oss	1945	'Os	'Os=pronomen|u:E-s'Es=namn
 genom	1649	j'e:nOm	j'e:nOm=adverb, preposition|jE-n'o:m=substantiv, böjd form
 hon	1489	h'u:n	h'Un=pronomen|h'u:n=substantiv
@@ -43,8 +43,8 @@ lovade	76	l'o:vadE-	l'o:vadE-=particip, verb|l'u:vadE-=particip, verb, böjd for
 mans	74	m'E:ns	m'A:ns=substantiv, böjd form|m'E:ns=namn, böjd form|m'ans=substantiv
 lova	67	l'u:va	l'o:va=verb|l'u:va=namn, verb
 antal	66	'antal	'antA:l=substantiv|'antal=namn
-lov	61	l'o:v	l'o:v=substantiv|l'u:v=substantiv, böjd form
 vikt	61	v'i:kt	v'Ikt=substantiv|v'i:kt=adjektiv, verb
+lov	60	l'o:v	l'o:v=substantiv|l'u:v=substantiv, böjd form
 lovad	60	l'o:vad	l'o:vad=adjektiv, particip|l'u:vad=particip, böjd form
 allting	59	'alt,IN	'alt,IN=substantiv|'altIN=pronomen
 bredvid	52	bRE-v'i:d	bR'e:dv,i:d=adverb, preposition|bRE-v'i:d=adverb
@@ -72,11 +72,11 @@ kvarleva	28	kv'A:Rl.,e:va	kv'A:Rl.,e:va=substantiv, böjd form|kv'A:l.,e:va=subs
 förlåt	27	fWl.'o:t	f'Wl.,o:t=substantiv|f'Y:l.,o:t=substantiv, böjd form|fWl.'o:t=interjektion, verb
 oro	27	'u:Ru:	'u:R,u:=substantiv|'u:Ru:=substantiv, böjd form
 glans	26	gl'A:ns	gl'A:ns=adjektiv, böjd form|gl'ans=substantiv
+hov	26	h'o:v	h'o:v=namn, substantiv|h'u:v=substantiv
 legat	26	lE-g'A:t	l'e:gat=verb|lE-g'A:t=substantiv
 köpt	25	S;'Wpt	S;'Wpt=adjektiv, verb|S;'Y:pt=particip, verb, böjd form
 äventyrs	25	'E:vE-nt,y:s.	'E:vE-nt,y:s.=substantiv, böjd form|'E:vE-nty:s.=substantiv
-hov	24	h'o:v	h'o:v=namn, substantiv|h'u:v=substantiv
-hin	22	h'In	h'In=pronomen|h'i:n=substantiv
+hin	23	h'In	h'In=pronomen|h'i:n=substantiv
 kis	22	k'i:s	S;'i:s=substantiv|k'i:s=substantiv
 läst	22	l'E:st	l'E:st=adjektiv, particip, verb|l'Est=substantiv
 rykte	22	R'yktE-	R'y:ktE-=verb|R'yktE-=substantiv
