@@ -14,3 +14,13 @@ Sex originalfoton tillhandahölls och granskades av användaren 2026-10-25. Code
 V001 stöder samma läsning som Runebergs 1927-bild. V002–V006 rättar fel som också finns i Runebergs inskannade tryck och är alltså inte OCR-rättelser. V002 omfattar både avbrott och återgå. Foto V003 visar dem, medan Runebergs fulla sida har med i höger spalt; den tidigare detaljbilden klippte delar av omgivningen.
 
 Dessa foton granskar sex verser. De ersätter inte genomgång av hela kapitel. Fem kapitel var redan fullständigt bildlästa och kan färdigmarkeras när de dokumenterade läsningsfrågorna har lösts; Jeremia 8 är ännu inte fullständigt granskat.
+
+Två senare foton av samma exemplar, Andra Moseboken tryckt s. 102–103, togs emot 2026-10-27:
+
+| Fråga | Vers | Bekräftad läsning | Rättelse |
+| --- | --- | --- | --- |
+| [VE001](VE001.jpg) | 2 Mos. 3:18 | 'Herren, hebréernas Gud (öppningsapostrof) | E025 |
+| [VE002](VE002.jpg) | 2 Mos. 3:18 | vår Gud.' (slutapostrof behålls) | behålls |
+
+`VE`-numren används i Exodusgrenen för att inte krocka med V-numren i andra grenar.
+

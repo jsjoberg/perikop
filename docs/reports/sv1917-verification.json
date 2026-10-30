@@ -3380,6 +3380,882 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Exod",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "2d5c7c9a2cb975044b00fc56b93b944b46debde875b183d7bc2c30c36e6d9bd5",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0077.1.tif",
+          "sha256": "1aa8afd0d29c7c57745049de45066fdbf1df40923adf74c7ff7a4142ea6c95d5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0078.1.tif",
+          "sha256": "1abe5f5358cb2a6ff51b647357c3fadde6c64aa8fec22e9da26300faba6b9169"
+        }
+      ],
+      "notes": "Hela 1:1–22 visuellt jämförd mot EFS 1927 GT s. 77–78 och EFS 1926 GT s. 69–70 (Internet Archive bibelnellerdenhe0000unse, sidbilder n80–n81). E001–E003 införda endast där båda trycken är överens mot e-texten: 1:14 komma efter marken och slutpunkt, 1:17 komma efter icke, 1:22 tryckfelen gossebarn- och all. Behållna läsningar där bara 1927 avviker (e-texten följer 1926): inget komma i 1:5 (de som, länd sjuttio), semikolon i 1:10 och 1:20 (1927 har komma) samt komma efter korteligen i 1:14 (1927 saknar). Tankstrecket i 1:15 är typografi; båda trycken har långt streck. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "8e4b14cb8a3e38aaaef81135c163407bd836f86503c499cdffc836b083374255",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0078.1.tif",
+          "sha256": "1abe5f5358cb2a6ff51b647357c3fadde6c64aa8fec22e9da26300faba6b9169"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0079.1.tif",
+          "sha256": "05b021ce70fac756fa0777f0355839665019b1a255b5e5c80f1f4450a6dc873d"
+        }
+      ],
+      "notes": "Hela 2:1–25 visuellt jämförd mot EFS 1927 GT s. 78–79 och EFS 1926 GT s. 70–71 (n81–n82), inklusive fortsättning över sid- och spaltgräns i 2:8 och 2:16–17. E004–E012 införda endast där båda trycken är överens mot e-texten: komma i 2:2, 2:4, 2:6, 2:7, 2:11 och 2:12, utan komma i 2:9, semikolon för komma i 2:10, semikolon i slutet av 2:11 samt punkt före slutcitatet i 2:20. Behållna läsningar där bara 1927 avviker: komma efter ty i 2:10, gemen då i 2:12 (1927 har versal), inget komma i 2:13 och 2:22, Också fick och land; i 2:15 (1927 har Och så fick och land,). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "d4694569e15f8a748f3078dcd1cd67ea5b81749343f29dc8b13926d8a532a3fa",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0079.1.tif",
+          "sha256": "05b021ce70fac756fa0777f0355839665019b1a255b5e5c80f1f4450a6dc873d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0080.1.tif",
+          "sha256": "066d8d4bac3ef98ebeb96f1886dad311a0c2b7f8f3693022d35e457adfe77401"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0081.1.tif",
+          "sha256": "f5f8ca9ad81c1b6d94d90a7adc5bd31d3ff66ff656cc7217a7df84e1e66f67f9"
+        }
+      ],
+      "notes": "Hela 3:1–22 jämförd mot EFS 1927 GT s. 79–81 och EFS 1926 GT s. 71–72 (Internet Archive bibelnellerdenhe0000unse, n82–n83). E013–E026 införda endast där båda trycken är överens mot e-texten: komma i 3:2, 3:3, 3:4, 3:5, 3:7, 3:8, 3:9, 3:16–17 och 3:19, semikolon för komma i 3:18, kolon för semikolon i 3:13, slutpunkt före slutcitat i 3:10, saknat slutcitat i 3:14 och det utelämnade ordet i i 3:16 (eder i Egypten). Behållna läsningar där bara ett tryck avviker: komma i 3:2 (eldslåga, som), 3:12 (jag, som), 3:16 (det, som) och 3:22 (1927 har komma), samt apostroferna kring Jag är i 3:14 och komma efter namn?' i 3:13 (1926 har dem, 1927 saknar). Slutet på 3:18 avgjort 2026-10-27: öppningsapostrofen före HERREN saknades i e-texten men finns i både EFS 1927 och EFS 1926 (E025 utökad). Slutapostrofen Gud.' finns i EFS 1926 och i användarens exemplar men saknas i EFS 1927; den behålls. Kompletterande tryck: VE001 och VE002. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "323b8d99d5dd8cb50afa60a2d9dd6ba87171ce6666cb35f30ef2b5e1b405ab61",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0081.1.tif",
+          "sha256": "f5f8ca9ad81c1b6d94d90a7adc5bd31d3ff66ff656cc7217a7df84e1e66f67f9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0082.1.tif",
+          "sha256": "1761d963a404863a70afaa26abe7375b4f9a184c24bd79bac68a056947b17f15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0083.1.tif",
+          "sha256": "c7c169e738b6019e666a9fa2b718b57981af19e970259c2f0d838ca283a39b92"
+        }
+      ],
+      "notes": "Hela 4:1–31 jämförd mot EFS 1927 GT s. 81–83 och EFS 1926 GT s. 72–74 (Internet Archive bibelnellerdenhe0000unse, n83–n85). E027–E037 införda endast där båda trycken är överens mot e-texten: komma i 4:5, 4:12, 4:14, 4:15, 4:18, 4:21, 4:24, 4:28 och 4:31, kolon för punkt i 4:7, saknat slutcitat i 4:5 och den tillagda bokstaven I i 4:10 (Ack I Herre; båda trycken saknar den). Behållna läsningar där bara ett tryck avviker: komma i 4:1, 4:2, 4:13 och 4:28–30 (allt, vad) där 1927 har komma, samt Jeter i 4:18 (e-texten och 1926; 1927 har Jetro). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "8a667bfe0599eafb49988b1c126a41a890af980417c5d4d2c2a433cc991dbe52",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0082.1.tif",
+          "sha256": "1761d963a404863a70afaa26abe7375b4f9a184c24bd79bac68a056947b17f15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0083.1.tif",
+          "sha256": "c7c169e738b6019e666a9fa2b718b57981af19e970259c2f0d838ca283a39b92"
+        }
+      ],
+      "notes": "Hela 5:1–23 jämförd mot EFS 1927 GT s. 82–83 och EFS 1926 GT s. 73–74 (Internet Archive bibelnellerdenhe0000unse, n84–n85). E038–E043 införda endast där båda trycken är överens mot e-texten: komma i 5:8, 5:17, 5:19 och 5:23 samt tre saknade slutcitat (5:4, 5:21, 5:23). Behållna läsningar där bara ett tryck avviker: en del komma i 1927 samt allt för i 5:5 (1927 delar ordet). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "20a52fa06374ad1bb27722e9e8c6f672ea8c839959c3a34d8f7fc4e7180659b7",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0083.1.tif",
+          "sha256": "c7c169e738b6019e666a9fa2b718b57981af19e970259c2f0d838ca283a39b92"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0084.1.tif",
+          "sha256": "8f91a2962ac20a4da086df9ed29be1c28cce045106be14a377877c37099e73c6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0085.1.tif",
+          "sha256": "1f50c33710345542358c2b16bb2d9593138a8049a2a59b687b28c6e6f5884ab8"
+        }
+      ],
+      "notes": "Hela 6:1–30 jämförd mot EFS 1927 GT s. 83–85 och EFS 1926 GT s. 74–75 (n85–n86). E044–E049 införda endast där båda trycken är överens mot e-texten: komma i 6:1, 6:4 och 6:7 (förnimma, att … HERREN, eder Gud), kolon i 6:14, punkt i 6:27 och det felaktiga avslutande apostrofen i 6:8. Behållna läsningar där bara ett tryck avviker: hon i 6:23 (1926 har och hon födde, 1927 saknar hon), komma i 6:12 och 6:29 samt tankstrecket i 6:12. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "3f1765d9db8a23f276766cce7478044fa9ea63b642e3f2972a450e60ed7cdcfe",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0085.1.tif",
+          "sha256": "1f50c33710345542358c2b16bb2d9593138a8049a2a59b687b28c6e6f5884ab8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0086.1.tif",
+          "sha256": "1d831ad56b489f2a6e0ae4be4b37b6808ea1cd3d93387b5481e0aabd305ede75"
+        }
+      ],
+      "notes": "Hela 7:1–25 jämförd mot EFS 1927 GT s. 85–86 och EFS 1926 GT s. 76–77 (Internet Archive bibelnellerdenhe0000unse, n87–n88; båda sidorna lästa mot bild). E050–E056 införda endast där båda trycken är överens mot e-texten: komma i 7:5, 7:6, 7:10, 7:15 (staven, som), 7:17 (förnimma, att) och 7:20 (gjorde, såsom), komma borttaget i 7:19 (din stav och räck) samt det utelämnade i i 7:20 (allt vatten i floden). Behållna läsningar där bara ett tryck avviker: 7:2 (1927 allt, vad), 7:11 (1927 visa, e-text och 1926 vise), 7:15 (1927 saknar komma efter väg), 7:17 (1927 staven, som; hand,) och 7:25 (1927 dagar,). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "acf21686ea71531169e6d6119a31a92db939496fbf75aeb8b524bed8df1d28d2",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0086.1.tif",
+          "sha256": "1d831ad56b489f2a6e0ae4be4b37b6808ea1cd3d93387b5481e0aabd305ede75"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0087.1.tif",
+          "sha256": "5e8e78396f23bfe128ab5fb7e25402a581dcf828a80c67b24460ad5904cd75bc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0088.1.tif",
+          "sha256": "132b50c71984c9727d743326295d4a08b4500422147c535766f14d7ffc2ee07f"
+        }
+      ],
+      "notes": "Hela 8:1–32 jämförd mot EFS 1927 GT s. 86–88 och EFS 1926 GT s. 77–78 (Internet Archive bibelnellerdenhe0000unse, n88–n89; båda sidorna lästa mot bild). E057–E067 införda endast där båda trycken är överens mot e-texten: komma borttaget i 8:3 (säng och in, folk och i) och 8:9 (jag genom, folk skall), komma tillagt i 8:9 (tid, inom), 8:10, 8:13, 8:15, 8:21 (marken, på), 8:22, 8:26 och 8:31, slutcitat tillagt i 8:9 och 8:28, 8:20 Så säger och gudstjänst, 8:21 se för de, 8:31 hade för sade. Behållna läsningar där bara ett tryck avviker: 8:5 (1927 sjöarna,), 8:12 (1927 paddorna,), 8:20 (1927 saknar komma efter folk), 8:26 (1927 sådant,), 8:28 (1927 allt för), 8:29 (1926 har slutcitat, 1927 och e-texten saknar det). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "2934365c8394e61b01cbcde21adeb8451893009c09ff1fd6379fb453333d739a",
+      "checked_at": "2026-10-27",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0088.1.tif",
+          "sha256": "132b50c71984c9727d743326295d4a08b4500422147c535766f14d7ffc2ee07f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0089.1.tif",
+          "sha256": "4f54897c757c1142b8f0536fab7132fac770a3a216c0905b96e4e35ea76aaa61"
+        }
+      ],
+      "notes": "Hela 9:1–35 jämförd mot EFS 1927 GT s. 88–89 och EFS 1926 GT s. 79–80 (Internet Archive bibelnellerdenhe0000unse, n90–n91; båda sidorna lästa mot bild). E068–E077 införda endast där båda trycken är överens mot e-texten: komma tillagt i 9:14, 9:19, 9:27, 9:29, 9:30, 9:31 och 9:34, slutpunkt tillagd i 9:7, semikolon för komma i 9:23 och hand för land i 9:15. Behållna läsningar där bara ett tryck avviker: 9:2 (1927 saknar komma efter dem), 9:4, 9:9–9:10, 9:19–9:21 och 9:25 (kommatecken som bara 1927 har), 9:15 (1927 har, e-text och 1926 hade), 9:18 (1926 sådant,), 9:27 (1927 rättfärdig,) och 9:28 (1927 hava). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "45e1592451e847d4bee35e11544fbbb4ae7fd5745526c92fc36017bae1b785b9",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0089.1.tif",
+          "sha256": "4f54897c757c1142b8f0536fab7132fac770a3a216c0905b96e4e35ea76aaa61"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0090.1.tif",
+          "sha256": "f0f1a921f8b9a2e996b3ab8927e5c5c1156fdc78eab5ea4cee59194dd07a6275"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0091.1.tif",
+          "sha256": "5f43449c78ef96f786a126ca23ee2fc10b0b4303025943bca0c70f67e2f7bf70"
+        }
+      ],
+      "notes": "Hela 10:1–29 jämförd mot EFS 1927 GT s. 89–91 och EFS 1926 GT s. 80–82 (Internet Archive bibelnellerdenhe0000unse, n91–n93; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 10:2 (två ställen), 10:5, 10:7, 10:10 och 10:23, fäders för faders i 10:6 och borttaget kolon efter HERREN i 10:10. Behållna läsningar där bara ett tryck avviker: 10:5 (andra marken, i 1927), 10:8 (de, som och Gud, men i 1927), 10:9 (gå, i 1927), 10:10 (eder, i 1927) och 10:26 (icke, i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 10,
+      "text_sha256": "af44478f37daa6861b1ec216218238df98ab64340c46eaba47c25a8d0c075e53",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0091.1.tif",
+          "sha256": "5f43449c78ef96f786a126ca23ee2fc10b0b4303025943bca0c70f67e2f7bf70"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0092.1.tif",
+          "sha256": "b3bc87a0d56619c018faa03ba8bcbd60a2692836c2b01989b1e9383eb036f517"
+        }
+      ],
+      "notes": "Hela 11:1–10 jämförd mot EFS 1927 GT s. 91–92 och EFS 1926 GT s. 82 (Internet Archive bibelnellerdenhe0000unse, n93; sidan läst mot bild; 1927 s. 92 jämförd mot OCR). {E} införda endast där båda trycken är överens mot e-texten: komma efter säg i stället för efter folket i 11:2 och komma före att i 11:7. Behållen läsning där bara ett tryck avviker: 11:8 (folket, som i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 51,
+      "text_sha256": "3d7af06f5c011f8dcefe0bbbe99df2b1c906323d389ed529f34e717a165a189f",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0092.1.tif",
+          "sha256": "b3bc87a0d56619c018faa03ba8bcbd60a2692836c2b01989b1e9383eb036f517"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0093.1.tif",
+          "sha256": "af8c59fc14ef0497879603bd184279b9af19ba24fc4ee82f41795e7c36e79c55"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0094.1.tif",
+          "sha256": "c294943c0210130e9f530ac454ac44972f09cb7a420be0167bd102d5790fee66"
+        }
+      ],
+      "notes": "Hela 12:1–51 jämförd mot EFS 1927 GT s. 92–94 och EFS 1926 GT s. 82–84 (Internet Archive bibelnellerdenhe0000unse, n93–n95; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 12:7, 12:13, 12:20, 12:28, 12:35, 12:36, 12:41 (två ställen) och 12:44 (två ställen), borttaget komma i 12:21, påsk med gemen i 12:11, som för son i 12:19, dörrträet och husdörr i ett ord i 12:22, han för ha och in för i i 12:23, har för ha i 12:44. Behållna läsningar där bara ett tryck avviker: 12:13 (ären, ty i 1927), 12:19 (en, som i 1927), 12:22 (kommatecken som bara 1927 har), 12:27 (Egypten, bara i 1926), 12:33 (allesammans i 1927). De långa tankstrecken i 12:6 lämnas till den korpusövergripande typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "f85792467f251187306c624ed17fe175f4ce7a3c450d1ba2e394c3bb35e7dbbc",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0094.1.tif",
+          "sha256": "c294943c0210130e9f530ac454ac44972f09cb7a420be0167bd102d5790fee66"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0095.1.tif",
+          "sha256": "871954b1218d0d6433222281922dfe4c06916f466d3c5c534d3d334670fccde6"
+        }
+      ],
+      "notes": "Hela 13:1–22 jämförd mot EFS 1927 GT s. 94–95 och EFS 1926 GT s. 85–86 (Internet Archive bibelnellerdenhe0000unse, n96–n97; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 13:5, 13:13 och 13:17, komma borttaget i 13:7 och två gånger i 13:21. Behållna läsningar där bara ett tryck avviker: 13:3 (*därifrån; fördenskull* i 1927, *därifrån. Fördenskull* i e-texten och 1926), 13:3 (*träldomshuset,* i 1927), 13:12–13:13 (kommatecken som bara 1927 har) och 13:17 (*väg,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "3998c2a5d7f6de470c0f9398409172292ad01825285b30137cadd96f44dd7f0d",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0096.1.tif",
+          "sha256": "b0cf22d0cac00cc0064c958cce91c41729c81b6bad3fedf0f14c644613d45eba"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0097.1.tif",
+          "sha256": "238285c55df5c438f2d59f1c1482f04b5b3748fcf4598b89a0a0cc6f68c9aff1"
+        }
+      ],
+      "notes": "Hela 14:1–31 jämförd mot EFS 1927 GT s. 96–97 och EFS 1926 GT s. 86–87 (Internet Archive bibelnellerdenhe0000unse, n97–n98; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 14:2, 14:3, 14:4, 14:5, 14:10, 14:13, 14:15, 14:18, 14:27 (två ställen), 14:28 (två ställen) och 14:31, flyttat i 14:7, borttaget två gånger i 14:16. Behållna läsningar där bara ett tryck avviker: 14:12 (*må* och *Egypten!* i 1927), 14:15 (inget kolon efter *Mose* i 1927), 14:16 (*i tu* i 1927), 14:21 (*östanvind,* i 1927) och 14:25 (*Låtom* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "33426f1083af1e42930c65bef9f7487d85534c46141a991d17e69a19b3c326d2",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0097.1.tif",
+          "sha256": "238285c55df5c438f2d59f1c1482f04b5b3748fcf4598b89a0a0cc6f68c9aff1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0098.1.tif",
+          "sha256": "f7af3f6b3f55709591c6467fd75ca9eff390f9080936f33ce1cc6fabf7d51ddf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0099.1.tif",
+          "sha256": "3c9a5efa4428953328a00e8c473dd42d7e2dfbfcdfb70acfb22fc69bf0859008"
+        }
+      ],
+      "notes": "Hela 15:1–27 jämförd mot EFS 1927 GT s. 97–99 och EFS 1926 GT s. 87–89 (Internet Archive bibelnellerdenhe0000unse, n98–n100; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *och* med gemen i 15:2, utelämnat *i* i 15:8, komma tillagt i 15:16 och 15:26. Behållna läsningar där bara ett tryck avviker: 15:2 (*honom.* i 1927, *honom,* i e-texten och 1926) och 15:26 (*sjukdomar,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "d7c7da4e69e8707f39312983118390a191bf09d0f05b37e302f0da2ad487de98",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0099.1.tif",
+          "sha256": "3c9a5efa4428953328a00e8c473dd42d7e2dfbfcdfb70acfb22fc69bf0859008"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0100.1.tif",
+          "sha256": "c256fefe2e24864876e80e0f8929e40b507ec8abd38d56082c1b8f5df88cc62c"
+        }
+      ],
+      "notes": "Hela 16:1–36 jämförd mot EFS 1927 GT s. 99–100 och EFS 1926 GT s. 89–90 (Internet Archive bibelnellerdenhe0000unse, n100–n101; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 16:5, 16:6 (två ställen), 16:7, 16:8, 16:9, 16:12 (tre ställen), 16:14 (två ställen), 16:15 (två ställen), 16:21, 16:23 (två ställen), 16:32 och 16:34, flyttat i 16:4, kolon i 16:9, semikolon i 16:7, komma borttaget i 16:8 och 16:33 samt *den* för *de* i 16:18. Behållna läsningar där bara ett tryck avviker: 16:3 (*Ack,* i 1927), 16:4 (*dag,* i 1927), 16:5 (*dubbelt,* i 1927), 16:8 (*därigenom,* och *knorren utan* i 1927), 16:18 (kommatecken som bara 1927 har), 16:20 (*illaluktande; och* i 1927), 16:21 (*mat; men* i 1927) och 16:23 (*allt,* och *överlopps,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 16,
+      "text_sha256": "230cccaff84ae9d0e2d6289309e457718635ee81e2336767be2c6cf872aa8819",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0101.1.tif",
+          "sha256": "4142a04572654ce79caa39f4b5a52fc402b4853c5483cdd7558fe39e6e484226"
+        }
+      ],
+      "notes": "Hela 17:1–16 jämförd mot EFS 1927 GT s. 101 och EFS 1926 GT s. 91 (Internet Archive bibelnellerdenhe0000unse, n102; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 17:5, 17:10 och 17:16, komma borttaget i 17:5 och två gånger i 17:9. Behållna läsningar där bara ett tryck avviker: 17:1–17:3 (sidan n101) jämfördes bara mot OCR, inte mot bild; inga kommatecken som bara 1927 har behålls i det här kapitlet. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "7bf7039e18370612e2518467d44d83f1a179aca64bad68daf7a9eb404f2f886b",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0101.1.tif",
+          "sha256": "4142a04572654ce79caa39f4b5a52fc402b4853c5483cdd7558fe39e6e484226"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0102.1.tif",
+          "sha256": "dd4a34d756432d9bc71c343c28a38f0fb16f37839fdf2cff2c8bf20b9b17d4b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0103.1.tif",
+          "sha256": "fc8d9acb9d480afc37b52db6ba1355247b87f5c3c9376faed6fb2c96deaefa23"
+        }
+      ],
+      "notes": "Hela 18:1–27 jämförd mot EFS 1927 GT s. 101–103 och EFS 1926 GT s. 91–92 (Internet Archive bibelnellerdenhe0000unse, n102–n103; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 18:8, 18:11, 18:14, 18:21 (två ställen) och 18:25. Behållna läsningar där bara ett tryck avviker: 18:1, 18:8, 18:14, 18:24 (*allt, vad* och liknande kommatecken som bara 1927 har), 18:3 (*land, som* i 1927), 18:20 (*väg, de … vandra, och* i 1927) och 18:22 (*lättare därigenom* i 1927); de långa tankstrecken i 18:3 och 18:4 lämnas till den korpusövergripande typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "3ac78db259c15bd7c21fcbbd1cd97a2b59e92d9af88101fd4739ffaac175a266",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0103.1.tif",
+          "sha256": "fc8d9acb9d480afc37b52db6ba1355247b87f5c3c9376faed6fb2c96deaefa23"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0104.1.tif",
+          "sha256": "3dc12b556ed89916860d34f84e28da9b7d3e3b64f9bc1fc5c6acac2eacd92d58"
+        }
+      ],
+      "notes": "Hela 19:1–25 jämförd mot EFS 1927 GT s. 103–104 och EFS 1926 GT s. 93–94 (Internet Archive bibelnellerdenhe0000unse, n104–n105; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 19:1 (två ställen), 19:4, 19:6, 19:23 och 19:24, komma borttaget i 19:10 och 19:24 samt *låt* för *I åt* i 19:10. Behållna läsningar där bara ett tryck avviker: 19:4 (*egyptierna, och* i 1927 och e-texten men inte i 1926), 19:7–19:8 och 19:12 (kommatecken som bara 1927 har), 19:10 (*i morgon, och* i 1927 och e-texten, inte i 1926) och 19:20 (*dit upp* i 1927, *ditupp* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "4e2dffa8d6c50946f6a12df95fc713c8f292ca431cc7512c292a386eaa8d1d90",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0104.1.tif",
+          "sha256": "3dc12b556ed89916860d34f84e28da9b7d3e3b64f9bc1fc5c6acac2eacd92d58"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0105.1.tif",
+          "sha256": "84bd7fb1e93c84f52fc5df7a1a16d0c8647c51b1f5cb34c1bbbb3bf5ad02a810"
+        }
+      ],
+      "notes": "Hela 20:1–26 jämförd mot EFS 1927 GT s. 104–105 och EFS 1926 GT s. 94–95 (Internet Archive bibelnellerdenhe0000unse, n105–n106; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 20:10, 20:22 och 20:24 (två ställen). Behållna läsningar där bara ett tryck avviker: 20:4, 20:11, 20:12 och 20:17 (kommatecken som bara 1927 har), 20:7 (inget komma efter *HERRENS* i 1927), 20:20 (inget komma efter *prov* i 1927) och 20:21 (*töcknet, i vilket* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "4867a28603652dffeb93aec4c7bcc352d02d7a740696407f08c958747f1c2aa5",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0105.1.tif",
+          "sha256": "84bd7fb1e93c84f52fc5df7a1a16d0c8647c51b1f5cb34c1bbbb3bf5ad02a810"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0106.1.tif",
+          "sha256": "88074eca8466808116b162ca8aa03b12e965ae2b07ed689eda72232bc009ec95"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0107.1.tif",
+          "sha256": "9baa446f8f253f4cce1b90d84dfcc066f9627092ab21739844fc91a71fccbe25"
+        }
+      ],
+      "notes": "Hela 21:1–36 jämförd mot EFS 1927 GT s. 105–107 och EFS 1926 GT s. 95–96 (Internet Archive bibelnellerdenhe0000unse, n106–n107; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 21:1, 21:7, 21:13, 21:14, 21:22 (två ställen) och 21:31 och 21:36, komma borttaget i 21:2, 21:11, 21:18, 21:22, 21:29 och 21:33, samt *vare* för *vara* i 21:28. Behållna läsningar där bara ett tryck avviker: 21:4 (*har* saknas i 1927), 21:6 (*dörrposten;* i 1927), 21:8, 21:10 (*förres* i 1927), 21:16 (*stulne* utan komma i 1927), 21:18 (*dör men* utan komma i 1927), 21:19 (kommatecken som bara 1927 har), 21:26–21:27 (*fri,* och *Sammalunda,* i 1926 men inte i 1927) och 21:29–21:30 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "988c087477587d1b36ed8105892935682f72b8405f037731fc9dcc8d448e1953",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0107.1.tif",
+          "sha256": "9baa446f8f253f4cce1b90d84dfcc066f9627092ab21739844fc91a71fccbe25"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0108.1.tif",
+          "sha256": "8cc052de3409c32bb5bf49f93e82f9bfbe571c5f906aa443bf06555ad8ad3297"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0109.1.tif",
+          "sha256": "9b367ea3fd4a971b4f56c4e6c9cbff149f4de8aab00b64185845fce9f0748628"
+        }
+      ],
+      "notes": "Hela 22:1–31 jämförd mot EFS 1927 GT s. 107–109 och EFS 1926 GT s. 97–98 (Internet Archive bibelnellerdenhe0000unse, n108–n109; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 22:8, 22:9, 22:11 (två ställen), 22:16 (två ställen), 22:17 och 22:24, komma borttaget i 22:3, 22:5, 22:6, 22:7 och 22:14 (två ställen), *det* för *de* i 22:3, *så* med gemen i 22:11 och kolon borttaget i 22:31. Behållna läsningar där bara ett tryck avviker: 22:1 (inte kontrollerat mot 1926-bild), 22:6 (*den, som … branden,* i 1927), 22:9 (*annat,* i 1927), 22:19 och 22:29–22:31 (kommatecken som bara 1927 har), 22:23 (*för visso* och *mig,* i 1927) och 22:9 (långa tankstreck, se typografifrågan). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 23,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "22965545d7d88857c0ea233b3b4618e2101311292b2b859deee4ec771b3a26f7",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0109.1.tif",
+          "sha256": "9b367ea3fd4a971b4f56c4e6c9cbff149f4de8aab00b64185845fce9f0748628"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0110.1.tif",
+          "sha256": "8f4aabe4ce3460901492c7febaa2aeb2bb33bd609cfdc4c10b02eec5cdc53fb1"
+        }
+      ],
+      "notes": "Hela 23:1–33 jämförd mot EFS 1927 GT s. 109–110 och EFS 1926 GT s. 98–99 (Internet Archive bibelnellerdenhe0000unse, n109–n110; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 23:4, 23:9, 23:13 (två ställen), 23:24 och 23:26, komma borttaget i 23:2 och 23:12 samt semikolon för komma i 23:21. Behållna läsningar där bara ett tryck avviker: 23:5 (*ohulpen,* i 1926), 23:6, 23:7, 23:20, 23:22 och 23:27 (kommatecken som bara 1927 har) samt 23:25 och 23:28–23:33 (OCR-skillnader som inte är läsningar). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "42ad38aa5ec5fd069de654dddd8e5f3c1d6da09542ee082261e8abc724382bbe",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0110.1.tif",
+          "sha256": "8f4aabe4ce3460901492c7febaa2aeb2bb33bd609cfdc4c10b02eec5cdc53fb1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0111.1.tif",
+          "sha256": "afaa92f2c65ccf32e76a4b2ddb83c1284c18ad41c30338b9e8085c13ccc3eaa2"
+        }
+      ],
+      "notes": "Hela 24:1–18 jämförd mot EFS 1927 GT s. 110–111 och EFS 1926 GT s. 99–100 (Internet Archive bibelnellerdenhe0000unse, n110–n111; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: slutcitat tillagt efter *lyda.* i 24:7 och komma borttaget efter *och* där, komma tillagt i 24:8 och 24:12, komma borttaget i 24:17. Behållna läsningar där bara ett tryck avviker: 24:3 (*ord, HERREN har talat,* i 1927), 24:4 (*stoder,* i 1927), 24:7 (*Allt,* och *sagt,* i 1927), 24:8 (*eder, i* i 1926), 24:12 (*skrivit,* i 1927) och 24:2 (*dit upp* i 1927, *ditupp* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 25,
+      "status": "verified",
+      "verse_count": 40,
+      "text_sha256": "f1f60a784defddc7a6692baf3465eaff3d596a4c279ca4db77dcb46c6656702f",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0111.1.tif",
+          "sha256": "afaa92f2c65ccf32e76a4b2ddb83c1284c18ad41c30338b9e8085c13ccc3eaa2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0112.1.tif",
+          "sha256": "1268278762a65b68d599fac5dddd06b6891281c402a76fcbb041e390b1a6b56c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0113.1.tif",
+          "sha256": "2854174b120b42d7f50b541d6198a3a7f33fbc623a9f31bd3fdcee3abfa2a159"
+        }
+      ],
+      "notes": "Hela 25:1–40 jämförd mot EFS 1927 GT s. 111–113 och EFS 1926 GT s. 100–102 (Internet Archive bibelnellerdenhe0000unse, n111–n113; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 25:3 och 25:31, komma borttaget i 25:7, 25:19 och 25:31, punkt tillagd i 25:24, semikolon i 25:33, *armar* för *arma* i 25:33, *det* för *del* i 25:35 och kolon borttaget i 25:36. Behållna läsningar där bara ett tryck avviker: 25:2 (*en, som … hjärta,* i 1927), 25:6 (*smörjelseolja* i 1927), 25:9 och 25:40 (*mönsterbilder,* i 1927), 25:22 (*bud,* i 1927), 25:33 (*armar,* i 1927) och 25:35 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 26,
+      "status": "verified",
+      "verse_count": 37,
+      "text_sha256": "cc7338272eb928a9441210f4df0ac092e89830d98bd2df7d039aaf99b413ca31",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0113.1.tif",
+          "sha256": "2854174b120b42d7f50b541d6198a3a7f33fbc623a9f31bd3fdcee3abfa2a159"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0114.1.tif",
+          "sha256": "d3f121442bf3ff28df79216ff06f90ab1e5f60c8d47cc7e3ba0da4d7227592ad"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0115.1.tif",
+          "sha256": "ecc33b5d6f47f355a60656bc2ce45d9a9c389f3946232015fe37995b39ce0315"
+        }
+      ],
+      "notes": "Hela 26:1–37 jämförd mot EFS 1927 GT s. 113–115 och EFS 1926 GT s. 102–104 (Internet Archive bibelnellerdenhe0000unse, n113–n115; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *våd* för *vad* i 26:8, *sätta* för *satta* i 26:10, *hakar* för *bakar* i 26:32, komma tillagt i 26:12 (två ställen), komma borttaget i 26:9, 26:31, 26:33 och 26:35. Behållna läsningar där bara ett tryck avviker: 26:18–26:20 (*tjugo* i 1927, *tjugu* i e-texten och 1926), 26:24 (*nedtill och* i 1927), 26:35 (*bordet,* i 1927) och 26:1 (OCR-skillnader som inte är läsningar). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 27,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "1ab5469d1df1cdba790392fa1c186f7be15baed4ab644f475ade57a75c3081a7",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0115.1.tif",
+          "sha256": "ecc33b5d6f47f355a60656bc2ce45d9a9c389f3946232015fe37995b39ce0315"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0116.1.tif",
+          "sha256": "485a064ae5ad2539fcda4d762f72ae9082096793a35e6bd3127c284b2c9cd8b2"
+        }
+      ],
+      "notes": "Hela 27:1–21 jämförd mot EFS 1927 GT s. 115–116 och EFS 1926 GT s. 104–105 (Internet Archive bibelnellerdenhe0000unse, n115–n116; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* och gemen *som* i 27:2, *hornen* för *hörnen* i 27:2, gemen *och* i 27:10, komma tillagt i 27:12, 27:15 och 27:16, *framsidan* i ett ord och punkt i 27:13 samt *förgården* i ett ord i 27:17. Behållna läsningar där bara ett tryck avviker: 27:3 (*dessa* i 1927, *dess* i e-texten och 1926), 27:10–27:11 och 27:16 (*tjugo* i 1927, *tjugu* i e-texten och 1926) samt 27:21 (*förlåt,* i 1927); de långa tankstrecken i 27:1 och 27:9 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 28,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "61be1b51e3be44171857debb64bb0abeff0fdcf40742dd057122eca455b1ddc8",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0116.1.tif",
+          "sha256": "485a064ae5ad2539fcda4d762f72ae9082096793a35e6bd3127c284b2c9cd8b2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0117.1.tif",
+          "sha256": "0be553bcdbe9223768272b988fa6d4dae335cabf5960b770f0ade23925a3bb70"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0118.1.tif",
+          "sha256": "837219a7e94618af4ba722f0793452ac167eef1bc657f464200e364b212d0f8a"
+        }
+      ],
+      "notes": "Hela 28:1–43 jämförd mot EFS 1927 GT s. 116–118 och EFS 1926 GT s. 105–106 (Internet Archive bibelnellerdenhe0000unse, n116–n117; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 28:1, 28:4, 28:6, 28:35, 28:38 och 28:43, komma borttaget i 28:1, 28:2, 28:12 och 28:40, *präster*, *han*, *hålles*, *flätverk*, *sätta*, *som*, *in i* och *må* rättade i 28:1, 28:3, 28:7, 28:11, 28:12, 28:28, 28:29 och 28:32. Behållna läsningar där bara ett tryck avviker: 28:21 (*sätt,* i 1927), 28:26–28:27 (kommatecken som bara 1927 har), 28:32 (*kant,* i 1927) och 28:40 (*livklädnader,* i 1927); de långa tankstrecken i 28:35 och 28:43 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 29,
+      "status": "verified",
+      "verse_count": 46,
+      "text_sha256": "5093e4a1cc6fe707aad2d3b2f30e17c0659d8a42e1efb6a976fb4269e432049d",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0118.1.tif",
+          "sha256": "837219a7e94618af4ba722f0793452ac167eef1bc657f464200e364b212d0f8a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0119.1.tif",
+          "sha256": "0f6c4725dbca13a5d93295e14fc23db867f5fe385649a85f74f270720d1c4ed1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0120.1.tif",
+          "sha256": "1bfff3942d939269cae88ccc3d95a4fc8c38c3efd79ab43614e485fcc4eb780a"
+        }
+      ],
+      "notes": "Hela 29:1–46 jämförd mot EFS 1927 GT s. 118–120 och EFS 1926 GT s. 107–109 (Internet Archive bibelnellerdenhe0000unse, n118–n120; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* och *blodet* tillagt i 29:12, komma tillagt i 29:13, 29:22 och 29:25, *du* för *det* i 29:20, kolon eller semikolon borttaget i 29:25, 29:28 och 29:32 och *äta* för *ta* i 29:33. Behållna läsningar där bara ett tryck avviker: 29:1 (*är, vad* i 1926 men inte i 1927), 29:13 (andra *fett,* i 1927), 29:22 (*lårstycket;* i 1927, *lårstycket,* i 1926), 29:32 (*brödet, … korgen,* i 1927), 29:34 (*detta,* i 1927) och 29:28 (*Iraels* i 1927, tryckfel). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 30,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "f79259824f09085851d6ca8c38fbc54b9f7047b674e87f113691654488c19e4b",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0120.1.tif",
+          "sha256": "1bfff3942d939269cae88ccc3d95a4fc8c38c3efd79ab43614e485fcc4eb780a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0121.1.tif",
+          "sha256": "4c66c0705c9f2a6144235a3cd8e996562bd6cf52f60caf5332fd1d5051994c1b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0122.1.tif",
+          "sha256": "1c279ba08df91e5d6fa5aca3d0ac0e6b5c2304e59be6f58c7c1b4caf0f7cedae"
+        }
+      ],
+      "notes": "Hela 30:1–38 jämförd mot EFS 1927 GT s. 120–122 och EFS 1926 GT s. 109–110 (Internet Archive bibelnellerdenhe0000unse, n120–n121; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: semikolon för komma i 30:1, *horn* för *hörn* i 30:3, komma borttaget i 30:8 och 30:15, *I* tillagt i 30:9, punkt för komma i 30:13 och *det* för *del* i 30:20. Behållna läsningar där bara ett tryck avviker: 30:6 (*förlåt,* i 1927), 30:13–30:14 (*en,* och *tjugo* i 1927), 30:14 (*Var och en, som* i 1927), 30:29 och 30:33 (kommatecken som bara 1927 har) och 30:37 (*eder, så* i 1927, *sammansatt, som* i 1926); de långa tankstrecken i 30:2 och 30:13 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 31,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "efa607c9c95750d6a4c059350775c2386a955b4bf460c715e208680302206cc0",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0122.1.tif",
+          "sha256": "1c279ba08df91e5d6fa5aca3d0ac0e6b5c2304e59be6f58c7c1b4caf0f7cedae"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0123.1.tif",
+          "sha256": "da4a59767768a2562c410f6521f02e86679cf1cfb454fafb31b499103af2b1f3"
+        }
+      ],
+      "notes": "Hela 31:1–18 jämförd mot EFS 1927 GT s. 122–123 och EFS 1926 GT s. 110–111 (Internet Archive bibelnellerdenhe0000unse, n121–n122; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *ock* för *och* i 31:10, komma tillagt i 31:11 och 31:13, komma borttaget i 31:13. Behållna läsningar där bara ett tryck avviker: 31:3 (*ande* i 1927), 31:6, 31:14 och 31:15 (kommatecken som bara 1927 har). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 32,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "ceafba5923ca40550dbe4b09a11f08cccf0c100fba66428230949d2ceb0f2109",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0123.1.tif",
+          "sha256": "da4a59767768a2562c410f6521f02e86679cf1cfb454fafb31b499103af2b1f3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0124.1.tif",
+          "sha256": "72c78b2a372145c03f7376369b5eac0f798b2eee184fac7b71424030f8b4307a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0125.1.tif",
+          "sha256": "9990ec63dcf9475eb5eda07baf0ab8785067bca3f6ebb46fa1991fa7c16325f0"
+        }
+      ],
+      "notes": "Hela 32:1–35 jämförd mot EFS 1927 GT s. 123–125 och EFS 1926 GT s. 111–113 (Internet Archive bibelnellerdenhe0000unse, n122–n124; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 32:1 (två ställen), 32:3, 32:9, 32:13 (två ställen), 32:14, 32:17, 32:20, 32:22, 32:23 (två ställen), 32:25, 32:27, 32:28 och 32:32, slutcitat tillagt i 32:2, semikolon för komma i 32:6 och 32:13, komma borttaget i 32:8 och 32:12, semikolon tillagt i 32:15. Behållna läsningar där bara ett tryck avviker: 32:1 och 32:23 (*honom, som* i 1927), 32:7 (*dit ned* i 1927), 32:8, 32:11, 32:12, 32:20 och 32:26 (kommatecken som bara 1927 har), 32:23 (*oss, ty* i 1927), 32:24 (*Den, som … guld,* i 1927), 32:28 (*sagt:* i 1927) och 32:34 (*folket, dit* i 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 33,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "0b9b5ef441a9ae79b0cf57cfa9356c509deb3b8e0adba5431eacb1949890c584",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0125.1.tif",
+          "sha256": "9990ec63dcf9475eb5eda07baf0ab8785067bca3f6ebb46fa1991fa7c16325f0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0126.1.tif",
+          "sha256": "b322ec7472ca9f0eab7c1d56ebf5b8404ca8da46d5434eaf06beace810062389"
+        }
+      ],
+      "notes": "Hela 33:1–23 jämförd mot EFS 1927 GT s. 125–126 och EFS 1926 GT s. 113–114 (Internet Archive bibelnellerdenhe0000unse, n124–n125; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 33:12, 33:16 och 33:19, punkt tillagd i 33:12, komma borttaget och slutcitat tillagt i 33:19. Behållna läsningar där bara ett tryck avviker: 33:1 (slutcitatet saknas i 1927 men finns i 1926), 33:1 (*folket,* och *land,* i 1927), 33:7 (*en,* i 1927) och 33:12 (*dit upp* i 1927, *ditupp* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 34,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "dff13eeecb9141fdfe07565a5507c398d874fc7fa55072edee705bc1e8529db7",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0126.1.tif",
+          "sha256": "b322ec7472ca9f0eab7c1d56ebf5b8404ca8da46d5434eaf06beace810062389"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0127.1.tif",
+          "sha256": "1f844497afc26cd12a1dbda10142c37147546d1eddb10888580c7fbdb6b22359"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0128.1.tif",
+          "sha256": "9f2913059a0ebd891ef86a5b560f3b79cf65f8c97def05005f96b570c17bb242"
+        }
+      ],
+      "notes": "Hela 34:1–35 jämförd mot EFS 1927 GT s. 126–128 och EFS 1926 GT s. 114–116 (Internet Archive bibelnellerdenhe0000unse, n125–n127; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 34:1, 34:4, 34:10 (tre ställen), 34:11, 34:12, 34:29 och 34:30, semikolon för komma i 34:2, *får* för *för* i 34:3, komma borttaget i 34:18 och 34:29, *lösa* för *läsa* i 34:20, *Herres* i 34:23 och *hy* för *by* i 34:35. Behållna läsningar där bara ett tryck avviker: 34:6 (slutcitatet efter första *HERREN!* finns i 1926 men inte i 1927; långt tankstreck lämnas till typografifrågan), 34:7 (*ostraffad,* i 1927), 34:9 (*Herren* i 1927), 34:13 (*stöder* i 1927), 34:15 (*gudar,* i 1927), 34:19–34:20 (kommatecken som bara 1927 har) och 34:32 och 34:34 (*bud, som*, *det, som* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 35,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "e17699a77c2d4cad7aa2895367b7ed6c374cce3b501528e99ef3cbed6a20c151",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0128.1.tif",
+          "sha256": "9f2913059a0ebd891ef86a5b560f3b79cf65f8c97def05005f96b570c17bb242"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0129.1.tif",
+          "sha256": "b257380be7b9514421b42c00f64471bac4478285909f2becfe057db4f4401a6e"
+        }
+      ],
+      "notes": "Hela 35:1–35 jämförd mot EFS 1927 GT s. 128–129 och EFS 1926 GT s. 116–117 (Internet Archive bibelnellerdenhe0000unse, n127–n128; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: kolon borttaget och slutcitat tillagt i 35:3, *gärd* i 35:5, komma tillagt i 35:12, 35:26 (två ställen) och 35:29, komma borttaget i 35:27, *Och* i 35:30, *snida* för *smida* och kolon borttaget i 35:33. Behållna läsningar där bara ett tryck avviker: 35:2, 35:5, 35:10, 35:21–35:24 och 35:29 (*en,* och liknande kommatecken som bara 1927 har), 35:25 och 35:35 (*korteligen,* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 36,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "95810e5508d546aa1d20bf64b5f7ddd3e68c444d9d4000f0a2057013c4df59c3",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0130.1.tif",
+          "sha256": "b4b2d4431008bb30247548365a2513c9ec46b2aa65a781bcc4751669dd688801"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0131.1.tif",
+          "sha256": "efa7ab864337564471dbf94218882f000489d19c8f02813410da93fa884f034f"
+        }
+      ],
+      "notes": "Hela 36:1–38 jämförd mot EFS 1927 GT s. 130–131 och EFS 1926 GT s. 118–119 (Internet Archive bibelnellerdenhe0000unse, n129–n130; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 36:1, 36:3, 36:4, 36:5 och 36:6, *giva* för *göra* i 36:6, *ock* för *och* i 36:14, semikolon för komma i 36:15 och komma borttaget i 36:16 och 36:19. Behållna läsningar där bara ett tryck avviker: 36:4 (*arbete,* i 1927), 36:8 (*på, i* i 1926), 36:11–36:12 och 36:31–36:32 (*bräder,* och liknande kommatecken som bara 1927 har), 36:18 (*hektor* i 1927), 36:23 (*takernaklets* i 1927, tryckfel), 36:24–36:25 (*tjugo* i 1927), 36:29 (*nedtill,* i 1926) och 36:29 (*upp till* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 37,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "b05d3edcae4d0e1664d2212ae6f107bdb7cfec4ec761ff73e7bd0d893291084b",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0131.1.tif",
+          "sha256": "efa7ab864337564471dbf94218882f000489d19c8f02813410da93fa884f034f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0132.1.tif",
+          "sha256": "e15b190cb9828e346de60c36ac85978301b20f66b79df3d14122a0b7691c8cf2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0133.1.tif",
+          "sha256": "3dcfbf8d6778ff916d3d29af35baa23d265c192115a927b78b58fd7e0619a7ab"
+        }
+      ],
+      "notes": "Hela 37:1–29 jämförd mot EFS 1927 GT s. 131–133 och EFS 1926 GT s. 119–120 (Internet Archive bibelnellerdenhe0000unse, n130–n131; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: kolon borttaget i 37:3, komma tillagt i 37:16, slutpunkt tillagd i 37:19 och *horn* för *hörn* i 37:26. Behållna läsningar där bara ett tryck avviker: 37:2–37:15 (1927 har tydligen samma text; bara OCR-skillnader), 37:17 (*med dem* i 1927, *med den* i e-texten och 1926), 37:19 (*armar, som* i 1927) och 37:21 (*armparet, som … ljusstaken i ett stycke* i 1927, komma efter *ljusstaken* i e-texten och 1926). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 38,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "1950f1f917d2c76398aae31ee680096cd5ea0974a8a4d259294c7480464834ad",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0133.1.tif",
+          "sha256": "3dcfbf8d6778ff916d3d29af35baa23d265c192115a927b78b58fd7e0619a7ab"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0134.1.tif",
+          "sha256": "93e71a83d0dc0c0e3993fc5325924e6ba6735f7029a5457b37e0d74f598d7920"
+        }
+      ],
+      "notes": "Hela 38:1–31 jämförd mot EFS 1927 GT s. 133–134 och EFS 1926 GT s. 120–121 (Internet Archive bibelnellerdenhe0000unse, n131–n132; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: *horn* för *hörn* i 38:2 (två ställen), *vitt* för *sitt* i 38:9, komma borttaget i 38:10, 38:11 (två ställen vardera), 38:12 och 38:19, komma tillagt i 38:12, 38:25 och 38:29 (två ställen). Behållna läsningar där bara ett tryck avviker: 38:3 (*dessa* i 1927), 38:21 och 38:31 (kommatecken som bara 1926 har), 38:22 (*allt, vad* i 1927), 38:24 (*arbetet, vid* i 1927 men inte i 1926) samt 38:14–38:16 (1927 delar verserna annorlunda än e-texten och 1926; e-texten behålls); de långa tankstrecken i 38:1 och 38:14 lämnas till typografifrågan. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 39,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "1a550257abc3ca7f8be27fe6ed5c829d61700f449faf67c507f0e0f8005ed29f",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0134.1.tif",
+          "sha256": "93e71a83d0dc0c0e3993fc5325924e6ba6735f7029a5457b37e0d74f598d7920"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0135.1.tif",
+          "sha256": "f713170af26443f905e80a80e20dc8c27e7faae38efc7137036af82e5ea865dc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0136.1.tif",
+          "sha256": "b56e4d59c034a5307566353f6d0d7c5ad039bb5c9d51d17e2993ec097e8db574"
+        }
+      ],
+      "notes": "Hela 39:1–43 jämförd mot EFS 1927 GT s. 134–136 och EFS 1926 GT s. 122–123 (Internet Archive bibelnellerdenhe0000unse, n133–n134; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 39:1, 39:32, 39:34, 39:35, 39:37 (två ställen), 39:40, 39:42 och 39:43 (två ställen), komma borttaget i 39:6 och 39:17, *stolpar* i 39:33, komma för punkt i 39:39 och slutpunkt tillagd i 39:43. Behållna läsningar där bara ett tryck avviker: 39:2, 39:4, 39:20 och 39:30 (kommatecken som bara 1927 har), 39:22 och 39:27 (*väft* i 1927), 39:27 (*livkläderna* i 1927) och 39:32 och 39:43 (*arbete* i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Exod",
+      "chapter": 40,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "79e00307161a3ca92034ef0621ea0412fa089353310d9127f9da3a9dc0e1c8ba",
+      "checked_at": "2026-10-28",
+      "reviewer": "Claude, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0136.1.tif",
+          "sha256": "b56e4d59c034a5307566353f6d0d7c5ad039bb5c9d51d17e2993ec097e8db574"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0137.1.tif",
+          "sha256": "2cc871a9f977cb0384b4c1fce1c2fe5746cf4c50ff74e4bf49f0c907f4610cd5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0138.1.tif",
+          "sha256": "469ee645342600580fcdb51d215992c7d4a7ac792da1b6a17c670528b34d4c25"
+        }
+      ],
+      "notes": "Hela 40:1–38 jämförd mot EFS 1927 GT s. 136–138 och EFS 1926 GT s. 124–125 (Internet Archive bibelnellerdenhe0000unse, n135–n136; alla sidor lästa mot bild). {E} införda endast där båda trycken är överens mot e-texten: komma tillagt i 40:4, 40:16, 40:19, 40:21, 40:23 och 40:37, *de* för *del* och komma borttaget och slutpunkt i 40:13, slutcitat tillagt i 40:15 och komma borttaget i 40:33. Behållna läsningar där bara ett tryck avviker: 40:4 (*dit in* i 1927), 40:9 och 40:35 (kommatecken som bara 1927 har), 40:26 (*förlåten,* i 1926 men inte i 1927) och 40:37 (*upp, utan* i 1926 men inte i 1927). Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
@@ -3500,6 +4376,40 @@
       "photo_sha256": "a12eebf44188631a27c82b68fad583a341cbefe173ca0a5519e3de54fd005a8c",
       "source": "Användarens exemplar av en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning.",
       "notes": "Användarens foto, tryckt s. 191, bekräftar konungens; kunungens är ett tryckfel i Runebergs förlaga."
+    },
+    {
+      "id": "VE001",
+      "correction_id": "E025",
+      "decision": "corrected",
+      "reading": "'HERREN, hebréernas Gud, har visat sig för oss;",
+      "photo_path": "docs/reports/sv1917-print-witnesses/VE001.jpg",
+      "photo_sha256": "f34040a162660297561af653932f4f1b2c7831d210e8d3b75ba49cd36d42df6a",
+      "notes": "Tryckt s. 102: öppningsapostrof före Herren i 3:18, som i EFS 1927 och EFS 1926. E025 lägger till den; e-texten saknade den.",
+      "book": "Exod",
+      "chapter": 3,
+      "verse": 18,
+      "status": "resolved",
+      "text_sha256": "26969c86c86ede5cbec9732be00aea2462721b7deadff6d8ea122e9fcdaedeaf",
+      "checked_at": "2026-10-27",
+      "reviewer": "Användarens foto; Claude, visuell kontroll av fotot",
+      "source": "Användarens exemplar av Andra Moseboken, en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning."
+    },
+    {
+      "id": "VE002",
+      "correction_id": null,
+      "decision": "retained",
+      "reading": "vår Gud.'",
+      "photo_path": "docs/reports/sv1917-print-witnesses/VE002.jpg",
+      "photo_sha256": "0030d42d714844e3a0fb25af4a92bd7bf05982a6b819ffdb55dd906c6d5db009",
+      "notes": "Tryckt s. 103: 3:18 slutar vår Gud.' med slutapostrof, som i EFS 1926 och e-texten. EFS 1927 saknar den. Apostrofen behålls.",
+      "book": "Exod",
+      "chapter": 3,
+      "verse": 18,
+      "status": "resolved",
+      "text_sha256": "26969c86c86ede5cbec9732be00aea2462721b7deadff6d8ea122e9fcdaedeaf",
+      "checked_at": "2026-10-27",
+      "reviewer": "Användarens foto; Claude, visuell kontroll av fotot",
+      "source": "Användarens exemplar av Andra Moseboken, en annan tryckning; bibliografiska uppgifter ej lämnade. Originalfotot är bevarat utan omkodning."
     }
   ]
 }
