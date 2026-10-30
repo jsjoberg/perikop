@@ -1283,7 +1283,7 @@ int main(int argc, char** argv) {
                  {"Luke 6:37", "2Cor 2:10", "Acts 8:22", "Col 3:13", "Deut 21:8", "Eph 4:32", "Isa 33:24",
                   "John 20:23", "Lev 19:22", "Mark 11:25", "Matt 12:31", "Matt 18:35", "Matt 6:14",
                   "Matt 6:15", "Ps 32:1"}},
-                {"hov", "⟦h'o:v⟧", "⟦h'u:v⟧", 24, {"Dan 2:49", "Ps 45:10"}},
+                {"hov", "⟦h'o:v⟧", "⟦h'u:v⟧", 26, {"Dan 2:49", "Ps 45:10"}},
                 {"bete", "⟦bE-t'e:⟧", "bete", 17, {"1Sam 1:14", "1Sam 21:15", "2Kgs 7:9", "Hos 3:3"}},
                 {"dans",
                  "⟦d'ans⟧",
