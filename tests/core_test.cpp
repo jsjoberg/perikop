@@ -1328,7 +1328,7 @@ int main(int argc, char** argv) {
                 {"fördraget", "", "⟦fWRdR'A:gE-t⟧", 4, {}},
                 {"joses", "", "⟦j'u:sE-s⟧", 4, {}},
                 {"jo", "", "⟦j'u:⟧", 51, {}},
-                {"vi", "", "⟦v'i:⟧", 2333, {}},
+                {"vi", "", "⟦v'i:⟧", 2332, {}},
                 {"krubba", "", "⟦kR'8ba⟧", 4, {}},
                 {"krubban", "", "⟦kR'8ban⟧", 3, {}},
                 {"jordan", "", "⟦jURd'A:n⟧", 187, {}},
