@@ -1,12 +1,14 @@
 # In-app updates
 
-The updater, platform packages, and feed publication are integrated. Supported release targets are Windows x64, Linux x64, Linux ARM64 for Raspberry Pi 5, and Apple Silicon Macs running macOS 15 or later. Intel Macs and macOS 13/14 are no longer release targets.
+The updater, platform packages, and feed publication are integrated. Release targets are Windows x64, Linux x64, Linux ARM64, and Apple Silicon Macs running macOS 15 or later. The ARM64 package targets Raspberry Pi 3, 4 and 5 on 64-bit Raspberry Pi OS Trixie with a desktop. Intel Macs and macOS 13/14 are no longer release targets.
 
 The macOS 15 baseline must pass the native update checks on the macOS 15 runner before release. The pinned Velopack SDK still contains crypto objects built for macOS 26.5; raising the deployment target does not establish runtime compatibility. Local checks on a newer Mac establish behavior only on that system.
 
+The Pi models share the same ARM64 package and update feeds. Pi 3/4 compatibility is expected; physical-device performance and audio remain unverified. The glibc 2.39 boundary still applies independently of the speech engine. See [Raspberry Pi installation](using-perikop.md#raspberry-pi-3-4-and-5).
+
 ## User-controlled updates
 
-- GitHub Releases hosts the manifests and packages. No additional update server is used.
+- From 0.2.1, the `updates` release in `jsjoberg/perikop-assets` holds every feed and package. Downloads stay in `jsjoberg/perikop`.
 - Releases and Nightlies have separate feeds for each supported OS and architecture. Application feeds exclude dependency snapshots.
 - Changing the channel only saves the preference. Only **Check for updates** initiates a check; downloading and installing require separate actions.
 - No startup checks, polling, background downloads, telemetry, or automatic application of staged updates.
@@ -40,9 +42,19 @@ Debian 13 AppImages publish only to `linux-{x64,arm64}-glibc239-{releases,nightl
 
 This separation is required because the pinned Velopack 1.2.161 Linux updater replaces the AppImage before starting it, without checking glibc compatibility or restoring the previous image after a failed start. Changing only the new application's compatibility check would not protect existing clients.
 
-The SDK's GitHub source sends no installation identifier. Its pinned implementation reads the ten newest releases and filters prereleases on the release track. Dependency snapshots therefore live in `jsjoberg/perikop-assets`, and cleanup keeps seven nightlies. The HTTP source is not used because it adds a random per-installation staging identifier to feed requests.
+The application reads its feeds through the SDK's HTTP source, from `https://github.com/jsjoberg/perikop-assets/releases/download/updates`. The source fetches `releases.<channel>.json` there and downloads each package by its name from the same place, so feeds and packages share one fixed release. Its [pinned implementation](https://github.com/velopack/velopack/blob/1.2.161/src/lib-rust/src/sources/http.rs) adds `localVersion`, the application `id` and `stagingId` to the feed request. The staging ID is a random UUID that the SDK creates once per installation and keeps in its packages directory; [its options](https://github.com/velopack/velopack/blob/1.2.161/src/lib-cpp/include/Velopack.hpp) cannot turn it off. GitHub receives it with the user's IP address; this project cannot see GitHub's request logs.
 
-Historical Intel Mac feeds remain readable by nightly cleanup so their referenced packages survive while those older nightlies are retained. New publications contain only the four supported targets.
+The GitHub source, which 0.2.0 used, reads only the ten newest releases of a repository. The HTTP source reads one file and has no such window.
+
+Each feed holds the channel's newest full package and the deltas of the seven newest versions. The SDK applies every delta above the installed version, so a copy older than the oldest delta's base gets an incomplete chain. The SDK downloads the full package only if patching fails; it does not check the patched package as a whole. The GitHub source's ten-release window had the same limit. Packages that no live or staged feed names are deleted when a feed is published. See [releasing](releasing.md).
+
+New publications contain only the four supported targets.
+
+## Migration from 0.2.0
+
+The published `v0.2.0` application uses `GithubSource(https://github.com/jsjoberg/perikop)` and already uses the glibc 2.39 Linux channels. The `v0.2.1` release in `jsjoberg/perikop` therefore also carries the four release feeds with their full packages and deltas. The 0.2.0 updater finds them there and installs 0.2.1, whose compiled source is the HTTP source above. Package identity, channel names, the updater state machine, profile paths, delta/full fallback, version ordering and user confirmation for rollback are unchanged. No uninstall or profile move is involved.
+
+This copy is one-time. A 0.2.0 copy that waits until `v0.2.1` leaves the ten newest releases must be reinstalled once. Nightly copies from before 0.2.1 get no copy: install a new nightly once. Retired Linux feeds remain retired.
 
 ## Packaging and validation
 
@@ -60,7 +72,9 @@ The script verifies kit checksums, creates a private HOME/profile/installation, 
 
 Packages remain unsigned by Developer ID or Authenticode and are not notarized. The macOS bundle uses an ad-hoc signature. From 0.2.0, releases and nightlies carry only the Velopack packages. A 0.1.x copy from the DMG, the plain AppImage or the NSIS installer cannot update itself: install the Velopack package once by hand. Windows users uninstall the NSIS version first; their profile stays in place.
 
-`tools/ci/update_packages.py` verifies previous same-channel full packages before offline packing, collects the new full package and delta, validates feed versions and platform coverage, and checksums the complete publication. A channel's first package has no delta. Tag builds create drafts; nightlies publish successful platforms together with their feeds. Manual non-nightly workflow runs produce artifacts without publishing. See [releasing](releasing.md) for retention and publication details.
+`tools/ci/update_packages.py` verifies previous same-channel full packages before offline packing, collects verified bases and the new full package and delta, validates feed versions and platform coverage, and gives the downloads their plain names. It stages packages and feed entries on the `updates` release and merges them into the live feeds when a release is published. A channel's first package has no delta. Tag builds create a draft; nightlies publish at once. Manual non-nightly workflow runs produce artifacts without publishing. See [releasing](releasing.md).
+
+`tests/update_packages_test.py` covers checksums, delta-base restoration from the `updates` release and the main repository, glibc boundaries, plain download names, the one-time 0.2.1 copy, staging, publication, feed trimming and package deletion against a simulated `updates` release. These are fixture tests, not native installation or published-HTTPS tests. The existing native full/delta update probes remain required in CI, including their profile-preservation checks.
 
 ## Earlier compatibility research
 

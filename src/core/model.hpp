@@ -178,6 +178,8 @@ struct Verse {
     std::string text;
     std::optional<VerseRef> last;
     std::string book = "";
+    // Editorial headings displayed before this verse, separate from Scripture and speech.
+    std::vector<std::string> headings = {};
 };
 enum class AlignmentKind { Same, Renumbered, Split, Merged, Moved, LxxOnly, MtOnly };
 struct Alignment {
