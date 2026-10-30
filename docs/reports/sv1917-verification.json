@@ -3380,6 +3380,742 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Deut",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 46,
+      "text_sha256": "6c6b9e931650ac32484545a37f4235d59750909924ae4605ea67224f79690d4b",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0244.1.tif",
+          "sha256": "a3c720ec15dcd8b3c39f210cf0f708aeb94a0b44e5ba2471ae769e3c42c1f1fc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0245.1.tif",
+          "sha256": "ceaa8cb852be5bf7f6e0bd50d232daab481ae7ad710a77ec5ba82cbd56c678a1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0246.1.tif",
+          "sha256": "cdfc6e0bc0b54226f81acaa7a9953a8438f92b764df4484d7047b32bde7e54e4"
+        }
+      ],
+      "notes": "Femte Moseboken 1 jämförd som OCR-text mot EFS 1927 GT s. 244–246 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 12 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 37,
+      "text_sha256": "bc4deb222d827c8587d6db0ffb4656b04c5ee7979ca735f8902944bb34d60ce8",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0246.1.tif",
+          "sha256": "cdfc6e0bc0b54226f81acaa7a9953a8438f92b764df4484d7047b32bde7e54e4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0247.1.tif",
+          "sha256": "d88b5444ec71f981a2aeeee7b3622b414c8910d28b612b39c1dda56ffffdaa32"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0248.1.tif",
+          "sha256": "b838bda845818699140903852f519bb8f3b752fd0c4c8e1a1784e30aae6f1a3f"
+        }
+      ],
+      "notes": "Femte Moseboken 2 jämförd som OCR-text mot EFS 1927 GT s. 246–248 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 6 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "fa5be9cdbac01db02c851c1c297673e17a44d4142ba3cee9432999b2d7d6e3c5",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0248.1.tif",
+          "sha256": "b838bda845818699140903852f519bb8f3b752fd0c4c8e1a1784e30aae6f1a3f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0249.1.tif",
+          "sha256": "458497cf9aebddd9932996def7672a956adf70bb662b1bd4d65f266a9ca3a60f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0250.1.tif",
+          "sha256": "c7aac4a577c2b037a798be734cbe1613eb602f0ee75729e121d1cb98d5f634c3"
+        }
+      ],
+      "notes": "Femte Moseboken 3 jämförd som OCR-text mot EFS 1927 GT s. 248–250 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 8 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 49,
+      "text_sha256": "bda9a1b35a4ab3b735a32fcf728135667616067bc831def0caca9c50fa45bea7",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0250.1.tif",
+          "sha256": "c7aac4a577c2b037a798be734cbe1613eb602f0ee75729e121d1cb98d5f634c3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0251.1.tif",
+          "sha256": "75d03f9e47eb742fb31df235f7247d67b39f5e67edbd8f3c293b16e137bdb732"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0252.1.tif",
+          "sha256": "b0e14f4b78e34a42930798a26a2bc6fe6f93ccb4a162f648fe6c692a395d8266"
+        }
+      ],
+      "notes": "Femte Moseboken 4 jämförd som OCR-text mot EFS 1927 GT s. 250–252 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 25 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 33,
+      "text_sha256": "329254a2f9d92156eec7b47b197d95eb889709e13b5c471feda7f8f07f58b77c",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0253.1.tif",
+          "sha256": "b704bb02adf04282a02845b599c90fa760beb87d0a48e7d160dd7c4bc8a82458"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0254.1.tif",
+          "sha256": "548acd26af39215d47c335c294297e56ac6d8e7d63ea2634d067b2049c319490"
+        }
+      ],
+      "notes": "Femte Moseboken 5 jämförd som OCR-text mot EFS 1927 GT s. 253–254 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 14 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "4e565e5bbfa98b6c79ccd369382cc29fe4686ae939db64d18331de2b9d27acf6",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0254.1.tif",
+          "sha256": "548acd26af39215d47c335c294297e56ac6d8e7d63ea2634d067b2049c319490"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0255.1.tif",
+          "sha256": "8cc8c954a8bee73094294bf0f48d7f31f45d9c6249387cb26bb27ba6eef8cefc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0256.1.tif",
+          "sha256": "c453d2c21b5b5ddf2953deb101431f5653fff652b692843db79c8414f07e70d3"
+        }
+      ],
+      "notes": "Femte Moseboken 6 jämförd som OCR-text mot EFS 1927 GT s. 254–256 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 26,
+      "text_sha256": "b919262ba366c8dbf98e4fd7744527ed38caceed40b9ddfd6ec78157c7192a7d",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0256.1.tif",
+          "sha256": "c453d2c21b5b5ddf2953deb101431f5653fff652b692843db79c8414f07e70d3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0257.1.tif",
+          "sha256": "a285b18f182562516627ab4704e2967b95ecf4e8ce5e873e8f5121b3bd4a180b"
+        }
+      ],
+      "notes": "Femte Moseboken 7 jämförd som OCR-text mot EFS 1927 GT s. 256–257 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "25b3bc5ee018f1a1aeced9b3afe4c10aad4ba58a2647efd78d25456117551229",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0257.1.tif",
+          "sha256": "a285b18f182562516627ab4704e2967b95ecf4e8ce5e873e8f5121b3bd4a180b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0258.1.tif",
+          "sha256": "ce2540d670c32a44653fc85de0071d8550bc2e88384b896a844272e70fab9e90"
+        }
+      ],
+      "notes": "Femte Moseboken 8 jämförd som OCR-text mot EFS 1927 GT s. 257–258 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 9,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "2d0d757fe6afeb721df440c071c01f87dd06a84a76bcb6b88f3958b7b375eef4",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0258.1.tif",
+          "sha256": "ce2540d670c32a44653fc85de0071d8550bc2e88384b896a844272e70fab9e90"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0259.1.tif",
+          "sha256": "e41421e869116b6d8713c2f400b3e33ab4e4dc926112ea31488d7cd125cae59c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0260.1.tif",
+          "sha256": "f565faf77ec2ad54530cf7024074ba87f8297a51661f7f633f4c6c991e102d2c"
+        }
+      ],
+      "notes": "Femte Moseboken 9 jämförd som OCR-text mot EFS 1927 GT s. 258–260 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 16 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 10,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "09bd30858fcfe28f1cbbfec0317ba0b53e0b6089c9a597304b98d4767bd8961b",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0260.1.tif",
+          "sha256": "f565faf77ec2ad54530cf7024074ba87f8297a51661f7f633f4c6c991e102d2c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0261.1.tif",
+          "sha256": "60319224f577f3a1d85d9a68eceee1e9c930a66e2e17e8fb035af393a8ffa94f"
+        }
+      ],
+      "notes": "Femte Moseboken 10 jämförd som OCR-text mot EFS 1927 GT s. 260–261 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 11,
+      "status": "needs-review",
+      "verse_count": 32,
+      "text_sha256": "cbc5a9936d771c9117501fc9f092d0d0773f5a3e0d20ee0881473d4e6d8498df",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0262.1.tif",
+          "sha256": "b9b3f6bf686711a58fe44ae5f283ac506b17b732e7ff40d9f81d41c842ff4f50"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0263.1.tif",
+          "sha256": "f4dc83caeda0daafa993b926a4df72e46a1f876e61225f3decf5e57ffdd950ad"
+        }
+      ],
+      "notes": "Femte Moseboken 11 jämförd som OCR-text mot EFS 1927 GT s. 262–263 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 9 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 12,
+      "status": "needs-review",
+      "verse_count": 32,
+      "text_sha256": "b6dc058acd544b3ec518dcac8a7185354cf9b6297a591e4705a340dfdc9b115c",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0263.1.tif",
+          "sha256": "f4dc83caeda0daafa993b926a4df72e46a1f876e61225f3decf5e57ffdd950ad"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0264.1.tif",
+          "sha256": "7e5051114519db944a9d23af7f039986f26375828d1ee89c19b510a88904da6f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0265.1.tif",
+          "sha256": "9f589a93ad3209bc15419ae0581e5ede351a7a429c3181b6e413d53eee65401a"
+        }
+      ],
+      "notes": "Femte Moseboken 12 jämförd som OCR-text mot EFS 1927 GT s. 263–265 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 17 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 13,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "972ef09bdce24fe800190ac0e7903c88f3c2e4f2b4dfc036a4564b9f74138f49",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0265.1.tif",
+          "sha256": "9f589a93ad3209bc15419ae0581e5ede351a7a429c3181b6e413d53eee65401a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0266.1.tif",
+          "sha256": "20367da83d7753eb7633dd88b0f9638fa15035d58fd0cad48ebf29b6e7ac56bb"
+        }
+      ],
+      "notes": "Femte Moseboken 13 jämförd som OCR-text mot EFS 1927 GT s. 265–266 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 9 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "3ef835c457fca647733f12209864718d2baa1cc181e94c025601c08f91afc9ef",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0266.1.tif",
+          "sha256": "20367da83d7753eb7633dd88b0f9638fa15035d58fd0cad48ebf29b6e7ac56bb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0267.1.tif",
+          "sha256": "5ea339b28d909d58cbee6bd291eeea1e68cc23ed753bf6e68e9a533888932e95"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0268.1.tif",
+          "sha256": "d056cee255b5b3cf9d064f6df05b10efbff99dd341c29006c4ec8bfdf8af5dc1"
+        }
+      ],
+      "notes": "Femte Moseboken 14 jämförd som OCR-text mot EFS 1927 GT s. 266–268 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 12 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 15,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "f004056d2ca9f1faa70d19baecbaf9a3721d529abb07eb89c95466faa544e32a",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0268.1.tif",
+          "sha256": "d056cee255b5b3cf9d064f6df05b10efbff99dd341c29006c4ec8bfdf8af5dc1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0269.1.tif",
+          "sha256": "4b763372c84290d9310f9d7b1e620f4cfa42c57a5994dd49985b82ba71bb502f"
+        }
+      ],
+      "notes": "Femte Moseboken 15 jämförd som OCR-text mot EFS 1927 GT s. 268–269 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 13 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 16,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "7fc81e6eb8a8dec79678c1cc2263dce7c9e1db96c8dbfd96e2624539a0715de8",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0269.1.tif",
+          "sha256": "4b763372c84290d9310f9d7b1e620f4cfa42c57a5994dd49985b82ba71bb502f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0270.1.tif",
+          "sha256": "6a05d7c673d6dc5ae4edb51be8ed5bafb9692788854e53301daf30b5802462f0"
+        }
+      ],
+      "notes": "Femte Moseboken 16 jämförd som OCR-text mot EFS 1927 GT s. 269–270 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 16 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 17,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "1117f83f82a452c777939a9f7a61de1cebefd2614c3375714f275ce767a0c0df",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0270.1.tif",
+          "sha256": "6a05d7c673d6dc5ae4edb51be8ed5bafb9692788854e53301daf30b5802462f0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0271.1.tif",
+          "sha256": "00195fab7737b8e007b99505e2f19deff1703e03d6115b91fc50b4f5e1c90ebb"
+        }
+      ],
+      "notes": "Femte Moseboken 17 jämförd som OCR-text mot EFS 1927 GT s. 270–271 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 12 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 18,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "c9da2eb332d6f7a295855bc71541671b0e88748efc69886b46545b7bf4b4a288",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0272.1.tif",
+          "sha256": "2813116acafaa6f90fe687349f5a4dd713aed1d744de245bf1ea2150508ece9e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0273.1.tif",
+          "sha256": "5286f33082a99f419fbfc90cdcbb39780e7c40fe5daa4f89c996024cb97115be"
+        }
+      ],
+      "notes": "Femte Moseboken 18 jämförd som OCR-text mot EFS 1927 GT s. 272–273 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 19,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "139e87df389852bf926c0928449e7cf65115752d13d7c398541d30c121a580a8",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0273.1.tif",
+          "sha256": "5286f33082a99f419fbfc90cdcbb39780e7c40fe5daa4f89c996024cb97115be"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0274.1.tif",
+          "sha256": "ec4b897ed83aef6e52406ef52e0887eb198b1a8aa098a77cf6a308a180e5cbf7"
+        }
+      ],
+      "notes": "Femte Moseboken 19 jämförd som OCR-text mot EFS 1927 GT s. 273–274 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 8 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 20,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "82975981e924143b67b62126aebca0a9a87b712cb758b99019349103eb0cb135",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0274.1.tif",
+          "sha256": "ec4b897ed83aef6e52406ef52e0887eb198b1a8aa098a77cf6a308a180e5cbf7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0275.1.tif",
+          "sha256": "5b8f6426cd35e9d00937160ab21b50ae0142e6d4e8a62bab6140408c1f025e52"
+        }
+      ],
+      "notes": "Femte Moseboken 20 jämförd som OCR-text mot EFS 1927 GT s. 274–275 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 9 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 21,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "3a95c898e1733480093f765b9e39b8f273601bab7ddd0c81a1cefb0f0dac8821",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0275.1.tif",
+          "sha256": "5b8f6426cd35e9d00937160ab21b50ae0142e6d4e8a62bab6140408c1f025e52"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0276.1.tif",
+          "sha256": "8eb1a89ad89e2b3c35df1cbc7aa57bcc90efbc158b7c0a3df784f5779e9fb9ae"
+        }
+      ],
+      "notes": "Femte Moseboken 21 jämförd som OCR-text mot EFS 1927 GT s. 275–276 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 22,
+      "status": "needs-review",
+      "verse_count": 30,
+      "text_sha256": "d7755a46f57ca227017d3042e017bdae95aeccc9553b65c750d4aad2a756ea74",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0277.1.tif",
+          "sha256": "f5dfdf006c35d89d5265bca77177a6bdce2905dba392ad9c051f0615c97d257c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0278.1.tif",
+          "sha256": "d647d9449c4bc723ad52cebf3f7d64d7f8d5664bd7a144527227f39973c8ab3b"
+        }
+      ],
+      "notes": "Femte Moseboken 22 jämförd som OCR-text mot EFS 1927 GT s. 277–278 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 23,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "defbc912c150a2f36a7813e11ed0e11280d682c605a7dafe27b5b99b1858839f",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0278.1.tif",
+          "sha256": "d647d9449c4bc723ad52cebf3f7d64d7f8d5664bd7a144527227f39973c8ab3b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0279.1.tif",
+          "sha256": "43c905ac29ee72feabd054b945bb7d6516a4de76e43bbaeb85c074b13f0aa796"
+        }
+      ],
+      "notes": "Femte Moseboken 23 jämförd som OCR-text mot EFS 1927 GT s. 278–279 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 6 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 24,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "d440e55f1acc1f8cf6c73f1a6ceb7af6132ac1271ca551a68f29034922bbb6b0",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0280.1.tif",
+          "sha256": "528f2db40124e2e30a9cbcdc76403e1d57fccb11b06fb21157f5f19e8cffbd05"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0281.1.tif",
+          "sha256": "4166e9b1d41f1dce9410f5c06de37ed74fbf7d6c837691a1eb966028f023adbc"
+        }
+      ],
+      "notes": "Femte Moseboken 24 jämförd som OCR-text mot EFS 1927 GT s. 280–281 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 25,
+      "status": "needs-review",
+      "verse_count": 19,
+      "text_sha256": "c8768f0f95fd6966790abfa701c3864bb958607cb8c6f9353d0f4f925964ce27",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0281.1.tif",
+          "sha256": "4166e9b1d41f1dce9410f5c06de37ed74fbf7d6c837691a1eb966028f023adbc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0282.1.tif",
+          "sha256": "0025d07c4417db9c8f954f5212868b5ba2a715eea6f132e1110d0a5d29698f56"
+        }
+      ],
+      "notes": "Femte Moseboken 25 jämförd som OCR-text mot EFS 1927 GT s. 281–282 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 26,
+      "status": "needs-review",
+      "verse_count": 19,
+      "text_sha256": "98cf2384b721a69bcdbad726bdf3f71efd359b8f80c1e058285916e027d7c1f1",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0282.1.tif",
+          "sha256": "0025d07c4417db9c8f954f5212868b5ba2a715eea6f132e1110d0a5d29698f56"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0283.1.tif",
+          "sha256": "4d94874d0e8283dfabf7356304e0590e8ec41fc2b098ee8d7735f43bd43b4946"
+        }
+      ],
+      "notes": "Femte Moseboken 26 jämförd som OCR-text mot EFS 1927 GT s. 282–283 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 27,
+      "status": "needs-review",
+      "verse_count": 26,
+      "text_sha256": "e1e72f7b803c8848ea585c80f56d5e59f0f59e7dfa28f5bedc8091ada3fc184c",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0283.1.tif",
+          "sha256": "4d94874d0e8283dfabf7356304e0590e8ec41fc2b098ee8d7735f43bd43b4946"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0284.1.tif",
+          "sha256": "89b830f92e7924aa5fb3b0c118575e712e36eac22c838b377600de6525aae9e0"
+        }
+      ],
+      "notes": "Femte Moseboken 27 jämförd som OCR-text mot EFS 1927 GT s. 283–284 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 28,
+      "status": "needs-review",
+      "verse_count": 68,
+      "text_sha256": "6d05e915dc5a5b00db19a3472011a84abf33a5862fd32fc852eb72d292f7209e",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0284.1.tif",
+          "sha256": "89b830f92e7924aa5fb3b0c118575e712e36eac22c838b377600de6525aae9e0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0285.1.tif",
+          "sha256": "16bfd56d57f9fbb81d2b59b76ae01eb8a4e297c5f7bda903946058e7407ec99b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0286.1.tif",
+          "sha256": "6c7cb37fc3a4364064994a98e6a9a325dc29ad4f0cb24deb3a84d8ee5de8fee9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0287.1.tif",
+          "sha256": "e9b197e5600a4a1979e493c9c1e5ee46b72f3da2796598dc90464090d41987b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0288.1.tif",
+          "sha256": "168c3cc101e642268bd9cc57e3f676994d289073886f170c81a0e976aedbae4c"
+        }
+      ],
+      "notes": "Femte Moseboken 28 jämförd som OCR-text mot EFS 1927 GT s. 284–288 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 18 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 29,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "03ea842d0f7f0a396828513a773034b797a548353650c757c361882ef95422f0",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0288.1.tif",
+          "sha256": "168c3cc101e642268bd9cc57e3f676994d289073886f170c81a0e976aedbae4c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0289.1.tif",
+          "sha256": "ac2ef34b59da8f2f65a6aea37e354c5596d83f40c109e3466a9b44cd45d96d39"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0290.1.tif",
+          "sha256": "761523bd25219f38104b92fa9bfe2472a1ad136d6162aa0a5778f178ae303c43"
+        }
+      ],
+      "notes": "Femte Moseboken 29 jämförd som OCR-text mot EFS 1927 GT s. 288–290 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 13 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 30,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "218b7e7ad9d60cbb590ac4d1b974a17e0c1e72c60180ecd1d5d9a302d8a77c98",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0290.1.tif",
+          "sha256": "761523bd25219f38104b92fa9bfe2472a1ad136d6162aa0a5778f178ae303c43"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0291.1.tif",
+          "sha256": "0eb922bf66a6b4c0c08b7ad82ae4c1184fc966b18df6414b66f6256bf20c334f"
+        }
+      ],
+      "notes": "Femte Moseboken 30 jämförd som OCR-text mot EFS 1927 GT s. 290–291 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 31,
+      "status": "needs-review",
+      "verse_count": 30,
+      "text_sha256": "91ab8f8cbff6c52ecac9f5e3b60688b984b4b4bee1782549c23961ef8b1c07c3",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0291.1.tif",
+          "sha256": "0eb922bf66a6b4c0c08b7ad82ae4c1184fc966b18df6414b66f6256bf20c334f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0292.1.tif",
+          "sha256": "5ab10f8c7299ebacff1788e4fa2dea6918e84bb9d5137aa40686357415b36156"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0293.1.tif",
+          "sha256": "c388004687e32c43243513eca036a3eec60f8074458cccfb797ae2bd562d8656"
+        }
+      ],
+      "notes": "Femte Moseboken 31 jämförd som OCR-text mot EFS 1927 GT s. 291–293 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 32,
+      "status": "needs-review",
+      "verse_count": 52,
+      "text_sha256": "3e451f0415604c87d4cd4869dcd383b6d6eb63ddc66e725db291c36bd1e3cc34",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0293.1.tif",
+          "sha256": "c388004687e32c43243513eca036a3eec60f8074458cccfb797ae2bd562d8656"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0294.1.tif",
+          "sha256": "2a8651b3fa3a874c81c41907d05e093fab8a0f47ada817877c0e596cc0b28c83"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0295.1.tif",
+          "sha256": "cedccf110109e81340abb14dd8afa1b3d288d0b67d8958482782376d3de7d00e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0296.1.tif",
+          "sha256": "37e73b006d6d35a60a93f47208249d3035eb7f3865f335970708126ebd6f993e"
+        }
+      ],
+      "notes": "Femte Moseboken 32 jämförd som OCR-text mot EFS 1927 GT s. 293–296 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 33,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "4f1c720af4e9adddde0096004e8e74606f6a6df400ab5498e716718a3976eba1",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0296.1.tif",
+          "sha256": "37e73b006d6d35a60a93f47208249d3035eb7f3865f335970708126ebd6f993e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0297.1.tif",
+          "sha256": "cd40cb36ff5ca68be829e88e0c8893792b3c919cae14261a0565b845ee42a71a"
+        }
+      ],
+      "notes": "Femte Moseboken 33 jämförd som OCR-text mot EFS 1927 GT s. 296–297 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Deut",
+      "chapter": 34,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "b22547b0e02850037e636138f78ec516287e42d166a27c3b0f2e7d83064556a0",
+      "checked_at": "2026-10-30",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0297.1.tif",
+          "sha256": "cd40cb36ff5ca68be829e88e0c8893792b3c919cae14261a0565b845ee42a71a"
+        }
+      ],
+      "notes": "Femte Moseboken 34 jämförd som OCR-text mot EFS 1927 GT s. 297–297 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-deuteronomy.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
