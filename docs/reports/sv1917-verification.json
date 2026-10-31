@@ -3380,6 +3380,142 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Micah",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 16,
+      "text_sha256": "d25d290e74edbee03f2d4c9acddef6a6cd83011828de6115d25a65c34198b96f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1233.1.tif",
+          "sha256": "6150a9cf3fd46e26a581dbc87f0266a7c15399aa5be82e320e6f490f191a0a13"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1234.1.tif",
+          "sha256": "7f49b1d9a5aa37e3ca806088140798de45923b8aec9a79dba593e770daa45ea8"
+        }
+      ],
+      "notes": "Mika 1 jämförd som OCR-text mot EFS 1927 GT s. 1233–1234 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Micah",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "3a98f0c039399293d3828169adc3a6ac6b80cd23d4f88f855bd8ff355630e368",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1234.1.tif",
+          "sha256": "7f49b1d9a5aa37e3ca806088140798de45923b8aec9a79dba593e770daa45ea8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1235.1.tif",
+          "sha256": "df9f53b9f51e920700d0110d4fd5dc17da387a168c9d2b5e5abc23e77beca90c"
+        }
+      ],
+      "notes": "Mika 2 jämförd som OCR-text mot EFS 1927 GT s. 1234–1235 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Micah",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "6beff8855bf62e848afbe78e65e4a5b286ad1f7c226de91a575787492b3767ee",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1235.1.tif",
+          "sha256": "df9f53b9f51e920700d0110d4fd5dc17da387a168c9d2b5e5abc23e77beca90c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1236.1.tif",
+          "sha256": "5a18fe01c18c480e6d2a8f8ba1c0818d4bc1140e20fa9301853782ff23ab3b6f"
+        }
+      ],
+      "notes": "Mika 3 jämförd som OCR-text mot EFS 1927 GT s. 1235–1236 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Micah",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "5698c157136a5af06a0a523029262df3ef70bba53af2504fa0cb7d7d3a881fd6",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1236.1.tif",
+          "sha256": "5a18fe01c18c480e6d2a8f8ba1c0818d4bc1140e20fa9301853782ff23ab3b6f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1237.1.tif",
+          "sha256": "26dc4cc67337e377428ce322dc57b43d27d3b09c745868bbc9b4d143df850d5f"
+        }
+      ],
+      "notes": "Mika 4 jämförd som OCR-text mot EFS 1927 GT s. 1236–1237 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Micah",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "00d8bc4f8461929fad6ae16bb32122eef40b1359142b6efe7576f1d0e3322efb",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1237.1.tif",
+          "sha256": "26dc4cc67337e377428ce322dc57b43d27d3b09c745868bbc9b4d143df850d5f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1238.1.tif",
+          "sha256": "6dc03a1dcfe71522354e98c4a328e3946ebe909f3cce63177de0c62bc200e761"
+        }
+      ],
+      "notes": "Mika 5 jämförd som OCR-text mot EFS 1927 GT s. 1237–1238 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Micah",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 16,
+      "text_sha256": "d305428f123861f6cbdfa048a42ed77145c62ce6fe19a3187fd32672079fbb1b",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1238.1.tif",
+          "sha256": "6dc03a1dcfe71522354e98c4a328e3946ebe909f3cce63177de0c62bc200e761"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1239.1.tif",
+          "sha256": "3534dc0c550206e15ec6b5af8a4ca885323567602e82970f0c78fb268d228546"
+        }
+      ],
+      "notes": "Mika 6 jämförd som OCR-text mot EFS 1927 GT s. 1238–1239 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Micah",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "bdfd86f72961672419d778c1be0574b3154d706bf79ac4e8a8d87cd0b5d852af",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1240.1.tif",
+          "sha256": "72a2f1af64a112d8f08661446f509885b78739f98ce544d35193b697487725a0"
+        }
+      ],
+      "notes": "Mika 7 jämförd som OCR-text mot EFS 1927 GT s. 1240–1240 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [

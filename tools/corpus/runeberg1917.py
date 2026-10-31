@@ -40,7 +40,25 @@ REPLACE={
  ('Hag',1,6):('han far den allenast','han får den allenast'),
  ('Hag',1,14):('HERREN Sebaots; sin Guds','HERREN Sebaots, sin Guds'),
  ('Hag',2,2):('profeten Haggai han sade','profeten Haggai; han sade'),
- ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;')}
+ ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;'),
+ # 1
+ ('Micah',1,2):('Herren, HERREN ett vittne mot eder, Herren','HERREN, HERREN ett vittne mot eder, HERREN'),
+ # 2
+ ('Micah',2,2):('dem,','dem'),
+ ('Micah',2,4):('Ja','Ja,'),
+ ('Micah',2,9):('hem','hem,'),
+ # 3
+ ('Micah',3,1):('O',''),
+ # 4
+ ('Micah',4,1):('folk skall','folk skola'),
+ ('Micah',4,8):('du dotter','du dottern'),
+ # 5
+ ('Micah',5,3):('tid','tid,'),
+ # 6
+ ('Micah',6,5):(' vad Balak, konungen i Moab, hade i sinnet, och vad Bileam, Beors son, svarade honom; kom ihåg',', vad Balak, konungen i Moab, hade i sinnet, och vad Bileam, Beors son, svarade honom; kom ihåg,'),
+ ('Micah',6,8):('begär ','begär väl '),
+ # 7
+ ('Micah',7,12):('ja','ja,')}
 
 def chapter_number(name):
     if not name:return 1
