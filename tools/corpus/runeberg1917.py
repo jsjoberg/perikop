@@ -5,6 +5,7 @@ so a verse can appear before or after the heading of the next chapter; its numbe
 decides where it belongs. Summaries, cross references and footnotes are not Scripture.
 """
 import html, re, zipfile
+from sv1917_judges import REPLACE as JUDGES_REPLACE
 # Runeberg book numbers 1-66 follow the 1917 order; Hebrews to Jude differ from the KJV order.
 CODES=['Gen','Exod','Lev','Num','Deut','Josh','Judg','Ruth','1Sam','2Sam','1Kgs','2Kgs','1Chr','2Chr','Ezra','Neh','Esth','Job','Ps','Prov','Eccl','Song','Isa','Jer','Lam','Ezek','Dan','Hos','Joel','Amos','Obad','Jonah','Micah','Nah','Hab','Zeph','Hag','Zech','Mal',
  'Matt','Mark','Luke','John','Acts','Rom','1Cor','2Cor','Gal','Eph','Phil','Col','1Thess','2Thess','1Tim','2Tim','Titus','Philemon','Heb','1Peter','2Peter','1John','2John','3John','James','Jude','Rev']
@@ -41,6 +42,8 @@ REPLACE={
  ('Hag',1,14):('HERREN Sebaots; sin Guds','HERREN Sebaots, sin Guds'),
  ('Hag',2,2):('profeten Haggai han sade','profeten Haggai; han sade'),
  ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;')}
+
+REPLACE.update(JUDGES_REPLACE)
 
 def chapter_number(name):
     if not name:return 1
