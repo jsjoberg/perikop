@@ -1,6 +1,6 @@
 # Löpande granskningsliggare för svensk bibeltext
 
-**Uppdaterad 2026-10-25. Aktivt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). Enligt användarens ändrade prioritering är målet för denna PR och textgranskningen inför 0.2.1 den svenska utökade kanon som saknas i SRB26. Återstående GT och en framtida NT-genomgång är uppföljningsarbete och blockerar inte denna PR eller 0.2.1.**
+**Uppdaterad 2026-10-31 med separat 2 Samuel-granskning; övriga öppna bok-PR:er är inte inräknade. Ursprungligt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). Enligt användarens ändrade prioritering är målet för denna PR och textgranskningen inför 0.2.1 den svenska utökade kanon som saknas i SRB26. Återstående GT och en framtida NT-genomgång är uppföljningsarbete och blockerar inte denna PR eller 0.2.1.**
 
 Till skillnad från daterade rapporter uppdateras denna liggare under arbetet. Den anger vad som är färdigläst, vad som endast ordkontrollerats och var nästa genomgång börjar. Detaljerna finns i [den maskinläsbara liggaren](sv1917-verification.json).
 
@@ -27,9 +27,9 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
 | Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
-| GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
+| GT utan apokryfer | 2 / 39 | 26 / 929 | 733 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 4 410 versposter färdiglästa i detta protokoll, inklusive tidigare Haggai. Det motsvarar 16,0 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 5 105 versposter färdiglästa i detta protokoll, inklusive Haggai och 2 Samuel. Det motsvarar 18,5 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 3,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -38,6 +38,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | Asarjas bön och De tre männens lovsång | Hela 1:1–65 | 257–260 / [0261](https://runeberg.org/apokryf/0261.html)–[0264](https://runeberg.org/apokryf/0264.html) | A028: slutpunkt i 1:42; tryckets numrering slutar vid 65 |
 | Susanna | Hela 1:1–64 | 252–255 / [0256](https://runeberg.org/apokryf/0256.html)–[0259](https://runeberg.org/apokryf/0259.html) | A029–A030: mellanslag i 1:20 och hög röst i 1:24 |
 | Haggai | Hela 1:1–14 och 2:1–24 | [1253](https://runeberg.org/bibeln/efs1927/gt/1253.html)–[1255](https://runeberg.org/bibeln/efs1927/gt/1255.html) | R018–R022: till, får och tre interpunktionsfel; behållna kommaskillnader antecknade per kapitel |
+| 2 Samuel | Hela 1–24, 695 versposter | EFS 1927 s. 421–460; EFS 1926 s. 387–423 | SAM2-001–SAM2-210; [separat bokerrata](sv1917-errata-2samuel.md); inga olösta frågor |
 | Judit | Hela 1–16, 340 versposter | 1–24 / [0005](https://runeberg.org/apokryf/0005.html)–[0028](https://runeberg.org/apokryf/0028.html) | A031–A036 och A211 införda; V003 löst mot användarens foto; hela boken verifierad |
 | Visheten | Hela 1–19, 436 versposter | 24–50 / [0028](https://runeberg.org/apokryf/0028.html)–[0054](https://runeberg.org/apokryf/0054.html) | A037–A060: 24 rättade versposter, inklusive två versgränser |
 | Tobit | Hela 1–14, 244 versposter | 50–66 / [0054](https://runeberg.org/apokryf/0054.html)–[0070](https://runeberg.org/apokryf/0070.html) | A061–A080 och A212 införda, inklusive återställda 11:19 och 13:18; V004 löst; hela boken verifierad |
@@ -55,7 +56,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 **Apokryfer:** inga olästa kapitel eller olösta läsningsfrågor återstår i den svenska utökade kanon. Alla tolv böcker är verifierade. Detta gäller inte andra språk eller böcker som saknar svensk text.
 
-**Senare uppföljning, GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
+**Senare uppföljning, GT:** samtliga böcker utom Haggai och 2 Samuel återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
 
 **Läsningsfrågor:** V001–V006 är lösta 2026-10-25 mot användarens sex foton och genomgång. R023 och A210–A214 är införda; fem redan fullständigt bildlästa kapitel kan därmed färdigmarkeras. Jeremia 8:12 är rättad men hela Jeremia 8 är fortfarande inte verifierat. Fotona ger ingen täckning för omgivande, olästa text.
 
@@ -65,7 +66,7 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 1. Textgranskningen av utökade kanon är färdig. Kontrollera den publicerade omgångens CI före färdigställande av PR #64; bevara rättelser, fotobevis och kapitelhashar. Slå inte ihop eller stäng PR:n automatiskt.
 2. Den separata mänskliga kontrollen av erratatabellen är inte utförd av Codex: sex fotogranskade rader är markerade, 241 rader är fortfarande omarkerade. Detta är en separat granskningsmöjlighet, inte ytterligare oläst korpustext eller ett krav på att användaren ska tolka varje bild åt Codex.
-3. Senare etapp: Jeremia och övrig ännu oläst GT-text, 927 kapitel. Haggai är sedan tidigare färdig. En framtida NT-genomgång behöver en separat omfattning och liggare; NT har ingen tillgodoräknad kapitelgranskning här.
+3. Senare etapp: Jeremia och övrig ännu oläst GT-text, 903 kapitel. Haggai och 2 Samuel är färdiga i denna gren. En framtida NT-genomgång behöver en separat omfattning och liggare; NT har ingen tillgodoräknad kapitelgranskning här.
 
 ```sh
 uv run --locked tools/corpus/check_swedish_verification.py
@@ -109,3 +110,7 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 19, användarens fotogranskning:** sex kompletterande originalfoton och användarens beslut löser V001–V006. R023 och A210–A214 införda; foto 2 bekräftar även återgå i 2 Mack. 6:17 och foto 3 visar dem i Judit 5:8. Foton och exakta korrigerade verser har lagrats med hash; kontrollen avvisar saknade/ändrade foton och ändrad text. Exakt sex verser ändrade; alla koordinater, andra texter, mappningar och lexikonsinnen oförändrade. Fem tidigare fullt bildlästa kapitel, tillsammans 142 poster, är nu verifierade: Judit 5, Tobit 3, Syrak 38 och 2 Mack. 6 och 8. Hela Judit, Tobit och Syrak är därmed färdiga. Jeremia 8:12 är rättad men hela kapitlet återstår. Totalt 241 unika Runebergsbilder plus sex kompletterande foton; 4 044 färdiga versposter i 136 kapitel, plus Syraks företal. 941 kapitel återstår. Nästa kapitel är 2 Mackabeerboken 9. Äldre loggposter visar läget före denna upplösning. Liggar- och kandidattester, fotobevisens hash- och regressionstester, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända.
 
 - **2026-10-25, block 20, utökade kanon färdig:** läste hela 2 Mackabeerboken 9–15 och Tillägg till Ester 1–7, 366 versposter på tryckta s. 227–251. A215–A224 införda, tio exakt avgränsade ord-/interpunktionsrättelser. Kapitel 11 och 13 i 2 Mack. samt Till. t. Ester 1, 3, 4, 5 och 7 utan nya rättelser. Marginalnumren i 2 Mack. 13:6–7 och 15:25–26 återkontrollerade i originalupplösning; befintliga gränser och individuella mappningar behållna. Alla koordinater, övriga texter och språkversioner, mappningar och tidigare liggarposter är oförändrade. Ni er → mer tar bort ett falskt SALDO-sinne för nickel och två Dalin-poster för ni/nia; nu 12 731 respektive 7 587. Alla 12 apokryfböcker, 148 kapitel och 4 372 versposter är verifierade, plus Syraks separat granskade företal. Totalt inklusive Haggai: 150 kapitel och 4 410 versposter på 265 unika Runebergsbilder, plus sex originalfoton. Inga nya olösta läsningar. Användaren har ändrat PR #64:s och 0.2.1:s textgranskningsmål till utökade kanon; de 927 återstående GT-kapitlen och senare NT är uttryckligt uppföljningsarbete. Codex tolkar kompletterande foton och ber om användarens tolkning endast om osäkerhet kvarstår. Liggar- och kandidattester, fotobevisens regressioner, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända. CI på föregående publicerade version 219e3f5 godkänd; ny CI krävs efter publicering av slutomgången.
+
+## Fortsatt GT-granskning: Andra Samuelsboken, 2026-10-31
+
+24/24 kapitel och 695/695 versposter verifierade mot faktiska EFS 1927-bilder s. 421–460. Föreslagna rättelser och behållna skillnader kontrollerade i EFS Stockholm 1926, n398–434. 210 versposter rättade, inga olösta frågor. Se [bokerratan](sv1917-errata-2samuel.md) och [maskinläsbar evidens](sv1917-verification-2samuel.json). Denna nya grens sammanlagda GT-täckning är 26/929 kapitel och 733/23 210 versposter; öppna bok-PR:er räknas inte som mergad täckning. De äldre daterade arbetsloggarna är historiska. Ingen mänsklig erratakontroll är utförd.

@@ -1,9 +1,9 @@
 # form	occurrences	voice	alternatives
-han	13135	h'A:n	h'A:n=namn|h'an=pronomen
+han	13134	h'A:n	h'A:n=namn|h'an=pronomen
 en	8906	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
-du	7143	d'y:	d'u-=pronomen|d'y:=namn
+du	7142	d'y:	d'u-=pronomen|d'y:=namn
 men	5525	m'En	m'En=konjunktion|m'e:n=substantiv
-hans	4320	h'A:ns	h'A:ns=namn|h'ans=pronomen
+hans	4321	h'A:ns	h'A:ns=namn|h'ans=pronomen
 din	2998	d'i:n	d'In=pronomen|d'i:n=okänd, substantiv
 vad	2904	v'A:d	v'A:d=substantiv, böjd form|v'ad=pronomen, substantiv
 min	2865	m'i:n	m'In=pronomen|m'i:n=substantiv
@@ -218,7 +218,6 @@ eggen	2	E-g'e:n	'EgE-n=substantiv|E-g'e:n=namn
 ensamt	2	'Ensamt	'Ens,amt=adjektiv, böjd form|'Ensamt=adjektiv, adverb
 format	2	f'ORmat	f'ORmat=adjektiv, particip, verb|fORm'A:t=substantiv
 fort	2	f'URt	f'ORt=substantiv|f'URt=adverb
-fortsatt	2	f'URts.at	f'URts.at=adjektiv, adverb|f'u:Rts.,at=adjektiv, böjd form
 friköpt	2	fR'i:S;,Wpt	fR'i:S;,Wpt=adjektiv, verb|fR'i:S;,Y:pt=particip, verb, böjd form
 förtalare	2	f'Y:Rt,A:laRE-	f'Y:Rt,A:laRE-=substantiv|fWRt'A:laRE-=substantiv
 klor	2	kl'u:R	kl'o:R=substantiv, böjd form|kl'u:R=substantiv
@@ -248,6 +247,7 @@ demon	1	d'e:mUn	d'e:mUn=substantiv, böjd form|dE-m'o:n=substantiv
 drivens	1	dR'i:vE-ns	dR'ajvE-ns=substantiv, böjd form|dR'i:vE-ns=adjektiv, particip, substantiv, böjd form
 eftertänksamma	1	'EftE-RtENks,ama	'EftE-Rt,ENksama=adjektiv|'EftE-RtENks,ama=adjektiv
 et	1	'i:ti:	'Et=okänd|'i:ti:=namn
+fortsatt	1	f'URts.at	f'URts.at=adjektiv, adverb|f'u:Rts.,at=adjektiv, böjd form
 frigjort	1	fR'Ij,URt	fR'Ij,URt=adjektiv, verb|fR'i:j,URt=particip, verb, böjd form
 frikände	1	fR'i:S;,E:ndE-	fR'i:S;,E:ndE-=adjektiv, verb|fR'i:S;,EndE-=particip, verb, böjd form
 förbudet	1	f'Y:Rb,u-dE-t	f'Y:Rb,u-dE-t=substantiv, böjd form|fWRb'u-dE-t=substantiv

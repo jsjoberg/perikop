@@ -3380,6 +3380,890 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "2Sam",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "b932c0852ef03ff1654fff94bdfd059a5b45235c4e042c8582386be598267c48",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 421–422. Proposed changes and retained differences checked against actual EFS 1926 images n398–399. Retain 1926-supported opening quote in 1:19 and no comma after amalekit in 1:13; retain 1927-supported no comma before som in 1:24.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0421.1.tif",
+          "sha256": "a603be7d32cdc32825d56cc70923417904fdc7a633012dfd2eb4598ed8a4d3ab"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0422.1.tif",
+          "sha256": "ce2d065e13e25fb5d65e69751d4d9d5603ae1d29055a417747d8c34c47d492ac"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n398.jpg",
+          "sha256": "46e649cfe9ff9f06b9076e3ddeb2cf6886ea0d25f538f441c15ec54bc433cb96",
+          "printed_page": 387
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n399.jpg",
+          "sha256": "fa04a5322287187bb4d3ea20a67bd6fd57501b781bef9a9a58bfb41f70ddc36a",
+          "printed_page": 388
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 32,
+      "text_sha256": "ae755d9fa3d701caa4180c73ee1255d7a5e968992f8012a5e6d375682193ab82",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 422–424. Proposed changes and retained differences checked against actual EFS 1926 images n399–401. Retain 1927-supported Gilead som in 2:4; both witnesses support no comma after Is-Boset in 2:15 and Abner in 2:19.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0422.1.tif",
+          "sha256": "ce2d065e13e25fb5d65e69751d4d9d5603ae1d29055a417747d8c34c47d492ac"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0423.1.tif",
+          "sha256": "e571870a0d5495a8fd2684ad5dd88e9759b1167cc64349ffb708646bb56e41ed"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0424.1.tif",
+          "sha256": "976f81eb0b37092558d26127d40160e4d75699afa79862045a72028e268c36f7"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n399.jpg",
+          "sha256": "fa04a5322287187bb4d3ea20a67bd6fd57501b781bef9a9a58bfb41f70ddc36a",
+          "printed_page": 388
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n400.jpg",
+          "sha256": "b377ce71bf8e54511a433aca9759eed27386c8dee33796612203e6b4388aa862",
+          "printed_page": 389
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n401.jpg",
+          "sha256": "08cd51492f75143be7cf8f27212c53b8154109e72f56a6b77767ae136f9f6145",
+          "printed_page": 390
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 39,
+      "text_sha256": "deb7acdbc3eeeba8cd0939d41974b241806b178f2b2776d7f36bff9acf03be0d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 424–426. Proposed changes and retained differences checked against actual EFS 1926 images n401–403. Retain 1926 Abigal and Maaka som in 3:3, Sauls hus och in 3:10, folket som in 3:31; retain 1927 Gibeon, under in 3:30. Inner speech at 3:18 has no extra quotation mark in either witness. Retain 1926 no commas in 3:36 at annat som/konungen gjorde and 3:39 den som.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0424.1.tif",
+          "sha256": "976f81eb0b37092558d26127d40160e4d75699afa79862045a72028e268c36f7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0425.1.tif",
+          "sha256": "4c61426becbbf1464f50f749d7531e6936d50c0fd14e41aadb7e98192d28b6db"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0426.1.tif",
+          "sha256": "98d9046297f4f027d976a687f07d47c0357c593e4baecadc97b4bbc06fc5c755"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n401.jpg",
+          "sha256": "08cd51492f75143be7cf8f27212c53b8154109e72f56a6b77767ae136f9f6145",
+          "printed_page": 390
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n402.jpg",
+          "sha256": "30cfbd97eb6bc5899e26edb3778c055b5ac7f0b1456fe678245ebd6c18b2a024",
+          "printed_page": 391
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n403.jpg",
+          "sha256": "13fc766d40a2dd135aa70cf46dc7a3f001a2ec17d41a263619a646dda25097fe",
+          "printed_page": 392
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 12,
+      "text_sha256": "475f211b73fe32398526d679e6041c6c598017a8f9a5362ca2faaf7dc23407cb",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 426–427. Proposed changes and retained differences checked against actual EFS 1926 images n403–404. Retain 1927 comma after så in 4:6 and after inner död quote in 4:10. Both witnesses support därefter in 4:7 and så in 4:12.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0426.1.tif",
+          "sha256": "98d9046297f4f027d976a687f07d47c0357c593e4baecadc97b4bbc06fc5c755"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0427.1.tif",
+          "sha256": "5529709a33ded57a5a72f97df01d61df734e9019ab893ca1bd382f83e8f851bf"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n403.jpg",
+          "sha256": "13fc766d40a2dd135aa70cf46dc7a3f001a2ec17d41a263619a646dda25097fe",
+          "printed_page": 392
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n404.jpg",
+          "sha256": "754a5e0fa30cc891c1217a3134256410db7a680ba9cd0460397c97aa3b8604b6",
+          "printed_page": 393
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "ab85dfc1a6ceca389fcd030bea0ca201e5f62faf161b908718e13c4d5f781e38",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 427–428. Proposed changes and retained differences checked against actual EFS 1926 images n404–405. Retain 1927 Hebron, inför in 5:3, 1926 månader, och in 5:5, söner som in 5:14. Restore closing quote in 5:19.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0427.1.tif",
+          "sha256": "5529709a33ded57a5a72f97df01d61df734e9019ab893ca1bd382f83e8f851bf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0428.1.tif",
+          "sha256": "a9f78ac36c7c56834e4e6852db2cdb912f2824d3d3fa0cae6dc0e202018d72bd"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n404.jpg",
+          "sha256": "754a5e0fa30cc891c1217a3134256410db7a680ba9cd0460397c97aa3b8604b6",
+          "printed_page": 393
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n405.jpg",
+          "sha256": "79af108d479ccb321206050bdc55321083b6dcaa92d01c3ab3dd5a8f719e6a6c",
+          "printed_page": 394
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "b31c9fde6a1d0b34632a8e3ea894546dd68c0f7a2bbdc564ec16be8aae923da5",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 428–430. Proposed changes and retained differences checked against actual EFS 1926 images n405–406. Retain 1927 comma after HERREN in 6:5, before för Guds in 6:12 and after HERREN in 6:21; retain 1926 tältet som in 6:17. Both support sinnes, Davids, HERRENS and alltför.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0428.1.tif",
+          "sha256": "a9f78ac36c7c56834e4e6852db2cdb912f2824d3d3fa0cae6dc0e202018d72bd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0429.1.tif",
+          "sha256": "be0f172a092777f70da38863368168ce8ece45c74b5b142f3a6d85c47b0d4ed5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0430.1.tif",
+          "sha256": "f808bb7407c51996cbe13a275dafd820c13c96af4b0dec80c11b14d9a874be99"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n405.jpg",
+          "sha256": "79af108d479ccb321206050bdc55321083b6dcaa92d01c3ab3dd5a8f719e6a6c",
+          "printed_page": 394
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n406.jpg",
+          "sha256": "e53f3dd5919635a561ae39b2a6fb5be58989eff98efc410084cff36bed004961",
+          "printed_page": 395
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "ab0d1437dae35066b4e8c41c1451f077631bac6bc97321e5c86129ebd8c347ae",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 430–431. Proposed changes and retained differences checked against actual EFS 1926 images n406–407. Retain 1926 det som in 7:19 and 1927 gör såsom in 7:25. Both witnesses print en gud in 7:23 and a single du in 7:28.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0430.1.tif",
+          "sha256": "f808bb7407c51996cbe13a275dafd820c13c96af4b0dec80c11b14d9a874be99"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0431.1.tif",
+          "sha256": "38e097074998a9c2183341df7c007716e1265e191a04d82ab0ce0b71b8acc4f5"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n406.jpg",
+          "sha256": "e53f3dd5919635a561ae39b2a6fb5be58989eff98efc410084cff36bed004961",
+          "printed_page": 395
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n407.jpg",
+          "sha256": "c295bd1c89af31b9629dea0980ab5fcbf36cdf51ac89ff2f4553bccc05aad46e",
+          "printed_page": 396
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "6e1cdd10bad56427de23cd0d883ecc49b3a492a34c1ba424d92f9ddfa70e6f51",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 431–432. Proposed changes and retained differences checked against actual EFS 1926 images n407–408. Retain 1927 commas before utom and som in 8:4, 1926 folk som in 8:11. Both witnesses support lät (8:2), hans (8:4), semicolon (8:6).",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0431.1.tif",
+          "sha256": "38e097074998a9c2183341df7c007716e1265e191a04d82ab0ce0b71b8acc4f5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0432.1.tif",
+          "sha256": "e4ad18e2af0ca7069c08f4907bd01d04528390214ebc6c44d010c4fb13ac021e"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n407.jpg",
+          "sha256": "c295bd1c89af31b9629dea0980ab5fcbf36cdf51ac89ff2f4553bccc05aad46e",
+          "printed_page": 396
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n408.jpg",
+          "sha256": "bfd4391a52c81a736e48fae857cc07f834ad444e94476f18562153437d902dc7",
+          "printed_page": 397
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 13,
+      "text_sha256": "c9eec61ffb2f253c3094c8c81c7a0896706961c529f7cde23710990cd3ac739d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 432–433. Proposed changes and retained differences checked against actual EFS 1926 images n408–409. Retain 1926 bevisa and skull, och in 9:7, 1927 hund som in 9:8 and göra såsom in 9:11; quote at 9:1 is supported by 1926.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0432.1.tif",
+          "sha256": "e4ad18e2af0ca7069c08f4907bd01d04528390214ebc6c44d010c4fb13ac021e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0433.1.tif",
+          "sha256": "bac47165bd1aa7d74feae5125b01afaf35b39bf3218cea2392b816282909c8e5"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n408.jpg",
+          "sha256": "bfd4391a52c81a736e48fae857cc07f834ad444e94476f18562153437d902dc7",
+          "printed_page": 397
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n409.jpg",
+          "sha256": "d41d27b3dfa3586848c63071ad0189ef5f1f67292356aa2daaed8f6232e09800",
+          "printed_page": 398
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 19,
+      "text_sha256": "746069584da8e5dd331a339e940e47a9f878872a737623ab164151195c4e9fff",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 433–434. Proposed changes and retained differences checked against actual EFS 1926 images n409–410. Retain 1926 no parenthetic commas around därmed att han sänder tröstare till dig in 10:3, 1927 göra vad in 10:12, lower-case israeliterna (1926) in 10:19 and 1927 Rehob, ävensom / maakatéerna, ställde in 10:8.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0433.1.tif",
+          "sha256": "bac47165bd1aa7d74feae5125b01afaf35b39bf3218cea2392b816282909c8e5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0434.1.tif",
+          "sha256": "0795b67aaa25f7860d366442da19b400c844e5fd851e513a57775908ae4c395e"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n409.jpg",
+          "sha256": "d41d27b3dfa3586848c63071ad0189ef5f1f67292356aa2daaed8f6232e09800",
+          "printed_page": 398
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n410.jpg",
+          "sha256": "f6dbd0a0e9bffffb2db41e082d7eae918fa296736c9977f91883e973aa9587bf",
+          "printed_page": 399
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "f44a72f3974378283c01e852b42859b37c79ce52c3706beb3dcd6b6238b9e2f8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 434–436. Proposed changes and retained differences checked against actual EFS 1926 images n410–411. Retain 1927 vid den tid då in 11:1 and folket, och in 11:7; retain 1926 comma after tjänare in 11:17, no comma after dödades in 11:21.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0434.1.tif",
+          "sha256": "0795b67aaa25f7860d366442da19b400c844e5fd851e513a57775908ae4c395e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0435.1.tif",
+          "sha256": "e5ce8214eb71aa4802e28bdfb38a83bc4235e0117f704b65cdbfb0fbc08dd275"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0436.1.tif",
+          "sha256": "87453d4fd14de8791e5fb58dea6063d5482d2a71adceeb76de2807269e51801d"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n410.jpg",
+          "sha256": "f6dbd0a0e9bffffb2db41e082d7eae918fa296736c9977f91883e973aa9587bf",
+          "printed_page": 399
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n411.jpg",
+          "sha256": "ee4915dc3c6e2cf9c0b1bda6f347fe7c87c66a020b57c3e86678610daa7e11ed",
+          "printed_page": 400
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "a3f87895fff2e0117f0dbd7f6a516f542a651fc4308ad411f246c5f8711dcaa8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 436–437. Proposed changes and retained differences checked against actual EFS 1926 images n411–413. Retain 1926 resande som/mannen som in 12:4; retain 1927 comma at sådant, och in 12:6, no comma after gjort in 12:9, comma at Israel, och in 12:12 and Jedidja, för in 12:25. Both witnesses support omtala in 12:18 and opening speech quote in 12:22.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0436.1.tif",
+          "sha256": "87453d4fd14de8791e5fb58dea6063d5482d2a71adceeb76de2807269e51801d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0437.1.tif",
+          "sha256": "ad4d5fb1e7806f450fbf8bbdc9fc0097fae7f7f9d6ac299f4eb83678c6c0e916"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n411.jpg",
+          "sha256": "ee4915dc3c6e2cf9c0b1bda6f347fe7c87c66a020b57c3e86678610daa7e11ed",
+          "printed_page": 400
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n412.jpg",
+          "sha256": "25c76284da58ca6630465bcbacacfbf6bd4ae5f03b68cbd4c710ed31a4c47359",
+          "printed_page": 401
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n413.jpg",
+          "sha256": "e5700813ad12cfe0c03a463b75de46b1e54b766c1b716dd20fc2940bcf6bf5e0",
+          "printed_page": 402
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 39,
+      "text_sha256": "5623f15507a6609a65594f5f39dbc1106a116079238168e083d5de8a0a8e436e",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 438–440. Proposed changes and retained differences checked against actual EFS 1926 images n413–415. Retain 1926-supported Aminon in 13:20 (1927 Amnon), man som and tjänare och in 13:17, om att in 13:30, detta som in 13:33 and över att in 13:39; retain 1927 comma before som in 13:23 and vid sidan in 13:34. Speech close at 13:24 retained from 1926.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0438.1.tif",
+          "sha256": "f1f73761695782a459053c01d4703c01692eaddb495fba1c636e6a0d5e523ec8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0439.1.tif",
+          "sha256": "5b256dd011e70cd39b9bb359583e91ea175b5f3a64d57786539924b067a1199b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0440.1.tif",
+          "sha256": "01349b4f23a4521f5a6b66e7fcfc6dc0a22532a18e8cd0b0ddc1f049434d9274"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n413.jpg",
+          "sha256": "e5700813ad12cfe0c03a463b75de46b1e54b766c1b716dd20fc2940bcf6bf5e0",
+          "printed_page": 402
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n414.jpg",
+          "sha256": "c8c41308bf28403ce8a1014d18baa31d5d2d21217acf8d71d72a6c4150ff27b4",
+          "printed_page": 403
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n415.jpg",
+          "sha256": "e849d4898691cb964dac946cb50a71dbd6472cd091bae2ae0c646fa37d87eca7",
+          "printed_page": 404
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "c6e43afa99c119c18967cb05bfba789886aeec046af511583d0b2af7b61278d5",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 440–442. Proposed changes and retained differences checked against actual EFS 1926 images n415–417. Retain 1926 honom som in 14:7, däri att in 14:13/17, allt som in 14:20; retain 1927 greater comma in 14:11, Joab, i in 14:29 and siklar, efter in 14:26. At 14:32 retain 1926 lack of additional quote before Kom hit, while restoring final closing quote.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0440.1.tif",
+          "sha256": "01349b4f23a4521f5a6b66e7fcfc6dc0a22532a18e8cd0b0ddc1f049434d9274"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0441.1.tif",
+          "sha256": "73ffa88bd2870a5b795d466bbe8dc77a6db0b6fbe5ab6e82d6f70af1e5e5a747"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0442.1.tif",
+          "sha256": "8af8589048c3353a45bc662224e1eee340bda7591d6364e7b215e8428ce6fab9"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n415.jpg",
+          "sha256": "e849d4898691cb964dac946cb50a71dbd6472cd091bae2ae0c646fa37d87eca7",
+          "printed_page": 404
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n416.jpg",
+          "sha256": "bc8b968887a525adc35bc96cc8b9c71f3fff48bda94996077537e7f42c310652",
+          "printed_page": 405
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n417.jpg",
+          "sha256": "147b2d1dab6444a6cd7190e10bee9cdf7931f26bea453d2362bb947ce0c8276c",
+          "printed_page": 406
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 37,
+      "text_sha256": "aad6eb119d23024338fd6c5a30d96f23e38fd0be265fa173f7d38493c0d91cf3",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 442–444. Proposed changes and retained differences checked against actual EFS 1926 images n417–419. Retain 1926 no commas at vägen som/rättssak som (15:2), ingen som (15:3), Ack om (15:4), israeliter som (15:6), behagar äro (15:15), den som (15:19), barn som (15:22), dem som (15:31), hus må (15:35); retain 1927 oskuld, utan (15:11), honom, med (15:32), Ahimaas, och (15:36). Both witnesses read vår färd and huvud och bara.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0442.1.tif",
+          "sha256": "8af8589048c3353a45bc662224e1eee340bda7591d6364e7b215e8428ce6fab9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0443.1.tif",
+          "sha256": "7e0c37a9d77d333a7bd515b843ad378f6d6ea1fbb91df32d0bd53732ba9bccda"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0444.1.tif",
+          "sha256": "a51d64770e95cab612373b31f5b352bb2ed32baa1a043fd62f0dac7308b60012"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n417.jpg",
+          "sha256": "147b2d1dab6444a6cd7190e10bee9cdf7931f26bea453d2362bb947ce0c8276c",
+          "printed_page": 406
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n418.jpg",
+          "sha256": "7a355ac193d1b928b5d3602f94d968a5440bad6d9854db46c01e664c8ec3f8e8",
+          "printed_page": 407
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n419.jpg",
+          "sha256": "afdd921b4aecdecbec395c7a77d57de8fa03e2d9670c5254b7370ef2792045fd",
+          "printed_page": 408
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "04a48de1665ff6145ae2bd0d5374a59c858ccb61f2ccc8ed919c036c6675bf49",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 444–445. Proposed changes and retained differences checked against actual EFS 1926 images n419–420. Retain 1927 commas at förbannar, och (16:10), berget, jämsides and honom, och (16:13); retain 1926 förbannelse som (16:12), folket som (16:14). Both witnesses support two commas in 16:23 around som Ahitofel gav.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0444.1.tif",
+          "sha256": "a51d64770e95cab612373b31f5b352bb2ed32baa1a043fd62f0dac7308b60012"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0445.1.tif",
+          "sha256": "dcc7d07a09693d7400abf3a89ecb5204bbed59b6fa9ee5059067c357c696a3a7"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n419.jpg",
+          "sha256": "afdd921b4aecdecbec395c7a77d57de8fa03e2d9670c5254b7370ef2792045fd",
+          "printed_page": 408
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n420.jpg",
+          "sha256": "5dba774c13650366f0759eaec0bad87782b1e63f1288e4ef8cf77891d5633833",
+          "printed_page": 409
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "0ba0be52e362eb5d7807899b72d94334c670e42ff0968406bf583154232e331d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 445–447. Proposed changes and retained differences checked against actual EFS 1926 images n420–421. Retain 1926 en som / därom säga (17:9), män som (17:12), hade gått (17:21), comma after öknen (17:16), no comma after givit (17:21); retain 1927 höra vad (17:5), hjälte, och (17:10), land, och / Lo-Debar, och (17:27), ax, ävensom (17:28).",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0445.1.tif",
+          "sha256": "dcc7d07a09693d7400abf3a89ecb5204bbed59b6fa9ee5059067c357c696a3a7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0446.1.tif",
+          "sha256": "e2be7521e02149de5ef5da509f83e3bfc0b21c71e478cee614407a6b4e42d84b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0447.1.tif",
+          "sha256": "b4fb2a7648003f3a796c2033abb64c2e4f0b5d884024fdaf3633eec6ba3b7e32"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n420.jpg",
+          "sha256": "5dba774c13650366f0759eaec0bad87782b1e63f1288e4ef8cf77891d5633833",
+          "printed_page": 409
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n421.jpg",
+          "sha256": "87a34bc7f17cd54962e06a6529ff3a255eaa37192f290aeece140881f0c23a7c",
+          "printed_page": 410
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "0ab73961eaff9d334e9cbdffadc7e33cfb0e91bfe9df66f3dd335f42748db10f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 447–449. Proposed changes and retained differences checked against actual EFS 1926 images n421–423. Retain 1926 mannen som (18:11), capital Jordanslätten (18:23), alla som (18:32); retain 1927 befäl, och (18:2), folk, än (18:8), comma after Absaloms bröst in 18:14, semicolon after muren in 18:24. Both support speech closure at 18:3/18/32.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0447.1.tif",
+          "sha256": "b4fb2a7648003f3a796c2033abb64c2e4f0b5d884024fdaf3633eec6ba3b7e32"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0448.1.tif",
+          "sha256": "eb0918d51de072f1f97b1d3488deb5ffbe27430eb66e3e41d1adeba47b4ccf41"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0449.1.tif",
+          "sha256": "f14caeadd48529a9850d26ae5f90fcfda67548dc6d9175c545c5d47bd1ce2d98"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n421.jpg",
+          "sha256": "87a34bc7f17cd54962e06a6529ff3a255eaa37192f290aeece140881f0c23a7c",
+          "printed_page": 410
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n422.jpg",
+          "sha256": "ea50c05d6017efafeeaf31b6ab8b5ed3e878f2ecd59c0e3ba7b33f7b99b694ac",
+          "printed_page": 411
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n423.jpg",
+          "sha256": "059a16733b1bbd0ff930f504f99eb6c00d7bad28c88d4571f26db36e5dff2782",
+          "printed_page": 412
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "0e758482894141bb97765c229f9f519027aaf54e7fe77d96aa478b46785953ae",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 449–452. Proposed changes and retained differences checked against actual EFS 1926 images n423–426. Retain 1926 på huru (19:19), dem som (19:28), se här (19:37), den som and de som (19:43); retain 1927 Benjamin, ävensom (19:17), bort, ända (19:24), gör nu vad (19:27), för honom vad (19:37/38) and de, jämte / folk, förde (19:40). Both support våra in 19:9 and för in 19:16.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0449.1.tif",
+          "sha256": "f14caeadd48529a9850d26ae5f90fcfda67548dc6d9175c545c5d47bd1ce2d98"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0450.1.tif",
+          "sha256": "fca985865c3040798f5e3e2197b60dc2ee756367924816883a9b38c2cbfe0974"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0451.1.tif",
+          "sha256": "e65e13f0729498db5efe6ce7753b1184cbb151e6f024f5d8d910d4e478fbb9b6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0452.1.tif",
+          "sha256": "feadbca8b50162c248be07a486fa23f99012a034426b31def5f782f2d46ff222"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n423.jpg",
+          "sha256": "059a16733b1bbd0ff930f504f99eb6c00d7bad28c88d4571f26db36e5dff2782",
+          "printed_page": 412
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n424.jpg",
+          "sha256": "c40c7ebd6f55906d4ce31619af485c5eb8680e7a1e049ed2624f83f1a4cbec16",
+          "printed_page": 413
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n425.jpg",
+          "sha256": "c90a36333225d95934c2463d6ddf3bb3f6b8d398d24a5b6c6fbe20d5d8c9b749",
+          "printed_page": 414
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n426.jpg",
+          "sha256": "9b5ba99f32d2090628cbefff84d264bcb11bbbe7ff0ec15715cb785fc46194d9",
+          "printed_page": 415
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "6ebe57bd5e9731fda6d4878f459cf79594316ab4e29a5aee8dc1771efd11d88c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 452–453. Proposed changes and retained differences checked against actual EFS 1926 images n426–427. Retain 1926 underhåll, men (20:3), tid som (20:5), livrocken som (20:8), svärd som (20:10); retain 1927 hjältarna ut (20:7). Both witnesses supply missing att in 20:12.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0452.1.tif",
+          "sha256": "feadbca8b50162c248be07a486fa23f99012a034426b31def5f782f2d46ff222"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0453.1.tif",
+          "sha256": "73bb0091917fabc575f873a122415c2611026de8afc924af3cb60d78ada96e7e"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n426.jpg",
+          "sha256": "9b5ba99f32d2090628cbefff84d264bcb11bbbe7ff0ec15715cb785fc46194d9",
+          "printed_page": 415
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n427.jpg",
+          "sha256": "00d4e494a817e75ba4c4fe59e17105577f07fe9308f76bd641e561090499583e",
+          "printed_page": 416
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "bb50811848b78997fe7cee3ba60a91657c74bb144dfb43135ad2c2f2daf8ef9d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 453–455. Proposed changes and retained differences checked against actual EFS 1926 images n427–428. Retain 1927 commas around i sin nitälskan ... Juda (21:2), no comma at då att (21:4), söner som (21:8), no comma after David (21:11), koppar, och (21:16), fot, eller (21:20). Retain 1926 klippan från (21:10). Both witnesses have amoréerna; och and Simeai (21:21).",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0453.1.tif",
+          "sha256": "73bb0091917fabc575f873a122415c2611026de8afc924af3cb60d78ada96e7e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0454.1.tif",
+          "sha256": "cba580fb9894df28183ebbe75c5598ddb16e28c2cd4b579c031649e6b70e3da8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0455.1.tif",
+          "sha256": "d001437fff908626782724640f0a7887017605f997298a99a7bfb8695af9e2c4"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n427.jpg",
+          "sha256": "00d4e494a817e75ba4c4fe59e17105577f07fe9308f76bd641e561090499583e",
+          "printed_page": 416
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n428.jpg",
+          "sha256": "ecefd477cf5dc9ccb41c3d15b82d9f548db4369affe258a1a4b314855a2df13e",
+          "printed_page": 417
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 51,
+      "text_sha256": "3c023732a03be0a76dcb46c67b2031c378b5f14b8480dd49cc0c985a61a0d517",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 455–457. Proposed changes and retained differences checked against actual EFS 1926 images n428–431. Retain 1926 hydda som (22:12), alla som (22:31), semicolon at reste sig (22:39); retain 1927 mun, eldsglöd (22:9), blottades, för (22:16), stolta, till (22:28), and semicolon after mig (22:48). Both support capital Och in 22:28 and semicolons in 22:20/31/36.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0455.1.tif",
+          "sha256": "d001437fff908626782724640f0a7887017605f997298a99a7bfb8695af9e2c4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0456.1.tif",
+          "sha256": "c594cd50e13ccf6db3318dd7e6d7780c25162f6252bd94e9326289eed2ecd310"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0457.1.tif",
+          "sha256": "e7ef73dd54ffd59c898d33705740dd00ee3ad20464800c5274500b54ef2e7543"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n428.jpg",
+          "sha256": "ecefd477cf5dc9ccb41c3d15b82d9f548db4369affe258a1a4b314855a2df13e",
+          "printed_page": 417
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n429.jpg",
+          "sha256": "86a80ee631be39e9805e553a2cc4b27d3e228d25dbbab0972810383cee76ddfe",
+          "printed_page": 418
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n430.jpg",
+          "sha256": "6f13d557a1c186291794a70fbbd1b71ae3616262b11e2e57c70c5e6e4905d826",
+          "printed_page": 419
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n431.jpg",
+          "sha256": "f7f7cb3404b06ec7f7fa24e8a961def2fb83e84f39b79db6b68724a925951503",
+          "printed_page": 420
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 23,
+      "status": "verified",
+      "verse_count": 39,
+      "text_sha256": "00edc1b658f69424d87f8b3b816a943da9af7c4f0aff9395c0f5fdf7a6d58041",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 457–459. Proposed changes and retained differences checked against actual EFS 1926 images n431–432. Retain 1926 hundra som (23:8/18), hjältar som (23:9), Ack att (23:15), Kabseel; han (23:20); retain 1927 comma at Jojada, som and no comma han som (23:20), comma at spjutskaft, och is retained as existing (23:7). Names and list punctuation 23:24–39 checked; no numbering changes.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0457.1.tif",
+          "sha256": "e7ef73dd54ffd59c898d33705740dd00ee3ad20464800c5274500b54ef2e7543"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0458.1.tif",
+          "sha256": "53f1188fa50c8d413d59550969ca795a88ac1b75fbef2ca450908e81a7428290"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0459.1.tif",
+          "sha256": "469291f31fd39e9330087b4fa0fe49632f818a30ef952b817ff07365dc1b2371"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n431.jpg",
+          "sha256": "f7f7cb3404b06ec7f7fa24e8a961def2fb83e84f39b79db6b68724a925951503",
+          "printed_page": 420
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n432.jpg",
+          "sha256": "72cee196ec5d3712b81f3501b3903b3d74fe8e3df8c495585ee82f1b25b677c3",
+          "printed_page": 421
+        }
+      ]
+    },
+    {
+      "book": "2Sam",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "b1212aa5acd41c5c5db73e21a779445fd734cec90b93f2f05b4e6a16adbeda7a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse",
+      "notes": "Every verse, including unflagged words, punctuation, numbering and page/column continuations, visually compared with EFS 1927 pp. 459–460. Proposed changes and retained differences checked against actual EFS 1926 images n432–434. Retain 1926 ett som and vill att (24:12), honom som and closing quote (24:13); retain 1927 Aroer, på and dal, och (24:5), Israel, från (24:15), offer vad and tröskvagnarna, jämte / ok, till (24:22). Both support commas after veta (24:2), konungen (24:9), Vill du and eftersinna (24:13), se (24:20), Se (24:22), brännoffer (24:24).",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0459.1.tif",
+          "sha256": "469291f31fd39e9330087b4fa0fe49632f818a30ef952b817ff07365dc1b2371"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0460.1.tif",
+          "sha256": "c9e01027fb0a8dfccdc71c6f1a04ab12370b5ec79636b514a513d0d2544e430e"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n432.jpg",
+          "sha256": "72cee196ec5d3712b81f3501b3903b3d74fe8e3df8c495585ee82f1b25b677c3",
+          "printed_page": 421
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n433.jpg",
+          "sha256": "7aaf0d8925df6e8ebb66c1548c6d935efe3df79ce65210ced0b3f5a68778b1ef",
+          "printed_page": 422
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n434.jpg",
+          "sha256": "496fd975d960f55db3fefd41b978e7e5512796c0ab067778ba87ed0d917d8990",
+          "printed_page": 423
+        }
+      ]
     }
   ],
   "unnumbered": [
