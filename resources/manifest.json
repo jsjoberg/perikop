@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "d5073b74a37f9c9e22d51c19ff0c51ea15fcdfa7611064561c97e98fb73984c1",
+      "sha256": "25d2f53b30dc3f8d335c2b2ceeef1646ed31061beb3b89168ccbbef4279f7848",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -551,13 +551,6 @@
       "role": "Curated Orthodox Study Bible book order imported by tools/corpus/build_corpus.py"
     },
     {
-      "path": "resources/lexicon/sv1917-words.tsv",
-      "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "1e9cabf9a1f826f138b256af72d95da6119a9311f2b52f327f753df134d85e36",
-      "license": "CC0-1.0 (NST); public-domain corpus word counts",
-      "role": "Generated Swedish 1917 word forms with NST SAMPA references"
-    },
-    {
       "path": "resources/lexicon/sv1917-forms.tsv",
       "sha256": "ee16bafaeb0d659898effd7bca8b5e52631245094f2655091c0333146400152f",
       "license": "MIT",
@@ -762,13 +755,6 @@
       "license": "GCC-exception-3.1"
     },
     {
-      "path": "resources/lexicon/sv1917-homographs.tsv",
-      "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
-      "sha256": "69ceb41d0e325ea1612b645c0d0f9ead907fa5ed77eed9b5893f108348e88f70",
-      "license": "CC0-1.0 (NST); public-domain corpus word counts",
-      "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
-    },
-    {
       "path": "resources/licenses/CC-BY-4.0.txt",
       "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
       "license": "CC0-1.0",
@@ -820,13 +806,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "90ac9dbc8099843fe72d8b36a761a85f9e5f19ca2d0d99e8dd22a2de9b035c8e"
+      "sha256": "52418736731bf003788396727505e6f3a39e8b3d6d321508bf4f25e379878728"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "c3adcaf47313701327f0660eb03db27c52bf26964f6a57ae0205a5d224ddac64"
+      "sha256": "cfbcef62d2a48e8705fa9cae4840ba2c49654abb362ef1f95235ed5feb481823"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",
@@ -847,6 +833,20 @@
       "license": "CC0-1.0",
       "generated": "tools/content/build_srb_pronunciations.py",
       "role": "Unambiguous NST pronunciations for additional SRB26 vocabulary; existing speech data and corrections retain priority"
+    },
+    {
+      "path": "resources/lexicon/sv1917-words.tsv",
+      "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
+      "sha256": "7ec495409a1bd941c26c3145fd6feaa5bf2dcd8520510acb512bc4b5c8c7edc4",
+      "license": "CC0-1.0 (NST); public-domain corpus word counts",
+      "role": "Generated Swedish 1917 word forms with NST SAMPA references"
+    },
+    {
+      "path": "resources/lexicon/sv1917-homographs.tsv",
+      "url": "https://www.nb.no/sbfil/leksikalske_databaser/leksikon/sv.leksikon.tar.gz",
+      "sha256": "b25ef88d381f1eba36f371960c9e29fd6166f6fd07c86e5e5b6f43c8d3af7bef",
+      "license": "CC0-1.0 (NST); public-domain corpus word counts",
+      "role": "Generated Swedish 1917 words with several NST pronunciations, for the pronunciation review"
     }
   ],
   "build_dependencies": [
