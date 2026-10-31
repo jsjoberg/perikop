@@ -1,0 +1,3791 @@
+{
+  "schema_version": 1,
+  "book": "Josh",
+  "checked_at": "2026-10-31",
+  "reviewer": "Codex, visual comparison with parallel chapter subtasks",
+  "method": "Every verse visually compared against the actual EFS 1927 images, including unflagged text, punctuation, numbering and column/page continuations. Actual EFS 1926 images checked for proposed changes and print differences. OCR may locate text but never grants chapter coverage. Current text retained wherever either physical witness supports it. Human checkboxes were not reviewed.",
+  "base_commit": "a714eb697e71777bf05184633183f111eff25429",
+  "baseline_chapter_sha256": {
+    "1": "ce20f3da3ac0a8b2c3ee323a8d8a1c68dcd85df98b2f5ef010e893b071447df7",
+    "2": "8fe9f7c59b3bf434cbcf37e2973cedc65fc5f812c4d09eadc0c80580231fc9e7",
+    "3": "df00bededb3f7c7d8084c129f18051f774b5ce74a27b4a04873db8fd99db6404",
+    "4": "8331dad363e40d9e5b3b3240e7a710ffaa7f37eaf460fe59b656fd8013c511ae",
+    "5": "bb9f05443aaf12d79649987cde87e987c5e64aa16cd9ce7cee4b8e35a8c5c4bc",
+    "6": "aee670eaa8b8224ef49c61ca9c4c151dacafae3975f014301f003b2a6c15ae74",
+    "7": "9d0741387c96260d659326066b7c7a282b62d1714906bf3dcc5aa138ba34a742",
+    "8": "b9832bb9f4c352a32f4da722398f3b7eeb581dc17e4926bcabfd99238af56956",
+    "9": "4e4596610f45aaa397c8164b786bfbe9ffe7f182ea76f281d754cb7074e10284",
+    "10": "c8186bbd54044dfcbfd2d8ce66aeed14f7674ce64cb4399888637d1359765eda",
+    "11": "9ab164d228228c8e4631cf7c09332415c411c474892129041fba00ed56b6a7db",
+    "12": "c9ac0b0a696ab9a54bf7c6934a6d412e0646a750cc731181ba4c23eaf0f13516",
+    "13": "94746582174447270468f66b44e736d8c37acc5aca361750b07785cf78f2e1c8",
+    "14": "31fb31ccc90e892e80f94783963eeaf5dfdf3201b1b43b9d116282d46d6cc35c",
+    "15": "5e6c0f1748c4c4245672d8cc9efb56135b2600cfaeb7f51de9903042512e7faa",
+    "16": "82e5fa82e63cc60f90834e199b1b1e33518fdcd6e5de6ff6eb9897f94026c15a",
+    "17": "cf677027ce48dfebd56c0ecbcc472d71c268533d0c38ed800f4888b4746de2dc",
+    "18": "56897838e0760b4b659e58e086aa99a3570ef54719fd37cb16fd8a156f83f12d",
+    "19": "0f241b54b4ea4c6902d326d57c524777e5a085949ad30de952d7ae1560700d35",
+    "20": "460a2201ec33369e88c1fb20f01bb8245edda6e2d433c8346b27f6ffaaa2d2e2",
+    "21": "7c7a109dc11c8ba6f7bbe0f3fe147ea5560fd95af8a5cbc8425f19dd136f9e0a",
+    "22": "6dade3dd7d324fc301f32b138a36fab03119aaf27cb5abf2168ead1d7401f9db",
+    "23": "4c08df6d65cc985d18e7bfb18152e35afb35ad9ce799607b397974d93c10a6ac",
+    "24": "252a6444edb4e13f1e071ef15cec6cce509e482614b1a260574332673b6eb5e5"
+  },
+  "chapters": [
+    {
+      "book": "Josh",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "55fe5b0294fa27e9dc097dccb85fb8435df727d52211958bdbcaa80194abe9a3",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 1:1–18 visuellt jämförda på 1927 s. 298–299. Alla ändringar kontrollerade i 1926 n284–285. Behåller 1926-stödd kommatering i 1:2 (land som), 1:8 (det som, den och), 1:11 (Jordan, för), 1:13 (det som), 1:18 (en som); 1927-stött uteblivet komma i 1:7 efter därifrån och i 1:15 vid land som. Endast gemensamma interpunktionsfel rättas.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0298.1.tif",
+          "sha256": "991215f7fa67658bd0bafb1c652d1845c080580329ea07b24eb969977fb3bc7f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0299.1.tif",
+          "sha256": "3865aad089aee63b8e778d70d8b436b6ccf7645b8665621ad97d88cff00e9013"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n284.jpg",
+          "sha256": "e6b3723495cad74aaa9714a8a5b9df1478072f6982b900acc17c506ee3addfed",
+          "printed_page": 273
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n285.jpg",
+          "sha256": "48e13e7c1cbaacc39d1708ba38adc9843113cf0f5407471464e985e612fb3a40",
+          "printed_page": 274
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "849e20d5d24b0775824ba2995ad9128c5ac3f5b7b9cc7547eaf0e29dd36cda1c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 2:1–24 visuellt jämförda på 1927 s. 299–301, inklusive 2:22:s sidfortsättning. 1926 n285–286 avgör alla ändringar och behållna skillnader. Återställer bortfallen sats i 2:12, eget i 2:19 och ock i 2:24. Behåller 1926-stödda såsom i 2:21 samt kommatering i 2:17,20,22,23; 1927-stödda komman i 2:6. Alla andra gemensamma interpunktionsfel rättade.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0299.1.tif",
+          "sha256": "3865aad089aee63b8e778d70d8b436b6ccf7645b8665621ad97d88cff00e9013"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0300.1.tif",
+          "sha256": "96c031f6907b0d9a08deabcc20079f97320f1d206d52c01f484be3b753529d64"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0301.1.tif",
+          "sha256": "26b0875af00ee0583a322c20adc5179e59c63256dca3bcb0b48c393663e122f3"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n285.jpg",
+          "sha256": "48e13e7c1cbaacc39d1708ba38adc9843113cf0f5407471464e985e612fb3a40",
+          "printed_page": 274
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n286.jpg",
+          "sha256": "cefaa31bafeba8c97f61449463b13fa8ad94862ed1db32321548328b6f92b03a",
+          "printed_page": 275
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 17,
+      "text_sha256": "82ec07342986ea5b1d6f36e2ca57f1b16e7b2ff3d7c19070c4d16555c977f20a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 3:1–17 visuellt jämförda på 1927 s. 301–302, inklusive 3:16:s sidfortsättning och spaltfortsättningen av 3:7. 1926 n286–287 kontrollerar ändringar och behållna skillnader. Återställer skall Jordans vatten i 3:13. Behåller 1926-stött uteblivet komma efter prästerna i 3:8; 1927-stödd kommatering i 3:10 efter eder, 3:13 efter det vatten och 3:16 vid staden som samt det vatten som flöt. Tankstreckens befintliga normalisering och versgränser bevarade.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0301.1.tif",
+          "sha256": "26b0875af00ee0583a322c20adc5179e59c63256dca3bcb0b48c393663e122f3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0302.1.tif",
+          "sha256": "9a7852a37c4a3727749569e6da6325c9e86a83bd2a1249a276d433d60e5bdffc"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n286.jpg",
+          "sha256": "cefaa31bafeba8c97f61449463b13fa8ad94862ed1db32321548328b6f92b03a",
+          "printed_page": 275
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n287.jpg",
+          "sha256": "42c56f6c96e205561b38f7363140562e237a2a3916594f34e3ed57a9a520f73e",
+          "printed_page": 276
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "139f39d31c15156fd1f38516edbbb96a335189730aded9623fc5c510aed2e64d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 4:1–24 visuellt jämförda på 1927 s. 302–303, inklusive 4:7:s spaltfortsättning och 4:18:s sidfortsättning. Alla ändringar kontrollerade i 1926 n287–288. Återställer hade i 4:14. Behåller 1926-stött frågetecken i 4:6 och kommatering i 4:13 samt 4:24. Behåller 1927-stödd kommatering i 4:3 (plats där, ställe, där), 4:9 (plats där), 4:11 (prästerna, och), 4:18 (såsom förut) och normaliserad radslutsavstavning i Jerikoområdet i 4:19.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0302.1.tif",
+          "sha256": "9a7852a37c4a3727749569e6da6325c9e86a83bd2a1249a276d433d60e5bdffc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0303.1.tif",
+          "sha256": "e5aaa4063ec6f9e8a85b22f97140398f32a997697152a9a27cc406373977e180"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n287.jpg",
+          "sha256": "42c56f6c96e205561b38f7363140562e237a2a3916594f34e3ed57a9a520f73e",
+          "printed_page": 276
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n288.jpg",
+          "sha256": "0f8285c73cc0831fbce9ee7dd4fb4206d18e6ce9640bd7f1a8de7bd44b1b068f",
+          "printed_page": 277
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "d696991db8fb569457b290304314bec123a591aa748e350a9754430ae8cadd7b",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 5:1–15 visuellt jämförda på 1927 s. 303–304, inklusive 5:10:s sidfortsättning. Alla ändringar kontrollerade i 1926 n288–289. Behåller 1926-stödda såsom i 5:9 och punkt före citatslut i 5:14 samt uteblivet komma efter de i 5:5. Behåller 1927-stött ett land som i slutet av 5:6 och platsen där du står är helig i 5:15. Gemensamma interpunktionsfel rättade.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0303.1.tif",
+          "sha256": "e5aaa4063ec6f9e8a85b22f97140398f32a997697152a9a27cc406373977e180"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0304.1.tif",
+          "sha256": "6e0b616c4002c7b810bd718c4dc74079660c61f7dadbfb45aff8e671bcef1895"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n288.jpg",
+          "sha256": "0f8285c73cc0831fbce9ee7dd4fb4206d18e6ce9640bd7f1a8de7bd44b1b068f",
+          "printed_page": 277
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n289.jpg",
+          "sha256": "40e01e6174848bd0bf895046f593232402a219f674f0324449f8c48dacfe6dc4",
+          "printed_page": 278
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "da3fc1dc68808915be208a7eca80568cbaa86321554956f0f563526c59bebc74",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 6:1–27 visuellt jämförda på 1927 s. 304–305, inklusive 6:12:s sidfortsättning och 6:20:s spaltfortsättning. Alla föreslagna ändringar kontrollerade i 1926 n289–291. Återställer de sju i 6:8. Behåller 1926-stödd interpunktion i 6:3,9,21,22,25 (alla som) samt 6:17 (alla som) och 1927-stödda komman i 6:10 (mun, förrän), 6:22 (henne, ut), 6:23 (Rahab, jämte). Originalfotot och motstående kamerans foto (orig0290/0291) visar att 1926 har präster utan ändelsen -na och utan komma i 6:8; korpusens präster som behålls mot 1927:s prästerna, som. Alla frågor lösta. 1926 has präster som; retain existing form against 1927 prästerna, som.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0304.1.tif",
+          "sha256": "6e0b616c4002c7b810bd718c4dc74079660c61f7dadbfb45aff8e671bcef1895"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0305.1.tif",
+          "sha256": "bdd656bd8cca606b2d937d5be714adecc72ee0461df62071e05502825844a6f2"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n289.jpg",
+          "sha256": "40e01e6174848bd0bf895046f593232402a219f674f0324449f8c48dacfe6dc4",
+          "printed_page": 278
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n290.jpg",
+          "sha256": "4055af6776d658af0e53b1c752790f4be867fb8aea45bab156201f3e6490d436",
+          "printed_page": 279
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n291.jpg",
+          "sha256": "bdba1393efa48698bdfbbbfb118e30ebcf13f3cac18e9bc07ede247991436883",
+          "printed_page": 280
+        }
+      ],
+      "original_camera_witnesses": [
+        {
+          "chapter": 6,
+          "verse": 8,
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0291.jp2",
+          "sha256": "ebf056e711158a08a9d4f3c22044da1618a83d636c4617452cdae43033d55f52",
+          "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0291.jp2",
+          "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0291-6-8-last.png",
+          "crop_sha256": "ed784de6eeff03f4b92c614940eda048ab4b821982683aad9b341c6cb19b44b2",
+          "decision": "1926 has präster som; retain existing form against 1927 prästerna, som.",
+          "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "8acbdea9182a21c38b86dbc5a5fe2574dfc4d18e8cfd0673d1bbe0c957dc1fa5",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 7:1–26 visuellt jämförda mot 1927 s. 306–307. 1926 n291–292 kontrollerar alla ändringar och behållna avvikelser. Rättar bortfall av oss (7:7), har (7:19), jag (7:21), ett extra komma (7:6) och gemensamma kommateringar (7:11,18,19,24). Behåller 1926-stödda O att (7:7), Ack Herre (7:8) och uteblivet komma efter den (7:15), där 1927 har extra komma. 7:13 saknar inre citattecken även i båda trycken; ingen harmonisering.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0306.1.tif",
+          "sha256": "fe47f99c286dce4f99d069740e8b48d5b5fbb5b251fc6a3f1622a027a8736d8d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0307.1.tif",
+          "sha256": "0b372f6c67a1a0a5fa98135ca78c74d77224a39265c83bf72a044ae70796dd65"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n291.jpg",
+          "sha256": "bdba1393efa48698bdfbbbfb118e30ebcf13f3cac18e9bc07ede247991436883",
+          "printed_page": 280
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n292.jpg",
+          "sha256": "02d3abbb02698370c39e96ccb5c03b8f47a613a00e94cefd8530d75404411825",
+          "printed_page": 281
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "03c1128ceba4670815295279f521e5b8af421ff44e816297ca5895f1270511f9",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 8:1–35 visuellt jämförda inklusive fortsättningen av 8:3 från s. 307 till 308 och hela s. 309. EFS 1926 n292–294 kontrollerar samtliga ändringar och avvikelser. Återställer hela den bortfallna andra ledet i 8:13 (som ock den del därav, som låg i försåt, väster om staden), fly i 8:6 och tar bort ett extra själv i 8:14. Interpunktion ändras endast när båda trycken visar samma fel. Behåller befintlig interpunktion enligt 1926 i 8:2,5,18 (kolon efter Josua samt komma efter hand i senare satsen),24,27,35; enligt 1927 i 8:6 (komma efter oss),22 (komma efter sig),27 (komma efter byte),32 (lag som),33 (komma efter menighet, domare),35 (församling, med ... barn, och). 8:10 har inga komman omkring med-satsen i något tryck; dessa tas bort.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0307.1.tif",
+          "sha256": "0b372f6c67a1a0a5fa98135ca78c74d77224a39265c83bf72a044ae70796dd65"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0308.1.tif",
+          "sha256": "e767b0d93bfed624dc072d2a66983808b856e9e2da837c2b160760110db17f05"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0309.1.tif",
+          "sha256": "16cc992dbc53de659b3a85dacdba5427b23d731aa000cbc1f9d6f583df95461b"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n292.jpg",
+          "sha256": "02d3abbb02698370c39e96ccb5c03b8f47a613a00e94cefd8530d75404411825",
+          "printed_page": 281
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n293.jpg",
+          "sha256": "5c0dd36fba031f56898be8b303ae18c08bc9e1c61eb86160585912d8ebe2fd90",
+          "printed_page": 282
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n294.jpg",
+          "sha256": "fe0329bebe28190eb132bf78f9124c4e41f1f6c901da75575cda0facc4606c03",
+          "printed_page": 283
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "624690525c513351b0c4db254657fc832cf7bcebb0e609ea3275d07276cd80bf",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 9:1–27 visuellt jämförda mot 1927 s. 309–311; EFS 1926 n294–295 kontrollerar samtliga ändringar och behållna avvikelser. Återställer hela i 9:19, åt menigheten i 9:27 och stor bokstav Kustlandet i 9:1. Gemensam interpunktion rättas i 9:1,3,13,16,20,21,24,27. Behåller 1926-stött komma före men i 9:14 mot 1927; 1926 stöder uteblivet komma efter plats i 9:27 mot 1927. 1927 stöder uteblivet komma efter hörde i 9:1 mot 1926. 9:11 och 9:22:s inre citat är tryckstödda; glyfer normaliseras enligt befintlig import.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0309.1.tif",
+          "sha256": "16cc992dbc53de659b3a85dacdba5427b23d731aa000cbc1f9d6f583df95461b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0310.1.tif",
+          "sha256": "a2631ff00fdb91d12a30952919071ee84b9989ba41264477fd0633e71d7df3b1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0311.1.tif",
+          "sha256": "2dee5f038f8aa24c2a9b7c279bab39d40214717b16cab11b06a506bac2dc6060"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n294.jpg",
+          "sha256": "fe0329bebe28190eb132bf78f9124c4e41f1f6c901da75575cda0facc4606c03",
+          "printed_page": 283
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n295.jpg",
+          "sha256": "e7c3e7d839b96759b6680cc2b70686754cd9363da897c9fb247f6895b62ecd80",
+          "printed_page": 284
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "402b5c95aed9a9e8c9c74019d05fc3ab50c6d40fabdcd5405e007ea5e45e55c3",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 10:1–43 visuellt jämförda mot 1927 s. 311–313, inklusive 10:10 över sidgränsen. EFS 1926 n296–298 kontrollerar samtliga ändringar och behållna varianter. Återställer alla (10:6), vid (10:17), sätten (10:24), hänga (10:26) och anda (10:40); tar bort extra sina i 10:25. Gemensamma interpunktionsfel rättas. Behåller 1926-stödd kommatering i 10:1 (sätt som),11 (sluttning som/de som),19 (dem som),24 (krigsfolket som),25 (fiender som),28,30,32,35,37,39,40,41. 1927 stöder övriga behållna komman i bl.a. 10:1 (spillo, och),22 (mig, ut), samt 1926 stöder nuvarande punktplacering efter slutcitatet i 10:13. Upp till i 10:10 stöds av 1926 mot 1927 upptill; ordmellanrum behålls. Tar bort extra komman i 10:10 (dem, och),11 (så, under ... Israel,),19 (fiender, och),23 (Lakis, och), och återställer komman i 10:1,12,19,27 där båda trycken stöder dem.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0311.1.tif",
+          "sha256": "2dee5f038f8aa24c2a9b7c279bab39d40214717b16cab11b06a506bac2dc6060"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0312.1.tif",
+          "sha256": "56f30a4bb98291eed3a6f0d4ce7803401e731e5675f05dad812bbef7deb6bf61"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0313.1.tif",
+          "sha256": "45c2349ed6d7cf63817ccced5f7138b1c0d8f990c9db5df455668c428d7edbbd"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n296.jpg",
+          "sha256": "529a627fcaf21c4a6a81292fd56201bb1e4016eb3fca0c8edf8a0f4c652be8a7",
+          "printed_page": 285
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n297.jpg",
+          "sha256": "74df149069c4d30814d64ba6832b13b01b4ff84ec3b64730283539273e6380b2",
+          "printed_page": 286
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n298.jpg",
+          "sha256": "216ffa7ec9624cf4a09747dac4f1d588d6c3010a622d6a77dd9b07b274f11bd3",
+          "printed_page": 287
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "48980d5de90c14e90c8aa7fe1a540195a306fe65a0d297a78254a1cf44b9feff",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 11:1–23 visuellt jämförda mot 1927 s. 314–315; EFS 1926 n298–299 kontrollerar samtliga ändringar och behållna avvikelser. Rättar och till ock i 11:3 och återställer ock i 11:15. Rättar bara gemensamma interpunktionsfel (11:5,9,19,20). Behåller 1926-stödda uteblivna komman i 11:2,11,13,14,15 och såsom i 11:23 mot 1927 som. Övrig kommatering och nuvarande geografiska namn bevaras.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0314.1.tif",
+          "sha256": "e4a9732e9b06f72ebefa7bd156177726ce3678c32f247d755834b50600e5bf7b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0315.1.tif",
+          "sha256": "4321f4e92ee5964ee2991fe7ec5b74fb0c5f7d784a17f8bb67947d080ec9ac59"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n298.jpg",
+          "sha256": "216ffa7ec9624cf4a09747dac4f1d588d6c3010a622d6a77dd9b07b274f11bd3",
+          "printed_page": 287
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n299.jpg",
+          "sha256": "5a3f5882955d8d45a60f699f202c2dfe1156917e017ca6782c356df4bb672a87",
+          "printed_page": 288
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "d5286197a6e5c0813bfc3bb9684fc420dc2e5dc1698cfed0c4403d6dabf33433",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 12:1–24 visuellt jämförda mot 1927 s. 315–316; inga versgränser ändras. EFS 1926 n299–300 kontrollerar 12:2:s rättelser och namnen. Återställer från i landet från Aroer och tar bort det extra kommat efter dalens mitt; båda trycken stöder dessa. Behåller 1927-stödd kommatering i 12:1 (slogo, och),7 (Halakberget, som),9 (Ai, som ... Betel, en) mot 1926 samt Nafat-Dor i 12:23, som båda trycken har.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0315.1.tif",
+          "sha256": "4321f4e92ee5964ee2991fe7ec5b74fb0c5f7d784a17f8bb67947d080ec9ac59"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0316.1.tif",
+          "sha256": "97e7a67d3d046ddaad388be94a4d38aca5976250185d7999d36e5ed99c543b68"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n299.jpg",
+          "sha256": "5a3f5882955d8d45a60f699f202c2dfe1156917e017ca6782c356df4bb672a87",
+          "printed_page": 288
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n300.jpg",
+          "sha256": "a84f9b3b946ea483098f479da36e10f82754ff1ce71a0bc0742086a0ee61bc78",
+          "printed_page": 289
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "d990bd6a3b198adf4935db5a35fcddeaae7aa9e01a21f4fef686af0e2d284d38",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 13:6: Current bergsbygden (lowercase) retained: EFS1926 leaf300 confirms it; EFS1927 p316 prints Bergsbygden. 13:10: Current städer som without comma retained: EFS1926 leaf300 confirms it; EFS1927 p316 adds comma after städer.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0316.1.tif",
+          "sha256": "97e7a67d3d046ddaad388be94a4d38aca5976250185d7999d36e5ed99c543b68"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0317.1.tif",
+          "sha256": "aef2c3bcf7ebc80abccba1e3a6a0e4b926e74188df92e6199ae21f6003dd0549"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n300.jpg",
+          "sha256": "a84f9b3b946ea483098f479da36e10f82754ff1ce71a0bc0742086a0ee61bc78",
+          "printed_page": 289
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n301.jpg",
+          "sha256": "38a3d003a6230ec59177c1237d0eff9b9a280b7b88589dd72c496bd3a7410753",
+          "printed_page": 290
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "f05e271cdea7ad9d18f6d26ba3d65f418351e6563a12f0d264a5ad283e47faae",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. Comma after arvslotter visible in facing-camera original; correction supported by both prints.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0317.1.tif",
+          "sha256": "aef2c3bcf7ebc80abccba1e3a6a0e4b926e74188df92e6199ae21f6003dd0549"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0318.1.tif",
+          "sha256": "9884e7815b07d84b79fa5d72b1e369cb349558cfa6f2764d599a95a7ec66315b"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n301.jpg",
+          "sha256": "38a3d003a6230ec59177c1237d0eff9b9a280b7b88589dd72c496bd3a7410753",
+          "printed_page": 290
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n302.jpg",
+          "sha256": "bafedf73111b8ade4ee1b088385714dffb36c255e719aa150a9f703553637cab",
+          "printed_page": 291
+        }
+      ],
+      "original_camera_witnesses": [
+        {
+          "chapter": 14,
+          "verse": 1,
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0303.jp2",
+          "sha256": "1566301c205d2e1364859f916bb3545095131703da80e854c6497bc1984ecab1",
+          "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0303.jp2",
+          "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0303-facing-detail.png",
+          "crop_sha256": "83968bf91fad06fbac6affe4bc6f129cc9b0003ed648f6990165f016e9a06f31",
+          "decision": "Comma after arvslotter visible in facing-camera original; correction supported by both prints.",
+          "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 63,
+      "text_sha256": "a21a7946aafef202f3653ae84a8ac39f8527e7a44a096804d296ed83efea42b4",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 15:7: Current Gilgal som without comma retained: EFS1926 leaf303 confirms it; EFS1927 p319 adds comma after Gilgal. 15:8: Current det berg som without comma retained: EFS1926 leaf303 confirms it; EFS1927 p319 adds comma after berg. Current västerut, i retained: EFS1926 confirms comma while EFS1927 lacks it. 15:12: Current runt omkring, efter retained: EFS1926 leaf303 confirms comma; EFS1927 p319 lacks it. 15:16: Current Åt den som and intager det vill retained: EFS1926 confirms no comma at either position. The comma after den was originally clipped in derived page/n303.jpg; original camera0305 facing-page crop shows full den and blank following margin, resolving it. EFS1927 p319 has commas after den and det. 15:54: Current Sior – nio retained: EFS1926 leaf304 confirms dash; EFS1927 p320 prints Sior, nio. Verified with original-resolution crop0320-right-top.png. Complete den and blank margin visible: no comma in 1926; retain current reading.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0318.1.tif",
+          "sha256": "9884e7815b07d84b79fa5d72b1e369cb349558cfa6f2764d599a95a7ec66315b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0319.1.tif",
+          "sha256": "f50763a9472d87f8ddd2d35dc2dbe5b41e0362f35fe8849fc698f02b1cf4e6fb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0320.1.tif",
+          "sha256": "44dbac5b860979e1b75cf513f9146bb3446191f3a0a3c022f30732b767021781"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n302.jpg",
+          "sha256": "bafedf73111b8ade4ee1b088385714dffb36c255e719aa150a9f703553637cab",
+          "printed_page": 291
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n303.jpg",
+          "sha256": "8398e56654f8817a912ed0825c8bb1f3161cf6d7f82f9ebfcf89fba29b39ae6e",
+          "printed_page": 292
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n304.jpg",
+          "sha256": "1cf87dddad86104eb77e8bd02d7661dd81e17df822402986c527718be380e673",
+          "printed_page": 293
+        }
+      ],
+      "original_camera_witnesses": [
+        {
+          "chapter": 15,
+          "verse": 16,
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0305.jp2",
+          "sha256": "e5fd3ae5eebbff7b275205e933c82cdb6b0460ce1e7e75b80c4c215dade4c518",
+          "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0305.jp2",
+          "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0305-resolved.png",
+          "crop_sha256": "03db30af4ba5b02cec14d5793306ef50a6c90c5770282a000d44d77939f67378",
+          "decision": "Complete den and blank margin visible: no comma in 1926; retain current reading.",
+          "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 10,
+      "text_sha256": "795729770b7dc8e6bb8ef84ac3a8db7c7413a9d06d4161843282c1b7d8a2dc8a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 16:3: Current jafletiternas retained: EFS1926 leaf304 confirms this spelling; EFS1927 p320 prints jafletiernas.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0320.1.tif",
+          "sha256": "44dbac5b860979e1b75cf513f9146bb3446191f3a0a3c022f30732b767021781"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0321.1.tif",
+          "sha256": "b885a5b617e6d26a23d374a790c4525ff6a6b607dfa3e85b70759977cbd8067c"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n304.jpg",
+          "sha256": "1cf87dddad86104eb77e8bd02d7661dd81e17df822402986c527718be380e673",
+          "printed_page": 293
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "3c7c59dd06e485698a04c2bcc97bef55941c42b0711dc8ac070f308ad36637b7",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 17:5: Current Manasse tio without comma retained: EFS1926 leaf305 confirms it; EFS1927 p321 prints Manasse, tio. Separate comma after lotter is supported by both and proposed as correction. 17:18: Current verse 18 begins utan du skall få en bergsbygd, as EFS1927 p322; EFS1926 leaf305 places these words at end of verse17 and begins verse18 som ju ock är en skogsbygd. Retain corpus numbering following EFS1927; no words added/deleted by this variant.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0321.1.tif",
+          "sha256": "b885a5b617e6d26a23d374a790c4525ff6a6b607dfa3e85b70759977cbd8067c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0322.1.tif",
+          "sha256": "3346c3f1c792ee81a0eb7335ff297832fea2b2feef9a457eab5bfa2b5a2f8b26"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n305.jpg",
+          "sha256": "86a66a8a3f0ce67a1cff66b06d4213c0e3999c17249336c7ad2f36c776d481ba",
+          "printed_page": 294
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n306.jpg",
+          "sha256": "808bfde6196090a0dd32e367006639ca7b176c41765873c59b4659a460092fe3",
+          "printed_page": 295
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "bfc0617ac74e73fb73088b82b8ea63d350621fdb520901e8618e076dd4c62200",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 18:11: Current stam, efter with comma retained: EFS1926 leaf306 confirms it; EFS1927 p323 lacks comma after stam. Separate missing commas around som lotten gav dem are supported by both. 18:14: Current berget som without comma retained: EFS1926 leaf306 confirms it; EFS1927 p323 adds comma after berget. 18:16: Current det berg som without comma retained: EFS1926 leaf306 confirms it; EFS1927 p323 adds comma after berg. 18:18: Current höjd som without comma retained: EFS1926 leaf307 confirms it; EFS1927 p323 adds comma after höjd.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0322.1.tif",
+          "sha256": "3346c3f1c792ee81a0eb7335ff297832fea2b2feef9a457eab5bfa2b5a2f8b26"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0323.1.tif",
+          "sha256": "362b69650da1ef251927af87031835084031d2e6db05de8059eb7412c3d35ed0"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n306.jpg",
+          "sha256": "808bfde6196090a0dd32e367006639ca7b176c41765873c59b4659a460092fe3",
+          "printed_page": 295
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n307.jpg",
+          "sha256": "8b1c12186c5063f7f88108f7daa65d33b96f82145af85929168b75b68ec4f270",
+          "printed_page": 296
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 51,
+      "text_sha256": "fd672fc003bdc30e4e090f2f27924d53e992924e8b02709ab8271238e718a59d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain Rimmon som without 1927 comma: supported by 1926 leaf307. 1926 comma after havet in19:29 and landet in19:49 is absent in1927; retain existing1927-supported punctuation.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0323.1.tif",
+          "sha256": "362b69650da1ef251927af87031835084031d2e6db05de8059eb7412c3d35ed0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0324.1.tif",
+          "sha256": "e369477f744d4b4db86bab10df1a7805e8db514eeeab76a6a980115e0d3214b6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0325.1.tif",
+          "sha256": "f1fc7bdad1e613e9941efeaf30a9b08d356f55c04365363d73b72cf85a447660"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n307.jpg",
+          "sha256": "8b1c12186c5063f7f88108f7daa65d33b96f82145af85929168b75b68ec4f270",
+          "printed_page": 296
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n308.jpg",
+          "sha256": "3502cbef8b1d588852057452d49bcaa22e16e0e2853ea585bfc3d39d509a7f08",
+          "printed_page": 297
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 9,
+      "text_sha256": "5d79910da1741e5acd9362294121bebc3c493d81f1376be518e465c32a90f1ad",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain 1927-supported absence of comma after städer in20:3, current comma after menigheten in20:6 and restore omitted phrase with1927 no-comma stad från. In20:9 retain1926 alla, comma after Israels barn, and absence of1927 commas after främlingar, orter, var och en and dödat någon.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0325.1.tif",
+          "sha256": "f1fc7bdad1e613e9941efeaf30a9b08d356f55c04365363d73b72cf85a447660"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0326.1.tif",
+          "sha256": "37f1a8593230cf4c2c7702b851aeca4f643fee6746dbe64ac2aeeba609c4ab7f"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n308.jpg",
+          "sha256": "3502cbef8b1d588852057452d49bcaa22e16e0e2853ea585bfc3d39d509a7f08",
+          "printed_page": 297
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n309.jpg",
+          "sha256": "4f7597fc8076d20e71b3c6e649f2a2d93c6ef30233781a30b0d423b05d1bf8d6",
+          "printed_page": 298
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "d792787efa9dfbd7e0926ee9bb1fe13f51c1bb72b63a80e5bde709695e2c3487",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Current punctuation retained where supported:1927 comma utmarker, genom21:8;1926 semicolon21:16;1927 comma tretton städer, med21:19 and tio, med21:26;1926 single och En-Gannim21:29 against1927 double och;1926 no comma städer med21:41 and goda som21:45. Anoks in21:11 is visibly present in both printings, retained despite unusual name.21:36–37 have only note markers in both printings, referring to Gamla testamentets text in Ordförkl.; no verse text is printed, so no invented corpus records. Footnote is excluded from Bible verse text.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0326.1.tif",
+          "sha256": "37f1a8593230cf4c2c7702b851aeca4f643fee6746dbe64ac2aeeba609c4ab7f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0327.1.tif",
+          "sha256": "b9de139b739540de0068ed47dfdd41ed5026d9834e3f8bd6409d90ba0a511969"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0328.1.tif",
+          "sha256": "5f37497bea969d41906612cffd5d556bf074d648e4d4ce715c9d8d9a47151503"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n309.jpg",
+          "sha256": "4f7597fc8076d20e71b3c6e649f2a2d93c6ef30233781a30b0d423b05d1bf8d6",
+          "printed_page": 298
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n310.jpg",
+          "sha256": "ae20bd5dd6d864c328b9a567dc3c1fec10e8d0539573e04481e5c04e11954044",
+          "printed_page": 299
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n311.jpg",
+          "sha256": "1efbd6dd154579268cf575b52f1582f886b4257dfd555795f3cc9cfb94011b19",
+          "printed_page": 300
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "22430e5f6f0019983f3b01e212e6d975637c09d2906b2a7d283c6502f8b81cb1",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain current witness-supported variants:1926 lacks1927 commas after allt22:2, land22:4, lag22:5, land (both places)22:19;1927 supports commas in22:9 after Kanaans land, besittning and besittningar and in22:17 after renade.22:16 current lacks1926 nested quote before Vad (1927 supports current).22:23 current utkräva vad supported1927;22:27 comma eder, och supported1927, tackoffer, så supported1926;22:28 slaktoffer, utan supported1927 against1926 semicolon;22:30 current ätter, som supported1927 and barn talade supported1926;22:31 opening quote supported1926 (1927 omitted);22:32 Gads barn, i Gileads land supported1926 (1927 lacks comma).",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0328.1.tif",
+          "sha256": "5f37497bea969d41906612cffd5d556bf074d648e4d4ce715c9d8d9a47151503"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0329.1.tif",
+          "sha256": "f9314ce9857069336651d3d2bc942ac3e3fb7d7af06dd9a0f7217770aa47c64a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0330.1.tif",
+          "sha256": "b7bae69f0fbfd8d6c0eb5e7b5e62e4a62e7e12076bdf781f3eaac4db323d934e"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n311.jpg",
+          "sha256": "1efbd6dd154579268cf575b52f1582f886b4257dfd555795f3cc9cfb94011b19",
+          "printed_page": 300
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n312.jpg",
+          "sha256": "c8f599242439eafdd4ebb4e22ae0aaed49c4444ea4105ac3dd1b4e0d1fd00449",
+          "printed_page": 301
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n313.jpg",
+          "sha256": "7104ee28adf72023a478aeb9ef7fadacf3275c242a8e8c1244b16a5c1008637d",
+          "printed_page": 302
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 23,
+      "status": "verified",
+      "verse_count": 16,
+      "text_sha256": "5d0de466ba4e7591dd82528ba76179f25e7c9025789f389e8a793dedcec3c87a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain current punctuation supported by a witness:1927 omkring, och23:1, därifrån vare23:6, eder, och23:12 and land, som23:13/15;1926 allt vad23:3, folk jag23:4, eder och förjaga23:5, folk som23:12 and goda som23:14.23:8 current eder Gud word spacing is supported1926;1927 visibly has ederGud.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0330.1.tif",
+          "sha256": "b7bae69f0fbfd8d6c0eb5e7b5e62e4a62e7e12076bdf781f3eaac4db323d934e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0331.1.tif",
+          "sha256": "4af6d0889aa71eae2e3e43d5e3ed1c7600be53023dc136bb6b0ebe74e8a6ecb8"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n313.jpg",
+          "sha256": "7104ee28adf72023a478aeb9ef7fadacf3275c242a8e8c1244b16a5c1008637d",
+          "printed_page": 302
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n314.jpg",
+          "sha256": "19655274c6edc7369bed43b7b4a15c70cf2542cc893f4e7dcf5df1ed9e81f392",
+          "printed_page": 303
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "a2c9614558e60ccc1eb6b52462c3483fcefabd3091421d4e72e7b9cc8966558c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain current witness-supported readings:1927 Bileam, utan24:10 and där, under24:26;1926 olivplanteringar som / planterat fingen24:13, mitt hus, vi24:15, den som24:17, opening quotes24:19 and24:22 (1927 lacks them), ord som24:27, härefter24:29 (1927 därefter), gärningar HERREN24:31, jordstycke som24:32, Pinehas' stad, Gibea,24:33 (1927 no comma before Gibea).24:31 commas after first levde and Josua follow1927 against1926.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0331.1.tif",
+          "sha256": "4af6d0889aa71eae2e3e43d5e3ed1c7600be53023dc136bb6b0ebe74e8a6ecb8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0332.1.tif",
+          "sha256": "8341d1d05019da73ed4eb6940fb6b2895f9dfd6a15a4c064b8f87859458e1e91"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0333.1.tif",
+          "sha256": "868235f213b28c9f4539f474299d234574ed4a95ebc46c104039ee0918982970"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n314.jpg",
+          "sha256": "19655274c6edc7369bed43b7b4a15c70cf2542cc893f4e7dcf5df1ed9e81f392",
+          "printed_page": 303
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n315.jpg",
+          "sha256": "dc9f6634f35019dde242551004e919c02bff2826a59b0d6f3c4228308318def4",
+          "printed_page": 304
+        }
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "id": "JOS001",
+      "book": "Josh",
+      "chapter": 1,
+      "verse": 3,
+      "old": "ort som eder fot beträder",
+      "new": "ort, som eder fot beträder,",
+      "old_verse_sha256": "ea8b42e396c54e0451f11b6a9513322cc95cb7fdd957795b88cf1e109e5ac4d1",
+      "new_verse_sha256": "78773087f12e2ed43c85558f7b0c7562d5c2e154ae425b30a62314cd2aa7e42b",
+      "runeberg_pages": [
+        298
+      ],
+      "ia_leaves": [
+        284
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS002",
+      "book": "Josh",
+      "chapter": 1,
+      "verse": 6,
+      "old": "land",
+      "new": "land,",
+      "old_verse_sha256": "6f41808ad7f278fbf8a1dd65a457bac7bbfd569fdba27973e0803a74113efe56",
+      "new_verse_sha256": "52ccd186d67b9f817e94624de3c602b4ae2830e823fba676c97e874b53a3212c",
+      "runeberg_pages": [
+        298
+      ],
+      "ia_leaves": [
+        284
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS003",
+      "book": "Josh",
+      "chapter": 1,
+      "verse": 7,
+      "old": "lag som min tjänare Mose har givit dig",
+      "new": "lag, som min tjänare Mose har givit dig,",
+      "old_verse_sha256": "44b810a54a92fc113cb6e7a810f8893aca96b2a204d51003e9466c7e39e322ad",
+      "new_verse_sha256": "85e7398b5aeabadb6534c57cd83d11799c2bd29d8c7cf12a9f429b609aa6a374",
+      "runeberg_pages": [
+        299
+      ],
+      "ia_leaves": [
+        284
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS004",
+      "book": "Josh",
+      "chapter": 1,
+      "verse": 11,
+      "old": "land",
+      "new": "land,",
+      "old_verse_sha256": "4827d1751d409fb0336b5045ce464e67324b0d93e70defda5deaaa06297a9968",
+      "new_verse_sha256": "e229d85468a52228abbc0b768fb63799f4c2cebe188a906b9975b820549028a6",
+      "runeberg_pages": [
+        299
+      ],
+      "ia_leaves": [
+        284
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS005",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 1,
+      "old": "hus",
+      "new": "hus,",
+      "old_verse_sha256": "5dedd9d1e0d76822258d048c425afde065a9e00d9e49c732b950bead5d4e1a0a",
+      "new_verse_sha256": "af09341c88ce77de4c693e8ed94eee8079a494afb679886e64fcfc91315767f7",
+      "runeberg_pages": [
+        299
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS006",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 3,
+      "old": "män",
+      "new": "män,",
+      "old_verse_sha256": "3cb23d77c4b12caffd0090214e35527e819a001cdb8d7ca9398627a8c925a0ed",
+      "new_verse_sha256": "dac88289f24648401f0ad5c60ad54f474032376858d5991b8d0e11db622a3f84",
+      "runeberg_pages": [
+        299
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS007",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 4,
+      "old": "icke",
+      "new": "icke,",
+      "old_verse_sha256": "cf14922dfaecc9be96621b7722cfdd9147ef2c44853e45f833fc0f028a31c632",
+      "new_verse_sha256": "8541ca9e7977d996591c23feed25c1a28ce3fb6e908ac44c0d552b33a5c9a830",
+      "runeberg_pages": [
+        299
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS008",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 5,
+      "old": "icke",
+      "new": "icke,",
+      "old_verse_sha256": "4ec3560152da94a49babdc7da80cb1fa55e399eda3ed3c94e4bdd0fcbb1d57dd",
+      "new_verse_sha256": "3ea9593291e2d74d1bf13eaa232610208c70d8b3b7bfbdc083bae731b354ea30",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS009",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 7,
+      "old": "stadsporten",
+      "new": "stadsporten,",
+      "old_verse_sha256": "f4f2d611690f401ee89cf3b562db5913aa1b22a9e5bdd9b7e5d070bf98e65d93",
+      "new_verse_sha256": "19331c5fb54ea1927d595708f5132119e540b65263c2b44dac079701be0dceee",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS010",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 9,
+      "old": "vet",
+      "new": "vet,",
+      "old_verse_sha256": "1fa7b126906941d0b2d5b0229071cf87bbdd16136403d06320abceaf322b49a5",
+      "new_verse_sha256": "21a3f4db3d13ba1f53fd6cbcdb51c2e0209e1637001dd656668222318f45a4a5",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS011",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 10,
+      "old": "hört",
+      "new": "hört,",
+      "old_verse_sha256": "720db776da6c1fe2f63c0fd0a2664105be41cc0987415bee20793f43cf4ab85d",
+      "new_verse_sha256": "f7c53b70484dcfb2fe8f984a898541ed1073f131eb8fa2fdcca7c771c9fc403f",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        285
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS012",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 11,
+      "old": "är Gud,",
+      "new": "är Gud",
+      "old_verse_sha256": "37006710cfdbb7398bc97ef0faa9e193dc7eb90aae6ed26386e79d479764d806",
+      "new_verse_sha256": "ba97dc974c635527361a00e4277647dec7ec08f6f1da477be3667be93f29839a",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        286
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS013",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 12,
+      "old": "min",
+      "new": "eder, så skolen I ock göra barmhärtighet med min",
+      "old_verse_sha256": "13ae7f892bd7320fac91b4f8e4efd56b648b37c94a949c63b4e50e2fa30c6a32",
+      "new_verse_sha256": "da9faf0c46b8dc2cfe377f7c7c97a76258b764279a5f69bbe23f6139f6c49369",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        286
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS014",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 18,
+      "old": "fönster",
+      "new": "fönster,",
+      "old_verse_sha256": "619a39a7110f813e416949389294cf51bf08fc72f0135f00383fcf2c23b03370",
+      "new_verse_sha256": "5efb95d66b086f42b29ac874faed3934388bbaee1db3df903854727e26a288a9",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        286
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS015",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 19,
+      "old": "huvud,",
+      "new": "eget huvud,",
+      "old_verse_sha256": "6f0c3ab54ef5023460ca2d974eda6e45ca46df89d049253ee72d73ac263d230d",
+      "new_verse_sha256": "faf5eac5f0eb349e433dd7c20292a0c7208b43277371eaf1186cb71d80bc1dce",
+      "runeberg_pages": [
+        300
+      ],
+      "ia_leaves": [
+        286
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS016",
+      "book": "Josh",
+      "chapter": 2,
+      "verse": 24,
+      "old": "äro i",
+      "new": "äro ock i",
+      "old_verse_sha256": "9ed62e3bb16509a0ae126e99c58f1469af9b3f8afe9880d4fa5917750119c6c5",
+      "new_verse_sha256": "68b693cded05f4bb93c8699856b8d67ecf403e5041a43d74b543c5d46e9ec7b8",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        286
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS017",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 4,
+      "old": "veta",
+      "new": "veta,",
+      "old_verse_sha256": "83ea13b098a9664ca5ad47c4f500ee3e73b594bd888316e24f3e2a201dc05f4e",
+      "new_verse_sha256": "bd5c7e76ea688c9b6208a7c745889c2357e58140c7ef83be7258b5a1708dcc23",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        286
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS018",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 8,
+      "old": "förbundsarken",
+      "new": "förbundsarken,",
+      "old_verse_sha256": "7982a8f0dbfad667c153b6ceb3071ca732cbe573fceecb9054517fa8f5208422",
+      "new_verse_sha256": "e26398980dbd38f65cb87e8e9712b6dd46f3fcfb7b47fa3c32dc3dd5e642aded",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS019",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 10,
+      "old": "förnimma",
+      "new": "förnimma,",
+      "old_verse_sha256": "ca99024ecde33a953027abf3eec6f741cd67a75aaf07fd597dd741cefa37959f",
+      "new_verse_sha256": "db70badb4dc79bafe7575dea9a515fea282bdabb337829a13a4a3e4fb774d218",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS020",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 13,
+      "old": "prästerna som bära HERRENS, hela jordens Herres, ark stå stilla med sina fötter i",
+      "new": "prästerna, som bära HERRENS, hela jordens Herres, ark, stå stilla med sina fötter i Jordans vatten, skall",
+      "old_verse_sha256": "f810301dc59bad4fe4ff2d547705226acb10c91b6342e84c64a90f90f4f9b234",
+      "new_verse_sha256": "a7599729e72fa035d04ed725c7274b819d0051e36c1b9a796ab674765716e8e9",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS021",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 14,
+      "old": "prästerna som buro förbundsarken",
+      "new": "prästerna, som buro förbundsarken,",
+      "old_verse_sha256": "36a674cb69917f02cb223642cc2154dab6bd7b08998e8682651e873c371620f6",
+      "new_verse_sha256": "ff7ded0376a7387106fd58d9925d07024b92f83ec389bbf979063e38a705c042",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS022",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 15,
+      "old": "de som buro arken",
+      "new": "de, som buro arken,",
+      "old_verse_sha256": "fcc04582a64700a960beeaee61f62f8c0753c2e8fe328c88784e64841acac856",
+      "new_verse_sha256": "bfc3a32e284341dc91eb280d3836155c45d1e492755f4b928eace78f97af8e60",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS023",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 16,
+      "old": "stannade det vatten",
+      "new": "stannade det vatten,",
+      "old_verse_sha256": "cadf74cc1f0d61817ed1f4241a844af2c65ccc37c16630f115be4116984a611f",
+      "new_verse_sha256": "f50e06a840bbcc2cd81e14db102e4ab7a8997c22c701218ccec0c1e8e451d1d0",
+      "runeberg_pages": [
+        301
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS024",
+      "book": "Josh",
+      "chapter": 3,
+      "verse": 17,
+      "old": "prästerna som buro HERRENS förbundsark",
+      "new": "prästerna, som buro HERRENS förbundsark,",
+      "old_verse_sha256": "a20490a22daa5b96642f59cb564e93c648e788835ec016e4dad3df45785f97e0",
+      "new_verse_sha256": "e3de9d6f44e09d47f309056d77353eb73913783e23c0d239365c7eb2277ca915",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS025",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 4,
+      "old": "män",
+      "new": "män,",
+      "old_verse_sha256": "8fd0fd0eb5d5bcfc81dd19d4030ec3d92fa45501a717cb858e874655bd204f80",
+      "new_verse_sha256": "63f959173486d4b643c6d9331112a0654ff7e0d11ebc38d949e76aabf9cc3736",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS026",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 7,
+      "old": "betyda",
+      "new": "betyda,",
+      "old_verse_sha256": "060d0b3ec459adebd8b7ab0b067e59924ad921d04ad52cd31beda474c699ef7f",
+      "new_verse_sha256": "f676e7a51d07b847cfba3bb3b60e1e46496de0803d73bc22c418565c931df8fc",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        287
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS027",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 9,
+      "old": "prästerna som buro förbundsarken",
+      "new": "prästerna, som buro förbundsarken,",
+      "old_verse_sha256": "584de4ea37a3f879f33874fc6b672c291fa53d8320fdf278e8572a64902fab5e",
+      "new_verse_sha256": "5f8f07fa05aa7b7f081f38ce8921a5ab6e9dfe4d28b84c9fbbb2ea9bb5464fcc",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS028",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 10,
+      "old": "prästerna som buro arken",
+      "new": "prästerna, som buro arken,",
+      "old_verse_sha256": "2d0b7aebe952d68d38d076d1c5e26ed280e8a545c96c5f81a5902e8519e32da8",
+      "new_verse_sha256": "e5fef315684cf731b190b43afe8443f642458631d1e25bf15944ff928ee41e07",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS029",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 11,
+      "old": "ark över,",
+      "new": "ark över",
+      "old_verse_sha256": "e8b7de46b3f3438b8f66b4890dbe156c26879c0a9d77ee7848bfe40758d966ae",
+      "new_verse_sha256": "44b32fb05e885e00f59d08a7f2eacb54cbc8a1fbbc4aeff5709bb690f38328bc",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS030",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 14,
+      "old": "fruktat",
+      "new": "hade fruktat",
+      "old_verse_sha256": "24bba3c33a8d532172946313ab971ed079152f430faf3e28b61d75213afc1719",
+      "new_verse_sha256": "0ca20b4d2d3e77d8f5b233ff8caf9da30c5f2a41bb4665772c951d4be1f769f0",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS031",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 16,
+      "old": "prästerna som bära vittnesbördets ark",
+      "new": "prästerna, som bära vittnesbördets ark,",
+      "old_verse_sha256": "36e5262cfad30787f4962bd0813baab5bc2571158c2aa7930d9e1b10813a6842",
+      "new_verse_sha256": "cb3178ad2c1796f7bf71402003707336e40b4d5728e6289dc1107217ad41a3d2",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS032",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 18,
+      "old": "prästerna som buro HERRENS förbundsark",
+      "new": "prästerna, som buro HERRENS förbundsark,",
+      "old_verse_sha256": "821230dfbc5a47c5fe38214ccf6489c04a12d6eec510efea028beb01213b0a01",
+      "new_verse_sha256": "9da84eec8a2a8f8e7eaf0fd740f6b2ecf3bb9a185d35c2ed05811771638a250a",
+      "runeberg_pages": [
+        302
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS033",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 19,
+      "old": "månaden",
+      "new": "månaden,",
+      "old_verse_sha256": "ac1fc3a68b70a48a9608beb40051894658bf98a23b835e7415a59887f654da47",
+      "new_verse_sha256": "9f7ac8a98051d9bd367b32366563bb702e01d2c39443ad8407e5ce73bf855132",
+      "runeberg_pages": [
+        303
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS034",
+      "book": "Josh",
+      "chapter": 4,
+      "verse": 20,
+      "old": "stenarna som de hade tagit ur Jordan",
+      "new": "stenarna, som de hade tagit ur Jordan,",
+      "old_verse_sha256": "5203c391d42945feb1a41f65bc0f7cef3e85205ecba05b0a9db268e741fac7e9",
+      "new_verse_sha256": "9567b64d3df80374c48a7858249465b3cb8cec9180683c16eb3e7db2df95394e",
+      "runeberg_pages": [
+        303
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS035",
+      "book": "Josh",
+      "chapter": 5,
+      "verse": 1,
+      "old": "hörde",
+      "new": "hörde,",
+      "old_verse_sha256": "10f45ca7f49ce122ba7eac7d937a471b23683f67e2937857dd5b47a4a251b4b9",
+      "new_verse_sha256": "05bad6c4e6e3008027715f5015677ecbc8dc50c7842446675f72141d6f1d352b",
+      "runeberg_pages": [
+        303
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS036",
+      "book": "Josh",
+      "chapter": 5,
+      "verse": 4,
+      "old": "orsaken varför Josua omskar dem",
+      "new": "orsaken, varför Josua omskar dem,",
+      "old_verse_sha256": "7c7d91526f67ef651d054dd90176c97b118bbd53ab2305bf539e88444639e6e9",
+      "new_verse_sha256": "9d7cba3d0111575c7a20be85533b2c0db501e6925b1c3b17f9e2ccc69e1c434c",
+      "runeberg_pages": [
+        303
+      ],
+      "ia_leaves": [
+        288
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS037",
+      "book": "Josh",
+      "chapter": 5,
+      "verse": 6,
+      "old": "svor att han icke skulle låta dem se det land",
+      "new": "svor, att han icke skulle låta dem se det land,",
+      "old_verse_sha256": "f512b617da561acb44a012fd71eb6bd8a3bd608ac68a7868227d80b2e5862f40",
+      "new_verse_sha256": "a2dbee1453b2cbe17cca1d87ca9960533ad12ce2bea2e2ba7c3972fa94267d47",
+      "runeberg_pages": [
+        303
+      ],
+      "ia_leaves": [
+        289
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS038",
+      "book": "Josh",
+      "chapter": 5,
+      "verse": 8,
+      "old": "kvar",
+      "new": "kvar,",
+      "old_verse_sha256": "304d733735a348fb1583059a5851e6824ee16dbcf17d598dc4c9501e1c07d2a5",
+      "new_verse_sha256": "51c702e6e20ea4b2f27a1019391cb41afdd7008e9dd071e31e87751c26e05af0",
+      "runeberg_pages": [
+        303
+      ],
+      "ia_leaves": [
+        289
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS039",
+      "book": "Josh",
+      "chapter": 5,
+      "verse": 13,
+      "old": "hände sig",
+      "new": "hände sig,",
+      "old_verse_sha256": "4ff52815a59d35307c80b5c5700ee007210b8b60f92175d4cf46b9d0a4aa49d6",
+      "new_verse_sha256": "afe5d841e5d8843456c0a730d2240c8cf27d0a13813ff1589f46dff9234eca1b",
+      "runeberg_pages": [
+        304
+      ],
+      "ia_leaves": [
+        289
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS040",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 8,
+      "old": "jubelbasunerna framför HERREN",
+      "new": "de sju jubelbasunerna framför HERREN,",
+      "old_verse_sha256": "7120c206d6e0ae2d5b0587686585e92b66ecd50da76dbf3d86fe8d77c56e794e",
+      "new_verse_sha256": "6680328a891d1706b3eda7da1200fe7904519255d53d61a42163354000b5d771",
+      "runeberg_pages": [
+        304
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked.",
+      "original_camera_witness": {
+        "chapter": 6,
+        "verse": 8,
+        "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0291.jp2",
+        "sha256": "ebf056e711158a08a9d4f3c22044da1618a83d636c4617452cdae43033d55f52",
+        "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0291.jp2",
+        "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0291-6-8-last.png",
+        "crop_sha256": "ed784de6eeff03f4b92c614940eda048ab4b821982683aad9b341c6cb19b44b2",
+        "decision": "1926 has präster som; retain existing form against 1927 prästerna, som.",
+        "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+      }
+    },
+    {
+      "id": "JOS041",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 10,
+      "old": "dag",
+      "new": "dag,",
+      "old_verse_sha256": "133c6472c2c2dbbc7707b8a45fe0bbd6b61eab7e46d0bf1e40e018db31dd7734",
+      "new_verse_sha256": "7ae6aa91ce17603a15aa4df75793d5aed9c2062ef59b61fce98b2b24d6add056",
+      "runeberg_pages": [
+        304
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS042",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 13,
+      "old": "präster som buro de sju jubelbasunerna framför HERRENS ark",
+      "new": "präster, som buro de sju jubelbasunerna framför HERRENS ark,",
+      "old_verse_sha256": "6ebced8b20c296cf267e307a57888ba21ad80046abc2e6c2c7b2ff2ea3e1850b",
+      "new_verse_sha256": "4b77ab238e0971dff33485d63e3bfbdbc9fb9838b6f23db209a0f98af6f81f3d",
+      "runeberg_pages": [
+        305
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS043",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 17,
+      "old": "leva, jämte alla som äro inne i hennes hus, därför att hon gömde de utskickade",
+      "new": "leva jämte alla som äro inne i hennes hus, därför att hon gömde de utskickade,",
+      "old_verse_sha256": "5604303c4a36d8646b71e34bc9f0d797e3609829c408c68e2db8ff8fa1dd6c4e",
+      "new_verse_sha256": "ce94f503fed90447e252b917c5048828e4a42b192a762930014c05568a7dec0e",
+      "runeberg_pages": [
+        305
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS044",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 22,
+      "old": "kvinnan,",
+      "new": "kvinnan",
+      "old_verse_sha256": "cc2dfbf76003d7d6dbfee130cfc1086c6be5cbbb2958f4523566342f63bfd8a6",
+      "new_verse_sha256": "c9655f3ca7a80b32e70c1748d95433031e9dc6b72a1d782be6bfe80a51dc0f2d",
+      "runeberg_pages": [
+        305
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS045",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 23,
+      "old": "män som hade varit där såsom spejare ditin och förde ut Rahab, jämte hennes fader och moder och hennes bröder och alla",
+      "new": "män, som hade varit där såsom spejare, ditin och förde ut Rahab, jämte hennes fader och moder och hennes bröder och alla,",
+      "old_verse_sha256": "36878df52ef587eb7be1a06123f6a77521ed1dec9ff0d37640eb037e9b3032d0",
+      "new_verse_sha256": "2eb1d99853776b5db1445b35e69fb2cf110a4a615d5095996e29f39aece79b4a",
+      "runeberg_pages": [
+        305
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS046",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 25,
+      "old": "utskickade",
+      "new": "utskickade,",
+      "old_verse_sha256": "4a51e9cbae2ed34d64937a7577b0e62fd4cab9607e366477013397fe24459fd6",
+      "new_verse_sha256": "fee84e1d83b2bb6a853729198ec506093e87c47f7d7144182bcc06639b3d353e",
+      "runeberg_pages": [
+        305
+      ],
+      "ia_leaves": [
+        290
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS047",
+      "book": "Josh",
+      "chapter": 6,
+      "verse": 26,
+      "old": "man",
+      "new": "man,",
+      "old_verse_sha256": "1a9fe752b9a5d590c8d7020c044800ea36728062c34c90c466f6882957e6dfaa",
+      "new_verse_sha256": "151ec5e5f8e50f4c409a39b20076db9a0e4afea6ba7dde5a94709cee827a90e9",
+      "runeberg_pages": [
+        305
+      ],
+      "ia_leaves": [
+        291
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS048",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 6,
+      "old": "kläder,",
+      "new": "kläder",
+      "old_verse_sha256": "1700f4cde4c681d35b88c408c53d9b08a0352b310d6d17b72ddb0f621c081393",
+      "new_verse_sha256": "b7c02d4ecb33d73c1fb5472db7b0f7c37e035a9f1acfa853466e0f001e4cfc57",
+      "runeberg_pages": [
+        306
+      ],
+      "ia_leaves": [
+        291
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS049",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 7,
+      "old": "giva i",
+      "new": "giva oss i",
+      "old_verse_sha256": "2fef869f87b924aa94e0460f66d25d03fcd09f0a63c856d209ea0f7a64c7236b",
+      "new_verse_sha256": "3e1099ff99e1bd8df0219f04f01a45d1f24932a101c61cbb3621c3d1c861786b",
+      "runeberg_pages": [
+        306
+      ],
+      "ia_leaves": [
+        291
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS050",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 11,
+      "old": "förbund",
+      "new": "förbund,",
+      "old_verse_sha256": "1c115ddb37aefdd40029a86b20c9930474e6a7bfc91692cb018b76f1b8d8dbf7",
+      "new_verse_sha256": "ecb8c99156f7308ce9a284253868133dc7337a7e6c27d29a85c70883b75b5a9f",
+      "runeberg_pages": [
+        306
+      ],
+      "ia_leaves": [
+        291
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS051",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 18,
+      "old": "Sera",
+      "new": "Sera,",
+      "old_verse_sha256": "45f75cc37ea3d4f84644531ff01ca8fb9f9d0a23226adae0aca2e6dc64a1715e",
+      "new_verse_sha256": "7e8b95e0f77e1d35441f148c576d17b87f4c4b237baeebe7be20d5696ce6d101",
+      "runeberg_pages": [
+        307
+      ],
+      "ia_leaves": [
+        292
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS052",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 19,
+      "old": "mig vad du",
+      "new": "mig, vad du har",
+      "old_verse_sha256": "7aca716a618dff172d5ae473dbf7137b4aa172a41dedbd8ffe0b618ae836bc79",
+      "new_verse_sha256": "0ff1fdfac06e0cd47076860ef9fa1cf28980a13098450ed751bb32988e98be2b",
+      "runeberg_pages": [
+        307
+      ],
+      "ia_leaves": [
+        292
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS053",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 21,
+      "old": "begärelse",
+      "new": "jag begärelse",
+      "old_verse_sha256": "e2dad224f25691e0732e0bfca3b1bb5bad397488666fed040006c8ca4c3bf5c3",
+      "new_verse_sha256": "f509dd3de478e3b54eedafd3f1d1ad60b3ef9e28479381ccf020ae356ee83b6b",
+      "runeberg_pages": [
+        307
+      ],
+      "ia_leaves": [
+        292
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS054",
+      "book": "Josh",
+      "chapter": 7,
+      "verse": 24,
+      "old": "övrigt",
+      "new": "övrigt,",
+      "old_verse_sha256": "ff731176b46b1ed6c88b83aa10ebe54720db7d8eae03bd2f7cadc8e1607e1142",
+      "new_verse_sha256": "d06a1a78342590708867ae09c33c6405f0eea67813d208c576ae6404035a7f4c",
+      "runeberg_pages": [
+        307
+      ],
+      "ia_leaves": [
+        292
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS055",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 6,
+      "old": "flyr",
+      "new": "fly",
+      "old_verse_sha256": "0b8a27fa3ed2922cd096afa29a37109f7f7c17290a76ac48e0830a677a2e8183",
+      "new_verse_sha256": "36f158697975f2de6afef5769500cf3fcb44df5397f0f9fa69c932df09129d5a",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS056",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 10,
+      "old": "så, med de äldste i Israel i spetsen för folket,",
+      "new": "så med de äldste i Israel i spetsen för folket",
+      "old_verse_sha256": "9e5a90dc38ab8596bf31973f251feefdcc92cedf44f033ceb553c36c1a92163f",
+      "new_verse_sha256": "aee1ef7d5a6e35571547c666651b8f17518299f840d920152ddffebb7be83ef8",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS057",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 11,
+      "old": "krigsfolk som var kvar hos honom",
+      "new": "krigsfolk, som var kvar hos honom,",
+      "old_verse_sha256": "4e62e6b08a27b9c736fbf718ed2f254a3dc3788f61d5212d10509e2526cfaeb6",
+      "new_verse_sha256": "5a5ff717f920a5060ad169958cf73659965a6d607f4f788d8a627c0b0a52c035",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS058",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 13,
+      "old": "gick",
+      "new": "som ock den del därav, som låg i försåt, väster om staden, gick",
+      "old_verse_sha256": "a201ef4dc18dcd669bf4b6af91b8057989f6b5eebb8a8bc6a4dce9599ca29310",
+      "new_verse_sha256": "a3a6eb9eabe9c0343949caf3cf71fa1686325d975cda9632c631256d3df630d5",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS059",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 14,
+      "old": "själv visste nämligen icke",
+      "new": "visste nämligen icke,",
+      "old_verse_sha256": "96eef1d8bc9f5fcab0369bbe4b24ca42864c39a2ae3bd714fd8d8505c31431b2",
+      "new_verse_sha256": "8faf863cbd792592c3cac57d10aee8d2eddf6096687e0093754082b84ad9b2f0",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS060",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 20,
+      "old": "folk som flydde åt öknen",
+      "new": "folk, som flydde åt öknen,",
+      "old_verse_sha256": "88e8107bcf04357e00e05d557c453f0a4c4e7811601f4805d0dd86fd9369e347",
+      "new_verse_sha256": "f14f55c8f662564d121bacd0a4774252f6adf835a65adde72eb8dc2b8fb65863",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS061",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 21,
+      "old": "sågo",
+      "new": "sågo,",
+      "old_verse_sha256": "9ad9fe20fcb61e3cff5a5e548bdee2e27b567ec7635ca4ae096a892261509003",
+      "new_verse_sha256": "2e1056eb9e35e3dba491a23622b7eb2ccd8408694f08181021b0b89c3fc95785",
+      "runeberg_pages": [
+        308
+      ],
+      "ia_leaves": [
+        293
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS062",
+      "book": "Josh",
+      "chapter": 8,
+      "verse": 33,
+      "old": "prästerna",
+      "new": "prästerna,",
+      "old_verse_sha256": "48ef4f3dea2294c5b5e835cf7ae385017b21ccf9140c8c632830443db75c1395",
+      "new_verse_sha256": "74c3d6e38515df4ff768a194f50a041453f55e712d92a06fc939afea6a08972d",
+      "runeberg_pages": [
+        309
+      ],
+      "ia_leaves": [
+        294
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS063",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 1,
+      "old": "konungar som bodde på andra sidan Jordan, i Bergsbygden, i Låglandet och i hela kustlandet",
+      "new": "konungar, som bodde på andra sidan Jordan, i Bergsbygden, i Låglandet och i hela Kustlandet",
+      "old_verse_sha256": "720356005fb9957d762724c9260917747407e97eeaf94ac98090cbf42b67f64b",
+      "new_verse_sha256": "19545c19d8bb35854d0d385dda1fe3218f97a3096716e0f4a42724ac82404850",
+      "runeberg_pages": [
+        309
+      ],
+      "ia_leaves": [
+        294
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS064",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 3,
+      "old": "hörde",
+      "new": "hörde,",
+      "old_verse_sha256": "d6ee953e74d9fc690bda118bd57805c42c509d9fd1d0307d75c073d5e096f8df",
+      "new_verse_sha256": "9fe0f2f9f0c1fc2810cbec4e2db73b54de8ba683d9a9cd6ef925ffb26679ea13",
+      "runeberg_pages": [
+        310
+      ],
+      "ia_leaves": [
+        294
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS065",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 13,
+      "old": "skor som vi hava på oss",
+      "new": "skor, som vi hava på oss,",
+      "old_verse_sha256": "511d94a03a0db2f8afc80b52e8aeb53562d7fb2dea4bf555fd59b4b79675522b",
+      "new_verse_sha256": "5dee0ca2131f63b6e0df948f86c9444c746deb001d168096c6a5fbfbb9f2b32e",
+      "runeberg_pages": [
+        310
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS066",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 16,
+      "old": "höra",
+      "new": "höra,",
+      "old_verse_sha256": "eab415fc7506e6ddbabbe3bc9258d001693164f831dcd781d6a1be4f32c0503c",
+      "new_verse_sha256": "75e311314dd6e557f12bb336162d3ba07d1d5797f49769d6cab3e7d189ccdfb5",
+      "runeberg_pages": [
+        310
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS067",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 19,
+      "old": "menigheten:",
+      "new": "hela menigheten:",
+      "old_verse_sha256": "7f8dd6dd929f4a9e6db4d179d38b74f77587f426b60c4790e6fcd24b38b4070c",
+      "new_verse_sha256": "46a9d17eb647d593e5e90b59d4df7e3d377f3dadcd97ce0186e00078db7e2d75",
+      "runeberg_pages": [
+        310
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS068",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 20,
+      "old": "är vad vi vilja göra med dem, i det att vi låta dem leva, på det att icke förtörnelse må komma över oss, för edens skull",
+      "new": "är, vad vi vilja göra med dem, i det att vi låta dem leva, på det att icke förtörnelse må komma över oss för edens skull,",
+      "old_verse_sha256": "7d9b1730b7126c9d3e9f9a086be65fde786332e61090566685ff7722c0807c6e",
+      "new_verse_sha256": "01fd5c2745172a6c41c7eeb3d7afb039046cf25b6a2c025f03bc448367bef731",
+      "runeberg_pages": [
+        310
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS069",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 21,
+      "old": "sade till dem",
+      "new": "sade till dem,",
+      "old_verse_sha256": "6e70d6df00c70a672d1113e2bc936022f2a6df2e294fed8cce1a78f04ad156bf",
+      "new_verse_sha256": "0f9d53aa839b76ff1d8a163b13bac435cbbf27d708e26dfc2bcfd52a193c1381",
+      "runeberg_pages": [
+        311
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS070",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 24,
+      "old": "tjänare huru HERREN, din Gud, hade tillsagt sin tjänare Mose",
+      "new": "tjänare, huru HERREN, din Gud, hade tillsagt sin tjänare Mose,",
+      "old_verse_sha256": "bc4d5b3d397b1b6703e932319ddd710d36a57a40e35d14115281ae3348af631e",
+      "new_verse_sha256": "45254ef923f68b7ce22ea6183b4e7eec78fb9661159c4248b867852909b0ab98",
+      "runeberg_pages": [
+        311
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS071",
+      "book": "Josh",
+      "chapter": 9,
+      "verse": 27,
+      "old": "dagen att de skulle bliva vedhuggare och vattenbärare",
+      "new": "dagen, att de skulle bliva vedhuggare och vattenbärare åt menigheten",
+      "old_verse_sha256": "0b1d9cc70f2dc32b3426010678323705e2492d83e5ed46db52bafe1a29ef242c",
+      "new_verse_sha256": "d13d0463d548c0c9aec64551b159ee265c922ad585af7b6af726dd646dc7b8f0",
+      "runeberg_pages": [
+        311
+      ],
+      "ia_leaves": [
+        295
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS072",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 1,
+      "old": "hörde",
+      "new": "hörde,",
+      "old_verse_sha256": "526f455f48ec27302fea4c8e7cc4a9c5aa38c0d127a5016db67f7a21e8345ae9",
+      "new_verse_sha256": "52209fa5c43e54a7c37d5864b4dae3d1da14a783d7b66d3324d75f3f5f911808",
+      "runeberg_pages": [
+        311
+      ],
+      "ia_leaves": [
+        296
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS073",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 6,
+      "old": "församlat",
+      "new": "alla församlat",
+      "old_verse_sha256": "ce63b2ccb2d36292e5ae6f2cad646c8cf7263f21714a9728911fc48dfe3ca14c",
+      "new_verse_sha256": "db88d13cca79eee7e207f13e5013acf789b806b5dc02743dfb872d8002035e22",
+      "runeberg_pages": [
+        311
+      ],
+      "ia_leaves": [
+        296
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS074",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 10,
+      "old": "nedgjorde dem,",
+      "new": "nedgjorde dem",
+      "old_verse_sha256": "321245e7c6fa9be109f13673ffd87a2fe0ab607f1fa59632941ba3ec3e63ea18",
+      "new_verse_sha256": "78471c0506b97da608d9bd2cc3a269fb3296976ef8f2d854aa5aa235a453eb94",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        296
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS075",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 11,
+      "old": "så, under sin flykt för Israel,",
+      "new": "så under sin flykt för Israel",
+      "old_verse_sha256": "16d92b05b1c3c64e9d43cbade9e701d3a605fa9a9e5944ab5a78ec34bb83eb03",
+      "new_verse_sha256": "b11959d79e4308a833df8455cc9ae60d996cfb4545dea6566ec60f41dc1a5078",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        296
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS076",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 12,
+      "old": "dag",
+      "new": "dag,",
+      "old_verse_sha256": "377401765975d2f5cf73b4de78bd76f118a0083dc3a3fe79abdbc04046a3e815",
+      "new_verse_sha256": "9b597b7f6ea110b29dec176a6a22818482ba3bd3bc732e303fed6c4365fa0659",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        296
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS077",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 17,
+      "old": "till",
+      "new": "vid",
+      "old_verse_sha256": "4444527de6a3ad43abe8baa5f738ae445d5aa6ed88f8076141a0629b5773a699",
+      "new_verse_sha256": "e872fdbcc735732f172459b6b47e66dbffa2501132b8cee6548fa694ab69bc3f",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        296
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS078",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 19,
+      "old": "fiender, och nedgören dem som bliva efter; låten dem icke komma in i sina städer, ty HERREN, eder Gud",
+      "new": "fiender och nedgören dem som bliva efter; låten dem icke komma in i sina städer, ty HERREN, eder Gud,",
+      "old_verse_sha256": "c5dc2b926e7b8aad374cf54978cc44c74da4965a4955041bacf096a398acd7b4",
+      "new_verse_sha256": "0d11ca424ac0131ee5bfae77f5310827d0379ff5b10b4023f49d0a801edab682",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        297
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS079",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 23,
+      "old": "Lakis,",
+      "new": "Lakis",
+      "old_verse_sha256": "aa6afb3c6a3a5b081e0d20b33aef353d14972cf5d7355061f0452c64e8d27f18",
+      "new_verse_sha256": "484aa5224aaef41b1556ad32bda7378453ff60a84abe15446a0640bea2f3eed6",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        297
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS080",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 24,
+      "old": "sätt",
+      "new": "sätten",
+      "old_verse_sha256": "be1b527fd137e31454a208469178d98bf0fb6b30ad25109d6cfae2211ee43233",
+      "new_verse_sha256": "167b69e50878c326e583ff789f04dc5f0c842b284ab0db5544985ebf9706d7a5",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        297
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS081",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 25,
+      "old": "sina fiender",
+      "new": "fiender",
+      "old_verse_sha256": "cb8b36d5c71c389bffe46e1e95fd34ff805225eabb981795bca259d1f105591d",
+      "new_verse_sha256": "95b203a800c116f8d263c36d0a5d7061e5a615dc9caecd3a3ab04def3f82496b",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        297
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS082",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 26,
+      "old": "fingo på",
+      "new": "fingo hänga på",
+      "old_verse_sha256": "385e7ecb22a1db078ae26a0f39048266b9af428586ca3bb27d79584b1724108e",
+      "new_verse_sha256": "41307e6675f533c82b216031c49057b16e8d74e1047b56f167b96101ae590797",
+      "runeberg_pages": [
+        312
+      ],
+      "ia_leaves": [
+        297
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS083",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 27,
+      "old": "i grottan",
+      "new": "i grottan,",
+      "old_verse_sha256": "8821088782f2d961eefe2ec52ebdda4a04b7af0d094d569201718e6677635644",
+      "new_verse_sha256": "2601fcb7f7c3a0dc98d48b31435f6a5c8a0d5706e4c6a1ec99eef2e82c315114",
+      "runeberg_pages": [
+        313
+      ],
+      "ia_leaves": [
+        297
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS084",
+      "book": "Josh",
+      "chapter": 10,
+      "verse": 40,
+      "old": "andra",
+      "new": "anda",
+      "old_verse_sha256": "ff058037c18af19516d27c089de7ff04c1a2ae4061c1cd53f8aa31946027d417",
+      "new_verse_sha256": "1264717c6afa1cd7bccc4d966457992774f44e28f73fe84797ed3c1b06a3946e",
+      "runeberg_pages": [
+        313
+      ],
+      "ia_leaves": [
+        298
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS085",
+      "book": "Josh",
+      "chapter": 11,
+      "verse": 3,
+      "old": "så och",
+      "new": "så ock",
+      "old_verse_sha256": "7ed031fdffa4435693dd9c4206871bff19d7b0c399ec71cf8b941601ab9d328b",
+      "new_verse_sha256": "b48e3da759ac91cf74cd239f355e6dbd0bc721e9cc7cb6423476f13818bf0258",
+      "runeberg_pages": [
+        314
+      ],
+      "ia_leaves": [
+        298
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS086",
+      "book": "Josh",
+      "chapter": 11,
+      "verse": 5,
+      "old": "vatten,",
+      "new": "vatten",
+      "old_verse_sha256": "6e3e688d4357cc838ac6abda65feacbf390bf2b2e9c274090628c1a8b4137f16",
+      "new_verse_sha256": "7b6bcf57c914070e0e0377c350fd430b6c51f1d914578246064d5c1916bbbafe",
+      "runeberg_pages": [
+        314
+      ],
+      "ia_leaves": [
+        298
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS087",
+      "book": "Josh",
+      "chapter": 11,
+      "verse": 9,
+      "old": "dem",
+      "new": "dem,",
+      "old_verse_sha256": "c1ea47a70baaebcdfbf67e215adb0c5f111ed785d68bf53da92efb6db54232cd",
+      "new_verse_sha256": "335fec8bf9804d9397727174cf274e5c9594d9f2249427b0140b43d0dd979b33",
+      "runeberg_pages": [
+        314
+      ],
+      "ia_leaves": [
+        298
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS088",
+      "book": "Josh",
+      "chapter": 11,
+      "verse": 15,
+      "old": "Josua;",
+      "new": "ock Josua;",
+      "old_verse_sha256": "f47138a2bb86f194d0d62b762c899e2ca3af4f95402c822c69f0b020eb53f294",
+      "new_verse_sha256": "6fe0ef2fd3c5082d6c3f67a5beb482b0a5315978d290078f7c5d0edda67ff725",
+      "runeberg_pages": [
+        314
+      ],
+      "ia_leaves": [
+        299
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS089",
+      "book": "Josh",
+      "chapter": 11,
+      "verse": 19,
+      "old": "hivéer som bodde i Gibeon, fanns ingen stad",
+      "new": "hivéer, som bodde i Gibeon, fanns ingen stad,",
+      "old_verse_sha256": "b58dd47c27cbbf3f679f31bdec0ce8a3e44c2ba4e9d6d589644c88f13837160b",
+      "new_verse_sha256": "90cd7a859419ffb67cd4d88887615feb9d7c8d3421538cc0fbbe9beecf243bcc",
+      "runeberg_pages": [
+        315
+      ],
+      "ia_leaves": [
+        299
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS090",
+      "book": "Josh",
+      "chapter": 11,
+      "verse": 20,
+      "old": "det att de förstockade sina hjärtan och mötte Israel med krig, för att de skulle givas till spillo,",
+      "new": "det, att de förstockade sina hjärtan och mötte Israel med krig, för att de skulle givas till spillo",
+      "old_verse_sha256": "c0e246949cdf3de08238c5c21525635f72a9420d63e5286270ac1c61a4fc92dc",
+      "new_verse_sha256": "41f18581aebd927be32de96d96674de44923f1bd4ebd85c3b5254d9be8fe10af",
+      "runeberg_pages": [
+        315
+      ],
+      "ia_leaves": [
+        299
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS091",
+      "book": "Josh",
+      "chapter": 12,
+      "verse": 2,
+      "old": "Aroer vid bäcken Arnons strand och från dalens mitt,",
+      "new": "från Aroer vid bäcken Arnons strand och från dalens mitt",
+      "old_verse_sha256": "f1751a57ea8f6c6a6f97f112429d4aa08c66dc5783d7fb5eab53d76e1f05b9f1",
+      "new_verse_sha256": "56d05a21364545a147954d41d275a0c4976961e0149a532e3d508dc63dff2c0d",
+      "runeberg_pages": [
+        315
+      ],
+      "ia_leaves": [
+        299
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS092",
+      "book": "Josh",
+      "chapter": 13,
+      "verse": 1,
+      "old": "del",
+      "new": "del,",
+      "old_verse_sha256": "b758f10f553cff64cc0ad0bcb1f59ebe13ec2e22834cef1461efd2d42cc7cf02",
+      "new_verse_sha256": "828cac766eec4f85f509aa3cc291f5067ea183ab1348471df5dbc4d7facea123",
+      "runeberg_pages": [
+        316
+      ],
+      "ia_leaves": [
+        300
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS093",
+      "book": "Josh",
+      "chapter": 13,
+      "verse": 3,
+      "old": "Kananéernas",
+      "new": "Kanaans",
+      "old_verse_sha256": "c567ba3829654e6cddbd59c29e39a17448de3f5df56447449bf679460800bb1c",
+      "new_verse_sha256": "17ae4d3673a9b625a88e6c2430360220b3a8d3c4ef2d393524745570bd39bf88",
+      "runeberg_pages": [
+        316
+      ],
+      "ia_leaves": [
+        300
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS094",
+      "book": "Josh",
+      "chapter": 13,
+      "verse": 4,
+      "old": "område.",
+      "new": "område,",
+      "old_verse_sha256": "cf0f94f5ae47729a47f488476c3f97d1898d2b9b36f06fd32c3fd78b669ba62b",
+      "new_verse_sha256": "db40f84b7d02eb0c95edb5baeb54e4b255255cefb7d2806e5bfb273f6316fd70",
+      "runeberg_pages": [
+        316
+      ],
+      "ia_leaves": [
+        300
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS095",
+      "book": "Josh",
+      "chapter": 13,
+      "verse": 32,
+      "old": "arvslotter",
+      "new": "arvslotter,",
+      "old_verse_sha256": "2b4ecc8864b9c0b6926561cb15cc37d7f1031c7d0ba0ab30a19ad07e7810d06a",
+      "new_verse_sha256": "d76d1cca9e65ff3a2d1cdff206e9602a2327837e93aea3efa54cbafef3ff545b",
+      "runeberg_pages": [
+        317
+      ],
+      "ia_leaves": [
+        301
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS096",
+      "book": "Josh",
+      "chapter": 14,
+      "verse": 1,
+      "old": "arvslotter",
+      "new": "arvslotter,",
+      "old_verse_sha256": "bc9fc499db8324de2848ef937dea915e049960ce295f917866e46e25357a248c",
+      "new_verse_sha256": "7e011f9433a89560a1b6116a4bf218a15d43c33a25f1260ec1b70b51f2513eef",
+      "runeberg_pages": [
+        317
+      ],
+      "ia_leaves": [
+        301
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked.",
+      "original_camera_witness": {
+        "chapter": 14,
+        "verse": 1,
+        "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0303.jp2",
+        "sha256": "1566301c205d2e1364859f916bb3545095131703da80e854c6497bc1984ecab1",
+        "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0303.jp2",
+        "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0303-facing-detail.png",
+        "crop_sha256": "83968bf91fad06fbac6affe4bc6f129cc9b0003ed648f6990165f016e9a06f31",
+        "decision": "Comma after arvslotter visible in facing-camera original; correction supported by both prints.",
+        "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+      }
+    },
+    {
+      "id": "JOS097",
+      "book": "Josh",
+      "chapter": 14,
+      "verse": 3,
+      "old": "leviterna",
+      "new": "åt leviterna",
+      "old_verse_sha256": "16203f8aaf26860f0410cdc1b7157ce473b0a9ee49f3099fff0ed222e69843f7",
+      "new_verse_sha256": "97d91942867b907ad85f8f91bdb53c637277926785ff112d7a8829b137b229f7",
+      "runeberg_pages": [
+        318
+      ],
+      "ia_leaves": [
+        302
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS098",
+      "book": "Josh",
+      "chapter": 14,
+      "verse": 5,
+      "old": "landet",
+      "new": "landet.",
+      "old_verse_sha256": "8eedebfcfe3bbc8e56938d48b77dfbdaeed837ee508febfc2188bef7f1ad7a99",
+      "new_verse_sha256": "5abdc1a4576f95c5d1ef226d5c8d8c302ee7726014b80249658f72fc62048753",
+      "runeberg_pages": [
+        318
+      ],
+      "ia_leaves": [
+        302
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS099",
+      "book": "Josh",
+      "chapter": 14,
+      "verse": 9,
+      "old": "land som din fot har beträtt",
+      "new": "land, som din fot har beträtt,",
+      "old_verse_sha256": "0b3d4967ccd32351b4bb4763a6615ee3225813d84011b06ea1acb2f06627cc07",
+      "new_verse_sha256": "c763eed6a4fbf1f8b0672ac8ed92dab1bedc2ade1309edb4454b100e49b2db9d",
+      "runeberg_pages": [
+        318
+      ],
+      "ia_leaves": [
+        302
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS100",
+      "book": "Josh",
+      "chapter": 14,
+      "verse": 11,
+      "old": "stark som jag var den dag",
+      "new": "stark, som jag var den dag,",
+      "old_verse_sha256": "ff9a0d080f19c3cbbd6c9441bbc8a50d2012fb2dcd56eebbc547181371267469",
+      "new_verse_sha256": "bc01618afbbdc014c78c29e3b7e7dc05493349d624ec8c8859ac400e5f4d52dd",
+      "runeberg_pages": [
+        318
+      ],
+      "ia_leaves": [
+        302
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS101",
+      "book": "Josh",
+      "chapter": 14,
+      "verse": 12,
+      "old": "bergsbygd om vilken HERREN talade på den dagen. Du hörde ju själv då",
+      "new": "bergsbygd, om vilken HERREN talade på den dagen. Du hörde ju själv då,",
+      "old_verse_sha256": "01f0cf07bc9481d4b863d72d2ea2d58c5ceef0093a2a623730fdffcf6b09bc05",
+      "new_verse_sha256": "52dce5713eee54c827348655319b099b710da43c70f42739cb6b239531230fbb",
+      "runeberg_pages": [
+        318
+      ],
+      "ia_leaves": [
+        302
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS102",
+      "book": "Josh",
+      "chapter": 15,
+      "verse": 21,
+      "old": "städer",
+      "new": "städer,",
+      "old_verse_sha256": "c9cad8edb12f7dbd13464e373ff3d6c550cf018c505a2c50c4fb236a9fbf8478",
+      "new_verse_sha256": "72ac6f0adb4facb57e795f12f5b6475e3fe917a6b1ff67fbaf1e1a6fd65db430",
+      "runeberg_pages": [
+        319
+      ],
+      "ia_leaves": [
+        303
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS103",
+      "book": "Josh",
+      "chapter": 15,
+      "verse": 60,
+      "old": "byar;",
+      "new": "byar.",
+      "old_verse_sha256": "6a2046bd897f4477dd0264a46a037a46771ce06716eb09421a775958114c973f",
+      "new_verse_sha256": "72ad70dbcdb8791aa23e3d796a1ac99b3d6e5489e8b4f6aaf992096714bad08e",
+      "runeberg_pages": [
+        320
+      ],
+      "ia_leaves": [
+        304
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS104",
+      "book": "Josh",
+      "chapter": 16,
+      "verse": 9,
+      "old": "de städer",
+      "new": "de städer,",
+      "old_verse_sha256": "05a5e2c1ed1489ebf03b20d13c0dce7f8d1eb32243e214b549566856701cf4e8",
+      "new_verse_sha256": "f7f4d1628bb967d1ce7cacd4d55138ad6d81fb1c308461ee5762679337e245bd",
+      "runeberg_pages": [
+        321
+      ],
+      "ia_leaves": [
+        304
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS105",
+      "book": "Josh",
+      "chapter": 16,
+      "verse": 10,
+      "old": "icke kananéerna",
+      "new": "icke kananéerna,",
+      "old_verse_sha256": "d010037fbd2b69d8b52eab0a84085ffb8108f0dd489976acd4eeaeef3f9de7c1",
+      "new_verse_sha256": "ea87ad830998d4d1b410bcb8c9c24355c4c335375d0647feb6a7a3608507f11a",
+      "runeberg_pages": [
+        321
+      ],
+      "ia_leaves": [
+        304
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS106",
+      "book": "Josh",
+      "chapter": 17,
+      "verse": 1,
+      "old": "Och Manasse",
+      "new": "Och Manasses",
+      "old_verse_sha256": "e7a1a4f5b8c73ac36d7071235d6cb562718b95c6a2c762195e282ed53dc8dc66",
+      "new_verse_sha256": "57f31708c56e3646ee8f40ba55f0a5cfaa5b4e6a115b387f3a3d57eac8ea7680",
+      "runeberg_pages": [
+        321
+      ],
+      "ia_leaves": [
+        305
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS107",
+      "book": "Josh",
+      "chapter": 17,
+      "verse": 2,
+      "old": "Hefers barn,",
+      "new": "Hefers barn",
+      "old_verse_sha256": "62fcda4568459d5d5cc8acdd7703dedb67567f60a5003fdd7d10435aea5cc8e8",
+      "new_verse_sha256": "48ed87cef573996ce644cfdac9a47b38d54d9d4111a23e2e01af2641d6f399fa",
+      "runeberg_pages": [
+        321
+      ],
+      "ia_leaves": [
+        305
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS108",
+      "book": "Josh",
+      "chapter": 17,
+      "verse": 5,
+      "old": "lotter",
+      "new": "lotter,",
+      "old_verse_sha256": "97e6b117cff09c5ec63ad169500697da3d040f99043ced96b1cae7f690ce736e",
+      "new_verse_sha256": "ca4ce69166f333b00bc4429cca0aa8aea41906631504738d3328eac8c4ca20e7",
+      "runeberg_pages": [
+        321
+      ],
+      "ia_leaves": [
+        305
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS109",
+      "book": "Josh",
+      "chapter": 17,
+      "verse": 16,
+      "old": "kananéer som bo i dalbygden",
+      "new": "kananéer, som bo i dalbygden,",
+      "old_verse_sha256": "c39e130b22be5bae9163748eb9f61be75e425c9727ba9a7a44d84f14bc72d788",
+      "new_verse_sha256": "7dd69c998511f4f92e955f9eec0d8c750a85ccd89b234ddf6e432c9648d059a4",
+      "runeberg_pages": [
+        322
+      ],
+      "ia_leaves": [
+        305
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS110",
+      "book": "Josh",
+      "chapter": 18,
+      "verse": 2,
+      "old": "stammar",
+      "new": "stammar,",
+      "old_verse_sha256": "3005a88a8a273cd6f60019ef0ceb721b5993545659baf23db43fc847dcb2bba0",
+      "new_verse_sha256": "f26969aa5b3d0d054cc07ba0b79b5c49ea55ad5b255dd0abf7d6ffb5d5c0528e",
+      "runeberg_pages": [
+        322
+      ],
+      "ia_leaves": [
+        306
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS111",
+      "book": "Josh",
+      "chapter": 18,
+      "verse": 3,
+      "old": "land",
+      "new": "land,",
+      "old_verse_sha256": "aaee7f958369f9fad18e5f9f7566812115cb1e6f3bc22cee375782c4d832b02b",
+      "new_verse_sha256": "93491fe7830359aa4b4666550788eeff5c4c0eed4c337c78d91190111f3497cb",
+      "runeberg_pages": [
+        322
+      ],
+      "ia_leaves": [
+        306
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS112",
+      "book": "Josh",
+      "chapter": 18,
+      "verse": 8,
+      "old": "åstad bjöd Josua dem",
+      "new": "åstad, bjöd Josua dem,",
+      "old_verse_sha256": "796a9539c6665aca5b12cbff0492e270aa4ba6086d08e125b116630876c13afe",
+      "new_verse_sha256": "3c753263fced23a0fc4a97d279b5b6894d560451dc149349dda5752416c75e70",
+      "runeberg_pages": [
+        322
+      ],
+      "ia_leaves": [
+        306
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS113",
+      "book": "Josh",
+      "chapter": 18,
+      "verse": 9,
+      "old": "upp",
+      "new": "i en skrivelse upp",
+      "old_verse_sha256": "f98cc669c59f58ceb1237957a132b0ea126ca0a10bc3f909fde46f9ab2c21df8",
+      "new_verse_sha256": "2eb92f4ab0e5d713a51618e80b3dfdbac0005842942056d1fb8a50045d99027b",
+      "runeberg_pages": [
+        323
+      ],
+      "ia_leaves": [
+        306
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS114",
+      "book": "Josh",
+      "chapter": 18,
+      "verse": 11,
+      "old": "område som lotten gav dem",
+      "new": "område, som lotten gav dem,",
+      "old_verse_sha256": "b8278227074b74c54dd38d59dbf5b111bd3f4a609cec8fbfeece04ac3b173eb5",
+      "new_verse_sha256": "f94e443bca3acc4cfbd0fbd53e3e24f9ca84ccd9e37af470c499de966be59364",
+      "runeberg_pages": [
+        323
+      ],
+      "ia_leaves": [
+        306
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS115",
+      "book": "Josh",
+      "chapter": 18,
+      "verse": 21,
+      "old": "städer",
+      "new": "städer,",
+      "old_verse_sha256": "d4810a8d761816cdaa5dbaa47edf654883465d84d768408584b9108e38c2c1a4",
+      "new_verse_sha256": "5602e33888f64510f4920ec5e08e4672edf0a90c0fd798113af469a3ca62bc0d",
+      "runeberg_pages": [
+        323
+      ],
+      "ia_leaves": [
+        307
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS116",
+      "book": "Josh",
+      "chapter": 19,
+      "verse": 8,
+      "old": "byar",
+      "new": "byar,",
+      "old_verse_sha256": "b0524455104e9a3d690b67ccd7ed45ca7e8c8a0201c3fed2fd11b23736bdfeb2",
+      "new_verse_sha256": "3a531f9226142080be6ac2e26993480eb025e404fe7bf5ea13fa7c328e982f97",
+      "runeberg_pages": [
+        324
+      ],
+      "ia_leaves": [
+        307
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS117",
+      "book": "Josh",
+      "chapter": 19,
+      "verse": 11,
+      "old": "dalen",
+      "new": "dalen,",
+      "old_verse_sha256": "9841ec3f592ffdbb477810661d14abf0970576fbe6dc66fe0956179434a2a367",
+      "new_verse_sha256": "ab9a8d72df9eb46f5a2ee17487bd240a4245529da303fa0d4f0d7be9bde188a4",
+      "runeberg_pages": [
+        324
+      ],
+      "ia_leaves": [
+        307
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS118",
+      "book": "Josh",
+      "chapter": 19,
+      "verse": 39,
+      "old": "arvedel",
+      "new": "arvedel,",
+      "old_verse_sha256": "1815c4273f2d6b73ea815ad5288cf886b2b891154a10dd8f3a66d32794d9969b",
+      "new_verse_sha256": "326865cd9827cd2de2d21a0604b364e24454f3790712afbed50f651b607e2f53",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        308
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS119",
+      "book": "Josh",
+      "chapter": 19,
+      "verse": 50,
+      "old": "den stad",
+      "new": "den stad,",
+      "old_verse_sha256": "a3722dc39ca63221e6bd158ee6d156a3bad0ebae852d6c7c09ccacdae331cdaa",
+      "new_verse_sha256": "a30a847f18c0e449e5e00a696df30804476d7e5d7afbffbfaea0a95960390d10",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        308
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS120",
+      "book": "Josh",
+      "chapter": 19,
+      "verse": 51,
+      "old": "arvslotter",
+      "new": "arvslotter,",
+      "old_verse_sha256": "62d61fe3362a631731e49572a5711af5a46370bba62ef2bba6ee605965194ace",
+      "new_verse_sha256": "779ddee1afde622b6f9efbb609e62077fb357b29d5e6147def7ef1cb92339917",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        308
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS121",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 2,
+      "old": "fristäder",
+      "new": "fristäder,",
+      "old_verse_sha256": "f6ba97d7e858607595b0a4847d0105d0629f592cbaadacbd5c79299827a211b4",
+      "new_verse_sha256": "0859e51d11f0787bc35fb9fbb90ceccc6c0e9f8be20987f2842f7027ba818504",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS122",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 3,
+      "old": "dråpare som ouppsåtligen, utan vett och vilja, har dödat någon",
+      "new": "dråpare, som ouppsåtligen, utan vett och vilja, har dödat någon,",
+      "old_verse_sha256": "e19411c969ecf924a9268a6836a294bb1490d9a092bc2eb3f828fadec9adf25e",
+      "new_verse_sha256": "1243876a530fd06de7c2297e3280965a35d0dc210096f56076ff55425f03460c",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS123",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 4,
+      "old": "plats",
+      "new": "plats,",
+      "old_verse_sha256": "19900df72b739f01c96a68677e87cc3f3207a4d1ec8470a7aa3be9325b346456",
+      "new_verse_sha256": "cdedcda8abcbd8a3e31e14731151c68f7554aec84c09546e4334cd3a07fca994",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS124",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 5,
+      "old": "nästa,",
+      "new": "nästa",
+      "old_verse_sha256": "b530c68c5a8df24f48ccff08ba14f6a0d99c9b50cde346968f8e60e189f2a919",
+      "new_verse_sha256": "faea7b930954d1381aa76e341bbb88d1f70e6118e78047a13124b10202d02ae9",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS125",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 6,
+      "old": "från",
+      "new": "och sitt hus igen, till den stad från",
+      "old_verse_sha256": "fb2959d74747b1829a7f614755af5a633696bccc9d6f96f30c1d6a2a87c2f9f2",
+      "new_verse_sha256": "70a1384dc0a4cd98bd495e0a007128c529079bd77ea701a8061489134d52a1f9",
+      "runeberg_pages": [
+        325
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS126",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 7,
+      "old": "därtill",
+      "new": "härtill",
+      "old_verse_sha256": "ce6baab16854fd7342ee2e8c07e2cee6051128b6b319fcd998205d869e7728a0",
+      "new_verse_sha256": "bdd03a0a886db5d3b7d8752478f41c5422f295caa484af6c7f8650dc37b17a6c",
+      "runeberg_pages": [
+        326
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS127",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 8,
+      "old": "Gilead,",
+      "new": "Gilead",
+      "old_verse_sha256": "272e3838021e3c883d3c61c07cb3a00e07fa2da89dd8aae39e01196f184997c9",
+      "new_verse_sha256": "399fddc26c7f09e51895b2b7499b032eb61a9cdf84825046252f21f65da0d7aa",
+      "runeberg_pages": [
+        326
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS128",
+      "book": "Josh",
+      "chapter": 20,
+      "verse": 9,
+      "old": "städer",
+      "new": "städer,",
+      "old_verse_sha256": "f12e995632326da679d91e529b2c77a25567b77404763899cf09d3a0521025c6",
+      "new_verse_sha256": "5e4146599302fac585c9b24c3f45b6dc2c757bb6c73b5b1bfc64e0567f0d42cf",
+      "runeberg_pages": [
+        326
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS129",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 2,
+      "old": "land, och sade: »HERREN bjöd genom Mose",
+      "new": "land och sade: »HERREN bjöd genom Mose,",
+      "old_verse_sha256": "0545214b0832dd1f917700e56d9e0cfc8f79036a285fc53373383e77047cb825",
+      "new_verse_sha256": "3701e5f5cf8c7878fba797d19b9fc7cca9fd2919767fc283e059aebd1161a0a7",
+      "runeberg_pages": [
+        326
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS130",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 3,
+      "old": "HERRES",
+      "new": "HERRENS",
+      "old_verse_sha256": "d0cac8532a6cdce5a20a206977537316756fb0055d60552c0845a94d351be275",
+      "new_verse_sha256": "f2b1a6bbaff2f8bd3bb9b2917ee845400ae0c996af93449fb6b94ae7e0d2b6e5",
+      "runeberg_pages": [
+        326
+      ],
+      "ia_leaves": [
+        309
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS131",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 12,
+      "old": "byarna som hörde till staden",
+      "new": "byarna, som hörde till staden,",
+      "old_verse_sha256": "db582e43cd3cec0184fad227fe80d09f0628ad26854b48b7308dc131aace2592",
+      "new_verse_sha256": "47c70eebc2c94e9a9376ed2f048ffcffbb79b362166aff7cb2d46f51f7bca214",
+      "runeberg_pages": [
+        326
+      ],
+      "ia_leaves": [
+        310
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS132",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 19,
+      "old": "städer som Arons söner, prästerna, fingo",
+      "new": "städer, som Arons söner, prästerna, fingo,",
+      "old_verse_sha256": "7b3ff730236a9b5c32b8f23010db120f191fc52d0b561c27b165ce9d42205fdc",
+      "new_verse_sha256": "bf77749eeb12fa0cd6788f546048a5777fc711b1d0e2273259b0bacaff9d9fb5",
+      "runeberg_pages": [
+        327
+      ],
+      "ia_leaves": [
+        310
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS133",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 26,
+      "old": "städer som de övriga Kehats barns släkter fingo",
+      "new": "städer, som de övriga Kehats barns släkter fingo,",
+      "old_verse_sha256": "4d9b6db9514539912209a3564d0fd1a2223ce23f477a44ebb764d52d6ff67880",
+      "new_verse_sha256": "5bff9120cf6d84ed39209b84502eff3f75baa5a750266500bd4eab2b53ede1cd",
+      "runeberg_pages": [
+        327
+      ],
+      "ia_leaves": [
+        310
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS134",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 33,
+      "old": "tretton städer,",
+      "new": "tretton städer",
+      "old_verse_sha256": "d22f6ef95634be78fed099643764364a5680e8cf40fbd9cb48e719086abf0f4a",
+      "new_verse_sha256": "ddd538c602ab3e9fc4523aa6ae5fc2222926bb71d1acc966e06549d4904ef207",
+      "runeberg_pages": [
+        327
+      ],
+      "ia_leaves": [
+        310
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS135",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 35,
+      "old": "städer.",
+      "new": "städer;",
+      "old_verse_sha256": "3cc4cb67d86a7a306aa892d414df7073433040dd23b0ae23cdffae44dd423ec4",
+      "new_verse_sha256": "78cc0df23cb3ee1b2fdec2af04c3d54aedf3b6ea2b302fefb726b1b24968b2d7",
+      "runeberg_pages": [
+        327
+      ],
+      "ia_leaves": [
+        310
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS136",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 40,
+      "old": "De städer",
+      "new": "De städer,",
+      "old_verse_sha256": "d47f0a6082f751a5aafff9bfb21e9033f69b12f6367dedbe93d50ca86dbaf294",
+      "new_verse_sha256": "524e6fd4a4568c6fd4605d2407280496122e32f27f1d5a8843edb09b1009aa83",
+      "runeberg_pages": [
+        327
+      ],
+      "ia_leaves": [
+        310
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS137",
+      "book": "Josh",
+      "chapter": 21,
+      "verse": 43,
+      "old": "land",
+      "new": "land,",
+      "old_verse_sha256": "412301869e7bbcad3681fe4791702b2928b063aff6d1bc630c62a9c111f21c95",
+      "new_verse_sha256": "995af8d4501dccb9cf65c22b1d4415bca6f710aad1467965f9aece723f852723",
+      "runeberg_pages": [
+        327
+      ],
+      "ia_leaves": [
+        311
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS138",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 3,
+      "old": "hållit",
+      "new": "hållit,",
+      "old_verse_sha256": "cc43064445e06630c29c34c25390093376c1e9cff12f0623876817fcb9dadb97",
+      "new_verse_sha256": "c9da6194e138659dc3402c39af1e98f7b286a5b4622569faa588b0c9f5047c06",
+      "runeberg_pages": [
+        328
+      ],
+      "ia_leaves": [
+        311
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS139",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 9,
+      "old": "tillbaka,",
+      "new": "tillbaka",
+      "old_verse_sha256": "a830b529969aac25073d74f8a1e1a8ab25283d0e47f9ff9f5ae89f22405459f5",
+      "new_verse_sha256": "99dbec4defc3e176ac4e3834496e2d2c8ccb26d4f9f77a97a2adae3a4ede0ada",
+      "runeberg_pages": [
+        328
+      ],
+      "ia_leaves": [
+        311
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS140",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 16,
+      "old": "otrohet som I haven begått mot Israels Gud, då I",
+      "new": "otrohet, som I haven begått mot Israels Gud, då I nu",
+      "old_verse_sha256": "436ba1bfd66d4dcf5801fff8d2d59089be3a8289c963ce87a91c04707c4a6cbe",
+      "new_verse_sha256": "447ba3a307d54bf60e8d8688ea62b69c492ff0661b263fec9d053f956b4e267d",
+      "runeberg_pages": [
+        329
+      ],
+      "ia_leaves": [
+        312
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS141",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 17,
+      "old": "nog",
+      "new": "nog,",
+      "old_verse_sha256": "3e45c37bc6c31fd166983e8d80fd4167af619534baa3e89823ecb031c2f56261",
+      "new_verse_sha256": "6c48d02f2bdd65160658682ccd7bd305954a50fdc49fc9f85cc779b43a07bae3",
+      "runeberg_pages": [
+        329
+      ],
+      "ia_leaves": [
+        312
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS142",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 20,
+      "old": "ende som förgicks genom den missgärningen?",
+      "new": "ende, som förgicks genom den missgärningen?»",
+      "old_verse_sha256": "6174f44a6a5ec05db2ee3aa35fc4fb6df3887b0af9b8c76fca07ef3f8d06d722",
+      "new_verse_sha256": "7feafbe225597e43dee9f46dfbef3cc701d7ceada34d500da51bf7d4d92d7367",
+      "runeberg_pages": [
+        329
+      ],
+      "ia_leaves": [
+        312
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS143",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 24,
+      "old": "tänkte",
+      "new": "tänkte,",
+      "old_verse_sha256": "073fb43c7a42d57d8531ca05e9dbb58e8fbc895c4fe3985e9f2f221d72ce9162",
+      "new_verse_sha256": "4c9a4d558095ccb3bcacce1d2c9832e0acf445700abafd7b2bcb5d0a18bd5c81",
+      "runeberg_pages": [
+        329
+      ],
+      "ia_leaves": [
+        312
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS144",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 27,
+      "old": "efterkommande",
+      "new": "våra efterkommande",
+      "old_verse_sha256": "ff064d13b8a868670c6ec510fa3254518f47557ec895050e71d8264d1bf89396",
+      "new_verse_sha256": "86fa59a1b1448720d095f6744279d3973678ab25c44eae431c8257c0d5823e1b",
+      "runeberg_pages": [
+        329
+      ],
+      "ia_leaves": [
+        312
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS145",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 28,
+      "old": "händer",
+      "new": "händer,",
+      "old_verse_sha256": "1bfbf3d39195bb71942f305732d750da40ff1a95a3ec43feac1937c983f5948a",
+      "new_verse_sha256": "46723dba7b878239c22710e21eb31d5af974aa661badaf37b3d778e0f44e8766",
+      "runeberg_pages": [
+        329
+      ],
+      "ia_leaves": [
+        312
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS146",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 30,
+      "old": "hörde",
+      "new": "hörde,",
+      "old_verse_sha256": "ee10f9adde511ca1a655c526ef3f9ce88ffc999ddf609f577bbfaa7999fa6905",
+      "new_verse_sha256": "62b269d92b9b9b10d5adacd19bae87ac01e6865720718b56a1a1197d470588cc",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS147",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 31,
+      "old": "förnummit",
+      "new": "förnummit,",
+      "old_verse_sha256": "b6072169d984774b41cc8bb9d070dad70d347da875b95a9fcceaa31bfa6e998a",
+      "new_verse_sha256": "f7f4f02f1aa0526d7e009439f7bbe60adcf0382d0b0f8c089d66eae99726749f",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS148",
+      "book": "Josh",
+      "chapter": 22,
+      "verse": 33,
+      "old": "dem, för att fördärva det land",
+      "new": "dem för att fördärva det land,",
+      "old_verse_sha256": "abbf51080bece977b6611fdfc85ca03f2fc6ddb4b27ceff16f285af989382c43",
+      "new_verse_sha256": "e453e4c4fb7837fdf3666d0b2ed6fe1a19f1974430dc7893b93ca7e496a77891",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS149",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 2,
+      "old": "tillsyningsmän",
+      "new": "dess tillsyningsmän",
+      "old_verse_sha256": "8ea55d73c4eee23ad50e6e787c6c8dae328c99724d5d3ee5237274487c265227",
+      "new_verse_sha256": "e5660bfbea517a230e9fe08ad842c806143636f3514d10cb5e6223a68e0cd68c",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS150",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 3,
+      "old": "ty HERREN",
+      "new": "ty HERREN,",
+      "old_verse_sha256": "e7fef8dacd77e72cfb0219dc067e1a5fdc141f67b6f5e036a281b14b1af94fa5",
+      "new_verse_sha256": "417049aa1bdb7a7eeffb1d57204f879f59e3eabbb274fdbce217f551681c5911",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS151",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 4,
+      "old": "folk som ännu äro kvar",
+      "new": "folk, som ännu äro kvar,",
+      "old_verse_sha256": "9b342391c76c626d77dd5009d1ee6811cd68240fab10183bbe57242d03aa67ab",
+      "new_verse_sha256": "0ba76568a77ad16ba2d5535986265dddcd90ba63032613daeb44cbf7fa12cd33",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS152",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 6,
+      "old": "allt",
+      "new": "allt,",
+      "old_verse_sha256": "4b54b9d5efbb849b44836ef46c757f242792666d1ecd1214cefb3059773c546e",
+      "new_verse_sha256": "0f6b0fdd10002de135e2f5650ed1b0331e7eb19755684db168c92d2e45c3e574",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS153",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 7,
+      "old": "folk",
+      "new": "folk,",
+      "old_verse_sha256": "ac31ee78e7bf219bc369ba19f5b806797e9c07a190329cf992dee7a72324216a",
+      "new_verse_sha256": "3af47f1ff70a10c438bafbf80d6f6746f689d9adaef2743c29d1cbce8cf85533",
+      "runeberg_pages": [
+        330
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS154",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 12,
+      "old": "honom,",
+      "new": "honom",
+      "old_verse_sha256": "c36dd1003cf008a80d1305ede0e719da511a1d5315ad520e3fe75750dd912a10",
+      "new_verse_sha256": "676ba4948d572d43ff02b091e80d13a57d5b1630cd9420b09754c3d5a9165c37",
+      "runeberg_pages": [
+        331
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS155",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 13,
+      "old": "veta",
+      "new": "veta,",
+      "old_verse_sha256": "b5b5f96030ce3255cbb9476b82e1eacdfab4acb812b0541084efa7d8846cea43",
+      "new_verse_sha256": "445e5618dabe23abadbeac51b2df4e5eb722d604b866d992a7c613ebab123d87",
+      "runeberg_pages": [
+        331
+      ],
+      "ia_leaves": [
+        313
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS156",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 14,
+      "old": "själ",
+      "new": "själ,",
+      "old_verse_sha256": "9826d49609100e9afb9337fdcd9c6f84dd063556bed4ac641a42d37dd3ce068f",
+      "new_verse_sha256": "3d8914f6014d95088dbfaf78a69e1aa549c70ccb44ac962a67dbb3817f199e0f",
+      "runeberg_pages": [
+        331
+      ],
+      "ia_leaves": [
+        314
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS157",
+      "book": "Josh",
+      "chapter": 23,
+      "verse": 15,
+      "old": "goda som HERREN, eder Gud, lovade eder",
+      "new": "goda, som HERREN, eder Gud, lovade eder,",
+      "old_verse_sha256": "9e496cb4aaeb36c4e1cdce1d92ccc9a31ac6fce54d21e0d2c9a4597a95d77605",
+      "new_verse_sha256": "fbd315222c72cedd6bb0616b8e59d2ce496baf79a7feb03ea8549edd9e1339e8",
+      "runeberg_pages": [
+        331
+      ],
+      "ia_leaves": [
+        314
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS158",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 7,
+      "old": "ögon",
+      "new": "ögon,",
+      "old_verse_sha256": "8f228dea4173d0d212d00aca40e6add07dae2e9757073de724adb18e9ae5e59d",
+      "new_verse_sha256": "327d528c373cca84632d8aad49a8d49ed6c9073e8f9d38956cc90347870feca6",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        314
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS159",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 13,
+      "old": "land varpå du icke hade nedlagt något arbete, så ock städer",
+      "new": "land, varpå du icke hade nedlagt något arbete, så ock städer,",
+      "old_verse_sha256": "1c414d5d8637602f61b8b9107d509938c3ca59820cb0f5185b1dc19b49274094",
+      "new_verse_sha256": "416428f6544c88b752ffae04843bc00db5f2cd397e84b005a6210ea2108f2537",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        315
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS160",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 14,
+      "old": "gudar",
+      "new": "gudar,",
+      "old_verse_sha256": "87f43eda3f78c7f0fe128daba88cd370b2cc336aa8146d97b1eebfe53d1fcc11",
+      "new_verse_sha256": "44679bf0f3955034cf3cd0444ee4403aa7fabf4461ac93f55562397ed96b71d1",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        315
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS161",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 15,
+      "old": "dag vem I viljen tjäna, antingen de gudar som edra fäder tjänade, när de bodde på andra sidan floden, eller de gudar",
+      "new": "dag, vem I viljen tjäna, antingen de gudar, som edra fäder tjänade, när de bodde på andra sidan floden, eller de gudar,",
+      "old_verse_sha256": "4321b124f1ce549827c2f1aa548ca55259cd381923c55709697ef7f356d82715",
+      "new_verse_sha256": "6e11a2799000b098f3dbfd176eb1a874031893134cda1524aa08b289f66aee80",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        315
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS162",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 17,
+      "old": "under, och bevarat oss på hela den väg vi hava vandrat och bland alla de folk",
+      "new": "under och bevarat oss på hela den väg vi hava vandrat och bland alla de folk,",
+      "old_verse_sha256": "dbf457c53215a789e71c9fca6b98b2641d502d1e9c0684c435e8fa127c05071f",
+      "new_verse_sha256": "04165e6317e77e54e4dda7b5cca4bfccff24724cec1b495a141ce69950f713bc",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        315
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS163",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 18,
+      "old": "amoréerna som bodde i landet. Därför vilja vi ock tjäna HERREN; ty an",
+      "new": "amoréerna, som bodde i landet. Därför vilja vi ock tjäna HERREN; ty han",
+      "old_verse_sha256": "c504e0220882793e35342078d61e8fd4c205771e3e73dd92f12a122a10564194",
+      "new_verse_sha256": "ebd06b8e5783188bcb14b2d48e7f7de4b25b711a567d9064e21cb1a3cacfd5a5",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        315
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    },
+    {
+      "id": "JOS164",
+      "book": "Josh",
+      "chapter": 24,
+      "verse": 23,
+      "old": "gudar",
+      "new": "gudar,",
+      "old_verse_sha256": "772cfd41a4a7918c1c1df8c89ed459597a19f5322fc83d3e8ae7e4dd84bf835a",
+      "new_verse_sha256": "9f6ac45a850f87410ee255779883be46780321546b21817cd428f1aa34c0bc27",
+      "runeberg_pages": [
+        332
+      ],
+      "ia_leaves": [
+        315
+      ],
+      "decision": "Both EFS 1927 and EFS 1926 images support this correction; human review remains unchecked."
+    }
+  ],
+  "original_camera_witnesses": [
+    {
+      "chapter": 6,
+      "verse": 8,
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0291.jp2",
+      "sha256": "ebf056e711158a08a9d4f3c22044da1618a83d636c4617452cdae43033d55f52",
+      "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0291.jp2",
+      "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0291-6-8-last.png",
+      "crop_sha256": "ed784de6eeff03f4b92c614940eda048ab4b821982683aad9b341c6cb19b44b2",
+      "decision": "1926 has präster som; retain existing form against 1927 prästerna, som.",
+      "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+    },
+    {
+      "chapter": 14,
+      "verse": 1,
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0303.jp2",
+      "sha256": "1566301c205d2e1364859f916bb3545095131703da80e854c6497bc1984ecab1",
+      "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0303.jp2",
+      "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0303-facing-detail.png",
+      "crop_sha256": "83968bf91fad06fbac6affe4bc6f129cc9b0003ed648f6990165f016e9a06f31",
+      "decision": "Comma after arvslotter visible in facing-camera original; correction supported by both prints.",
+      "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+    },
+    {
+      "chapter": 15,
+      "verse": 16,
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0305.jp2",
+      "sha256": "e5fd3ae5eebbff7b275205e933c82cdb6b0460ce1e7e75b80c4c215dade4c518",
+      "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0305.jp2",
+      "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0305-resolved.png",
+      "crop_sha256": "03db30af4ba5b02cec14d5793306ef50a6c90c5770282a000d44d77939f67378",
+      "decision": "Complete den and blank margin visible: no comma in 1926; retain current reading.",
+      "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+    }
+  ],
+  "unresolved": [],
+  "totals": {
+    "visually_compared_chapters": 24,
+    "visually_compared_verses": 656,
+    "verified_chapters": 24,
+    "verified_verses": 656,
+    "corrected_verses": 164
+  },
+  "validation": {
+    "checked_at": "2026-10-31",
+    "runtime": "Python 3.14.6; standard-library-only locked project; local AppleClang 17 CMake build with pinned SQLite sources",
+    "corpus_sha256_before": "d5073b74a37f9c9e22d51c19ff0c51ea15fcdfa7611064561c97e98fb73984c1",
+    "corpus_sha256_after": "adbb81ab07e76d487495f30e65ff9fa33885d88c008ed107006dcf06b022c878",
+    "changed_verses": 164,
+    "added_or_removed_verses": 0,
+    "other_languages_and_books_unchanged": true,
+    "mappings_unchanged": true,
+    "prior_ledger_evidence_unchanged": true,
+    "primary_scan_hashes_checked": 36,
+    "secondary_scan_hashes_checked": 32,
+    "retained_original_jp2_and_crop_pairs_checked": 3,
+    "resource_hashes_checked": 123,
+    "corpus_font_characters_covered": 287,
+    "checks_passed": [
+      "Swedish verification ledger checker: Josh 24/24 chapters, 656/656 verses",
+      "tests/swedish_verification_test.py",
+      "tests/swedish_audit_test.py",
+      "tests/osb_metadata_test.py: 6 tests",
+      "ctest core-storage-speech",
+      "ctest osb-reference",
+      "tools/check_resources.py: 123 hashes, both Literata fonts and Hebrew fallback",
+      "Exact before/after corpus and prior-evidence comparison",
+      "Whitespace outside generated word-list TSV; TSV independently verified as exactly four fields with empty terminal SAMPA fields"
+    ],
+    "speech_fixture_update": "jordans occurrences 12 -> 13 because Josh 3:13 restores skall Jordans vatten",
+    "not_run": [
+      "Full GUI/platform test matrix",
+      "Separate human errata review"
+    ]
+  }
+}

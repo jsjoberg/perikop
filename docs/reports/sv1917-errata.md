@@ -1,5 +1,7 @@
 # Errata för Runebergs Bibeln 1917 och apokryferna 1921
 
+Josuas senare main-baserade granskning finns i [separat bokerrata med JOS-ID:n](sv1917-errata-joshua.md). Dess 164 nya mänskliga kontrollrutor är omarkerade; tidigare rader och kontrollstatus nedan är bevarade.
+
 **Granskningsutkast, 2026-10-25. Inte insänt till Projekt Runeberg.**
 
 Patchtabellen omfattar nu 247 granskningsrader med rättelser, återställningar eller omnumreringar efter tjugotvå granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
