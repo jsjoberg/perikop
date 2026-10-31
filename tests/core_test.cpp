@@ -893,12 +893,18 @@ int main(int argc, char** argv) {
               "Jeremiah's missing i is corrected from the printed text");
         check(corpus.verse("sv1917", "Sir", {28, 9})->text.find("leva i frid") != std::string::npos,
               "Sirach's OCR l is corrected to the printed i");
+        check(corpus.verse("sv1917", "2Sam", {3, 3})->text.find("med Abigal,") != std::string::npos &&
+                  corpus.verse("sv1917", "2Sam", {13, 20})->text.find("broder Aminon") != std::string::npos,
+              "2 Samuel retains readings supported by the 1926 witness");
         struct TextCorrection {
             std::string book;
             VerseRef ref;
             std::string before, after;
         };
         for (const auto& correction : std::vector<TextCorrection>{
+                 {"2Sam", {6, 11}, "HERRES ark", "HERRENS ark"},
+                 {"2Sam", {7, 28}, "du du har", "du har"},
+                 {"2Sam", {20, 12}, "mannen såg allt", "mannen såg, att allt"},
                  {"2Kgs", {18, 21}, "förtröstar val nu", "förtröstar väl nu"},
                  {"Job", {9, 35}, "med min själv", "med mig själv"},
                  {"Ps", {22, 30}, "sin själv vid liv", "sin själ vid liv"},
