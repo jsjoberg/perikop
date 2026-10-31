@@ -9,7 +9,7 @@ de	11741	word
 det	8674	word	
 en	8482	word	"En
 Och	8353	word	"Ok
-skall	8264	word	"skal
+skall	8263	word	"skal
 på	8257	word	
 icke	8179	word	""I$ke
 för	8153	word	"f2:r
@@ -26,7 +26,7 @@ du	6355	word	"d}:
 sig	5118	word	"sEj
 I	4771	word	"i:
 dig	4735	word	"dEj
-HERREN	4698	word	""hE$ren
+HERREN	4700	word	""hE$ren
 mig	4673	word	"mEj
 hade	4486	word	""ha$de
 sade	4210	word	""sA:$de
@@ -53,7 +53,7 @@ när	2558	word	"nE:r
 Då	2454	word	"do:
 vad	2422	word	"vA:d
 hava	2415	word	""hA:$va
-skola	2386	word	""sku:$la
+skola	2387	word	""sku:$la
 deras	2223	word	""de:$ras
 mot	2217	word	"mu:t
 sina	2216	word	""si:$na
@@ -126,7 +126,7 @@ skolen	1068	word
 hand	1059	word	"hand
 Israel	1051	name	""i:s$ra$el
 henne	1032	word	""hE$ne
-Herren	1031	word	""hE$ren
+Herren	1029	word	""hE$ren
 bland	1026	word	"bland
 ingen	1009	word	""IN$en
 svarade	1009	word	""svA:$ra$de
@@ -188,7 +188,7 @@ gör	629	word	"j2:r
 ännu	629	word	""E$n}:
 kommit	627	word	""kO$mIt
 här	626	word	"hE:r
-väl	621	word	"vE:l
+väl	622	word	"vE:l
 tusen	618	word	"t}:$sen
 år	617	word	"o:r
 bliver	603	word	"bli:$ver
@@ -347,7 +347,7 @@ människa	275	word	""mE$nI$x\a
 kraft	274	word	"kraft
 vet	274	word	"ve:t
 arvedel	273	word	""ar$ve$%de:l
-dotter	273	word	""dO$ter
+dotter	272	word	""dO$ter
 tillsammans	272	word	tIl$"sa$mans
 fem	270	word	"fEm
 mannen	269	word	"ma$nen
@@ -1467,6 +1467,7 @@ bakom	50	word
 behöver	50	word	be$"h2:$ver
 bestämt	50	word	be$"stEmt
 borgen	50	word	"bOr$jen
+dottern	50	word	""dO$ten`
 dödas	50	word	""d2:$das
 döds	50	word	"d9ts
 enligt	50	word	
@@ -1489,7 +1490,6 @@ Fördenskull	49	word	f9$"d`En$sku0l
 Gads	49	name	
 anförare	49	word	""an$%f2:$ra$re
 behålla	49	word	be$"hO$la
-dottern	49	word	""dO$ten`
 dräpt	49	word	"drE:pt
 däremot	49	word	"dE:r$e$mu:t
 dött	49	word	"d9t
