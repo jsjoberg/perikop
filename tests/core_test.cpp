@@ -889,6 +889,19 @@ int main(int argc, char** argv) {
                       speech.speech_text.find("o. s. v.") == std::string::npos,
                   "every abbreviated o. s. v. in Ezra is expanded for speech");
         }
+        check(!corpus.verse("sv1917", "1Sam", {3, 22}) &&
+                  corpus.verse("sv1917", "1Sam", {4, 1})
+                      ->text.starts_with("Och Samuels ord kom till hela Israel. Och Israel drog ut"),
+              "First Samuel 4:1 includes the sentence printed before the chapter heading");
+        for (const std::string source : {"grc-lxx", "en-lxx2012"}) {
+            const auto swedish = corpus.parallel_verse(source, "sv1917", "1Sam", {4, 1});
+            const auto parallel = corpus.parallel_verse("sv1917", source, "1Sam", {4, 1});
+            check(swedish && swedish->ref == VerseRef{4, 1} &&
+                      swedish->last.value_or(swedish->ref) == VerseRef{4, 1} && parallel &&
+                      parallel->ref == VerseRef{4, 1} &&
+                      parallel->last.value_or(parallel->ref) == VerseRef{4, 1},
+                  "First Samuel 4:1 aligns individually in both directions");
+        }
         check(corpus.verse("sv1917", "Jer", {8, 15})->text.starts_with("Vi bida efter frid"),
               "Jeremiah's missing i is corrected from the printed text");
         check(corpus.verse("sv1917", "Sir", {28, 9})->text.find("leva i frid") != std::string::npos,

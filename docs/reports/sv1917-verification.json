@@ -3380,6 +3380,1329 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "aff54219dd4fa0b434ef0aa16221cc0ad46cf2604e73b89fe5e5636ed354cd44",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0374.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0374.tif",
+          "sha256": "1b7f431f8dd12e00a1944daea92393d7373ab21cb1924b327abdfb98ff4d9ffe"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0375.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0375.tif",
+          "sha256": "e71999a44190ea8943e64373dc5c41d0f2a812623e4acbb7ac0edfb089d107eb"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n354.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0343.jpg",
+          "sha256": "05b69e68ece5a2f053bbaa89196ea3b51730bc88520ff1e7078287b9ee0c55b0",
+          "printed_page": 343,
+          "leaf": 354
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n355.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0344.jpg",
+          "sha256": "cf4425291cbdfec2f5e22d7955793c5984fee68c578ed031b09e77c9890fc992",
+          "printed_page": 344,
+          "leaf": 355
+        }
+      ],
+      "notes": "Hela kapitlet, 28 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 374–375, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 1:6:s båda komman behålls med 1927-stöd; 1926 saknar dem. Tankstrecket vid 1:12–13 återges typografiskt i början av 13 i e-texten; inga ord flyttas. 1:19:s slutpunkt och 1:8:s slutcitat bekräftade i båda bilderna."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "69c5f7177f4fc06653ad044ba0e7a801ddda11328f85750ccc2c236f89161694",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0375.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0375.tif",
+          "sha256": "e71999a44190ea8943e64373dc5c41d0f2a812623e4acbb7ac0edfb089d107eb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0376.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0376.tif",
+          "sha256": "0ecd2ed54b89e09619aebf40f0bfeed2f10123b672848224dee38212caffe3e3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0377.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0377.tif",
+          "sha256": "589f9ed323751a4379272951bbf9249d8c890e31fa094653cea3864f8e7b637f"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n355.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0344.jpg",
+          "sha256": "cf4425291cbdfec2f5e22d7955793c5984fee68c578ed031b09e77c9890fc992",
+          "printed_page": 344,
+          "leaf": 355
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n356.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0345.jpg",
+          "sha256": "c386c520980381a86c209e8a8712ca7d2080f02d8bdc95cbb8a6ff6f9a04e218",
+          "printed_page": 345,
+          "leaf": 356
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n357.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0346.jpg",
+          "sha256": "43b05afbe7e58142244f4d3228e21698f03f08732234659d54b4982b5c7aee33",
+          "printed_page": 346,
+          "leaf": 357
+        }
+      ],
+      "notes": "Hela kapitlet, 36 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 375–377, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 2:1:s punkt efter genom HERREN stöds av 1927 (1926 semikolon). Kommaskillnaderna i 2:14,15,22,29,32,34 behålls med 1926-stöd. 2:36:s avslutande inre citattecken stöds av 1926; 1927 saknar det."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "eb7962592817dc78b05366cf9ba028ef158bad66e1c77944aed52c30c2705ae1",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0378.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0378.tif",
+          "sha256": "b6e11de1f93ad86a04494dd4c91ad80424f4fa6192a0194b5191c12e69bd6b87"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0379.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0379.tif",
+          "sha256": "7871837bc2702404372c42b97aba60f737cd457f9cfc9fa9983728237595836c"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n357.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0346.jpg",
+          "sha256": "43b05afbe7e58142244f4d3228e21698f03f08732234659d54b4982b5c7aee33",
+          "printed_page": 346,
+          "leaf": 357
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n358.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0347.jpg",
+          "sha256": "61364be06792276cf062b826e9388669bb4e6d654ef38e5feb27cbb8d26f17c4",
+          "printed_page": 347,
+          "leaf": 358
+        }
+      ],
+      "notes": "Hela kapitlet, 21 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 378–379, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 3:5:s semikolon efter jag stöds av 1926; 1927 har komma. 3:9:s inre enkla citat finns i båda trycken. 3:11 utan komma före som och 3:19 med komma efter upp stöds av 1926. 3:20:s komman efter Israel och Beer-Seba stöds av 1927. Den felaktiga e-textposten 3:22 hör till första delen av 4:1 i båda trycken; hela texten förs dit utan ordbortfall."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "d2df23375eca80f6969dea536d7b74e753c2fd658b5b87997b263b25c687239e",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0379.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0379.tif",
+          "sha256": "7871837bc2702404372c42b97aba60f737cd457f9cfc9fa9983728237595836c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0380.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0380.tif",
+          "sha256": "8641e00db5b00278b0fa0f4d05f0269760ade50dc5d72577e1b9cec46ba29103"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n358.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0347.jpg",
+          "sha256": "61364be06792276cf062b826e9388669bb4e6d654ef38e5feb27cbb8d26f17c4",
+          "printed_page": 347,
+          "leaf": 358
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n359.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0348.jpg",
+          "sha256": "e101dce33555abfc0bc8f118788ccc6a6062f54fdd683bad15c0ff09ea8166cb",
+          "printed_page": 348,
+          "leaf": 359
+        }
+      ],
+      "notes": "Hela kapitlet, 22 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 379–380, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 4:16:s ifrån stöds av 1926 (1927 från). Kommat efter I-Kabod i 4:21 stöds av 1926. 4:1 förenas med den felplacerade texten från 3:22; båda trycken sätter 4:1 före rubriken och fortsätter samma vers efter den."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 12,
+      "text_sha256": "a74b57008ce5c3cf33d34b0966539bd73eb3eb455d2d7d09763491100afe08fe",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0380.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0380.tif",
+          "sha256": "8641e00db5b00278b0fa0f4d05f0269760ade50dc5d72577e1b9cec46ba29103"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0381.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0381.tif",
+          "sha256": "a73a085b050d72db54667b9579f50eefd160aadf75440ee6c4ede2bf839c6179"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n360.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0349.jpg",
+          "sha256": "73ed4eaa793ba681d74f00ae6e5089fc37e4343c7cfc3c1a6aeb3ee34060498a",
+          "printed_page": 349,
+          "leaf": 360
+        }
+      ],
+      "notes": "Hela kapitlet, 12 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 380–381, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 5:11:s församla återställt över tryckets radbrytning. Alla tolv versnummer och sidfortsättningen 380–381 kontrollerade."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "9dd560a1d7b8f0a5fe1554194e4b105bacc4242fd42c5628060c9ecd682bd3a4",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0381.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0381.tif",
+          "sha256": "a73a085b050d72db54667b9579f50eefd160aadf75440ee6c4ede2bf839c6179"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0382.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0382.tif",
+          "sha256": "10178c7f95367133ee00184aef1dbf2adb682b22771cb073ac6412f3c0a2017b"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n360.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0349.jpg",
+          "sha256": "73ed4eaa793ba681d74f00ae6e5089fc37e4343c7cfc3c1a6aeb3ee34060498a",
+          "printed_page": 349,
+          "leaf": 360
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n361.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0350.jpg",
+          "sha256": "6c0b5d34be7c0f4542d45236765e56892017a6a90ff390f2ffb11a35d1327a60",
+          "printed_page": 350,
+          "leaf": 361
+        }
+      ],
+      "notes": "Hela kapitlet, 21 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 381–382, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. Kommaskillnader i 6:5,7,8,12,15,19,21 behålls när något av trycken stöder lydelsen. 6:8:s den stöds av 1927 (1926 dem). 6:19:s sjuttio man bland folket, femtio tusen man står i båda trycken; ingen harmonisering av talet. Slutcitatet i 6:21 återställt."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 17,
+      "text_sha256": "410b3d97b492577d0a40a27495a17f53ff4b21be5936333aae3653a9c1ba58d4",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0382.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0382.tif",
+          "sha256": "10178c7f95367133ee00184aef1dbf2adb682b22771cb073ac6412f3c0a2017b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0383.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0383.tif",
+          "sha256": "87eca3c8ddfbc02c4f98ac9320f63efb274309c9b0a09a609ec13f5558cd1edf"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n361.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0350.jpg",
+          "sha256": "6c0b5d34be7c0f4542d45236765e56892017a6a90ff390f2ffb11a35d1327a60",
+          "printed_page": 350,
+          "leaf": 361
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n362.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0351.jpg",
+          "sha256": "ec39584393b12bc15f8c5c82f3871587ebe16d25a8528162ab6bb530c58d1719",
+          "printed_page": 351,
+          "leaf": 362
+        }
+      ],
+      "notes": "Hela kapitlet, 17 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 382–383, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 7:2:s semikolon efter förgingo och 7:3:s slutcitat stöds av 1926. 7:2:s uteblivna komman kring då-satsen stöds av 1927. 7:13:s punkt och 7:17:s semikolon återställda med stöd av båda trycken."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "e07d739f646f94c0633a24609077faacdcb7a01203028208f1d6c80808a281c9",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0383.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0383.tif",
+          "sha256": "87eca3c8ddfbc02c4f98ac9320f63efb274309c9b0a09a609ec13f5558cd1edf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0384.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0384.tif",
+          "sha256": "a78e58ebc78c168cfd90bd29bbf3af263bd7fd6edde7a30d53b64a4ea00004e5"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n362.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0351.jpg",
+          "sha256": "ec39584393b12bc15f8c5c82f3871587ebe16d25a8528162ab6bb530c58d1719",
+          "printed_page": 351,
+          "leaf": 362
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n363.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0352.jpg",
+          "sha256": "3febbe83c0e3cff09a42b4609522b2e20528e4f37f00c76ecd38b6714a2d3175",
+          "printed_page": 352,
+          "leaf": 363
+        }
+      ],
+      "notes": "Hela kapitlet, 22 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 383–384, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 8:7:s komman efter ord och förkastat stöds av 1927 respektive 1926. Kommat före som i 8:20 stöds bara av 1927 och införs inte; 8:21 utan komma efter detta följer 1926. 8:17:s eder småboskap står i båda bilderna. 8:18:s slutcitat återställt och det främmande slutcitatet i 8:19 borttaget: talet fortsätter i 20."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "99d7a5f454816208a003a4bfdb88f47394deee48d41407e1285e70cf459cc72c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0384.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0384.tif",
+          "sha256": "a78e58ebc78c168cfd90bd29bbf3af263bd7fd6edde7a30d53b64a4ea00004e5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0385.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0385.tif",
+          "sha256": "0610eec5fba3b661a56bba5e3b8153a4a24bfbdbd9423096575ac557e72608ab"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0386.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0386.tif",
+          "sha256": "9db3d0f3325d24b54a46e7b475ce831317282bfe87f646ecf80cf5471ada1e5d"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n363.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0352.jpg",
+          "sha256": "3febbe83c0e3cff09a42b4609522b2e20528e4f37f00c76ecd38b6714a2d3175",
+          "printed_page": 352,
+          "leaf": 363
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n364.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0353.jpg",
+          "sha256": "0d1ffb7a55e139de79dd8d7da3e8c308efa00f5a4c218291ddef32dce56d38c6",
+          "printed_page": 353,
+          "leaf": 364
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n365.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0354.jpg",
+          "sha256": "a3d1eb01f8ce4b62cb14cf4f6c64667fb9bab4f0e2420124b8b897f164175487",
+          "printed_page": 354,
+          "leaf": 365
+        }
+      ],
+      "notes": "Hela kapitlet, 27 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 384–386, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 9:5:s uteblivna komma efter tjänaren, 9:20 utan komma efter allt och 9:24 utan komma efter det stöds av 1926; 1927 har extra komman. 9:6:s semikolon efter gudsman stöds av 1926 (1927 komma). 9:16:s från bekräftat i båda trycken. 9:22:s komma efter inbjudna stöds av 1927; Kis-apostrofen i 9:3 behålls som genitivtypografi."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "4caf7a1fef941d4179763a02805918f85f3221b37f7d8b42499ce9fbf4022b13",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0386.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0386.tif",
+          "sha256": "9db3d0f3325d24b54a46e7b475ce831317282bfe87f646ecf80cf5471ada1e5d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0387.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0387.tif",
+          "sha256": "91eb07dff02ac4187488c8eb959bb35a1bad221b769956d4d619e87646edf705"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n365.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0354.jpg",
+          "sha256": "a3d1eb01f8ce4b62cb14cf4f6c64667fb9bab4f0e2420124b8b897f164175487",
+          "printed_page": 354,
+          "leaf": 365
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n366.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0355.jpg",
+          "sha256": "36a95c782b03eba20a0664e4fb59f99cd8959ae297d00f0262612da905e222d0",
+          "printed_page": 355,
+          "leaf": 366
+        }
+      ],
+      "notes": "Hela kapitlet, 27 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 386–387, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 10:2:s inre slutcitat stöds av 1926. 10:10:s komman runt mitt ibland dem stöds av 1927. Komman i 10:11,18,24,26 införs inte när 1926 stöder nuvarande frånvaro. 10:19:s enkla inre citat behålls; 1926 använder dubbelt, 1927 enkelt. 10:20:s Benjamins och 10:23:s hämtade bekräftade i båda bilderna."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "86b28c2f4149833931198006ca53f9e80b45c5c8a324f327ee098cb5b5772b20",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0387.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0387.tif",
+          "sha256": "91eb07dff02ac4187488c8eb959bb35a1bad221b769956d4d619e87646edf705"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0388.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0388.tif",
+          "sha256": "a05b836c3107f7926dad4972bb72f59fb955ce89e3ffad8997cb388cf23a8465"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n366.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0355.jpg",
+          "sha256": "36a95c782b03eba20a0664e4fb59f99cd8959ae297d00f0262612da905e222d0",
+          "printed_page": 355,
+          "leaf": 366
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n367.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0356.jpg",
+          "sha256": "2f206608cb8b5d2e763800ff1798154a188050fef3b3b35f6ec620d4ad0fc7a6",
+          "printed_page": 356,
+          "leaf": 367
+        }
+      ],
+      "notes": "Hela kapitlet, 15 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 387–388, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 11:5:s männen bekräftat i båda trycken. 11:9,11,12:s olika kommatering och 11:15:s komma efter ansikte behålls med tryckstöd. 11:10:s vadhelst stöds av 1927; 1926 har vad helst. Kommat efter tusen i 11:8 stöds av 1927."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "7070cdb234e4982f122cb1c3b7e8933575b9981f9fdfc3877df9e9530e82ab4f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0388.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0388.tif",
+          "sha256": "a05b836c3107f7926dad4972bb72f59fb955ce89e3ffad8997cb388cf23a8465"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0389.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0389.tif",
+          "sha256": "b57a317346edeb259942f221e762fe1addc3c64edf463db646853ed2ba7c47c8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0390.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0390.tif",
+          "sha256": "7987bd94792411825c25d7ef093d1ef2c740458526d9c85d0fec74a8f7087659"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n367.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0356.jpg",
+          "sha256": "2f206608cb8b5d2e763800ff1798154a188050fef3b3b35f6ec620d4ad0fc7a6",
+          "printed_page": 356,
+          "leaf": 367
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n368.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0357.jpg",
+          "sha256": "259fe728b10e81b246f029475edd32415b0138444aa1179f96285b7f53c6018a",
+          "printed_page": 357,
+          "leaf": 368
+        }
+      ],
+      "notes": "Hela kapitlet, 25 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 388–390, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 12:1 utan komma efter allt, 12:7 utan komma efter gott, 12:13 utan komma efter konung och 12:22:s komma efter folk stöds av 1926; 12:23 utan komma efter mig stöds av 1927. 12:8:s främmande fram saknas i båda bilderna och tas bort. 12:25:s kommaskillnad före vad följer 1927 utan extra komma."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "825fbb3db075d8c64fe6af8cfc64700ea7e304aa2660a06ebc1776fa7ac400e2",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0390.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0390.tif",
+          "sha256": "7987bd94792411825c25d7ef093d1ef2c740458526d9c85d0fec74a8f7087659"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0391.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0391.tif",
+          "sha256": "4cf76ac4e22a98f4ebd089ce4aab1cccc29164404e7cb9b5d754745429e848b5"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n368.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0357.jpg",
+          "sha256": "259fe728b10e81b246f029475edd32415b0138444aa1179f96285b7f53c6018a",
+          "printed_page": 357,
+          "leaf": 368
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n369.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0358.jpg",
+          "sha256": "c8c925b51580c93160178f4900a15052aa63318abb0495121229d05d9bf9f2d0",
+          "printed_page": 358,
+          "leaf": 369
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n370.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0359.jpg",
+          "sha256": "8d3fdb3cae8ef3d5ca0e231573f83213dba6bb755668d53b599ffab3678e7e89",
+          "printed_page": 359,
+          "leaf": 370
+        }
+      ],
+      "notes": "Hela kapitlet, 23 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 390–391, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 13:5:s trettio tusen stöds av 1926; 1927 har trettiotusen. Kommat efter Mikmas i samma vers stöds av 1927. 13:4:s komma efter fogde och 13:21:s komma efter yxorna stöds av 1927. Komman i 13:14,16,18 behålls enligt befintlig lydelse med stöd av minst ett tryck. Vers 13:1 står i båda svenska trycken och får inte tas bort efter grekisk versindelning."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 52,
+      "text_sha256": "4e9e8d40508382c369278967ef4af333ba11ca1f1d17bde2bf28810511669cd8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0391.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0391.tif",
+          "sha256": "4cf76ac4e22a98f4ebd089ce4aab1cccc29164404e7cb9b5d754745429e848b5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0392.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0392.tif",
+          "sha256": "e71c88a6566dd73117ea173fa64eccbd8d89ccba413f33ecead91aaf2dcadb43"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0393.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0393.tif",
+          "sha256": "1075deb7c566903970d8c70ebf77425c7fd22aaa6d892e4816ec2a88a14b5766"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0394.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0394.tif",
+          "sha256": "bedc7768b0addfde0d0ee6d8c1eb1e28b09db86f323cbdc96790401de0dd1a5a"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n370.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0359.jpg",
+          "sha256": "8d3fdb3cae8ef3d5ca0e231573f83213dba6bb755668d53b599ffab3678e7e89",
+          "printed_page": 359,
+          "leaf": 370
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n371.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0360.jpg",
+          "sha256": "65fef07fe066cb7504397df6e2697253156b5176c85c89389706c0135e6dff63",
+          "printed_page": 360,
+          "leaf": 371
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n372.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0361.jpg",
+          "sha256": "cb619fb94fadda16e66ff291c6cf2c325f42a3820c16d768d3002899bb08f9fb",
+          "printed_page": 361,
+          "leaf": 372
+        }
+      ],
+      "notes": "Hela kapitlet, 52 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 391–394, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 14:3 bar och 14:28 i dag återställda i båda bilderna. 14:5:s komman efter norr/söder, 14:12:s komma efter ditupp, 14:24:s komma efter aftonen, 14:30:s Huru, 14:34:s avsaknad av kolon efter dem, 14:36:s komma efter morgon och 14:45:s ifrån stöds av minst ett tryck. 14:28:s inre slutcitat följer 1926; 1927 placerar punkten annorlunda. 14:17,21,30,36,43,46,47:s kommaskillnader behålls med tryckstöd. 14:50 Abiner och 14:51 Abners är tryckens egna former."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "cb357eb9ebcd94d45f6b1ea83d57a1f847e9cad41f87fce69087d0a4a205841c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0394.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0394.tif",
+          "sha256": "bedc7768b0addfde0d0ee6d8c1eb1e28b09db86f323cbdc96790401de0dd1a5a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0395.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0395.tif",
+          "sha256": "7915c3f71d4880f8078e9b18c06b50cd79940ba5868b095cca79926e7f199c8f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0396.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0396.tif",
+          "sha256": "325cc08690b61c621152c2992299edf0502553fe3eb4e1a091281eeb158646a7"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n372.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0361.jpg",
+          "sha256": "cb619fb94fadda16e66ff291c6cf2c325f42a3820c16d768d3002899bb08f9fb",
+          "printed_page": 361,
+          "leaf": 372
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n373.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0362.jpg",
+          "sha256": "b97c29afcf93035d84858ca785136bfbaede6d3ed22f09d75e305bac096c6bb1",
+          "printed_page": 362,
+          "leaf": 373
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n374.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0363.jpg",
+          "sha256": "b5aba882b22fa1f531ab6b68a3842a7e033239fb082cae1dfd2def973aca900a",
+          "printed_page": 363,
+          "leaf": 374
+        }
+      ],
+      "notes": "Hela kapitlet, 35 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 394–396, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 15:4,7,12,16,19,20,22,24,25:s kommaskillnader bevarade med stöd av minst ett tryck. 15:16 har kolon före Tala i 1926 men saknar det i 1927; e-textens kolon behålls. 15:26:s OCR-streck före citatet är ingen textändring; 15:33:s komman efter HERREN stöds av 1927."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "6b959fd09d55c5ffafe3a1e6ad8503d6c35b8ae188eed2d03ca5a9e9788c3186",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0396.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0396.tif",
+          "sha256": "325cc08690b61c621152c2992299edf0502553fe3eb4e1a091281eeb158646a7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0397.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0397.tif",
+          "sha256": "f3ebc27281afa0a12e446f204fae9bd9d4226392b7c0a21042c7eabdfbd9bc7f"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n374.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0363.jpg",
+          "sha256": "b5aba882b22fa1f531ab6b68a3842a7e033239fb082cae1dfd2def973aca900a",
+          "printed_page": 363,
+          "leaf": 374
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n375.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0364.jpg",
+          "sha256": "bff201c6e211c2a39b1c3f6c76d6daac450f9e30ca60c0dd6a8a30e1f12a21ed",
+          "printed_page": 364,
+          "leaf": 375
+        }
+      ],
+      "notes": "Hela kapitlet, 23 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 396–397, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 16:2:s inre enkla citat löper vidare in i 16:3 utan extra dubbelt slutcitat; båda bilderna kontrollerade. 16:7:s ser; en stöds av 1927 (1926 ser, en). 16:13:s komma efter David och 16:20:s komma efter killing stöds av 1927. Kommat före som i 16:17 införs inte eftersom 1926 saknar det. Strängaspel i 16:17–18 stöds av 1927, medan 1926 har strängspel."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 58,
+      "text_sha256": "89f4ecfb6d9b6681accef582fec4448e665b7bd70b6b1ab0dc9d0ded133a210b",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0397.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0397.tif",
+          "sha256": "f3ebc27281afa0a12e446f204fae9bd9d4226392b7c0a21042c7eabdfbd9bc7f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0398.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0398.tif",
+          "sha256": "b92cc544477cc57f9c2510153fb9a04f0ed257bdb03b10a9bca981cdbba81591"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0399.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0399.tif",
+          "sha256": "af0c8d8f499aad535fd4d3f6c60e74fcb5d3934cd00343ef2627eaf63be47af9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0400.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0400.tif",
+          "sha256": "bc78f2cbfae6f0809d8b27bc1a8a169a12ea0a5b73a79984ac4260164500ec3e"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n375.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0364.jpg",
+          "sha256": "bff201c6e211c2a39b1c3f6c76d6daac450f9e30ca60c0dd6a8a30e1f12a21ed",
+          "printed_page": 364,
+          "leaf": 375
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n376.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0365.jpg",
+          "sha256": "621a9c9b11b3dd2e68d5b7c11f8f6452b861e04a3c63a09525d795b0d795909a",
+          "printed_page": 365,
+          "leaf": 376
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n377.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0366.jpg",
+          "sha256": "8b2b5227b1f35460eaacbe2500bd187ccfda2bdfad8357b313dedaebf9113fd2",
+          "printed_page": 366,
+          "leaf": 377
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n378.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0367.jpg",
+          "sha256": "72ccd484c0296572840090a5c987bccb18441fea1e861546711a744f7d2e7499",
+          "printed_page": 367,
+          "leaf": 378
+        }
+      ],
+      "notes": "Hela kapitlet, 58 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 397–400, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 17:1:s semikolon och frånvaro av komma efter Soko stöds av 1926. 17:23 ifrån, 17:27:s inledande citat/versal, 17:28,31:s komman, 17:36 nu, 17:42:s semikolon, 17:43:s slutcitat och 17:58 utan komma efter tjänare stöds av 1926. 17:29 har dubbelt en i 1927 men enkelt i 1926; e-textens enkla form behålls. 17:40:s komma efter barmen och 17:57:s komman runt efter-satsen stöds av 1927. Män i 17:26, enkelt du i 17:33 och sköldbärare i 17:41 bekräftade i båda bilderna."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "d27129fa55ab44ecc8432255f02010a20097d37c58a9423fa4c81583a52c470c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0400.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0400.tif",
+          "sha256": "bc78f2cbfae6f0809d8b27bc1a8a169a12ea0a5b73a79984ac4260164500ec3e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0401.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0401.tif",
+          "sha256": "dc465932060411281553bdc7dce27899c783074387246a3e4ea08c99be9c7933"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0402.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0402.tif",
+          "sha256": "0d2f3609556954df75c17765ebfa382b644853e15eebc69e17d79a5d524c18cb"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n378.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0367.jpg",
+          "sha256": "72ccd484c0296572840090a5c987bccb18441fea1e861546711a744f7d2e7499",
+          "printed_page": 367,
+          "leaf": 378
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n379.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0368.jpg",
+          "sha256": "e6d0e8ddde669b5b72c8479e8cdfc06fb4fc01aa689f4db8514326b8f60dc275",
+          "printed_page": 368,
+          "leaf": 379
+        }
+      ],
+      "notes": "Hela kapitlet, 30 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 400–402, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 18:5:s semikolon stöds av 1926; 18:6:s kommatering med flera inskjutna satser följer 1927. 18:11:s komma före två gånger och 18:27:s komma efter sig stöds av 1927. 18:29 ännu mer stöds av 1926 (1927 än mer). 18:28:s och har gemen efter semikolon i båda trycken."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "aa8d98d27c78fc778980c38b41a9082c302789bb785e1554f99e51339ddf992c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0402.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0402.tif",
+          "sha256": "0d2f3609556954df75c17765ebfa382b644853e15eebc69e17d79a5d524c18cb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0403.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0403.tif",
+          "sha256": "a88745e89c50e001fa6f0340961eac794eaab09bc43ae459eb0aece49a3bd877"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n380.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0369.jpg",
+          "sha256": "659dbc20670614e6a477d098575201deeab475e0d3c40ef90b59b4022f71c9b0",
+          "printed_page": 369,
+          "leaf": 380
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n381.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0370.jpg",
+          "sha256": "e8aed0cdd2302de0cebe75a6405e03b7d4a93b8a963c2b9fd4ca8727c91611d9",
+          "printed_page": 370,
+          "leaf": 381
+        }
+      ],
+      "notes": "Hela kapitlet, 24 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 402–403, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 19:3:s slutcitat återställt. 19:7 utan komma efter allt och 19:23:s komma efter hänryckning stöds av 1926. 19:12:s slutpunkt stöds av 1926 (1927 komma). 19:19 har komma efter Saul i båda bilderna; IA-OCR:s semikolon är fel. 19:20:s främmande komma före och tas bort; ingen sådan skiljning i någon bild."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "7d30b197157b3d145eaa37a002ab6445128edad8768810e67dff2b411b7426b6",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0403.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0403.tif",
+          "sha256": "a88745e89c50e001fa6f0340961eac794eaab09bc43ae459eb0aece49a3bd877"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0404.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0404.tif",
+          "sha256": "26399738c31b8c5b9757ae9e95bbfb1c736ca13968639f884a327e0846670f42"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0405.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0405.tif",
+          "sha256": "ca49fe6950252361c26b33dbd7852c72af30438afe5f578ce539ee668fcd672e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0406.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0406.tif",
+          "sha256": "1ef7ed2af79a8fbc6f2c3cca800f1a1a8caf29fc420c3e65624cd978fd7e5118"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n381.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0370.jpg",
+          "sha256": "e8aed0cdd2302de0cebe75a6405e03b7d4a93b8a963c2b9fd4ca8727c91611d9",
+          "printed_page": 370,
+          "leaf": 381
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n382.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0371.jpg",
+          "sha256": "195e6a1d0821dbac9f96d8966fd49ec9fd4405d25a3f71862edafff7380e6760",
+          "printed_page": 371,
+          "leaf": 382
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n383.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0372.jpg",
+          "sha256": "132282e0c77854d8ee45d92cdf99c5485dcd5ee9f76649df35bfa4dcb0a2bab0",
+          "printed_page": 372,
+          "leaf": 383
+        }
+      ],
+      "notes": "Hela kapitlet, 43 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 403–406, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 20:1 ifrån, 20:12:s komma efter HERREN och 20:21:s enkla inre citat bekräftade i båda trycken. 20:7 bliver, 20:18:s inledande citat och 20:40:s avsaknad av komman stöds av 1926. 20:15:s ifrån, 20:16 utan komma efter fiender och 20:42:s komma efter dina stöds av 1927. 20:43 finns som egen vers i båda svenska trycken; befintlig mappning till andra utgåvors 21:1 behålls."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "41146b09b412a79c6353df3e739f6a1a3fe2627660d169455a0e836e558a3e75",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0406.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0406.tif",
+          "sha256": "1ef7ed2af79a8fbc6f2c3cca800f1a1a8caf29fc420c3e65624cd978fd7e5118"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0407.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0407.tif",
+          "sha256": "7bdd15051e22f9aab5b1442a7c1c431ae7c68ba462e5c23b6bf302ad06d17692"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n383.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0372.jpg",
+          "sha256": "132282e0c77854d8ee45d92cdf99c5485dcd5ee9f76649df35bfa4dcb0a2bab0",
+          "printed_page": 372,
+          "leaf": 383
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n384.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0373.jpg",
+          "sha256": "17db132df5975e0a5a5205ce8af5fbc6c39cd80e7841016ee92231c26d2164c0",
+          "printed_page": 373,
+          "leaf": 384
+        }
+      ],
+      "notes": "Hela kapitlet, 15 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 406–407, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 21:2:s komma efter dig, 21:5:s komma efter heligt och 21:9:s semikolon efter Terebintdalen stöds av 1926. 21:3:s avsaknad av komma efter nu och 21:6:s komma efter undan stöds av 1927. 21:11:s saknade yttre slutcitat återställt med båda bilderna. Kapitelrubriken ändrar inte numreringen; alla 15 svenska verser kontrollerade."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "6f0643af02ddcf1a4380e6f089a39cdd60ba0c1432c20ca84449d46837778a3c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0407.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0407.tif",
+          "sha256": "7bdd15051e22f9aab5b1442a7c1c431ae7c68ba462e5c23b6bf302ad06d17692"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0408.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0408.tif",
+          "sha256": "47676449ee35806333d60c25189e94116272ceba939fb4d910393103cf1814d4"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n384.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0373.jpg",
+          "sha256": "17db132df5975e0a5a5205ce8af5fbc6c39cd80e7841016ee92231c26d2164c0",
+          "printed_page": 373,
+          "leaf": 384
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n385.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0374.jpg",
+          "sha256": "40c654651e2bcc8a93d7b72b083f09b9364d7a8a1f1cf1a261efd458291e4eb3",
+          "printed_page": 374,
+          "leaf": 385
+        }
+      ],
+      "notes": "Hela kapitlet, 23 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 407–408, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 22:5 Heretskogen stöds av 1927 (1926 Heret-skogen). 22:6:s komma efter höjden stöds av 1927. Kommaskillnader före som i 22:6,17, före att i 22:22 och före som i 22:15 behålls enligt befintlig läsning med stöd av minst ett tryck. 22:18 har komma efter män i båda bilderna trots störd IA-OCR."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 23,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "ec0314bcd0551cfd506c87e6be8c44b3c8de296f632f816879e40e1d8f984871",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0408.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0408.tif",
+          "sha256": "47676449ee35806333d60c25189e94116272ceba939fb4d910393103cf1814d4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0409.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0409.tif",
+          "sha256": "b93055fc357d9adaef0daff40f26364f826005f9507d71a2d96a16d1bfc3cfcb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0410.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0410.tif",
+          "sha256": "61878d03f049b7868b8518bedaf5b4a1222d42bcf3fb0eb634bf53618923202d"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n385.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0374.jpg",
+          "sha256": "40c654651e2bcc8a93d7b72b083f09b9364d7a8a1f1cf1a261efd458291e4eb3",
+          "printed_page": 374,
+          "leaf": 385
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n386.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0375.jpg",
+          "sha256": "1adad08feafc9b78f06ada5cc22109540bd29245a772c567117f43cf29da5309",
+          "printed_page": 375,
+          "leaf": 386
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n387.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0376.jpg",
+          "sha256": "e66e84c9bbf0fb8eb057cb2cecb2f6068516710d6e5a5555a284497fb071a5ab",
+          "printed_page": 376,
+          "leaf": 387
+        }
+      ],
+      "notes": "Hela kapitlet, 28 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 408–410, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 23:3 skulle, 23:8 och 12 män samt 23:25 omtalade bekräftade i båda trycken. 23:4:s semikolon och 23:11:s punkt innanför citatet stöds av 1926. 23:13:s komman runt som-satsen och frånvaro av komma efter vandrade stöds av 1927. 23:19:s komma efter Hakilahöjden stöds av 1927. Kommat vid slutet av 23:26 hör till versen i båda trycken; fortsättningen börjar med kom i 27."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "efd010c5d678fbf78892d6cc5138053b65777822c7f83340d1b9c867106285f8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0410.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0410.tif",
+          "sha256": "61878d03f049b7868b8518bedaf5b4a1222d42bcf3fb0eb634bf53618923202d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0411.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0411.tif",
+          "sha256": "b9de93b7c600253f1fc275e0df727248937b17119623e84179e71200991c0ea8"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n387.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0376.jpg",
+          "sha256": "e66e84c9bbf0fb8eb057cb2cecb2f6068516710d6e5a5555a284497fb071a5ab",
+          "printed_page": 376,
+          "leaf": 387
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n388.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0377.jpg",
+          "sha256": "06514f0d9e1b7ef009651dbe2b86f4aa78657c1346af50a9c4164b97f66aaaa5",
+          "printed_page": 377,
+          "leaf": 388
+        }
+      ],
+      "notes": "Hela kapitlet, 23 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 410–411, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 24:1 är egen svensk vers i båda trycken; mappningen till andra utgåvors 23:29 behålls. 24:5 utan komma efter honom, 24:9:s komman, 24:12:s komma efter mantel, 24:14:s kolon efter säger och 24:20 utan komma efter goda stöds av minst ett tryck. 24:11 fortsätter med gemen och utan ny mening efter grottan; båda bilderna har också gemen smorde och avslutande inre citat. 24:14:s min återställt; det främmande slutcitatet tas bort eftersom talet fortsätter till 16."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 25,
+      "status": "verified",
+      "verse_count": 44,
+      "text_sha256": "95a90d0b2cd27a91d1430f090cf2f60fcf088e4cc43885043b83da1b706f197b",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0411.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0411.tif",
+          "sha256": "b9de93b7c600253f1fc275e0df727248937b17119623e84179e71200991c0ea8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0412.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0412.tif",
+          "sha256": "0da6208639f25eec4336877c5317df40e5b1f58c9db5dfaa330ff2f66db4aecb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0413.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0413.tif",
+          "sha256": "b6c6457f0ecdee755736b00a9e4946028f886bc98bb022e3c91360140db24542"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0414.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0414.tif",
+          "sha256": "e4ffe65af50f573977d04316f96ad3335daa97d226fb0f518893e27412fe44b4"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n388.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0377.jpg",
+          "sha256": "06514f0d9e1b7ef009651dbe2b86f4aa78657c1346af50a9c4164b97f66aaaa5",
+          "printed_page": 377,
+          "leaf": 388
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n389.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0378.jpg",
+          "sha256": "69503d673fed38c65187b83273ec311ec9b76c77e60a3e2f1a747f2b1a2fa6f6",
+          "printed_page": 378,
+          "leaf": 389
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n390.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0379.jpg",
+          "sha256": "efe39eb47083564a54353e8a6e0932865aa278aef6daf9e3cddb9b3db53b08b9",
+          "printed_page": 379,
+          "leaf": 390
+        }
+      ],
+      "notes": "Hela kapitlet, 44 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 411–414, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 25:5:s från stöds av 1927 (1926 ifrån). 25:6 börjar med enkelt inre citat i båda trycken; 25:8:s inre slutcitat stöds av 1926. 25:7:s komman efter grannskap och förfång, 25:12:s semikolon, 25:26,27:s uteblivna komman och 25:36:s komma efter honom stöds av minst ett tryck. 25:15 därute stöds av 1927 (1926 där ute). 25:37 utan komma efter honom och 25:39 utan komman kring vad ont var stöds av 1927. 25:42 utan komman kring som-satsen efter dem och 25:44 utan komma efter dotter stöds av 1926. 25:21 han har och 25:32 Abigail återställda med stöd av båda bilderna."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 26,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "3bc27c19dbdcb64acbf955d49e2f48f9c601f55f5566143cfd6d3ed56b969eca",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0414.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0414.tif",
+          "sha256": "e4ffe65af50f573977d04316f96ad3335daa97d226fb0f518893e27412fe44b4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0415.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0415.tif",
+          "sha256": "b048b761235f37a6308c373e9648e247422d0220dc506d4370d7860ea8c3adb2"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n390.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0379.jpg",
+          "sha256": "efe39eb47083564a54353e8a6e0932865aa278aef6daf9e3cddb9b3db53b08b9",
+          "printed_page": 379,
+          "leaf": 390
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n391.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0380.jpg",
+          "sha256": "f6be2c10dfd19c7875b25f39386ea227f50cb697512527f5a81e0b44becfc7c1",
+          "printed_page": 380,
+          "leaf": 391
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n392.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0381.jpg",
+          "sha256": "9e11dc645b613430804f89968ee16698ee063eeaf3cbdc5746f7fa00349de303",
+          "printed_page": 381,
+          "leaf": 392
+        }
+      ],
+      "notes": "Hela kapitlet, 25 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 414–415, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 26:5:s omkring honom. återställt: båda trycken visar orden efter runt. 26:11:s slutcitat finns i båda bilderna. Kommaskillnader i 26:1,3,4,14,15,18,22 behålls med tryckstöd; 26:17:s punkt efter David stöds av 1927 (1926 utropstecken). I 26:15 har båda du en man, som; kommat infört."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 27,
+      "status": "verified",
+      "verse_count": 12,
+      "text_sha256": "97149614cd5aa38f7ebcc0f330f7fd716ee7776d1622149e632fd2b409b4a41a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0415.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0415.tif",
+          "sha256": "b048b761235f37a6308c373e9648e247422d0220dc506d4370d7860ea8c3adb2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0416.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0416.tif",
+          "sha256": "101087264f78c7fce3a6180af0fc6038a2a21142977fab623d7ad9f97ff5399f"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n392.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0381.jpg",
+          "sha256": "9e11dc645b613430804f89968ee16698ee063eeaf3cbdc5746f7fa00349de303",
+          "printed_page": 381,
+          "leaf": 392
+        }
+      ],
+      "notes": "Hela kapitlet, 12 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 415–416, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 27:1:s ifrån, 27:10:s kolon före sista citatet och 27:11 utan komma efter tid stöds av minst ett tryck. 27:11:s enkla inre citat följer 1927; 1926 har dubbelt. 27:12:s slutcitat återställt i båda bilderna."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 28,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "b7b55a00f4429712762960d37ff4176bce03f1a7beb776098953474aa4b49f89",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0416.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0416.tif",
+          "sha256": "101087264f78c7fce3a6180af0fc6038a2a21142977fab623d7ad9f97ff5399f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0417.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0417.tif",
+          "sha256": "57b5a313b49a6c8ceb3817220b09bce41ecfbeabb5d7d6a05344d80c84dbfab2"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n392.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0381.jpg",
+          "sha256": "9e11dc645b613430804f89968ee16698ee063eeaf3cbdc5746f7fa00349de303",
+          "printed_page": 381,
+          "leaf": 392
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n393.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0382.jpg",
+          "sha256": "d5bd3c82a0db768ec3c925800322a8e2dc26719eea6252dd813441c3b22c6bde",
+          "printed_page": 382,
+          "leaf": 393
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n394.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0383.jpg",
+          "sha256": "373811d7595f188b8048ef28c5d9f6a50df1f9f05afe3e6fa44bc67ccb8ac002",
+          "printed_page": 383,
+          "leaf": 394
+        }
+      ],
+      "notes": "Hela kapitlet, 25 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 416–417, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 28:2 David svarade Akis stöds av 1926; 1927 har Då svarade Akis och ändras inte in i e-texten. 28:8:s komma efter anden, 28:12:s punkt efter Saul och 28:15:s slutcitat stöds av minst ett tryck. 28:15 har ett extra inledande citat före Saul svarade i 1927; det införs inte. 28:21:s gemena jag, 28:22 din tjänarinnas och 28:25 utan kolon efter Saul bekräftade i båda bilderna."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 29,
+      "status": "verified",
+      "verse_count": 11,
+      "text_sha256": "2af28a4a85bfb835c807082ef0010a5a8f783d84e0dcfe438ad6fc60731c0cb9",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0417.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0417.tif",
+          "sha256": "57b5a313b49a6c8ceb3817220b09bce41ecfbeabb5d7d6a05344d80c84dbfab2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0418.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0418.tif",
+          "sha256": "0d6f9b9208d8cc0afbe2484513cb2bde08ee02a4e76f252c85899f0503ca0d15"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n394.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0383.jpg",
+          "sha256": "373811d7595f188b8048ef28c5d9f6a50df1f9f05afe3e6fa44bc67ccb8ac002",
+          "printed_page": 383,
+          "leaf": 394
+        }
+      ],
+      "notes": "Hela kapitlet, 11 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 417–418, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 29:3:s slutcitat finns i båda bilderna och återställs. 29:4:s dubbla med i e-texten stöds av 1927; 1926 har enkelt med. Ingen normalisering görs. 29:4:s semikolon efter honom, 29:7 utan komma efter något och 29:10 utan komma efter tjänare stöds av 1926. 29:2:s komma efter tusen och 29:6,8:s komman efter dig/tjänare stöds av 1927."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 30,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "adb7f4763653d3e96576d2dcb97e2a1f9950c3655d12ed600dcecae65c94dd32",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0418.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0418.tif",
+          "sha256": "0d6f9b9208d8cc0afbe2484513cb2bde08ee02a4e76f252c85899f0503ca0d15"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0419.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0419.tif",
+          "sha256": "b524f64f81792fbc7ea3b39b391326d9bf1fb1c3d7a0158d59f0766209f6fd0b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0420.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0420.tif",
+          "sha256": "d823c9c25709d173e2b791c182c66f2f11ffb4927edefe4d108a3523cffa9203"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n394.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0383.jpg",
+          "sha256": "373811d7595f188b8048ef28c5d9f6a50df1f9f05afe3e6fa44bc67ccb8ac002",
+          "printed_page": 383,
+          "leaf": 394
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n395.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0384.jpg",
+          "sha256": "e308fd6655108f7e8db22f20e0e5334d0d89fa622f40f2f0b3e10f0a7232bec5",
+          "printed_page": 384,
+          "leaf": 395
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n396.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0385.jpg",
+          "sha256": "8b3c1c6ef64b2e76b4be9ea15e895b7ab45f2668780daafe2d174fef9726b78f",
+          "printed_page": 385,
+          "leaf": 396
+        }
+      ],
+      "notes": "Hela kapitlet, 31 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 418–420, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 30:3:s fick se behålls: båda trycken har fick, inte fingo. 30:10 hade bekräftat i båda trycken. 30:2:s komma efter fångar, 30:3:s komma efter eld, 30:9,10:s komman, 30:11 utan slutkomma, 30:13:s semikolon, 30:14:s komman, 30:16,17,21,22:s avsaknad av komman och 30:20:s komma efter fäkreatur behålls med stöd av minst ett tryck. 30:21:s komma efter folk finns i båda bilderna. Alla ortsnamn och versgränser i 30:26–31 jämförda."
+    },
+    {
+      "book": "1Sam",
+      "chapter": 31,
+      "status": "verified",
+      "verse_count": 13,
+      "text_sha256": "ed5d90176d1b4ceae6736988cb33bac6c80b61e817c7367049a17e9bbc664c6e",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; supplementary EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0420.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0420.tif",
+          "sha256": "d823c9c25709d173e2b791c182c66f2f11ffb4927edefe4d108a3523cffa9203"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0421.1.tif",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0421.tif",
+          "sha256": "a603be7d32cdc32825d56cc70923417904fdc7a633012dfd2eb4598ed8a4d3ab"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n396.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0385.jpg",
+          "sha256": "8b3c1c6ef64b2e76b4be9ea15e895b7ab45f2668780daafe2d174fef9726b78f",
+          "printed_page": 385,
+          "leaf": 396
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n397.jpg",
+          "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0386.jpg",
+          "sha256": "00c35a9a2e2105d785a3f429bd60a26ea29ba1f258428307859596b0b25e21ba",
+          "printed_page": 386,
+          "leaf": 397
+        }
+      ],
+      "notes": "Hela kapitlet, 13 versposter, visuellt jämfört ord för ord inklusive interpunktion och versgränser mot EFS 1927 s. 420–421, med sid- och spaltfortsättningar. EFS 1926-bilderna används för rättelser och behållna vittnesskillnader; ingen separat helkapitelstatus tilldelas det vittnet. 31:1:s avsaknad av komma efter filistéerna, 31:3:s komma efter honom och 31:6:s komma efter vapendragare stöds av minst ett tryck. 31:11 löper från 420 till 421 och 31:12 över spaltgränsen på 421; slutet 31:13 jämfört. Ingen text i Andra Samuelsboken tillgodoräknas."
     }
   ],
   "unnumbered": [

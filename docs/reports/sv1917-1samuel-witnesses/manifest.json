@@ -1,0 +1,554 @@
+{
+  "efs1927": [
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0374.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0374.tif",
+      "sha256": "1b7f431f8dd12e00a1944daea92393d7373ab21cb1924b327abdfb98ff4d9ffe"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0375.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0375.tif",
+      "sha256": "e71999a44190ea8943e64373dc5c41d0f2a812623e4acbb7ac0edfb089d107eb"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0376.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0376.tif",
+      "sha256": "0ecd2ed54b89e09619aebf40f0bfeed2f10123b672848224dee38212caffe3e3"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0377.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0377.tif",
+      "sha256": "589f9ed323751a4379272951bbf9249d8c890e31fa094653cea3864f8e7b637f"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0378.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0378.tif",
+      "sha256": "b6e11de1f93ad86a04494dd4c91ad80424f4fa6192a0194b5191c12e69bd6b87"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0379.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0379.tif",
+      "sha256": "7871837bc2702404372c42b97aba60f737cd457f9cfc9fa9983728237595836c"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0380.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0380.tif",
+      "sha256": "8641e00db5b00278b0fa0f4d05f0269760ade50dc5d72577e1b9cec46ba29103"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0381.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0381.tif",
+      "sha256": "a73a085b050d72db54667b9579f50eefd160aadf75440ee6c4ede2bf839c6179"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0382.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0382.tif",
+      "sha256": "10178c7f95367133ee00184aef1dbf2adb682b22771cb073ac6412f3c0a2017b"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0383.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0383.tif",
+      "sha256": "87eca3c8ddfbc02c4f98ac9320f63efb274309c9b0a09a609ec13f5558cd1edf"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0384.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0384.tif",
+      "sha256": "a78e58ebc78c168cfd90bd29bbf3af263bd7fd6edde7a30d53b64a4ea00004e5"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0385.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0385.tif",
+      "sha256": "0610eec5fba3b661a56bba5e3b8153a4a24bfbdbd9423096575ac557e72608ab"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0386.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0386.tif",
+      "sha256": "9db3d0f3325d24b54a46e7b475ce831317282bfe87f646ecf80cf5471ada1e5d"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0387.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0387.tif",
+      "sha256": "91eb07dff02ac4187488c8eb959bb35a1bad221b769956d4d619e87646edf705"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0388.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0388.tif",
+      "sha256": "a05b836c3107f7926dad4972bb72f59fb955ce89e3ffad8997cb388cf23a8465"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0389.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0389.tif",
+      "sha256": "b57a317346edeb259942f221e762fe1addc3c64edf463db646853ed2ba7c47c8"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0390.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0390.tif",
+      "sha256": "7987bd94792411825c25d7ef093d1ef2c740458526d9c85d0fec74a8f7087659"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0391.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0391.tif",
+      "sha256": "4cf76ac4e22a98f4ebd089ce4aab1cccc29164404e7cb9b5d754745429e848b5"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0392.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0392.tif",
+      "sha256": "e71c88a6566dd73117ea173fa64eccbd8d89ccba413f33ecead91aaf2dcadb43"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0393.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0393.tif",
+      "sha256": "1075deb7c566903970d8c70ebf77425c7fd22aaa6d892e4816ec2a88a14b5766"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0394.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0394.tif",
+      "sha256": "bedc7768b0addfde0d0ee6d8c1eb1e28b09db86f323cbdc96790401de0dd1a5a"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0395.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0395.tif",
+      "sha256": "7915c3f71d4880f8078e9b18c06b50cd79940ba5868b095cca79926e7f199c8f"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0396.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0396.tif",
+      "sha256": "325cc08690b61c621152c2992299edf0502553fe3eb4e1a091281eeb158646a7"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0397.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0397.tif",
+      "sha256": "f3ebc27281afa0a12e446f204fae9bd9d4226392b7c0a21042c7eabdfbd9bc7f"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0398.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0398.tif",
+      "sha256": "b92cc544477cc57f9c2510153fb9a04f0ed257bdb03b10a9bca981cdbba81591"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0399.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0399.tif",
+      "sha256": "af0c8d8f499aad535fd4d3f6c60e74fcb5d3934cd00343ef2627eaf63be47af9"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0400.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0400.tif",
+      "sha256": "bc78f2cbfae6f0809d8b27bc1a8a169a12ea0a5b73a79984ac4260164500ec3e"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0401.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0401.tif",
+      "sha256": "dc465932060411281553bdc7dce27899c783074387246a3e4ea08c99be9c7933"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0402.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0402.tif",
+      "sha256": "0d2f3609556954df75c17765ebfa382b644853e15eebc69e17d79a5d524c18cb"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0403.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0403.tif",
+      "sha256": "a88745e89c50e001fa6f0340961eac794eaab09bc43ae459eb0aece49a3bd877"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0404.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0404.tif",
+      "sha256": "26399738c31b8c5b9757ae9e95bbfb1c736ca13968639f884a327e0846670f42"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0405.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0405.tif",
+      "sha256": "ca49fe6950252361c26b33dbd7852c72af30438afe5f578ce539ee668fcd672e"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0406.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0406.tif",
+      "sha256": "1ef7ed2af79a8fbc6f2c3cca800f1a1a8caf29fc420c3e65624cd978fd7e5118"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0407.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0407.tif",
+      "sha256": "7bdd15051e22f9aab5b1442a7c1c431ae7c68ba462e5c23b6bf302ad06d17692"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0408.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0408.tif",
+      "sha256": "47676449ee35806333d60c25189e94116272ceba939fb4d910393103cf1814d4"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0409.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0409.tif",
+      "sha256": "b93055fc357d9adaef0daff40f26364f826005f9507d71a2d96a16d1bfc3cfcb"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0410.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0410.tif",
+      "sha256": "61878d03f049b7868b8518bedaf5b4a1222d42bcf3fb0eb634bf53618923202d"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0411.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0411.tif",
+      "sha256": "b9de93b7c600253f1fc275e0df727248937b17119623e84179e71200991c0ea8"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0412.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0412.tif",
+      "sha256": "0da6208639f25eec4336877c5317df40e5b1f58c9db5dfaa330ff2f66db4aecb"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0413.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0413.tif",
+      "sha256": "b6c6457f0ecdee755736b00a9e4946028f886bc98bb022e3c91360140db24542"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0414.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0414.tif",
+      "sha256": "e4ffe65af50f573977d04316f96ad3335daa97d226fb0f518893e27412fe44b4"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0415.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0415.tif",
+      "sha256": "b048b761235f37a6308c373e9648e247422d0220dc506d4370d7860ea8c3adb2"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0416.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0416.tif",
+      "sha256": "101087264f78c7fce3a6180af0fc6038a2a21142977fab623d7ad9f97ff5399f"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0417.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0417.tif",
+      "sha256": "57b5a313b49a6c8ceb3817220b09bce41ecfbeabb5d7d6a05344d80c84dbfab2"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0418.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0418.tif",
+      "sha256": "0d6f9b9208d8cc0afbe2484513cb2bde08ee02a4e76f252c85899f0503ca0d15"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0419.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0419.tif",
+      "sha256": "b524f64f81792fbc7ea3b39b391326d9bf1fb1c3d7a0158d59f0766209f6fd0b"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0420.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0420.tif",
+      "sha256": "d823c9c25709d173e2b791c182c66f2f11ffb4927edefe4d108a3523cffa9203"
+    },
+    {
+      "url": "https://runeberg.org/img/bibeln/efs1927/gt/0421.1.tif",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1927/0421.tif",
+      "sha256": "a603be7d32cdc32825d56cc70923417904fdc7a633012dfd2eb4598ed8a4d3ab"
+    }
+  ],
+  "efs1926": [
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n354.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0343.jpg",
+      "sha256": "05b69e68ece5a2f053bbaa89196ea3b51730bc88520ff1e7078287b9ee0c55b0",
+      "printed_page": 343,
+      "leaf": 354
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n355.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0344.jpg",
+      "sha256": "cf4425291cbdfec2f5e22d7955793c5984fee68c578ed031b09e77c9890fc992",
+      "printed_page": 344,
+      "leaf": 355
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n356.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0345.jpg",
+      "sha256": "c386c520980381a86c209e8a8712ca7d2080f02d8bdc95cbb8a6ff6f9a04e218",
+      "printed_page": 345,
+      "leaf": 356
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n357.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0346.jpg",
+      "sha256": "43b05afbe7e58142244f4d3228e21698f03f08732234659d54b4982b5c7aee33",
+      "printed_page": 346,
+      "leaf": 357
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n358.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0347.jpg",
+      "sha256": "61364be06792276cf062b826e9388669bb4e6d654ef38e5feb27cbb8d26f17c4",
+      "printed_page": 347,
+      "leaf": 358
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n359.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0348.jpg",
+      "sha256": "e101dce33555abfc0bc8f118788ccc6a6062f54fdd683bad15c0ff09ea8166cb",
+      "printed_page": 348,
+      "leaf": 359
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n360.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0349.jpg",
+      "sha256": "73ed4eaa793ba681d74f00ae6e5089fc37e4343c7cfc3c1a6aeb3ee34060498a",
+      "printed_page": 349,
+      "leaf": 360
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n361.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0350.jpg",
+      "sha256": "6c0b5d34be7c0f4542d45236765e56892017a6a90ff390f2ffb11a35d1327a60",
+      "printed_page": 350,
+      "leaf": 361
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n362.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0351.jpg",
+      "sha256": "ec39584393b12bc15f8c5c82f3871587ebe16d25a8528162ab6bb530c58d1719",
+      "printed_page": 351,
+      "leaf": 362
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n363.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0352.jpg",
+      "sha256": "3febbe83c0e3cff09a42b4609522b2e20528e4f37f00c76ecd38b6714a2d3175",
+      "printed_page": 352,
+      "leaf": 363
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n364.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0353.jpg",
+      "sha256": "0d1ffb7a55e139de79dd8d7da3e8c308efa00f5a4c218291ddef32dce56d38c6",
+      "printed_page": 353,
+      "leaf": 364
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n365.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0354.jpg",
+      "sha256": "a3d1eb01f8ce4b62cb14cf4f6c64667fb9bab4f0e2420124b8b897f164175487",
+      "printed_page": 354,
+      "leaf": 365
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n366.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0355.jpg",
+      "sha256": "36a95c782b03eba20a0664e4fb59f99cd8959ae297d00f0262612da905e222d0",
+      "printed_page": 355,
+      "leaf": 366
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n367.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0356.jpg",
+      "sha256": "2f206608cb8b5d2e763800ff1798154a188050fef3b3b35f6ec620d4ad0fc7a6",
+      "printed_page": 356,
+      "leaf": 367
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n368.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0357.jpg",
+      "sha256": "259fe728b10e81b246f029475edd32415b0138444aa1179f96285b7f53c6018a",
+      "printed_page": 357,
+      "leaf": 368
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n369.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0358.jpg",
+      "sha256": "c8c925b51580c93160178f4900a15052aa63318abb0495121229d05d9bf9f2d0",
+      "printed_page": 358,
+      "leaf": 369
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n370.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0359.jpg",
+      "sha256": "8d3fdb3cae8ef3d5ca0e231573f83213dba6bb755668d53b599ffab3678e7e89",
+      "printed_page": 359,
+      "leaf": 370
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n371.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0360.jpg",
+      "sha256": "65fef07fe066cb7504397df6e2697253156b5176c85c89389706c0135e6dff63",
+      "printed_page": 360,
+      "leaf": 371
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n372.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0361.jpg",
+      "sha256": "cb619fb94fadda16e66ff291c6cf2c325f42a3820c16d768d3002899bb08f9fb",
+      "printed_page": 361,
+      "leaf": 372
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n373.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0362.jpg",
+      "sha256": "b97c29afcf93035d84858ca785136bfbaede6d3ed22f09d75e305bac096c6bb1",
+      "printed_page": 362,
+      "leaf": 373
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n374.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0363.jpg",
+      "sha256": "b5aba882b22fa1f531ab6b68a3842a7e033239fb082cae1dfd2def973aca900a",
+      "printed_page": 363,
+      "leaf": 374
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n375.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0364.jpg",
+      "sha256": "bff201c6e211c2a39b1c3f6c76d6daac450f9e30ca60c0dd6a8a30e1f12a21ed",
+      "printed_page": 364,
+      "leaf": 375
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n376.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0365.jpg",
+      "sha256": "621a9c9b11b3dd2e68d5b7c11f8f6452b861e04a3c63a09525d795b0d795909a",
+      "printed_page": 365,
+      "leaf": 376
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n377.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0366.jpg",
+      "sha256": "8b2b5227b1f35460eaacbe2500bd187ccfda2bdfad8357b313dedaebf9113fd2",
+      "printed_page": 366,
+      "leaf": 377
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n378.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0367.jpg",
+      "sha256": "72ccd484c0296572840090a5c987bccb18441fea1e861546711a744f7d2e7499",
+      "printed_page": 367,
+      "leaf": 378
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n379.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0368.jpg",
+      "sha256": "e6d0e8ddde669b5b72c8479e8cdfc06fb4fc01aa689f4db8514326b8f60dc275",
+      "printed_page": 368,
+      "leaf": 379
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n380.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0369.jpg",
+      "sha256": "659dbc20670614e6a477d098575201deeab475e0d3c40ef90b59b4022f71c9b0",
+      "printed_page": 369,
+      "leaf": 380
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n381.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0370.jpg",
+      "sha256": "e8aed0cdd2302de0cebe75a6405e03b7d4a93b8a963c2b9fd4ca8727c91611d9",
+      "printed_page": 370,
+      "leaf": 381
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n382.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0371.jpg",
+      "sha256": "195e6a1d0821dbac9f96d8966fd49ec9fd4405d25a3f71862edafff7380e6760",
+      "printed_page": 371,
+      "leaf": 382
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n383.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0372.jpg",
+      "sha256": "132282e0c77854d8ee45d92cdf99c5485dcd5ee9f76649df35bfa4dcb0a2bab0",
+      "printed_page": 372,
+      "leaf": 383
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n384.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0373.jpg",
+      "sha256": "17db132df5975e0a5a5205ce8af5fbc6c39cd80e7841016ee92231c26d2164c0",
+      "printed_page": 373,
+      "leaf": 384
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n385.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0374.jpg",
+      "sha256": "40c654651e2bcc8a93d7b72b083f09b9364d7a8a1f1cf1a261efd458291e4eb3",
+      "printed_page": 374,
+      "leaf": 385
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n386.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0375.jpg",
+      "sha256": "1adad08feafc9b78f06ada5cc22109540bd29245a772c567117f43cf29da5309",
+      "printed_page": 375,
+      "leaf": 386
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n387.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0376.jpg",
+      "sha256": "e66e84c9bbf0fb8eb057cb2cecb2f6068516710d6e5a5555a284497fb071a5ab",
+      "printed_page": 376,
+      "leaf": 387
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n388.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0377.jpg",
+      "sha256": "06514f0d9e1b7ef009651dbe2b86f4aa78657c1346af50a9c4164b97f66aaaa5",
+      "printed_page": 377,
+      "leaf": 388
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n389.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0378.jpg",
+      "sha256": "69503d673fed38c65187b83273ec311ec9b76c77e60a3e2f1a747f2b1a2fa6f6",
+      "printed_page": 378,
+      "leaf": 389
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n390.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0379.jpg",
+      "sha256": "efe39eb47083564a54353e8a6e0932865aa278aef6daf9e3cddb9b3db53b08b9",
+      "printed_page": 379,
+      "leaf": 390
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n391.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0380.jpg",
+      "sha256": "f6be2c10dfd19c7875b25f39386ea227f50cb697512527f5a81e0b44becfc7c1",
+      "printed_page": 380,
+      "leaf": 391
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n392.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0381.jpg",
+      "sha256": "9e11dc645b613430804f89968ee16698ee063eeaf3cbdc5746f7fa00349de303",
+      "printed_page": 381,
+      "leaf": 392
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n393.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0382.jpg",
+      "sha256": "d5bd3c82a0db768ec3c925800322a8e2dc26719eea6252dd813441c3b22c6bde",
+      "printed_page": 382,
+      "leaf": 393
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n394.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0383.jpg",
+      "sha256": "373811d7595f188b8048ef28c5d9f6a50df1f9f05afe3e6fa44bc67ccb8ac002",
+      "printed_page": 383,
+      "leaf": 394
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n395.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0384.jpg",
+      "sha256": "e308fd6655108f7e8db22f20e0e5334d0d89fa622f40f2f0b3e10f0a7232bec5",
+      "printed_page": 384,
+      "leaf": 395
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n396.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0385.jpg",
+      "sha256": "8b3c1c6ef64b2e76b4be9ea15e895b7ab45f2668780daafe2d174fef9726b78f",
+      "printed_page": 385,
+      "leaf": 396
+    },
+    {
+      "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n397.jpg",
+      "path": "docs/reports/sv1917-1samuel-witnesses/efs1926/gt0386.jpg",
+      "sha256": "00c35a9a2e2105d785a3f429bd60a26ea29ba1f258428307859596b0b25e21ba",
+      "printed_page": 386,
+      "leaf": 397
+    }
+  ]
+}
