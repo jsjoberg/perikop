@@ -3380,6 +3380,144 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Ruth",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "4354a2a4ce042bdf576f32fb1042c5860a7995e13dd9e4d641431d625ecd612e",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison; second-print image comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0369.1.tif",
+          "sha256": "a05440399b246244d03559537120b7863197f25fbadc61685b9230350ffe98b0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0370.1.tif",
+          "sha256": "4bc716740ed730ab66802d22fcb06cfdd019198d275ea060bfedef4d5b18a71e"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n349.jpg",
+          "sha256": "3212940447ddcdbb9999b207e0043833fcbf7e4dfffa76ea54495e3727e986a3",
+          "printed_page": 338
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n350.jpg",
+          "sha256": "d865a40c36c98c6c1f00f8e57e84310a74b2242315a6e233b1043d85e0f959ce",
+          "printed_page": 339
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2/bibelnellerdenhe0000unse_orig_0350.jp2",
+          "sha256": "290d69448457580ebaed12047b748ad25306853a27931f6bbd00f810e47cebce",
+          "printed_page": 338,
+          "scope": "Targeted uncropped camera-image check of 1:13; punctuation remains obscured at binding/glass edge."
+        }
+      ],
+      "notes": "Hela 1:1–22 visuellt jämförd ord för ord, med interpunktion och versnummer, mot EFS 1927 s. 369–370; sidfortsättningen i 1:15 kontrollerad. RUT001–RUT005 införda mot båda tryckens bilder. Behållna belagda varianter: 1:2 Noomi, och samt efratiter, från stöds av 1927; 1:7 komman kring jämte sina båda sonhustrur stöds av 1927, men kommat efter ställe saknas 1926 och införs inte. 1:16 komman efter går/stannar och 1:17 efter dör saknas i 1926 och införs inte. 1:20 kommat efter Noomi stöds av 1926. Öppen fråga RUT-Q001: kommat efter vänta i 1:13 finns i korpusen men saknas 1927; 1926 s. 338 är beskuren precis där och kan inte avgöra varianten. Kommat behålls tills vidare; hela kapitlet har needs-review och ger ingen verifierad kapitel-/verstäckning. Den obeskurna kamera-JP2-bilden orig_0350 har därefter lästs i originalupplösning och förstoring vid 1:13; hela vänta blir synligt, men det mörka märket efter sista a sammanfaller med bindnings-/glasskanten och kan inte säkert identifieras som ett komma. RUT-Q001 är fortfarande olöst; denna bild ger ingen ny kapitelstatus."
+    },
+    {
+      "book": "Ruth",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "17f84ea0a5276498de3de3833b9b933a30725b0934211d1b3b46b123be1b734a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison; second-print image comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0370.1.tif",
+          "sha256": "4bc716740ed730ab66802d22fcb06cfdd019198d275ea060bfedef4d5b18a71e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0371.1.tif",
+          "sha256": "7f7f659422a173f251cd752a56c29ef6f254b0fdc57c9489c81370b6264cd045"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n350.jpg",
+          "sha256": "d865a40c36c98c6c1f00f8e57e84310a74b2242315a6e233b1043d85e0f959ce",
+          "printed_page": 339
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n351.jpg",
+          "sha256": "6c994d1c4d4eb0f748873ea8db24f0e388556cc47ac9bb3b234a007811629bc9",
+          "printed_page": 340
+        }
+      ],
+      "notes": "Hela 2:1–23 visuellt jämförd mot EFS 1927 s. 370–371, inklusive 2:2 mellan spalter, 2:10 över sidgränsen och 2:18 mellan spalter. RUT006–RUT013 införda med bildstöd från båda trycken. Belagda varianter behållna: kolon efter honom i 2:4 är tydligt i 1926-original-JPEG (kontrollerat i förstoring), saknas 1927. I 2:11 behålls avsaknad av komman efter allt/folk enligt 1926; kommat efter fädernesland tas bort enligt båda. I 2:13 behålls slutcitatet enligt 1926, där 1927 saknar det. I 2:15 behålls kommat efter kärvarna enligt 1927, där 1926 saknar det. I 2:17 behålls avsaknad av komma efter det enligt 1926. I 2:19 behålls avsaknad av komma efter han enligt 1926. Inga olösta läsningar."
+    },
+    {
+      "book": "Ruth",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "c8b811872d997cad011aa8ea6a4933d94b9d5c44eedfecb40109462966e239df",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison; second-print image comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0371.1.tif",
+          "sha256": "7f7f659422a173f251cd752a56c29ef6f254b0fdc57c9489c81370b6264cd045"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0372.1.tif",
+          "sha256": "7a6a9fbefe839b73509ee78c5543dc0df492a0dfd652aeceb884dec6f22017a3"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n351.jpg",
+          "sha256": "6c994d1c4d4eb0f748873ea8db24f0e388556cc47ac9bb3b234a007811629bc9",
+          "printed_page": 340
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n352.jpg",
+          "sha256": "c964c0312776ef192b87b92d83d663deccab5fba3aec8a4a6697e439dddecc61",
+          "printed_page": 341
+        }
+      ],
+      "notes": "Hela 3:1–18 visuellt jämförd mot EFS 1927 s. 371–372, inklusive sidfortsättningen efter 3:2 och 3:13 mellan spalter. RUT014–RUT019 införda mot båda tryckens bilder: henne i 3:5, den bortfallna satsen Men har han icke lust ... då skall jag göra det i 3:13 samt fyra kommarättelser. Belagda varianter behållna: 3:4 har korpusens komma före och gå dit i 1927, medan 1926 stöder avsaknaden av komma före vad du bör göra. 3:5 kommat efter säger finns endast i 1927 och införs inte; 3:6 kommat efter alldeles finns endast i 1926 och införs inte. 3:12 sant att utan komma stöds av 1927. 3:14 kommat efter morgonen stöds av 1927 mot 1926:s semikolon; slutcitatet stöds av 1926. 3:17 inre slutapostrof och 3:18 slutcitat stöds av 1926 och behålls trots frånvaro i 1927. Inga olösta läsningar."
+    },
+    {
+      "book": "Ruth",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 22,
+      "text_sha256": "75faa846f7fe339514a0ca50ea5d8c0d1d45cec850f67df90e418176874810f3",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison; second-print image comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0372.1.tif",
+          "sha256": "7a6a9fbefe839b73509ee78c5543dc0df492a0dfd652aeceb884dec6f22017a3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0373.1.tif",
+          "sha256": "6936b4aa5d46a1f006ac0f097df5ad1027a02859ede4ed4ff763abb795335ef1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0374.1.tif",
+          "sha256": "1b7f431f8dd12e00a1944daea92393d7373ab21cb1924b327abdfb98ff4d9ffe"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n352.jpg",
+          "sha256": "c964c0312776ef192b87b92d83d663deccab5fba3aec8a4a6697e439dddecc61",
+          "printed_page": 341
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n353.jpg",
+          "sha256": "9f53791f956e49b7ced0be816470728bd81376ab2d7e201b11a33b9d4c74eb96",
+          "printed_page": 342
+        }
+      ],
+      "notes": "Hela 4:1–22 visuellt jämförd mot EFS 1927 s. 372–374, inklusive 4:3 över sidgränsen, 4:10 mellan spalter och 4:18–19 över sidgränsen till sista fyra verserna på delad sida med 1 Sam. RUT020–RUT026 införda mot båda tryckens bilder: Därför samt så gör det; men om du icke vill taga det efter bördesrätt i 4:4 och Elimelek, och allt vad som har tillhört i 4:9, jämte komman. Belagda varianter behållna: 4:4 komman kring näst dig stöds av 1927, saknas 1926. 4:7 komman kring till stadfästelse av ett sådant avtal stöds av 1927, saknas 1926. 4:8 semikolon efter citatet stöds av 1927 mot 1926:s komma. 4:9 avsaknad av komma efter till stöds av 1926. 4:10 komma efter åt mig stöds av 1927. 4:11 avsaknad av komma efter de båda samt 4:12 efter avkomlingar stöds av 1927 respektive 1926. 4:14 utropstecken efter Israel och 4:17 semikolon efter son stöds av 1926. Namnformerna Salma i 4:20 och Salmon i 4:21 är tryckstödda och behålls. Inga olösta läsningar; 1 Sam på den delade sidan räknas inte som granskad."
     }
   ],
   "unnumbered": [
