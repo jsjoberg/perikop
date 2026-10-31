@@ -3380,6 +3380,26 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Obad",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "efa1522622b2f80a7133aeab65d4244c9aa530b5913ea8515bb37c75acb1e59f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1228.1.tif",
+          "sha256": "19f2114cbc7eb10cfe9d830415870770771e0f064febdaf0740a01c24faf970a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1229.1.tif",
+          "sha256": "e7afdc45c5f1f62fc6fd44b1159a749ac50b902afbd20fdd404cef39d843353b"
+        }
+      ],
+      "notes": "Obadja 1 jämförd som OCR-text mot EFS 1927 GT s. 1228–1229 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-obadiah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
