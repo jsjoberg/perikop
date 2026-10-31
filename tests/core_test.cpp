@@ -1237,6 +1237,24 @@ int main(int argc, char** argv) {
         }
         check(corpus.verse("sv1917", "Jdt", {5, 3})->text.find("och hvad för städer") != std::string::npos,
               "Judith's confirmed historical spelling hvad is preserved");
+        check(corpus.verse("sv1917", "Josh", {2, 12})
+                          ->text.find("med eder, så skolen I ock göra barmhärtighet med min faders hus") !=
+                      std::string::npos &&
+                  corpus.verse("sv1917", "Josh", {3, 13})
+                          ->text.find("Jordans vatten, skall Jordans vatten, det vatten") !=
+                      std::string::npos,
+              "Joshua restores repeated clauses lost from the e-text without losing their verse boundaries");
+        check(corpus.verse("sv1917", "Josh", {8, 13})
+                          ->text.find("som ock den del därav, som låg i försåt, väster om staden") !=
+                      std::string::npos &&
+                  corpus.verse("sv1917", "Josh", {18, 9})->text.find("i en skrivelse") != std::string::npos &&
+                  corpus.verse("sv1917", "Josh", {20, 6})
+                          ->text.find("sin stad och sitt hus igen, till den stad från") != std::string::npos,
+              "Joshua preserves the restored ambush, survey and refuge-city clauses");
+        check(!corpus.verse("sv1917", "Josh", {21, 36}) && !corpus.verse("sv1917", "Josh", {21, 37}) &&
+                  corpus.verse("sv1917", "Josh", {21, 35})->text.ends_with("fyra städer;") &&
+                  corpus.verse("sv1917", "Josh", {21, 38})->text.starts_with("och ur Gads stam"),
+              "Joshua's empty footnote markers remain outside the verse corpus");
         check(corpus.verse("sv1917", "Hag", {2, 16})->text.ends_with("till HERRENS tempel;"),
               "Haggai's sentence continues across the verse boundary with a semicolon");
         check(corpus.verse("sv1917", "PrAzar", {1, 42})->text.ends_with("i evighet."),
@@ -1332,7 +1350,7 @@ int main(int argc, char** argv) {
                 {"krubba", "", "⟦kR'8ba⟧", 4, {}},
                 {"krubban", "", "⟦kR'8ban⟧", 3, {}},
                 {"jordan", "", "⟦jURd'A:n⟧", 187, {}},
-                {"jordans", "", "⟦jURd'A:ns⟧", 12, {}},
+                {"jordans", "", "⟦jURd'A:ns⟧", 13, {}},
                 {"betsaida", "", "⟦bEts'ajda⟧", 7, {}},
                 {"tattenai", "", "⟦tatEn'A:I⟧", 4, {}},
                 {"sefarvaims", "", "⟦sEfaRv'A:Ims⟧", 5, {}},

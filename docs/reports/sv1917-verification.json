@@ -3380,6 +3380,874 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Josh",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "55fe5b0294fa27e9dc097dccb85fb8435df727d52211958bdbcaa80194abe9a3",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 1:1–18 visuellt jämförda på 1927 s. 298–299. Alla ändringar kontrollerade i 1926 n284–285. Behåller 1926-stödd kommatering i 1:2 (land som), 1:8 (det som, den och), 1:11 (Jordan, för), 1:13 (det som), 1:18 (en som); 1927-stött uteblivet komma i 1:7 efter därifrån och i 1:15 vid land som. Endast gemensamma interpunktionsfel rättas.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0298.1.tif",
+          "sha256": "991215f7fa67658bd0bafb1c652d1845c080580329ea07b24eb969977fb3bc7f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0299.1.tif",
+          "sha256": "3865aad089aee63b8e778d70d8b436b6ccf7645b8665621ad97d88cff00e9013"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n284.jpg",
+          "sha256": "e6b3723495cad74aaa9714a8a5b9df1478072f6982b900acc17c506ee3addfed",
+          "printed_page": 273
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n285.jpg",
+          "sha256": "48e13e7c1cbaacc39d1708ba38adc9843113cf0f5407471464e985e612fb3a40",
+          "printed_page": 274
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "849e20d5d24b0775824ba2995ad9128c5ac3f5b7b9cc7547eaf0e29dd36cda1c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 2:1–24 visuellt jämförda på 1927 s. 299–301, inklusive 2:22:s sidfortsättning. 1926 n285–286 avgör alla ändringar och behållna skillnader. Återställer bortfallen sats i 2:12, eget i 2:19 och ock i 2:24. Behåller 1926-stödda såsom i 2:21 samt kommatering i 2:17,20,22,23; 1927-stödda komman i 2:6. Alla andra gemensamma interpunktionsfel rättade.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0299.1.tif",
+          "sha256": "3865aad089aee63b8e778d70d8b436b6ccf7645b8665621ad97d88cff00e9013"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0300.1.tif",
+          "sha256": "96c031f6907b0d9a08deabcc20079f97320f1d206d52c01f484be3b753529d64"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0301.1.tif",
+          "sha256": "26b0875af00ee0583a322c20adc5179e59c63256dca3bcb0b48c393663e122f3"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n285.jpg",
+          "sha256": "48e13e7c1cbaacc39d1708ba38adc9843113cf0f5407471464e985e612fb3a40",
+          "printed_page": 274
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n286.jpg",
+          "sha256": "cefaa31bafeba8c97f61449463b13fa8ad94862ed1db32321548328b6f92b03a",
+          "printed_page": 275
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 17,
+      "text_sha256": "82ec07342986ea5b1d6f36e2ca57f1b16e7b2ff3d7c19070c4d16555c977f20a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 3:1–17 visuellt jämförda på 1927 s. 301–302, inklusive 3:16:s sidfortsättning och spaltfortsättningen av 3:7. 1926 n286–287 kontrollerar ändringar och behållna skillnader. Återställer skall Jordans vatten i 3:13. Behåller 1926-stött uteblivet komma efter prästerna i 3:8; 1927-stödd kommatering i 3:10 efter eder, 3:13 efter det vatten och 3:16 vid staden som samt det vatten som flöt. Tankstreckens befintliga normalisering och versgränser bevarade.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0301.1.tif",
+          "sha256": "26b0875af00ee0583a322c20adc5179e59c63256dca3bcb0b48c393663e122f3"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0302.1.tif",
+          "sha256": "9a7852a37c4a3727749569e6da6325c9e86a83bd2a1249a276d433d60e5bdffc"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n286.jpg",
+          "sha256": "cefaa31bafeba8c97f61449463b13fa8ad94862ed1db32321548328b6f92b03a",
+          "printed_page": 275
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n287.jpg",
+          "sha256": "42c56f6c96e205561b38f7363140562e237a2a3916594f34e3ed57a9a520f73e",
+          "printed_page": 276
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "139f39d31c15156fd1f38516edbbb96a335189730aded9623fc5c510aed2e64d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 4:1–24 visuellt jämförda på 1927 s. 302–303, inklusive 4:7:s spaltfortsättning och 4:18:s sidfortsättning. Alla ändringar kontrollerade i 1926 n287–288. Återställer hade i 4:14. Behåller 1926-stött frågetecken i 4:6 och kommatering i 4:13 samt 4:24. Behåller 1927-stödd kommatering i 4:3 (plats där, ställe, där), 4:9 (plats där), 4:11 (prästerna, och), 4:18 (såsom förut) och normaliserad radslutsavstavning i Jerikoområdet i 4:19.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0302.1.tif",
+          "sha256": "9a7852a37c4a3727749569e6da6325c9e86a83bd2a1249a276d433d60e5bdffc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0303.1.tif",
+          "sha256": "e5aaa4063ec6f9e8a85b22f97140398f32a997697152a9a27cc406373977e180"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n287.jpg",
+          "sha256": "42c56f6c96e205561b38f7363140562e237a2a3916594f34e3ed57a9a520f73e",
+          "printed_page": 276
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n288.jpg",
+          "sha256": "0f8285c73cc0831fbce9ee7dd4fb4206d18e6ce9640bd7f1a8de7bd44b1b068f",
+          "printed_page": 277
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "d696991db8fb569457b290304314bec123a591aa748e350a9754430ae8cadd7b",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 5:1–15 visuellt jämförda på 1927 s. 303–304, inklusive 5:10:s sidfortsättning. Alla ändringar kontrollerade i 1926 n288–289. Behåller 1926-stödda såsom i 5:9 och punkt före citatslut i 5:14 samt uteblivet komma efter de i 5:5. Behåller 1927-stött ett land som i slutet av 5:6 och platsen där du står är helig i 5:15. Gemensamma interpunktionsfel rättade.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0303.1.tif",
+          "sha256": "e5aaa4063ec6f9e8a85b22f97140398f32a997697152a9a27cc406373977e180"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0304.1.tif",
+          "sha256": "6e0b616c4002c7b810bd718c4dc74079660c61f7dadbfb45aff8e671bcef1895"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n288.jpg",
+          "sha256": "0f8285c73cc0831fbce9ee7dd4fb4206d18e6ce9640bd7f1a8de7bd44b1b068f",
+          "printed_page": 277
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n289.jpg",
+          "sha256": "40e01e6174848bd0bf895046f593232402a219f674f0324449f8c48dacfe6dc4",
+          "printed_page": 278
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "da3fc1dc68808915be208a7eca80568cbaa86321554956f0f563526c59bebc74",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 6:1–27 visuellt jämförda på 1927 s. 304–305, inklusive 6:12:s sidfortsättning och 6:20:s spaltfortsättning. Alla föreslagna ändringar kontrollerade i 1926 n289–291. Återställer de sju i 6:8. Behåller 1926-stödd interpunktion i 6:3,9,21,22,25 (alla som) samt 6:17 (alla som) och 1927-stödda komman i 6:10 (mun, förrän), 6:22 (henne, ut), 6:23 (Rahab, jämte). Originalfotot och motstående kamerans foto (orig0290/0291) visar att 1926 har präster utan ändelsen -na och utan komma i 6:8; korpusens präster som behålls mot 1927:s prästerna, som. Alla frågor lösta. 1926 has präster som; retain existing form against 1927 prästerna, som.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0304.1.tif",
+          "sha256": "6e0b616c4002c7b810bd718c4dc74079660c61f7dadbfb45aff8e671bcef1895"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0305.1.tif",
+          "sha256": "bdd656bd8cca606b2d937d5be714adecc72ee0461df62071e05502825844a6f2"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n289.jpg",
+          "sha256": "40e01e6174848bd0bf895046f593232402a219f674f0324449f8c48dacfe6dc4",
+          "printed_page": 278
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n290.jpg",
+          "sha256": "4055af6776d658af0e53b1c752790f4be867fb8aea45bab156201f3e6490d436",
+          "printed_page": 279
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n291.jpg",
+          "sha256": "bdba1393efa48698bdfbbbfb118e30ebcf13f3cac18e9bc07ede247991436883",
+          "printed_page": 280
+        }
+      ],
+      "original_camera_witnesses": [
+        {
+          "chapter": 6,
+          "verse": 8,
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0291.jp2",
+          "sha256": "ebf056e711158a08a9d4f3c22044da1618a83d636c4617452cdae43033d55f52",
+          "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0291.jp2",
+          "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0291-6-8-last.png",
+          "crop_sha256": "ed784de6eeff03f4b92c614940eda048ab4b821982683aad9b341c6cb19b44b2",
+          "decision": "1926 has präster som; retain existing form against 1927 prästerna, som.",
+          "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 26,
+      "text_sha256": "8acbdea9182a21c38b86dbc5a5fe2574dfc4d18e8cfd0673d1bbe0c957dc1fa5",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 7:1–26 visuellt jämförda mot 1927 s. 306–307. 1926 n291–292 kontrollerar alla ändringar och behållna avvikelser. Rättar bortfall av oss (7:7), har (7:19), jag (7:21), ett extra komma (7:6) och gemensamma kommateringar (7:11,18,19,24). Behåller 1926-stödda O att (7:7), Ack Herre (7:8) och uteblivet komma efter den (7:15), där 1927 har extra komma. 7:13 saknar inre citattecken även i båda trycken; ingen harmonisering.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0306.1.tif",
+          "sha256": "fe47f99c286dce4f99d069740e8b48d5b5fbb5b251fc6a3f1622a027a8736d8d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0307.1.tif",
+          "sha256": "0b372f6c67a1a0a5fa98135ca78c74d77224a39265c83bf72a044ae70796dd65"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n291.jpg",
+          "sha256": "bdba1393efa48698bdfbbbfb118e30ebcf13f3cac18e9bc07ede247991436883",
+          "printed_page": 280
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n292.jpg",
+          "sha256": "02d3abbb02698370c39e96ccb5c03b8f47a613a00e94cefd8530d75404411825",
+          "printed_page": 281
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "03c1128ceba4670815295279f521e5b8af421ff44e816297ca5895f1270511f9",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 8:1–35 visuellt jämförda inklusive fortsättningen av 8:3 från s. 307 till 308 och hela s. 309. EFS 1926 n292–294 kontrollerar samtliga ändringar och avvikelser. Återställer hela den bortfallna andra ledet i 8:13 (som ock den del därav, som låg i försåt, väster om staden), fly i 8:6 och tar bort ett extra själv i 8:14. Interpunktion ändras endast när båda trycken visar samma fel. Behåller befintlig interpunktion enligt 1926 i 8:2,5,18 (kolon efter Josua samt komma efter hand i senare satsen),24,27,35; enligt 1927 i 8:6 (komma efter oss),22 (komma efter sig),27 (komma efter byte),32 (lag som),33 (komma efter menighet, domare),35 (församling, med ... barn, och). 8:10 har inga komman omkring med-satsen i något tryck; dessa tas bort.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0307.1.tif",
+          "sha256": "0b372f6c67a1a0a5fa98135ca78c74d77224a39265c83bf72a044ae70796dd65"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0308.1.tif",
+          "sha256": "e767b0d93bfed624dc072d2a66983808b856e9e2da837c2b160760110db17f05"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0309.1.tif",
+          "sha256": "16cc992dbc53de659b3a85dacdba5427b23d731aa000cbc1f9d6f583df95461b"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n292.jpg",
+          "sha256": "02d3abbb02698370c39e96ccb5c03b8f47a613a00e94cefd8530d75404411825",
+          "printed_page": 281
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n293.jpg",
+          "sha256": "5c0dd36fba031f56898be8b303ae18c08bc9e1c61eb86160585912d8ebe2fd90",
+          "printed_page": 282
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n294.jpg",
+          "sha256": "fe0329bebe28190eb132bf78f9124c4e41f1f6c901da75575cda0facc4606c03",
+          "printed_page": 283
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 27,
+      "text_sha256": "624690525c513351b0c4db254657fc832cf7bcebb0e609ea3275d07276cd80bf",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 9:1–27 visuellt jämförda mot 1927 s. 309–311; EFS 1926 n294–295 kontrollerar samtliga ändringar och behållna avvikelser. Återställer hela i 9:19, åt menigheten i 9:27 och stor bokstav Kustlandet i 9:1. Gemensam interpunktion rättas i 9:1,3,13,16,20,21,24,27. Behåller 1926-stött komma före men i 9:14 mot 1927; 1926 stöder uteblivet komma efter plats i 9:27 mot 1927. 1927 stöder uteblivet komma efter hörde i 9:1 mot 1926. 9:11 och 9:22:s inre citat är tryckstödda; glyfer normaliseras enligt befintlig import.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0309.1.tif",
+          "sha256": "16cc992dbc53de659b3a85dacdba5427b23d731aa000cbc1f9d6f583df95461b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0310.1.tif",
+          "sha256": "a2631ff00fdb91d12a30952919071ee84b9989ba41264477fd0633e71d7df3b1"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0311.1.tif",
+          "sha256": "2dee5f038f8aa24c2a9b7c279bab39d40214717b16cab11b06a506bac2dc6060"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n294.jpg",
+          "sha256": "fe0329bebe28190eb132bf78f9124c4e41f1f6c901da75575cda0facc4606c03",
+          "printed_page": 283
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n295.jpg",
+          "sha256": "e7c3e7d839b96759b6680cc2b70686754cd9363da897c9fb247f6895b62ecd80",
+          "printed_page": 284
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "402b5c95aed9a9e8c9c74019d05fc3ab50c6d40fabdcd5405e007ea5e45e55c3",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 10:1–43 visuellt jämförda mot 1927 s. 311–313, inklusive 10:10 över sidgränsen. EFS 1926 n296–298 kontrollerar samtliga ändringar och behållna varianter. Återställer alla (10:6), vid (10:17), sätten (10:24), hänga (10:26) och anda (10:40); tar bort extra sina i 10:25. Gemensamma interpunktionsfel rättas. Behåller 1926-stödd kommatering i 10:1 (sätt som),11 (sluttning som/de som),19 (dem som),24 (krigsfolket som),25 (fiender som),28,30,32,35,37,39,40,41. 1927 stöder övriga behållna komman i bl.a. 10:1 (spillo, och),22 (mig, ut), samt 1926 stöder nuvarande punktplacering efter slutcitatet i 10:13. Upp till i 10:10 stöds av 1926 mot 1927 upptill; ordmellanrum behålls. Tar bort extra komman i 10:10 (dem, och),11 (så, under ... Israel,),19 (fiender, och),23 (Lakis, och), och återställer komman i 10:1,12,19,27 där båda trycken stöder dem.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0311.1.tif",
+          "sha256": "2dee5f038f8aa24c2a9b7c279bab39d40214717b16cab11b06a506bac2dc6060"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0312.1.tif",
+          "sha256": "56f30a4bb98291eed3a6f0d4ce7803401e731e5675f05dad812bbef7deb6bf61"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0313.1.tif",
+          "sha256": "45c2349ed6d7cf63817ccced5f7138b1c0d8f990c9db5df455668c428d7edbbd"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n296.jpg",
+          "sha256": "529a627fcaf21c4a6a81292fd56201bb1e4016eb3fca0c8edf8a0f4c652be8a7",
+          "printed_page": 285
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n297.jpg",
+          "sha256": "74df149069c4d30814d64ba6832b13b01b4ff84ec3b64730283539273e6380b2",
+          "printed_page": 286
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n298.jpg",
+          "sha256": "216ffa7ec9624cf4a09747dac4f1d588d6c3010a622d6a77dd9b07b274f11bd3",
+          "printed_page": 287
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "48980d5de90c14e90c8aa7fe1a540195a306fe65a0d297a78254a1cf44b9feff",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 11:1–23 visuellt jämförda mot 1927 s. 314–315; EFS 1926 n298–299 kontrollerar samtliga ändringar och behållna avvikelser. Rättar och till ock i 11:3 och återställer ock i 11:15. Rättar bara gemensamma interpunktionsfel (11:5,9,19,20). Behåller 1926-stödda uteblivna komman i 11:2,11,13,14,15 och såsom i 11:23 mot 1927 som. Övrig kommatering och nuvarande geografiska namn bevaras.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0314.1.tif",
+          "sha256": "e4a9732e9b06f72ebefa7bd156177726ce3678c32f247d755834b50600e5bf7b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0315.1.tif",
+          "sha256": "4321f4e92ee5964ee2991fe7ec5b74fb0c5f7d784a17f8bb67947d080ec9ac59"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n298.jpg",
+          "sha256": "216ffa7ec9624cf4a09747dac4f1d588d6c3010a622d6a77dd9b07b274f11bd3",
+          "printed_page": 287
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n299.jpg",
+          "sha256": "5a3f5882955d8d45a60f699f202c2dfe1156917e017ca6782c356df4bb672a87",
+          "printed_page": 288
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "d5286197a6e5c0813bfc3bb9684fc420dc2e5dc1698cfed0c4403d6dabf33433",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Hela 12:1–24 visuellt jämförda mot 1927 s. 315–316; inga versgränser ändras. EFS 1926 n299–300 kontrollerar 12:2:s rättelser och namnen. Återställer från i landet från Aroer och tar bort det extra kommat efter dalens mitt; båda trycken stöder dessa. Behåller 1927-stödd kommatering i 12:1 (slogo, och),7 (Halakberget, som),9 (Ai, som ... Betel, en) mot 1926 samt Nafat-Dor i 12:23, som båda trycken har.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0315.1.tif",
+          "sha256": "4321f4e92ee5964ee2991fe7ec5b74fb0c5f7d784a17f8bb67947d080ec9ac59"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0316.1.tif",
+          "sha256": "97e7a67d3d046ddaad388be94a4d38aca5976250185d7999d36e5ed99c543b68"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n299.jpg",
+          "sha256": "5a3f5882955d8d45a60f699f202c2dfe1156917e017ca6782c356df4bb672a87",
+          "printed_page": 288
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n300.jpg",
+          "sha256": "a84f9b3b946ea483098f479da36e10f82754ff1ce71a0bc0742086a0ee61bc78",
+          "printed_page": 289
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "d990bd6a3b198adf4935db5a35fcddeaae7aa9e01a21f4fef686af0e2d284d38",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 13:6: Current bergsbygden (lowercase) retained: EFS1926 leaf300 confirms it; EFS1927 p316 prints Bergsbygden. 13:10: Current städer som without comma retained: EFS1926 leaf300 confirms it; EFS1927 p316 adds comma after städer.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0316.1.tif",
+          "sha256": "97e7a67d3d046ddaad388be94a4d38aca5976250185d7999d36e5ed99c543b68"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0317.1.tif",
+          "sha256": "aef2c3bcf7ebc80abccba1e3a6a0e4b926e74188df92e6199ae21f6003dd0549"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n300.jpg",
+          "sha256": "a84f9b3b946ea483098f479da36e10f82754ff1ce71a0bc0742086a0ee61bc78",
+          "printed_page": 289
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n301.jpg",
+          "sha256": "38a3d003a6230ec59177c1237d0eff9b9a280b7b88589dd72c496bd3a7410753",
+          "printed_page": 290
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "f05e271cdea7ad9d18f6d26ba3d65f418351e6563a12f0d264a5ad283e47faae",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. Comma after arvslotter visible in facing-camera original; correction supported by both prints.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0317.1.tif",
+          "sha256": "aef2c3bcf7ebc80abccba1e3a6a0e4b926e74188df92e6199ae21f6003dd0549"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0318.1.tif",
+          "sha256": "9884e7815b07d84b79fa5d72b1e369cb349558cfa6f2764d599a95a7ec66315b"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n301.jpg",
+          "sha256": "38a3d003a6230ec59177c1237d0eff9b9a280b7b88589dd72c496bd3a7410753",
+          "printed_page": 290
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n302.jpg",
+          "sha256": "bafedf73111b8ade4ee1b088385714dffb36c255e719aa150a9f703553637cab",
+          "printed_page": 291
+        }
+      ],
+      "original_camera_witnesses": [
+        {
+          "chapter": 14,
+          "verse": 1,
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0303.jp2",
+          "sha256": "1566301c205d2e1364859f916bb3545095131703da80e854c6497bc1984ecab1",
+          "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0303.jp2",
+          "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0303-facing-detail.png",
+          "crop_sha256": "83968bf91fad06fbac6affe4bc6f129cc9b0003ed648f6990165f016e9a06f31",
+          "decision": "Comma after arvslotter visible in facing-camera original; correction supported by both prints.",
+          "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 63,
+      "text_sha256": "a21a7946aafef202f3653ae84a8ac39f8527e7a44a096804d296ed83efea42b4",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 15:7: Current Gilgal som without comma retained: EFS1926 leaf303 confirms it; EFS1927 p319 adds comma after Gilgal. 15:8: Current det berg som without comma retained: EFS1926 leaf303 confirms it; EFS1927 p319 adds comma after berg. Current västerut, i retained: EFS1926 confirms comma while EFS1927 lacks it. 15:12: Current runt omkring, efter retained: EFS1926 leaf303 confirms comma; EFS1927 p319 lacks it. 15:16: Current Åt den som and intager det vill retained: EFS1926 confirms no comma at either position. The comma after den was originally clipped in derived page/n303.jpg; original camera0305 facing-page crop shows full den and blank following margin, resolving it. EFS1927 p319 has commas after den and det. 15:54: Current Sior – nio retained: EFS1926 leaf304 confirms dash; EFS1927 p320 prints Sior, nio. Verified with original-resolution crop0320-right-top.png. Complete den and blank margin visible: no comma in 1926; retain current reading.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0318.1.tif",
+          "sha256": "9884e7815b07d84b79fa5d72b1e369cb349558cfa6f2764d599a95a7ec66315b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0319.1.tif",
+          "sha256": "f50763a9472d87f8ddd2d35dc2dbe5b41e0362f35fe8849fc698f02b1cf4e6fb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0320.1.tif",
+          "sha256": "44dbac5b860979e1b75cf513f9146bb3446191f3a0a3c022f30732b767021781"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n302.jpg",
+          "sha256": "bafedf73111b8ade4ee1b088385714dffb36c255e719aa150a9f703553637cab",
+          "printed_page": 291
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n303.jpg",
+          "sha256": "8398e56654f8817a912ed0825c8bb1f3161cf6d7f82f9ebfcf89fba29b39ae6e",
+          "printed_page": 292
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n304.jpg",
+          "sha256": "1cf87dddad86104eb77e8bd02d7661dd81e17df822402986c527718be380e673",
+          "printed_page": 293
+        }
+      ],
+      "original_camera_witnesses": [
+        {
+          "chapter": 15,
+          "verse": 16,
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/bibelnellerdenhe0000unse_orig_jp2.tar/bibelnellerdenhe0000unse_orig_jp2%2Fbibelnellerdenhe0000unse_orig_0305.jp2",
+          "sha256": "e5fd3ae5eebbff7b275205e933c82cdb6b0460ce1e7e75b80c4c215dade4c518",
+          "path": "docs/reports/sv1917-joshua-witnesses/ia-orig0305.jp2",
+          "crop_path": "docs/reports/sv1917-joshua-witnesses/orig0305-resolved.png",
+          "crop_sha256": "03db30af4ba5b02cec14d5793306ef50a6c90c5770282a000d44d77939f67378",
+          "decision": "Complete den and blank margin visible: no comma in 1926; retain current reading.",
+          "scope": "Targeted reading only; no extra chapter coverage. Rotate original -90 degrees to read."
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 10,
+      "text_sha256": "795729770b7dc8e6bb8ef84ac3a8db7c7413a9d06d4161843282c1b7d8a2dc8a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 16:3: Current jafletiternas retained: EFS1926 leaf304 confirms this spelling; EFS1927 p320 prints jafletiernas.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0320.1.tif",
+          "sha256": "44dbac5b860979e1b75cf513f9146bb3446191f3a0a3c022f30732b767021781"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0321.1.tif",
+          "sha256": "b885a5b617e6d26a23d374a790c4525ff6a6b607dfa3e85b70759977cbd8067c"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n304.jpg",
+          "sha256": "1cf87dddad86104eb77e8bd02d7661dd81e17df822402986c527718be380e673",
+          "printed_page": 293
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "3c7c59dd06e485698a04c2bcc97bef55941c42b0711dc8ac070f308ad36637b7",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 17:5: Current Manasse tio without comma retained: EFS1926 leaf305 confirms it; EFS1927 p321 prints Manasse, tio. Separate comma after lotter is supported by both and proposed as correction. 17:18: Current verse 18 begins utan du skall få en bergsbygd, as EFS1927 p322; EFS1926 leaf305 places these words at end of verse17 and begins verse18 som ju ock är en skogsbygd. Retain corpus numbering following EFS1927; no words added/deleted by this variant.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0321.1.tif",
+          "sha256": "b885a5b617e6d26a23d374a790c4525ff6a6b607dfa3e85b70759977cbd8067c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0322.1.tif",
+          "sha256": "3346c3f1c792ee81a0eb7335ff297832fea2b2feef9a457eab5bfa2b5a2f8b26"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n305.jpg",
+          "sha256": "86a66a8a3f0ce67a1cff66b06d4213c0e3999c17249336c7ad2f36c776d481ba",
+          "printed_page": 294
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n306.jpg",
+          "sha256": "808bfde6196090a0dd32e367006639ca7b176c41765873c59b4659a460092fe3",
+          "printed_page": 295
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "bfc0617ac74e73fb73088b82b8ea63d350621fdb520901e8618e076dd4c62200",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "Entire current chapter visually compared with actual EFS1927 page images, including unflagged text and all page/column continuations. EFS1926 used as targeted second physical witness for proposed changes and retained variants. The listed corrections are applied; human-review checkboxes remain unchecked. 18:11: Current stam, efter with comma retained: EFS1926 leaf306 confirms it; EFS1927 p323 lacks comma after stam. Separate missing commas around som lotten gav dem are supported by both. 18:14: Current berget som without comma retained: EFS1926 leaf306 confirms it; EFS1927 p323 adds comma after berget. 18:16: Current det berg som without comma retained: EFS1926 leaf306 confirms it; EFS1927 p323 adds comma after berg. 18:18: Current höjd som without comma retained: EFS1926 leaf307 confirms it; EFS1927 p323 adds comma after höjd.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0322.1.tif",
+          "sha256": "3346c3f1c792ee81a0eb7335ff297832fea2b2feef9a457eab5bfa2b5a2f8b26"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0323.1.tif",
+          "sha256": "362b69650da1ef251927af87031835084031d2e6db05de8059eb7412c3d35ed0"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n306.jpg",
+          "sha256": "808bfde6196090a0dd32e367006639ca7b176c41765873c59b4659a460092fe3",
+          "printed_page": 295
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n307.jpg",
+          "sha256": "8b1c12186c5063f7f88108f7daa65d33b96f82145af85929168b75b68ec4f270",
+          "printed_page": 296
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 51,
+      "text_sha256": "fd672fc003bdc30e4e090f2f27924d53e992924e8b02709ab8271238e718a59d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain Rimmon som without 1927 comma: supported by 1926 leaf307. 1926 comma after havet in19:29 and landet in19:49 is absent in1927; retain existing1927-supported punctuation.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0323.1.tif",
+          "sha256": "362b69650da1ef251927af87031835084031d2e6db05de8059eb7412c3d35ed0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0324.1.tif",
+          "sha256": "e369477f744d4b4db86bab10df1a7805e8db514eeeab76a6a980115e0d3214b6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0325.1.tif",
+          "sha256": "f1fc7bdad1e613e9941efeaf30a9b08d356f55c04365363d73b72cf85a447660"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n307.jpg",
+          "sha256": "8b1c12186c5063f7f88108f7daa65d33b96f82145af85929168b75b68ec4f270",
+          "printed_page": 296
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n308.jpg",
+          "sha256": "3502cbef8b1d588852057452d49bcaa22e16e0e2853ea585bfc3d39d509a7f08",
+          "printed_page": 297
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 9,
+      "text_sha256": "5d79910da1741e5acd9362294121bebc3c493d81f1376be518e465c32a90f1ad",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain 1927-supported absence of comma after städer in20:3, current comma after menigheten in20:6 and restore omitted phrase with1927 no-comma stad från. In20:9 retain1926 alla, comma after Israels barn, and absence of1927 commas after främlingar, orter, var och en and dödat någon.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0325.1.tif",
+          "sha256": "f1fc7bdad1e613e9941efeaf30a9b08d356f55c04365363d73b72cf85a447660"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0326.1.tif",
+          "sha256": "37f1a8593230cf4c2c7702b851aeca4f643fee6746dbe64ac2aeeba609c4ab7f"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n308.jpg",
+          "sha256": "3502cbef8b1d588852057452d49bcaa22e16e0e2853ea585bfc3d39d509a7f08",
+          "printed_page": 297
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n309.jpg",
+          "sha256": "4f7597fc8076d20e71b3c6e649f2a2d93c6ef30233781a30b0d423b05d1bf8d6",
+          "printed_page": 298
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "d792787efa9dfbd7e0926ee9bb1fe13f51c1bb72b63a80e5bde709695e2c3487",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Current punctuation retained where supported:1927 comma utmarker, genom21:8;1926 semicolon21:16;1927 comma tretton städer, med21:19 and tio, med21:26;1926 single och En-Gannim21:29 against1927 double och;1926 no comma städer med21:41 and goda som21:45. Anoks in21:11 is visibly present in both printings, retained despite unusual name.21:36–37 have only note markers in both printings, referring to Gamla testamentets text in Ordförkl.; no verse text is printed, so no invented corpus records. Footnote is excluded from Bible verse text.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0326.1.tif",
+          "sha256": "37f1a8593230cf4c2c7702b851aeca4f643fee6746dbe64ac2aeeba609c4ab7f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0327.1.tif",
+          "sha256": "b9de139b739540de0068ed47dfdd41ed5026d9834e3f8bd6409d90ba0a511969"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0328.1.tif",
+          "sha256": "5f37497bea969d41906612cffd5d556bf074d648e4d4ce715c9d8d9a47151503"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n309.jpg",
+          "sha256": "4f7597fc8076d20e71b3c6e649f2a2d93c6ef30233781a30b0d423b05d1bf8d6",
+          "printed_page": 298
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n310.jpg",
+          "sha256": "ae20bd5dd6d864c328b9a567dc3c1fec10e8d0539573e04481e5c04e11954044",
+          "printed_page": 299
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n311.jpg",
+          "sha256": "1efbd6dd154579268cf575b52f1582f886b4257dfd555795f3cc9cfb94011b19",
+          "printed_page": 300
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "22430e5f6f0019983f3b01e212e6d975637c09d2906b2a7d283c6502f8b81cb1",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain current witness-supported variants:1926 lacks1927 commas after allt22:2, land22:4, lag22:5, land (both places)22:19;1927 supports commas in22:9 after Kanaans land, besittning and besittningar and in22:17 after renade.22:16 current lacks1926 nested quote before Vad (1927 supports current).22:23 current utkräva vad supported1927;22:27 comma eder, och supported1927, tackoffer, så supported1926;22:28 slaktoffer, utan supported1927 against1926 semicolon;22:30 current ätter, som supported1927 and barn talade supported1926;22:31 opening quote supported1926 (1927 omitted);22:32 Gads barn, i Gileads land supported1926 (1927 lacks comma).",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0328.1.tif",
+          "sha256": "5f37497bea969d41906612cffd5d556bf074d648e4d4ce715c9d8d9a47151503"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0329.1.tif",
+          "sha256": "f9314ce9857069336651d3d2bc942ac3e3fb7d7af06dd9a0f7217770aa47c64a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0330.1.tif",
+          "sha256": "b7bae69f0fbfd8d6c0eb5e7b5e62e4a62e7e12076bdf781f3eaac4db323d934e"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n311.jpg",
+          "sha256": "1efbd6dd154579268cf575b52f1582f886b4257dfd555795f3cc9cfb94011b19",
+          "printed_page": 300
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n312.jpg",
+          "sha256": "c8f599242439eafdd4ebb4e22ae0aaed49c4444ea4105ac3dd1b4e0d1fd00449",
+          "printed_page": 301
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n313.jpg",
+          "sha256": "7104ee28adf72023a478aeb9ef7fadacf3275c242a8e8c1244b16a5c1008637d",
+          "printed_page": 302
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 23,
+      "status": "verified",
+      "verse_count": 16,
+      "text_sha256": "5d0de466ba4e7591dd82528ba76179f25e7c9025789f389e8a793dedcec3c87a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain current punctuation supported by a witness:1927 omkring, och23:1, därifrån vare23:6, eder, och23:12 and land, som23:13/15;1926 allt vad23:3, folk jag23:4, eder och förjaga23:5, folk som23:12 and goda som23:14.23:8 current eder Gud word spacing is supported1926;1927 visibly has ederGud.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0330.1.tif",
+          "sha256": "b7bae69f0fbfd8d6c0eb5e7b5e62e4a62e7e12076bdf781f3eaac4db323d934e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0331.1.tif",
+          "sha256": "4af6d0889aa71eae2e3e43d5e3ed1c7600be53023dc136bb6b0ebe74e8a6ecb8"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n313.jpg",
+          "sha256": "7104ee28adf72023a478aeb9ef7fadacf3275c242a8e8c1244b16a5c1008637d",
+          "printed_page": 302
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n314.jpg",
+          "sha256": "19655274c6edc7369bed43b7b4a15c70cf2542cc893f4e7dcf5df1ed9e81f392",
+          "printed_page": 303
+        }
+      ]
+    },
+    {
+      "book": "Josh",
+      "chapter": 24,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "a2c9614558e60ccc1eb6b52462c3483fcefabd3091421d4e72e7b9cc8966558c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, visuell jämförelse (parallel chapter subtasks; integrated by Codex)",
+      "notes": "All assigned text visually compared against1927 images including unflagged words, punctuation, verse numbering and page/column continuations. Actual1926 images inspected for every proposed correction and retained1927 discrepancy. No unresolved reading. Retain current witness-supported readings:1927 Bileam, utan24:10 and där, under24:26;1926 olivplanteringar som / planterat fingen24:13, mitt hus, vi24:15, den som24:17, opening quotes24:19 and24:22 (1927 lacks them), ord som24:27, härefter24:29 (1927 därefter), gärningar HERREN24:31, jordstycke som24:32, Pinehas' stad, Gibea,24:33 (1927 no comma before Gibea).24:31 commas after first levde and Josua follow1927 against1926.",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0331.1.tif",
+          "sha256": "4af6d0889aa71eae2e3e43d5e3ed1c7600be53023dc136bb6b0ebe74e8a6ecb8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0332.1.tif",
+          "sha256": "8341d1d05019da73ed4eb6940fb6b2895f9dfd6a15a4c064b8f87859458e1e91"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0333.1.tif",
+          "sha256": "868235f213b28c9f4539f474299d234574ed4a95ebc46c104039ee0918982970"
+        }
+      ],
+      "secondary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n314.jpg",
+          "sha256": "19655274c6edc7369bed43b7b4a15c70cf2542cc893f4e7dcf5df1ed9e81f392",
+          "printed_page": 303
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n315.jpg",
+          "sha256": "dc9f6634f35019dde242551004e919c02bff2826a59b0d6f3c4228308318def4",
+          "printed_page": 304
+        }
+      ]
     }
   ],
   "unnumbered": [

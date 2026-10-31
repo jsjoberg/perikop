@@ -1,6 +1,6 @@
 # form	occurrences	voice	alternatives
-han	13135	h'A:n	h'A:n=namn|h'an=pronomen
-en	8906	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
+han	13136	h'A:n	h'A:n=namn|h'an=pronomen
+en	8907	'En	'En=adverb, pronomen, räkneord|'e:n=substantiv
 du	7143	d'y:	d'u-=pronomen|d'y:=namn
 men	5525	m'En	m'En=konjunktion|m'e:n=substantiv
 hans	4320	h'A:ns	h'A:ns=namn|h'ans=pronomen
@@ -10,12 +10,12 @@ min	2865	m'i:n	m'In=pronomen|m'i:n=substantiv
 man	2759	m'an	m'A:n=substantiv|m'an=substantiv
 vi	2333	s'Eks	s'Eks=räkneord|v'i:=pronomen
 son	2109	s'u:n	s'o:n=substantiv|s'u:n=substantiv
-oss	1945	'Os	'Os=pronomen|u:E-s'Es=namn
+oss	1946	'Os	'Os=pronomen|u:E-s'Es=namn
 genom	1649	j'e:nOm	j'e:nOm=adverb, preposition|jE-n'o:m=substantiv, böjd form
 hon	1489	h'u:n	h'Un=pronomen|h'u:n=substantiv
 sedan	1461	s'e:dan	s'e:dan=adverb, konjunktion, preposition|sE-d'A:n=substantiv, böjd form|sE-d'an=substantiv
 inför	1158	Inf'Y:R	'Inf,Y:R=verb|'InfY:R=preposition|Inf'Y:R=adverb
-andra	1117	'andRa	'andRA:=verb|'andRa=pronomen, räkneord
+andra	1116	'andRa	'andRA:=verb|'andRa=pronomen, räkneord
 israel	1051	'i:sRaE-l	'i:sRaE-l=namn, substantiv|IsRa'e:l=substantiv
 huru	935	h'u-RU	h'u-RU=namn|h'u-Ru-=adverb
 kan	917	k'A:n	k'A:n=substantiv, böjd form|k'an=verb
@@ -103,10 +103,10 @@ tomt	14	t'Omt	t'Omt=namn, substantiv|t'Umt=adjektiv, adverb
 bergens	13	b'ERgE-ns	b'ERgE-ns=namn, substantiv|b'ERjE-ns=substantiv
 domens	13	d'o:mE-ns	d'UmE-ns=substantiv|d'o:mE-ns=substantiv, böjd form
 förlåter	13	f'Y:l.,o:tE-R	f'Y:l.,o:tE-R=substantiv|fWl.'o:tE-R=verb
+jordans	13	jURd'A:ns	j'o:Rdans=namn|jURd'A:ns=substantiv, böjd form
 predikat	13	pRE-dIk'A:t	pRE-d'i:kat=particip, verb|pRE-dIk'A:t=substantiv
 tillrättavisa	13	tIlR'Etav,i:sa	tIR'Etav,i:sa=verb, böjd form|tIlR'Etav,i:sa=verb
 hets	12	h'e:ts	h'Ets=substantiv|h'e:ts=adjektiv, böjd form
-jordans	12	jURd'A:ns	j'o:Rdans=namn|jURd'A:ns=substantiv, böjd form
 tom	12	t'Om	t'Om=namn|t'Um=adjektiv|t'o:m=substantiv, böjd form
 helgen	11	h'ElgE-n	h'ElgE-n=namn|h'EljE-n=substantiv
 stridsman	11	stR'Itsman	stR'Itsm,an=substantiv|stR'Itsman=namn
