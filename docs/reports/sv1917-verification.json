@@ -3380,6 +3380,66 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Nah",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "cb8b6f9da7f24c1b082217ff062d2b3c28e4b236dbc9e1cac3f297ab9b73156f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1241.1.tif",
+          "sha256": "7b025a1c974a458171b450718b52a3c945c643764b5a6a627fb323ad901165a9"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1242.1.tif",
+          "sha256": "3f4892050a673406ffd4c1193f81da25b636f249ccc3e31bb8ca23e39bbe2e9b"
+        }
+      ],
+      "notes": "Nahum 1 jämförd som OCR-text mot EFS 1927 GT s. 1241–1242 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-nahum.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Nah",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "63987c1f83b78a7b13201d1e5d22f01973f8f3b8a969ef11d68cf1fea44135e2",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1242.1.tif",
+          "sha256": "3f4892050a673406ffd4c1193f81da25b636f249ccc3e31bb8ca23e39bbe2e9b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1243.1.tif",
+          "sha256": "9b7f20529a9f9fc5541d88e2c537d5c6acc2c24aaafe004935ecaacddcfd212c"
+        }
+      ],
+      "notes": "Nahum 2 jämförd som OCR-text mot EFS 1927 GT s. 1242–1243 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-nahum.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Nah",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 19,
+      "text_sha256": "fe5b16afbc6626000bdb4df117e9e69cf6130b0b66a8fa3891f1b2f06035f58c",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1243.1.tif",
+          "sha256": "9b7f20529a9f9fc5541d88e2c537d5c6acc2c24aaafe004935ecaacddcfd212c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1244.1.tif",
+          "sha256": "720e238798b6f0e912347c8e0e31d6f10d86e22921db06e2c7ecc107fd644b3f"
+        }
+      ],
+      "notes": "Nahum 3 jämförd som OCR-text mot EFS 1927 GT s. 1243–1244 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-nahum.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
