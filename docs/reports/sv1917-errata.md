@@ -4,6 +4,10 @@
 
 Patchtabellen omfattar nu 247 granskningsrader med rättelser, återställningar eller omnumreringar efter tjugotvå granskningsomgångar. Varje markerat utdrag har jämförts visuellt med faksimil eller angivet kompletterande tryckvittne. Rättelserna är införda i Perikops import; de sex raderna R023 och A210–A214 är granskade med dina foton, medan övriga kryssrutor återstår. Byt `[ ]` mot `[x]` i kolumnen **Granskad** när du har jämfört med bilden. Den här rapporten kan därefter delas med respektive textkälla.
 
+## Första Konungaboken, 2026-10-31
+
+[Separat bokerrata](sv1917-errata-1kings.md): KGS1-001–KGS1-218, 218 rättade versposter efter visuell genomgång av samtliga 22 kapitel / 817 versposter mot EFS 1927 och bedömning av rättelser/tryckskillnader mot faktiska EFS Stockholm 1926-bilder. Alla 218 nya mänskliga kontrollrutor är omarkerade. Kapitel 14 är `needs-review` på grund av KGS1-V001 (14:22); 21 kapitel / 786 versposter är verifierade. Tabellen nedan bevarar de tidigare 247 raderna.
+
 ## Underlag
 
 För de kanoniska böckerna är textkällan [Runebergs elektroniska Bibeln 1917](https://runeberg.org/bibeln/), och bildvittnet är [Evangeliska Fosterlandsstiftelsens tryckning från 1927](https://runeberg.org/bibeln/efs1927/). De apokryfiska böckerna jämförs med [Norstedts tryckning från 1921](https://runeberg.org/apokryf/); A-raderna behandlar fel i apokryfernas OCR och transkriptionens versindelning; A210–A214 rättar även dokumenterade tryckfel mot ett annat tryck.
