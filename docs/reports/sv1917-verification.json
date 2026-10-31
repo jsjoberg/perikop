@@ -3380,6 +3380,840 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Judg",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 36,
+      "text_sha256": "178ad9efa0d16323bb3c106e5880110cdc11a69863367ae9adb90a347490ed26",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0333.1.tif",
+          "sha256": "868235f213b28c9f4539f474299d234574ed4a95ebc46c104039ee0918982970",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0333.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0334.1.tif",
+          "sha256": "c0b83ae94090085b8f6e5a40be5090a4b5214a7b6982b3a88d86b73a3559e4d1",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0334.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0335.1.tif",
+          "sha256": "3ff75a1427dc97e1b04b83e14f7a5d244f4291c49f3049dbb3f387f85e1ff6d8",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0335.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n316.jpg",
+          "sha256": "d43f481a0847ad1c532d8a617152a6806f9180ca4ca2679bbdf64d6b7cf3013d",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0305.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n317.jpg",
+          "sha256": "f1e9a6ac217146f0c81f5103d5ebf6b544b3386043dff75439964b4f7d65ca49",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0306.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n318.jpg",
+          "sha256": "b9fcb21e0b961ef292cdedd010cdd6b3ad8074d959a41749520aa77c687a1295",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0307.jpg"
+        }
+      ],
+      "notes": "Hela 1:1–36 visuellt jämförd med EFS 1927 s. 333–335, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 305–307 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 1 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 23,
+      "text_sha256": "b4155566d6c4c95943d15b8dd7ae4572165871544373db90cb7868ed354d00f8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0335.1.tif",
+          "sha256": "3ff75a1427dc97e1b04b83e14f7a5d244f4291c49f3049dbb3f387f85e1ff6d8",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0335.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0336.1.tif",
+          "sha256": "caa1facac0708567ca12a4132fe88d6c9be731526e0dd5731ef17b49fce9fb40",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0336.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n318.jpg",
+          "sha256": "b9fcb21e0b961ef292cdedd010cdd6b3ad8074d959a41749520aa77c687a1295",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0307.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n319.jpg",
+          "sha256": "4dedfc42c4b30c87e05c272d04b844cbe6875a9bae8fff1ccdb79cc3f17c4cfc",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0308.jpg"
+        }
+      ],
+      "notes": "Hela 2:1–23 visuellt jämförd med EFS 1927 s. 335–336, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 307–308 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 2 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "7b2ec01a7027e388ed755a565bf999f5acd58a6554f0708f5f563ef8fdc6cc01",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0336.1.tif",
+          "sha256": "caa1facac0708567ca12a4132fe88d6c9be731526e0dd5731ef17b49fce9fb40",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0336.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0337.1.tif",
+          "sha256": "2a90c457c6ea015dbadcb1e2e61033363d73ed971d2a2724db70669e206221d5",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0337.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0338.1.tif",
+          "sha256": "adf95d111459a91f07eab58be635ee261f7689184e9ad4c9dd127ed47bcdb599",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0338.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n319.jpg",
+          "sha256": "4dedfc42c4b30c87e05c272d04b844cbe6875a9bae8fff1ccdb79cc3f17c4cfc",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0308.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n320.jpg",
+          "sha256": "681fcfa3fc0ac5033d9f23da36e81861a6617604ba4b03acdd46bf1aef131066",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0309.jpg"
+        }
+      ],
+      "notes": "Hela 3:1–31 visuellt jämförd med EFS 1927 s. 336–338, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 308–309 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 3 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "4914513a6de5a35e654657e6dc620d94feb8481c7b1c0f7ac90eb4a7753280a8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0338.1.tif",
+          "sha256": "adf95d111459a91f07eab58be635ee261f7689184e9ad4c9dd127ed47bcdb599",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0338.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0339.1.tif",
+          "sha256": "f942296c9c7a9c7bc9eeb017c0724d72677df15b576e9c601d04d0fb6c5fbeec",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0339.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n320.jpg",
+          "sha256": "681fcfa3fc0ac5033d9f23da36e81861a6617604ba4b03acdd46bf1aef131066",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0309.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n321.jpg",
+          "sha256": "69404de8e525e6ba28b7340e4fc96ca8b28eea668b8dc376a7468de04f9f8158",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0310.jpg"
+        }
+      ],
+      "notes": "Hela 4:1–24 visuellt jämförd med EFS 1927 s. 338–339, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 309–310 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 4 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "69dac2ea42c2ffcc1143133e48ef667f7c78adc8a7b318dea95d3db61357c191",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0339.1.tif",
+          "sha256": "f942296c9c7a9c7bc9eeb017c0724d72677df15b576e9c601d04d0fb6c5fbeec",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0339.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0340.1.tif",
+          "sha256": "6882cee9a59c5d9b32f1acadd6bb74335991b5ab5bf553765d9010561892cb52",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0340.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0341.1.tif",
+          "sha256": "2e82d3f1d56c1e041d277d7283eeece4a120f21da08f8583354e66b6ae79d2fe",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0341.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n322.jpg",
+          "sha256": "509d4f0d742298543bff32120e03762114390abad0179eb663731d2b9700ccf4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0311.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n323.jpg",
+          "sha256": "cf870bcc61cb041eead36d0312923bbbdf8ca2e04617b1e6297402f9b2f9e23b",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0312.jpg"
+        }
+      ],
+      "notes": "Hela 5:1–31 visuellt jämförd med EFS 1927 s. 339–341, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 311–312 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 5 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 40,
+      "text_sha256": "544e710df92e8663baf505916cb8a975aad769867a50454a8daa579e5b25bb07",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0341.1.tif",
+          "sha256": "2e82d3f1d56c1e041d277d7283eeece4a120f21da08f8583354e66b6ae79d2fe",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0341.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0342.1.tif",
+          "sha256": "5bf2a3843093f3155535c56f1bbecc095adc651dda21cafaff758f5b8f4905d9",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0342.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0343.1.tif",
+          "sha256": "b1e8443eeb82a5259ec33f9343db0318ba1af8078fa601ac139fe5be9051bd78",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0343.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n323.jpg",
+          "sha256": "cf870bcc61cb041eead36d0312923bbbdf8ca2e04617b1e6297402f9b2f9e23b",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0312.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n324.jpg",
+          "sha256": "afd485267ce81c28500594060bc9a3aef7eeed7c7e06d65765ec58d0148fda13",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0313.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n325.jpg",
+          "sha256": "b121107373a193d915da77ae58a37755fd65a2adf74f4cd06d52236ba4318003",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0314.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n326.jpg",
+          "sha256": "7c2a2e9c83d8adbc1585282d274e95c1642e07b2540c2b15632450bf1d2b6d26",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0315.jpg"
+        }
+      ],
+      "notes": "Hela 6:1–40 visuellt jämförd med EFS 1927 s. 341–343, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 312–315 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 6 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "fd2fec4c82452c292bfddbc61eb77e7f28b55726f77e27887557990bf852bef1",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0343.1.tif",
+          "sha256": "b1e8443eeb82a5259ec33f9343db0318ba1af8078fa601ac139fe5be9051bd78",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0343.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0344.1.tif",
+          "sha256": "4b5720fb533a43d3c08509aff35b827c77f64d4ccaa853876f999423f488ebb1",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0344.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0345.1.tif",
+          "sha256": "6f76180f0a36a348a1c38935dd90ea2079f7f547fe26c789291c9a137cfe9c5d",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0345.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n326.jpg",
+          "sha256": "7c2a2e9c83d8adbc1585282d274e95c1642e07b2540c2b15632450bf1d2b6d26",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0315.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n327.jpg",
+          "sha256": "bca1fdd5cfd6bf52cd84a00201e0b31085a0b83f0fdd15587965ca11b2c49a07",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0316.jpg"
+        }
+      ],
+      "notes": "Hela 7:1–25 visuellt jämförd med EFS 1927 s. 343–345, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 315–316 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 7 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 35,
+      "text_sha256": "1e699c199e45a11d6317b771b4b2f2f5fa5a9065d26c7fd3f1a06c03ea066839",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0345.1.tif",
+          "sha256": "6f76180f0a36a348a1c38935dd90ea2079f7f547fe26c789291c9a137cfe9c5d",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0345.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0346.1.tif",
+          "sha256": "4dcd2e3df9bfe45efa0dc80c6f1e20a62e9c45a4c313e7b1f34a1c94e047fd44",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0346.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0347.1.tif",
+          "sha256": "64cf5c68e6296e0d8ce433f5dc2bc495bf36b4b6452e3716131c5c420013bdc4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0347.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n327.jpg",
+          "sha256": "bca1fdd5cfd6bf52cd84a00201e0b31085a0b83f0fdd15587965ca11b2c49a07",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0316.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n328.jpg",
+          "sha256": "518246b67f704f97c21137afb29365241efdc694d117bf752e8148b7cab72528",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0317.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n329.jpg",
+          "sha256": "6c25573539e9509b46f06b56e55f086430e0e92066cdc9112ab6a53afe631d05",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0318.jpg"
+        }
+      ],
+      "notes": "Hela 8:1–35 visuellt jämförd med EFS 1927 s. 345–347, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 316–318 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 8 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 57,
+      "text_sha256": "4d92f45ac1887d0f1ef16144b4aad943acbe097eceb5ba71fd514cd55c1bb205",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0347.1.tif",
+          "sha256": "64cf5c68e6296e0d8ce433f5dc2bc495bf36b4b6452e3716131c5c420013bdc4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0347.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0348.1.tif",
+          "sha256": "8050bb17a21383daec83bf9cc3ffd203222137d3a6dac7015f425016cf0dd799",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0348.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0349.1.tif",
+          "sha256": "ca2cdf558f6b7dece666fa799d1eea2f67b645974b403717d68693a25b22e06c",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0349.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0350.1.tif",
+          "sha256": "51bd3866164a3f416fc813ebab9205a76e26c6e3f0d4083a519dcc258a6aa227",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0350.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n329.jpg",
+          "sha256": "6c25573539e9509b46f06b56e55f086430e0e92066cdc9112ab6a53afe631d05",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0318.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n330.jpg",
+          "sha256": "1be9c54f3230bf9c7048cf87511ae400c686b9d749ad60d2f08fc83032e9c957",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0319.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n331.jpg",
+          "sha256": "dec535aabbfcb747ebe60f95e405e41d90803780a3ac4ebdcc36d10e705afa60",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0320.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n332.jpg",
+          "sha256": "5da352821aa418b3df7f10c0c0dd6c53fef40d1d125360c579da1233467d5d8b",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0321.jpg"
+        }
+      ],
+      "notes": "Hela 9:1–57 visuellt jämförd med EFS 1927 s. 347–350, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 318–321 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 9 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "5eb0398907772531e3f3cc87a5c47b2aa2945fbfeea970742b6a41e2c2a50749",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0350.1.tif",
+          "sha256": "51bd3866164a3f416fc813ebab9205a76e26c6e3f0d4083a519dcc258a6aa227",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0350.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0351.1.tif",
+          "sha256": "991cd89144eb9e9e80e34b72706aac031cdefe856d66cbf4048140e3a6f94fe7",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0351.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n332.jpg",
+          "sha256": "5da352821aa418b3df7f10c0c0dd6c53fef40d1d125360c579da1233467d5d8b",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0321.jpg"
+        }
+      ],
+      "notes": "Hela 10:1–18 visuellt jämförd med EFS 1927 s. 350–351, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 321–321 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 10 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 40,
+      "text_sha256": "f587bdd95584757fac971169345081eb6203850ea35c9784f3e4bf94a67d26dc",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0351.1.tif",
+          "sha256": "991cd89144eb9e9e80e34b72706aac031cdefe856d66cbf4048140e3a6f94fe7",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0351.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0352.1.tif",
+          "sha256": "2a2a25c750953ec3873b42f6754ddb249cbea71599d41c34ac8217b047fa61a8",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0352.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0353.1.tif",
+          "sha256": "b12ace909996b51541451f021647d9f5b0a59a3fc36357cd251238668086fa5a",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0353.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n332.jpg",
+          "sha256": "5da352821aa418b3df7f10c0c0dd6c53fef40d1d125360c579da1233467d5d8b",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0321.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n333.jpg",
+          "sha256": "89339e4322bdf4a467cf13d5614aa4854bc9ffca52e011d4cf1139871caff6dc",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0322.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n334.jpg",
+          "sha256": "e77b1ed20667aee37324c6050ba635d62e50360c2aa207cf72a3bf6fd1ba17ad",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0323.jpg"
+        }
+      ],
+      "notes": "Hela 11:1–40 visuellt jämförd med EFS 1927 s. 351–353, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 321–323 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 11 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 15,
+      "text_sha256": "cac016109fc9e8a92ab10fe6eb106b9dc271973a6be159a303a1e10a24bc5713",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0353.1.tif",
+          "sha256": "b12ace909996b51541451f021647d9f5b0a59a3fc36357cd251238668086fa5a",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0353.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0354.1.tif",
+          "sha256": "aa3becaea940eb3d560022fec319994461b730f5aa14535a08b85d3b5b3a9a0a",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0354.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n334.jpg",
+          "sha256": "e77b1ed20667aee37324c6050ba635d62e50360c2aa207cf72a3bf6fd1ba17ad",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0323.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n335.jpg",
+          "sha256": "58035bb9a95c232ee99147c90d15504ece31ac9d35397c6e016f8a7f3dbb0309",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0324.jpg"
+        }
+      ],
+      "notes": "Hela 12:1–15 visuellt jämförd med EFS 1927 s. 353–354, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 323–324 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 12 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "efabe7fa3faf0f42ecf63bf77e35933a16333eb827a7ec0666562c9b21360ba7",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0354.1.tif",
+          "sha256": "aa3becaea940eb3d560022fec319994461b730f5aa14535a08b85d3b5b3a9a0a",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0354.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0355.1.tif",
+          "sha256": "08a0896af22bfe8ce8ae529507e9575364544354d97e536dc9145a49bab763fd",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0355.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n335.jpg",
+          "sha256": "58035bb9a95c232ee99147c90d15504ece31ac9d35397c6e016f8a7f3dbb0309",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0324.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n336.jpg",
+          "sha256": "2493dce0ed8a6a041d1136c7846ebd1a836b5c252144a1bb2a44b722cb6440af",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0325.jpg"
+        }
+      ],
+      "notes": "Hela 13:1–25 visuellt jämförd med EFS 1927 s. 354–355, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 324–325 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 13 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 14,
+      "status": "verified",
+      "verse_count": 20,
+      "text_sha256": "d3f2f50acf606118de23e58be1c03bb06c63c09f8f9bb7aad8f9811ce47dcddc",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0355.1.tif",
+          "sha256": "08a0896af22bfe8ce8ae529507e9575364544354d97e536dc9145a49bab763fd",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0355.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0356.1.tif",
+          "sha256": "af9c8ce794cc0da8bf83d800a6fec1c1ee792c381ff175f4378081dc818c4cb9",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0356.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0357.1.tif",
+          "sha256": "b433bd02fc10b594b05b198017484d6966c1002f5ff53e62e12cc3c5a78486eb",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0357.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n336.jpg",
+          "sha256": "2493dce0ed8a6a041d1136c7846ebd1a836b5c252144a1bb2a44b722cb6440af",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0325.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n337.jpg",
+          "sha256": "9b258d0a8a377a1353b8d44b9c22344447acf923613835fe3e75077569b560e5",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0326.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n338.jpg",
+          "sha256": "bbada4077d611de1e991afbea75c89096a6ff72a346f19d393a262afb80fcfd5",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0327.jpg"
+        }
+      ],
+      "notes": "Hela 14:1–20 visuellt jämförd med EFS 1927 s. 355–357, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 325–327 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 14 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 20,
+      "text_sha256": "271b7436243884bd5e89b5c50375297bfdac9ee1a054e95c99fc02b539852569",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0357.1.tif",
+          "sha256": "b433bd02fc10b594b05b198017484d6966c1002f5ff53e62e12cc3c5a78486eb",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0357.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0358.1.tif",
+          "sha256": "983456bec262e963b82b730f6898e35db038a0169d1e5b1e68d8a88e8724eece",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0358.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n338.jpg",
+          "sha256": "bbada4077d611de1e991afbea75c89096a6ff72a346f19d393a262afb80fcfd5",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0327.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n339.jpg",
+          "sha256": "44d2626fd24c2c46d1fd27061235fc13eb52ac6ea9dd9e5f250df2b69c35996e",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0328.jpg"
+        }
+      ],
+      "notes": "Hela 15:1–20 visuellt jämförd med EFS 1927 s. 357–358, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 327–328 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 15 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "0b3bf66f463151e29036e56289e87825877b0cc06b5c011e85c36576b13ac657",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0358.1.tif",
+          "sha256": "983456bec262e963b82b730f6898e35db038a0169d1e5b1e68d8a88e8724eece",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0358.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0359.1.tif",
+          "sha256": "7f9ce4ae890aaf56becfb7bac171d6e5e37c20e5d0ffa8ea156842b64f7501c0",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0359.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0360.1.tif",
+          "sha256": "ebef4acabbb71f8608891969e952cf495722932f0fb485dd3e84d7f34d2bb876",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0360.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n339.jpg",
+          "sha256": "44d2626fd24c2c46d1fd27061235fc13eb52ac6ea9dd9e5f250df2b69c35996e",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0328.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n340.jpg",
+          "sha256": "d1cbb987f5d15f60940525c38e26ddffa13e40ecadde68dce1a0ce8eca329ef0",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0329.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n341.jpg",
+          "sha256": "6e2d2657f4fbdb7ec69fe0b1afa57da3dd844b0cffbee7eb0569abdda7c928a4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0330.jpg"
+        }
+      ],
+      "notes": "Hela 16:1–31 visuellt jämförd med EFS 1927 s. 358–360, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 328–330 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 16 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 13,
+      "text_sha256": "29ab78b9d49881837067806403a49af493f5ec631c9f52c1959c88b46cb94690",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0360.1.tif",
+          "sha256": "ebef4acabbb71f8608891969e952cf495722932f0fb485dd3e84d7f34d2bb876",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0360.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0361.1.tif",
+          "sha256": "53871c214e5d7cd08ecd223893d5f73980b0803f1524eb8907a9b36c99bc3acd",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0361.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n341.jpg",
+          "sha256": "6e2d2657f4fbdb7ec69fe0b1afa57da3dd844b0cffbee7eb0569abdda7c928a4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0330.jpg"
+        }
+      ],
+      "notes": "Hela 17:1–13 visuellt jämförd med EFS 1927 s. 360–361, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 330–330 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 17 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 31,
+      "text_sha256": "3c69519fcad34a39f651ad6080dd3ee034cd1d06eeb60d9417248004103440f5",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0361.1.tif",
+          "sha256": "53871c214e5d7cd08ecd223893d5f73980b0803f1524eb8907a9b36c99bc3acd",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0361.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0362.1.tif",
+          "sha256": "ec5b915d623763ddf5c2a72dc7a4e5a27d4ed25f56eeaee620cef4d9dc413ce5",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0362.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0363.1.tif",
+          "sha256": "82a6805d6b46a679e1af673ca8068ded117a0912fc7f033ff4e1bbaa1de231e3",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0363.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n341.jpg",
+          "sha256": "6e2d2657f4fbdb7ec69fe0b1afa57da3dd844b0cffbee7eb0569abdda7c928a4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0330.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n342.jpg",
+          "sha256": "fb7104e28956c5ba135e969737924305d84c914dfab85a988d3a43314cb1e1e5",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0331.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n343.jpg",
+          "sha256": "a16d55033d383e150db0e8a8eac3a4c588df8f5d1dcb61c6a22b9dae5490e267",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0332.jpg"
+        }
+      ],
+      "notes": "Hela 18:1–31 visuellt jämförd med EFS 1927 s. 361–363, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 330–332 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 18 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 30,
+      "text_sha256": "27ae54983b5183a7de14e8febe47cc04b8b591f093d497c413e6aca8ad1974be",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0363.1.tif",
+          "sha256": "82a6805d6b46a679e1af673ca8068ded117a0912fc7f033ff4e1bbaa1de231e3",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0363.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0364.1.tif",
+          "sha256": "3767614edc92267296dfdf38dcd2276c633f633caff90a1eb19e0b0b85d35c9f",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0364.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n343.jpg",
+          "sha256": "a16d55033d383e150db0e8a8eac3a4c588df8f5d1dcb61c6a22b9dae5490e267",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0332.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n344.jpg",
+          "sha256": "c998a45dd57700bec7616313c68bf2cc1aaf2e45a8b6f9268dda1177db74e651",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0333.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n345.jpg",
+          "sha256": "55f09426347d27dc6b410bb4524b8ec0e6b7d899488309849286c9718a6b7c92",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0334.jpg"
+        }
+      ],
+      "notes": "Hela 19:1–30 visuellt jämförd med EFS 1927 s. 363–364, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 332–334 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 19 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 48,
+      "text_sha256": "8dcb8c29b81c2757c1276506056000c06c9f388c1400cfbc4002b0630fa47926",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0365.1.tif",
+          "sha256": "e7e50645da6c9c4f0b30c6095ce8d3f2f7590d3c27dcd232ee38c7232d1eb25a",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0365.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0366.1.tif",
+          "sha256": "e5daeca0f8d75af3dc74fc0786ce9aa838c4c6d0508f12d939d161ce0f138ae4",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0366.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0367.1.tif",
+          "sha256": "b6b14e4999cc994535bddcb96f0ee40beedec79b6ac4a64ad86889cf538acf0e",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0367.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n345.jpg",
+          "sha256": "55f09426347d27dc6b410bb4524b8ec0e6b7d899488309849286c9718a6b7c92",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0334.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n346.jpg",
+          "sha256": "0e26802243e949ddbe8a75011d7efcd3417d89d8f6a5262ad48eaf4168ce0fa1",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0335.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n347.jpg",
+          "sha256": "6a665d394043cea4a3210a684119147ef8de7b93a4f1c4fd24ddf14c77cd6fab",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0336.jpg"
+        }
+      ],
+      "notes": "Hela 20:1–48 visuellt jämförd med EFS 1927 s. 365–367, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 334–336 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 20 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
+    },
+    {
+      "book": "Judg",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 25,
+      "text_sha256": "55f9ba360c64ca15eb3e7ce9cfaae1a8bea7ccf37906d282de079d62b80ff171",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual EFS 1927 comparison; EFS 1926 image checks",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0367.1.tif",
+          "sha256": "b6b14e4999cc994535bddcb96f0ee40beedec79b6ac4a64ad86889cf538acf0e",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0367.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0368.1.tif",
+          "sha256": "cdc71ac641187d85c6b0231fcd92915084d66f8a6b8cdf226b7d668a3ec0ba19",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0368.tif"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0369.1.tif",
+          "sha256": "a05440399b246244d03559537120b7863197f25fbadc61685b9230350ffe98b0",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1927/0369.tif"
+        }
+      ],
+      "supplementary_scans": [
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n347.jpg",
+          "sha256": "6a665d394043cea4a3210a684119147ef8de7b93a4f1c4fd24ddf14c77cd6fab",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0336.jpg"
+        },
+        {
+          "url": "https://archive.org/download/bibelnellerdenhe0000unse/page/n348.jpg",
+          "sha256": "89c23031ffafcf75a323e0efcb6ed23212c625615c6cac7fd95a8c36ab766d3a",
+          "path": "docs/reports/sv1917-judges-witnesses/efs1926/gt0337.jpg"
+        }
+      ],
+      "notes": "Hela 21:1–25 visuellt jämförd med EFS 1927 s. 367–369, inklusive ord, interpunktion, versnummer samt spalt- och sidfortsättningar. EFS 1926 s. 336–337 bildkontrollerad för rättelser och bevarade varianter. Rättelser och kvarvarande tryckskillnader specificeras för kapitel 21 i sv1917-errata-judges.md och sv1917-judges.md. Inga olösta läsningsfrågor; typografi, referat och noter ingår inte i löptexten. Separat mänsklig kontroll är inte utförd."
     }
   ],
   "unnumbered": [
