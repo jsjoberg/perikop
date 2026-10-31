@@ -1,6 +1,6 @@
 # Löpande granskningsliggare för svensk bibeltext
 
-**Uppdaterad 2026-10-25. Aktivt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). Enligt användarens ändrade prioritering är målet för denna PR och textgranskningen inför 0.2.1 den svenska utökade kanon som saknas i SRB26. Återstående GT och en framtida NT-genomgång är uppföljningsarbete och blockerar inte denna PR eller 0.2.1.**
+**Uppdaterad 2026-10-31. Aktivt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). Enligt användarens ändrade prioritering är målet för denna PR och textgranskningen inför 0.2.1 den svenska utökade kanon som saknas i SRB26. Återstående GT och en framtida NT-genomgång är uppföljningsarbete och blockerar inte denna PR eller 0.2.1.**
 
 Till skillnad från daterade rapporter uppdateras denna liggare under arbetet. Den anger vad som är färdigläst, vad som endast ordkontrollerats och var nästa genomgång börjar. Detaljerna finns i [den maskinläsbara liggaren](sv1917-verification.json).
 
@@ -27,9 +27,9 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
 | Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
-| GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
+| GT utan apokryfer | 2 / 39 | 33 / 929 | 849 / 23 209 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 4 410 versposter färdiglästa i detta protokoll, inklusive tidigare Haggai. Det motsvarar 16,0 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 5 221 versposter färdiglästa i detta protokoll (181 kapitel), inklusive Haggai och Första Samuelsboken. Det motsvarar 18,9 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 3,66 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
@@ -46,6 +46,10 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 | 1 Mackabeerboken | Hela 1–16, 924 versposter | 157–206 / [0161](https://runeberg.org/apokryf/0161.html)–[0210](https://runeberg.org/apokryf/0210.html) | A157–A199 införda, inklusive rättad gräns 10:27–28; hela boken verifierad |
 | 2 Mackabeerboken | Hela 1–15, 555 versposter | 207–245 / [0211](https://runeberg.org/apokryf/0211.html)–[0249](https://runeberg.org/apokryf/0249.html) | A200–A210 och A214–A222 införda; V002 och V006 lösta; hela boken verifierad |
 | Tillägg till Ester | Hela 1–7, 105 versposter, inklusive efterskriften 7:11 | 245–251 / [0249](https://runeberg.org/apokryf/0249.html)–[0255](https://runeberg.org/apokryf/0255.html) | A223–A224 införda; tidigare återställda passager återkontrollerade; hela boken verifierad |
+
+## Första Samuelsboken, separat bokgranskning 2026-10-31
+
+Hela 1 Sam 1–31, 811 slutliga versposter, har jämförts visuellt mot EFS 1927 s. 374–421. EFS 1926-bilderna har kontrollerats för rättelser och varianter. SAM1-001–SAM1-267 ändrar 267 slutliga versposter; den felplacerade e-textposten 3:22 förs utan ordbortfall till 4:1. Båda trycken numrerar meningen 4:1. Inga olösta läsningar återstår. [Bokrapport, kapitelprotokoll och validering](sv1917-1samuel.md); [92 originalbilder med hash](sv1917-1samuel-witnesses/manifest.json). Separat mänsklig kontroll i erratatabellen återstår. Övriga parallella GT-granskningar är inte inräknade här.
 
 ## Onumrerad text
 

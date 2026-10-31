@@ -90,7 +90,7 @@ RULES={(SV,GR):SV_GR}
 OVERRIDES={(SV,GR):{'Gen':['Gen 11:13 > Gen 11:13','Gen 35:16 Gen 35:21 > Gen 35:16'],'Exod':EXOD_OVERRIDES,'Deut':['Deut 32:43 > Deut 32:43','Deut 32:44 > Deut 32:44'],
  'Josh':[*['Josh 8:%d > Josh 9:2%s'%(v,letter) for v,letter in zip(range(30,36),'abcdef')],'Josh 9:1-2 >> Josh 9:1-2','Josh 19:47 > Josh 19:47a Josh 19:48 Josh 19:48a','Josh 19:48 > Josh 19:47','Josh 21:42 > Josh 21:42',
   'Josh 24:29 > Josh 24:30','Josh 24:30 > Josh 24:31','Josh 24:31 > Josh 24:29'],
- '1Sam':['1Sam 1:25 > 1Sam 1:25','1Sam 2:10 > 1Sam 2:10','1Sam 14:41 > 1Sam 14:41','1Sam 14:42 > 1Sam 14:42','1Sam 17:41 > -','1Sam 17:50 > -'],
+ '1Sam':['1Sam 1:25 > 1Sam 1:25','1Sam 2:10 > 1Sam 2:10','1Sam 3:21 > 1Sam 3:21','1Sam 4:1 > 1Sam 4:1','1Sam 14:41 > 1Sam 14:41','1Sam 14:42 > 1Sam 14:42','1Sam 17:41 > -','1Sam 17:50 > -'],
  '2Sam':['2Sam 8:7 > 2Sam 8:7','2Sam 8:8 > 2Sam 8:8','2Sam 11:22 > 2Sam 11:22'],'1Kgs':KGS_OVERRIDES,
  '2Kgs':['2Kgs 1:16-18 >> 2Kgs 1:16-18','2Kgs 21:25 > 2Kgs 21:25 2Kgs 21:26'],'1Chr':['1Chr 12:4 > 1Chr 12:4 1Chr 12:5','1Chr 26:18 > 1Chr 26:18'],'2Chr':['2Chr 36:5 > 2Chr 36:5'],
  'Job':['Job 23:14 > -','Job 23:15 > Job 23:15','Job 36:28 > Job 36:28'],'Jer':JER_OVERRIDES,'Prov':PROV_OVERRIDES,'EsthGr':ESTHER_OVERRIDES,
@@ -112,7 +112,7 @@ SV_KJV={'Ps':[rule for c,n in TITLE_VERSES.items() for rule in ('Ps %d:2-%d=%d:1
  'Hag':['Hag 2:1=1:15','Hag 2:2-24=2:1'],
  'Rev':['Rev 12:18=13:1']}
 SV_KJV_OVERRIDES={'Ps':['Ps 13:6 > Ps 13:5 Ps 13:6','Ps 49:19 > Ps 49:18 Ps 49:19','Ps 49:20 > Ps 49:20'],'2Kgs':['2Kgs 21:25 > 2Kgs 21:25 2Kgs 21:26'],
- 'Neh':['Neh 7:69 > Neh 7:69','Neh 7:70 > Neh 7:70'],'1Sam':['1Sam 3:22 1Sam 4:1 > 1Sam 4:1'],'Rev':['Rev 12:18 Rev 13:1 > Rev 13:1']}
+ 'Neh':['Neh 7:69 > Neh 7:69','Neh 7:70 > Neh 7:70'],'Rev':['Rev 12:18 Rev 13:1 > Rev 13:1']}
 RULES[(SV,KJV)]=SV_KJV
 OVERRIDES[(SV,KJV)]=SV_KJV_OVERRIDES
 CANON=['Gen','Exod','Lev','Num','Deut','Josh','Judg','Ruth','1Sam','2Sam','1Kgs','2Kgs','1Chr','2Chr','Ezra','Neh','Esth','Job','Ps','Prov','Eccl','Song','Isa','Jer','Lam','Ezek','Dan','Hos','Joel','Amos','Obad','Jonah','Micah','Nah','Hab','Zeph','Hag','Zech','Mal',

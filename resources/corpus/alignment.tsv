@@ -120,9 +120,7 @@ en-kjv	grc-lxx	Josh	24:31	24:31	Josh	24:29	24:29	1
 en-kjv	grc-lxx	Josh	24:32	24:33	Josh	24:32	24:33	0
 en-kjv	grc-lxx	Judg	1:1	21:25	Judg	1:1	21:25	0
 en-kjv	grc-lxx	Ruth	1:1	4:22	Ruth	1:1	4:22	0
-en-kjv	grc-lxx	1Sam	1:1	3:21	1Sam	1:1	3:21	0
-en-kjv	grc-lxx	1Sam	4:1	4:1	1Sam	3:21	4:1	2
-en-kjv	grc-lxx	1Sam	4:2	12:25	1Sam	4:2	12:25	0
+en-kjv	grc-lxx	1Sam	1:1	12:25	1Sam	1:1	12:25	0
 en-kjv	grc-lxx	1Sam	13:1	13:1	-	-	-	6
 en-kjv	grc-lxx	1Sam	13:2	17:11	1Sam	13:2	17:11	0
 en-kjv	grc-lxx	1Sam	17:12	17:31	-	-	-	6
@@ -698,9 +696,7 @@ en-kjv	sv1917	Josh	21:36	21:37	-	-	-	6
 en-kjv	sv1917	Josh	21:38	24:33	Josh	21:38	24:33	0
 en-kjv	sv1917	Judg	1:1	21:25	Judg	1:1	21:25	0
 en-kjv	sv1917	Ruth	1:1	4:22	Ruth	1:1	4:22	0
-en-kjv	sv1917	1Sam	1:1	3:21	1Sam	1:1	3:21	0
-en-kjv	sv1917	1Sam	4:1	4:1	1Sam	3:22	4:1	2
-en-kjv	sv1917	1Sam	4:2	23:28	1Sam	4:2	23:28	0
+en-kjv	sv1917	1Sam	1:1	23:28	1Sam	1:1	23:28	0
 en-kjv	sv1917	1Sam	23:29	23:29	1Sam	24:1	24:1	1
 en-kjv	sv1917	1Sam	24:1	24:22	1Sam	24:2	24:23	1
 en-kjv	sv1917	1Sam	25:1	31:13	1Sam	25:1	31:13	0
@@ -1908,7 +1904,6 @@ en-lxx2012	sv1917	Judg	1:1	21:25	Judg	1:1	21:25	0
 en-lxx2012	sv1917	Judg	5:31	5:32	Judg	5:31	5:31	3
 en-lxx2012	sv1917	Ruth	1:1	4:22	Ruth	1:1	4:22	0
 en-lxx2012	sv1917	1Sam	1:1	12:25	1Sam	1:1	12:25	0
-en-lxx2012	sv1917	1Sam	3:21	3:21	1Sam	3:21	3:22	2
 en-lxx2012	sv1917	1Sam	13:1	13:1	1Sam	13:2	13:2	1
 en-lxx2012	sv1917	1Sam	13:3	17:11	1Sam	13:3	17:11	0
 en-lxx2012	sv1917	1Sam	17:12	17:31	-	-	-	6
@@ -2453,9 +2448,7 @@ en-web	sv1917	Josh	21:36	21:37	-	-	-	6
 en-web	sv1917	Josh	21:38	24:33	Josh	21:38	24:33	0
 en-web	sv1917	Judg	1:1	21:25	Judg	1:1	21:25	0
 en-web	sv1917	Ruth	1:1	4:22	Ruth	1:1	4:22	0
-en-web	sv1917	1Sam	1:1	3:21	1Sam	1:1	3:21	0
-en-web	sv1917	1Sam	4:1	4:1	1Sam	3:22	4:1	2
-en-web	sv1917	1Sam	4:2	23:28	1Sam	4:2	23:28	0
+en-web	sv1917	1Sam	1:1	23:28	1Sam	1:1	23:28	0
 en-web	sv1917	1Sam	23:29	23:29	1Sam	24:1	24:1	1
 en-web	sv1917	1Sam	24:1	24:22	1Sam	24:2	24:23	1
 en-web	sv1917	1Sam	25:1	31:13	1Sam	25:1	31:13	0
@@ -2937,7 +2930,6 @@ grc-lxx	en-kjv	Josh	24:33a	24:33b	-	-	-	5
 grc-lxx	en-kjv	Judg	1:1	21:25	Judg	1:1	21:25	0
 grc-lxx	en-kjv	Ruth	1:1	4:22	Ruth	1:1	4:22	0
 grc-lxx	en-kjv	1Sam	1:1	12:25	1Sam	1:1	12:25	0
-grc-lxx	en-kjv	1Sam	3:21	3:21	1Sam	3:21	4:1	2
 grc-lxx	en-kjv	1Sam	13:2	17:11	1Sam	13:2	17:11	0
 grc-lxx	en-kjv	1Sam	17:32	17:40	1Sam	17:32	17:40	0
 grc-lxx	en-kjv	1Sam	17:42	17:49	1Sam	17:42	17:49	0
@@ -4353,7 +4345,6 @@ grc-lxx	sv1917	Josh	24:33a	24:33b	-	-	-	5
 grc-lxx	sv1917	Judg	1:1	21:25	Judg	1:1	21:25	0
 grc-lxx	sv1917	Ruth	1:1	4:22	Ruth	1:1	4:22	0
 grc-lxx	sv1917	1Sam	1:1	12:25	1Sam	1:1	12:25	0
-grc-lxx	sv1917	1Sam	3:21	3:21	1Sam	3:21	3:22	2
 grc-lxx	sv1917	1Sam	13:2	17:11	1Sam	13:2	17:11	0
 grc-lxx	sv1917	1Sam	17:32	17:40	1Sam	17:32	17:40	0
 grc-lxx	sv1917	1Sam	17:42	17:49	1Sam	17:42	17:49	0
@@ -5115,9 +5106,7 @@ sv1917	en-kjv	Josh	1:1	21:35	Josh	1:1	21:35	0
 sv1917	en-kjv	Josh	21:38	24:33	Josh	21:38	24:33	0
 sv1917	en-kjv	Judg	1:1	21:25	Judg	1:1	21:25	0
 sv1917	en-kjv	Ruth	1:1	4:22	Ruth	1:1	4:22	0
-sv1917	en-kjv	1Sam	1:1	3:21	1Sam	1:1	3:21	0
-sv1917	en-kjv	1Sam	3:22	4:1	1Sam	4:1	4:1	3
-sv1917	en-kjv	1Sam	4:2	23:28	1Sam	4:2	23:28	0
+sv1917	en-kjv	1Sam	1:1	23:28	1Sam	1:1	23:28	0
 sv1917	en-kjv	1Sam	20:43	20:43	-	-	-	6
 sv1917	en-kjv	1Sam	24:1	24:1	1Sam	23:29	23:29	1
 sv1917	en-kjv	1Sam	24:2	24:23	1Sam	24:1	24:22	1
@@ -5530,7 +5519,6 @@ sv1917	en-lxx2012	Judg	1:1	21:25	Judg	1:1	21:25	0
 sv1917	en-lxx2012	Judg	5:31	5:31	Judg	5:31	5:32	2
 sv1917	en-lxx2012	Ruth	1:1	4:22	Ruth	1:1	4:22	0
 sv1917	en-lxx2012	1Sam	1:1	12:25	1Sam	1:1	12:25	0
-sv1917	en-lxx2012	1Sam	3:21	3:22	1Sam	3:21	3:21	3
 sv1917	en-lxx2012	1Sam	13:1	13:1	-	-	-	6
 sv1917	en-lxx2012	1Sam	13:2	13:2	1Sam	13:1	13:1	1
 sv1917	en-lxx2012	1Sam	13:3	17:11	1Sam	13:3	17:11	0
@@ -6127,9 +6115,7 @@ sv1917	en-web	Josh	1:1	21:35	Josh	1:1	21:35	0
 sv1917	en-web	Josh	21:38	24:33	Josh	21:38	24:33	0
 sv1917	en-web	Judg	1:1	21:25	Judg	1:1	21:25	0
 sv1917	en-web	Ruth	1:1	4:22	Ruth	1:1	4:22	0
-sv1917	en-web	1Sam	1:1	3:21	1Sam	1:1	3:21	0
-sv1917	en-web	1Sam	3:22	4:1	1Sam	4:1	4:1	3
-sv1917	en-web	1Sam	4:2	23:28	1Sam	4:2	23:28	0
+sv1917	en-web	1Sam	1:1	23:28	1Sam	1:1	23:28	0
 sv1917	en-web	1Sam	20:43	20:43	-	-	-	6
 sv1917	en-web	1Sam	24:1	24:1	1Sam	23:29	23:29	1
 sv1917	en-web	1Sam	24:2	24:23	1Sam	24:1	24:22	1
@@ -6598,7 +6584,6 @@ sv1917	grc-lxx	Josh	24:32	24:33	Josh	24:32	24:33	0
 sv1917	grc-lxx	Judg	1:1	21:25	Judg	1:1	21:25	0
 sv1917	grc-lxx	Ruth	1:1	4:22	Ruth	1:1	4:22	0
 sv1917	grc-lxx	1Sam	1:1	12:25	1Sam	1:1	12:25	0
-sv1917	grc-lxx	1Sam	3:21	3:22	1Sam	3:21	3:21	3
 sv1917	grc-lxx	1Sam	13:1	13:1	-	-	-	6
 sv1917	grc-lxx	1Sam	13:2	17:11	1Sam	13:2	17:11	0
 sv1917	grc-lxx	1Sam	17:12	17:31	-	-	-	6
