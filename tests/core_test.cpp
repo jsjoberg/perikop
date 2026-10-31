@@ -1124,6 +1124,8 @@ int main(int argc, char** argv) {
                       text.find(correction.before) == std::string::npos,
                   "scan-verified erratum in " + correction.book);
         }
+        check(corpus.verse("sv1917", "Micah", {3, 1})->text.starts_with("Och jag sade:"),
+              "Micah chapter-initial Och retains its first letter");
         check(corpus.verse("sv1917", "1Macc", {10, 27})->text == "Fortfaren nu ock allt framgent att iakttaga trohet mot oss, så skola vi bereda eder fördelar, till tack för vad I gören till vårt gagn;" &&
                   corpus.verse("sv1917", "1Macc", {10, 28})->text == "vi skola bevilja eder många eftergifter och tilldela eder många förmåner.",
               "First Maccabees 10:27-28 follow the printed boundary without losing or duplicating words");
@@ -1346,7 +1348,7 @@ int main(int argc, char** argv) {
                 {"väl",
                  "⟦v'E:l⟧",
                  "⟦v'El⟧",
-                 650,
+                 651,
                  {"1Chr 12:32",  "1Cor 11:6",   "1Cor 5:6",    "1Cor 7:1",    "1Cor 7:26",   "1Cor 7:37",
                   "1Cor 7:38",   "1Cor 7:8",    "1Kgs 8:18",   "1Macc 10:19", "1Macc 11:43", "1Macc 12:22",
                   "1Macc 14:4",  "1Macc 14:9",  "1Macc 4:55",  "1Macc 4:7",   "1Macc 6:60",  "1Macc 6:62",

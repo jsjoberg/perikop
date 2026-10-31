@@ -47,8 +47,6 @@ REPLACE={
  ('Micah',2,2):('dem,','dem'),
  ('Micah',2,4):('Ja','Ja,'),
  ('Micah',2,9):('hem','hem,'),
- # 3
- ('Micah',3,1):('O',''),
  # 4
  ('Micah',4,1):('folk skall','folk skola'),
  ('Micah',4,8):('du dotter','du dottern'),

@@ -3426,7 +3426,7 @@
       "chapter": 3,
       "status": "needs-review",
       "verse_count": 12,
-      "text_sha256": "6beff8855bf62e848afbe78e65e4a5b286ad1f7c226de91a575787492b3767ee",
+      "text_sha256": "b13c49bc7b76cb292933b834e0791af992f4c1108a30da04f2bc5f28a2c84926",
       "checked_at": "2026-10-31",
       "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
       "scans": [
@@ -3439,7 +3439,7 @@
           "sha256": "5a18fe01c18c480e6d2a8f8ba1c0818d4bc1140e20fa9301853782ff23ab3b6f"
         }
       ],
-      "notes": "Mika 3 jämförd som OCR-text mot EFS 1927 GT s. 1235–1236 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+      "notes": "Mika 3 jämförd som OCR-text mot EFS 1927 GT s. 1235–1236 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-micah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här. Mi005 struken: kapitlets inledande Och delades felaktigt av OCR; e-textens Och behålls."
     },
     {
       "book": "Micah",
