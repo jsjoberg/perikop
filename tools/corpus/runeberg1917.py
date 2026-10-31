@@ -40,7 +40,23 @@ REPLACE={
  ('Hag',1,6):('han far den allenast','han får den allenast'),
  ('Hag',1,14):('HERREN Sebaots; sin Guds','HERREN Sebaots, sin Guds'),
  ('Hag',2,2):('profeten Haggai han sade','profeten Haggai; han sade'),
- ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;')}
+ ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;'),
+ # 1
+ ('Jonah',1,3):('skepp','skepp,'),
+ ('Jonah',1,7):('veta','veta,'),
+ ('Jonah',1,8):('Säg oss','Säg oss,'),
+ ('Jonah',1,10):('veta','veta,'),
+ ('Jonah',1,12):(' vet',' vet,'),
+ ('Jonah',1,14):('täck','täckt'),
+ # 3
+ ('Jonah',3,5):('Gud,','Gud'),
+ ('Jonah',3,10):('det onda','det onda,'),
+ # 4
+ ('Jonah',4,2):('ju','ju,'),
+ ('Jonah',4,4):('Menar du','Menar du,'),
+ ('Jonah',4,5):('se','se,'),
+ ('Jonah',4,7):('maskar','maskar,'),
+ ('Jonah',4,9):('Menar du','Menar du,')}
 
 def chapter_number(name):
     if not name:return 1

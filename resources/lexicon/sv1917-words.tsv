@@ -2029,7 +2029,6 @@ sjunga	34	word	""x\u0N$a
 sorgdräkt	34	word	""sOrj$%drEkt
 stadga	34	word	""stad$ga
 sänd	34	word	"sEnd
-täckes	34	word	""tE$kes
 undergång	34	word	""u0n$der$%gON
 upphöjen	34	word	
 vita	34	word	""vi:$ta
@@ -2088,6 +2087,7 @@ tiondedels	33	word	""ti:$On$de$%de:ls
 torn	33	word	"tu:n`
 tränga	33	word	""trEN$a
 tröst	33	word	"tr9st
+täckes	33	word	""tE$kes
 upphöjt	33	word	""u0p$%h9jt
 vagn	33	word	"vaNn
 vind	33	word	"vInd
@@ -7965,6 +7965,7 @@ tvillingar	6	word	""tvI$lIN$ar
 tvista	6	word	""tvI$sta
 tysta	6	word	""tY$sta
 täcke	6	word	""tE$ke
+täcktes	6	word	""tEk$tes
 töcknet	6	word	"t9$knet
 törnena	6	word	""t2:$n`e$na
 törstar	6	word	""t9$s`t`ar
@@ -9066,7 +9067,6 @@ tygvåder	5	word
 tystnad	5	word	""tYst$nad
 täcken	5	word	""tE$ken
 täcket	5	word	""tE$ket
-täcktes	5	word	""tEk$tes
 tältläger	5	word	""tElt$%lE:$ger
 tänden	5	word	
 tågen	5	word	"to:$gen

@@ -3380,6 +3380,78 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Jonah",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 16,
+      "text_sha256": "96a3f299a08232d05b5efb173accb2ea735350388c5b6c32f2bbdc320706bfc1",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1230.1.tif",
+          "sha256": "da3859d6d3f436eaf8faedd3566156167f38395b391054f43aeef3b65773d598"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1231.1.tif",
+          "sha256": "440f1c6a5f79baaf44791908046299db716e49389d8afa0f257b84b14835c351"
+        }
+      ],
+      "notes": "Jona 1 jämförd som OCR-text mot EFS 1927 GT s. 1230–1231 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 6 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-jonah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Jonah",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "c7453a58ce0a2d02529ab2854660dc5387104cab4357e50042069b7fa01909ed",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1231.1.tif",
+          "sha256": "440f1c6a5f79baaf44791908046299db716e49389d8afa0f257b84b14835c351"
+        }
+      ],
+      "notes": "Jona 2 jämförd som OCR-text mot EFS 1927 GT s. 1231–1231 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-jonah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Jonah",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "6c68cf6ff463cc895d3f3179adee9332e7c8fb4154f850ffb01bf4a04ad9769f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1231.1.tif",
+          "sha256": "440f1c6a5f79baaf44791908046299db716e49389d8afa0f257b84b14835c351"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1232.1.tif",
+          "sha256": "043efb707e56eec6b880db5c5022342b9008965c1a00b35588ab66869f0c8867"
+        }
+      ],
+      "notes": "Jona 3 jämförd som OCR-text mot EFS 1927 GT s. 1231–1232 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-jonah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
+    },
+    {
+      "book": "Jonah",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "ec018c0fae5ec6ca7e5aa80a8caa88fc59b2a3899466a85005421abe66834ede",
+      "checked_at": "2026-10-31",
+      "reviewer": "Claude, OCR comparison of both prints; page images not read; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/1232.1.tif",
+          "sha256": "043efb707e56eec6b880db5c5022342b9008965c1a00b35588ab66869f0c8867"
+        }
+      ],
+      "notes": "Jona 4 jämförd som OCR-text mot EFS 1927 GT s. 1232–1232 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse). 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-jonah.md. Behållna: avvikelser som bara ett tryck har. Ställen där trycken är oense eller OCR-läsningen är osäker är inte åtgärdade, och sidbilderna är inte lästa; kapitlet är därför needs-review. Bilderna är inte incheckade; skanningsadress och hash anges här."
     }
   ],
   "unnumbered": [
