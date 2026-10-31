@@ -42,6 +42,9 @@ REPLACE={
  ('Hag',2,2):('profeten Haggai han sade','profeten Haggai; han sade'),
  ('Hag',2,16):('till HERRENS tempel','till HERRENS tempel;')}
 
+from sv1917_1kings import REPLACE as KINGS_REPLACE
+REPLACE.update(KINGS_REPLACE)
+
 def chapter_number(name):
     if not name:return 1
     if name[0].isalpha():return 100+10*(ord(name[0])-ord('a'))+int(name[1:]) # Psalms 100-150: 19_a0.html

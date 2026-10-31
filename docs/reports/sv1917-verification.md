@@ -1,10 +1,10 @@
 # Löpande granskningsliggare för svensk bibeltext
 
-**Uppdaterad 2026-10-25. Aktivt arbete i [utkast-PR #64](https://github.com/jsjoberg/perikop/pull/64). Enligt användarens ändrade prioritering är målet för denna PR och textgranskningen inför 0.2.1 den svenska utökade kanon som saknas i SRB26. Återstående GT och en framtida NT-genomgång är uppföljningsarbete och blockerar inte denna PR eller 0.2.1.**
+**Uppdaterad 2026-10-31. Första Konungabokens 22 kapitel / 817 versposter är nu visuellt bildlästa. 21 kapitel / 786 versposter är verifierade; 14:22 har en olöst kommaläsning och hela kapitel 14 är `needs-review`. Se [bokrapporten](sv1917-errata-1kings.md), [bokliggaren](sv1917-verification-1kings.json) och [bevarade bildvittnen](sv1917-1kings-witnesses/README.md). Andra öppna gransknings-PR:er räknas inte in i denna grens täckning.**
 
 Till skillnad från daterade rapporter uppdateras denna liggare under arbetet. Den anger vad som är färdigläst, vad som endast ordkontrollerats och var nästa genomgång börjar. Detaljerna finns i [den maskinläsbara liggaren](sv1917-verification.json).
 
-## Prioritet och avgränsning för PR #64 och 0.2.1
+## Tidigare prioritet och avgränsning för PR #64 och 0.2.1
 
 SRB26:s lokala kapitelinventering innehåller de 66 kanoniska böckerna och ingen av de tolv svenska apokryfböckerna. Den svenska 1917/1921-texten är därför den primära svenska källan för dessa tolv böcker. Målet här är full visuell granskning av alla deras 148 kapitel och 4 372 versposter, samt separat redovisning av onumrerad bibeltext, med införda belagda rättelser, giltig liggare och godkända relevanta kontroller. Eventuella kvarvarande läsningsfrågor ska lösas före färdigställandet.
 
@@ -27,12 +27,13 @@ Granskare hittills: **Codex, visuell jämförelse**. Din separata kontroll av [e
 | Del | Hela böcker | Hela kapitel | Versposter |
 | --- | ---: | ---: | ---: |
 | Svenska apokryfer | 12 / 12 | 148 / 148 | 4 372 / 4 372 |
-| GT utan apokryfer | 1 / 39 | 2 / 929 | 38 / 23 210 |
+| GT utan apokryfer | 1 / 39 | 23 / 929 | 824 / 23 210 |
 
-Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 4 410 versposter färdiglästa i detta protokoll, inklusive tidigare Haggai. Det motsvarar 16,0 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 0,16 % av GT. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
+Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna är korta. **Textgranskningsmålet för utökade kanon är uppnått: 100 % av 4 372 versposter i samtliga 148 kapitel.** Totalt är 5 196 versposter verifierade i detta protokoll, inklusive tidigare Haggai och 786 versposter i Första Konungaboken. Det motsvarar 18,8 % av versposterna i GT och apokryfer tillsammans: 100 % av apokryferna och 3,55 % av GT. Första Konungabokens övriga 31 versposter är bildlästa men inte verifierade; boken räknas därför inte som en hel färdig bok. Det är texttäckning, inte en tidsuppskattning. Inga andra kapitel får räknas som färdiga enbart för att de saknar sökträffar.
 
 | Bok | Färdigläst text | Trycksidor / skannummer | Resultat |
 | --- | --- | --- | --- |
+| Första Konungaboken | Hela 1–22, 817 versposter bildlästa; 21 kapitel / 786 versposter verifierade | EFS 1927 s. 461–506; EFS 1926 s. 424–465 | [218 rättade versposter](sv1917-errata-1kings.md); 14:22 olöst, kapitel 14 `needs-review`; alla nya mänskliga kontrollrutor omarkerade |
 | Manasses’ bön | Hela 1:1–15 | 261–262 / [0265](https://runeberg.org/apokryf/0265.html)–[0266](https://runeberg.org/apokryf/0266.html) | Inga nya rättelser |
 | Bel och draken | Hela 1:1–42 | 255–257 / [0259](https://runeberg.org/apokryf/0259.html)–[0261](https://runeberg.org/apokryf/0261.html) | A027: lejonssgropen → lejongropen |
 | Asarjas bön och De tre männens lovsång | Hela 1:1–65 | 257–260 / [0261](https://runeberg.org/apokryf/0261.html)–[0264](https://runeberg.org/apokryf/0264.html) | A028: slutpunkt i 1:42; tryckets numrering slutar vid 65 |
@@ -55,21 +56,22 @@ Bokantalet är inte ett mått på ordmängd: de första fyra apokryfböckerna ä
 
 **Apokryfer:** inga olästa kapitel eller olösta läsningsfrågor återstår i den svenska utökade kanon. Alla tolv böcker är verifierade. Detta gäller inte andra språk eller böcker som saknar svensk text.
 
-**Senare uppföljning, GT:** samtliga böcker utom Haggai återstår, även sådana Runeberg historiskt markerade som korrekturlästa. Detta är en konservativ startpunkt: det finns ingen tidigare lokal liggare som bevisar en fullständig genomgång av deras aktuella text.
+**Återstående GT:** 906 av 929 kapitel saknar verifierad helkapitelstatus i denna gren. Haggai och 21 kapitel i Första Konungaboken är verifierade. Första Konungaboken 14 är bildläst men väntar på KGS1-V001, kommat efter synder i 14:22. Övriga böcker räknas inte som lästa utifrån öppna parallella PR:er eller Runebergs historiska korrekturstatus.
 
-**Läsningsfrågor:** V001–V006 är lösta 2026-10-25 mot användarens sex foton och genomgång. R023 och A210–A214 är införda; fem redan fullständigt bildlästa kapitel kan därmed färdigmarkeras. Jeremia 8:12 är rättad men hela Jeremia 8 är fortfarande inte verifierat. Fotona ger ingen täckning för omgivande, olästa text.
+**Läsningsfrågor:** KGS1-V001 är olöst; aktuellt `synder som` i 14:22 behålls eftersom 1926-bilden och de två originalkamerabilderna döljer platsen för ett eventuellt komma. KGS1-V002, 15:31, är löst mot originalkamerans motstående sida. Tidigare V001–V006 är lösta 2026-10-25 mot användarens sex foton och genomgång. R023 och A210–A214 är införda; fem redan fullständigt bildlästa kapitel kan därmed färdigmarkeras. Jeremia 8:12 är rättad men hela Jeremia 8 är fortfarande inte verifierat. Fotona ger ingen täckning för omgivande, olästa text.
 
 **Liggarens totala omfattning:** svenska 1917/1921-texten, 51 böcker och 27 582 versposter i GT och apokryfer tillsammans. Denna PR:s och 0.2.1:s textgranskningsmål är de tolv apokryfböckerna; GT-kolumnen visar separat uppföljningsstatus. NT och grekiska/engelska utgåvor räknas inte i dessa täckningstal. Ortodoxa extraböcker som saknar svensk text kan inte markeras verifierade genom att kontrollera en annan språkversion.
 
 ## Nästa arbetsblock
 
-1. Textgranskningen av utökade kanon är färdig. Kontrollera den publicerade omgångens CI före färdigställande av PR #64; bevara rättelser, fotobevis och kapitelhashar. Slå inte ihop eller stäng PR:n automatiskt.
-2. Den separata mänskliga kontrollen av erratatabellen är inte utförd av Codex: sex fotogranskade rader är markerade, 241 rader är fortfarande omarkerade. Detta är en separat granskningsmöjlighet, inte ytterligare oläst korpustext eller ett krav på att användaren ska tolka varje bild åt Codex.
-3. Senare etapp: Jeremia och övrig ännu oläst GT-text, 927 kapitel. Haggai är sedan tidigare färdig. En framtida NT-genomgång behöver en separat omfattning och liggare; NT har ingen tillgodoräknad kapitelgranskning här.
+1. Första Konungaboken är bildläst i sin helhet. Lös KGS1-V001 mot en tydligare bild eller ett fysiskt tryckvittne innan kapitel 14 kan markeras som verifierat. Den nuvarande läsningen är bevarad.
+2. Alla 218 nya rutor i [bokerratan](sv1917-errata-1kings.md) är omarkerade; Codex har inte utfört den separata mänskliga kontrollen. Tidigare fotobeslut och kapitelhashar bevaras.
+3. Fortsatt GT-granskning och framtida NT-granskning redovisas separat. Varken andra böckers pågående arbete eller text i marginalen av en delad bild ger täckning här.
 
 ```sh
 uv run --locked tools/corpus/check_swedish_verification.py
 uv run --locked tests/swedish_verification_test.py
+uv run --locked tests/swedish_1kings_test.py
 ```
 
 ## Arbetslogg
@@ -109,3 +111,5 @@ uv run --locked tests/swedish_verification_test.py
 - **2026-10-25, block 19, användarens fotogranskning:** sex kompletterande originalfoton och användarens beslut löser V001–V006. R023 och A210–A214 införda; foto 2 bekräftar även återgå i 2 Mack. 6:17 och foto 3 visar dem i Judit 5:8. Foton och exakta korrigerade verser har lagrats med hash; kontrollen avvisar saknade/ändrade foton och ändrad text. Exakt sex verser ändrade; alla koordinater, andra texter, mappningar och lexikonsinnen oförändrade. Fem tidigare fullt bildlästa kapitel, tillsammans 142 poster, är nu verifierade: Judit 5, Tobit 3, Syrak 38 och 2 Mack. 6 och 8. Hela Judit, Tobit och Syrak är därmed färdiga. Jeremia 8:12 är rättad men hela kapitlet återstår. Totalt 241 unika Runebergsbilder plus sex kompletterande foton; 4 044 färdiga versposter i 136 kapitel, plus Syraks företal. 941 kapitel återstår. Nästa kapitel är 2 Mackabeerboken 9. Äldre loggposter visar läget före denna upplösning. Liggar- och kandidattester, fotobevisens hash- och regressionstester, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända.
 
 - **2026-10-25, block 20, utökade kanon färdig:** läste hela 2 Mackabeerboken 9–15 och Tillägg till Ester 1–7, 366 versposter på tryckta s. 227–251. A215–A224 införda, tio exakt avgränsade ord-/interpunktionsrättelser. Kapitel 11 och 13 i 2 Mack. samt Till. t. Ester 1, 3, 4, 5 och 7 utan nya rättelser. Marginalnumren i 2 Mack. 13:6–7 och 15:25–26 återkontrollerade i originalupplösning; befintliga gränser och individuella mappningar behållna. Alla koordinater, övriga texter och språkversioner, mappningar och tidigare liggarposter är oförändrade. Ni er → mer tar bort ett falskt SALDO-sinne för nickel och två Dalin-poster för ni/nia; nu 12 731 respektive 7 587. Alla 12 apokryfböcker, 148 kapitel och 4 372 versposter är verifierade, plus Syraks separat granskade företal. Totalt inklusive Haggai: 150 kapitel och 4 410 versposter på 265 unika Runebergsbilder, plus sex originalfoton. Inga nya olösta läsningar. Användaren har ändrat PR #64:s och 0.2.1:s textgranskningsmål till utökade kanon; de 927 återstående GT-kapitlen och senare NT är uttryckligt uppföljningsarbete. Codex tolkar kompletterande foton och ber om användarens tolkning endast om osäkerhet kvarstår. Liggar- och kandidattester, fotobevisens regressioner, core-storage-speech, sex OSB-tester, alla 122 resurshashar, korpusens teckentäckning och diffens blankstegskontroll godkända. CI på föregående publicerade version 219e3f5 godkänd; ny CI krävs efter publicering av slutomgången.
+
+- **2026-10-31, Första Konungaboken:** hela boken, 22 kapitel / 817 versposter, visuellt jämförd med 46 EFS 1927-bilder. 42 EFS Stockholm 1926-bilder och tre originalkamerafiler användes för rättelser och editionsskillnader. KGS1-001–KGS1-218 införda med exakt-en-gång-vakter; versantal och mappningar oförändrade. 21 kapitel / 786 versposter verifierade; kapitel 14:s 31 versposter kvarstår som `needs-review`. 15:29:s enighet → enlighet avlägsnar den enda felaktiga lexikonskopplingen till enighet; SALDO-mängden blir 12 730. Tidigare granskning bevaras och andra öppna bok-PR:er räknas inte.

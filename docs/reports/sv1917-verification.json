@@ -3380,6 +3380,522 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 1,
+      "status": "verified",
+      "verse_count": 53,
+      "text_sha256": "c851fb025883c23b03409c247fdea0b610980a23e13e61132be42f730af6ae3a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0461.1.tif",
+          "sha256": "52732bf1ff7615bd45dec37e83e2712446f486c8865ae4dcf883a2d5f5e50644"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0462.1.tif",
+          "sha256": "b32850daade132083a3fdcc6d0a97338405d4e88d91851c1917960113c1bd700"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0463.1.tif",
+          "sha256": "800b17a92cda96a551e3e8fea1c2cc94e51124f0ddb1501bcb51ed94127fe3f3"
+        }
+      ],
+      "notes": "Hela kapitlets 53 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n435,436,437. 1926 stöder uteblivet slutcitat i 1:11, frånvaro av komma efter du i 1:24 och utropstecknet i 1:48; 1927 stöder komman i 1:15,20,38. 1:5:s jag som behålls enligt 1927. Båda trycken har ett avslutande inre citattecken i 1:48."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 2,
+      "status": "verified",
+      "verse_count": 46,
+      "text_sha256": "67d1b8e45731b42be61206867ca7c2895c9fa01762d3d088dc1061326aa64040",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0464.1.tif",
+          "sha256": "622e0d9dd584d90362d2feb70d9663a5e4fd862815587180cc2d0f74a80032f6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0465.1.tif",
+          "sha256": "a3e6d3279025756fceb062294bf3d4c0a6fcb17e96eec2cfbb1d145a3703c16e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0466.1.tif",
+          "sha256": "167a39c0fb7f3eb24d49d6cfdc5b7ad773ea693a5ef3711124d844ef0f1bff5f"
+        }
+      ],
+      "notes": "Hela kapitlets 46 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n437,438,439,440. 1926 stöder avsaknad av komman i 2:5 (bältet/skorna), 2:7,31,37,43, ock i 2:28 och avslutande citattecken i 2:22. Dessa läsningar behålls. 2:26:s semikolon stöds av 1926; 1927 har komma. Övriga ord och versgränser jämförda."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 3,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "3890806bc0d85d65b0284ffd9feafe1baeae1fc190906c66549d8fcc45cfc5f1",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0466.1.tif",
+          "sha256": "167a39c0fb7f3eb24d49d6cfdc5b7ad773ea693a5ef3711124d844ef0f1bff5f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0467.1.tif",
+          "sha256": "75fcd6dea39032d0cbeaae4a3987e2741ad5baa951c722fe4127fee1d3745af6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0468.1.tif",
+          "sha256": "bf57cfab20fe90fc1e20936ed2bfb25807fdab8a52ef0f655d4b3d28ba84c3c0"
+        }
+      ],
+      "notes": "Hela kapitlets 28 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n440,441. 3:6 med behålls enligt 1926 (1927 mot). 3:28 saknar komma efter dom enligt 1926; kommat efter sågo finns i båda trycken. 3:12:s avsaknad av komma efter göra stöds av 1927."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 4,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "de630c4c793058ec3562cee52b39741a4a135f660d654b0727c082475e70c76f",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0468.1.tif",
+          "sha256": "bf57cfab20fe90fc1e20936ed2bfb25807fdab8a52ef0f655d4b3d28ba84c3c0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0469.1.tif",
+          "sha256": "b1f6987abbfa85f2113abaa8f9a693805c1b28cbc1429fd8b055096b5ffc8a42"
+        }
+      ],
+      "notes": "Hela kapitlets 34 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n441,442,443. 4:3:s semikolon och 4:7:s komma efter fogdar stöds av 1926; 1927 har komma respektive inget komma. 4:12,22,23,27,33,34 har behållna kommaskillnader med stöd av minst ett tryck. 4:24–25 och 4:29–30 fortsätter samma mening; versnumren är kontrollerade."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 5,
+      "status": "verified",
+      "verse_count": 18,
+      "text_sha256": "7dad617919e8c2e1fc3172b213d1b114a7d9f94db768e23f5befdf2c4e1be424",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0469.1.tif",
+          "sha256": "b1f6987abbfa85f2113abaa8f9a693805c1b28cbc1429fd8b055096b5ffc8a42"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0470.1.tif",
+          "sha256": "ab548990dd381a3fab22a44b3d077496bf512cacb8654ab35ded0d142f14228b"
+        }
+      ],
+      "notes": "Hela kapitlets 18 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n443,444. 1926 stöder Hirom i 5:10, Hiroms och inledande Och i 5:18 samt de bevarade kommaläsningarna i 5:6,8,9,16. 5:14 har var och skiftesvis i båda trycken. 5:3 slutar med punkt i båda; 5:17 likaså."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 6,
+      "status": "verified",
+      "verse_count": 38,
+      "text_sha256": "20d8dea4e0f17ee8d68c26ceda0c20999ffa0aedd9c0a8b7004493e94e56a2d8",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0470.1.tif",
+          "sha256": "ab548990dd381a3fab22a44b3d077496bf512cacb8654ab35ded0d142f14228b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0471.1.tif",
+          "sha256": "c09b0fd461f8e6c8eaf960645da5c75bbda482faa3aec16e6a30194c33aff93d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0472.1.tif",
+          "sha256": "f6fdb518127386caf32b8f2879665b8a8cb92f3d3a29cf1d9af3dcaa21242435"
+        }
+      ],
+      "notes": "Hela kapitlets 38 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n444,445. 1926 stöder inga komman vid sten som i 6:7, hus som/bygger i 6:12 och dörrhalvor som i 6:34 samt semikolon i 6:29. 6:3,4,8,20,21,32,35:s övriga komman/semikolon behålls enligt minst ett tryck. Båda trycken har det innersta i 6:27 och i månaden i 6:38."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 7,
+      "status": "verified",
+      "verse_count": 51,
+      "text_sha256": "3b6eadde59d728c1de94f9ebe6f545dc5ac9c9a0385f642dff8a0ba92ebe6f22",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0472.1.tif",
+          "sha256": "f6fdb518127386caf32b8f2879665b8a8cb92f3d3a29cf1d9af3dcaa21242435"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0473.1.tif",
+          "sha256": "c213a6eb2d36d3e6699f199b7055553ec4c95bd53dc3fde85e707d3d9141192c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0474.1.tif",
+          "sha256": "233a269742eac9c510d2c04fb9248a016b98e021356c47214e2063c7369f6e1a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0475.1.tif",
+          "sha256": "2d924e9ab37ae3a7297675b0898837fa85aa2d70e4e38e1afe9bf288b93ef8ea"
+        }
+      ],
+      "notes": "Hela kapitlets 51 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n445,446,447,448. 7:3,8,9,17,18,23,27,29,31,38,41,45,50,51:s varierande komman behålls där ett tryck stöder aktuell läsning. 7:40 Hirom/Hiram återges av båda trycken. Båda har Öppningen i 7:31 och slutpunkt i 7:37. 7:43 börjar med litet vidare i båda."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 8,
+      "status": "verified",
+      "verse_count": 66,
+      "text_sha256": "026e97ed20f54102524ad77615390993094331cfd28601f961031a842303cf74",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0475.1.tif",
+          "sha256": "2d924e9ab37ae3a7297675b0898837fa85aa2d70e4e38e1afe9bf288b93ef8ea"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0476.1.tif",
+          "sha256": "507703886aa0a85244ccbf3dce329a79c9ba5ba3ff4ed5394911042a5b90f5fd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0477.1.tif",
+          "sha256": "8145555efb128df2ace89bc75fcaf7a2d67e563921acab64acc19df173411ead"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0478.1.tif",
+          "sha256": "5ce8e2fa4901c74542fbeaeea057f39cdef3abf5e3ae5c799bdfb5ce326dfd42"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0479.1.tif",
+          "sha256": "458c8ed0bfad64517816d062ef65c873d7bf6ff461514e4c383e3edd016b064e"
+        }
+      ],
+      "notes": "Hela kapitlets 66 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n448,449,450,451. 1926 stöder byggt i 8:43 (1927 uppbyggt); båda har komma efter ordet. Komman i 8:4,18,22,28,30,34,40,44,48,50,63,66 behålls med tryckstöd. 8:23:s gud stöds av 1926 mot 1927 Gud. I båda trycken står tankstrecket vid slutet av 8:41, inte början av 8:42; det flyttas till rätt vers. 8:49:s avsaknad av slutpunkt stöds av 1927 (1926 punkt)."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 9,
+      "status": "verified",
+      "verse_count": 28,
+      "text_sha256": "5994116d16f938f9a7adc9156e3c805f3b7cc2699d778f1167fe53aaca244fa6",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0479.1.tif",
+          "sha256": "458c8ed0bfad64517816d062ef65c873d7bf6ff461514e4c383e3edd016b064e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0480.1.tif",
+          "sha256": "7e952b074210ac51f5416de2b5d4c7af6fe92c4e88a03b21467d8d3b771d1ff0"
+        }
+      ],
+      "notes": "Hela kapitlets 28 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n451,452,453. 9:1,3,7,15,19,23,24,25:s kommaskillnader behålls med stöd av minst ett tryck. 9:13:s avslutande citattecken stöds av 1926. 9:16–19:s parentes och sidfortsättning kontrollerade; 9:22 har hövitsmän i båda trycken."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 10,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "1b832d56bd7aab855645b336fbe419ba07624c663a9148cde5b5ca4c71d9d96a",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0481.1.tif",
+          "sha256": "09da48e0aec86758aa6758be19472af6a8bb21e1b7e77cf3f6798a83ddc372bf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0482.1.tif",
+          "sha256": "19916fd1790f78dfc3ce2601ba1e7ed0ae3e257ddd9b10bce81bf608f4bbaaad"
+        }
+      ],
+      "notes": "Hela kapitlets 29 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n453,454. 10:9 saknar ett enligt 1926 (1927 ett sådant); 10:12:s lilla almugträet stöds av 1926. Komman i 10:2,5,10,11,13,19,26 behålls när något tryck stöder dem. Numrering och fortsättning 10:17–18 kontrollerade."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 11,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "49cbd955f92cc2d1633bd6b2c4dff2583222f2d66b82aa07b5b15b3bf5e66879",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0482.1.tif",
+          "sha256": "19916fd1790f78dfc3ce2601ba1e7ed0ae3e257ddd9b10bce81bf608f4bbaaad"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0483.1.tif",
+          "sha256": "214b974261785ac3ba34d2a92066637d2cba49794bced4af0323926a72395b0b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0484.1.tif",
+          "sha256": "de039f01f9d1179f57258c9b31dc2c3315124ce1542ead7d8d1cb3375300e8b0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0485.1.tif",
+          "sha256": "38ac92478ddb0e478a35c36869be1cb7ad32993206572c020130ffdee6a8aea7"
+        }
+      ],
+      "notes": "Hela kapitlets 43 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n454,455,456,457. 1926 stöder i Edom i 11:14 (1927 saknar i), uteblivna komman i 11:17,28,30, punkt efter följande i 11:27 och inget extra inre citattecken i 11:31. 11:15–16:s tankstrecksplacering följer 1927; 1926 placerar strecket i slutet av 15. 11:32 stads stöds av 1927 (1926 stad). Båda har begåvo i 11:18."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 12,
+      "status": "verified",
+      "verse_count": 33,
+      "text_sha256": "e1181f8d7d1f69c9f3360f66150b11d1387a846dacdd0216ddedd2bedec016a6",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0485.1.tif",
+          "sha256": "38ac92478ddb0e478a35c36869be1cb7ad32993206572c020130ffdee6a8aea7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0486.1.tif",
+          "sha256": "6d76aefeb5194c4de2bc8ec5eb5d34ff42dc3480ce9472ef1358316f34e66697"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0487.1.tif",
+          "sha256": "c887b28fad7698e41554f213026125691115111851d7c5c8c4c4c1f981c0a525"
+        }
+      ],
+      "notes": "Hela kapitlets 33 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n457,458,459. 12:3 Israels hela utan extra hela stöds av 1926. 12:22–23:s gräns med han sade i 23 stöds av 1926; 1927 placerar orden i 22. Komman i 12:5,6,8,10,13,17,20,24,32,33 behålls när något vittne stöder dem. 12:32 har i Juda i båda. 12:33 står efter kapitel 13:s rubrik i båda men har uttryckligt nummer 12:33; det hålls i kapitel 12."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 13,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "0544fed171d0a2b11d6d87296fa59045607aaf35bd95c5a828047f62952891dc",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0487.1.tif",
+          "sha256": "c887b28fad7698e41554f213026125691115111851d7c5c8c4c4c1f981c0a525"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0488.1.tif",
+          "sha256": "daaac0347b7fd964e78f67b5ddfdbe4c8c7aa883eba85d28020c724e399bd1f8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0489.1.tif",
+          "sha256": "5979d3573feb01d75a7242e7e707e634fac4951b1327d1535bee456fbe78ca00"
+        }
+      ],
+      "notes": "Hela kapitlets 34 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n459,460. 13:20,21,23,26:s uteblivna komman stöds av 1926; 13:21:s komma efter bud finns i båda. 13:3:s tecknet på utan extra komma stöds av 1926. 13:34:s han finns i båda trycken och behålls. 13:33 har män i båda."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "d208866cc8067ccb996457f28289d8cfbae50a8d25ba6c78d46a1563c9380b1e",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0489.1.tif",
+          "sha256": "5979d3573feb01d75a7242e7e707e634fac4951b1327d1535bee456fbe78ca00"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0490.1.tif",
+          "sha256": "ead0eaa794a4087f66452bcf3a1657a2ce19f239ff1313946e4183960c085464"
+        }
+      ],
+      "notes": "Hela kapitlets 31 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n460,461,462. 1926 stöder kommaläsningarna i 14:9,18,22 (efter begingo),24,27,30; 1927 stöder kommat i 14:8 och land-komman i 14:15. Sosak i 14:25 finns i båda trycken och behålls. Fråga KGS1-V001: 1926-bildens bokrygg döljer slutet av 14:22:s synder; inte heller originalkamerabilderna 0462/0463 avgör om ett komma följer. Läsningen behålls som needs-review."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 15,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "f373d27a615c8f249242aa78d1a24ed15d5d5bb6215fe70d0ae3b0b8e770d8ee",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0491.1.tif",
+          "sha256": "f74542e3781fed23d254eeaf934847fed18ed0989fc345fbb07b4f1aac083aa4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0492.1.tif",
+          "sha256": "482e52320157ee72119c9ffdb8be2e97d18275dd49f8d85120450cdf211da8eb"
+        }
+      ],
+      "notes": "Hela kapitlets 34 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n462,463,464. 1926 stöder uteblivna komman i 15:3,5,29 (ord),30; 1927 stöder övrig bevarad interpunktion. Båda har fäder i 15:12, Isaskars i 15:27, enlighet i 15:29 och så länge i 15:32. KGS1-V002 löst: komma efter gjorde i 15:31 syns på originalkamerans motstående sida, original0465; rättelsen införs."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 16,
+      "status": "verified",
+      "verse_count": 34,
+      "text_sha256": "b6c22794bf5e5d7f629f1a18cfd1b096f540803178bc999d84d2a81e458e3ab7",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0492.1.tif",
+          "sha256": "482e52320157ee72119c9ffdb8be2e97d18275dd49f8d85120450cdf211da8eb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0493.1.tif",
+          "sha256": "fcbb481be1a7e376f30cbd0a8f4839a9d168e9993977ad11776daa4e0f08cd0c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0494.1.tif",
+          "sha256": "41b81f3c8882a40d7c35dbb3a58c226f1d68586502d26e030740107fa99e28e0"
+        }
+      ],
+      "notes": "Hela kapitlets 34 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n464,465. 1926 stöder inga extra komman i 16:7,12,13 (avgudar),19,20,32,33,34. 16:12–13:s streckplacering och 16:1–2:s han sade i vers 1 följer 1927; 1926 placerar strecket i slutet av 12 och han sade i 2. Befintliga gränser behålls med bildstöd. 16:24:s tre komman finns i båda."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 17,
+      "status": "verified",
+      "verse_count": 24,
+      "text_sha256": "5297bb5ec532797b7507cef52d5f6ddfb3bdda22deb937a097d232bfe6ff62bb",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0494.1.tif",
+          "sha256": "41b81f3c8882a40d7c35dbb3a58c226f1d68586502d26e030740107fa99e28e0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0495.1.tif",
+          "sha256": "1a95c8514c8b64e5a14f55965fd2a264ecd42eeb54ed3cade8458f9c78f176d0"
+        }
+      ],
+      "notes": "Hela kapitlets 24 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n465,466. 17:1:s man som stöds av 1927 (1926 komma). 17:3,5,6,9,13,14,16,24:s övriga kommaskillnader behålls med tryckstöd. Båda har handfull i 17:12. 17:8–9:s han sade följer 1927; 1926 har orden i vers 9."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 18,
+      "status": "verified",
+      "verse_count": 46,
+      "text_sha256": "0089624181d47ad71e8b29aefbda75398b28917f54d595a11850d7d6695e6d11",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0496.1.tif",
+          "sha256": "b6d59fb3d7ec5054a4886a5e35da79897afe89247d7aa1f39018bf54c3ca9f18"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0497.1.tif",
+          "sha256": "d059d18e6ab71e56e35fd9eb2077fcfea5200e5c862fa389f636dc8371708908"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0498.1.tif",
+          "sha256": "18617845172584b856c90b95c7fb075c2295e96a6ece03255eda7e5c8e8cf7bf"
+        }
+      ],
+      "notes": "Hela kapitlets 46 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n466,467,468,469. 18:9:s frågetecken och 18:10:s komma efter ed stöds av 1926. 18:26:s uteblivna komma efter altaret stöds av 1926, men tjur-kommat finns i båda. 18:13,18,19,23,31,34,36:s övriga kommaskillnader behålls med tryckstöd. Båda har alla i 18:20, profet med litet p i 18:22, eld utan inledande citattecken i 18:38 och kolon efter tjänare i 18:43."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 19,
+      "status": "verified",
+      "verse_count": 21,
+      "text_sha256": "97fe20ac0febae588c5654b0ad37b0011bb4f40b1d2114ba2c9d63978303b2a5",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0498.1.tif",
+          "sha256": "18617845172584b856c90b95c7fb075c2295e96a6ece03255eda7e5c8e8cf7bf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0499.1.tif",
+          "sha256": "a4ce5b2be533f47c233b8bad570db534cf07b430a13d22e7df6a0a223630dc95"
+        }
+      ],
+      "notes": "Hela kapitlets 21 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n469,470. 19:1,3,8,11,15,16,21:s varierande komman behålls med stöd av minst ett tryck. Båda har litet sände i 19:2 och komman efter knän/mun i 19:18."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 20,
+      "status": "verified",
+      "verse_count": 43,
+      "text_sha256": "0a8640798b01b3c9c092d1e2a83391a44fed83bc7bc81a401617ab3e0f72000d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0499.1.tif",
+          "sha256": "a4ce5b2be533f47c233b8bad570db534cf07b430a13d22e7df6a0a223630dc95"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0500.1.tif",
+          "sha256": "b0136aebaf26a576236c47de819bc1cabf49b0df68a3ec70d08e347ce26c2312"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0501.1.tif",
+          "sha256": "c5223fdaf3e1e95b895868322281692fc6d1ea31a3c7bab7e9004a0d2c5ac87f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0502.1.tif",
+          "sha256": "04b7aa897fe666a1d96addfabeafb1df5a4638f23bff63aa4dcd94432f28fcc0"
+        }
+      ],
+      "notes": "Hela kapitlets 43 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n470,471,472. 20:4:s kolon, 20:9:s komma efter Allt, 20:10:s inget komma efter folk och 20:11:s den som utan man stöds av 1926. 20:16:s komma efter konungar införs inte: 1926 stöder frånvaron; sade rättas till hade enligt båda. 20:17:s avsaknad av komma efter om stöds av 1926. Övriga bevarade kommaskillnader i 20:6,20,22,25,33,39,42 stöds av minst ett tryck."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 21,
+      "status": "verified",
+      "verse_count": 29,
+      "text_sha256": "c6680f82ae3525bf998962da768649c549006b77743313a0233efc422c200f02",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0502.1.tif",
+          "sha256": "04b7aa897fe666a1d96addfabeafb1df5a4638f23bff63aa4dcd94432f28fcc0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0503.1.tif",
+          "sha256": "e4221959c484d65a41c053cda5adcf2c649c74b882c780931b004421748e4595"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0504.1.tif",
+          "sha256": "e03af2d8b86523fa846a49500341948790ffbe9a3b7da0bf05b924834c197080"
+        }
+      ],
+      "notes": "Hela kapitlets 29 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n472,473,474. 21:11:s längre text och avsaknad av komma efter bud stöds av 1926; 1927 utelämnar fortsättningen efter dem. 21:3,8,9,10,20,22:s kommaläsningar behålls enligt minst ett tryck. Båda har till honom och Nabots vingård i 21:7 och saknar till före redan i 21:19."
+    },
+    {
+      "book": "1Kgs",
+      "chapter": 22,
+      "status": "verified",
+      "verse_count": 54,
+      "text_sha256": "96a1ea830245d6442d5dfe2f56f27325311dfa0cb47e4b505f58b1a30a96b56d",
+      "checked_at": "2026-10-31",
+      "reviewer": "Codex, full visual scan comparison",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0504.1.tif",
+          "sha256": "e03af2d8b86523fa846a49500341948790ffbe9a3b7da0bf05b924834c197080"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0505.1.tif",
+          "sha256": "9748b214e6f8836d9eea0beb20c9dd3752fa8442468434b131487d157a61df51"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0506.1.tif",
+          "sha256": "162ddbc1946a3718c153c50990b12ee52948d0ca54fbb2790e625eeeb73398fb"
+        }
+      ],
+      "notes": "Hela kapitlets 54 versposter visuellt jämförda med EFS 1927, inklusive oflaggade ord, interpunktion, numrering och spalt-/sidfortsättningar. EFS Stockholm 1926, bildblad n474,475,476. 1926 stöder Herren i 22:6, avsaknad av komma efter det i 22:14, uteblivna komman i 22:39 och Tarsis-skepp i 22:49. 22:5:s inledande och 22:36:s avslutande citattecken stöds av 1926; de saknas i 1927. 22:17,19,23,24,30,32,43:s övriga kommaskillnader behålls med tryckstöd. Versnumren 43–45 och avslutningen 54 är kontrollerade i båda. Ingen text ur 2 Konungaboken räknas."
     }
   ],
   "unnumbered": [
