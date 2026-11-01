@@ -95,7 +95,7 @@ OVERRIDES={(SV,GR):{'Gen':['Gen 11:13 > Gen 11:13','Gen 35:16 Gen 35:21 > Gen 35
  '2Kgs':['2Kgs 1:16-18 >> 2Kgs 1:16-18','2Kgs 21:25 > 2Kgs 21:25 2Kgs 21:26'],'1Chr':['1Chr 12:4 > 1Chr 12:4 1Chr 12:5','1Chr 26:18 > 1Chr 26:18'],'2Chr':['2Chr 36:5 > 2Chr 36:5'],
  'Job':['Job 23:14 > -','Job 23:15 > Job 23:15','Job 36:28 > Job 36:28'],'Jer':JER_OVERRIDES,'Prov':PROV_OVERRIDES,'EsthGr':ESTHER_OVERRIDES,
  'Sir':['Sir 33:16 > Sir 30:25 Sir 36:16','Sir 36:12 > Sir 33:10','Sir 36:13 > Sir 33:11','Sir 30:25 > Sir 33:12'],
- 'Ps':['Ps 14:3 > Ps 13:3','Ps 49:19 > Ps 48:19 Ps 48:20','Ps 49:20 > Ps 48:21'],'Tob':['Tob 5:8 Tob 5:9 > Tob 5:8']}}
+ 'Ps':['Ps 14:3 > Ps 13:3'],'Tob':['Tob 5:8 Tob 5:9 > Tob 5:8']}}
 # Swedish 1917 counts Psalm titles as verses, like the Hebrew text; the KJV includes them in verse 1.
 TITLE_VERSES={3:1,4:1,5:1,6:1,7:1,8:1,9:1,12:1,13:1,18:1,19:1,20:1,21:1,22:1,30:1,31:1,34:1,36:1,38:1,39:1,40:1,41:1,42:1,44:1,45:1,46:1,47:1,48:1,49:1,
  51:2,52:2,53:1,54:2,55:1,56:1,57:1,58:1,59:1,60:2,61:1,62:1,63:1,64:1,65:1,67:1,68:1,69:1,70:1,75:1,76:1,77:1,80:1,81:1,83:1,84:1,85:1,88:1,89:1,92:1,102:1,108:1,140:1,142:1}
@@ -111,7 +111,7 @@ SV_KJV={'Ps':[rule for c,n in TITLE_VERSES.items() for rule in ('Ps %d:2-%d=%d:1
  'Jonah':['Jonah 2:1=1:17','Jonah 2:2-11=2:1'],
  'Hag':['Hag 2:1=1:15','Hag 2:2-24=2:1'],
  'Rev':['Rev 12:18=13:1']}
-SV_KJV_OVERRIDES={'Ps':['Ps 13:6 > Ps 13:5 Ps 13:6','Ps 49:19 > Ps 49:18 Ps 49:19','Ps 49:20 > Ps 49:20'],'2Kgs':['2Kgs 21:25 > 2Kgs 21:25 2Kgs 21:26'],
+SV_KJV_OVERRIDES={'Ps':['Ps 13:6 > Ps 13:5 Ps 13:6'],'2Kgs':['2Kgs 21:25 > 2Kgs 21:25 2Kgs 21:26'],
  'Neh':['Neh 7:69 > Neh 7:69','Neh 7:70 > Neh 7:70'],'1Sam':['1Sam 3:22 1Sam 4:1 > 1Sam 4:1'],'Rev':['Rev 12:18 Rev 13:1 > Rev 13:1']}
 RULES[(SV,KJV)]=SV_KJV
 OVERRIDES[(SV,KJV)]=SV_KJV_OVERRIDES

@@ -16,6 +16,9 @@ VERSE=re.compile(r'^\s{0,3}(\d+)\.\s(.*)$')
 ELSEWHERE=re.compile(r'^\s*\d+:\d+\.\s*(?:\[\d+\])?$')
 # Misprinted verse numbers in the e-text: (book, chapter, printed number, occurrence) -> number.
 RENUMBER={('25',1,21,2):22,('42',20,23,1):22}
+# Verses the e-text joins but EFS 1926 and 1927 print separately: (code, chapter, verse) -> opening of the next verse.
+# Applied after REPLACE; later verses in the chapter move up by one.
+SPLIT={('Ps',49,19):'så skall dock'}
 # E-text errors checked visually against the 1927 facsimile.
 # Page links, context and pending human review: docs/reports/sv1917-errata.md.
 REPLACE={
@@ -520,4 +523,15 @@ def read(path):
     for key,(old,new) in REPLACE.items():
         if verses[key].count(old)!=1:raise ValueError('1917 correction does not apply once: %s'%str(key))
         verses[key]=verses[key].replace(old,new)
+    for (code,chapter,number),start in SPLIT.items():
+        text=verses[(code,chapter,number)]
+        if text.count(start)!=1:raise ValueError('1917 verse split does not apply once: %s %d:%d'%(code,chapter,number))
+        head,tail=text.split(start)
+        shifted={}
+        for key,value in verses.items():
+            if key[:2]==(code,chapter) and key[2]>=number:
+                if key[2]==number:shifted[key]=head.rstrip();shifted[(code,chapter,number+1)]=start+tail
+                else:shifted[(code,chapter,key[2]+1)]=value
+            else:shifted[key]=value
+        verses=shifted
     return verses
