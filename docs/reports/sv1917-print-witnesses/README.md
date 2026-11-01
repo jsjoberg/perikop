@@ -15,9 +15,9 @@ V001 stöder samma läsning som Runebergs 1927-bild. V002–V006 rättar fel som
 
 ## Användarens exemplar
 
-Användaren har två olika tryck. Rapporter och liggare ska nämna dem med dessa namn, så att varje foto knyts till rätt bok. Förlag och tryckår är okända och anges inte.
+Användaren har två olika tryck. Nya rapporter och liggarposter ska nämna dem med dessa namn, så att varje foto knyts till rätt bok. Äldre poster för V001–V006 säger *användarens exemplar*; det avser exemplar A. Förlag och tryckår är okända och anges inte.
 
-- **Exemplar A:** den stora boken, bakom V001–V006. Antikva, illustrationer, *Herren* i vanlig stil, raka citattecken (”…”), apokryferna ingår (2 Mack. 6:17 på s. 187).
+- **Exemplar A:** den stora boken, bakom V001–V006. Antikva, illustrationer, *Herren* i vanlig stil, typografiska citattecken ”…” (samma tecken i båda ändar), apokryferna ingår (2 Mack. 6:17 på s. 187).
 - **Exemplar B:** den lilla boken, fotograferad 2026-11-01. Saknar apokryferna. Rak, grov typ, *HERREN* i versaler, citattecknen »…«, rubriker som *49 Psalmen*. Ps 49 står på s. 650–651 och Ps 144:8–147:7 på s. 717–718. Kommateringen är glesare än i EFS 1926 och 1927 (t.ex. Ps 144:15 *folk som*), alltså i e-textens stil. Fotona är inte incheckade; se [Psaltarens errata](../sv1917-errata-psalms.md).
 
 Ett nytt foto knyts till ett exemplar genom sidnummer och typografi. Passar det inget av dem är det ett nytt exemplar och får nästa bokstav.

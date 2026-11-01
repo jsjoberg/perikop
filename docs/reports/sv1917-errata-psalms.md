@@ -6,7 +6,7 @@ Rättelserna Ps001–Ps306 i Perikops import av Psaltaren 1–150. En vers rätt
 
 **Metod.** Kandidaterna kommer från en ordjämförelse av e-texten mot Runebergs korrekturlästa text av 1927 och mot 1926 års OCR-text. Därefter lästes sidbilderna: varje 1927-sida (TIFF) och varje 1926-sida (JPG) i Psaltaren öppnades, och varje flaggat ställe, varje ställe där trycken var oense och varje ställe där bara 1926-OCR avvek med skiljetecken avgjordes mot båda bilderna. Text som ingen jämförelse flaggade har inte jämförts ord för ord mot bilderna; där är underlaget att båda OCR-vittnena stämmer med e-texten. Därför står alla 150 kapitel kvar som `needs-review` i verifieringsliggaren. Rättelserna är inte mänskligt granskade.
 
-**Inte ändrat.** Tankstreck (en/em) ändras inte här. Siffror, avstavning, citattecken och initialbokstäver (anfang) räknas som OCR-brus. Versindelningen är oförändrad.
+**Inte ändrat.** Tankstreck (en/em) ändras inte här. Siffror, avstavning, citattecken och initialbokstäver (anfang) räknas som OCR-brus. Versindelningen är oförändrad utom i Ps 49 (se nedan).
 
 **Iakttagelser.**
 - Runebergs markering av kapitäler (`HERRE`/`Herre`) i 1927-texten är ibland fel mot bilden (t.ex. 2:4, 22:31, 35:17, 37:13, 135:5). Kasus har därför avgjorts på bilderna. 136:3 är rättad till *herrarnas Herre* (vanlig stil i båda trycken).
@@ -247,86 +247,86 @@ Ingen skanningsbild är incheckad. Kolumnen med 1927-sidan länkar till Runeberg
 | [ ] | Ps224 | [Ps. 98:3](https://runeberg.org/bibeln/19_98.html) | sett | sett, | [EFS 1927 GT s. 813](https://runeberg.org/bibeln/efs1927/gt/0813.html) |
 | [ ] | Ps225 | [Ps. 99:4](https://runeberg.org/bibeln/19_99.html) | älskar | älskar, | [EFS 1927 GT s. 813](https://runeberg.org/bibeln/efs1927/gt/0813.html) |
 | [ ] | Ps226 | [Ps. 99:7](https://runeberg.org/bibeln/19_99.html) | lag | lag, | [EFS 1927 GT s. 813](https://runeberg.org/bibeln/efs1927/gt/0813.html) |
-| [ ] | Ps227 | [Ps. 102:14](https://runeberg.org/bibeln/19_102.html) | tid | tid, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
-| [ ] | Ps228 | [Ps. 102:19](https://runeberg.org/bibeln/19_102.html) |  som varder skapat | , som varder skapat, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
-| [ ] | Ps229 | [Ps. 102:20](https://runeberg.org/bibeln/19_102.html) | jorden, | jorden | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
-| [ ] | Ps230 | [Ps. 102:26](https://runeberg.org/bibeln/19_102.html) | händer | händers | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
-| [ ] | Ps231 | [Ps. 102:27](https://runeberg.org/bibeln/19_102.html) | förvandla dem | förvandla dem, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
-| [ ] | Ps232 | [Ps. 103:2](https://runeberg.org/bibeln/19_103.html) | icke | icke, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
-| [ ] | Ps233 | [Ps. 103:12](https://runeberg.org/bibeln/19_103.html) | väster | väster, | [EFS 1927 GT s. 816](https://runeberg.org/bibeln/efs1927/gt/0816.html) |
-| [ ] | Ps234 | [Ps. 103:14](https://runeberg.org/bibeln/19_103.html) | vet | vet, | [EFS 1927 GT s. 816](https://runeberg.org/bibeln/efs1927/gt/0816.html) |
-| [ ] | Ps235 | [Ps. 104:1](https://runeberg.org/bibeln/19_104.html) | stor, | stor; | [EFS 1927 GT s. 816](https://runeberg.org/bibeln/efs1927/gt/0816.html) |
-| [ ] | Ps236 | [Ps. 104:3](https://runeberg.org/bibeln/19_104.html) | fram  | (utgår) | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
-| [ ] | Ps237 | [Ps. 104:8](https://runeberg.org/bibeln/19_104.html) | , på den plats |  på den plats, | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
-| [ ] | Ps238 | [Ps. 104:18](https://runeberg.org/bibeln/19_104.html) | är | äro | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
-| [ ] | Ps239 | [Ps. 104:19](https://runeberg.org/bibeln/19_104.html) | stunden | stunden, | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
-| [ ] | Ps240 | [Ps. 104:25](https://runeberg.org/bibeln/19_104.html) | stora ock | stora och | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
-| [ ] | Ps241 | [Ps. 105:5](https://runeberg.org/bibeln/19_105.html) | verk | verk, | [EFS 1927 GT s. 818](https://runeberg.org/bibeln/efs1927/gt/0818.html) |
-| [ ] | Ps242 | [Ps. 106:15](https://runeberg.org/bibeln/19_106.html) | han dem | han dem, | [EFS 1927 GT s. 820](https://runeberg.org/bibeln/efs1927/gt/0820.html) |
-| [ ] | Ps243 | [Ps. 106:34](https://runeberg.org/bibeln/19_106.html) | folk | folk, | [EFS 1927 GT s. 821](https://runeberg.org/bibeln/efs1927/gt/0821.html) |
-| [ ] | Ps244 | [Ps. 106:38](https://runeberg.org/bibeln/19_106.html) | döttrars blod | döttrars blod, | [EFS 1927 GT s. 821](https://runeberg.org/bibeln/efs1927/gt/0821.html) |
-| [ ] | Ps245 | [Ps. 107:4](https://runeberg.org/bibeln/19_107.html) | stad | stad, | [EFS 1927 GT s. 822](https://runeberg.org/bibeln/efs1927/gt/0822.html) |
-| [ ] | Ps246 | [Ps. 107:7](https://runeberg.org/bibeln/19_107.html) | stad | stad, | [EFS 1927 GT s. 822](https://runeberg.org/bibeln/efs1927/gt/0822.html) |
-| [ ] | Ps247 | [Ps. 107:30](https://runeberg.org/bibeln/19_107.html) |  att det vart stilla, och han förde dem till den hamn | , att det vart stilla, och han förde dem till den hamn, | [EFS 1927 GT s. 823](https://runeberg.org/bibeln/efs1927/gt/0823.html) |
-| [ ] | Ps248 | [Ps. 107:32](https://runeberg.org/bibeln/19_107.html) | lova honom | lova honom, | [EFS 1927 GT s. 823](https://runeberg.org/bibeln/efs1927/gt/0823.html) |
-| [ ] | Ps249 | [Ps. 107:36](https://runeberg.org/bibeln/19_107.html) | stad | stad, | [EFS 1927 GT s. 823](https://runeberg.org/bibeln/efs1927/gt/0823.html) |
-| [ ] | Ps250 | [Ps. 108:4](https://runeberg.org/bibeln/19_108.html) | HERREN | HERRE | [EFS 1927 GT s. 824](https://runeberg.org/bibeln/efs1927/gt/0824.html) |
-| [ ] | Ps251 | [Ps. 108:5](https://runeberg.org/bibeln/19_108.html) | , | (utgår) | [EFS 1927 GT s. 824](https://runeberg.org/bibeln/efs1927/gt/0824.html) |
-| [ ] | Ps252 | [Ps. 109:19](https://runeberg.org/bibeln/19_109.html) | , | (utgår) | [EFS 1927 GT s. 825](https://runeberg.org/bibeln/efs1927/gt/0825.html) |
-| [ ] | Ps253 | [Ps. 109:21](https://runeberg.org/bibeln/19_109.html) | namn | namns | [EFS 1927 GT s. 825](https://runeberg.org/bibeln/efs1927/gt/0825.html) |
-| [ ] | Ps254 | [Ps. 109:27](https://runeberg.org/bibeln/19_109.html) | förnimma | förnimma, | [EFS 1927 GT s. 825](https://runeberg.org/bibeln/efs1927/gt/0825.html) |
-| [ ] | Ps255 | [Ps. 111:3](https://runeberg.org/bibeln/19_111.html) |  är |  är, | [EFS 1927 GT s. 826](https://runeberg.org/bibeln/efs1927/gt/0826.html) |
-| [ ] | Ps256 | [Ps. 112:1](https://runeberg.org/bibeln/19_112.html) | man | man, | [EFS 1927 GT s. 827](https://runeberg.org/bibeln/efs1927/gt/0827.html) |
-| [ ] | Ps257 | [Ps. 115:14](https://runeberg.org/bibeln/19_115.html) | , s | ,  | [EFS 1927 GT s. 828](https://runeberg.org/bibeln/efs1927/gt/0828.html) |
-| [ ] | Ps258 | [Ps. 116:4](https://runeberg.org/bibeln/19_116.html) | Ack | Ack, | [EFS 1927 GT s. 829](https://runeberg.org/bibeln/efs1927/gt/0829.html) |
-| [ ] | Ps259 | [Ps. 118:16](https://runeberg.org/bibeln/19_118.html) | HERRENS högra han  | HERRENS högra hand  | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
-| [ ] | Ps260 | [Ps. 118:21](https://runeberg.org/bibeln/19_118.html) | dig | dig, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
-| [ ] | Ps261 | [Ps. 118:22](https://runeberg.org/bibeln/19_118.html) |  som byggningsmännen förkastade | , som byggningsmännen förkastade, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
-| [ ] | Ps262 | [Ps. 118:24](https://runeberg.org/bibeln/19_118.html) | dag | dag, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
-| [ ] | Ps263 | [Ps. 118:25](https://runeberg.org/bibeln/19_118.html) |  HERRE, fräls! Ack | , HERRE, fräls! Ack, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
-| [ ] | Ps264 | [Ps. 118:26](https://runeberg.org/bibeln/19_118.html) | han | han, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
-| [ ] | Ps265 | [Ps. 119:4](https://runeberg.org/bibeln/19_119.html) | givit  | givit dina  | [EFS 1927 GT s. 831](https://runeberg.org/bibeln/efs1927/gt/0831.html) |
-| [ ] | Ps266 | [Ps. 119:39](https://runeberg.org/bibeln/19_119.html) | smälek | smälek, | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
-| [ ] | Ps267 | [Ps. 119:42](https://runeberg.org/bibeln/19_119.html) | S | s | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
-| [ ] | Ps268 | [Ps. 119:50](https://runeberg.org/bibeln/19_119.html) | lidande | lidande, | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
-| [ ] | Ps269 | [Ps. 119:52](https://runeberg.org/bibeln/19_119.html) | tröstar | tröstad | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
-| [ ] | Ps270 | [Ps. 119:54](https://runeberg.org/bibeln/19_119.html) | hus | hus, | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
-| [ ] | Ps271 | [Ps. 119:71](https://runeberg.org/bibeln/19_119.html) | gott | gott, | [EFS 1927 GT s. 833](https://runeberg.org/bibeln/efs1927/gt/0833.html) |
-| [ ] | Ps272 | [Ps. 119:75](https://runeberg.org/bibeln/19_119.html) | vet | vet, | [EFS 1927 GT s. 833](https://runeberg.org/bibeln/efs1927/gt/0833.html) |
-| [ ] | Ps273 | [Ps. 119:79](https://runeberg.org/bibeln/19_119.html) | och de  | och de s | [EFS 1927 GT s. 833](https://runeberg.org/bibeln/efs1927/gt/0833.html) |
-| [ ] | Ps274 | [Ps. 119:127](https://runeberg.org/bibeln/19_119.html) | , jag | , ja | [EFS 1927 GT s. 834](https://runeberg.org/bibeln/efs1927/gt/0834.html) |
-| [ ] | Ps275 | [Ps. 119:152](https://runeberg.org/bibeln/19_119.html) | vittnesbörd | vittnesbörd, | [EFS 1927 GT s. 836](https://runeberg.org/bibeln/efs1927/gt/0836.html) |
-| [ ] | Ps276 | [Ps. 124:6](https://runeberg.org/bibeln/19_124.html) | HERREN | HERREN, | [EFS 1927 GT s. 838](https://runeberg.org/bibeln/efs1927/gt/0838.html) |
-| [ ] | Ps277 | [Ps. 127:2](https://runeberg.org/bibeln/19_127.html) |  att I bittida stån upp och sent gån till vila, och äten eder | , att I bittida stån upp och sent gån till vila och äten edert | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
-| [ ] | Ps278 | [Ps. 127:4](https://runeberg.org/bibeln/19_127.html) | söner | söner, | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
-| [ ] | Ps279 | [Ps. 127:5](https://runeberg.org/bibeln/19_127.html) | man | man, | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
-| [ ] | Ps280 | [Ps. 128:3](https://runeberg.org/bibeln/19_128.html) | hustru, | hustru | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
-| [ ] | Ps281 | [Ps. 129:3](https://runeberg.org/bibeln/19_129.html) | upp  | (utgår) | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
-| [ ] | Ps282 | [Ps. 131:1](https://runeberg.org/bibeln/19_131.html) | med ting | med ting, | [EFS 1927 GT s. 840](https://runeberg.org/bibeln/efs1927/gt/0840.html) |
-| [ ] | Ps283 | [Ps. 132:2](https://runeberg.org/bibeln/19_132.html) | ; | : | [EFS 1927 GT s. 840](https://runeberg.org/bibeln/efs1927/gt/0840.html) |
-| [ ] | Ps284 | [Ps. 132:3](https://runeberg.org/bibeln/19_132.html) | hydda | hydda, | [EFS 1927 GT s. 840](https://runeberg.org/bibeln/efs1927/gt/0840.html) |
-| [ ] | Ps285 | [Ps. 133:1](https://runeberg.org/bibeln/19_133.html) | är | är, | [EFS 1927 GT s. 841](https://runeberg.org/bibeln/efs1927/gt/0841.html) |
-| [ ] | Ps286 | [Ps. 135:5](https://runeberg.org/bibeln/19_135.html) | vet | vet, | [EFS 1927 GT s. 842](https://runeberg.org/bibeln/efs1927/gt/0842.html) |
-| [ ] | Ps287 | [Ps. 136:3](https://runeberg.org/bibeln/19_136.html) | HERRE | Herre | [EFS 1927 GT s. 842](https://runeberg.org/bibeln/efs1927/gt/0842.html) |
-| [ ] | Ps288 | [Ps. 136:16](https://runeberg.org/bibeln/19_136.html) | evinnerligen, | evinnerligen; | [EFS 1927 GT s. 843](https://runeberg.org/bibeln/efs1927/gt/0843.html) |
-| [ ] | Ps289 | [Ps. 137:2](https://runeberg.org/bibeln/19_137.html) |  som där voro | , som där voro, | [EFS 1927 GT s. 843](https://runeberg.org/bibeln/efs1927/gt/0843.html) |
-| [ ] | Ps290 | [Ps. 139:14](https://runeberg.org/bibeln/19_139.html) | dig | dig, | [EFS 1927 GT s. 845](https://runeberg.org/bibeln/efs1927/gt/0845.html) |
-| [ ] | Ps291 | [Ps. 140:2](https://runeberg.org/bibeln/19_140.html) | mig från | mig för | [EFS 1927 GT s. 845](https://runeberg.org/bibeln/efs1927/gt/0845.html) |
-| [ ] | Ps292 | [Ps. 140:9](https://runeberg.org/bibeln/19_140.html) | HERRE; | HERRE, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
-| [ ] | Ps293 | [Ps. 140:13](https://runeberg.org/bibeln/19_140.html) | vet | vet, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
-| [ ] | Ps294 | [Ps. 141:4](https://runeberg.org/bibeln/19_141.html) | män | män, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
-| [ ] | Ps295 | [Ps. 141:6](https://runeberg.org/bibeln/19_141.html) | höra | höra, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
-| [ ] | Ps296 | [Ps. 141:9](https://runeberg.org/bibeln/19_141.html) |  som de lägga ut på min väg | , som de lägga ut på min väg, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
-| [ ] | Ps297 | [Ps. 142:4](https://runeberg.org/bibeln/19_142.html) |  där jag skall gå | , där jag skall gå, | [EFS 1927 GT s. 847](https://runeberg.org/bibeln/efs1927/gt/0847.html) |
-| [ ] | Ps298 | [Ps. 143:8](https://runeberg.org/bibeln/19_143.html) | väg | väg, | [EFS 1927 GT s. 847](https://runeberg.org/bibeln/efs1927/gt/0847.html) |
-| [ ] | Ps299 | [Ps. 144:15](https://runeberg.org/bibeln/19_144.html) | saligt är det folk s | saligt är det folk, s | [EFS 1927 GT s. 848](https://runeberg.org/bibeln/efs1927/gt/0848.html) |
-| [ ] | Ps300 | [Ps. 145:19](https://runeberg.org/bibeln/19_145.html) |  vad de gudfruktiga begära | , vad de gudfruktiga begära, | [EFS 1927 GT s. 849](https://runeberg.org/bibeln/efs1927/gt/0849.html) |
-| [ ] | Ps301 | [Ps. 145:21](https://runeberg.org/bibeln/19_145.html) | HERREN | HERRENS | [EFS 1927 GT s. 849](https://runeberg.org/bibeln/efs1927/gt/0849.html) |
-| [ ] | Ps302 | [Ps. 146:4](https://runeberg.org/bibeln/19_146.html) | jord | jord, | [EFS 1927 GT s. 849](https://runeberg.org/bibeln/efs1927/gt/0849.html) |
-| [ ] | Ps303 | [Ps. 147:9](https://runeberg.org/bibeln/19_147.html) | ungar | ungar, | [EFS 1927 GT s. 850](https://runeberg.org/bibeln/efs1927/gt/0850.html) |
-| [ ] | Ps304 | [Ps. 148:14](https://runeberg.org/bibeln/19_148.html) | det folk | det folk, | [EFS 1927 GT s. 851](https://runeberg.org/bibeln/efs1927/gt/0851.html) |
-| [ ] | Ps305 | [Ps. 149:9](https://runeberg.org/bibeln/19_149.html) | dom | dom, | [EFS 1927 GT s. 851](https://runeberg.org/bibeln/efs1927/gt/0851.html) |
-| [ ] | Ps306 | [Ps. 150:2](https://runeberg.org/bibeln/19_150.html) | härlighet | härlighet. | [EFS 1927 GT s. 852](https://runeberg.org/bibeln/efs1927/gt/0852.html) |
+| [ ] | Ps227 | [Ps. 102:14](https://runeberg.org/bibeln/19_a2.html) | tid | tid, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
+| [ ] | Ps228 | [Ps. 102:19](https://runeberg.org/bibeln/19_a2.html) |  som varder skapat | , som varder skapat, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
+| [ ] | Ps229 | [Ps. 102:20](https://runeberg.org/bibeln/19_a2.html) | jorden, | jorden | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
+| [ ] | Ps230 | [Ps. 102:26](https://runeberg.org/bibeln/19_a2.html) | händer | händers | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
+| [ ] | Ps231 | [Ps. 102:27](https://runeberg.org/bibeln/19_a2.html) | förvandla dem | förvandla dem, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
+| [ ] | Ps232 | [Ps. 103:2](https://runeberg.org/bibeln/19_a3.html) | icke | icke, | [EFS 1927 GT s. 815](https://runeberg.org/bibeln/efs1927/gt/0815.html) |
+| [ ] | Ps233 | [Ps. 103:12](https://runeberg.org/bibeln/19_a3.html) | väster | väster, | [EFS 1927 GT s. 816](https://runeberg.org/bibeln/efs1927/gt/0816.html) |
+| [ ] | Ps234 | [Ps. 103:14](https://runeberg.org/bibeln/19_a3.html) | vet | vet, | [EFS 1927 GT s. 816](https://runeberg.org/bibeln/efs1927/gt/0816.html) |
+| [ ] | Ps235 | [Ps. 104:1](https://runeberg.org/bibeln/19_a4.html) | stor, | stor; | [EFS 1927 GT s. 816](https://runeberg.org/bibeln/efs1927/gt/0816.html) |
+| [ ] | Ps236 | [Ps. 104:3](https://runeberg.org/bibeln/19_a4.html) | fram  | (utgår) | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
+| [ ] | Ps237 | [Ps. 104:8](https://runeberg.org/bibeln/19_a4.html) | , på den plats |  på den plats, | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
+| [ ] | Ps238 | [Ps. 104:18](https://runeberg.org/bibeln/19_a4.html) | är | äro | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
+| [ ] | Ps239 | [Ps. 104:19](https://runeberg.org/bibeln/19_a4.html) | stunden | stunden, | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
+| [ ] | Ps240 | [Ps. 104:25](https://runeberg.org/bibeln/19_a4.html) | stora ock | stora och | [EFS 1927 GT s. 817](https://runeberg.org/bibeln/efs1927/gt/0817.html) |
+| [ ] | Ps241 | [Ps. 105:5](https://runeberg.org/bibeln/19_a5.html) | verk | verk, | [EFS 1927 GT s. 818](https://runeberg.org/bibeln/efs1927/gt/0818.html) |
+| [ ] | Ps242 | [Ps. 106:15](https://runeberg.org/bibeln/19_a6.html) | han dem | han dem, | [EFS 1927 GT s. 820](https://runeberg.org/bibeln/efs1927/gt/0820.html) |
+| [ ] | Ps243 | [Ps. 106:34](https://runeberg.org/bibeln/19_a6.html) | folk | folk, | [EFS 1927 GT s. 821](https://runeberg.org/bibeln/efs1927/gt/0821.html) |
+| [ ] | Ps244 | [Ps. 106:38](https://runeberg.org/bibeln/19_a6.html) | döttrars blod | döttrars blod, | [EFS 1927 GT s. 821](https://runeberg.org/bibeln/efs1927/gt/0821.html) |
+| [ ] | Ps245 | [Ps. 107:4](https://runeberg.org/bibeln/19_a7.html) | stad | stad, | [EFS 1927 GT s. 822](https://runeberg.org/bibeln/efs1927/gt/0822.html) |
+| [ ] | Ps246 | [Ps. 107:7](https://runeberg.org/bibeln/19_a7.html) | stad | stad, | [EFS 1927 GT s. 822](https://runeberg.org/bibeln/efs1927/gt/0822.html) |
+| [ ] | Ps247 | [Ps. 107:30](https://runeberg.org/bibeln/19_a7.html) |  att det vart stilla, och han förde dem till den hamn | , att det vart stilla, och han förde dem till den hamn, | [EFS 1927 GT s. 823](https://runeberg.org/bibeln/efs1927/gt/0823.html) |
+| [ ] | Ps248 | [Ps. 107:32](https://runeberg.org/bibeln/19_a7.html) | lova honom | lova honom, | [EFS 1927 GT s. 823](https://runeberg.org/bibeln/efs1927/gt/0823.html) |
+| [ ] | Ps249 | [Ps. 107:36](https://runeberg.org/bibeln/19_a7.html) | stad | stad, | [EFS 1927 GT s. 823](https://runeberg.org/bibeln/efs1927/gt/0823.html) |
+| [ ] | Ps250 | [Ps. 108:4](https://runeberg.org/bibeln/19_a8.html) | HERREN | HERRE | [EFS 1927 GT s. 824](https://runeberg.org/bibeln/efs1927/gt/0824.html) |
+| [ ] | Ps251 | [Ps. 108:5](https://runeberg.org/bibeln/19_a8.html) | , | (utgår) | [EFS 1927 GT s. 824](https://runeberg.org/bibeln/efs1927/gt/0824.html) |
+| [ ] | Ps252 | [Ps. 109:19](https://runeberg.org/bibeln/19_a9.html) | , | (utgår) | [EFS 1927 GT s. 825](https://runeberg.org/bibeln/efs1927/gt/0825.html) |
+| [ ] | Ps253 | [Ps. 109:21](https://runeberg.org/bibeln/19_a9.html) | namn | namns | [EFS 1927 GT s. 825](https://runeberg.org/bibeln/efs1927/gt/0825.html) |
+| [ ] | Ps254 | [Ps. 109:27](https://runeberg.org/bibeln/19_a9.html) | förnimma | förnimma, | [EFS 1927 GT s. 825](https://runeberg.org/bibeln/efs1927/gt/0825.html) |
+| [ ] | Ps255 | [Ps. 111:3](https://runeberg.org/bibeln/19_b1.html) |  är |  är, | [EFS 1927 GT s. 826](https://runeberg.org/bibeln/efs1927/gt/0826.html) |
+| [ ] | Ps256 | [Ps. 112:1](https://runeberg.org/bibeln/19_b2.html) | man | man, | [EFS 1927 GT s. 827](https://runeberg.org/bibeln/efs1927/gt/0827.html) |
+| [ ] | Ps257 | [Ps. 115:14](https://runeberg.org/bibeln/19_b5.html) | , s | ,  | [EFS 1927 GT s. 828](https://runeberg.org/bibeln/efs1927/gt/0828.html) |
+| [ ] | Ps258 | [Ps. 116:4](https://runeberg.org/bibeln/19_b6.html) | Ack | Ack, | [EFS 1927 GT s. 829](https://runeberg.org/bibeln/efs1927/gt/0829.html) |
+| [ ] | Ps259 | [Ps. 118:16](https://runeberg.org/bibeln/19_b8.html) | HERRENS högra han  | HERRENS högra hand  | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
+| [ ] | Ps260 | [Ps. 118:21](https://runeberg.org/bibeln/19_b8.html) | dig | dig, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
+| [ ] | Ps261 | [Ps. 118:22](https://runeberg.org/bibeln/19_b8.html) |  som byggningsmännen förkastade | , som byggningsmännen förkastade, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
+| [ ] | Ps262 | [Ps. 118:24](https://runeberg.org/bibeln/19_b8.html) | dag | dag, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
+| [ ] | Ps263 | [Ps. 118:25](https://runeberg.org/bibeln/19_b8.html) |  HERRE, fräls! Ack | , HERRE, fräls! Ack, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
+| [ ] | Ps264 | [Ps. 118:26](https://runeberg.org/bibeln/19_b8.html) | han | han, | [EFS 1927 GT s. 830](https://runeberg.org/bibeln/efs1927/gt/0830.html) |
+| [ ] | Ps265 | [Ps. 119:4](https://runeberg.org/bibeln/19_b9.html) | givit  | givit dina  | [EFS 1927 GT s. 831](https://runeberg.org/bibeln/efs1927/gt/0831.html) |
+| [ ] | Ps266 | [Ps. 119:39](https://runeberg.org/bibeln/19_b9.html) | smälek | smälek, | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
+| [ ] | Ps267 | [Ps. 119:42](https://runeberg.org/bibeln/19_b9.html) | S | s | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
+| [ ] | Ps268 | [Ps. 119:50](https://runeberg.org/bibeln/19_b9.html) | lidande | lidande, | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
+| [ ] | Ps269 | [Ps. 119:52](https://runeberg.org/bibeln/19_b9.html) | tröstar | tröstad | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
+| [ ] | Ps270 | [Ps. 119:54](https://runeberg.org/bibeln/19_b9.html) | hus | hus, | [EFS 1927 GT s. 832](https://runeberg.org/bibeln/efs1927/gt/0832.html) |
+| [ ] | Ps271 | [Ps. 119:71](https://runeberg.org/bibeln/19_b9.html) | gott | gott, | [EFS 1927 GT s. 833](https://runeberg.org/bibeln/efs1927/gt/0833.html) |
+| [ ] | Ps272 | [Ps. 119:75](https://runeberg.org/bibeln/19_b9.html) | vet | vet, | [EFS 1927 GT s. 833](https://runeberg.org/bibeln/efs1927/gt/0833.html) |
+| [ ] | Ps273 | [Ps. 119:79](https://runeberg.org/bibeln/19_b9.html) | och de  | och de s | [EFS 1927 GT s. 833](https://runeberg.org/bibeln/efs1927/gt/0833.html) |
+| [ ] | Ps274 | [Ps. 119:127](https://runeberg.org/bibeln/19_b9.html) | , jag | , ja | [EFS 1927 GT s. 834](https://runeberg.org/bibeln/efs1927/gt/0834.html) |
+| [ ] | Ps275 | [Ps. 119:152](https://runeberg.org/bibeln/19_b9.html) | vittnesbörd | vittnesbörd, | [EFS 1927 GT s. 836](https://runeberg.org/bibeln/efs1927/gt/0836.html) |
+| [ ] | Ps276 | [Ps. 124:6](https://runeberg.org/bibeln/19_c4.html) | HERREN | HERREN, | [EFS 1927 GT s. 838](https://runeberg.org/bibeln/efs1927/gt/0838.html) |
+| [ ] | Ps277 | [Ps. 127:2](https://runeberg.org/bibeln/19_c7.html) |  att I bittida stån upp och sent gån till vila, och äten eder | , att I bittida stån upp och sent gån till vila och äten edert | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
+| [ ] | Ps278 | [Ps. 127:4](https://runeberg.org/bibeln/19_c7.html) | söner | söner, | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
+| [ ] | Ps279 | [Ps. 127:5](https://runeberg.org/bibeln/19_c7.html) | man | man, | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
+| [ ] | Ps280 | [Ps. 128:3](https://runeberg.org/bibeln/19_c8.html) | hustru, | hustru | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
+| [ ] | Ps281 | [Ps. 129:3](https://runeberg.org/bibeln/19_c9.html) | upp  | (utgår) | [EFS 1927 GT s. 839](https://runeberg.org/bibeln/efs1927/gt/0839.html) |
+| [ ] | Ps282 | [Ps. 131:1](https://runeberg.org/bibeln/19_d1.html) | med ting | med ting, | [EFS 1927 GT s. 840](https://runeberg.org/bibeln/efs1927/gt/0840.html) |
+| [ ] | Ps283 | [Ps. 132:2](https://runeberg.org/bibeln/19_d2.html) | ; | : | [EFS 1927 GT s. 840](https://runeberg.org/bibeln/efs1927/gt/0840.html) |
+| [ ] | Ps284 | [Ps. 132:3](https://runeberg.org/bibeln/19_d2.html) | hydda | hydda, | [EFS 1927 GT s. 840](https://runeberg.org/bibeln/efs1927/gt/0840.html) |
+| [ ] | Ps285 | [Ps. 133:1](https://runeberg.org/bibeln/19_d3.html) | är | är, | [EFS 1927 GT s. 841](https://runeberg.org/bibeln/efs1927/gt/0841.html) |
+| [ ] | Ps286 | [Ps. 135:5](https://runeberg.org/bibeln/19_d5.html) | vet | vet, | [EFS 1927 GT s. 842](https://runeberg.org/bibeln/efs1927/gt/0842.html) |
+| [ ] | Ps287 | [Ps. 136:3](https://runeberg.org/bibeln/19_d6.html) | HERRE | Herre | [EFS 1927 GT s. 842](https://runeberg.org/bibeln/efs1927/gt/0842.html) |
+| [ ] | Ps288 | [Ps. 136:16](https://runeberg.org/bibeln/19_d6.html) | evinnerligen, | evinnerligen; | [EFS 1927 GT s. 843](https://runeberg.org/bibeln/efs1927/gt/0843.html) |
+| [ ] | Ps289 | [Ps. 137:2](https://runeberg.org/bibeln/19_d7.html) |  som där voro | , som där voro, | [EFS 1927 GT s. 843](https://runeberg.org/bibeln/efs1927/gt/0843.html) |
+| [ ] | Ps290 | [Ps. 139:14](https://runeberg.org/bibeln/19_d9.html) | dig | dig, | [EFS 1927 GT s. 845](https://runeberg.org/bibeln/efs1927/gt/0845.html) |
+| [ ] | Ps291 | [Ps. 140:2](https://runeberg.org/bibeln/19_e0.html) | mig från | mig för | [EFS 1927 GT s. 845](https://runeberg.org/bibeln/efs1927/gt/0845.html) |
+| [ ] | Ps292 | [Ps. 140:9](https://runeberg.org/bibeln/19_e0.html) | HERRE; | HERRE, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
+| [ ] | Ps293 | [Ps. 140:13](https://runeberg.org/bibeln/19_e0.html) | vet | vet, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
+| [ ] | Ps294 | [Ps. 141:4](https://runeberg.org/bibeln/19_e1.html) | män | män, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
+| [ ] | Ps295 | [Ps. 141:6](https://runeberg.org/bibeln/19_e1.html) | höra | höra, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
+| [ ] | Ps296 | [Ps. 141:9](https://runeberg.org/bibeln/19_e1.html) |  som de lägga ut på min väg | , som de lägga ut på min väg, | [EFS 1927 GT s. 846](https://runeberg.org/bibeln/efs1927/gt/0846.html) |
+| [ ] | Ps297 | [Ps. 142:4](https://runeberg.org/bibeln/19_e2.html) |  där jag skall gå | , där jag skall gå, | [EFS 1927 GT s. 847](https://runeberg.org/bibeln/efs1927/gt/0847.html) |
+| [ ] | Ps298 | [Ps. 143:8](https://runeberg.org/bibeln/19_e3.html) | väg | väg, | [EFS 1927 GT s. 847](https://runeberg.org/bibeln/efs1927/gt/0847.html) |
+| [ ] | Ps299 | [Ps. 144:15](https://runeberg.org/bibeln/19_e4.html) | saligt är det folk s | saligt är det folk, s | [EFS 1927 GT s. 848](https://runeberg.org/bibeln/efs1927/gt/0848.html) |
+| [ ] | Ps300 | [Ps. 145:19](https://runeberg.org/bibeln/19_e5.html) |  vad de gudfruktiga begära | , vad de gudfruktiga begära, | [EFS 1927 GT s. 849](https://runeberg.org/bibeln/efs1927/gt/0849.html) |
+| [ ] | Ps301 | [Ps. 145:21](https://runeberg.org/bibeln/19_e5.html) | HERREN | HERRENS | [EFS 1927 GT s. 849](https://runeberg.org/bibeln/efs1927/gt/0849.html) |
+| [ ] | Ps302 | [Ps. 146:4](https://runeberg.org/bibeln/19_e6.html) | jord | jord, | [EFS 1927 GT s. 849](https://runeberg.org/bibeln/efs1927/gt/0849.html) |
+| [ ] | Ps303 | [Ps. 147:9](https://runeberg.org/bibeln/19_e7.html) | ungar | ungar, | [EFS 1927 GT s. 850](https://runeberg.org/bibeln/efs1927/gt/0850.html) |
+| [ ] | Ps304 | [Ps. 148:14](https://runeberg.org/bibeln/19_e8.html) | det folk | det folk, | [EFS 1927 GT s. 851](https://runeberg.org/bibeln/efs1927/gt/0851.html) |
+| [ ] | Ps305 | [Ps. 149:9](https://runeberg.org/bibeln/19_e9.html) | dom | dom, | [EFS 1927 GT s. 851](https://runeberg.org/bibeln/efs1927/gt/0851.html) |
+| [ ] | Ps306 | [Ps. 150:2](https://runeberg.org/bibeln/19_f0.html) | härlighet | härlighet. | [EFS 1927 GT s. 852](https://runeberg.org/bibeln/efs1927/gt/0852.html) |
 
 ## Behållna skillnader
 
