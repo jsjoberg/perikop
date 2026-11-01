@@ -3380,6 +3380,2822 @@
         }
       ],
       "notes": "Hela 7:1–11 jämfört ord för ord, inklusive spaltfortsättningen i 7:6. Inga nya rättelser. Samtliga tidigare återställda verser 7:1–9 och 7:11 bekräftade. Den tryckta efterskriften är uttryckligen numrerad 11 och bevaras som 7:11; inga onumrerade bibeltextstycken har utelämnats. Bokens sista punkt kontrollerad."
+    },
+    {
+      "book": "Ps",
+      "chapter": 1,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "86e1e4064c99e49b9feee33764326f708026b4e295434bd4d915c57afd70a7da",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0735.1.tif",
+          "sha256": "5bc7a05f95bef2217ed0d99d3d7c068c39e89ba4ee2d8013b91e26655b5b1f8d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0736.1.tif",
+          "sha256": "f61954ededa67969456dd1328fe1e2cc15bcf83fa9e6f04e176e7a35b5adf4f0"
+        }
+      ],
+      "notes": "Psaltaren 1 jämförd mot EFS 1927 GT s. 735–736 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 680–680). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 2,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "9d2111c3d88b268ebf86978c1588d71a9f220ab2342701683568b7053db209af",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0736.1.tif",
+          "sha256": "f61954ededa67969456dd1328fe1e2cc15bcf83fa9e6f04e176e7a35b5adf4f0"
+        }
+      ],
+      "notes": "Psaltaren 2 jämförd mot EFS 1927 GT s. 736–736 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 680–681). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 3,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "74fb7b7474113cb39a3b99f72f2a1e45faaad6e7fb115331a3ab65ce9a1483ef",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0736.1.tif",
+          "sha256": "f61954ededa67969456dd1328fe1e2cc15bcf83fa9e6f04e176e7a35b5adf4f0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0737.1.tif",
+          "sha256": "45f13569a241b8c98e6dd43b017abbf768dfc720605acc9fa117dd5ce4a41bc6"
+        }
+      ],
+      "notes": "Psaltaren 3 jämförd mot EFS 1927 GT s. 736–737 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 681–681). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 4,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "50952b729cfd7908c88c0c80d70a32aeb5a95e11f58c664850aac7c23753e3be",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0737.1.tif",
+          "sha256": "45f13569a241b8c98e6dd43b017abbf768dfc720605acc9fa117dd5ce4a41bc6"
+        }
+      ],
+      "notes": "Psaltaren 4 jämförd mot EFS 1927 GT s. 737–737 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 681–682). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 5,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "a4b125218402797dd208a78322df0e68a4dab9fd20b414de72f0a7d9d0da4410",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0737.1.tif",
+          "sha256": "45f13569a241b8c98e6dd43b017abbf768dfc720605acc9fa117dd5ce4a41bc6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0738.1.tif",
+          "sha256": "f93db9f712f0f085fb9da149d7cfbffe94e1fa837cd1dc9e0161f7e04a6617c6"
+        }
+      ],
+      "notes": "Psaltaren 5 jämförd mot EFS 1927 GT s. 737–738 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 682–682). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 6,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "089c76726d01b582633aa96c0ea1b8a3d38b2f117f6ac6e45cfacb8141c1ce9e",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0738.1.tif",
+          "sha256": "f93db9f712f0f085fb9da149d7cfbffe94e1fa837cd1dc9e0161f7e04a6617c6"
+        }
+      ],
+      "notes": "Psaltaren 6 jämförd mot EFS 1927 GT s. 738–738 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 682–683). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 7,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "99f7fd48034013b397b4a9c1f6cbe7aa4fb40f2a79ffe56e1c44b42ccfea0fb5",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0738.1.tif",
+          "sha256": "f93db9f712f0f085fb9da149d7cfbffe94e1fa837cd1dc9e0161f7e04a6617c6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0739.1.tif",
+          "sha256": "710b797a3ca1f35494036d2f66e2f8d712eba019d61e895bd36159873687797e"
+        }
+      ],
+      "notes": "Psaltaren 7 jämförd mot EFS 1927 GT s. 738–739 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 683–684). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 8,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "b29b3a29f228a614bf6e3417c0a761ca70555d81e156dd26e83f35eac255287b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0739.1.tif",
+          "sha256": "710b797a3ca1f35494036d2f66e2f8d712eba019d61e895bd36159873687797e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0740.1.tif",
+          "sha256": "b54fd45b30d5f310cdad241898da346286dea5ffe076ae9636c1649af5187ee6"
+        }
+      ],
+      "notes": "Psaltaren 8 jämförd mot EFS 1927 GT s. 739–740 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 684–684). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 9,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "0e6126a645c83edd2a1fa6e0ef6606428bd5c8987053f2c08db751d21d4e24f3",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0740.1.tif",
+          "sha256": "b54fd45b30d5f310cdad241898da346286dea5ffe076ae9636c1649af5187ee6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0741.1.tif",
+          "sha256": "9b26b2e273e0f59c22ca5514e5ea400490a0dc7a8247b32f95b32ce9500bccdf"
+        }
+      ],
+      "notes": "Psaltaren 9 jämförd mot EFS 1927 GT s. 740–741 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 684–685). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 10,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "ecf6f42522ad0e5272c0b1388aca1332a3167cd42c5de75649f3c1709de26040",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0741.1.tif",
+          "sha256": "9b26b2e273e0f59c22ca5514e5ea400490a0dc7a8247b32f95b32ce9500bccdf"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0742.1.tif",
+          "sha256": "6558f74585cc2acf420478c80cce1e38b73a94e2e3d83e6be24d38a716eb6a79"
+        }
+      ],
+      "notes": "Psaltaren 10 jämförd mot EFS 1927 GT s. 741–742 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 685–686). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 11,
+      "status": "needs-review",
+      "verse_count": 7,
+      "text_sha256": "623d5a9746bbbae37acd73ff34364031ef0b78cd0459d844ee78f8346de194f6",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0742.1.tif",
+          "sha256": "6558f74585cc2acf420478c80cce1e38b73a94e2e3d83e6be24d38a716eb6a79"
+        }
+      ],
+      "notes": "Psaltaren 11 jämförd mot EFS 1927 GT s. 742–742 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 686–687). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 12,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "894342d5f60652693d50c85779e9c1c2752ae6d99e33bcb7d5d2b7ebbc21a45e",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0742.1.tif",
+          "sha256": "6558f74585cc2acf420478c80cce1e38b73a94e2e3d83e6be24d38a716eb6a79"
+        }
+      ],
+      "notes": "Psaltaren 12 jämförd mot EFS 1927 GT s. 742–742 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 687–687). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 13,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "17d3336498ebb2e25715bdff69831c8f7a8b262882dc27f30b8c20539e2ed718",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0743.1.tif",
+          "sha256": "adc3cafeab97355830ca964601a4c6d34fddb95bc1a404c6307401d58e326395"
+        }
+      ],
+      "notes": "Psaltaren 13 jämförd mot EFS 1927 GT s. 743–743 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 687–688). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 14,
+      "status": "needs-review",
+      "verse_count": 7,
+      "text_sha256": "52d34600f95351b3f403adf2242c11885b6479642d4561babc42ab4cb2b4b698",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0743.1.tif",
+          "sha256": "adc3cafeab97355830ca964601a4c6d34fddb95bc1a404c6307401d58e326395"
+        }
+      ],
+      "notes": "Psaltaren 14 jämförd mot EFS 1927 GT s. 743–743 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 688–688). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 15,
+      "status": "needs-review",
+      "verse_count": 5,
+      "text_sha256": "dc084dfc715787b37d61c20d28ae71015a2cbd68149e36913a56ffc2f39ece58",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0743.1.tif",
+          "sha256": "adc3cafeab97355830ca964601a4c6d34fddb95bc1a404c6307401d58e326395"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0744.1.tif",
+          "sha256": "d7ce732ba7659261c3765456080441ea04a62bbb47e817ab9bea47288c9f7646"
+        }
+      ],
+      "notes": "Psaltaren 15 jämförd mot EFS 1927 GT s. 743–744 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 688–688). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 16,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "f5af95cba24f5f68c6648746ca26f7847b02d9cbab1eb4bedcdfea1814f272b6",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0744.1.tif",
+          "sha256": "d7ce732ba7659261c3765456080441ea04a62bbb47e817ab9bea47288c9f7646"
+        }
+      ],
+      "notes": "Psaltaren 16 jämförd mot EFS 1927 GT s. 744–744 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 688–689). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 17,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "1edfb7c658b0286a66694edc380fcd99a300193213c9f24221384f1cdc52c048",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0744.1.tif",
+          "sha256": "d7ce732ba7659261c3765456080441ea04a62bbb47e817ab9bea47288c9f7646"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0745.1.tif",
+          "sha256": "270b6574c00959cc2ad83874dffad483f0ad2d43cc46ef009bccb6e8314a265b"
+        }
+      ],
+      "notes": "Psaltaren 17 jämförd mot EFS 1927 GT s. 744–745 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 689–690). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 18,
+      "status": "needs-review",
+      "verse_count": 51,
+      "text_sha256": "c0f367fbe55e2cf0aeaa8e67c0c641b34b20257df5f3817587513fddcbecf11d",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0745.1.tif",
+          "sha256": "270b6574c00959cc2ad83874dffad483f0ad2d43cc46ef009bccb6e8314a265b"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0746.1.tif",
+          "sha256": "8ec888e197ebe3da69ca2ae1d658434665e4bbdd0eed5f1b5696e23f0ddd8dd4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0747.1.tif",
+          "sha256": "b108a8e573a86c0558af499261908b813dd7fffa9dfcb9372a899b4415cd13f7"
+        }
+      ],
+      "notes": "Psaltaren 18 jämförd mot EFS 1927 GT s. 745–747 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 690–692). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 19,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "12ca66abc9594c8cf01d3624905b65d9685f257fd55e0c0347f99eeba35324e6",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0747.1.tif",
+          "sha256": "b108a8e573a86c0558af499261908b813dd7fffa9dfcb9372a899b4415cd13f7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0748.1.tif",
+          "sha256": "154415460aea9b068ca92645d8c1cd629648e8e5f22cfd43e892357c42fc55fd"
+        }
+      ],
+      "notes": "Psaltaren 19 jämförd mot EFS 1927 GT s. 747–748 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 692–693). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 20,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "b288c07e7f94dddc1e74d01b3040fedff21ff81d2523eb3fe5b65f300732f2fa",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0748.1.tif",
+          "sha256": "154415460aea9b068ca92645d8c1cd629648e8e5f22cfd43e892357c42fc55fd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0749.1.tif",
+          "sha256": "06eff644ad75fd0d2018f554296132d9ca302e1929d5daa1ea7e38d2aada9b69"
+        }
+      ],
+      "notes": "Psaltaren 20 jämförd mot EFS 1927 GT s. 748–749 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 693–693). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 21,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "97ebb5635e9d93f99306d3e1ed2c28110d15a23bd7b01d12cfe367e4634ff7ce",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0749.1.tif",
+          "sha256": "06eff644ad75fd0d2018f554296132d9ca302e1929d5daa1ea7e38d2aada9b69"
+        }
+      ],
+      "notes": "Psaltaren 21 jämförd mot EFS 1927 GT s. 749–749 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 693–694). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 22,
+      "status": "needs-review",
+      "verse_count": 32,
+      "text_sha256": "689298443550ff728b45b5e3d136447dec1f6624a6ab7a03db860d2a8be95bee",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0749.1.tif",
+          "sha256": "06eff644ad75fd0d2018f554296132d9ca302e1929d5daa1ea7e38d2aada9b69"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0750.1.tif",
+          "sha256": "54f65fc746a835a2514b366871a3a9b80bad2840a166ffd798068a885dbb7a8e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0751.1.tif",
+          "sha256": "4708fa37119e75167d4d678167903b49350c9706ecb6e146b348101f09040f2a"
+        }
+      ],
+      "notes": "Psaltaren 22 jämförd mot EFS 1927 GT s. 749–751 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 694–695). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 23,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "6dca8fe526227f09d5f9a810cc27375c51f1daa0f04e480fc758cd3d4cc8eddc",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0751.1.tif",
+          "sha256": "4708fa37119e75167d4d678167903b49350c9706ecb6e146b348101f09040f2a"
+        }
+      ],
+      "notes": "Psaltaren 23 jämförd mot EFS 1927 GT s. 751–751 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 696–696). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 24,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "fe3cc868c04b1c64d242f9e4d33e6e26e43d27a4cf5daf1ca27e3f152f2622d5",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0751.1.tif",
+          "sha256": "4708fa37119e75167d4d678167903b49350c9706ecb6e146b348101f09040f2a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0752.1.tif",
+          "sha256": "8865e363c9a83e8d108634bd8fd8867076f56fedafbab058994edf2e9871bf56"
+        }
+      ],
+      "notes": "Psaltaren 24 jämförd mot EFS 1927 GT s. 751–752 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 696–696). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 25,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "2b7183628f279a8421af3997a28d0b66ddd7c37580f2bbc664a0826266d5982c",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0752.1.tif",
+          "sha256": "8865e363c9a83e8d108634bd8fd8867076f56fedafbab058994edf2e9871bf56"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0753.1.tif",
+          "sha256": "aa2271266cccfb61f67a28c3b6f41ecc971ab43302ad5f25ed414a118618c28e"
+        }
+      ],
+      "notes": "Psaltaren 25 jämförd mot EFS 1927 GT s. 752–753 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 696–697). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 26,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "b88d1cd0706874dcc21f41f32815724a22896cce20974be540ecdb60f354852f",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0753.1.tif",
+          "sha256": "aa2271266cccfb61f67a28c3b6f41ecc971ab43302ad5f25ed414a118618c28e"
+        }
+      ],
+      "notes": "Psaltaren 26 jämförd mot EFS 1927 GT s. 753–753 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 697–698). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 27,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "d0a5a00a7d01acc05e963b0045c1b7a3316cdb86a5567047bb25b90ba61e53f2",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0753.1.tif",
+          "sha256": "aa2271266cccfb61f67a28c3b6f41ecc971ab43302ad5f25ed414a118618c28e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0754.1.tif",
+          "sha256": "71e8b742d3c62a00dab36ba6c52b469097f7f8c64276b4aa2a898b3aba456a42"
+        }
+      ],
+      "notes": "Psaltaren 27 jämförd mot EFS 1927 GT s. 753–754 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 698–699). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 28,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "12802a7e61355f181dd9a3bb05f097f168474db595faa908ebe3cd352268d703",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0754.1.tif",
+          "sha256": "71e8b742d3c62a00dab36ba6c52b469097f7f8c64276b4aa2a898b3aba456a42"
+        }
+      ],
+      "notes": "Psaltaren 28 jämförd mot EFS 1927 GT s. 754–754 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 699–699). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 29,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "50a3a060c2a524c2bf3344da5476ca97cf884c59edbd91ffbc6401ce067b3c27",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0754.1.tif",
+          "sha256": "71e8b742d3c62a00dab36ba6c52b469097f7f8c64276b4aa2a898b3aba456a42"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0755.1.tif",
+          "sha256": "45195c86904b0c86d1bbc680d180ef9c6b8dcb0defd436c3eed3126ed7dbae45"
+        }
+      ],
+      "notes": "Psaltaren 29 jämförd mot EFS 1927 GT s. 754–755 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 699–700). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 30,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "062b45db1016c88f601edafb6518bae6394ae554cfb3b0b8a39b21c46d6eade5",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0755.1.tif",
+          "sha256": "45195c86904b0c86d1bbc680d180ef9c6b8dcb0defd436c3eed3126ed7dbae45"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0756.1.tif",
+          "sha256": "6f5982ebddcb091568f2e778e934cffd6cce2f7b1e4487394aaedfe4f01e40f5"
+        }
+      ],
+      "notes": "Psaltaren 30 jämförd mot EFS 1927 GT s. 755–756 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 700–700). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 31,
+      "status": "needs-review",
+      "verse_count": 25,
+      "text_sha256": "7a7636e86adc2e26a936f896ff8514323fb565e98b112688291310edc0bea53d",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0756.1.tif",
+          "sha256": "6f5982ebddcb091568f2e778e934cffd6cce2f7b1e4487394aaedfe4f01e40f5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0757.1.tif",
+          "sha256": "7c1b77aa2c2b15e32da85b392a6d2ca0f58fadbc21ea39d3786a670b1c334f3d"
+        }
+      ],
+      "notes": "Psaltaren 31 jämförd mot EFS 1927 GT s. 756–757 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 700–702). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 32,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "8e92ce325ea4890f488571dd0b3b8521cfacdb5ba8e36f222f3e3d520240954b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0757.1.tif",
+          "sha256": "7c1b77aa2c2b15e32da85b392a6d2ca0f58fadbc21ea39d3786a670b1c334f3d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0758.1.tif",
+          "sha256": "ab557bad5f13f92c892539f9c664cb558ef2d9b224b71849dd34cbe897f863ae"
+        }
+      ],
+      "notes": "Psaltaren 32 jämförd mot EFS 1927 GT s. 757–758 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 702–702). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 33,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "4f08dc054df1acd1b42e7afb22a603e160f94f429f764aa2a7cfb93bfc7641ef",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0758.1.tif",
+          "sha256": "ab557bad5f13f92c892539f9c664cb558ef2d9b224b71849dd34cbe897f863ae"
+        }
+      ],
+      "notes": "Psaltaren 33 jämförd mot EFS 1927 GT s. 758–758 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 702–703). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 34,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "37e37acc819599434c8b3ce7ddc2d544d4f1c75c3fbda4ad9b79f6242019fb80",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0759.1.tif",
+          "sha256": "41d8910bd9d9d8bcf95855ccb72fefa59d289b7479d1ad091881d6dd81a8fe86"
+        }
+      ],
+      "notes": "Psaltaren 34 jämförd mot EFS 1927 GT s. 759–759 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 703–704). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 35,
+      "status": "needs-review",
+      "verse_count": 28,
+      "text_sha256": "b3813cb649d2adad8abf5716466fc334c134f097b064b983bed24549c310f75c",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0760.1.tif",
+          "sha256": "f369f49c08c32cb124bf0afac1f843d91694607c4d0946be7d6459d05516e77a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0761.1.tif",
+          "sha256": "cf49a81de8e5988cc82e815460768c7b703b37c2e1fdff1446fd07680d24dc6c"
+        }
+      ],
+      "notes": "Psaltaren 35 jämförd mot EFS 1927 GT s. 760–761 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 704–706). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 36,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "6c7e1f47e423fb2a673c460f49c2a28aaf96391fb3049060eca89555a51b4547",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0761.1.tif",
+          "sha256": "cf49a81de8e5988cc82e815460768c7b703b37c2e1fdff1446fd07680d24dc6c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0762.1.tif",
+          "sha256": "c6475ae589bd6877a8278b5ab2c7743d38ea6aba39be3e152334d10b9ddce952"
+        }
+      ],
+      "notes": "Psaltaren 36 jämförd mot EFS 1927 GT s. 761–762 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 706–706). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 37,
+      "status": "needs-review",
+      "verse_count": 40,
+      "text_sha256": "bc74ae88395d0171e3a1db0240aca41ea3617347561b373eef594b551c237c25",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0762.1.tif",
+          "sha256": "c6475ae589bd6877a8278b5ab2c7743d38ea6aba39be3e152334d10b9ddce952"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0763.1.tif",
+          "sha256": "8b96dcb654c358eff9fd1541c0c8cb414fee84f2848b38e1cc151cb8f0e1d600"
+        }
+      ],
+      "notes": "Psaltaren 37 jämförd mot EFS 1927 GT s. 762–763 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 707–708). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 38,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "90ac15c11173d56cdba78810909ac07c16f71ebf5ce7d922faf32c4c375ee3f8",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0763.1.tif",
+          "sha256": "8b96dcb654c358eff9fd1541c0c8cb414fee84f2848b38e1cc151cb8f0e1d600"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0764.1.tif",
+          "sha256": "47c77046c4734321f0d52fb55a0afb1b42620319105d72edf65c5cece9c0406c"
+        }
+      ],
+      "notes": "Psaltaren 38 jämförd mot EFS 1927 GT s. 763–764 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 708–709). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 39,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "1e97551f83e6201a95e47c92166f1e6995c79c29aa467dc6c8ee2361a9c76b45",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0764.1.tif",
+          "sha256": "47c77046c4734321f0d52fb55a0afb1b42620319105d72edf65c5cece9c0406c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0765.1.tif",
+          "sha256": "e1ac6f244c8f74f24ee9096a87aa869ecbfd1a7a5714b03fcf1ce2452ac4cbfc"
+        }
+      ],
+      "notes": "Psaltaren 39 jämförd mot EFS 1927 GT s. 764–765 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 709–710). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 40,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "eae29a7e9153e04b818e48d7713f1a605302c4a786ada273cccc285c12ca4af2",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0765.1.tif",
+          "sha256": "e1ac6f244c8f74f24ee9096a87aa869ecbfd1a7a5714b03fcf1ce2452ac4cbfc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0766.1.tif",
+          "sha256": "4f0c675d4b8055842764ae9d464dc9cdb2f6f7ff969a6c8f1d21520b559bb887"
+        }
+      ],
+      "notes": "Psaltaren 40 jämförd mot EFS 1927 GT s. 765–766 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 710–711). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 41,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "d77e0ef044b475e5d954722d1e559b3595a530d8d0ed2eb5370c2933917e0138",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0766.1.tif",
+          "sha256": "4f0c675d4b8055842764ae9d464dc9cdb2f6f7ff969a6c8f1d21520b559bb887"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0767.1.tif",
+          "sha256": "757b951523f8cc55fb5d3b84aecc023d13d5b54dcc8f0ba456d0f26b7b5af9af"
+        }
+      ],
+      "notes": "Psaltaren 41 jämförd mot EFS 1927 GT s. 766–767 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 711–712). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 42,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "da2afedf012ab069af7be04dc1cc124c792528e5cd96c9ac73fea91ecc49036a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0767.1.tif",
+          "sha256": "757b951523f8cc55fb5d3b84aecc023d13d5b54dcc8f0ba456d0f26b7b5af9af"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0768.1.tif",
+          "sha256": "a835557a669dece12408dfb55b51b3d98399c5108e7b051fed774d5aab659e3a"
+        }
+      ],
+      "notes": "Psaltaren 42 jämförd mot EFS 1927 GT s. 767–768 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 712–713). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 43,
+      "status": "needs-review",
+      "verse_count": 5,
+      "text_sha256": "eb92f078139fff05d1e6bc5e50bc6744e6593151b275b313540943a9ef19bc5d",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0768.1.tif",
+          "sha256": "a835557a669dece12408dfb55b51b3d98399c5108e7b051fed774d5aab659e3a"
+        }
+      ],
+      "notes": "Psaltaren 43 jämförd mot EFS 1927 GT s. 768–768 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 713–713). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 44,
+      "status": "needs-review",
+      "verse_count": 27,
+      "text_sha256": "a3bc13206761ecfc65eb5f9d2d9fad2232725d4cf40b41e24ba824b4435591bb",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0768.1.tif",
+          "sha256": "a835557a669dece12408dfb55b51b3d98399c5108e7b051fed774d5aab659e3a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0769.1.tif",
+          "sha256": "370b357ebbfefb7c90a40c309c05d9ceefb79dcb66430581b28e257b2ad77724"
+        }
+      ],
+      "notes": "Psaltaren 44 jämförd mot EFS 1927 GT s. 768–769 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 713–714). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 45,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "1843a51acc9e429539c229c71c66be4949100b4df93d06483fdfa37d262838a7",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0769.1.tif",
+          "sha256": "370b357ebbfefb7c90a40c309c05d9ceefb79dcb66430581b28e257b2ad77724"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0770.1.tif",
+          "sha256": "e1fc847744bb5301cf0ef2ef735de12095d69eaf6b45cc3a2c3ff8a11b277b04"
+        }
+      ],
+      "notes": "Psaltaren 45 jämförd mot EFS 1927 GT s. 769–770 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 714–715). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 46,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "fc22e6024a77e76a883501b4c27e611f81335ff8c8dd8bf71cb405f81f784a57",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0770.1.tif",
+          "sha256": "e1fc847744bb5301cf0ef2ef735de12095d69eaf6b45cc3a2c3ff8a11b277b04"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0771.1.tif",
+          "sha256": "6c8ffa0a8163220d4ffaf0ff575f9540364c98d0c61e460e50ca73bd6e534cb6"
+        }
+      ],
+      "notes": "Psaltaren 46 jämförd mot EFS 1927 GT s. 770–771 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 715–716). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 47,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "f6e8ea9876300d1cc9ea52af7ed5af8e27076cce0006edca027af7da635d7ae2",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0771.1.tif",
+          "sha256": "6c8ffa0a8163220d4ffaf0ff575f9540364c98d0c61e460e50ca73bd6e534cb6"
+        }
+      ],
+      "notes": "Psaltaren 47 jämförd mot EFS 1927 GT s. 771–771 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 716–716). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 48,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "6c86e33501ce92851777bf215dc09dd6278872cc61c08790dfdb95ca29572e8b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0771.1.tif",
+          "sha256": "6c8ffa0a8163220d4ffaf0ff575f9540364c98d0c61e460e50ca73bd6e534cb6"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0772.1.tif",
+          "sha256": "63f2d312110b52f7f8d5f6bbcee3b2d29bc7431c5250f9dc6d1da23f24a9d502"
+        }
+      ],
+      "notes": "Psaltaren 48 jämförd mot EFS 1927 GT s. 771–772 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 716–717). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 49,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "54ae0d9283226e5a5e54bbf2b2d37ae8624fc41f788638c619588be3877bfa47",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0772.1.tif",
+          "sha256": "63f2d312110b52f7f8d5f6bbcee3b2d29bc7431c5250f9dc6d1da23f24a9d502"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0773.1.tif",
+          "sha256": "7f344cbdfd63b8ae4d04b6d58f5bee422f0d280880f231706e4ef0980655728f"
+        }
+      ],
+      "notes": "Psaltaren 49 jämförd mot EFS 1927 GT s. 772–773 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 717–718). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Versindelningen avviker: trycken har 21 verser, e-texten 20 (tryckets v. 19–20 är 49:19); inte ändrad. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 50,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "8d562f878e45fd66cd1d3c0a18ad36faff935e3494e9ccd81b379aba9e6b83ac",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0773.1.tif",
+          "sha256": "7f344cbdfd63b8ae4d04b6d58f5bee422f0d280880f231706e4ef0980655728f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0774.1.tif",
+          "sha256": "f298d75c07285b62b55e92dd723ca21576189173d4646ecab498239f4081d184"
+        }
+      ],
+      "notes": "Psaltaren 50 jämförd mot EFS 1927 GT s. 773–774 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 718–719). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 51,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "13d6e4098977952eb9424fcd930082fc3d26952c2c0084e308d4e300dd0f2600",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0774.1.tif",
+          "sha256": "f298d75c07285b62b55e92dd723ca21576189173d4646ecab498239f4081d184"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0775.1.tif",
+          "sha256": "0ab5bd0410c998f95544cf549786922144de0ef12a2e1cf88b43feb00e2e220a"
+        }
+      ],
+      "notes": "Psaltaren 51 jämförd mot EFS 1927 GT s. 774–775 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 719–719). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 52,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "c8ed1acfe1a369bacb375cb629f164b5d5d53d27613649bace99c39b338700a8",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0775.1.tif",
+          "sha256": "0ab5bd0410c998f95544cf549786922144de0ef12a2e1cf88b43feb00e2e220a"
+        }
+      ],
+      "notes": "Psaltaren 52 jämförd mot EFS 1927 GT s. 775–775 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 719–720). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 53,
+      "status": "needs-review",
+      "verse_count": 7,
+      "text_sha256": "fccf91e5ff28f4bc75b51bd08e6e0f0c90aed8c994320959ee1906ddb1c795f9",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0775.1.tif",
+          "sha256": "0ab5bd0410c998f95544cf549786922144de0ef12a2e1cf88b43feb00e2e220a"
+        }
+      ],
+      "notes": "Psaltaren 53 jämförd mot EFS 1927 GT s. 775–775 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 720–720). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 54,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "de39fc6bf580689eddddc9283d55991b588553851df747f40786fba53c086fb5",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0776.1.tif",
+          "sha256": "c004515fe30db139a6c69fb6afcc89843e7c73f651e316c0aa7df92df1fb7b5f"
+        }
+      ],
+      "notes": "Psaltaren 54 jämförd mot EFS 1927 GT s. 776–776 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 720–720). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 55,
+      "status": "needs-review",
+      "verse_count": 24,
+      "text_sha256": "842ee2d02d130ffbaf609661c9b6fa84e62d744f4cdc45f7258cffc525141485",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0776.1.tif",
+          "sha256": "c004515fe30db139a6c69fb6afcc89843e7c73f651e316c0aa7df92df1fb7b5f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0777.1.tif",
+          "sha256": "20acb99535089d0f5a2cb816ac87273e67755b3963f69831a454d59461436587"
+        }
+      ],
+      "notes": "Psaltaren 55 jämförd mot EFS 1927 GT s. 776–777 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 720–722). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 56,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "ced67a85e09bd1bb45ab6d8e1c94619261f8e6acb40c41ad853826fdfd6000a0",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0777.1.tif",
+          "sha256": "20acb99535089d0f5a2cb816ac87273e67755b3963f69831a454d59461436587"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0778.1.tif",
+          "sha256": "9cf106514c880e021b8c39bacab9aa7213bc43bd1c623527cee54ff51d36ba7a"
+        }
+      ],
+      "notes": "Psaltaren 56 jämförd mot EFS 1927 GT s. 777–778 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 722–722). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 57,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "924d2f8752df22e6520c8cdd8d3ffda7d7e29e1b702e7040026f54e333535cf2",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0778.1.tif",
+          "sha256": "9cf106514c880e021b8c39bacab9aa7213bc43bd1c623527cee54ff51d36ba7a"
+        }
+      ],
+      "notes": "Psaltaren 57 jämförd mot EFS 1927 GT s. 778–778 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 722–723). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 58,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "80077035b2232ac96b29c4050a8a2e294ca0a68b0805ea18ae17a11b8d328593",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0778.1.tif",
+          "sha256": "9cf106514c880e021b8c39bacab9aa7213bc43bd1c623527cee54ff51d36ba7a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0779.1.tif",
+          "sha256": "14d92e626d5b487afc5e639785cf8d528107f020170b912d0f00f3f3fa0ae353"
+        }
+      ],
+      "notes": "Psaltaren 58 jämförd mot EFS 1927 GT s. 778–779 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 723–723). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 59,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "bd73f05f385e041ef7b5b486843029822f3772e1334d676de0270c4a0abc9eb0",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0779.1.tif",
+          "sha256": "14d92e626d5b487afc5e639785cf8d528107f020170b912d0f00f3f3fa0ae353"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0780.1.tif",
+          "sha256": "e3677beb36b34e1079c1dcf21543981d3ed933f32fdfb6ade6e0e61063862847"
+        }
+      ],
+      "notes": "Psaltaren 59 jämförd mot EFS 1927 GT s. 779–780 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 723–724). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 60,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "7191b6e68bdbea97bcc8a4fcc7fb4049d750c27c6df27a14ddb58f9159bc07f4",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0780.1.tif",
+          "sha256": "e3677beb36b34e1079c1dcf21543981d3ed933f32fdfb6ade6e0e61063862847"
+        }
+      ],
+      "notes": "Psaltaren 60 jämförd mot EFS 1927 GT s. 780–780 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 724–725). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 61,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "2c196f6ea79e41869b41bd548b77035d266e17bbd63273f05adda45d89aefe16",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0780.1.tif",
+          "sha256": "e3677beb36b34e1079c1dcf21543981d3ed933f32fdfb6ade6e0e61063862847"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0781.1.tif",
+          "sha256": "1f748b6b985fff8469dc47b6f67b4a58cb14b39c365f1b7d0701c2bb1dff2dc7"
+        }
+      ],
+      "notes": "Psaltaren 61 jämförd mot EFS 1927 GT s. 780–781 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 725–725). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 62,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "5f8ac830e92b45bb22ec5e321631a85031325cbc2fd8ab7e5f9f55e3cc70c34a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0781.1.tif",
+          "sha256": "1f748b6b985fff8469dc47b6f67b4a58cb14b39c365f1b7d0701c2bb1dff2dc7"
+        }
+      ],
+      "notes": "Psaltaren 62 jämförd mot EFS 1927 GT s. 781–781 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 725–726). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 63,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "650538211f38d68dbd351992ee99fc479c7a10f1b9aff1d325dcdc6cd5dcb8c9",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0781.1.tif",
+          "sha256": "1f748b6b985fff8469dc47b6f67b4a58cb14b39c365f1b7d0701c2bb1dff2dc7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0782.1.tif",
+          "sha256": "4e9a7dcb1725132e3a30b2c2716525f3338b281bcbcfa2795b92048de4089f24"
+        }
+      ],
+      "notes": "Psaltaren 63 jämförd mot EFS 1927 GT s. 781–782 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 726–727). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 64,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "973f1511e1564a67e89dccc0c1a2b4599a0a27de09ec4e14bc9f22063aba11ee",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0782.1.tif",
+          "sha256": "4e9a7dcb1725132e3a30b2c2716525f3338b281bcbcfa2795b92048de4089f24"
+        }
+      ],
+      "notes": "Psaltaren 64 jämförd mot EFS 1927 GT s. 782–782 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 727–727). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 65,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "39e4612217fd89d02f7bb14e458b4f386f6fb8dbb4f0ab9d023a24d2349e810f",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0782.1.tif",
+          "sha256": "4e9a7dcb1725132e3a30b2c2716525f3338b281bcbcfa2795b92048de4089f24"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0783.1.tif",
+          "sha256": "160edee075794551710f973c3a7dff19051ff5d72a5ec613ad5586346f7f9e75"
+        }
+      ],
+      "notes": "Psaltaren 65 jämförd mot EFS 1927 GT s. 782–783 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 727–728). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 66,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "9ea5650f237710732dd52121d5b7539b05d5083ab38897d4966c2ebafbea93ed",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0783.1.tif",
+          "sha256": "160edee075794551710f973c3a7dff19051ff5d72a5ec613ad5586346f7f9e75"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0784.1.tif",
+          "sha256": "42d61a054715105aa4cca06bcf3fa62a47eafd9c881ac4de659620aff0328361"
+        }
+      ],
+      "notes": "Psaltaren 66 jämförd mot EFS 1927 GT s. 783–784 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 728–729). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 67,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "2f263c32fd11681a46a2b95629358afa246f14d9e31e0d42a5da04cc4d8f322a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0784.1.tif",
+          "sha256": "42d61a054715105aa4cca06bcf3fa62a47eafd9c881ac4de659620aff0328361"
+        }
+      ],
+      "notes": "Psaltaren 67 jämförd mot EFS 1927 GT s. 784–784 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 729–729). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 68,
+      "status": "needs-review",
+      "verse_count": 36,
+      "text_sha256": "bd7a510cbe9a30232db6285ccc08d6608ca6ba6ed9a4508c0573d10e5337908b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0784.1.tif",
+          "sha256": "42d61a054715105aa4cca06bcf3fa62a47eafd9c881ac4de659620aff0328361"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0785.1.tif",
+          "sha256": "151647ed5b462ce2e9109d3f3a3cba7a57c7ab651d7e1e3baa6f47d57d0dca97"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0786.1.tif",
+          "sha256": "acef5a2517f8afee210643886b90b83a413d89751d1ec6235084cab87c8c4f94"
+        }
+      ],
+      "notes": "Psaltaren 68 jämförd mot EFS 1927 GT s. 784–786 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 729–731). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 69,
+      "status": "needs-review",
+      "verse_count": 37,
+      "text_sha256": "545ac96e414cfbbf18e667e72358e952658fbe17dcadde73032e3fa23c6e0718",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0786.1.tif",
+          "sha256": "acef5a2517f8afee210643886b90b83a413d89751d1ec6235084cab87c8c4f94"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0787.1.tif",
+          "sha256": "2d455f345be3aa05ff1029682798acab6e8d79e13607a492e28257771a66844a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0788.1.tif",
+          "sha256": "4736be28b37f09bc38f25d40b9980c647734dc3e5411321bb270929eab071dfd"
+        }
+      ],
+      "notes": "Psaltaren 69 jämförd mot EFS 1927 GT s. 786–788 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 731–732). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 70,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "7974fca4e47bacf3fab519a7f8995c9a992ac1aa08b0c170fd5c1639ef792441",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0788.1.tif",
+          "sha256": "4736be28b37f09bc38f25d40b9980c647734dc3e5411321bb270929eab071dfd"
+        }
+      ],
+      "notes": "Psaltaren 70 jämförd mot EFS 1927 GT s. 788–788 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 732–733). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 71,
+      "status": "needs-review",
+      "verse_count": 24,
+      "text_sha256": "6f3c628aea69d41618f2d3be3eee995442a33b7f4c147a4d81cc74e126892512",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0788.1.tif",
+          "sha256": "4736be28b37f09bc38f25d40b9980c647734dc3e5411321bb270929eab071dfd"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0789.1.tif",
+          "sha256": "0f1a2352ae0d764d96727dea8280df6bf63627dbaed23bcc68b853ac48727091"
+        }
+      ],
+      "notes": "Psaltaren 71 jämförd mot EFS 1927 GT s. 788–789 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 733–734). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 72,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "69df8358ed993d5beaa6bc462b5a8613d00ad22ad49dc9f4e000f2849bd3461a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0789.1.tif",
+          "sha256": "0f1a2352ae0d764d96727dea8280df6bf63627dbaed23bcc68b853ac48727091"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0790.1.tif",
+          "sha256": "d4a9311de268eadaa2e5a1db237236a8c6f33202146acfae6fd9d366e950787f"
+        }
+      ],
+      "notes": "Psaltaren 72 jämförd mot EFS 1927 GT s. 789–790 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 734–735). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 73,
+      "status": "needs-review",
+      "verse_count": 28,
+      "text_sha256": "33b9065560dbb8076d10c9b94994fe29e6ad6a2d05338b1d0acb87df97980e27",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0790.1.tif",
+          "sha256": "d4a9311de268eadaa2e5a1db237236a8c6f33202146acfae6fd9d366e950787f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0791.1.tif",
+          "sha256": "d85b797902a6c4ac9167c4d76054b5e2046c9476f2fe21d9e751842131fe14e8"
+        }
+      ],
+      "notes": "Psaltaren 73 jämförd mot EFS 1927 GT s. 790–791 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 735–736). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 74,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "87a645fb16e26dd287b68de9e1c1f287463f30f1534142de9e5eed6ea816984a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0791.1.tif",
+          "sha256": "d85b797902a6c4ac9167c4d76054b5e2046c9476f2fe21d9e751842131fe14e8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0792.1.tif",
+          "sha256": "8f6328a9f4b136fd3cc9aaaf5aa266f6e113e21be4ec487c66c4f5158c62aca0"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0793.1.tif",
+          "sha256": "2e9c789052c0315b1527ae8e5f452874a1bf28b77b52dd2aaaf62cf98ec6b7ff"
+        }
+      ],
+      "notes": "Psaltaren 74 jämförd mot EFS 1927 GT s. 791–793 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 736–737). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 9 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 75,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "e84439c9217c5eb2d09c7ab516356ef868ea4086bd79287b9f60199540197910",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0793.1.tif",
+          "sha256": "2e9c789052c0315b1527ae8e5f452874a1bf28b77b52dd2aaaf62cf98ec6b7ff"
+        }
+      ],
+      "notes": "Psaltaren 75 jämförd mot EFS 1927 GT s. 793–793 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 737–737). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 76,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "3fd9db0faff4b43472fbdb9141e2779744ff3a30482d24ceb27953b59e44a070",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0793.1.tif",
+          "sha256": "2e9c789052c0315b1527ae8e5f452874a1bf28b77b52dd2aaaf62cf98ec6b7ff"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0794.1.tif",
+          "sha256": "145aefe401340f3879034bb8426704e3284e066fa3b9fb5158697b9bb9094782"
+        }
+      ],
+      "notes": "Psaltaren 76 jämförd mot EFS 1927 GT s. 793–794 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 737–738). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 77,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "254478452cb1c4c7054e83a2c623eda996054953bcd4d78ef841fe6d6150c12d",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0794.1.tif",
+          "sha256": "145aefe401340f3879034bb8426704e3284e066fa3b9fb5158697b9bb9094782"
+        }
+      ],
+      "notes": "Psaltaren 77 jämförd mot EFS 1927 GT s. 794–794 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 738–739). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 78,
+      "status": "needs-review",
+      "verse_count": 72,
+      "text_sha256": "407a3d7f1a927d26aead86d34ae0d3f9ea0d83484eed189cdb298e120ac6940e",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0795.1.tif",
+          "sha256": "123ca7a9d3db588b3275da77ab23226baa362ebc2f330c8ee7926fbc835d00a4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0796.1.tif",
+          "sha256": "d423c43571ad1becfcbdc6c10e85943436498e9e1928a9390f8a9e62f4a7c304"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0797.1.tif",
+          "sha256": "7d2e36993ac680ca30091bdeca7e47f9b1291df96bf3d05eba115d8566cd7184"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0798.1.tif",
+          "sha256": "64f3ab0a16d6e4f9b479cad6d8541a778b08265b5d0149a6f854b5f6588c4814"
+        }
+      ],
+      "notes": "Psaltaren 78 jämförd mot EFS 1927 GT s. 795–798 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 739–742). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 10 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 79,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "fffc97e2d110b8b238e7ea46acd0ad5b32070b023aa1c7e04a7a56738404482d",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0798.1.tif",
+          "sha256": "64f3ab0a16d6e4f9b479cad6d8541a778b08265b5d0149a6f854b5f6588c4814"
+        }
+      ],
+      "notes": "Psaltaren 79 jämförd mot EFS 1927 GT s. 798–798 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 742–743). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 80,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "a01b12c7a388c5bcf77399b8b4f38218693acbc452046b38d6c0b269844e0a67",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0798.1.tif",
+          "sha256": "64f3ab0a16d6e4f9b479cad6d8541a778b08265b5d0149a6f854b5f6588c4814"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0799.1.tif",
+          "sha256": "32ed99e908e40162844cb05bffa5d021d338a7fc6a93b8706d4c340cc1c006d5"
+        }
+      ],
+      "notes": "Psaltaren 80 jämförd mot EFS 1927 GT s. 798–799 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 743–743). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 81,
+      "status": "needs-review",
+      "verse_count": 17,
+      "text_sha256": "d09acf143643c6ae075e7c63cfb9460f8565b8bf4d5903b9e4910de263d1670d",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0799.1.tif",
+          "sha256": "32ed99e908e40162844cb05bffa5d021d338a7fc6a93b8706d4c340cc1c006d5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0800.1.tif",
+          "sha256": "909575b91aa64d55e8d44db4dd97ff2fb3330c995e1b1f29289e97f9e6ffeaa1"
+        }
+      ],
+      "notes": "Psaltaren 81 jämförd mot EFS 1927 GT s. 799–800 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 743–744). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 82,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "e0b2cd978b25b7ac6a8bb43fe354f6936ebe07a12c3239fa4f7e7f6d2b8f58dd",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0800.1.tif",
+          "sha256": "909575b91aa64d55e8d44db4dd97ff2fb3330c995e1b1f29289e97f9e6ffeaa1"
+        }
+      ],
+      "notes": "Psaltaren 82 jämförd mot EFS 1927 GT s. 800–800 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 744–744). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 83,
+      "status": "needs-review",
+      "verse_count": 19,
+      "text_sha256": "2885b7f88da0a05b46bf5685d22657480c2fb49124ec38dce474b57f3df186e2",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0801.1.tif",
+          "sha256": "33385fc135bf4c1b29cf291618dde8798cea5c2448ed022e3bb492079428596a"
+        }
+      ],
+      "notes": "Psaltaren 83 jämförd mot EFS 1927 GT s. 801–801 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 744–745). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 84,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "50d523617254c47bdc8c50d742d51dd6940191eebfdd2abbc6f5d5dc26801cec",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0801.1.tif",
+          "sha256": "33385fc135bf4c1b29cf291618dde8798cea5c2448ed022e3bb492079428596a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0802.1.tif",
+          "sha256": "1280c40b3bb198c1514a3b757c7ad8e4e59e6acefe3b2180ddaef94ebe2259de"
+        }
+      ],
+      "notes": "Psaltaren 84 jämförd mot EFS 1927 GT s. 801–802 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 745–746). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 85,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "a7bae397747439580e42377b8e3564c5b178b50099c5094c9a40c063856ce0ae",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0802.1.tif",
+          "sha256": "1280c40b3bb198c1514a3b757c7ad8e4e59e6acefe3b2180ddaef94ebe2259de"
+        }
+      ],
+      "notes": "Psaltaren 85 jämförd mot EFS 1927 GT s. 802–802 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 746–746). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 86,
+      "status": "needs-review",
+      "verse_count": 17,
+      "text_sha256": "d1e040784bbf59a09a76bea8b5d846fa812239cb98b486cc95d346f5b2ac6279",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0802.1.tif",
+          "sha256": "1280c40b3bb198c1514a3b757c7ad8e4e59e6acefe3b2180ddaef94ebe2259de"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0803.1.tif",
+          "sha256": "bc5bc8ffc35b15b0b6665354acb3235a15160ebb27662046d1448c23924ee6cb"
+        }
+      ],
+      "notes": "Psaltaren 86 jämförd mot EFS 1927 GT s. 802–803 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 746–747). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 87,
+      "status": "needs-review",
+      "verse_count": 7,
+      "text_sha256": "ccbe784e2f61ee73dc753a3bac57a4658ad24b370820fff8775d57e1f1f64da0",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0803.1.tif",
+          "sha256": "bc5bc8ffc35b15b0b6665354acb3235a15160ebb27662046d1448c23924ee6cb"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0804.1.tif",
+          "sha256": "67543dcf5edd1b866b28ca49b3cf906518caee02e95534270820dd755bcbab7e"
+        }
+      ],
+      "notes": "Psaltaren 87 jämförd mot EFS 1927 GT s. 803–804 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 747–748). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 88,
+      "status": "needs-review",
+      "verse_count": 19,
+      "text_sha256": "c9dc38656d58d2db56a3132217b207d260a5f82e645fbd639191893b42190796",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0804.1.tif",
+          "sha256": "67543dcf5edd1b866b28ca49b3cf906518caee02e95534270820dd755bcbab7e"
+        }
+      ],
+      "notes": "Psaltaren 88 jämförd mot EFS 1927 GT s. 804–804 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 748–748). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 89,
+      "status": "needs-review",
+      "verse_count": 53,
+      "text_sha256": "2c73fd1ec4da989255721c06ebfe7cf12df98d2a65f69ef5a39c77d8a43c0146",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0805.1.tif",
+          "sha256": "830ea0c9ee0945242bd8eaf3beb88613f7a553ef9b763b12f07c9a4e14391ac8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0806.1.tif",
+          "sha256": "511f0df83b65b28e8acf25fadd00d93526982391bae08fb8b3ac4ca80f0c9446"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0807.1.tif",
+          "sha256": "efb2666f6977fa58b3f63449c2a603c598e8d77af137209b1da1ec6795441119"
+        }
+      ],
+      "notes": "Psaltaren 89 jämförd mot EFS 1927 GT s. 805–807 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 748–751). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 90,
+      "status": "needs-review",
+      "verse_count": 17,
+      "text_sha256": "defde4ebe7139288295de25d0725810c5140af2b09273950e5ab2d28285edc45",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0807.1.tif",
+          "sha256": "efb2666f6977fa58b3f63449c2a603c598e8d77af137209b1da1ec6795441119"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0808.1.tif",
+          "sha256": "8e535f70a6fd1c7e5b1990f113ee17fc6b898fa0092603a6b46d73ee9695a7ef"
+        }
+      ],
+      "notes": "Psaltaren 90 jämförd mot EFS 1927 GT s. 807–808 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 751–752). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 91,
+      "status": "needs-review",
+      "verse_count": 16,
+      "text_sha256": "05cad284636834cc1ba1fce97d20eae5fe1a680ba85c01130b5f13917174656b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0808.1.tif",
+          "sha256": "8e535f70a6fd1c7e5b1990f113ee17fc6b898fa0092603a6b46d73ee9695a7ef"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0809.1.tif",
+          "sha256": "c75480cf4d0e3459232b48b942496d9ca949187f6683ad392625ac4faf13e2ae"
+        }
+      ],
+      "notes": "Psaltaren 91 jämförd mot EFS 1927 GT s. 808–809 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 752–753). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 92,
+      "status": "needs-review",
+      "verse_count": 16,
+      "text_sha256": "81b405e3a58d8948ab2984b771aac5d3637b17874c565fe0af84e0304c56eb91",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0809.1.tif",
+          "sha256": "c75480cf4d0e3459232b48b942496d9ca949187f6683ad392625ac4faf13e2ae"
+        }
+      ],
+      "notes": "Psaltaren 92 jämförd mot EFS 1927 GT s. 809–809 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 753–753). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 4 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 93,
+      "status": "needs-review",
+      "verse_count": 5,
+      "text_sha256": "b50c289cb977c65d9ea3e80677b2da50c9e3e84d43a3484183de02d97855c58a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0809.1.tif",
+          "sha256": "c75480cf4d0e3459232b48b942496d9ca949187f6683ad392625ac4faf13e2ae"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0810.1.tif",
+          "sha256": "30102074b7821fe4f1b7638e3cc2198a59ce7470f78191671dd64516abadc4ff"
+        }
+      ],
+      "notes": "Psaltaren 93 jämförd mot EFS 1927 GT s. 809–810 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 753–754). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 94,
+      "status": "needs-review",
+      "verse_count": 23,
+      "text_sha256": "738c44e496b852962e4ede9c6c898343c9f4c0679fdfbaae4e10e8b8eaf4ec44",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0810.1.tif",
+          "sha256": "30102074b7821fe4f1b7638e3cc2198a59ce7470f78191671dd64516abadc4ff"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0811.1.tif",
+          "sha256": "0dfc490e1f9090ef6bcba63f7c9e6ece0e8f034b01abe58a82eeb8319cd01134"
+        }
+      ],
+      "notes": "Psaltaren 94 jämförd mot EFS 1927 GT s. 810–811 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 754–755). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 7 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 95,
+      "status": "needs-review",
+      "verse_count": 11,
+      "text_sha256": "3a550ecc46716a9e89bb049f86ea2923baf4be7252e99a7d7368dda9fd5bb16b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0811.1.tif",
+          "sha256": "0dfc490e1f9090ef6bcba63f7c9e6ece0e8f034b01abe58a82eeb8319cd01134"
+        }
+      ],
+      "notes": "Psaltaren 95 jämförd mot EFS 1927 GT s. 811–811 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 755–755). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 96,
+      "status": "needs-review",
+      "verse_count": 13,
+      "text_sha256": "58e8e0cdc12f3a74a212316d69d57b539406506ec536652dcedbf297e3e67596",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0811.1.tif",
+          "sha256": "0dfc490e1f9090ef6bcba63f7c9e6ece0e8f034b01abe58a82eeb8319cd01134"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0812.1.tif",
+          "sha256": "011cda54f417bae84b5d7cfbd89bb3f4eaa37722fcec036f2dc12f21fde97e13"
+        }
+      ],
+      "notes": "Psaltaren 96 jämförd mot EFS 1927 GT s. 811–812 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 755–756). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 97,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "e149e9df09a81cd6a7a50ddf3201c70aa5ca06f8b6a12a94ab0aeb76457e32e2",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0812.1.tif",
+          "sha256": "011cda54f417bae84b5d7cfbd89bb3f4eaa37722fcec036f2dc12f21fde97e13"
+        }
+      ],
+      "notes": "Psaltaren 97 jämförd mot EFS 1927 GT s. 812–812 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 756–756). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 98,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "b2e89e54b3df32dc0ae199780e738b46456c2df7e0acccf1077016d8eb9c759e",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0813.1.tif",
+          "sha256": "929edcb963d867595f2eabafff556ec716c674fcff0bbce9cfa5cd6f2a8f6086"
+        }
+      ],
+      "notes": "Psaltaren 98 jämförd mot EFS 1927 GT s. 813–813 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 756–757). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 99,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "988158080ef7d6046290eaad4f15a488b7d6adde084dbac2657fe9b83dd931ad",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0813.1.tif",
+          "sha256": "929edcb963d867595f2eabafff556ec716c674fcff0bbce9cfa5cd6f2a8f6086"
+        }
+      ],
+      "notes": "Psaltaren 99 jämförd mot EFS 1927 GT s. 813–813 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 757–757). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 100,
+      "status": "needs-review",
+      "verse_count": 5,
+      "text_sha256": "6b1d6c3623e7622f8133c899c691d57e9cab99be501a18fde2f927211e3dfa47",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0813.1.tif",
+          "sha256": "929edcb963d867595f2eabafff556ec716c674fcff0bbce9cfa5cd6f2a8f6086"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0814.1.tif",
+          "sha256": "3daaf0df9c3f0304cc4d62f7f329d200122ae41ed39f415f72009343cc08e042"
+        }
+      ],
+      "notes": "Psaltaren 100 jämförd mot EFS 1927 GT s. 813–814 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 757–757). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 101,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "f25998c0dd498d57ae54c8d351af6d0e9230529c4187b7277f6931e8a23d42ed",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0814.1.tif",
+          "sha256": "3daaf0df9c3f0304cc4d62f7f329d200122ae41ed39f415f72009343cc08e042"
+        }
+      ],
+      "notes": "Psaltaren 101 jämförd mot EFS 1927 GT s. 814–814 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 757–758). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 102,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "e9ce7e077013d03a731f5c52e9b6857582e8a1696524ffbc42c628f28524cbda",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0814.1.tif",
+          "sha256": "3daaf0df9c3f0304cc4d62f7f329d200122ae41ed39f415f72009343cc08e042"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0815.1.tif",
+          "sha256": "a78f5d8ebb774cef70e11d0e1d35b83070346911b484d9e2efb90b0c683786de"
+        }
+      ],
+      "notes": "Psaltaren 102 jämförd mot EFS 1927 GT s. 814–815 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 758–759). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 103,
+      "status": "needs-review",
+      "verse_count": 22,
+      "text_sha256": "a6f53a12bb07dcffca6b58134c07fc2e514b4c882ff27de9842c98e0ad656499",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0815.1.tif",
+          "sha256": "a78f5d8ebb774cef70e11d0e1d35b83070346911b484d9e2efb90b0c683786de"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0816.1.tif",
+          "sha256": "1df6b5fe855855c4cefd20631bc03914fc6242c74463b5a06feeaa58e16de932"
+        }
+      ],
+      "notes": "Psaltaren 103 jämförd mot EFS 1927 GT s. 815–816 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 759–760). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 104,
+      "status": "needs-review",
+      "verse_count": 35,
+      "text_sha256": "d27759db3fbf0869373538366901a32f31081189b42dcdaee3dd13cef7ce5284",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0816.1.tif",
+          "sha256": "1df6b5fe855855c4cefd20631bc03914fc6242c74463b5a06feeaa58e16de932"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0817.1.tif",
+          "sha256": "52201ec7102135d16192fba83b6a9f75e221c82d6d0becf968f0e856cf56732d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0818.1.tif",
+          "sha256": "ec2b686b51e8259b7ab3af0dc77fda5b3521ff0baf90c791deff088a2e882415"
+        }
+      ],
+      "notes": "Psaltaren 104 jämförd mot EFS 1927 GT s. 816–818 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 760–761). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 6 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 105,
+      "status": "needs-review",
+      "verse_count": 45,
+      "text_sha256": "34bb59d4291fbf689dd9b9a1a5943c9f4e4bac76cb871f590079098e87caca1c",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0818.1.tif",
+          "sha256": "ec2b686b51e8259b7ab3af0dc77fda5b3521ff0baf90c791deff088a2e882415"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0819.1.tif",
+          "sha256": "40cf11eb37b2fd739ae7b03a7a2a7e8b5161e25353c714ca914211be5022cdb2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0820.1.tif",
+          "sha256": "23936d6f4280beb76da5478c8b77bf22d10eb2c031ca0af676c2645a4cc08581"
+        }
+      ],
+      "notes": "Psaltaren 105 jämförd mot EFS 1927 GT s. 818–820 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 762–769). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 106,
+      "status": "needs-review",
+      "verse_count": 48,
+      "text_sha256": "9b50b76b718e51a618f4181d22aefd14aaf570353089b3628a7bbdb7e63dc7e9",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0820.1.tif",
+          "sha256": "23936d6f4280beb76da5478c8b77bf22d10eb2c031ca0af676c2645a4cc08581"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0821.1.tif",
+          "sha256": "7de63895f381bdb06f1d3c72965151ca77d84dd9c09258c779b9f1592f686027"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0822.1.tif",
+          "sha256": "bde65ada7f8623851402557f14bc396eb9b5b16edd517526b835a609c29fe370"
+        }
+      ],
+      "notes": "Psaltaren 106 jämförd mot EFS 1927 GT s. 820–822 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 769–769). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 107,
+      "status": "needs-review",
+      "verse_count": 43,
+      "text_sha256": "b7426756030c25424430d4e07dde9a48e2805cc21d4056a040273ec7e137e121",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0822.1.tif",
+          "sha256": "bde65ada7f8623851402557f14bc396eb9b5b16edd517526b835a609c29fe370"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0823.1.tif",
+          "sha256": "bec0eb214a8715001333cf944ee85d10b2c2a63c4c0cbde6372aa2136a6030f5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0824.1.tif",
+          "sha256": "ceab07a34a919aaa7da1e4067ce6ffcb7b548b266e6641301d0c7e3457002efe"
+        }
+      ],
+      "notes": "Psaltaren 107 jämförd mot EFS 1927 GT s. 822–824 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 769–769). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 108,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "48fb86a3b6a2c1b0931e04924be82408033b013413cf477f1fb1002658d5b676",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0824.1.tif",
+          "sha256": "ceab07a34a919aaa7da1e4067ce6ffcb7b548b266e6641301d0c7e3457002efe"
+        }
+      ],
+      "notes": "Psaltaren 108 jämförd mot EFS 1927 GT s. 824–824 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 769–769). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 109,
+      "status": "needs-review",
+      "verse_count": 31,
+      "text_sha256": "58c09b9de66b99e0419ab4d11ab555140c3ecd7a9d848916b2233195f14d55a4",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0824.1.tif",
+          "sha256": "ceab07a34a919aaa7da1e4067ce6ffcb7b548b266e6641301d0c7e3457002efe"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0825.1.tif",
+          "sha256": "2474d241531545689350cca57f7c66f689bf281f6849d59af76da4f15c7a67a8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0826.1.tif",
+          "sha256": "7611930fc66e922b12dae11a2cc45a7d16c201ea3b53cd4b0f57d381790efbf0"
+        }
+      ],
+      "notes": "Psaltaren 109 jämförd mot EFS 1927 GT s. 824–826 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 769–769). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 110,
+      "status": "needs-review",
+      "verse_count": 7,
+      "text_sha256": "77e626939ce4c84d3272ae3f318d8d2b0f13b195529cdda1a34fac8bc4989a4a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0826.1.tif",
+          "sha256": "7611930fc66e922b12dae11a2cc45a7d16c201ea3b53cd4b0f57d381790efbf0"
+        }
+      ],
+      "notes": "Psaltaren 110 jämförd mot EFS 1927 GT s. 826–826 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 769–770). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 111,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "ceca54dd362ced30bad838eaefa75c021927b248b81b9945f16894128cc8ea1c",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0826.1.tif",
+          "sha256": "7611930fc66e922b12dae11a2cc45a7d16c201ea3b53cd4b0f57d381790efbf0"
+        }
+      ],
+      "notes": "Psaltaren 111 jämförd mot EFS 1927 GT s. 826–826 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 770–770). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 112,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "3628af468a282192fea4d22502d01915cd7e5d3222d9bed8bcd835ab2121cc79",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0827.1.tif",
+          "sha256": "b8923faedeac8f31cd065ed3ffc14c70a0e3713e90fd8aa54aebe14e2beaa843"
+        }
+      ],
+      "notes": "Psaltaren 112 jämförd mot EFS 1927 GT s. 827–827 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 770–770). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 113,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "7a72a97bc2e9b4f247b2690f184280d272476fe38a1838300cfbd09068a38f50",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0827.1.tif",
+          "sha256": "b8923faedeac8f31cd065ed3ffc14c70a0e3713e90fd8aa54aebe14e2beaa843"
+        }
+      ],
+      "notes": "Psaltaren 113 jämförd mot EFS 1927 GT s. 827–827 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 771–771). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 114,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "50e2dd1287eac969e61981f41eca41b6c1e0897e658350e0909aa890ebad03ab",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0827.1.tif",
+          "sha256": "b8923faedeac8f31cd065ed3ffc14c70a0e3713e90fd8aa54aebe14e2beaa843"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0828.1.tif",
+          "sha256": "0e41c95df2b48d80ab6d1de7f55d250e3ef33b18e64c30273bfa7e04b1a73fdd"
+        }
+      ],
+      "notes": "Psaltaren 114 jämförd mot EFS 1927 GT s. 827–828 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 771–771). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 115,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "51eedfd33930b1da8aa2d7156f53099421f1cfb7f309bffa9efdede6dc5b7fbe",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0828.1.tif",
+          "sha256": "0e41c95df2b48d80ab6d1de7f55d250e3ef33b18e64c30273bfa7e04b1a73fdd"
+        }
+      ],
+      "notes": "Psaltaren 115 jämförd mot EFS 1927 GT s. 828–828 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 771–772). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 116,
+      "status": "needs-review",
+      "verse_count": 19,
+      "text_sha256": "b7c444dd164aea30eac53357328b16d977f5f2a01075d75998608bf5c58f9d01",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0829.1.tif",
+          "sha256": "644decd9057276219ea0c58642f60604c0a9156c4e81f7cf175469e8faac382d"
+        }
+      ],
+      "notes": "Psaltaren 116 jämförd mot EFS 1927 GT s. 829–829 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 772–772). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 117,
+      "status": "needs-review",
+      "verse_count": 2,
+      "text_sha256": "6cf73432ea93235e3d8b52037411e8577339baf881a9fa3e4406b78e8f85e494",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0829.1.tif",
+          "sha256": "644decd9057276219ea0c58642f60604c0a9156c4e81f7cf175469e8faac382d"
+        }
+      ],
+      "notes": "Psaltaren 117 jämförd mot EFS 1927 GT s. 829–829 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 772–773). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 118,
+      "status": "needs-review",
+      "verse_count": 29,
+      "text_sha256": "45f0759a42c0bc7876b7ff84cdf42157bcf8ab434163d6e6ef9509571b979755",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0829.1.tif",
+          "sha256": "644decd9057276219ea0c58642f60604c0a9156c4e81f7cf175469e8faac382d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0830.1.tif",
+          "sha256": "f26edf662978386049fafd56e7a433e2997bc9721cf1ab1ebde089b0262291d5"
+        }
+      ],
+      "notes": "Psaltaren 118 jämförd mot EFS 1927 GT s. 829–830 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 773–774). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 6 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 119,
+      "status": "needs-review",
+      "verse_count": 176,
+      "text_sha256": "3733ebd6ecbf1f3d068d0af7e5d17769e6b74a632ff48e2785c25f9304559f91",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0830.1.tif",
+          "sha256": "f26edf662978386049fafd56e7a433e2997bc9721cf1ab1ebde089b0262291d5"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0831.1.tif",
+          "sha256": "2821e23226afda9bbd8c9b3848724860c2b8871bc4a92f43702295e985814d9c"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0832.1.tif",
+          "sha256": "ff32415025e3bca0b5c6c2c41f4af3b8c79caed9add027d1bec3428e6895951a"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0833.1.tif",
+          "sha256": "9ed8ad927939e4fde28ac057e584685a06573c67437f06e7201dd79ec48c0cd2"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0834.1.tif",
+          "sha256": "0550bc6b530d5594567b1f12c44a344cc1e43cf4f16f992067ed07c8ce6a24d8"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0835.1.tif",
+          "sha256": "2a86df91c95e6dae8952bc5ba5970c519884cc72b5ba21bbf2fccd08970ad40e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0836.1.tif",
+          "sha256": "92b8527a0c059a06e271f93f67ada14353ee3ef3af034ed72c719f4d815ab05b"
+        }
+      ],
+      "notes": "Psaltaren 119 jämförd mot EFS 1927 GT s. 830–836 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 774–780). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 11 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. 119:148–176 (1927 s. 836) jämfördes för hand mot båda bilderna. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 120,
+      "status": "needs-review",
+      "verse_count": 7,
+      "text_sha256": "4b43bd6cf4471d22f9530f945cdff423cba65faac10786bcf406c2b846fa90ed",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0837.1.tif",
+          "sha256": "1cacb9e4f7cdb2c25db65cddb8d46fe3c635a2b2a5b6a6b677f0ff4621a2f6d4"
+        }
+      ],
+      "notes": "Psaltaren 120 jämförd mot EFS 1927 GT s. 837–837 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 780–780). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 121,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "278638c408ae29bb138a2035981ecf1586bee398254eba1a8fa6e800213aabaf",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0837.1.tif",
+          "sha256": "1cacb9e4f7cdb2c25db65cddb8d46fe3c635a2b2a5b6a6b677f0ff4621a2f6d4"
+        }
+      ],
+      "notes": "Psaltaren 121 jämförd mot EFS 1927 GT s. 837–837 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 780–780). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 122,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "bb2d04a1f5cbcd4f94bf8c23403ecca19fc560bca1cacd6cf616f7e623b675be",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0837.1.tif",
+          "sha256": "1cacb9e4f7cdb2c25db65cddb8d46fe3c635a2b2a5b6a6b677f0ff4621a2f6d4"
+        }
+      ],
+      "notes": "Psaltaren 122 jämförd mot EFS 1927 GT s. 837–837 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 780–781). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 123,
+      "status": "needs-review",
+      "verse_count": 4,
+      "text_sha256": "545edcd00eb027e4d52228322a23ed4a3275115bdb06de6251638268e53fd729",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0837.1.tif",
+          "sha256": "1cacb9e4f7cdb2c25db65cddb8d46fe3c635a2b2a5b6a6b677f0ff4621a2f6d4"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0838.1.tif",
+          "sha256": "896fc8ffafa0cd8d5ef99278f5b67233880896bf28eb0f3695edcff0ff54f95f"
+        }
+      ],
+      "notes": "Psaltaren 123 jämförd mot EFS 1927 GT s. 837–838 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 781–781). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 124,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "64d2174c370d804d69ab04e0aa0ee8358e0eec8aa8f9b4a5f513d575cbf8c132",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0838.1.tif",
+          "sha256": "896fc8ffafa0cd8d5ef99278f5b67233880896bf28eb0f3695edcff0ff54f95f"
+        }
+      ],
+      "notes": "Psaltaren 124 jämförd mot EFS 1927 GT s. 838–838 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 781–781). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 125,
+      "status": "needs-review",
+      "verse_count": 5,
+      "text_sha256": "850785b51c79d102121cab2cf8169b825cd9e3e77198c0454960f5365500da7f",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0838.1.tif",
+          "sha256": "896fc8ffafa0cd8d5ef99278f5b67233880896bf28eb0f3695edcff0ff54f95f"
+        }
+      ],
+      "notes": "Psaltaren 125 jämförd mot EFS 1927 GT s. 838–838 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 781–782). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 126,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "006bfbb39d31291ebdd3e99ddafb83dbff9c40eae6acf1eb2955210d28a00753",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0838.1.tif",
+          "sha256": "896fc8ffafa0cd8d5ef99278f5b67233880896bf28eb0f3695edcff0ff54f95f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0839.1.tif",
+          "sha256": "b2619dd4d80bc8f695fae44804a73aa57eb94ccd7b12880c29604660c0955b80"
+        }
+      ],
+      "notes": "Psaltaren 126 jämförd mot EFS 1927 GT s. 838–839 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 782–782). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 127,
+      "status": "needs-review",
+      "verse_count": 5,
+      "text_sha256": "1af8ca6f45a62c589451e116e9a0b654ffbbac36811055ced230512f45067128",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0839.1.tif",
+          "sha256": "b2619dd4d80bc8f695fae44804a73aa57eb94ccd7b12880c29604660c0955b80"
+        }
+      ],
+      "notes": "Psaltaren 127 jämförd mot EFS 1927 GT s. 839–839 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 782–782). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 128,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "c655202f0c430a87fe0515b48b25a10bcb24950b86b349fc152f6d68d05187ea",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0839.1.tif",
+          "sha256": "b2619dd4d80bc8f695fae44804a73aa57eb94ccd7b12880c29604660c0955b80"
+        }
+      ],
+      "notes": "Psaltaren 128 jämförd mot EFS 1927 GT s. 839–839 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 782–782). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 129,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "a4db5b4ab742d1ab5c4a8e4a07040cfff6689a981d6062247ffda7ea2ebe947e",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0839.1.tif",
+          "sha256": "b2619dd4d80bc8f695fae44804a73aa57eb94ccd7b12880c29604660c0955b80"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0840.1.tif",
+          "sha256": "9e15f57bf9dfd7e3d39ce4d0cb6949ce1d0a2d0c9fba252ac107e63cd7cf547d"
+        }
+      ],
+      "notes": "Psaltaren 129 jämförd mot EFS 1927 GT s. 839–840 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 783–783). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 130,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "bc0a4aee1f254b3fa58187228634ad07aaa72b4946b82873c3c136b5f37dc602",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0840.1.tif",
+          "sha256": "9e15f57bf9dfd7e3d39ce4d0cb6949ce1d0a2d0c9fba252ac107e63cd7cf547d"
+        }
+      ],
+      "notes": "Psaltaren 130 jämförd mot EFS 1927 GT s. 840–840 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 783–783). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 131,
+      "status": "needs-review",
+      "verse_count": 3,
+      "text_sha256": "9a095a71df71441e43d884ba733fe81625ea0799eb20d928de9aefff8334d9ef",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0840.1.tif",
+          "sha256": "9e15f57bf9dfd7e3d39ce4d0cb6949ce1d0a2d0c9fba252ac107e63cd7cf547d"
+        }
+      ],
+      "notes": "Psaltaren 131 jämförd mot EFS 1927 GT s. 840–840 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 783–783). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 132,
+      "status": "needs-review",
+      "verse_count": 18,
+      "text_sha256": "fea2a661983ef3aad1fa11399f2ba8b56bd9db851511e17fc6cccb9a29cc5dd6",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0840.1.tif",
+          "sha256": "9e15f57bf9dfd7e3d39ce4d0cb6949ce1d0a2d0c9fba252ac107e63cd7cf547d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0841.1.tif",
+          "sha256": "711cf29503d51e984dbb661bc4ccd3bab8748f932b2ada1647c9fe8753a426c7"
+        }
+      ],
+      "notes": "Psaltaren 132 jämförd mot EFS 1927 GT s. 840–841 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 783–784). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 133,
+      "status": "needs-review",
+      "verse_count": 3,
+      "text_sha256": "de88ab10f3d24ed08cccbe52671df6636dd5ddcb2416410d010681ef07c5c8c9",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0841.1.tif",
+          "sha256": "711cf29503d51e984dbb661bc4ccd3bab8748f932b2ada1647c9fe8753a426c7"
+        }
+      ],
+      "notes": "Psaltaren 133 jämförd mot EFS 1927 GT s. 841–841 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 784–784). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 134,
+      "status": "needs-review",
+      "verse_count": 3,
+      "text_sha256": "1e12a12fca967ab8098a361cbdf553c41228b28291a364d59867c5b581954a70",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0841.1.tif",
+          "sha256": "711cf29503d51e984dbb661bc4ccd3bab8748f932b2ada1647c9fe8753a426c7"
+        }
+      ],
+      "notes": "Psaltaren 134 jämförd mot EFS 1927 GT s. 841–841 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 784–785). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 135,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "7cfcb890d099798782cb11f8f9d9723a2d816d837d70c6678034d5ce8afe603b",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0841.1.tif",
+          "sha256": "711cf29503d51e984dbb661bc4ccd3bab8748f932b2ada1647c9fe8753a426c7"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0842.1.tif",
+          "sha256": "efae14fe4c287a9081fd85b5984a9f6ac5cc7cd549c58d4ea492f352f8ce8e67"
+        }
+      ],
+      "notes": "Psaltaren 135 jämförd mot EFS 1927 GT s. 841–842 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 785–785). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 136,
+      "status": "needs-review",
+      "verse_count": 26,
+      "text_sha256": "6f45010c3cde687988e7ae3e62a35564df790ebb35bdce8b01f5ad8423ce6734",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0842.1.tif",
+          "sha256": "efae14fe4c287a9081fd85b5984a9f6ac5cc7cd549c58d4ea492f352f8ce8e67"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0843.1.tif",
+          "sha256": "8bf9a8d72b27638ae528ea726d492f229e2eabe34a870f072eac28edcf258e4e"
+        }
+      ],
+      "notes": "Psaltaren 136 jämförd mot EFS 1927 GT s. 842–843 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 785–786). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 137,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "6b690d5485be1fe7e0c10196a7ef7e84331373191e801e915d69ec7073c5ce17",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0843.1.tif",
+          "sha256": "8bf9a8d72b27638ae528ea726d492f229e2eabe34a870f072eac28edcf258e4e"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0844.1.tif",
+          "sha256": "4099ce7b9f8005674c7275d12babcf02b2a86bf734af982df6400fcb701a6acc"
+        }
+      ],
+      "notes": "Psaltaren 137 jämförd mot EFS 1927 GT s. 843–844 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 786–787). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 138,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "a4cd2aaffb34c37e8e337fafe849860fdac7a604e3da99068a5ebf5b398e4937",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0844.1.tif",
+          "sha256": "4099ce7b9f8005674c7275d12babcf02b2a86bf734af982df6400fcb701a6acc"
+        }
+      ],
+      "notes": "Psaltaren 138 jämförd mot EFS 1927 GT s. 844–844 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 787–787). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 0 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 139,
+      "status": "needs-review",
+      "verse_count": 24,
+      "text_sha256": "124316c08de4273776b4717bb250f2772f80778241f87c9883e195fafb3febc1",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0844.1.tif",
+          "sha256": "4099ce7b9f8005674c7275d12babcf02b2a86bf734af982df6400fcb701a6acc"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0845.1.tif",
+          "sha256": "295377509b13478729fe11b32e7137bdbd24007b622eea40e8abd040e0ecb183"
+        }
+      ],
+      "notes": "Psaltaren 139 jämförd mot EFS 1927 GT s. 844–845 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 787–788). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 140,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "d12cd9d140d50f3660df1473f294452187f679bb7048a71560e84c8682249382",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0845.1.tif",
+          "sha256": "295377509b13478729fe11b32e7137bdbd24007b622eea40e8abd040e0ecb183"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0846.1.tif",
+          "sha256": "35e74fb2adde4b5c1a1920bfe5c0805b7efa0ef68885aed65551900bf8a0dcb1"
+        }
+      ],
+      "notes": "Psaltaren 140 jämförd mot EFS 1927 GT s. 845–846 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 788–789). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 141,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "ba3c644e931c0131338633d9a593421b63b795626b4e4d8277bf3a96dbfbbbfa",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0846.1.tif",
+          "sha256": "35e74fb2adde4b5c1a1920bfe5c0805b7efa0ef68885aed65551900bf8a0dcb1"
+        }
+      ],
+      "notes": "Psaltaren 141 jämförd mot EFS 1927 GT s. 846–846 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 789–790). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 3 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 142,
+      "status": "needs-review",
+      "verse_count": 8,
+      "text_sha256": "5036510a39183e95a224ef02439c1b8798db9a7342ae2648b04e41fd687292da",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0847.1.tif",
+          "sha256": "6342a667cdce0f6a4b87a74ce212f40b77e9fddb207863b765121848c539c06d"
+        }
+      ],
+      "notes": "Psaltaren 142 jämförd mot EFS 1927 GT s. 847–847 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 790–790). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 143,
+      "status": "needs-review",
+      "verse_count": 12,
+      "text_sha256": "8f2062a8623934dab9471fdddaf753d3f7c3a588933298222f361bf74712488a",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0847.1.tif",
+          "sha256": "6342a667cdce0f6a4b87a74ce212f40b77e9fddb207863b765121848c539c06d"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0848.1.tif",
+          "sha256": "52da256693dba242ccf241d31d0457f1cfe726c7ef662d30dd5ab2439675a769"
+        }
+      ],
+      "notes": "Psaltaren 143 jämförd mot EFS 1927 GT s. 847–848 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 790–791). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 144,
+      "status": "needs-review",
+      "verse_count": 15,
+      "text_sha256": "46271f249866ddf4e82ae5f6019e78d75eda3f7a49c0fe2d264f889642145bf7",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0848.1.tif",
+          "sha256": "52da256693dba242ccf241d31d0457f1cfe726c7ef662d30dd5ab2439675a769"
+        }
+      ],
+      "notes": "Psaltaren 144 jämförd mot EFS 1927 GT s. 848–848 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 791–791). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 145,
+      "status": "needs-review",
+      "verse_count": 21,
+      "text_sha256": "3bd99970460ecae16a2ee5865bc88361cb45db5201ddc2ff511c1a79dba1b335",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0848.1.tif",
+          "sha256": "52da256693dba242ccf241d31d0457f1cfe726c7ef662d30dd5ab2439675a769"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0849.1.tif",
+          "sha256": "bcbadfc2b685c977981625f1f1b6ac136dc067c7cf26210906b609e731915f70"
+        }
+      ],
+      "notes": "Psaltaren 145 jämförd mot EFS 1927 GT s. 848–849 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 792–793). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. 145:14, 18, 20: radslutet är avskuret i 1926-bilden, så kommat efter dem kan inte avgöras. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 146,
+      "status": "needs-review",
+      "verse_count": 10,
+      "text_sha256": "7f2c789004f9168aaca7ff053c2014ae687f31661bec8cb08077e79b892e80f8",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0849.1.tif",
+          "sha256": "bcbadfc2b685c977981625f1f1b6ac136dc067c7cf26210906b609e731915f70"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0850.1.tif",
+          "sha256": "c59215c8ec1467ca4543eb9f5745ba494bd4a44311251fc251eea0651a10869c"
+        }
+      ],
+      "notes": "Psaltaren 146 jämförd mot EFS 1927 GT s. 849–850 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 793–793). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 147,
+      "status": "needs-review",
+      "verse_count": 20,
+      "text_sha256": "1e91296002509a14a2d4474187a8afd91ec5a0537c3f708db1a027358f9797c3",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0850.1.tif",
+          "sha256": "c59215c8ec1467ca4543eb9f5745ba494bd4a44311251fc251eea0651a10869c"
+        }
+      ],
+      "notes": "Psaltaren 147 jämförd mot EFS 1927 GT s. 850–850 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 793–794). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 148,
+      "status": "needs-review",
+      "verse_count": 14,
+      "text_sha256": "419364e0431964be2f4c71b682e230a2ba4c9eab7fd5bfff2990030283673503",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0851.1.tif",
+          "sha256": "0b798545a53f727270700a48f4f8ed5e116e51488b79cc8b9f4187d3bd9c5d8f"
+        }
+      ],
+      "notes": "Psaltaren 148 jämförd mot EFS 1927 GT s. 851–851 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 794–795). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 149,
+      "status": "needs-review",
+      "verse_count": 9,
+      "text_sha256": "eda87197f7814b710a1dc6a79708c24660ee01fc1b9270a1a96f719b91096ead",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0851.1.tif",
+          "sha256": "0b798545a53f727270700a48f4f8ed5e116e51488b79cc8b9f4187d3bd9c5d8f"
+        }
+      ],
+      "notes": "Psaltaren 149 jämförd mot EFS 1927 GT s. 851–851 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 795–795). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+    },
+    {
+      "book": "Ps",
+      "chapter": 150,
+      "status": "needs-review",
+      "verse_count": 6,
+      "text_sha256": "5990f24e2dfe51654ef9b6ba61c53b5199a22a7fd555cbe96c6046e07b18d4da",
+      "checked_at": "2026-11-01",
+      "reviewer": "Claude, OCR comparison of both prints plus page-image reading of every flagged place in both prints; unflagged text not compared word by word; not human-checked",
+      "scans": [
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0851.1.tif",
+          "sha256": "0b798545a53f727270700a48f4f8ed5e116e51488b79cc8b9f4187d3bd9c5d8f"
+        },
+        {
+          "url": "https://runeberg.org/img/bibeln/efs1927/gt/0852.1.tif",
+          "sha256": "85ace5753ecadf9d95cce19880db30790b6a80e21321e3bef533e60ca1e07b4c"
+        }
+      ],
+      "notes": "Psaltaren 150 jämförd mot EFS 1927 GT s. 851–852 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 796–796). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 1 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
     }
   ],
   "unnumbered": [
