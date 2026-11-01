@@ -11,10 +11,10 @@ Rättelserna Ps001–Ps306 i Perikops import av Psaltaren 1–150. En vers rätt
 **Iakttagelser.**
 - Runebergs markering av kapitäler (`HERRE`/`Herre`) i 1927-texten är ibland fel mot bilden (t.ex. 2:4, 22:31, 35:17, 37:13, 135:5). Kasus har därför avgjorts på bilderna. 136:3 är rättad till *herrarnas Herre* (vanlig stil i båda trycken).
 - Ps 49:21 (rad för *människa,*) står som 49:20 i `REPLACE`, eftersom rättelserna görs före delningen.
-- Ps 49: trycken har 21 verser, e-texten 20 (tryckets v. 19–20 var en vers, 49:19). Versen är nu delad vid *så skall dock* (`SPLIT` i `runeberg1917.py`), och följande vers flyttas till 49:21. Delningen stöds av EFS 1926, EFS 1927 och användarens foto av en senare liten upplaga (s. 650–651). Specialreglerna för Ps 49 i `align_rules.py` är borttagna; LXX-, KJV- och WEB-anpassningen är nu vers för vers.
+- Ps 49: trycken har 21 verser, e-texten 20 (tryckets v. 19–20 var en vers, 49:19). Versen är nu delad vid *så skall dock* (`SPLIT` i `runeberg1917.py`), och följande vers flyttas till 49:21. Delningen stöds av EFS 1926, EFS 1927 och exemplar B (s. 650–651). Specialreglerna för Ps 49 i `align_rules.py` är borttagna; LXX-, KJV- och WEB-anpassningen är nu vers för vers.
 - Ps 119:148–176 (1927 s. 836) föll utanför den automatiska jämförelsen och jämfördes för hand mot båda bilderna.
-- Ps 145:14, 18, 20: radslutet i 1926-bilden är avskuret vid bindningen. Användarens foto av en senare liten upplaga (s. 717–718) har *alla dem som* utan komma, som e-texten; kommat finns bara i 1927 och behålls som enskild variant.
-- Användarens lilla upplaga har genomgående färre kommatecken än 1926 och 1927 (t.ex. 144:15 *folk som*, 145:19 *gör vad … begära*), i e-textens stil. Den är inte ett av de två jämförda trycken och har inte ändrat några rättelser.
+- Ps 145:14, 18, 20: radslutet i 1926-bilden är avskuret vid bindningen. Användarens exemplar B (s. 717–718) har *alla dem som* utan komma, som e-texten; kommat finns bara i 1927 och behålls som enskild variant.
+- Exemplar B har genomgående färre kommatecken än 1926 och 1927 (t.ex. 144:15 *folk som*, 145:19 *gör vad … begära*), i e-textens stil. Exemplaren beskrivs i [tryckvittnenas översikt](sv1917-print-witnesses/README.md). Exemplar B är inte ett av de två jämförda trycken och har inte ändrat några rättelser.
 - Hebreiska musiktermer med accent (Gittít, Seminít, Mahalát) har accenten i trycken; OCR-läsningarna utan accent eller med å är inte rättelser.
 
 Ingen skanningsbild är incheckad. Kolumnen med 1927-sidan länkar till Runeberg.
@@ -451,7 +451,7 @@ Ställen där bara ett tryck avviker från e-texten, där trycken är oense elle
 - **Ps 142:** 142:4 1927 den, som ; 1926 den som; 142:5 1927 ingen, som ; 1926 ingen som
 - **Ps 143:** 143:3 1927 såsom längesedan (no de) ; 1926 såsom de = e-text; 143:7 1927 dem, som ; 1926 dem som; 143:10 1927 ande ; 1926 Ande = e-text; 143:12 1927 dem, som ; 1926 dem som
 - **Ps 144:** 144:8 1927 lögn, ; 1926 lögn; 144:13 1927 utmarker, ; 1926 utmarker; = e-text
-- **Ps 145:** 145:4 1927 verk. ; 1926 verk, = e-text; 145:14 1927 dem, som ; 1926 radslut avskuret; användarens foto av en senare liten upplaga: dem som = e-text; 145:18 1927 dem, som ; 1926 dem som; 145:18 1927 dem, som ; 1926 radslut avskuret; användarens foto av en senare liten upplaga: dem som = e-text; 145:20 1927 dem, som ; 1926 radslut avskuret; användarens foto av en senare liten upplaga: dem som = e-text
+- **Ps 145:** 145:4 1927 verk. ; 1926 verk, = e-text; 145:14 1927 dem, som ; 1926 radslut avskuret; exemplar B: dem som = e-text; 145:18 1927 dem, som ; 1926 dem som; 145:18 1927 dem, som ; 1926 radslut avskuret; exemplar B: dem som = e-text; 145:20 1927 dem, som ; 1926 radslut avskuret; exemplar B: dem som = e-text
 - **Ps 146:** 146:5 1927 den, vilkens ; 1926 den vilkens; 146:6 1927 honom, som ; 1926 honom som; 146:6 1927 honom, ; 1926 honom
 - **Ps 147:** 147:2 1927 den, som ; 1926 den som; 147:3 1927 dem, som ; 1926 dem som; 147:11 1927 dem, ; 1926 dem; 147:20 1927 rätter dem ; 1926 rätter, = e-text
 - **Ps 150:** 150:6 1927 ande, plain Herren ; 1926 anda, HERREN = e-text

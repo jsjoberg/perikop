@@ -4303,7 +4303,7 @@
           "sha256": "7f344cbdfd63b8ae4d04b6d58f5bee422f0d280880f231706e4ef0980655728f"
         }
       ],
-      "notes": "Psaltaren 49 jämförd mot EFS 1927 GT s. 772–773 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 717–718). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. E-textens 49:19 är delad vid så skall dock enligt båda trycken och användarens foto av en senare liten upplaga; kapitlet har nu 21 verser som trycken. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+      "notes": "Psaltaren 49 jämförd mot EFS 1927 GT s. 772–773 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 717–718). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 5 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. E-textens 49:19 är delad vid så skall dock enligt båda trycken och exemplar B; kapitlet har nu 21 verser som trycken. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
     },
     {
       "book": "Ps",
@@ -6107,7 +6107,7 @@
           "sha256": "bcbadfc2b685c977981625f1f1b6ac136dc067c7cf26210906b609e731915f70"
         }
       ],
-      "notes": "Psaltaren 145 jämförd mot EFS 1927 GT s. 848–849 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 792–793). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. 145:14, 18, 20: radslutet är avskuret i 1926-bilden; användarens foto av en senare liten upplaga har dem som utan komma, så kommat i 1927 behålls som enskild variant. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
+      "notes": "Psaltaren 145 jämförd mot EFS 1927 GT s. 848–849 och EFS 1926 (Internet Archive bibelnellerdenhe0000unse, ungefär tryckta s. 792–793). Varje flaggat ställe avgjort på sidbilderna i båda trycken. 2 versposter rättade, endast där båda trycken är överens mot e-texten; se docs/reports/sv1917-errata-psalms.md, som också listar behållna skillnader som bara ett tryck har. Oflaggad text är inte jämförd ord för ord mot bilderna, så kapitlet är needs-review. 145:14, 18, 20: radslutet är avskuret i 1926-bilden; exemplar B har dem som utan komma, så kommat i 1927 behålls som enskild variant. Bilderna är inte incheckade; 1927-skanningens adress och hash anges här."
     },
     {
       "book": "Ps",
