@@ -18,7 +18,7 @@ public:
     bool Show(bool show = true) override;
     void open(const Reading&, bool preserve_sources = false);
     void open_section(std::size_t index);
-    void apply(const Settings&);
+    void apply(const Settings&, bool content_changed = false);
     void center_passage();
     const Reading& reading() const {
         return reading_;
@@ -42,6 +42,10 @@ public:
     void advance_scroll();
     double scroll_position() const {
         return offset_;
+    }
+    // Layout, restored positions and playback following do not count as manual reading.
+    std::size_t manual_scroll_revision() const {
+        return manual_scroll_revision_;
     }
     void restore_scroll(double position) {
         wheel_timer_.Stop();
@@ -254,6 +258,7 @@ private:
     std::vector<int> heights_;
     std::vector<double> positions_;
     double offset_ = 0, target_ = 0;
+    std::size_t manual_scroll_revision_ = 0;
     int layout_width_ = 0;
     wxTimer wheel_timer_;
     wxTimer layout_timer_;
@@ -268,6 +273,8 @@ private:
     std::vector<std::string> shown_sources(std::size_t row) const;
     wxString source_label(const std::string&, std::size_t heading) const;
     std::string language_of(const std::string&) const;
+    int source_selector_top() const;
+    mutable int source_selector_top_ = 0;
     wxRect source_selector_rect(std::size_t heading, std::size_t pane) const;
     void position_source_selectors();
     void source_menu(std::size_t heading, std::size_t pane, wxWindow* button);

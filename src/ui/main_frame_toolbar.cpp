@@ -111,16 +111,16 @@ void MainFrame::toggle_pane(const std::string& pane) {
     apply_settings();
 }
 ReaderControls MainFrame::controls() const {
-    auto result =
-        reader_controls({.screen = navigation_.current().screen,
-                         .playback = playback_.playback().state,
-                         .selection = navigation_.reader() && scripture_->primary_language() == "sv" &&
-                                      !scripture_->selections().empty(),
-                         .several_parts = parts_.size() > 1,
-                         .speakable = speakable_ && !scripture_->base_source().empty() &&
-                                      scripture_->primary_language() == "sv"});
+    auto result = reader_controls({.screen = navigation_.current().screen,
+                                   .playback = playback_.playback().state,
+                                   .selection = navigation_.reader() &&
+                                                speech_language_supported(scripture_->primary_language()) &&
+                                                !scripture_->selections().empty(),
+                                   .several_parts = parts_.size() > 1,
+                                   .speakable = speakable_ && !scripture_->base_source().empty() &&
+                                                speech_language_supported(scripture_->primary_language())});
     if (navigation_.reader() &&
-        (scripture_->base_source().empty() || scripture_->primary_language() != "sv")) {
+        (scripture_->base_source().empty() || !speech_language_supported(scripture_->primary_language()))) {
         result.listen = result.pause = false;
         result.playback_action = PlaybackAction::None;
     }

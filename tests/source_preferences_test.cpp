@@ -17,6 +17,15 @@ int main(int argc, char** argv) {
         if (argc != 3)
             throw std::runtime_error("Expected corpus and temporary profile paths");
         CorpusDb corpus(argv[1]);
+        check(corpus.source_books("en-web").size() == 27, "WEB covers the New Testament");
+        for (const auto& book : corpus.source_books("en-lxx2012"))
+            check(!corpus.new_testament_book(book), "LXX coverage excludes the New Testament");
+        const auto swedish = corpus.source_books("sv1917");
+        for (const auto* book : {"Gen", "John", "Tob"})
+            check(std::ranges::find(swedish, book) != swedish.end(),
+                  "Swedish coverage includes both testaments and apocrypha");
+        check(corpus.source_books("missing").empty() && corpus.source_books("sv-srb2026").empty(),
+              "Absent editions have no coverage");
         Settings settings;
         check(settings.primary_sources.front().source == "sv1917", "Swedish is the primary default");
         check(std::ranges::none_of(settings.primary_sources,

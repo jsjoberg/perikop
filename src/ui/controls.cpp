@@ -1,7 +1,21 @@
 #include "ui/controls.hpp"
+#include "core/model.hpp"
 #include "ui/toolbar.hpp"
+#include <algorithm>
 
 namespace ortho::ui {
+wxString speech_language_name(const std::string& language) {
+    const auto found = std::ranges::find(speech_languages, language, &SpeechLanguage::code);
+    return utf8(found == std::end(speech_languages) ? language : found->name);
+}
+wxString rate_label(int rate) {
+    wxString text = wxString::Format("%d,%02d", rate / 100, rate % 100);
+    while (text.EndsWith("0"))
+        text.RemoveLast();
+    if (text.EndsWith(","))
+        text.RemoveLast();
+    return text + utf8("×");
+}
 wxString utf8(const std::string& text) {
     return wxString::FromUTF8(text);
 }

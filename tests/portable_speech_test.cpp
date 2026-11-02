@@ -21,6 +21,7 @@ std::shared_ptr<ortho::PcmStream> stream;
 ortho::PcmProgress delivered;
 size_t appended = 0;
 double synthesized_speed = 0;
+std::vector<std::pair<std::string, std::string>> synthesized_voices;
 bool paused = false, released = false, completed = false;
 bool hold_device = false, device_entered = false;
 std::string status;
@@ -127,11 +128,13 @@ int main(int argc, char** argv) {
             {"Ny läsning.", {10, 11, 12}},
             {"Start.", std::vector<float>(24000, 1.0f)},
             {"En längre fortsättning.", std::vector<float>(size_t{24000} * 30, 2.0f)}};
-        const auto synthesis = [&audio](const std::string& text, const std::string&, double speed,
+        const auto synthesis = [&audio](const std::string& text, const std::string& language,
+                                        const std::string& voice, double speed,
                                         const std::function<bool()>&) {
             {
                 std::lock_guard lock(audio_mutex);
                 synthesized_speed = speed;
+                synthesized_voices.emplace_back(language, voice);
             }
             const auto found = audio.find(text);
             if (found == audio.end())
@@ -194,6 +197,39 @@ int main(int argc, char** argv) {
             },
             "Resume must wake speech synthesis");
         engine->stop();
+
+        std::size_t previous_synthesis;
+        {
+            std::lock_guard lock(audio_mutex);
+            previous_synthesis = synthesized_voices.size();
+        }
+        engine->set_voice("espeak:en+f2", "en");
+        engine->set_voice("espeak:el+m3", "el");
+        engine->speak_batch({{"", "Första.", "sv", first}, {"", "Andra.", "en"}, {"", "Tredje.", "el"}});
+        wait_for(
+            [previous_synthesis] {
+                return appended == 3 && synthesized_voices.size() >= previous_synthesis + 3;
+            },
+            "A mixed-language queue must synthesize every language");
+        {
+            std::lock_guard lock(audio_mutex);
+            const std::vector<std::pair<std::string, std::string>> last(synthesized_voices.end() - 3,
+                                                                        synthesized_voices.end());
+            check(
+                last == std::vector<std::pair<std::string, std::string>>{{"sv", "espeak"},
+                                                                         {"en", "espeak:en+f2"},
+                                                                         {"el", "espeak:el+m3"}},
+                "Each utterance selects its own language and saved voice without leaking the previous voice");
+        }
+        engine->stop();
+        bool unsupported = false;
+        try {
+            engine->speak({"", "Unsupported.", "xx"});
+        } catch (const std::runtime_error&) {
+            unsupported = true;
+        }
+        check(unsupported && engine->playback().state == SpeechState::Stopped,
+              "Unsupported languages are rejected before audio is queued");
 
         // The lookup worker must deliver results without holding up its caller.
         std::promise<bool> lookup_result;
@@ -337,6 +373,16 @@ int main(int argc, char** argv) {
                                           return std::abs(sample) > 0.01f;
                                       }),
                   "eSpeak audio is audible");
+            voice.reset();
+            voice = create_portable_speech(speech_data / "missing-Swedish-data", [](const SpeechUpdate&) {});
+            voice->speak_batch(
+                {{"", "In the beginning was the Word.", "en"}, {"", "Ἐν ἀρχῇ ἦν ὁ λόγος.", "el"}});
+            wait_for(
+                [] {
+                    return stream && appended == 2 && !stream->waiting();
+                },
+                "English and Greek use eSpeak's own data without the Swedish front end");
+            check(!drain(24000).empty(), "Multilingual audio is audible");
             voice.reset();
         }
         std::cout << "Portable speech streaming checks passed\n";

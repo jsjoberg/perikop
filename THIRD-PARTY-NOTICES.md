@@ -197,6 +197,8 @@ Swedish read-aloud pronunciations in `resources/speech` come from `Joakim/kokoro
 The licence and attribution are in `resources/speech/LICENSE-Kokoro-Swedish.txt`.
 https://huggingface.co/Joakim/kokoro-sv-g2p
 
+`resources/speech/nst-srb2026.tsv` adds unambiguous pronunciations for additional SRB26 vocabulary from the NST Pronunciation Lexicon for Swedish, Nasjonalbiblioteket Språkbanken, under CC0-1.0. The input URL and SHA-256 are pinned in `tools/lexicon/inputs.json`. These entries are converted from NST SAMPA to eSpeak NG codes; they contain no Bible verse text.
+
 The native Swedish front end in `src/speech/swedish_text.cpp` is derived from the kokoro-sv text code, commit `42d1a3a5c083f405a6eb8e14c2a405ccb36cc90f`, under Apache-2.0, and modified to produce eSpeak NG phoneme codes.
 https://github.com/joakimeriksson/kokoro-sv
 

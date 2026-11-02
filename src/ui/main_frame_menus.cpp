@@ -78,10 +78,6 @@ enum {
     CheckUpdates,
     AddBookmark
 };
-// Text sizes and speeds in percent, as Chrome steps its zoom.
-const int zooms[] = {75, 80, 90, 100, 110, 125, 150, 175, 200};
-// eSpeak speaks 80–450 words per minute, around its normal 150.
-const int rates[] = {60, 75, 100, 125, 150, 175, 200, 250, 300};
 // The next step up or down from a value, or the value itself at either end.
 int step(std::span<const int> steps, int value, int direction) {
     if (direction > 0) {
@@ -90,15 +86,6 @@ int step(std::span<const int> steps, int value, int direction) {
     }
     const auto below = std::ranges::lower_bound(steps, value);
     return below == steps.begin() ? value : *std::prev(below);
-}
-// Podcast style: 0,25×, 0,5× … 2×, with a Swedish decimal comma.
-wxString rate_label(int rate) {
-    wxString text = wxString::Format("%d,%02d", rate / 100, rate % 100);
-    while (text.EndsWith("0"))
-        text.RemoveLast();
-    if (text.EndsWith(","))
-        text.RemoveLast();
-    return text + ui::utf8("×");
 }
 // Chrome's ⋮ menu: rows of commands, and rows with − and + that keep the menu open.
 // Up and Down move between rows, Left and Right within one, Tab through every control.
@@ -517,10 +504,10 @@ void MainFrame::sync_menu() {
     const int pane = settings_.word_study ? Study : settings_.split_view ? Parallel : Right;
     if (!bar.IsChecked(pane))
         bar.Check(pane, true);
-    bar.Enable(Larger, step(zooms, settings_.text_zoom, 1) != settings_.text_zoom);
-    bar.Enable(Smaller, step(zooms, settings_.text_zoom, -1) != settings_.text_zoom);
-    bar.Enable(Faster, step(rates, settings_.speech_rate, 1) != settings_.speech_rate);
-    bar.Enable(Slower, step(rates, settings_.speech_rate, -1) != settings_.speech_rate);
+    bar.Enable(Larger, step(Settings::text_zoom_steps, settings_.text_zoom, 1) != settings_.text_zoom);
+    bar.Enable(Smaller, step(Settings::text_zoom_steps, settings_.text_zoom, -1) != settings_.text_zoom);
+    bar.Enable(Faster, step(Settings::speech_rate_steps, settings_.speech_rate, 1) != settings_.speech_rate);
+    bar.Enable(Slower, step(Settings::speech_rate_steps, settings_.speech_rate, -1) != settings_.speech_rate);
 }
 void MainFrame::make_menus() {
     auto* editing = new wxMenu;
@@ -679,21 +666,15 @@ void MainFrame::make_menus() {
             const int id = event.GetId();
             if (id == Larger || id == Smaller || id == Normal) {
                 settings_.text_zoom = id == Normal ? Settings{}.text_zoom
-                                                   : step(zooms, settings_.text_zoom, id == Larger ? 1 : -1);
+                                                   : step(Settings::text_zoom_steps, settings_.text_zoom,
+                                                          id == Larger ? 1 : -1);
                 apply_settings();
                 return;
             }
             if (id == Faster || id == Slower || id == NormalRate) {
-                settings_.speech_rate = id == NormalRate
-                                            ? Settings{}.speech_rate
-                                            : step(rates, settings_.speech_rate, id == Faster ? 1 : -1);
-                speech_->set_speed(settings_.speech_rate / 100.0);
-                apply_settings();
-                // Reading on restarts the current verse at the new speed, as Pause and Fortsätt do.
-                if (speech_->playback().state == SpeechState::Playing) {
-                    toggle_pause();
-                    toggle_pause();
-                }
+                set_speech_rate(id == NormalRate ? Settings{}.speech_rate
+                                                 : step(Settings::speech_rate_steps, settings_.speech_rate,
+                                                        id == Faster ? 1 : -1));
                 return;
             }
             if (id == Today) {
@@ -760,7 +741,7 @@ void MainFrame::show_menu() {
                 return wxString::Format("%d %%", settings_.text_zoom);
             },
             [this](int direction) {
-                return step(zooms, settings_.text_zoom, direction) != settings_.text_zoom;
+                return step(Settings::text_zoom_steps, settings_.text_zoom, direction) != settings_.text_zoom;
             },
             [command, &popup](int direction) {
                 command(direction > 0 ? Larger : Smaller)();
@@ -772,10 +753,11 @@ void MainFrame::show_menu() {
         popup.stepper(
             "Hastighet", ui::utf8("Långsammare"), "Snabbare",
             [this] {
-                return rate_label(settings_.speech_rate);
+                return ui::rate_label(settings_.speech_rate);
             },
             [this](int direction) {
-                return step(rates, settings_.speech_rate, direction) != settings_.speech_rate;
+                return step(Settings::speech_rate_steps, settings_.speech_rate, direction) !=
+                       settings_.speech_rate;
             },
             [command](int direction) {
                 command(direction > 0 ? Faster : Slower)();

@@ -1,17 +1,32 @@
 #!/usr/bin/env python3
-"""Give a nightly its version, and write status notes for its successful platforms."""
+"""Give a nightly its version, write status notes for its successful platforms, and list the downloads."""
 
 import argparse
 from pathlib import Path
 import re
 
+from update_packages import DOWNLOADS, INSTALLERS
+
 # Velopack channel platforms, in the order the notes list them.
 PLATFORMS = {
     "linux-x64-glibc239": "Linux x64",
-    "linux-arm64-glibc239": "Linux ARM64",
+    "linux-arm64-glibc239": "Linux ARM64 (Raspberry Pi 3, 4 and 5)",
     "osx-arm64": "macOS Apple Silicon",
     "win-x64": "Windows x64",
 }
+ARM64_REQUIREMENTS = (
+    "Raspberry Pi 3, 4 and 5 use the same ARM64 download with 64-bit Raspberry Pi OS "
+    "Trixie (Debian 13) and a desktop. It requires glibc 2.39 or later; 32-bit Raspberry Pi OS "
+    "and Bookworm are not compatible. For read-aloud, install eSpeak NG separately "
+    "(`sudo apt install libespeak-ng1`). Pi 3/4 compatibility is expected; physical-device "
+    "performance and audio have not yet been verified."
+)
+
+
+def downloads(platforms):
+    """One line per platform naming the file to download."""
+    return [f"- {name}: `{DOWNLOADS[platform][INSTALLERS[platform]]}`"
+            for platform, name in PLATFORMS.items() if platform in platforms]
 
 
 def version(base, released, day, run_number, run_attempt):
@@ -54,11 +69,13 @@ def prepare(updates, notes_path, repository, commit, run_id, tag, macos_sanitize
         notes += [f"Version `{build_version}`.", ""]
     if not complete:
         notes += ["**Incomplete nightly.** Only the available platform packages appear in this release.", ""]
-    notes += ["Available platforms:"] + ["- " + name for platform, name in PLATFORMS.items() if platform in available]
+    notes += ["Available platforms:"] + downloads(available)
     if any(platform.startswith("linux-") for platform in available):
         notes += ["", "Linux AppImages require glibc 2.39 or later. To move from an earlier Linux build, "
                   "download the new AppImage once on a supported system; the earlier update feeds do not receive it. "
                   "Your reading profile is kept."]
+    if "linux-arm64-glibc239" in available:
+        notes += ["", ARM64_REQUIREMENTS]
     if missing:
         notes += ["", "Unavailable platforms:"] + ["- " + name for name in missing]
     notes += ["", "Sanitizers:"]
@@ -75,6 +92,7 @@ def prepare(updates, notes_path, repository, commit, run_id, tag, macos_sanitize
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser("downloads")
     versioning = commands.add_parser("version")
     versioning.add_argument("--base", required=True)
     versioning.add_argument("--released", action="store_true")
@@ -93,7 +111,9 @@ if __name__ == "__main__":
     preparing.add_argument("--version", default=None)
     args = parser.parse_args()
     try:
-        if args.command == "version":
+        if args.command == "downloads":
+            print("\n".join(["", "Choose the file for your system:", *downloads(PLATFORMS), "", ARM64_REQUIREMENTS]))
+        elif args.command == "version":
             print(version(args.base, args.released, args.date, args.run_number, args.run_attempt))
         else:
             tag = prepare(args.updates, args.notes, args.repository, args.commit, args.run_id, args.tag,

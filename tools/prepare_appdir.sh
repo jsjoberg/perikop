@@ -1,8 +1,8 @@
 #!/bin/sh
 # Prepares a built Linux tree, by default build/cmake, as build/cmake/AppDir for x86_64 or aarch64;
-# tools/package_velopack.sh then packs it into the AppImage. The aarch64 image is the Raspberry Pi 5
-# package (64-bit Raspberry Pi OS). linuxdeploy and its GTK plugin copy GTK and the other shared
-# libraries into the AppDir.
+# tools/package_velopack.sh then packs it into the AppImage. The aarch64 image targets Raspberry Pi
+# 3, 4 and 5 (64-bit Raspberry Pi OS Trixie desktop). linuxdeploy and its GTK plugin copy GTK and
+# the other shared libraries into the AppDir.
 set -eu
 build=$(realpath "${1:-build/cmake}")
 source=$(realpath "$(dirname "$0")/..")

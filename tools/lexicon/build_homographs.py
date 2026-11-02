@@ -14,7 +14,7 @@ Reads the pronunciation data in resources/speech.
 import argparse, collections, hashlib, json, re, sqlite3, tarfile
 from pathlib import Path
 from fetch import fetch
-from phonemes import to_espeak
+from phonemes import to_espeak, to_ipa
 root=Path(__file__).resolve().parents[2]
 parser=argparse.ArgumentParser()
 parser.add_argument('--pack',type=Path,default=root/'resources/speech')
@@ -22,31 +22,6 @@ args=parser.parse_args()
 
 # NST SAMPA to the bundled NST-derived IPA. The mapping reproduces every
 # corpus word the pack's lexicon shares with NST.
-SYMBOLS=sorted({'x\\':'ɧ',"s'":'ɕ','s`':'ʂ','n`':'ɳ','l`':'ɭ','t`':'ʈ','d`':'ɖ','u0':'ɵ','}':'ʉ','2':'ø','9':'œ',
-                'E':'ɛ','O':'ɔ','U':'ʊ','I':'ɪ','Y':'ʏ','N':'ŋ','A':'ɑ','{':'æ','@':'ə',':':'ː','g':'ɡ',
-                **{c:c for c in 'abdefhijklmnoprstuvwyz'}}.items(),key=lambda kv:-len(kv[0]))
-VOWELS=set('ɵʉøœɛɔʊɪʏɑæəaeiouy')
-def to_ipa(sampa):
-    out=''
-    for raw in sampa.split('$'):
-        stress,phones,i='',[],0
-        while i<len(raw):
-            if raw[i] in '"%':
-                stress='ˈ' if raw[i]=='"' else 'ˌ'
-                i+=1
-                continue
-            for k,v in SYMBOLS:
-                if raw.startswith(k,i):
-                    phones.append(v);i+=len(k);break
-            else:return None
-        # The stress mark goes directly before the syllable's vowel; an unstressed short e is a schwa.
-        text=''
-        for j,p in enumerate(phones):
-            long=j+1<len(phones) and phones[j+1]=='ː'
-            if p in VOWELS and stress and not any(c in VOWELS for c in text):text+=stress
-            text+='ə' if p=='e' and not stress and not long else p
-        out+=text
-    return out
 
 POS={'NN':'substantiv','VB':'verb','JJ':'adjektiv','AB':'adverb','PN':'pronomen','PS':'pronomen','HP':'pronomen',
      'HD':'pronomen','HS':'pronomen','DT':'pronomen','HA':'adverb','PP':'preposition','KN':'konjunktion',

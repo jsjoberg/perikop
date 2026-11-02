@@ -9,7 +9,7 @@ struct ReaderContext {
     Screen screen;
     SpeechState playback;
     bool selection = false, several_parts = false;
-    // Whether the open reading has Swedish text to read aloud.
+    // Whether the open reading has text to read aloud in its displayed editions.
     bool speakable = true;
 };
 // One policy supplies the toolbar, menus, and command guards. It has no native UI dependencies.

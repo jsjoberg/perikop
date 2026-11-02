@@ -30,8 +30,12 @@ previous installation. The database is local user data and must not be packaged.
 ## What is extracted
 
 The body text includes the words printed in italics. Superscript note markers,
-footnotes, cross-references, page furniture, chapter summaries and book introductions
-are excluded. Italic styling itself is not retained. Psalm superscriptions that have
+footnotes, cross-references, page furniture and book introductions are excluded.
+The 1,184 printed chapter summaries and section headings are stored separately
+and displayed in centered italics before the verses they introduce. Psalm 119's
+22 Hebrew letter names introduce verses 1, 9, 17, …, 169. Headings are excluded
+from verse copying, word study and read-aloud. Italic styling within Scripture
+itself is not retained. Psalm superscriptions that have
 verse numbers are Scripture records and remain included. Footnotes can be added in
 a later feature; mixing them into Scripture or read-aloud would be incorrect.
 
@@ -42,6 +46,33 @@ verse coordinates. Its generic font maps include ligatures and Swedish character
 The generator uses glyph positions to recover missing spaces around note markers
 and joins words broken across typeset lines. An aggregate SHA-256 verifies the
 resulting normalized verse text before any database writes.
+
+The recipe includes drop capitals in both Sabon and Times New Roman. The 0.2.0
+recipe omitted the opening J in Colossians 2:1 and Jude 1:1. Importing the PDFs
+again with the corrected recipe restores those initials.
+
+The complete text audit compared all 31,171 verses with an independent Poppler
+extraction of both pinned PDFs. It also repairs four missing spaces, removes
+chapter/section headings from 45 verse records, and corrects punctuation,
+hyphenation and spacing defects in ten further records. All discrepancies were
+visually reviewed, including the encoded word-break anomaly in Revelation 16:21.
+Existing imports are read exactly as stored. To apply extraction fixes, import
+the same two PDFs again in Settings. There are no automatic text patches or data
+migrations. See the
+[complete audit](reports/srb2026-audit.md#complete-bible-text-comparison).
+
+Older databases continue to work without headings. To add the headings, import
+the two PDFs again in Settings; replacement is transactional and preserves the
+previous installation if it fails. No heading text is shipped with the application:
+the updated text-free recipe extracts it from the user's pinned PDFs and verifies
+its own aggregate checksum before installation.
+
+The import page says whether the installed text is up to date or a better import
+is available. A single probe checks the latest known defect: Leviticus 11:1
+must have its corrected verse text and a separate heading. No importer version,
+migration or full-content scan is needed. This is a representative check, not
+a complete integrity audit; update the probe when fixing an independent defect.
+The user can reimport the same PDFs when convenient.
 
 No general PDF renderer, PDF JavaScript interpreter, OCR engine, Python runtime or
 external PDF command is required in the installed app. Three small vendored helpers
@@ -73,8 +104,12 @@ queries prefer existing dictionary entries and use the supplement for missing fo
 Alternative biblical name spellings reuse existing curated pronunciations where
 available, with spoken spelling aliases otherwise. User pronunciation corrections
 retain their normal priority. Unlisted words use the selected voice's normal
-pronunciation system; this does not claim an individual listening review of every
-name or verse.
+pronunciation system. A supplemental CC0 NST lexicon supplies 4,144 previously
+uncovered forms, including `klentrogna`, after the existing speech data and
+corrections. Only exact lowercase dictionary forms with one supported pronunciation
+are added. Ambiguous and unsupported forms retain the normal fallback. This does
+not claim an individual listening review of every name or verse.
+See the [SRB26 import and pronunciation audit](reports/srb2026-audit.md).
 
 Local import avoids shipping the Bible text. It is not a legal determination about
 personal copying or all possible derived data; the publisher's terms still apply.
@@ -87,6 +122,7 @@ or tests. The offline generator requires `pypdf==6.10.0`; runtime import does no
 
 ```sh
 python tools/content/build_srb_recipe.py build/srb --diagnostics build/srb/extracted
+python tools/content/build_srb_pronunciations.py build/srb/extracted/verses.json --report build/srb/pronunciation-coverage.json
 python tools/content/build_swedish_supplement.py build/srb/extracted/verses.json
 cmake --build build/cmake --parallel 2
 ctest --test-dir build/cmake --output-on-failure
