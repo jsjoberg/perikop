@@ -121,18 +121,23 @@ def build(db, additional_words=None):
     # Name aliases such as pauli have an article although the 1917 text lacks them.
     for word in sorted(set(counts)|set(biblical_forms)):
         rows=[]
-        # A name: SALDO lists one, or the text never writes the word without a capital.
-        names=word not in uncapitalized or any(saldo[key].gram=='pm' for key in saldo_forms.get(word,()))
+        # SALDO's names for the form. An article describes a name it begins with: Jesus Kristus is Jesus,
+        # but the article Dans is about dancing, not Dan.
+        names={saldo[key].headword.lower() for key in saldo_forms.get(word,()) if saldo[key].gram=='pm'}
+        described=set()
         for article in biblical_forms.get(word,()):
             headword,gloss,url=biblical[article]
-            rows.append(('egennamn' if names else 'bibliskt uppslagsord',headword,gloss,url))
+            first=re.split(r'[ ,]',headword.lower())[0]
+            described.add(first)
+            # A name: SALDO lists it, or the text never writes the word without a capital.
+            rows.append(('egennamn' if word not in uncapitalized or first in names else 'bibliskt uppslagsord',headword,gloss,url))
         modern=sorted(saldo_forms.get(word,{}),key=lambda key:(saldo_forms.get(word,{})[key]!='exact',key))
         classes=[CLASSES.get(saldo[key].gram,saldo[key].gram) for key in modern]
         old=[word_class(l) for l in sorted(resolved.get(word,()))]
         for key,kind in zip(modern,classes):
             entry=saldo[key]
-            # The biblical article already describes the name.
-            if entry.gram=='pm' and biblical_forms.get(word,()):continue
+            # The biblical article already describes this name, or the word is only ever that name.
+            if entry.gram=='pm' and described and (word not in uncapitalized or entry.headword.lower() in described):continue
             # Dalin's definition only where one Dalin entry and one SALDO sense of a class are the same word.
             gloss=''
             if classes.count(kind)==1 and old.count(kind)==1:

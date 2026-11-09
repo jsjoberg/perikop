@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "bdbf3ef54ff666be336bfdfcae4de4938dc1e56291f46512a8eecac35954bf9d",
+      "sha256": "d38e031ce9881d78bb5f58b3dddd5e7d93691e53b43edf8adf5786ed994b011f",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -565,7 +565,7 @@
     },
     {
       "path": "resources/lexicon/sv1917-sense-pronunciations.tsv",
-      "sha256": "e3d2f155fad2a060e0128c5e278649a8e59bf767aa843b25fae124868c34fda8",
+      "sha256": "e5920209f2aee561845d63392507d52673e8c2ba81b839ffed85caa1cbe29d4e",
       "license": "MIT",
       "role": "Curated link between the senses of Swedish words and the pronunciations read-aloud gives them; not shipped"
     },
@@ -788,7 +788,7 @@
     },
     {
       "path": "resources/content/swedish-study.db",
-      "sha256": "649d832379b4267fd548ffc91594592259e892c5f30b1537924023167d735c4f",
+      "sha256": "bc37cb7ed99a61b49fe347910eaee025183c5222466b4da917ee497e0e42c056",
       "license": "CC-BY-4.0 AND Public-Domain",
       "generated": "tools/content/build_swedish_supplement.py"
     },
@@ -826,13 +826,13 @@
       "path": "resources/corpus/osb-reference.db",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "90ac9dbc8099843fe72d8b36a761a85f9e5f19ca2d0d99e8dd22a2de9b035c8e"
+      "sha256": "b9e381944bd89a8f52afc80e28150f567b3b2b02a4ec8923bcfc76e34a36d7a5"
     },
     {
       "path": "resources/corpus/osb-provenance.json",
       "license": "MIT",
       "role": "OSB coordinate metadata and source crosswalks; no Bible wording",
-      "sha256": "c3adcaf47313701327f0660eb03db27c52bf26964f6a57ae0205a5d224ddac64"
+      "sha256": "61b945cf258184b064681139edec667d1f64029d537a26e388f19c9b83997c04"
     },
     {
       "path": "resources/corpus/osb-reviewed.tsv",

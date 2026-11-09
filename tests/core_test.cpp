@@ -801,6 +801,11 @@ int main(int argc, char** argv) {
                       veil.front().phonemes == "f'Y:l.,o:tE-n" && !veil.front().usual &&
                       veil.back().kind == "verb" && veil.back().usual && veil[1].phonemes.empty(),
                   "the temple veil and forgiveness are said differently, and forgiveness is the usual sense");
+            const auto dans = corpus.senses("dans");
+            check(dans.size() > 2 && dans.front().headword == "Dans" && dans.front().kind == "bibliskt uppslagsord" &&
+                      dans.front().usual && std::ranges::count(dans, "d'A:ns", &ortho::WordSense::phonemes) == 1 &&
+                      std::ranges::find(dans, "d'A:ns", &ortho::WordSense::phonemes)->headword == "Dan",
+                  "the article on dancing is not the name Dan, which keeps its own sense and pronunciation");
             const ortho::PronunciationMatcher matcher("sv", corpus.pronunciations("sv"));
             check(matcher.phonemes_at("Då rämnade förlåten i templet.", "Förlåten", 0) == veil.front().phonemes &&
                       matcher.phonemes_at("Synden bliver honom förlåten.", "förlåten", 0).empty() &&

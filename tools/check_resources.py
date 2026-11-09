@@ -61,7 +61,7 @@ with sqlite3.connect('file:'+str(root/'resources/corpus/corpus.db')+'?mode=ro',u
     if db.execute('PRAGMA user_version').fetchone()[0]!=10:raise SystemExit('Unsupported corpus schema')
     if db.execute('SELECT count(DISTINCT form) FROM word').fetchone()[0]!=21398:
         raise SystemExit('Incomplete word-study data')
-    if db.execute("SELECT count(*) FROM word WHERE phonemes<>''").fetchone()[0]!=11:raise SystemExit('Incomplete sense pronunciations')
+    if db.execute("SELECT count(*) FROM word WHERE phonemes<>''").fetchone()[0]!=12:raise SystemExit('Incomplete sense pronunciations')
 for name in ['Literata-Regular.ttf','Literata-Italic.ttf']:
     fallback=cmap(root/'resources/fonts/NotoSerifHebrew-Regular.ttf')
     missing=required-(cmap(root/'resources/fonts'/name)|fallback)
