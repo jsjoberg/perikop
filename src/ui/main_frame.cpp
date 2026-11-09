@@ -162,9 +162,11 @@ MainFrame::MainFrame(CorpusDb& corpus, UserDb& user, CivilDate date, const std::
     scripture_->on_word([this](const std::optional<ScriptureView::Word>& word) {
         if (!settings_.word_study)
             return;
-        if (word)
-            study_->show(*word, scripture_->base_source(), scripture_->frame());
-        else
+        if (word) {
+            // Chapters of one passage can show different editions.
+            const auto source = scripture_->chapter_source(word->verse.chapter, 0);
+            study_->show(*word, source.empty() ? scripture_->base_source() : source, scripture_->frame());
+        } else
             study_->clear();
     });
     root_->SetSizer(outer);
