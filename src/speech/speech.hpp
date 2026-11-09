@@ -36,6 +36,9 @@ class PronunciationMatcher {
 public:
     PronunciationMatcher(std::string language, std::vector<Pronunciation> lexicon);
     SpeechUtterance utterance(const std::string& text) const;
+    // The phonemes a word or phrase entry gives the form's n-th occurrence in the text, from 0;
+    // empty where the voice's own lexicon decides.
+    std::string phonemes_at(const std::string& text, const std::string& form, int occurrence) const;
 
 private:
     struct Impl;

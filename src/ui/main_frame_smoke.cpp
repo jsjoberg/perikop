@@ -2269,7 +2269,7 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
             return button->IsEnabled();
         }) != 1)
         fail(__LINE__);
-    // Ordstudium replaces the right pane; a Swedish word shows Dalin and Nyström.
+    // Ordstudium replaces the right pane; a Swedish word shows its senses.
     settings_.word_study = true;
     set_parallel("");
     apply_settings(false);
@@ -2368,67 +2368,62 @@ bool MainFrame::smoke_test(const wxString& screenshot_path) {
                 return line.Contains(part);
             });
         };
-        if (!has("DALIN") || !has("SALDO") || !has("begynnelse") || has("STRONG"))
+        // One sense: base form, word class and Dalin's first sense, not the whole article.
+        if (!has("begynnelse   substantiv") || !has(wxString::FromUTF8("Det första")) || has("STRONG"))
             fail(__LINE__);
     }
-    study_->show({"John", "främst", {1, 17}, 0}, scripture_->base_source());
-    {
+    const auto study_link = [&](const wxString& url) {
+        for (auto* child : study_->GetChildren())
+            if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl); link && link->GetURL() == url)
+                return true;
+        return false;
+    };
+    const auto study_has = [&](const wxString& part) {
         const auto lines = study_->text();
-        const auto has = [&](const wxString& part) {
-            return std::any_of(lines.begin(), lines.end(), [&](const wxString& line) {
-                return line.Contains(part);
-            });
-        };
-        if (!has("SALDO") || !has("adjektiv") || !has("adverb"))
-            fail(__LINE__);
-        bool source = false, license = false;
-        for (auto* child : study_->GetChildren()) {
-            if (auto* link = wxDynamicCast(child, wxHyperlinkCtrl)) {
-                source |= link->GetURL() == "https://www.sprakbanken.se/resurser/saldo";
-                license |= link->GetURL() == "https://creativecommons.org/licenses/by/4.0/";
-            }
-        }
-        if (!source || !license)
-            fail(__LINE__);
-    }
+        return std::any_of(lines.begin(), lines.end(), [&](const wxString& line) {
+            return line.Contains(part);
+        });
+    };
+    study_->show({"John", "främst", {1, 17}, 0}, scripture_->base_source());
+    // Each word class is its own sense; the full entry is one link away, and the sources stay credited.
+    if (!study_has("adjektiv") || !study_has("adverb") ||
+        !study_link("https://svenska.se/?q=fr%c3%a4mst") ||
+        !study_link("https://www.sprakbanken.se/resurser/saldo") ||
+        !study_link("https://creativecommons.org/licenses/by/4.0/"))
+        fail(__LINE__);
     study_->show({"John", "orimligtpåhittat", {1, 17}, 0}, scripture_->base_source());
-    for (const auto& line : study_->text())
-        if (line.Contains("SALDO"))
-            fail(__LINE__);
+    if (!study_has("Ordet finns inte i ordlistan") ||
+        !study_link("https://svenska.se/?q=orimligtp%c3%a5hittat"))
+        fail(__LINE__);
     study_->show({"John", "Jesu", {1, 17}, 0}, scripture_->base_source());
     {
+        // A name lists each bearer with a short gloss; the article itself is at Projekt Runeberg.
         const auto lines = study_->text();
-        const auto has = [&](const wxString& part) {
-            return std::any_of(lines.begin(), lines.end(), [&](const wxString& line) {
-                return line.Contains(part);
-            });
-        };
-        if (!has(wxString::FromUTF8("NYSTRÖM 1896")) || !has("Jesus Kristus") || !has("Jesus Justus") ||
-            has(wxString::FromUTF8("Ordet finns inte")))
-            fail(__LINE__);
-        // Long articles begin with a bounded preview; the complete text stays in the database.
-        if (std::any_of(lines.begin(), lines.end(), [](const wxString& line) {
-                return line.length() > 520;
+        if (!study_has("Jesus Kristus   egennamn") || !study_has("Jesus Justus") ||
+            study_has("Ordet finns inte") ||
+            !study_link("https://runeberg.org/biblobok/ordbok_j.html#Jesus%20Justus") ||
+            std::any_of(lines.begin(), lines.end(), [](const wxString& line) {
+                return line.length() > 260;
             }))
             fail(__LINE__);
     }
-    bool expanded = false;
-    for (auto* child : study_->GetChildren()) {
-        auto* more = dynamic_cast<TextButton*>(child);
-        if (!more || more->GetLabel() != wxString::FromUTF8("Visa hela artikeln"))
-            continue;
-        wxCommandEvent click(wxEVT_BUTTON, more->GetId());
-        click.SetEventObject(more);
-        more->GetEventHandler()->ProcessEvent(click);
-        expanded = true;
-        break;
-    }
-    wxTheApp->ProcessPendingEvents();
+    // The sense read-aloud says in the verse comes first: the temple veil, not forgiveness.
+    study_->show({"Matt", "förlåten", {27, 51}, 0}, "sv1917", scripture_->frame());
     {
         const auto lines = study_->text();
-        if (!expanded || std::none_of(lines.begin(), lines.end(), [](const wxString& line) {
-                return line.length() > 520;
-            }))
+        const auto at = std::ranges::find_if(lines, [](const wxString& line) {
+            return line == wxString::FromUTF8("SÅ LÄSES ORDET HÄR");
+        });
+        if (at == lines.end() || at + 1 == lines.end() ||
+            *(at + 1) != wxString::FromUTF8("Förlåten   bibliskt uppslagsord") ||
+            !study_has("ANDRA BETYDELSER") || !study_has(wxString::FromUTF8("förlåta   verb")))
+            fail(__LINE__);
+    }
+    study_->show({"Matt", "förlåten", {6, 14}, 0}, "sv1917", scripture_->frame());
+    {
+        const auto lines = study_->text();
+        const auto at = std::ranges::find(lines, wxString::FromUTF8("SÅ LÄSES ORDET HÄR"));
+        if (at == lines.end() || at + 1 == lines.end() || *(at + 1) != wxString::FromUTF8("förlåta   verb"))
             fail(__LINE__);
     }
     study_->show({"John", "Kristi", {1, 17}, 0}, scripture_->base_source());

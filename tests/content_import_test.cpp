@@ -182,7 +182,7 @@ int main(int argc, char** argv) {
             check(corpus.verse(ortho::srb_source, "Micah", {1, 1}).has_value() &&
                       corpus.verse(ortho::srb_source, "Philemon", {1, 25}).has_value(),
                   "Canonical book codes changed");
-            check(!corpus.saldo("kungen").empty() && !corpus.saldo("ska").empty(),
+            check(!corpus.senses("kungen").empty() && !corpus.senses("ska").empty(),
                   "Modern word study is missing");
             ortho::Reading reading{ortho::ReadingKind::Gospel, {"John", {3, 16}, {3, 16}}};
             reading.source_override = ortho::srb_source;

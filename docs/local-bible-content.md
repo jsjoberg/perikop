@@ -98,7 +98,7 @@ ranges, including explicit missing counterparts, in the local installation.
 ## Dictionary and pronunciation data
 
 The small `swedish-study.db` supplement contains additional word-form lookups and
-entries from the same pinned Dalin, Nyström and SALDO inputs as the base dictionary.
+short senses from the same pinned Dalin, Nyström and SALDO inputs as the base dictionary.
 It contains no Bible verse text, footnotes or PDF-derived definitions. Runtime
 queries prefer existing dictionary entries and use the supplement for missing forms.
 Alternative biblical name spellings reuse existing curated pronunciations where

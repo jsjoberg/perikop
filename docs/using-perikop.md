@@ -111,7 +111,7 @@ Plans count parts, not days. A partly read section shows its percentage and reop
 
 ## Word study and pronunciation
 
-- **Visa → Ordstudium**: click a Swedish word to see its pronunciation and dictionary entries.
+- **Visa → Ordstudium**: click a Swedish word to see its pronunciation and its senses: base form, word class or name, and a short gloss. Links open the full entries at Svenska Akademiens ordböcker and Project Runeberg.
 
 **Om Perikop** lists every source with links. It is in the application menu on macOS and in **Hjälp** elsewhere.
 

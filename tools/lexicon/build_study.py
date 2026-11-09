@@ -2,8 +2,8 @@
 """Fill the corpus database's word-study tables for the Ordstudium panel from pinned inputs.
 
 tools/corpus/build_corpus.py calls build() on the database it is building.
-Swedish 1917 forms resolve to Dalin, Nyström, and SALDO entries
-at build time. The reader only looks forms up.
+Swedish 1917 forms resolve to Dalin, Nyström, and SALDO entries at build time,
+and each keeps only its kind, base form, a one-line gloss and a link. The reader only looks forms up.
 """
 import itertools, re
 import xml.etree.ElementTree as ET
@@ -12,9 +12,13 @@ from fetch import fetch
 from biblobok import articles, resolve_forms
 from modern import saldo_entries, morphology, resolve as resolve_modern, associations
 root=Path(__file__).resolve().parents[2]
+CLASSES={'nn':'substantiv','av':'adjektiv','vb':'verb','ab':'adverb','pm':'egennamn','pn':'pronomen','pp':'preposition',
+         'kn':'konjunktion','sn':'subjunktion','in':'interjektion','nl':'räkneord','al':'artikel','nna':'förkortning','pma':'förkortning','vba':'förkortning'}
 
 def build(db, additional_words=None):
-    """Resolve the Swedish 1917 words in db's verse table and write the word-study tables."""
+    """Resolve the Swedish 1917 words in db's verse table and write the word-study tables.
+
+    additional_words counts further words as written, so a capital still tells a name."""
     # --- Dalin entries and forms --------------------------------------------------
     entries={}  # lemgram -> (headword, gram, definition)
     for _,el in ET.iterparse(fetch('dalin')):
@@ -83,11 +87,14 @@ def build(db, additional_words=None):
         for ending in NOUN_ENDINGS:
             if word.endswith(ending) and len(word)-len(ending)>=3 and (lemgrams:=found(word[:-len(ending)])):return lemgrams
         return set()
-    counts={}
+    counts={};uncapitalized=set()
     for (text,) in db.execute("SELECT text FROM verse JOIN source ON source.id=source_id WHERE source.code='sv1917'"):
-        for word in re.findall(r"[^\W\d_]+",text):counts[word.lower()]=counts.get(word.lower(),0)+1
+        for word in re.findall(r"[^\W\d_]+",text):
+            counts[word.lower()]=counts.get(word.lower(),0)+1
+            if word[0].islower():uncapitalized.add(word)
     for word,count in (additional_words or {}).items():
-        counts[word]=counts.get(word,0)+count
+        counts[word.lower()]=counts.get(word.lower(),0)+count
+        if word[0].islower():uncapitalized.add(word)
     resolved={word:resolve(word) for word in counts}
     biblical_entries=articles()
     biblical_forms=resolve_forms(biblical_entries,counts,spellings)
@@ -98,20 +105,74 @@ def build(db, additional_words=None):
     saldo_used={key for matches in saldo_forms.values() for key in matches}
 
     # --- Write ---------------------------------------------------------------------
-    ids={lemgram:i for i,lemgram in enumerate(sorted({l for ls in resolved.values() for l in ls}),1)}
-    db.executemany('INSERT INTO dalin VALUES(?,?,?,?)',[(i,*entries[l]) for l,i in ids.items()])
-    db.executemany('INSERT INTO sv_word VALUES(?,?)',sorted((word,ids[l]) for word,ls in resolved.items() for l in ls))
-    db.executemany('INSERT INTO biblical VALUES(?,?,?,?)',sorted((key,headword,definition,url)
-        for key,headword,_,definition,url,_ in biblical_entries if key in biblical_used))
-    db.executemany('INSERT INTO sv_biblical VALUES(?,?,?)',sorted((word,article,rank) for word,matches in biblical_forms.items() for rank,article in enumerate(matches)))
-    db.executemany('INSERT INTO saldo VALUES(?,?,?,?)',[(key,saldo[key].headword,saldo[key].gram,associations(saldo[key],saldo)) for key in sorted(saldo_used)])
-    db.executemany('INSERT INTO sv_saldo VALUES(?,?,?)',sorted((word,key,match) for word,entries in saldo_forms.items() for key,match in entries.items()))
+    # One sense per meaning: its kind (word class or biblical entry), base form, one-line gloss and link.
+    # A form lists its senses in order: biblical articles, then SALDO's senses with its own spelling first, and Dalin's entries only
+    # where SALDO has none, because Dalin's old spelling also matches unrelated words (han: hane).
+    def short(text,limit=160):
+        text=' '.join(text.split())
+        return text if len(text)<=limit else text[:limit].rsplit(' ',1)[0].rstrip(',;:')+'…'
+    def first_sense(definition):
+        return short(re.sub(r'^1\. ','',definition.split('\n')[0]))
+    def word_class(lemgram):
+        code=lemgram.split('..')[-1].split('.')[0]
+        return CLASSES.get(code,code)
+    biblical={key:(headword,short(definition),url) for key,headword,_,definition,url,_ in biblical_entries}
+    senses={};words=[]
+    # Name aliases such as pauli have an article although the 1917 text lacks them.
+    for word in sorted(set(counts)|set(biblical_forms)):
+        rows=[]
+        # A name: SALDO lists one, or the text never writes the word without a capital.
+        names=word not in uncapitalized or any(saldo[key].gram=='pm' for key in saldo_forms.get(word,()))
+        for article in biblical_forms.get(word,()):
+            headword,gloss,url=biblical[article]
+            rows.append(('egennamn' if names else 'bibliskt uppslagsord',headword,gloss,url))
+        modern=sorted(saldo_forms.get(word,{}),key=lambda key:(saldo_forms.get(word,{})[key]!='exact',key))
+        classes=[CLASSES.get(saldo[key].gram,saldo[key].gram) for key in modern]
+        old=[word_class(l) for l in sorted(resolved.get(word,()))]
+        for key,kind in zip(modern,classes):
+            entry=saldo[key]
+            # The biblical article already describes the name.
+            if entry.gram=='pm' and biblical_forms.get(word,()):continue
+            # Dalin's definition only where one Dalin entry and one SALDO sense of a class are the same word.
+            gloss=''
+            if classes.count(kind)==1 and old.count(kind)==1:
+                headword,_,definition=entries[sorted(resolved.get(word,()))[old.index(kind)]]
+                if headword.lower() in spellings(entry.headword.lower()):gloss=first_sense(definition)
+            related=associations(entry,saldo)
+            rows.append((kind,entry.headword,gloss or (related and 'Jfr '+related),''))
+        if not saldo_forms.get(word,{}):
+            rows+=[(word_class(l),entries[l][0],first_sense(entries[l][2]),'') for l in sorted(resolved.get(word,()))]
+        for rank,row in enumerate(dict.fromkeys(rows)):
+            words.append((word,rank,senses.setdefault(row,len(senses)+1)))
+    db.executemany('INSERT INTO sense VALUES(?,?,?,?,?)',[(i,*row) for row,i in senses.items()])
+    # --- How each sense sounds, where a form's senses differ ------------------------
+    by_id={i:row for row,i in senses.items()}
+    said={};usual={}  # form -> the phonemes read-aloud can give it; form -> the word's own
+    for line in (root/'resources/speech/lexicon.tsv').read_text(encoding='utf-8').splitlines():
+        form,codes=line.split('\t');usual[form]=codes.replace(' ','')
+    for line in (root/'resources/corpus/pronunciation-sv.tsv').read_text(encoding='utf-8').splitlines():
+        fields=line.split('\t')
+        if line.startswith('#') or len(fields)<2 or fields[2:]==['spoken']:continue
+        bracket=re.search(r'\[(.+?)\]',fields[0])
+        form=(bracket[1] if bracket else fields[0]).lower()
+        said.setdefault(form,set()).add(fields[1])
+        if not bracket:usual[form]=fields[1]
+    phonemes={}
+    for line in (root/'resources/lexicon/sv1917-sense-pronunciations.tsv').read_text(encoding='utf-8').splitlines():
+        if not line or line.startswith('#'):continue
+        form,kind,headword,codes,*gloss=line.split('\t')
+        ranks=[rank for word,rank,sense in words if word==form and by_id[sense][:2]==(kind,headword) and gloss in ([],[by_id[sense][2]])]
+        if len(ranks)!=1:raise SystemExit(f'sv1917-sense-pronunciations.tsv: {form} {kind} {headword} names {len(ranks)} senses')
+        if codes not in said.get(form,set())|{usual.get(form)}:raise SystemExit(f'sv1917-sense-pronunciations.tsv: read-aloud never says {form} as {codes}')
+        phonemes[form,ranks[0]]=(codes,int(codes==usual.get(form)))
+    db.executemany('INSERT INTO word VALUES(?,?,?,?,?)',[(*word,*phonemes.get(word[:2],('',0))) for word in words])
+    print(f'Sense pronunciations: {len(phonemes)} senses of {len({form for form,_ in phonemes})} forms')
     if db.execute('PRAGMA foreign_key_check').fetchall():raise SystemExit('Word-study foreign key check failed')
     total=sum(counts.values());covered=sum(n for w,n in counts.items() if resolved[w])
     print(f'Swedish forms: {sum(1 for w in counts if resolved[w])}/{len(counts)} resolved, {100*covered/total:.1f}% of word occurrences')
     combined=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word])
     print(f'Biblical articles: {len(biblical_used)} of {len(biblical_entries)}; combined Swedish lookup coverage: {100*combined/total:.1f}% of word occurrences')
-    print(f'Dalin entries: {len(ids)}')
+    print(f'Senses: {len(senses)} for {len({w for w,*_ in words})} forms')
     print(f'SALDO senses: {len(saldo_used)}')
     modern_covered=sum(n for word,n in counts.items() if saldo_forms[word])
     all_covered=sum(n for word,n in counts.items() if resolved[word] or biblical_forms[word] or saldo_forms[word])

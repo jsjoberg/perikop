@@ -163,7 +163,7 @@ MainFrame::MainFrame(CorpusDb& corpus, UserDb& user, CivilDate date, const std::
         if (!settings_.word_study)
             return;
         if (word)
-            study_->show(*word, scripture_->base_source());
+            study_->show(*word, scripture_->base_source(), scripture_->frame());
         else
             study_->clear();
     });

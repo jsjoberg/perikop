@@ -754,65 +754,63 @@ int main(int argc, char** argv) {
                   "a reordered verse pair stays one reading");
         }
         {
-            // Word study: 1917 forms resolve to Dalin entries and Nyström's biblical articles.
-            const auto& study = corpus;
-            const auto entries = study.swedish("svarade");
-            check(entries.size() == 1 && entries.front().headword == "svara",
-                  "regular verb form resolves to its Dalin entry");
-            check(!study.swedish("fingo").empty() && study.swedish("fingo").front().headword == "få",
-                  "irregular form resolves through the table");
-            check(study.swedish("hjärta").front().headword == "hjerta",
-                  "reformed spelling resolves to Dalin's spelling");
-            const auto heart = study.saldo("hjärta");
-            check(heart.size() == 2 && heart.front().headword == "hjärta" && heart.front().gram == "nn" &&
-                      heart.front().match == "exact" &&
-                      heart.front().associations.find("organ") != std::string::npos &&
-                      heart.back().associations == "känna",
-                  "SALDO preserves separate senses and semantic associations without phrase matches");
-            const auto many = study.saldo("många");
-            check(many.size() == 1 && many.front().headword == "mången" && many.front().gram == "pn" &&
-                      many.front().match == "inflected",
+            // Word study: a 1917 form resolves to its senses, each with a kind, base form and short gloss.
+            const auto beginning = corpus.senses("begynnelsen");
+            check(beginning.size() == 1 && beginning.front().headword == "begynnelse" &&
+                      beginning.front().kind == "substantiv" && beginning.front().gloss.starts_with("Det första") &&
+                      beginning.front().url.empty(),
+                  "an inflected noun shows its base form with Dalin's first sense");
+            const auto heart = corpus.senses("hjärta");
+            check(heart.size() == 2 && heart.front().headword == "hjärta" && heart.front().kind == "substantiv" &&
+                      heart.front().gloss.find("organ") != std::string::npos && heart.back().gloss == "Jfr känna",
+                  "SALDO's separate senses stay apart, described by their associations");
+            const auto many = corpus.senses("många");
+            check(!many.empty() && many.front().headword == "mången" && many.front().kind == "pronomen",
                   "SALDO uses the published pronoun form instead of its synthetic placeholder");
-            const auto answered = study.saldo("svarade");
-            check(answered.size() == 2 && answered.front().headword == "svara" &&
-                      answered.front().match == "inflected",
-                  "SALDO matches a published verb inflection");
-            const auto archaic = study.saldo("fingo");
-            check(!archaic.empty() && archaic.front().headword == "få" && archaic.front().gram == "vb" &&
-                      archaic.front().match == "curated",
-                  "reviewed archaic forms retain their matching provenance");
-            check(study.saldo("xhjärta").empty(), "modern lookup never guesses a suffix");
-            const auto jesu = study.biblical("jesu");
-            check(jesu.size() == 2 && jesu.front().headword == "Jesus Kristus" &&
+            const auto got = corpus.senses("fingo");
+            check(!got.empty() && got.front().headword == "få" && got.front().kind == "verb",
+                  "a reviewed archaic form resolves to its base form");
+            const auto but = corpus.senses("men");
+            check(but.size() > 1 && but.front().kind == "konjunktion" && but.back().headword == "m",
+                  "a sense spelled like the form comes before an inflection of another word");
+            const auto he = corpus.senses("han");
+            check(he.size() == 1 && he.front().kind == "pronomen",
+                  "Dalin's old spelling does not add an unrelated word");
+            const auto jesu = corpus.senses("jesu");
+            check(jesu.size() == 2 && jesu.front().headword == "Jesus Kristus" && jesu.front().kind == "egennamn" &&
                       jesu.back().headword == "Jesus Justus",
                   "Jesu resolves to the biblical entries without hiding the namesake");
-            const auto kristi = study.biblical("kristi");
-            check(kristi.size() == 1 && kristi.front().headword == "Kristus" &&
-                      kristi.front().definition.find("Messias") != std::string::npos,
-                  "Kristi resolves to the historical explanation of the title Kristus");
-            const auto jerusalems = study.biblical("jerusalems");
+            const auto jerusalems = corpus.senses("jerusalems");
             check(jerusalems.size() == 1 && jerusalems.front().headword == "Jerusalem" &&
-                      jerusalems.front().definition.size() > 500 &&
+                      jerusalems.front().gloss.size() < 400 && jerusalems.front().gloss.ends_with("…") &&
                       jerusalems.front().url == "https://runeberg.org/biblobok/ordbok_j.html#Jerusalem",
-                  "place genitive retains the full article and its source");
-            const auto biblical_headword = [&](const std::string& form) {
-                const auto found = study.biblical(form);
+                  "a place genitive keeps a short gloss and the link to its article");
+            const auto headword = [&](const std::string& form) {
+                const auto found = corpus.senses(form);
                 return found.empty() ? std::string{} : found.front().headword;
             };
-            check(biblical_headword("pauli") == "Paulus", "Latin genitive of Paulus resolves");
-            check(biblical_headword("galileen") == "Galileen", "biblical region has its own article");
-            check(biblical_headword("nasaret") == "Nazaret",
-                  "1917 place spelling resolves to the old spelling");
-            const auto rebecka = study.biblical("rebecka");
-            check(!rebecka.empty() && rebecka.front().definition.starts_with("Betuels dotter"),
-                  "an article without an HTML anchor remains available");
-            check(biblical_headword("nebukadnessars") == "Nebukadnezar",
+            check(headword("pauli") == "Paulus", "Latin genitive of Paulus resolves");
+            check(headword("nasaret") == "Nazaret", "1917 place spelling resolves to the old spelling");
+            check(headword("nebukadnessars") == "Nebukadnezar",
                   "genitive also resolves through a name spelling alias");
-            const auto mordokai = study.biblical("mordokai");
-            check(mordokai.size() == 2 && mordokai.back().headword == "Mordekai" &&
-                      mordokai.back().definition.find("Ester") != std::string::npos,
-                  "a cross-reference opens its referenced biography offline");
-            check(study.biblical("xjesu").empty(), "name matching does not use substrings");
+            check(corpus.senses("xjesu").empty() && corpus.senses("xhjärta").empty(),
+                  "lookup never guesses a prefix or suffix");
+            // Senses that sound different carry their phonemes, so the pronunciation at a place names the sense.
+            const auto veil = corpus.senses("förlåten");
+            check(veil.size() == 3 && veil.front().headword == "Förlåten" &&
+                      veil.front().phonemes == "f'Y:l.,o:tE-n" && !veil.front().usual &&
+                      veil.back().kind == "verb" && veil.back().usual && veil[1].phonemes.empty(),
+                  "the temple veil and forgiveness are said differently, and forgiveness is the usual sense");
+            const ortho::PronunciationMatcher matcher("sv", corpus.pronunciations("sv"));
+            check(matcher.phonemes_at("Då rämnade förlåten i templet.", "Förlåten", 0) == veil.front().phonemes &&
+                      matcher.phonemes_at("Synden bliver honom förlåten.", "förlåten", 0).empty() &&
+                      matcher.phonemes_at("Innanför förlåten är hon förlåten.", "förlåten", 1).empty() &&
+                      matcher.phonemes_at("Innanför förlåten är hon förlåten.", "förlåten", 0) ==
+                          veil.front().phonemes &&
+                      matcher.phonemes_at("Utanför den förlåt som hänger där.", "förlåt", 0) == "f'Y:l.,o:t" &&
+                      matcher.phonemes_at("Herre, förlåt dem.", "förlåt", 0).empty() &&
+                      matcher.phonemes_at("Då hov han upp sin röst.", "hov", 0) == "h'u:v",
+                  "a phrase gives its bracketed word's phonemes at that occurrence only, a word entry everywhere");
         }
         auto lexicon = corpus.pronunciations("sv");
         auto utterance = make_utterance("Melkisedek, inte XMelkisedek eller Melkisedeks.", "sv", lexicon);

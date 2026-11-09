@@ -203,7 +203,7 @@ The native Swedish front end in `src/speech/swedish_text.cpp` is derived from th
 https://github.com/joakimeriksson/kokoro-sv
 
 Word study uses Dalins ordbok and Dalin's morphology from Språkbanken Text, University of Gothenburg, under CC BY 4.0.
-The word-study tables in `resources/corpus/corpus.db` keep the entries that the Swedish 1917 forms use, mapped to those forms.
+The word-study tables in `resources/corpus/corpus.db` keep, for the entries that the Swedish 1917 forms use, the headword and the first sense shortened to one line, mapped to those forms.
 The unmodified inputs are kept xz-compressed in `resources/lexicon/input` in the source repository; they do not ship.
 https://spraakbanken.gu.se/resurser/dalin
 
@@ -220,7 +220,7 @@ Processed and distributed by Språkbanken.
 https://doi.org/10.23695/agcm-ny22
 https://www.sprakbanken.se/resurser/saldom
 
-Changes: unused entries omitted, case and Unicode normalized for matching, associations converted to readable headwords, and data converted to SQLite.
+Changes: unused entries omitted, case and Unicode normalized for matching, associations converted to readable headwords, definitions shortened to one line, and data converted to SQLite.
 Published inflections and reviewed historical forms link Swedish 1917 words to entries. Compound fragments and component forms of phrases are excluded.
 Separate SALDO senses remain separate.
 Input URLs, dataset dates, attributions, and SHA-256 hashes are recorded in `tools/lexicon/inputs.json`.
@@ -230,8 +230,8 @@ https://creativecommons.org/licenses/by/4.0/
 
 Biblical people, places, and terms use Erik Nyström's *Biblisk ordbok för hemmet och skolan*, fourth edition (1896), digitized by Project Runeberg.
 Nyström died in 1907; the original text is in the public domain.
-Changes: prose extracted from the 21 letter pages, tables and illustrations omitted, unused entries omitted, Swedish 1917 forms linked to headwords.
-Each bundled article retains its Runeberg source URL. Historical spelling, claims, and interpretations remain those of the source.
+Changes: prose extracted from the 21 letter pages, each article shortened to its opening line, unused entries omitted, Swedish 1917 forms linked to headwords.
+Each bundled entry retains its Runeberg source URL. Historical spelling, claims, and interpretations remain those of the source.
 https://runeberg.org/biblobok/
 https://runeberg.org/authors/nystreri.html
 The curated lookup aliases in `resources/lexicon/sv1917-biblical-forms.tsv` use MIT.

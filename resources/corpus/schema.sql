@@ -71,11 +71,10 @@ CREATE TABLE reading_segment(
 CREATE TABLE feast_rule(id INTEGER PRIMARY KEY,pdist INTEGER,month INTEGER,day INTEGER,rank INTEGER,tradition TEXT,cycle_title TEXT NOT NULL) STRICT;
 -- Published annual assignments of one jurisdiction: greek (GOA) or antiochian.
 CREATE TABLE ordo_rule(jurisdiction TEXT NOT NULL CHECK(jurisdiction IN ('greek','antiochian')),year INTEGER,month INTEGER,day INTEGER,service TEXT,pdist INTEGER,PRIMARY KEY(jurisdiction,year,month,day,service)) STRICT;
--- Word study, filled by tools/lexicon/build_study.py: entries the Swedish 1917 word forms
--- resolve to in Dalin, Nyström's Biblisk ordbok and SALDO.
-CREATE TABLE dalin(id INTEGER PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, definition TEXT NOT NULL) STRICT;
-CREATE TABLE sv_word(form TEXT NOT NULL, dalin INTEGER NOT NULL REFERENCES dalin(id), PRIMARY KEY(form,dalin)) STRICT, WITHOUT ROWID;
-CREATE TABLE biblical(id TEXT PRIMARY KEY, headword TEXT NOT NULL, definition TEXT NOT NULL, url TEXT NOT NULL) STRICT, WITHOUT ROWID;
-CREATE TABLE sv_biblical(form TEXT NOT NULL, article TEXT NOT NULL REFERENCES biblical(id), rank INTEGER NOT NULL, PRIMARY KEY(form,article)) STRICT, WITHOUT ROWID;
-CREATE TABLE saldo(id TEXT PRIMARY KEY, headword TEXT NOT NULL, gram TEXT NOT NULL, associations TEXT NOT NULL) STRICT, WITHOUT ROWID;
-CREATE TABLE sv_saldo(form TEXT NOT NULL, entry TEXT NOT NULL REFERENCES saldo(id), match TEXT NOT NULL CHECK(match IN ('exact','inflected','curated')), PRIMARY KEY(form,entry)) STRICT, WITHOUT ROWID;
+-- Word study, filled by tools/lexicon/build_study.py from Dalin, Nyström's Biblisk ordbok and SALDO.
+-- A sense is one meaning: its kind (word class or biblical entry), base form, one-line gloss and link.
+CREATE TABLE sense(id INTEGER PRIMARY KEY, kind TEXT NOT NULL, headword TEXT NOT NULL, gloss TEXT NOT NULL, url TEXT NOT NULL) STRICT;
+-- The senses a lowercase Swedish word form can have, the likeliest first.
+-- Where a form's senses sound different, phonemes holds this sense's eSpeak NG codes, from
+-- resources/lexicon/sv1917-sense-pronunciations.tsv, and usual marks the sense the word's own pronunciation gives.
+CREATE TABLE word(form TEXT NOT NULL, rank INTEGER NOT NULL, sense INTEGER NOT NULL REFERENCES sense(id), phonemes TEXT NOT NULL, usual INTEGER NOT NULL CHECK(usual IN (0,1)), PRIMARY KEY(form,rank)) STRICT, WITHOUT ROWID;

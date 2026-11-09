@@ -197,7 +197,7 @@
     },
     {
       "path": "resources/corpus/corpus.db",
-      "sha256": "d5073b74a37f9c9e22d51c19ff0c51ea15fcdfa7611064561c97e98fb73984c1",
+      "sha256": "bdbf3ef54ff666be336bfdfcae4de4938dc1e56291f46512a8eecac35954bf9d",
       "license": "Public-Domain Scripture; MIT compilation",
       "role": "Generated offline by tools/corpus/build_corpus.py"
     },
@@ -259,7 +259,7 @@
     {
       "path": "resources/corpus/schema.sql",
       "license": "MIT",
-      "sha256": "d6d9677daca51a5fd1e6336042781b5af1b3f8f3c23640b009b17a8962a1c4ae"
+      "sha256": "96db7d7ca440915328b3b916bd5cc3f9c35d4a704963106985301e03b727939c"
     },
     {
       "path": "resources/corpus/input/grcbyz_usfm.zip",
@@ -315,67 +315,67 @@
     {
       "path": "resources/icons/orthodox-cross.png",
       "license": "MIT",
-      "sha256": "c590d4a0a473d63093343a091aaa810c137f8485ffd33916a3bdf9ae8930be1a"
+      "sha256": "b64595a1e7105166b21faf24708f7b08ff7045f3b68f97fca1898529dfdf8fbf"
     },
     {
       "path": "resources/icons/OrthodoxReader.icns",
       "license": "MIT",
-      "sha256": "a959ee5eeb8c858e38a08b675694e2a3b313aecb5f381b118c690d8e1d42c1e7"
+      "sha256": "01cc43abc4bdba8d683dce916823b7a62a1c60efea80ccebd1b0f42e9227c93c"
     },
     {
       "path": "resources/icons/OrthodoxReader.ico",
       "license": "MIT",
-      "sha256": "bf2f1459adf1718f90561544f223a520825293133196952cb7ba4326112fe993"
+      "sha256": "689b008505ee97aceda794a5790be395c411f305e986843f31bd55167caf72a5"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_32x32@2x.png",
       "license": "MIT",
-      "sha256": "1509f9b351850edaf7510b3fe9b3667e9923ed1cb0db61a240adb7b9cdea3a7e"
+      "sha256": "eaa5c67e7ac44bd30e0fd34977885ee0da64208e95565dc7bd49a2580ab8a284"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_128x128.png",
       "license": "MIT",
-      "sha256": "1e59667cc2c42e39c47ddf09ac4346a6f6771d6456a7ff2df325dd6b831cf4e5"
+      "sha256": "20d373291f7f0aa9bb1c8fa81baff00ee0a9a59c4d495f20947129b89dd1a436"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_256x256@2x.png",
       "license": "MIT",
-      "sha256": "7788335ac8bce004a70126ccc37af2175cbf38fcbf1bb91b1b80ba5837300c03"
+      "sha256": "cf18b6c6bf29ccc7efcaf9be08768f767f589523c9183a1e613c28a7683dbf8f"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_32x32.png",
       "license": "MIT",
-      "sha256": "42c7a44ae46671155440a9182631bec7247ab3e54f677ad57398022dfec88f00"
+      "sha256": "1e3e1d431086e4142f33b41854d10904fe8270dae6b0572a96aa75855094ed2a"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_512x512.png",
       "license": "MIT",
-      "sha256": "7788335ac8bce004a70126ccc37af2175cbf38fcbf1bb91b1b80ba5837300c03"
+      "sha256": "cf18b6c6bf29ccc7efcaf9be08768f767f589523c9183a1e613c28a7683dbf8f"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_16x16.png",
       "license": "MIT",
-      "sha256": "e779f06e20b983598eb7dcf8b057507c753799ca5048ea1a5621b9a60733ad6e"
+      "sha256": "e19bc4ed1faa155b28e8c0fc0266733c3e4c4f77cf19e838cd1000837c8d477f"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_16x16@2x.png",
       "license": "MIT",
-      "sha256": "42c7a44ae46671155440a9182631bec7247ab3e54f677ad57398022dfec88f00"
+      "sha256": "1e3e1d431086e4142f33b41854d10904fe8270dae6b0572a96aa75855094ed2a"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_128x128@2x.png",
       "license": "MIT",
-      "sha256": "bb81111505954f0dbf5f722be93ff7080d66eaa85bedd590fe77c7ba29c56f7f"
+      "sha256": "91ae05157dec5ef9668f9b4d3ca6e03ff8bf330c659615152ab42b8b6cc4c276"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_512x512@2x.png",
       "license": "MIT",
-      "sha256": "c590d4a0a473d63093343a091aaa810c137f8485ffd33916a3bdf9ae8930be1a"
+      "sha256": "b64595a1e7105166b21faf24708f7b08ff7045f3b68f97fca1898529dfdf8fbf"
     },
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_256x256.png",
       "license": "MIT",
-      "sha256": "bb81111505954f0dbf5f722be93ff7080d66eaa85bedd590fe77c7ba29c56f7f"
+      "sha256": "91ae05157dec5ef9668f9b4d3ca6e03ff8bf330c659615152ab42b8b6cc4c276"
     },
     {
       "path": "resources/lectionary/orthocal-tables.json",
@@ -516,7 +516,7 @@
     },
     {
       "path": "resources/corpus/pronunciation-sv.tsv",
-      "sha256": "83344672330b7138d34eda548169a47cd8fcd21e83da9a5f9e43e94abc222c9f",
+      "sha256": "08a4b9099288c639f4d40218db596e620813936226e2dd5d0419d1b7ce1e3ba0",
       "license": "MIT",
       "role": "Curated Swedish name and word pronunciations and abbreviation expansions for read-aloud; phoneme drafts pending listening review"
     },
@@ -562,6 +562,12 @@
       "sha256": "ee16bafaeb0d659898effd7bca8b5e52631245094f2655091c0333146400152f",
       "license": "MIT",
       "role": "Curated irregular Swedish 1917 forms and their Dalin headwords"
+    },
+    {
+      "path": "resources/lexicon/sv1917-sense-pronunciations.tsv",
+      "sha256": "e3d2f155fad2a060e0128c5e278649a8e59bf767aa843b25fae124868c34fda8",
+      "license": "MIT",
+      "role": "Curated link between the senses of Swedish words and the pronunciations read-aloud gives them; not shipped"
     },
     {
       "path": "resources/lexicon/sv1917-biblical-forms.tsv",
@@ -747,7 +753,7 @@
     {
       "path": "resources/icons/OrthodoxReader.iconset/icon_48x48.png",
       "license": "MIT",
-      "sha256": "a9244464b6d2b37ce4b07805a35a30f1fb2ef2263e4dd9b1e8a56646b72ac387"
+      "sha256": "5e9915f59c63f6bdb6e3d1e9fa63185c178d3190f667f3a977f9542fa32eeb86"
     },
     {
       "path": "resources/licenses/GCC-COPYING3.txt",
@@ -782,7 +788,7 @@
     },
     {
       "path": "resources/content/swedish-study.db",
-      "sha256": "de531f7347098a8ec939c76dcf3e8dac85341f4570e7b6b62925f762d16ae1bb",
+      "sha256": "649d832379b4267fd548ffc91594592259e892c5f30b1537924023167d735c4f",
       "license": "CC-BY-4.0 AND Public-Domain",
       "generated": "tools/content/build_swedish_supplement.py"
     },
