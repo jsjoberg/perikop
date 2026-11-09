@@ -3,6 +3,7 @@
 #include <cctype>
 #include <ranges>
 #include <string_view>
+#include <sstream>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -108,6 +109,8 @@ struct PronunciationMatcher::Impl {
         std::vector<Token> phrase;
     };
     std::unordered_map<std::string, std::vector<Candidate>> candidates;
+    SpeechUtterance replaced(const std::string& text, const std::vector<Token>& words, std::size_t probe,
+                             std::string* probed) const;
     Impl(std::string language, std::vector<Pronunciation> lexicon)
         : language(std::move(language)), ordered(std::move(lexicon)) {
         std::stable_sort(ordered.begin(), ordered.end(), [](auto& a, auto& b) {
@@ -127,19 +130,21 @@ struct PronunciationMatcher::Impl {
 };
 PronunciationMatcher::PronunciationMatcher(std::string language, std::vector<Pronunciation> lexicon)
     : impl_(std::make_shared<Impl>(std::move(language), std::move(lexicon))) {}
-SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
-    const auto words = tokens(text);
+// One pass over the text. `probed` receives the phonemes given to the word at index `probe`.
+SpeechUtterance PronunciationMatcher::Impl::replaced(const std::string& text, const std::vector<Token>& words,
+                                                     std::size_t probe, std::string* probed) const {
+    const auto& impl = *this;
     std::string result;
     std::size_t copied = 0;
     for (std::size_t i = 0; i < words.size();) {
         std::size_t count = 0;
         std::size_t matched_end = 0;
         std::string replacement;
-        const auto bucket = impl_->candidates.find(words[i].folded);
-        if (bucket != impl_->candidates.end())
+        const auto bucket = impl.candidates.find(words[i].folded);
+        if (bucket != impl.candidates.end())
             for (const auto& candidate : bucket->second) {
                 const auto& phrase = candidate.phrase;
-                const auto& entry = impl_->ordered[candidate.entry];
+                const auto& entry = impl.ordered[candidate.entry];
                 if (i + phrase.size() > words.size())
                     continue;
                 bool match = true;
@@ -171,13 +176,34 @@ SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
             ++i;
             continue;
         }
+        // A phrase keeps its other words, so its replacement has one part per word.
+        if (probed && i <= probe && probe < i + count) {
+            std::istringstream parts(replacement);
+            std::string part;
+            for (auto at = i; parts >> part; ++at)
+                if (at == probe && part.starts_with("⟦") && part.ends_with("⟧"))
+                    *probed = part.substr(3, part.size() - 6);
+        }
         result += text.substr(copied, words[i].begin - copied);
         result += replacement;
         copied = matched_end;
         i += count;
     }
     result += text.substr(copied);
-    return {text, result, impl_->language, {}};
+    return {text, result, impl.language, {}};
+}
+SpeechUtterance PronunciationMatcher::utterance(const std::string& text) const {
+    return impl_->replaced(text, tokens(text), 0, nullptr);
+}
+std::string PronunciationMatcher::phonemes_at(const std::string& text, const std::string& form,
+                                              int occurrence) const {
+    const auto words = tokens(text);
+    const auto key = folded(form);
+    std::string result;
+    for (std::size_t i = 0; i < words.size(); ++i)
+        if (words[i].folded == key && occurrence-- == 0)
+            impl_->replaced(text, words, i, &result);
+    return result;
 }
 SpeechUtterance make_utterance(const std::string& text, const std::string& language,
                                const std::vector<Pronunciation>& lexicon) {

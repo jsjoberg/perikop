@@ -1,29 +1,19 @@
 #include "ui/study_panel.hpp"
 #include "ui/controls.hpp"
 #include "ui/theme.hpp"
-#include <map>
+#include <algorithm>
 #include <wx/app.h>
 #include <wx/hyperlink.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
+#include <wx/uri.h>
 #include <wx/weakref.h>
 namespace ortho {
-namespace {
-wxString word_class(const std::string& code) {
-    static const std::map<std::string, std::string> names = {
-        {"nn", "substantiv"},  {"av", "adjektiv"},     {"vb", "verb"},        {"ab", "adverb"},
-        {"pm", "egennamn"},    {"pn", "pronomen"},     {"pp", "preposition"}, {"kn", "konjunktion"},
-        {"sn", "subjunktion"}, {"in", "interjektion"}, {"nl", "räkneord"},    {"al", "artikel"}};
-    if (const auto found = names.find(code); found != names.end())
-        return ui::utf8(found->second);
-    return ui::utf8(code);
-}
-} // namespace
 StudyPanel::StudyPanel(wxWindow* parent, const CorpusDb& corpus, SpeechEngine& speech, Lexicon lexicon)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxBORDER_NONE),
       corpus_(corpus), speech_(speech), lexicon_(std::move(lexicon)) {
     SetScrollRate(0, FromDIP(zoomed(12)));
-    // Definitions wrap to the panel width; rewrap when it changes noticeably.
+    // Glosses wrap to the panel width; rewrap when it changes noticeably.
     Bind(wxEVT_SIZE, [this](wxSizeEvent& e) {
         if (std::abs(GetClientSize().x - wrapped_) > FromDIP(zoomed(12)) && !rebuild_pending_) {
             rebuild_pending_ = true;
@@ -49,21 +39,27 @@ void StudyPanel::allow_listening(bool allowed) {
 void StudyPanel::clear() {
     if (word_) {
         word_.reset();
+        placed_.clear();
         utterance_.reset();
         pronunciation_.clear();
         ++pronunciation_epoch_;
-        expanded_articles_.clear();
         rebuild();
     }
 }
-void StudyPanel::show(const ScriptureView::Word& word, const std::string& base_source) {
+void StudyPanel::show(const ScriptureView::Word& word, const std::string& base_source,
+                      const std::string& frame) {
     word_ = word;
+    placed_.clear();
+    const auto language = source_language(base_source);
+    if (!frame.empty())
+        if (const auto verse = corpus_.parallel_verse(frame, base_source, word.book, word.verse))
+            placed_ = PronunciationMatcher(language, lexicon_(language))
+                          .phonemes_at(verse->text, word.text, word.occurrence);
     utterance_.reset();
     pronunciation_.clear();
     pronunciation_requested_ = false;
     ++pronunciation_epoch_;
     base_source_ = base_source;
-    expanded_articles_.clear();
     rebuild();
     Scroll(0, 0);
 }
@@ -93,10 +89,6 @@ void StudyPanel::rebuild() {
         sizer->AddSpacer(FromDIP(zoomed(below)));
         return label;
     };
-    const auto section = [&](const wxString& title) {
-        sizer->AddSpacer(FromDIP(zoomed(14)));
-        text(title, ui_font(9), colors.muted, 4);
-    };
     const auto link = [&](const wxString& label, const wxString& url) {
         auto* source = new wxHyperlinkCtrl(this, wxID_ANY, label, url);
         source->SetFont(ui_font(9));
@@ -116,7 +108,8 @@ void StudyPanel::rebuild() {
         text(ui::utf8(word.text), body_font(26), colors.ink, 4);
         // What the voice says: bundled phonemes and review corrections apply.
         if (!utterance_)
-            utterance_ = make_utterance(word.text, language, lexicon_(language));
+            utterance_ = placed_.empty() ? make_utterance(word.text, language, lexicon_(language))
+                                         : SpeechUtterance{word.text, "⟦" + placed_ + "⟧", language};
         const auto utterance = *utterance_;
         if (swedish && !pronunciation_requested_) {
             pronunciation_requested_ = true;
@@ -145,89 +138,53 @@ void StudyPanel::rebuild() {
             sizer->Add(listen_, 0, wxLEFT | wxBOTTOM, pad);
         }
         if (swedish) {
-            const auto form = ui::to_utf8(ui::utf8(word.text).Lower());
-            const auto entries = corpus_.swedish(form);
-            const auto articles = corpus_.biblical(form);
-            const auto saldo = corpus_.saldo(form);
-            if (!saldo.empty()) {
-                section(ui::utf8("ORD OCH ASSOCIATIONER, SALDO"));
-                for (const auto& entry : saldo) {
-                    text(ui::utf8(entry.headword) + "   " + word_class(entry.gram), body_font(15), colors.ink,
-                         2);
-                    if (entry.match != "exact")
-                        text(ui::utf8(entry.match == "curated" ? "Äldre form, kopplad till grundformen"
-                                                               : "Böjd form, visar grundformen"),
-                             ui_font(9), colors.muted, 3);
-                    if (!entry.associations.empty())
-                        text(ui::utf8("Associationer (betydelsesamband): " + entry.associations), ui_font(11),
-                             colors.ink, 6);
-                }
-                text(ui::utf8("Lars Borin, Lennart Lönngren och Markus Forsberg, Språkbanken"), ui_font(8),
-                     colors.muted, 4);
-                link(ui::utf8("Källa: Språkbanken"), "https://www.sprakbanken.se/resurser/saldo");
-                link("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/");
+            // Each sense: base form and kind, a one-line gloss, and where to read more.
+            auto senses = corpus_.senses(ui::to_utf8(ui::utf8(word.text).Lower()));
+            // The sense said here: the one with the verse's phonemes, else the word's usual one.
+            auto here = std::ranges::find_if(senses, [&](const WordSense& sense) {
+                return !placed_.empty() && sense.phonemes == placed_;
+            });
+            if (here == senses.end())
+                here = std::ranges::find(senses, true, &WordSense::usual);
+            const bool placed = here != senses.end();
+            if (placed)
+                std::rotate(senses.begin(), here, here + 1);
+            else if (wxIslower(ui::utf8(word.text)[0]))
+                // A word written without a capital is not a name here.
+                std::ranges::stable_partition(senses, [](const WordSense& sense) {
+                    return sense.kind != "egennamn";
+                });
+            const auto dictionaries = [&](const std::string& headword) {
+                link(ui::utf8("Slå upp " + headword + " i Svenska Akademiens ordböcker"),
+                     wxURI(ui::utf8("https://svenska.se/?q=" + headword)).BuildURI());
+            };
+            std::string looked_up;
+            for (const auto& sense : senses) {
+                sizer->AddSpacer(FromDIP(zoomed(10)));
+                if (placed && &sense == &senses.front())
+                    text(ui::utf8("SÅ LÄSES ORDET HÄR"), ui_font(9), colors.muted, 4);
+                else if (placed && senses.size() > 1 && &sense == &senses[1])
+                    text(ui::utf8("ANDRA BETYDELSER"), ui_font(9), colors.muted, 4);
+                text(ui::utf8(sense.headword + "   " + sense.kind), body_font(15), colors.ink, 2);
+                if (!sense.gloss.empty())
+                    text(ui::utf8(sense.gloss), ui_font(11), colors.ink, 4);
+                if (!sense.url.empty())
+                    link(ui::utf8("Läs artikeln i Biblisk ordbok, Nyström 1896"), ui::utf8(sense.url));
+                else if (sense.headword != looked_up)
+                    dictionaries(looked_up = sense.headword);
             }
-            if (!entries.empty())
-                section(ui::utf8("ORDBOK, DALIN 1850–53"));
-            for (const auto& entry : entries) {
-                text(ui::utf8(entry.headword) +
-                         (entry.gram.empty() ? wxString{} : ui::utf8("   ") + ui::utf8(entry.gram)),
-                     body_font(15), colors.ink, 2);
-                text(ui::utf8(entry.definition), ui_font(11), colors.ink, 10);
+            if (senses.empty()) {
+                sizer->AddSpacer(FromDIP(zoomed(10)));
+                text(ui::utf8("Ordet finns inte i ordlistan."), ui_font(11), colors.muted);
+                dictionaries(word.text);
             }
-            if (!articles.empty()) {
-                section(ui::utf8("BIBLISK ORDBOK, NYSTRÖM 1896"));
-                text(ui::utf8("Historisk källa: språk, uppgifter och tolkningar från 1896."), ui_font(9),
-                     colors.muted, 8);
-                for (const auto& entry : articles) {
-                    text(ui::utf8(entry.headword), body_font(15), colors.ink, 2);
-                    const auto definition = ui::utf8(entry.definition);
-                    const bool expanded = expanded_articles_.contains(entry.id);
-                    constexpr std::size_t preview_length = 500;
-                    wxString preview = definition;
-                    if (!expanded && definition.length() > preview_length) {
-                        // Trim at a word boundary, never in the middle of a UTF-8 sequence.
-                        preview = definition.Left(preview_length);
-                        const auto boundary = preview.find_last_of(" \n");
-                        if (boundary != wxString::npos)
-                            preview = preview.Left(boundary);
-                        preview += ui::utf8("…");
-                    }
-                    text(preview, ui_font(11), colors.ink, 6);
-                    if (definition.length() > preview_length) {
-                        auto* more =
-                            ui::button(this, ui::utf8(expanded ? "Visa mindre" : "Visa hela artikeln"),
-                                       [this, id = entry.id] {
-                                           CallAfter([this, id] {
-                                               if (!expanded_articles_.erase(id))
-                                                   expanded_articles_.insert(id);
-                                               rebuild();
-                                           });
-                                       });
-                        more->SetFont(ui_font(10));
-                        more->SetToolTip(ui::utf8(expanded ? "Visa bara början av artikeln"
-                                                           : "Visa hela ordboksartikeln"));
-                        sizer->Add(more, 0, wxLEFT, pad);
-                        sizer->AddSpacer(FromDIP(zoomed(5)));
-                    }
-                    auto* source = new wxHyperlinkCtrl(this, wxID_ANY, ui::utf8("Källa: Projekt Runeberg"),
-                                                       ui::utf8(entry.url));
-                    source->SetFont(ui_font(9));
-                    source->SetNormalColour(colors.accent);
-                    source->SetVisitedColour(colors.accent);
-                    source->SetHoverColour(colors.ink);
-                    source->SetToolTip(ui::utf8(entry.url));
-                    sizer->Add(source, 0, wxLEFT, pad);
-                    sizer->AddSpacer(FromDIP(zoomed(12)));
-                }
-            }
-            if (entries.empty() && articles.empty() && saldo.empty()) {
-                section(ui::utf8("SVENSKA UPPSLAGSKÄLLOR"));
-                text(ui::utf8("Ordet finns inte i de svenska uppslagskällorna."), ui_font(11), colors.muted);
-            }
+            sizer->AddSpacer(FromDIP(zoomed(18)));
+            text(ui::utf8("Ordklass och samband: SALDO. Förklaringar: Dalins ordbok 1850–53 och Nyströms "
+                          "Biblisk ordbok 1896, med äldre språk och tolkningar."),
+                 ui_font(8), colors.muted, 4);
+            link(ui::utf8("Källa: Språkbanken Text"), "https://www.sprakbanken.se/resurser/saldo");
+            link("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/");
         }
-        sizer->AddSpacer(FromDIP(zoomed(18)));
-        text(ui::utf8("Dalins ordbok, Språkbanken Text, CC BY 4.0"), ui_font(8), colors.muted);
     }
     SetSizer(sizer);
     SetBackgroundColour(colors.paper);

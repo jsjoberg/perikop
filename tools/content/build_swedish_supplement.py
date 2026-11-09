@@ -80,44 +80,27 @@ if args.pronunciations_only:
 words = collections.Counter(
     w
     for *_, text in json.loads(args.local_verses.read_text(encoding="utf-8"))
-    for w in re.findall(r"[^\W\d_]+", text.lower())
+    for w in re.findall(r"[^\W\d_]+", text)
 )
 db = sqlite3.connect(ROOT / "build/srb/study-work.db")
 source.backup(db)
-for table in ("sv_word", "sv_biblical", "sv_saldo", "dalin", "biblical", "saldo"):
+for table in ("word", "sense"):
     db.execute("DELETE FROM " + table)
 build(db, words)
 db.commit()
 out.unlink(missing_ok=True)
 dest = sqlite3.connect(out)
 schema = (ROOT / "resources/corpus/schema.sql").read_text(encoding="utf-8")
-for table in ("dalin", "sv_word", "biblical", "sv_biblical", "saldo", "sv_saldo"):
-    statement = re.search(r"CREATE TABLE " + table + r"\s*\(.*?;", schema, re.S)[0]
-    dest.execute(statement)
-for forms, entries, column in [
-    ("sv_word", "dalin", "dalin"),
-    ("sv_biblical", "biblical", "article"),
-    ("sv_saldo", "saldo", "entry"),
-]:
-    known = {f for f, in source.execute("SELECT DISTINCT form FROM " + forms)}
-    rows = [row for row in db.execute("SELECT * FROM " + forms) if row[0] not in known]
-    used = {row[1] for row in rows}
-    values = [row for row in db.execute("SELECT * FROM " + entries) if row[0] in used]
-    if values:
-        dest.executemany(
-            "INSERT INTO "
-            + entries
-            + " VALUES("
-            + ",".join("?" * len(values[0]))
-            + ")",
-            values,
-        )
-    if rows:
-        dest.executemany(
-            "INSERT INTO " + forms + " VALUES(" + ",".join("?" * len(rows[0])) + ")",
-            rows,
-        )
-    print(forms, len(rows), "entries", len(values))
+for table in ("sense", "word"):
+    dest.execute(re.search(r"CREATE TABLE " + table + r"\s*\(.*?;", schema, re.S)[0])
+# Only the forms the bundled corpus lacks, with the senses they use.
+known = {form for form, in source.execute("SELECT DISTINCT form FROM word")}
+rows = [row for row in db.execute("SELECT * FROM word") if row[0] not in known]
+used = {row[2] for row in rows}
+senses = [row for row in db.execute("SELECT * FROM sense") if row[0] in used]
+dest.executemany("INSERT INTO sense VALUES(?,?,?,?,?)", senses)
+dest.executemany("INSERT INTO word VALUES(?,?,?,?,?)", rows)
+print("forms", len({row[0] for row in rows}), "senses", len(senses))
 dest.execute("PRAGMA user_version=1")
 dest.execute("PRAGMA application_id=1330795603")
 dest.commit()

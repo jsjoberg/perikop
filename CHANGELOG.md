@@ -12,6 +12,9 @@ For 0.2.1, the Swedish extended-canon books absent from SRB26 have been compared
 
 ### Changed
 
+- Word study says a word as read-aloud says it in that verse, and shows the meaning that goes with that pronunciation first. This covers *förlåten* and *förlåt* (temple veil or forgiveness), *väl*, *dans*, *hov* and *ana*.
+- Read-aloud says *förlåt* as the temple veil in the seven places where it follows *den* or *en*, instead of as "forgive".
+- Word study shows each sense of a word on one line: base form, word class or name, and a short gloss. Full entries open at Svenska Akademiens ordböcker and Project Runeberg instead of being bundled, which makes the download about 1.5 MB smaller.
 - The shared ARM64 AppImage now targets Raspberry Pi 3, 4 and 5 on 64-bit Raspberry Pi OS Trixie desktop, using a generic ARMv8-A CPU baseline and separately installed eSpeak NG. Pi 3/4 hardware performance and audio remain unverified.
 
 - Plain download names, such as `Perikop-Setup.exe` and `Perikop.pkg`. Update feeds and packages move off the releases page to one `updates` release in `jsjoberg/perikop-assets`, read through Velopack's HTTP source; its feed requests carry a random per-installation ID. 0.2.0 copies update once from 0.2.1's release and then use the new source. Nightly copies from before 0.2.1 must be reinstalled once.

@@ -21,14 +21,12 @@ struct WordExample {
     std::string book;
     Verse verse;
 };
-struct DalinEntry {
-    std::string headword, gram, definition;
-};
-struct BiblicalEntry {
-    std::string id, headword, definition, url;
-};
-struct ModernWordEntry {
-    std::string id, headword, gram, associations, match;
+// One meaning a word form can have: its kind (word class or biblical entry), base form,
+// one-line gloss and, for a biblical article, its link. Where the form's senses sound different,
+// phonemes holds this sense's eSpeak NG codes and usual marks the sense the word's own pronunciation gives.
+struct WordSense {
+    std::string kind, headword, gloss, url, phonemes = {};
+    bool usual = false;
 };
 class CorpusDb {
 public:
@@ -84,11 +82,9 @@ public:
     std::vector<ReadingRule> reading_rules() const;
     std::vector<FeastRule> feast_rules() const;
     std::vector<OrdoRule> ordo_rules() const;
-    // Word study for a lowercase Swedish 1917 form: Dalin, Nyström's biblical articles,
-    // and SALDO. The entries are resolved when the corpus is built.
-    std::vector<DalinEntry> swedish(const std::string& form) const;
-    std::vector<BiblicalEntry> biblical(const std::string& form) const;
-    std::vector<ModernWordEntry> saldo(const std::string& form) const;
+    // Word study for a lowercase Swedish form: its senses, the likeliest first, resolved from
+    // Dalin, Nyström's biblical articles and SALDO when the corpus is built.
+    std::vector<WordSense> senses(const std::string& form) const;
 
 private:
     bool same_numbering(const std::string& from, const std::string& to, const std::string& book) const;
@@ -115,7 +111,6 @@ private:
     using ReferenceLinks = std::map<VerseRef, ReferenceTargets>;
     const ReferenceLinks& reference_links(const std::string& from, const std::string& to,
                                           const std::string& book) const;
-    sqlite3* study_database(const char* table, const std::string& form) const;
     // Keep old book objects alive so coordinates() references survive import changes.
     mutable std::mutex cache_mutex_;
     using TextCache = std::map<std::pair<std::string, std::string>, BookText>;

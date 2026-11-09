@@ -1,0 +1,18 @@
+# How each sense of a Swedish word is said, where one spelling has senses that sound different.
+# Columns: form<TAB>kind<TAB>headword<TAB>phonemes[<TAB>gloss].
+# Kind and headword name one of the form's senses, as tools/lexicon/build_study.py writes them; the gloss
+# is given only where two senses share both. Phonemes are what read-aloud says for the form: the word's own
+# pronunciation, or that of its phrases in resources/corpus/pronunciation-sv.tsv, which decide the place.
+# Word study shows the sense whose phonemes read-aloud uses at the clicked word first.
+förlåten	bibliskt uppslagsord	Förlåten	f'Y:l.,o:tE-n
+förlåten	verb	förlåta	fWl.'o:tE-n
+förlåt	substantiv	förlåt	f'Y:l.,o:t
+förlåt	verb	förlåta	fWl.'o:t
+väl	adverb	väl	v'E:l	Jfr bra
+väl	adverb	väl	v'El	Jfr ju
+dans	egennamn	Dan	d'A:ns
+dans	bibliskt uppslagsord	Dans	d'ans
+dans	substantiv	dans	d'ans
+hov	substantiv	hov	h'o:v	Jfr konung
+ana	verb	ana	'A:na
+ana	egennamn	Ana	'ana

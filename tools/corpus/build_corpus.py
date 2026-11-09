@@ -222,7 +222,7 @@ temp.replace(output)
 
 manifest=root/'resources/manifest.json'
 # Generated resources; the other inputs are pinned downloads.
-GENERATED={'resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-biblical-forms.tsv','resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/lectionary/composites.tsv','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
+GENERATED={'resources/lexicon/sv1917-forms.tsv','resources/lexicon/sv1917-sense-pronunciations.tsv','resources/lexicon/sv1917-biblical-forms.tsv','resources/corpus/corpus.db','resources/corpus/schema.sql','resources/corpus/books.tsv','resources/corpus/canon.tsv','resources/lectionary/antiochian.json','resources/lectionary/composites.tsv','resources/corpus/alignment.tsv','resources/corpus/input/sv1921-apokryfer.tsv','resources/corpus/pronunciation-sv.tsv'}
 metadata=json.loads(manifest.read_text())
 metadata['schema_version']=3
 for asset in metadata['assets']:

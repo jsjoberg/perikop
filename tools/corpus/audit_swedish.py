@@ -82,8 +82,7 @@ def audit():
             CASE WHEN b.deuterocanonical THEN 'AP' WHEN b.new_testament THEN 'NT' ELSE 'GT' END
             FROM verse v JOIN book b ON b.id=v.book_id JOIN source s ON s.id=v.source_id
             WHERE s.code='sv1917' ORDER BY b.canonical_order,v.chapter,v.verse""").fetchall()
-        known = {form.lower() for table in ('sv_word', 'sv_saldo', 'sv_biblical')
-                 for (form,) in db.execute('SELECT DISTINCT form FROM ' + table)}
+        known = {form.lower() for (form,) in db.execute('SELECT DISTINCT form FROM word')}
     if not rows:
         raise ValueError('No sv1917 verses; build the corpus first')
     counts = collections.Counter(m[0].lower() for row in rows for m in WORD.finditer(row[3]))
